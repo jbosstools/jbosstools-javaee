@@ -1,0 +1,66 @@
+package org.jboss.ide.seam.gen;
+
+import java.io.File;
+import java.util.Map;
+import java.util.Properties;
+
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2x.AbstractExporter;
+import org.hibernate.tool.hbm2x.GenericExporter;
+import org.hibernate.tool.hbm2x.pojo.POJOClass;
+
+public class GenerateEntitiesExporter extends AbstractExporter {
+
+	public GenerateEntitiesExporter() {
+    }
+    
+    public GenerateEntitiesExporter(Configuration cfg, File outputdir) {
+        super(cfg, outputdir);
+        init();
+    }
+
+    private void init() {
+    			
+	}
+    
+	protected void exportComponent(Map additionalContext, POJOClass element) {
+    	// noop - we dont want components
+    }
+	
+	public String getName() {
+		return "seamgen generate-entities";
+	}
+
+	protected void setupContext() {
+		getProperties().put( "hibernatetool.util.toolclass",  "org.jboss.seam.tool.Util");
+		super.setupContext();
+				
+	}
+	public void doStart() {		
+		
+		configureExporter( "seam-gen/view/list.xhtml.ftl", "view/{class-name}List.xhtml").start();
+		 
+		configureExporter( "seam-gen/view/view.xhtml.ftl", "view/{class-name}.xhtml").start();
+		
+		configureExporter( "seam-gen/view/edit.xhtml.ftl", "view/{class-name}Edit.xhtml").start();
+		
+		configureExporter( "seam-gen/src/EntityList.java.ftl", "src/{package-name}/{class-name}List.java").start();
+		
+		configureExporter( "seam-gen/src/EntityHome.java.ftl", "src/{package-name}/{class-name}Home.java").start();
+		
+		configureExporter( "seam-gen/view/layout/menu.xhtml.ftl", "view/layout/menu.xhtml").start();
+						
+	}
+
+	private GenericExporter configureExporter(String template, String pattern) {
+		GenericExporter exporter = new GenericExporter(getConfiguration(),getOutputDirectory());
+		exporter.setProperties((Properties) getProperties().clone());
+		exporter.setTemplatePath(getTemplatePaths());
+		exporter.setTemplateName(template);
+		exporter.setFilePattern(pattern);
+		exporter.setArtifactCollector(getArtifactCollector());
+		return exporter;
+	}
+
+	
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+<!--   <extension
+         point="org.hibernate.eclipse.console.exporters">
+      <exporter
+            classname="org.jboss.ide.seam.gen.GenerateEntitiesExporter"
+            description="seam-gen generate entities"
+            id="org.jboss.ide.seam.gen.GenerateEntitiesExporter"/>
+   </extension> -->
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.jboss.ide.seam.gen.actionSet"
+            label="Seam Gen Action Set"
+            visible="true">
+         <menu
+               id="seamgenMenu"
+               label="Seam &amp;Gen">
+            <separator name="seamgenGroup"/>
+         </menu>
+
+         <menu
+               id="seamgenConfiguration"
+               label="Setup/Configuration"
+               path="seamgenMenu/seamgenGroup">
+            <separator name="seamgenConfigSeperator"/>
+         </menu>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.SetupAction"
+               id="org.jboss.ide.seam.gen.actions.SetupAction"
+               label="Setup"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Setup"/>
+         <action
+               class="org.jboss.ide.seam.gen.actions.NewProjectAction"
+               icon="icons/java_app.gif"
+               id="org.jboss.ide.seam.gen.actions.NewProjectAction"
+               label="New Project"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="New Project"/>               
+         <action
+               class="org.jboss.ide.seam.gen.actions.DeployAction"
+               id="org.jboss.ide.seam.gen.actions.DeployAction"
+               label="Deploy"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Deploy"/>                              
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.NewFormAction"
+               icon="icons/newform.png"
+               id="org.jboss.ide.seam.gen.actions.NewFormAction"
+               label="New &amp;Form"
+               menubarPath="seamgenMenu/seamgenGroup"
+               tooltip="New Form"/>
+               
+               
+         <action
+               class="org.jboss.ide.seam.gen.actions.NewActionAction"
+               id="org.jboss.ide.seam.gen.actions.NewActionAction"
+               label="New &amp;Action"
+               menubarPath="seamgenMenu/seamgenGroup"
+               tooltip="New Action"/>
+               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.NewConversationAction"
+               icon="icons/conversation.gif"
+               id="org.jboss.ide.seam.gen.actions.NewConversationAction"
+               label="New &amp;Conversation"
+               menubarPath="seamgenMenu/seamgenGroup"
+               tooltip="New Conversation"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.NewEntityAction"
+               icon="icons/newclass_wiz.gif"
+               id="org.jboss.ide.seam.gen.actions.NewEntityAction"
+               label="New &amp;Entity"
+               menubarPath="seamgenMenu/seamgenGroup"
+               tooltip="New Entity"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.GenerateEntitiesAction"
+               id="org.jboss.ide.seam.gen.actions.GenerateEntitiesAction"
+               label="Generate Entities"
+               menubarPath="seamgenMenu/seamgenGroup"
+               tooltip="Generate Entities"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.ExplodeAction"
+               id="org.jboss.ide.seam.gen.actions.ExplodeAction"
+               label="Explode"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Explode"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.UnexplodeAction"
+               id="org.jboss.ide.seam.gen.actions.UnexplodeAction"
+               label="Unexplode"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Unexplode"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.RestartAction"
+               id="org.jboss.ide.seam.gen.actions.RestartAction"
+               label="Restart"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Restart"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.UpdateProjectAction"
+               id="org.jboss.ide.seam.gen.actions.UpdateProjectAction"
+               label="Update Project"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Update Project"/>               
+
+         <action
+               class="org.jboss.ide.seam.gen.actions.UndeployAction"
+               id="org.jboss.ide.seam.gen.actions.UndeployAction"
+               label="Undeploy"
+               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               tooltip="Undeploy"/>
+
+      </actionSet>
+   </extension>
+ 
+</plugin>

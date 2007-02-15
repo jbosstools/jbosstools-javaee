@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JBoss Seam-gen Plug-in
+Bundle-SymbolicName: org.jboss.ide.seam.gen;singleton:=true
+Bundle-Version: 0.5.1
+Bundle-Activator: org.jboss.ide.seam.gen.SeamGenPlugin
+Bundle-Vendor: JBoss
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.ant.core,
+ org.eclipse.debug.core,
+ org.eclipse.jdt.launching,
+ org.eclipse.ui.externaltools,
+ org.eclipse.ant.ui
+Bundle-ClassPath: org.jboss.ide.seam.gen.jar
+Export-Package: org.jboss.ide.seam.gen,
+ org.jboss.ide.seam.gen.actions
+Eclipse-LazyStart: true
