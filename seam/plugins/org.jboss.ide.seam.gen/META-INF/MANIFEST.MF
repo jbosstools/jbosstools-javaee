@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JBoss Seam-gen Plug-in
 Bundle-SymbolicName: org.jboss.ide.seam.gen;singleton:=true
-Bundle-Version: 0.5.1
+Bundle-Version: 0.5.8
 Bundle-Activator: org.jboss.ide.seam.gen.SeamGenPlugin
 Bundle-Vendor: JBoss
 Bundle-Localization: plugin
@@ -13,7 +13,15 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.core,
  org.eclipse.jdt.launching,
  org.eclipse.ui.externaltools,
- org.eclipse.ant.ui
+ org.eclipse.ant.ui,
+ org.eclipse.core.filesystem,
+ org.eclipse.wst.rdb.core,
+ org.eclipse.wst.rdb.connection.ui,
+ org.eclipse.wst.rdb.connection.ui.infopop,
+ org.eclipse.wst.rdb.core.ui,
+ org.eclipse.wst.rdb.data.core,
+ org.eclipse.wst.rdb.data.ui,
+ org.eclipse.wst.rdb.dbdefinition.generic.jdbc
 Bundle-ClassPath: org.jboss.ide.seam.gen.jar
 Export-Package: org.jboss.ide.seam.gen,
  org.jboss.ide.seam.gen.actions

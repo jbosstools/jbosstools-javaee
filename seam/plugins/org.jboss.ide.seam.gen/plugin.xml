@@ -28,8 +28,8 @@
          </menu>               
 
          <action
-               class="org.jboss.ide.seam.gen.actions.SetupAction"
-               id="org.jboss.ide.seam.gen.actions.SetupAction"
+               class="org.jboss.ide.seam.gen.actions.SetupDeluxeAction"
+               id="org.jboss.ide.seam.gen.actions.SetupDeluxeAction"
                label="Setup"
                menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
                tooltip="Setup"/>

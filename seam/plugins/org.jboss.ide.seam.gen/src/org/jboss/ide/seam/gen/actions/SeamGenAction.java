@@ -3,17 +3,23 @@ package org.jboss.ide.seam.gen.actions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.ant.internal.ui.IAntUIConstants;
 import org.eclipse.ant.internal.ui.launchConfigurations.IAntLaunchConfigurationConstants;
+import org.eclipse.core.filesystem.URIUtil;
+import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -30,10 +36,15 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.externaltools.internal.launchConfigurations.ExternalToolsUtil;
 import org.eclipse.ui.externaltools.internal.model.IExternalToolConstants;
+import org.eclipse.wst.rdb.connection.internal.ui.wizards.shared.NewCWJDBCPage;
+import org.eclipse.wst.rdb.internal.core.RDBCorePlugin;
+import org.eclipse.wst.rdb.internal.core.connection.ConnectionInfo;
+import org.eclipse.wst.rdb.internal.core.definition.DatabaseDefinition;
 import org.jboss.ide.seam.gen.QuestionDialog;
 import org.jboss.ide.seam.gen.SeamGenPlugin;
 
@@ -55,30 +66,90 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 
 		public void launchesTerminated(ILaunch[] launches) {
 			for (int i = 0; i < launches.length; i++) {
-				ILaunch launch2 = launches[i];
+				final ILaunch launch2 = launches[i];
 				if("seamgen".equals( launch2.getLaunchConfiguration().getName() )) {
 					try {
+						String target = launch2.getLaunchConfiguration().getAttribute(IAntLaunchConfigurationConstants.ATTR_ANT_TARGETS,(String)null);
+						if("setup".equals(target) && launch2.getAttribute( "terminated-done" )==null) {
+							launch2.setAttribute( "terminated-done", "true" );
+							SeamGenPlugin.getDefault().getWorkbench().getDisplay().syncExec(
+									  new Runnable() {
+									    public void run(){
+									    	if(MessageDialog.openQuestion( getShell(), "Create new Seam project", "Create new seam project ?" )) {
+												new NewProjectAction().run( null );												
+											}
+									    	
+									    	if(MessageDialog.openQuestion( getShell(), "Create DB Connection", "Create DB Connection ?"  )) {
+									    		DatabaseDefinition definition = RDBCorePlugin
+				                                .getDefault().getDatabaseDefinitionRegistry()
+				                                .getDefinition( "Generic JDBC", "1.0" );
+									    		
+									    		ConnectionInfo connection = RDBCorePlugin.getDefault()
+								                .getConnectionManager().createConnectionInfo(
+								                        definition,
+								                        NewCWJDBCPage.createUniqueConnectionName( NewCWJDBCPage.getExistingConnectionNamesList(), "seamgen-connection"));
+									    		
+							
+									    		Properties seamGenProperties = getSeamGenProperties( launch2.getLaunchConfiguration() );
+									    		
+									    		if(seamGenProperties!=null) {
+									    			connection.setDatabaseName("SeamGen database");
+									    			connection.setURL(seamGenProperties.getProperty( "hibernate.connection.url", "" ));
+									    			connection.setDriverClassName(seamGenProperties.getProperty( "hibernate.connection.driver_class", "" ));
+									    			connection.setLoadingPath(seamGenProperties.getProperty( "driver.jar", "" ));
+									    			connection.setUserName( seamGenProperties.getProperty( "hibernate.connection.username", "" ) );
+									    			connection.setPassword( seamGenProperties.getProperty( "hibernate.connection.password", "" ) );
+									    			connection.setCustomProperty( "JDBC_DRIVER","Other");
+									    			try {
+														connection.saveConnectionInfo();
+													}
+													catch (Exception e) {
+														SeamGenPlugin.logError( "Could not save connection info", e);
+													}
+									    		} else {
+									    			MessageDialog.openError( getShell(), "Could not read database settings", "Could not read database settings. See Error log for details" );
+									    		}
+
+									            
+
+									    	}
+									    }
+									  });
+							return;
+						}
+						
+						
 						//							org.eclipse.ui.externaltools.internal.launchConfigurations
-						SeamGenPlugin.logInfo( "launch completed...auto detecting project" );
-						IPath location = ExternalToolsUtil.getLocation( launch2.getLaunchConfiguration() );
-						SeamGenPlugin.logInfo( "location: " + location );
-						File file = new File(location.toFile().getParentFile(), "build.properties");
-						SeamGenPlugin.logInfo( "build.properties: " + location );
-						if(file.exists()) {
-							Properties p = new Properties();
-							p.load( new FileInputStream(file) );
-							String workspace = p.getProperty( "workspace.home" );
+						Properties p = getSeamGenProperties( launch2.getLaunchConfiguration() );
+						if(p!=null) {
+							String seamWorkspace = p.getProperty( "workspace.home" );
 							String projectName = p.getProperty( "project.name" );
 							
 							IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+						
+							if(!"new-project".equals(target)) {
+								if(project.exists()) {
+									project.refreshLocal( IResource.DEPTH_INFINITE, null );
+								}
+								return; // only autodetect for new-project stuff.
+							}
 							
 							if(!project.exists()) {
 								SeamGenPlugin.logInfo( "project " + projectName + " does not exist");
 								IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
-								URI uri = new File(workspace, projectName).toURI();
-								description.setLocationURI(uri);
-								SeamGenPlugin.logInfo( "project location should be " + uri);
-								project.create(description, null);
+								URI uri = new File(seamWorkspace, projectName).toURI();
+								
+								IPath locationPath = URIUtil.toPath(uri);
+								IPath defaultDefaultLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation();
+								IPath parentPath = locationPath.removeLastSegments(1);
+								if (FileUtil.isPrefixOf(parentPath, defaultDefaultLocation) && FileUtil.isPrefixOf(defaultDefaultLocation, parentPath)) {
+									SeamGenPlugin.logInfo( "seam workspace overlaps with eclipse. Opening project directly." );
+								} else {
+									description.setLocationURI(uri);
+									SeamGenPlugin.logInfo( "project location should be " + uri);
+									
+								}
+								project.create(description, null);								
 								project.open( null );
 								SeamGenPlugin.logInfo( "project " + projectName + " created ");
 							} else {
@@ -91,12 +162,6 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 						}
 					}
 					catch (CoreException e) {
-						SeamGenPlugin.logError( "Error when seam-gen terminated", e );
-					}
-					catch (FileNotFoundException e) {
-						SeamGenPlugin.logError( "Error when seam-gen terminated", e );
-					}
-					catch (IOException e) {
 						SeamGenPlugin.logError( "Error when seam-gen terminated", e );
 					} finally {
 
@@ -160,7 +225,7 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 			Map userProperties = Collections.EMPTY_MAP;
 			Map questions = getQuestions();
 			if(!questions.isEmpty()) {
-				QuestionDialog questionDialog = new QuestionDialog(window.getShell(), getTitle(), getDescription(), questions);
+				QuestionDialog questionDialog = new QuestionDialog(window.getShell(), getTitle(), getDescription(), questions,getGroups());
 				if(questionDialog.open()!= QuestionDialog.OK) {
 					SeamGenPlugin.logInfo( "User cancelled dialog" );
 					return;
@@ -168,10 +233,41 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 					userProperties = questionDialog.getPropertiesResult();
 				}
 			}
+			
+			Properties empties = new Properties();
+			Iterator iterator = userProperties.entrySet().iterator();
+			while(iterator.hasNext()) {
+				Map.Entry element = (Entry) iterator.next();
+				String value = (String) element.getValue();
+				if(value==null || value.trim().length()==0) {
+					iterator.remove();
+					empties.setProperty( (String) element.getKey(), value );
+				}
+			}
+			
+			if(!empties.isEmpty()) {
+				File createTempFile = null;
+				try {				
+					createTempFile = File.createTempFile( "seamgenempty", "properties" );
+					empties.store( new FileOutputStream(createTempFile), "File used to send intentionally empty valued properties" );
+				}
+				catch (FileNotFoundException e) {
+					SeamGenPlugin.logError( "Error while running " + getTarget(), e );
+				}
+				catch (IOException e) {
+					SeamGenPlugin.logError( "Error while running " + getTarget(), e );
+				}
+
+				if(createTempFile!=null) {
+					wc.setAttribute( IAntLaunchConfigurationConstants.ATTR_ANT_PROPERTY_FILES, createTempFile.toString() );
+				}
+			}
+			
 			wc.setAttribute( IAntLaunchConfigurationConstants.ATTR_ANT_PROPERTIES, userProperties);
 
 			wc.setAttribute(IAntLaunchConfigurationConstants.ATTR_ANT_TARGETS, getTarget());
 
+			
 
 			ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 
@@ -185,6 +281,10 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 			SeamGenPlugin.logError( "Exception when trying to launch seamgen", e );
 		}
 	
+	}
+
+	public Set getGroups() {
+		return Collections.EMPTY_SET;
 	}
 
 	public String getDescription() {
@@ -201,7 +301,7 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 
 	protected abstract String getTarget();
 	
-	private ILaunchConfiguration findLaunchConfig(String name) throws CoreException {
+	static public ILaunchConfiguration findLaunchConfig(String name) throws CoreException {
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType( "org.eclipse.ant.AntLaunchConfigurationType" );
 		ILaunchConfiguration[] launchConfigurations = launchManager.getLaunchConfigurations( launchConfigurationType );
@@ -242,4 +342,46 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 		this.window = window;
 	}
 
+	public static Properties getSeamGenProperties(ILaunchConfiguration lc) {
+		SeamGenPlugin.logInfo( "launch completed...auto detecting project" );
+		IPath location;
+		try {
+			location = ExternalToolsUtil.getLocation( lc );
+		}
+		catch (CoreException e2) {
+			SeamGenPlugin.logError( "Error while loading seamgen properties", e2 );
+			return null;
+		}
+		
+		SeamGenPlugin.logInfo( "location: " + location );
+		File file = new File(location.toFile().getParentFile(), "build.properties");
+		SeamGenPlugin.logInfo( "build.properties: " + location );
+		
+		if(file.exists()) {
+			Properties p = new Properties();
+			FileInputStream fileInputStream = null;
+			try {
+				fileInputStream = new FileInputStream(file);
+				p.load( fileInputStream );
+			}
+			catch (Exception e) {
+				SeamGenPlugin.logError( "Error while loading seamgen properties", e );
+				if(fileInputStream!=null)
+					try {
+						fileInputStream.close();
+					}
+					catch (IOException e1) {
+						SeamGenPlugin.logError( "Error while closing seamgen properties", e );
+					}
+			}
+			return p;
+		} else {
+			return null;
+		}
+		
+	}
+
+	private Shell getShell() {
+		return SeamGenPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+	}
 }
