@@ -14,14 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.launching,
  org.eclipse.ui.externaltools,
  org.eclipse.ant.ui,
- org.eclipse.core.filesystem,
- org.eclipse.wst.rdb.core,
- org.eclipse.wst.rdb.connection.ui,
- org.eclipse.wst.rdb.connection.ui.infopop,
- org.eclipse.wst.rdb.core.ui,
- org.eclipse.wst.rdb.data.core,
- org.eclipse.wst.rdb.data.ui,
- org.eclipse.wst.rdb.dbdefinition.generic.jdbc
+ org.eclipse.core.filesystem
 Bundle-ClassPath: org.jboss.ide.seam.gen.jar
 Export-Package: org.jboss.ide.seam.gen,
  org.jboss.ide.seam.gen.actions

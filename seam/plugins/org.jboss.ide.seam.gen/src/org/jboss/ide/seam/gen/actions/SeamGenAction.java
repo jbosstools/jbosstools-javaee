@@ -41,10 +41,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.externaltools.internal.launchConfigurations.ExternalToolsUtil;
 import org.eclipse.ui.externaltools.internal.model.IExternalToolConstants;
-import org.eclipse.wst.rdb.connection.internal.ui.wizards.shared.NewCWJDBCPage;
-import org.eclipse.wst.rdb.internal.core.RDBCorePlugin;
-import org.eclipse.wst.rdb.internal.core.connection.ConnectionInfo;
-import org.eclipse.wst.rdb.internal.core.definition.DatabaseDefinition;
 import org.jboss.ide.seam.gen.QuestionDialog;
 import org.jboss.ide.seam.gen.SeamGenPlugin;
 
@@ -80,35 +76,35 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 											}
 									    	
 									    	if(MessageDialog.openQuestion( getShell(), "Create DB Connection", "Create DB Connection ?"  )) {
-									    		DatabaseDefinition definition = RDBCorePlugin
-				                                .getDefault().getDatabaseDefinitionRegistry()
-				                                .getDefinition( "Generic JDBC", "1.0" );
-									    		
-									    		ConnectionInfo connection = RDBCorePlugin.getDefault()
-								                .getConnectionManager().createConnectionInfo(
-								                        definition,
-								                        NewCWJDBCPage.createUniqueConnectionName( NewCWJDBCPage.getExistingConnectionNamesList(), "seamgen-connection"));
+//									    		DatabaseDefinition definition = RDBCorePlugin
+//				                                .getDefault().getDatabaseDefinitionRegistry()
+//				                                .getDefinition( "Generic JDBC", "1.0" );
+//									    		
+//									    		ConnectionInfo connection = RDBCorePlugin.getDefault()
+//								                .getConnectionManager().createConnectionInfo(
+//								                        definition,
+//								                        NewCWJDBCPage.createUniqueConnectionName( NewCWJDBCPage.getExistingConnectionNamesList(), "seamgen-connection"));
 									    		
 							
-									    		Properties seamGenProperties = getSeamGenProperties( launch2.getLaunchConfiguration() );
-									    		
-									    		if(seamGenProperties!=null) {
-									    			connection.setDatabaseName("SeamGen database");
-									    			connection.setURL(seamGenProperties.getProperty( "hibernate.connection.url", "" ));
-									    			connection.setDriverClassName(seamGenProperties.getProperty( "hibernate.connection.driver_class", "" ));
-									    			connection.setLoadingPath(seamGenProperties.getProperty( "driver.jar", "" ));
-									    			connection.setUserName( seamGenProperties.getProperty( "hibernate.connection.username", "" ) );
-									    			connection.setPassword( seamGenProperties.getProperty( "hibernate.connection.password", "" ) );
-									    			connection.setCustomProperty( "JDBC_DRIVER","Other");
-									    			try {
-														connection.saveConnectionInfo();
-													}
-													catch (Exception e) {
-														SeamGenPlugin.logError( "Could not save connection info", e);
-													}
-									    		} else {
-									    			MessageDialog.openError( getShell(), "Could not read database settings", "Could not read database settings. See Error log for details" );
-									    		}
+//									    		Properties seamGenProperties = getSeamGenProperties( launch2.getLaunchConfiguration() );
+//									    		
+//									    		if(seamGenProperties!=null) {
+//									    			connection.setDatabaseName("SeamGen database");
+//									    			connection.setURL(seamGenProperties.getProperty( "hibernate.connection.url", "" ));
+//									    			connection.setDriverClassName(seamGenProperties.getProperty( "hibernate.connection.driver_class", "" ));
+//									    			connection.setLoadingPath(seamGenProperties.getProperty( "driver.jar", "" ));
+//									    			connection.setUserName( seamGenProperties.getProperty( "hibernate.connection.username", "" ) );
+//									    			connection.setPassword( seamGenProperties.getProperty( "hibernate.connection.password", "" ) );
+//									    			connection.setCustomProperty( "JDBC_DRIVER","Other");
+//									    			try {
+//														connection.saveConnectionInfo();
+//													}
+//													catch (Exception e) {
+//														SeamGenPlugin.logError( "Could not save connection info", e);
+//													}
+//									    		} else {
+//									    			MessageDialog.openError( getShell(), "Could not read database settings", "Could not read database settings. See Error log for details" );
+//									    		}
 
 									            
 
