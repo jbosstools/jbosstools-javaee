@@ -23,6 +23,17 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.datatools.connectivity.ConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.db.generic.IDBDriverDefinitionConstants;
+import org.eclipse.datatools.connectivity.drivers.DriverInstance;
+import org.eclipse.datatools.connectivity.drivers.DriverManager;
+import org.eclipse.datatools.connectivity.drivers.DriverMgmtMessages;
+import org.eclipse.datatools.connectivity.drivers.IDriverMgmtConstants;
+import org.eclipse.datatools.connectivity.drivers.IPropertySet;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -43,6 +54,8 @@ import org.eclipse.ui.externaltools.internal.launchConfigurations.ExternalToolsU
 import org.eclipse.ui.externaltools.internal.model.IExternalToolConstants;
 import org.jboss.ide.seam.gen.QuestionDialog;
 import org.jboss.ide.seam.gen.SeamGenPlugin;
+
+import com.sun.tools.corba.se.idl.som.cff.Messages;
 
 public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 
@@ -76,40 +89,92 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 											}
 									    	
 									    	if(MessageDialog.openQuestion( getShell(), "Create DB Connection", "Create DB Connection ?"  )) {
-//									    		DatabaseDefinition definition = RDBCorePlugin
-//				                                .getDefault().getDatabaseDefinitionRegistry()
-//				                                .getDefinition( "Generic JDBC", "1.0" );
-//									    		
-//									    		ConnectionInfo connection = RDBCorePlugin.getDefault()
-//								                .getConnectionManager().createConnectionInfo(
-//								                        definition,
-//								                        NewCWJDBCPage.createUniqueConnectionName( NewCWJDBCPage.getExistingConnectionNamesList(), "seamgen-connection"));
-									    		
-							
-//									    		Properties seamGenProperties = getSeamGenProperties( launch2.getLaunchConfiguration() );
-//									    		
-//									    		if(seamGenProperties!=null) {
-//									    			connection.setDatabaseName("SeamGen database");
-//									    			connection.setURL(seamGenProperties.getProperty( "hibernate.connection.url", "" ));
-//									    			connection.setDriverClassName(seamGenProperties.getProperty( "hibernate.connection.driver_class", "" ));
-//									    			connection.setLoadingPath(seamGenProperties.getProperty( "driver.jar", "" ));
-//									    			connection.setUserName( seamGenProperties.getProperty( "hibernate.connection.username", "" ) );
-//									    			connection.setPassword( seamGenProperties.getProperty( "hibernate.connection.password", "" ) );
-//									    			connection.setCustomProperty( "JDBC_DRIVER","Other");
-//									    			try {
-//														connection.saveConnectionInfo();
-//													}
-//													catch (Exception e) {
-//														SeamGenPlugin.logError( "Could not save connection info", e);
-//													}
-//									    		} else {
-//									    			MessageDialog.openError( getShell(), "Could not read database settings", "Could not read database settings. See Error log for details" );
-//									    		}
-
-									            
-
+									    		createDatabaseConnection(launch2);
 									    	}
 									    }
+
+									    public DriverInstance createNewDriverInstance(String templateID,
+												String name, String jarList, String driverClass) {
+											if (templateID == null) return null;
+											if (name == null) return null;
+											if (jarList == null) return null;
+											
+											DriverInstance existing = DriverManager.getInstance().getDriverInstanceByName(name);
+											int number = 0;
+											String origName = name;
+											while(existing!=null ) {
+												number++;
+												name = origName+number;
+												existing = DriverManager.getInstance().getDriverInstanceByName("DriverDefn."+name);												
+											}
+											
+											IPropertySet pset = DriverManager.getInstance().createDefaultInstance(templateID);
+											pset.setName(name);
+											String prefix = DriverMgmtMessages
+													.getString("NewDriverDialog.text.id_prefix"); //$NON-NLS-1$
+											String id = prefix + name;
+											pset.setID(id);
+											Properties props = pset.getBaseProperties();
+											props.setProperty(IDriverMgmtConstants.PROP_DEFN_JARLIST, jarList);
+											props.setProperty(IDBDriverDefinitionConstants.DRIVER_CLASS_PROP_ID, driverClass);
+											DriverManager.getInstance().addDriverInstance(pset);
+											return DriverManager.getInstance().getDriverInstanceByID(pset.getID());
+										}
+
+									    
+										private void createDatabaseConnection(
+												final ILaunch launch2) {
+											
+											Properties seamGenProperties = getSeamGenProperties( launch2.getLaunchConfiguration() );
+											String projectName = seamGenProperties.getProperty( "project.name" );
+									
+											Properties dbProperties = new Properties();
+											if(seamGenProperties!=null) {
+												DriverInstance driverInstance = createNewDriverInstance("org.eclipse.datatools.connectivity.db.generic.genericDriverTemplate", 
+														                                                projectName + " seamgen-driver", 
+														                                                seamGenProperties.getProperty("driver.jar", ""),
+														                                                seamGenProperties.getProperty( "hibernate.connection.driver_class", "" ));
+												
+												dbProperties.setProperty(ConnectionProfileConstants.PROP_DRIVER_DEFINITION_ID, driverInstance.getId());
+												dbProperties.setProperty(IDBConnectionProfileConstants.DRIVER_CLASS_PROP_ID, seamGenProperties.getProperty( "hibernate.connection.driver_class", "" ));									
+												dbProperties.setProperty(IDBConnectionProfileConstants.DATABASE_VENDOR_PROP_ID, "Generic JDBC");
+												dbProperties.setProperty(IDBConnectionProfileConstants.DATABASE_VERSION_PROP_ID, "1.0");
+												dbProperties.setProperty(IDBConnectionProfileConstants.DATABASE_NAME_PROP_ID, "SeamGen database");
+												dbProperties.setProperty(IDBConnectionProfileConstants.PASSWORD_PROP_ID, seamGenProperties.getProperty( "hibernate.connection.password", "" ));
+												dbProperties.setProperty(IDBConnectionProfileConstants.USERNAME_PROP_ID, seamGenProperties.getProperty( "hibernate.connection.username", "" ));
+												dbProperties.setProperty(IDBConnectionProfileConstants.URL_PROP_ID, seamGenProperties.getProperty( "hibernate.connection.url", "" ));
+												
+												
+												//connection.setLoadingPath(seamGenProperties.getProperty( "driver.jar", "" ));
+												
+												//connection.setCustomProperty( "JDBC_DRIVER","Other");
+												
+												try {
+													String name = projectName + " seamgen-connection";
+													IConnectionProfile existing = ProfileManager.getInstance().getProfileByName(name);
+													int number = 0;
+													String origName = name;
+													while(existing!=null) {
+														number++;
+														name=origName+number;
+														existing = ProfileManager.getInstance().getProfileByName(name);												
+													}
+													
+													ProfileManager.getInstance().createProfile(name, 
+															"Database created for seam-gen project", 
+															IDBConnectionProfileConstants.CONNECTION_PROFILE_ID, 
+															dbProperties
+															);
+													// TODO unique name ? NewCWJDBCPage.createUniqueConnectionName( NewCWJDBCPage.getExistingConnectionNamesList(), "seamgen-connection"));
+												} catch (ConnectionProfileException e) {
+													SeamGenPlugin.logError("Could not create database connection", e);
+													MessageDialog.openError( getShell(), "Could not create database connection", "Could not create database connection. See Error log for details" );
+												}
+															
+											} else {
+												MessageDialog.openError( getShell(), "Could not read database settings", "Could not read database settings. See Error log for details" );
+											}
+										}
 									  });
 							return;
 						}
@@ -275,6 +340,7 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 			
 		} catch (CoreException e) {			
 			SeamGenPlugin.logError( "Exception when trying to launch seamgen", e );
+			MessageDialog.openError(getShell(), "Seam-gen could not start", e.getMessage());
 		}
 	
 	}
@@ -372,7 +438,7 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 			}
 			return p;
 		} else {
-			return null;
+			return new Properties(); // no exsting settings.
 		}
 		
 	}

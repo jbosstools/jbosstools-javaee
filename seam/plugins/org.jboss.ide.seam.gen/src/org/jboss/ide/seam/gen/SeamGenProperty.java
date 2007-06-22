@@ -65,7 +65,6 @@ public class SeamGenProperty {
 	
 	
 	public void applyValue(Properties existing, Control control) {
-		try {
 			String property = existing.getProperty( getDefaultPropertyName() );
 			if(property!=null) {
 				if(control instanceof Text) {
@@ -80,10 +79,6 @@ public class SeamGenProperty {
 					System.out.println(getDefaultPropertyName() + " " + property);
 				}
 			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public String getDefaultPropertyName() {

@@ -106,6 +106,7 @@ public class QuestionDialog extends TitleAreaDialog {
 		Map properties = questions;
 	
 		Properties existing = new Properties();
+		
 		ILaunchConfiguration configuration;
 		try {
 			configuration = SeamGenAction.findLaunchConfig( "seamgen" );
@@ -117,6 +118,8 @@ public class QuestionDialog extends TitleAreaDialog {
 		catch (CoreException e1) {
 			SeamGenPlugin.logError( "Error while preloading build.properties", e1 );
 		}
+		
+		
 		
 		updating = true;
 		Text firstField = null;
@@ -138,7 +141,7 @@ public class QuestionDialog extends TitleAreaDialog {
 			if(sgp.getInputType()==sgp.YES_NO) {
 				Button button = new Button(composite, SWT.CHECK);
 				propertyToField.put( name, button );
-				sgp.applyValue( existing, button );
+				sgp.applyValue( existing, button );				
 				GridData data = new GridData(GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL);
 				data.horizontalSpan= 2;
 				button.setLayoutData(data);
@@ -190,11 +193,10 @@ public class QuestionDialog extends TitleAreaDialog {
 			label.setText( "                       " );
 			
 			propertyToDefaultLabel.put( name, label );
-			updating = false;
-			//updateStatus();
-			
+						
 		}
-		
+		updating = false;
+		// all properties have been set
 		
 		Label label = new Label(defaultComposite, SWT.NONE); // here to make gtk less ugly.
 		//label.setText( "--------------" );
@@ -284,7 +286,10 @@ public class QuestionDialog extends TitleAreaDialog {
 	void updateStatus() {
 		if(!updating) {
 			setMessage( null );
-			getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			Button button = getButton( IDialogConstants.OK_ID );
+			if(button!=null) {
+				button.setEnabled( true );
+			}
 			updating = true;
 			// Big ineffective hack!
 			Map others = internalGetResult();
@@ -297,23 +302,23 @@ public class QuestionDialog extends TitleAreaDialog {
 				Map.Entry element = (Map.Entry) iter.next();
 				SeamGenProperty gp = (SeamGenProperty) element.getValue();
 
-				Label text = (Label) propertyToDefaultLabel.get( element.getKey() );
+				Label defaultLabel = (Label) propertyToDefaultLabel.get( element.getKey() );
 				
 				String defaultValue = gp.getDefaultValue( properties );
-				text.setText( defaultValue==null?"":defaultValue );
+				defaultLabel.setText( defaultValue==null?"":defaultValue );
 				
-				String text2 = getText( element, text );
+				String text2 = getText( element, defaultLabel );
 				
 				if(haveNoWarning) {					
 					String msg = gp.valid(text2.trim());
 					if(text2.trim().length()>0 && msg!=null) {
 						setMessage( msg, IMessageProvider.ERROR );
 						haveNoWarning = false;
-						getButton( IDialogConstants.OK_ID ).setEnabled( false );
-					} else if(gp.isRequired() && text2.trim().length()==0 && text.getText().trim().length()==0 ) {
+						button.setEnabled( false );
+					} else if(gp.isRequired() && text2.trim().length()==0 && defaultLabel.getText().trim().length()==0 ) {
 						setMessage( "'" + gp.getDescription() + "' requires a value", IMessageProvider.ERROR );
 						haveNoWarning = false;
-						getButton( IDialogConstants.OK_ID ).setEnabled( false );
+						button.setEnabled( false );
 					}	
 				}
 				
@@ -343,11 +348,11 @@ public class QuestionDialog extends TitleAreaDialog {
 		}*/
 	}
 
-	private String getText(Map.Entry element, Label text) {
+	private String getText(Map.Entry element, Label defaultText) {
 		Control object = (Control) propertyToField.get(element.getKey());
 		if(object instanceof Button) {
 			Button b = (Button) object;
-			b.setToolTipText( text.getText() );
+			b.setToolTipText( defaultText.getText() );
 			if(b.getSelection()) {
 				return "y";
 			} else {
@@ -356,7 +361,7 @@ public class QuestionDialog extends TitleAreaDialog {
 			
 		} else {
 			Text enteredValue = (Text) object;
-			enteredValue.setToolTipText( text.getText() );
+			enteredValue.setToolTipText( defaultText.getText() );
 			return enteredValue.getText();
 		}
 	}
