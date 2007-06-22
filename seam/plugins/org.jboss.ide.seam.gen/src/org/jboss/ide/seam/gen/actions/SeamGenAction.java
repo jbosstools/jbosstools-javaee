@@ -55,8 +55,6 @@ import org.eclipse.ui.externaltools.internal.model.IExternalToolConstants;
 import org.jboss.ide.seam.gen.QuestionDialog;
 import org.jboss.ide.seam.gen.SeamGenPlugin;
 
-import com.sun.tools.corba.se.idl.som.cff.Messages;
-
 public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 
 	private final class LaunchListener implements ILaunchesListener2 {
