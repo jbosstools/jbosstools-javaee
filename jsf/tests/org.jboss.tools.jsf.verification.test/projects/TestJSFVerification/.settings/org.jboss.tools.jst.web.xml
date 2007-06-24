@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FILESYSTEMS APPLICATION_NAME="TestJSFVerification" ENTITY="FileSystems"
+ VERSION="8.0.3" WORKSPACE_HOME="./WebContent/WEB-INF">
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%redhat.workspace%" NAME="WEB-INF"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" INFO="Content-Type=Web"
+  LOCATION="%redhat.workspace%/.." NAME="WEB-ROOT"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%redhat.workspace%/../../JavaSource" NAME="src"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%redhat.workspace%/lib" NAME="lib"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%redhat.workspace%/classes" NAME="classes"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%redhat.workspace%/../../ant" NAME="build"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/common-annotations.jar" NAME="lib-common-annotations.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/commons-beanutils.jar" NAME="lib-commons-beanutils.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/commons-collections.jar" NAME="lib-commons-collections.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/commons-digester.jar" NAME="lib-commons-digester.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/commons-logging.jar" NAME="lib-commons-logging.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/jsf-api.jar" NAME="lib-jsf-api.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/jsf-impl.jar" NAME="lib-jsf-impl.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/jstl.jar" NAME="lib-jstl.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/standard.jar" NAME="lib-standard.jar"/>
+ <WEB ENTITY="JstWeb" MODEL_PATH="/web.xml" SERVLET_VERSION="2.4">
+  <MODULE ENTITY="WebJSFModule" MODEL_PATH="/faces-config.xml"
+   ROOT="WEB-ROOT" SRC="src" URI="/WEB-INF/faces-config.xml"/>
+ </WEB>
+</FILESYSTEMS>

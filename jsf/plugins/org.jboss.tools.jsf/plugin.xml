@@ -1,0 +1,1918 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+<!--======================================================================================-->
+<!-- Snippets View contributions                                                           -->
+<!--======================================================================================-->
+   <extension point="org.eclipse.wst.common.snippets.SnippetContributions">
+      <!-- JSF Core --> 
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" description="%jsf_core_desc" id="org.jboss.tools.jsf.category_jsf_core" label="%jsf_core_label">
+      
+	      <item description="%tag_lib_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.taglib" label="%tag_lib_jsf_core_label">
+	         <content>
+	            %tag_lib_jsf_core_content
+	         </content>
+	         <variable default="%tag_lib_jsf_core_uri" description="" id="uri"/>
+	         <variable default="%tag_lib_jsf_core_prefix" description="" id="prefix"/>
+	      </item>
+	      
+	      <item description="%actionListener_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.actionListener" label="%actionListener_jsf_core_label">
+	         <content>
+	            %actionListener_jsf_core_content
+	         </content>
+	         <variable description="" id="type"/>
+	      </item>
+	
+	      <item description="%attribute_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.attribute" label="%attribute_jsf_core_label">
+	         <content>
+	            %attribute_jsf_core_content
+	         </content>
+	         <variable description="" id="name"/>
+	         <variable description="" id="value"/>         
+	      </item>
+	      
+	      <item description="%convertDateTime_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.convertDateTime" label="%convertDateTime_jsf_core_label">
+	         <content>
+	            %convertDateTime_jsf_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%convertNumber_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.convertNumber" label="%convertNumber_jsf_core_label">
+	         <content>
+	            %convertNumber_jsf_core_content
+	         </content>
+	      </item>
+	      
+	      <item description="%converter_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.converter" label="%converter_jsf_core_label">
+	         <content>
+	            %converter_jsf_core_content
+	         </content>
+	         <variable description="" id="converterId"/>
+	      </item>                   
+	
+	      <item description="%facet_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.facet" label="%facet_jsf_core_label">
+	         <content>
+	            %facet_jsf_core_content
+	         </content>
+	         <variable description="" id="name"/>
+	      </item> 
+	
+	      <item description="%loadBundle_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.loadBundle" label="%loadBundle_jsf_core_label">
+	         <content>
+	            %loadBundle_jsf_core_content
+	         </content>
+	         <variable description="" id="basename"/>
+	         <variable description="" id="var"/>         
+	      </item>
+	
+	      <item description="%param_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.param" label="%param_jsf_core_label">
+	         <content>
+	            %param_jsf_core_content
+	         </content>
+	         <variable description="" id="value"/>
+	      </item>
+	
+	      <item description="%selectItem_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.selectItem" label="%selectItem_jsf_core_label">
+	         <content>
+	            %selectItem_jsf_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectItems_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.selectItems" label="%selectItems_jsf_core_label">
+	         <content>
+	            %selectItems_jsf_core_content
+	         </content>
+	      </item>
+	      
+	      <item description="%subview_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.subview" label="%subview_jsf_core_label">
+	         <content>
+	            %subview_jsf_core_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>      
+	
+	      <item description="%validateDoubleRange_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.validateDoubleRange" label="%validateDoubleRange_jsf_core_label">
+	         <content>
+	            %validateDoubleRange_jsf_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%validateLength_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.validateLength" label="%validateLength_jsf_core_label">
+	         <content>
+	            %validateLength_jsf_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%validateLongRange_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.validateLongRange" label="%validateLongRange_jsf_core_label">
+	         <content>
+	            %validateLongRange_jsf_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%validator_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.validator" label="%validator_jsf_core_label">
+	         <content>
+	            %validator_jsf_core_content
+	         </content>
+	         <variable description="" id="validatorId"/>
+	      </item>  
+	
+	      <item description="%valueChangeListener_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.valueChangeListener" label="%valueChangeListener_jsf_core_label">
+	         <content>
+	            %valueChangeListener_jsf_core_content
+	         </content>
+	         <variable description="" id="type"/>
+	      </item>  
+	
+	      <item description="%verbatim_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.verbatim" label="%verbatim_jsf_core_label">
+	         <content>
+	            %verbatim_jsf_core_content
+	         </content>
+	      </item>
+	      
+	      <item description="%view_jsf_core_desc" id="org.jboss.tools.jsf.jsf_core.view" label="%view_jsf_core_label">
+	         <content>
+	            %view_jsf_core_content
+	         </content>
+	      </item>
+      </category>  
+      <!-- JSF HTML -->
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" description="%jsf_html_desc" id="org.jboss.tools.jsf.category_jsf_html" label="%jsf_html_label">               
+      
+	      <item   description="%tag_lib_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.taglib" label="%tag_lib_jsf_html_label">
+	         <content>
+	            %tag_lib_jsf_html_content
+	         </content>
+	         <variable default="%tag_lib_jsf_html_uri" description="" id="uri"/>
+	         <variable default="%tag_lib_jsf_html_prefix" description="" id="prefix"/>
+	      </item>
+	
+	      <item   description="%column_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.column" label="%column_jsf_html_label">
+	         <content>
+	            %column_jsf_html_content
+	         </content>
+	      </item>
+	
+	      <item   description="%commandButton_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.commandButton" label="%commandButton_jsf_html_label">
+	         <content>
+	            %commandButton_jsf_html_content
+	         </content>
+	         <variable description="" id="value"/>
+	         <variable description="" id="action"/>
+	      </item>      
+	
+	      <item   description="%commandLink_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.commandLink" label="%commandLink_jsf_html_label">
+	         <content>
+	            %commandLink_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	         <variable description="" id="value"/>
+	      </item>  
+	
+	      <item   description="%dataTable_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.dataTable" label="%dataTable_jsf_html_label">
+	         <content>
+	            %dataTable_jsf_html_content
+	         </content>
+	         <variable description="" id="value"/>
+	         <variable description="" id="var"/>
+	      </item>  
+	
+	      <item   description="%form_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.form" label="%form_jsf_html_label">
+	         <content>
+	            %form_jsf_html_content
+	         </content>
+	      </item>  
+	
+	      <item   description="%graphicImage_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.graphicImage" label="%graphicImage_jsf_html_label">
+	         <content>
+	            %graphicImage_jsf_html_content
+	         </content>
+	         <variable description="" id="value"/>
+	      </item>  
+	
+	      <item   description="%inputHidden_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.inputHidden" label="%inputHidden_jsf_html_label">
+	         <content>
+	            %inputHidden_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	         <variable description="" id="value"/>         
+	      </item> 
+	
+	      <item   description="%inputSecret_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.inputSecret" label="%inputSecret_jsf_html_label">
+	         <content>
+	            %inputSecret_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	         <variable description="" id="value"/>         
+	      </item>
+	
+	      <item   description="%inputText_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.inputText" label="%inputText_jsf_html_label">
+	         <content>
+	            %inputText_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	         <variable description="" id="value"/>         
+	      </item>
+	
+	      <item   description="%inputTextarea_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.inputTextarea" label="%inputTextarea_jsf_html_label">
+	         <content>
+	            %inputTextarea_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	         <variable description="" id="value"/>         
+	      </item>
+	      
+	      <item   description="%message_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.message" label="%message_jsf_html_label">
+	         <content>
+	            %message_jsf_html_content
+	         </content>
+	         <variable description="" id="for"/>
+	      </item>      
+	
+	      <item   description="%messages_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.messages" label="%messages_jsf_html_label">
+	         <content>
+	            %messages_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%outputFormat_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.outputFormat" label="%outputFormat_jsf_html_label">
+	         <content>
+	            %outputFormat_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%outputLabel_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.outputLabel" label="%outputLabel_jsf_html_label">
+	         <content>
+	            %outputLabel_jsf_html_content
+	         </content>
+	         <variable description="" id="for"/>
+	      </item>
+	
+	      <item   description="%outputLink_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.outputLink" label="%outputLink_jsf_html_label">
+	         <content>
+	            %outputLink_jsf_html_content
+	         </content>
+	         <variable description="" id="value"/>
+	      </item>
+	
+	      <item   description="%outputText_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.outputText" label="%outputText_jsf_html_label">
+	         <content>
+	            %outputText_jsf_html_content
+	         </content>
+	         <variable description="" id="value"/>
+	      </item>
+	
+	      <item   description="%panelGrid_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.panelGrid" label="%panelGrid_jsf_html_label">
+	         <content>
+	            %panelGrid_jsf_html_content
+	         </content>
+	         <variable description="" id="columns"/>
+	      </item>
+	      
+	      <item   description="%panelGroup_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.panelGroup" label="%panelGroup_jsf_html_label">
+	         <content>
+	            %panelGroup_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	      
+	      <item   description="%selectBooleanCheckbox_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectBooleanCheckbox" label="%selectBooleanCheckbox_jsf_html_label">
+	         <content>
+	            %selectBooleanCheckbox_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%selectManyCheckbox_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectManyCheckbox" label="%selectManyCheckbox_jsf_html_label">
+	         <content>
+	            %selectManyCheckbox_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%selectManyListbox_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectManyListbox" label="%selectManyListbox_jsf_html_label">
+	         <content>
+	            %selectManyListbox_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%selectManyMenu_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectManyMenu" label="%selectManyMenu_jsf_html_label">
+	         <content>
+	            %selectManyMenu_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%selectOneListbox_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectOneListbox" label="%selectOneListbox_jsf_html_label">
+	         <content>
+	            %selectOneListbox_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item   description="%selectOneMenu_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectOneMenu" label="%selectOneMenu_jsf_html_label">
+	         <content>
+	            %selectOneMenu_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+	
+	      <item description="%selectOneRadio_jsf_html_desc" id="org.jboss.tools.jsf.jsf_html.selectOneRadio" label="%selectOneRadio_jsf_html_label">
+	         <content>
+	            %selectOneRadio_jsf_html_content
+	         </content>
+	         <variable description="" id="id"/>
+	      </item>
+		</category>
+      <!-- MyFaces Ext -->
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" description="%mf_ext_desc" id="org.jboss.tools.jsf.category_mf_ext" label="%mf_ext_label">               
+      
+	      <item description="%tag_lib_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.taglib" label="%tag_lib_mf_ext_label">
+	         <content>
+	            %tag_lib_mf_ext_content
+	         </content>
+	         <variable default="%tag_lib_mf_ext_uri" description="" id="uri"/>
+	         <variable default="%tag_lib_mf_ext_prefix" description="" id="prefix"/>
+	      </item>
+	      
+	      <item description="%checkbox_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.checkbox" label="%checkbox_mf_ext_label">
+	         <content>
+	            %checkbox_mf_ext_content
+	         </content>
+	         <variable description="" id="for"/>
+	         <variable description="" id="index"/>         
+	      </item>      
+	
+	      <item description="%commandButton_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.commandButton" label="%commandButton_mf_ext_label">
+	         <content>
+	            %commandButton_mf_ext_content
+	         </content>
+	      </item>   
+	
+	      <item description="%commandLink_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.commandLink" label="%commandLink_mf_ext_label">
+	         <content>
+	            %commandLink_mf_ext_content
+	         </content>
+	      </item>   
+	
+	      <item description="%commandNavigation_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.commandNavigation" label="%commandNavigation_mf_ext_label">
+	         <content>
+	            %commandNavigation_mf_ext_content
+	         </content>
+	      </item>   
+	
+	      <item description="%commandSortHeader_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.commandSortHeader" label="%commandSortHeader_mf_ext_label">
+	         <content>
+	            %commandSortHeader_mf_ext_content
+	         </content>
+	         <variable description="" id="columnName"/>
+	      </item> 
+	
+	      <item description="%dataList_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.dataList" label="%dataList_mf_ext_label">
+	         <content>
+	            %dataList_mf_ext_content
+	         </content>
+	         <variable description="" id="var"/>
+	      </item> 
+	
+	      <item description="%dataScroller_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.dataScroller" label="%dataScroller_mf_ext_label">
+	         <content>
+	            %dataScroller_mf_ext_content
+	         </content>
+	      </item> 
+	
+	      <item description="%dataTable_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.dataTable" label="%dataTable_mf_ext_label">
+	         <content>
+	            %dataTable_mf_ext_content
+	         </content>
+	         <variable description="" id="var"/>
+	      </item>
+	
+	      <item description="%iconProvider_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.iconProvider" label="%iconProvider_mf_ext_label">
+	         <content>
+	            %iconProvider_mf_ext_content
+	         </content>
+	         <variable description="" id="type"/>
+	      </item>
+	
+	      <item description="%inputCalendar_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.inputCalendar" label="%inputCalendar_mf_ext_label">
+	         <content>
+	            %inputCalendar_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%inputDate_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.inputDate" label="%inputDate_mf_ext_label">
+	         <content>
+	            %inputDate_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%inputFileUpload_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.inputFileUpload" label="%inputFileUpload_mf_ext_label">
+	         <content>
+	            %inputFileUpload_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%inputText_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.inputText" label="%inputText_mf_ext_label">
+	         <content>
+	            %inputText_mf_ext_content
+	         </content>
+	      </item>
+	      
+	      <item description="%inputTextarea_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.inputTextarea" label="%inputTextarea_mf_ext_label">
+	         <content>
+	            %inputTextarea_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%jscookMenu_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.jscookMenu" label="%jscookMenu_mf_ext_label">
+	         <content>
+	            %jscookMenu_mf_ext_content
+	         </content>
+	         <variable description="" id="layout"/>
+	         <variable description="" id="theme"/>         
+	      </item>
+	
+	      <item description="%message_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.message" label="%message_mf_ext_label">
+	         <content>
+	            %message_mf_ext_content
+	         </content>
+	         <variable description="" id="for"/>
+	      </item>
+	
+	      <item description="%messages_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.messages" label="%messages_mf_ext_label">
+	         <content>
+	            %messages_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%navigationMenuItem_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.navigationMenuItem" label="%navigationMenuItem_mf_ext_label">
+	         <content>
+	            %navigationMenuItem_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%navigationMenuItems_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.navigationMenuItems" label="%navigationMenuItems_mf_ext_label">
+	         <content>
+	            %navigationMenuItems_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%outputLabel_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.outputLabel" label="%outputLabel_mf_ext_label">
+	         <content>
+	            %outputLabel_mf_ext_content
+	         </content>
+	         <variable description="" id="for"/>         
+	      </item>
+	      
+	      <item description="%outputText_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.outputText" label="%outputText_mf_ext_label">
+	         <content>
+	            %outputText_mf_ext_content
+	         </content>
+	      </item>      
+	
+	      <item description="%panelGroup_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.panelGroup" label="%panelGroup_mf_ext_label">
+	         <content>
+	            %panelGroup_mf_ext_content
+	         </content>
+	      </item> 
+	
+	      <item description="%panelLayout_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.panelLayout" label="%panelLayout_mf_ext_label">
+	         <content>
+	            %panelLayout_mf_ext_content
+	         </content>
+	      </item>
+	      
+	      <item description="%panelNavigation_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.panelNavigation" label="%panelNavigation_mf_ext_label">
+	         <content>
+	            %panelNavigation_mf_ext_content
+	         </content>
+	      </item>        
+	
+	      <item description="%panelStack_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.panelStack" label="%panelStack_mf_ext_label">
+	         <content>
+	            %panelStack_mf_ext_content
+	         </content>
+	         <variable description="" id="selectedPanel"/>               
+	      </item>  
+	
+	      <item description="%panelTab_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.panelTab" label="%panelTab_mf_ext_label">
+	         <content>
+	            %panelTab_mf_ext_content
+	         </content>
+	      </item>  
+	
+	      <item description="%panelTabbedPane_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.panelTabbedPane" label="%panelTabbedPane_mf_ext_label">
+	         <content>
+	            %panelTabbedPane_mf_ext_content
+	         </content>
+	      </item>  
+	
+	      <item description="%radio_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.radio" label="%radio_mf_ext_label">
+	         <content>
+	            %radio_mf_ext_content
+	         </content>
+	         <variable description="" id="for"/>          
+	         <variable description="" id="index"/>                   
+	      </item>
+	
+	      <item description="%rssTicker_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.rssTicker" label="%rssTicker_mf_ext_label">
+	         <content>
+	            %rssTicker_mf_ext_content
+	         </content>
+	         <variable description="" id="rssUrl"/>          
+	      </item>
+	
+	      <item description="%saveState_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.saveState" label="%saveState_mf_ext_label">
+	         <content>
+	            %saveState_mf_ext_content
+	         </content>
+	         <variable description="" id="value"/>          
+	      </item>
+	
+	      <item description="%selectManyCheckbox_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.selectManyCheckbox" label="%selectManyCheckbox_mf_ext_label">
+	         <content>
+	            %selectManyCheckbox_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectOneMenu_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.selectOneMenu" label="%selectOneMenu_mf_ext_label">
+	         <content>
+	            %selectOneMenu_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectOneRadio_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.selectOneRadio" label="%selectOneRadio_mf_ext_label">
+	         <content>
+	            %selectOneRadio_mf_ext_content
+	         </content>
+	      </item>
+	
+	      <item description="%stylesheet_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.stylesheet" label="%stylesheet_mf_ext_label">
+	         <content>
+	            %stylesheet_mf_ext_content
+	         </content>
+	         <variable description="" id="path"/>                   
+	      </item>
+	
+	      <item description="%tabChangeListener_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.tabChangeListener" label="%tabChangeListener_mf_ext_label">
+	         <content>
+	            %tabChangeListener_mf_ext_content
+	         </content>
+	         <variable description="" id="type"/>                   
+	      </item>
+	
+	      <item description="%tree_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.tree" label="%tree_mf_ext_label">
+	         <content>
+	            %tree_mf_ext_content
+	         </content>
+	         <variable description="" id="value"/>                   
+	      </item>
+	
+	      <item description="%treeSelectionListener_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.treeSelectionListener" label="%treeSelectionListener_mf_ext_label">
+	         <content>
+	            %treeSelectionListener_mf_ext_content
+	         </content>
+	         <variable description="" id="type"/>                   
+	      </item>
+	
+	      <item description="%updateActionListener_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.updateActionListener" label="%updateActionListener_mf_ext_label">
+	         <content>
+	            %updateActionListener_mf_ext_content
+	         </content>
+	         <variable description="" id="property"/>                   
+	         <variable description="" id="value"/>                            
+	      </item>
+	      
+	      <item description="%validateCreditCard_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.validateCreditCard" label="%validateCreditCard_mf_ext_label">
+	         <content>
+	            %validateCreditCard_mf_ext_content
+	         </content>
+	      </item>      
+	
+	      <item description="%validateEmail_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.validateEmail" label="%validateEmail_mf_ext_label">
+	         <content>
+	            %validateEmail_mf_ext_content
+	         </content>
+	      </item>      
+	
+	      <item description="%validateEqual_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.validateEqual" label="%validateEqual_mf_ext_label">
+	         <content>
+	            %validateEqual_mf_ext_content
+	         </content>
+	         <variable description="" id="for"/>          
+	      </item> 
+	
+	      <item description="%validateRegExpr_mf_ext_desc" id="org.jboss.tools.jsf.mf_ext.validateRegExpr" label="%validateRegExpr_mf_ext_label">
+	         <content>
+	            %validateRegExpr_mf_ext_content
+	         </content>
+	         <variable description="" id="pattern"/>          
+	      </item> 
+		</category>
+      <!-- Oracle ADF Faces Core --> 
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" description="" id="org.jboss.tools.jsf.category_oracle_core" label="%oracle_core_label">
+      
+	      <item description="%tag_lib_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.taglib" label="%tag_lib_oracle_core_label">
+	         <content>
+	            %tag_lib_oracle_core_content
+	         </content>
+	         <variable default="%tag_lib_oracle_core_uri" description="" id="uri"/>
+	         <variable default="%tag_lib_oracle_core_prefix" description="" id="prefix"/>
+	      </item>
+	
+	      <item description="%chooseColor_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.chooseColor" label="%chooseColor_oracle_core_label">
+	         <content>
+	            %chooseColor_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%chooseDate_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.chooseDate" label="%chooseDate_oracle_core_label">
+	         <content>
+	            %chooseDate_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%column_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.column" label="%column_oracle_core_label">
+	         <content>
+	            %column_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%commandButton_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.commandButton" label="%commandButton_oracle_core_label">
+	         <content>
+	            %commandButton_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%commandGlobalButton_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.commandGlobalButton" label="%commandGlobalButton_oracle_core_label">
+	         <content>
+	            %commandGlobalButton_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%commandLink_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.commandLink" label="%commandLink_oracle_core_label">
+	         <content>
+	            %commandLink_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%commandOption_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.commandOption" label="%commandOption_oracle_core_label">
+	         <content>
+	            %commandOption_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%convertColor_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.convertColor" label="%convertColor_oracle_core_label">
+	         <content>
+	            %convertColor_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%forEach_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.forEach" label="%forEach_oracle_core_label">
+	         <content>
+	            %forEach_oracle_core_content
+	         </content>
+	         <variable description="" id="var"/>         
+	         <variable description="" id="items"/>         
+	      </item>      
+	
+	      <item description="%form_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.form" label="%form_oracle_core_label">
+	         <content>
+	            %form_oracle_core_content
+	         </content>
+	      </item>  
+	
+	      <item description="%goButton_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.goButton" label="%goButton_oracle_core_label">
+	         <content>
+	            %goButton_oracle_core_content
+	         </content>
+	      </item>  
+	
+	      <item description="%goLink_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.goLink" label="%goLink_oracle_core_label">
+	         <content>
+	            %goLink_oracle_core_content
+	         </content>
+	      </item>  
+	
+	      <item description="%importScript_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.importScript" label="%importScript_oracle_core_label">
+	         <content>
+	            %importScript_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%inputFile_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.inputFile" label="%inputFile_oracle_core_label">
+	         <content>
+	            %inputFile_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%inputHidden_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.inputHidden" label="%inputHidden_oracle_core_label">
+	         <content>
+	            %inputHidden_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%inputText_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.inputText" label="%inputText_oracle_core_label">
+	         <content>
+	            %inputText_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%menuBar_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.menuBar" label="%menuBar_oracle_core_label">
+	         <content>
+	            %menuBar_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%menuButtons_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.menuButtons" label="%menuButtons_oracle_core_label">
+	         <content>
+	            %menuButtons_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%menuChoice_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.menuChoice" label="%menuChoice_oracle_core_label">
+	         <content>
+	            %menuChoice_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%menuPath_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.menuPath" label="%menuPath_oracle_core_label">
+	         <content>
+	            %menuPath_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%menuTabs_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.menuTabs" label="%menuTabs_oracle_core_label">
+	         <content>
+	            %menuTabs_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%message_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.message" label="%message_oracle_core_label">
+	         <content>
+	            %message_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%messages_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.messages" label="%messages_oracle_core_label">
+	         <content>
+	            %messages_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%objectIcon_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.objectIcon" label="%objectIcon_oracle_core_label">
+	         <content>
+	            %objectIcon_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%objectImage_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.objectImage" label="%objectImage_oracle_core_label">
+	         <content>
+	            %objectImage_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%objectLegend_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.objectLegend" label="%objectLegend_oracle_core_label">
+	         <content>
+	            %objectLegend_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%objectMedia_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.objectMedia" label="%objectMedia_oracle_core_label">
+	         <content>
+	            %objectMedia_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%objectSeparator_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.objectSeparator" label="%objectSeparator_oracle_core_label">
+	         <content>
+	            %objectSeparator_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%objectSpacer_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.objectSpacer" label="%objectSpacer_oracle_core_label">
+	         <content>
+	            %objectSpacer_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%outputFormatted_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.outputFormatted" label="%outputFormatted_oracle_core_label">
+	         <content>
+	            %outputFormatted_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%outputLabel_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.outputLabel" label="%outputLabel_oracle_core_label">
+	         <content>
+	            %outputLabel_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%outputText_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.outputText" label="%outputText_oracle_core_label">
+	         <content>
+	            %outputText_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelBorder_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelBorder" label="%panelBorder_oracle_core_label">
+	         <content>
+	            %panelBorder_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelBox_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelBox" label="%panelBox_oracle_core_label">
+	         <content>
+	            %panelBox_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelButtonBar_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelButtonBar" label="%panelButtonBar_oracle_core_label">
+	         <content>
+	            %panelButtonBar_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelForm_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelForm" label="%panelForm_oracle_core_label">
+	         <content>
+	            %panelForm_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelGroup_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelGroup" label="%panelGroup_oracle_core_label">
+	         <content>
+	            %panelGroup_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelHeader_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelHeader" label="%panelHeader_oracle_core_label">
+	         <content>
+	            %panelHeader_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelLabelAndMessage_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelLabelAndMessage" label="%panelLabelAndMessage_oracle_core_label">
+	         <content>
+	            %panelLabelAndMessage_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelList_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelList" label="%panelList_oracle_core_label">
+	         <content>
+	            %panelList_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelPage_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelPage" label="%panelPage_oracle_core_label">
+	         <content>
+	            %panelPage_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelPageHeader_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelPageHeader" label="%panelPageHeader_oracle_core_label">
+	         <content>
+	            %panelPageHeader_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelPartialRoot_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelPartialRoot" label="%panelPartialRoot_oracle_core_label">
+	         <content>
+	            %panelPartialRoot_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelSideBar_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelSideBar" label="%panelSideBar_oracle_core_label">
+	         <content>
+	            %panelSideBar_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%panelTip_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.panelTip" label="%panelTip_oracle_core_label">
+	         <content>
+	            %panelTip_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%process_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.process" label="%process_oracle_core_label">
+	         <content>
+	            %process_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%processChoiceBar_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.processChoiceBar" label="%processChoiceBar_oracle_core_label">
+	         <content>
+	            %processChoiceBar_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%processTrain_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.processTrain" label="%processTrain_oracle_core_label">
+	         <content>
+	            %processTrain_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%resetButton_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.resetButton" label="%resetButton_oracle_core_label">
+	         <content>
+	            %resetButton_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectBooleanCheckbox_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectBooleanCheckbox" label="%selectBooleanCheckbox_oracle_core_label">
+	         <content>
+	            %selectBooleanCheckbox_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectBooleanRadio_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectBooleanRadio" label="%selectBooleanRadio_oracle_core_label">
+	         <content>
+	            %selectBooleanRadio_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectInputColor_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectInputColor" label="%selectInputColor_oracle_core_label">
+	         <content>
+	            %selectInputColor_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectInputDate_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectInputDate" label="%selectInputDate_oracle_core_label">
+	         <content>
+	            %selectInputDate_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectItem_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectItem" label="%selectItem_oracle_core_label">
+	         <content>
+	            %selectItem_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectManyListbox_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectManyListbox" label="%selectManyListbox_oracle_core_label">
+	         <content>
+	            %selectManyListbox_oracle_core_content
+	         </content>
+	      </item>
+	      
+	      <item description="%selectManyShuttle_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectManyShuttle" label="%selectManyShuttle_oracle_core_label">
+	         <content>
+	            %selectManyShuttle_oracle_core_content
+	         </content>
+	      </item>      
+	
+	      <item description="%selectOneChoice_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectOneChoice" label="%selectOneChoice_oracle_core_label">
+	         <content>
+	            %selectOneChoice_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectOneListbox_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectOneListbox" label="%selectOneListbox_oracle_core_label">
+	         <content>
+	            %selectOneListbox_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectOneRadio_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectOneRadio" label="%selectOneRadio_oracle_core_label">
+	         <content>
+	            %selectOneRadio_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectOrderShuttle_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectOrderShuttle" label="%selectOrderShuttle_oracle_core_label">
+	         <content>
+	            %selectOrderShuttle_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%selectRangeChoiceBar_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.selectRangeChoiceBar" label="%selectRangeChoiceBar_oracle_core_label">
+	         <content>
+	            %selectRangeChoiceBar_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%setActionListener_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.setActionListener" label="%setActionListener_oracle_core_label">
+	         <content>
+	            %setActionListener_oracle_core_content
+	         </content>
+	         <variable description="" id="from"/>         
+	         <variable description="" id="to"/>         
+	      </item> 
+	
+	      <item description="%showDetail_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.showDetail" label="%showDetail_oracle_core_label">
+	         <content>
+	            %showDetail_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%showDetailHeader_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.showDetailHeader" label="%showDetailHeader_oracle_core_label">
+	         <content>
+	            %showDetailHeader_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%showDetailItem_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.showDetailItem" label="%showDetailItem_oracle_core_label">
+	         <content>
+	            %showDetailItem_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%showOneTabs_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.showOneTabs" label="%showOneTabs_oracle_core_label">
+	         <content>
+	            %showOneTabs_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%singleStepButtonBar_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.singleStepButtonBar" label="%singleStepButtonBar_oracle_core_label">
+	         <content>
+	            %singleStepButtonBar_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%sortableHeader_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.sortableHeader" label="%sortableHeader_oracle_core_label">
+	         <content>
+	            %sortableHeader_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%styleSheet_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.styleSheet" label="%styleSheet_oracle_core_label">
+	         <content>
+	            %styleSheet_oracle_core_content
+	         </content>
+	      </item> 
+	
+	      <item description="%switcher_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.switcher" label="%switcher_oracle_core_label">
+	         <content>
+	            %switcher_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%table_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.table" label="%table_oracle_core_label">
+	         <content>
+	            %table_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%tableSelectMany_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.tableSelectMany" label="%tableSelectMany_oracle_core_label">
+	         <content>
+	            %tableSelectMany_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%tableSelectOne_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.tableSelectOne" label="%tableSelectOne_oracle_core_label">
+	         <content>
+	            %tableSelectOne_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%tree_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.tree" label="%tree_oracle_core_label">
+	         <content>
+	            %tree_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%treeTable_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.treeTable" label="%treeTable_oracle_core_label">
+	         <content>
+	            %treeTable_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%validateByteLength_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.validateByteLength" label="%validateByteLength_oracle_core_label">
+	         <content>
+	            %validateByteLength_oracle_core_content
+	         </content>
+	         <variable description="" id="encoding"/>         
+	         <variable description="" id="maximumBytes"/>         
+	      </item> 
+	
+	      <item description="%validateDateTimeRange_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.validateDateTimeRange" label="%validateDateTimeRange_oracle_core_label">
+	         <content>
+	            %validateDateTimeRange_oracle_core_content
+	         </content>
+	      </item>
+	
+	      <item description="%validateRegExp_oracle_core_desc" id="org.jboss.tools.jsf.oracle_core.validateRegExp" label="%validateRegExp_oracle_core_label">
+	         <content>
+	            %validateRegExp_oracle_core_content
+	         </content>
+	      </item>
+		</category>
+      
+      <!-- Oracle ADF Faces HTML --> 
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" description="" id="org.jboss.tools.jsf.category_oracle_html" label="%oracle_html_label">
+      
+	      <item description="%tag_lib_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.taglib" label="%tag_lib_oracle_html_label">
+	         <content>
+	            %tag_lib_oracle_html_content
+	         </content>
+	         <variable default="%tag_lib_oracle_html_uri" description="" id="uri"/>
+	         <variable default="%tag_lib_oracle_html_prefix" description="" id="prefix"/>
+	      </item>
+	
+	      <item description="%body_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.body" label="%body_oracle_html_label">
+	         <content>
+	            %body_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%cellFormat_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.cellFormat" label="%cellFormat_oracle_html_label">
+	         <content>
+	            %cellFormat_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%frame_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.frame" label="%frame_oracle_html_label">
+	         <content>
+	            %frame_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%frameBorderLayout_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.frameBorderLayout" label="%frameBorderLayout_oracle_html_label">
+	         <content>
+	            %frameBorderLayout_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%head_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.head" label="%head_oracle_html_label">
+	         <content>
+	            %head_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%html_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.html" label="%html_oracle_html_label">
+	         <content>
+	            %html_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%rowLayout_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.rowLayout" label="%rowLayout_oracle_html_label">
+	         <content>
+	            %rowLayout_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%script_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.script" label="%script_oracle_html_label">
+	         <content>
+	            %script_oracle_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%tableLayout_oracle_html_desc" id="org.jboss.tools.jsf.oracle_html.tableLayout" label="%tableLayout_oracle_html_label">
+	         <content>
+	            %tableLayout_oracle_html_content
+	         </content>
+	      </item>
+		</category>
+      <!-- JSP 2.0 --> 
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" description="" id="org.jboss.tools.jsf.category_jsp2" label="%jsp2_label">
+
+	      <item description="%declaration_jsp2_desc" id="org.jboss.tools.jsf.jsp2.declaration" label="%declaration_jsp2_label">
+	         <content>
+	            %declaration_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%expression_jsp2_desc" id="org.jboss.tools.jsf.jsp2.expression" label="%expression_jsp2_label">
+	         <content>
+	            %expression_jsp2_content
+	         </content>
+	      </item>		
+	      
+	      <item description="%scriptlet_jsp2_desc" id="org.jboss.tools.jsf.jsp2.scriptlet" label="%scriptlet_jsp2_label">
+	         <content>
+	            %scriptlet_jsp2_content
+	         </content>
+	      </item>		
+	
+	      <item description="%attribute_jsp2_desc" id="org.jboss.tools.jsf.jsp2.attribute" label="%attribute_jsp2_label">
+	         <content>
+	            %attribute_jsp2_content
+	         </content>
+	         <variable description="" id="name"/>          
+	      </item>
+	
+	      <item description="%include_jsp2_desc" id="org.jboss.tools.jsf.jsp2.include" label="%include_jsp2_label">
+	         <content>
+	            %include_jsp2_content
+	         </content>
+	         <variable description="" id="file"/>         
+	      </item>
+	
+	      <item description="%page_jsp2_desc" id="org.jboss.tools.jsf.jsp2.page" label="%page_jsp2_label">
+	         <content>
+	            %page_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%tag_jsp2_desc" id="org.jboss.tools.jsf.jsp2.tag" label="%tag_jsp2_label">
+	         <content>
+	            %tag_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%variable_jsp2_desc" id="org.jboss.tools.jsf.jsp2.variable" label="%variable_jsp2_label">
+	         <content>
+	            %variable_jsp2_content
+	         </content>
+	         <variable description="" id="name-given"/>          
+	      </item>
+	
+	      <item description="%jsp_attribute_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_attribute" label="%jsp_attribute_jsp2_label">
+	         <content>
+	            %jsp_attribute_jsp2_content
+	         </content>
+	         <variable description="" id="name"/>           
+	      </item>
+	
+	      <item description="%jsp_body_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_body" label="%jsp_body_jsp2_label">
+	         <content>
+	            %jsp_body_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%jsp_element_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_element" label="%jsp_element_jsp2_label">
+	         <content>
+	            %jsp_element_jsp2_content
+	         </content>
+	         <variable description="" id="name"/>          
+	      </item>
+	
+	      <item description="%jsp_doBody_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_doBody" label="%jsp_doBody_jsp2_label">
+	         <content>
+	            %jsp_doBody_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%jsp_doBody_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_doBody" label="%jsp_doBody_jsp2_label">
+	         <content>
+	            %jsp_doBody_jsp2_content
+	         </content>
+	      </item>      
+	
+	      <item description="%jsp_forward_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_forward" label="%jsp_forward_jsp2_label">
+	         <content>
+	            %jsp_forward_jsp2_content
+	         </content>
+	         <variable description="" id="page"/>          
+	      </item>
+	
+	      <item description="%jsp_getProperty_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_getProperty" label="%jsp_getProperty_jsp2_label">
+	         <content>
+	            %jsp_getProperty_jsp2_content
+	         </content>
+	         <variable description="" id="name"/>          
+	         <variable description="" id="property"/>                   
+	      </item>
+	
+	      <item description="%jsp_include_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_include" label="%jsp_include_jsp2_label">
+	         <content>
+	            %jsp_include_jsp2_content
+	         </content>
+	         <variable description="" id="page"/>          
+	      </item>
+	
+	      <item description="%jsp_invoke_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_invoke" label="%jsp_invoke_jsp2_label">
+	         <content>
+	            %jsp_invoke_jsp2_content
+	         </content>
+	         <variable description="" id="fragment"/>          
+	      </item>
+	
+	      <item description="%jsp_invoke_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_invoke" label="%jsp_invoke_jsp2_label">
+	         <content>
+	            %jsp_invoke_jsp2_content
+	         </content>
+	         <variable description="" id="fragment"/>          
+	      </item>
+	
+	      <item description="%jsp_output_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_output" label="%jsp_output_jsp2_label">
+	         <content>
+	            %jsp_output_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%jsp_plugin_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_plugin" label="%jsp_plugin_jsp2_label">
+	         <content>
+	            %jsp_plugin_jsp2_content
+	         </content>
+	         <variable description="" id="type"/>          
+	         <variable description="" id="code"/>
+	         <variable description="" id="codebase"/>                  
+	      </item>
+	
+	      <item description="%jsp_root_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_root" label="%jsp_root_jsp2_label">
+	         <content>
+	            %jsp_root_jsp2_content
+	         </content>
+	         <variable description="" id="version"/>          
+	      </item>
+	
+	      <item description="%jsp_setProperty_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_setProperty" label="%jsp_setProperty_jsp2_label">
+	         <content>
+	            %jsp_setProperty_jsp2_content
+	         </content>
+	         <variable description="" id="name"/>
+	         <variable description="" id="property"/>
+	         <variable description="" id="value"/>
+	      </item>
+	
+	      <item description="%jsp_text_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_text" label="%jsp_text_jsp2_label">
+	         <content>
+	            %jsp_text_jsp2_content
+	         </content>
+	      </item>
+	
+	      <item description="%jsp_useBean_jsp2_desc" id="org.jboss.tools.jsf.jsp2.jsp_useBean" label="%jsp_useBean_jsp2_label">
+	         <content>
+	            %jsp_useBean_jsp2_content
+	         </content>
+	         <variable description="" id="id"/>
+	         <variable description="" id="scope"/>
+	         <variable description="" id="beanName"/>         
+	         <variable description="" id="class"/>         
+	         <variable description="" id="type"/>         
+	      </item>
+	</category>
+	
+      <!-- Templates -->
+      <!-- HTML -->
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" id="org.jboss.tools.jsf.category_html" label="%html_label" description="">
+
+	      <item description="%bst_html_desc" id="org.jboss.tools.jsf.html.bst" label="%bst_html_label">
+	         <content>
+	            %bst_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%ift_html_desc" id="org.jboss.tools.jsf.html.ift" label="%ift_html_label">
+	         <content>
+	            %ift_html_content
+	         </content>
+	         <variable id="action" description=""/>         
+	      </item>
+	
+	      <item description="%ft_html_desc" id="org.jboss.tools.jsf.html.ft" label="%ft_html_label">
+	         <content>
+	            %ft_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%hft_html_desc" id="org.jboss.tools.jsf.html.hft" label="%hft_html_label">
+	         <content>
+	            %hft_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%nft_html_desc" id="org.jboss.tools.jsf.html.nft" label="%nft_html_label">
+	         <content>
+	            %nft_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%vft_html_desc" id="org.jboss.tools.jsf.html.vft" label="%vft_html_label">
+	         <content>
+	            %vft_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%alr_html_desc" id="org.jboss.tools.jsf.html.alr" label="%alr_html_label">
+	         <content>
+	            %alr_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%lss_html_desc" id="org.jboss.tools.jsf.html.lss" label="%lss_html_label">
+	         <content>
+	            %lss_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%rfl_html_desc" id="org.jboss.tools.jsf.html.rfl" label="%rfl_html_label">
+	         <content>
+	            %rfl_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%rtl_html_desc" id="org.jboss.tools.jsf.html.rtl" label="%rtl_html_label">
+	         <content>
+	            %rtl_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%dmt_html_desc" id="org.jboss.tools.jsf.html.dmt" label="%dmt_html_label">
+	         <content>
+	            %dmt_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%kmt_html_desc" id="org.jboss.tools.jsf.html.kmt" label="%kmt_html_label">
+	         <content>
+	            %kmt_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%red_p_html_desc" id="org.jboss.tools.jsf.html.red_p" label="%red_p_html_label">
+	         <content>
+	            %red_p_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%ref_p_html_desc" id="org.jboss.tools.jsf.html.ref_p" label="%ref_p_html_label">
+	         <content>
+	            %ref_p_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%rmt_html_desc" id="org.jboss.tools.jsf.html.rmt" label="%rmt_html_label">
+	         <content>
+	            %rmt_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%scs_html_desc" id="org.jboss.tools.jsf.html.scs" label="%scs_html_label">
+	         <content>
+	            %scs_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%sl_html_desc" id="org.jboss.tools.jsf.html.sl" label="%sl_html_label">
+	         <content>
+	            %sl_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%wc_html_desc" id="org.jboss.tools.jsf.html.wc" label="%wc_html_label">
+	         <content>
+	            %wc_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%def_sc_js_html_desc" id="org.jboss.tools.jsf.html.def_sc_js" label="%def_sc_js_html_label">
+	         <content>
+	            %def_sc_js_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%def_sc_tcl_html_desc" id="org.jboss.tools.jsf.html.def_sc_tcl" label="%def_sc_tcl_html_label">
+	         <content>
+	            %def_sc_tcl_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%def_sc_vb_html_desc" id="org.jboss.tools.jsf.html.def_sc_vb" label="%def_sc_vb_html_label">
+	         <content>
+	            %def_sc_vb_html_content
+	         </content>
+	      </item>
+	
+	      <item description="%tt_html_desc" id="org.jboss.tools.jsf.html.tt" label="%tt_html_label">
+	         <content>
+	            %tt_html_content
+	         </content>
+	      </item>
+	</category>
+      <!-- JSP -->
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" id="org.jboss.tools.jsf.category_jsp" label="%jsp_label" description="">
+
+	      <item description="%jsp_page_jsp_desc" id="org.jboss.tools.jsf.jsp.jsp_page" label="%jsp_page_jsp_label">
+	         <content>
+	            %jsp_page_jsp_content
+	         </content>
+	      </item>
+	  </category>
+
+      <!-- XForms -->
+      <category contenttypes="com.TODO.ibm.sse.model.jsp.jspsource" id="org.jboss.tools.jsf.category_xforms" label="%xforms_label" description="">
+
+	      <item description="%alert_xforms_desc" id="org.jboss.tools.jsf.xforms.alert" label="%alert_xforms_label">
+	         <content>
+	            %alert_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%check_b_xforms_desc" id="org.jboss.tools.jsf.xforms.check_b" label="%check_b_xforms_label">
+	         <content>
+	            %check_b_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%combo_b_xforms_desc" id="org.jboss.tools.jsf.xforms.combo_b" label="%combo_b_xforms_label">
+	         <content>
+	            %combo_b_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%help_xforms_desc" id="org.jboss.tools.jsf.xforms.help" label="%help_xforms_label">
+	         <content>
+	            %help_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%hint_xforms_desc" id="org.jboss.tools.jsf.xforms.hint" label="%hint_xforms_label">
+	         <content>
+	            %hint_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%list_xforms_desc" id="org.jboss.tools.jsf.xforms.list" label="%list_xforms_label">
+	         <content>
+	            %list_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%rad_but_xforms_desc" id="org.jboss.tools.jsf.xforms.rad_but" label="%rad_but_xforms_label">
+	         <content>
+	            %rad_but_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%sub_but_xforms_desc" id="org.jboss.tools.jsf.xforms.sub_but" label="%sub_but_xforms_label">
+	         <content>
+	            %sub_but_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%sub_img_xforms_desc" id="org.jboss.tools.jsf.xforms.sub_img" label="%sub_img_xforms_label">
+	         <content>
+	            %sub_img_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%sub_lnk_xforms_desc" id="org.jboss.tools.jsf.xforms.sub_lnk" label="%sub_lnk_xforms_label">
+	         <content>
+	            %sub_lnk_xforms_content
+	         </content>
+	      </item>
+	
+	      <item description="%upload_xforms_desc" id="org.jboss.tools.jsf.xforms.upload" label="%upload_xforms_label">
+	         <content>
+	            %upload_xforms_content
+	         </content>
+	      </item>
+	</category>      
+                 
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/jsf.meta">
+      </meta>
+      <meta path="meta/jsfcapabilities.meta">
+      </meta>
+      <meta path="meta/jsfprojects.meta">
+      </meta>
+      <meta path="meta/jsfwizards.meta">
+      </meta>
+   </extension>
+   <extension point="org.jboss.tools.common.model.keys">
+      <keys path="help/keys-jsf.properties">
+      </keys>
+   </extension>
+   <extension id="jsfnature" point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.jboss.tools.jsf.project.JSFNature">
+         </run>
+         <library name="$nl$/"/>         
+      </runtime>
+   </extension>
+   <extension point="org.eclipse.jdt.core.classpathVariableInitializer">
+      <classpathVariableInitializer class="org.jboss.tools.jsf.JSFStudioVariableInitializer" variable="JSFSTUDIO_LIB_HOME">
+      </classpathVariableInitializer>
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.jspAdopt">
+      <jspAdopt class="org.jboss.tools.jsf.model.handlers.JSPAdopt"/>
+   </extension>
+   
+   
+   	<extension
+		point="org.eclipse.wst.xml.core.catalogContributions">
+		<catalogContribution id="default">
+			<public
+				publicId="-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+				uri="dtds/web-facesconfig_1_0.dtd" />
+			<public
+				publicId="-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+				uri="dtds/web-facesconfig_1_1.dtd" />
+		</catalogContribution>
+	</extension>
+	
+   <extension
+         point="org.eclipse.ltk.core.refactoring.renameParticipants">
+      <renameParticipant
+            class="org.jboss.tools.jsf.model.handlers.bean.JSFRenameFieldParticipant"
+            id="org.jboss.tools.jsf.model.handlers.bean.JSFRenameFieldParticipant"
+            name="jsf-RenameFieldParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.jsf.jsfnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.jdt.core.IField"/>
+                   <instanceof value="org.jboss.tools.jsf.model.impl.ManagedPropertyObjectImpl"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+      <renameParticipant
+            class="org.jboss.tools.jsf.model.handlers.refactoring.JSFRenameFacesConfigParticipant"
+            id="org.jboss.tools.jsf.model.handlers.refactoring.JSFRenameFacesConfigParticipant"
+            name="jsf-RenameFacesConfigParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.jsf.jsfnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IFile"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+      <renameParticipant
+            class="org.jboss.tools.jsf.model.handlers.refactoring.JSFRenamePageParticipant"
+            id="org.jboss.tools.jsf.model.handlers.refactoring.JSFRenamePageParticipant"
+            name="jsf-RenamePageParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.jsf.jsfnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IFile"/>
+                   <instanceof value="org.jboss.tools.common.model.filesystems.impl.FileAnyImpl"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+      <renameParticipant
+            class="org.jboss.tools.jsf.model.handlers.refactoring.JSFRenameFolderParticipant"
+            id="org.jboss.tools.jsf.model.handlers.refactoring.JSFRenameFolderParticipant"
+            name="jsf-RenameFolderParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.jsf.jsfnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IFolder"/>
+                   <instanceof value="org.jboss.tools.common.model.filesystems.impl.FolderImpl"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+   </extension>
+
+   <extension
+         point="org.eclipse.ltk.core.refactoring.moveParticipants">
+      <moveParticipant
+            class="org.jboss.tools.jsf.model.handlers.refactoring.JSFMovePageParticipant"
+            id="org.jboss.tools.jsf.model.handlers.refactoring.JSFMovePageParticipant"
+            name="jsf-MovePageParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.jsf.jsfnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+               <instanceof value="org.eclipse.core.resources.IFile"/>
+            </with>
+         </enablement>
+      </moveParticipant>
+   </extension>
+
+   <extension
+         point="org.jboss.tools.common.model.resourceMapping">
+      <mapping
+          loader="org.jboss.tools.jsf.model.FacesConfigLoader"
+          priority="0"
+          kind="image"
+          paths="/jsf/"
+      />
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.jsf.model.AuxEntityRecognizer"
+			class="org.jboss.tools.jsf.model.AuxEntityRecognizer"/>
+		<xclass id="org.jboss.tools.jsf.model.FacesConfigFilteredTreeConstraint"
+			class="org.jboss.tools.jsf.model.FacesConfigFilteredTreeConstraint"/>
+		<xclass id="org.jboss.tools.jsf.model.FacesConfigLoader"
+			class="org.jboss.tools.jsf.model.FacesConfigLoader"/>
+		<xclass id="org.jboss.tools.jsf.model.FacesProcessImpl"
+			class="org.jboss.tools.jsf.model.FacesProcessImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.FileFacesConfigImpl"
+			class="org.jboss.tools.jsf.model.FileFacesConfigImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.JSFCommentObjectImpl"
+			class="org.jboss.tools.jsf.model.JSFCommentObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.JSFEntityRecognizer"
+			class="org.jboss.tools.jsf.model.JSFEntityRecognizer"/>
+		<xclass id="org.jboss.tools.jsf.model.ReferenceGroupImpl"
+			class="org.jboss.tools.jsf.model.ReferenceGroupImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.ReferenceObjectImpl"
+			class="org.jboss.tools.jsf.model.ReferenceObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddCaseToGroupHandler"
+			class="org.jboss.tools.jsf.model.handlers.AddCaseToGroupHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddNavigationCaseHandler"
+			class="org.jboss.tools.jsf.model.handlers.AddNavigationCaseHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddNavigationRuleHandler"
+			class="org.jboss.tools.jsf.model.handlers.AddNavigationRuleHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddRuleToGroupHandler"
+			class="org.jboss.tools.jsf.model.handlers.AddRuleToGroupHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AutolayoutTransitionHandler"
+			class="org.jboss.tools.jsf.model.handlers.AutolayoutTransitionHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.ChangeContentKindHandler"
+			class="org.jboss.tools.jsf.model.handlers.ChangeContentKindHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.ChangeValueKindHandler"
+			class="org.jboss.tools.jsf.model.handlers.ChangeValueKindHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"
+			class="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+			class="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DeleteGroupHandler"
+			class="org.jboss.tools.jsf.model.handlers.DeleteGroupHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DeleteManagedBeanHandler"
+			class="org.jboss.tools.jsf.model.handlers.DeleteManagedBeanHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DeleteOutputHandler" 
+			class="org.jboss.tools.jsf.model.handlers.DeleteOutputHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DeleteRuleHandler"
+			class="org.jboss.tools.jsf.model.handlers.DeleteRuleHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DiagramPasteHandler"
+			class="org.jboss.tools.jsf.model.handlers.DiagramPasteHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+			class="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.FacesConfigAdopt"
+			class="org.jboss.tools.jsf.model.handlers.FacesConfigAdopt"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.GroupAdopt"
+			class="org.jboss.tools.jsf.model.handlers.GroupAdopt"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.HiddenLinksHandler"
+			class="org.jboss.tools.jsf.model.handlers.HiddenLinksHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.JSFGroupRegirectHandler"
+			class="org.jboss.tools.jsf.model.handlers.JSFGroupRegirectHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
+			class="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"
+			class="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.JSPAdopt"
+			class="org.jboss.tools.jsf.model.handlers.JSPAdopt"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+			class="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.OpenPageHandler"
+			class="org.jboss.tools.jsf.model.handlers.OpenPageHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.OutputMoveHandler"
+			class="org.jboss.tools.jsf.model.handlers.OutputMoveHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.ProcessAdopt"
+			class="org.jboss.tools.jsf.model.handlers.ProcessAdopt"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.ProcessPasteHandler"
+			class="org.jboss.tools.jsf.model.handlers.ProcessPasteHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+			class="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.SelectOnDiagramHandler"
+			class="org.jboss.tools.jsf.model.handlers.SelectOnDiagramHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.SetApplicationHandler"
+			class="org.jboss.tools.jsf.model.handlers.SetApplicationHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.SetFactoryHandler"
+			class="org.jboss.tools.jsf.model.handlers.SetFactoryHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySafeHandler"
+			class="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySafeHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.bean.DeleteManagedPropertyHandler"
+			class="org.jboss.tools.jsf.model.handlers.bean.DeleteManagedPropertyHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.bean.RenameManagedBeanHandler"
+			class="org.jboss.tools.jsf.model.handlers.bean.RenameManagedBeanHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.bean.RenameManagedPropertyHandler"
+			class="org.jboss.tools.jsf.model.handlers.bean.RenameManagedPropertyHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.run.RunOnServerHandler"
+			class="org.jboss.tools.jsf.model.handlers.run.RunOnServerHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.tile.TilesFileRegistration"
+			class="org.jboss.tools.jsf.model.handlers.tile.TilesFileRegistration"/>
+		<xclass id="org.jboss.tools.jsf.model.helpers.pages.FilePathEncoder"
+			class="org.jboss.tools.jsf.model.helpers.pages.FilePathEncoder"/>
+		<xclass id="org.jboss.tools.jsf.model.helpers.pages.PagesTree"
+			class="org.jboss.tools.jsf.model.helpers.pages.PagesTree"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.AttributeObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.AttributeObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ComponentObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ComponentObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ConverterObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ConverterObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.EntriesObject"
+			class="org.jboss.tools.jsf.model.impl.EntriesObject"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.FacetObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.FacetObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.FactoryObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.FactoryObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.LifecycleObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.LifecycleObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ListEntryObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ListEntryObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ManagedBeanObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ManagedBeanObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ManagedPropertyObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ManagedPropertyObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.MapEntryObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.MapEntryObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.MessageBundleObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.MessageBundleObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.NavigationCaseObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.NavigationCaseObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.NavigationRulesObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.NavigationRulesObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.PhaseListenerObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.PhaseListenerObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.PropertyObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.PropertyObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ReferencedBeanObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ReferencedBeanObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.RenderKitObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.RenderKitObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.RendererObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.RendererObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.SupportedComponentClassObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.SupportedComponentClassObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.SupportedComponentTypeObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.SupportedComponentTypeObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.SupportedLocaleObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.SupportedLocaleObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.ValidatorObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.ValidatorObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectBean"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectBean"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectBeanMember"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectBeanMember"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectBeans"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectBeans"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectConfiguration"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectConfiguration"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectResourceBundles"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectResourceBundles"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectTagLibs"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectTagLibs"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectTiles"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectTiles"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectsRoot"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectsRoot"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectsTree"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectsTree"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectsTreeConstraint"
+			class="org.jboss.tools.jsf.model.pv.JSFProjectsTreeConstraint"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.JSFPromptingProvider"
+			class="org.jboss.tools.jsf.model.pv.JSFPromptingProvider"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.handler.JSFProjectsConfigurationRedirectHandler"
+			class="org.jboss.tools.jsf.model.pv.handler.JSFProjectsConfigurationRedirectHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
+			class="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"/>
+		<xclass id="org.jboss.tools.jsf.project.capabilities.JSFCapabilities"
+			class="org.jboss.tools.jsf.project.capabilities.JSFCapabilities"/>
+		<xclass id="org.jboss.tools.jsf.project.capabilities.JSFCapabilitiesLoader"
+			class="org.jboss.tools.jsf.project.capabilities.JSFCapabilitiesLoader"/>
+		<xclass id="org.jboss.tools.jsf.project.capabilities.AddJSFCapabilitiesSupport"
+			class="org.jboss.tools.jsf.project.capabilities.AddJSFCapabilitiesSupport"/>
+
+		<xclass id="org.jboss.tools.jsf.web.JSFTemplate"
+			class="org.jboss.tools.jsf.web.JSFTemplate"/>
+		<xclass id="org.jboss.tools.jsf.web.JSFWatcherContributor"
+			class="org.jboss.tools.jsf.web.JSFWatcherContributor"/>
+		<xclass id="org.jboss.tools.jsf.web.WebJSFModuleImpl"
+			class="org.jboss.tools.jsf.web.WebJSFModuleImpl"/>
+			
+		<xclass id="org.jboss.tools.jsf.model.handlers.bean.AddManagedBeanSupport"
+			class="org.jboss.tools.jsf.model.handlers.bean.AddManagedBeanSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"
+			class="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"
+			class="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddViewSupport"
+			class="org.jboss.tools.jsf.model.handlers.AddViewSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddEntrySupport"
+			class="org.jboss.tools.jsf.model.handlers.AddEntrySupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.ChangeToValueSupport"
+			class="org.jboss.tools.jsf.model.handlers.ChangeToValueSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.RenameViewSupport"
+			class="org.jboss.tools.jsf.model.handlers.RenameViewSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySupport"
+			class="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySupport"/>
+
+		<xclass id="org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"
+			class="org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"/>
+   </extension>
+
+</plugin>

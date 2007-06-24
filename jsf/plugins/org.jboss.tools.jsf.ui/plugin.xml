@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page category="org.jboss.tools.common.model.ui" class="org.jboss.tools.jsf.ui.preferences.JSFStudioPreferencesPage" id="org.jboss.tools.jsf.ui" name="JSF">
+      </page>
+      <page category="org.jboss.tools.jsf.ui" class="org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage" id="org.jboss.tools.jsf.ui.project" name="Project">
+      </page>
+      <page category="org.jboss.tools.jsf.ui" class="org.jboss.tools.jsf.ui.preferences.JSFImplementationsPreferencesPage" id="org.jboss.tools.jsf.ui.jsfimplementations" name="JSF Environment"/>
+      <page category="org.jboss.tools.jsf.ui" class="org.jboss.tools.jsf.ui.preferences.JSFPagesPreferencesPage" id="org.jboss.tools.jsf.ui.jsfpages" name="JSF Pages"/>
+      <page category="org.jboss.tools.common.model.ui" 
+            class="org.jboss.tools.jsf.ui.preferences.JSFCapabilitiesPreferencesPage" 
+            id="org.jboss.tools.jsf.ui.capabilities" 
+            name="Custom Capabilities"/>
+      <page
+            category="org.jboss.tools.common.xstudio.editors"
+            class="org.jboss.tools.jsf.ui.preferences.JSFFlowTabbedPreferencesPage"
+            id="org.jboss.tools.jsf.ui.jsfflowdiagram"
+            name="JSF Flow Diagram"/>
+   </extension>
+   
+   
+   <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
+      <xmlEditor class="org.jboss.tools.jsf.ui.editor.FacesConfigEditor" contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor" entities="FacesConfig,FacesConfig11,FacesConfig12" icon="images/xstudio/editors/jsf.gif" name="%editors.jsf.name">
+      </xmlEditor>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor"
+            default="true"
+            extensions="jsfdia"
+            icon="images/xstudio/editors/jsf.gif"
+            id="org.jboss.tools.jsf.ui.editor.AuxiliaryFileLauncher"
+            launcher="org.jboss.tools.jsf.ui.editor.AuxiliaryFileLauncher"
+            name="%editors.jsf.name">
+      </editor>
+   </extension>
+   <extension point="org.jboss.tools.common.model.ui.attributeAdapter">
+      <attributeAdapter class="org.jboss.tools.jsf.ui.attribute.adapter.RendererAttributeNameAdapter" id="RendererAttributeNameList">
+      </attributeAdapter>
+      <attributeAdapter class="org.jboss.tools.jsf.ui.attribute.adapter.JSFManagedPropertyNameAdapter" id="JSFManagedPropertyName">
+      </attributeAdapter>
+      <attributeAdapter class="org.jboss.tools.jsf.ui.attribute.adapter.DefaultRendererKitIdAdapter" id="DefaultRendererKitId">
+      </attributeAdapter>
+
+      <attributeAdapter class="org.jboss.tools.jsf.ui.attribute.adapter.JSFKnowledgeBaseAdapter" id="KnowledgeBase">
+      </attributeAdapter>
+
+   </extension>
+   <extension point="org.jboss.tools.common.model.ui.attributeEditor">
+      <attributeEditor class="org.jboss.tools.common.model.ui.attribute.editor.MultipleChoiceEditor" id="RendererAttributeNameList">
+      </attributeEditor>
+      <attributeEditor class="org.jboss.tools.common.model.ui.attribute.editor.ActiveEditor" id="JSFManagedPropertyName">
+      </attributeEditor>
+      <attributeEditor class="org.jboss.tools.common.model.ui.attribute.editor.ComboBoxEditor" id="DefaultRendererKitId">
+      </attributeEditor>
+
+      <attributeEditor class="org.jboss.tools.common.model.ui.attribute.editor.ActiveEditor" id="KnowledgeBase">
+      </attributeEditor>
+
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category id="org.jboss.tools.jsf" name="JSF" parentCategory="org.jboss.tools.jst.web">
+      </category>
+      <wizard category="org.jboss.tools.jst.web/org.jboss.tools.jsf" class="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard" icon="images/xstudio/wizards/jsf-config.gif" id="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard" name="Faces Config" project="false">
+         <selection class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+      <wizard category="org.jboss.tools.jst.web/org.jboss.tools.jsf" class="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard" finalPerspective="org.jboss.tools.jst.web.ui.RedHat4WebPerspective" icon="images/xstudio/wizards/new_jsf_project.gif" id="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard" name="%newProjectWizard.name" project="true">
+      </wizard>
+
+   </extension>
+   <extension point="org.eclipse.ui.importWizards">
+      <category 
+            id="org.jboss.tools.jsf" 
+            name="JSF" 
+            parentCategory="org.jboss.tools.jst.web">
+      </category>
+      <wizard 
+            category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
+            class="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
+            icon="images/xstudio/wizards/import_jsf_project.gif" 
+            id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
+            name="%importProjectWizard.name">
+         <description>Create a new Project from a JSF project in the file system. This does not copy the project to the workspace.</description>
+      </wizard>
+      <wizard 
+            category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
+            class="org.jboss.tools.jsf.ui.wizard.project.ImportJSFWarWizard" 
+            icon="images/xstudio/wizards/import_jsf_project.gif" 
+            id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
+            name="%importJSFWarWizard.name">
+         <description>Create a new Project from a JSF project in a WAR file. The content of WAR file will be copied to the workspace.</description>
+      </wizard>
+   </extension>
+   <extension point="org.eclipse.ui.popupMenus">
+<!-- IProject -->
+      <objectContribution id="JSF_IProject" objectClass="org.eclipse.core.resources.IProject">
+         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+            <separator name="a">
+            </separator>
+            <separator name="c">
+            </separator>
+            <separator name="d">
+            </separator>
+         </menu>
+         <action 
+               class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
+               enablesFor="*" id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
+               icon="images/xstudio/actions/add_jsf_nature.gif"
+               label="%popupMenus.action.addJSFNature" 
+               menubarPath="RedHat4Web/a">
+         </action>
+         <action 
+               class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
+               label="%popupMenus.action.removeJSFNature" 
+               menubarPath="RedHat4Web/d">
+         </action>
+         <action 
+               class="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
+               label="%popupMenus.action.addCustomCapabilities" 
+               menubarPath="RedHat4Web/d">
+         </action>
+         <!--action 
+               class="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
+               label="%popupMenus.action.unregisterFromServerXml" 
+               menubarPath="RedHat4Web/c">
+         </action-->
+         <!--action 
+               class="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
+               label="%popupMenus.action.registerInServerXml" 
+               menubarPath="RedHat4Web/c">
+         </action-->
+      </objectContribution>
+<!-- IJavaProject -->
+      <objectContribution id="JSF_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
+         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+            <separator name="a">
+            </separator>
+            <separator name="c">
+            </separator>
+            <separator name="d">
+            </separator>
+         </menu>
+         <action 
+               class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
+               enablesFor="*" 
+               icon="images/xstudio/actions/add_jsf_nature.gif"
+               id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
+               label="%popupMenus.action.addJSFNature" 
+               menubarPath="RedHat4Web/a">
+         </action>
+         <action 
+               class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
+               label="%popupMenus.action.removeJSFNature" 
+               menubarPath="RedHat4Web/d">
+         </action>
+         <!--action 
+               class="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportAction" 
+               enablesFor="*" 
+               id="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportAction" 
+               label="Add ADF Support" 
+               menubarPath="RedHat4Web/d">
+         </action-->
+         <action 
+               class="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
+               label="%popupMenus.action.addCustomCapabilities" 
+               menubarPath="RedHat4Web/d">
+         </action>
+         <!--action 
+               class="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
+               label="%popupMenus.action.unregisterFromServerXml" 
+               menubarPath="RedHat4Web/c">
+         </action-->
+         <!--action 
+               class="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
+               enablesFor="*" 
+               id="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
+               label="%popupMenus.action.registerInServerXml" 
+               menubarPath="RedHat4Web/c">
+         </action-->
+      </objectContribution>
+<!-- IFile -->
+      <objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
+         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+            <separator name="a">
+            </separator>
+            <separator name="d">
+            </separator>
+         </menu>
+      </objectContribution>
+   </extension>
+   <!--extension id="org.jboss.tools.jsf.ui.views" name="JSF Views" point="org.eclipse.ui.views">
+      <category id="jsf.views.category.id" name="%jsf.views.category.name">
+      </category>
+      <view category="jsf.views.category.id" class="org.jboss.tools.jsf.ui.navigator.JsfProjectsNavigator" icon="images/xstudio/perspective.gif" id="org.jboss.tools.jsf.ui.navigator.JsfProjectsView" name="%jsf.projects.navigator.name">
+      </view>
+   </extension-->
+   <extension point="org.jboss.tools.common.model.ui.paletteConstraints">
+      <editorType id="faces-config">
+      </editorType>
+      <natureType id="jsf">
+      </natureType>
+   </extension>
+   <extension point="org.jboss.tools.common.model.jspAdopt">
+      <jspAdopt class="org.jboss.tools.jsf.ui.adopt.JSPAdopt"/>
+   </extension>
+   <extension
+         point="org.eclipse.wst.common.frameworks.ui.wizardPageGroup">
+      <wizardPageGroup
+            allowsExtendedPagesAfter="true"
+            pageGroupID="PageGroupId"
+            pageGroupInsertionID="pageGroupInsertionId"
+            wizardID="org.eclipse.jst.servlet.ui.internal.wizard.WebComponentCreationWizard">
+         <factory className="com.exadel.experimental.Factory"/>
+      </wizardPageGroup>
+   </extension>
+
+   <extension
+         point="org.jboss.tools.common.model.resourceMapping">
+      <mapping
+          loader="org.jboss.tools.jsf.ui"
+          priority="1"
+          kind="class"
+          paths=".jsf."
+      />
+   </extension>
+   <!--extension
+         point="org.eclipse.wst.common.navigator.workbench.NavigatorGroup">
+      <navigatorGroup displayName="JSF Projects" natureID="org.jboss.tools.jsf.jsfnature"/>
+   </extension-->
+   <extension
+         point="org.jboss.tools.common.model.ui.InsertTagWizard">
+      <tag name="panelGrid" class="org.jboss.tools.jsf.ui.wizard.palette.PanelGridWizard"/>
+      <tag name="dataTable" class="org.jboss.tools.jsf.ui.wizard.palette.DataTableWizard"/>
+      <tag name="outputLink" class="org.jboss.tools.jsf.ui.wizard.palette.OutputLinkWizard"/>
+      <tag name="selectManyCheckbox" class="org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizard"/>
+      <tag name="selectManyMenu" class="org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizard"/>
+      <tag name="selectManyListbox" class="org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizard"/>
+      <tag name="selectOneRadio" class="org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizard"/>      
+      <tag name="selectOneMenu" class="org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizard"/>      
+      <tag name="selectOneListbox" class="org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizard"/>      
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.jsf.ui.JsfUiPlugin"
+			class="org.jboss.tools.jsf.ui.JsfUiPlugin"/>
+		<xclass id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate"
+			class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate"/>
+		<xclass id="org.jboss.tools.jsf.ui.action.CreateProjectAction"
+			class="org.jboss.tools.jsf.ui.action.CreateProjectAction"/>
+		<xclass id="org.jboss.tools.jsf.ui.action.ImportProjectAction"
+			class="org.jboss.tools.jsf.ui.action.ImportProjectAction"/>
+		<xclass id="org.jboss.tools.jsf.ui.action.handler.CreateJSFProjectHandler"
+			class="org.jboss.tools.jsf.ui.action.handler.CreateJSFProjectHandler"/>
+		<xclass id="org.jboss.tools.jsf.ui.action.handler.ImportJSFProjectHandler"
+			class="org.jboss.tools.jsf.ui.action.handler.ImportJSFProjectHandler"/>
+		<xclass id="org.jboss.tools.jsf.ui.adopt.JSPAdopt"
+			class="org.jboss.tools.jsf.ui.adopt.JSPAdopt"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.FacesConfigEditorMessages"
+			class="org.jboss.tools.jsf.ui.editor.FacesConfigEditorMessages"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"
+			class="org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.ManagedBeanPropertyForm"
+			class="org.jboss.tools.jsf.ui.editor.form.ManagedBeanPropertyForm"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.wizard.SelectItemWizard"
+			class="org.jboss.tools.jsf.ui.editor.wizard.SelectItemWizard"/>
+		<xclass id="org.jboss.tools.jsf.ui.navigator.JsfProjectsTreeListener"
+			class="org.jboss.tools.jsf.ui.navigator.JsfProjectsTreeListener"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanPropertyScreen"
+			class="org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanPropertyScreen"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenOne"
+			class="org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenOne"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenTwo"
+			class="org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenTwo"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.capabilities.AddCapabilitiesScreenOne"
+			class="org.jboss.tools.jsf.ui.wizard.capabilities.AddCapabilitiesScreenOne"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.capabilities.AddCapabilitiesScreenTwo"
+			class="org.jboss.tools.jsf.ui.wizard.capabilities.AddCapabilitiesScreenTwo"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard"
+			class="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard"/>
+		<xclass id="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
+			class="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"/>
+
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+			class="org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.ListEntries"
+			class="org.jboss.tools.jsf.ui.editor.form.ListEntries"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.MapEntries"
+			class="org.jboss.tools.jsf.ui.editor.form.MapEntries"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.ManagedBeanPropertyForm"
+			class="org.jboss.tools.jsf.ui.editor.form.ManagedBeanPropertyForm"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.ApplicationConfigForm"
+			class="org.jboss.tools.jsf.ui.editor.form.ApplicationConfigForm"/>
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"
+			class="org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"/>
+   </extension>
+
+</plugin>

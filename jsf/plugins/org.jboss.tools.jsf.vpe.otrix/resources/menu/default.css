@@ -1,0 +1,127 @@
+body, div, p, th, td, dd, code, tt {
+	font-family: Verdana, Geneva, Arial, Helvetica, Sans-Serif;
+	font-size: 80%;
+}
+
+body {
+	margin: 0;
+	padding: 0px;
+}
+
+/* no spaces between table cells */
+table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  empty-cells: show;
+}
+
+table td {
+  padding: 0px;
+}
+
+img {
+	border-width: 0px;
+}
+
+.page {
+	width: 100%;
+}
+
+.pageHeader {
+	background-color: #6699cc;
+	margin: 0px;
+	border-bottom: 1px solid white;
+	text-align: left;
+}
+
+.pageBody {
+	vertical-align: top;
+}
+
+.pageFooter {
+	background-color: #6699cc;
+	border-top: 1px solid white;
+	color: white;
+	font-size: 80%;
+	padding: 3px;
+	text-align: left;
+}
+
+.leftPanel {
+	border-right: 1px solid #CBCBCB;
+	border-bottom: 1px solid #CBCBCB;
+	padding: 0px;
+	text-align: left;
+	vertical-align: top;
+	width: 170px;
+}
+
+.leftPanel TD {
+}
+
+.leftPanel .title1 {
+	background-color: #CCCCCC;
+	border-bottom: 1px solid #999999;
+	border-top: 1px solid #999999;
+	display: block;
+	font-weight: bold;
+	padding: 10px 0px 10px 5px;
+}
+
+.leftPanel A {
+	border-bottom: 1px solid #CBCBCB;
+	display: block;
+	padding: 0 5 0 5;
+	color: black;
+	text-decoration: none;
+}
+
+.leftPanel A:hover {
+	text-decoration: underline;
+}
+
+.rightPanel {
+	text-align: left;
+	vertical-align: top;
+	width: 100%;
+}
+
+.rightPanel .breadcrumb {
+	background-color: #336699;
+	color: white;
+	display: block;
+	font-size: 150%;
+	font-weight: bold;
+	padding-bottom: 5px;		
+	padding-left: 10px;		
+	padding-top: 5px;
+}
+
+.rightPanel .component {
+	display: block;
+	margin: 20px;
+}
+
+.rightPanel .description {
+	border-top: 1px solid #999999;
+	display: block;
+	margin: 20 10 10 10;
+	padding: 10 0 0 0;
+	vertical-align: text-top;
+}
+
+.rightPanel .description A {
+	color: blue;
+}
+
+.grid {
+	
+}
+
+.grid td, th {
+	padding: 0 5 0 5;
+}
+
+.grid th {
+	border: 1px solid black;
+}

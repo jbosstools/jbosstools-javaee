@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/jsf-verification.meta">
+      </meta>
+   </extension>
+   
+   <extension point="org.jboss.tools.common.verification.rules">
+      <rule-set path="meta/.rule-sets.xml"/>
+   </extension>
+
+   <extension
+         point="org.jboss.tools.common.model.resourceMapping">
+      <mapping
+          loader="org.jboss.tools.jsf.verification"
+          priority="0"
+          kind="class"
+          paths=".jsf.verification."
+      />
+   </extension>
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.jsf.verification.vrules.BundleLoader"
+			class="org.jboss.tools.jsf.verification.vrules.BundleLoader"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.CheckContextParam"
+			class="org.jboss.tools.jsf.verification.vrules.CheckContextParam"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+			class="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.JSFCheckFromViewId"
+			class="org.jboss.tools.jsf.verification.vrules.JSFCheckFromViewId"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.JSFDefaultCheck"
+			class="org.jboss.tools.jsf.verification.vrules.JSFDefaultCheck"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckFromViewIdExists"
+			class="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckFromViewIdExists"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdEmpty"
+			class="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdEmpty"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdExists"
+			class="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdExists"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdSlash"
+			class="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdSlash"/>
+		<xclass id="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdStar"
+			class="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdStar"/>
+	</extension>
+
+</plugin>

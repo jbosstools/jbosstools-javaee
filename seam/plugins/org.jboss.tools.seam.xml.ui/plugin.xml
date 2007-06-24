@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category id="org.jboss.tools.seam" name="Seam" parentCategory="org.jboss.tools.jst.web">
+      </category>
+      <wizard 
+         category="org.jboss.tools.jst.web/org.jboss.tools.shale" 
+         class="org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard" 
+         icon="images/xstudio/wizards/seam-components.gif" 
+         id="org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard" 
+         name="Seam Components File" 
+         project="false">
+         <selection class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+   </extension>
+
+   <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
+      <xmlEditor 
+            class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
+            contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
+            entities="FileSeamComponents11,FileSeamComponents12" 
+            icon="images/xstudio/editors/seam-components.gif" 
+            name="%editors.spring-beans.name">
+      </xmlEditor>
+   </extension>
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+			class="org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"/>
+		<xclass id="org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+			class="org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"/>
+	</extension>
+
+</plugin>

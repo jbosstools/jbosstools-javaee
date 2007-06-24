@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FILESYSTEMS APPLICATION_NAME="numberguess" ENTITY="FileSystems"
+ VERSION="2.0.0" WORKSPACE_HOME="./web/WEB-INF">
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%redhat.workspace%" NAME="WEB-INF"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" INFO="Content-Type=Web"
+  LOCATION="%redhat.workspace%/.." NAME="WEB-ROOT"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%redhat.workspace%/classes" NAME="classes"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%redhat.workspace%/lib" NAME="lib"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%redhat.workspace%/lib/jboss-seam.jar" NAME="lib-jboss-seam.jar"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%eclipse.project%" NAME="numberguess"/>
+ <WEB ENTITY="JstWeb" MODEL_PATH="/web.xml" SERVLET_VERSION="2.4">
+  <MODULE ENTITY="WebJSFModule" ROOT="WEB-ROOT" URI="/WEB-INF/faces-config.xml"/>
+ </WEB>
+</FILESYSTEMS>

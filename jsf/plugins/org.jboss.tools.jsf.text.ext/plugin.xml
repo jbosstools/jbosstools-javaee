@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
+		id="org.jboss.tools.common.text.ext.jsf.hyperlinkPartitioner"
+		name="org.jboss.tools.common.text.ext.jsf.hyperlinkPartitioner">
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFXMLLinkHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFXMLLinkHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/navigation-rule/from-view-id/" />
+         			<axis path="/faces-config/navigation-rule/navigation-case/to-view-id/" />
+         			<axis path="/faces-config/*/icon/large-icon/" />
+         			<axis path="/faces-config/*/icon/small-icon/" />
+           		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- Web.xml -->
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/login-config/form-login-config/form-error-page/" />
+         			<axis path="/web-app/login-config/form-login-config/form-login-page/" />
+         			<axis path="/web-app/servlet/jsp-file/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/*/icon/large-icon/" />
+         			<axis path="/web-app/*/icon/small-icon/" />
+         			<axis path="/web-app/taglib/taglib-location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<!-- Web.xml -->
+         			
+         			<axis path="/faces-config/navigation-rule/from-view-id/" />
+         			<axis path="/faces-config/navigation-rule/navigation-case/to-view-id/" />
+         			<axis path="/faces-config/*/icon/large-icon/" />
+         			<axis path="/faces-config/*/icon/small-icon/" />
+           		</partitionType>
+           		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/web-app/*" />
+           		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- Web.xml -->
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/login-config/form-login-config/form-error-page/" />
+         			<axis path="/web-app/login-config/form-login-config/form-login-page/" />
+         			<axis path="/web-app/servlet/jsp-file/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/*/icon/large-icon/" />
+         			<axis path="/web-app/*/icon/small-icon/" />
+         			<axis path="/web-app/taglib/taglib-location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<!-- Web.xml -->
+         			
+         			<axis path="/faces-config/navigation-rule/from-view-id/" />
+         			<axis path="/faces-config/navigation-rule/navigation-case/to-view-id/" />
+         			<axis path="/faces-config/*/icon/large-icon/" />
+         			<axis path="/faces-config/*/icon/small-icon/" />
+           		</partitionType>
+           		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/web-app/*" />
+           		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFXMLContextParamLinkHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFXMLContextParamLinkHyperlinkPartitioner">
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/web-app/context-param/param-value/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/web-app/context-param/param-value/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.XMLClassHyperlinkPartitioner"
+         	class="org.jboss.tools.common.text.ext.hyperlink.xml.XMLClassHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/action-listener/" />
+         			<axis path="/faces-config/application/navigation-handler/" />
+         			<axis path="/faces-config/application/view-handler/" />
+         			<axis path="/faces-config/application/state-manager/" />
+         			<axis path="/faces-config/application/property-resolver/" />
+         			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/factory/application-factory/" />
+         			<axis path="/faces-config/factory/faces-context-factory/" />
+         			<axis path="/faces-config/factory/lifecycle-factory/" />
+         			<axis path="/faces-config/factory/render-kit-factory/" />
+         			<axis path="/faces-config/component/component-class/" />
+         			<axis path="/faces-config/render-kit/render-kit-class/" />
+         			<axis path="/faces-config/render-kit/renderer/renderer-class/" />
+         			<axis path="/faces-config/converter/converter-class/" />
+         			<axis path="/faces-config/converter/converter-for-class/" />
+         			<axis path="/faces-config/managed-bean/managed-bean-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/map-entries/key-class/" />
+         			<axis path="/faces-config/lifecycle/phase-listener/" />
+         			<axis path="/faces-config/validator/validator-class/" />
+         			<axis path="/faces-config/referenced-bean/referenced-bean-class/" />
+         			<axis path="/faces-config/*/attribute/attribute-class/" />
+         			<axis path="/faces-config/*/property-class/" />
+         			<axis path="/faces-config/*/value-class/" />
+           		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/action-listener/" />
+         			<axis path="/faces-config/application/navigation-handler/" />
+         			<axis path="/faces-config/application/view-handler/" />
+         			<axis path="/faces-config/application/state-manager/" />
+         			<axis path="/faces-config/application/property-resolver/" />
+         			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/factory/application-factory/" />
+         			<axis path="/faces-config/factory/faces-context-factory/" />
+         			<axis path="/faces-config/factory/lifecycle-factory/" />
+         			<axis path="/faces-config/factory/render-kit-factory/" />
+         			<axis path="/faces-config/component/component-class/" />
+         			<axis path="/faces-config/render-kit/render-kit-class/" />
+         			<axis path="/faces-config/render-kit/renderer/renderer-class/" />
+         			<axis path="/faces-config/converter/converter-class/" />
+         			<axis path="/faces-config/converter/converter-for-class/" />
+         			<axis path="/faces-config/managed-bean/managed-bean-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/map-entries/key-class/" />
+         			<axis path="/faces-config/lifecycle/phase-listener/" />
+         			<axis path="/faces-config/validator/validator-class/" />
+         			<axis path="/faces-config/referenced-bean/referenced-bean-class/" />
+         			<axis path="/faces-config/*/attribute/attribute-class/" />
+         			<axis path="/faces-config/*/property-class/" />
+         			<axis path="/faces-config/*/value-class/" />
+           		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/action-listener/" />
+         			<axis path="/faces-config/application/navigation-handler/" />
+         			<axis path="/faces-config/application/view-handler/" />
+         			<axis path="/faces-config/application/state-manager/" />
+         			<axis path="/faces-config/application/property-resolver/" />
+         			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/factory/application-factory/" />
+         			<axis path="/faces-config/factory/faces-context-factory/" />
+         			<axis path="/faces-config/factory/lifecycle-factory/" />
+         			<axis path="/faces-config/factory/render-kit-factory/" />
+         			<axis path="/faces-config/component/component-class/" />
+         			<axis path="/faces-config/render-kit/render-kit-class/" />
+         			<axis path="/faces-config/render-kit/renderer/renderer-class/" />
+         			<axis path="/faces-config/converter/converter-class/" />
+         			<axis path="/faces-config/converter/converter-for-class/" />
+         			<axis path="/faces-config/managed-bean/managed-bean-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/map-entries/key-class/" />
+         			<axis path="/faces-config/lifecycle/phase-listener/" />
+         			<axis path="/faces-config/validator/validator-class/" />
+         			<axis path="/faces-config/referenced-bean/referenced-bean-class/" />
+         			<axis path="/faces-config/*/attribute/attribute-class/" />
+         			<axis path="/faces-config/*/property-class/" />
+         			<axis path="/faces-config/*/value-class/" />
+           		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.XMLPropertyHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.XMLPropertyHyperlinkPartitioner">
+          	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+        		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/component/property/property-name/" />
+         			<axis path="/faces-config/converter/property/property-name/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-name/" />
+         			<axis path="/faces-config/validator/property/property-name/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/component/property/property-name/" />
+         			<axis path="/faces-config/converter/property/property-name/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-name/" />
+         			<axis path="/faces-config/validator/property/property-name/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/component/property/property-name/" />
+         			<axis path="/faces-config/converter/property/property-name/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-name/" />
+         			<axis path="/faces-config/validator/property/property-name/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.XMLRenderKitHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.XMLRenderKitHyperlinkPartitioner">
+          	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/default-render-kit-id/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/default-render-kit-id/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/default-render-kit-id/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.XMLConverterHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.XMLConverterHyperlinkPartitioner">
+          	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/converter/converter-id/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/converter/converter-id/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/converter/converter-id/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.XMLBundleBasenameHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.XMLBundleBasenameHyperlinkPartitioner">
+          	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/message-bundle/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/message-bundle/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/message-bundle/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFJSPLinkHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFJSPLinkHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPXmlNsHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPXmlNsHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_XMLNS" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_XMLNS" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPNavigationCaseHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPNavigationCaseHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/action/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandLink/action/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/action/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandLink/action/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/action/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandLink/action/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/action/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandLink/action/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPConverterHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPConverterHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:converter/converterId/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputHidden/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputSecret/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputText/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputTextarea/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputFormat/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLink/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputText/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectBooleanCheckbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/converter/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputHidden/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputSecret/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputText/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputTextarea/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputFormat/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLink/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputText/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectBooleanCheckbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyListbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyMenu/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneListbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneMenu/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/converter/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:converter/converterId/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputHidden/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputSecret/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputText/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputTextarea/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputFormat/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLink/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputText/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectBooleanCheckbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/converter/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputHidden/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputSecret/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputText/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputTextarea/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputFormat/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLink/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputText/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectBooleanCheckbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyListbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyMenu/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneListbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneMenu/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/converter/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPValidatorHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPValidatorHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:validator/validatorId/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:validator/validatorId/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPForIDHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPForIDHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/for/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:message/for/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/for/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:message/for/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/for/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:message/for/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/for/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:message/for/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPCSSClassHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPCSSClassHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/[http://java.sun.com/jsf/html]:commandButton/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:commandLink/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/columnClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/footerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/headerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/rowClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/styleClass/" /> 
+
+					<axis path="*/[http://java.sun.com/jsf/html]:form/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/enabledClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:inputSecret/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:inputText/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:inputTextarea/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:message/errorClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:message/fatalClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:message/infoClass/" />
+         			
+					<axis path="*/[http://java.sun.com/jsf/html]:message/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:message/warnClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/errorClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/fatalClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/infoClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/warnClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputFormat/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputLink/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputText/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/columnClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/footerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/headerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/rowClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGroup/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectBooleanCheckbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/enabledClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/enabledClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/enabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/styleClass/" />
+
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:commandLink/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/columnClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/footerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/headerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/rowClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/styleClass/" /> 
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:form/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/disabledClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/enabledClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:inputSecret/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:inputText/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:inputTextarea/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/errorClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/fatalClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/infoClass/" />
+         			
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/warnClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/errorClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/fatalClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/infoClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/warnClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputFormat/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLink/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputText/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/columnClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/footerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/headerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/rowClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGroup/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectBooleanCheckbox/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyListbox/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/enabledClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyMenu/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneListbox/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/enabledClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneMenu/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/disabledClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/enabledClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/styleClass/" />
+
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/[http://java.sun.com/jsf/html]:commandButton/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:commandLink/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/columnClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/footerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/headerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/rowClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:dataTable/styleClass/" /> 
+
+					<axis path="*/[http://java.sun.com/jsf/html]:form/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/enabledClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:inputSecret/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:inputText/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:inputTextarea/styleClass/" />
+
+					<axis path="*/[http://java.sun.com/jsf/html]:message/errorClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:message/fatalClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:message/infoClass/" />
+         			
+					<axis path="*/[http://java.sun.com/jsf/html]:message/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:message/warnClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/errorClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/fatalClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/infoClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/styleClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:messages/warnClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputFormat/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputLink/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:outputText/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/columnClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/footerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/headerClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/rowClasses/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGrid/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:panelGroup/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectBooleanCheckbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/styleClass/" />
+					
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/disabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/enabledClass/" />
+					<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:commandLink/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/columnClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/footerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/headerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/rowClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:dataTable/styleClass/" /> 
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:form/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/disabledClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/enabledClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:inputSecret/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:inputText/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:inputTextarea/styleClass/" />
+
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/errorClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/fatalClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/infoClass/" />
+         			
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:message/warnClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/errorClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/fatalClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/infoClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/styleClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:messages/warnClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputFormat/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLink/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:outputText/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/columnClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/footerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/headerClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/rowClasses/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGrid/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:panelGroup/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectBooleanCheckbox/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyListbox/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyMenu/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneListbox/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneMenu/styleClass/" />
+					
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/disabledClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/enabledClass/" />
+					<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/styleClass/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
+         		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
+         		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
+         		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
+         		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPBeanHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPBeanHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPLoadBundleHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPLoadBundleHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<!--axis path="*/[http://java.sun.com/jsf/core]:loadBundle/basename/" /-->
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<!--axis path="*/[http://java.sun.com/jsf/core]:loadBundle/basename/" /-->
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPBundleHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPBundleHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPClassHyperlinkPartitioner"
+         	class="org.jboss.tools.common.text.ext.hyperlink.jsp.JSPClassHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:valueChangeListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:valueChangeListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPForwardHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPForwardHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/image/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/value/" />
+   			<axis path="*/img/src/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/url/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/image/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/value/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/url/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/image/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/value/" />
+   			<axis path="*/img/src/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/url/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/image/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/value/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/url/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+         
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfTaglibDirectiveHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfTaglibDirectiveHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
+         	</contentType>
+		</hyperlinkPartitioner>
+         
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPTagAttributeHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagAttributeHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPTagNameHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+	</extension>	
+
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlink"
+		id="org.jboss.tools.common.text.ext.jsf.hyperlink"
+		name="org.jboss.tools.common.text.ext.jsf.hyperlink">
+
+		<!-- Web.inf File -->
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JSFContextParamLinkHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFContextParamLinkHyperlink">
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
+			</contenttypeidentifier>
+		</hyperlink>
+		<!-- Web.inf File -->
+  
+		<hyperlink 
+      		class="org.jboss.tools.jsf.text.ext.hyperlink.JSFLinkHyperlink" 
+      		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFLinkHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.PropertyHyperlink" 
+      		id="org.jboss.tools.common.text.ext.jsf.hyperlink.PropertyHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.RenderKitHyperlink" 
+      		id="org.jboss.tools.common.text.ext.jsf.hyperlink.RenderKitHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.BeanHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.BeanHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BEAN" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BEAN" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.LoadBundleHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.LoadBundleHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_LOADBUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_LOADBUNDLE" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.BundleHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.BundleHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.BundleBasenameHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.BundleBasenameHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.ForwardHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.ForwardHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FORWARD" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource"> 
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FORWARD" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.NavigationCaseHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.NavigationCaseHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
+			</contenttypeidentifier>
+		</hyperlink>
+      
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.ConverterHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.ConverterHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.ValidatorHyperlink" 
+      		id="org.jboss.tools.common.text.ext.jsf.hyperlink.ValidatorHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_VALIDATOR" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_VALIDATOR" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.ForIDHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.ForIDHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FOR_ID" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FOR_ID" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<!-- Faces Config File -->
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.PropertyHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.PropertyHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+		</hyperlink>
+		<!-- Faces Config File -->
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JSFLinkHyperlink" 
+	  		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFLinkHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_LINK" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPXmlNsHyperlink" 
+	  		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPXmlNsHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_XMLNS" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_XMLNS" />
+			</contenttypeidentifier>
+		</hyperlink>
+	
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfTaglibDirectiveHyperlink" 
+    		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfTaglibDirectiveHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAGLIB_DIRECTIVE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAGLIB_DIRECTIVE" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagAttributeHyperlink" 
+    		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPTagAttributeHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_ATTRIBUTE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_ATTRIBUTE" />
+			</contenttypeidentifier>
+		</hyperlink>
+	
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlink" 
+    		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPTagNameHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME" />
+			</contenttypeidentifier>
+		</hyperlink>
+
+	</extension>
+
+</plugin>

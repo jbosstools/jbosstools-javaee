@@ -1,0 +1,524 @@
+<tests>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/web.xml"/>
+	</test>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config.xml"/>
+	</test>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config.xml/application"/>
+	</test>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config.xml/application/demo.bundle.Messages"/>
+	</test>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.PropertyResolverImpl"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config.xml/Navigation Rules"/>
+	</test>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config.xml/Navigation Rules/rules:#pages#inputname.jsp:0"/>
+	</test>
+	
+	<!-- Test application -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="attributeName" value="action-listener"/>
+		<property name="attributeValue" value="demo.ActionListenerImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="attributeName" value="default-render-kit-id"/>
+		<property name="attributeValue" value="myRenderKit"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="attributeName" value="navigation-handler"/>
+		<property name="attributeValue" value="com.sun.faces.application.NavigationHandlerImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="attributeName" value="view-handler"/>
+		<property name="attributeValue" value="com.sun.faces.application.ViewHandlerImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="attributeName" value="state-manager"/>
+		<property name="attributeValue" value="com.sun.faces.application.StateManagerImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.PropertyResolverImpl"/>
+		<property name="attributeName" value="class name"/>
+		<property name="attributeValue" value="com.sun.faces.el.PropertyResolverImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.PropertyResolverImpl"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="property-resolver"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.VariableResolverImpl"/>
+		<property name="attributeName" value="class name"/>
+		<property name="attributeValue" value="com.sun.faces.el.VariableResolverImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.VariableResolverImpl"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="variable-resolver"/>
+	</test>
+	
+	<!-- Test locale config -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application/Locale Config"/>
+		<property name="attributeName" value="default-locale"/>
+		<property name="attributeValue" value="en_US"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/application/Locale Config/ru"/>
+		<property name="attributeName" value="supported-locale"/>
+		<property name="attributeValue" value="ru"/>
+	</test>
+	
+	
+	<!-- Test component -->
+
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="component"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1"/>
+		<property name="attributeName" value="component-type"/>
+		<property name="attributeValue" value="c1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Component Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Component c1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1"/>
+		<property name="attributeName" value="component-class"/>
+		<property name="attributeValue" value="javax.faces.component.UICommand"/>
+	</test>
+
+	<!-- Test facet -->
+
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="facet"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="attributeName" value="facet-name"/>
+		<property name="attributeValue" value="f1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Facet f1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Facet Example."/>
+	</test>
+	
+	<!-- Test component attribute -->
+
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="attribute"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="attribute-name"/>
+		<property name="attributeValue" value="a1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="attribute-class"/>
+		<property name="attributeValue" value="java.lang.String"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="default-value"/>
+		<property name="attributeValue" value="v1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="suggested-value"/>
+		<property name="attributeValue" value="v2"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Attribute a1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/a1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Attribute Example."/>
+	</test>
+
+	<!-- Test component property -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="property"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="property-name"/>
+		<property name="attributeValue" value="p1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="property-class"/>
+		<property name="attributeValue" value="java.lang.Integer"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="default-value"/>
+		<property name="attributeValue" value="1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="suggested-value"/>
+		<property name="attributeValue" value="2"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Property p1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Components/c1/p1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Property Example."/>
+	</test>
+
+	<!-- Test converter -->
+
+	<!-- b. test converter declared by 'converter-id' attribute -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="converter"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1"/>
+		<property name="attributeName" value="converter-id"/>
+		<property name="attributeValue" value="c1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1"/>
+		<property name="attributeName" value="converter-class"/>
+		<property name="attributeValue" value="javax.faces.convert.LongConverter"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Converter Example."/>
+	</test>
+	<!-- check attribute and property child elements in converter -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1/a2"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="attribute"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1/p2"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="property"/>
+	</test>
+	<!-- b. test converter declared by 'converter-for-class' attribute -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/demo.B"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="converter"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/demo.B"/>
+		<property name="attributeName" value="converter-for-class"/>
+		<property name="attributeValue" value="demo.B"/>
+	</test>
+	
+	<!-- Test Render Kit -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="render-kit"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
+		<property name="attributeName" value="render-kit-id"/>
+		<property name="attributeValue" value="myRenderKit"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
+		<property name="attributeName" value="render-kit-class"/>
+		<property name="attributeValue" value="com.sun.faces.renderkit.RenderKitImpl"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Render Kit Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Render Kit myRenderKit"/>
+	</test>
+	
+	<!-- Test Renderer -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="renderer"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="attributeName" value="renderer-type"/>
+		<property name="attributeValue" value="r1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="attributeName" value="renderer-class"/>
+		<property name="attributeValue" value="com.sun.faces.renderkit.html_basic.ButtonRenderer"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Renderer Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Renderer r1"/>
+	</test>
+	<!-- check child elements in renderer -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1/f3"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="facet"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1/a3"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="attribute"/>
+	</test>
+
+	<!-- Test Validator -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="validator"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1"/>
+		<property name="attributeName" value="validator-id"/>
+		<property name="attributeValue" value="v1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1"/>
+		<property name="attributeName" value="validator-class"/>
+		<property name="attributeValue" value="javax.faces.validator.LengthValidator"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Validator Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Validator v1"/>
+	</test>
+	<!-- check child elements in validator -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1/a4"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="attribute"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Validators/v1/p4"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="property"/>
+	</test>
+	
+	<!-- Test Managed Beans -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="managed-bean"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="attributeName" value="managed-bean-class"/>
+		<property name="attributeValue" value="demo.NameBean"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="attributeName" value="managed-bean-scope"/>
+		<property name="attributeValue" value="session"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Input Value Holder"/>
+	</test>
+	
+	<!-- Test Managed Property -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean/userName"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="managed-property"/>
+	</test>
+	
+	<!-- Test list-values -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean/aliases/Entries"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="list-entries"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean/aliases/Entries"/>
+		<property name="attributeName" value="value-class"/>
+		<property name="attributeValue" value="java.lang.String"/>
+	</test>
+	
+	<!-- Test Tag Library 2.0 -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="tag library descriptor"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Listeners/org.example.Listener1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="listener"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Validator"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="validator"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Validator"/>
+		<property name="attributeName" value="validator-class"/>
+		<property name="attributeValue" value="org.example.Validator1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Validator"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Validator Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Validator/p1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="parameter"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Validator/p1"/>
+		<property name="attributeName" value="param-value"/>
+		<property name="attributeValue" value="v1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="tag"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1"/>
+		<property name="attributeName" value="tagclass"/>
+		<property name="attributeValue" value="org.example.Tag1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1"/>
+		<property name="attributeName" value="bodycontent"/>
+		<property name="attributeValue" value="empty"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="Tag 1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Tag Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/variable:var1"/>
+		<property name="attributeName" value="name-given"/>
+		<property name="attributeValue" value="var1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/variable:var1"/>
+		<property name="attributeName" value="variable-class"/>
+		<property name="attributeValue" value="java.lang.String"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/variable:var1"/>
+		<property name="attributeName" value="scope"/>
+		<property name="attributeValue" value="AT_BEGIN"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/a1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="attribute"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/a1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Attribute Example."/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/a1"/>
+		<property name="attributeName" value="required"/>
+		<property name="attributeValue" value="false"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/a1"/>
+		<property name="attributeName" value="rtexprvalue"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/tag1/a2"/>
+		<property name="attributeName" value="fragment"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Functions/f1"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="function"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Functions/f1"/>
+		<property name="attributeName" value="function-class"/>
+		<property name="attributeValue" value="java.lang.String"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Functions/f1"/>
+		<property name="attributeName" value="function-signature"/>
+		<property name="attributeValue" value="x()"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/example.tld/Functions/f1"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Function Example."/>
+	</test>
+	
+
+</tests>

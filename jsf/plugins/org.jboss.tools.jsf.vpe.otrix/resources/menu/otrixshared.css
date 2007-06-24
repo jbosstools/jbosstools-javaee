@@ -1,0 +1,107 @@
+/*=======================================================*/
+/*                  COMMON TO ALL PRODUCTS               */ 
+/*=======================================================*/
+.otrixDisabled, .otrixDisabled A {
+	color: silver;
+	cursor: text;	
+	text-decoration: none;
+}
+
+/*=======================================================*/
+/*                	PAGER CONTROL                        */ 
+/*=======================================================*/
+/*                	THEME NONE							 */ 
+.otrixPager_none {
+}
+.otrixPager_none td {
+}
+/* css applied to a pageIndex (link) inside a pager */
+.otrixPagerLink_none {
+}
+/* css applied to a pageIndex (link) inside a pager when the mouse cursor is moving over it */
+.otrixPagerLinkHover_none {
+}
+/* css applied to a pageIndex (link) inside a pager when selected */
+.otrixPagerLinkSelected_none {
+}
+
+/*=======================================================*/
+/*                	THEME CLASSIC  						 */ 
+/*=======================================================*/
+.otrixPager_classic {
+}
+.otrixPager_classic td {
+	padding: 2px;
+}
+/* css applied to a pageIndex (link) inside a pager */
+.otrixPagerLink_classic {
+	color: black;
+	text-decoration: underline;
+}
+/* css applied to a pageIndex (link) inside a pager when the mouse cursor is moving over it */
+.otrixPagerLinkHover_classic {
+	color: blue;
+	text-decoration: underline;
+}
+/* css applied to a pageIndex (link) inside a pager when selected */
+.otrixPagerLinkSelected_classic {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/*=======================================================*/
+/*                	THEME OFFICEXP 						 */ 
+/*=======================================================*/
+.otrixPager_officexp {
+}
+.otrixPager_officexp td {
+	padding: 2px;
+}
+/* css applied to a pageIndex (link) inside a pager */
+.otrixPagerLink_officexp {
+	color: black;
+	text-decoration: none;
+	padding: 1px;
+}
+
+/* css applied to a pageIndex (link) inside a pager when the mouse cursor is moving over it */
+.otrixPagerLinkHover_officexp {
+	background-color: #ccccff;
+	border: 1px solid #3366cc;
+	padding: 0px;
+}
+/* css applied to a pageIndex (link) inside a pager when selected */
+.otrixPagerLinkSelected_officexp {
+	color: black;
+	text-decoration: none;
+	padding: 1px;
+	font-weight: bold;
+}
+
+/*=======================================================*/
+/*                	THEME WINXP 						 */ 
+/*=======================================================*/
+.otrixPager_winxp {
+}
+.otrixPager_winxp td {
+	padding: 2px;
+}
+/* css applied to a pageIndex (link) inside a pager */
+.otrixPagerLink_winxp {
+	color: black;
+	text-decoration: none;
+}
+
+/* css applied to a pageIndex (link) inside a pager when the mouse cursor is moving over it */
+.otrixPagerLinkHover_winxp {
+	color: blue;
+	text-decoration: underline;
+}
+/* css applied to a pageIndex (link) inside a pager when selected */
+.otrixPagerLinkSelected_winxp {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}
+

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="FilteredTreeConstraints">
+   <PAIR name="JSFProjects$1" value="org.jboss.tools.jsf.model.pv.JSFProjectsTreeConstraint"/>
+  </MAPPING>
+  <MAPPING name="FilteredTrees">
+   <PAIR name="JSFProjects" value="org.jboss.tools.jsf.model.pv.JSFProjectsTree"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action">
+   <GROUP name="new">
+    <GROUP name="jsf"/>
+    <ICON name="importProject" path="images/jsf/new_project.gif"/>
+    <ICON name="jsfProject" path="images/jsf/new_project.gif"/>
+   </GROUP>
+  </GROUP>
+  <GROUP name="main">
+   <GROUP name="jsf">
+    <ICON name="project" path="images/jsf/jsf_project.gif"/>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectBean" name="JSFProjectBean">
+  <XChildrenEntities>
+   <XChildEntity name="JSFProjectBeanProperty"/>
+   <XChildEntity name="JSFProjectBeanMethod"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.file.java_file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="bean" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="class name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=class name" displayName="Open" kind="action" name="Open"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectBeanMember" name="JSFProjectBeanMethod">
+  <XChildrenEntities>
+   <XChildEntity name="JSFProjectBeanProperty"/>
+   <XChildEntity name="JSFProjectBeanMethod"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.methods.java" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="method" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="class name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HIDE="always"
+     HandlerClassName="%Copy%" ICON="action.copy" displayName="Copy"
+     kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectBeanMember" name="JSFProjectBeanProperty">
+  <XChildrenEntities>
+   <XChildEntity name="JSFProjectBeanProperty"/>
+   <XChildEntity name="JSFProjectBeanMethod"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="class name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute default="property" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HIDE="always"
+     HandlerClassName="%Copy%" ICON="action.copy" displayName="Copy"
+     kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectBeans" name="JSFProjectBeans">
+  <XChildrenEntities>
+   <XChildEntity name="JSFProjectBean"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.file.folder" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="Beans" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectConfiguration" name="JSFProjectConfiguration">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.file.folder" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="Configuration" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.newattribute" displayName="File"
+     kind="list" name="CreateFiles">
+     <XActionItem displayName="JSF" kind="list" name="JSF">
+      <XActionItem
+       HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsConfigurationRedirectHandler"
+       ICON="action.new.jsf.faces-config"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/JSF/CreateFacesConfig"
+       displayName="Faces Config" kind="action" name="CreateFacesConfig"/>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectResourceBundles" name="JSFProjectResourceBundles">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.file.folder" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="Resource Bundles" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.newattribute" displayName="File"
+     kind="list" name="CreateFiles">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsResourceRedirectHandler"
+      ICON="action.new.file.unknow_file"
+      PROPERTIES="actionpath=CreateActions/CreateFiles/Common/CreateFileProperties"
+      displayName="Properties File..." kind="action" name="CreateFileProperties"/>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectTagLibs" name="JSFProjectTagLibs">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.file.folder" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="Tag Libraries" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.newattribute" displayName="File"
+     kind="list" name="CreateFiles">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
+      ICON="main.tld.taglib"
+      PROPERTIES="actionpath=CreateActions/CreateFiles/Web/CreateFileTLD"
+      displayName="Tag Library..." kind="action" name="CreateFileTLD"/>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectTiles" name="JSFProjectTiles">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.file.folder" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="Tiles" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
+    <XActionItem displayName="File" kind="list" name="CreateFiles">
+     <XActionItem displayName="Struts" kind="list" name="Struts">
+      <XActionItem
+       HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
+       ICON="action.new.web.tiles.file"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateTiles"
+       displayName="Tiles..." kind="action" name="CreateTiles"/>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.pv.JSFProjectsRoot" name="JSFProjectsRoot">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="JSFProjectTagLibs" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFProjectResourceBundles" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFProjectConfiguration" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFProjectBeans" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFProjectTiles" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.project" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="JSFProjects" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="Red Hat Developer Studio JSF"
+    group="1" kind="list" name="JSFStudio">
+    <XActionItem kind="list" name="Registration">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.jst.web.model.handlers.ServerXmlRedirectHandler"
+      ICON="action.empty"
+      PROPERTIES="actionpath=Registration/RegisterInServerXML"
+      displayName="Register Web Context in server.xml" kind="action" name="RegisterInServerXML"/>
+     <XActionItem
+      HandlerClassName="org.jboss.tools.jst.web.model.handlers.ServerXmlRedirectHandler"
+      ICON="action.empty"
+      PROPERTIES="actionpath=Registration/UnregisterInServerXML"
+      displayName="Unregister Web Context from server.xml" kind="action" name="UnregisterInServerXML"/>
+     <XActionItem kind="list" name="Separator1"/>
+    </XActionItem>
+    <XActionItem kind="list" name="CreateActions">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.jst.web.project.handlers.CreateTemplateFromProjectHandler"
+      ICON="action.empty" displayName="Save As Template..." kind="action" name="SaveAsTemplate"/>
+    </XActionItem>
+    <XActionItem kind="list" name="Separator"/>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
+     ICON="action.empty"
+     PROPERTIES="actionpath=EclipseActions/RemoveModelNature"
+     displayName="Remove JSF Capabilities" kind="action" name="RemoveJSFNature"/>
+    <XActionItem kind="list" name="RootVerifyActions">
+     <XActionItem BaseActionName="VerifyAll" HIDE="disabled"
+      HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
+      ICON="action.vrules.verify"
+      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
+      displayName="Verify" kind="action" name="VerifyAll"/>
+    </XActionItem>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportHandler"
+     ICON="action.empty" displayName="Add ADF Support" kind="action" name="AddADFSupport"/>
+    <XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
+     PROPERTIES="support=org.jboss.tools.jsf.project.capabilities.AddJSFCapabilitiesSupport"
+     displayName="Add Custom Capabilities..." kind="action" name="AddCustomJSFCapabilities"/>
+    <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
+     ICON="action.empty"
+     PROPERTIES="support=org.jboss.tools.jsf.project.capabilities.AddJSFCapabilitiesSupport"
+     displayName="Add Custom Capabilities..." kind="action" name="AddCustomJSFCapabilitiesOld">
+     <EntityData EntityName="JSFCapabilitiesWizard">
+      <AttributeData AttributeName="capability"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem kind="list" name="Separator2"/>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jst.web.ui.action.AddOrm2NatureActionHandler"
+     ICON="action.empty" displayName="Add ORM Capability..."
+     kind="action" name="AddORMCapabilities"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DeleteActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
+     ICON="action.delete"
+     PROPERTIES="actionpath=EclipseActions/DeleteProject"
+     displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.handlers.ProjectPropertiesHandler"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
+     ICON="action.empty" PROPERTIES="actionpath=Properties/Properties"
+     displayName="Properties..." kind="action" name="PropertiesOld"/>
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Regular%" name="JSFWorkspace">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes>
+   <XModelAttribute default="JSF Workspace" name="name" xmlname="NAME">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem
+    HandlerClassName="org.jboss.tools.jsf.ui.action.handler.CreateJSFProjectHandler"
+    ICON="action.new.jsfProject" displayName="Create New Project..."
+    kind="action" name="CreateNewProject"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.jsf.ui.action.handler.ImportJSFProjectHandler"
+    ICON="action.new.importProject"
+    displayName="Import Existing Project..." kind="action" name="ImportExistingProject"/>
+   <XActionItem kind="list" name="Properties">
+    <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+</XModelEntityGroup>

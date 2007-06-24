@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/seam-components.meta"/>
+      <meta path="meta/seam-core.meta"/>
+      <meta path="meta/seam-drools.meta"/>
+      <meta path="meta/seam-framework.meta"/>
+      <meta path="meta/seam-mail.meta"/>
+      <meta path="meta/seam-pdf.meta"/>
+      <meta path="meta/seam-theme.meta"/>
+      <meta path="meta/seam-web.meta"/>
+      <meta path="meta/seam-security.meta"/>
+      <meta path="meta/seam-jms.meta"/>
+      <meta path="meta/seam-remoting.meta"/>
+      <meta path="meta/seam-spring.meta"/>
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.keys">
+      <keys path="help/keys-seam.properties">
+      </keys>
+   </extension>
+
+   	<extension
+		point="org.eclipse.wst.xml.core.catalogContributions">
+		<catalogContribution id="default">
+		</catalogContribution>
+	</extension>	
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
+			class="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponents11FileLoader"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponents11FileLoader"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"/>
+	</extension>
+
+</plugin>

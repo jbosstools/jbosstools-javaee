@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vpe:templates>
+	<vpe:template-taglib uri="http://jboss.com/products/seam/taglib"
+		prefix="s" />
+
+	<vpe:tag name="s:validateAll" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="border: 1px dashed #2A7F00" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:decorate" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="border: 1px dashed #2A7F00" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:message" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="border: 1px dashed #2A7F00" />
+		</vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="s:formattedText" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="{@style}" class="{@styleClass}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+		</vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="s:span" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:div" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:button" case-sensitive="yes">
+		<vpe:if test="attrpresent('value')">
+			<vpe:template children="false" modify="yes">
+				<button type="{@type}" value="{jsfvalue(@value)}"
+					class="{@styleClass}" style="{@style}" title="{tagstring()}">
+					<vpe:value expr="{@value}" />
+				</button>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="not(attrpresent('value'))">
+			<vpe:template children="false" modify="yes">
+				<button type="{@type}" value="{jsfvalue(@value)}"
+					class="{@styleClass}" style="{@style}" title="{tagstring()}">
+					Submit Query
+				</button>
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
+
+	<vpe:tag name="s:link" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="{@styleClass}"
+				style="color:blue;text-decoration:underline;{@style}"
+				title="{tagstring()}">
+				<vpe:value expr="{@value}" />
+			</span>
+		</vpe:template>
+	</vpe:tag>
+
+</vpe:templates>

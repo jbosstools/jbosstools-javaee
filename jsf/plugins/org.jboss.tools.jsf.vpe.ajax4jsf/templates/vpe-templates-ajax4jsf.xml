@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vpe:templates>
+	<vpe:template-taglib uri="https://ajax4jsf.dev.java.net/ajax" prefix="a4j" />
+
+    <vpe:tag name="a4j:page" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<vpe:copy attrs="id,style,dir"/>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:region" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<vpe:copy attrs="id"/>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:ajaxListener" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:keepAlive" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+			<nobr><vpe:value expr="{@beanName}"/></nobr>	    
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:support" case-sensitive="yes">
+	    <vpe:template children="no" modify="no"/>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:poll" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:commandLink" case-sensitive="yes">
+	    <vpe:template children="yes" modify="yes">
+			<span class="{@styleClass}" style="color:blue;text-decoration:underline;{@style}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}"/>
+			</span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="outputText"/>
+				</vpe:drop>
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="BlockFormat"
+							handler="com.exadel.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+				<vpe:format type="UnderlineFormat" setDefault="true">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+			<vpe:pseudoContent/>
+		</vpe:template>    
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:commandButton" case-sensitive="yes">
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="(@type='')|(@type='submit')">
+				<vpe:template children="no" modify="no">
+					<input type="reset" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes"/>
+					</vpe:dnd>
+					<vpe:textFormating>
+						<vpe:format type="UnderlineFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BoldFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ItalicFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontNameFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontSizeFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BackgroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ForegroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+					</vpe:textFormating>
+				</vpe:template>
+			</vpe:if>
+			
+			<vpe:if test="not(@type='') and not(@type='submit')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes"/>
+					</vpe:dnd>
+					<vpe:textFormating>
+						<vpe:format type="UnderlineFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BoldFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ItalicFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontNameFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontSizeFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BackgroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ForegroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+					</vpe:textFormating>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:outputPanel" case-sensitive="yes">
+   		<vpe:template children="yes" modify="yes">
+			<vpe:copy attrs="id,style,dir"/>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:actionparam" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:status" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:loadBundle" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+			<vpe:load-bundle/>
+	    </vpe:template>
+    </vpe:tag>	
+    
+    <vpe:tag name="a4j:loadStyle" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<vpe:link rel="stylesheet" href="{href(@src)}" />
+		</vpe:template>
+    </vpe:tag>	
+    
+    <vpe:tag name="a4j:loadScript" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>	
+    
+    <vpe:tag name="a4j:jsFunction" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>	
+    
+    <vpe:tag name="a4j:mediaOutput" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:log" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:form" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<vpe:copy attrs="id"/>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+		</vpe:template>    
+	</vpe:tag>
+    
+    <vpe:tag name="a4j:htmlCommandLink" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="{@styleClass}" style="color:blue;text-decoration:underline;{@style}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}"/>
+			</span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="outputText"/>
+				</vpe:drop>
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="BlockFormat"
+							handler="com.exadel.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+				<vpe:format type="UnderlineFormat" setDefault="true">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+			<vpe:pseudoContent/>
+		</vpe:template>    
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:include" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="a4j:repeat" case-sensitive="yes">
+	    <vpe:template children="yes" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+
+</vpe:templates>

@@ -1,0 +1,10 @@
+.treePictureStyle {
+	width: 22px;
+	height: 100%;
+}
+
+.treeNodeNameStyle{
+	width : 100%;
+	vertical-align : middle;
+	text-align : left;
+}

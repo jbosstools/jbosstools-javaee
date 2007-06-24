@@ -1,0 +1,316 @@
+/*=======================================================*/
+/*                      CLASSIC THEME                    */ 
+/*=======================================================*/
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU BAR (top horizontal menu)     */ 
+/*=======================================================*/
+/* look and feel of the menu bar */ 
+.otrixMenuBar_Classic  {
+	background-color: white;
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItem_Classic {
+}
+.otrixMenuBarItem_Classic a {
+	color: black;
+	text-decoration: none;
+}
+
+/* hover look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItemHover_Classic  {
+}
+.otrixMenuBarItemHover_Classic a {
+	color: black;
+	text-decoration: none;
+}
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU                               */ 
+/*=======================================================*/
+/* look and feel of a menu */ 
+.otrixMenu_Classic {
+	background-color: white;
+	border: 1px solid gray;
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item */ 
+.otrixMenuItem_Classic {
+}
+.otrixMenuItem_Classic a {
+	color: black;
+	text-decoration: none;
+}
+
+/* hover look and feel of a menu item */ 
+.otrixMenuItemHover_Classic {
+	background-color: #0a246a;
+}
+.otrixMenuItemHover_Classic a {
+	color: white;
+	text-decoration: none;
+}
+
+
+
+
+
+/*=======================================================*/
+/*                     THEME : NONE                      */ 
+/*=======================================================*/
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU BAR (top horizontal menu)     */ 
+/*=======================================================*/
+/* look and feel of the menu bar */ 
+.otrixMenuBar_None  {
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItem_None {
+}
+.otrixMenuBarItem_None a {
+}
+
+/* hover look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItemHover_None  {
+}
+.otrixMenuBarItemHover_None a {
+}
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU                               */ 
+/*=======================================================*/
+/* look and feel of a menu */ 
+.otrixMenu_None {
+	background-color: white;
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item */ 
+.otrixMenuItem_None {
+}
+.otrixMenuItem_None a {
+}
+
+/* hover look and feel of a menu item */ 
+.otrixMenuItemHover_None {
+}
+.otrixMenuItemHover_None a {
+}
+
+
+
+
+
+/*=======================================================*/
+/*                     OFFICE XP THEME                   */ 
+/*=======================================================*/
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU BAR (top horizontal menu)     */ 
+/*=======================================================*/
+/* look and feel of the menu bar */ 
+.otrixMenuBar_OfficeXp {
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItem_OfficeXp {
+	color: black;
+	text-decoration: none;
+	padding: 1px;
+}
+.otrixMenuBarItem_OfficeXp a {
+	color: black;
+	text-decoration: none;
+}
+
+/* hover look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItemHover_OfficeXp {
+	background-color: #ccccff;
+	border: 1px solid #3366cc;
+	padding: 0px;
+}
+.otrixMenuBarItemHover_OfficeXp a {
+	color: black;
+	text-decoration: none;
+}
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU                               */ 
+/*=======================================================*/
+/* look and feel of a menu */ 
+.otrixMenu_OfficeXp {
+	background-color: white;
+	border: 1px solid #999999;
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item */ 
+.otrixMenuItem_OfficeXp {
+	padding: 1px;
+}
+.otrixMenuItem_OfficeXp a {
+	color: black;
+	text-decoration: none;
+}
+	
+/* hover look and feel of a menu item */ 
+.otrixMenuItemHover_OfficeXp {
+	background-color: #ccccff;
+	border: 1px solid #3366cc;
+	padding: 0px;
+}
+.otrixMenuItemHover_OfficeXp a {
+	color: black;
+	text-decoration: none;
+}
+
+
+
+
+
+/*=======================================================*/
+/*                     WINDOWS XP THEME                  */ 
+/*=======================================================*/
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU BAR (top horizontal menu)     */ 
+/*=======================================================*/
+/* look and feel of the menu bar */ 
+.otrixMenuBar_WinXp {
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItem_WinXp {
+}
+.otrixMenuBarItem_WinXp a {
+	color: black;
+	text-decoration: none;
+}
+
+/* hover look and feel of a menu item nested inside a menu bar */ 
+.otrixMenuBarItemHover_WinXp {
+	background-color: #3366cc;
+}
+.otrixMenuBarItemHover_WinXp a {
+	color: white;
+	text-decoration: none;
+}
+
+/*=======================================================*/
+/* LOOK AND FEEL OF A MENU                               */ 
+/*=======================================================*/
+/* look and feel of a menu */ 
+.otrixMenu_WinXp {
+	background-color: white;
+	border: 1px solid #999999;
+	white-space: nowrap;
+}
+
+/* default look and feel of a menu item */ 
+.otrixMenuItem_WinXp {
+}
+.otrixMenuItem_WinXp a {
+	color: black;
+	text-decoration: none;
+}
+	
+/* hover look and feel of a menu item */ 
+.otrixMenuItemHover_WinXp {
+	background-color: #3366cc;
+}
+.otrixMenuItemHover_WinXp a {
+	color: white;
+	text-decoration: none;
+}
+
+
+
+
+
+/*=======================================================*/
+/*             WEBMENU - COMMON TO ALL THEMES            */ 
+/*                                                       */
+/* The following css is applied to all menus regardless  */
+/* of the Theme that is being used                       */
+/*=======================================================*/
+
+/*=======================================================*/
+/*          Menu Items nested inside a MenuBar           */
+/*=======================================================*/
+/* class applied to checkmark icons */
+.owmhc {
+}
+
+/* class applied to regular icons   */
+.owmhi {
+}
+
+/* class applied to labels          */
+.owmhl {
+	padding-left:10px;
+	padding-right:10px;
+}
+
+/* class applied to menu item separators */
+.owmhseparator {
+	background-color: #999999;
+	margin: 0px 2px 0px 2px;
+	padding: 0px;
+	height: 1em;
+	width: 1px;
+}	
+
+/*=======================================================*/
+/*                   Regular Menu Items                  */
+/*=======================================================*/
+/* class applied to checkmark icons */
+td.owmc {
+	border-right:0px !important;
+	padding-right:0px !important;
+	text-decoration: none !important;
+}
+
+/* class applied to regular icons   */
+td.owmi {
+	border-left:0px !important; 
+	border-right:0px !important; 
+	padding-left:4px !important;
+	padding-right:2px !important;
+	text-decoration: none !important;
+}
+
+/* class applied to labels          */
+td.owml {
+	border-left-style:none !important;
+	border-right-style:none !important;
+	padding-left:5px !important;
+	padding-right:0px !important;
+}
+
+/* class applied to the 'hasChildren' icons */
+td.owmm {
+	border-left-style:none !important;
+	padding-left:0px !important;
+	text-decoration: none !important;
+}
+td.owmm img {
+	margin-left:5px !important;
+	margin-right:5px !important;
+}
+
+/* class applied to vertical separators */
+.owmseparator {
+	background-color: #999999;
+	height: 1px;
+	margin: 3 2 3 0;
+	padding: 0;
+}		
+

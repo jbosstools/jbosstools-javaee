@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="Handlers"/>
+  <MAPPING name="SeamNamespaces">
+   <PAIR name="web" value="http://jboss.com/products/seam/web"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemas">
+   <PAIR name="web" value="http://jboss.com/products/seam/web-1.2.xsd"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action">
+   <GROUP name="new">
+    <GROUP name="web"/>
+   </GROUP>
+  </GROUP>
+  <GROUP name="main">
+   <GROUP name="seam">
+    <GROUP name="web">
+     <ICON name="filter" path="images/struts/plug_in.gif"/>
+    </GROUP>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:context-filter" name="SeamWebContextFilter">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="context filter" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.servlet.contextFilter" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.newclass" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:exception-filter" name="SeamWebExceptionFilter">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="exception filter" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.servlet.exceptionFilter" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.newclass" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:multipart-filter" name="SeamWebMultipartFilter">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="multipart filter" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.servlet.multipartFilter" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="create-temp-files" xmlname="create-temp-files">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="max-request-size" xmlname="max-request-size">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.newclass" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:redirect-filter" name="SeamWebRedirectFilter">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="redirect filter" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.servlet.redirectFilter" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.newclass" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileSeamComponents12">
+  <XChildrenEntities>
+   <XChildEntity name="SeamWebContextFilter"/>
+   <XChildEntity name="SeamWebExceptionFilter"/>
+   <XChildEntity name="SeamWebMultipartFilter"/>
+   <XChildEntity name="SeamWebRedirectFilter"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.newclass" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Web" group="1"
+     kind="list" name="Web">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Context Filter..." kind="action" name="AddContextFilter">
+      <EntityData EntityName="SeamWebContextFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Exception Filter..." kind="action" name="AddExceptionFilter">
+      <EntityData EntityName="SeamWebExceptionFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Multipart Filter..." kind="action" name="AddMultipartFilter">
+      <EntityData EntityName="SeamWebMultipartFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Redirect Filter..." kind="action" name="AddRedirectFilter">
+      <EntityData EntityName="SeamWebRedirectFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents12_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.newclass" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Web" group="1"
+     kind="list" name="Web">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Context Filter..." kind="action" name="AddContextFilter">
+      <EntityData EntityName="SeamWebContextFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Exception Filter..." kind="action" name="AddExceptionFilter">
+      <EntityData EntityName="SeamWebExceptionFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Multipart Filter..." kind="action" name="AddMultipartFilter">
+      <EntityData EntityName="SeamWebMultipartFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Redirect Filter..." kind="action" name="AddRedirectFilter">
+      <EntityData EntityName="SeamWebRedirectFilter">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+</XModelEntityGroup>

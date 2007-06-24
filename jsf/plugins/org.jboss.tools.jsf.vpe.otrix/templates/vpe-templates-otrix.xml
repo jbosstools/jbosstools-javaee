@@ -1,0 +1,135 @@
+<vpe:templates>
+	<vpe:template-taglib uri="http://www.otrix.com/faces/shared" prefix="oc"/>
+	<vpe:template-taglib uri="http://www.otrix.com/faces/webmenu" prefix="owm"/>
+	<vpe:template-taglib uri="http://www.otrix.com/faces/webtree" prefix="owt"/>
+	<vpe:template-taglib uri="http://www.otrix.com/faces/webinput" prefix="owi"/>
+	<vpe:template-taglib uri="http://www.otrix.com/faces/webgrid" prefix="owg"/>
+
+    <vpe:tag name="owm:menu" case-sensitive="yes" >
+	    <vpe:template 
+	    	children="yes" 
+	    	modify="no" 
+	    	class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixMenuTemplate"/>
+    </vpe:tag>
+
+    <vpe:tag name="owm:menuItem" case-sensitive="yes">
+		<vpe:if test="parentname()='owm:menu'">
+			<vpe:template children="no" modify="yes" class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixMenuItemTemplate"/>
+		</vpe:if>
+		<vpe:template children="no" modify="no"/>
+    </vpe:tag>
+
+    <vpe:tag name="owm:menuItemSeparator" case-sensitive="yes">
+	    <vpe:template children="no" modify="no"
+	    	class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixMenuItemSeparatorTemplate"/>
+    </vpe:tag>
+
+    <vpe:tag name="owm:menuBarStyle" case-sensitive="yes">
+		<vpe:if test="parentname()='owm:menu'">
+			<vpe:template children="no" modify="no"
+				class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixMenuBarStyleTemplate"/>
+		</vpe:if>
+		<vpe:template children="no" modify="no"/>
+    </vpe:tag>
+
+    <vpe:tag name="oc:style" case-sensitive="yes">
+		<vpe:template children="no" modify="no"/>
+    </vpe:tag>
+
+
+
+
+
+    <vpe:tag name="owt:treeView" case-sensitive="yes" >
+	    <vpe:template 
+	    	children="yes" 
+	    	modify="no" 
+	    	class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixTreeTemplate"/>
+    </vpe:tag>
+
+    <vpe:tag name="owt:treeNode" case-sensitive="yes" >
+		<vpe:if test="parentname()='owt:treeView'">
+			<vpe:template children="no" modify="yes"> 
+				<div>
+					<img src="{iif(src(parentattrvalue('plusIcon'))='unresolved.gif', 'owtplusxp.gif', src(parentattrvalue('plusIcon')))}"/>
+					<img src="{iif(src(iif(attrpresent('icon'), @icon, parentattrvalue('icon')))='unresolved.gif', 'owtfoldercxp.gif', src(iif(attrpresent('icon'), @icon, parentattrvalue('icon'))))}"/> <!-- ,'owtfoldercxp.gif' -->
+					<a href="#" style="{iif(attrpresent('style'), @style, parentattrvalue('nodeStyle'))}" class="{iif(attrpresent('styleClass'), @styleClass, parentattrvalue('nodeStyleClass'))}"><font size="2"><vpe:value expr="{@value}"/></font></a>
+				</div>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="yes"> 
+			<div>
+				<img src="{src('/resources/otrix/owtplusxp.gif')}"/>
+				<img src="{src(@icon)}"/>
+				<a href="#"><font size="2"><vpe:value expr="{@value}"/></font></a>
+			</div>
+		</vpe:template>
+    </vpe:tag>
+
+    <vpe:tag name="owi:dateChooser" case-sensitive="yes" >
+	    <vpe:template children="no" modify="no"> 
+			<div style="{@style}" class="{@styleClass}">
+				<nobr>
+					<input type="text"/>
+					<button>...</button>
+				</nobr>
+			</div>
+	    </vpe:template>
+    </vpe:tag>
+
+    <vpe:tag name="owi:inputEmail" case-sensitive="yes" >
+	    <vpe:template children="no" modify="no"> 
+			<input type="text" style="{@style}"/>
+	    </vpe:template>
+    </vpe:tag>
+
+    <vpe:tag name="owi:inputRegularExpression" case-sensitive="yes" >
+	    <vpe:template children="no" modify="no"> 
+			<input type="text" style="{@style}"/>
+	    </vpe:template>
+    </vpe:tag>
+
+
+
+    <!-- vpe:tag name="owg:gridView" case-sensitive="yes" >
+	    <vpe:template children="yes" modify="no"> 
+			<vpe:datatable title="{tagstring()}" border="1"
+							columnClasses="{@columnStyleClass}" footerClass="{@footerStyleClass}" headerClass="{@headerStyleClass}"
+			/>
+	    </vpe:template>
+    </vpe:tag -->
+
+    <vpe:tag name="owg:gridView" case-sensitive="yes" >
+	    <vpe:template children="yes" modify="no" 
+			class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixGridViewTemplate"/> 
+    </vpe:tag>
+
+    <!-- vpe:tag name="owg:column" case-sensitive="yes">
+		<vpe:if test="parentname()='owg:gridView'">
+			<vpe:template children="yes" modify="no">
+				<vpe:column title="{tagstring()}"/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag -->
+    <vpe:tag name="owg:column" case-sensitive="yes">
+		<vpe:if test="parentname()='owg:gridView'">
+			<vpe:template children="yes" modify="no"
+				class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixColumnTemplate"/> 
+		</vpe:if>
+    </vpe:tag>
+
+    <!-- vpe:tag name="f:facet" case-sensitive="yes">
+		<vpe:if test="parentname()='owg:gridView'">
+			<vpe:template children="yes" modify="yes">
+				<vpe:facet/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag -->
+    <vpe:tag name="f:facet" case-sensitive="yes">
+		<vpe:if test="parentname()='owg:gridView'">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.otrix.template.VpeOtrixFacetTemplate"/> 
+		</vpe:if>
+    </vpe:tag>
+
+</vpe:templates>

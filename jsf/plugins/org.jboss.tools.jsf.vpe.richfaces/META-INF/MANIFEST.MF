@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Richfaces VPE Support Plug-in
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.richfaces;singleton:=true
+Bundle-Activator: org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator
+Bundle-Version: 2.0.0
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.jboss.tools.vpe,
+ org.jboss.tools.jst.jsp,
+ org.jboss.tools.common.model,
+ org.eclipse.wst.sse.ui,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.ide
+Eclipse-LazyStart: true
+Bundle-Vendor: Red Hat, Inc.

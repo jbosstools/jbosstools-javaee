@@ -1,0 +1,1381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="Handlers"/>
+  <MAPPING name="SeamNamespaces">
+   <PAIR name="core" value="http://jboss.com/products/seam/core"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemas">
+   <PAIR name="core" value="http://jboss.com/products/seam/core-1.2.xsd"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action">
+   <GROUP name="new">
+    <GROUP name="seam"/>
+   </GROUP>
+  </GROUP>
+  <GROUP name="main">
+   <GROUP name="seam">
+    <GROUP name="core">
+     <ICON name="actor" path="images/struts/plug_in.gif"/>
+     <ICON name="bundle" path="images/struts/plug_in.gif"/>
+     <ICON name="dispatcher" path="images/struts/plug_in.gif"/>
+     <ICON name="ejb" path="images/struts/plug_in.gif"/>
+     <ICON name="init" path="images/struts/plug_in.gif"/>
+     <ICON name="jbpm" path="images/struts/plug_in.gif"/>
+     <ICON name="manager" path="images/struts/plug_in.gif"/>
+     <ICON name="microcontainer" path="images/struts/plug_in.gif"/>
+     <ICON name="pages" path="images/struts/plug_in.gif"/>
+     <ICON name="pojo" path="images/struts/plug_in.gif"/>
+     <ICON name="timeZoneSelector" path="images/struts/plug_in.gif"/>
+    </GROUP>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:actor" name="SeamCoreActor">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.actor" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="actor" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.actor" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="group-actor-ids" xmlname="group-actor-ids">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="core:bundle-names" name="SeamCoreBundleNames">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="bundle-names" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="bundle-names" name="name">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:dispatcher" name="SeamCoreDispatcher">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.dispatcher" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="dispatcher" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.dispatcher" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,jndi-name"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:ejb" name="SeamCoreEJB">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.ejb" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="EJB" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.ejb" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="core:filters" name="SeamCoreFilters">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="filters" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="filters" name="name">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:init" name="SeamCoreInit">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.init" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="init" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.init" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" default="false"
+    name="debug" xmlname="debug">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="jndi-pattern" xmlname="jndi-pattern">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="client-side-conversations" xmlname="client-side-conversations">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="my-faces-lifecycle-bug" xmlname="my-faces-lifecycle-bug">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="user-transaction-name" xmlname="user-transaction-name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:jbpm" name="SeamCoreJBPM">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamCoreProcessDefinitions" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamCorePageflowDefinitions" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.jbpm" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="JBPM" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.jbpm" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:locale-selector" name="SeamCoreLocaleSelector">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.ejb" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="locale-selector" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.localeSelector" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="locale-string" xmlname="locale-string">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:managed-persistence-context" name="SeamCoreManagedPersistenceContext">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamCoreFilters" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="managed persistence context"
+    loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.managedPersistenceContext" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="entity-manager-factory" xmlname="entity-manager-factory">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="persistence-unit-jndi-name" xmlname="persistence-unit-jndi-name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:manager" name="SeamCoreManager">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.manager" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="manager" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.manager" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="conversation-timeout" xmlname="conversation-timeout">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="concurrent-request-timeout" xmlname="concurrent-request-timeout">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="conversation-id-parameter" xmlname="conversation-id-parameter">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="parent-conversation-id-parameter" xmlname="parent-conversation-id-parameter">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="conversation-is-long-running-parameter" xmlname="conversation-is-long-running-parameter">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:microcontainer" name="SeamCoreMicrocontainer">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.microcontainer" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="microcontainer" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.microcontainer" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="core:pageflow-definitions" name="SeamCorePageflowDefinitions">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="pageflow-definitions" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="pageflow-definitions" name="name">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:pages" name="SeamCorePages">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.pages" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="pages" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.pages" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="no-conversation-view-id" xmlname="no-conversation-view-id">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="login-view-id" xmlname="login-view-id">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="http-port" xmlname="http-port">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="https-port" xmlname="https-port">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:pojo-cache" name="SeamCorePojoCache">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.pojo" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="pojo cache" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.pojoCache" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="cfg-resource-name" xmlname="cfg-resource-name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="core:process-definitions" name="SeamCoreProcessDefinitions">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="process-definitions" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="process-definitions" name="name">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:resource-bundle" name="SeamCoreResourceBundle">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamCoreBundleNames" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="resource bundle" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.resourceBundle" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="bundle-names" xmlname="bundle-names">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:time-zone-selector" name="SeamCoreTimeZoneSelector">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.timeZoneSelector" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="time zone selector" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.timeZoneSelector" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="time-zone-id" xmlname="time-zone-id">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:transactionListener" name="SeamCoreTransactionListener">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.actor" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="transaction listener" loader="ElementType" name="element type">
+    <Constraint/>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.transactionListener" name="name" xmlname="name">
+    <Constraint/>
+    <Editor/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,jndi-name"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileSeamComponents12">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCoreActor"/>
+   <XChildEntity name="SeamCoreDispatcher"/>
+   <XChildEntity name="SeamCoreTransactionListener"/>
+   <XChildEntity name="SeamCoreEJB"/>
+   <XChildEntity name="SeamCoreInit"/>
+   <XChildEntity name="SeamCoreJBPM"/>
+   <XChildEntity name="SeamCoreLocaleSelector"/>
+   <XChildEntity name="SeamCoreManager"/>
+   <XChildEntity name="SeamCoreMicrocontainer"/>
+   <XChildEntity name="SeamCorePages"/>
+   <XChildEntity name="SeamCorePojoCache"/>
+   <XChildEntity name="SeamCoreResourceBundle"/>
+   <XChildEntity name="SeamCoreTimeZoneSelector"/>
+   <XChildEntity name="SeamCoreManagedPersistenceContext"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Core" group="1"
+     kind="list" name="Core">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Actor..." kind="action" name="AddActor">
+      <EntityData EntityName="SeamCoreActor">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="group-actor-ids" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Dispatcher..." kind="action" name="AddDispatcher">
+      <EntityData EntityName="SeamCoreDispatcher">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Transaction Listener..." kind="action" name="AddTransactionListener">
+      <EntityData EntityName="SeamCoreTransactionListener">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="EJB..." kind="action" name="AddEJB">
+      <EntityData EntityName="SeamCoreEJB">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Init..." kind="action" name="AddInit">
+      <EntityData EntityName="SeamCoreInit">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="jndi-pattern" Mandatory="no"/>
+       <AttributeData AttributeName="debug" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JBPM..." kind="action" name="AddJBPM">
+      <EntityData EntityName="SeamCoreJBPM">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Locale Selector..." kind="action" name="AddLocaleSelector">
+      <EntityData EntityName="SeamCoreLocaleSelector">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="locale-string" Mandatory="no"/>
+       <AttributeData AttributeName="cookie-enabled" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Manager..." kind="action" name="AddManager">
+      <EntityData EntityName="SeamCoreManager">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="conversation-timeout" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Microcontainer..." kind="action" name="AddMicrocontainer">
+      <EntityData EntityName="SeamCoreMicrocontainer">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Pages..." kind="action" name="AddPages">
+      <EntityData EntityName="SeamCorePages">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="no-conversation-view-id" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Pojo Cache..." kind="action" name="AddPojoCache">
+      <EntityData EntityName="SeamCorePojoCache">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cfg-resource-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Resource Bundle..." kind="action" name="AddResourceBundle">
+      <EntityData EntityName="SeamCoreResourceBundle">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="bundle-names" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Time Zone Selector..." kind="action" name="AddTimeZoneSelector">
+      <EntityData EntityName="SeamCoreTimeZoneSelector">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="time-zone-id" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Persistence Context..." kind="action" name="AddManagedPersistenceContext">
+      <EntityData EntityName="SeamCoreManagedPersistenceContext">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="persistence-unit-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents12_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Core" group="1"
+     kind="list" name="Core">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Actor..." kind="action" name="AddActor">
+      <EntityData EntityName="SeamCoreActor">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="group-actor-ids" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Dispatcher..." kind="action" name="AddDispatcher">
+      <EntityData EntityName="SeamCoreDispatcher">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Transaction Listener..." kind="action" name="AddTransactionListener">
+      <EntityData EntityName="SeamCoreTransactionListener">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="EJB..." kind="action" name="AddEJB">
+      <EntityData EntityName="SeamCoreEJB">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Init..." kind="action" name="AddInit">
+      <EntityData EntityName="SeamCoreInit">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="jndi-pattern" Mandatory="no"/>
+       <AttributeData AttributeName="debug" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JBPM..." kind="action" name="AddJBPM">
+      <EntityData EntityName="SeamCoreJBPM">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Locale Selector..." kind="action" name="AddLocaleSelector">
+      <EntityData EntityName="SeamCoreLocaleSelector">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="locale-string" Mandatory="no"/>
+       <AttributeData AttributeName="cookie-enabled" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Manager..." kind="action" name="AddManager">
+      <EntityData EntityName="SeamCoreManager">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="conversation-timeout" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Microcontainer..." kind="action" name="AddMicrocontainer">
+      <EntityData EntityName="SeamCoreMicrocontainer">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Pages..." kind="action" name="AddPages">
+      <EntityData EntityName="SeamCorePages">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="no-conversation-view-id" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Pojo Cache..." kind="action" name="AddPojoCache">
+      <EntityData EntityName="SeamCorePojoCache">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cfg-resource-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Resource Bundle..." kind="action" name="AddResourceBundle">
+      <EntityData EntityName="SeamCoreResourceBundle">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="bundle-names" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Time Zone Selector..." kind="action" name="AddTimeZoneSelector">
+      <EntityData EntityName="SeamCoreTimeZoneSelector">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="time-zone-id" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Persistence Context..." kind="action" name="AddManagedPersistenceContext">
+      <EntityData EntityName="SeamCoreManagedPersistenceContext">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="persistence-unit-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+</XModelEntityGroup>

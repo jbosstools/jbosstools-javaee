@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Seam"
+            id="org.jboss.tools.seam.ui">
+      </category>
+      <wizard
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamProjectWizard"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard"
+            name="Seam Project"
+            project="true">
+         <description>
+            description body text
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
+            name="Seam Action">
+         <description>
+            description body text
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamFofrmWizard"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.wizard2"
+            name="Seam Form">
+         <description>
+            description body text
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.wizard3"
+            name="Seam Entity">
+         <description>
+            description body text
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.wizard4"
+            name="Seam Conversation">
+         <description>
+            description body text
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.wst.common.project.facet.ui.wizardPages">
+      <wizard-pages action="jst.seam.1.2.install">
+         <page class="org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage"/>
+      </wizard-pages>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.jboss.tools.seam.ui"
+            name="Seam">
+      </category>
+      <view
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.views.SeamComponentsView"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.views.SeamComponentsView"
+            name="Seam Components">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               id="org.jboss.tools.seam.ui.views.SeamComponentsView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.TaskList">
+         </view>
+      </perspectiveExtension>
+   </extension>
+
+</plugin>

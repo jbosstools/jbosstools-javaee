@@ -1,0 +1,2059 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<vpe:templates>
+	<vpe:template-taglib uri="http://myfaces.apache.org/tomahawk"
+		prefix="t" />
+
+	<vpe:tag name="t:checkbox" case-sensitive="yes">
+
+		<vpe:if test="@disabled='on'">
+			<vpe:template children="no" modify="yes">
+				<input type="checkbox" disabled="on" checked="{@value}"
+					class="{@styleClass}" style="{@style}" border="{@border}"
+					title="{tagstring()}" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="yes">
+			<input type="checkbox" checked="{@value}"
+				class="{@styleClass}" style="{@style}" border="{@border}"
+				title="{tagstring()}" />
+		</vpe:template>
+
+	</vpe:tag>
+
+
+
+	<vpe:tag name="t:commandButton" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@disabled='true'">
+			<vpe:template children="no" modify="no">
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<input type="submit" value="{jsfvalue(@text)}"
+					disabled="true" class="{@styleClass}" style="{@style}"
+					title="{tagstring()}" />
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="@type=''">
+				<vpe:template children="no" modify="no">
+					<input type="submit" value="{jsfvalue(@value)}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+						<vpe:drop container="no" />
+					</vpe:dnd>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormating>
+						<vpe:format type="UnderlineFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="BoldFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="ItalicFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="FontNameFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="FontSizeFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="BackgroundColorFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="ForegroundColorFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+					</vpe:textFormating>
+				</vpe:template>
+			</vpe:if>
+			<vpe:if
+				test="(@type='button')|(@type='reset')|(@type='submit')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{jsfvalue(@value)}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+						<vpe:drop container="no" />
+					</vpe:dnd>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormating>
+						<vpe:format type="UnderlineFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="BoldFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="ItalicFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="FontNameFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="FontSizeFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="BackgroundColorFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+						<vpe:format type="ForegroundColorFormat">
+							<vpe:formatAttribute type="style" />
+						</vpe:format>
+					</vpe:textFormating>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}"
+					class="{@styleClass}" style="{@style}" title="{tagstring()}" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
+
+	<vpe:tag name="t:aliasBeansScope" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span/>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="t:jsValueChangeListener" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span/>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="t:jsValueSet" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span/>
+		</vpe:template>
+    </vpe:tag>
+
+
+   	<vpe:tag name="t:treeCheckbox" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span/>
+		</vpe:template>
+    </vpe:tag>
+    
+     <vpe:tag name="t:treeColumn" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span/>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="t:collapsiblePanel" case-sensitive="yes">
+		<vpe:template children="no" modify="yes"/>
+    </vpe:tag>
+    
+    <vpe:tag name="t:popup" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span/>
+		</vpe:template>
+    </vpe:tag>
+    
+     <vpe:tag name="t:panelGroup" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span style="{@style}" class="{@styleClass}" title="{tagstring()}"/>
+			<vpe:breaker type="ignore"/>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="t:column" case-sensitive="yes">
+		<vpe:if test="parentname()='h:dataTable'|parentname()='x:dataTable'|parentname()='t:dataTable'|parentname()='t:newspaperTable'|parentname()='t:tree'">  <!-- Gavr --><!-- added x: 8.02.05 -->
+			<vpe:template children="yes" modify="yes">
+				<vpe:column title="{tagstring()}"/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
+	
+	
+	<vpe:tag name="t:selectOneListbox" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<select size="{@size}" style="{@style}" class="{@styleClass}" title="{tagstring()}"/>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes">
+						<vpe:container-child tag-name="selectItem"/>
+						<vpe:container-child tag-name="selectItems"/>
+				</vpe:drop>
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+					</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+    </vpe:tag>
+
+	<vpe:tag name="t:commandLink" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="yes">
+			<div class="{@styleClass}"
+				style="color:blue;text-decoration:underline;{@style}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+				<vpe:format type="UnderlineFormat" setDefault="true">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:commandNavigation" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}"
+				style="padding-left:10px;color:blue;text-decoration:underline;{@style}"
+				action="{@action}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+			<vpe:textFormating>				
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:commandNavigation2" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<li 
+				class="{@styleClass}"
+				style="padding-left:10px;color:blue;text-decoration:underline;{@style}"
+				action="{@action}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</li>
+			<vpe:textFormating>				
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:commandSortHeader" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}" style="{@style}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+			<vpe:textFormating>				
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:dataList" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />				
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@layout='simple'">
+			<vpe:template children="yes" modify="no">
+				<vpe:grid class="{@styleClass}" style="{@style}"
+					title="{tagstring()}">
+					<vpe:value expr="{jsfvalue(@value)}" />
+				</vpe:grid>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<vpe:list
+				ordered="{iif(@layout='orderedList','true','false')}"
+				class="{@styleClass}" style="{@style}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</vpe:list>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:dataScroller" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no" class="org.jboss.tools.vpe.editor.template.myfaces.VpeMyFacesDataScrollerTemplate"/>
+	</vpe:tag>
+	
+	<vpe:tag name="t:dataTable" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:datatable bgcolor="{@bgcolor}" border="{@border}"
+				cellpadding="{@cellpadding}" cellspacing="{@cellspacing}"
+				columnClasses="{@columnClasses}" footerClass="{@footerClass}"
+				headerClass="{@headerClass}" rowClasses="{@rowClasses}"
+				frame="{@frame}" rules="{@rules}" class="{@styleClass}"
+				style="{@style}" title="{tagstring()}" />
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:newspaperTable" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:datatable bgcolor="{@bgcolor}" border="{@border}"
+				cellpadding="{@cellpadding}" cellspacing="{@cellspacing}"
+				columnClasses="{@columnClasses}" footerClass="{@footerClass}"
+				headerClass="{@headerClass}" rowClasses="{@rowClasses}"
+				frame="{@frame}" rules="{@rules}" class="{@styleClass}"
+				style="{@style}" title="{tagstring()}" />
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+	
+    <vpe:tag name="t:column" case-sensitive="yes">
+		<vpe:if test="parentname()='t:dataTable'">  <!-- Gavr --><!-- added x: 8.02.05 -->
+			<vpe:template children="yes" modify="yes">
+				<vpe:column title="{tagstring()}"/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
+
+    <vpe:tag name="t:columns" case-sensitive="yes">
+		<vpe:if test="parentname()='t:dataTable'">  <!-- Gavr --><!-- added x: 8.02.05 -->
+			<vpe:template children="yes" modify="yes">
+				<vpe:column title="{tagstring()}"/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
+
+	<vpe:tag name="t:jscookMenu" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<!--div class="{@styleClass}" style="{@style}"
+				title="{tagstring()}">
+			</div-->
+			<table cellspacing="5"/>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:inputDate" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}" style="{@style}" size="{@size}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:iconProvider" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:selectBooleanCheckbox" case-sensitive="yes">
+		<vpe:if test="@disabled='on'">   <!-- Gavr --><!-- added x: 15.02.05 -->
+		    <vpe:template children="no" modify="no">
+				<input type="checkbox" disabled="on" checked="{@value}" class="{@styleClass}" style="{@style}" border="{@border}" title="{tagstring()}"/>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes"/>
+					<vpe:drop container="yes">
+						<vpe:container-child tag-name="selectItem"/>
+						<vpe:container-child tag-name="selectItems"/>
+					</vpe:drop>
+				</vpe:dnd>
+		    </vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<input type="checkbox"  checked="{@value}" class="{@styleClass}" style="{@style}" border="{@border}" title="{tagstring()}"/>
+	    </vpe:template>
+    </vpe:tag>
+
+	<vpe:tag name="t:inputText" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden"  size="{@size}"/>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@readonly = 'true'">
+			<vpe:template children="no" modify="yes">
+				<div style="{@style}" class="{@styleClass}"
+					title="{tagstring()}"  size="{@size}">
+					<b>
+						<vpe:value expr="{jsfvalue(@value)}" />
+					</b>
+				</div>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@disabled='true'">
+			<vpe:template children="no" modify="yes">
+				<div style="display : block"  size="{@size}">
+					<vpe:value expr="{jsfvalue(@label)} " />
+					<input type="text" disabled="true"
+						class="{@styleClass}" value="{jsfvalue(@value)}"
+						style="background-color:lightgrey;{@inlineStyle}"
+						title="{tagstring()}" />
+				</div>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="yes">
+			<input type="text" value="{jsfvalue(@value)}"
+				class="{@styleClass}" style="{@style}"
+				title="{tagstring()}"  size="{@size}"/>
+			<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>	
+		</vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="t:inputTextarea" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@readonly = 'true'">
+			<vpe:template children="no" modify="yes">
+				<div style="{@style}" class="{@styleClass}"
+					rows="{@rows}" cols="{@cols}" title="{tagstring()}">
+					<b>
+						<vpe:value expr="{jsfvalue(@value)}" />
+					</b>
+				</div>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@disabled='true'">
+			<vpe:template children="no" modify="yes">
+				<div style="display : block">
+					<textarea disabled="true" class="{@styleClass}"
+						style="background-color:lightgrey;{@inlineStyle}"
+						title="{tagstring()}" rows="{@rows}">
+						<vpe:value expr="{jsfvalue(@value)}" />
+					</textarea>
+				</div>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<textarea class="{@styleClass}" style="{@style}"
+				rows="{@rows}" cols="{@cols}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</textarea>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="t:inputFileUpload" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}" onclick="{@onclick}"
+				style="{@style}" rendered="{@rendered}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+				<input type="file" />
+			</div>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="t:inputCalendar" case-sensitive="yes">
+		<vpe:if test="@renderAsPopup='true'">
+			<vpe:template children="no" modify="no">
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<div>
+					<input value="12/31/05"/><input type="button" value="..."/>
+				</div>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<table>
+				<tr class="{@monthYearRowClass}">
+					<td><a href="#">&lt;</a></td><td colspan="5">December 2005</td><td><a href="#">&gt;</a></td></tr>
+				<tr class="{@weekRowClass}">
+					<td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>
+				<tr>
+					<td></td><td></td><td></td><td></td><td><a href="#">1</a></td><td><a href="#">2</a></td><td><a href="#">3</a></td></tr>
+				<tr>
+					<td><a href="#">4</a></td><td><a href="#">5</a></td><td><a href="#">6</a></td><td><a href="#">7</a></td><td><a href="#">8</a></td><td><a href="#">9</a></td><td><a href="#">10</a></td></tr>
+				<tr>
+					<td><a href="#">11</a></td><td><a href="#">12</a></td><td><a href="#">13</a></td><td><a href="#">14</a></td><td><a href="#">15</a></td><td><a href="#">16</a></td><td><a href="#">17</a></td></tr>
+				<tr>
+					<td><a href="#">18</a></td><td><a href="#">19</a></td><td><a href="#">20</a></td><td><a href="#">21</a></td><td><a href="#">22</a></td><td><a href="#">23</a></td><td><a href="#">24</a></td></tr>
+				<tr>
+					<td><a href="#">25</a></td><td><a href="#">26</a></td><td><a href="#">27</a></td><td><a href="#">28</a></td><td><a href="#">29</a></td><td><a href="#">30</a></td><td class="{@currentDayCellClass}"><a href="#">31</a></td></tr>
+			</table>
+		</vpe:template>
+		<!--vpe:template children="no" modify="no">
+			<div class="{@styleClass}" style="{@style}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template-->
+	</vpe:tag>
+
+	<vpe:tag name="t:messages">
+		<vpe:template children="no" modify="no">
+		<span class="{@styleClass}" style="{@style}">
+				Error Messages
+		 </span>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:message">
+		<vpe:template children="no" modify="no">
+		<span class="{@styleClass}" style="{@style}">
+				Error Messages
+		 </span>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:outputLabel" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span style="{@style}" class="{@styleClass}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:textFormating>
+				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:navigationMenuItem" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<!--span class="{@styleClass}" title="{tagstring()}" style="padding-right:10px">
+				<vpe:value expr="{jsfvalue(@itemLabel)}" />
+			</span-->
+			<td><vpe:value expr="{jsfvalue(@itemLabel)}"/></td>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>			
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:navigationMenuItems" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<span class="{@styleClass}" 
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>		
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:outputText" case-sensitive="yes">
+		<vpe:if test="attrpresent('value')">
+			<vpe:template children="no" modify="yes">
+				<span class="{@styleClass}" style="{@style}"
+					title="{tagstring()}">
+					<vpe:value expr="{jsfvalue(@value)}" />
+				</span>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="yes">
+			<span class="{@styleClass}" style="{@style}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@binding)}" />
+			</span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:textFormating>
+				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>		
+	</vpe:tag>
+
+
+	<vpe:tag name="t:panelNavigation" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}" width="{@width}"
+				border="{@border}" style="background-color:{@bgcolor};{@style}"
+				title="{tagstring()}">
+			</div>
+			<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:panelNavigation2" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<ul class="{@styleClass}" width="{@width}"
+				border="{@border}" style="background-color:{@bgcolor};{@style}"
+				title="{tagstring()}">
+			</ul>			
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:panelTab" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden"></div>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}" style="{@style}" />
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:panelTabbedPane" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden"></div>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}"
+				style="background-color:{@bgcolor};{@style}" rendered="{@rendered}"
+				bgcolor="{@bgcolor}">
+			</div>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:panelLayout" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" ></div>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<vpe:panellayout /> 
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:panelStack" case-sensitive="yes">
+		<vpe:template children="no" modify="no"></vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:radio" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden"></div>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="yes">
+			<input type="radio" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:saveState" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}" >
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+		</vpe:template>
+	</vpe:tag>
+	 <vpe:tag name="t:selectManyListbox" case-sensitive="yes">
+    	<vpe:if test="attrpresent('size')">
+    		<vpe:template children="yes" modify="yes">
+    			<select size="{@size}" style="{@style}"
+    				class="{@styleClass}" title="{tagstring()}" />
+    			<vpe:dnd>
+    				<vpe:drag start-enable="yes" />
+    				<vpe:drop container="yes">
+    					<vpe:container-child tag-name="selectItem" />
+    					<vpe:container-child tag-name="selectItems" />
+    				</vpe:drop>
+    			</vpe:dnd>
+    			<vpe:textFormating>
+    				<vpe:format type="UnderlineFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="BoldFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="ItalicFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="FontNameFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="FontSizeFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="BackgroundColorFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="ForegroundColorFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    			</vpe:textFormating>
+    		</vpe:template>
+    	</vpe:if>
+    	<vpe:template children="yes" modify="yes">
+    		<select size="3" style="{@style}" class="{@styleClass}"
+    			title="{tagstring()}" />
+    		<vpe:dnd>
+    			<vpe:drag start-enable="yes" />
+    			<vpe:drop container="yes">
+    				<vpe:container-child tag-name="selectItem" />
+    				<vpe:container-child tag-name="selectItems" />
+    			</vpe:drop>
+    		</vpe:dnd>
+    		<vpe:textFormating>
+    			<vpe:format type="UnderlineFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="BoldFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="ItalicFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="FontNameFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="FontSizeFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="BackgroundColorFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="ForegroundColorFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    		</vpe:textFormating>
+    	</vpe:template>
+    </vpe:tag>
+
+	<vpe:tag name="t:selectManyCheckbox" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@disabled='true'">
+			<vpe:template children="yes" modify="no">
+				<vpe:grid title="{tagstring()}" disabled="true"
+					layout="{@layout}" class="{@styleClass}" style="{@style}">
+					<vpe:value expr="{jsfvalue(@value)}" />
+					<input type="checkbox" disabled="true"
+						style="{@style}" class="{@styleClass}" />
+				</vpe:grid>
+			<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="yes">
+			<vpe:grid layout="{@layout}" border="{@border}"
+				title="{tagstring()}" style="{@style}" class="{@styleClass}" />
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:selectOneRadio" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="yes" />
+				</vpe:dnd>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@disabled='true'">
+			<vpe:template children="yes" modify="no">
+				<vpe:grid title="{tagstring()}" disabled="true"
+					layout="{@layout}" class="{@styleClass}" style="{@style}">
+					<vpe:value expr="{jsfvalue(@value)}" />
+					<input type="radio" disabled="true" style="{@style}"
+						class="{@styleClass}" />
+				</vpe:grid>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="yes">
+			<vpe:grid layout="{@layout}" border="{@border}"
+				title="{tagstring()}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:selectOneMenu" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="@disabled='true'">
+			<vpe:template children="yes" modify="no">
+				<select title="{tagstring()}" disabled="true"
+					class="{@styleClass}" style="{@style}">
+					<vpe:value expr="{jsfvalue(@value)}" />
+				</select>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="yes" />
+				</vpe:dnd>
+			</vpe:template>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:if>
+		<vpe:if test="@readonly = 'true'">
+			<vpe:template children="no" modify="no">
+				<div style="{@style}" class="{@styleClass}"
+					title="{tagstring()}">
+					<b>
+						<vpe:value expr="{jsfvalue(@value)}" />
+					</b>
+				</div>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="yes" />
+				</vpe:dnd>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="yes">
+			<select style="{@style}" class="{@styleClass}"
+				value="{@value}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</select>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:stylesheet" case-sensitive="yes">
+		<vpe:if test="@rendered='false'">
+			<vpe:template children="no" modify="no">
+				<div style="display:hidden" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<div style="{@style}" class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:tabChangeListener" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}"/>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:tree" case-sensitive="yes">
+		<vpe:if test="not(haschildren())">
+			<vpe:template children="yes" modify="yes">
+				<div class="{@styleClass}" >
+					<vpe:value expr="{jsfvalue(@value)}" />
+				</div>			
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="yes" modify="no">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:datatable bgcolor="{@bgcolor}" border="{@border}"
+				cellpadding="{@cellpadding}" cellspacing="{@cellspacing}"
+				columnClasses="{@columnClasses}" footerClass="{@footerClass}"
+				headerClass="{@headerClass}" rowClasses="{@rowClasses}"
+				frame="{@frame}" rules="{@rules}" class="{@styleClass}"
+				style="{@style}" title="{tagstring()}" />
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+	</vpe:tag>
+	
+    <vpe:tag name="t:treeColumn" case-sensitive="yes">
+		<vpe:if test="parentname()='t:tree'">  <!-- Gavr --><!-- added x: 8.02.05 -->
+			<vpe:template children="yes" modify="yes">
+				<vpe:column title="{tagstring()}"/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
+
+	<vpe:tag name="t:tree2" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}" >
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>			
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:treeSelectionListener" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:updateActionListener" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<div class="{@styleClass}" >
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:validateEmail" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:validateRegExpr" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}"  />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:validateCreditCard" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}"  />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:validateEqual" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}"  />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:validateISBN" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:aliasBean" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div/>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:div" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:inputTextHelp" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<input type="text" 
+						class="{@styleClass}" value="{@helpText}"
+						title="{tagstring()}" style="{@style}" />
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		    <vpe:resize>
+			    <vpe:width width-attr="style.width" />
+			    <vpe:height height-attr="style.height" />
+		    </vpe:resize>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:graphicImage" case-sensitive="yes">
+		<vpe:if test="attrpresent('url')">
+			<vpe:template children="no" modify="no">
+				<img src="{src(@url)}" class="{@styleClass}" border="{@border}" style="{@style}" width="{@width}" height="{@height}" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			    <vpe:resize>
+				    <vpe:width width-attr="style.width" />
+				    <vpe:height height-attr="style.height" />
+			    </vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="attrpresent('value')">
+			<vpe:template children="no" modify="no">
+				<img src="{src(@value)}" class="{@styleClass}" border="{@border}" style="{@style}" width="{@width}" height="{@height}" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			    <vpe:resize>
+				    <vpe:width width-attr="style.width" />
+				    <vpe:height height-attr="style.height" />
+			    </vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<img src=" " class="{@styleClass}" border="{@border}" style="{@style}" width="{@width}" height="{@height}"/>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		    <vpe:resize>
+			    <vpe:width width-attr="style.width" />
+			    <vpe:height height-attr="style.height" />
+		    </vpe:resize>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="t:swapImage" case-sensitive="yes">
+		<vpe:if test="attrpresent('url')">
+			<vpe:template children="no" modify="no">
+				<img src="{src(@url)}" class="{@styleClass}" border="{@border}" style="{@style}" width="{@width}" height="{@height}"/>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			    <vpe:resize>
+				    <vpe:width width-attr="style.width" />
+				    <vpe:height height-attr="style.height" />
+			    </vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="attrpresent('value')">
+			<vpe:template children="no" modify="no">
+				<img src="{src(@value)}" class="{@styleClass}" border="{@border}" style="{@style}" width="{@width}" height="{@height}" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+			    <vpe:resize>
+				    <vpe:width width-attr="style.width" />
+				    <vpe:height height-attr="style.height" />
+			    </vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no">
+			<img src=" " class="{@styleClass}" border="{@border}" style="{@style}" width="{@width}" height="{@height}"/>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		    <vpe:resize>
+			    <vpe:width width-attr="style.width" />
+			    <vpe:height height-attr="style.height" />
+		    </vpe:resize>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:inputSecret" case-sensitive="yes">
+			<vpe:template children="no" modify="yes">
+				<input type="secret" class="{@styleClass}" style="{@style}"
+						title="{tagstring()}" />
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style" />
+					</vpe:format>
+				</vpe:textFormating>
+			</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:htmlTag" case-sensitive="yes">
+		<vpe:template children="yes" modify="no">
+			<vpe:element name= "{@value}"/>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:selectOneCountry" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<select name="_id0:_id1" size="1" onchange="this.form.submit();">	<option value="AG">AG</option>	<option value="AQ">AQ</option>	<option value="AS">AS</option>	<option value="BV">BV</option>	<option value="CC">CC</option>	<option value="CK">CK</option>	<option value="CX">CX</option>	<option value="FK">FK</option>	<option value="FO">FO</option>	<option value="FX">FX</option>	<option value="GD">GD</option>	<option value="GI">GI</option>	<option value="GL">GL</option>	<option value="GS">GS</option>	<option value="GU">GU</option>	<option value="HM">HM</option>	<option value="IO">IO</option>	<option value="KN">KN</option>	<option value="KY">KY</option>	<option value="LC">LC</option>	<option value="MH">MH</option>	<option value="MO">MO</option>	<option value="MP">MP</option>	<option value="MV">MV</option>	<option value="MW">MW</option>	<option value="NF">NF</option>	<option value="NR">NR</option>	<option value="PM">PM</option>	<option value="PN">PN</option>	<option value="PW">PW</option>	<option value="RE">RE</option>	<option value="SB">SB</option>	<option value="SH">SH</option>	<option value="SJ">SJ</option>	<option value="SM">SM</option>	<option value="ST">ST</option>	<option value="TC">TC</option>	<option value="TV">TV</option>	<option value="UM">UM</option>	<option value="VC">VC</option>	<option value="WF">WF</option>	<option value="WS">WS</option>	<option value="AU">&#1040;&#1074;&#1089;&#1090;&#1088;&#1072;&#1083;&#1080;&#1103;</option>	<option value="AT">&#1040;&#1074;&#1089;&#1090;&#1088;&#1080;&#1103;</option>	<option value="AZ">&#1040;&#1079;&#1077;&#1088;&#1073;&#1072;&#1081;&#1076;&#1078;&#1072;&#1085;</option>	<option value="AL">&#1040;&#1083;&#1073;&#1072;&#1085;&#1080;&#1103;</option>	<option value="DZ">&#1040;&#1083;&#1078;&#1080;&#1088;</option>	<option value="AO">&#1040;&#1085;&#1075;&#1086;&#1083;&#1072;</option>	<option value="AI">&#1040;&#1085;&#1075;&#1091;&#1080;&#1083;&#1072;</option>	<option value="AD">&#1040;&#1085;&#1076;&#1086;&#1088;&#1088;&#1072;</option>	<option value="AR">&#1040;&#1088;&#1075;&#1077;&#1085;&#1090;&#1080;&#1085;&#1072;</option>	<option value="AM">&#1040;&#1088;&#1084;&#1077;&#1085;&#1080;&#1103;</option>	<option value="AW">&#1040;&#1088;&#1091;&#1073;&#1072;</option>	<option value="AF">&#1040;&#1092;&#1075;&#1072;&#1085;&#1080;&#1089;&#1090;&#1072;&#1085;</option>	<option value="BS">&#1041;&#1072;&#1075;&#1072;&#1084;&#1089;&#1082;&#1080;&#1077; &#1086;&#1089;&#1090;&#1088;&#1086;&#1074;&#1072;</option>	<option value="BD">&#1041;&#1072;&#1085;&#1075;&#1083;&#1072;&#1076;&#1077;&#1096;</option>	<option value="BB">&#1041;&#1072;&#1088;&#1073;&#1072;&#1076;&#1086;&#1089;</option>	<option value="BH">&#1041;&#1072;&#1093;&#1088;&#1077;&#1081;&#1085;</option>	<option value="BY">&#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1100;</option>	<option value="BZ">&#1041;&#1077;&#1083;&#1080;&#1079;</option>	<option value="BE">&#1041;&#1077;&#1083;&#1100;&#1075;&#1080;&#1103;</option>	<option value="BJ">&#1041;&#1077;&#1085;&#1080;&#1085;</option>	<option value="BM">&#1041;&#1077;&#1088;&#1084;&#1091;&#1076;&#1089;&#1082;&#1080;&#1077; &#1086;&#1089;&#1090;&#1088;&#1086;&#1074;&#1072;</option>	<option value="BG">&#1041;&#1086;&#1083;&#1075;&#1072;&#1088;&#1080;&#1103;</option>	<option value="BO">&#1041;&#1086;&#1083;&#1080;&#1074;&#1080;&#1103;</option>	<option value="BA">&#1041;&#1086;&#1089;&#1085;&#1080;&#1103; &#1080; &#1043;&#1077;&#1088;&#1094;&#1077;&#1075;&#1086;&#1074;&#1080;&#1085;&#1072;</option>	<option value="BW">&#1041;&#1086;&#1090;&#1089;&#1074;&#1072;&#1085;&#1072;</option>	<option value="BR">&#1041;&#1088;&#1072;&#1079;&#1080;&#1083;&#1080;&#1103;</option>	<option value="VG">&#1041;&#1088;&#1080;&#1090;&#1072;&#1085;&#1089;&#1082;&#1080;&#1077; &#1042;&#1080;&#1088;&#1075;&#1080;&#1085;&#1089;&#1082;&#1080;&#1077; ...</option>	<option value="BN">&#1041;&#1088;&#1091;&#1085;&#1077;&#1081;</option>	<option value="BF">&#1041;&#1091;&#1088;&#1082;&#1080;&#1085;&#1072;-&#1060;&#1072;&#1089;&#1086;</option>	<option value="BI">&#1041;&#1091;&#1088;&#1091;&#1085;&#1076;&#1080;</option>	<option value="BT">&#1041;&#1091;&#1090;&#1072;&#1085;</option>	<option value="VU">&#1042;&#1072;&#1085;&#1091;&#1072;&#1090;&#1091;</option>	<option value="VA">&#1042;&#1072;&#1090;&#1080;&#1082;&#1072;&#1085;</option>	<option value="HU">&#1042;&#1077;&#1085;&#1075;&#1088;&#1080;&#1103;</option>	<option value="VE">&#1042;&#1077;&#1085;&#1077;&#1089;&#1091;&#1101;&#1083;&#1072;</option>	<option value="VI">&#1042;&#1080;&#1088;&#1075;&#1080;&#1085;&#1089;&#1082;&#1080;&#1077; &#1086;&#1089;&#1090;&#1088;&#1086;&#1074;&#1072; &#1057;&#1086;&#1077;...</option>	<option value="TP">&#1042;&#1086;&#1089;&#1090;&#1086;&#1095;&#1085;&#1099;&#1081; &#1058;&#1080;&#1084;&#1086;&#1088;</option>	<option value="VN">&#1042;&#1100;&#1077;&#1090;&#1085;&#1072;&#1084;</option>	<option value="GA">&#1043;&#1072;&#1073;&#1086;&#1085;</option>	<option value="HT">&#1043;&#1072;&#1080;&#1090;&#1080;</option>	<option value="GY">&#1043;&#1072;&#1081;&#1072;&#1085;&#1072;</option>	<option value="GM">&#1043;&#1072;&#1084;&#1073;&#1080;&#1103;</option>	<option value="GH">&#1043;&#1072;&#1085;&#1072;</option>	<option value="GP">&#1043;&#1074;&#1072;&#1076;&#1077;&#1083;&#1091;&#1087;&#1072;</option>	<option value="GT">&#1043;&#1074;&#1072;&#1090;&#1077;&#1084;&#1072;&#1083;&#1072;</option>	<option value="GN">&#1043;&#1074;&#1080;&#1085;&#1077;&#1103;</option>	<option value="GW">&#1043;&#1074;&#1080;&#1085;&#1077;&#1103;-&#1041;&#1080;&#1089;&#1072;&#1091;</option>	<option value="DE">&#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;</option>	<option value="HN">&#1043;&#1086;&#1085;&#1076;&#1091;&#1088;&#1072;&#1089;</option>	<option value="HK">&#1043;&#1086;&#1085;&#1082;&#1086;&#1085;&#1075;</option>	<option value="GR">&#1043;&#1088;&#1077;&#1094;&#1080;&#1103;</option>	<option value="GE">&#1043;&#1088;&#1091;&#1079;&#1080;&#1103;</option>	<option value="DK">&#1044;&#1072;&#1085;&#1080;&#1103;</option>	<option value="DJ">&#1044;&#1078;&#1080;&#1073;&#1091;&#1090;&#1080;</option>	<option value="DM">&#1044;&#1086;&#1084;&#1080;&#1085;&#1080;&#1082;&#1072;</option>	<option value="DO">&#1044;&#1086;&#1084;&#1080;&#1085;&#1080;&#1082;&#1072;&#1085;&#1089;&#1082;&#1072;&#1103; &#1056;&#1077;&#1089;&#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;</option>	<option value="EG">&#1045;&#1075;&#1080;&#1087;&#1090;</option>	<option value="ZR">&#1047;&#1072;&#1080;&#1088;</option>	<option value="ZM">&#1047;&#1072;&#1084;&#1073;&#1080;&#1103;</option>	<option value="EH">&#1047;&#1072;&#1087;&#1072;&#1076;&#1085;&#1072;&#1103; &#1057;&#1072;&#1093;&#1072;&#1088;&#1072;</option>	<option value="CV">&#1047;&#1077;&#1083;&#1077;&#1085;&#1099;&#1081; &#1052;&#1099;&#1089;</option>	<option value="ZW">&#1047;&#1080;&#1084;&#1073;&#1072;&#1073;&#1074;&#1077;</option>	<option value="IL">&#1048;&#1079;&#1088;&#1072;&#1080;&#1083;&#1100;</option>	<option value="IN">&#1048;&#1085;&#1076;&#1080;&#1103;</option>	<option value="ID">&#1048;&#1085;&#1076;&#1086;&#1085;&#1077;&#1079;&#1080;&#1103;</option>	<option value="JO">&#1048;&#1086;&#1088;&#1076;&#1072;&#1085;&#1080;&#1103;</option>	<option value="IQ">&#1048;&#1088;&#1072;&#1082;</option>	<option value="IR">&#1048;&#1088;&#1072;&#1085;</option>	<option value="IE">&#1048;&#1088;&#1083;&#1072;&#1085;&#1076;&#1080;&#1103;</option>	<option value="IS">&#1048;&#1089;&#1083;&#1072;&#1085;&#1076;&#1080;&#1103;</option>	<option value="ES">&#1048;&#1089;&#1087;&#1072;&#1085;&#1080;&#1103;</option>	<option value="IT">&#1048;&#1090;&#1072;&#1083;&#1080;&#1103;</option>	<option value="YE">&#1049;&#1077;&#1084;&#1077;&#1085;</option>	<option value="KZ">&#1050;&#1072;&#1079;&#1072;&#1093;&#1089;&#1090;&#1072;&#1085;</option>	<option value="KH">&#1050;&#1072;&#1084;&#1073;&#1086;&#1076;&#1078;&#1072;</option>	<option value="CM">&#1050;&#1072;&#1084;&#1077;&#1088;&#1091;&#1085;</option>	<option value="CA">&#1050;&#1072;&#1085;&#1072;&#1076;&#1072;</option>	<option value="QA">&#1050;&#1072;&#1090;&#1072;&#1088;</option>	<option value="KE">&#1050;&#1077;&#1085;&#1080;&#1103;</option>	<option value="CY">&#1050;&#1080;&#1087;&#1088;</option>	<option value="KG">&#1050;&#1080;&#1088;&#1075;&#1080;&#1079;&#1089;&#1090;&#1072;&#1085;</option>	<option value="KI">&#1050;&#1080;&#1088;&#1080;&#1073;&#1072;&#1090;&#1080;</option>	<option value="CN">&#1050;&#1080;&#1090;&#1072;&#1081;</option>	<option value="CO">&#1050;&#1086;&#1083;&#1091;&#1084;&#1073;&#1080;&#1103;</option>	<option value="KM">&#1050;&#1086;&#1084;&#1086;&#1088;&#1086;&#1089;</option>	<option value="CG">&#1050;&#1086;&#1085;&#1075;&#1086;</option>	<option value="CR">&#1050;&#1086;&#1089;&#1090;&#1072;-&#1056;&#1080;&#1082;&#1072;</option>	<option value="CI">&#1050;&#1086;&#1090;-&#1076;'&#1048;&#1074;&#1091;&#1072;&#1088;</option>	<option value="CU">&#1050;&#1091;&#1073;&#1072;</option>	<option value="KW">&#1050;&#1091;&#1074;&#1077;&#1081;&#1090;</option>	<option value="LA">&#1051;&#1072;&#1086;&#1089;</option>	<option value="LV">&#1051;&#1072;&#1090;&#1074;&#1080;&#1103;</option>	<option value="LS">&#1051;&#1077;&#1089;&#1086;&#1090;&#1086;</option>	<option value="LR">&#1051;&#1080;&#1073;&#1077;&#1088;&#1080;&#1103;</option>	<option value="LB">&#1051;&#1080;&#1074;&#1072;&#1085;</option>	<option value="LY">&#1051;&#1080;&#1074;&#1080;&#1103;</option>	<option value="LT">&#1051;&#1080;&#1090;&#1074;&#1072;</option>	<option value="LI">&#1051;&#1080;&#1093;&#1090;&#1077;&#1085;&#1096;&#1090;&#1077;&#1081;&#1085;</option>	<option value="LU">&#1051;&#1102;&#1082;&#1089;&#1077;&#1084;&#1073;&#1091;&#1088;&#1075;</option>	<option value="MU">&#1052;&#1072;&#1074;&#1088;&#1080;&#1082;&#1080;&#1081;</option>	<option value="MR">&#1052;&#1072;&#1074;&#1088;&#1080;&#1090;&#1072;&#1085;&#1080;&#1103;</option>	<option value="MG">&#1052;&#1072;&#1076;&#1072;&#1075;&#1072;&#1089;&#1082;&#1072;&#1088;</option>	<option value="YT">&#1052;&#1072;&#1081;&#1086;&#1090;&#1090;&#1077;</option>	<option value="MK">&#1052;&#1072;&#1082;&#1077;&#1076;&#1086;&#1085;&#1080;&#1103;</option>	<option value="MY">&#1052;&#1072;&#1083;&#1072;&#1081;&#1079;&#1080;&#1103;</option>	<option value="ML">&#1052;&#1072;&#1083;&#1080;</option>	<option value="MT">&#1052;&#1072;&#1083;&#1100;&#1090;&#1072;</option>	<option value="MA">&#1052;&#1072;&#1088;&#1086;&#1082;&#1082;&#1086;</option>	<option value="MQ">&#1052;&#1072;&#1088;&#1090;&#1080;&#1085;&#1080;&#1082;&#1072;</option>	<option value="MX">&#1052;&#1077;&#1082;&#1089;&#1080;&#1082;&#1072;</option>	<option value="FM">&#1052;&#1080;&#1082;&#1088;&#1086;&#1085;&#1077;&#1079;&#1080;&#1103;</option>	<option value="MZ">&#1052;&#1086;&#1079;&#1072;&#1084;&#1073;&#1080;&#1082;</option>	<option value="MD">&#1052;&#1086;&#1083;&#1076;&#1086;&#1074;&#1072;</option>	<option value="MC">&#1052;&#1086;&#1085;&#1072;&#1082;&#1086;</option>	<option value="MN">&#1052;&#1086;&#1085;&#1075;&#1086;&#1083;&#1080;&#1103;</option>	<option value="MS">&#1052;&#1086;&#1085;&#1090;&#1089;&#1077;&#1088;&#1072;&#1090;</option>	<option value="MM">&#1052;&#8217;&#1103;&#1085;&#1084;&#1072;</option>	<option value="NA">&#1053;&#1072;&#1084;&#1080;&#1073;&#1080;&#1103;</option>	<option value="NP">&#1053;&#1077;&#1087;&#1072;&#1083;</option>	<option value="NE">&#1053;&#1080;&#1075;&#1077;&#1088;</option>	<option value="NG">&#1053;&#1080;&#1075;&#1077;&#1088;&#1080;&#1103;</option>	<option value="AN">&#1053;&#1080;&#1076;&#1077;&#1088;&#1083;&#1072;&#1085;&#1076;&#1089;&#1082;&#1080;&#1077; &#1040;&#1085;&#1090;&#1080;&#1083;&#1100;&#1089;&#1082;...</option>	<option value="NL">&#1053;&#1080;&#1076;&#1077;&#1088;&#1083;&#1072;&#1085;&#1076;&#1099;</option>	<option value="NI">&#1053;&#1080;&#1082;&#1072;&#1088;&#1072;&#1075;&#1091;&#1072;</option>	<option value="NU">&#1053;&#1080;&#1102;</option>	<option value="NZ">&#1053;&#1086;&#1074;&#1072;&#1103; &#1047;&#1077;&#1083;&#1072;&#1085;&#1076;&#1080;&#1103;</option>	<option value="NC">&#1053;&#1086;&#1074;&#1072;&#1103; &#1050;&#1072;&#1083;&#1077;&#1076;&#1086;&#1085;&#1080;&#1103;</option>	<option value="NO">&#1053;&#1086;&#1088;&#1074;&#1077;&#1075;&#1080;&#1103;</option>	<option value="AE">&#1054;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1085;&#1099;&#1077; &#1040;&#1088;&#1072;&#1073;&#1089;&#1082;&#1080;&#1077; ...</option>	<option value="OM">&#1054;&#1084;&#1072;&#1085;</option>	<option value="PK">&#1055;&#1072;&#1082;&#1080;&#1089;&#1090;&#1072;&#1085;</option>	<option value="PA">&#1055;&#1072;&#1085;&#1072;&#1084;&#1072;</option>	<option value="PG">&#1055;&#1072;&#1087;&#1091;&#1072; - &#1053;&#1086;&#1074;&#1072;&#1103; &#1043;&#1074;&#1080;&#1085;&#1077;&#1103;</option>	<option value="PY">&#1055;&#1072;&#1088;&#1072;&#1075;&#1074;&#1072;&#1081;</option>	<option value="PE">&#1055;&#1077;&#1088;&#1091;</option>	<option value="PL">&#1055;&#1086;&#1083;&#1100;&#1096;&#1072;</option>	<option value="PT">&#1055;&#1086;&#1088;&#1090;&#1091;&#1075;&#1072;&#1083;&#1080;&#1103;</option>	<option value="PR">&#1055;&#1091;&#1101;&#1088;&#1090;&#1086;-&#1056;&#1080;&#1082;&#1086;</option>	<option value="RU">&#1056;&#1086;&#1089;&#1089;&#1080;&#1103;</option>	<option value="RW">&#1056;&#1091;&#1072;&#1085;&#1076;&#1072;</option>	<option value="RO">&#1056;&#1091;&#1084;&#1099;&#1085;&#1080;&#1103;</option>	<option value="SV">&#1057;&#1072;&#1083;&#1100;&#1074;&#1072;&#1076;&#1086;&#1088;</option>	<option value="SA">&#1057;&#1072;&#1091;&#1076;&#1086;&#1074;&#1089;&#1082;&#1072;&#1103; &#1040;&#1088;&#1072;&#1074;&#1080;&#1103;</option>	<option value="SZ">&#1057;&#1074;&#1072;&#1079;&#1080;&#1083;&#1077;&#1085;&#1076;</option>	<option value="KP">&#1057;&#1077;&#1074;&#1077;&#1088;&#1085;&#1072;&#1103; &#1050;&#1086;&#1088;&#1077;&#1103;</option>	<option value="SC">&#1057;&#1077;&#1081;&#1096;&#1077;&#1083;&#1100;&#1089;&#1082;&#1080;&#1077; &#1054;&#1089;&#1090;&#1088;&#1086;&#1074;&#1072;</option>	<option value="SN">&#1057;&#1077;&#1085;&#1077;&#1075;&#1072;&#1083;</option>	<option value="SG">&#1057;&#1080;&#1085;&#1075;&#1072;&#1087;&#1091;&#1088;</option>	<option value="SY">&#1057;&#1080;&#1088;&#1080;&#1103;</option>	<option value="SK">&#1057;&#1083;&#1086;&#1074;&#1072;&#1082;&#1080;&#1103;</option>	<option value="SI">&#1057;&#1083;&#1086;&#1074;&#1077;&#1085;&#1080;&#1103;</option>	<option value="GB">&#1057;&#1086;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1085;&#1086;&#1077; &#1050;&#1086;&#1088;&#1086;&#1083;&#1077;&#1074;&#1089;&#1090;&#1074;&#1086;</option>	<option value="US">&#1057;&#1086;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1085;&#1099;&#1077; &#1064;&#1090;&#1072;&#1090;&#1099;</option>	<option value="SO">&#1057;&#1086;&#1084;&#1072;&#1083;&#1080;</option>	<option value="SD">&#1057;&#1091;&#1076;&#1072;&#1085;</option>	<option value="SR">&#1057;&#1091;&#1088;&#1080;&#1085;&#1072;&#1084;</option>	<option value="SL">&#1057;&#1100;&#1077;&#1088;&#1088;&#1072;-&#1051;&#1077;&#1086;&#1085;&#1077;</option>	<option value="TJ">&#1058;&#1072;&#1076;&#1078;&#1080;&#1082;&#1080;&#1089;&#1090;&#1072;&#1085;</option>	<option value="TH">&#1058;&#1072;&#1080;&#1083;&#1072;&#1085;&#1076;</option>	<option value="TW">&#1058;&#1072;&#1081;&#1074;&#1072;&#1085;&#1100;</option>	<option value="TZ">&#1058;&#1072;&#1085;&#1079;&#1072;&#1085;&#1080;&#1103;</option>	<option value="TG">&#1058;&#1086;&#1075;&#1086;</option>	<option value="TK">&#1058;&#1086;&#1082;&#1077;&#1083;&#1072;&#1091;</option>	<option value="TO">&#1058;&#1086;&#1085;&#1075;&#1072;</option>	<option value="TT">&#1058;&#1088;&#1080;&#1085;&#1080;&#1076;&#1072;&#1076; &#1080; &#1058;&#1086;&#1073;&#1072;&#1075;&#1086;</option>	<option value="TN">&#1058;&#1091;&#1085;&#1080;&#1089;</option>	<option value="TM">&#1058;&#1091;&#1088;&#1082;&#1084;&#1077;&#1085;&#1080;&#1089;&#1090;&#1072;&#1085;</option>	<option value="TR">&#1058;&#1091;&#1088;&#1094;&#1080;&#1103;</option>	<option value="UG">&#1059;&#1075;&#1072;&#1085;&#1076;&#1072;</option>	<option value="UZ">&#1059;&#1079;&#1073;&#1077;&#1082;&#1080;&#1089;&#1090;&#1072;&#1085;</option>	<option value="UA">&#1059;&#1082;&#1088;&#1072;&#1080;&#1085;&#1072;</option>	<option value="UY">&#1059;&#1088;&#1091;&#1075;&#1074;&#1072;&#1081;</option>	<option value="FJ">&#1060;&#1080;&#1076;&#1078;&#1080;</option>	<option value="PH">&#1060;&#1080;&#1083;&#1080;&#1087;&#1087;&#1080;&#1085;&#1099;</option>	<option value="FI">&#1060;&#1080;&#1085;&#1083;&#1103;&#1085;&#1076;&#1080;&#1103;</option>	<option value="FR">&#1060;&#1088;&#1072;&#1085;&#1094;&#1080;&#1103;</option>	<option value="GF">&#1060;&#1088;&#1072;&#1085;&#1094;&#1091;&#1079;&#1089;&#1082;&#1072;&#1103; &#1043;&#1074;&#1080;&#1085;&#1077;&#1103;</option>	<option value="PF">&#1060;&#1088;&#1072;&#1085;&#1094;&#1091;&#1079;&#1089;&#1082;&#1072;&#1103; &#1055;&#1086;&#1083;&#1080;&#1085;&#1077;&#1079;&#1080;&#1103;</option>	<option value="HR">&#1061;&#1086;&#1088;&#1074;&#1072;&#1090;&#1080;&#1103;</option>	<option value="CF">&#1062;&#1077;&#1085;&#1090;&#1088;&#1072;&#1083;&#1100;&#1085;&#1086;&#1072;&#1092;&#1088;&#1080;&#1082;&#1072;&#1085;&#1089;&#1082;&#1072;&#1103; ...</option>	<option value="TD">&#1063;&#1072;&#1076;</option>	<option value="CZ">&#1063;&#1077;&#1093;&#1080;&#1103;</option>	<option value="CL">&#1063;&#1080;&#1083;&#1080;</option>	<option value="CH">&#1064;&#1074;&#1077;&#1081;&#1094;&#1072;&#1088;&#1080;&#1103;</option>	<option value="SE">&#1064;&#1074;&#1077;&#1094;&#1080;&#1103;</option>	<option value="LK">&#1064;&#1088;&#1080;-&#1051;&#1072;&#1085;&#1082;&#1072;</option>	<option value="EC">&#1069;&#1082;&#1074;&#1072;&#1076;&#1086;&#1088;</option>	<option value="GQ">&#1069;&#1082;&#1074;&#1072;&#1090;&#1086;&#1088;&#1080;&#1072;&#1083;&#1100;&#1085;&#1072;&#1103; &#1043;&#1074;&#1080;&#1085;&#1077;&#1103;</option>	<option value="ER">&#1069;&#1088;&#1080;&#1090;&#1088;&#1077;&#1103;</option>	<option value="EE">&#1069;&#1089;&#1090;&#1086;&#1085;&#1080;&#1103;</option>	<option value="ET">&#1069;&#1092;&#1080;&#1086;&#1087;&#1080;&#1103;</option>	<option value="YU">&#1070;&#1075;&#1086;&#1089;&#1083;&#1072;&#1074;&#1080;&#1103;</option>	<option value="ZA">&#1070;&#1078;&#1085;&#1072;&#1103; &#1040;&#1092;&#1088;&#1080;&#1082;&#1072;</option>	<option value="KR">&#1070;&#1078;&#1085;&#1072;&#1103; &#1050;&#1086;&#1088;&#1077;&#1103;</option>	<option value="JM">&#1071;&#1084;&#1072;&#1081;&#1082;&#1072;</option>	<option value="JP">&#1071;&#1087;&#1086;&#1085;&#1080;&#1103;</option>	<option value="TF">&#1092;&#1088;&#1072;&#1085;&#1094;&#1091;&#1079;&#1089;&#1082;&#1080;&#1077; &#1102;&#1078;&#1085;&#1099;&#1077; &#1090;&#1077;&#1088;&#1088;...</option></select>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:selectOneLanguage" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<select name="_id0:_id1" size="1" onchange="this.form.submit();">	<option value="ab">&#1072;&#1073;&#1093;&#1072;&#1079;&#1089;&#1082;&#1080;&#1081;</option>	<option value="az">&#1072;&#1079;&#1077;&#1088;&#1073;&#1072;&#1081;&#1076;&#1078;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ay">&#1072;&#1081;&#1084;&#1072;&#1088;&#1072;</option>	<option value="sq">&#1072;&#1083;&#1073;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="am">&#1072;&#1084;&#1093;&#1072;&#1088;&#1080;&#1082;</option>	<option value="en">&#1072;&#1085;&#1075;&#1083;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ar">&#1072;&#1088;&#1072;&#1073;&#1089;&#1082;&#1080;&#1081;</option>	<option value="hy">&#1072;&#1088;&#1084;&#1103;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="as">&#1072;&#1089;&#1089;&#1072;&#1084;&#1089;&#1082;&#1080;&#1081;</option>	<option value="aa">&#1072;&#1092;&#1072;&#1088;</option>	<option value="af">&#1072;&#1092;&#1088;&#1080;&#1082;&#1072;&#1072;&#1085;&#1089;</option>	<option value="eu">&#1073;&#1072;&#1089;&#1082;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ba">&#1073;&#1072;&#1096;&#1082;&#1080;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="be">&#1073;&#1077;&#1083;&#1086;&#1088;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</option>	<option value="bn">&#1073;&#1077;&#1085;&#1075;&#1072;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="my">&#1073;&#1080;&#1088;&#1084;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="bi">&#1073;&#1080;&#1089;&#1083;&#1072;&#1084;&#1072;</option>	<option value="bh">&#1073;&#1080;&#1093;&#1072;&#1088;&#1080;</option>	<option value="bg">&#1073;&#1086;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="br">&#1073;&#1088;&#1077;&#1090;&#1086;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="dz">&#1073;&#1091;&#1090;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="cy">&#1074;&#1072;&#1083;&#1083;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="hu">&#1074;&#1077;&#1085;&#1075;&#1077;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="wo">&#1074;&#1086;&#1083;&#1086;&#1092;</option>	<option value="vo">&#1074;&#1086;&#1083;&#1103;&#1087;&#1102;&#1082;</option>	<option value="vi">&#1074;&#1100;&#1077;&#1090;&#1085;&#1072;&#1084;&#1089;&#1082;&#1080;&#1081;</option>	<option value="gl">&#1075;&#1072;&#1083;&#1080;&#1089;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="gd">&#1075;&#1072;&#1101;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="kl">&#1075;&#1088;&#1077;&#1085;&#1083;&#1072;&#1085;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="el">&#1075;&#1088;&#1077;&#1095;&#1077;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ka">&#1075;&#1088;&#1091;&#1079;&#1080;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="gn">&#1075;&#1091;&#1072;&#1088;&#1072;&#1085;&#1080;</option>	<option value="gu">&#1075;&#1091;&#1103;&#1088;&#1072;&#1090;&#1080;</option>	<option value="da">&#1076;&#1072;&#1090;&#1089;&#1082;&#1080;&#1081;</option>	<option value="iw">&#1076;&#1088;&#1077;&#1074;&#1085;&#1077;&#1077;&#1074;&#1088;&#1077;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="za">&#1078;&#1072;&#1085;&#1075;</option>	<option value="zu">&#1079;&#1091;&#1083;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</option>	<option value="yi">&#1080;&#1076;&#1080;&#1096;</option>	<option value="in">&#1080;&#1085;&#1076;&#1086;&#1085;&#1077;&#1079;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ie">&#1080;&#1085;&#1090;&#1077;&#1088;&#1083;&#1080;&#1085;&#1075;&#1074;&#1072;</option>	<option value="iu">&#1080;&#1085;&#1091;&#1082;&#1090;&#1080;&#1090;&#1091;&#1090;</option>	<option value="ik">&#1080;&#1085;&#1091;&#1087;&#1080;&#1072;&#1082;</option>	<option value="ga">&#1080;&#1088;&#1083;&#1072;&#1085;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="is">&#1080;&#1089;&#1083;&#1072;&#1085;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="es">&#1080;&#1089;&#1087;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="it">&#1080;&#1090;&#1072;&#1083;&#1100;&#1103;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="yo">&#1081;&#1086;&#1088;&#1091;&#1073;&#1072;</option>	<option value="kk">&#1082;&#1072;&#1079;&#1072;&#1093;&#1089;&#1082;&#1080;&#1081;</option>	<option value="km">&#1082;&#1072;&#1084;&#1073;&#1086;&#1076;&#1078;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="kn">&#1082;&#1072;&#1085;&#1072;&#1076;&#1072;</option>	<option value="ca">&#1082;&#1072;&#1090;&#1072;&#1083;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ks">&#1082;&#1072;&#1096;&#1084;&#1080;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="qu">&#1082;&#1077;&#1095;&#1091;&#1072;</option>	<option value="rw">&#1082;&#1080;&#1085;&#1080;&#1072;&#1088;&#1074;&#1072;&#1085;&#1076;&#1072;</option>	<option value="ky">&#1082;&#1080;&#1088;&#1075;&#1080;&#1079;&#1089;&#1082;&#1080;&#1081;</option>	<option value="rn">&#1082;&#1080;&#1088;&#1091;&#1085;&#1076;&#1080;</option>	<option value="zh">&#1082;&#1080;&#1090;&#1072;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ko">&#1082;&#1086;&#1088;&#1077;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="co">&#1082;&#1086;&#1088;&#1089;&#1080;&#1082;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ku">&#1082;&#1091;&#1088;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="lo">&#1083;&#1072;&#1086;&#1089;&#1089;&#1082;&#1080;&#1081;</option>	<option value="lv">&#1083;&#1072;&#1090;&#1074;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="la">&#1083;&#1072;&#1090;&#1080;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ln">&#1083;&#1080;&#1085;&#1075;&#1072;&#1083;&#1072;</option>	<option value="lt">&#1083;&#1080;&#1090;&#1086;&#1074;&#1089;&#1082;&#1080;&#1081;</option>	<option value="mk">&#1084;&#1072;&#1082;&#1077;&#1076;&#1086;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="mg">&#1084;&#1072;&#1083;&#1072;&#1075;&#1072;&#1089;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ms">&#1084;&#1072;&#1083;&#1072;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ml">&#1084;&#1072;&#1083;&#1072;&#1081;&#1103;&#1083;&#1072;&#1084;</option>	<option value="mt">&#1084;&#1072;&#1083;&#1100;&#1090;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="mi">&#1084;&#1072;&#1086;&#1088;&#1080;</option>	<option value="mr">&#1084;&#1072;&#1088;&#1072;&#1090;&#1093;&#1080;</option>	<option value="mo">&#1084;&#1086;&#1083;&#1076;&#1072;&#1074;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="mn">&#1084;&#1086;&#1085;&#1075;&#1086;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="na">&#1085;&#1072;&#1091;&#1088;&#1091;</option>	<option value="de">&#1085;&#1077;&#1084;&#1077;&#1094;&#1082;&#1080;&#1081;</option>	<option value="ne">&#1085;&#1077;&#1087;&#1072;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="nl">&#1085;&#1080;&#1076;&#1077;&#1088;&#1083;&#1072;&#1085;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="no">&#1085;&#1086;&#1088;&#1074;&#1077;&#1078;&#1089;&#1082;&#1080;&#1081;</option>	<option value="or">&#1086;&#1088;&#1080;&#1103;</option>	<option value="om">&#1086;&#1088;&#1086;&#1084;&#1086;</option>	<option value="oc">&#1086;&#1089;&#1077;&#1090;&#1080;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ps">&#1087;&#1072;&#1096;&#1090;&#1086; (&#1087;&#1091;&#1096;&#1090;&#1086;)</option>	<option value="pa">&#1087;&#1077;&#1085;&#1076;&#1078;&#1072;&#1073;&#1080;</option>	<option value="fa">&#1087;&#1077;&#1088;&#1089;&#1080;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="sm">&#1087;&#1086;&#1083;&#1080;&#1085;&#1077;&#1079;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="pl">&#1087;&#1086;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="pt">&#1087;&#1086;&#1088;&#1090;&#1091;&#1075;&#1072;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="rm">&#1088;&#1077;&#1090;&#1086;&#1088;&#1086;&#1084;&#1072;&#1085;&#1089;&#1082;&#1080;&#1077; &#1076;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090;&#1099;</option>	<option value="ro">&#1088;&#1091;&#1084;&#1099;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ru">&#1088;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</option>	<option value="su">&#1089;&#1072;&#1085;&#1076;&#1072;&#1085;&#1077;&#1079;&#1089;&#1082;&#1080;&#1081;</option>	<option value="sa">&#1089;&#1072;&#1085;&#1089;&#1082;&#1088;&#1080;&#1090;</option>	<option value="sg">&#1089;&#1072;&#1085;&#1093;&#1086;</option>	<option value="sr">&#1089;&#1077;&#1088;&#1073;&#1089;&#1082;&#1080;&#1081;</option>	<option value="sh">&#1089;&#1077;&#1088;&#1073;&#1089;&#1082;&#1086;&#1093;&#1086;&#1088;&#1074;&#1072;&#1090;&#1089;&#1082;&#1080;&#1081;</option>	<option value="st">&#1089;&#1077;&#1089;&#1086;&#1079;&#1086;</option>	<option value="tn">&#1089;&#1077;&#1090;&#1089;&#1074;&#1072;&#1085;&#1072;</option>	<option value="si">&#1089;&#1080;&#1085;&#1075;&#1072;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="sd">&#1089;&#1080;&#1085;&#1093;&#1080;</option>	<option value="ug">&#1089;&#1080;&#1085;&#1094;&#1079;&#1103;&#1085;-&#1059;&#1081;&#1075;&#1091;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ss">&#1089;&#1080;&#1089;&#1074;&#1072;&#1090;&#1080;</option>	<option value="sk">&#1089;&#1083;&#1086;&#1074;&#1072;&#1094;&#1082;&#1080;&#1081;</option>	<option value="sl">&#1089;&#1083;&#1086;&#1074;&#1077;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="so">&#1089;&#1086;&#1084;&#1072;&#1083;&#1080;</option>	<option value="sw">&#1089;&#1091;&#1072;&#1093;&#1080;&#1083;&#1080;</option>	<option value="tl">&#1090;&#1072;&#1075;&#1072;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="tg">&#1090;&#1072;&#1076;&#1078;&#1080;&#1082;&#1089;&#1082;&#1080;&#1081;</option>	<option value="th">&#1090;&#1072;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ta">&#1090;&#1072;&#1084;&#1080;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;</option>	<option value="tt">&#1090;&#1072;&#1090;&#1072;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="tw">&#1090;&#1074;&#1080;</option>	<option value="te">&#1090;&#1077;&#1083;&#1091;&#1075;&#1091;</option>	<option value="bo">&#1090;&#1080;&#1073;&#1077;&#1090;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ti">&#1090;&#1080;&#1075;&#1088;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081;</option>	<option value="to">&#1090;&#1086;&#1085;&#1075;&#1072;</option>	<option value="ts">&#1090;&#1089;&#1086;&#1085;&#1075;&#1072;</option>	<option value="tr">&#1090;&#1091;&#1088;&#1077;&#1094;&#1082;&#1080;&#1081;</option>	<option value="tk">&#1090;&#1091;&#1088;&#1082;&#1084;&#1077;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="uz">&#1091;&#1079;&#1073;&#1077;&#1082;&#1089;&#1082;&#1080;&#1081;</option>	<option value="uk">&#1091;&#1082;&#1088;&#1072;&#1080;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ur">&#1091;&#1088;&#1076;&#1091;</option>	<option value="fo">&#1092;&#1072;&#1088;&#1077;&#1088;&#1089;&#1082;&#1080;&#1081;</option>	<option value="fj">&#1092;&#1080;&#1076;&#1078;&#1080;</option>	<option value="fi">&#1092;&#1080;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="fr">&#1092;&#1088;&#1072;&#1085;&#1094;&#1091;&#1079;&#1082;&#1080;&#1081;</option>	<option value="fy">&#1092;&#1088;&#1080;&#1079;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ha">&#1093;&#1072;&#1091;&#1089;</option>	<option value="hi">&#1093;&#1080;&#1085;&#1076;&#1080;</option>	<option value="hr">&#1093;&#1086;&#1088;&#1074;&#1072;&#1090;&#1089;&#1082;&#1080;&#1081;</option>	<option value="xh">&#1093;&#1086;&#1089;&#1072;</option>	<option value="cs">&#1095;&#1077;&#1096;&#1089;&#1082;&#1080;&#1081;</option>	<option value="sv">&#1096;&#1074;&#1077;&#1076;&#1089;&#1082;&#1080;&#1081;</option>	<option value="sn">&#1096;&#1086;&#1085;&#1072;</option>	<option value="eo">&#1101;&#1089;&#1087;&#1077;&#1088;&#1072;&#1085;&#1090;&#1086;</option>	<option value="et">&#1101;&#1089;&#1090;&#1086;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="jw">&#1103;&#1074;&#1072;&#1085;&#1089;&#1082;&#1080;&#1081;</option>	<option value="ja">&#1103;&#1087;&#1086;&#1085;&#1089;&#1082;&#1080;&#1081;</option></select>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="t:buffer" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+		<span/>
+		</vpe:template>
+	</vpe:tag>
+	
+    <vpe:tag name="t:selectManyMenu" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<select style="{@style}" class="{@styleClass}" title="{tagstring()}"/>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes">
+						<vpe:container-child tag-name="selectItem"/>
+						<vpe:container-child tag-name="selectItems"/>
+				</vpe:drop>
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+					</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="t:panelGrid" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<vpe:panelgrid border="{@border}" style="{@style}" class="{@styleClass}" width="{@width}" frame="{@frame}" rules="{@rules}"
+						columnClasses="{@columnClasses}" footerClass="{@footerClass}" headerClass="{@headerClass}" rowClasses="{@rowClasses}"
+						cellspacing="{@cellspacing}" cellpadding="{@cellpadding}" bgcolor="{@bgcolor}" title="{tagstring()}"
+						table-size="{@columns}"/>
+			<vpe:resize>
+				<vpe:width width-attr="width" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes"/>
+			</vpe:dnd>
+			<vpe:breaker type="ignore"/>
+			<vpe:textFormating>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+		</vpe:template>
+    </vpe:tag>
+
+	<vpe:tag name="t:inputHtml" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+		<span><b>inputHtml</b></span>
+		</vpe:template>
+	</vpe:tag>	
+</vpe:templates>

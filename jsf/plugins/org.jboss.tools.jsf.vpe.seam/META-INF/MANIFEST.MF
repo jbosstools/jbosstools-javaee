@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Seam VPE support Plug-in
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.seam;singleton:=true
+Bundle-Version: 2.0.0
+Bundle-Localization: plugin
+Require-Bundle: org.jboss.tools.vpe
+Bundle-Vendor: Red Hat, Inc.

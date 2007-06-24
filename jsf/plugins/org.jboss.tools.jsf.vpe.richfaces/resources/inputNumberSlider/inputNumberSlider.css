@@ -1,0 +1,89 @@
+.minValueStyle { 
+	border-color: ;
+ 	color: #000000;
+	font-family: Arial, Verdana, sans-serif;
+ 	font-size: 11px;
+  	line-height: 11px;
+  	border-left:1px solid #b0b0b0;
+  	padding: 0px 3px;
+  	text-align:left;
+}
+.maxValueStyle {
+	border-color: ;
+	color: #000000;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	line-height: 11px;
+	border-right: 1px solid #b0b0b0;
+	padding: 0px 3px;
+	text-align: right;
+}
+.inputStyleClass {
+	background-color:#FFFFFF;
+	color:#000000;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	background-position:left top;
+	background-repeat:repeat-x;
+	border-color:#000000 rgb(176, 176, 176) rgb(176, 176, 176) rgb(0, 0, 0);
+	border-style:solid;
+	border-width:1px;
+	margin:0px 0px 0px 10px;
+	padding:0px 0px 0px 3px;
+}
+
+.cellForTableStyleClass {
+	width:100%;
+	padding-top:3px;
+}
+
+.dr-insldr-tip {
+	border: 1px solid #E5973E;
+	padding: 0px 2px;
+	position: absolute;
+	top: -17px;
+	white-space: nowrap;
+	font-family: Arial,Verdana,sans-serif;
+	font-size: 11px;
+}
+.dr-insldr-handler {
+	background-color:transparent;
+	background-image: ;
+	font-size:1px;
+	height:8px;
+	position:absolute;
+	text-align:center;
+	width:7px;
+	z-index:1;
+}
+.dr-insldr-track {
+	background-position:left top;
+	background-repeat:repeat-x;
+	font-size:1px;
+	height:8px;
+	vertical-align : bottom;
+	background-color:#FFFFFF;
+	background-image: ; 
+}
+.manualInputFieldTableCellClass{
+vertical-align : bottom;
+}
+.innerTableStyle {
+	border-color:;
+	border:1px solid #b0b0b0;
+	height:100%;
+	width:100%;
+}
+.cell-with-picture {
+	border-color: #ffffff;
+	border: 1px solid white;
+	align: left;
+	height: 4px;
+	width: 7px;
+}
+.mainTableStyle{
+width :200px;
+}
+.empty-cell-style {
+font-size: 4px;
+}
