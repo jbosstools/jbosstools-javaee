@@ -17,10 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <includes
-         id="com.redhat.rhds.product.feature"
-         version="0.0.0"/>
-
    <plugin
          id="org.jboss.tools.common"
          download-size="0"
