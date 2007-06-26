@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.test;
 
+import org.jboss.tools.seam.core.test.project.facet.SeamFaceInstallDelegeteTest;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 /**
@@ -23,6 +25,7 @@ public class SeamCoreAllTests {
 		TestSuite suite = new TestSuite();
 		suite.setName("All tests for " + PLUGIN_ID);
 		suite.addTestSuite(ScannerTest.class);
+		suite.addTestSuite(SeamFaceInstallDelegeteTest.class);
 		return suite;
 	}
 }

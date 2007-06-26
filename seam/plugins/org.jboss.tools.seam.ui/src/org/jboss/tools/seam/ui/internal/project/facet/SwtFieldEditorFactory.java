@@ -24,20 +24,16 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 
 	public IFieldEditor createCheckboxEditor(String name, String label,
 			boolean defaultValue) {
-		// TODO Auto-generated method stub
 		return new CheckBoxFieldEditor(name,label,Boolean.valueOf(defaultValue));
 	}
 
 	public IFieldEditor createComboEditor(String name, String label,
 			List values, Object defaultValue) {
-		// TODO Auto-generated method stub
 		return new ComboFieldEditor(name,label,values,defaultValue.toString());
 	}
 
-	public IFieldEditor createTextExitor(String name, String label, String defaultValue) {
-		// TODO Auto-generated method stub
+	public IFieldEditor createTextEditor(String name, String label, String defaultValue) {
 		return  new TextFieldEditor(name,label,defaultValue);
-	
 	}
 	
 	public IFieldEditor createBrowseFolderEditor(String name, String label, String defaultValue) {

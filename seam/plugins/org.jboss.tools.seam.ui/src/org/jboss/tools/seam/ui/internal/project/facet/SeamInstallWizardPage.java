@@ -52,22 +52,22 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor jBossHibernateDialectEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
 			"Hibernate Dialect:",Arrays.asList(HIBERNATE_HELPER.getDialectNames()),"HSQL");
-	IFieldEditor jdbcDriverClassname = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor jdbcDriverClassname = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.JDBC_DRIVER_CLASS_NAME,
 			"JDBC Driver Class for Your Database:","com.package1.Classname");
-	IFieldEditor jdbcUrlForDb = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor jdbcUrlForDb = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.JDBC_URL_FOR_DB, 
 			"JDBC Url for Your Database:", "url://domain/");
-	IFieldEditor dbUserName = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor dbUserName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_USER_NAME, 
 			"Database User Name:", "username");
-	IFieldEditor dbUserPassword = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor dbUserPassword = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_PASSWORD, 
 			"User Password:", "password");
-	IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_SCHEMA_NAME, 
 			"Database Schema Name:", "schema-name");
-	IFieldEditor dbCatalogName = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor dbCatalogName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_CATALOG_NAME, 
 			"Database Catalog Name:", "catalog-name");
 	IFieldEditor dbTablesExists = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
@@ -76,17 +76,17 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor recreateTablesOnDeploy = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 			ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY, 
 			"Recreate database tables and data on deploy:", false);
-	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties. JDBC_DRIVER_JAR_PATH, 
 			"File :", "url://domain/");
 	// Code generation group
-	IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
 			"Session Bean Package Name:","com.mydomain.projectname.session");
-	IFieldEditor entityBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor entityBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
 			"Entity Bean Package Name:","com.mydomain.projectname.entity");
-	IFieldEditor testsPkgNameditor = IFieldEditorFactory.INSTANCE.createTextExitor(
+	IFieldEditor testsPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
 			"Session Bean Package Name:","com.mydomain.projectname.test");
 	

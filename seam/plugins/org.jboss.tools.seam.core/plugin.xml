@@ -70,7 +70,7 @@
             type="install"
             version="1.2">
          <delegate
-               class="org.jboss.tools.seam.core.internal.project.facet.SeamFaceInstallDelegete">
+               class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDelegete">
          </delegate>
          <config-factory
                class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDataModelProvider">

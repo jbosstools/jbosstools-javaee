@@ -24,7 +24,7 @@ public interface IFieldEditorFactory {
 	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createTextExitor(String name, String label, String defaultValue);
+	IFieldEditor createTextEditor(String name, String label, String defaultValue);
 	/**
 	 * 
 	 * @param name TODO

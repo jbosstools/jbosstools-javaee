@@ -21,20 +21,7 @@ public class SeamFacetUninstallDelegate extends Object implements IDelegate {
 
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
-		// TODO - copy veiw folder from seam-gen installation to
-		// project location with filled out FIlterSet
-		
-		// TODO copy manifest and configuration resources the same way as view
-		
-		// TODO copy libraries/link libraries
-		
-		// TODO generate db support as seam-gen does
-		
-		// TODO may be generate RHDS studio feature to show it on projects view
-		
-		// TODO say JBoss AS adapter what kind of deployment to use
-		
-		// TODO ggenerate build.xml
+
 	}
 
 }

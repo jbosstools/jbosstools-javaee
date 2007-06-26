@@ -33,7 +33,7 @@ public class AntCopyUtils {
 		//set.readFiltersFromFile(filtersFile);
 		set.addFilter("methodName", "testValue");
 
-			copycopyFoldersByAntByAnt(new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view"), new File("C:\\temp\\WebContent"), new FilterSetCollection(set),true);
+			copyFilesAndFolders(new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view"), new File("C:\\temp\\WebContent"), new FilterSetCollection(set),true);
 
 	
 	}
@@ -43,12 +43,12 @@ public class AntCopyUtils {
 		public File getBaseDir();
 	}
 
-	public static void copycopyFoldersByAntByAnt(File sourceFolder, File destinationFolder, FilterSetCollection set, boolean override) {
+	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder, FilterSetCollection set, boolean override) {
 		if(!destinationFolder.exists()) destinationFolder.mkdirs();
 		File[] files = sourceFolder.listFiles();
 		for (File file : files) {
 			if(file.isDirectory()) {
-				copycopyFoldersByAntByAnt(file,new File(destinationFolder,file.getName()),set,override);
+				copyFilesAndFolders(file,new File(destinationFolder,file.getName()),set,override);
 			} else {
 				try {
 					FileUtils.getFileUtils().copyFile(file, new File(destinationFolder,file.getName()),set,override);

@@ -133,24 +133,54 @@ public class SeamComponentsView extends ViewPart {
  * expose its hierarchy.
  */
 		private void initialize() {
-			TreeObject to1 = new TreeObject("Leaf 1");
-			TreeObject to2 = new TreeObject("Leaf 2");
-			TreeObject to3 = new TreeObject("Leaf 3");
-			TreeParent p1 = new TreeParent("Parent 1");
-			p1.addChild(to1);
-			p1.addChild(to2);
-			p1.addChild(to3);
+			TreeParent to1 = new TreeParent("Conetx Variable 1");
+			TreeObject class1 = new TreeObject("org.domain.package.Class1");
+			TreeObject class2 = new TreeObject("org.domain.package.Class2");
+			TreeObject role1 = new TreeObject("role1");
+			TreeObject xml1 = new TreeObject("component.xml");
+			TreeObject xml2 = new TreeObject("Class3.component.xml");
+			to1.addChild(class1);
+			to1.addChild(class2);
+			to1.addChild(xml1);
+			to1.addChild(xml2);
+			to1.addChild(role1);
 			
-			TreeObject to4 = new TreeObject("Leaf 4");
-			TreeParent p2 = new TreeParent("Parent 2");
-			p2.addChild(to4);
+			TreeParent to2 = new TreeParent("Conetx Variable 2");
+			TreeParent to3 = new TreeParent("Conetx Variable 3");
+			TreeParent stateless = new TreeParent("STATELESS");
+			stateless.addChild(to1);
+			stateless.addChild(to2);
+			stateless.addChild(to3);
 			
-			TreeParent root = new TreeParent("Root");
-			root.addChild(p1);
-			root.addChild(p2);
+			TreeObject to4 = new TreeParent("Conetx Variable 4");
+			TreeParent method = new TreeParent("METHOD");
+			method.addChild(to4);
+			
+			TreeParent event = new TreeParent("EVENT");
+			
+			TreeParent page = new TreeParent("PAGE");
+			TreeParent conversation = new TreeParent("CONVERSATION");
+			TreeParent session = new TreeParent("SESSION");
+			TreeParent app = new TreeParent("APPLICATION");
+			TreeParent bp = new TreeParent("BUSINESS_PROCESS");
+			TreeParent unspec = new TreeParent("UNSPECIFIED");
+			
+			TreeParent root1 = new TreeParent("Seam Project 1");
+			
+			TreeParent root2 = new TreeParent("Seam Project 2");
+			
+			root1.addChild(stateless);
+			root1.addChild(method);
+			root1.addChild(event);
+			root1.addChild(page);
+			root1.addChild(conversation);
+			root1.addChild(session);
+			root1.addChild(app);
+			root1.addChild(bp);
+			root1.addChild(unspec);
 			
 			invisibleRoot = new TreeParent("");
-			invisibleRoot.addChild(root);
+			invisibleRoot.addChild(root1);
 		}
 	}
 	class ViewLabelProvider extends LabelProvider {
