@@ -125,14 +125,10 @@ public class ListEntries extends ExpandableForm {
 		this.setHeadingText(FacesConfigEditorMessages.LISTENTRIESFORM_HEADER);
 		this.xmo = (XModelObject) model;
 		if (xmo == null) {
-			Status s = new Status(
-					Status.OK,
-					JsfUiPlugin.PLUGIN_ID,
-					Status.OK,
+			JsfUiPlugin.getPluginLog().logInfo(
 					"Error to create form "
 							+ FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER
-							+ ". Model object cannot be null.", new Exception());
-			JsfUiPlugin.log(s);
+							+ ". Model object cannot be null.", new Exception());			
 			return;
 		}
 		this.model = xmo.getModel();

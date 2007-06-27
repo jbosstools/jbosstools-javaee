@@ -10,14 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
+import org.jboss.tools.common.log.IPluginLog;
 import org.osgi.framework.BundleContext;
 
-public class JsfUiPlugin extends AbstractUIPlugin {
+public class JsfUiPlugin extends BaseUIPlugin {
 
 	public static String PLUGIN_ID = "org.jboss.tools.jsf.ui";
 
@@ -39,25 +38,16 @@ public class JsfUiPlugin extends AbstractUIPlugin {
 	static class PluginHolder {
 		static JsfUiPlugin INSTANCE = (JsfUiPlugin)Platform.getPlugin(PLUGIN_ID); 
 	}
-
-
-	public static void log(String msg) {
-		if(isDebugEnabled()) PluginHolder.INSTANCE.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));		
-	}
 	
-	public static void log(IStatus status) {
-		if(isDebugEnabled() || !status.isOK()) PluginHolder.INSTANCE.getLog().log(status);
-	}
-	
-	public static void log(String message, Throwable exception) {
-		PluginHolder.INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, message, exception));		
-	}
-	
-	public static void log(Exception ex) {
-		PluginHolder.INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, "No message", ex));
-	}
 
 	public static Shell getShell() {
 		return PluginHolder.INSTANCE.getWorkbench().getActiveWorkbenchWindow().getShell();
+	}
+	
+	/**
+	 * @return IPluginLog object
+	 */
+	public static IPluginLog getPluginLog() {
+		return getDefault();
 	}
 }

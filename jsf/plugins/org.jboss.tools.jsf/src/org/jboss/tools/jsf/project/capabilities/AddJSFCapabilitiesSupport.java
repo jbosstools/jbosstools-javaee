@@ -33,7 +33,7 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
 		try {
 			performer.init(getTarget().getModel());
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}
 		getProperties().put("CapabilitiesPerformer", performer);
 	}

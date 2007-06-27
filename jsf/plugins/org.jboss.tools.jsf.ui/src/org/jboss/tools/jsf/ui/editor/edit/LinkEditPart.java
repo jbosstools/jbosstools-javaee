@@ -77,7 +77,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 				action.executeHandler(
 						(XModelObject) getLinkModel().getSource(), null);
 		} catch (Exception e) {
-    		JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 										((GroupEditPart) getTarget())
 												.getGroupModel().getSource()));
 			} catch (Exception ex) {
-	    		JsfUiPlugin.log(ex);
+				JsfUiPlugin.getPluginLog().logError(ex);
 			}
 			return;
 		}

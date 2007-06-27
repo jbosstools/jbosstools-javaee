@@ -126,8 +126,7 @@ public class LocaleConfigForm extends ExpandableForm {
 			this.xmo = current.getChildByPath("Locale Config");
 		}
 		if(xmo == null) {
-			Status s = new Status(Status.OK, JsfUiPlugin.PLUGIN_ID, Status.OK, "Error to create form "+FacesConfigEditorMessages.LOCALECONFIGFORM_HEADER+". Model object cannot be null.", new Exception());
-			JsfUiPlugin.log(s);
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.LOCALECONFIGFORM_HEADER+". Model object cannot be null.", new Exception());
 			return;
 		}
 		this.model = xmo.getModel();

@@ -47,7 +47,7 @@ public class JSFStudioVariableInitializer extends ClasspathVariableInitializer {
 			try {
 				JavaCore.setClasspathVariable(variable, ssLibPath, new NullProgressMonitor());
 			} catch (JavaModelException ex) {
-				JSFModelPlugin.log(ex);
+				JSFModelPlugin.getPluginLog().logError(ex);
 			}
 		}
 	}

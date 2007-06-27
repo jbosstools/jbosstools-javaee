@@ -122,14 +122,12 @@ public class ApplicationConfigForm extends ExpandableForm {
 	public void initialize(Object model) {
 		this.setHeadingText(FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER);
 		if(model == null) {
-			Status s = new Status(Status.OK, JsfUiPlugin.PLUGIN_ID, Status.OK, "Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER +". Model object cannot be null.", new Exception());
-			JsfUiPlugin.log(s);
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER +". Model object cannot be null.", new Exception());
 			return;
 		}
 		this.xmo = ((XModelObject)model).getChildByPath("application");
 		if(xmo == null) {
-			Status s = new Status(Status.OK, JsfUiPlugin.PLUGIN_ID, Status.OK, "Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER+". Model object cannot be null.", new Exception());
-			JsfUiPlugin.log(s);
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER+". Model object cannot be null.", new Exception());
 			return;
 		}
 		this.support.init(xmo);

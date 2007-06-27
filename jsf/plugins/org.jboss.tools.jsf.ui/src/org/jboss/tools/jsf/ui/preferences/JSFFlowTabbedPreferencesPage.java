@@ -38,7 +38,7 @@ public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 			XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint();
 			l.setValues(templates.getPageTemplateList());
 		} catch (Exception e) {
-			JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 }

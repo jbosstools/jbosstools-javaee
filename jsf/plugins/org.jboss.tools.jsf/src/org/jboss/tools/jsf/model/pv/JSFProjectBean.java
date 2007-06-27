@@ -61,7 +61,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 			try {
 				update();
 			} catch (Exception e) {
-				JSFModelPlugin.log(e);
+				JSFModelPlugin.getPluginLog().logError(e);
 			}
 		}
 	}
@@ -73,7 +73,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 		try {
 			update();
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}
 		isLoading = false;
 	}

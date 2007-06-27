@@ -43,7 +43,7 @@ public class AnnotatedBeans {
 		try {
 			update();
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}
 	}
 	

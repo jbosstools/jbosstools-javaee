@@ -141,7 +141,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 			aux.write(object.getParent(), object, process);
 			return true;
 		} catch (Exception exc) {
-			JSFModelPlugin.log(exc);
+			JSFModelPlugin.getPluginLog().logError(exc);
 			return false;
 		}
 	}    
@@ -170,7 +170,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
             element.removeAttribute("EXTENSION");
             return SimpleWebFileLoader.serialize(element, object);
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 			return null;
 		}
 	}

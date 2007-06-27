@@ -55,7 +55,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 			try {
 				FileUtil.unjar(target, warLocation);
 			} catch (Exception e) {
-				JsfUiPlugin.log(e);
+				JsfUiPlugin.getPluginLog().logError(e);
 			}
 			for (int i = 0; i < os.length; i++) {
 				File d = new File(os[i]);
@@ -67,7 +67,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 			try {
 				FileUtil.unjar(webContent, warLocation);
 			} catch (Exception e) {
-				JsfUiPlugin.log(e);
+				JsfUiPlugin.getPluginLog().logError(e);
 			}
 			for (int i = 0; i < os.length; i++) {
 				File d = new File(os[i]);

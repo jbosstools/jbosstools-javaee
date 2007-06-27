@@ -10,8 +10,8 @@ import java.util.Properties;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-
+import org.jboss.tools.common.log.BaseUIPlugin;
+import org.jboss.tools.common.log.IPluginLog;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
@@ -22,7 +22,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
  * @author Eskimo
  *
  */
-public class JSFModelPlugin extends AbstractUIPlugin {
+public class JSFModelPlugin extends BaseUIPlugin {
 	public static final String PLUGIN_ID = "org.jboss.tools.jsf";
 
 	public JSFModelPlugin() {
@@ -66,10 +66,6 @@ public class JSFModelPlugin extends AbstractUIPlugin {
 		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, message, exception));		
 	}
 	
-	public static void log(Exception ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, "No message", ex));
-	}
-
 	public static boolean isDebugEnabled() {
 		return INSTANCE.isDebugging();
 	}
@@ -78,5 +74,13 @@ public class JSFModelPlugin extends AbstractUIPlugin {
 		return INSTANCE;
 	}
 	
-	static JSFModelPlugin INSTANCE = null; 
+	static JSFModelPlugin INSTANCE = null;
+	
+	/**
+	 * @return IPluginLog object
+	 */
+	public static IPluginLog getPluginLog() {
+		return getDefault();
+	}
+
 }

@@ -156,7 +156,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 					support.registerFieldEditor(propertyEditor.getAttributeName(), (ExtendedFieldEditor)wraper);
 					anyLabel = fe.getLabelComposite(composite);
 				} catch (Exception e) {
-		    		JsfUiPlugin.log(e);
+					JsfUiPlugin.getPluginLog().logError(e);
 				}
 			}
 		}
@@ -250,8 +250,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 		setHeadingText(FacesConfigEditorMessages.MANAGEDBEANPROPERTYFORM_HEADER);
 		xmo = ((XModelObject)model);
 		if(xmo == null) {
-			Status s = new Status(Status.OK, JsfUiPlugin.PLUGIN_ID, Status.OK, "Error to create form "+FacesConfigEditorMessages.MANAGEDBEANPROPERTYFORM_HEADER+". Model object cannot be null.", new Exception());
-			JsfUiPlugin.log(s);
+			JsfUiPlugin.getPluginLog().logInfo( "Error to create form "+FacesConfigEditorMessages.MANAGEDBEANPROPERTYFORM_HEADER+". Model object cannot be null.", new Exception());
 			return;
 		}
 		model = xmo.getModel();

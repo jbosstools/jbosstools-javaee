@@ -95,7 +95,7 @@ public class FacesConfigGuiEditor extends AbstractSectionEditor {
 			wrapper.update();
 			wrapper.layout();
 		} catch (Exception ex) {
-			JsfUiPlugin.log(ex);
+			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}
 

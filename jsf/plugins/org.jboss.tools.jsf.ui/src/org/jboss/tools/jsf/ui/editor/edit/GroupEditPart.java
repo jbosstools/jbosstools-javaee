@@ -62,7 +62,7 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 				action.executeHandler((XModelObject) getGroupModel()
 						.getSource(), null);
 		} catch (Exception e) {
-			JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 

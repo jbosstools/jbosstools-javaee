@@ -39,7 +39,7 @@ public class ImportProjectAction extends Action implements IWorkbenchWindowActio
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
 			dialog.open();  
 		} else {
-			ModelUIPlugin.log("Unable to create wizard 'org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard'.");
+			StrutsUIPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard'.");
 		}
 	}
 

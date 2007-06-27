@@ -27,7 +27,7 @@ public class JsfUiImages extends ModelUIImages {
 	static {
 		try {
 			if(JsfUiPlugin.isDebugEnabled()) {
-				JsfUiPlugin.log("Trying activate plugin images.");
+				JsfUiPlugin.getPluginLog().logError("Trying activate plugin images.");
 			}
 			INSTANCE = 
 				new JsfUiImages(
@@ -42,7 +42,7 @@ public class JsfUiImages extends ModelUIImages {
 
 	public static ImageDescriptor getImageDescriptor(String key) {
 		if(JsfUiPlugin.isDebugEnabled()) {
-			JsfUiPlugin.log("Create imageDescriptor for key '" + key + "'.");
+			JsfUiPlugin.getPluginLog().logInfo("Create imageDescriptor for key '" + key + "'.");
 		}
 		return INSTANCE.createImageDescriptor(key);
 	}
@@ -54,9 +54,9 @@ public class JsfUiImages extends ModelUIImages {
 	public JsfUiImages(URL registryUrl, ModelUIImages parent) {
 		super(registryUrl, parent);
 		if(JsfUiPlugin.isDebugEnabled()) {
-			JsfUiPlugin.log("Create JsfUiImages class.");
-			JsfUiPlugin.log("RegistryUrl = " + registryUrl);
-			JsfUiPlugin.log("parent = " + parent.getClass().getName());
+			JsfUiPlugin.getPluginLog().logInfo("Create JsfUiImages class.");
+			JsfUiPlugin.getPluginLog().logInfo("RegistryUrl = " + registryUrl);
+			JsfUiPlugin.getPluginLog().logInfo("parent = " + parent.getClass().getName());
 		}
 	}
 

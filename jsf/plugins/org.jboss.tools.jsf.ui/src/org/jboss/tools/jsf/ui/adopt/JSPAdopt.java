@@ -37,7 +37,7 @@ public class JSPAdopt implements XAdoptManager {
             String nature = (String)target.getModel().getProperties().get("nature");
             return JSF_NATURE_STRING.equalsIgnoreCase(nature);
         } catch (Exception x) {
-    		JsfUiPlugin.log("Error in checking nature", x);
+        	JsfUiPlugin.getPluginLog().logError("Error in checking nature", x);
         }
         return false;
     }
@@ -65,7 +65,7 @@ public class JSPAdopt implements XAdoptManager {
 		try {
 			root = tokenizer.parse(viewer.getDocument());
 		} catch (Exception e) {
-    		JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 			return;
 		}
 		Token t = root.firstChild;
@@ -100,7 +100,7 @@ public class JSPAdopt implements XAdoptManager {
 				viewer.getDocument().replace(bp, 0, loadBundle);
 				if(pos >= bp) pos += loadBundle.length();
 			} catch (Exception e) {
-	    		JsfUiPlugin.log(e);
+				JsfUiPlugin.getPluginLog().logError(e);
 			}
 		}
 
@@ -141,7 +141,7 @@ public class JSPAdopt implements XAdoptManager {
 				return 1;
 			}
 		} catch (Exception x) {
-			JsfUiPlugin.log(x);
+			JsfUiPlugin.getPluginLog().logError(x);
 		}
 		return -1;
 	}
@@ -167,7 +167,7 @@ public class JSPAdopt implements XAdoptManager {
 		try {
 			root = tokenizer.parse(viewer.getDocument());
 		} catch (Exception e) {
-    		JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 			return;
 		}
 

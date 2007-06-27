@@ -23,7 +23,7 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
             XMLEntityResolver.registerPublicEntity(DOC_PUBLICID, FileLocator.resolve(c.getResource("/meta/web-facesconfig_1_0.dtd")).toString());
 			XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, FileLocator.resolve(c.getResource("/meta/web-facesconfig_1_1.dtd")).toString());
         } catch (Exception e) {
-			JSFModelPlugin.log(e);
+        	JSFModelPlugin.getPluginLog().logError(e);
         }
     }
     

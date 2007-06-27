@@ -76,7 +76,7 @@ public class JSFRenameManagedPropertyChange extends TextFileChange {
 		try {
 			beanProperty.getModel().changeObjectAttribute(beanProperty, "property-name", newName);
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}		
 		return null;
 	}

@@ -31,7 +31,7 @@ public class ClassExistsCheck {
 			IProject project = EclipseResourceUtil.getResource(context).getProject();
 			javaProject = EclipseResourceUtil.getJavaProject(project);
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}
 		qualifiedClassName = "";
 		existingClass = null;
@@ -62,7 +62,7 @@ public class ClassExistsCheck {
 			if(javaProject != null) existingClass = javaProject.findType(qualifiedClassName);
 		} catch (Exception e) {
 			existingClass = null;
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}			
 	}
 

@@ -51,7 +51,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		try {
 			setName("Struts Model");
 		} catch (Exception ex) {
-			JsfUiPlugin.log(ex);
+			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}
 
@@ -328,7 +328,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 			}
 			element.nodeChanged(event);
 		} catch (Exception exc) {
-			JsfUiPlugin.log("Error in processing model event", exc);
+			JsfUiPlugin.getPluginLog().logError("Error in processing model event", exc);
 		}
 	}
 
@@ -352,7 +352,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 				element.nodeRemoved(event);
 			}
 		} catch (Exception exc) {
-			JsfUiPlugin.log("Error in processing model event", exc);
+			JsfUiPlugin.getPluginLog().logError("Error in processing model event", exc);
 		}
 	}
 

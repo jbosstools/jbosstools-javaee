@@ -61,7 +61,7 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 		try {
 			addChanges();
 		} catch (Exception e) {
-			JSFModelPlugin.log(e);
+			JSFModelPlugin.getPluginLog().logError(e);
 		}
 	}
 

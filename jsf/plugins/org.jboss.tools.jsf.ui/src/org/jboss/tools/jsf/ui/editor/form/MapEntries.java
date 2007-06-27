@@ -129,8 +129,7 @@ public class MapEntries extends ExpandableForm {
 		this.setHeadingText(FacesConfigEditorMessages.MAPENTRIESFORM_HEADER);
 		this.xmo = (XModelObject)model;
 		if(xmo == null) {
-			Status s = new Status(Status.OK, JsfUiPlugin.PLUGIN_ID, Status.OK, "Error to create form "+FacesConfigEditorMessages.MAPENTRIESFORM_HEADER+". Model object cannot be null.", new Exception());
-			JsfUiPlugin.log(s);
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.MAPENTRIESFORM_HEADER+". Model object cannot be null.", new Exception());
 			return;
 		}
 		this.model = xmo.getModel();

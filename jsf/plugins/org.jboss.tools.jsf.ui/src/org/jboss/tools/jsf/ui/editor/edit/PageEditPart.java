@@ -56,7 +56,7 @@ public class PageEditPart extends JSFEditPart implements EditPartListener, IPage
 				action.executeHandler(
 						(XModelObject) getPageModel().getSource(), null);
 		} catch (Exception e) {
-			JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 

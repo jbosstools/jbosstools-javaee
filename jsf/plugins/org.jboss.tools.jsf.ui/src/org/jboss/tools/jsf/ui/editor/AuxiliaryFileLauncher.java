@@ -33,7 +33,7 @@ public class AuxiliaryFileLauncher implements IEditorLauncher {
 		try {
 			workbenchPage.openEditor(new FileEditorInput((IFile)r), "org.jboss.tools.common.model.ui.editor.EditorPartWrapper");			
 		} catch (Exception e) {
-			JsfUiPlugin.log(e);
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 

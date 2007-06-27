@@ -39,7 +39,7 @@ public class CreateProjectAction extends Action implements IWorkbenchWindowActio
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
 			dialog.open();  
 		} else {
-			ModelUIPlugin.log("Unable to create wizard 'org.jboss.tools.struts.ui.wizard.project.NewStrutsProjectWizard'."); //$NON-NLS-1$
+			StrutsUIPlugin.getPluginLog().logInfo("Unable to create wizard 'org.jboss.tools.struts.ui.wizard.project.NewStrutsProjectWizard'."); //$NON-NLS-1$
 		}
 	}
 

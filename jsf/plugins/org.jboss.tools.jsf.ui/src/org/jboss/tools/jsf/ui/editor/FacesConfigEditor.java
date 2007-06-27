@@ -71,7 +71,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 			guiEditor.addErrorSelectionListener(createErrorSelectionListener());
 			selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider());
 		} catch(Exception ex) {
-			JsfUiPlugin.log(ex);
+			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}
 	
