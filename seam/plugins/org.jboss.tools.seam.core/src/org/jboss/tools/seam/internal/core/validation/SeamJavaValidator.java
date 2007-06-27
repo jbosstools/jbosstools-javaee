@@ -10,12 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.Set;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
+import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamProject;
 
 public class SeamJavaValidator implements IValidatorJob {
 
@@ -26,7 +34,23 @@ public class SeamJavaValidator implements IValidatorJob {
 
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
 		SeamJavaHelper seamJavaHelper = (SeamJavaHelper)helper;
-		System.out.println("Validate");
+		ISeamProject project = seamJavaHelper.getSeamProject();
+		Set<ISeamComponent> components = project.getComponents();
+		for (ISeamComponent seamComponent : components) {
+//			seamComponent.
+		}
+		String[] uris = seamJavaHelper.getURIs();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		if (uris.length > 0) {
+			IFile currentFile = null;
+			for (int i = 0; i < uris.length && !reporter.isCancelled(); i++) {
+				currentFile = root.getFile(new Path(uris[i]));
+				if (currentFile != null && currentFile.exists()) {
+					System.out.println(currentFile);
+				}
+			}
+		}
+
 		return OK_STATUS;
 	}
 

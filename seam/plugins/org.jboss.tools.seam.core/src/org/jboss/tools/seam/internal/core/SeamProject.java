@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.ScopeType;
 
 /**
  * 
@@ -29,8 +30,8 @@ import org.jboss.tools.seam.core.ISeamProject;
 public class SeamProject implements ISeamProject {
 	IProject project;
 	Map<String,SeamComponent> components = new HashMap<String, SeamComponent>();
-	
-	public SeamProject() {}	
+
+	public SeamProject() {}
 
 	public void configure() throws CoreException {
 	}
@@ -46,26 +47,24 @@ public class SeamProject implements ISeamProject {
 		this.project = project;
 		load();
 	}
-	
+
 	/**
 	 * Loads results of last build, which are considered 
 	 * actual until next build.
 	 */	
 	protected void load() {
-		
 	}
-	
+
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
 	 */
 	protected void store() {
-		
 	}
 
-	public ISeamComponent getComponent(String name) {
-		return components.get(name);
-	}
+//	public ISeamComponent getComponentByName(String name) {
+//		return components.get(name);
+//	}
 
 	public Set<ISeamComponent> getComponents() {
 		//TODO store cash
@@ -73,7 +72,7 @@ public class SeamProject implements ISeamProject {
 		set.addAll(components.values());
 		return set; 
 	}
-	
+
 	/**
 	 * Package local method called by builder.
 	 * @param component
@@ -87,7 +86,7 @@ public class SeamProject implements ISeamProject {
 			components.put(list[i].getName(), list[i]);
 		}
 	}
-	
+
 	/**
 	 * Package local method called by builder.
 	 * @param source
@@ -102,4 +101,35 @@ public class SeamProject implements ISeamProject {
 		}		
 	}
 
+	public ISeamComponent getComponent(String modelObjectId) {
+		return components.get(modelObjectId);
+	}
+
+	public Set<ISeamComponent> getComponentsByName(String name) {
+		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
+		Iterator<SeamComponent> iterator = components.values().iterator();
+		while(iterator.hasNext()) {
+			SeamComponent component = iterator.next();
+			if(name.equals(component.getName())) {
+				result.add(component);
+			}
+		}		
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByClass(java.lang.String)
+	 */
+	public Set<ISeamComponent> getComponentsByClass(String className) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByScope(org.jboss.tools.seam.core.ScopeType)
+	 */
+	public Set<ISeamComponent> getComponentsByScope(ScopeType type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

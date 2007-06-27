@@ -11,31 +11,26 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.ISeamXmlElement;
+import org.jboss.tools.seam.core.ScopeType;
 
 public class SeamComponent implements ISeamComponent {
 	protected Map<String,ISeamProperty<? extends Object>> properties = new HashMap<String, ISeamProperty<? extends Object>>();
 	protected IPath source;
-	
+
 	public SeamComponent () {
-		properties.put(NAME, new SeamProperty<String>(NAME));
-		properties.put(CLASS, new SeamProperty<String>(CLASS));
-		properties.put(SCOPE, new SeamProperty<String>(SCOPE, DEFAULT));
 	}
 
-	public String getName() {
-		return getStringProperty(NAME);
-	}
-	
-	public void setName(String name) {
-		setStringProperty(NAME, name);
-	}
-	
 	public Set<String> getPropertyNames() {
 		return properties.keySet();
 	}
@@ -53,11 +48,11 @@ public class SeamComponent implements ISeamComponent {
 		Object value = o.getValue();
 		return value == null ? null : value.toString();
 	}
-	
+
 	public ISeamProperty<? extends Object> getProperty(String propertyName) {
 		return properties.get(propertyName);
 	}
-	
+
 	public void addProperty(ISeamProperty<? extends Object> property) {
 		properties.put(property.getName(), property);
 	}
@@ -71,63 +66,125 @@ public class SeamComponent implements ISeamComponent {
 		}
 		properties.put(propertyName, p);
 	}
-	
+
 	public void setSource(IPath path) {
 		source = path;
 	}
 
+	/**
+	 * @return ID of Seam Component. It's unique within Project.
+	 */
+	public String getId() {
+		return getClassName() + ":" + getName();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#addBijectedAttribute(org.jboss.tools.seam.core.IBijectedAttribute)
+	 */
+	public void addBijectedAttribute(IBijectedAttribute attribute) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#addJavaSourceClass(org.eclipse.jdt.core.IType)
+	 */
+	public void addJavaSourceClass(IType sourceClass) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getBijectedAttributes()
+	 */
+	public Set<IBijectedAttribute> getBijectedAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getBijectedAttributesByName(java.lang.String)
+	 */
+	public Set<IBijectedAttribute> getBijectedAttributesByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getBijectedAttributesByType(org.jboss.tools.seam.core.BijectedAttributeType)
+	 */
+	public Set<IBijectedAttribute> getBijectedAttributesByType(
+			BijectedAttributeType type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getClassName()
+	 */
 	public String getClassName() {
-		return getStringProperty(CLASS);
-	}
-	
-	public void setClassName(String className) {
-		setStringProperty(CLASS, className);
-	}
-	
-	public String getScope() {
-		return getStringProperty(SCOPE);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setScope(String scope) {
-		setStringProperty(SCOPE, scope);
-	}
-	
-	public String getJndiName() {
-		return getStringProperty(JNDI_NAME);
+	public void setClassName(String name) {
+		// TODO Auto-generated method stub
 	}
 
-	public void setJndiName(String jndiName) {
-		setStringProperty(JNDI_NAME, jndiName);
-	}
-	
-	public String getPrecedence() {
-		return getStringProperty(PRECEDENCE);
-	}
-
-	public void setPrecedence(String precedence) {
-		setStringProperty(PRECEDENCE, precedence);
-	}
-	
-	public boolean isAutoCreate() {
-		return getBooleanProperty(AUTO_CREATE);
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getJavaSourceClasses()
+	 */
+	public Set<IType> getJavaSourceClasses() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setAutoCreate(String autoCreate) {
-		if(DEFAULT.equals(autoCreate) || autoCreate == null || autoCreate.length() == 0) {
-			setStringProperty(AUTO_CREATE, DEFAULT);
-		}
-		addProperty(new SeamProperty<Boolean>(AUTO_CREATE, Boolean.parseBoolean(autoCreate)));
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getName()
+	 */
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public boolean isInstalled() {
-		return getBooleanProperty(INSTALLED);
-	}	
 
-	public void setInstalled(String installed) {
-		if(DEFAULT.equals(installed) || installed == null || installed.length() == 0) {
-			setStringProperty(INSTALLED, DEFAULT);
-		}
-		addProperty(new SeamProperty<Boolean>(INSTALLED, Boolean.parseBoolean(installed)));
+	public void setName(String name) {
+		// TODO Auto-generated method stub
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getProperties(java.lang.String)
+	 */
+	public List<ISeamProperty<? extends Object>> getProperties(
+			String propertyName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getProperties()
+	 */
+	public Set<ISeamProperty<? extends Object>> getProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getScope()
+	 */
+	public ScopeType getScope() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setScope(ScopeType scope) {
+		// TODO Auto-generated method stub
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getXmlSourceElements()
+	 */
+	public Set<ISeamXmlElement> getXmlSourceElements() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

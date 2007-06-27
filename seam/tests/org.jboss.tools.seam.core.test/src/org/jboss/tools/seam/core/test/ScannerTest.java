@@ -10,7 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.test;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -25,8 +29,6 @@ import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
-
-import junit.framework.TestCase;
 
 public class ScannerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -80,18 +82,21 @@ public class ScannerTest extends TestCase {
 
 		//After having tested details of xml scanner now let us check
 		// that it succeeded in build.
-		ISeamComponent c = seamProject.getComponent("myComponent");
-		
-		assertTrue("Seam builder must put myComponent to project.", c != null);
-		
-		//We have list property in this component
-		ISeamProperty<?> property = c.getProperty("myList");
-		Object o = property.getValue();
-		assertTrue("Property myList in myComponent must be instanceof java.util.List.", o instanceof List);
-		List<?> oList = (List<?>)o;
-		assertTrue("Property myList misses value 'value1.", "value1".equals(oList.get(0)));
-		
-		
+		Set<ISeamComponent> components = seamProject.getComponentsByName("myComponent");
+
+		assertTrue("Seam builder must put myComponent to project.", components.size() == 1);
+
+		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
+			ISeamComponent c = (ISeamComponent) iterator.next();
+			//We have list property in this component
+			List<ISeamProperty<?>> prs = c.getProperties("myList");
+			assertTrue("Property myList is not found in components.xml", prs.size() == 1);		
+			ISeamProperty<?> property = prs.get(0);
+			Object o = property.getValue();
+			assertTrue("Property myList in myComponent must be instanceof java.util.List.", o instanceof List);
+			List<?> oList = (List<?>)o;
+			assertTrue("Property myList misses value 'value1.", "value1".equals(oList.get(0)));
+		}
 	}
 	
 	public void testJavaScanner() {
@@ -128,9 +133,9 @@ public class ScannerTest extends TestCase {
 
 		 //After having tested details of java scanner now let us check
 		 //that it succeeded in build.
-		ISeamComponent c = seamProject.getComponent("myUser");
+		Set<ISeamComponent> components = seamProject.getComponentsByName("myUser");
 		
-		assertTrue("Seam builder must put myUser to project.", c != null);		
+		assertTrue("Seam builder must put myUser to project.", components.size() == 1);		
 	
 	}
 
@@ -183,10 +188,8 @@ public class ScannerTest extends TestCase {
 		 * After having tested details of library scanner now let us check
 		 * that it succeeded in build.
 		 */
-		ISeamComponent c = seamProject.getComponent("actor");
-		
-		assertTrue("Seam builder must put actor to project.", c != null);		
+		Set<ISeamComponent> components = seamProject.getComponentsByName("actor");
 	
+		assertTrue("Seam builder must put actor to project.", components.size()==1);		
 	}
-	
 }

@@ -137,7 +137,8 @@ public class JavaScanner implements IFileScanner {
 				component.setClassName(n);
 				component.setName(visitor.name);
 				if(visitor.scope != null) {
-					component.setScope(visitor.scope);
+					//TODO
+					//component.setScope(visitor.scope);
 				}
 			}			
 		}

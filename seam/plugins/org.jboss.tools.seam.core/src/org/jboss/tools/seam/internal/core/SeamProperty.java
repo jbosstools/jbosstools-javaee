@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
+import org.eclipse.core.resources.IFile;
 import org.jboss.tools.seam.core.ISeamProperty;
 
 public class SeamProperty<T extends Object> implements ISeamProperty<T> {
@@ -66,4 +67,11 @@ public class SeamProperty<T extends Object> implements ISeamProperty<T> {
 		this.value = (T)value;		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamXmlElement#getSourceFile()
+	 */
+	public IFile getSourceFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -73,13 +73,14 @@ public class XMLScanner implements IFileScanner {
 	static Set<String> COMMON_ATTRIBUTES = new HashSet<String>();
 	
 	static {
-		COMMON_ATTRIBUTES.add(ISeamComponent.NAME);
-		COMMON_ATTRIBUTES.add(ISeamComponent.CLASS);
-		COMMON_ATTRIBUTES.add(ISeamComponent.SCOPE);
-		COMMON_ATTRIBUTES.add(ISeamComponent.PRECEDENCE);
-		COMMON_ATTRIBUTES.add(ISeamComponent.INSTALLED);
-		COMMON_ATTRIBUTES.add(ISeamComponent.AUTO_CREATE);
-		COMMON_ATTRIBUTES.add(ISeamComponent.JNDI_NAME);
+		//TODO
+//		COMMON_ATTRIBUTES.add(ISeamComponent.NAME);
+//		COMMON_ATTRIBUTES.add(ISeamComponent.CLASS);
+//		COMMON_ATTRIBUTES.add(ISeamComponent.SCOPE);
+//		COMMON_ATTRIBUTES.add(ISeamComponent.PRECEDENCE);
+//		COMMON_ATTRIBUTES.add(ISeamComponent.INSTALLED);
+//		COMMON_ATTRIBUTES.add(ISeamComponent.AUTO_CREATE);
+//		COMMON_ATTRIBUTES.add(ISeamComponent.JNDI_NAME);
 	}
 	
 	public SeamComponent[] parse(XModelObject o) {
@@ -91,13 +92,14 @@ public class XMLScanner implements IFileScanner {
 			if(componentEntity.getAttribute("class") != null) {
 				//This is a component model object
 				SeamComponent component = new SeamComponent();
-				component.setName(os[i].getAttributeValue(ISeamComponent.NAME));
-				component.setClassName(os[i].getAttributeValue(ISeamComponent.CLASS));
-				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
-				component.setPrecedence(os[i].getAttributeValue(ISeamComponent.PRECEDENCE));
-				component.setInstalled(os[i].getAttributeValue(ISeamComponent.INSTALLED));
-				component.setAutoCreate(os[i].getAttributeValue(ISeamComponent.AUTO_CREATE));
-				component.setJndiName(os[i].getAttributeValue(ISeamComponent.JNDI_NAME));
+				//TODO
+//				component.setName(os[i].getAttributeValue(ISeamComponent.NAME));
+//				component.setClassName(os[i].getAttributeValue(ISeamComponent.CLASS));
+//				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
+//				component.setPrecedence(os[i].getAttributeValue(ISeamComponent.PRECEDENCE));
+//				component.setInstalled(os[i].getAttributeValue(ISeamComponent.INSTALLED));
+//				component.setAutoCreate(os[i].getAttributeValue(ISeamComponent.AUTO_CREATE));
+//				component.setJndiName(os[i].getAttributeValue(ISeamComponent.JNDI_NAME));
 				
 				XAttribute[] attributes = componentEntity.getAttributes();
 				for (int ia = 0; ia < attributes.length; ia++) {
@@ -145,8 +147,9 @@ public class XMLScanner implements IFileScanner {
 			} else if(os[i].getModelEntity().getName().startsWith("SeamFactory")) {
 				//TODO what is the best way for factory?
 				SeamComponent component = new SeamComponent();
-				component.setName(os[i].getAttributeValue(ISeamComponent.NAME));
-				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
+				//TODO
+//				component.setName(os[i].getAttributeValue(ISeamComponent.NAME));
+//				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
 				String value = os[i].getAttributeValue("value");
 				//TODO how should we resolve value?
 				if(value != null) component.setStringProperty("value", value);

@@ -89,7 +89,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 						try {
 							c = scanner.parse(f);
 						} catch (Exception e) {
-							SeamCorePlugin.log(e);
+							SeamCorePlugin.getDefault().logError(e);
 						}
 						if(c != null) componentsLoaded(c, f);
 					}
