@@ -21,6 +21,7 @@ import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.resources.FileResource;
 import org.apache.tools.ant.util.FileUtils;
 import org.apache.tools.ant.util.ResourceUtils;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 
 public class AntCopyUtils {
@@ -53,7 +54,7 @@ public class AntCopyUtils {
 				try {
 					FileUtils.getFileUtils().copyFile(file, new File(destinationFolder,file.getName()),set,override);
 				} catch (IOException e) {
-					e.printStackTrace();
+					SeamCorePlugin.getPluginLog().logError(e);
 				}
 			}
 		}
