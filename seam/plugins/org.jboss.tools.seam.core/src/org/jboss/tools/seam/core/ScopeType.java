@@ -12,7 +12,7 @@ package org.jboss.tools.seam.core;
 
 /**
  * Types of Seam Scopes.
- * @author igels
+ * @author Alexey Kazakov
  */
 public enum ScopeType {
 	STATELESS,

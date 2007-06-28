@@ -10,31 +10,45 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
+import org.eclipse.core.resources.IFile;
 
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
+public interface IRole {
 
 	/**
-	 * @return name
+	 * @return Name
 	 */
 	public String getName();
 
 	/**
 	 * Sets name
-	 * @param name
 	 */
 	public void setName(String name);
 
 	/**
-	 * @return type
+	 * @return scope type
 	 */
-	public BijectedAttributeType getType();
+	public ScopeType getScope();
 
 	/**
-	 * @return java source element
+	 * Sets scope type
 	 */
-	public IMember getJavaElement();
+	public void setScope(ScopeType type);
+
+	/**
+	 * @return source file
+	 */
+	public IFile getSourceFile();
+
+	/**
+	 * @return start position in source file
+	 */
+	public int getStartPosition();
+
+	/**
+	 * @return length role definition in source file.
+	 */
+	public int getLength();
 }

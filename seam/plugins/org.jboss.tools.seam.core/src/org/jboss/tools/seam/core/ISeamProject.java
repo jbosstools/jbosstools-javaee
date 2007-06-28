@@ -46,4 +46,16 @@ public interface ISeamProject extends IProjectNature {
 	 * @return Set of ISeamComponents
 	 */
 	public Set<ISeamComponent> getComponents();
+
+	/**
+	 * Adds component into project
+	 * @param component
+	 */
+	public void addComponent(ISeamComponent component);
+
+	/**
+	 * Removes component from project
+	 * @param component
+	 */
+	public void removeComponent(ISeamComponent component);
 }

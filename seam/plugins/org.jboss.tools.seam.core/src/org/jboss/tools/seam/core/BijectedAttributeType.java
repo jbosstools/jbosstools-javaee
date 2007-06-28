@@ -11,10 +11,13 @@
 package org.jboss.tools.seam.core;
 
 /**
- * @author igels
+ * @author Alexey Kazakov
  *
  */
 public enum BijectedAttributeType {
 	IN,
-	OUT
+	OUT,
+	Databinder,
+	DataModelSelection,
+	DataModelSelectionIndex
 }

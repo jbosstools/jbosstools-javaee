@@ -10,31 +10,10 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
-
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
-
-	/**
-	 * @return name
-	 */
-	public String getName();
-
-	/**
-	 * Sets name
-	 * @param name
-	 */
-	public void setName(String name);
-
-	/**
-	 * @return type
-	 */
-	public BijectedAttributeType getType();
-
-	/**
-	 * @return java source element
-	 */
-	public IMember getJavaElement();
+public enum SeamComponentMethodType {
+	Create,
+	Destroy
 }

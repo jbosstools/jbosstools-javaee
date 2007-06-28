@@ -10,31 +10,20 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
+public interface ISeamComponentMethod {
 
 	/**
-	 * @return name
+	 * @return method type
 	 */
-	public String getName();
+	public SeamComponentMethodType getType();
 
 	/**
-	 * Sets name
-	 * @param name
+	 * @return source IMethod
 	 */
-	public void setName(String name);
-
-	/**
-	 * @return type
-	 */
-	public BijectedAttributeType getType();
-
-	/**
-	 * @return java source element
-	 */
-	public IMember getJavaElement();
+	public IMethod getSourceMethod();
 }

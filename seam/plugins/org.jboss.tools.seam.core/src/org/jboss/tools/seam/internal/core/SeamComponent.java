@@ -19,10 +19,14 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
+import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamXmlElement;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamComponentMethodType;
 
 public class SeamComponent implements ISeamComponent {
 	protected Map<String,ISeamProperty<? extends Object>> properties = new HashMap<String, ISeamProperty<? extends Object>>();
@@ -186,5 +190,158 @@ public class SeamComponent implements ISeamComponent {
 	public Set<ISeamXmlElement> getXmlSourceElements() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#addFactory(org.jboss.tools.seam.core.ISeamFactory)
+	 */
+	public void addFactory(ISeamFactory factory) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#addMethod(org.jboss.tools.seam.core.ISeamComponentMethod)
+	 */
+	public void addMethod(ISeamComponentMethod method) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#addRole(org.jboss.tools.seam.core.IRole)
+	 */
+	public void addRole(IRole role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#addmlSourceElement(org.jboss.tools.seam.core.ISeamXmlElement)
+	 */
+	public void addmlSourceElement(ISeamXmlElement element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getFactories()
+	 */
+	public Set<ISeamFactory> getFactories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getMethods()
+	 */
+	public Set<ISeamComponentMethod> getMethods() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getMethodsByType(org.jboss.tools.seam.core.SeamComponentMethodType)
+	 */
+	public Set<ISeamComponentMethod> getMethodsByType(
+			SeamComponentMethodType type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#getRoles()
+	 */
+	public Set<IRole> getRoles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#isEntity()
+	 */
+	public boolean isEntity() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#isStateful()
+	 */
+	public boolean isStateful() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removeBijectedAttribute(org.jboss.tools.seam.core.IBijectedAttribute)
+	 */
+	public void removeBijectedAttribute(IBijectedAttribute attribute) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removeFactory(org.jboss.tools.seam.core.ISeamFactory)
+	 */
+	public void removeFactory(ISeamFactory factory) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removeJavaSourceClass(org.eclipse.jdt.core.IType)
+	 */
+	public void removeJavaSourceClass(IType sourceClass) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removeMethod(org.jboss.tools.seam.core.ISeamComponentMethod)
+	 */
+	public void removeMethod(ISeamComponentMethod method) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removeProperty(org.jboss.tools.seam.core.ISeamProperty)
+	 */
+	public void removeProperty(ISeamProperty<? extends Object> property) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removeRole(org.jboss.tools.seam.core.IRole)
+	 */
+	public void removeRole(IRole role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#removemlSourceElement(org.jboss.tools.seam.core.ISeamXmlElement)
+	 */
+	public void removemlSourceElement(ISeamXmlElement element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#setEntity(boolean)
+	 */
+	public void setEntity(boolean entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamComponent#setStateful(boolean)
+	 */
+	public void setStateful(boolean stateful) {
+		// TODO Auto-generated method stub
+		
 	}
 }

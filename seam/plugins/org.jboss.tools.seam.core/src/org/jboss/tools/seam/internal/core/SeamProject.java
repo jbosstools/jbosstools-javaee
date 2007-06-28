@@ -132,4 +132,20 @@ public class SeamProject implements ISeamProject {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#addComponent(org.jboss.tools.seam.core.ISeamComponent)
+	 */
+	public void addComponent(ISeamComponent component) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#removeComponent(org.jboss.tools.seam.core.ISeamComponent)
+	 */
+	public void removeComponent(ISeamComponent component) {
+		// TODO Auto-generated method stub
+		
+	}
 }

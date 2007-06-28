@@ -10,12 +10,10 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
-
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
+public interface ISeamFactory {
 
 	/**
 	 * @return name
@@ -29,12 +27,13 @@ public interface IBijectedAttribute {
 	public void setName(String name);
 
 	/**
-	 * @return type
+	 * @return Scope type
 	 */
-	public BijectedAttributeType getType();
+	public ScopeType getScope();
 
 	/**
-	 * @return java source element
+	 * Sets scope type
+	 * @param type
 	 */
-	public IMember getJavaElement();
+	public void setScope(ScopeType type);
 }

@@ -10,31 +10,15 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
+public interface ISeamAnnotatedFactory extends ISeamFactory {
 
 	/**
-	 * @return name
+	 * @return source IMethod
 	 */
-	public String getName();
-
-	/**
-	 * Sets name
-	 * @param name
-	 */
-	public void setName(String name);
-
-	/**
-	 * @return type
-	 */
-	public BijectedAttributeType getType();
-
-	/**
-	 * @return java source element
-	 */
-	public IMember getJavaElement();
+	public IMethod getSourceMethod();
 }

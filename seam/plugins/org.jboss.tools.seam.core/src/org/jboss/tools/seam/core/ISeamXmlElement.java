@@ -13,7 +13,7 @@ package org.jboss.tools.seam.core;
 import org.eclipse.core.resources.IFile;
 
 /**
- * @author igels
+ * @author Alexey Kazakov
  * TODO should we use WTP's stuff instead? 
  */
 public interface ISeamXmlElement {

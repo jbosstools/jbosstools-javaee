@@ -10,31 +10,30 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
-
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
+public interface ISeamXmlFactory extends ISeamFactory, ISeamXmlElement {
 
 	/**
-	 * @return name
+	 * @return value
 	 */
-	public String getName();
+	public String getValue();
 
 	/**
-	 * Sets name
-	 * @param name
+	 * Sets value
+	 * @param value
 	 */
-	public void setName(String name);
+	public void setValue(String value);
 
 	/**
-	 * @return type
+	 * @return method
 	 */
-	public BijectedAttributeType getType();
+	public String getMethod();
 
 	/**
-	 * @return java source element
+	 * Sets method
+	 * @param method
 	 */
-	public IMember getJavaElement();
+	public void setMethod(String method);
 }
