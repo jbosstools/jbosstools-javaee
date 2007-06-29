@@ -39,28 +39,28 @@ public class SeamComponentsViewTest extends TestCase {
 	 * 
 	 */
 	public void testSeamComponentsViewisDefined() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamComponentsViewIsViewMenuOnPerspective() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamComponentsViewIsShowedOnPerspective() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamComponentsViewInstamceIsCreated() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 }

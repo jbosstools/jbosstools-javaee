@@ -36,20 +36,20 @@ public class SeamFormNewWizardTest extends TestCase {
 	 * 
 	 */
 	public void testSeamFormNewWizardIsDefined() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamFormNewWizardInstanceIsCreated() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamFormNewWizardIsAvailableInNewMenu() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 }

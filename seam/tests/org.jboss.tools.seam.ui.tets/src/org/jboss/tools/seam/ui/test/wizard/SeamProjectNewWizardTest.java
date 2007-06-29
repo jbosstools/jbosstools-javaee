@@ -37,20 +37,20 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * 
 	 */
 	public void testSeamProjectNewWizardIsDefined() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamProjectNewWizardInstanceIsCreated() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 	
 	/**
 	 * 
 	 */
 	public void testSeamProjectNewWizardIsAvailableInNewMenu() {
-		throw new NotImplementedException();
+		fail("Not yet implemented");
 	}
 }
