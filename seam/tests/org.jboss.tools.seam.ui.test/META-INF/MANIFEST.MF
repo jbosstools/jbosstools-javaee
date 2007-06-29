@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Seam UI Tets Plug-in
-Bundle-SymbolicName: org.jboss.tools.seam.ui.tets
+Bundle-SymbolicName: org.jboss.tools.seam.ui.test
 Bundle-Version: 1.0.0
 Bundle-Vendor: Red Hat, Inc.
 Require-Bundle: org.junit
