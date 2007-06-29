@@ -23,7 +23,9 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.jboss.tools.seam.ui.widget.field.TextField;
 
@@ -48,7 +50,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	/**
 	 * 
 	 */
-	protected Text  fTextField = null;
+	protected TextField  fTextField = null;
 	
 	/**
 	 * 
@@ -59,26 +61,28 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	 * 
 	 */
 	public Object[] getEditorControls() {
-		return new Object[] {getLabelControl(),getTextControl()};
+		return new Control[] {getTextControl()};
 	}
 
 	
 	/**
-	 * @see com.kabira.ide.ex.workbench.ui.feature.IFeatureFieldEditor#doFillIntoGrid(java.lang.Object, int)
+	 * @see com.kabira.ide.ex.workbench.ui.feature.IFeatureFieldEditor#doFillIntoGrid(java.lang.Object)
 	 */
-	public void doFillIntoGrid(Object aParent,int aNnumColumns) {
-		Assert.isTrue(aParent instanceof Composite);
+	public void doFillIntoGrid(Object aParent) {
+		Assert.isTrue(aParent instanceof Composite, "Parent control should be Composite");
+		Assert.isTrue(((Composite)aParent).getLayout() instanceof GridLayout,"Editor supports only grid layout");
 		Composite aComposite = (Composite) aParent;
-		createLabelControl(aComposite);
-		fTextField = getTextControl(aComposite);
+		Control[] controls = (Control[])getEditorControls(aComposite);
+		GridLayout gl = (GridLayout)((Composite)aParent).getLayout();
+		getTextControl(aComposite);
 
         GridData gd = new GridData();
         
-        gd.horizontalSpan = aNnumColumns - 1;
+        gd.horizontalSpan = gl.numColumns - 1;
         gd.horizontalAlignment = GridData.FILL;
         gd.grabExcessHorizontalSpace = true;
         
-        fTextField.setLayoutData(gd);
+        fTextField.getTextControl().setLayoutData(gd);
 	}
 
     /**
@@ -88,16 +92,16 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      */
     public Text getTextControl(Composite parent) {
         if (fTextField == null) {
-        	TextField textField = new TextField(parent, getInitialStyle());
-            fTextField = textField.getTextControl();
-            fTextField.setFont(parent.getFont());
+        	fTextField = new TextField(parent, getInitialStyle());
+            Text textField = fTextField.getTextControl();
+            textField.setFont(parent.getFont());
             Object value = getValue();
-            fTextField.setText(getValue().toString());
-            textField.addPropertyChangeListener(this);
+            textField.setText(getValue().toString());
+            fTextField.addPropertyChangeListener(this);
         } else if (parent!=null){
-        	Assert.isTrue(parent==fTextField.getParent());
+        	Assert.isTrue(parent==fTextField.getTextControl().getParent());
         }  
-        return fTextField;
+        return fTextField.getTextControl();
     }
         
 	protected void updateWidgetValues() {
@@ -156,7 +160,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      * text field is created yet
      */
     protected Text getTextControl() {
-        return fTextField;
+        return fTextField.getTextControl();
     }
 
    
@@ -165,34 +169,29 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      */
     public boolean setFocus() {
     	boolean setfocus = false;
-        if(fTextField!=null && !fTextField.isDisposed())
-        	setfocus = fTextField.setFocus();
+        if(fTextField!=null && !fTextField.getTextControl().isDisposed())
+        	setfocus = fTextField.getTextControl().setFocus();
         return setfocus;
     }
 
 	@Override
-	public void createEditorControls(Object composite) {
-		// TODO Auto-generated method stub
-		
+	public Object[] getEditorControls(Object composite) {
+		return new Control[]{getTextControl((Composite)composite)};
 	}
-
 
 	public void save(Object object) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	public void setValue() {
-		// TODO Auto-generated method stub
-		
+	public void setValue(Object newWalue) {
+		fTextField.removePropertyChangeListener(this);
+		fTextField.getTextControl().setText(newWalue.toString());
+		fTextField.addPropertyChangeListener(this);
 	}
-
 
 	public boolean isEditable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	public void setEditable(boolean aEdiatble) {
 		// TODO Auto-generated method stub
@@ -200,6 +199,6 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		setValue(evt.getNewValue());
+		super.setValue(evt.getNewValue());
 	}
 }

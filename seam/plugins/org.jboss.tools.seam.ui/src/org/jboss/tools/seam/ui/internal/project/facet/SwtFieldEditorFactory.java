@@ -12,31 +12,84 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.util.List;
 
-import org.eclipse.swt.widgets.Composite;
-import org.jboss.tools.seam.ui.widget.editor.BrowseFolderFieldEditor;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.ComboFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
+import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.TextFieldEditor;
 
+/**
+ * 
+ * @author eskimo
+ *
+ */
 public class SwtFieldEditorFactory implements IFieldEditorFactory {
 
+	/**
+	 * 
+	 */
 	public IFieldEditor createCheckboxEditor(String name, String label,
 			boolean defaultValue) {
-		return new CheckBoxFieldEditor(name,label,Boolean.valueOf(defaultValue));
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new CheckBoxFieldEditor(name,label,Boolean.valueOf(defaultValue))});
+		return editor;
 	}
 
+	/**
+	 * 
+	 */
 	public IFieldEditor createComboEditor(String name, String label,
 			List values, Object defaultValue) {
-		return new ComboFieldEditor(name,label,values,defaultValue.toString());
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new ComboFieldEditor(name,label,values,defaultValue.toString())});
+		return editor;
 	}
 
+	/**
+	 * 
+	 */
 	public IFieldEditor createTextEditor(String name, String label, String defaultValue) {
-		return  new TextFieldEditor(name,label,defaultValue);
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new TextFieldEditor(name,label, defaultValue)});
+		return editor;
 	}
 	
+	/**
+	 * 
+	 */
 	public IFieldEditor createBrowseFolderEditor(String name, String label, String defaultValue) {
-		return new BrowseFolderFieldEditor(name,label,defaultValue);
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new TextFieldEditor(name,label, defaultValue),
+				new ButtonFieldEditor(name,createSelectFolderAction("Browse"))});
+		return editor;
+	}
+	
+	/**
+	 * 
+	 * @param buttonName
+	 * @return
+	 */
+	public ButtonFieldEditor.ButtonPressedAction createSelectFolderAction(String buttonName) {
+		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
+			@Override
+			public void run() {
+				DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
+				dialog.setMessage("Select Seam Home Folder");
+				dialog.setFilterPath(getFieldEditor().getValueAsString());
+				String directory = dialog.open();
+				if(directory!=null) {
+					getFieldEditor().setValue(directory);
+				}
+			}
+		};
 	}
 }

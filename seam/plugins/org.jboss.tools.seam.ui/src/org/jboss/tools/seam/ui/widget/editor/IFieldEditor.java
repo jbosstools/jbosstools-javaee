@@ -18,7 +18,7 @@ public interface IFieldEditor extends INamedElement {
 	 * 
 	 * @param composite
 	 */
-	public void createEditorControls(Object composite);
+	public Object[] getEditorControls(Object composite);
 
 	/**
 	 * 
@@ -35,9 +35,8 @@ public interface IFieldEditor extends INamedElement {
 	/**
 	 * 
 	 * @param parent
-	 * @param columns
 	 */
-	public void doFillIntoGrid(Object parent, int columns);
+	public void doFillIntoGrid(Object parent);
 
 	/**
 	 * 
@@ -50,12 +49,6 @@ public interface IFieldEditor extends INamedElement {
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener);
-
-	/**
-	 * 
-	 * @param object
-	 */
-	public void save(Object object);
 
 	/**
 	 * 

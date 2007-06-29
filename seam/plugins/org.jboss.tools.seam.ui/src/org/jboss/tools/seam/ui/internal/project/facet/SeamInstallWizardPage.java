@@ -14,12 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
@@ -31,9 +34,22 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
  * @author eskimo
  *
  */
-public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IFacetWizardPage{
+public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IFacetWizardPage, IDataModelListener{
 	
+	/**
+	 * 
+	 */
 	DriverClassHelpers HIBERNATE_HELPER = new DriverClassHelpers();
+	
+	/**
+	 * 
+	 */
+	IDataModel model = null;
+	
+	/**
+	 * 
+	 */
+	DataModelValidatorDelegate validatorDelegate;
 	
 	// General group
 	IFieldEditor jBossAsHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
@@ -44,7 +60,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			"JBoss Seam Home Folder:","c:\\JBossAS");
 	IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
-			"Deploy as:",new ArrayList<Object>(),"war");
+			"Deploy as:",Arrays.asList(new String[]{"war","ear"}),"war");
+	
 	// Database group
 	IFieldEditor jBossAsDbTypeEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.DB_TYPE,
@@ -79,6 +96,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties. JDBC_DRIVER_JAR_PATH, 
 			"File :", "url://domain/");
+	
 	// Code generation group
 	IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
@@ -90,43 +108,59 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
 			"Session Bean Package Name:","com.mydomain.projectname.test");
 	
-
+	/**
+	 * 
+	 */
 	public SeamInstallWizardPage() {
 		super("Seam Facet");
 		setTitle("Seam Facet");
 		setDescription("Seam Facest Description");
 	}
-
-	public void dispose() {
-		// TODO Auto-generated method stub
-		super.dispose();
-	}
 	
-	IDataModel model = null;
-	DataModelValidatorDelegate validatorDelegate;
-
+	/**
+	 * 
+	 */
 	private DataModelSynchronizer sync;
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void setWizard(IWizard newWizard) {
 		super.setWizard(newWizard);
 	}
 	
+	/**
+	 * 
+	 */
 	public void setConfig(Object config) {
 		model = (IDataModel)config;
 		sync = new DataModelSynchronizer(model);
 		validatorDelegate = new DataModelValidatorDelegate(model,this);
+		model.addListener(this);
 	}
-
+	
+	/**
+	 * 
+	 */
 	public void transferStateToConfig() {
 		
 	}
 
+	/**
+	 * 
+	 * @param editor
+	 * @param parent
+	 * @param columns
+	 */
 	public void registerEditor(IFieldEditor editor,Composite parent,int columns) {
 		sync.register(editor);
-		editor.doFillIntoGrid(parent, columns);
+		editor.doFillIntoGrid(parent);
 	}
 	
+	/**
+	 * 
+	 */
 	public void createControl(Composite parent) {
 		// TODO Auto-generated method stub
 		initializeDialogUnits(parent);
@@ -187,5 +221,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor.getName(), ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
 		validatorDelegate.addValidatorForProperty(jBossAsHomeEditor.getName(), ValidatorFactory.JBOSS_AS_HOME_FOLDER_VALIDATOR);
 		
+	}
+
+	/**
+	 * 
+	 */
+	public void propertyChanged(DataModelEvent event) {
+		if(event.getPropertyName().equals(IJ2EEModuleFacetInstallDataModelProperties.CONFIG_FOLDER)) {
+			model.setStringProperty(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, event.getProperty()
+					.toString());
+		}
 	}
 }

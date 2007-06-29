@@ -1,6 +1,13 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.seam.ui.widget.field;
 
 import java.util.ArrayList;
@@ -21,6 +28,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * @author eskimo
@@ -94,10 +102,16 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 
 	public void selectionChanged(SelectionChangedEvent event) {
 		firePropertyChange("", event.getSelection());
-		System.out.println(event.getSelection());
 	}
 	
 	public Combo getComboControl() {
 		return comboControl.getCombo();
 	}
+
+	@Override
+	public Control getControl() {
+		return getComboControl();
+	}
+	
+	
 }

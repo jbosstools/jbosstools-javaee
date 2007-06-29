@@ -11,6 +11,9 @@
 
 package org.jboss.tools.seam.core.internal.project.facet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
 
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
@@ -51,6 +54,6 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 
 	public static final String JBOSS_SEAM_HOME = PREFIX + "JBOSS_SEAM_HOME";
 	
-	
+	public static final String WEB_CONTENTS_FOLDER = PREFIX + "WEB_CONTENTS_FOLDER";
 	
 }

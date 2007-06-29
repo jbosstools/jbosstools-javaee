@@ -12,8 +12,18 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.util.Map;
 
-import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-
+/**
+ * 
+ * @author eskimo
+ *
+ */
 public interface IValidator {
+	
+	/**
+	 * 
+	 * @param value
+	 * @param context
+	 * @return
+	 */
 	Map<String,String> validate(Object value, Object context);
 }

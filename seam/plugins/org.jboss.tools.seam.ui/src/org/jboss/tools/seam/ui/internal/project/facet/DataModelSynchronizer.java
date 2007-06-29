@@ -18,28 +18,53 @@ import java.util.Map;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
+/**
+ * 
+ * @author eskimo
+ *
+ */
 public class DataModelSynchronizer implements PropertyChangeListener {
+	/**
+	 * 
+	 */
+	protected IDataModel model;
 	
-	IDataModel model;
+	/**
+	 * 
+	 */
+	Map<String,IFieldEditor> editors = new HashMap<String,IFieldEditor>();
 	
+	/**
+	 * 
+	 * @param model
+	 */
 	public DataModelSynchronizer(IDataModel model) {
 		this.model = model;
 	}
 
+	/**
+	 * 
+	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		model.setProperty(evt.getPropertyName(), evt.getNewValue());
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public IFieldEditor getNamedElement(String name) {
 		return editors.get(name);
 	}
 	
-	Map<String,IFieldEditor> editors = new HashMap<String,IFieldEditor>();
-	
+	/**
+	 * 
+	 * @param editor
+	 */
 	public void register(IFieldEditor editor) {
 		editors.put(editor.getName(), editor);
 		model.setProperty(editor.getName(), editor.getValue());
 		editor.addPropertyChangeListener(this);
 	}
-
 }

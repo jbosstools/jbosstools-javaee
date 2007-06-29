@@ -18,14 +18,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * 
+ * @author eskimo
+ *
+ */
 public abstract class BaseFieldEditor implements IFieldEditor {
 
-	public BaseFieldEditor(String name, String label,Object defaultValue) {
-		this.value = defaultValue;
-		this.labelText = label;
-		this.nameText = name;
-	}
-	
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
 	private Object value = new Object();
@@ -33,19 +32,40 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	private String labelText = "No label";
 	
 	private String nameText = null;
+
+	Label labelControl = null;
 	
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
+	 */
+	public BaseFieldEditor(String name, String label,Object defaultValue) {
+		this.value = defaultValue;
+		this.labelText = label;
+		this.nameText = name;
+	}
+	
+	/**
+	 * 
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
 	
+	/**
+	 * 
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
-
-	public abstract void createEditorControls(Object composite);
 	
-	Label labelControl = null;
-	
+	/**
+	 * 
+	 * @param parent
+	 * @return
+	 */
 	public Label createLabelControl(Composite parent) {
 		if(labelControl==null) {
 			labelControl = new Label(parent,SWT.NO_BACKGROUND);
@@ -57,17 +77,32 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 		return labelControl;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public Label getLabelControl() {
 		return createLabelControl(null);
 	}
-	
-	abstract public void doFillIntoGrid(Object parent, int columns);
+	/**
+	 * 
+	 */
+	abstract public void doFillIntoGrid(Object parent);
 
+	/**
+	 * 
+	 */
+	public abstract Object[] getEditorControls(Object composite);
+	
 	/**
 	 * 
 	 */
 	public abstract Object[] getEditorControls();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Control[] getSwtControls() {
 		return (Control[])getEditorControls();
 	}
@@ -129,7 +164,6 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	public void setValue(Object newValue) {
 		pcs.firePropertyChange(nameText,value,newValue);
 		value = newValue;
-		System.out.println("new value - " + newValue);
 	}
 
 	/**
@@ -139,9 +173,10 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 		value = stringValue;
 	}
 
-
+	/**
+	 * 
+	 */
 	public String getName() {
-		// TODO Auto-generated method stub
 		return nameText;
 	}
 	
@@ -154,5 +189,21 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 			PropertyChangeListener propertyChangeListener = listeners[i];
 			pcs.removePropertyChangeListener(propertyChangeListener);			
 		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLabelText() {
+		return labelText;
+	}
+
+	/**
+	 * 
+	 * @param labelText
+	 */
+	public void setLabelText(String labelText) {
+		this.labelText = labelText;
 	}
 }

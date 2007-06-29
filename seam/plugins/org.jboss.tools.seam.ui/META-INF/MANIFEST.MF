@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Seam GUI tools
 Bundle-SymbolicName: org.jboss.tools.seam.ui; singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: org.jboss.tools.seam.SeamGuiPlugin
+Bundle-Activator: org.jboss.tools.seam.ui.SeamGuiPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -19,9 +19,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.common.frameworks.ui,
  org.jboss.tools.seam.core,
  org.apache.log4j,
- org.hibernate.eclipse.console
+ org.hibernate.eclipse.console,
+ org.eclipse.jst.j2ee
 Eclipse-LazyStart: true
-Export-Package: org.jboss.tools.seam,
+Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.internal.project.facet;x-internal:=true,
  org.jboss.tools.seam.ui.widget.editor,
  org.jboss.tools.seam.ui.widget.field,

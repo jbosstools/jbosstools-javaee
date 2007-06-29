@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.internal.project.facet;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
@@ -21,10 +23,18 @@ import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
  */
 public class SeamFacetInstallDataModelProvider extends
 		FacetInstallDataModelProvider implements ISeamFacetDataModelProperties {
-
+	
+	public static final Map<String,String[]> SEAM_LIBRARIES= new HashMap<String,String[]>();
+	
+	static {
+		SEAM_LIBRARIES.put("1.2",new String[] {
+				
+		});
+	}
+	
 	@Override
 	public Set getPropertyNames() {
-		Set names = super.getPropertyNames();
+		Set<String> names = super.getPropertyNames();
 		
 		// General group
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_HOME);
@@ -51,9 +61,11 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME);
 		names.add(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
 		names.add(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
+		names.add(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER);
 
 		return names;
 	}
+	
 	public Object getDefaultProperty(String propertyName) {
 		if(JBOSS_AS_HOME.equals(propertyName)) {
 			return "Jboss_AS_HOME";

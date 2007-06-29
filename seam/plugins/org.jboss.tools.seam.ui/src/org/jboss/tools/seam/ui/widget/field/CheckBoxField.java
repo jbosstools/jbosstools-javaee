@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.seam.ui.widget.field;
 
 import org.eclipse.swt.SWT;
@@ -5,6 +15,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 public class CheckBoxField extends BaseField implements SelectionListener {
 	private Button checkBox = null;
@@ -21,10 +32,16 @@ public class CheckBoxField extends BaseField implements SelectionListener {
 	public void widgetSelected(SelectionEvent e) {
 		firePropertyChange(!checkBox.getSelection(),
 				checkBox.getSelection());
-		System.out.println(checkBox.getSelection());
 	}
 	
 	public Button getCheckBox() {
 		return checkBox;
 	}
+
+	@Override
+	public Control getControl() {
+		return getCheckBox();
+	}
+	
+	
 }

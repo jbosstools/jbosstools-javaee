@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  * @author eskimo
  *
  */
-public class SeamFaceInstallDelegeteTest extends TestCase {
+public class SeamFacetInstallDelegeteTest extends TestCase {
 
 	/**
 	 * @throws java.lang.Exception

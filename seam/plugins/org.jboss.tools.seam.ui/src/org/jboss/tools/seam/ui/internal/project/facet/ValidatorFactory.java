@@ -17,14 +17,26 @@ import java.util.Map;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.jboss.tools.seam.core.internal.project.facet.ISeamFacetDataModelProperties;
 
-
-
+/**
+ * 
+ * @author eskimo
+ *
+ */
 public class ValidatorFactory {
 	
+	/**
+	 * 
+	 */
 	static public Map<String,IValidator> validators = new HashMap<String, IValidator>();
 	
+	/**
+	 * 
+	 */
 	static public Map<String,String> NO_ERRORS = new HashMap<String,String>();
 	
+	/**
+	 * 
+	 */
 	static public IValidator NO_ERRORS_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			// TODO Auto-generated method stub
@@ -32,21 +44,38 @@ public class ValidatorFactory {
 		}
 	};
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static IValidator getValidator(String id) {
 		IValidator validator = validators.get(id);
 		return validator==null?NO_ERRORS_VALIDATOR:validator;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Map<String,String> createErrorMap() {
 		return new HashMap<String,String>();
 	}
 	
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static Map<String,String> createErrormessage(String text) {
 		Map<String,String> map = createErrorMap();
 		map.put("", text);
 		return map;
 	}
 	
+	/**
+	 * 
+	 */
 	public static final IValidator FILE_SYSTEM_FOLDER_EXISTS = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
@@ -64,6 +93,9 @@ public class ValidatorFactory {
 		
 	};
 	
+	/**
+	 * 
+	 */
 	public static IValidator JBOSS_SEAM_HOME_FOLDER_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			Map<String,String> errors = FILE_SYSTEM_FOLDER_EXISTS.validate(value, context);
@@ -85,6 +117,9 @@ public class ValidatorFactory {
 		}
 	};
 	
+	/**
+	 * 
+	 */
 	public static IValidator JBOSS_AS_HOME_FOLDER_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			Map<String,String> errors = FILE_SYSTEM_FOLDER_EXISTS.validate(value, context);
@@ -105,6 +140,9 @@ public class ValidatorFactory {
 		}
 	};
 	
+	/**
+	 * 
+	 */
 	public static IValidator CLASS_QNAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			
@@ -112,6 +150,9 @@ public class ValidatorFactory {
 		}
 	};
 	
+	/**
+	 * 
+	 */
 	public static IValidator FILESYSTEM_FILE_EXISTS_VALIDATOR = new IValidator() {
 		public java.util.Map<String,String> validate(Object value, Object context) {
 			return ValidatorFactory.NO_ERRORS;

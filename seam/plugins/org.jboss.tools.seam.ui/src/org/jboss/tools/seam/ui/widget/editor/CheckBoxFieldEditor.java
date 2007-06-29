@@ -42,9 +42,9 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 * @see org.jboss.tools.seam.ui.internal.project.facet.BaseFieldEditor#createEditorControls(java.lang.Object)
 	 */
 	@Override
-	public void createEditorControls(Object composite) {
+	public Object[] getEditorControls(Object composite) {
 		// TODO Auto-generated method stub
-
+		return new Control[] {createCheckBoxControl((Composite)composite)};
 	}
 
 	/* (non-Javadoc)
@@ -52,7 +52,7 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 */
 	@Override
 	public Object[] getEditorControls() {
-		return new Object[] {getLabelControl(),getCheckBoxControl()};
+		return new Control[] {getCheckBoxControl()};
 	}
 
 	public Control getCheckBoxControl() {
@@ -95,19 +95,8 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	}
 
 	@Override
-	public void doFillIntoGrid(Object parent, int columns) {
-		Assert.isTrue(parent instanceof Composite);
-		Composite aComposite = (Composite) parent;
-		createLabelControl(aComposite);
-		checkBoxControl = createCheckBoxControl(aComposite);
+	public void doFillIntoGrid(Object parent) {
 
-        GridData gd = new GridData();
-        
-        gd.horizontalSpan = columns - 1;
-        gd.horizontalAlignment = GridData.FILL;
-        gd.grabExcessHorizontalSpace = true;
-        
-        checkBoxControl.setLayoutData(gd);
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {

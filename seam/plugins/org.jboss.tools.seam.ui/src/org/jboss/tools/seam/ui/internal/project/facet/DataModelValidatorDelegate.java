@@ -13,7 +13,6 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -25,30 +24,60 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
  */
 public class DataModelValidatorDelegate implements IDataModelListener {
 	
-	IDataModel model = null;
-	WizardPage page = null;
-	Map<String,IValidator> mapPropToValidator = new HashMap<String,IValidator>();
+	/**
+	 * 
+	 */
+	protected IDataModel model = null;
 	
+	/**
+	 * 
+	 */
+	protected WizardPage page = null;
+	
+	/**
+	 * 
+	 */
+	protected Map<String,IValidator> mapPropToValidator = new HashMap<String,IValidator>();
+	
+	/**
+	 * 
+	 * @param model
+	 * @param page
+	 */
 	public DataModelValidatorDelegate(IDataModel model,WizardPage page) {
 		this.model = model;	
 		this.page = page;
 		model.addListener(this);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Map<String, String> validate() {
 		Map<String, String> errors = new HashMap<String,String>();
 		
 		return errors;
 	}
 
+	/**
+	 * 
+	 */
 	public void propertyChanged(DataModelEvent event) {
 		validateUntillError();
 	}
 	
+	/**
+	 * 
+	 */
 	public void validateUntillError() {
 		page.setErrorMessage(getFirstValidationError());
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getFirstValidationError() {
 		for (String validatorName : mapPropToValidator.keySet()) {
 			Map<String,String> errors = getValidator(validatorName).validate(
@@ -61,11 +90,21 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public IValidator getValidator(String name) {
 		IValidator validator = mapPropToValidator.get(name);
 		return validator==null?ValidatorFactory.NO_ERRORS_VALIDATOR:validator;
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @param validator
+	 */
 	public void addValidatorForProperty(String name, IValidator validator) {
 		mapPropToValidator.put(name, validator);
 	}

@@ -33,25 +33,13 @@ public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeL
 	private Control comboControl;
 
 	@Override
-	public void createEditorControls(Object composite) {
+	public Object[] getEditorControls(Object composite) {
 		// TODO Auto-generated method stub
-
+		return new Control[] {getComboControl((Composite)composite)};
 	}
 
 	@Override
-	public void doFillIntoGrid(Object parent, int columns) {
-		Assert.isTrue(parent instanceof Composite);
-		Composite aComposite = (Composite) parent;
-		createLabelControl(aComposite);
-		comboControl = getComboControl(aComposite);
-
-        GridData gd = new GridData();
-        
-        gd.horizontalSpan = columns - 1;
-        gd.horizontalAlignment = SWT.BEGINNING;
-        gd.grabExcessHorizontalSpace = true;
-        
-        comboControl.setLayoutData(gd);
+	public void doFillIntoGrid(Object parent) {
 	}
 
 	public Control getComboControl(Composite composite) {
