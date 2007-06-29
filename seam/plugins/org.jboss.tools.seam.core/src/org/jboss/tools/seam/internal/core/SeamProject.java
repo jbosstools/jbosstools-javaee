@@ -21,10 +21,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.ISeamVariable;
 import org.jboss.tools.seam.core.ScopeType;
 
 /**
- * 
  * @author glory
  */
 public class SeamProject implements ISeamProject {
@@ -147,5 +147,29 @@ public class SeamProject implements ISeamProject {
 	public void removeComponent(ISeamComponent component) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
+	 */
+	public Set<ISeamVariable> getVariables() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByName(java.lang.String)
+	 */
+	public Set<ISeamVariable> getVariablesByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByScope(org.jboss.tools.seam.core.ScopeType)
+	 */
+	public Set<ISeamVariable> getVariablesByScope(ScopeType scope) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

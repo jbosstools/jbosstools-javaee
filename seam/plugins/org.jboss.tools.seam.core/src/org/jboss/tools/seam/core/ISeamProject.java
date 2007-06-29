@@ -58,4 +58,21 @@ public interface ISeamProject extends IProjectNature {
 	 * @param component
 	 */
 	public void removeComponent(ISeamComponent component);
+
+	/**
+	 * @return all seam variables from all contexts.
+	 */
+	public Set<ISeamVariable> getVariables();
+
+	/**
+	 * @param name
+	 * @return all seam variables by name from all contexts
+	 */
+	public Set<ISeamVariable> getVariablesByName(String name);
+
+	/**
+	 * @param name
+	 * @return all seam variables from specific context
+	 */
+	public Set<ISeamVariable> getVariablesByScope(ScopeType scope);
 }

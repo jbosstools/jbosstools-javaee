@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamProperty;
 
 public class SeamProperty<T extends Object> implements ISeamProperty<T> {
@@ -68,9 +69,9 @@ public class SeamProperty<T extends Object> implements ISeamProperty<T> {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.seam.core.ISeamXmlElement#getSourceFile()
+	 * @see org.jboss.tools.seam.core.ISeamXmlElement#getResource()
 	 */
-	public IFile getSourceFile() {
+	public IResource getResource() {
 		// TODO Auto-generated method stub
 		return null;
 	}
