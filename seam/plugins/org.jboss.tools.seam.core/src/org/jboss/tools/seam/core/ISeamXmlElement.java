@@ -10,7 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 
 /**
  * @author Alexey Kazakov
@@ -18,7 +18,7 @@ import org.eclipse.core.resources.IFile;
  */
 public interface ISeamXmlElement {
 
-	public IFile getSourceFile();
+	public IResource getResource();
 	public int getStartPosition();
 	public int getLength();
 }
