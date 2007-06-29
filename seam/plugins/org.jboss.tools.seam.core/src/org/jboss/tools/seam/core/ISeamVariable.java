@@ -20,5 +20,5 @@ public interface ISeamVariable {
 	 */
 	public String getName();
 
-//	TODO we should hold a link to source object (Outjection, Component, etc.) 
+//	TODO we should hold a link to source object (IBijectedAttribute, ISeamComponent, etc.) 
 }
