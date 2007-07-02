@@ -13,20 +13,7 @@ package org.jboss.tools.seam.core;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IType;
-
-public interface ISeamComponent extends ISeamModelObject {
-
-	/**
-	 * @return Name
-	 */
-	public String getName();
-
-	/**
-	 * Sets name
-	 * @param name
-	 */
-	public void setName(String name);
+public interface ISeamComponent extends ISeamContextVariable {
 
 	/**
 	 * @return qualified Class name of component
@@ -38,17 +25,6 @@ public interface ISeamComponent extends ISeamModelObject {
 	 * @param className
 	 */
 	public void setClassName(String className);
-
-	/**
-	 * @return scope type
-	 */
-	public ScopeType getScope();
-
-	/**
-	 * Sets scope type
-	 * @param type
-	 */
-	public void setScope(ScopeType type);
 
 	/**
 	 * @return bijected attributes
@@ -84,56 +60,48 @@ public interface ISeamComponent extends ISeamModelObject {
 	 * @param propertyName
 	 * @return
 	 */
-	public List<ISeamProperty<? extends Object>> getProperties(String propertyName);
+	public List<ISeamProperty> getProperties(String propertyName);
+
+	/**
+	 * Returns first property with propertyName from component.xml for that component.
+	 * @param propertyName
+	 * @return
+	 */
+	public ISeamProperty getProperty(String propertyName);
 
 	/**
 	 * Returns properties by name from component.xml.
 	 * @param propertyName
 	 * @return
 	 */
-	public Set<ISeamProperty<? extends Object>> getProperties();
+	public Set<ISeamProperty> getProperties();
 
 	/**
 	 * Adds property to component.
 	 * @param property
 	 */
-	public void addProperty(ISeamProperty<? extends Object> property);
+	public void addProperty(ISeamProperty property);
 
 	/**
 	 * Removes property from component.
 	 * @param property
 	 */
-	public void removeProperty(ISeamProperty<? extends Object> property);
+	public void removeProperty(ISeamProperty property);
 
 	/**
-	 * @return Set of Java source classes
+	 * @return sources
 	 */
-	public Set<IType> getJavaSourceClasses();
+	public Set<ISeamSource> getSourceDeclarations();
 
 	/**
-	 * @param sourceClass
+	 * @param source
 	 */
-	public void addJavaSourceClass(IType sourceClass);
+	public void addSourceDeclaration(ISeamSource source);
 
 	/**
-	 * @param sourceClass
+	 * Removes source
 	 */
-	public void removeJavaSourceClass(IType sourceClass);
-
-	/**
-	 * @return Set of source xml elements
-	 */
-	public Set<ISeamXmlElement> getXmlSourceElements();
-
-	/**
-	 * @param element
-	 */
-	public void addmlSourceElement(ISeamXmlElement element);
-
-	/**
-	 * @param element
-	 */
-	public void removemlSourceElement(ISeamXmlElement element);
+	public void removeSourceDeclaration(ISeamSource source);
 
 	/**
 	 * @return true if component marked as Stateful
@@ -196,19 +164,19 @@ public interface ISeamComponent extends ISeamModelObject {
 	public void removeMethod(ISeamComponentMethod method);
 
 	/**
-	 * @return Factories methods and xml elements of component
+	 * @return Factories methods of component
 	 */
-	public Set<ISeamFactory> getFactories();
+	public Set<ISeamAnnotatedFactory> getFactories();
 
 	/**
-	 * Adds factory method or xml element
+	 * Adds factory method
 	 * @param factory
 	 */
-	public void addFactory(ISeamFactory factory);
+	public void addFactory(ISeamAnnotatedFactory factory);
 
 	/**
-	 * Remove factory method or xml element
+	 * Remove factory method
 	 * @param factory
 	 */
-	public void removeFactory(ISeamFactory factory);
+	public void removeFactory(ISeamAnnotatedFactory factory);
 }

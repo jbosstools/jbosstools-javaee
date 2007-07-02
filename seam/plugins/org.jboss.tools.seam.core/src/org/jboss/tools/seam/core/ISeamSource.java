@@ -12,13 +12,8 @@ package org.jboss.tools.seam.core;
 
 /**
  * @author Alexey Kazakov
+ * Represents source of ISeamModelObject
  */
-public interface ISeamVariable {
+public interface ISeamSource {
 
-	/**
-	 * @return name
-	 */
-	public String getName();
-
-//	TODO we should hold a link to source object (IBijectedAttribute, ISeamComponent, etc.) 
 }

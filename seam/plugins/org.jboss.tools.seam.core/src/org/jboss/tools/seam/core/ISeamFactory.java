@@ -13,27 +13,6 @@ package org.jboss.tools.seam.core;
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamFactory {
+public interface ISeamFactory extends ISeamContextVariable {
 
-	/**
-	 * @return name
-	 */
-	public String getName();
-
-	/**
-	 * Sets name
-	 * @param name
-	 */
-	public void setName(String name);
-
-	/**
-	 * @return Scope type
-	 */
-	public ScopeType getScope();
-
-	/**
-	 * Sets scope type
-	 * @param type
-	 */
-	public void setScope(ScopeType type);
 }

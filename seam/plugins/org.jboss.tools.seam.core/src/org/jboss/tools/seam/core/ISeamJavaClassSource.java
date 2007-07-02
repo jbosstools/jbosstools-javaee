@@ -10,20 +10,12 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamComponentMethod extends ISeamSource {
+public interface ISeamJavaClassSource extends ISeamSource {
 
-	/**
-	 * @return method type
-	 */
-	public SeamComponentMethodType getType();
-
-	/**
-	 * @return source IMethod
-	 */
-	public IMethod getSourceMethod();
+	public IType getSourceClass();
 }

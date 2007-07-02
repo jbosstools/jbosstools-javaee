@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamVariable;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ScopeType;
 
 /**
@@ -152,7 +152,7 @@ public class SeamProject implements ISeamProject {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
 	 */
-	public Set<ISeamVariable> getVariables() {
+	public Set<ISeamContextVariable> getVariables() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -160,7 +160,7 @@ public class SeamProject implements ISeamProject {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByName(java.lang.String)
 	 */
-	public Set<ISeamVariable> getVariablesByName(String name) {
+	public Set<ISeamContextVariable> getVariablesByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -168,7 +168,7 @@ public class SeamProject implements ISeamProject {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByScope(org.jboss.tools.seam.core.ScopeType)
 	 */
-	public Set<ISeamVariable> getVariablesByScope(ScopeType scope) {
+	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -10,20 +10,30 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMethod;
-
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamComponentMethod extends ISeamSource {
+public interface ISeamContextVariable {
 
 	/**
-	 * @return method type
+	 * @return name
 	 */
-	public SeamComponentMethodType getType();
+	public String getName();
 
 	/**
-	 * @return source IMethod
+	 * Sets name
+	 * @param name
 	 */
-	public IMethod getSourceMethod();
+	public void setName(String name);
+
+	/**
+	 * @return scope type
+	 */
+	public ScopeType getScope();
+
+	/**
+	 * Sets scope type
+	 * @param type
+	 */
+	public void setScope(ScopeType type);
 }

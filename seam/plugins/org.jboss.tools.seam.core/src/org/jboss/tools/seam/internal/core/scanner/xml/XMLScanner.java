@@ -22,9 +22,7 @@ import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 
 public class XMLScanner implements IFileScanner {
@@ -128,7 +126,7 @@ public class XMLScanner implements IFileScanner {
 							for (int k = 0; k < entries.length; k++) {
 								listValues.add(entries[k].getAttributeValue("value"));
 							}
-							component.addProperty(new SeamProperty<List<String>>(propertyName, listValues));
+//							component.addProperty(new SeamProperty<List<String>>(propertyName, listValues));
 						} else {
 							//this is map value
 							Map<String,String> mapValues = new HashMap<String, String>();
@@ -137,7 +135,7 @@ public class XMLScanner implements IFileScanner {
 								String entryValue = entries[k].getAttributeValue("value");
 								mapValues.put(entryKey, entryValue);
 							}
-							component.addProperty(new SeamProperty<Map<String,String>>(propertyName, mapValues));
+//							component.addProperty(new SeamProperty<Map<String,String>>(propertyName, mapValues));
 						}
 					}
 					//TODO assign positioning attributes to created ISeamProperty object
@@ -157,8 +155,7 @@ public class XMLScanner implements IFileScanner {
 				list.add(component);
 			}
 		}
-		
+
 		return list.toArray(new SeamComponent[0]);
 	}
-
 }

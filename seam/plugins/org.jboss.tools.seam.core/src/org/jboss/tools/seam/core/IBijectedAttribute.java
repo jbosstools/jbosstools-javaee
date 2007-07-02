@@ -15,18 +15,7 @@ import org.eclipse.jdt.core.IMember;
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute {
-
-	/**
-	 * @return name
-	 */
-	public String getName();
-
-	/**
-	 * Sets name
-	 * @param name
-	 */
-	public void setName(String name);
+public interface IBijectedAttribute extends ISeamSource, ISeamContextVariable {
 
 	/**
 	 * @return type
@@ -36,5 +25,5 @@ public interface IBijectedAttribute {
 	/**
 	 * @return java source element
 	 */
-	public IMember getJavaElement();
+	public IMember getJavaSource();
 }

@@ -14,9 +14,8 @@ import org.eclipse.core.resources.IResource;
 
 /**
  * @author Alexey Kazakov
- * TODO should we use WTP's stuff instead? 
  */
-public interface ISeamXmlElement {
+public interface ISeamTextSource extends ISeamSource {
 
 	public IResource getResource();
 	public int getStartPosition();

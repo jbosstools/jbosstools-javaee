@@ -10,45 +10,9 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.core.resources.IFile;
-
 /**
  * @author Alexey Kazakov
  */
-public interface IRole {
+public interface IRole extends ISeamJavaClassSource, ISeamTextSource, ISeamContextVariable {
 
-	/**
-	 * @return Name
-	 */
-	public String getName();
-
-	/**
-	 * Sets name
-	 */
-	public void setName(String name);
-
-	/**
-	 * @return scope type
-	 */
-	public ScopeType getScope();
-
-	/**
-	 * Sets scope type
-	 */
-	public void setScope(ScopeType type);
-
-	/**
-	 * @return source file
-	 */
-	public IFile getSourceFile();
-
-	/**
-	 * @return start position in source file
-	 */
-	public int getStartPosition();
-
-	/**
-	 * @return length role definition in source file.
-	 */
-	public int getLength();
 }

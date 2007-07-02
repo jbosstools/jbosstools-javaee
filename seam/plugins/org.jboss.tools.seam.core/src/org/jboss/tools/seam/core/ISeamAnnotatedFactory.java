@@ -15,7 +15,7 @@ import org.eclipse.jdt.core.IMethod;
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamAnnotatedFactory extends ISeamFactory {
+public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamSource {
 
 	/**
 	 * @return source IMethod

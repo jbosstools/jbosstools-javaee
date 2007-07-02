@@ -10,18 +10,25 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
-import org.eclipse.core.resources.IFile;
-
 /**
- * Seam Property defined in Component.xml 
+ * Property of Seam Component defined in Component.xml or Properties.xml 
  * @param <T>
  */
-public interface ISeamProperty<T extends Object> extends ISeamXmlElement {
+public interface ISeamProperty extends ISeamTextSource {
 
+	/**
+	 * @return name of property
+	 */
 	public String getName();
 
-	public T getValue();
-	public String getStringValue();
+	/**
+	 * @return value of property
+	 */
+	public String getValue();
 
-	public void setObject(Object value);
+	/**
+	 * Sets value of property
+	 * @param value
+	 */
+	public void setValue(String value);
 }

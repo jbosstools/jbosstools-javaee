@@ -89,9 +89,9 @@ public class ScannerTest extends TestCase {
 		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
 			ISeamComponent c = (ISeamComponent) iterator.next();
 			//We have list property in this component
-			List<ISeamProperty<?>> prs = c.getProperties("myList");
+			List<ISeamProperty> prs = c.getProperties("myList");
 			assertTrue("Property myList is not found in components.xml", prs.size() == 1);		
-			ISeamProperty<?> property = prs.get(0);
+			ISeamProperty property = prs.get(0);
 			Object o = property.getValue();
 			assertTrue("Property myList in myComponent must be instanceof java.util.List.", o instanceof List);
 			List<?> oList = (List<?>)o;

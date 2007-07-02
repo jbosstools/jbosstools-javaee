@@ -10,23 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamProperty;
 
-public class SeamProperty<T extends Object> implements ISeamProperty<T> {
+public class SeamProperty implements ISeamProperty {
 	protected String name;
-	protected T value;
+	protected String value;
 	protected int startPosition = -1;
 	protected int length = -1;
-	
+
 	public SeamProperty() {}
-	
+
 	public SeamProperty(String name) {
 		this.name = name;
 	}
 
-	public SeamProperty(String name, T value) {
+	public SeamProperty(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}
@@ -51,21 +50,12 @@ public class SeamProperty<T extends Object> implements ISeamProperty<T> {
 		length = v;
 	}
 
-	public String getStringValue() {
-		Object value = getValue();
-		return value == null ? null : value.toString();
-	}
-
-	public T getValue() {
+	public String getValue() {
 		return value;
 	}
 	
-	public void setValue(T value) {
+	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public void setObject(Object value) {
-		this.value = (T)value;		
 	}
 
 	/* (non-Javadoc)

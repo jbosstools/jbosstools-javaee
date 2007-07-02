@@ -37,12 +37,6 @@ public interface ISeamProject extends IProjectNature {
 	public Set<ISeamComponent> getComponentsByClass(String className);
 
 	/**
-	 * @param id of component.
-	 * @return ISeamComponent by model object ID.
-	 */
-	public ISeamComponent getComponent(String modelObjectId);
-
-	/**
 	 * @return Set of ISeamComponents
 	 */
 	public Set<ISeamComponent> getComponents();
@@ -62,17 +56,17 @@ public interface ISeamProject extends IProjectNature {
 	/**
 	 * @return all seam variables from all contexts.
 	 */
-	public Set<ISeamVariable> getVariables();
+	public Set<ISeamContextVariable> getVariables();
 
 	/**
 	 * @param name
 	 * @return all seam variables by name from all contexts
 	 */
-	public Set<ISeamVariable> getVariablesByName(String name);
+	public Set<ISeamContextVariable> getVariablesByName(String name);
 
 	/**
 	 * @param name
 	 * @return all seam variables from specific context
 	 */
-	public Set<ISeamVariable> getVariablesByScope(ScopeType scope);
+	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope);
 }
