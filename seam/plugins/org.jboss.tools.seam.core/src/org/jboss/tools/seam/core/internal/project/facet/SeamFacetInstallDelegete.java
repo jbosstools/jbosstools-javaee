@@ -58,56 +58,99 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include(".[^/]*\\.jar")
 		.include(".[^/]*\\.zip");
 	
+	public static FileSet JBOOS_RESOURCES_SET1 = new FileSet()
+		.exclude("datasource-ds.xml")
+		.exclude("import.sql")
+		.exclude("WEB-INF/components.*\\.xml")
+		.exclude("META-INF/persistence.*\\.xml")
+		.exclude("META-INF/application.xml")
+		.exclude("META-INF/jboss-app.xml")
+		.exclude("META-INF/ejb-jar.xml")
+		.exclude("WEB-INF/jboss-web.xml");
+	
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "drools/lib";
 	
-	public static String SEAM_RELATED_LIB = "lib";
+	public static String SEAM_LIB_RELATED_PATH = "lib";
+	
+	public static String WEB_LIBRARIES_RELATED_PATH = "WEB-INF/lib";
 	
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		IDataModel model = (IDataModel)config;
 
-		Properties propertiew = new Properties();
-		
-		// get WebContents folder path from model 
+		// get WebContents folder path from DWP model 
 		WebArtifactEdit edit = 
 			WebArtifactEdit.getWebArtifactEditForRead(project);
 		IVirtualComponent com = ComponentCore.createComponent(project);
 		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
 		IContainer folder = webRootFolder.getUnderlyingFolder();
+		
 		File webContentFolder = folder.getLocation().toFile();
 		
+		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
 
-		String seamHomeFolder = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
+		String seamHomePath = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
+		File seamHomeFolder = new File(seamHomePath);
+		File seamLibFolder = new File(seamHomePath,SEAM_LIB_RELATED_PATH);
+		File seamGenResFolder = new File(seamHomePath,"seam-gen/resources");
+		File droolsLibFolder = new File(seamHomePath,DROOLS_LIB_SEAM_RELATED_PATH);
+		File seamGenViewSource = new File(seamHomePath,"seam-gen/view");
+		File jdbcDriverFile = new File(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH).toString());
+		File hibernateConsoleLaunchFile = new File(seamHomeFolder, "seam-gen/hibernatetools/hibernate-console.launch");
+		File hibernateConsolePropsFile = new File(seamHomeFolder, "seam-gen/hibernatetools/hibernate-console.properties");
 		
-		File seamGenViewSource = new File(seamHomeFolder,"seam-gen/view");
 		
-		// Copy view folder from seam-gen installation to
-
-		FileSet viewFileSet = new FileSet(VIEW_FILESET).dir(seamGenViewSource.getAbsolutePath());
+		
+		FilterSet jdbcFilterSet = FilterSetFactory.createJdbcFilterSet(model);
+		FilterSet projectFilterSet =  FilterSetFactory.createProjectFilterSet(model);
+		
+		// ****************************************************************
+		// Copy view folder from seam-gen installation to WebContent folder
+		// ****************************************************************
+		
+		FileSet viewFileSet = new FileSet(VIEW_FILESET).dir(seamGenViewSource);
 		FilterSetCollection viewFilterSetCollection = new FilterSetCollection();
-		viewFilterSetCollection.addFilterSet(FilterSetFactory.createJdbcFilterSet(model));
-		viewFilterSetCollection.addFilterSet(FilterSetFactory.createProjectFilterSet(model));
+		viewFilterSetCollection.addFilterSet(jdbcFilterSet);
+		viewFilterSetCollection.addFilterSet(projectFilterSet);
 		AntCopyUtils.copyFilesAndFolders(
 				seamGenViewSource, webContentFolder, new FileSetFileFilter(viewFileSet), viewFilterSetCollection, true);
-//		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
-//		File[] copy = file1.listFiles(fileSetFilter);
-//		copyFiles(file1,new File("c:\\temp\\1"),fileSetFilter);
 		
-		
-		// project location with filled out FIlterSet
-		
+		// *******************************************************************
 		// TODO copy manifest and configuration resources the same way as view
+		// *******************************************************************
+		
+		FileSet res1FileSet = new FileSet(JBOOS_RESOURCES_SET1).dir(seamGenResFolder);
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenResFolder,webContentFolder,new FileSetFileFilter(viewFileSet),viewFilterSetCollection, true);
+		
+		AntCopyUtils.copyFile(
+				hibernateConsoleLaunchFile, 
+				new File(project.getLocation().toFile(),project.getName()), 
+				new FilterSetCollection(projectFilterSet), true);
+		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
+		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(FilterSetFactory.createHibernateDialectFilterSet(model));
+		
+		AntCopyUtils.copyFile(
+				hibernateConsolePropsFile, 
+				new File(project.getLocation().toFile(),hibernateConsolePropsFile.getName()),
+				hibernateDialectFilterSet, true);
+		
+		// *************************************
 		// TODO modify existing faces-config.xml
+		// *************************************
 		
-		// TODO copy libraries/link libraries
-		File seamHome = new File(seamHomeFolder);
-		File webLibFolder = new File(webContentFolder,"WEB-INF/lib");
-		copyFiles(seamHome,webLibFolder,seamLibs);
-		copyFiles(new File(seamHomeFolder,"lib"),webLibFolder,javaLibs);
-		copyFiles(new File(seamHomeFolder,"drools/lib"),webLibFolder,javaLibs);
 		
-		String jdbcDriverFileName = model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH).toString();
-		File jdbcDriverFile = new File(jdbcDriverFileName);
+		// ********************************************************************************************
+		// TODO copy libraries/link libraries (seam jars, seam dependencies jars, drols jars, jdbc jar)
+		// ********************************************************************************************
+		
+		File webLibFolder = new File(webContentFolder,WEB_LIBRARIES_RELATED_PATH);
+		copyFiles(seamHomeFolder,webLibFolder,new FileSetFileFilter(new FileSet(SEAM_JARS).dir(seamHomeFolder)));
+		copyFiles(seamLibFolder,webLibFolder,new FileSetFileFilter(new FileSet(SEAM_JARS).dir(seamLibFolder)));
+		copyFiles(droolsLibFolder,webLibFolder,new FileSetFileFilter(new FileSet(SEAM_JARS).dir(droolsLibFolder)));
+		
 		if(jdbcDriverFile.exists())
 			AntCopyUtils.copyFile(jdbcDriverFile, webLibFolder, true);
 		
@@ -187,6 +230,10 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			this.dir = new File(dir);
 		}
 		
+		public FileSet(File dir) {
+			this.dir = dir;
+		}
+		
 		public FileSet(FileSet template) {
 			include.addAll(template.getIncluded());
 			exclude.addAll(template.getExcluded());
@@ -198,6 +245,11 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		
 		public FileSet dir(String dir) {
 			this.dir = new File(dir);
+			return this;
+		}
+		
+		public FileSet dir(File dir) {
+			this.dir = dir;
 			return this;
 		}
 		
@@ -283,6 +335,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		public static FilterSet JDBC_TEMPLATE;
 		public static FilterSet PROJECT_TEMPLATE;
 		public static FilterSet FILTERS_TEMPLATE;
+		public static FilterSet HIBERNATE_DIALECT_TEMPLATE;
 		
 		static {
 			JDBC_TEMPLATE = new FilterSet();
@@ -313,6 +366,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			FILTERS_TEMPLATE.addFilter("listName","${component.name}List");
 			FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home");
 			FILTERS_TEMPLATE.addFilter("query","${query.text}");
+			
+			HIBERNATE_DIALECT_TEMPLATE = new FilterSet();
+			HIBERNATE_DIALECT_TEMPLATE.addFilter("hibernate.dialect","$hibernate.dialect");
 		}
 		
 		public static FilterSet createJdbcFilterSet(IDataModel values) {
@@ -324,6 +380,10 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		
 		public static FilterSet createFiltersFilterSet(IDataModel values) {
 			return aplayProperties(FILTERS_TEMPLATE, values);
+		}
+		
+		public static FilterSet createHibernateDialectFilterSet(IDataModel values) {
+			return aplayProperties(HIBERNATE_DIALECT_TEMPLATE, values);
 		}
 		
 		private static FilterSet aplayProperties(FilterSet template,IDataModel values) {
