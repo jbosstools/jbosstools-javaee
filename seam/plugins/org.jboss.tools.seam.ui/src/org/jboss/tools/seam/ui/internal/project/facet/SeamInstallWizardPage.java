@@ -79,7 +79,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			ISeamFacetDataModelProperties.DB_USER_NAME, 
 			"Database User Name:", "username");
 	IFieldEditor dbUserPassword = IFieldEditorFactory.INSTANCE.createTextEditor(
-			ISeamFacetDataModelProperties.DB_PASSWORD, 
+			ISeamFacetDataModelProperties.DB_USERP_PASSWORD, 
 			"User Password:", "password");
 	IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_SCHEMA_NAME, 

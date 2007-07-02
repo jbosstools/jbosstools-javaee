@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -39,16 +40,6 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
 	public static FileSet VIEW_FILESET = new FileSet()
-			.include("home\\.xhtml")
-			.include("error\\.xhtml")
-			.include("login\\.xhtml")
-			.include("login\\.page.xml")
-			.include("index\\.html")
-			.include("layout\\.*")
-			.include("stylesheet\\.*")
-			.include("img\\.*")
-			.exclude(".*\\\\.*\\.ftl");
-	public static FileSet VIEW_ = new FileSet()
 		.include("home\\.xhtml")
 		.include("error\\.xhtml")
 		.include("login\\.xhtml")
@@ -57,7 +48,19 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("layout\\.*")
 		.include("stylesheet\\.*")
 		.include("img\\.*")
-		.exclude(".*\\\\.*\\.ftl");
+		.exclude(".*/.*\\.ftl");
+	
+	public static FileSet SEAM_JARS = new FileSet()
+		.include("jboss-seam.*\\.jar")
+		.exclude("jboss-seam-gen\\.jar");
+	
+	public static FileSet JAVA_LIBS = new FileSet()
+		.include(".[^/]*\\.jar")
+		.include(".[^/]*\\.zip");
+	
+	public static String DROOLS_LIB_SEAM_RELATED_PATH = "drools/lib";
+	
+	public static String SEAM_RELATED_LIB = "lib";
 	
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
@@ -73,10 +76,23 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		IContainer folder = webRootFolder.getUnderlyingFolder();
 		File webContentFolder = folder.getLocation().toFile();
 		
+
 		String seamHomeFolder = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
-		File source = new File(seamHomeFolder,"seam-gen/view");
-		// TODO - copy veiw folder from seam-gen installation to
-		copyViewFolder(source, webContentFolder, new HashMap<String, String>());
+		
+		File seamGenViewSource = new File(seamHomeFolder,"seam-gen/view");
+		
+		// Copy view folder from seam-gen installation to
+
+		FileSet viewFileSet = new FileSet(VIEW_FILESET).dir(seamGenViewSource.getAbsolutePath());
+		FilterSetCollection viewFilterSetCollection = new FilterSetCollection();
+		viewFilterSetCollection.addFilterSet(FilterSetFactory.createJdbcFilterSet(model));
+		viewFilterSetCollection.addFilterSet(FilterSetFactory.createProjectFilterSet(model));
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenViewSource, webContentFolder, new FileSetFileFilter(viewFileSet), viewFilterSetCollection, true);
+//		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
+//		File[] copy = file1.listFiles(fileSetFilter);
+//		copyFiles(file1,new File("c:\\temp\\1"),fileSetFilter);
+		
 		
 		// project location with filled out FIlterSet
 		
@@ -87,8 +103,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		File seamHome = new File(seamHomeFolder);
 		File webLibFolder = new File(webContentFolder,"WEB-INF/lib");
 		copyFiles(seamHome,webLibFolder,seamLibs);
-		copyFiles(new File(source.getParentFile(),"lib"),webLibFolder,javaLibs);
-		copyFiles(new File(source.getParentFile(),"drools/lib"),webLibFolder,javaLibs);
+		copyFiles(new File(seamHomeFolder,"lib"),webLibFolder,javaLibs);
+		copyFiles(new File(seamHomeFolder,"drools/lib"),webLibFolder,javaLibs);
 		
 		String jdbcDriverFileName = model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH).toString();
 		File jdbcDriverFile = new File(jdbcDriverFileName);
@@ -106,7 +122,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
-	protected void copyViewFolder(File viewSource, File viewDestination, HashMap<String, String> properties) {
+	protected void copyViewFolder(File viewSource, File viewDestination,HashMap<String, String> properties) {
 		
 		FilterSet filterSet = new FilterSet();
 		for (Object	propertyName : properties.keySet()) {
@@ -159,25 +175,38 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		}
 	};
 	
-	
 	public static class FileSet {
+		
 		File dir = null;
+		
 		List<Pattern> include = new ArrayList<Pattern>();
+		
 		List<Pattern> exclude = new ArrayList<Pattern>();
+		
 		public FileSet(String dir) {
 			this.dir = new File(dir);
 		}
+		
+		public FileSet(FileSet template) {
+			include.addAll(template.getIncluded());
+			exclude.addAll(template.getExcluded());
+		}
+		
 		public FileSet() {
-		}		
+			
+		}
+		
 		public FileSet dir(String dir) {
 			this.dir = new File(dir);
 			return this;
 		}
+		
 		public FileSet include(String pattern) {
 			include.add(Pattern.compile(pattern));
 			return this;
 			
 		}
+		
 		public FileSet exclude(String pattern) {
 			exclude.add(Pattern.compile(pattern));
 			return this;
@@ -201,6 +230,14 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			}
 			return false;	
 		}
+		
+		public List<Pattern> getExcluded() {
+			return Collections.unmodifiableList(exclude);
+		}
+		
+		public List<Pattern> getIncluded() {
+			return Collections.unmodifiableList(include);
+		}
 	}
 	
 	public static class FileSetFileFilter implements FileFilter {
@@ -211,31 +248,99 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		}
 		
 		public boolean accept(File pathname){
-			System.out.println(pathname);
-			System.out.println(set.isIncluded(pathname.getAbsolutePath()));
 			return set.isIncluded(pathname.getAbsolutePath());
 		}
 	}
 	
 	
 	public static void main(String[] args) {
-		
-		FileSet include = new FileSet()
-			.dir("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view")
-			.include("home\\.xhtml")
-			.include("error\\.xhtml")
-			.include("login\\.xhtml")
-			.include("login\\.page.xml")
-			.include("index\\.html")
-			.include("layout\\.*")
-			.include("stylesheet\\.*")
-			.include("img\\.*")
-			.exclude(".*\\\\.*\\.ftl");
-		
-		FileSetFileFilter fileSetFilter = new FileSetFileFilter(include);
-		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
-		File[] copy = file1.listFiles(fileSetFilter);
-		copyFiles(file1,new File("c:\\temp\\1"),fileSetFilter);
-		AntCopyUtils.copyFilesAndFolders(file1, new File("c:\\temp\\12"),fileSetFilter, new FilterSetCollection(), true);
+		System.out.println(Pattern.matches(".[^\\\\]*\\.jar", "tt\\test.jar"));
+//		Properties props = new Properties();
+//		props.put("hibernate.connection.username", "rooy");
+//		FilterSet jdbcFs = FilterSetFactory.createJdbcFilterSet(props);
+//		System.out.println(jdbcFs);
+//		FileSet include = new FileSet()
+//			.dir("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view")
+//			.include("home\\.xhtml")
+//			.include("error\\.xhtml")
+//			.include("login\\.xhtml")
+//			.include("login\\.page.xml")
+//			.include("index\\.html")
+//			.include("layout\\.*")
+//			.include("stylesheet\\.*")
+//			.include("img\\.*")
+//			.exclude(".*\\\\.*\\.ftl");
+//		
+//		FileSetFileFilter fileSetFilter = new FileSetFileFilter(include);
+//		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
+//		File[] copy = file1.listFiles(fileSetFilter);
+//		copyFiles(file1,new File("c:\\temp\\1"),fileSetFilter);
+//		AntCopyUtils.copyFilesAndFolders(file1, new File("c:\\temp\\12"),fileSetFilter, new FilterSetCollection(), true);
 	}
+	
+	public static class FilterSetFactory {
+		
+		public static FilterSet JDBC_TEMPLATE;
+		public static FilterSet PROJECT_TEMPLATE;
+		public static FilterSet FILTERS_TEMPLATE;
+		
+		static {
+			JDBC_TEMPLATE = new FilterSet();
+			JDBC_TEMPLATE.addFilter("jdbcUrl","${hibernate.connection.url}");
+			JDBC_TEMPLATE.addFilter("driverClass","${hibernate.connection.driver_class}");
+			JDBC_TEMPLATE.addFilter("username","${hibernate.connection.username}");
+			JDBC_TEMPLATE.addFilter("password","${hibernate.connection.password}");
+			JDBC_TEMPLATE.addFilter("catalogProperty","${catalog.property}");
+			JDBC_TEMPLATE.addFilter("schemaProperty","${schema.property}");
+			
+			PROJECT_TEMPLATE = new FilterSet();
+			PROJECT_TEMPLATE.addFilter("projectName","${project.name}");
+			PROJECT_TEMPLATE.addFilter("jbossHome","${jboss.home}");
+			PROJECT_TEMPLATE.addFilter("hbm2ddl","${hibernate.hbm2ddl.auto}");
+			PROJECT_TEMPLATE.addFilter("driverJar","${driver.file}");
+			
+			FILTERS_TEMPLATE = new FilterSet();
+			FILTERS_TEMPLATE.addFilter("interfaceName","${interface.name}");
+			FILTERS_TEMPLATE.addFilter("beanName","${bean.name}");
+			FILTERS_TEMPLATE.addFilter("entityName","${entity.name}");
+			FILTERS_TEMPLATE.addFilter("methodName","${method.name}");
+			FILTERS_TEMPLATE.addFilter("componentName","${component.name}");
+			FILTERS_TEMPLATE.addFilter("pageName","${page.name}");
+			FILTERS_TEMPLATE.addFilter("masterPageName","${masterPage.name}");
+			FILTERS_TEMPLATE.addFilter("actionPackage","${action.package}");
+			FILTERS_TEMPLATE.addFilter("modelPackage","${model.package}");
+			FILTERS_TEMPLATE.addFilter("testPackage","${test.package}");
+			FILTERS_TEMPLATE.addFilter("listName","${component.name}List");
+			FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home");
+			FILTERS_TEMPLATE.addFilter("query","${query.text}");
+		}
+		
+		public static FilterSet createJdbcFilterSet(IDataModel values) {
+			return aplayProperties(JDBC_TEMPLATE, values);
+		}
+		public static FilterSet createProjectFilterSet(IDataModel values){
+			return aplayProperties(PROJECT_TEMPLATE, values);
+		}
+		
+		public static FilterSet createFiltersFilterSet(IDataModel values) {
+			return aplayProperties(FILTERS_TEMPLATE, values);
+		}
+		
+		private static FilterSet aplayProperties(FilterSet template,IDataModel values) {
+			FilterSet result = new FilterSet();
+			for (Object filter : template.getFilterHash().keySet()) {
+				System.out.println(filter + "=" +template.getFilterHash().get(filter));
+				String value = template.getFilterHash().get(filter).toString();
+				for (Object property : values.getAllProperties()) {
+					if(value.contains("${"+property.toString()+"}")) {
+						value = value.replace("${"+property.toString()+"}",values.getProperty(property.toString()).toString());
+					}
+				}
+				result.addFilter(filter.toString(), value);
+			}
+			return result;
+		}
+	}
+	
+	
 }

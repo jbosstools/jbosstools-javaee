@@ -48,7 +48,7 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.JDBC_URL_FOR_DB);
 
 		names.add(ISeamFacetDataModelProperties.DB_USER_NAME);
-		names.add(ISeamFacetDataModelProperties.DB_PASSWORD);
+		names.add(ISeamFacetDataModelProperties.DB_USERP_PASSWORD);
 		names.add(ISeamFacetDataModelProperties.DB_SCHEMA_NAME);
 		names.add(ISeamFacetDataModelProperties.DB_CATALOG_NAME);
 
