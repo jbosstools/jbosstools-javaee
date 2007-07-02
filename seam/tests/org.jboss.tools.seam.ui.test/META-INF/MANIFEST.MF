@@ -8,3 +8,4 @@ Require-Bundle: org.junit
 Export-Package: org.jboss.tools.seam.ui.test,
  org.jboss.tools.seam.ui.test.view,
  org.jboss.tools.seam.ui.test.wizard
+Bundle-ClassPath: seam-ui.jar

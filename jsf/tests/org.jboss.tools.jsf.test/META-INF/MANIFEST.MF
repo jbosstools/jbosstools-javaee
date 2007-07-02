@@ -6,7 +6,6 @@ Bundle-Version: 2.0.0
 Bundle-ClassPath: jsf-tests.jar,
  lib/xmlunit1.0.jar
 Bundle-Vendor: Red Hat, Inc.
-Bundle-Localization: plugin
 Export-Package: org.custommonkey.xmlunit,
  org.jboss.tools.jsf.test
 Require-Bundle: 

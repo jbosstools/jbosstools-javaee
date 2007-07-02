@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: EL Expressions Parcer Tests Plug-in
 Bundle-SymbolicName: org.jboss.tools.jsf.text.ext.test
 Bundle-Version: 2.0.0
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.junit,

@@ -3,10 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JSF Verification Tests Plug-in
 Bundle-SymbolicName: org.jboss.tools.jsf.verification.test;singleton:=true
 Bundle-Version: 2.0.0
-Bundle-ClassPath: jsf-verification-tests.jar,
- lib/xmlunit1.0.jar
+Bundle-ClassPath: jsf-verification-tests.jar
 Bundle-Vendor: Red Hat, Inc.
-Bundle-Localization: plugin
 Export-Package: org.jboss.tools.jsf.verification.test
 Require-Bundle: 
  org.junit,
