@@ -14,6 +14,6 @@ package org.jboss.tools.seam.core;
  * @author Alexey Kazakov
  */
 public enum SeamComponentMethodType {
-	Create,
-	Destroy
+	CREATE,
+	DESTROY
 }
