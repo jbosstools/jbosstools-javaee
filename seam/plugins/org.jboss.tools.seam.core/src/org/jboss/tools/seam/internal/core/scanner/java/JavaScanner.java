@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.scanner.java;
 
 
-import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -24,28 +23,13 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
-import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.Annotation;
-import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.MemberValuePair;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.NormalAnnotation;
-import org.eclipse.jdt.core.dom.QualifiedName;
-import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
-import org.eclipse.jdt.core.dom.StringLiteral;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 
 public class JavaScanner implements IFileScanner {
-	static String NAME_ANNOTATION_TYPE = "org.jboss.seam.annotations.Name";
-	static String SCOPE_ANNOTATION_TYPE = "org.jboss.seam.annotations.Scope";
-	
 	
 	public JavaScanner() {}
 
@@ -144,84 +128,7 @@ public class JavaScanner implements IFileScanner {
 		}
 	}
 	
-	class ASTVisitorImpl extends ASTVisitor {
-		IType type;
-		String name = null;
-		String scope = null;
-		public boolean visit(SingleMemberAnnotation node) {
-			if(checkAnnotationType(node, NAME_ANNOTATION_TYPE)) {
-				name = checkExpression(node.getValue());
-				return true;
-			} else if(checkAnnotationType(node, SCOPE_ANNOTATION_TYPE)) {
-				scope = checkExpression(node.getValue());
-				if(scope != null) {
-					int i = scope.lastIndexOf('.');
-					if(i >= 0) scope = scope.substring(i + 1).toLowerCase();
-				}
-				return true;
-			}
-			return false;
-		}
-		public boolean visit(NormalAnnotation node) {
-			if(checkAnnotationType(node, NAME_ANNOTATION_TYPE)) {
-				name = getValue(node);
-				return true;
-			} else if(checkAnnotationType(node, SCOPE_ANNOTATION_TYPE)) {
-				scope = getValue(node);
-				return true;
-			}
-			return false;
-		}
-		
-		String getValue(NormalAnnotation node) {
-			List vs = node.values();
-			if(vs != null) for (int i = 0; i < vs.size(); i++) {
-				MemberValuePair p = (MemberValuePair)vs.get(i);
-				if("value".equals(p.getName().getIdentifier())) {
-					return checkExpression(p.getValue());
-				}
-			}
-			return null;
-		}
-		
-		
-		boolean checkAnnotationType(Annotation node, String annotationType) {
-			Name nm = node.getTypeName();
-			if(nm instanceof SimpleName) {
-				SimpleName sn = (SimpleName)nm;
-				String n = sn.getIdentifier();
-				if(type != null) {
-					n = getResolvedType(type, n);
-				}
-				if(!annotationType.equals(n)) return false;
-			} else if(nm instanceof QualifiedName) {
-				QualifiedName qn = (QualifiedName)nm;
-				if(!qn.getFullyQualifiedName().equals(annotationType)) return false;
-				//improve
-			} else {
-				return false;
-			}
-			return true;
-		}
-		
-		String checkExpression(Expression exp) {
-			if(exp instanceof StringLiteral) {
-				return ((StringLiteral)exp).getLiteralValue();
-			} else if(exp instanceof QualifiedName) {
-				return exp.toString();
-			}
-			return null;
-		}
-
-		public boolean visit(Block node) {
-			return false;
-		}
-		public boolean visit(MethodDeclaration node) {
-			return false;
-		}
-	}
-	
-	String getResolvedType(IType type, String n) {
+	static String getResolvedType(IType type, String n) {
 		try {
 			String[][] rs = type.resolveType(n);
 			if(rs != null && rs.length > 0) {
@@ -232,6 +139,5 @@ public class JavaScanner implements IFileScanner {
 		}
 		return n;
 	}
-
 
 }
