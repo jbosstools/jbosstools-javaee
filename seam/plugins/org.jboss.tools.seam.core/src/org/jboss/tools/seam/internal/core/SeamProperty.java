@@ -15,7 +15,7 @@ import org.jboss.tools.seam.core.ISeamProperty;
 
 public class SeamProperty implements ISeamProperty {
 	protected String name;
-	protected String value;
+	protected Object value;
 	protected int startPosition = -1;
 	protected int length = -1;
 
@@ -50,15 +50,15 @@ public class SeamProperty implements ISeamProperty {
 		length = v;
 	}
 
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 	
-	public void setValue(String value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamXmlElement#getResource()
 	 */
 	public IResource getResource() {

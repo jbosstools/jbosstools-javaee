@@ -10,10 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -29,7 +27,8 @@ import org.jboss.tools.seam.core.ScopeType;
  */
 public class SeamProject implements ISeamProject {
 	IProject project;
-	Map<String,SeamComponent> components = new HashMap<String, SeamComponent>();
+	Set<SeamComponent> allComponents = new HashSet<SeamComponent>();
+	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
 
 	public SeamProject() {}
 
@@ -67,10 +66,9 @@ public class SeamProject implements ISeamProject {
 //	}
 
 	public Set<ISeamComponent> getComponents() {
-		//TODO store cash
-		Set<ISeamComponent> set = new HashSet<ISeamComponent>();
-		set.addAll(components.values());
-		return set; 
+		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
+		result.addAll(allComponents);
+		return result;
 	}
 
 	/**
@@ -82,8 +80,8 @@ public class SeamProject implements ISeamProject {
 		pathRemoved(source);
 		if(list == null) return;
 		for (int i = 0; i < list.length; i++) {
-			list[i].setSource(source);
-			components.put(list[i].getName(), list[i]);
+			list[i].setSourcePath(source);
+			allComponents.add(list[i]);
 		}
 	}
 
@@ -92,7 +90,7 @@ public class SeamProject implements ISeamProject {
 	 * @param source
 	 */
 	public void pathRemoved(IPath source) {
-		Iterator<SeamComponent> iterator = components.values().iterator();
+		Iterator<SeamComponent> iterator = allComponents.iterator();
 		while(iterator.hasNext()) {
 			SeamComponent c = iterator.next();
 			if(c.source != null && source.isPrefixOf(c.source)) {
@@ -101,15 +99,9 @@ public class SeamProject implements ISeamProject {
 		}		
 	}
 
-	public ISeamComponent getComponent(String modelObjectId) {
-		return components.get(modelObjectId);
-	}
-
 	public Set<ISeamComponent> getComponentsByName(String name) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
-		Iterator<SeamComponent> iterator = components.values().iterator();
-		while(iterator.hasNext()) {
-			SeamComponent component = iterator.next();
+		for(SeamComponent component: allComponents) {
 			if(name.equals(component.getName())) {
 				result.add(component);
 			}
@@ -117,59 +109,77 @@ public class SeamProject implements ISeamProject {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByClass(java.lang.String)
 	 */
 	public Set<ISeamComponent> getComponentsByClass(String className) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
+		for(SeamComponent component: allComponents) {
+			if(className.equals(component.getClassName())) {
+				result.add(component);
+			}
+		}		
+		return result;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByScope(org.jboss.tools.seam.core.ScopeType)
 	 */
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
+		for(SeamComponent component: allComponents) {
+			if(type.equals(component.getScope())) {
+				result.add(component);
+			}
+		}		
+		return result;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#addComponent(org.jboss.tools.seam.core.ISeamComponent)
 	 */
 	public void addComponent(ISeamComponent component) {
-		// TODO Auto-generated method stub
-		
+		allComponents.add((SeamComponent)component);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#removeComponent(org.jboss.tools.seam.core.ISeamComponent)
 	 */
 	public void removeComponent(ISeamComponent component) {
-		// TODO Auto-generated method stub
-		
+		allComponents.remove(component);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
 	 */
 	public Set<ISeamContextVariable> getVariables() {
-		// TODO Auto-generated method stub
-		return null;
+		return allVariables;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByName(java.lang.String)
 	 */
 	public Set<ISeamContextVariable> getVariablesByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
+		for (ISeamContextVariable v: allVariables) {
+			if(name.equals(v.getName())) {
+				result.add(v);
+			}
+		}
+		return result;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByScope(org.jboss.tools.seam.core.ScopeType)
 	 */
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
+		for (ISeamContextVariable v: allVariables) {
+			if(scope.equals(v.getScope())) {
+				result.add(v);
+			}
+		}
+		return result;
 	}
+
 }

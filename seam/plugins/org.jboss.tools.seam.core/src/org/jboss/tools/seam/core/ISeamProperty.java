@@ -24,11 +24,11 @@ public interface ISeamProperty extends ISeamTextSource {
 	/**
 	 * @return value of property
 	 */
-	public String getValue();
+	public Object getValue();
 
 	/**
 	 * Sets value of property
 	 * @param value
 	 */
-	public void setValue(String value);
+	public void setValue(Object value);
 }

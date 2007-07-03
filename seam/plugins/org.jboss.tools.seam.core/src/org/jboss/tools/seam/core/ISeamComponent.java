@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +75,7 @@ public interface ISeamComponent extends ISeamContextVariable {
 	 * @param propertyName
 	 * @return
 	 */
-	public Set<ISeamProperty> getProperties();
+	public Collection<ISeamProperty> getProperties();
 
 	/**
 	 * Adds property to component.
