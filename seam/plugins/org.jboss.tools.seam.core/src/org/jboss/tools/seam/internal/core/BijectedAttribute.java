@@ -10,7 +10,9 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ScopeType;
@@ -24,10 +26,6 @@ public class BijectedAttribute implements IBijectedAttribute {
 	String name = null;
 	ScopeType scopeType = ScopeType.UNSPECIFIED;
 
-	public IMember getJavaSource() {
-		return javaSource;
-	}
-	
 	public void setMember(IMember javaSource) {
 		this.javaSource = javaSource;
 	}
@@ -50,6 +48,36 @@ public class BijectedAttribute implements IBijectedAttribute {
 
 	public void setScope(ScopeType type) {
 		this.scopeType = type;
+	}
+
+	public IMember getSourceMember() {
+		return javaSource;
+	}
+
+	public int getLength() {
+		if(javaSource == null) return 0;
+		try {
+			if(javaSource.getSourceRange() == null) return 0;
+			return javaSource.getSourceRange().getLength();
+		} catch (JavaModelException e) {
+			//ignore
+			return 0;
+		}
+	}
+
+	public IResource getResource() {
+		return javaSource == null ? null : javaSource.getTypeRoot().getResource();
+	}
+
+	public int getStartPosition() {
+		if(javaSource == null) return 0;
+		try {
+			if(javaSource.getSourceRange() == null) return 0;
+			return javaSource.getSourceRange().getOffset();
+		} catch (JavaModelException e) {
+			//ignore
+			return 0;
+		}
 	}
 
 }

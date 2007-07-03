@@ -10,7 +10,10 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ScopeType;
 
@@ -18,16 +21,16 @@ import org.jboss.tools.seam.core.ScopeType;
  * @author Viacheslav Kabanovich
  */
 public class SeamAnnotatedFactory implements ISeamAnnotatedFactory {
-	IMethod method = null;
+	IMethod javaSource = null;
 	String name = null;	
 	ScopeType scopeType = ScopeType.UNSPECIFIED;
 
 	public IMethod getSourceMethod() {
-		return method;
+		return javaSource;
 	}
 	
 	public void setMethod(IMethod method) {
-		this.method = method;
+		this.javaSource = method;
 	}
 
 	public String getName() {
@@ -44,6 +47,36 @@ public class SeamAnnotatedFactory implements ISeamAnnotatedFactory {
 
 	public void setScope(ScopeType type) {
 		this.scopeType = type;
+	}
+
+	public IMember getSourceMember() {
+		return javaSource;
+	}
+
+	public int getLength() {
+		if(javaSource == null) return 0;
+		try {
+			if(javaSource.getSourceRange() == null) return 0;
+			return javaSource.getSourceRange().getLength();
+		} catch (JavaModelException e) {
+			//ignore
+			return 0;
+		}
+	}
+
+	public IResource getResource() {
+		return javaSource == null ? null : javaSource.getTypeRoot().getResource();
+	}
+
+	public int getStartPosition() {
+		if(javaSource == null) return 0;
+		try {
+			if(javaSource.getSourceRange() == null) return 0;
+			return javaSource.getSourceRange().getOffset();
+		} catch (JavaModelException e) {
+			//ignore
+			return 0;
+		}
 	}
 
 }

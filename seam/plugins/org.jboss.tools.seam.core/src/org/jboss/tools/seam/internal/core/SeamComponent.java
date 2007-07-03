@@ -24,9 +24,13 @@ import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
-import org.jboss.tools.seam.core.ISeamSource;
+import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 
@@ -41,7 +45,6 @@ public class SeamComponent implements ISeamComponent {
 	
 	protected Map<String,ISeamProperty> properties = new HashMap<String, ISeamProperty>();
 	protected IPath source;
-	protected ISeamSource sourceDeclaration = null;
 	
 	protected Set<IBijectedAttribute> bijectedAttributes = new HashSet<IBijectedAttribute>();
 	protected Set<ISeamAnnotatedFactory> annotatedFactories = new HashSet<ISeamAnnotatedFactory>();
@@ -128,13 +131,6 @@ public class SeamComponent implements ISeamComponent {
 	}
 
 	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#addSourceDeclaration(org.jboss.tools.seam.core.ISeamSource)
-	 */
-	public void addSourceDeclaration(ISeamSource source) {
-		sourceDeclaration = source;
-	}
-
-	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getBijectedAttributes()
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributes() {
@@ -214,16 +210,6 @@ public class SeamComponent implements ISeamComponent {
 	}
 
 	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#getSourceDeclarations()
-	 */
-	public Set<ISeamSource> getSourceDeclarations() {
-		Set<ISeamSource> sources = base == null ? null : base.getSourceDeclarations();
-		if(sources == null) sources = new HashSet<ISeamSource>();
-		sources.add(sourceDeclaration);
-		return sources;
-	}
-
-	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#isEntity()
 	 */
 	public boolean isEntity() {
@@ -263,15 +249,6 @@ public class SeamComponent implements ISeamComponent {
 	 */
 	public void removeRole(IRole role) {
 		roles.remove(role);
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#removeSourceDeclaration(org.jboss.tools.seam.core.ISeamSource)
-	 */
-	public void removeSourceDeclaration(ISeamSource source) {
-		if(sourceDeclaration == source) {
-			sourceDeclaration = null;
-		}
 	}
 
 	/**
@@ -351,6 +328,26 @@ public class SeamComponent implements ISeamComponent {
 	 */
 	public void removeProperty(ISeamProperty property) {
 		properties.remove(property.getName());		
+	}
+
+	public Set<ISeamComponentDeclaration> getAllDeclarations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ISeamJavaComponentDeclaration getJavaDeclaration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<ISeamPropertiesDeclaration> getPropertiesDeclarations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<ISeamXmlComponentDeclaration> getXmlDeclarations() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
