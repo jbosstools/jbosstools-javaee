@@ -17,8 +17,10 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ScopeType;
@@ -29,6 +31,7 @@ import org.jboss.tools.seam.core.ScopeType;
 public class SeamProject implements ISeamProject {
 	IProject project;
 	Set<SeamComponent> allComponents = new HashSet<SeamComponent>();
+	protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
 
 	public SeamProject() {}
@@ -82,7 +85,7 @@ public class SeamProject implements ISeamProject {
 		if(list == null) return;
 		//TODO
 		for (int i = 0; i < list.length; i++) {
-//			list[i].setSourcePath(source);
+			list[i].setSourcePath(source);
 			
 			//TODO !!!
 //			allComponents.add(list[i]);
@@ -189,6 +192,42 @@ public class SeamProject implements ISeamProject {
 			}
 		}
 		return result;
+	}
+
+	public void addFactory(ISeamFactory factory) {
+		allFactories.add(factory);		
+	}
+
+	public Set<ISeamFactory> getFactories() {
+		return allFactories;
+	}
+
+	public Set<ISeamFactory> getFactories(String name, ScopeType scope) {
+		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
+		for (ISeamFactory f: allFactories) {
+			if(name.equals(f.getName()) && scope.equals(f.getScope())) result.add(f);
+		}
+		return result;
+	}
+
+	public Set<ISeamFactory> getFactoriesByName(String name) {
+		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
+		for (ISeamFactory f: allFactories) {
+			if(name.equals(f.getName())) result.add(f);
+		}
+		return result;
+	}
+
+	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope) {
+		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
+		for (ISeamFactory f: allFactories) {
+			if(scope.equals(f.getScope())) result.add(f);
+		}
+		return result;
+	}
+
+	public void removeFactory(ISeamFactory factory) {
+		allFactories.remove(factory);
 	}
 
 }

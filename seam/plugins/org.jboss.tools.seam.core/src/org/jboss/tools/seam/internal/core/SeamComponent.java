@@ -19,7 +19,6 @@ import java.util.Set;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
-import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
@@ -78,14 +77,6 @@ public class SeamComponent implements ISeamComponent {
 			if(d.getClassName() != null) return d.getClassName();
 		}
 		return null;
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#getFactories()
-	 */
-	public Set<ISeamAnnotatedFactory> getFactories() {
-		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
-		return (javaDeclaration == null) ? null : javaDeclaration.getFactories();
 	}
 
 	/**

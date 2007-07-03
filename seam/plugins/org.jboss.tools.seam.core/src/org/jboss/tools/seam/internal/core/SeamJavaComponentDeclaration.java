@@ -21,7 +21,6 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	protected boolean entity = false;
 
 	protected Set<IBijectedAttribute> bijectedAttributes = new HashSet<IBijectedAttribute>();
-	protected Set<ISeamAnnotatedFactory> annotatedFactories = new HashSet<ISeamAnnotatedFactory>();
 	protected Set<ISeamComponentMethod> componentMethods = new HashSet<ISeamComponentMethod>();
 	protected Set<IRole> roles = new HashSet<IRole>();
 
@@ -35,10 +34,6 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public void addBijectedAttribute(IBijectedAttribute attribute) {
 		bijectedAttributes.add(attribute);		
-	}
-
-	public void addFactory(ISeamAnnotatedFactory factory) {
-		annotatedFactories.add(factory);		
 	}
 
 	public void addMethod(ISeamComponentMethod method) {
@@ -76,10 +71,6 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		return result;
 	}
 
-	public Set<ISeamAnnotatedFactory> getFactories() {
-		return annotatedFactories;
-	}
-
 	public Set<ISeamComponentMethod> getMethods() {
 		return componentMethods;
 	}
@@ -110,10 +101,6 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public void removeBijectedAttribute(IBijectedAttribute attribute) {
 		bijectedAttributes.remove(attribute);
-	}
-
-	public void removeFactory(ISeamAnnotatedFactory factory) {
-		annotatedFactories.remove(factory);
 	}
 
 	public void removeMethod(ISeamComponentMethod method) {
