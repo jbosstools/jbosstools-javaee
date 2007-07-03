@@ -12,9 +12,8 @@ package org.jboss.tools.seam.core;
 
 /**
  * Property of Seam Component defined in Component.xml or Properties.xml 
- * @param <T>
  */
-public interface ISeamProperty extends ISeamTextSource {
+public interface ISeamProperty extends ISeamTextSourceReference {
 
 	/**
 	 * @return name of property

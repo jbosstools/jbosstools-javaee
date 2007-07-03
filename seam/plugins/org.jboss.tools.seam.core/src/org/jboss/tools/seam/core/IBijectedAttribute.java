@@ -10,20 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMember;
-
 /**
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute extends ISeamSource, ISeamContextVariable {
+public interface IBijectedAttribute extends ISeamContextVariable, ISeamJavaSourceReference {
 
 	/**
 	 * @return type
 	 */
 	public BijectedAttributeType getType();
-
-	/**
-	 * @return java source element
-	 */
-	public IMember getJavaSource();
 }

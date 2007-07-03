@@ -10,11 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.tools.seam.core.IRole;
+import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
+import org.jboss.tools.seam.core.ISeamComponentMethod;
+
 public interface ISeamComponent extends ISeamContextVariable {
+
+	public ISeamJavaComponentDeclaration getJavaDeclaration();
+
+	public Set<ISeamXmlComponentDeclaration> getXmlDeclarations();
+
+	public Set<ISeamPropertiesDeclaration> getPropertiesDeclarations();
+
+	public Set<ISeamComponentDeclaration> getAllDeclarations();
 
 	/**
 	 * @return qualified Class name of component
@@ -22,25 +33,9 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public String getClassName();
 
 	/**
-	 * Sets qualified Class name of component
-	 * @param className
-	 */
-	public void setClassName(String className);
-
-	/**
 	 * @return bijected attributes
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributes();
-
-	/**
-	 * Adds bijected attribute
-	 */
-	public void addBijectedAttribute(IBijectedAttribute attribute);
-
-	/**
-	 * Removes bijected attribute
-	 */
-	public void removeBijectedAttribute(IBijectedAttribute attribute);
 
 	/**
 	 * Returns bijected attributes by name
@@ -57,62 +52,9 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public Set<IBijectedAttribute> getBijectedAttributesByType(BijectedAttributeType type);
 
 	/**
-	 * Returns all properties from component.xml for that component.
-	 * @param propertyName
-	 * @return
-	 */
-	public List<ISeamProperty> getProperties(String propertyName);
-
-	/**
-	 * Returns first property with propertyName from component.xml for that component.
-	 * @param propertyName
-	 * @return
-	 */
-	public ISeamProperty getProperty(String propertyName);
-
-	/**
-	 * Returns properties by name from component.xml.
-	 * @param propertyName
-	 * @return
-	 */
-	public Collection<ISeamProperty> getProperties();
-
-	/**
-	 * Adds property to component.
-	 * @param property
-	 */
-	public void addProperty(ISeamProperty property);
-
-	/**
-	 * Removes property from component.
-	 * @param property
-	 */
-	public void removeProperty(ISeamProperty property);
-
-	/**
-	 * @return sources
-	 */
-	public Set<ISeamSource> getSourceDeclarations();
-
-	/**
-	 * @param source
-	 */
-	public void addSourceDeclaration(ISeamSource source);
-
-	/**
-	 * Removes source
-	 */
-	public void removeSourceDeclaration(ISeamSource source);
-
-	/**
 	 * @return true if component marked as Stateful
 	 */
 	public boolean isStateful();
-
-	/**
-	 * Set true if component marked as Stateful
-	 */
-	public void setStateful(boolean stateful);
 
 	/**
 	 * @return true if component marked as Entity
@@ -120,26 +62,9 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public boolean isEntity();
 
 	/**
-	 * Set true if component marked as Entity
-	 */
-	public void setEntity(boolean entity);
-
-	/**
 	 * @return roles of component
 	 */
 	public Set<IRole> getRoles();
-
-	/**
-	 * Adds role to component
-	 * @param role
-	 */
-	public void addRole(IRole role);
-
-	/**
-	 * Removes role from component
-	 * @param role
-	 */
-	public void removeRole(IRole role);
 
 	/**
 	 * @return methods of component
@@ -153,31 +78,21 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public Set<ISeamComponentMethod> getMethodsByType(SeamComponentMethodType type);
 
 	/**
-	 * Adds method to component
-	 * @param method
-	 */
-	public void addMethod(ISeamComponentMethod method);
-
-	/**
-	 * Removes method from component
-	 * @param method
-	 */
-	public void removeMethod(ISeamComponentMethod method);
-
-	/**
 	 * @return Factories methods of component
 	 */
 	public Set<ISeamAnnotatedFactory> getFactories();
 
 	/**
-	 * Adds factory method
-	 * @param factory
+	 * Returns properties by name from component.xml.
+	 * @param propertyName
+	 * @return
 	 */
-	public void addFactory(ISeamAnnotatedFactory factory);
+	public Set<ISeamProperty> getProperties();
 
 	/**
-	 * Remove factory method
-	 * @param factory
+	 * Returns all properties from component.xml for that component.
+	 * @param propertyName
+	 * @return
 	 */
-	public void removeFactory(ISeamAnnotatedFactory factory);
+	public List<ISeamProperty> getProperties(String propertyName);
 }

@@ -10,15 +10,9 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IMethod;
-
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamSource {
+public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamJavaSourceReference {
 
-	/**
-	 * @return source IMethod
-	 */
-	public IMethod getSourceMethod();
 }

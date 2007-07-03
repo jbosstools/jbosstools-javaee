@@ -13,6 +13,6 @@ package org.jboss.tools.seam.core;
 /**
  * @author Alexey Kazakov
  */
-public interface IRole extends ISeamJavaClassSource, ISeamTextSource, ISeamContextVariable {
+public interface IRole extends ISeamJavaSourceReference, ISeamContextVariable {
 
 }

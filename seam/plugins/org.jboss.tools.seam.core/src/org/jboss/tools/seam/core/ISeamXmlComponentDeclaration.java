@@ -10,12 +10,27 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.jdt.core.IType;
-
 /**
  * @author Alexey Kazakov
+ *
  */
-public interface ISeamJavaClassSource extends ISeamSource {
+public interface ISeamXmlComponentDeclaration extends ISeamPropertiesDeclaration {
 
-	public IType getSourceClass();
+	public ScopeType getScope();
+
+	public String getScopeAsString();
+
+	public String getClassName();
+
+	public String getJndiName();
+
+	public boolean isInstalled();
+	
+	public boolean getInstalledAsString();
+
+	public String getPrecedence();
+
+	public boolean isAutoCreate();
+
+	public String getAutoCreateAsString();
 }

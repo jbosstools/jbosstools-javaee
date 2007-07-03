@@ -12,8 +12,9 @@ package org.jboss.tools.seam.core;
 
 /**
  * @author Alexey Kazakov
- * Represents source of ISeamModelObject
+ *
  */
-public interface ISeamSource {
+public interface ISeamComponentDeclaration {
 
+	public String getName();
 }

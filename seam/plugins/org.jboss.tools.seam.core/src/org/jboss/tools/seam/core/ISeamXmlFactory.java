@@ -13,7 +13,7 @@ package org.jboss.tools.seam.core;
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamXmlFactory extends ISeamFactory, ISeamTextSource {
+public interface ISeamXmlFactory extends ISeamFactory, ISeamTextSourceReference {
 
 	/**
 	 * @return value

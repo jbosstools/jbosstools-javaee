@@ -10,14 +10,12 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IMember;
 
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamTextSource extends ISeamSource {
+public interface ISeamJavaSourceReference extends ISeamTextSourceReference {
 
-	public IResource getResource();
-	public int getStartPosition();
-	public int getLength();
+	public IMember getSourceMember();
 }

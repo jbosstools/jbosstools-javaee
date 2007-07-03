@@ -10,13 +10,14 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.eclipse.core.resources.IResource;
+
 /**
  * @author Alexey Kazakov
  */
-public interface ISeamComponentMethod extends ISeamJavaSourceReference {
+public interface ISeamTextSourceReference {
 
-	/**
-	 * @return method type
-	 */
-	public SeamComponentMethodType getType();
+	public IResource getResource();
+	public int getStartPosition();
+	public int getLength();
 }
