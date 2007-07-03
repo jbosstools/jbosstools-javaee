@@ -107,21 +107,4 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	 * @param method
 	 */
 	public void removeMethod(ISeamComponentMethod method);
-
-	/**
-	 * @return Factories methods of component
-	 */
-	public Set<ISeamAnnotatedFactory> getFactories();
-
-	/**
-	 * Adds factory method
-	 * @param factory
-	 */
-	public void addFactory(ISeamAnnotatedFactory factory);
-
-	/**
-	 * Remove factory method
-	 * @param factory
-	 */
-	public void removeFactory(ISeamAnnotatedFactory factory);
 }

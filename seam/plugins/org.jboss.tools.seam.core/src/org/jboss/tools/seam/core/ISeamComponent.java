@@ -79,11 +79,6 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public Set<ISeamComponentMethod> getMethodsByType(SeamComponentMethodType type);
 
 	/**
-	 * @return Factories methods of component
-	 */
-	public Set<ISeamAnnotatedFactory> getFactories();
-
-	/**
 	 * Returns properties by name from component.xml.
 	 * @param propertyName
 	 * @return

@@ -69,4 +69,36 @@ public interface ISeamProject extends IProjectNature {
 	 * @return all seam variables from specific context
 	 */
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope);
+
+	/**
+	 * @return Factories methods of component
+	 */
+	public Set<ISeamFactory> getFactories();
+
+	/**
+	 * @return Factories methods of component
+	 */
+	public Set<ISeamFactory> getFactories(String name, ScopeType scope);
+
+	/**
+	 * @return Factories methods of component
+	 */
+	public Set<ISeamFactory> getFactoriesByName(String name);
+
+	/**
+	 * @return Factories methods of component
+	 */
+	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope);
+
+	/**
+	 * Adds factory method
+	 * @param factory
+	 */
+	public void addFactory(ISeamFactory factory);
+
+	/**
+	 * Remove factory method
+	 * @param factory
+	 */
+	public void removeFactory(ISeamFactory factory);
 }
