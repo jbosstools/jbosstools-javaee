@@ -17,7 +17,7 @@ package org.jboss.tools.seam.core;
 public enum BijectedAttributeType {
 	IN,
 	OUT,
-	Databinder,
-	DataModelSelection,
-	DataModelSelectionIndex
+	DATA_BINDER,
+	DATA_MODEL_SELECTION,
+	DATA_MODEL_SELECTION_INDEX
 }
