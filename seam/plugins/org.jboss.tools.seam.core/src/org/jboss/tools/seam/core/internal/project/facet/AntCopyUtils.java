@@ -7,8 +7,7 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
-
+ ******************************************************************************/
 package org.jboss.tools.seam.core.internal.project.facet;
 import java.io.File;
 import java.io.IOException;
@@ -30,16 +29,6 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  *
  */
 public class AntCopyUtils {
-	
-	public static void main(String[] args) {
-		Project prj = new Project();
-		prj.setBaseDir(new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view"));
-		Resource folder = new FileResource(new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view\\action.xhtml"));
-		Resource dest = new FileResource();
-		FilterSet set = new FilterSet();
-		set.addFilter("methodName", "testValue");
-		copyFilesAndFolders(new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view"), new File("C:\\temp\\WebContent"), new FilterSetCollection(set),true);
-	}
 	
 	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder, FilterSetCollection set, boolean override) {
 		copyFilesAndFolders(sourceFolder, destinationFolder, null, set, override);

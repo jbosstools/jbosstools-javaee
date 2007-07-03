@@ -18,6 +18,7 @@ import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvi
 import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
 
 /**
+ * Data model provider for Seam facet wizard page
  * @author eskimo
  *
  */
@@ -28,10 +29,11 @@ public class SeamFacetInstallDataModelProvider extends
 	
 	static {
 		SEAM_LIBRARIES.put("1.2",new String[] {
-				
 		});
 	}
-	
+	/**
+	 * Returns set of facet properties for facet wizard page
+	 */
 	@Override
 	public Set getPropertyNames() {
 		Set<String> names = super.getPropertyNames();
@@ -67,6 +69,9 @@ public class SeamFacetInstallDataModelProvider extends
 		return names;
 	}
 	
+	/**
+	 * Returns default value for a given property
+	 */
 	public Object getDefaultProperty(String propertyName) {
 		if(JBOSS_AS_HOME.equals(propertyName)) {
 			return "Jboss_AS_HOME";

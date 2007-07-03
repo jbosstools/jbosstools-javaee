@@ -17,11 +17,17 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 
+/**
+ * This delegate uninstalls facet from project
+ * @author eskimo
+ */
 public class SeamFacetUninstallDelegate extends Object implements IDelegate {
 
+	/**
+	 * @see IDelegate.execute(IProject,IProjectFacetVersion,Object,IProgressMonitor)
+	 */
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
-
 	}
 
 }

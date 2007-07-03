@@ -269,37 +269,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			return set.isIncluded(pathname.getAbsolutePath());
 		}
 	}
-	
-	
-	public static void main(String[] args) {
-		System.out.println(Pattern.matches(".[^\\\\]*\\.jar", "tt\\test.jar"));
-//		Properties props = new Properties();
-//		props.put("hibernate.connection.username", "rooy");
-//		FilterSet jdbcFs = FilterSetFactory.createJdbcFilterSet(props);
-//		System.out.println(jdbcFs);
-		FileSet include = VIEW_FILESET;
-//			.dir("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view")
-//			.include("home\\.xhtml")
-//			.include("error\\.xhtml")
-//			.include("login\\.xhtml")
-//			.include("login\\.page.xml")
-//			.include("index\\.html")
-//			.include("layout\\.*")
-//			.include("stylesheet\\.*")
-//			.include("img\\.*")
-//			.exclude(".*\\\\.*\\.ftl");
-//		
 
-		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
-		FileSetFileFilter fileSetFilter = new FileSetFileFilter(include.dir(file1));
-//		File[] copy = file1.listFiles(fileSetFilter);
-//		for (File file : copy) {
-//			System.out.println(file.getAbsolutePath());
-//		}
-//		copyFiles(file1,new File("c:\\temp\\4"),fileSetFilter);
-		AntCopyUtils.copyFilesAndFolders(file1, new File("c:\\temp\\15"),fileSetFilter, new FilterSetCollection(), true);
-	}
-	
 	public static class FilterSetFactory {
 		
 		public static FilterSet JDBC_TEMPLATE;
@@ -359,7 +329,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		private static FilterSet aplayProperties(FilterSet template,IDataModel values) {
 			FilterSet result = new FilterSet();
 			for (Object filter : template.getFilterHash().keySet()) {
-				System.out.println(filter + "=" +template.getFilterHash().get(filter));
 				String value = template.getFilterHash().get(filter).toString();
 				for (Object property : values.getAllProperties()) {
 					if(value.contains("${"+property.toString()+"}")) {

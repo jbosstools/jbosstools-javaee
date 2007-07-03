@@ -16,6 +16,11 @@ import java.util.Map;
 
 import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
 
+/**
+ * Seam facet properties
+ * @author eskimo
+ *
+ */
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String PREFIX = "ISeamFacetDataModelProperties.";
