@@ -20,10 +20,8 @@ import org.jboss.tools.seam.core.ScopeType;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamAnnotatedFactory implements ISeamAnnotatedFactory {
+public class SeamAnnotatedFactory extends SeamFactory implements ISeamAnnotatedFactory {
 	IMethod javaSource = null;
-	String name = null;	
-	ScopeType scopeType = ScopeType.UNSPECIFIED;
 
 	public IMethod getSourceMethod() {
 		return javaSource;
@@ -31,22 +29,6 @@ public class SeamAnnotatedFactory implements ISeamAnnotatedFactory {
 	
 	public void setMethod(IMethod method) {
 		this.javaSource = method;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public ScopeType getScope() {
-		return scopeType;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setScope(ScopeType type) {
-		this.scopeType = type;
 	}
 
 	public IMember getSourceMember() {

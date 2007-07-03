@@ -193,5 +193,17 @@ public class SeamComponent implements ISeamComponent {
 	public Set<ISeamXmlComponentDeclaration> getXmlDeclarations() {
 		return xmlDeclarations;
 	}
+	
+	public void addDeclaration(ISeamComponentDeclaration declaration) {
+		if(allDeclarations.contains(declaration)) return;
+		allDeclarations.add(declaration);
+		if(declaration instanceof ISeamJavaComponentDeclaration) {
+			javaDeclarations.add((ISeamJavaComponentDeclaration)declaration);
+		} else if(declaration instanceof ISeamXmlComponentDeclaration) {
+			xmlDeclarations.add((ISeamXmlComponentDeclaration)xmlDeclarations);
+		} else if(declaration instanceof ISeamPropertiesDeclaration) {
+			propertyDeclarations.add((ISeamPropertiesDeclaration)declaration);
+		}
+	}
 
 }

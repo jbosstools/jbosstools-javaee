@@ -10,19 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamFactory;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 
 /**
@@ -30,9 +33,11 @@ import org.jboss.tools.seam.core.ScopeType;
  */
 public class SeamProject implements ISeamProject {
 	IProject project;
-	Set<SeamComponent> allComponents = new HashSet<SeamComponent>();
+	Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
 	protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
+	
+	Map<String, SeamJavaComponentDeclaration> javaDeclarations = new HashMap<String, SeamJavaComponentDeclaration>();
 
 	public SeamProject() {}
 
@@ -65,13 +70,13 @@ public class SeamProject implements ISeamProject {
 	protected void store() {
 	}
 
-//	public ISeamComponent getComponentByName(String name) {
-//		return components.get(name);
-//	}
+	public ISeamComponent getComponentByName(String name) {
+		return allComponents.get(name);
+	}
 
 	public Set<ISeamComponent> getComponents() {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
-		result.addAll(allComponents);
+		result.addAll(allComponents.values());
 		return result;
 	}
 
@@ -83,13 +88,40 @@ public class SeamProject implements ISeamProject {
 	public void registerComponents(SeamComponentDeclaration[] list, IPath source) {
 		pathRemoved(source);
 		if(list == null) return;
-		//TODO
+
 		for (int i = 0; i < list.length; i++) {
 			list[i].setSourcePath(source);
-			
-			//TODO !!!
-//			allComponents.add(list[i]);
+			String name = list[i].getName();
+			SeamComponent c = getComponent(name);
+			if(c == null) {
+				c = newComponent(name);
+				allComponents.put(name, c);
+			}
+			c.addDeclaration(list[i]);
+			if(list[i] instanceof ISeamJavaComponentDeclaration) {
+				javaDeclarations.put(c.getClassName(), (SeamJavaComponentDeclaration)list[i]);
+				Set<ISeamComponent> cs = getComponentsByClass(c.getClassName());
+				for (ISeamComponent ci: cs) {
+					if(ci == c) continue;
+					SeamComponent cii = (SeamComponent)ci;
+					cii.addDeclaration(list[i]);
+				}
+			} else if(list[i] instanceof ISeamXmlComponentDeclaration) {
+				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)list[i];
+				String className = xml.getClassName();
+				SeamJavaComponentDeclaration j = javaDeclarations.get(className);
+				if(j != null) c.addDeclaration(j);
+			}			
 		}
+	}
+
+	/**
+	 * Package local method called by builder.
+	 * @param component
+	 * @param source
+	 */	
+	public void registerFactories(ISeamFactory[] list, IPath source) {
+		
 	}
 
 	/**
@@ -97,7 +129,7 @@ public class SeamProject implements ISeamProject {
 	 * @param source
 	 */
 	public void pathRemoved(IPath source) {
-		Iterator<SeamComponent> iterator = allComponents.iterator();
+		Iterator<SeamComponent> iterator = allComponents.values().iterator();
 		while(iterator.hasNext()) {
 			ISeamComponent c = iterator.next();
 			Iterator<ISeamComponentDeclaration> ds = c.getAllDeclarations().iterator();
@@ -111,13 +143,11 @@ public class SeamProject implements ISeamProject {
 		}		
 	}
 
+	//deprecated
 	public Set<ISeamComponent> getComponentsByName(String name) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
-		for(SeamComponent component: allComponents) {
-			if(name.equals(component.getName())) {
-				result.add(component);
-			}
-		}		
+		ISeamComponent c = getComponentByName(name);
+		if(c != null) result.add(c);
 		return result;
 	}
 
@@ -126,7 +156,7 @@ public class SeamProject implements ISeamProject {
 	 */
 	public Set<ISeamComponent> getComponentsByClass(String className) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
-		for(SeamComponent component: allComponents) {
+		for(SeamComponent component: allComponents.values()) {
 			if(className.equals(component.getClassName())) {
 				result.add(component);
 			}
@@ -139,7 +169,7 @@ public class SeamProject implements ISeamProject {
 	 */
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
-		for(SeamComponent component: allComponents) {
+		for(SeamComponent component: allComponents.values()) {
 			if(type.equals(component.getScope())) {
 				result.add(component);
 			}
@@ -151,7 +181,7 @@ public class SeamProject implements ISeamProject {
 	 * @see org.jboss.tools.seam.core.ISeamProject#addComponent(org.jboss.tools.seam.core.ISeamComponent)
 	 */
 	public void addComponent(ISeamComponent component) {
-		allComponents.add((SeamComponent)component);
+		allComponents.put(component.getName(), (SeamComponent)component);
 	}
 
 	/**
@@ -228,6 +258,16 @@ public class SeamProject implements ISeamProject {
 
 	public void removeFactory(ISeamFactory factory) {
 		allFactories.remove(factory);
+	}
+	
+	SeamComponent getComponent(String name) {
+		return allComponents.get(name);
+	}
+	
+	SeamComponent newComponent(String name) {
+		SeamComponent c = new SeamComponent();
+		c.setName(name);
+		return c;
 	}
 
 }

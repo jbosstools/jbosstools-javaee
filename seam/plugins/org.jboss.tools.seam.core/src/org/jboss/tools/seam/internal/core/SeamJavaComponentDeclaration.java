@@ -3,10 +3,12 @@ package org.jboss.tools.seam.internal.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
-import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
@@ -19,10 +21,16 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
 	protected boolean stateful = false;
 	protected boolean entity = false;
+	
+	protected IType type;
 
 	protected Set<IBijectedAttribute> bijectedAttributes = new HashSet<IBijectedAttribute>();
 	protected Set<ISeamComponentMethod> componentMethods = new HashSet<ISeamComponentMethod>();
 	protected Set<IRole> roles = new HashSet<IRole>();
+	
+	public void setType(IType type) {
+		this.type = type;
+	}
 
 	public String getClassName() {
 		return className;
@@ -113,6 +121,10 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public void setEntity(boolean entity) {
 		this.entity = entity;
+	}
+
+	public IMember getSourceMember() {
+		return type;
 	}
 
 }
