@@ -12,10 +12,6 @@ package org.jboss.tools.seam.core;
 
 import java.util.Set;
 
-import org.jboss.tools.seam.core.IRole;
-import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
-import org.jboss.tools.seam.core.ISeamComponentMethod;
-
 /**
  * @author Alexey Kazakov
  *

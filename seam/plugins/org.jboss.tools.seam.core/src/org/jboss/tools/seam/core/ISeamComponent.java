@@ -14,10 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.jboss.tools.seam.core.IRole;
-import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
-import org.jboss.tools.seam.core.ISeamComponentMethod;
-
 public interface ISeamComponent extends ISeamContextVariable {
 
 	public ISeamJavaComponentDeclaration getJavaDeclaration();
