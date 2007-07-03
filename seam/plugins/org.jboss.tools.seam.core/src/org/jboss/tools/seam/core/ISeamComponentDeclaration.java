@@ -14,7 +14,7 @@ package org.jboss.tools.seam.core;
  * @author Alexey Kazakov
  *
  */
-public interface ISeamComponentDeclaration {
+public interface ISeamComponentDeclaration extends ISeamTextSourceReference {
 
 	public String getName();
 }

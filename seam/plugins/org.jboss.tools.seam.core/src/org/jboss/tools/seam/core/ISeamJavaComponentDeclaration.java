@@ -16,7 +16,7 @@ import java.util.Set;
  * @author Alexey Kazakov
  *
  */
-public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration {
+public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration, ISeamJavaSourceReference {
 	
 	public String getClassName();
 
