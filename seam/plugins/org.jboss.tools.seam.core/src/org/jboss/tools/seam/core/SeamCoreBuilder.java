@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.jboss.tools.seam.internal.core.SeamComponent;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
@@ -85,7 +86,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 					IFileScanner scanner = FILE_SCANNERS[i];
 					if(scanner.isRelevant(f)) {
 						if(!scanner.isLikelyComponentSource(f)) return false;
-						SeamComponent[] c = null;
+						SeamComponentDeclaration[] c = null;
 						try {
 							c = scanner.parse(f);
 						} catch (Exception e) {
@@ -100,7 +101,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		}
 	}
 	
-	void componentsLoaded(SeamComponent[] c, IFile resource) {
+	void componentsLoaded(SeamComponentDeclaration[] c, IFile resource) {
 		if(c == null || c.length == 0) return;
 		SeamProject p = getSeamProject();
 		if(p == null) return;

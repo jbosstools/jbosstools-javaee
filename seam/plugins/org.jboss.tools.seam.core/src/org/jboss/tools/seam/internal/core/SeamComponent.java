@@ -12,13 +12,10 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
@@ -29,126 +26,36 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 
 public class SeamComponent implements ISeamComponent {
-	protected ISeamComponent base = null;
 	
 	protected String name = null;
-	protected String className = null;
-	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
-	protected boolean stateful = false;
-	protected boolean entity = false;
-	
-	protected Map<String,ISeamProperty> properties = new HashMap<String, ISeamProperty>();
-	protected IPath source;
-	
-	protected Set<IBijectedAttribute> bijectedAttributes = new HashSet<IBijectedAttribute>();
-	protected Set<ISeamAnnotatedFactory> annotatedFactories = new HashSet<ISeamAnnotatedFactory>();
-	protected Set<ISeamComponentMethod> componentMethods = new HashSet<ISeamComponentMethod>();
-	protected Set<IRole> roles = new HashSet<IRole>();
 
+	Set<ISeamComponentDeclaration> allDeclarations = new HashSet<ISeamComponentDeclaration>();
+	Set<ISeamJavaComponentDeclaration> javaDeclarations = new HashSet<ISeamJavaComponentDeclaration>();
+	Set<ISeamXmlComponentDeclaration> xmlDeclarations = new HashSet<ISeamXmlComponentDeclaration>();
+	Set<ISeamPropertiesDeclaration> propertyDeclarations = new HashSet<ISeamPropertiesDeclaration>();
+	
 	public SeamComponent () {
 	}
 	
-	public void setBaseComponent(ISeamComponent base) {
-		this.base = base;
-	}
-	
-	public ISeamComponent getBaseComponent() {
-		return base;
-	}
-
-	public Set<String> getPropertyNames() {
-		return properties.keySet();
-	}
-
-	public boolean getBooleanProperty(String propertyName) {
-		ISeamProperty o = getProperty(propertyName);
-		Object value = o.getValue();
-		if(value instanceof Boolean) return ((Boolean)value).booleanValue();
-		if(value instanceof String && "true".equals(value));
-		return false;
-	}
-
-	public String getStringProperty(String propertyName) {
-		ISeamProperty o = getProperty(propertyName);
-		Object value = o.getValue();
-		return value == null ? null : value.toString();
-	}
-
-	public ISeamProperty getProperty(String propertyName) {
-		return properties.get(propertyName);
-	}
-
-	public void addProperty(ISeamProperty property) {
-		properties.put(property.getName(), property);
-	}
-
-	public void setStringProperty(String propertyName, String value) {
-		ISeamProperty p = getProperty(propertyName);
-		if(p == null) {
-			p = new SeamProperty(propertyName, value);
-		} else {
-			p.setValue(value);
-		}
-		properties.put(propertyName, p);
-	}
-
-	public void setSourcePath(IPath path) {
-		source = path;
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#addBijectedAttribute(org.jboss.tools.seam.core.IBijectedAttribute)
-	 */
-	public void addBijectedAttribute(IBijectedAttribute attribute) {
-		bijectedAttributes.add(attribute);		
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#addFactory(org.jboss.tools.seam.core.ISeamAnnotatedFactory)
-	 */
-	public void addFactory(ISeamAnnotatedFactory factory) {
-		annotatedFactories.add(factory);		
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#addMethod(org.jboss.tools.seam.core.ISeamComponentMethod)
-	 */
-	public void addMethod(ISeamComponentMethod method) {
-		componentMethods.add(method);
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#addRole(org.jboss.tools.seam.core.IRole)
-	 */
-	public void addRole(IRole role) {
-		roles.add(role);		
-	}
-
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getBijectedAttributes()
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributes() {
-		return base != null ? base.getBijectedAttributes() : bijectedAttributes;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getBijectedAttributes();
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getBijectedAttributesByName(java.lang.String)
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributesByName(String name) {
-		Set<IBijectedAttribute> result = null;
-		for(IBijectedAttribute a: getBijectedAttributes()) {
-			if(name.equals(a.getName())) {
-				if(result == null) result = new HashSet<IBijectedAttribute>();
-				result.add(a);
-			}
-		}
-		return result;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getBijectedAttributesByName(name);
 	}
 
 	/**
@@ -156,35 +63,37 @@ public class SeamComponent implements ISeamComponent {
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributesByType(
 			BijectedAttributeType type) {
-		Set<IBijectedAttribute> result = null;
-		for(IBijectedAttribute a: getBijectedAttributes()) {
-			if(type.equals(a.getType())) {
-				if(result == null) result = new HashSet<IBijectedAttribute>();
-				result.add(a);
-			}
-		}
-		return result;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getBijectedAttributesByType(type);
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getClassName()
 	 */
 	public String getClassName() {
-		return className;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		if(javaDeclaration != null) return javaDeclaration.getClassName();
+		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();
+		for(ISeamXmlComponentDeclaration d: xml) {
+			if(d.getClassName() != null) return d.getClassName();
+		}
+		return null;
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getFactories()
 	 */
 	public Set<ISeamAnnotatedFactory> getFactories() {
-		return base != null ? base.getFactories() : annotatedFactories;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getFactories();
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getMethods()
 	 */
 	public Set<ISeamComponentMethod> getMethods() {
-		return base != null ? base.getMethods() : componentMethods;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getMethods();
 	}
 
 	/**
@@ -192,93 +101,38 @@ public class SeamComponent implements ISeamComponent {
 	 */
 	public Set<ISeamComponentMethod> getMethodsByType(
 			SeamComponentMethodType type) {
-		Set<ISeamComponentMethod> result = null;
-		for(ISeamComponentMethod a: getMethods()) {
-			if(type.equals(a.getType())) {
-				if(result == null) result = new HashSet<ISeamComponentMethod>();
-				result.add(a);
-			}
-		}
-		return result;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getMethodsByType(type);
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getRoles()
 	 */
 	public Set<IRole> getRoles() {
-		return base != null ? base.getRoles() : roles;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration == null) ? null : javaDeclaration.getRoles();
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#isEntity()
 	 */
 	public boolean isEntity() {
-		return entity;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration != null) && javaDeclaration.isEntity();
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#isStateful()
 	 */
 	public boolean isStateful() {
-		return stateful;
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#removeBijectedAttribute(org.jboss.tools.seam.core.IBijectedAttribute)
-	 */
-	public void removeBijectedAttribute(IBijectedAttribute attribute) {
-		bijectedAttributes.remove(attribute);
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#removeFactory(org.jboss.tools.seam.core.ISeamAnnotatedFactory)
-	 */
-	public void removeFactory(ISeamAnnotatedFactory factory) {
-		annotatedFactories.remove(factory);
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#removeMethod(org.jboss.tools.seam.core.ISeamComponentMethod)
-	 */
-	public void removeMethod(ISeamComponentMethod method) {
-		componentMethods.remove(method);
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#removeRole(org.jboss.tools.seam.core.IRole)
-	 */
-	public void removeRole(IRole role) {
-		roles.remove(role);
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#setClassName(java.lang.String)
-	 */
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#setEntity(boolean)
-	 */
-	public void setEntity(boolean entity) {
-		this.entity = entity;
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#setStateful(boolean)
-	 */
-	public void setStateful(boolean stateful) {
-		this.stateful = stateful;
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration != null) && javaDeclaration.isStateful();
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamContextVariable#getName()
 	 */
 	public String getName() {
-		if(name == null && base != null) {
-			return base.getName();
-		}
 		return name;
 	}
 
@@ -286,10 +140,8 @@ public class SeamComponent implements ISeamComponent {
 	 * @see org.jboss.tools.seam.core.ISeamContextVariable#getScope()
 	 */
 	public ScopeType getScope() {
-		if(scopeType == ScopeType.UNSPECIFIED && base != null) {
-			return base.getScope();
-		}
-		return scopeType;
+		//TODO
+		return null;
 	}
 
 	/**
@@ -303,7 +155,7 @@ public class SeamComponent implements ISeamComponent {
 	 * @see org.jboss.tools.seam.core.ISeamContextVariable#setScope(org.jboss.tools.seam.core.ScopeType)
 	 */
 	public void setScope(ScopeType type) {
-		this.scopeType = type;
+		//TODO
 	}
 
 	/**
@@ -311,8 +163,10 @@ public class SeamComponent implements ISeamComponent {
 	 */
 	public List<ISeamProperty> getProperties(String propertyName) {
 		List<ISeamProperty> list = new ArrayList<ISeamProperty>();
-		ISeamProperty p = properties.get(propertyName);
-		if(p != null) list.add(p);
+		Collection<ISeamProperty> ps = getProperties();
+		for (ISeamProperty p: ps) {
+			if(propertyName.equals(p.getName())) list.add(p);
+		}
 		return list;
 	}
 
@@ -320,34 +174,33 @@ public class SeamComponent implements ISeamComponent {
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getProperties()
 	 */
 	public Collection<ISeamProperty> getProperties() {
-		return properties.values();
-	}
-
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamComponent#removeProperty(org.jboss.tools.seam.core.ISeamProperty)
-	 */
-	public void removeProperty(ISeamProperty property) {
-		properties.remove(property.getName());		
+		Set<ISeamProperty> ps = new HashSet<ISeamProperty>();
+		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();
+		for (ISeamXmlComponentDeclaration d: xml) {
+			ps.addAll(d.getProperties());
+		}
+		Set<ISeamPropertiesDeclaration> pd = getPropertiesDeclarations();
+		for (ISeamPropertiesDeclaration d: pd) {
+			ps.addAll(d.getProperties());
+		}
+		return ps;
 	}
 
 	public Set<ISeamComponentDeclaration> getAllDeclarations() {
-		// TODO Auto-generated method stub
-		return null;
+		return allDeclarations;
 	}
 
 	public ISeamJavaComponentDeclaration getJavaDeclaration() {
-		// TODO Auto-generated method stub
-		return null;
+		if(javaDeclarations.size() == 0) return null;
+		return javaDeclarations.iterator().next();
 	}
 
 	public Set<ISeamPropertiesDeclaration> getPropertiesDeclarations() {
-		// TODO Auto-generated method stub
-		return null;
+		return propertyDeclarations;
 	}
 
 	public Set<ISeamXmlComponentDeclaration> getXmlDeclarations() {
-		// TODO Auto-generated method stub
-		return null;
+		return xmlDeclarations;
 	}
 
 }

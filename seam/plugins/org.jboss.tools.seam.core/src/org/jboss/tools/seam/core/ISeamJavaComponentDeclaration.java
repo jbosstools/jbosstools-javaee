@@ -21,6 +21,8 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
  *
  */
 public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration {
+	
+	public String getClassName();
 
 	/**
 	 * @return bijected attributes

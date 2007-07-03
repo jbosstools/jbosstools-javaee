@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ScopeType;
@@ -76,12 +77,15 @@ public class SeamProject implements ISeamProject {
 	 * @param component
 	 * @param source
 	 */	
-	public void registerComponents(SeamComponent[] list, IPath source) {
+	public void registerComponents(SeamComponentDeclaration[] list, IPath source) {
 		pathRemoved(source);
 		if(list == null) return;
+		//TODO
 		for (int i = 0; i < list.length; i++) {
-			list[i].setSourcePath(source);
-			allComponents.add(list[i]);
+//			list[i].setSourcePath(source);
+			
+			//TODO !!!
+//			allComponents.add(list[i]);
 		}
 	}
 
@@ -92,8 +96,13 @@ public class SeamProject implements ISeamProject {
 	public void pathRemoved(IPath source) {
 		Iterator<SeamComponent> iterator = allComponents.iterator();
 		while(iterator.hasNext()) {
-			SeamComponent c = iterator.next();
-			if(c.source != null && source.isPrefixOf(c.source)) {
+			ISeamComponent c = iterator.next();
+			Iterator<ISeamComponentDeclaration> ds = c.getAllDeclarations().iterator();
+			while (ds.hasNext()) {
+				SeamComponentDeclaration di = (SeamComponentDeclaration)ds.next();
+				if(di.source.equals(source)) ds.remove();
+			}
+			if(c.getAllDeclarations().size() == 0) {
 				iterator.remove();
 			}
 		}		

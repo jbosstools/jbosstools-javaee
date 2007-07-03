@@ -22,7 +22,11 @@ import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponent;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamProperty;
+import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 
 public class XMLScanner implements IFileScanner {
@@ -63,7 +67,7 @@ public class XMLScanner implements IFileScanner {
 	 * @return
 	 * @throws Exception
 	 */
-	public SeamComponent[] parse(IFile f) throws Exception {
+	public SeamComponentDeclaration[] parse(IFile f) throws Exception {
 		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
 		return parse(o);
 	}
@@ -81,23 +85,22 @@ public class XMLScanner implements IFileScanner {
 //		COMMON_ATTRIBUTES.add(ISeamComponent.JNDI_NAME);
 	}
 	
-	public SeamComponent[] parse(XModelObject o) {
+	public SeamComponentDeclaration[] parse(XModelObject o) {
 		if(o == null) return null;
-		ArrayList<SeamComponent> list = new ArrayList<SeamComponent>();
+		ArrayList<SeamComponentDeclaration> list = new ArrayList<SeamComponentDeclaration>();
 		XModelObject[] os = o.getChildren();
 		for (int i = 0; i < os.length; i++) {
 			XModelEntity componentEntity = os[i].getModelEntity();
 			if(componentEntity.getAttribute("class") != null) {
-				//This is a component model object
-				SeamComponent component = new SeamComponent();
+				SeamXmlComponentDeclaration component = new SeamXmlComponentDeclaration();
 				//TODO
-//				component.setName(os[i].getAttributeValue(ISeamComponent.NAME));
-//				component.setClassName(os[i].getAttributeValue(ISeamComponent.CLASS));
-//				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
-//				component.setPrecedence(os[i].getAttributeValue(ISeamComponent.PRECEDENCE));
-//				component.setInstalled(os[i].getAttributeValue(ISeamComponent.INSTALLED));
-//				component.setAutoCreate(os[i].getAttributeValue(ISeamComponent.AUTO_CREATE));
-//				component.setJndiName(os[i].getAttributeValue(ISeamComponent.JNDI_NAME));
+				component.setName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.NAME));
+				component.setClassName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.CLASS));
+				component.setScope(os[i].getAttributeValue(ISeamXmlComponentDeclaration.SCOPE));
+				component.setPrecedence(os[i].getAttributeValue(ISeamXmlComponentDeclaration.PRECEDENCE));
+				component.setInstalled(os[i].getAttributeValue(ISeamXmlComponentDeclaration.INSTALLED));
+				component.setAutoCreate(os[i].getAttributeValue(ISeamXmlComponentDeclaration.AUTO_CREATE));
+				component.setJndiName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.JNDI_NAME));
 				
 				XAttribute[] attributes = componentEntity.getAttributes();
 				for (int ia = 0; ia < attributes.length; ia++) {
@@ -106,7 +109,7 @@ public class XMLScanner implements IFileScanner {
 					if(xml == null) continue;
 					if(COMMON_ATTRIBUTES.contains(xml)) continue;
 					String stringValue = os[i].getAttributeValue(a.getName());
-					component.setStringProperty(xml, stringValue);					
+					component.addStringProperty(xml, stringValue);					
 				}
 
 				XModelObject[] properties = os[i].getChildren();
@@ -116,7 +119,7 @@ public class XMLScanner implements IFileScanner {
 					if(entity.getAttribute("value") != null) {
 						//this is simple value;
 						String value = properties[j].getAttributeValue("value");
-						component.setStringProperty(propertyName, value);
+						component.addStringProperty(propertyName, value);
 					} else {
 						XModelObject[] entries = properties[j].getChildren();
 						if(entity.getChild("SeamListEntry") != null
@@ -126,7 +129,7 @@ public class XMLScanner implements IFileScanner {
 							for (int k = 0; k < entries.length; k++) {
 								listValues.add(entries[k].getAttributeValue("value"));
 							}
-//							component.addProperty(new SeamProperty<List<String>>(propertyName, listValues));
+							component.addProperty(new SeamProperty(propertyName, listValues));
 						} else {
 							//this is map value
 							Map<String,String> mapValues = new HashMap<String, String>();
@@ -135,7 +138,7 @@ public class XMLScanner implements IFileScanner {
 								String entryValue = entries[k].getAttributeValue("value");
 								mapValues.put(entryKey, entryValue);
 							}
-//							component.addProperty(new SeamProperty<Map<String,String>>(propertyName, mapValues));
+							component.addProperty(new SeamProperty(propertyName, mapValues));
 						}
 					}
 					//TODO assign positioning attributes to created ISeamProperty object
@@ -150,12 +153,12 @@ public class XMLScanner implements IFileScanner {
 //				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
 				String value = os[i].getAttributeValue("value");
 				//TODO how should we resolve value?
-				if(value != null) component.setStringProperty("value", value);
+//				if(value != null) component.addStringProperty("value", value);
 
-				list.add(component);
+//				list.add(component);
 			}
 		}
 
-		return list.toArray(new SeamComponent[0]);
+		return list.toArray(new SeamComponentDeclaration[0]);
 	}
 }

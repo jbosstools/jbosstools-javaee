@@ -30,6 +30,11 @@ public class SeamProperty implements ISeamProperty {
 		this.value = value;
 	}
 
+	public SeamProperty(String name, Object value) {
+		this.name = name;
+		this.value = value;
+	}
+
 	public String getName() {
 		return name;
 	}

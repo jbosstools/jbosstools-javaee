@@ -10,8 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Alexey Kazakov
@@ -38,7 +38,7 @@ public interface ISeamPropertiesDeclaration extends ISeamComponentDeclaration {
 	 * @param propertyName
 	 * @return
 	 */
-	public Set<ISeamProperty> getProperties();
+	public Collection<ISeamProperty> getProperties();
 
 	/**
 	 * Adds property to component.

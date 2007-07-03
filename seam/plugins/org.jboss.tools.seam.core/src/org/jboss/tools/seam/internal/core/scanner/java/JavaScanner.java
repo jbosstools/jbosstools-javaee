@@ -26,7 +26,8 @@ import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.internal.core.SeamComponent;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 
 public class JavaScanner implements IFileScanner {
@@ -67,14 +68,14 @@ public class JavaScanner implements IFileScanner {
 	 * @return
 	 * @throws Exception
 	 */
-	public SeamComponent[] parse(IFile f) throws Exception {
+	public SeamComponentDeclaration[] parse(IFile f) throws Exception {
 		ICompilationUnit u = getCompilationUnit(f);
 		if(u == null) return null;
 		ASTRequestorImpl requestor = new ASTRequestorImpl();
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
 		ASTParser.newParser(AST.JLS3).createASTs(us, new String[0], requestor, null);
-		SeamComponent component = requestor.getComponent();
-		return component == null ? new SeamComponent[0] : new SeamComponent[]{component};
+		SeamComponentDeclaration component = requestor.getComponent();
+		return component == null ? new SeamComponentDeclaration[0] : new SeamComponentDeclaration[]{component};
 	}
 	
 	private ICompilationUnit getCompilationUnit(IFile f) throws Exception {
@@ -96,9 +97,9 @@ public class JavaScanner implements IFileScanner {
 
 	class ASTRequestorImpl extends ASTRequestor {
 		private ASTVisitorImpl visitor = new ASTVisitorImpl();
-		private SeamComponent component = null;
+		private SeamJavaComponentDeclaration component = null;
 
-		public SeamComponent getComponent() {
+		public SeamComponentDeclaration getComponent() {
 			return component;
 		}
 		
@@ -117,7 +118,7 @@ public class JavaScanner implements IFileScanner {
 			if(visitor.name != null && visitor.type != null) {
 				String n = visitor.type.getElementName();
 				n = getResolvedType(visitor.type, n);
-				component = new SeamComponent();
+				component = new SeamJavaComponentDeclaration();
 				component.setClassName(n);
 				component.setName(visitor.name);
 				if(visitor.scope != null) {

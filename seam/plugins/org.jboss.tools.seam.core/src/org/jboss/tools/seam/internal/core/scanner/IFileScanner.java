@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.scanner;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.seam.internal.core.SeamComponent;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 
 public interface IFileScanner {
 
@@ -37,6 +38,6 @@ public interface IFileScanner {
 	 * @return
 	 * @throws Exception
 	 */
-	public SeamComponent[] parse(IFile f) throws Exception;
+	public SeamComponentDeclaration[] parse(IFile f) throws Exception;
 
 }

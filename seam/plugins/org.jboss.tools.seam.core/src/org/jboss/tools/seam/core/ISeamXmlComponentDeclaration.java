@@ -15,6 +15,13 @@ package org.jboss.tools.seam.core;
  *
  */
 public interface ISeamXmlComponentDeclaration extends ISeamPropertiesDeclaration {
+	public String NAME = "name";
+	public String CLASS = "class";
+	public String SCOPE = "scope";
+	public String PRECEDENCE = "precedence";
+	public String INSTALLED = "installed";
+	public String AUTO_CREATE = "auto-create";
+	public String JNDI_NAME = "jndi-name";
 
 	public ScopeType getScope();
 

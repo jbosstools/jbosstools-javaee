@@ -17,6 +17,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.internal.core.SeamComponent;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
@@ -40,7 +41,7 @@ public class LibraryScanner implements IFileScanner {
 		return false;
 	}
 
-	public SeamComponent[] parse(IFile f) throws Exception {
+	public SeamComponentDeclaration[] parse(IFile f) throws Exception {
 		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
 		if(o == null) return null;
 		if(!o.getModelEntity().getName().equals("FileSystemJar")) {
@@ -52,12 +53,12 @@ public class LibraryScanner implements IFileScanner {
 		XModelObject componentsXML = o.getChildByPath("META-INF/components.xml");
 		if(componentsXML == null && seamProperties == null) return null;
 		
-		ArrayList<SeamComponent> list = new ArrayList<SeamComponent>();
+		ArrayList<SeamComponentDeclaration> list = new ArrayList<SeamComponentDeclaration>();
 
 		processJavaClasses(o, list);
 		
 		if(componentsXML != null) {
-			SeamComponent[] components = new XMLScanner().parse(componentsXML);
+			SeamComponentDeclaration[] components = new XMLScanner().parse(componentsXML);
 			if(components != null) {
 				for (int i = 0; i < components.length; i++) list.add(components[i]);
 			}
@@ -72,10 +73,10 @@ public class LibraryScanner implements IFileScanner {
 			//TODO add components to list
 		}		
 		
-		return list.toArray(new SeamComponent[0]);
+		return list.toArray(new SeamComponentDeclaration[0]);
 	}
 	
-	protected void processJavaClasses(XModelObject o, ArrayList<SeamComponent> list) {
+	protected void processJavaClasses(XModelObject o, ArrayList<SeamComponentDeclaration> list) {
 		//TODO
 	}
 
