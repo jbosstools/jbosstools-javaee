@@ -54,10 +54,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	// General group
 	IFieldEditor jBossAsHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties.JBOSS_AS_HOME, 
-			"JBoss AS Home Folder:","c:\\JBossAS");
+			"JBoss AS Home Folder:","C:\\java\\jboss-4.0.5.GA");
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, 
-			"JBoss Seam Home Folder:","c:\\JBossAS");
+			"JBoss Seam Home Folder:","C:\\java\\jboss-seam-1.2.1.GA");
 	IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 			"Deploy as:",Arrays.asList(new String[]{"war","ear"}),"war");

@@ -15,9 +15,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSet;
@@ -36,18 +34,23 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
+	public static String PROFILE = "dev-war";
+	
 	public static FileSet VIEW_FILESET = new FileSet()
 		.include("home\\.xhtml")
 		.include("error\\.xhtml")
 		.include("login\\.xhtml")
 		.include("login\\.page.xml")
 		.include("index\\.html")
-		.include("layout\\.*")
-		.include("stylesheet\\.*")
-		.include("img\\.*")
+		.include("layout")
+		.include("layout/.*")
+		.include("stylesheet/.*")
+		.include("img/.*")
+		.include("img")
 		.exclude(".*/.*\\.ftl");
 	
 	public static FileSet SEAM_JARS = new FileSet()
@@ -58,15 +61,17 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include(".[^/]*\\.jar")
 		.include(".[^/]*\\.zip");
 	
-	public static FileSet JBOOS_RESOURCES_SET1 = new FileSet()
-		.exclude("datasource-ds.xml")
-		.exclude("import.sql")
-		.exclude("WEB-INF/components.*\\.xml")
-		.exclude("META-INF/persistence.*\\.xml")
-		.exclude("META-INF/application.xml")
-		.exclude("META-INF/jboss-app.xml")
-		.exclude("META-INF/ejb-jar.xml")
-		.exclude("WEB-INF/jboss-web.xml");
+	public static FileSet JBOOS_WAR_RESOURCE_SET1 = new FileSet()
+		.include("META-INF/jboss-beans\\.xml")
+		.include("WEB-INF/pages\\.xml")
+		.include("WEB-INF/faces-config\\.xml")
+		.include("WEB-INF/web\\.xml");
+	
+	public static FileSet JBOOS_JAR_RESOURCE_SET1 = new FileSet()
+		.include("META-INF/ejb-jar\\.xml")
+		.include("META-INF/persistence-" + PROFILE + "\\.xml" )
+		.include("import-" + PROFILE + "\\.sql");
+
 	
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "drools/lib";
 	
@@ -116,26 +121,29 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 				seamGenViewSource, webContentFolder, new FileSetFileFilter(viewFileSet), viewFilterSetCollection, true);
 		
 		// *******************************************************************
-		// TODO copy manifest and configuration resources the same way as view
+		// Copy manifest and configuration resources the same way as view
 		// *******************************************************************
 		
-		FileSet res1FileSet = new FileSet(JBOOS_RESOURCES_SET1).dir(seamGenResFolder);
+		FileSet res1FileSet = new FileSet(JBOOS_WAR_RESOURCE_SET1).dir(seamGenResFolder);
 		AntCopyUtils.copyFilesAndFolders(
-				seamGenResFolder,webContentFolder,new FileSetFileFilter(viewFileSet),viewFilterSetCollection, true);
+				seamGenResFolder,webContentFolder,new FileSetFileFilter(res1FileSet), viewFilterSetCollection, true);
 		
-		AntCopyUtils.copyFile(
+		AntCopyUtils.copyFileToFile(
 				hibernateConsoleLaunchFile, 
-				new File(project.getLocation().toFile(),project.getName()), 
+				new File(project.getLocation().toFile(),project.getName()+".launch"), 
 				new FilterSetCollection(projectFilterSet), true);
+		
 		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
 		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(FilterSetFactory.createHibernateDialectFilterSet(model));
 		
-		AntCopyUtils.copyFile(
+		AntCopyUtils.copyFileToFolder(
 				hibernateConsolePropsFile, 
-				new File(project.getLocation().toFile(),hibernateConsolePropsFile.getName()),
+				project.getLocation().toFile(),
 				hibernateDialectFilterSet, true);
+		
+		// TODO add copy for /hibernatetools/seam-gen.reveng.xml
 		
 		// *************************************
 		// TODO modify existing faces-config.xml
@@ -165,59 +173,17 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
-	protected void copyViewFolder(File viewSource, File viewDestination,HashMap<String, String> properties) {
-		
-		FilterSet filterSet = new FilterSet();
-		for (Object	propertyName : properties.keySet()) {
-			filterSet.addFilter(propertyName.toString(), properties.get(propertyName));
-		}
-		
-		FilterSetCollection filters = new FilterSetCollection();
-		filters.addFilterSet(filterSet);
-		AntCopyUtils.copyFilesAndFolders(viewSource, viewDestination, filters, true);
-		
-	}
-	
-	protected void copySeamLibraries(File source, File dest) {
-	}
-
 	public static void copyFiles(File source, File dest, FileFilter filter) {
 		dest.mkdir();
 		for (File file:source.listFiles(filter)) {
 			try {
 				FileUtils.getFileUtils().copyFile(file, new File(dest,file.getName()),new FilterSetCollection(),true);
 			} catch (IOException e) {
-				// TODO add logging
+				SeamCorePlugin.getPluginLog().logError(e);
 			}
 		}
 	}
-	
-	static private FileFilter seamLibs = new FileFilter() {
 
-		Pattern includePattern = Pattern.compile("jboss-seam.*\\.jar");
-		Pattern excludePattern = Pattern.compile("jboss-seam-gen\\.jar");
-		
-		public boolean accept(File pathname){
-			return 
-				!excludePattern.matcher(pathname.getName()).matches() 
-					&&
-				includePattern.matcher(pathname.getName()).matches();
-		}
-	};
-	
-	static private FileFilter javaLibs = new FileFilter() {
-
-		Pattern libs = Pattern.compile(".*\\.jar");
-		Pattern zips = Pattern.compile(".*\\.zip");
-		
-		public boolean accept(File pathname){
-			return 
-				libs.matcher(pathname.getName()).matches() 
-					||
-				zips.matcher(pathname.getName()).matches();
-		}
-	};
-	
 	public static class FileSet {
 		
 		File dir = null;
@@ -267,9 +233,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		public boolean isIncluded(String file) { 
 			int i = dir.getAbsolutePath().length()+1;
 			String relatedPath = file.substring(i);
-			System.out.println(relatedPath);
+			if(new File(file).isDirectory())return true;
 			for (Pattern pattern : include) {			
-				if(pattern.matcher(relatedPath).matches() ) {
+				if(pattern.matcher(relatedPath.replace('\\', '/')).matches() ) {
 					return !isExcluded(relatedPath);
 				}
 			}
@@ -278,7 +244,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		
 		public boolean isExcluded(String file){
 			for (Pattern pattern : exclude) {
-				if(pattern.matcher(file).matches()) return true;
+				if(pattern.matcher(file.replace('\\', '/')).matches()) return true;
 			}
 			return false;	
 		}
@@ -311,7 +277,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 //		props.put("hibernate.connection.username", "rooy");
 //		FilterSet jdbcFs = FilterSetFactory.createJdbcFilterSet(props);
 //		System.out.println(jdbcFs);
-//		FileSet include = new FileSet()
+		FileSet include = VIEW_FILESET;
 //			.dir("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view")
 //			.include("home\\.xhtml")
 //			.include("error\\.xhtml")
@@ -323,11 +289,15 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 //			.include("img\\.*")
 //			.exclude(".*\\\\.*\\.ftl");
 //		
-//		FileSetFileFilter fileSetFilter = new FileSetFileFilter(include);
-//		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
+
+		File file1 = new File("C:\\java\\jboss-seam-1.2.1.GA\\seam-gen\\view");
+		FileSetFileFilter fileSetFilter = new FileSetFileFilter(include.dir(file1));
 //		File[] copy = file1.listFiles(fileSetFilter);
-//		copyFiles(file1,new File("c:\\temp\\1"),fileSetFilter);
-//		AntCopyUtils.copyFilesAndFolders(file1, new File("c:\\temp\\12"),fileSetFilter, new FilterSetCollection(), true);
+//		for (File file : copy) {
+//			System.out.println(file.getAbsolutePath());
+//		}
+//		copyFiles(file1,new File("c:\\temp\\4"),fileSetFilter);
+		AntCopyUtils.copyFilesAndFolders(file1, new File("c:\\temp\\15"),fileSetFilter, new FilterSetCollection(), true);
 	}
 	
 	public static class FilterSetFactory {

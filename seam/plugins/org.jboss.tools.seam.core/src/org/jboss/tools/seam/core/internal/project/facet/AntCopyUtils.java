@@ -48,15 +48,17 @@ public class AntCopyUtils {
 	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder,
 			FileSetFileFilter fileSetFilter,
 			FilterSetCollection filterSetCollection, boolean override) {
-		if(!destinationFolder.exists()) destinationFolder.mkdirs();
+		if(!destinationFolder.exists()) 
+			destinationFolder.mkdirs();
 		File[] files = fileSetFilter==null?sourceFolder.listFiles():sourceFolder.listFiles(fileSetFilter);
 		for (File file : files) {
 			if(file.isDirectory()) {
-				copyFilesAndFolders(file,new File(destinationFolder,file.getName()),filterSetCollection,override);
+				copyFilesAndFolders(file,new File(destinationFolder,file.getName()),fileSetFilter,filterSetCollection,override);
 			} else {
 				try {
 					FileUtils.getFileUtils().copyFile(file, new File(destinationFolder,file.getName()),filterSetCollection,override);
 				} catch (IOException e) {
+					e.printStackTrace();
 					SeamCorePlugin.getPluginLog().logError(e);
 				}
 			}
@@ -64,11 +66,21 @@ public class AntCopyUtils {
 	}
 	
 	public static void copyFile(File source, File dest, boolean override) {
+			copyFileToFolder(source, new File(dest,source.getName()),new FilterSetCollection(),override);
+	}
+	
+	public static void copyFileToFolder(File source, File dest, FilterSetCollection filterSetCollection, boolean override ) {
 		try {
-			FileUtils.getFileUtils().copyFile(source, new File(dest,source.getName()),new FilterSetCollection(),override);
+			FileUtils.getFileUtils().copyFile(source, new File(dest,source.getName()),filterSetCollection,override);
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}		
 	}
-	
+	public static void copyFileToFile(File source, File dest, FilterSetCollection filterSetCollection, boolean override ) {
+		try {
+			FileUtils.getFileUtils().copyFile(source, dest,filterSetCollection,override);
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}		
+	}
 }
