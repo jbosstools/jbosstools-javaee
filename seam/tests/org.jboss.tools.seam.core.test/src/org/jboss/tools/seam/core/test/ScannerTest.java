@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
@@ -69,7 +70,7 @@ public class ScannerTest extends TestCase {
 		IFileScanner scanner = SeamCoreBuilder.getXMLScanner();
 		assertTrue("Scanner cannot recognise components.xml", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise components.xml content", scanner.isLikelyComponentSource(f));
-		ISeamComponent[] cs = null;
+		ISeamComponentDeclaration[] cs = null;
 		
 		try {
 			cs = scanner.parse(f);
@@ -120,7 +121,7 @@ public class ScannerTest extends TestCase {
 		IFileScanner scanner = SeamCoreBuilder.getJavaScanner();
 		assertTrue("Scanner cannot recognise User.java", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise User.java content", scanner.isLikelyComponentSource(f));
-		ISeamComponent[] cs = null;
+		ISeamComponentDeclaration[] cs = null;
 		
 		try {
 			cs = scanner.parse(f);
@@ -161,7 +162,7 @@ public class ScannerTest extends TestCase {
 		IFileScanner scanner = SeamCoreBuilder.getLibraryScanner();
 		assertTrue("Scanner cannot recognise jboss-seam.jar", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise jboss-seam.jar content", scanner.isLikelyComponentSource(f));
-		ISeamComponent[] cs = null;
+		ISeamComponentDeclaration[] cs = null;
 		
 		try {
 			cs = scanner.parse(f);
