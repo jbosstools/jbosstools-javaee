@@ -25,7 +25,7 @@ public interface ISeamProject extends IProjectNature {
 	public Set<ISeamComponent> getComponentsByName(String name);
 
 	/**
-	 * @param type of scope.
+	 * @param scope type.
 	 * @return Set of ISeamComponents by Scope Type.
 	 */
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type);
@@ -37,7 +37,7 @@ public interface ISeamProject extends IProjectNature {
 	public Set<ISeamComponent> getComponentsByClass(String className);
 
 	/**
-	 * @return Set of ISeamComponents
+	 * @return Set of all ISeamComponents of project
 	 */
 	public Set<ISeamComponent> getComponents();
 
@@ -54,7 +54,7 @@ public interface ISeamProject extends IProjectNature {
 	public void removeComponent(ISeamComponent component);
 
 	/**
-	 * @return all seam variables from all contexts.
+	 * @return all seam context variables of project
 	 */
 	public Set<ISeamContextVariable> getVariables();
 
@@ -71,33 +71,33 @@ public interface ISeamProject extends IProjectNature {
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope);
 
 	/**
-	 * @return Factories methods of component
+	 * @return all factories methods of project
 	 */
 	public Set<ISeamFactory> getFactories();
 
 	/**
-	 * @return Factories methods of component
+	 * @return Factories methods of project by name and scope
 	 */
 	public Set<ISeamFactory> getFactories(String name, ScopeType scope);
 
 	/**
-	 * @return Factories methods of component
+	 * @return Factories methods of project by name
 	 */
 	public Set<ISeamFactory> getFactoriesByName(String name);
 
 	/**
-	 * @return Factories methods of component
+	 * @return Factories methods of project by scope
 	 */
 	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope);
 
 	/**
-	 * Adds factory method
+	 * Adds factory method into project
 	 * @param factory
 	 */
 	public void addFactory(ISeamFactory factory);
 
 	/**
-	 * Remove factory method
+	 * Remove factory method from project
 	 * @param factory
 	 */
 	public void removeFactory(ISeamFactory factory);
