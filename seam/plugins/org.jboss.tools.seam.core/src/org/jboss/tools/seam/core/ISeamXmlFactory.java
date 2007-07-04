@@ -11,12 +11,13 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Represents <factory> element in components.xml
  * @author Alexey Kazakov
  */
 public interface ISeamXmlFactory extends ISeamFactory, ISeamTextSourceReference {
 
 	/**
-	 * @return value
+	 * @return string value of 'value' attribute
 	 */
 	public String getValue();
 
@@ -27,7 +28,7 @@ public interface ISeamXmlFactory extends ISeamFactory, ISeamTextSourceReference 
 	public void setValue(String value);
 
 	/**
-	 * @return method
+	 * @return string value of 'method' attribute
 	 */
 	public String getMethod();
 

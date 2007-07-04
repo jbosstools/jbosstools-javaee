@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Base interface of seam factory 
  * @author Alexey Kazakov
  */
 public interface ISeamFactory extends ISeamContextVariable {

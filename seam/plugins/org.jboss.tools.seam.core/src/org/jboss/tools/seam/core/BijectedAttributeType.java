@@ -11,8 +11,8 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Represents Type of Bijected Attribute.
  * @author Alexey Kazakov
- *
  */
 public enum BijectedAttributeType {
 	IN,

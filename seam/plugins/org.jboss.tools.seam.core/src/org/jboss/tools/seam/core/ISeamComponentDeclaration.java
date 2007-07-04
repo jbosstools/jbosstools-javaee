@@ -11,10 +11,13 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Represents declaration of seam component.
  * @author Alexey Kazakov
- *
  */
 public interface ISeamComponentDeclaration extends ISeamTextSourceReference {
 
+	/**
+	 * @return name of component.
+	 */
 	public String getName();
 }

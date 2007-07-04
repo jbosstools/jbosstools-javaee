@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Represents seam factory method which was declared by @Factory
  * @author Alexey Kazakov
  */
 public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamJavaSourceReference {

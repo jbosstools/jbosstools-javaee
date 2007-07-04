@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Represents @Role of seam component.
  * @author Alexey Kazakov
  */
 public interface IRole extends ISeamJavaSourceReference, ISeamContextVariable {

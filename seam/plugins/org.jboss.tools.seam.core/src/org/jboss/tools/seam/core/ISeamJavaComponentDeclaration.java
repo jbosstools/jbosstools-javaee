@@ -13,27 +13,20 @@ package org.jboss.tools.seam.core;
 import java.util.Set;
 
 /**
+ * Represents java class of seam component. 
  * @author Alexey Kazakov
- *
  */
 public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration, ISeamJavaSourceReference {
-	
+
+	/**
+	 * @return qualified class name
+	 */
 	public String getClassName();
 
 	/**
-	 * @return bijected attributes
+	 * @return all bijected attributes which are defined in that java class.
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributes();
-
-	/**
-	 * Adds bijected attribute
-	 */
-	public void addBijectedAttribute(IBijectedAttribute attribute);
-
-	/**
-	 * Removes bijected attribute
-	 */
-	public void removeBijectedAttribute(IBijectedAttribute attribute);
 
 	/**
 	 * Returns bijected attributes by name
@@ -50,39 +43,50 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	public Set<IBijectedAttribute> getBijectedAttributesByType(BijectedAttributeType type);
 
 	/**
-	 * @return true if component marked as Stateful
+	 * Adds bijected attribute
+	 */
+	public void addBijectedAttribute(IBijectedAttribute attribute);
+
+	/**
+	 * Removes bijected attribute
+	 */
+	public void removeBijectedAttribute(IBijectedAttribute attribute);
+
+	/**
+	 * @return true if class marked as Stateful
 	 */
 	public boolean isStateful();
 
 	/**
-	 * @return true if component marked as Entity
+	 * @return true if class marked as Entity
 	 */
 	public boolean isEntity();
 
 	/**
-	 * Set true if component marked as Entity
+	 * Set true if class marked as Entity
 	 */
 	public void setEntity(boolean entity);
 
 	/**
-	 * @return roles of component
+	 * @return roles of component which defined in this component class
 	 */
 	public Set<IRole> getRoles();
 
 	/**
-	 * Adds role to component
+	 * Adds role
 	 * @param role
 	 */
 	public void addRole(IRole role);
 
 	/**
-	 * Removes role from component
+	 * Removes role
 	 * @param role
 	 */
 	public void removeRole(IRole role);
 
 	/**
-	 * @return methods of component
+	 * @return methods (see SeamComponentMethodType)
+	 * which are defined in this component class.
 	 */
 	public Set<ISeamComponentMethod> getMethods();
 

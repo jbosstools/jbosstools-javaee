@@ -14,40 +14,43 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Represents set of properties of seam component
+ * which were declared in one source file.
  * @author Alexey Kazakov
- *
  */
 public interface ISeamPropertiesDeclaration extends ISeamComponentDeclaration {
 
 	/**
-	 * Returns all properties from component.xml for that component.
-	 * @param propertyName
-	 * @return
-	 */
-	public List<ISeamProperty> getProperties(String propertyName);
-
-	/**
-	 * Returns first property with propertyName from component.xml for that component.
+	 * Returns property of the component within this declaration.
+	 * If the declaration has a few properties with this name,
+	 * then the method will return first one.
 	 * @param propertyName
 	 * @return
 	 */
 	public ISeamProperty getProperty(String propertyName);
 
 	/**
-	 * Returns properties by name from component.xml.
+	 * Returns all properties of the component by name within this declaration.
+	 * @param propertyName
+	 * @return
+	 */
+	public List<ISeamProperty> getProperties(String propertyName);
+
+	/**
+	 * Returns all properties of the component within this declaration.
 	 * @param propertyName
 	 * @return
 	 */
 	public Collection<ISeamProperty> getProperties();
 
 	/**
-	 * Adds property to component.
+	 * Adds property.
 	 * @param property
 	 */
 	public void addProperty(ISeamProperty property);
 
 	/**
-	 * Removes property from component.
+	 * Removes property.
 	 * @param property
 	 */
 	public void removeProperty(ISeamProperty property);

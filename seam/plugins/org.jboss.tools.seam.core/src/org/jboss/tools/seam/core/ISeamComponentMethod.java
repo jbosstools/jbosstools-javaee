@@ -11,6 +11,8 @@
 package org.jboss.tools.seam.core;
 
 /**
+ * Represents method of seam component.
+ * This interface represents only methods with types enumerated in SeamComponentMethodType
  * @author Alexey Kazakov
  */
 public interface ISeamComponentMethod extends ISeamJavaSourceReference {

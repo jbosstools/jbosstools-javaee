@@ -14,14 +14,36 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents component in seam tools model.
+ * @author Alexey Kazakov
+ */
 public interface ISeamComponent extends ISeamContextVariable {
 
+	/**
+	 * Returns java declaration of component.
+	 * This declaration represents java class of component.
+	 * @return java declaration of component.
+	 */
 	public ISeamJavaComponentDeclaration getJavaDeclaration();
 
+	/**
+	 * Returns XML declarations of component.
+	 * These declarations represent <component> elements of components.xml files.
+	 * @return java declaration of component.
+	 */
 	public Set<ISeamXmlComponentDeclaration> getXmlDeclarations();
 
+	/**
+	 * Returns Properties declarations of component.
+	 * These declarations represent properties from seam.properties file.
+	 * @return
+	 */
 	public Set<ISeamPropertiesDeclaration> getPropertiesDeclarations();
 
+	/**
+	 * @return all declarations of component
+	 */
 	public Set<ISeamComponentDeclaration> getAllDeclarations();
 
 	/**
@@ -30,7 +52,7 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public String getClassName();
 
 	/**
-	 * @return bijected attributes
+	 * @return bijected attributes of component
 	 */
 	public Set<IBijectedAttribute> getBijectedAttributes();
 
@@ -75,14 +97,14 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public Set<ISeamComponentMethod> getMethodsByType(SeamComponentMethodType type);
 
 	/**
-	 * Returns properties by name from component.xml.
+	 * Returns all properties from all components.xml declarations of component 
 	 * @param propertyName
 	 * @return
 	 */
 	public Collection<ISeamProperty> getProperties();
 
 	/**
-	 * Returns all properties from component.xml for that component.
+	 * Returns properties by name from all components.xml declarations of component
 	 * @param propertyName
 	 * @return
 	 */
