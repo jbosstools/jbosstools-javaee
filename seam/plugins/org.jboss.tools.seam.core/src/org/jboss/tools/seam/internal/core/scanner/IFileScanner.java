@@ -38,6 +38,6 @@ public interface IFileScanner {
 	 * @return
 	 * @throws Exception
 	 */
-	public SeamComponentDeclaration[] parse(IFile f) throws Exception;
+	public LoadedDeclarations parse(IFile f) throws Exception;
 
 }

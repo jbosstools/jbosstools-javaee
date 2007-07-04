@@ -18,16 +18,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
-import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamXmlFactory;
+import org.jboss.tools.seam.internal.core.SeamFactory;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
+import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
 public class XMLScanner implements IFileScanner {
 	
@@ -67,9 +69,9 @@ public class XMLScanner implements IFileScanner {
 	 * @return
 	 * @throws Exception
 	 */
-	public SeamComponentDeclaration[] parse(IFile f) throws Exception {
+	public LoadedDeclarations parse(IFile f) throws Exception {
 		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
-		return parse(o);
+		return parse(o, f.getFullPath());
 	}
 	
 	static Set<String> COMMON_ATTRIBUTES = new HashSet<String>();
@@ -85,9 +87,9 @@ public class XMLScanner implements IFileScanner {
 //		COMMON_ATTRIBUTES.add(ISeamComponent.JNDI_NAME);
 	}
 	
-	public SeamComponentDeclaration[] parse(XModelObject o) {
+	public LoadedDeclarations parse(XModelObject o, IPath source) {
 		if(o == null) return null;
-		ArrayList<SeamComponentDeclaration> list = new ArrayList<SeamComponentDeclaration>();
+		LoadedDeclarations ds = new LoadedDeclarations();
 		XModelObject[] os = o.getChildren();
 		for (int i = 0; i < os.length; i++) {
 			XModelEntity componentEntity = os[i].getModelEntity();
@@ -144,21 +146,21 @@ public class XMLScanner implements IFileScanner {
 					//TODO assign positioning attributes to created ISeamProperty object
 				}
 
-				list.add(component);
+				ds.getComponents().add(component);
 			} else if(os[i].getModelEntity().getName().startsWith("SeamFactory")) {
-				//TODO what is the best way for factory?
-				SeamComponent component = new SeamComponent();
-				//TODO
-//				component.setName(os[i].getAttributeValue(ISeamComponent.NAME));
-//				component.setScope(os[i].getAttributeValue(ISeamComponent.SCOPE));
+				//TODO replace with xml factory
+				SeamFactory factory = new SeamFactory();
+				factory.setId(os[i]);
+				factory.setSourcePath(source);
+				factory.setName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.NAME));
+				factory.setScopeAsString(os[i].getAttributeValue(ISeamXmlComponentDeclaration.SCOPE));
 				String value = os[i].getAttributeValue("value");
-				//TODO how should we resolve value?
-//				if(value != null) component.addStringProperty("value", value);
-
-//				list.add(component);
+				if(factory instanceof ISeamXmlFactory) {
+					((ISeamXmlFactory)factory).setValue(value);
+				}
+				ds.getFactories().add(factory);
 			}
 		}
-
-		return list.toArray(new SeamComponentDeclaration[0]);
+		return ds;
 	}
 }

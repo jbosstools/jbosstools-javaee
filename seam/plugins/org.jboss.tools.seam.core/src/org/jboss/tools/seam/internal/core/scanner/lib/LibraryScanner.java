@@ -10,15 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
+import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
 public class LibraryScanner implements IFileScanner {
@@ -41,7 +42,7 @@ public class LibraryScanner implements IFileScanner {
 		return false;
 	}
 
-	public SeamComponentDeclaration[] parse(IFile f) throws Exception {
+	public LoadedDeclarations parse(IFile f) throws Exception {
 		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
 		if(o == null) return null;
 		if(!o.getModelEntity().getName().equals("FileSystemJar")) {
@@ -53,30 +54,44 @@ public class LibraryScanner implements IFileScanner {
 		XModelObject componentsXML = o.getChildByPath("META-INF/components.xml");
 		if(componentsXML == null && seamProperties == null) return null;
 		
-		ArrayList<SeamComponentDeclaration> list = new ArrayList<SeamComponentDeclaration>();
+		LoadedDeclarations ds = new LoadedDeclarations();
 
-		processJavaClasses(o, list);
+		processJavaClasses(o, ds);
 		
 		if(componentsXML != null) {
-			SeamComponentDeclaration[] components = new XMLScanner().parse(componentsXML);
-			if(components != null) {
-				for (int i = 0; i < components.length; i++) list.add(components[i]);
+			LoadedDeclarations ds1 = new XMLScanner().parse(componentsXML, f.getFullPath());
+			if(ds1 != null) {
+				ds.getComponents().addAll(ds1.getComponents());
+				ds.getFactories().addAll(ds1.getFactories());
 			}
 		}
 		if(seamProperties != null) {
 			XModelObject[] properties = seamProperties.getChildren();
+			Map<String, SeamPropertiesDeclaration> ds1 = new HashMap<String, SeamPropertiesDeclaration>();
 			for (int i = 0; i < properties.length; i++) {
 				String name = properties[i].getAttributeValue("name");
 				String value = properties[i].getAttributeValue("value");
-				//TODO put that to a component
+				int q = name.lastIndexOf('.');
+				if(q < 0) continue;
+				String componentName = name.substring(0, q);
+				String propertyName = name.substring(q + 1);
+				SeamPropertiesDeclaration d = ds1.get(componentName);
+				if(d == null) {
+					d = new SeamPropertiesDeclaration();
+					d.setId(properties[i]);
+					d.setSourcePath(f.getFullPath());
+					d.setName(componentName);
+					ds1.put(componentName, d);
+				}
+				d.addStringProperty(propertyName, value);
 			}
-			//TODO add components to list
+			ds.getComponents().addAll(ds1.values());
 		}		
 		
-		return list.toArray(new SeamComponentDeclaration[0]);
+		return ds;
 	}
 	
-	protected void processJavaClasses(XModelObject o, ArrayList<SeamComponentDeclaration> list) {
+	protected void processJavaClasses(XModelObject o, LoadedDeclarations ds) {
 		//TODO
 	}
 

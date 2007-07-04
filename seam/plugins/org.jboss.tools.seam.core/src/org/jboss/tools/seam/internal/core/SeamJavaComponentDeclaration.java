@@ -31,6 +31,18 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public void setType(IType type) {
 		this.type = type;
 	}
+	
+	public ScopeType getScope() {
+		return scopeType;
+	}
+	
+	public void setScope(String scope) {
+		if(scope == null || scope.length() == 0) {
+			scopeType = ScopeType.UNSPECIFIED;
+		} else {
+			scopeType = ScopeType.valueOf(scope.toUpperCase());
+		}
+	}
 
 	public String getClassName() {
 		return className;

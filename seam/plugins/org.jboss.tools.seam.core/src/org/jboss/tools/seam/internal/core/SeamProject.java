@@ -27,6 +27,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
 /**
  * @author glory
@@ -85,29 +86,39 @@ public class SeamProject implements ISeamProject {
 	 * @param component
 	 * @param source
 	 */	
-	public void registerComponents(SeamComponentDeclaration[] list, IPath source) {
+	public void registerComponents(LoadedDeclarations ds, IPath source) {
+		//deprecated
 		pathRemoved(source);
-		if(list == null) return;
+		
+		SeamComponentDeclaration[] components = ds.getComponents().toArray(new SeamComponentDeclaration[0]);
+		SeamFactory[] factories = ds.getFactories().toArray(new SeamFactory[0]);
+		
+		if(components.length == 0 && factories.length == 0) {
+			pathRemoved(source);
+			return;
+		}
+		
+		Map<Object,ISeamComponentDeclaration> currentDeclarations = findComponentDeclarations(source);
 
-		for (int i = 0; i < list.length; i++) {
-			list[i].setSourcePath(source);
-			String name = list[i].getName();
+		for (int i = 0; i < components.length; i++) {
+			components[i].setSourcePath(source);
+			String name = components[i].getName();
 			SeamComponent c = getComponent(name);
 			if(c == null) {
 				c = newComponent(name);
 				allComponents.put(name, c);
 			}
-			c.addDeclaration(list[i]);
-			if(list[i] instanceof ISeamJavaComponentDeclaration) {
-				javaDeclarations.put(c.getClassName(), (SeamJavaComponentDeclaration)list[i]);
+			c.addDeclaration(components[i]);
+			if(components[i] instanceof ISeamJavaComponentDeclaration) {
+				javaDeclarations.put(c.getClassName(), (SeamJavaComponentDeclaration)components[i]);
 				Set<ISeamComponent> cs = getComponentsByClass(c.getClassName());
 				for (ISeamComponent ci: cs) {
 					if(ci == c) continue;
 					SeamComponent cii = (SeamComponent)ci;
-					cii.addDeclaration(list[i]);
+					cii.addDeclaration(components[i]);
 				}
-			} else if(list[i] instanceof ISeamXmlComponentDeclaration) {
-				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)list[i];
+			} else if(components[i] instanceof ISeamXmlComponentDeclaration) {
+				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)components[i];
 				String className = xml.getClassName();
 				SeamJavaComponentDeclaration j = javaDeclarations.get(className);
 				if(j != null) c.addDeclaration(j);
@@ -141,6 +152,17 @@ public class SeamProject implements ISeamProject {
 				iterator.remove();
 			}
 		}		
+	}
+	
+	public Map<Object,ISeamComponentDeclaration> findComponentDeclarations(IPath source) {
+		Map<Object,ISeamComponentDeclaration> map = new HashMap<Object, ISeamComponentDeclaration>();
+		for (SeamComponent c: allComponents.values()) {
+			for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
+				SeamComponentDeclaration di = (SeamComponentDeclaration)d;
+				if(source.equals(di.getSourcePath())) map.put(di.getId(), di);
+			}
+		}		
+		return map;
 	}
 
 	//deprecated

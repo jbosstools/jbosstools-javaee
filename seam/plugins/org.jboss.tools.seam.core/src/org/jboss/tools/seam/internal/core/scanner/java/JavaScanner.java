@@ -29,6 +29,7 @@ import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
+import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
 public class JavaScanner implements IFileScanner {
 	
@@ -68,14 +69,13 @@ public class JavaScanner implements IFileScanner {
 	 * @return
 	 * @throws Exception
 	 */
-	public SeamComponentDeclaration[] parse(IFile f) throws Exception {
+	public LoadedDeclarations parse(IFile f) throws Exception {
 		ICompilationUnit u = getCompilationUnit(f);
 		if(u == null) return null;
 		ASTRequestorImpl requestor = new ASTRequestorImpl();
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
 		ASTParser.newParser(AST.JLS3).createASTs(us, new String[0], requestor, null);
-		SeamComponentDeclaration component = requestor.getComponent();
-		return component == null ? new SeamComponentDeclaration[0] : new SeamComponentDeclaration[]{component};
+		return requestor.getDeclarations();
 	}
 	
 	private ICompilationUnit getCompilationUnit(IFile f) throws Exception {
@@ -97,10 +97,10 @@ public class JavaScanner implements IFileScanner {
 
 	class ASTRequestorImpl extends ASTRequestor {
 		private ASTVisitorImpl visitor = new ASTVisitorImpl();
-		private SeamJavaComponentDeclaration component = null;
+		LoadedDeclarations ds = new LoadedDeclarations();
 
-		public SeamComponentDeclaration getComponent() {
-			return component;
+		public LoadedDeclarations getDeclarations() {
+			return ds;
 		}
 		
 		public void acceptAST(ICompilationUnit source, CompilationUnit ast) {
@@ -118,12 +118,14 @@ public class JavaScanner implements IFileScanner {
 			if(visitor.name != null && visitor.type != null) {
 				String n = visitor.type.getElementName();
 				n = getResolvedType(visitor.type, n);
-				component = new SeamJavaComponentDeclaration();
+				SeamJavaComponentDeclaration component = new SeamJavaComponentDeclaration();
+				ds.getComponents().add(component);
+				component.setType(visitor.type);
+				component.setId(visitor.type);
 				component.setClassName(n);
 				component.setName(visitor.name);
 				if(visitor.scope != null) {
-					//TODO
-					//component.setScope(visitor.scope);
+					component.setScope(visitor.scope);
 				}
 			}			
 		}

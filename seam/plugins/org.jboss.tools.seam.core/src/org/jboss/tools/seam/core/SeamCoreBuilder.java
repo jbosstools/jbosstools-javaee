@@ -30,6 +30,7 @@ import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
+import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
@@ -86,7 +87,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 					IFileScanner scanner = FILE_SCANNERS[i];
 					if(scanner.isRelevant(f)) {
 						if(!scanner.isLikelyComponentSource(f)) return false;
-						SeamComponentDeclaration[] c = null;
+						LoadedDeclarations c = null;
 						try {
 							c = scanner.parse(f);
 						} catch (Exception e) {
@@ -101,8 +102,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		}
 	}
 	
-	void componentsLoaded(SeamComponentDeclaration[] c, IFile resource) {
-		if(c == null || c.length == 0) return;
+	void componentsLoaded(LoadedDeclarations c, IFile resource) {
+		if(c == null || c.getComponents().size() + c.getFactories().size() == 0) return;
 		SeamProject p = getSeamProject();
 		if(p == null) return;
 		p.registerComponents(c, resource.getFullPath());
