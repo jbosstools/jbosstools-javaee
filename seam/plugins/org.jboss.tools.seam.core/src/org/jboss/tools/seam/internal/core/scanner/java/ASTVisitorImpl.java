@@ -1,3 +1,13 @@
+ /*******************************************************************************
+  * Copyright (c) 2007 Red Hat, Inc.
+  * Distributed under license by Red Hat, Inc. All rights reserved.
+  * This program is made available under the terms of the
+  * Eclipse Public License v1.0 which accompanies this distribution,
+  * and is available at http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributor:
+  *     Red Hat, Inc. - initial API and implementation
+  ******************************************************************************/
 package org.jboss.tools.seam.internal.core.scanner.java;
 
 import java.util.HashSet;
@@ -22,6 +32,11 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
+/**
+ * This object collects changes in target that should be fired to listeners.
+ * 
+ * @author Viacheslav Kabanovich
+ */
 public class ASTVisitorImpl extends ASTVisitor {
 	static String SEAM_ANNOTATION_TYPE_PREFIX = "org.jboss.seam.annotations.";
 	static String NAME_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Name";

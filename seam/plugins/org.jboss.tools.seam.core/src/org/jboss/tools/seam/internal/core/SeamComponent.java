@@ -200,9 +200,21 @@ public class SeamComponent implements ISeamComponent {
 		if(declaration instanceof ISeamJavaComponentDeclaration) {
 			javaDeclarations.add((ISeamJavaComponentDeclaration)declaration);
 		} else if(declaration instanceof ISeamXmlComponentDeclaration) {
-			xmlDeclarations.add((ISeamXmlComponentDeclaration)xmlDeclarations);
+			xmlDeclarations.add((ISeamXmlComponentDeclaration)declaration);
 		} else if(declaration instanceof ISeamPropertiesDeclaration) {
 			propertyDeclarations.add((ISeamPropertiesDeclaration)declaration);
+		}
+	}
+	
+	public void removeDeclaration(ISeamComponentDeclaration declaration) {
+		if(!allDeclarations.contains(declaration)) return;
+		allDeclarations.remove(declaration);
+		if(declaration instanceof ISeamJavaComponentDeclaration) {
+			javaDeclarations.remove(declaration);
+		} else if(declaration instanceof ISeamXmlComponentDeclaration) {
+			xmlDeclarations.remove(declaration);
+		} else if(declaration instanceof ISeamPropertiesDeclaration) {
+			propertyDeclarations.remove(declaration);
 		}
 	}
 

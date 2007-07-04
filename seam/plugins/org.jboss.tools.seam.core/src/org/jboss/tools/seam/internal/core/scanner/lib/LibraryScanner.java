@@ -22,6 +22,9 @@ import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
+/**
+ * @author Viacheslav Kabanovich
+ */
 public class LibraryScanner implements IFileScanner {
 
 	public boolean isRelevant(IFile f) {

@@ -1,8 +1,12 @@
 package org.jboss.tools.seam.internal.core;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamFactory;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.event.Change;
 
 public class SeamFactory implements ISeamFactory {
 	/**
@@ -58,6 +62,35 @@ public class SeamFactory implements ISeamFactory {
 		} catch (Exception e) {
 			//ignore
 		}
+	}
+
+	/**
+	 * Merges loaded data into currently used declaration.
+	 * If changes were done returns a list of changes. 
+	 * @param f
+	 * @return list of changes
+	 */
+	public List<Change> merge(SeamFactory f) {
+		List<Change> changes = null;
+
+		source = f.source;
+		id = f.id;
+		
+		if(!stringsEqual(name, f.name)) {
+			changes = Change.addChange(changes, new Change(this, ISeamXmlComponentDeclaration.NAME, name, f.name));
+			name = f.name;
+		}
+		if(!stringsEqual(scope, f.scope)) {
+			changes = Change.addChange(changes, new Change(this, ISeamXmlComponentDeclaration.SCOPE, scope, f.scope));
+			scope = f.scope;
+			scopeType = f.scopeType;
+		}
+	
+		return changes;
+	}
+
+	boolean stringsEqual(String s1, String s2) {
+		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 
 }

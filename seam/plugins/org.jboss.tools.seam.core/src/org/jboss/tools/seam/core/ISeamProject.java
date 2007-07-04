@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProjectNature;
+import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 
 public interface ISeamProject extends IProjectNature {
 
@@ -101,4 +102,17 @@ public interface ISeamProject extends IProjectNature {
 	 * @param factory
 	 */
 	public void removeFactory(ISeamFactory factory);
+	
+	/**
+	 * Adds listener to the project
+	 * @param listener
+	 */
+	public void addSeamProjectListener(ISeamProjectChangeListener listener);
+
+	/**
+	 * Removes listener from the project
+	 * @param listener
+	 */
+	public void removeSeamProjectListener(ISeamProjectChangeListener listener);
+
 }

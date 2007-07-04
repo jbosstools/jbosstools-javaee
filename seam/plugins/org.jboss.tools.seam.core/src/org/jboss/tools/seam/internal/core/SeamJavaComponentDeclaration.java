@@ -1,9 +1,9 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -13,6 +13,7 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.event.Change;
 
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		implements ISeamJavaComponentDeclaration {
@@ -137,6 +138,44 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public IMember getSourceMember() {
 		return type;
+	}
+
+	/**
+	 * Merges loaded data into currently used declaration.
+	 * If changes were done returns a list of changes. 
+	 * @param d
+	 * @return list of changes
+	 */
+	public List<Change> merge(SeamComponentDeclaration d) {
+		List<Change> changes = super.merge(d);
+		SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)d;
+		if(!stringsEqual(className, jd.className)) {
+			changes = Change.addChange(changes, new Change(this, "class", className, jd.className));
+			className = jd.className;
+		}
+		if(scopeType != jd.scopeType) {
+			changes = Change.addChange(changes, new Change(this, "scope", scopeType, jd.scopeType));
+			scopeType = jd.scopeType;
+		}
+		if(type != jd.type) type = jd.type;
+		if(stateful != jd.stateful) {
+			changes = Change.addChange(changes, new Change(this, "stateful", stateful, jd.stateful));
+			stateful = jd.stateful;
+		}
+		if(entity != jd.entity) {
+			changes = Change.addChange(changes, new Change(this, "entity", entity, jd.entity));
+			entity = jd.entity;
+		}
+		Change children = new Change(this, null, null, null);
+
+		//TODO do real merge and add changes to children
+		this.bijectedAttributes = jd.bijectedAttributes;
+		this.componentMethods = jd.componentMethods;
+		this.roles = jd.roles;		
+
+		changes = Change.addChange(changes, children);
+		
+		return changes;
 	}
 
 }

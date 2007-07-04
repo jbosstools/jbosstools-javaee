@@ -28,6 +28,7 @@ import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.internal.core.SeamFactory;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
@@ -77,14 +78,13 @@ public class XMLScanner implements IFileScanner {
 	static Set<String> COMMON_ATTRIBUTES = new HashSet<String>();
 	
 	static {
-		//TODO
-//		COMMON_ATTRIBUTES.add(ISeamComponent.NAME);
-//		COMMON_ATTRIBUTES.add(ISeamComponent.CLASS);
-//		COMMON_ATTRIBUTES.add(ISeamComponent.SCOPE);
-//		COMMON_ATTRIBUTES.add(ISeamComponent.PRECEDENCE);
-//		COMMON_ATTRIBUTES.add(ISeamComponent.INSTALLED);
-//		COMMON_ATTRIBUTES.add(ISeamComponent.AUTO_CREATE);
-//		COMMON_ATTRIBUTES.add(ISeamComponent.JNDI_NAME);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.NAME);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.CLASS);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.SCOPE);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.PRECEDENCE);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.INSTALLED);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.AUTO_CREATE);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.JNDI_NAME);
 	}
 	
 	public LoadedDeclarations parse(XModelObject o, IPath source) {
@@ -95,7 +95,10 @@ public class XMLScanner implements IFileScanner {
 			XModelEntity componentEntity = os[i].getModelEntity();
 			if(componentEntity.getAttribute("class") != null) {
 				SeamXmlComponentDeclaration component = new SeamXmlComponentDeclaration();
-				//TODO
+				
+				component.setSourcePath(source);
+				component.setId(os[i]);
+
 				component.setName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.NAME));
 				component.setClassName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.CLASS));
 				component.setScope(os[i].getAttributeValue(ISeamXmlComponentDeclaration.SCOPE));
@@ -148,17 +151,15 @@ public class XMLScanner implements IFileScanner {
 
 				ds.getComponents().add(component);
 			} else if(os[i].getModelEntity().getName().startsWith("SeamFactory")) {
-				//TODO replace with xml factory
-				SeamFactory factory = new SeamFactory();
+				SeamXmlFactory factory = new SeamXmlFactory();
 				factory.setId(os[i]);
 				factory.setSourcePath(source);
 				factory.setName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.NAME));
 				factory.setScopeAsString(os[i].getAttributeValue(ISeamXmlComponentDeclaration.SCOPE));
-				String value = os[i].getAttributeValue("value");
-				if(factory instanceof ISeamXmlFactory) {
-					((ISeamXmlFactory)factory).setValue(value);
-				}
+				factory.setValue(os[i].getAttributeValue("value"));
+				factory.setMethod(os[i].getAttributeValue("method"));
 				ds.getFactories().add(factory);
+				//TODO assign positioning attributes to created ISeamProperty object
 			}
 		}
 		return ds;

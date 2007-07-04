@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.scanner.java;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -26,11 +25,15 @@ import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
+/**
+ * This object collects changes in target that should be fired to listeners.
+ * 
+ * @author Viacheslav Kabanovich
+ */
 public class JavaScanner implements IFileScanner {
 	
 	public JavaScanner() {}
@@ -72,7 +75,7 @@ public class JavaScanner implements IFileScanner {
 	public LoadedDeclarations parse(IFile f) throws Exception {
 		ICompilationUnit u = getCompilationUnit(f);
 		if(u == null) return null;
-		ASTRequestorImpl requestor = new ASTRequestorImpl();
+		ASTRequestorImpl requestor = new ASTRequestorImpl(f.getFullPath());
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
 		ASTParser.newParser(AST.JLS3).createASTs(us, new String[0], requestor, null);
 		return requestor.getDeclarations();
@@ -98,6 +101,11 @@ public class JavaScanner implements IFileScanner {
 	class ASTRequestorImpl extends ASTRequestor {
 		private ASTVisitorImpl visitor = new ASTVisitorImpl();
 		LoadedDeclarations ds = new LoadedDeclarations();
+		IPath sourcePath;
+		
+		public ASTRequestorImpl(IPath sourcePath) {
+			this.sourcePath = sourcePath;
+		}
 
 		public LoadedDeclarations getDeclarations() {
 			return ds;
@@ -119,6 +127,10 @@ public class JavaScanner implements IFileScanner {
 				String n = visitor.type.getElementName();
 				n = getResolvedType(visitor.type, n);
 				SeamJavaComponentDeclaration component = new SeamJavaComponentDeclaration();
+				
+				component.setId(visitor.type);
+				component.setSourcePath(sourcePath);
+
 				ds.getComponents().add(component);
 				component.setType(visitor.type);
 				component.setId(visitor.type);
