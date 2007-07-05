@@ -42,7 +42,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	static IFileScanner[] FILE_SCANNERS = {
 		new JavaScanner(), 
 		new XMLScanner(), 
-		new LibraryScanner()
+//		new LibraryScanner()
 	};
 	SampleResourceVisitor RESOURCE_VISITOR = new SampleResourceVisitor();
 	
@@ -162,6 +162,11 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	 */
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
+		if(getSeamProject().getClassPath().update()) {
+			System.out.println("update from class path");
+			getSeamProject().getClassPath().process();
+		}
+		
 		if (kind == FULL_BUILD) {
 			fullBuild(monitor);
 		} else {

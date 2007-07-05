@@ -33,12 +33,14 @@ import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class SeamProject implements ISeamProject {
 	IProject project;
+	ClassPath classPath = new ClassPath(this);
 	Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
 	protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
@@ -60,7 +62,12 @@ public class SeamProject implements ISeamProject {
 
 	public void setProject(IProject project) {
 		this.project = project;
+		classPath.init();
 		load();
+	}
+	
+	public ClassPath getClassPath() {
+		return classPath;
 	}
 
 	/**
@@ -104,6 +111,7 @@ public class SeamProject implements ISeamProject {
 		
 		Map<Object,ISeamComponentDeclaration> currentComponents = findComponentDeclarations(source);
 
+		List<Change> addedComponents = null;
 		for (int i = 0; i < components.length; i++) {
 			SeamComponentDeclaration loaded = (SeamComponentDeclaration)components[i];
 			SeamComponentDeclaration current = (SeamComponentDeclaration)currentComponents.remove(loaded.getId());
@@ -129,10 +137,9 @@ public class SeamProject implements ISeamProject {
 				c = newComponent(name);
 				allComponents.put(name, c);
 				allVariables.add(c);
+				addedComponents = Change.addChange(addedComponents, new Change(this, null, null, c));
 			}
 			c.addDeclaration(components[i]);
-			List<Change> changes = Change.addChange(null, new Change(this, null, null, c));
-			fireChanges(changes);
 
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
 				javaDeclarations.put(c.getClassName(), (SeamJavaComponentDeclaration)components[i]);
@@ -141,7 +148,7 @@ public class SeamProject implements ISeamProject {
 					if(ci == c) continue;
 					SeamComponent cii = (SeamComponent)ci;
 					cii.addDeclaration(loaded);
-					changes = Change.addChange(null, new Change(ci, null, null, loaded));
+					List<Change> changes = Change.addChange(null, new Change(ci, null, null, loaded));
 					fireChanges(changes);
 				}
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
@@ -150,15 +157,17 @@ public class SeamProject implements ISeamProject {
 				SeamJavaComponentDeclaration j = javaDeclarations.get(className);
 				if(j != null) {
 					c.addDeclaration(j);
-					changes = Change.addChange(null, new Change(c, null, null, j));
+					List<Change> changes = Change.addChange(null, new Change(c, null, null, j));
 					fireChanges(changes);
 				}
 			}			
 		}
+		fireChanges(addedComponents);
 		
 		componentDeclarationsRemoved(currentComponents);
 		
 		Map<Object, ISeamFactory> currentFactories = findFactoryDeclarations(source);
+		List<Change> addedFactories = null;
 		for (int i = 0; i < factories.length; i++) {
 			SeamFactory loaded = factories[i];
 			SeamFactory current = (SeamFactory)currentFactories.remove(loaded.getId());
@@ -166,21 +175,14 @@ public class SeamProject implements ISeamProject {
 				List<Change> changes = current.merge(loaded);
 				fireChanges(changes);
 				continue;
-				
 			}
+			allFactories.add(loaded);
+			allVariables.add(loaded);
+			addedFactories = Change.addChange(addedFactories, new Change(this, null, null, loaded));
 		}
+		fireChanges(addedFactories); 
 		
 		factoryDeclarationsRemoved(currentFactories);
-		
-	}
-
-	/**
-	 * Package local method called by builder.
-	 * @param component
-	 * @param source
-	 */	
-	public void registerFactories(ISeamFactory[] list, IPath source) {
-		
 	}
 
 	/**
@@ -281,14 +283,6 @@ public class SeamProject implements ISeamProject {
 			}
 		}
 		fireChanges(changes);
-	}
-
-	//deprecated
-	public Set<ISeamComponent> getComponentsByName(String name) {
-		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
-		ISeamComponent c = getComponentByName(name);
-		if(c != null) result.add(c);
-		return result;
 	}
 
 	/**
@@ -401,7 +395,7 @@ public class SeamProject implements ISeamProject {
 		allVariables.remove(factory);
 	}
 	
-	SeamComponent getComponent(String name) {
+	public SeamComponent getComponent(String name) {
 		return allComponents.get(name);
 	}
 	
