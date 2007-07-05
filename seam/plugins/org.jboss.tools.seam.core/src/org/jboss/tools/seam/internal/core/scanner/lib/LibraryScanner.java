@@ -32,6 +32,7 @@ import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -41,6 +42,7 @@ import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
  * @author Viacheslav Kabanovich
  */
 public class LibraryScanner implements IFileScanner {
+	static ClassScanner CLASS_SCANNER = new ClassScanner();
 	ClassPath classPath = null;
 	
 	//Now it is absolute file on disk
@@ -167,10 +169,22 @@ public class LibraryScanner implements IFileScanner {
 				} catch (ClassNotFoundException e) {
 					//ignore
 				}
-				String result = cls == null ? "not found " + className : className;
-				System.out.println(result);
+				if(cls == null) continue;
+				if(!CLASS_SCANNER.isLikelyComponentSource(cls)) continue;
+				LoadedDeclarations ds1 = null;
+				try {
+					ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
+				} catch (Exception e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+				if(ds1 != null) {
+					ds.add(ds1);
+				}
+				System.out.println(className);
 			}
 		}
 	}
+	
+	
 
 }

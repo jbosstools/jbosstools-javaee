@@ -32,5 +32,11 @@ public class LoadedDeclarations {
 	public List<SeamFactory> getFactories() {
 		return factories;
 	}
+	
+	public void add(LoadedDeclarations ds) {
+		if(ds == null) return;
+		components.addAll(ds.components);
+		factories.addAll(ds.factories);
+	}
 
 }

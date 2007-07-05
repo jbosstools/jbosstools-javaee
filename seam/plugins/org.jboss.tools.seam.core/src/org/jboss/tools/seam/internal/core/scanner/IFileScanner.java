@@ -11,8 +11,6 @@
 package org.jboss.tools.seam.internal.core.scanner;
 
 import org.eclipse.core.resources.IFile;
-import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 
 public interface IFileScanner {
 
