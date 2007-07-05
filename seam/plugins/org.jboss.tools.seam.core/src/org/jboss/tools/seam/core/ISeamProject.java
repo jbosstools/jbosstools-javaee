@@ -20,10 +20,14 @@ public interface ISeamProject extends IProjectNature {
 	public static String NATURE_ID = "org.jboss.tools.seam.core.seam";
 
 	/**
+	 * Returns seam component. Project can have only one ISeamComponent with
+	 * unique name. If project has a few seam components with the same name,
+	 * then corresponding ISeamComponent will have all declarations
+	 * of components with this name.
 	 * @param name of component.
-	 * @return Set of ISeamComponents by name.
+	 * @return ISeamComponent.
 	 */
-	public Set<ISeamComponent> getComponentsByName(String name);
+	public ISeamComponent getComponent(String name);
 
 	/**
 	 * @param scope type.
