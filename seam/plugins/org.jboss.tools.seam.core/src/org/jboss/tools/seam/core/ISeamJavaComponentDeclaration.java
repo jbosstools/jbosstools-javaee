@@ -18,6 +18,8 @@ import java.util.Set;
  */
 public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration, ISeamJavaSourceReference {
 
+	public static final SeamComponentPrecedenceType DEFAULT_PRECEDENCE = SeamComponentPrecedenceType.APPLICATION;
+
 	/**
 	 * @return qualified class name
 	 */
@@ -107,4 +109,15 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	 * @param method
 	 */
 	public void removeMethod(ISeamComponentMethod method);
+
+	/**
+	 * @return precedence of component.
+	 */
+	public SeamComponentPrecedenceType getPrecedence();
+
+	/**
+	 * Sets precedence of component.
+	 * @param precedence
+	 */
+	public void setPrecedence(SeamComponentPrecedenceType precedence);
 }

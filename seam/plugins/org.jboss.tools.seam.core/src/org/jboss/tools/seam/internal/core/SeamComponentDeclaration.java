@@ -10,18 +10,21 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public abstract class SeamComponentDeclaration implements ISeamComponentDeclaration {
+
+	public static final String PATH_OF_NAME = "name";
+
 	/**
 	 * Path of resource where this component is declared.
 	 */
@@ -99,5 +102,28 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	boolean stringsEqual(String s1, String s2) {
 		return s1 == null ? s2 == null : s1.equals(s2);
 	}
-	
+
+	/**
+	 * @param path
+	 * @return source reference for some member of declaration.
+	 * e.g. if you need source reference for @Name you have to 
+	 * invore getLocationFor("name");
+	 */
+	public ISeamTextSourceReference getLocationFor(String path) {
+		// TODO
+		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
+			public int getLength() {
+				return 0;
+			}
+
+			public IResource getResource() {
+				return SeamComponentDeclaration.this.getResource();
+			}
+
+			public int getStartPosition() {
+				return 0;
+			}
+		};
+		return reference;
+	}
 }

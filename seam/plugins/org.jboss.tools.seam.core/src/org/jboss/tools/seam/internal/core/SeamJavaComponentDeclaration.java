@@ -13,6 +13,7 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
 import org.jboss.tools.seam.core.event.Change;
 
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
@@ -22,6 +23,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
 	protected boolean stateful = false;
 	protected boolean entity = false;
+	protected SeamComponentPrecedenceType precedence;
 	
 	protected IType type;
 
@@ -157,6 +159,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			changes = Change.addChange(changes, new Change(this, "scope", scopeType, jd.scopeType));
 			scopeType = jd.scopeType;
 		}
+		if(precedence != jd.precedence) {
+			changes = Change.addChange(changes, new Change(this, "precedence", precedence, jd.precedence));
+			precedence = jd.precedence;
+		}
+
 		if(type != jd.type) type = jd.type;
 		if(stateful != jd.stateful) {
 			changes = Change.addChange(changes, new Change(this, "stateful", stateful, jd.stateful));
@@ -178,4 +185,17 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		return changes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamJavaComponentDeclaration#getPrecedence()
+	 */
+	public SeamComponentPrecedenceType getPrecedence() {
+		return precedence;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamJavaComponentDeclaration#setPrecedence(org.jboss.tools.seam.core.SeamComponentPrecedenceType)
+	 */
+	public void setPrecedence(SeamComponentPrecedenceType precedence) {
+		this.precedence = precedence;
+	}
 }
