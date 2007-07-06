@@ -80,9 +80,9 @@ public class SeamJavaValidator extends SeamValidator {
 	private void validateUniqueComponentName(ISeamProject project, ISeamComponent component, IValidationContext helper, IReporter reporter) {
 		ISeamJavaComponentDeclaration firstJavaDeclaration = component.getJavaDeclaration();
 		if(firstJavaDeclaration!=null) {
-			HashMap<SeamComponentPrecedenceType, ISeamJavaComponentDeclaration> usedPrecedences = new HashMap<SeamComponentPrecedenceType, ISeamJavaComponentDeclaration>();
-			SeamComponentPrecedenceType firstJavaDeclarationPrecedence = firstJavaDeclaration.getPrecedence();
-			if(firstJavaDeclarationPrecedence==null) {
+			HashMap<Integer, ISeamJavaComponentDeclaration> usedPrecedences = new HashMap<Integer, ISeamJavaComponentDeclaration>();
+			int firstJavaDeclarationPrecedence = firstJavaDeclaration.getPrecedence();
+			if(firstJavaDeclarationPrecedence < 0) {
 				firstJavaDeclarationPrecedence = ISeamJavaComponentDeclaration.DEFAULT_PRECEDENCE;
 			}
 			usedPrecedences.put(firstJavaDeclarationPrecedence, firstJavaDeclaration);
@@ -91,7 +91,7 @@ public class SeamJavaValidator extends SeamValidator {
 				if(declaration instanceof ISeamJavaComponentDeclaration && declaration!=firstJavaDeclaration) {
 					// Component class with the same component name. Check precedence.
 					ISeamJavaComponentDeclaration javaDeclaration = (ISeamJavaComponentDeclaration)declaration;
-					SeamComponentPrecedenceType javaDeclarationPrecedence = javaDeclaration.getPrecedence();
+					int javaDeclarationPrecedence = javaDeclaration.getPrecedence();
 					ISeamJavaComponentDeclaration usedDeclaration = usedPrecedences.get(javaDeclarationPrecedence);
 					if(usedDeclaration==null) {
 						usedPrecedences.put(javaDeclarationPrecedence, javaDeclaration);

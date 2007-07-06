@@ -17,14 +17,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IParent;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.XModelObject;
@@ -101,10 +99,7 @@ public class LibraryScanner implements IFileScanner {
 		
 		if(componentsXML != null) {
 			LoadedDeclarations ds1 = new XMLScanner().parse(componentsXML, path);
-			if(ds1 != null) {
-				ds.getComponents().addAll(ds1.getComponents());
-				ds.getFactories().addAll(ds1.getFactories());
-			}
+			if(ds1 != null) ds.add(ds1);
 		}
 		if(seamProperties != null) {
 			XModelObject[] properties = seamProperties.getChildren();

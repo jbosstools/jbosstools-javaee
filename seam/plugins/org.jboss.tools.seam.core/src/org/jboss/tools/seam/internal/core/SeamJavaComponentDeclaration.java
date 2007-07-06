@@ -23,7 +23,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
 	protected boolean stateful = false;
 	protected boolean entity = false;
-	protected SeamComponentPrecedenceType precedence;
+	protected int precedence = SeamComponentPrecedenceType.DEFAULT;
 	
 	protected IType type;
 
@@ -185,17 +185,17 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		return changes;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamJavaComponentDeclaration#getPrecedence()
 	 */
-	public SeamComponentPrecedenceType getPrecedence() {
+	public int getPrecedence() {
 		return precedence;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.core.ISeamJavaComponentDeclaration#setPrecedence(org.jboss.tools.seam.core.SeamComponentPrecedenceType)
 	 */
-	public void setPrecedence(SeamComponentPrecedenceType precedence) {
+	public void setPrecedence(int precedence) {
 		this.precedence = precedence;
 	}
 }

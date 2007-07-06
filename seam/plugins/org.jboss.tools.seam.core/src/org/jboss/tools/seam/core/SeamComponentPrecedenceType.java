@@ -14,10 +14,12 @@ package org.jboss.tools.seam.core;
  * List of component precedence types
  * @author Alexey Kazakov
  */
-public enum SeamComponentPrecedenceType {
-	BUILT_IN,
-	FRAMEWORK,
-	APPLICATION,
-	DEPLOYMENT,
-	MOCK
+public interface SeamComponentPrecedenceType {
+	int BUILT_IN = 0;
+	int FRAMEWORK = 10;
+	int APPLICATION = 20;
+	int DEPLOYMENT = 30;
+	int MOCK = 40;
+	
+	int DEFAULT = APPLICATION;
 }

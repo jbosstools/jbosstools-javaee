@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration, ISeamJavaSourceReference {
 
-	public static final SeamComponentPrecedenceType DEFAULT_PRECEDENCE = SeamComponentPrecedenceType.APPLICATION;
+	public static final int DEFAULT_PRECEDENCE = SeamComponentPrecedenceType.APPLICATION;
 
 	/**
 	 * @return qualified class name
@@ -113,11 +113,11 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	/**
 	 * @return precedence of component.
 	 */
-	public SeamComponentPrecedenceType getPrecedence();
+	public int getPrecedence();
 
 	/**
 	 * Sets precedence of component.
 	 * @param precedence
 	 */
-	public void setPrecedence(SeamComponentPrecedenceType precedence);
+	public void setPrecedence(int precedence);
 }

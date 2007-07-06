@@ -37,10 +37,7 @@ import org.eclipse.jdt.core.dom.VariableDeclaration;
  * 
  * @author Viacheslav Kabanovich
  */
-public class ASTVisitorImpl extends ASTVisitor {
-	public static String SEAM_ANNOTATION_TYPE_PREFIX = "org.jboss.seam.annotations.";
-	public static String NAME_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Name";
-	public static String SCOPE_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Scope";
+public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
 	static int UNDEFINED_CONTEXT = -1;
 	static int TYPE_CONTEXT = 0;

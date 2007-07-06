@@ -119,6 +119,7 @@ public class SeamProject implements ISeamProject {
 			loaded.setSourcePath(source);
 			
 			String name = loaded.getName();
+			
 			SeamComponent c = getComponent(name);
 
 			if(current != null) {
@@ -133,17 +134,18 @@ public class SeamProject implements ISeamProject {
 				continue;
 			}
 			
-			if(c == null) {
+			if(c == null && name != null) {
 				c = newComponent(name);
 				allComponents.put(name, c);
 				allVariables.add(c);
 				addedComponents = Change.addChange(addedComponents, new Change(this, null, null, c));
 			}
-			c.addDeclaration(components[i]);
+			if(c != null) c.addDeclaration(components[i]);
 
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
-				javaDeclarations.put(c.getClassName(), (SeamJavaComponentDeclaration)components[i]);
-				Set<ISeamComponent> cs = getComponentsByClass(c.getClassName());
+				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)loaded;
+				javaDeclarations.put(jd.getClassName(), jd);
+				Set<ISeamComponent> cs = getComponentsByClass(jd.getClassName());
 				for (ISeamComponent ci: cs) {
 					if(ci == c) continue;
 					SeamComponent cii = (SeamComponent)ci;
