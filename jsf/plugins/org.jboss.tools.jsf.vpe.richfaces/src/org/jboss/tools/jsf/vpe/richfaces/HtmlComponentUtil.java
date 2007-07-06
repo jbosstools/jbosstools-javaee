@@ -75,6 +75,9 @@ public class HtmlComponentUtil {
 	/** HTML_ALIGN_LEFT_VALUE * */
 	public static final String HTML_ALIGN_LEFT_VALUE = "left";
 
+	/** HTML_ALIGN_CENTER_VALUE * */
+	public static final String HTML_ALIGN_CENTER_VALUE = "center";	
+	
 	/** HTML_ATR_WIDTH */
 	public static final String HTML_ATR_WIDTH = "width";
 
@@ -120,4 +123,9 @@ public class HtmlComponentUtil {
 	 /** HTML_WIDTH_ATTR * */
 	 public static final String HTML_WIDTH_ATTR = "width";
 	 
+	 /** HTML_ATTR_VALIGN */
+	 public static final String HTML_ATTR_VALIGN = "valign";
+	 
+	 /** HTML_ATTR_VALIGN_MIDDLE_VALUE */
+	 public static final String HTML_ATTR_VALIGN_MIDDLE_VALUE = "middle";
 }

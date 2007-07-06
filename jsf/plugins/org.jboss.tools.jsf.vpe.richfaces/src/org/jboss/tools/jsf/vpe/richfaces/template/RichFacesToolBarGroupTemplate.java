@@ -12,12 +12,13 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.template.RichFacesToolBarTemplate.SourceToolBarColumnElements;
+import org.jboss.tools.vpe.VpePlugin;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -30,359 +31,209 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
-  
+	public static final String TAG_NAME = "toolBarGroup";
+	
+	public static final String ATTR_ITEMSEPARATOR_NAME = "itemSeparator";
+	
+	public static final String ATTR_LOCATION_NAME = "location";
+	
+	public static final String ATTR_LOCATION_RIGHT_VALUE = "right";
+	
 	@Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
 		return true;
 	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
-		Map visualNodeMap = pageContext.getDomMapping().getVisualMap();
+	private class SourceToolBarGroupItem {
+		private Node toolBarGroupItem;
+		private String itemSeparator;
 		
-		RichFacesToolBarTemplate.SourceToolBarElements sourceElements = new RichFacesToolBarTemplate.SourceToolBarElements(sourceNode);
-		RichFacesToolBarTemplate.VisualToolBarElements visualElements = new RichFacesToolBarTemplate.VisualToolBarElements();
+		public SourceToolBarGroupItem(Node toolBarGroupItem) {
+			this.toolBarGroupItem = toolBarGroupItem;
+			this.itemSeparator = null;
+		}
 
-		Element sourceElement = (Element)sourceNode;
-		
-		Element visualRow = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
-		visualRow.setAttribute("style", "border: 0px; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;");
+		public SourceToolBarGroupItem(String itemSeparator) {
+			this.toolBarGroupItem = null;
+			this.itemSeparator = itemSeparator;
+		}
 
- 		VpeCreationData creatorInfo = new VpeCreationData(visualRow);
+		public Node getToolBarGroupItem() {
+			return toolBarGroupItem;
+		}
 
-		Element cell = null;
+		public String getItemSeparator() {
+			return itemSeparator;
+		}
 
-		if (true || sourceElements.hasBodySection()) {
-
-			// Columns at left
-			for (int i = 0; i < sourceElements.getColumnAtLeftCount(); i++) {
-				SourceToolBarColumnElements column = sourceElements.getColumnAtLeft(i);
-
-				if (column.hasBody()) {
-					Node columnBody = column.getColumn();
-					cell = visualDocument.createElement("td");
-					ComponentUtil.correctAttribute(sourceElement, cell,
-							RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-int rich-toolbar-item", "dr-toolbar-int rich-toolbar-item");
-					ComponentUtil.correctAttribute(sourceElement, cell,
-							RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME,
-							HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
-						
-					visualRow.appendChild(cell);
+		public boolean isItem() {
+			return toolBarGroupItem != null;
+		}
+	}
 	
-					VpeChildrenInfo info = new VpeChildrenInfo(cell);
-					creatorInfo.addChildrenInfo(info);
-					
-					info.addSourceChild(column.getColumn());
-					MozillaSupports.release(cell);
-				} else if (column.isSeparator()){
-					String itemSeparator = column.getSeparatorType();
-					String separatorImageUrl = RichFacesToolBarTemplate.getSeparatorImageUrlString (itemSeparator);
-					
-					if (separatorImageUrl != null) {
-						// Insert separator here
-						cell = visualDocument.createElement("td");
-						cell.setAttribute("align", "center");
-						ComponentUtil.correctAttribute(sourceElement, cell,
-								RichFacesToolBarTemplate.SEPARATORCLASS_ATTR_NAME,
-								HtmlComponentUtil.HTML_CLASS_ATTR, null, null);
-						Element separatorImage = visualDocument.createElement("img");
-						ComponentUtil.setImg(separatorImage, separatorImageUrl);
-						cell.appendChild(separatorImage);
-						visualRow.appendChild(cell);
-						MozillaSupports.release(separatorImage);
-						MozillaSupports.release(cell);
-					}
-				}
-			}
-			
-			// Columns at right
-			for (int i = 0; i < sourceElements.getColumnAtRightCount(); i++) {
-				SourceToolBarColumnElements column = sourceElements.getColumnAtRight(i);
-				if (column.hasBody()) {
-					Node columnBody = column.getColumn();
-					cell = visualDocument.createElement("td");
-					ComponentUtil.correctAttribute(sourceElement, cell,
-							RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-int rich-toolbar-item", "dr-toolbar-int rich-toolbar-item");
-					ComponentUtil.correctAttribute(sourceElement, cell,
-							RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME,
-							HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
-					visualRow.appendChild(cell);
-	
-					VpeChildrenInfo info = new VpeChildrenInfo(cell);
-					creatorInfo.addChildrenInfo(info);
-					
-					info.addSourceChild(column.getColumn());
-					MozillaSupports.release(cell);
-				} else if (column.isSeparator()){
-					String itemSeparator = column.getSeparatorType();
-					String separatorImageUrl = RichFacesToolBarTemplate.getSeparatorImageUrlString (itemSeparator);
-
-					if (separatorImageUrl != null) {
-						// Insert separator here
-						cell = visualDocument.createElement("td");
-						cell.setAttribute("align", "center");
-						ComponentUtil.correctAttribute(sourceElement, cell,
-								RichFacesToolBarTemplate.SEPARATORCLASS_ATTR_NAME,
-								HtmlComponentUtil.HTML_CLASS_ATTR, null, null);
-						Element separatorImage = visualDocument.createElement("img");
-						ComponentUtil.setImg(separatorImage, separatorImageUrl);
-						cell.appendChild(separatorImage);
-						visualRow.appendChild(cell);
-						MozillaSupports.release(separatorImage);
-						MozillaSupports.release(cell);
-					}
-				}
-			}
-			
-			// Empty column
-			cell = visualDocument.createElement("td");
-			cell.setAttribute("width", "100%");
-			visualRow.appendChild(cell);
-			MozillaSupports.release(cell);
-		}
-
-		Object[] elements = new Object[2];
-		elements[0] = visualElements;
-		elements[1] = sourceElements;
-		visualNodeMap.put(this, elements);
-
-		return creatorInfo;
-	}
-
-	private VisualToolBarGroupElements getVisualToolBarElements(Map visualNodeMap) {
-		if (visualNodeMap != null) {
-			Object o = visualNodeMap.get(this);
-			try {
-				if (o != null && o instanceof Object[] && ((Object[])o)[0] instanceof VisualToolBarGroupElements) {
-					return (VisualToolBarGroupElements)((Object[])o)[0];
-				}
-			} catch (Exception e) {
-			}
-		}
-		return null;
-	}
-
-	private void setRowDisplayStyle(Element row, boolean visible) {
-		if (row != null) {
-			row.setAttribute("style", "display:" + (visible ? "" : "none"));
-		}
-	}
-
-	class SourceToolBarGroupElements {
-		private List columns;
-		Map attributes;
+	private class SourceToolBarGroupItems {
+		private boolean isToolBarGroupLocationRight;
+		private String itemSeparator;
+		boolean isItemSeparatorExists;
+		private List<SourceToolBarGroupItem> toolBarGroupItems = new ArrayList<SourceToolBarGroupItem>();
 		
-		public SourceToolBarGroupElements(Node sourceNode) {
+		public SourceToolBarGroupItems(Node sourceNode, boolean isToolBarGroupLocationRight,
+				String itemSeparator) {
+			this.isToolBarGroupLocationRight = isToolBarGroupLocationRight;
+			this.itemSeparator = itemSeparator;
+			this.isItemSeparatorExists = !(itemSeparator == null
+				|| (itemSeparator != null && itemSeparator.length() == 0)
+				|| RichFacesToolBarTemplate.ITEM_SEPARATOR_NONE.equals(itemSeparator));
+			
 			init(sourceNode);
-			initAttributes(sourceNode);
 		}
 		
-		void initAttributes(Node sourceNode) {
-			NamedNodeMap attrs = sourceNode.getAttributes();
-			attributes = new HashMap<String, String>();
-			for (int i = 0; attrs != null && i < attrs.getLength(); i++) {
-				Node attribute = attrs.item(i);
-				attributes.put(attribute.getNodeName(), attribute.getNodeValue());
-			}
-		}
-		
-		void init (Node sourceNode) {
-			NodeList children = sourceNode.getChildNodes();
-
-			int cnt = children != null ? children.getLength() : 0;
-			if (cnt > 0) {
-				for (int i = 0; i < cnt; i++) {
-					Node child = children.item(i);
-					if (child.getNodeType() == Node.ELEMENT_NODE) {
-						Element childElement = (Element)child;
-						
-						if (childElement.getNodeName().endsWith(":toolBarGroup")) {
-							initToolBarGroup(childElement);
-						} else {
-							if (columns == null) columns = new ArrayList();
-							columns.add(new SourceToolBarGroupColumnElements(child));
-							columns.add(new SourceToolBarGroupColumnElements(null));
-						}
-					} else if (child.getNodeType() == Node.TEXT_NODE) {
-						String text = child.getNodeValue();
-						text = (text == null ? null : text.trim());
-						if (text != null && text.length() > 0) {
-							if (columns == null) columns = new ArrayList();
-							columns.add(new SourceToolBarGroupColumnElements(child));
-							columns.add(new SourceToolBarGroupColumnElements(null));
-						}
+		private void init(Node sourceNode) {
+			NodeList childrenList = sourceNode.getChildNodes();
+			int childrenCount = childrenList.getLength();
+			boolean isFirstItem = true;
+			for (int i=0; i<childrenCount; i++) {
+				Node child = childrenList.item(i);
+				if (child.getNodeType() == Node.ELEMENT_NODE
+						|| isVisibleText(child)) {
+					if (isItemSeparatorExists && isToolBarGroupLocationRight
+							&& !isFirstItem) {
+						toolBarGroupItems.add(new SourceToolBarGroupItem(itemSeparator));
 					}
-				}
-			}
-		}
-
-		void initToolBarGroup(Element sourceElement) {
-			if (sourceElement == null) return;
-			NodeList children = sourceElement.getChildNodes();
-
-			int cnt = children != null ? children.getLength() : 0;
-			if (cnt > 0) {
-				for (int i = 0; i < cnt; i++) {
-					Node child = children.item(i);
-					if (child.getNodeType() == Node.ELEMENT_NODE) {
-						Element childElement = (Element)child;
-						
-						if (childElement.getNodeName().endsWith(":toolBarGroup")) {
-							initToolBarGroup(childElement);
-						} else {
-							if (columns == null) columns = new ArrayList();
-							columns.add(new SourceToolBarGroupColumnElements(child));
-						}
-					} else if (child.getNodeType() == Node.TEXT_NODE) {
-						String text = child.getNodeValue();
-						text = (text == null ? null : text.trim());
-						if (text != null && text.length() > 0) {
-							if (columns == null) columns = new ArrayList();
-							columns.add(new SourceToolBarGroupColumnElements(child));
-						}
+					
+					toolBarGroupItems.add(new SourceToolBarGroupItem(child));
+					
+					if (isItemSeparatorExists && !isToolBarGroupLocationRight
+							&& !isLastItem(childrenList, i)) {
+						toolBarGroupItems.add(new SourceToolBarGroupItem(itemSeparator));
 					}
+					
+					isFirstItem = false;
 				}
 			}
 		}
 		
-		public SourceToolBarGroupColumnElements getColumn(int index) {
-			if (columns != null && index < getColumnCount()) return (SourceToolBarGroupColumnElements)columns.get(index);
-			return null;
-		}
-
-		public int getColumnCount() {
-			if (columns != null) return columns.size();
-			return 0;
-		}
-
-		public boolean hasColspan() {
-			return (getColumnCount()) >= 2;
-		}
-
-		public boolean hasBodySection() {
-			for (int i = 0; i < getColumnCount(); i++) {
-				SourceToolBarGroupColumnElements column = getColumn(i);
-				if (column.hasBody()) return true;
-			}
-			return false;
-		}
-
-		Map getAttributes() {
-			return attributes;
+		private boolean isVisibleText(Node textNode) {
+			return textNode.getNodeType() == Node.TEXT_NODE
+					&& textNode.getNodeValue() != null
+					&& textNode.getNodeValue().trim().length() > 0;
 		}
 		
-		String getAttributeValue(String name) {
-			return (String)attributes.get(name);
-		}
-	}
-	
-	
-	
-	public static class SourceToolBarGroupColumnElements {
-		private Node column;
-		private List body;
-
-		public SourceToolBarGroupColumnElements(Node columnNode) {
-			init(columnNode);
-		}
-
-		private void init(Node columnNode) {
-			column = columnNode;
-			if (columnNode != null) {
-				body = new ArrayList();
-				body.add(columnNode);
+		private boolean isLastItem(NodeList list, int index) {
+			int listLength = list.getLength();
+			
+			for (int i=index+1; i < listLength; i++ ) {
+				Node item = list.item(i);
+				if (item.getNodeType() == Node.ELEMENT_NODE
+						|| isVisibleText(item)) {
+					return false;
+				}
 			}
-		}
-
-		public boolean hasBody() {
-			return body != null && body.size() > 0;
-		}
-
-		public List getBody() {
-			return body;
-		}
-
-		public void setBody(List body) {
-			this.body = body;
-		}
-
-		public void setColumn(Node column) {
-			this.column = column;
-		}
-
-		public int getBodyElementsCount() {
-			if (body != null) return body.size();
-			return 0;
-		}
-
-		public Node getBodyElement(int index) {
-			if (body != null) return (Node)body.get(index);
-			return null;
-		}
-
-		public Node getColumn() {
-			return column;
-		}
-	}
-
-	public static class VisualToolBarGroupElements {
-		private Element body;
-		private Element bodyRow;
-		private List columns;
-
-		public VisualToolBarGroupElements() {
-		}
-		public VisualToolBarGroupElements(Element body) {
-			this.body = body;
+			
+			return true;
 		}
 		
-		private VisualToolBarGroupColumnElements getColumn(int index) {
-			if (columns != null && index < getColumnCount()) return (VisualToolBarGroupColumnElements)columns.get(index);
+		public Iterator<SourceToolBarGroupItem> iterator() {
+			return toolBarGroupItems.iterator();
+		}
+	}
+	
+	
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
+			Document visualDocument) {
+		Element visualNode = null;
+		VpeCreationData creationData = null;
+		
+		Element sourceElement = (Element)sourceNode;
+		String itemSeparator = sourceElement.getAttribute(ATTR_ITEMSEPARATOR_NAME);
+		
+		if (!sourceNode.getParentNode().getNodeName().endsWith(":" + RichFacesToolBarTemplate.TAG_NAME)) {
+			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument, "Parent should be toolBar");
+			
+			creationData = new VpeCreationData(visualNode);
+		} else if (!RichFacesToolBarTemplate.isValidItemSeparatorName(itemSeparator)) {
+			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument,
+					"Unknown type of separator \"" + itemSeparator + "\"");
+			
+			creationData = new VpeCreationData(visualNode);
+		} else {
+		
+			SourceToolBarGroupItems sourceToolBarGroupItems = new SourceToolBarGroupItems(sourceNode,
+					ATTR_LOCATION_RIGHT_VALUE.equals(sourceElement.getAttribute(ATTR_LOCATION_NAME)),
+					itemSeparator);
+			
+			
+			visualNode = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+			visualNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "border: 0px none; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;");
+			Element body = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+			Element row = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+			row.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, HtmlComponentUtil.HTML_ATTR_VALIGN_MIDDLE_VALUE);
+			
+			creationData = new VpeCreationData(visualNode);
+			
+			Iterator<SourceToolBarGroupItem> iterator = sourceToolBarGroupItems.iterator();
+			while(iterator.hasNext()) {
+				SourceToolBarGroupItem toolBarGroupItem = iterator.next();
+				
+				Element cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				if (toolBarGroupItem.isItem()) {
+					ComponentUtil.correctAttribute(sourceElement, cell,
+							RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME,
+							HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-int rich-toolbar-item", "dr-toolbar-int rich-toolbar-item");
+					ComponentUtil.correctAttribute(sourceElement, cell,
+							RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME,
+							HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
+	
+					VpeChildrenInfo childrenInfo = new VpeChildrenInfo(cell);
+					creationData.addChildrenInfo(childrenInfo);
+					childrenInfo.addSourceChild(toolBarGroupItem.getToolBarGroupItem());
+				} else {
+					cell.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, HtmlComponentUtil.HTML_ALIGN_CENTER_VALUE);
+					ComponentUtil.correctAttribute(sourceElement, cell,
+							RichFacesToolBarTemplate.SEPARATORCLASS_ATTR_NAME,
+							HtmlComponentUtil.HTML_CLASS_ATTR, null, null);
+					String separatorImageUrl = RichFacesToolBarTemplate
+							.getSeparatorImageUrlString(toolBarGroupItem.getItemSeparator());
+					Element separatorImage = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					ComponentUtil.setImg(separatorImage, separatorImageUrl);
+					cell.appendChild(separatorImage);
+					MozillaSupports.release(separatorImage);
+				}
+				
+				row.appendChild(cell);
+				MozillaSupports.release(cell);
+			}
+			
+			body.appendChild(row);
+			MozillaSupports.release(row);
+			visualNode.appendChild(body);
+			MozillaSupports.release(body);
+		}
+		
+		return creationData;
+	}
+	
+
+	@Override
+	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
+			Node visualNode, Object data) {
+		String prefix = sourceNode.getPrefix();
+		if (prefix == null) {
 			return null;
 		}
 
-		private int getColumnCount() {
-			if (columns != null) return columns.size();
-			return 0;
+		String parentNodeName = prefix + ":" + RichFacesToolBarTemplate.TAG_NAME;
+		
+		Node parent = sourceNode.getParentNode();
+		while (parent != null) {
+			if (parentNodeName.equals(parent.getNodeName())) {
+				break;
+			}
+			
+			parent = parent.getParentNode();
 		}
-
-		private List getColumns() {
-			if (columns == null) columns = new ArrayList();
-			return columns;
-		}
-
-		public Element getBody() {
-			return body;
-		}
-
-		public void setBody(Element body) {
-			this.body = body;
-		}
-
-		public Element getBodyRow() {
-			return bodyRow;
-		}
-
-		public void setBodyRow(Element bodyRow) {
-			this.bodyRow = bodyRow;
-		}
-	}
-
-	public static class VisualToolBarGroupColumnElements {
-		private Element bodyCell;
-
-		private boolean isEmpty() {
-			return bodyCell == null;
-		}
-
-		public Element getBodyCell() {
-			return bodyCell;
-		}
-
-		public void setBodyCell(Element bodyCell) {
-			this.bodyCell = bodyCell;
-		}
+		
+		return parent;
 	}
 }
 
