@@ -121,6 +121,10 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public boolean isStateful() {
 		return stateful;
 	}
+	
+	public void setStateful(boolean b) {
+		stateful = b;
+	}
 
 	public void removeBijectedAttribute(IBijectedAttribute attribute) {
 		bijectedAttributes.remove(attribute);
@@ -192,7 +196,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		return precedence;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamJavaComponentDeclaration#setPrecedence(org.jboss.tools.seam.core.SeamComponentPrecedenceType)
 	 */
 	public void setPrecedence(int precedence) {

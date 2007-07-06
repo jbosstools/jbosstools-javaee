@@ -97,7 +97,9 @@ public class ClassScanner implements SeamAnnotations {
 		Map<String,Annotation> map = null;
 		for (int i = 0; i < as.length; i++) {
 			Class<?> acls = as[i].annotationType();
-			if(acls.getName().startsWith(SEAM_ANNOTATION_TYPE_PREFIX)) {
+			if(acls.getName().startsWith(SEAM_ANNOTATION_TYPE_PREFIX) ||
+					//TODO put all non-seam relevant annotations to set
+					acls.getName().equals(STATEFUL_ANNOTATION_TYPE)) {
 				if(map == null) map = new HashMap<String, Annotation>();
 				map.put(acls.getName(), as[i]);
 			}
@@ -122,6 +124,10 @@ public class ClassScanner implements SeamAnnotations {
 			if(a != null) {
 				Object precedence = getValue(a, "precedence");
 				if(precedence instanceof Integer) component.setPrecedence((Integer)precedence);
+			}
+			a = map.get(STATEFUL_ANNOTATION_TYPE);
+			if(a != null) {
+				component.setStateful(true);
 			}
 		}
 		Method[] ms = null;

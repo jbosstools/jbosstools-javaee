@@ -155,8 +155,8 @@ public class LibraryScanner implements IFileScanner {
 				IClassFile typeRoot = (IClassFile)es[i];
 				IType type = typeRoot.getType();
 				String className = type.getFullyQualifiedName();
-				if(className.indexOf("ProcessInstanceF") >= 0) {
-					System.out.println("!!");
+				if(className.equals("org.jboss.seam.core.TransactionListener")) {
+//					System.out.println("!!");
 				}
 				
 				Class<?> cls = null;
@@ -178,7 +178,7 @@ public class LibraryScanner implements IFileScanner {
 				if(ds1 != null) {
 					ds.add(ds1);
 				}
-				System.out.println(className);
+//				System.out.println(className);
 			}
 		}
 	}

@@ -16,6 +16,6 @@ public interface SeamAnnotations {
 	public static String FACTORY_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Factory";
 	
 	
-	public static String STATEFUL_TYPE = "javax.ejb.Stateful";
+	public static String STATEFUL_ANNOTATION_TYPE = "javax.ejb.Stateful";
 
 }

@@ -140,6 +140,7 @@ public class SeamProject implements ISeamProject {
 					componentDeclarationsRemoved(old);
 					loaded = current;
 					current = null;
+					c = getComponent(name);
 				} else {
 					continue;
 				}
