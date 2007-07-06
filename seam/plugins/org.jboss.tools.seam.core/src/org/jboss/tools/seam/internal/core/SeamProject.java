@@ -120,6 +120,8 @@ public class SeamProject implements ISeamProject {
 			loaded.setSourcePath(source);
 			
 			String name = loaded.getName();
+
+			boolean nameChanged = current != null && !name.equals(current.getName());
 			
 			SeamComponent c = getComponent(name);
 
@@ -132,16 +134,28 @@ public class SeamProject implements ISeamProject {
 					fireChanges(cchanges);
 					//TODO if java, fire to others
 				}
-				continue;
+				if(nameChanged) {
+					Map<Object,ISeamComponentDeclaration> old = new HashMap<Object, ISeamComponentDeclaration>();
+					old.put(current.getId(), current);
+					componentDeclarationsRemoved(old);
+					loaded = current;
+					current = null;
+				} else {
+					continue;
+				}
 			}
 			
 			if(c == null && name != null) {
 				c = newComponent(name);
 				allComponents.put(name, c);
 				allVariables.add(c);
+				c.addDeclaration(loaded);
 				addedComponents = Change.addChange(addedComponents, new Change(this, null, null, c));
+			} else if(c != null) {
+				c.addDeclaration(loaded);
+				List<Change> changes = Change.addChange(null, new Change(c, null, null, loaded));
+				fireChanges(changes);
 			}
-			if(c != null) c.addDeclaration(components[i]);
 
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)loaded;
@@ -155,7 +169,7 @@ public class SeamProject implements ISeamProject {
 					fireChanges(changes);
 				}
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
-				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)components[i];
+				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
 				String className = xml.getClassName();
 				SeamJavaComponentDeclaration j = javaDeclarations.get(className);
 				if(j != null) {
@@ -250,7 +264,9 @@ public class SeamProject implements ISeamProject {
 				if(removed.containsKey(ds[i].getId())) {
 					if(ds[i] instanceof ISeamJavaComponentDeclaration) {
 						String className = ((ISeamJavaComponentDeclaration)ds[i]).getClassName();
-						javaDeclarations.remove(className);
+						if(javaDeclarations.get(className) == ds[i]) {
+							javaDeclarations.remove(className);
+						}
 					}
 					c.removeDeclaration(ds[i]);
 					changes = Change.addChange(changes, new Change(c, null, ds[i], null));

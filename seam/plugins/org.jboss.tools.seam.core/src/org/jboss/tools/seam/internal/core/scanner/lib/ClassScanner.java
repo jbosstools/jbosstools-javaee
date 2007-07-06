@@ -133,6 +133,16 @@ public class ClassScanner implements SeamAnnotations {
 		if(ms != null) for (int i = 0; i < ms.length; i++) {
 			process(ms[i], component, ds);
 		}
+		
+		Field[] fs = null;
+		try {
+			fs = cls.getFields();
+		} catch (NoClassDefFoundError e) {
+			//ignore
+		}
+		if(fs != null) for (int i = 0; i < fs.length; i++) {
+			//TODO
+		}
 	}
 
 	private void process(Method m, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
