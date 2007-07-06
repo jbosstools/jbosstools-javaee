@@ -10,18 +10,22 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
-import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class SeamAnnotatedFactory extends SeamFactory implements ISeamAnnotatedFactory {
 	IMethod javaSource = null;
+	boolean autoCreate = false;
 
 	public IMethod getSourceMethod() {
 		return javaSource;
@@ -33,6 +37,14 @@ public class SeamAnnotatedFactory extends SeamFactory implements ISeamAnnotatedF
 
 	public IMember getSourceMember() {
 		return javaSource;
+	}
+
+	public boolean isAutoCreate() {
+		return autoCreate;
+	}
+	
+	public void setAutoCreate(boolean autoCreate) {
+		this.autoCreate = autoCreate;
 	}
 
 	public int getLength() {
@@ -59,6 +71,18 @@ public class SeamAnnotatedFactory extends SeamFactory implements ISeamAnnotatedF
 			//ignore
 			return 0;
 		}
+	}
+
+	public List<Change> merge(SeamFactory f) {
+		List<Change> changes = super.merge(f);
+		SeamAnnotatedFactory af = (SeamAnnotatedFactory)f;
+
+		if(autoCreate != af.autoCreate) {
+			changes = Change.addChange(changes, new Change(this, ISeamXmlComponentDeclaration.AUTO_CREATE, autoCreate, af.autoCreate));
+			autoCreate = af.autoCreate;
+		}
+	
+		return changes;
 	}
 
 }

@@ -15,5 +15,7 @@ package org.jboss.tools.seam.core;
  * @author Alexey Kazakov
  */
 public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamJavaSourceReference {
+	
+	boolean isAutoCreate();
 
 }

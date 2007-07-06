@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
@@ -53,7 +54,7 @@ public class ClassScanner implements SeamAnnotations {
 		component.setSourcePath(path);
 		component.setId(type);
 		component.setClassName(type.getFullyQualifiedName());
-		process(cls, component);
+		process(cls, component, ds);
 		
 		ds.getComponents().add(component);
 		return ds;		
@@ -89,7 +90,7 @@ public class ClassScanner implements SeamAnnotations {
 		return map;
 	}
 	
-	private void process(Class<?> cls, SeamJavaComponentDeclaration component) {
+	private void process(Class<?> cls, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
 		Map<String, Annotation> map = getSeamAnnotations(cls.getAnnotations());
 		if(map != null) {
 			Annotation a = map.get(NAME_ANNOTATION_TYPE);
@@ -110,20 +111,23 @@ public class ClassScanner implements SeamAnnotations {
 		}
 		Method[] ms = cls.getMethods();
 		for (int i = 0; i < ms.length; i++) {
-			map = getSeamAnnotations(ms[i].getAnnotations());
-			if(map == null || map.isEmpty()) continue;
-			
-			
+			process(ms[i], component, ds);
 		}
 	}
-	
+
+	private void process(Method m, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
+		Map<String,Annotation> map = getSeamAnnotations(m.getAnnotations());
+		if(map == null || map.isEmpty()) return;
+		
+	}
+
 	private Object getValue(Annotation a, String method) {
 		try {
 			Method m = a.annotationType().getMethod(method, new Class[0]);
 			if(m == null) return null;
 			return m.invoke(a, new Object[0]);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			SeamCorePlugin.getPluginLog().logError(e);
 		}
 		return null;
 	}
