@@ -50,7 +50,7 @@
       </project-facet>
       <project-facet-version
             facet="jst.seam"
-            version="1.2">
+            version="2.0">
          <constraint>
             <and>
                <requires
@@ -61,14 +61,18 @@
                      facet="jst.jsf"
                      version="[1.1">
                </requires>
+               <requires
+                     facet="jst.java"
+                     version="[5.0">
+               </requires>
             </and>
          </constraint>
       </project-facet-version>
       <action
             facet="jst.seam"
-            id="jst.seam.1.2.install"
+            id="jst.seam.2.0.install"
             type="install"
-            version="1.2">
+            version="2.0">
          <delegate
                class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDelegete">
          </delegate>
@@ -78,9 +82,9 @@
       </action>
       <action
             facet="jst.seam"
-            id="jst.seam.1.2.uninstall"
+            id="jst.seam.2.0.uninstall"
             type="uninstall"
-            version="1.2">
+            version="2.0">
          <delegate
                class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetUninstallDelegate">
          </delegate>
@@ -91,13 +95,27 @@
       <supported>
          <facet
                id="jst.seam"
-               version="1.2">
+               version="2.0">
          </facet>
          <runtime-component
                any="true">
          </runtime-component>
       </supported>
    </extension>
+ <extension
+       point="org.eclipse.wst.common.project.facet.core.presets">
+       <static-preset
+           id="preset.jst.seam.v2_0">
+	    <label>Seam 2.0 project</label>
+	    <facet id="jst.java" version="5.0" />
+	    <facet id="jst.web" version="2.4"/>
+	    <facet id="jst.jsf" version="1.1" />
+	    <facet id="jst.seam" version="2.0"/>
+     <description>
+        Seam 2.0 project
+     </description>
+     </static-preset>
+ </extension>
 
    <extension
         point="org.eclipse.wst.validation.validator"

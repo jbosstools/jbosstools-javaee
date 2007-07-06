@@ -54,8 +54,8 @@ public class AntCopyUtils {
 		}
 	}
 	
-	public static void copyFile(File source, File dest, boolean override) {
-			copyFileToFolder(source, new File(dest,source.getName()),new FilterSetCollection(),override);
+	public static void copyFileToFolder(File source, File dest, boolean override) {
+			copyFileToFolder(source, dest,new FilterSetCollection(),override);
 	}
 	
 	public static void copyFileToFolder(File source, File dest, FilterSetCollection filterSetCollection, boolean override ) {

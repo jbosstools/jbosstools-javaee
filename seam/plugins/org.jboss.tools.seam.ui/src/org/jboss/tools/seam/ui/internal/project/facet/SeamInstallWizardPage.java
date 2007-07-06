@@ -102,10 +102,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
 			"Session Bean Package Name:","com.mydomain.projectname.session");
 	IFieldEditor entityBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
-			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
+			ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME,
 			"Entity Bean Package Name:","com.mydomain.projectname.entity");
 	IFieldEditor testsPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
-			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
+			ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
 			"Session Bean Package Name:","com.mydomain.projectname.test");
 	
 	/**
