@@ -13,9 +13,11 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
@@ -29,6 +31,8 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	 * Path of resource where this component is declared.
 	 */
 	protected IPath source;
+	
+	protected IResource resource;
 
 	/**
 	 * Object that allows to identify this declaration.
@@ -70,8 +74,14 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	}
 
 	public IResource getResource() {
-		// TODO Auto-generated method stub
-		return null;
+		if(resource == null && source != null) {
+			resource = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
+		}
+		return resource;
+	}
+	
+	public void setResource(IResource resource) {
+		this.resource = resource;
 	}
 
 	public int getStartPosition() {

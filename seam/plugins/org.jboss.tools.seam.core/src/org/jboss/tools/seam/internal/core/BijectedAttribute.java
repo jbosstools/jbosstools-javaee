@@ -10,74 +10,37 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
-import org.jboss.tools.seam.core.ScopeType;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class BijectedAttribute implements IBijectedAttribute {
-	IMember javaSource = null;
-	BijectedAttributeType type = null;
-	String name = null;
-	ScopeType scopeType = ScopeType.UNSPECIFIED;
+public class BijectedAttribute extends SeamJavaContextVariable implements IBijectedAttribute {
+	BijectedAttributeType[] types = null;
+	
+	public BijectedAttribute() {		
+	}
 
 	public void setMember(IMember javaSource) {
 		this.javaSource = javaSource;
 	}
 
-	public BijectedAttributeType getType() {
-		return type;
+	public BijectedAttributeType[] getTypes() {
+		return types;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public ScopeType getScope() {
-		return scopeType;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setScope(ScopeType type) {
-		this.scopeType = type;
-	}
-
-	public IMember getSourceMember() {
-		return javaSource;
-	}
-
-	public int getLength() {
-		if(javaSource == null) return 0;
-		try {
-			if(javaSource.getSourceRange() == null) return 0;
-			return javaSource.getSourceRange().getLength();
-		} catch (JavaModelException e) {
-			//ignore
-			return 0;
+	
+	public boolean isOfType(BijectedAttributeType type) {
+		if(types == null) return false;
+		for (int i = 0; i < types.length; i++) {
+			if(types[i] == type) return true;
 		}
+		return false;
 	}
 
-	public IResource getResource() {
-		return javaSource == null ? null : javaSource.getTypeRoot().getResource();
-	}
-
-	public int getStartPosition() {
-		if(javaSource == null) return 0;
-		try {
-			if(javaSource.getSourceRange() == null) return 0;
-			return javaSource.getSourceRange().getOffset();
-		} catch (JavaModelException e) {
-			//ignore
-			return 0;
-		}
+	public void setTypes(BijectedAttributeType[] types) {
+		this.types = types;
 	}
 
 }

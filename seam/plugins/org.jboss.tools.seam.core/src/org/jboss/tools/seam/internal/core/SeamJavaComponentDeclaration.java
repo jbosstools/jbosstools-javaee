@@ -86,7 +86,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			BijectedAttributeType type) {
 		Set<IBijectedAttribute> result = null;
 		for(IBijectedAttribute a: getBijectedAttributes()) {
-			if(type.equals(a.getType())) {
+			if(a.isOfType(type)) {
 				if(result == null) result = new HashSet<IBijectedAttribute>();
 				result.add(a);
 			}
@@ -102,7 +102,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			SeamComponentMethodType type) {
 		Set<ISeamComponentMethod> result = null;
 		for(ISeamComponentMethod a: getMethods()) {
-			if(type.equals(a.getType())) {
+			if(a.isOfType(type)) {
 				if(result == null) result = new HashSet<ISeamComponentMethod>();
 				result.add(a);
 			}

@@ -13,8 +13,8 @@ package org.jboss.tools.seam.internal.core.scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
-import org.jboss.tools.seam.internal.core.SeamFactory;
 
 /**
  * This object keeps all declarations loaded from one source.
@@ -23,13 +23,13 @@ import org.jboss.tools.seam.internal.core.SeamFactory;
  */
 public class LoadedDeclarations {
 	List<SeamComponentDeclaration> components = new ArrayList<SeamComponentDeclaration>();
-	List<SeamFactory> factories = new ArrayList<SeamFactory>();
+	List<ISeamFactory> factories = new ArrayList<ISeamFactory>();
 	
 	public List<SeamComponentDeclaration> getComponents() {
 		return components;
 	}
 	
-	public List<SeamFactory> getFactories() {
+	public List<ISeamFactory> getFactories() {
 		return factories;
 	}
 	

@@ -155,6 +155,9 @@ public class LibraryScanner implements IFileScanner {
 				IClassFile typeRoot = (IClassFile)es[i];
 				IType type = typeRoot.getType();
 				String className = type.getFullyQualifiedName();
+				if(className.indexOf("ProcessInstanceF") >= 0) {
+					System.out.println("!!");
+				}
 				
 				Class<?> cls = null;
 				try {

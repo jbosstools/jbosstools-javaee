@@ -18,7 +18,20 @@ package org.jboss.tools.seam.core;
 public interface ISeamComponentMethod extends ISeamJavaSourceReference {
 
 	/**
-	 * @return method type
+	 * @return is @ Create method
 	 */
-	public SeamComponentMethodType getType();
+	public boolean isCreate();
+	
+	/**
+	 * @return is @ Destroy method
+	 */
+	public boolean isDestroy();
+	
+	/**
+	 * Returns create or destroy depending on type
+	 * @param type
+	 * @return
+	 */
+	public boolean isOfType(SeamComponentMethodType type);
+	
 }

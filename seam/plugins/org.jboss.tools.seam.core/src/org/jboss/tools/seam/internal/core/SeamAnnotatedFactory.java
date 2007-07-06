@@ -12,10 +12,7 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.event.Change;
@@ -23,20 +20,15 @@ import org.jboss.tools.seam.core.event.Change;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamAnnotatedFactory extends SeamFactory implements ISeamAnnotatedFactory {
-	IMethod javaSource = null;
+public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISeamAnnotatedFactory {
 	boolean autoCreate = false;
 
 	public IMethod getSourceMethod() {
-		return javaSource;
+		return (IMethod)javaSource;
 	}
 	
 	public void setMethod(IMethod method) {
 		this.javaSource = method;
-	}
-
-	public IMember getSourceMember() {
-		return javaSource;
 	}
 
 	public boolean isAutoCreate() {
@@ -47,33 +39,7 @@ public class SeamAnnotatedFactory extends SeamFactory implements ISeamAnnotatedF
 		this.autoCreate = autoCreate;
 	}
 
-	public int getLength() {
-		if(javaSource == null) return 0;
-		try {
-			if(javaSource.getSourceRange() == null) return 0;
-			return javaSource.getSourceRange().getLength();
-		} catch (JavaModelException e) {
-			//ignore
-			return 0;
-		}
-	}
-
-	public IResource getResource() {
-		return javaSource == null ? null : javaSource.getTypeRoot().getResource();
-	}
-
-	public int getStartPosition() {
-		if(javaSource == null) return 0;
-		try {
-			if(javaSource.getSourceRange() == null) return 0;
-			return javaSource.getSourceRange().getOffset();
-		} catch (JavaModelException e) {
-			//ignore
-			return 0;
-		}
-	}
-
-	public List<Change> merge(SeamFactory f) {
+	public List<Change> merge(AbstractContextVariable f) {
 		List<Change> changes = super.merge(f);
 		SeamAnnotatedFactory af = (SeamAnnotatedFactory)f;
 

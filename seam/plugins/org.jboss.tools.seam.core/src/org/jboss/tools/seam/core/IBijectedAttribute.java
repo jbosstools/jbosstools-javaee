@@ -19,5 +19,13 @@ public interface IBijectedAttribute extends ISeamContextVariable, ISeamJavaSourc
 	/**
 	 * @return type of attribute
 	 */
-	public BijectedAttributeType getType();
+	public BijectedAttributeType[] getTypes();
+
+	/**
+	 * Checks if type is contained in list of types.
+	 * @param type
+	 * @return
+	 */
+	public boolean isOfType(BijectedAttributeType type);
+
 }

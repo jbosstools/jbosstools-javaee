@@ -11,13 +11,22 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.AbstractContextVariable;
+import org.jboss.tools.seam.internal.core.BijectedAttribute;
+import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
@@ -53,10 +62,16 @@ public class ClassScanner implements SeamAnnotations {
 		SeamJavaComponentDeclaration component = new SeamJavaComponentDeclaration();
 		component.setSourcePath(path);
 		component.setId(type);
+		component.setType(type);
 		component.setClassName(type.getFullyQualifiedName());
 		process(cls, component, ds);
 		
 		ds.getComponents().add(component);
+		for (int i = 0; i < ds.getFactories().size(); i++) {
+			AbstractContextVariable f = (AbstractContextVariable)ds.getFactories().get(i);
+			f.setSourcePath(path);
+			f.getId();
+		}
 		return ds;		
 	}
 	
@@ -109,8 +124,13 @@ public class ClassScanner implements SeamAnnotations {
 				if(precedence instanceof Integer) component.setPrecedence((Integer)precedence);
 			}
 		}
-		Method[] ms = cls.getMethods();
-		for (int i = 0; i < ms.length; i++) {
+		Method[] ms = null;
+		try {
+			ms = cls.getMethods();
+		} catch (NoClassDefFoundError e) {
+			//ignore
+		}
+		if(ms != null) for (int i = 0; i < ms.length; i++) {
 			process(ms[i], component, ds);
 		}
 	}
@@ -118,6 +138,59 @@ public class ClassScanner implements SeamAnnotations {
 	private void process(Method m, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
 		Map<String,Annotation> map = getSeamAnnotations(m.getAnnotations());
 		if(map == null || map.isEmpty()) return;
+		Annotation a = map.get(FACTORY_ANNOTATION_TYPE);
+		if(a != null) {
+			processFactory(m, a, component, ds);
+		}
+		Annotation in = map.get(IN_ANNOTATION_TYPE);
+		Annotation out = map.get(OUT_ANNOTATION_TYPE);
+		if(in != null || out != null) {
+			processBijection(m, in, out, component, ds);
+		}
+	}
+	
+	private void processFactory(Method m, Annotation a, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
+		if(a == null) return;
+		String name = (String)getValue(a, "value");
+		if(name == null || name.length() == 0) {
+			name = m.getName();
+		}
+		SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
+		ds.getFactories().add(factory);
+		IMethod im = findIMethod(component, m);
+		
+		factory.setId(im);
+		factory.setMethod(im);
+		factory.setName(name);
+			
+		Object scope = getValue(a, "scope");
+		if(scope != null) factory.setScopeAsString(scope.toString());
+		Object autoCreate = getValue(a, "autoCreate");
+		if(autoCreate instanceof Boolean) {
+			factory.setAutoCreate((Boolean)autoCreate);
+		}
+	}
+	
+	private void processBijection(Member m, Annotation in, Annotation out, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
+		if(in == null && out == null) return;
+		BijectedAttribute att = new BijectedAttribute();
+		component.getBijectedAttributes().add(att);
+
+		BijectedAttributeType[] types = (in == null) ? new BijectedAttributeType[]{BijectedAttributeType.OUT}
+			: (out == null) ? new BijectedAttributeType[]{BijectedAttributeType.IN}
+			: new BijectedAttributeType[]{BijectedAttributeType.IN, BijectedAttributeType.OUT};
+		att.setTypes(types);
+
+		String name = (String)getValue(in != null ? in : out, "value");
+		if(name == null || name.length() == 0) {
+			name = m.getName();
+		}
+		att.setName(name);
+		Object scope = getValue(in != null ? in : out, "scope");
+		if(scope != null) att.setScopeAsString(scope.toString());
+
+		IMember im = findIMember(component, m);
+		att.setMember(im);
 		
 	}
 
@@ -130,6 +203,25 @@ public class ClassScanner implements SeamAnnotations {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 		return null;
+	}
+
+	private IMember findIMember(SeamJavaComponentDeclaration component, Member m) {
+		if(m instanceof Field) return findIField(component, (Field)m);
+		if(m instanceof Method) return findIMethod(component, (Method)m);
+		return null;
+	}
+
+	private IMethod findIMethod(SeamJavaComponentDeclaration component, Method m) {
+		IType type = (IType)component.getSourceMember();
+		Class<?>[] ps = m.getParameterTypes();
+		String[] params = new String[ps == null ? 0 : ps.length];
+		for (int i = 0; i < ps.length; i++) params[i] = ps[i].getName();
+		return type.getMethod(m.getName(), params);
+	}
+
+	private IField findIField(SeamJavaComponentDeclaration component, Field m) {
+		IType type = (IType)component.getSourceMember();
+		return type.getField(m.getName());
 	}
 
 }

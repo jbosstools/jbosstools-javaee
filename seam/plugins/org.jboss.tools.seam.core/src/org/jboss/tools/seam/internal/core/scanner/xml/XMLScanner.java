@@ -25,7 +25,6 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
-import org.jboss.tools.seam.internal.core.SeamFactory;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamXmlFactory;

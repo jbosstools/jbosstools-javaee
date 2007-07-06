@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -104,7 +103,7 @@ public class SeamProject implements ISeamProject {
 	public void registerComponents(LoadedDeclarations ds, IPath source) {
 		
 		SeamComponentDeclaration[] components = ds.getComponents().toArray(new SeamComponentDeclaration[0]);
-		SeamFactory[] factories = ds.getFactories().toArray(new SeamFactory[0]);
+		ISeamFactory[] factories = ds.getFactories().toArray(new ISeamFactory[0]);
 		
 		if(components.length == 0 && factories.length == 0) {
 			pathRemoved(source);
@@ -173,15 +172,15 @@ public class SeamProject implements ISeamProject {
 		Map<Object, ISeamFactory> currentFactories = findFactoryDeclarations(source);
 		List<Change> addedFactories = null;
 		for (int i = 0; i < factories.length; i++) {
-			SeamFactory loaded = factories[i];
-			SeamFactory current = (SeamFactory)currentFactories.remove(loaded.getId());
+			AbstractContextVariable loaded = (AbstractContextVariable)factories[i];
+			AbstractContextVariable current = (AbstractContextVariable)currentFactories.remove(loaded.getId());
 			if(current != null) {
 				List<Change> changes = current.merge(loaded);
 				fireChanges(changes);
 				continue;
 			}
-			allFactories.add(loaded);
-			allVariables.add(loaded);
+			allFactories.add(factories[i]);
+			allVariables.add(factories[i]);
 			addedFactories = Change.addChange(addedFactories, new Change(this, null, null, loaded));
 		}
 		fireChanges(addedFactories); 
@@ -220,7 +219,7 @@ public class SeamProject implements ISeamProject {
 		}
 		Iterator<ISeamFactory> factories = allFactories.iterator();
 		while(factories.hasNext()) {
-			SeamFactory f = (SeamFactory)factories.next();
+			AbstractContextVariable f = (AbstractContextVariable)factories.next();
 			if(source.equals(f.getSourcePath())) {
 				List<Change> changes = Change.addChange(null, new Change(this, null, f, null));
 				factories.remove();
@@ -269,8 +268,8 @@ public class SeamProject implements ISeamProject {
 	public Map<Object,ISeamFactory> findFactoryDeclarations(IPath source) {
 		Map<Object,ISeamFactory> map = new HashMap<Object, ISeamFactory>();
 		for (ISeamFactory c: allFactories) {
-			SeamFactory ci = (SeamFactory)c;
-			if(source.equals(ci.getSourcePath())) map.put(ci.getId(), ci);
+			AbstractContextVariable ci = (AbstractContextVariable)c;
+			if(source.equals(ci.getSourcePath())) map.put(ci.getId(), c);
 		}		
 		return map;
 	}
@@ -279,7 +278,7 @@ public class SeamProject implements ISeamProject {
 		Iterator<ISeamFactory> iterator = allFactories.iterator();
 		List<Change> changes = null;
 		while(iterator.hasNext()) {
-			SeamFactory c = (SeamFactory)iterator.next();
+			AbstractContextVariable c = (AbstractContextVariable)iterator.next();
 			if(removed.containsKey(c.getId())) {
 				iterator.remove();
 				allVariables.remove(c);

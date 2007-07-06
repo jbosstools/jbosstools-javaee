@@ -12,14 +12,13 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamXmlFactory extends SeamFactory implements ISeamXmlFactory {
+public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlFactory {
 	String method = null;
 	String value = null;
 
@@ -39,22 +38,7 @@ public class SeamXmlFactory extends SeamFactory implements ISeamXmlFactory {
 		this.value = value;
 	}
 
-	public int getLength() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public IResource getResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getStartPosition() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public List<Change> merge(SeamFactory f) {
+	public List<Change> merge(AbstractContextVariable f) {
 		List<Change> changes = super.merge(f);
 		SeamXmlFactory xf = (SeamXmlFactory)f;
 

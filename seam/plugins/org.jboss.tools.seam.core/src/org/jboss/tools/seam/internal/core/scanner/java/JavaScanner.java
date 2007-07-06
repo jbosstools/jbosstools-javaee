@@ -75,7 +75,7 @@ public class JavaScanner implements IFileScanner {
 	public LoadedDeclarations parse(IFile f) throws Exception {
 		ICompilationUnit u = getCompilationUnit(f);
 		if(u == null) return null;
-		ASTRequestorImpl requestor = new ASTRequestorImpl(f.getFullPath());
+		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
 		ASTParser.newParser(AST.JLS3).createASTs(us, new String[0], requestor, null);
 		return requestor.getDeclarations();
@@ -101,10 +101,12 @@ public class JavaScanner implements IFileScanner {
 	class ASTRequestorImpl extends ASTRequestor {
 		private ASTVisitorImpl visitor = new ASTVisitorImpl();
 		LoadedDeclarations ds = new LoadedDeclarations();
+		IResource resource;
 		IPath sourcePath;
 		
-		public ASTRequestorImpl(IPath sourcePath) {
-			this.sourcePath = sourcePath;
+		public ASTRequestorImpl(IResource resource) {
+			this.resource = resource;
+			this.sourcePath = resource.getFullPath();
 		}
 
 		public LoadedDeclarations getDeclarations() {
@@ -130,6 +132,7 @@ public class JavaScanner implements IFileScanner {
 				
 				component.setId(visitor.type);
 				component.setSourcePath(sourcePath);
+				component.setResource(resource);
 
 				ds.getComponents().add(component);
 				component.setType(visitor.type);
