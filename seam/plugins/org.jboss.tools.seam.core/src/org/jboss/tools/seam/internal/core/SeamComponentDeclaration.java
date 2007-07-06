@@ -113,7 +113,7 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 		// TODO
 		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
 			public int getLength() {
-				return 0;
+				return 10;
 			}
 
 			public IResource getResource() {

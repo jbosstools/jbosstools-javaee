@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,14 +20,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
@@ -430,4 +432,20 @@ public class SeamProject implements ISeamProject {
 		listeners.remove(listener);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByResource(org.eclipse.core.resources.IResource)
+	 */
+	public Set<ISeamComponent> getComponentsByResource(IResource resource) {
+		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
+		for (SeamComponent c: allComponents.values()) {
+			for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
+				SeamComponentDeclaration di = (SeamComponentDeclaration)d;
+				if(resource.equals(di.getResource())) {
+					result.add(c);
+					break;
+				}
+			}
+		}
+		return result;
+	}
 }

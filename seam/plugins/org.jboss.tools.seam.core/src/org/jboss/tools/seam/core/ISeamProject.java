@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 
 public interface ISeamProject extends IProjectNature {
@@ -34,6 +35,12 @@ public interface ISeamProject extends IProjectNature {
 	 * @return Set of ISeamComponents by Scope Type.
 	 */
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type);
+
+	/**
+	 * @param resource of ISeamComponentDeclaration that belongs to component
+	 * @return Set of ISeamComponents by resource.
+	 */
+	public Set<ISeamComponent> getComponentsByResource(IResource resource);
 
 	/**
 	 * @param className

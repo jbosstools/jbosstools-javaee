@@ -20,14 +20,14 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 
 /**
+ * Basic seam validator.
  * @author Alexey Kazakov
- *
  */
 public abstract class SeamValidator implements IValidatorJob {
 
 	private IValidationContext helper;
 	private IReporter reporter;
-	
+
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
 		this.helper = helper;
 		this.reporter = reporter;
@@ -42,13 +42,12 @@ public abstract class SeamValidator implements IValidatorJob {
 		validateInJob(helper, reporter);
 	}
 
-	protected String getBundleName() {
-		// TODO
-		return "seamvalitation";
+	protected String getBaseName() {
+		return "org.jboss.tools.seam.internal.core.validation.messages";
 	}
 
 	protected void addError(String messageId, String[] messageArguments, ISeamTextSourceReference target) {
-		IMessage message = new Message(getBundleName(), IMessage.HIGH_SEVERITY, messageId, messageArguments, target.getResource());
+		IMessage message = new Message(getBaseName(), IMessage.HIGH_SEVERITY, messageId, messageArguments, target.getResource());
 		message.setLength(target.getLength());
 		message.setOffset(target.getStartPosition());
 		reporter.addMessage(this, message);

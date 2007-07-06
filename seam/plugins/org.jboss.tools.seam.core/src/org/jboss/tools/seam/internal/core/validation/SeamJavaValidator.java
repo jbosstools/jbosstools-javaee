@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -27,13 +28,15 @@ import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
-import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 
+/**
+ * Validator for Java files.
+ * @author Alexey Kazakov
+ */
 public class SeamJavaValidator extends SeamValidator {
 
-	// TODO
-	public static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID="";
+	public static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID="NONUNIQUE_COMPONENT_NAME_MESSAGE";
 
 	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
 		// TODO
@@ -52,7 +55,10 @@ public class SeamJavaValidator extends SeamValidator {
 			for (int i = 0; i < uris.length && !reporter.isCancelled(); i++) {
 				currentFile = root.getFile(new Path(uris[i]));
 				if (currentFile != null && currentFile.exists()) {
-					System.out.println(currentFile);
+					Set<ISeamComponent> components = project.getComponentsByResource(currentFile);
+					for (ISeamComponent component : components) {
+						validateUniqueComponentName(project, component, helper, reporter);
+					}
 					// TODO
 				}
 			}
@@ -69,6 +75,7 @@ public class SeamJavaValidator extends SeamValidator {
 	private IStatus validateAll(ISeamProject project, IValidationContext helper, IReporter reporter) {
 		Set<ISeamComponent> components = project.getComponents();
 		for (ISeamComponent component : components) {
+			validateUniqueComponentName(project, component, helper, reporter);
 			// TODO
 		}
 		return OK_STATUS;
@@ -81,10 +88,8 @@ public class SeamJavaValidator extends SeamValidator {
 		ISeamJavaComponentDeclaration firstJavaDeclaration = component.getJavaDeclaration();
 		if(firstJavaDeclaration!=null) {
 			HashMap<Integer, ISeamJavaComponentDeclaration> usedPrecedences = new HashMap<Integer, ISeamJavaComponentDeclaration>();
+			Set<ISeamJavaComponentDeclaration> markedDeclarations = new HashSet<ISeamJavaComponentDeclaration>();
 			int firstJavaDeclarationPrecedence = firstJavaDeclaration.getPrecedence();
-			if(firstJavaDeclarationPrecedence < 0) {
-				firstJavaDeclarationPrecedence = ISeamJavaComponentDeclaration.DEFAULT_PRECEDENCE;
-			}
 			usedPrecedences.put(firstJavaDeclarationPrecedence, firstJavaDeclaration);
 			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
 			for (ISeamComponentDeclaration declaration : declarations) {
@@ -92,11 +97,19 @@ public class SeamJavaValidator extends SeamValidator {
 					// Component class with the same component name. Check precedence.
 					ISeamJavaComponentDeclaration javaDeclaration = (ISeamJavaComponentDeclaration)declaration;
 					int javaDeclarationPrecedence = javaDeclaration.getPrecedence();
-					ISeamJavaComponentDeclaration usedDeclaration = usedPrecedences.get(javaDeclarationPrecedence);
-					if(usedDeclaration==null) {
+					ISeamJavaComponentDeclaration checkedDeclaration = usedPrecedences.get(javaDeclarationPrecedence);
+					if(checkedDeclaration==null) {
 						usedPrecedences.put(javaDeclarationPrecedence, javaDeclaration);
 					} else {
 						// Mark nonunique name.
+						if(!markedDeclarations.contains(checkedDeclaration)) {
+							// Mark first wrong declaration
+							ISeamTextSourceReference target = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, target);
+							markedDeclarations.add(checkedDeclaration);
+						}
+						// Mark next wrong declaration
+						markedDeclarations.add(javaDeclaration);
 						ISeamTextSourceReference target = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 						addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, target);
 					}
