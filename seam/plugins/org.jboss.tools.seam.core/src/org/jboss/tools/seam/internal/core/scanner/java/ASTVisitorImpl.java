@@ -82,6 +82,10 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 	
 	String resolveType(Annotation node) {
+		return resolveType(type, node);
+	}
+
+	static String resolveType(IType type, Annotation node) {
 		Name nm = node.getTypeName();
 		if(nm instanceof SimpleName) {
 			SimpleName sn = (SimpleName)nm;
@@ -96,7 +100,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 		return null;
 	}
 
-	boolean isSeamAnnotationType(String n) {
+	static boolean isSeamAnnotationType(String n) {
 		return n != null && (n.startsWith(SEAM_ANNOTATION_TYPE_PREFIX)
 		  || n.equals(STATEFUL_ANNOTATION_TYPE));
 	}

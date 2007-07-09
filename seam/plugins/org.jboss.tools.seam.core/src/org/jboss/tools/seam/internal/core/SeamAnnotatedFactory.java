@@ -28,8 +28,6 @@ import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISeamAnnotatedFactory {
 	boolean autoCreate = false;
 
-	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
-	
 	public IMethod getSourceMethod() {
 		return (IMethod)javaSource;
 	}
@@ -82,16 +80,6 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		return reference;
 	}
 	
-	public void setName(ValueInfo value) {
-		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
-		name = value == null ? null : value.getValue();
-	}
-
-	public void setScope(ValueInfo value) {
-		attributes.put(ISeamXmlComponentDeclaration.SCOPE, value);
-		setScopeAsString(value == null ? null : value.getValue());
-	}
-
 	public void setAutoCreate(ValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.AUTO_CREATE, value);
 		setAutoCreate(value != null && "true".equals(value.getValue()));

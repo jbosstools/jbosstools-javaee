@@ -37,6 +37,10 @@ public class SeamComponentMethod implements ISeamComponentMethod {
 	public IMember getSourceMember() {
 		return javaSource;
 	}
+	
+	public void setSourceMember(IMember javaSource) {
+		this.javaSource = javaSource;
+	}
 
 	public int getLength() {
 		return 0;

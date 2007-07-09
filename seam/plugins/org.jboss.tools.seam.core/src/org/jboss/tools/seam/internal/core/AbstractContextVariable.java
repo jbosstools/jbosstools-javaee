@@ -1,6 +1,8 @@
 package org.jboss.tools.seam.internal.core;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -10,6 +12,7 @@ import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
+import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 public class AbstractContextVariable implements ISeamContextVariable, ISeamTextSourceReference {
 	/**
@@ -28,6 +31,8 @@ public class AbstractContextVariable implements ISeamContextVariable, ISeamTextS
 	protected ScopeType scopeType;
 	protected String scope;
 
+	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
+	
 	public Object getId() {
 		return id;
 	}
@@ -63,6 +68,9 @@ public class AbstractContextVariable implements ISeamContextVariable, ISeamTextS
 
 	public void setScopeAsString(String scope) {
 		try {
+			if(scope != null && scope.indexOf('.') > 0) {
+				scope = scope.substring(scope.lastIndexOf('.'));
+			}
 			this.scopeType = scope == null || scope.length() == 0 ? ScopeType.UNSPECIFIED : ScopeType.valueOf(scope.toUpperCase());
 		} catch (Exception e) {
 			//ignore
@@ -114,6 +122,16 @@ public class AbstractContextVariable implements ISeamContextVariable, ISeamTextS
 
 	boolean stringsEqual(String s1, String s2) {
 		return s1 == null ? s2 == null : s1.equals(s2);
+	}
+
+	public void setName(ValueInfo value) {
+		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
+		name = value == null ? null : value.getValue();
+	}
+
+	public void setScope(ValueInfo value) {
+		attributes.put(ISeamXmlComponentDeclaration.SCOPE, value);
+		setScopeAsString(value == null ? null : value.getValue());
 	}
 
 }

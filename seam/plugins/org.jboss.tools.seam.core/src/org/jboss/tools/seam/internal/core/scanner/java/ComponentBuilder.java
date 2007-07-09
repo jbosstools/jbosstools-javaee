@@ -10,22 +10,28 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.scanner.java;
 
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.NormalAnnotation;
+import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.internal.core.BijectedAttribute;
+import org.jboss.tools.seam.internal.core.Role;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
+import org.jboss.tools.seam.internal.core.SeamComponentMethod;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
@@ -37,7 +43,7 @@ import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 public class ComponentBuilder implements SeamAnnotations {
 	LoadedDeclarations ds = null;
 
-	AnnotatedASTNode annotatedType = null;
+	AnnotatedASTNode<?> annotatedType = null;
 	Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = null;
 	Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = null;
 	
@@ -89,8 +95,8 @@ public class ComponentBuilder implements SeamAnnotations {
 		processFactories();
 		processBijections();
 		processComponentMethods();
+		processRoles();
 		
-		//TODO
 	}
 	
 	void processFactories() {
@@ -105,7 +111,6 @@ public class ComponentBuilder implements SeamAnnotations {
 				factoryName.valueLength = m.getName().getLength();
 				factoryName.valueStartPosition = m.getName().getStartPosition();
 			}
-			System.out.println("");
 			ValueInfo scope = ValueInfo.getValueInfo(a, ISeamXmlComponentDeclaration.SCOPE);
 			ValueInfo autoCreate = ValueInfo.getValueInfo(a, "autoCreate");
 
@@ -121,18 +126,86 @@ public class ComponentBuilder implements SeamAnnotations {
 	}
 	
 	void processBijections() {
-		//TODO
+		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
+			Annotation in = findAnnotation(n, IN_ANNOTATION_TYPE);
+			Annotation out = findAnnotation(n, OUT_ANNOTATION_TYPE);
+			if(in == null || out == null) continue;
+			MethodDeclaration m = n.getNode();
+
+			BijectedAttribute att = new BijectedAttribute();
+			component.getBijectedAttributes().add(att);
+
+			BijectedAttributeType[] types = (in == null) ? new BijectedAttributeType[]{BijectedAttributeType.OUT}
+				: (out == null) ? new BijectedAttributeType[]{BijectedAttributeType.IN}
+				: new BijectedAttributeType[]{BijectedAttributeType.IN, BijectedAttributeType.OUT};
+			att.setTypes(types);
+			
+			Annotation a = in != null ? in : out;
+			ValueInfo name = ValueInfo.getValueInfo(a, null);
+			if(name == null) {
+				name = new ValueInfo();
+				name.value = m.getName().getIdentifier();
+			}
+			
+			att.setName(name.getValue());
+
+			ValueInfo scope = ValueInfo.getValueInfo(a, "scope");
+			if(scope != null) att.setScopeAsString(scope.getValue());
+			
+			att.setMember(findMethod(m));
+		}
 	}
 	
 	void processComponentMethods() {
-		//TODO
+		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
+			Annotation aCreate = findAnnotation(n, CREATE_ANNOTATION_TYPE);
+			Annotation aDestroy = findAnnotation(n, DESTROY_ANNOTATION_TYPE);
+			if(aCreate == null || aDestroy == null) continue;
+			MethodDeclaration m = n.getNode();
+
+			SeamComponentMethod cm = new SeamComponentMethod();
+			component.getMethods().add(cm);
+			
+			if(aCreate != null) cm.setCreate(true);
+			if(aDestroy != null) cm.setDestroy(true);
+			
+			cm.setSourceMember(findMethod(m));
+		}
 	}
 	
 	void processRoles() {
-		//TODO
+		Annotation roles = findAnnotation(annotatedType, ROLES_ANNOTATION_TYPE);
+		if(roles != null) {
+			RolesVisitor visitor = new RolesVisitor((IType)component.getSourceMember());
+			roles.accept(visitor);
+			List<Annotation> rs = visitor.annotations;
+			if(rs != null) for (Annotation role : rs) {
+				createRole(role);
+			}
+		}
+		ResolvedAnnotation[] as = annotatedType.getAnnotations();
+		for (int i = 0; i < as.length; i++) {
+			if(ROLE_ANNOTATION_TYPE.equals(as[i].getType())) {
+				createRole(as[i].getAnnotation());
+			}
+		}		
+	}
+	
+	void createRole(Annotation role) {
+		Role r = new Role();
+		r.setSourcePath(component.getSourcePath());
+		r.setId(component.getSourceMember());
+		
+		ValueInfo name = ValueInfo.getValueInfo(role, "name");
+		if(name == null) return;
+		
+		r.setName(name);
+
+		ValueInfo scope = ValueInfo.getValueInfo(role, "scope");
+		if(scope != null) r.setScope(scope);
 	}
 
-	private Annotation findAnnotation(AnnotatedASTNode n, String type) {
+	private Annotation findAnnotation(AnnotatedASTNode<?> n, String type) {
 		ResolvedAnnotation[] as = n.getAnnotations();
 		for (int i = 0; i < as.length; i++) {
 			if(type.equals(as[i].getType())) return as[i].getAnnotation();
@@ -201,6 +274,41 @@ public class ComponentBuilder implements SeamAnnotations {
 			return name;
 		}
 		return null;
+	}
+
+}
+
+class RolesVisitor extends ASTVisitor implements SeamAnnotations {
+	boolean arrayFound = false;
+	IType type;
+	List<Annotation> annotations = new ArrayList<Annotation>();
+	
+	public RolesVisitor(IType type) {
+		this.type = type;
+	}
+
+	public boolean visit(SingleMemberAnnotation node) {
+		if(arrayFound) {
+			String typeName = ASTVisitorImpl.resolveType(type, node);
+			if(!ROLE_ANNOTATION_TYPE.equals(typeName)) return false;
+			annotations.add(node);
+			return false;
+		}
+		return true;
+	}
+
+	public boolean visit(NormalAnnotation node) {
+		if(arrayFound) {
+			String typeName = ASTVisitorImpl.resolveType(type, node);
+			if(!ROLE_ANNOTATION_TYPE.equals(typeName)) return false;
+			annotations.add(node);
+		}
+		return false;
+	}
+
+	public boolean visit(ArrayInitializer node) {
+		arrayFound = true;
+		return true;
 	}
 
 }
