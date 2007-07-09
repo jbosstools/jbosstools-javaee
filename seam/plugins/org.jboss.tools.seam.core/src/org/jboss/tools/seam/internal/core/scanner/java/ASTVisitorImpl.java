@@ -18,42 +18,37 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Block;
-import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
-import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
-import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 /**
- * This object collects changes in target that should be fired to listeners.
+ * Processes AST tree to find annotated type, fields and methods.
  * 
  * @author Viacheslav Kabanovich
  */
 public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
-	static int UNDEFINED_CONTEXT = -1;
-	static int TYPE_CONTEXT = 0;
-	static int FIELD_CONTEXT = 1;
-	static int METHOD_CONTEXT = 2;
-
 	IType type;
-	String name = null;
-	String scope = null;
 	
 	AnnotatedASTNode annotatedType = null;
-	Set<Object> annotatedFields = new HashSet<Object>();
-	Set<Object> annotatedMethods = new HashSet<Object>();
+	Set<AnnotatedASTNode> annotatedFields = new HashSet<AnnotatedASTNode>();
+	Set<AnnotatedASTNode> annotatedMethods = new HashSet<AnnotatedASTNode>();
 
 	AnnotatedASTNode currentAnnotatedNode = null;
-	int context = UNDEFINED_CONTEXT;
+	
+	public boolean hasSeamComponent() {
+		if(annotatedFields.size() > 0 || annotatedMethods.size() > 0) return true;
+		if(annotatedType != null && annotatedType.getAnnotations() != null) return true;		
+		return false;
+	}
 	
 	public boolean visit(SingleMemberAnnotation node) {
 		String type = resolveType(node);
@@ -100,16 +95,8 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 
 	boolean isSeamAnnotationType(String n) {
-		return n != null && n.startsWith(SEAM_ANNOTATION_TYPE_PREFIX);
-	}
-
-	String checkExpression(Expression exp) {
-		if(exp instanceof StringLiteral) {
-			return ((StringLiteral)exp).getLiteralValue();
-		} else if(exp instanceof QualifiedName) {
-			return exp.toString();
-		}
-		return null;
+		return n != null && (n.startsWith(SEAM_ANNOTATION_TYPE_PREFIX)
+		  || n.equals(STATEFUL_ANNOTATION_TYPE));
 	}
 
 	public boolean visit(Block node) {
@@ -125,7 +112,6 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
 	public void endVisit(TypeDeclaration node) {
 		currentAnnotatedNode = null;
-		process();
 	}
 	
 	public boolean visit(FieldDeclaration node) {
@@ -134,7 +120,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 
 	public void endVisit(FieldDeclaration node) {
-		List fragments = node.fragments();
+		List<?> fragments = node.fragments();
 		for (int i = 0; i < fragments.size(); i++) {
 			VariableDeclaration vd = (VariableDeclaration)fragments.get(i);
 			String name = vd.getName().getIdentifier();
@@ -158,47 +144,4 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 		currentAnnotatedNode = null;
 	}
 	
-	void process() {
-		if(annotatedType == null) return;
-		ResolvedAnnotation[] as = annotatedType.getAnnotations();
-		for (int i = 0; i < as.length; i++) {
-			String type = as[i].getType();
-			if(NAME_ANNOTATION_TYPE.equals(type)) {
-				name = getValue(as[i].getAnnotation());
-			} else if(SCOPE_ANNOTATION_TYPE.equals(type)) {
-				scope = getValue(as[i].getAnnotation());
-				if(scope != null) {
-					int q = scope.lastIndexOf('.');
-					if(q >= 0) scope = scope.substring(q + 1).toLowerCase();
-				}
-			}
-			//TODO
-		}
-		//TODO
-	}
-	
-	String getValue(Annotation node) {
-		if(node instanceof SingleMemberAnnotation) {
-			return getValue((SingleMemberAnnotation)node);
-		} else if(node instanceof NormalAnnotation) {
-			return getValue((NormalAnnotation)node);
-		} else {
-			return null;
-		}		
-	}
-	
-	String getValue(SingleMemberAnnotation node) {
-		return checkExpression(node.getValue());
-	}
-
-	String getValue(NormalAnnotation node) {
-		List vs = node.values();
-		if(vs != null) for (int i = 0; i < vs.size(); i++) {
-			MemberValuePair p = (MemberValuePair)vs.get(i);
-			if("value".equals(p.getName().getIdentifier())) {
-				return checkExpression(p.getValue());
-			}
-		}
-		return null;
-	}
 }

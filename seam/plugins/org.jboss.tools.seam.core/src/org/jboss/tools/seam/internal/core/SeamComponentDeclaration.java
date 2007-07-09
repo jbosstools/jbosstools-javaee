@@ -10,15 +10,18 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
-import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.event.Change;
+import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 /**
  * @author Viacheslav Kabanovich
@@ -43,6 +46,8 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	 * Seam component name.
 	 */
 	protected String name;
+	
+	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
 	
 	public Object getId() {
 		return id;
@@ -106,6 +111,9 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 		}
 		if(id != d.id) id = d.id;
 		
+		//be more specific
+		this.attributes = d.attributes;
+		
 		return changes;
 	}
 	
@@ -117,13 +125,13 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	 * @param path
 	 * @return source reference for some member of declaration.
 	 * e.g. if you need source reference for @Name you have to 
-	 * invore getLocationFor("name");
+	 * invoke getLocationFor("name");
 	 */
 	public ISeamTextSourceReference getLocationFor(String path) {
-		// TODO
+		final ValueInfo valueInfo = attributes.get(path);
 		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
 			public int getLength() {
-				return 10;
+				return valueInfo != null ? valueInfo.getLength() : 0;
 			}
 
 			public IResource getResource() {
@@ -131,9 +139,15 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 			}
 
 			public int getStartPosition() {
-				return 0;
+				return valueInfo != null ? valueInfo.getStartPosition() : 0;
 			}
 		};
 		return reference;
 	}
+	
+	public void setName(ValueInfo value) {
+		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
+		name = value == null ? null : value.getValue();
+	}
+
 }

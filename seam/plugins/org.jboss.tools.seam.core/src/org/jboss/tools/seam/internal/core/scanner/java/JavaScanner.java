@@ -25,7 +25,6 @@ import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
@@ -114,7 +113,6 @@ public class JavaScanner implements IFileScanner {
 		}
 		
 		public void acceptAST(ICompilationUnit source, CompilationUnit ast) {
-			visitor.name = null;
 			
 			try {
 				IType[] ts = source.getTypes();
@@ -125,24 +123,13 @@ public class JavaScanner implements IFileScanner {
 				//ignore
 			}
 			ast.accept(visitor);
-			if(visitor.name != null && visitor.type != null) {
-				String n = visitor.type.getElementName();
-				n = getResolvedType(visitor.type, n);
-				SeamJavaComponentDeclaration component = new SeamJavaComponentDeclaration();
-				
-				component.setId(visitor.type);
-				component.setSourcePath(sourcePath);
-				component.setResource(resource);
-
-				ds.getComponents().add(component);
-				component.setType(visitor.type);
-				component.setId(visitor.type);
-				component.setClassName(n);
-				component.setName(visitor.name);
-				if(visitor.scope != null) {
-					component.setScope(visitor.scope);
-				}
-			}			
+			
+			if(!visitor.hasSeamComponent()) return;
+			
+			ComponentBuilder b = new ComponentBuilder(ds, visitor);
+			
+			b.component.setSourcePath(sourcePath);
+			b.component.setResource(resource);
 		}
 	}
 	

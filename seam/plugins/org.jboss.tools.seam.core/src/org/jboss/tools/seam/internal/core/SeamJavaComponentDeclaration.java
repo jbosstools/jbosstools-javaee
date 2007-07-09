@@ -11,10 +11,12 @@ import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
 import org.jboss.tools.seam.core.event.Change;
+import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		implements ISeamJavaComponentDeclaration {
@@ -202,4 +204,20 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public void setPrecedence(int precedence) {
 		this.precedence = precedence;
 	}
+
+	public void setScope(ValueInfo value) {
+		attributes.put(ISeamXmlComponentDeclaration.SCOPE, value);
+		setScope(value == null ? null : value.getValue());
+	}
+
+	public void setPrecedence(ValueInfo value) {
+		attributes.put(ISeamXmlComponentDeclaration.PRECEDENCE, value);
+		try {
+			setPrecedence(value == null ? 0 : Integer.parseInt(value.getValue()));
+		} catch (NumberFormatException e) {
+			setPrecedence(-1); //error value
+			//ignore - exact value is stored in ValueInfo
+		}
+	}
+
 }

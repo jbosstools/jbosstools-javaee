@@ -121,7 +121,7 @@ public class SeamProject implements ISeamProject {
 			
 			String name = loaded.getName();
 
-			boolean nameChanged = current != null && !name.equals(current.getName());
+			boolean nameChanged = current != null && !stringsEqual(name, current.getName());
 			
 			SeamComponent c = getComponent(name);
 
@@ -201,6 +201,10 @@ public class SeamProject implements ISeamProject {
 		fireChanges(addedFactories); 
 		
 		factoryDeclarationsRemoved(currentFactories);
+	}
+
+	boolean stringsEqual(String s1, String s2) {
+		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 
 	/**
@@ -416,7 +420,7 @@ public class SeamProject implements ISeamProject {
 	}
 	
 	public SeamComponent getComponent(String name) {
-		return allComponents.get(name);
+		return name == null ? null : allComponents.get(name);
 	}
 	
 	SeamComponent newComponent(String name) {
