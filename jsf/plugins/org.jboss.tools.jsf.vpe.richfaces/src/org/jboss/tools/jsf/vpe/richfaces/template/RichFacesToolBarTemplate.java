@@ -429,7 +429,9 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 			this.leftToolBarItems = new LinkedList<SourceToolBarItem>();
 			this.rightToolBarItems = new LinkedList<SourceToolBarItem>();
 			this.itemSeparator = itemSeparator;
-			this.itemSeparatorExists = itemSeparator != null && !ITEMSEPARATOR_ATTR_NAME.equals(itemSeparator);
+			this.itemSeparatorExists = !(itemSeparator == null
+					|| itemSeparator.length() == 0
+					|| ITEMSEPARATOR_ATTR_NAME.equals(itemSeparator));
 			
 			init(sourceNode);
 		}
@@ -455,11 +457,11 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 				}
 			}
 			
-			if (!isLeftItemsExists()) {
+			if (isItemSeparatorExists() && !isLeftItemsExists()) {
 				rightToolBarItems.remove(0);
 			}
 			
-			if (!isRightItemsExists()) {
+			if (isItemSeparatorExists() && !isRightItemsExists()) {
 				leftToolBarItems.remove(leftToolBarItems.size()-1);
 			}
 		}
