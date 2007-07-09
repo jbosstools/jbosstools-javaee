@@ -10,6 +10,9 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.Set;
+
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -27,6 +30,10 @@ public abstract class SeamValidator implements IValidatorJob {
 
 	private IValidationContext helper;
 	private IReporter reporter;
+
+	public SeamValidator() {
+		super();
+	}
 
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
 		this.helper = helper;
@@ -55,5 +62,11 @@ public abstract class SeamValidator implements IValidatorJob {
 
 	protected void addError(String messageId, ISeamTextSourceReference target, String messageGroup) {
 		addError(messageId, new String[0], target, messageGroup);
+	}
+
+	protected void removeMessagesFromResources(Set<IResource> resources, String messageGroup) {
+		for (IResource r : resources) {
+			reporter.removeMessageSubset(this, r, messageGroup);
+		}
 	}
 }

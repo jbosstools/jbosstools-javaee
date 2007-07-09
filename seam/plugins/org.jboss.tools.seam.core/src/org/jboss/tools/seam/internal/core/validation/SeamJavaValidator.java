@@ -12,13 +12,13 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -31,6 +31,7 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamProject;
 
 /**
  * Validator for Java files.
@@ -39,10 +40,10 @@ import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 public class SeamJavaValidator extends SeamValidator {
 
 	private static final String NONUNIQUE_NAME_MESSAGE_GROUP = "nonuniqueName";
-	private Map<String, Set<IResource>> markedNonuniqueNamedResources = new HashMap<String, Set<IResource>>();
-	private Map<IResource, String> nonuniqueNames = new HashMap<IResource, String>();
 
 	public static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
+
+	private SeamValidationContext validationContext;
 
 	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
 		// TODO
@@ -54,61 +55,55 @@ public class SeamJavaValidator extends SeamValidator {
 		SeamJavaHelper seamJavaHelper = (SeamJavaHelper)helper;
 		String[] uris = seamJavaHelper.getURIs();
 		ISeamProject project = seamJavaHelper.getSeamProject();
+		validationContext = ((SeamProject)project).getValidationContext();
 		if (uris.length > 0) {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			IFile currentFile = null;
-			Set<IResource> checkedResource = new HashSet<IResource>();
-			Set<ISeamComponent> checkedComponent = new HashSet<ISeamComponent>();
+			Set<IPath> checkedResources = new HashSet<IPath>();
+			Set<ISeamComponent> checkedComponents = new HashSet<ISeamComponent>();
 			for (int i = 0; i < uris.length && !reporter.isCancelled(); i++) {
 				currentFile = root.getFile(new Path(uris[i]));
+				// Don't validate one resource twice.
+				if(checkedResources.contains(currentFile)) {
+					continue;
+				}
 				if (currentFile != null && currentFile.exists()) {
-					String oldComponentNameOfChangedFile = nonuniqueNames.get(currentFile);
+					String oldComponentNameOfChangedFile = validationContext.getNonuniqueNameOfComponent(currentFile.getLocation());
 					if(oldComponentNameOfChangedFile!=null) {
-						Set<IResource> resources = new HashSet<IResource>(); // Resources which we have to validate.
+						Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
 
 						// Check if component name was changed in java file
-						String newComponentNameOfChangedFile = getComponentNameByResource(currentFile, project);
+						String newComponentNameOfChangedFile = getComponentNameByResource(currentFile.getLocation(), project);
 						if(newComponentNameOfChangedFile!=null && !oldComponentNameOfChangedFile.equals(newComponentNameOfChangedFile)) {
-							// Name was changed. Remove markers from resources with new component name.
-							Set<IResource> rs = markedNonuniqueNamedResources.get(newComponentNameOfChangedFile);
-							if(rs!=null) {
-								for (IResource resource : rs) {
-									reporter.removeMessageSubset(this, resource, NONUNIQUE_NAME_MESSAGE_GROUP);
-									resources.add(resource);
-								}
+							// Name was changed.
+							// Collect resources with new component name.
+							Set<IPath> linkedResources = validationContext.getMarkedNonuniqueNamedResources(newComponentNameOfChangedFile);
+							if(linkedResources!=null) {
+								resources.addAll(linkedResources);
 							}
 						}
 
-						Set<IResource> linkedResources = markedNonuniqueNamedResources.get(oldComponentNameOfChangedFile);
+						// Collect resources with old component name.
+						Set<IPath> linkedResources = validationContext.getMarkedNonuniqueNamedResources(oldComponentNameOfChangedFile);
 						if(linkedResources!=null) {
 							resources.addAll(linkedResources);
 						}
 
 						// Validate all collected linked resources.
-						for (IResource linkedResource : resources) {
-							if(checkedResource.contains(linkedResource)) {
+						for (IPath linkedResource : resources) {
+							// Don't validate one resource twice.
+							if(checkedResources.contains(linkedResource)) {
 								continue;
 							}
-							reporter.removeMessageSubset(this, linkedResource, NONUNIQUE_NAME_MESSAGE_GROUP); // Remove markers from java file
-							Set<ISeamComponent> components = project.getComponentsByResource(linkedResource);
-							for (ISeamComponent component : components) {
-								if(checkedComponent.contains(component)) {
-									continue;
-								}
-								validateUniqueComponentName(project, component, helper, reporter);
-								checkedComponent.add(component);
-							}
-							checkedResource.add(linkedResource);
+							// Remove markers from collected java file
+							reporter.removeMessageSubset(this, linkedResource, NONUNIQUE_NAME_MESSAGE_GROUP);
+							validateUniqueComponentName(project, linkedResource, checkedComponents, helper, reporter);
+							checkedResources.add(linkedResource);
 						}
 					} else {
 						// Validate new (unmarked) Java file.
-						// TODO
+						validateUniqueComponentName(project, currentFile.getLocation(), checkedComponents, helper, reporter);
 					}
-//					reporter.removeAllMessages(this, currentFile); // Remove all markers from java file
-//					Set<ISeamComponent> components = project.getComponentsByResource(currentFile);
-//					for (ISeamComponent component : components) {
-//						validateUniqueComponentName(project, component, helper, reporter);
-//					}
 					// TODO
 				}
 			}
@@ -119,8 +114,19 @@ public class SeamJavaValidator extends SeamValidator {
 		return OK_STATUS;
 	}
 
-	public String getComponentNameByResource(IResource resource, ISeamProject project) {
-		Set<ISeamComponent> components = project.getComponentsByResource(resource);
+	private void validateUniqueComponentName(ISeamProject project, IPath sourceFilePath, Set<ISeamComponent> checkedComponents, IValidationContext helper, IReporter reporter) {
+		Set<ISeamComponent> components = project.getComponentsByPath(sourceFilePath);
+		for (ISeamComponent component : components) {
+			// Don't validate one component twice.
+			if(!checkedComponents.contains(component)) {
+				validateUniqueComponentName(project, component, helper, reporter);
+				checkedComponents.add(component);
+			}
+		}
+	}
+
+	public String getComponentNameByResource(IPath resourcePath, ISeamProject project) {
+		Set<ISeamComponent> components = project.getComponentsByPath(resourcePath);
 		for (ISeamComponent component : components) {
 			return component.getName();
 		}
@@ -166,11 +172,11 @@ public class SeamJavaValidator extends SeamValidator {
 							ISeamTextSourceReference target = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, target, NONUNIQUE_NAME_MESSAGE_GROUP);
 							markedDeclarations.add(checkedDeclaration);
-							addLinkedResource(checkedDeclaration.getName(), checkedDeclaration.getResource());
+							validationContext.addLinkedResource(checkedDeclaration.getName(), checkedDeclaration.getResource().getLocation());
 						}
 						// Mark next wrong declaration with that name
 						markedDeclarations.add(javaDeclaration);
-						addLinkedResource(javaDeclaration.getName(), javaDeclaration.getResource());
+						validationContext.addLinkedResource(javaDeclaration.getName(), javaDeclaration.getResource().getLocation());
 						ISeamTextSourceReference target = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 						addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, target, NONUNIQUE_NAME_MESSAGE_GROUP);
 					}
@@ -179,22 +185,4 @@ public class SeamJavaValidator extends SeamValidator {
 		}
 	}
 
-	/*
-	 * Save linked resources of component name that we marked.
-	 * It's needed for incremental validation because we must save all linked resources of changed java file.
-	 */
-	private void addLinkedResource(String componentName, IResource linkedResource) {
-		Set<IResource> linkedResources = markedNonuniqueNamedResources.get(componentName);
-		if(linkedResources==null) {
-			// create set of linked resources with component name that we must mark.
-			linkedResources = new HashSet<IResource>();
-			markedNonuniqueNamedResources.put(componentName, linkedResources);
-		}
-		if(!linkedResources.contains(linkedResource)) {
-			// save linked resources that we must mark.
-			linkedResources.add(linkedResource);
-		}
-		// Save link between component name and marked resource. It's needed if component name changes in java file.
-		nonuniqueNames.put(linkedResource, componentName);
-	}
 }

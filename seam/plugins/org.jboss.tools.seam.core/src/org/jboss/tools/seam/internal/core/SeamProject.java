@@ -35,6 +35,7 @@ import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
+import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
 
 /**
  * @author Viacheslav Kabanovich
@@ -48,6 +49,8 @@ public class SeamProject implements ISeamProject {
 	Map<String, SeamJavaComponentDeclaration> javaDeclarations = new HashMap<String, SeamJavaComponentDeclaration>();
 	
 	List<ISeamProjectChangeListener> listeners = new ArrayList<ISeamProjectChangeListener>();
+
+	SeamValidationContext validationContext;
 
 	public SeamProject() {}
 
@@ -83,6 +86,13 @@ public class SeamProject implements ISeamProject {
 	 * load them without rebuilding project
 	 */
 	protected void store() {
+	}
+
+	public SeamValidationContext getValidationContext() {
+		if(validationContext==null) {
+			validationContext = new SeamValidationContext();
+		}
+		return validationContext;
 	}
 
 	public ISeamComponent getComponentByName(String name) {
