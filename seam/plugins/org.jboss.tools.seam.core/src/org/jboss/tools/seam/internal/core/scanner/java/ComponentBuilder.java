@@ -12,13 +12,18 @@ package org.jboss.tools.seam.internal.core.scanner.java;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
@@ -33,8 +38,8 @@ public class ComponentBuilder implements SeamAnnotations {
 	LoadedDeclarations ds = null;
 
 	AnnotatedASTNode annotatedType = null;
-	Set<AnnotatedASTNode> annotatedFields = new HashSet<AnnotatedASTNode>();
-	Set<AnnotatedASTNode> annotatedMethods = new HashSet<AnnotatedASTNode>();
+	Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = null;
+	Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = null;
 	
 	SeamJavaComponentDeclaration component = new SeamJavaComponentDeclaration();
 	
@@ -89,10 +94,10 @@ public class ComponentBuilder implements SeamAnnotations {
 	}
 	
 	void processFactories() {
-		for (AnnotatedASTNode n: annotatedMethods) {
+		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
 			Annotation a = findAnnotation(n, FACTORY_ANNOTATION_TYPE);
 			if(a == null) continue;
-			MethodDeclaration m = (MethodDeclaration)n.getNode();
+			MethodDeclaration m = n.getNode();
 			ValueInfo factoryName = ValueInfo.getValueInfo(a, null);
 			if(factoryName == null) {
 				factoryName = new ValueInfo();
@@ -136,9 +141,65 @@ public class ComponentBuilder implements SeamAnnotations {
 	}
 	
 	private IMethod findMethod(MethodDeclaration m) {
-//		IType type = (IType)component.getSourceMember();
-		IJavaElement e = m.resolveBinding().getJavaElement();
-		if(e instanceof IMethod) return (IMethod)e;
+		if(m == null || m.getName() == null) return null;
+		IType type = (IType)component.getSourceMember();
+		IMethod[] ms = null;
+		try {
+			ms = type.getMethods();
+		} catch (Exception e) {
+			//ignore
+		}
+		String name = m.getName().getIdentifier();
+		if(ms != null) for (int i = 0; i < ms.length; i++) {
+			if(!name.equals(ms[i].getElementName())) continue;
+			int s = m.getStartPosition() + m.getLength() / 2;
+			try {
+				int b = ms[i].getSourceRange().getOffset();
+				int e = b + ms[i].getSourceRange().getLength();
+				if(s >= b && s <= e) return ms[i];
+			} catch (JavaModelException e) {
+				return ms[i];
+			}
+		}
+		return null;
+	}
+
+	private IField findField(FieldDeclaration f) {
+		if(f == null || getFieldName(f) == null) return null;
+		IType type = (IType)component.getSourceMember();
+		IField[] fs = null;
+		try {
+			fs = type.getFields();
+		} catch (Exception e) {
+			//ignore
+		}
+		String name = getFieldName(f);
+		if(fs != null) for (int i = 0; i < fs.length; i++) {
+			if(!name.equals(fs[i].getElementName())) continue;
+			int s = f.getStartPosition() + f.getLength() / 2;
+			try {
+				int b = fs[i].getSourceRange().getOffset();
+				int e = b + fs[i].getSourceRange().getLength();
+				if(s >= b && s <= e) return fs[i];
+			} catch (JavaModelException e) {
+				return fs[i];
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns name of first field
+	 * @param node
+	 * @return
+	 */
+	String getFieldName(FieldDeclaration node) {
+		List<?> fragments = node.fragments();
+		for (int i = 0; i < fragments.size(); i++) {
+			VariableDeclaration vd = (VariableDeclaration)fragments.get(i);
+			String name = vd.getName().getIdentifier();
+			return name;
+		}
 		return null;
 	}
 

@@ -38,11 +38,13 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
 	IType type;
 	
-	AnnotatedASTNode annotatedType = null;
-	Set<AnnotatedASTNode> annotatedFields = new HashSet<AnnotatedASTNode>();
-	Set<AnnotatedASTNode> annotatedMethods = new HashSet<AnnotatedASTNode>();
+	AnnotatedASTNode<TypeDeclaration> annotatedType = null;
+	Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = new HashSet<AnnotatedASTNode<FieldDeclaration>>();
+	Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = new HashSet<AnnotatedASTNode<MethodDeclaration>>();
 
-	AnnotatedASTNode currentAnnotatedNode = null;
+	AnnotatedASTNode<?> currentAnnotatedNode = null;
+	AnnotatedASTNode<FieldDeclaration> currentAnnotatedField = null;
+	AnnotatedASTNode<MethodDeclaration> currentAnnotatedMethod = null;
 	
 	public boolean hasSeamComponent() {
 		if(annotatedFields.size() > 0 || annotatedMethods.size() > 0) return true;
@@ -103,9 +105,8 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 		return false;
 	}
 
-
 	public boolean visit(TypeDeclaration node) {
-		annotatedType = new AnnotatedASTNode(node);
+		annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
 		currentAnnotatedNode = annotatedType; 
 		return true;
 	}
@@ -115,7 +116,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 	
 	public boolean visit(FieldDeclaration node) {
-		currentAnnotatedNode = new AnnotatedASTNode(node);
+		currentAnnotatedField = new AnnotatedASTNode<FieldDeclaration>(node);
 		return true;
 	}
 
@@ -126,22 +127,24 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 			String name = vd.getName().getIdentifier();
 			System.out.println("-->" + name);
 		}
-		if(currentAnnotatedNode != null && currentAnnotatedNode.getAnnotations() != null) {
-			annotatedFields.add(currentAnnotatedNode);
+		if(currentAnnotatedField != null && currentAnnotatedField.getAnnotations() != null) {
+			annotatedFields.add(currentAnnotatedField);
 		}
-		currentAnnotatedNode = null;
+		currentAnnotatedField = null;
+		currentAnnotatedNode = annotatedType;
 	}
 	
 	public boolean visit(MethodDeclaration node) {
-		currentAnnotatedNode = new AnnotatedASTNode(node);
+		currentAnnotatedMethod = new AnnotatedASTNode<MethodDeclaration>(node);
 		return true;
 	}
 
 	public void endVisit(MethodDeclaration node) {
-		if(currentAnnotatedNode != null && currentAnnotatedNode.getAnnotations() != null) {
-			annotatedMethods.add(currentAnnotatedNode);
+		if(currentAnnotatedMethod != null && currentAnnotatedMethod.getAnnotations() != null) {
+			annotatedMethods.add(currentAnnotatedMethod);
 		}
-		currentAnnotatedNode = null;
+		currentAnnotatedMethod = null;
+		currentAnnotatedNode = annotatedType;
 	}
 	
 }

@@ -452,15 +452,15 @@ public class SeamProject implements ISeamProject {
 		listeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByResource(org.eclipse.core.resources.IResource)
 	 */
-	public Set<ISeamComponent> getComponentsByResource(IResource resource) {
+	public Set<ISeamComponent> getComponentsByPath(IPath path) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
 		for (SeamComponent c: allComponents.values()) {
 			for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
 				SeamComponentDeclaration di = (SeamComponentDeclaration)d;
-				if(resource.equals(di.getResource())) {
+				if(path.equals(di.getSourcePath())) {
 					result.add(c);
 					break;
 				}

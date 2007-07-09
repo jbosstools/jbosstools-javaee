@@ -17,11 +17,11 @@ import org.eclipse.jdt.core.dom.ASTNode;
  * 
  * @author Viacheslav Kabanovich
  */
-public class AnnotatedASTNode {
-	ASTNode node;
+public class AnnotatedASTNode<T extends ASTNode> {
+	T node;
 	ResolvedAnnotation[] annotations = null;
 	
-	public AnnotatedASTNode(ASTNode node) {
+	public AnnotatedASTNode(T node) {
 		this.node = node;
 	}
 	
@@ -36,7 +36,7 @@ public class AnnotatedASTNode {
 		}
 	}
 	
-	public ASTNode getNode() {
+	public T getNode() {
 		return node;
 	}
 	

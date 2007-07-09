@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 
 public interface ISeamProject extends IProjectNature {
@@ -37,10 +38,10 @@ public interface ISeamProject extends IProjectNature {
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type);
 
 	/**
-	 * @param resource of ISeamComponentDeclaration that belongs to component
-	 * @return Set of ISeamComponents by resource.
+	 * @param resource path of ISeamComponentDeclaration that belongs to component
+	 * @return Set of ISeamComponents by resource path.
 	 */
-	public Set<ISeamComponent> getComponentsByResource(IResource resource);
+	public Set<ISeamComponent> getComponentsByPath(IPath path);
 
 	/**
 	 * @param className
