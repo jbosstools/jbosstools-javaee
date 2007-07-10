@@ -21,6 +21,12 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	public static final int DEFAULT_PRECEDENCE = SeamComponentPrecedenceType.APPLICATION;
 
 	/**
+	 * 
+	 * @return scope
+	 */
+	public ScopeType getScope();
+
+	/**
 	 * @return qualified class name
 	 */
 	public String getClassName();

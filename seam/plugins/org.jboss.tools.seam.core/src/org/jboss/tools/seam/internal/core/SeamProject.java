@@ -118,7 +118,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			b.visit(f);
 		}
 		long end = System.currentTimeMillis();
-		System.out.println("loaded in " + (end - begin));
+//		System.out.println("loaded in " + (end - begin));
 	}
 
 	/**

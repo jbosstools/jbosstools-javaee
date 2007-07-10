@@ -78,6 +78,9 @@ public class SeamObject implements ISeamObject {
 		if(source != null) {
 			resource = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
 		}
+		if(resource == null && parent != null) {
+			return parent.getResource();
+		}
 		return resource;
 	}
 
@@ -107,6 +110,7 @@ public class SeamObject implements ISeamObject {
 	public List<Change> merge(SeamObject s) {
 		source = s.source;
 		id = s.id;
+		resource = s.resource;
 		
 		return null;
 	}

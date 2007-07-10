@@ -134,8 +134,21 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	 * @see org.jboss.tools.seam.core.ISeamContextVariable#getScope()
 	 */
 	public ScopeType getScope() {
-		//TODO
-		return null;
+		ScopeType scopeType = null;
+		for (ISeamXmlComponentDeclaration d: xmlDeclarations) {
+			String s = d.getScopeAsString();
+			if(s != null && s.length() > 0) {
+				scopeType = d.getScope();
+			}
+			if(scopeType != null && scopeType != ScopeType.UNSPECIFIED) break;
+		}
+		if(scopeType == null || scopeType == ScopeType.UNSPECIFIED) {
+			ISeamJavaComponentDeclaration java = getJavaDeclaration();
+			if(java != null) scopeType = java.getScope();
+		}
+		if(scopeType == null) scopeType = ScopeType.UNSPECIFIED;
+		
+		return scopeType;
 	}
 
 	/**
@@ -201,7 +214,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		if(allDeclarations.contains(declaration)) return;
 		allDeclarations.add(declaration);
 		if(name.equals(declaration.getName())) {
-			((SeamObject)declaration).setParent(this);
+			adopt(declaration);
 		}
 		if(declaration instanceof ISeamJavaComponentDeclaration) {
 			javaDeclarations.add((ISeamJavaComponentDeclaration)declaration);
