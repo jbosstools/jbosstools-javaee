@@ -81,6 +81,7 @@ public class LibraryScanner implements IFileScanner {
 
 	public boolean isLikelyComponentSource(XModelObject o) {
 		if(o == null) return false;
+		if(o.getChildByPath("seam.properties") != null) return true;
 		if(o.getChildByPath("META-INF/seam.properties") != null) return true;
 		if(o.getChildByPath("META-INF/components.xml") != null) return true;
 		return false;
@@ -90,6 +91,7 @@ public class LibraryScanner implements IFileScanner {
 		if(o == null) return null;
 		sourcePath = path;
 		XModelObject seamProperties = o.getChildByPath("META-INF/seam.properties");
+		if(seamProperties == null) seamProperties = o.getChildByPath("seam.properties");
 		XModelObject componentsXML = o.getChildByPath("META-INF/components.xml");
 		if(componentsXML == null && seamProperties == null) return null;
 		

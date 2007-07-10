@@ -115,7 +115,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo autoCreate = ValueInfo.getValueInfo(a, "autoCreate");
 
 			SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
-			factory.setMethod(findMethod(m));
+			factory.setSourceMember(findMethod(m));
 			factory.setName(factoryName);
 			if(autoCreate != null) factory.setAutoCreate(true);
 			if(scope != null) {
@@ -152,7 +152,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo scope = ValueInfo.getValueInfo(a, "scope");
 			if(scope != null) att.setScopeAsString(scope.getValue());
 			
-			att.setMember(findMethod(m));
+			att.setSourceMember(findMethod(m));
 		}
 	}
 	
@@ -194,11 +194,12 @@ public class ComponentBuilder implements SeamAnnotations {
 	void createRole(Annotation role) {
 		Role r = new Role();
 		r.setSourcePath(component.getSourcePath());
-		r.setId(component.getSourceMember());
+		r.setSourceMember(component.getSourceMember());
 		
 		ValueInfo name = ValueInfo.getValueInfo(role, "name");
 		if(name == null) return;
 		
+		r.setId("" + component.getName() + ":" + name.getValue());
 		r.setName(name);
 
 		ValueInfo scope = ValueInfo.getValueInfo(role, "scope");

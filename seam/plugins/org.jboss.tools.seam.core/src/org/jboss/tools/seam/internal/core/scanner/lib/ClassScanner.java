@@ -176,7 +176,7 @@ public class ClassScanner implements SeamAnnotations {
 		IMethod im = findIMethod(component, m);
 		
 		factory.setId(im);
-		factory.setMethod(im);
+		factory.setSourceMember(im);
 		factory.setName(name);
 			
 		Object scope = getValue(a, "scope");
@@ -206,7 +206,7 @@ public class ClassScanner implements SeamAnnotations {
 		if(scope != null) att.setScopeAsString(scope.toString());
 
 		IMember im = findIMember(component, m);
-		att.setMember(im);
+		att.setSourceMember(im);
 		
 	}
 

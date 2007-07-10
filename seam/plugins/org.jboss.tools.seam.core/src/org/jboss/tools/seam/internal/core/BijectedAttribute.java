@@ -12,7 +12,6 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
 
-import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -25,10 +24,6 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 	BijectedAttributeType[] types = null;
 	
 	public BijectedAttribute() {		
-	}
-
-	public void setMember(IMember javaSource) {
-		this.javaSource = javaSource;
 	}
 
 	public BijectedAttributeType[] getTypes() {

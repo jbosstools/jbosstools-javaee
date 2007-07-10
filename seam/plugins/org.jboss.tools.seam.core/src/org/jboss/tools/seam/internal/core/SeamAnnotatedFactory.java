@@ -29,10 +29,6 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		return (IMethod)javaSource;
 	}
 	
-	public void setMethod(IMethod method) {
-		this.javaSource = method;
-	}
-
 	public boolean isAutoCreate() {
 		return autoCreate;
 	}

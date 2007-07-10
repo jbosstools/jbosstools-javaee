@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -20,8 +19,8 @@ public class SeamJavaHelper extends WorkbenchContext {
 	public ISeamProject getSeamProject() {
 		ISeamProject project = null;
 		try {
-			project = (ISeamProject)getProject().getNature(ISeamProject.NATURE_ID);
-		} catch (CoreException e) {
+			project = SeamCorePlugin.getSeamProject(getProject());
+		} catch (Exception e) {
 			SeamCorePlugin.getDefault().logError("Can't get Seam Project", e);
 		}
 		return project;
