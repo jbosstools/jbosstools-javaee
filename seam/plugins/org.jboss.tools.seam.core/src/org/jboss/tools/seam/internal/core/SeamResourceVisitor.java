@@ -43,7 +43,10 @@ public class SeamResourceVisitor implements IResourceVisitor {
 			for (int i = 0; i < FILE_SCANNERS.length; i++) {
 				IFileScanner scanner = FILE_SCANNERS[i];
 				if(scanner.isRelevant(f)) {
-					if(!scanner.isLikelyComponentSource(f)) return false;
+					if(!scanner.isLikelyComponentSource(f)) {
+						p.pathRemoved(f.getFullPath());
+						return false;
+					}
 					LoadedDeclarations c = null;
 					try {
 						c = scanner.parse(f);
