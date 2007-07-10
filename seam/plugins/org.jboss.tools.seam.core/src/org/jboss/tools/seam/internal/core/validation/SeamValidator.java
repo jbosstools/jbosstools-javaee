@@ -53,15 +53,15 @@ public abstract class SeamValidator implements IValidatorJob {
 		return "org.jboss.tools.seam.internal.core.validation.messages";
 	}
 
-	protected void addError(String messageId, String[] messageArguments, ISeamTextSourceReference target, String messageGroup) {
-		IMessage message = new Message(getBaseName(), IMessage.HIGH_SEVERITY, messageId, messageArguments, target.getResource(), messageGroup);
-		message.setLength(target.getLength());
-		message.setOffset(target.getStartPosition());
+	protected void addError(String messageId, String[] messageArguments, ISeamTextSourceReference location, IResource target, String messageGroup) {
+		IMessage message = new Message(getBaseName(), IMessage.HIGH_SEVERITY, messageId, messageArguments, target, messageGroup);
+		message.setLength(location.getLength());
+		message.setOffset(location.getStartPosition());
 		reporter.addMessage(this, message);
 	}
 
-	protected void addError(String messageId, ISeamTextSourceReference target, String messageGroup) {
-		addError(messageId, new String[0], target, messageGroup);
+	protected void addError(String messageId, ISeamTextSourceReference location, IResource target, String messageGroup) {
+		addError(messageId, new String[0], location, target, messageGroup);
 	}
 
 	protected void removeMessagesFromResources(Set<IResource> resources, String messageGroup) {

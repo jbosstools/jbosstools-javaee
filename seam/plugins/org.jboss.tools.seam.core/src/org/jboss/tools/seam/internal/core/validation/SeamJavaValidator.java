@@ -169,20 +169,20 @@ public class SeamJavaValidator extends SeamValidator {
 						// Mark nonunique name.
 						if(!markedDeclarations.contains(checkedDeclaration)) {
 							// Mark first wrong declaration with that name
-							ISeamTextSourceReference target = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, target, NONUNIQUE_NAME_MESSAGE_GROUP);
+							IResource checkedDeclarationResource = checkedDeclaration.getResource();
+							ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, checkedDeclarationResource, NONUNIQUE_NAME_MESSAGE_GROUP);
 							markedDeclarations.add(checkedDeclaration);
-							validationContext.addLinkedResource(checkedDeclaration.getName(), checkedDeclaration.getResource().getLocation());
+							validationContext.addLinkedResource(checkedDeclaration.getName(), checkedDeclarationResource.getLocation());
 						}
 						// Mark next wrong declaration with that name
 						markedDeclarations.add(javaDeclaration);
 						validationContext.addLinkedResource(javaDeclaration.getName(), javaDeclaration.getResource().getLocation());
-						ISeamTextSourceReference target = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-						addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, target, NONUNIQUE_NAME_MESSAGE_GROUP);
+						ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+						addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, javaDeclarationResource, NONUNIQUE_NAME_MESSAGE_GROUP);
 					}
 				}
 			}
 		}
 	}
-
 }
