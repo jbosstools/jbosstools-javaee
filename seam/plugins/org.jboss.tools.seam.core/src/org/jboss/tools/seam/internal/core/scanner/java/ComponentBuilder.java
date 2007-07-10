@@ -11,7 +11,9 @@
 package org.jboss.tools.seam.internal.core.scanner.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IField;
@@ -51,6 +53,7 @@ public class ComponentBuilder implements SeamAnnotations {
 	
 	
 	public ComponentBuilder(LoadedDeclarations ds, ASTVisitorImpl visitor) {
+		this.ds = ds;
 		annotatedType = visitor.annotatedType;
 		annotatedFields = visitor.annotatedFields;
 		annotatedMethods = visitor.annotatedMethods;
@@ -127,21 +130,27 @@ public class ComponentBuilder implements SeamAnnotations {
 	
 	void processBijections() {
 		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
-			Annotation in = findAnnotation(n, IN_ANNOTATION_TYPE);
-			Annotation out = findAnnotation(n, OUT_ANNOTATION_TYPE);
-			if(in == null || out == null) continue;
+			Map<BijectedAttributeType, Annotation> as = new HashMap<BijectedAttributeType, Annotation>();
+			List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
+			Annotation main = null;
+			for (int i = 0; i < BijectedAttributeType.values().length; i++) {
+				Annotation a = findAnnotation(n, BijectedAttributeType.values()[i].getAnnotationType());
+				if(a != null) {
+					as.put(BijectedAttributeType.values()[i], a);
+					if(main == null) main = a;
+					types.add(BijectedAttributeType.values()[i]);
+				}
+			}
+			if(as.size() == 0) continue;
+			
 			MethodDeclaration m = n.getNode();
 
 			BijectedAttribute att = new BijectedAttribute();
 			component.addBijectedAttribute(att);
 
-			BijectedAttributeType[] types = (in == null) ? new BijectedAttributeType[]{BijectedAttributeType.OUT}
-				: (out == null) ? new BijectedAttributeType[]{BijectedAttributeType.IN}
-				: new BijectedAttributeType[]{BijectedAttributeType.IN, BijectedAttributeType.OUT};
-			att.setTypes(types);
+			att.setTypes(types.toArray(new BijectedAttributeType[0]));
 			
-			Annotation a = in != null ? in : out;
-			ValueInfo name = ValueInfo.getValueInfo(a, null);
+			ValueInfo name = ValueInfo.getValueInfo(main, null);
 			if(name == null) {
 				name = new ValueInfo();
 				name.value = m.getName().getIdentifier();
@@ -149,7 +158,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			
 			att.setName(name.getValue());
 
-			ValueInfo scope = ValueInfo.getValueInfo(a, "scope");
+			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
 			if(scope != null) att.setScopeAsString(scope.getValue());
 			
 			att.setSourceMember(findMethod(m));

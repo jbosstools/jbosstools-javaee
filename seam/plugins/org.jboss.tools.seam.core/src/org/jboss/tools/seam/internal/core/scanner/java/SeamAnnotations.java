@@ -9,7 +9,10 @@ public interface SeamAnnotations {
 	
 	public static String IN_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "In";
 	public static String OUT_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Out";
-
+	public static String DATA_MODEL_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "datamodel.DataModel";
+	public static String DATA_MODEL_SELECTION_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "datamodel.DataModelSelection";
+	public static String DATA_MODEL_SELECTION_INDEX_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "datamodel.DataModelSelectionIndex";
+	
 	public static String CREATE_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Create";
 	public static String DESTROY_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Destroy";
 

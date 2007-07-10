@@ -121,6 +121,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
 	public boolean visit(FieldDeclaration node) {
 		currentAnnotatedField = new AnnotatedASTNode<FieldDeclaration>(node);
+		currentAnnotatedNode = currentAnnotatedField;
 		return true;
 	}
 
@@ -140,6 +141,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
 	public boolean visit(MethodDeclaration node) {
 		currentAnnotatedMethod = new AnnotatedASTNode<MethodDeclaration>(node);
+		currentAnnotatedNode = currentAnnotatedMethod;
 		return true;
 	}
 

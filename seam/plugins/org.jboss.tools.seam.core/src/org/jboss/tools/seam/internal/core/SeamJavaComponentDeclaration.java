@@ -1,7 +1,9 @@
 package org.jboss.tools.seam.internal.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
@@ -11,6 +13,7 @@ import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
@@ -184,17 +187,113 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 		Change children = new Change(this, null, null, null);
 
-		//TODO do real merge and add changes to children
-		this.bijectedAttributes = jd.bijectedAttributes;
-		for (IBijectedAttribute a: bijectedAttributes) adopt(a);
-		this.componentMethods = jd.componentMethods;
-		for (ISeamComponentMethod m: componentMethods) adopt(m);
-		this.roles = jd.roles;
-		for (IRole role: roles) adopt(role);
+		mergeComponentMethods(jd, children);
+		mergeBijected(jd, children);
+		mergeRoles(jd, children);
 
 		changes = Change.addChange(changes, children);
 		
 		return changes;
+	}
+	
+	public void mergeBijected(SeamJavaComponentDeclaration jd, Change children) {
+		
+		Map<Object, BijectedAttribute> bijectedMap = new HashMap<Object, BijectedAttribute>();
+		for (IBijectedAttribute r: bijectedAttributes) bijectedMap.put(((SeamObject)r).getId(), (BijectedAttribute)r);
+		
+		for (IBijectedAttribute r: jd.bijectedAttributes) {
+			BijectedAttribute loaded = (BijectedAttribute)r;
+			BijectedAttribute current = (BijectedAttribute)bijectedMap.remove(loaded.getId());
+			if(current == null) {
+				adopt(loaded);
+				bijectedAttributes.add(loaded);
+				ISeamProject p = getSeamProject();
+				if(p != null && loaded.isContextVariable()) {
+					p.getVariables().add(loaded);
+				}
+				Change change = new Change(this, null, null, loaded);
+				children.addChildren(Change.addChange(null, change));
+			} else {
+				boolean wasOut = current.isContextVariable();
+				boolean isOut = loaded.isContextVariable();
+				List<Change> rc = current.merge(loaded);
+				if(rc != null) children.addChildren(rc);
+				if(wasOut != isOut) {
+					ISeamProject p = getSeamProject();
+					if(p != null) {
+						if(wasOut) p.getVariables().remove(current);
+						if(isOut) p.getVariables().add(current);
+					}
+				}
+			}
+		}
+		
+		for (BijectedAttribute r: bijectedMap.values()) {
+			bijectedAttributes.remove(r);
+			ISeamProject p = getSeamProject();
+			if(p != null) p.getVariables().remove(r);
+			Change change = new Change(this, null, r, null);
+			children.addChildren(Change.addChange(null, change));
+		}
+
+	}
+
+	public void mergeRoles(SeamJavaComponentDeclaration jd, Change children) {
+		
+		Map<Object, Role> roleMap = new HashMap<Object, Role>();
+		for (IRole r: roles) roleMap.put(((SeamObject)r).getId(), (Role)r);
+		
+		for (IRole r: jd.roles) {
+			Role loaded = (Role)r;
+			Role current = (Role)roleMap.remove(loaded.getId());
+			if(current == null) {
+				adopt(loaded);
+				roles.add(loaded);
+				ISeamProject p = getSeamProject();
+				if(p != null) p.getVariables().add(loaded);
+				Change change = new Change(this, null, null, loaded);
+				children.addChildren(Change.addChange(null, change));
+			} else {
+				List<Change> rc = current.merge(loaded);
+				if(rc != null) children.addChildren(rc);
+			}
+		}
+		
+		for (Role r: roleMap.values()) {
+			roles.remove(r);
+			ISeamProject p = getSeamProject();
+			if(p != null) p.getVariables().remove(r);
+			Change change = new Change(this, null, r, null);
+			children.addChildren(Change.addChange(null, change));
+		}
+
+	}
+
+	public void mergeComponentMethods(SeamJavaComponentDeclaration jd, Change children) {
+		
+		Map<Object, SeamComponentMethod> methodsMap = new HashMap<Object, SeamComponentMethod>();
+		for (ISeamComponentMethod r: componentMethods) methodsMap.put(((SeamObject)r).getId(), (SeamComponentMethod)r);
+		
+		for (ISeamComponentMethod r: jd.componentMethods) {
+			SeamComponentMethod loaded = (SeamComponentMethod)r;
+			SeamComponentMethod current = (SeamComponentMethod)methodsMap.remove(loaded.getId());
+			if(current == null) {
+				adopt(loaded);
+				componentMethods.add(loaded);
+				Change change = new Change(this, null, null, loaded);
+				children.addChildren(Change.addChange(null, change));
+			} else {
+				List<Change> rc = current.merge(loaded);
+				if(rc != null) children.addChildren(rc);
+			}
+		}
+		
+		for (SeamComponentMethod r: methodsMap.values()) {
+			componentMethods.remove(r);
+			Change change = new Change(this, null, r, null);
+			children.addChildren(Change.addChange(null, change));
+		}
+
 	}
 
 	/**

@@ -37,6 +37,12 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 		}
 		return false;
 	}
+	
+	public boolean isContextVariable() {
+		//TODO which else?
+		return isOfType(BijectedAttributeType.OUT)
+			|| isOfType(BijectedAttributeType.DATA_BINDER);
+	}
 
 	public void setTypes(BijectedAttributeType[] types) {
 		this.types = types;

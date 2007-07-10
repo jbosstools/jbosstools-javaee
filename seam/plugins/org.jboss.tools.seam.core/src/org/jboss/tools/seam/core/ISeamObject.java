@@ -21,6 +21,12 @@ import org.eclipse.core.runtime.IPath;
 public interface ISeamObject {
 	
 	/**
+	 * Returns seam project that contains this object.
+	 * @return
+	 */
+	public ISeamProject getSeamProject();
+
+	/**
 	 * Returns parent object of seam model.
 	 * @return
 	 */

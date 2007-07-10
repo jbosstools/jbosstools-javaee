@@ -74,6 +74,10 @@ public class SeamProject extends SeamObject implements ISeamProject {
 	public IProject getProject() {
 		return project;
 	}
+	
+	public ISeamProject getSeamProject() {
+		return this;
+	}
 
 	public void setProject(IProject project) {
 		this.project = project;
@@ -177,6 +181,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		List<Change> addedComponents = null;
 		for (int i = 0; i < components.length; i++) {
 			SeamComponentDeclaration loaded = (SeamComponentDeclaration)components[i];
+			loaded.setParent(this);
 			SeamComponentDeclaration current = (SeamComponentDeclaration)currentComponents.remove(loaded.getId());
 
 			loaded.setSourcePath(source);

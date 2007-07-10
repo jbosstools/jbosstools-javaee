@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamObject;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
@@ -43,6 +44,10 @@ public class SeamObject implements ISeamObject {
 	protected ISeamObject parent;
 	
 	public SeamObject() {}
+
+	public ISeamProject getSeamProject() {
+		return parent == null ? null : parent.getSeamProject();
+	}
 
 	public Object getId() {
 		return id;
