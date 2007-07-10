@@ -53,4 +53,9 @@ public class SeamValidationContext {
 	public String getNonuniqueNameOfComponent(IPath sourcePath) {
 		return nonuniqueNames.get(sourcePath);
 	}
+
+	public void clear() {
+		markedNonuniqueNamedResources.clear();
+		nonuniqueNames.clear();
+	}
 }

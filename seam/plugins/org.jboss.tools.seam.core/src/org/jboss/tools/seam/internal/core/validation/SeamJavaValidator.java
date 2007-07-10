@@ -21,6 +21,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
@@ -68,12 +69,12 @@ public class SeamJavaValidator extends SeamValidator {
 					continue;
 				}
 				if (currentFile != null && currentFile.exists()) {
-					String oldComponentNameOfChangedFile = validationContext.getNonuniqueNameOfComponent(currentFile.getLocation());
+					String oldComponentNameOfChangedFile = validationContext.getNonuniqueNameOfComponent(currentFile.getFullPath());
 					if(oldComponentNameOfChangedFile!=null) {
 						Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
 
 						// Check if component name was changed in java file
-						String newComponentNameOfChangedFile = getComponentNameByResource(currentFile.getLocation(), project);
+						String newComponentNameOfChangedFile = getComponentNameByResource(currentFile.getFullPath(), project);
 						if(newComponentNameOfChangedFile!=null && !oldComponentNameOfChangedFile.equals(newComponentNameOfChangedFile)) {
 							// Name was changed.
 							// Collect resources with new component name.
@@ -81,6 +82,9 @@ public class SeamJavaValidator extends SeamValidator {
 							if(linkedResources!=null) {
 								resources.addAll(linkedResources);
 							}
+						// Check if changed file is not component anymore.
+						} else if(newComponentNameOfChangedFile == null) {
+							resources.add(currentFile.getFullPath());
 						}
 
 						// Collect resources with old component name.
@@ -102,7 +106,7 @@ public class SeamJavaValidator extends SeamValidator {
 						}
 					} else {
 						// Validate new (unmarked) Java file.
-						validateUniqueComponentName(project, currentFile.getLocation(), checkedComponents, helper, reporter);
+						validateUniqueComponentName(project, currentFile.getFullPath(), checkedComponents, helper, reporter);
 					}
 					// TODO
 				}
@@ -134,9 +138,12 @@ public class SeamJavaValidator extends SeamValidator {
 	}
 
 	public void cleanup(IReporter reporter) {
+		super.cleanup(reporter);
 	}
 
 	private IStatus validateAll(ISeamProject project, IValidationContext helper, IReporter reporter) {
+		reporter.removeAllMessages(this);
+		validationContext.clear();
 		Set<ISeamComponent> components = project.getComponents();
 		for (ISeamComponent component : components) {
 			validateUniqueComponentName(project, component, helper, reporter);
@@ -173,11 +180,11 @@ public class SeamJavaValidator extends SeamValidator {
 							ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, checkedDeclarationResource, NONUNIQUE_NAME_MESSAGE_GROUP);
 							markedDeclarations.add(checkedDeclaration);
-							validationContext.addLinkedResource(checkedDeclaration.getName(), checkedDeclarationResource.getLocation());
+							validationContext.addLinkedResource(checkedDeclaration.getName(), checkedDeclarationResource.getFullPath());
 						}
 						// Mark next wrong declaration with that name
 						markedDeclarations.add(javaDeclaration);
-						validationContext.addLinkedResource(javaDeclaration.getName(), javaDeclaration.getResource().getLocation());
+						validationContext.addLinkedResource(javaDeclaration.getName(), javaDeclarationResource.getFullPath());
 						ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 						addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, javaDeclarationResource, NONUNIQUE_NAME_MESSAGE_GROUP);
 					}

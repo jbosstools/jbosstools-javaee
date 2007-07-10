@@ -38,6 +38,15 @@
       </persistent>
    </extension>
    <extension
+         id="seamProblem"
+         name="Seam Problem"
+         point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.wst.validation.problemmarker"/>
+      	<persistent
+            value="true">
+      	</persistent>
+   </extension>
+   <extension
          point="org.eclipse.wst.common.project.facet.core.facets">
       <project-facet
             id="jst.seam">
@@ -127,7 +136,7 @@
 				objectClass="org.eclipse.core.resources.IFile"
 				nameFilter="*.java"/>
 			<markerId
-               markerIdValue="SeamAnnatationValidatorMarker">
+               markerIdValue="seamProblem">
          	</markerId>
 			<helper 
 				class="org.jboss.tools.seam.internal.core.validation.SeamJavaHelper">
