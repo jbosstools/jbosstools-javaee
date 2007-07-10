@@ -190,7 +190,7 @@ public class ClassScanner implements SeamAnnotations {
 	private void processBijection(Member m, Annotation in, Annotation out, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
 		if(in == null && out == null) return;
 		BijectedAttribute att = new BijectedAttribute();
-		component.getBijectedAttributes().add(att);
+		component.addBijectedAttribute(att);
 
 		BijectedAttributeType[] types = (in == null) ? new BijectedAttributeType[]{BijectedAttributeType.OUT}
 			: (out == null) ? new BijectedAttributeType[]{BijectedAttributeType.IN}

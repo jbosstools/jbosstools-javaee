@@ -133,7 +133,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			MethodDeclaration m = n.getNode();
 
 			BijectedAttribute att = new BijectedAttribute();
-			component.getBijectedAttributes().add(att);
+			component.addBijectedAttribute(att);
 
 			BijectedAttributeType[] types = (in == null) ? new BijectedAttributeType[]{BijectedAttributeType.OUT}
 				: (out == null) ? new BijectedAttributeType[]{BijectedAttributeType.IN}
@@ -164,7 +164,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			MethodDeclaration m = n.getNode();
 
 			SeamComponentMethod cm = new SeamComponentMethod();
-			component.getMethods().add(cm);
+			component.addMethod(cm);
 			
 			if(aCreate != null) cm.setCreate(true);
 			if(aDestroy != null) cm.setDestroy(true);
@@ -203,6 +203,8 @@ public class ComponentBuilder implements SeamAnnotations {
 
 		ValueInfo scope = ValueInfo.getValueInfo(role, "scope");
 		if(scope != null) r.setScope(scope);
+		
+		component.addRole(r);
 	}
 
 	private Annotation findAnnotation(AnnotatedASTNode<?> n, String type) {

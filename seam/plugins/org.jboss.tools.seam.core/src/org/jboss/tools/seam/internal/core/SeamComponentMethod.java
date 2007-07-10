@@ -5,12 +5,11 @@ import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 
-public class SeamComponentMethod implements ISeamComponentMethod {
+public class SeamComponentMethod extends SeamObject implements ISeamComponentMethod {
 	boolean create = false;
 	boolean destroy = false;
 	
 	IMember javaSource = null;
-	IResource resource = null;
 
 	public boolean isCreate() {
 		return create;
@@ -47,7 +46,8 @@ public class SeamComponentMethod implements ISeamComponentMethod {
 	}
 
 	public IResource getResource() {
-		if(resource == null && javaSource != null) {
+		if(resource == null) {
+			if(javaSource == null) return super.getResource();
 			resource = javaSource.getResource();
 		}
 		return resource;

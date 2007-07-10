@@ -10,18 +10,11 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.eclipse.core.resources.IResource;
-
 /**
  * An interface of seam tools model object that has text source.
  * @author Alexey Kazakov
  */
 public interface ISeamTextSourceReference {
-
-	/**
-	 * @return resource 
-	 */
-	public IResource getResource();
 
 	/**
 	 * @return start position of element in text

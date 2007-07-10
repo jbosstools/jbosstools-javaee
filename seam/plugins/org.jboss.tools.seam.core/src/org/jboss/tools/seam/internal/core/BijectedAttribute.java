@@ -47,8 +47,9 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 		this.types = types;
 	}
 
-	public List<Change> merge(AbstractContextVariable f) {
-		List<Change> changes = super.merge(f);
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		AbstractContextVariable f = (AbstractContextVariable)s;
 		
 		if(f instanceof BijectedAttribute) {
 			BijectedAttribute sf = (BijectedAttribute)f;

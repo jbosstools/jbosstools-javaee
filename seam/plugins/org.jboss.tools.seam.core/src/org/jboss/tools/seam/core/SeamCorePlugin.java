@@ -10,9 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
+import org.jboss.tools.seam.internal.core.SeamProject;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -76,4 +79,33 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	public static IPluginLog getPluginLog() {
 		return getDefault();
 	}
+	
+	/**
+	 * Factory method creating seam project instance by project resource.
+	 * Returns null if 
+	 * (1) project does not exist 
+	 * (2) project is closed 
+	 * (3) project has no seam nature
+	 * (4) creating seam project failed.
+	 * @param project
+	 * @return
+	 */
+	public static ISeamProject getSeamProject(IProject project) {
+		if(project == null || !project.exists() || !project.isOpen()) return null;
+		try {
+			if(!project.hasNature(ISeamProject.NATURE_ID)) return null;
+		} catch (CoreException e) {
+			//ignore - all checks are done above
+			return null;
+		}
+		try {
+			SeamProject seamProject = (SeamProject)project.getNature(ISeamProject.NATURE_ID);
+			seamProject.resolveStorage(true);
+			return seamProject;
+		} catch (Exception e) {
+			getPluginLog().logError(e);
+		}
+		return null;
+	}
+
 }

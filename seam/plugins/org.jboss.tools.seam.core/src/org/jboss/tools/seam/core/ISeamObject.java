@@ -10,24 +10,32 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
+
 /**
- * A property of Seam Component defined in component.xml or seam.properties files
+ * Common interface for objects of seam model.
+ *  
+ * @author Viacheslav Kabanovich
  */
-public interface ISeamProperty extends ISeamObject, ISeamTextSourceReference {
+public interface ISeamObject {
+	
+	/**
+	 * Returns parent object of seam model.
+	 * @return
+	 */
+	public ISeamObject getParent();
+	
+	/**
+	 * Returns path of resource that declares this object.
+	 * @return
+	 */
+	public IPath getSourcePath();
 
 	/**
-	 * @return name of this property
+	 * Returns resource that declares this object.
+	 * @return resource 
 	 */
-	public String getName();
+	public IResource getResource();
 
-	/**
-	 * @return value of this property
-	 */
-	public Object getValue();
-
-	/**
-	 * Sets value of this property
-	 * @param value
-	 */
-	public void setValue(Object value);
 }

@@ -13,11 +13,10 @@ package org.jboss.tools.seam.core;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProjectNature;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 
-public interface ISeamProject extends IProjectNature {
+public interface ISeamProject extends IProjectNature, ISeamObject {
 
 	public static String NATURE_ID = "org.jboss.tools.seam.core.seam";
 

@@ -17,6 +17,7 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 
 	public void addProperty(ISeamProperty property) {
 		properties.put(property.getName(), property);
+		adopt(property);
 	}
 
 	public List<ISeamProperty> getProperties(String propertyName) {
@@ -50,9 +51,9 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamComponentDeclaration d) {
-		List<Change> changes = super.merge(d);
-		SeamPropertiesDeclaration pd = (SeamPropertiesDeclaration)d;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		SeamPropertiesDeclaration pd = (SeamPropertiesDeclaration)s;
 		
 		Change children = new Change(this, null, null, null);
 

@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -26,21 +25,9 @@ import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 /**
  * @author Viacheslav Kabanovich
  */
-public abstract class SeamComponentDeclaration implements ISeamComponentDeclaration {
+public abstract class SeamComponentDeclaration extends SeamObject implements ISeamComponentDeclaration {
 
 	public static final String PATH_OF_NAME = "name";
-
-	/**
-	 * Path of resource where this component is declared.
-	 */
-	protected IPath source;
-	
-	protected IResource resource;
-
-	/**
-	 * Object that allows to identify this declaration.
-	 */
-	protected Object id;
 
 	/**
 	 * Seam component name.
@@ -49,14 +36,6 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	
 	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
 	
-	public Object getId() {
-		return id;
-	}
-	
-	public void setId(Object id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -65,26 +44,11 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 		this.name = name;
 	}
 	
-	public void setSourcePath(IPath path) {
-		source = path;
-	}
-	
-	public IPath getSourcePath() {
-		return source;
-	}
-
 	public int getLength() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public IResource getResource() {
-		if(resource == null && source != null) {
-			resource = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
-		}
-		return resource;
-	}
-	
 	public void setResource(IResource resource) {
 		this.resource = resource;
 	}
@@ -100,8 +64,10 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamComponentDeclaration d) {
-		List<Change> changes = null;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		SeamComponentDeclaration d = (SeamComponentDeclaration)s;
+
 		if(!source.equals(d.source)) {
 			source = d.source;
 		}
@@ -132,10 +98,6 @@ public abstract class SeamComponentDeclaration implements ISeamComponentDeclarat
 		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
 			public int getLength() {
 				return valueInfo != null ? valueInfo.getLength() : 0;
-			}
-
-			public IResource getResource() {
-				return SeamComponentDeclaration.this.getResource();
 			}
 
 			public int getStartPosition() {

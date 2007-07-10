@@ -22,15 +22,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
-import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
@@ -44,7 +41,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		new XMLScanner(), 
 //		new LibraryScanner()
 	};
-	SampleResourceVisitor RESOURCE_VISITOR = new SampleResourceVisitor();
+	
+	SeamResourceVisitor resourceVisitor = null;
 	
 	SeamProject getSeamProject() {
 		IProject p = getProject();
@@ -55,6 +53,14 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			return null;
 		}
 	}
+	
+	SeamResourceVisitor getResourceVisitor() {
+		if(resourceVisitor == null) {
+			SeamProject p = getSeamProject();
+			resourceVisitor = new SeamResourceVisitor(p);
+		}
+		return resourceVisitor;
+	}
 
 	class SampleDeltaVisitor implements IResourceDeltaVisitor {
 		/*
@@ -64,49 +70,19 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			IResource resource = delta.getResource();
 			switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
-				RESOURCE_VISITOR.visit(resource);
+				getResourceVisitor().getVisitor().visit(resource);
 				break;
 			case IResourceDelta.REMOVED:
 				SeamProject p = getSeamProject();
 				if(p != null) p.pathRemoved(resource.getFullPath());
 				break;
 			case IResourceDelta.CHANGED:
-				RESOURCE_VISITOR.visit(resource);
+				getResourceVisitor().getVisitor().visit(resource);
 				break;
 			}
 			//return true to continue visiting children.
 			return true;
 		}
-	}
-
-	class SampleResourceVisitor implements IResourceVisitor {
-		public boolean visit(IResource resource) {
-			if(resource instanceof IFile) {
-				IFile f = (IFile)resource;
-				for (int i = 0; i < FILE_SCANNERS.length; i++) {
-					IFileScanner scanner = FILE_SCANNERS[i];
-					if(scanner.isRelevant(f)) {
-						if(!scanner.isLikelyComponentSource(f)) return false;
-						LoadedDeclarations c = null;
-						try {
-							c = scanner.parse(f);
-						} catch (Exception e) {
-							SeamCorePlugin.getDefault().logError(e);
-						}
-						if(c != null) componentsLoaded(c, f);
-					}
-				}
-			}
-			//return true to continue visiting children.
-			return true;
-		}
-	}
-	
-	void componentsLoaded(LoadedDeclarations c, IFile resource) {
-		if(c == null || c.getComponents().size() + c.getFactories().size() == 0) return;
-		SeamProject p = getSeamProject();
-		if(p == null) return;
-		p.registerComponents(c, resource.getFullPath());
 	}
 
 	class XMLErrorHandler extends DefaultHandler {
@@ -162,9 +138,11 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	 */
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-		if(getSeamProject().getClassPath().update()) {
-			System.out.println("update from class path");
-			getSeamProject().getClassPath().process();
+		SeamProject sp = getSeamProject();
+		sp.resolveStorage(kind != FULL_BUILD);
+		
+		if(sp.getClassPath().update()) {
+			sp.getClassPath().process();
 		}
 		
 		if (kind == FULL_BUILD) {
@@ -177,6 +155,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
+		sp.store();
 		return null;
 	}
 
@@ -202,7 +181,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	protected void fullBuild(final IProgressMonitor monitor)
 			throws CoreException {
 		try {
-			getProject().accept(RESOURCE_VISITOR);
+			getProject().accept(getResourceVisitor().getVisitor());
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

@@ -83,9 +83,9 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamComponentDeclaration d) {
-		List<Change> changes = super.merge(d);
-		SeamXmlComponentDeclaration xd = (SeamXmlComponentDeclaration)d;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		SeamXmlComponentDeclaration xd = (SeamXmlComponentDeclaration)s;
 		
 		if(!stringsEqual(className, xd.className)) {
 			changes = Change.addChange(changes, new Change(this, CLASS, className, xd.className));

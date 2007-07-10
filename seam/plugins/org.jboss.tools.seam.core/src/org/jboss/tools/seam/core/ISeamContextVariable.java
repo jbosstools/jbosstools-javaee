@@ -14,7 +14,7 @@ package org.jboss.tools.seam.core;
  * Represents Seam Context Variable.
  * @author Alexey Kazakov
  */
-public interface ISeamContextVariable {
+public interface ISeamContextVariable extends ISeamObject {
 
 	/**
 	 * @return name of context variable

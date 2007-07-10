@@ -14,12 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.event.Change;
 
-public class SeamProperty implements ISeamProperty {
-	protected Object id;
+public class SeamProperty extends SeamObject implements ISeamProperty {
 	protected String name;
 	protected Object value;
 	protected int startPosition = -1;
@@ -39,14 +37,6 @@ public class SeamProperty implements ISeamProperty {
 	public SeamProperty(String name, Object value) {
 		this.name = name;
 		this.value = value;
-	}
-
-	public Object getId() {
-		return id;
-	}
-	
-	public void setId(Object id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -77,18 +67,11 @@ public class SeamProperty implements ISeamProperty {
 		this.value = value;
 	}
 
-	/**
-	 * @see org.jboss.tools.seam.core.ISeamXmlElement#getResource()
-	 */
-	public IResource getResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		
+		SeamProperty d = (SeamProperty)s;
 
-	public List<Change> merge(SeamProperty d) {
-		List<Change> changes = null;
-
-		id = d.id;
 		startPosition = d.startPosition;
 		length = d.length;
 

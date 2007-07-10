@@ -10,11 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
@@ -44,9 +41,9 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		this.autoCreate = autoCreate;
 	}
 
-	public List<Change> merge(AbstractContextVariable f) {
-		List<Change> changes = super.merge(f);
-		SeamAnnotatedFactory af = (SeamAnnotatedFactory)f;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		SeamAnnotatedFactory af = (SeamAnnotatedFactory)s;
 
 		if(autoCreate != af.autoCreate) {
 			changes = Change.addChange(changes, new Change(this, ISeamXmlComponentDeclaration.AUTO_CREATE, autoCreate, af.autoCreate));
@@ -67,10 +64,6 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
 			public int getLength() {
 				return valueInfo != null ? valueInfo.getLength() : 0;
-			}
-
-			public IResource getResource() {
-				return SeamAnnotatedFactory.this.getResource();
 			}
 
 			public int getStartPosition() {

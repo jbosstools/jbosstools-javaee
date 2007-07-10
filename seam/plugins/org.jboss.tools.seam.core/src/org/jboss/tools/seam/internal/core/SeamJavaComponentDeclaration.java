@@ -58,15 +58,18 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	}
 
 	public void addBijectedAttribute(IBijectedAttribute attribute) {
-		bijectedAttributes.add(attribute);		
+		bijectedAttributes.add(attribute);
+		adopt(attribute);
 	}
 
 	public void addMethod(ISeamComponentMethod method) {
 		componentMethods.add(method);
+		adopt(method);
 	}
 
 	public void addRole(IRole role) {
-		roles.add(role);		
+		roles.add(role);
+		adopt(role);
 	}
 
 	public Set<IBijectedAttribute> getBijectedAttributes() {
@@ -115,7 +118,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public Set<IRole> getRoles() {
 		return roles;
 	}
-
+	
 	public boolean isEntity() {
 		return entity;
 	}
@@ -154,9 +157,9 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamComponentDeclaration d) {
-		List<Change> changes = super.merge(d);
-		SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)d;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)s;
 		if(!stringsEqual(className, jd.className)) {
 			changes = Change.addChange(changes, new Change(this, "class", className, jd.className));
 			className = jd.className;
@@ -183,8 +186,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 		//TODO do real merge and add changes to children
 		this.bijectedAttributes = jd.bijectedAttributes;
+		for (IBijectedAttribute a: bijectedAttributes) adopt(a);
 		this.componentMethods = jd.componentMethods;
-		this.roles = jd.roles;		
+		for (ISeamComponentMethod m: componentMethods) adopt(m);
+		this.roles = jd.roles;
+		for (IRole role: roles) adopt(role);
 
 		changes = Change.addChange(changes, children);
 		

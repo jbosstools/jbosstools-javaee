@@ -38,9 +38,9 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 		this.value = value;
 	}
 
-	public List<Change> merge(AbstractContextVariable f) {
-		List<Change> changes = super.merge(f);
-		SeamXmlFactory xf = (SeamXmlFactory)f;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		SeamXmlFactory xf = (SeamXmlFactory)s;
 
 		if(!stringsEqual(value, xf.value)) {
 			changes = Change.addChange(changes, new Change(this, "value", value, xf.value));

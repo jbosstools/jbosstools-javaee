@@ -29,7 +29,10 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 
-public class SeamComponent implements ISeamComponent {
+/**
+ * @author Viacheslav Kabanovich
+ */
+public class SeamComponent extends SeamObject implements ISeamComponent {
 	
 	protected String name = null;
 
@@ -197,6 +200,9 @@ public class SeamComponent implements ISeamComponent {
 	public void addDeclaration(ISeamComponentDeclaration declaration) {
 		if(allDeclarations.contains(declaration)) return;
 		allDeclarations.add(declaration);
+		if(name.equals(declaration.getName())) {
+			((SeamObject)declaration).setParent(this);
+		}
 		if(declaration instanceof ISeamJavaComponentDeclaration) {
 			javaDeclarations.add((ISeamJavaComponentDeclaration)declaration);
 		} else if(declaration instanceof ISeamXmlComponentDeclaration) {

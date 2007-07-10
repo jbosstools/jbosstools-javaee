@@ -27,7 +27,7 @@ public class SeamJavaContextVariable extends AbstractContextVariable implements 
 	}
 
 	public IResource getResource() {
-		return javaSource == null ? null : javaSource.getTypeRoot().getResource();
+		return javaSource == null ? super.getResource() : javaSource.getTypeRoot().getResource();
 	}
 
 	public int getStartPosition() {
@@ -41,11 +41,11 @@ public class SeamJavaContextVariable extends AbstractContextVariable implements 
 		}
 	}
 
-	public List<Change> merge(AbstractContextVariable f) {
-		List<Change> changes = super.merge(f);
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
 		
-		if(f instanceof SeamJavaContextVariable) {
-			SeamJavaContextVariable sf = (SeamJavaContextVariable)f;
+		if(s instanceof SeamJavaContextVariable) {
+			SeamJavaContextVariable sf = (SeamJavaContextVariable)s;
 			javaSource = sf.javaSource;
 			resource = sf.resource;
 		}

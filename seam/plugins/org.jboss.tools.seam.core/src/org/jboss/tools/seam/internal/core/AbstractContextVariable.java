@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
 import java.util.HashMap;
@@ -6,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -14,18 +23,10 @@ import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
-public class AbstractContextVariable implements ISeamContextVariable, ISeamTextSourceReference {
-	/**
-	 * Path of resource where this factory is declared.
-	 */
-	protected IPath source;
-
-	protected IResource resource = null;
-
-	/**
-	 * Object that allows to identify this declaration.
-	 */
-	protected Object id;
+/**
+ * @author Viacheslav Kabanovich
+ */
+public class AbstractContextVariable extends SeamObject implements ISeamContextVariable, ISeamTextSourceReference {
 
 	protected String name;
 	protected ScopeType scopeType;
@@ -33,22 +34,6 @@ public class AbstractContextVariable implements ISeamContextVariable, ISeamTextS
 
 	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
 	
-	public Object getId() {
-		return id;
-	}
-	
-	public void setId(Object id) {
-		this.id = id;
-	}
-
-	public void setSourcePath(IPath path) {
-		source = path;
-	}
-	
-	public IPath getSourcePath() {
-		return source;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -82,14 +67,6 @@ public class AbstractContextVariable implements ISeamContextVariable, ISeamTextS
 		return 0;
 	}
 
-	public IResource getResource() {
-		if(resource != null) return resource;
-		if(source != null) {
-			resource = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
-		}
-		return resource;
-	}
-
 	public int getStartPosition() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -101,12 +78,10 @@ public class AbstractContextVariable implements ISeamContextVariable, ISeamTextS
 	 * @param f
 	 * @return list of changes
 	 */
-	public List<Change> merge(AbstractContextVariable f) {
-		List<Change> changes = null;
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		AbstractContextVariable f = (AbstractContextVariable)s;
 
-		source = f.source;
-		id = f.id;
-		
 		if(!stringsEqual(name, f.name)) {
 			changes = Change.addChange(changes, new Change(this, ISeamXmlComponentDeclaration.NAME, name, f.name));
 			name = f.name;

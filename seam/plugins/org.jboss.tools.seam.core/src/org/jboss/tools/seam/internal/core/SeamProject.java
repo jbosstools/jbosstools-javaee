@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,10 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -30,6 +35,7 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
@@ -40,9 +46,13 @@ import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamProject implements ISeamProject {
+public class SeamProject extends SeamObject implements ISeamProject {
 	IProject project;
 	ClassPath classPath = new ClassPath(this);
+	
+	Set<IPath> sourcePaths = new HashSet<IPath>();
+	private boolean isStorageResolved = false;
+	
 	Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
 	protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
@@ -66,6 +76,7 @@ public class SeamProject implements ISeamProject {
 
 	public void setProject(IProject project) {
 		this.project = project;
+		setSourcePath(project.getFullPath());
 		classPath.init();
 		load();
 	}
@@ -73,19 +84,61 @@ public class SeamProject implements ISeamProject {
 	public ClassPath getClassPath() {
 		return classPath;
 	}
+	
+	public void resolveStorage(boolean load) {
+		if(isStorageResolved) return;
+		if(load) {
+			load(); 
+		} else {
+			isStorageResolved = true;
+		}
+	}
 
 	/**
 	 * Loads results of last build, which are considered 
 	 * actual until next build.
 	 */	
-	protected void load() {
+	public void load() {
+		if(isStorageResolved) return;
+		isStorageResolved = true;
+		long begin = System.currentTimeMillis();
+		if(getClassPath().update()) {
+			getClassPath().process();
+		}
+		File file = getStorageFile();
+		if(file == null || !file.isFile()) return;
+		String s = FileUtil.readFile(file);
+		String[] ps = s.split("\n");
+		for (int i = 0; i < ps.length; i++) {
+			IPath path = new Path(ps[i].trim());
+			if(sourcePaths.contains(path)) continue;
+			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if(f == null || !f.exists() || !f.isSynchronized(IResource.DEPTH_ZERO)) continue;
+			SeamResourceVisitor b = new SeamResourceVisitor(this);
+			b.visit(f);
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("loaded in " + (end - begin));
 	}
 
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
 	 */
-	protected void store() {
+	public void store() {
+		File file = getStorageFile();
+		file.getParentFile().mkdirs();
+		StringBuffer sb = new StringBuffer();
+		for (IPath path : sourcePaths) {
+			sb.append(path.toString()).append('\n');
+		}		
+		FileUtil.writeFile(file, sb.toString());
+	}
+	
+	private File getStorageFile() {
+		IPath path = SeamCorePlugin.getDefault().getStateLocation();
+		File file = new File(path.toFile(), "projects/" + project.getName());
+		return file;
 	}
 
 	public SeamValidationContext getValidationContext() {
@@ -119,6 +172,7 @@ public class SeamProject implements ISeamProject {
 			pathRemoved(source);
 			return;
 		}
+		if(!sourcePaths.contains(source)) sourcePaths.add(source);
 		
 		Map<Object,ISeamComponentDeclaration> currentComponents = findComponentDeclarations(source);
 
@@ -204,6 +258,9 @@ public class SeamProject implements ISeamProject {
 				fireChanges(changes);
 				continue;
 			}
+			if(factories[i].getParent() == null) {
+				adopt(factories[i]);
+			}
 			allFactories.add(factories[i]);
 			allVariables.add(factories[i]);
 			addedFactories = Change.addChange(addedFactories, new Change(this, null, null, loaded));
@@ -222,6 +279,8 @@ public class SeamProject implements ISeamProject {
 	 * @param source
 	 */
 	public void pathRemoved(IPath source) {
+		if(!sourcePaths.contains(source)) return;
+		sourcePaths.remove(source);
 		Iterator<SeamComponent> iterator = allComponents.values().iterator();
 		while(iterator.hasNext()) {
 			List<Change> changes = null;
@@ -436,6 +495,8 @@ public class SeamProject implements ISeamProject {
 	SeamComponent newComponent(String name) {
 		SeamComponent c = new SeamComponent();
 		c.setName(name);
+		c.setId(name);
+		c.setParent(this);
 		return c;
 	}
 	
@@ -478,4 +539,7 @@ public class SeamProject implements ISeamProject {
 		}
 		return result;
 	}
+}
+
+class InnerBuilder {
 }

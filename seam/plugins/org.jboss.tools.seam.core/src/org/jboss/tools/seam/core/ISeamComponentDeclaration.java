@@ -14,7 +14,7 @@ package org.jboss.tools.seam.core;
  * Represents declaration of seam component.
  * @author Alexey Kazakov
  */
-public interface ISeamComponentDeclaration extends ISeamTextSourceReference {
+public interface ISeamComponentDeclaration extends ISeamObject, ISeamTextSourceReference {
 
 	/**
 	 * @return name of component.
