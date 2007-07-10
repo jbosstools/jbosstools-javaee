@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.test;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -25,12 +24,12 @@ import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
-import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
 public class ScannerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -56,6 +55,12 @@ public class ScannerTest extends TestCase {
 		} catch (Exception e) {
 			fail("Interrupted");
 		}
+		try {
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+			XJob.waitForJob();
+		} catch (Exception e) {
+			fail("Cannot build");
+		}
 		ISeamProject seamProject = null;
 		try {
 			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
@@ -71,34 +76,31 @@ public class ScannerTest extends TestCase {
 		IFileScanner scanner = SeamCoreBuilder.getXMLScanner();
 		assertTrue("Scanner cannot recognise components.xml", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise components.xml content", scanner.isLikelyComponentSource(f));
-		LoadedDeclarations cs = null;
+		ISeamComponentDeclaration[] cs = null;
 		
 		try {
-			cs = scanner.parse(f);
+			cs = scanner.parse(f).getComponents().toArray(new ISeamComponentDeclaration[0]);
 		} catch (Exception e) {
 			fail("Error in xml scanner:" + e.getMessage());
 		}
-		assertTrue("Components are not found in components.xml", cs != null && cs.getComponents().size() > 0);
+		assertTrue("Components are not found in components.xml", cs != null && cs.length > 0);
 
-		assertTrue("First component name must be " + "myComponent", "myComponent".equals(cs.getComponents().get(0).getName()));
+		assertTrue("First component name must be " + "myComponent", "myComponent".equals(cs[0].getName()));
 
 		//After having tested details of xml scanner now let us check
 		// that it succeeded in build.
-		Set<ISeamComponent> components = seamProject.getComponents();
+		ISeamComponent c = seamProject.getComponent("myComponent");
 
-		assertTrue("Seam builder must put myComponent to project.", components.size() == 1);
+		assertTrue("Seam builder must put myComponent to project.", c != null);
 
-		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
-			ISeamComponent c = (ISeamComponent) iterator.next();
-			//We have list property in this component
-			List<ISeamProperty> prs = c.getProperties("myList");
-			assertTrue("Property myList is not found in components.xml", prs.size() == 1);		
-			ISeamProperty property = prs.get(0);
-			Object o = property.getValue();
-			assertTrue("Property myList in myComponent must be instanceof java.util.List.", o instanceof List);
-			List<?> oList = (List<?>)o;
-			assertTrue("Property myList misses value 'value1.", "value1".equals(oList.get(0)));
-		}
+		//We have list property in this component
+		List<ISeamProperty> prs = c.getProperties("myList");
+		assertTrue("Property myList is not found in components.xml", prs.size() == 1);		
+		ISeamProperty property = prs.get(0);
+		Object o = property.getValue();
+		assertTrue("Property myList in myComponent must be instanceof java.util.List.", o instanceof List);
+		List<?> oList = (List<?>)o;
+		assertTrue("Property myList misses value 'value1.", "value1".equals(oList.get(0)));
 	}
 	
 	public void testJavaScanner() {
@@ -122,22 +124,22 @@ public class ScannerTest extends TestCase {
 		IFileScanner scanner = SeamCoreBuilder.getJavaScanner();
 		assertTrue("Scanner cannot recognise User.java", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise User.java content", scanner.isLikelyComponentSource(f));
-		LoadedDeclarations cs = null;
+		ISeamComponentDeclaration[] cs = null;
 		
 		try {
-			cs = scanner.parse(f);
+			cs = scanner.parse(f).getComponents().toArray(new ISeamComponentDeclaration[0]);
 		} catch (Exception e) {
 			fail("Error in java scanner:" + e.getMessage());
 		}
-		assertTrue("Components are not found in User.java", cs != null && cs.getComponents().size() > 0);
+		assertTrue("Components are not found in User.java", cs != null && cs.length > 0);
 
-		assertTrue("First component name must be " + "myUser", "myUser".equals(cs.getComponents().get(0).getName()));
+		assertTrue("First component name must be " + "myUser", "myUser".equals(cs[0].getName()));
 
 		 //After having tested details of java scanner now let us check
 		 //that it succeeded in build.
-		Set<ISeamComponent> components = seamProject.getComponents();
+		ISeamComponent c = seamProject.getComponent("myUser");
 		
-		assertTrue("Seam builder must put myUser to project.", components.size() == 1);		
+		assertTrue("Seam builder must put myUser to project.", c != null);		
 	
 	}
 
@@ -163,21 +165,22 @@ public class ScannerTest extends TestCase {
 		IFileScanner scanner = SeamCoreBuilder.getLibraryScanner();
 		assertTrue("Scanner cannot recognise jboss-seam.jar", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise jboss-seam.jar content", scanner.isLikelyComponentSource(f));
-		LoadedDeclarations cs = null;
+		
+		ISeamFactory[] cs = null;
 		
 		try {
-			cs = scanner.parse(f);
+			cs = scanner.parse(f).getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
 			fail("Error in library scanner:" + e.getMessage());
 		}
-		assertTrue("Components are not found in jboss-seam.jar", cs != null && cs.getComponents().size() > 0);
+		assertTrue("Factories are not found in jboss-seam.jar", cs != null && cs.length > 0);
 		
 		boolean hasActor = false;
-		for (int i = 0; i < cs.getComponents().size() && !hasActor; i++) {
-			if("actor".equals(cs.getComponents().get(0).getName())) hasActor = true;
+		for (int i = 0; i < cs.length && !hasActor; i++) {
+			if("actor".equals(cs[0].getName())) hasActor = true;
 		}
 
-		assertTrue("Component " + "actor" + " is not found in jboss-seam.jar", hasActor);
+		assertTrue("Factory " + "actor" + " is not found in jboss-seam.jar", hasActor);
 		
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
@@ -190,7 +193,7 @@ public class ScannerTest extends TestCase {
 		 * After having tested details of library scanner now let us check
 		 * that it succeeded in build.
 		 */
-		Set<ISeamComponent> components = seamProject.getComponents();
+		Set<ISeamFactory> components = seamProject.getFactoriesByName("actor");
 	
 		assertTrue("Seam builder must put actor to project.", components.size()==1);		
 	}
