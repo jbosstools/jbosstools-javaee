@@ -13,7 +13,7 @@ package org.jboss.tools.seam.core;
 /**
  * A property of Seam Component defined in component.xml or seam.properties files
  */
-public interface ISeamProperty extends ISeamObject, ISeamTextSourceReference {
+public interface ISeamProperty extends ISeamElement, ISeamTextSourceReference {
 
 	/**
 	 * @return name of this property

@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IPath;
  *  
  * @author Viacheslav Kabanovich
  */
-public interface ISeamObject {
+public interface ISeamElement {
 	
 	/**
 	 * Returns seam project that contains this object.
@@ -30,7 +30,7 @@ public interface ISeamObject {
 	 * Returns parent object of seam model.
 	 * @return
 	 */
-	public ISeamObject getParent();
+	public ISeamElement getParent();
 	
 	/**
 	 * Returns path of resource that declares this object.

@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 
-public interface ISeamProject extends IProjectNature, ISeamObject {
+public interface ISeamProject extends IProjectNature, ISeamElement {
 
 	public static String NATURE_ID = "org.jboss.tools.seam.core.seam";
 

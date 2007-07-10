@@ -15,14 +15,14 @@ import java.util.List;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.seam.core.ISeamObject;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamObject implements ISeamObject {
+public class SeamObject implements ISeamElement {
 	/**
 	 * Object that allows to identify this object.
 	 */
@@ -41,7 +41,7 @@ public class SeamObject implements ISeamObject {
 	/**
 	 * Parent seam object in the seam model.
 	 */
-	protected ISeamObject parent;
+	protected ISeamElement parent;
 	
 	public SeamObject() {}
 
@@ -93,15 +93,15 @@ public class SeamObject implements ISeamObject {
 	 * Returns parent object of seam model.
 	 * @return
 	 */
-	public ISeamObject getParent() {
+	public ISeamElement getParent() {
 		return parent;
 	}
 	
-	public void setParent(ISeamObject parent) {
+	public void setParent(ISeamElement parent) {
 		this.parent = parent;
 	}
 	
-	protected void adopt(ISeamObject child) {
+	protected void adopt(ISeamElement child) {
 		((SeamObject)child).setParent(this);
 	}
 
