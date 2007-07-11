@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ import org.eclipse.jdt.core.IParent;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;
+import org.eclipse.jdt.internal.compiler.env.IBinaryAnnotation;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
@@ -155,34 +158,75 @@ public class LibraryScanner implements IFileScanner {
 				process((IPackageFragment)es[i], ds);
 			} else if(es[i] instanceof IClassFile) {
 				IClassFile typeRoot = (IClassFile)es[i];
-				IType type = typeRoot.getType();
-				String className = type.getFullyQualifiedName();
-				if(className.equals("org.jboss.seam.core.TransactionListener")) {
-//					System.out.println("!!");
-				}
-				
-				Class<?> cls = null;
-				try {
-					cls = classPath.getClassLoader().loadClass(className);
-				} catch (NoClassDefFoundError e) {
-					//ignore
-				} catch (ClassNotFoundException e) {
-					//ignore
-				}
-				if(cls == null) continue;
-				if(!CLASS_SCANNER.isLikelyComponentSource(cls)) continue;
-				LoadedDeclarations ds1 = null;
-				try {
-					ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
-				} catch (Exception e) {
-					SeamCorePlugin.getPluginLog().logError(e);
-				}
-				if(ds1 != null) {
-					ds.add(ds1);
-				}
-//				System.out.println(className);
+				processWithClassReader(typeRoot, ds);		
+//				processWithClassLoader(typeRoot, ds);
 			}
 		}
+	}
+	
+	void processWithClassReader(IClassFile typeRoot, LoadedDeclarations ds) {
+		IType type = typeRoot.getType();
+		
+		String className = type.getFullyQualifiedName();
+		
+		byte[] bs = null;
+		
+		try {
+			bs = typeRoot.getBytes();
+		} catch (JavaModelException e) {
+			return;
+		}
+		
+		ClassFileReader reader = null;
+
+		try {
+			reader = ClassFileReader.read(new ByteArrayInputStream(bs), className, false);
+		} catch (Throwable t) {
+			//ignore
+		}
+		
+		if(reader == null) return;
+		LoadedDeclarations ds1 = null;
+
+		TypeScanner scanner = new TypeScanner();
+		try {
+			if(!scanner.isLikelyComponentSource(reader)) return;
+			ds1 = scanner.parse(type, reader, sourcePath);
+		} catch (Throwable t) {
+			System.out.println("failed " + className);
+//			SeamCorePlugin.getPluginLog().logError(t);
+		}
+
+		if(ds1 != null) {
+//			System.out.println("declarations found in " + className);
+			ds.add(ds1);
+		}
+	}
+	
+	void processWithClassLoader(IClassFile typeRoot, LoadedDeclarations ds) {
+		IType type = typeRoot.getType();
+		String className = type.getFullyQualifiedName();
+		
+		Class<?> cls = null;
+		try {
+			cls = classPath.getClassLoader().loadClass(className);
+		} catch (NoClassDefFoundError e) {
+			//ignore
+		} catch (ClassNotFoundException e) {
+			//ignore
+		}
+		if(cls == null) return;
+		if(!CLASS_SCANNER.isLikelyComponentSource(cls)) return;
+		LoadedDeclarations ds1 = null;
+		try {
+			ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
+		} catch (Exception e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		if(ds1 != null) {
+			ds.add(ds1);
+		}
+//		System.out.println(className);
 	}
 	
 	
