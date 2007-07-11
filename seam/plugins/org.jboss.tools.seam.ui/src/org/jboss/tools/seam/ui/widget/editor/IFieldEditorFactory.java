@@ -52,5 +52,14 @@ public interface IFieldEditorFactory {
 	 * @return
 	 */
 	IFieldEditor createBrowseFolderEditor(String name, String label, String defaultValue);
+	
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
+	 * @return
+	 */
+	IFieldEditor createBrowseFileEditor(String name, String label, String defaultValue);
 
 }

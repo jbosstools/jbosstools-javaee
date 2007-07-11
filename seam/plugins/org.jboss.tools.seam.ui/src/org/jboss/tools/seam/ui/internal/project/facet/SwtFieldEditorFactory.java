@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.ComboFieldEditor;
@@ -69,7 +70,19 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
 				new TextFieldEditor(name,label, defaultValue),
-				new ButtonFieldEditor(name,createSelectFolderAction("Browse"))});
+				new ButtonFieldEditor(name,createSelectFolderAction("Browse"),defaultValue)});
+		return editor;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public IFieldEditor createBrowseFileEditor(String name, String label, String defaultValue) {
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new TextFieldEditor(name,label, defaultValue),
+				new ButtonFieldEditor(name,createSelectFileAction("Browse"),defaultValue)});
 		return editor;
 	}
 	
@@ -85,6 +98,27 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
 				dialog.setMessage("Select Seam Home Folder");
+				dialog.setFilterPath(getFieldEditor().getValueAsString());
+				String directory = dialog.open();
+				if(directory!=null) {
+					getFieldEditor().setValue(directory);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * 
+	 * @param buttonName
+	 * @return
+	 */
+	public ButtonFieldEditor.ButtonPressedAction createSelectFileAction(String buttonName) {
+		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
+			@Override
+			public void run() {
+				FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell());
+				dialog.setFilterPath(getFieldEditor().getValueAsString());
+				dialog.setText("Select Seam Home Folder");
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
 				String directory = dialog.open();
 				if(directory!=null) {

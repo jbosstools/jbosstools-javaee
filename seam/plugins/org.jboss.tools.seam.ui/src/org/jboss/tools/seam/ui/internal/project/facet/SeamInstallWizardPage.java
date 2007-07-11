@@ -93,7 +93,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor recreateTablesOnDeploy = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 			ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY, 
 			"Recreate database tables and data on deploy:", false);
-	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
+	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createBrowseFileEditor(
 			ISeamFacetDataModelProperties. JDBC_DRIVER_JAR_PATH, 
 			"JDBC Driver jar:", "");
 	
@@ -231,6 +231,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		if(event.getPropertyName().equals(IJ2EEModuleFacetInstallDataModelProperties.CONFIG_FOLDER)) {
 			model.setStringProperty(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, event.getProperty()
 					.toString());
+		} if (event.getPropertyName().equals(ISeamFacetDataModelProperties.DB_TYPE)) {
+			
 		}
 	}
 }

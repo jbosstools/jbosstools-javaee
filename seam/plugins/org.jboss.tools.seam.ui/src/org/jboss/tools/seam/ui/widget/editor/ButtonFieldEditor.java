@@ -34,8 +34,8 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 		super(name, label, new Object());
 	}
 	
-	public ButtonFieldEditor(String name, ButtonPressedAction action) {
-		super(name, action.getText(), new Object());
+	public ButtonFieldEditor(String name, ButtonPressedAction action, Object defaultValue) {
+		super(name, action.getText(), defaultValue);
 		buttonAction = action;
 		buttonAction.setFieldEditor(this);
 	}
