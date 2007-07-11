@@ -83,10 +83,10 @@
             type="install"
             version="2.0">
          <delegate
-               class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDelegete">
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete">
          </delegate>
          <config-factory
-               class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDataModelProvider">
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
          </config-factory>
       </action>
       <action
@@ -95,7 +95,7 @@
             type="uninstall"
             version="2.0">
          <delegate
-               class="org.jboss.tools.seam.core.internal.project.facet.SeamFacetUninstallDelegate">
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetUninstallDelegate">
          </delegate>
       </action>
    </extension>

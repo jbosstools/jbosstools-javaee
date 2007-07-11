@@ -9,7 +9,7 @@
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 
-package org.jboss.tools.seam.core.internal.project.facet;
+package org.jboss.tools.seam.internal.core.project.facet;
 
 public interface ISeamCoreConstants {
 

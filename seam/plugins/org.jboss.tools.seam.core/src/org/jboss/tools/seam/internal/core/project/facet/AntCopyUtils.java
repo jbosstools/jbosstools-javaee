@@ -8,7 +8,7 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.seam.core.internal.project.facet;
+package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -20,8 +20,8 @@ import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.resources.FileResource;
 import org.apache.tools.ant.util.FileUtils;
 import org.apache.tools.ant.util.ResourceUtils;
-import org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDelegete.FileSetFileFilter;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete.FileSetFileFilter;
 
 /**
  * 
@@ -37,14 +37,14 @@ public class AntCopyUtils {
 	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder,
 			FileSetFileFilter fileSetFilter,
 			FilterSetCollection filterSetCollection, boolean override) {
-		if(!destinationFolder.exists()) 
-			destinationFolder.mkdirs();
 		File[] files = fileSetFilter==null?sourceFolder.listFiles():sourceFolder.listFiles(fileSetFilter);
 		for (File file : files) {
 			if(file.isDirectory()) {
 				copyFilesAndFolders(file,new File(destinationFolder,file.getName()),fileSetFilter,filterSetCollection,override);
 			} else {
 				try {
+					if(!destinationFolder.exists()) 
+						destinationFolder.mkdirs();
 					FileUtils.getFileUtils().copyFile(file, new File(destinationFolder,file.getName()),filterSetCollection,override);
 				} catch (IOException e) {
 					e.printStackTrace();

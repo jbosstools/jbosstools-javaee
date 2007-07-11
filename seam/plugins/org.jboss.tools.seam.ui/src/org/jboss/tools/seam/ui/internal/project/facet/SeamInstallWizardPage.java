@@ -26,7 +26,7 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
-import org.jboss.tools.seam.core.internal.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
@@ -93,9 +93,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor recreateTablesOnDeploy = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 			ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY, 
 			"Recreate database tables and data on deploy:", false);
-	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createTextEditor(
+	IFieldEditor pathToJdbcDriverJar = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties. JDBC_DRIVER_JAR_PATH, 
-			"File :", "url://domain/");
+			"JDBC Driver jar:", "");
 	
 	// Code generation group
 	IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
@@ -220,6 +220,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		
 		validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor.getName(), ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
 		validatorDelegate.addValidatorForProperty(jBossAsHomeEditor.getName(), ValidatorFactory.JBOSS_AS_HOME_FOLDER_VALIDATOR);
+		validatorDelegate.addValidatorForProperty(pathToJdbcDriverJar.getName(), ValidatorFactory.FILESYSTEM_FILE_EXISTS_VALIDATOR);
 		
 	}
 

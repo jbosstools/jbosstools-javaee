@@ -83,6 +83,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			@Override
 			public void run() {
 				DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
+				dialog.setFilterPath(getFieldEditor().getValueAsString());
 				dialog.setMessage("Select Seam Home Folder");
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
 				String directory = dialog.open();

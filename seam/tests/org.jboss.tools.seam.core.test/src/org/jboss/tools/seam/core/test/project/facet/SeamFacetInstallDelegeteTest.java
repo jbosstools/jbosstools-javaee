@@ -3,7 +3,7 @@
  */
 package org.jboss.tools.seam.core.test.project.facet;
 
-import org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDelegete;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete;
 
 import junit.framework.TestCase;
 
@@ -26,7 +26,7 @@ public class SeamFacetInstallDelegeteTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link org.jboss.tools.seam.core.internal.project.facet.SeamFacetInstallDelegete#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)}.
+	 * Test method for {@link org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)}.
 	 */
 	public void testExecute() {
 		SeamFacetInstallDelegete seamDelegate = new SeamFacetInstallDelegete();

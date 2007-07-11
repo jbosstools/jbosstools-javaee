@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-import org.jboss.tools.seam.core.internal.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**
  * 
