@@ -94,6 +94,13 @@
             id="org.jboss.tools.seam.ui.views.SeamComponentsView"
             name="Seam Components">
       </view>
+      <view
+            category="org.jboss.tools.seam.ui"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            icon="icons/sample.gif"
+            id="org.jboss.tools.seam.ui.views.SeamComponentsNavigator"
+            name="Seam Components Navigator">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -107,5 +114,38 @@
          </view>
       </perspectiveExtension>
    </extension>
+
+<extension point="org.eclipse.ui.navigator.viewer">
+  <viewerContentBinding viewerId="org.jboss.tools.seam.ui.views.SeamComponentsNavigator">
+    <includes>
+      <contentExtension pattern="org.jboss.tools.seam.ui.views.rootContent" />
+    </includes>
+  </viewerContentBinding>
+</extension>
+
+<extension point="org.eclipse.ui.navigator.navigatorContent">
+  <navigatorContent
+            name="Seam Root Content Provider"
+            priority="highest"
+            icon="icons/sample.gif"
+            activeByDefault="true"
+            contentProvider="org.jboss.tools.seam.ui.views.RootContentProvider"
+            labelProvider="org.jboss.tools.seam.ui.views.SeamLabelProvider"   
+            id="org.jboss.tools.seam.ui.views.rootContent">         
+    <triggerPoints>
+      <or>         
+        <instanceof 
+              value="org.eclipse.core.resources.IWorkspaceRoot" /> 
+        <instanceof 
+              value="org.jboss.tools.seam.core.ISeamElement" /> 
+      </or>
+    </triggerPoints>
+    <possibleChildren>
+       <or>         
+          <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
+       </or>
+    </possibleChildren>
+  </navigatorContent>
+</extension>
 
 </plugin>
