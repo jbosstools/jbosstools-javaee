@@ -24,38 +24,63 @@ import org.eclipse.core.runtime.IPath;
  */
 public class SeamValidationContext {
 
-	private Map<String, Set<IPath>> markedNonuniqueNamedResources = new HashMap<String, Set<IPath>>();
-	private Map<IPath, String> nonuniqueNames = new HashMap<IPath, String>();
+	private Map<String, Set<IPath>> resourcesByVariableName = new HashMap<String, Set<IPath>>();
+	private Map<IPath, Set<String>> variableNamesByResource = new HashMap<IPath, Set<String>>();
 
 	/**
-	 * Save linked resources of component name that we marked.
+	 * Save link between resource and variable name.
 	 * It's needed for incremental validation because we must save all linked resources of changed java file.
 	 */
-	public void addLinkedResource(String componentName, IPath linkedResourcePath) {
-		Set<IPath> linkedResources = markedNonuniqueNamedResources.get(componentName);
+	public void addLinkedResource(String variableName, IPath linkedResourcePath) {
+		Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
 		if(linkedResources==null) {
-			// create set of linked resources with component name that we must mark.
+			// create set of linked resources with variable name.
 			linkedResources = new HashSet<IPath>();
-			markedNonuniqueNamedResources.put(componentName, linkedResources);
+			resourcesByVariableName.put(variableName, linkedResources);
 		}
 		if(!linkedResources.contains(linkedResourcePath)) {
-			// save linked resources that we must mark.
+			// save linked resources.
 			linkedResources.add(linkedResourcePath);
 		}
-		// Save link between component name and marked resource. It's needed if component name changes in java file.
-		nonuniqueNames.put(linkedResourcePath, componentName);
+		// Save link between resource and variable names. It's needed if variable name changes in resource file.
+		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
+		if(variableNames==null) {
+			variableNames = new HashSet<String>();
+			variableNamesByResource.put(linkedResourcePath, variableNames);
+		}
+		if(!variableNames.contains(variableName)) {
+			variableNames.add(variableName);
+		}
 	}
 
-	public Set<IPath> getMarkedNonuniqueNamedResources(String componentName) {
-		return markedNonuniqueNamedResources.get(componentName);
+	/**
+	 * Removes link between resource and variable name.
+	 * @param oldVariableName
+	 * @param linkedResourcePath
+	 */
+	public void removeLinkedResource(String oldVariableName, IPath linkedResourcePath) {
+		Set<IPath> linkedResources = resourcesByVariableName.get(oldVariableName);
+		if(linkedResources!=null && linkedResources.contains(linkedResourcePath)) {
+			// remove linked resource.
+			linkedResources.remove(linkedResourcePath);
+		}
+		// Remove link between resource and variable names.
+		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
+		if(variableNames!=null && variableNames.contains(oldVariableName)) {
+			variableNames.remove(oldVariableName);
+		}
 	}
 
-	public String getNonuniqueNameOfComponent(IPath sourcePath) {
-		return nonuniqueNames.get(sourcePath);
+	public Set<IPath> getResourcesByVariableName(String variableName) {
+		return resourcesByVariableName.get(variableName);
+	}
+
+	public Set<String> getVariableNamesByResource(IPath sourcePath) {
+		return variableNamesByResource.get(sourcePath);
 	}
 
 	public void clear() {
-		markedNonuniqueNamedResources.clear();
-		nonuniqueNames.clear();
+		resourcesByVariableName.clear();
+		variableNamesByResource.clear();
 	}
 }

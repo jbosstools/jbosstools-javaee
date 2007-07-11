@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -21,13 +22,15 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
+import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
@@ -40,14 +43,15 @@ import org.jboss.tools.seam.internal.core.SeamProject;
  */
 public class SeamJavaValidator extends SeamValidator {
 
-	private static final String NONUNIQUE_NAME_MESSAGE_GROUP = "nonuniqueName";
+	private static final String MARKED_COMPONENT_MESSAGE_GROUP = "markedComponent";
 
 	public static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
+
+	public static final String UNKNOWN_INJECTION_NAME_MESSAGE_ID = "UNKNOWN_INJECTION_NAME";
 
 	private SeamValidationContext validationContext;
 
 	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
-		// TODO
 		return null;
 	}
 
@@ -69,44 +73,52 @@ public class SeamJavaValidator extends SeamValidator {
 					continue;
 				}
 				if (currentFile != null && currentFile.exists()) {
-					String oldComponentNameOfChangedFile = validationContext.getNonuniqueNameOfComponent(currentFile.getFullPath());
-					if(oldComponentNameOfChangedFile!=null) {
+					// Get all variable names that were linked with this resource.
+					Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByResource(currentFile.getFullPath());
+					if(oldVariablesNamesOfChangedFile!=null) {
 						Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
 
-						// Check if component name was changed in java file
-						String newComponentNameOfChangedFile = getComponentNameByResource(currentFile.getFullPath(), project);
-						if(newComponentNameOfChangedFile!=null && !oldComponentNameOfChangedFile.equals(newComponentNameOfChangedFile)) {
-							// Name was changed.
-							// Collect resources with new component name.
-							Set<IPath> linkedResources = validationContext.getMarkedNonuniqueNamedResources(newComponentNameOfChangedFile);
-							if(linkedResources!=null) {
-								resources.addAll(linkedResources);
+						// Check if variable name was changed in java file
+						Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath(), project);
+						for (String newVariableName : newVariableNamesOfChangedFile) {
+							if(!oldVariablesNamesOfChangedFile.contains(newVariableName)) {
+								// Name was changed.
+								// Collect resources with new component name.
+								Set<IPath> linkedResources = validationContext.getResourcesByVariableName(newVariableName);
+								if(linkedResources!=null) {
+									resources.addAll(linkedResources);
+								}
 							}
-						// Check if changed file is not component anymore.
-						} else if(newComponentNameOfChangedFile == null) {
+						}
+						// Check if changed file is not linked to any variables anymore.
+						if(newVariableNamesOfChangedFile.size() == 0) {
 							resources.add(currentFile.getFullPath());
 						}
 
-						// Collect resources with old component name.
-						Set<IPath> linkedResources = validationContext.getMarkedNonuniqueNamedResources(oldComponentNameOfChangedFile);
-						if(linkedResources!=null) {
-							resources.addAll(linkedResources);
+						// Collect all linked resources with old variable names.
+						for (String name : oldVariablesNamesOfChangedFile) {
+							Set<IPath> linkedResources = validationContext.getResourcesByVariableName(name);
+							if(linkedResources!=null) {
+								resources.addAll(linkedResources);
+							}
 						}
 
 						// Validate all collected linked resources.
+						// Remove all links between resources and variables names because they will be linked again during validation.
+						validationContext.clear();
 						for (IPath linkedResource : resources) {
 							// Don't validate one resource twice.
 							if(checkedResources.contains(linkedResource)) {
 								continue;
 							}
 							// Remove markers from collected java file
-							reporter.removeMessageSubset(this, linkedResource, NONUNIQUE_NAME_MESSAGE_GROUP);
-							validateUniqueComponentName(project, linkedResource, checkedComponents, helper, reporter);
+							reporter.removeMessageSubset(this, linkedResource, MARKED_COMPONENT_MESSAGE_GROUP);
+							validateComponent(project, linkedResource, checkedComponents, helper, reporter);
 							checkedResources.add(linkedResource);
 						}
 					} else {
 						// Validate new (unmarked) Java file.
-						validateUniqueComponentName(project, currentFile.getFullPath(), checkedComponents, helper, reporter);
+						validateComponent(project, currentFile.getFullPath(), checkedComponents, helper, reporter);
 					}
 					// TODO
 				}
@@ -118,23 +130,30 @@ public class SeamJavaValidator extends SeamValidator {
 		return OK_STATUS;
 	}
 
-	private void validateUniqueComponentName(ISeamProject project, IPath sourceFilePath, Set<ISeamComponent> checkedComponents, IValidationContext helper, IReporter reporter) {
+	private void validateComponent(ISeamProject project, IPath sourceFilePath, Set<ISeamComponent> checkedComponents, IValidationContext helper, IReporter reporter) {
 		Set<ISeamComponent> components = project.getComponentsByPath(sourceFilePath);
 		for (ISeamComponent component : components) {
 			// Don't validate one component twice.
 			if(!checkedComponents.contains(component)) {
-				validateUniqueComponentName(project, component, helper, reporter);
+				validateComponent(project, component, helper, reporter);
 				checkedComponents.add(component);
 			}
 		}
 	}
 
-	public String getComponentNameByResource(IPath resourcePath, ISeamProject project) {
-		Set<ISeamComponent> components = project.getComponentsByPath(resourcePath);
-		for (ISeamComponent component : components) {
-			return component.getName();
+	/*
+	 * Returns set of variables which are linked with this resource
+	 */
+	private Set<String> getVariablesNameByResource(IPath resourcePath, ISeamProject project) {
+		Set<ISeamContextVariable> variables = project.getVariablesByPath(resourcePath);
+		Set<String> result = new HashSet<String>();
+		for (ISeamContextVariable variable : variables) {
+			String name = variable.getName();
+			if(!result.contains(name)) {
+				result.add(name);
+			}
 		}
-		return null;
+		return result;
 	}
 
 	public void cleanup(IReporter reporter) {
@@ -146,16 +165,16 @@ public class SeamJavaValidator extends SeamValidator {
 		validationContext.clear();
 		Set<ISeamComponent> components = project.getComponents();
 		for (ISeamComponent component : components) {
-			validateUniqueComponentName(project, component, helper, reporter);
+			validateComponent(project, component, helper, reporter);
 			// TODO
 		}
 		return OK_STATUS;
 	}
 
 	/*
-	 * Validates that component has unique name 
+	 * Validates the component 
 	 */
-	private void validateUniqueComponentName(ISeamProject project, ISeamComponent component, IValidationContext helper, IReporter reporter) {
+	private void validateComponent(ISeamProject project, ISeamComponent component, IValidationContext helper, IReporter reporter) {
 		ISeamJavaComponentDeclaration firstJavaDeclaration = component.getJavaDeclaration();
 		if(firstJavaDeclaration!=null) {
 			HashMap<Integer, ISeamJavaComponentDeclaration> usedPrecedences = new HashMap<Integer, ISeamJavaComponentDeclaration>();
@@ -164,7 +183,14 @@ public class SeamJavaValidator extends SeamValidator {
 			usedPrecedences.put(firstJavaDeclarationPrecedence, firstJavaDeclaration);
 			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
 			for (ISeamComponentDeclaration declaration : declarations) {
+				if(declaration instanceof ISeamJavaComponentDeclaration && declaration.getResource() instanceof IFile) {
+					// Save link between component name and java source file.
+					validationContext.addLinkedResource(declaration.getName(), declaration.getSourcePath());
+					// Validate all elements in declaration but @Name. 
+					validateInjections(project, firstJavaDeclaration, helper, reporter);
+				}
 				if(declaration instanceof ISeamJavaComponentDeclaration && declaration!=firstJavaDeclaration) {
+					// Validate @Name
 					// Component class with the same component name. Check precedence.
 					ISeamJavaComponentDeclaration javaDeclaration = (ISeamJavaComponentDeclaration)declaration;
 					int javaDeclarationPrecedence = javaDeclaration.getPrecedence();
@@ -178,16 +204,44 @@ public class SeamJavaValidator extends SeamValidator {
 							// Mark first wrong declaration with that name
 							IResource checkedDeclarationResource = checkedDeclaration.getResource();
 							ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, checkedDeclarationResource, NONUNIQUE_NAME_MESSAGE_GROUP);
+							if(location!=null) {
+								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, checkedDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+							}
 							markedDeclarations.add(checkedDeclaration);
-							validationContext.addLinkedResource(checkedDeclaration.getName(), checkedDeclarationResource.getFullPath());
 						}
 						// Mark next wrong declaration with that name
 						markedDeclarations.add(javaDeclaration);
-						validationContext.addLinkedResource(javaDeclaration.getName(), javaDeclarationResource.getFullPath());
 						ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-						addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, javaDeclarationResource, NONUNIQUE_NAME_MESSAGE_GROUP);
+						if(location!=null) {
+							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, location, javaDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+						}
 					}
+				}
+			}
+		}
+	}
+
+	private void validateJavaDeclaration(ISeamProject project, ISeamJavaComponentDeclaration declaration, IValidationContext helper, IReporter reporter) {
+		validateInjections(project, declaration, helper, reporter);
+	}
+
+	private void validateInjections(ISeamProject project, ISeamJavaComponentDeclaration declaration, IValidationContext helper, IReporter reporter) {
+		Set<IBijectedAttribute> injections = declaration.getBijectedAttributesByType(BijectedAttributeType.IN);
+		for (IBijectedAttribute injection : injections) {
+			String name = injection.getName();
+			if(name.startsWith("#{")) {
+				// TODO Validate EL
+			} else {
+				Set<ISeamContextVariable> variables = project.getVariablesByName(name);
+				for (ISeamContextVariable variable : variables) {
+					// save link between java source and variable name
+					validationContext.addLinkedResource(name, declaration.getSourcePath());
+				}
+				if(variables.size()<1) {
+					// Injection has unknown name. Mark it.
+					// TODO check preferences to mark it as Error or Warning or ignore it.
+					IResource declarationResource = declaration.getResource();
+					addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, injection, declarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
 				}
 			}
 		}

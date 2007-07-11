@@ -618,7 +618,33 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		}
 		return result;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByPath(org.eclipse.core.runtime.IPath)
+	 */
+	public Set<ISeamContextVariable> getVariablesByPath(IPath path) {
+		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
+		for (ISeamContextVariable variable : allVariables) {
+			if(variable instanceof ISeamComponent) {
+				ISeamComponent c = (ISeamComponent)variable;
+				for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
+					SeamComponentDeclaration di = (SeamComponentDeclaration)d;
+					if(path.equals(di.getSourcePath())) {
+						result.add(variable);
+						break;
+					}
+				}
+			} else {
+				IResource variableResource = variable.getResource();
+				if(path.equals(variableResource.getFullPath())) {
+					result.add(variable);
+				}
+			}
+		}
+		return result;
+	}
+
 	int revalidateScopesLock = 0;
 	void revalidateScopes() {
 		List<Change> changes = null;

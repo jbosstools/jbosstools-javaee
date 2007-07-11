@@ -96,6 +96,12 @@ public interface ISeamProject extends IProjectNature, ISeamElement {
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope);
 
 	/**
+	 * @param full path of IResource where the variable is declared.
+	 * @return Set of ISeamContextVariables by resource path.
+	 */
+	public Set<ISeamContextVariable> getVariablesByPath(IPath path);
+
+	/**
 	 * @return all factories methods of project
 	 */
 	public Set<ISeamFactory> getFactories();
