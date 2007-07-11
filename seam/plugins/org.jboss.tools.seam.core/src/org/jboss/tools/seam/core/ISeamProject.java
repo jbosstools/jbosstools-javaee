@@ -21,6 +21,19 @@ public interface ISeamProject extends IProjectNature, ISeamElement {
 	public static String NATURE_ID = "org.jboss.tools.seam.core.seam";
 
 	/**
+	 * Returns list of scope objects for all scope types.
+	 * @return
+	 */
+	public ISeamScope[] getScopes();
+	
+	/**
+	 * Returns scope object for specified scope type.
+	 * @param scopeType
+	 * @return
+	 */
+	public ISeamScope getScope(ScopeType scopeType);
+
+	/**
 	 * Returns seam component. Project can have only one ISeamComponent with
 	 * unique name. If project has a few seam components with the same name,
 	 * then corresponding ISeamComponent will have all declarations
@@ -125,5 +138,5 @@ public interface ISeamProject extends IProjectNature, ISeamElement {
 	 * @param listener
 	 */
 	public void removeSeamProjectListener(ISeamProjectChangeListener listener);
-
+	
 }

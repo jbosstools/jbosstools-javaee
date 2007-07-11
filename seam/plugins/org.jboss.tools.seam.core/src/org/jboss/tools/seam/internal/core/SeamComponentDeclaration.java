@@ -19,6 +19,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
@@ -56,6 +57,10 @@ public abstract class SeamComponentDeclaration extends SeamObject implements ISe
 	public int getStartPosition() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public ScopeType getScope() {
+		return ScopeType.UNSPECIFIED;
 	}
 	
 	/**

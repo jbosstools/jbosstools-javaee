@@ -48,7 +48,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		if(scope == null || scope.length() == 0) {
 			scopeType = ScopeType.UNSPECIFIED;
 		} else {
-			scopeType = ScopeType.valueOf(scope.toUpperCase());
+			try {
+				scopeType = ScopeType.valueOf(scope.toUpperCase());
+			} catch (Exception e) {
+				scopeType = ScopeType.UNSPECIFIED;
+			}
 		}
 	}
 
