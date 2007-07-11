@@ -37,6 +37,8 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
@@ -300,6 +302,11 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		
 		
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		
+		//TODO check if template file org.jboss.tools.jst.web.xml is added to .settings
+		EclipseResourceUtil.addNatureToProject(project, "org.jboss.tools.jsf.jsfnature");
+		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+
 	}
 
 	public static void copyFiles(File source, File dest, FileFilter filter) {

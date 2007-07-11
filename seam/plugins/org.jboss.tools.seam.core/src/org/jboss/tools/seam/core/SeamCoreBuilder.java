@@ -36,6 +36,8 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SeamCoreBuilder extends IncrementalProjectBuilder {
+	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder";
+	
 	static IFileScanner[] FILE_SCANNERS = {
 		new JavaScanner(), 
 		new XMLScanner(), 
@@ -110,8 +112,6 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			addMarker(exception, IMarker.SEVERITY_WARNING);
 		}
 	}
-
-	public static final String BUILDER_ID = "org.jboss.tools.seam.core.seam.core";
 
 	private static final String MARKER_TYPE = "org.jboss.tools.seam.core.xmlProblem";
 
