@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
@@ -62,6 +63,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 	}
 
 	public boolean hasChildren(Object element) {
+		if(element instanceof ISeamComponentDeclaration) return false;
 		return true;
 	}
 

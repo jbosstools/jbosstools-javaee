@@ -1,12 +1,16 @@
 package org.jboss.tools.seam.ui.views;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 
@@ -19,6 +23,18 @@ public class SeamLabelProvider extends LabelProvider {
 			return ((ISeamScope)element).getType().toString();
 		} else if(element instanceof ISeamComponent) {
 			return "" + ((ISeamComponent)element).getName();
+		} else if(element instanceof ISeamJavaSourceReference) {
+			ISeamJavaSourceReference d = (ISeamJavaSourceReference)element;
+			IMember m = d.getSourceMember();
+			IType type = (m instanceof IType) ? (IType)m : m.getTypeRoot().findPrimaryType();
+			if(type.isBinary()) {
+				IResource r = ((ISeamElement)element).getResource();
+				String s = (r == null) ? "???" : r.getName();
+				return  s + "/" + type.getFullyQualifiedName();
+			} else {
+				return type.getFullyQualifiedName();
+			}
+
 		} else if(element instanceof ISeamComponentDeclaration) {
 			IResource r = ((ISeamComponentDeclaration)element).getResource();
 			return r == null ? "???" : r.getName();
