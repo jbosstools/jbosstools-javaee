@@ -12,9 +12,9 @@ package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -97,6 +97,7 @@ public class ClassPath {
 			if(jre != null) newPaths.removeAll(jre);
 		} catch (Exception e) {
 			//TODO
+			SeamCorePlugin.getDefault().logError(e);
 		}
 		if(paths == null && newPaths == null) return false;
 		if((newPaths == null || paths == null) || (paths.size() != newPaths.size())) {
