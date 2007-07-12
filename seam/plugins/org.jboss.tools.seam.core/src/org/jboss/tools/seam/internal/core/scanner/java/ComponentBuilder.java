@@ -156,10 +156,10 @@ public class ComponentBuilder implements SeamAnnotations {
 				name.value = m.getName().getIdentifier();
 			}
 			
-			att.setName(name.getValue());
+			att.setName(name);
 
 			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
-			if(scope != null) att.setScopeAsString(scope.getValue());
+			if(scope != null) att.setScope(scope);
 			
 			att.setSourceMember(findMethod(m));
 		}
@@ -191,10 +191,10 @@ public class ComponentBuilder implements SeamAnnotations {
 				name.value = getFieldName(m);
 			}
 			
-			att.setName(name.getValue());
+			att.setName(name);
 
 			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
-			if(scope != null) att.setScopeAsString(scope.getValue());
+			if(scope != null) att.setScope(scope);
 			
 			att.setSourceMember(findField(m));
 		}

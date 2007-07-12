@@ -50,6 +50,11 @@ public interface ISeamComponent extends ISeamContextVariable {
 	 * @return qualified Class name of component
 	 */
 	public String getClassName();
+	
+	/**
+	 * 
+	 */
+	public int getPrecedence();
 
 	/**
 	 * @return bijected attributes of component

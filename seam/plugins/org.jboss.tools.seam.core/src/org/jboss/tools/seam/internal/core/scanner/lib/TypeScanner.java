@@ -128,8 +128,13 @@ public class TypeScanner implements SeamAnnotations {
 			}
 			a = map.get(INSTALL_ANNOTATION_TYPE);
 			if(a != null) {
-				Object precedence = getValue(a, "precedence");
-				if(precedence instanceof Integer) component.setPrecedence((Integer)precedence);
+				String precedence = getValue(a, "precedence");
+				try {
+					int i = Integer.parseInt(precedence);
+					component.setPrecedence(i);
+				} catch (Exception e) {
+					//ignore
+				}
 			}
 			a = map.get(STATEFUL_ANNOTATION_TYPE);
 			if(a != null) {

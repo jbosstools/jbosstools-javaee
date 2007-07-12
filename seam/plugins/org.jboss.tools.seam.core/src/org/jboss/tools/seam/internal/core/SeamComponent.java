@@ -83,6 +83,25 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	}
 
 	/**
+	 * 
+	 */
+	public int getPrecedence() {
+		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();
+		for(ISeamXmlComponentDeclaration d: xml) {
+			String s = d.getPrecedence();
+			if(s == null || s.length() == 0) continue;
+			try {
+				return Integer.valueOf(s);
+			} catch (Exception e) {
+				//ignore here
+			}
+		}
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		if(javaDeclaration != null) return javaDeclaration.getPrecedence();
+		return 20;
+	}
+
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getMethods()
 	 */
 	public Set<ISeamComponentMethod> getMethods() {
