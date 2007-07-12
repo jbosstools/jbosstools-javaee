@@ -89,17 +89,10 @@
       </category>
       <view
             category="org.jboss.tools.seam.ui"
-            class="org.jboss.tools.seam.ui.views.SeamComponentsView"
-            icon="icons/sample.gif"
-            id="org.jboss.tools.seam.ui.views.SeamComponentsView"
-            name="Seam Components">
-      </view>
-      <view
-            category="org.jboss.tools.seam.ui"
             class="org.eclipse.ui.navigator.CommonNavigator"
             icon="icons/sample.gif"
             id="org.jboss.tools.seam.ui.views.SeamComponentsNavigator"
-            name="Seam Components Navigator">
+            name="Seam Components">
       </view>
    </extension>
    <extension
@@ -125,7 +118,7 @@
 
 <extension point="org.eclipse.ui.navigator.navigatorContent">
   <navigatorContent
-            name="Seam Root Content Provider"
+            name="Seam Components"
             priority="highest"
             icon="icons/sample.gif"
             activeByDefault="true"
@@ -145,6 +138,15 @@
           <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
        </or>
     </possibleChildren>
+    <actionProvider
+      class="org.jboss.tools.seam.ui.views.actions.SeamActionProvider"
+      id="org.jboss.tools.seam.ui.views.actions.SeamActionProvider">
+      <enablement>
+        <or>
+          <instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
+        </or>
+      </enablement>
+    </actionProvider>
   </navigatorContent>
 </extension>
 

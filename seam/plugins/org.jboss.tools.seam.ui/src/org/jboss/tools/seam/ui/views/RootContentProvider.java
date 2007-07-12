@@ -33,7 +33,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 			IProject[] ps = root.getProjects();
 			List<ISeamProject> children = new ArrayList<ISeamProject>();
 			for (int i = 0; i < ps.length; i++) {
-				ISeamProject p = SeamCorePlugin.getSeamProject(ps[i]);
+				ISeamProject p = SeamCorePlugin.getSeamProject(ps[i], false);
 				if(p != null) {
 					if(!processed.contains(p)) {
 						processed.add(p);
@@ -46,6 +46,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 		} else if(parentElement instanceof ISeamProject) {
 			return ((ISeamProject)parentElement).getScopes();
 		} else if(parentElement instanceof ISeamScope) {
+			((ISeamScope)parentElement).getSeamProject().resolve();
 			return ((ISeamScope)parentElement).getComponents().toArray(new Object[0]);
 		} else if(parentElement instanceof ISeamComponent) {
 			return ((ISeamComponent)parentElement).getAllDeclarations().toArray(new Object[0]);
@@ -96,7 +97,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 			System.out.println("event without source");
 		}
 	}
-	
+
 	void refresh(final Object o) {
 		if(viewer == null || viewer.getControl() == null || viewer.getControl().isDisposed()) return;
 		if(!(viewer instanceof StructuredViewer)) return;
