@@ -12,7 +12,6 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.wst.validation.internal.core.Message;
@@ -55,12 +54,14 @@ public abstract class SeamValidator implements IValidatorJob {
 	}
 
 	protected void addError(String messageId, String[] messageArguments, ISeamTextSourceReference location, IResource target, String messageGroup) {
+		addError(messageId, messageArguments, location.getLength(), location.getStartPosition(), target, messageGroup);
+	}
+
+	protected void addError(String messageId, String[] messageArguments, int length, int offset, IResource target, String messageGroup) {
 		IMessage message = new Message(getBaseName(), IMessage.HIGH_SEVERITY, messageId, messageArguments, target, messageGroup);
-		message.setLength(location.getLength());
-		message.setOffset(location.getStartPosition());
+		message.setLength(length);
+		message.setOffset(offset);
 		message.setSeverity(IMessage.HIGH_SEVERITY);
-//		message.setAttribute(IMarker.TRANSIENT, Boolean.TRUE);
-//		message.setMarkerId("org.jboss.tools.seam.core.seamProblem");
 		reporter.addMessage(this, message);
 	}
 

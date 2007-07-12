@@ -38,19 +38,16 @@ public class SeamValidationContext {
 			linkedResources = new HashSet<IPath>();
 			resourcesByVariableName.put(variableName, linkedResources);
 		}
-		if(!linkedResources.contains(linkedResourcePath)) {
-			// save linked resources.
-			linkedResources.add(linkedResourcePath);
-		}
+		// save linked resources.
+		linkedResources.add(linkedResourcePath);
+
 		// Save link between resource and variable names. It's needed if variable name changes in resource file.
 		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
 		if(variableNames==null) {
 			variableNames = new HashSet<String>();
 			variableNamesByResource.put(linkedResourcePath, variableNames);
 		}
-		if(!variableNames.contains(variableName)) {
-			variableNames.add(variableName);
-		}
+		variableNames.add(variableName);
 	}
 
 	/**
@@ -60,13 +57,13 @@ public class SeamValidationContext {
 	 */
 	public void removeLinkedResource(String oldVariableName, IPath linkedResourcePath) {
 		Set<IPath> linkedResources = resourcesByVariableName.get(oldVariableName);
-		if(linkedResources!=null && linkedResources.contains(linkedResourcePath)) {
+		if(linkedResources!=null) {
 			// remove linked resource.
 			linkedResources.remove(linkedResourcePath);
 		}
 		// Remove link between resource and variable names.
 		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
-		if(variableNames!=null && variableNames.contains(oldVariableName)) {
+		if(variableNames!=null) {
 			variableNames.remove(oldVariableName);
 		}
 	}
