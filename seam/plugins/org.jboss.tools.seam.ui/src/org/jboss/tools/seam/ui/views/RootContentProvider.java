@@ -2,12 +2,19 @@ package org.jboss.tools.seam.ui.views;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -27,12 +34,16 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 	
 	Set<ISeamProject> processed = new HashSet<ISeamProject>();
 	
+	IResourceChangeListener listener = new ResourceChangeListener();
+	
+	
 	public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof IWorkspaceRoot) {
 			IWorkspaceRoot root = (IWorkspaceRoot)parentElement;
 			IProject[] ps = root.getProjects();
 			List<ISeamProject> children = new ArrayList<ISeamProject>();
 			for (int i = 0; i < ps.length; i++) {
+				if(!isGoodProject(ps[i])) continue;
 				ISeamProject p = SeamCorePlugin.getSeamProject(ps[i], false);
 				if(p != null) {
 					if(!processed.contains(p)) {
@@ -73,6 +84,9 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 	}
 
 	public void dispose() {
+		if(root != null) {
+			ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
+		}
 		root = null;
 		viewer = null;
 		if(processed != null) {
@@ -85,6 +99,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 		this.viewer = viewer;
 		if(newInput instanceof IWorkspaceRoot || newInput == null) {
 			root = (IWorkspaceRoot)newInput;
+			ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
 		}
 	}
 
@@ -103,9 +118,61 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 		if(!(viewer instanceof StructuredViewer)) return;
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				((StructuredViewer)viewer).refresh(o);
+				if(o == null) {
+					((StructuredViewer)viewer).refresh();
+				} else {
+					((StructuredViewer)viewer).refresh(o);
+				}
 			}
 		});
+		
+	}
+
+	boolean isGoodProject(IProject project) {
+	if(project == null || !project.exists() || !project.isOpen()) return false;
+		try {
+			if(!project.hasNature("org.jboss.tools.jsf.jsfnature")) return false;
+		} catch (CoreException e) {
+			//ignore - all checks are done above
+			return false;
+		}
+		return true;
+	}
+
+	class ResourceChangeListener implements IResourceChangeListener {
+		ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+
+		public void resourceChanged(IResourceChangeEvent event) {
+			try {
+				event.getDelta().accept(visitor);
+			} catch (Exception e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}			
+		}
+		
+	}
+	
+	class ResourceDeltaVisitor implements IResourceDeltaVisitor {
+
+		public boolean visit(IResourceDelta delta) throws CoreException {
+			int kind = delta.getKind();
+			IResource r = delta.getResource();
+			if(kind == IResourceDelta.ADDED || kind == IResourceDelta.REMOVED) {
+				if(r instanceof IProject) {
+					refresh(null);
+				}
+			} else if(kind == IResourceDelta.CHANGED) {
+				IResourceDelta[] cs = delta.getAffectedChildren();
+				if(cs != null) for (int i = 0; i < cs.length; i++) {
+					IResource c = cs[i].getResource();
+					if(c instanceof IFile && c.getName().endsWith(".project")) {
+						refresh(null);
+					}
+				}
+			}
+			if(r instanceof IProject) return false;
+			return true;
+		}
 		
 	}
 
