@@ -119,7 +119,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		setSourcePath(project.getFullPath());
 		resource = project;
 		classPath.init();
-		load();
+//		load();
 	}
 	
 	public ClassPath getClassPath() {
@@ -133,6 +133,10 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		} else {
 			isStorageResolved = true;
 		}
+	}
+
+	public void resolve() {
+		resolveStorage(true);
 	}
 
 	/**
@@ -236,6 +240,8 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			boolean nameChanged = current != null && !stringsEqual(name, current.getName());
 			
 			SeamComponent c = getComponent(name);
+			
+			String oldClassName = c == null ? null : c.getClassName();
 
 			if(current != null) {
 				List<Change> changes = current.merge(loaded);
@@ -287,12 +293,23 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
 				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
 				String className = xml.getClassName();
+				List<Change> changes = null;
+				if(isClassNameChanged(oldClassName, className)) {
+					SeamComponentDeclaration[] ds1 = c.getAllDeclarations().toArray(new SeamComponentDeclaration[0]);
+					for (int i1 = 0; i1 < ds1.length; i1++) {
+						if(!(ds1[i1] instanceof ISeamJavaComponentDeclaration)) continue;
+						ISeamJavaComponentDeclaration jcd = (ISeamJavaComponentDeclaration)ds1[i1];
+						if(jcd.getClassName().equals(className)) continue;
+						c.removeDeclaration(jcd);
+						changes = Change.addChange(changes, new Change(c, null, jcd, null));
+					}
+				}
 				SeamJavaComponentDeclaration j = javaDeclarations.get(className);
 				if(j != null) {
 					c.addDeclaration(j);
-					List<Change> changes = Change.addChange(null, new Change(c, null, null, j));
-					fireChanges(changes);
+					changes = Change.addChange(changes, new Change(c, null, null, j));
 				}
+				fireChanges(changes);
 			}			
 		}
 		fireChanges(addedComponents);
@@ -323,9 +340,15 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		
 		factoryDeclarationsRemoved(currentFactories);
 	}
-
+	
 	boolean stringsEqual(String s1, String s2) {
 		return s1 == null ? s2 == null : s1.equals(s2);
+	}
+	
+	private boolean isClassNameChanged(String oldClassName, String newClassName) {
+		if(oldClassName == null || oldClassName.length() == 0) return false;
+		if(newClassName == null || newClassName.length() == 0) return false;
+		return !oldClassName.equals(newClassName);
 	}
 
 	/**
@@ -354,17 +377,9 @@ public class SeamProject extends SeamObject implements ISeamProject {
 					changes = Change.addChange(changes, new Change(c, null, ds[i], null));
 				}
 			}
-			if(c.getAllDeclarations().size() == 0) {
+			if(isComponentEmpty(c)) {
 				iterator.remove();
-				ISeamElement p = c.getParent();
-				if(p instanceof SeamScope) {
-					((SeamScope)p).removeComponent(c);
-					changes = Change.addChange(changes, new Change(p, null, c, null));
-				}
-				allVariables.remove(c);
-				changes = null;
-				changes = Change.addChange(changes, new Change(this, null, c, null));
-				
+				changes = removeEmptyComponent(c);
 			}
 			fireChanges(changes);
 		}
@@ -419,18 +434,32 @@ public class SeamProject extends SeamObject implements ISeamProject {
 					changes = Change.addChange(changes, new Change(c, null, ds[i], null));
 				}
 			}
-			if(c.getAllDeclarations().size() == 0) {
+			if(isComponentEmpty(c)) {
 				iterator.remove();
-				ISeamElement p = c.getParent();
-				if(p instanceof SeamScope) {
-					((SeamScope)p).removeComponent(c);
-					changes = Change.addChange(changes, new Change(p, null, c, null));
-				}
-				allVariables.remove(c);
-				changes = Change.addChange(null, new Change(this, null, c, null));
+				changes = removeEmptyComponent(c);
 			}
 			fireChanges(changes);
 		}		
+	}
+	
+	private List<Change> removeEmptyComponent(SeamComponent c) {
+		List<Change> changes = null;
+		ISeamElement p = c.getParent();
+		if(p instanceof SeamScope) {
+			((SeamScope)p).removeComponent(c);
+			changes = Change.addChange(null, new Change(p, null, c, null));
+		}
+		allVariables.remove(c);
+		changes = Change.addChange(changes, new Change(this, null, c, null));
+		return changes;
+	}
+	
+	private boolean isComponentEmpty(SeamComponent c) {
+		if(c.getAllDeclarations().size() == 0) return true;
+		for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
+			if(c.getName().equals(d.getName())) return false;
+		}
+		return true;
 	}
 
 	public Map<Object,ISeamFactory> findFactoryDeclarations(IPath source) {
@@ -619,8 +648,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByPath(org.eclipse.core.runtime.IPath)
 	 */
 	public Set<ISeamContextVariable> getVariablesByPath(IPath path) {

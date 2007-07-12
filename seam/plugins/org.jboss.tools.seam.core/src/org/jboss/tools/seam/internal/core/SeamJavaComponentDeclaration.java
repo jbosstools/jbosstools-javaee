@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.ui.JavaUI;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
@@ -18,6 +19,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
@@ -329,4 +331,12 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 	}
 
+	public void open() {
+		if(type == null) return;
+		try {
+			JavaUI.openInEditor(type);
+		} catch (Exception e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+	}
 }

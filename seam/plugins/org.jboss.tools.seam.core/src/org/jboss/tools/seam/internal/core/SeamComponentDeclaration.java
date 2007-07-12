@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -26,7 +27,7 @@ import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 /**
  * @author Viacheslav Kabanovich
  */
-public abstract class SeamComponentDeclaration extends SeamObject implements ISeamComponentDeclaration {
+public abstract class SeamComponentDeclaration extends SeamObject implements ISeamComponentDeclaration, IOpenableElement {
 
 	public static final String PATH_OF_NAME = "name";
 
@@ -115,6 +116,10 @@ public abstract class SeamComponentDeclaration extends SeamObject implements ISe
 	public void setName(ValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
 		name = value == null ? null : value.getValue();
+	}
+	
+	public void open() {
+		
 	}
 
 }

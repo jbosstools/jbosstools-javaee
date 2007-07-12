@@ -6,8 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 
 public class SeamPropertiesDeclaration extends SeamComponentDeclaration
@@ -85,4 +91,23 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 		return changes;
 	}
 
+	public void open() {
+		if(id instanceof XModelObject) {
+			XModelObject o = (XModelObject)id;
+			try {
+				FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
+			} catch(Exception e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		} else if(getResource() instanceof IFile) {
+			IFile f = (IFile)getResource();
+			try {
+				IWorkbenchPage page = SeamCorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				if(page != null) IDE.openEditor(page, f);
+			} catch(Exception e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+			
+		}
+	}
 }

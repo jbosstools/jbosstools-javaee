@@ -12,12 +12,6 @@ package org.jboss.tools.seam.core;
 
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -31,9 +25,6 @@ import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder";
@@ -48,12 +39,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	
 	SeamProject getSeamProject() {
 		IProject p = getProject();
-		try {
-			return p == null ? null : (SeamProject)p.getNature(ISeamProject.NATURE_ID);
-		} catch (CoreException e) {
-			//TODO
-			return null;
-		}
+		if(p == null) return null;
+		return (SeamProject)SeamCorePlugin.getSeamProject(p, false);
 	}
 	
 	SeamResourceVisitor getResourceVisitor() {
@@ -87,53 +74,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	class XMLErrorHandler extends DefaultHandler {
-		
-		private IFile file;
-
-		public XMLErrorHandler(IFile file) {
-			this.file = file;
-		}
-
-		private void addMarker(SAXParseException e, int severity) {
-			SeamCoreBuilder.this.addMarker(file, e.getMessage(), e
-					.getLineNumber(), severity);
-		}
-
-		public void error(SAXParseException exception) throws SAXException {
-			addMarker(exception, IMarker.SEVERITY_ERROR);
-		}
-
-		public void fatalError(SAXParseException exception) throws SAXException {
-			addMarker(exception, IMarker.SEVERITY_ERROR);
-		}
-
-		public void warning(SAXParseException exception) throws SAXException {
-			addMarker(exception, IMarker.SEVERITY_WARNING);
-		}
-	}
-
-	private static final String MARKER_TYPE = "org.jboss.tools.seam.core.xmlProblem";
-
-	private SAXParserFactory parserFactory;
-
-	private void addMarker(IFile file, String message, int lineNumber,
-			int severity) {
-		try {
-			IMarker marker = file.createMarker(MARKER_TYPE);
-			marker.setAttribute(IMarker.MESSAGE, message);
-			marker.setAttribute(IMarker.SEVERITY, severity);
-			if (lineNumber == -1) {
-				lineNumber = 1;
-			}
-			marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-		} catch (CoreException e) {
-		}
-	}
-
-	/*
-	 * 
-	 * @see org.eclipse.core.internal.events.InternalBuilder#build(int,
+	/**
+	 * @see org.eclipse.core.resource.InternalProjectBuilder#build(int,
 	 *      java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
@@ -159,25 +101,6 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
-	void checkXML(IResource resource) {
-		if (resource instanceof IFile && resource.getName().endsWith(".xml")) {
-			IFile file = (IFile) resource;
-			deleteMarkers(file);
-			XMLErrorHandler reporter = new XMLErrorHandler(file);
-			try {
-				getParser().parse(file.getContents(), reporter);
-			} catch (Exception e1) {
-			}
-		}
-	}
-
-	private void deleteMarkers(IFile file) {
-		try {
-			file.deleteMarkers(MARKER_TYPE, false, IResource.DEPTH_ZERO);
-		} catch (CoreException ce) {
-		}
-	}
-
 	protected void fullBuild(final IProgressMonitor monitor)
 			throws CoreException {
 		try {
@@ -185,14 +108,6 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private SAXParser getParser() throws ParserConfigurationException,
-			SAXException {
-		if (parserFactory == null) {
-			parserFactory = SAXParserFactory.newInstance();
-		}
-		return parserFactory.newSAXParser();
 	}
 
 	protected void incrementalBuild(IResourceDelta delta,

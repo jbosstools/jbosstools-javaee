@@ -77,7 +77,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		if(javaDeclaration != null) return javaDeclaration.getClassName();
 		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();
 		for(ISeamXmlComponentDeclaration d: xml) {
-			if(d.getClassName() != null) return d.getClassName();
+			if(d.getClassName() != null && d.getClassName().length() > 0) return d.getClassName();
 		}
 		return null;
 	}

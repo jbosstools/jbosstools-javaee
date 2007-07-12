@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
-import org.jboss.tools.seam.internal.core.SeamProject;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -88,9 +87,10 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	 * (3) project has no seam nature
 	 * (4) creating seam project failed.
 	 * @param project
+	 * @param resolve if true and results of last build have not been resolved they are loaded.
 	 * @return
 	 */
-	public static ISeamProject getSeamProject(IProject project) {
+	public static ISeamProject getSeamProject(IProject project, boolean resolve) {
 		if(project == null || !project.exists() || !project.isOpen()) return null;
 		try {
 			if(!project.hasNature(ISeamProject.NATURE_ID)) return null;
@@ -99,8 +99,8 @@ public class SeamCorePlugin extends BaseUIPlugin {
 			return null;
 		}
 		try {
-			SeamProject seamProject = (SeamProject)project.getNature(ISeamProject.NATURE_ID);
-			seamProject.resolveStorage(true);
+			ISeamProject seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
+			if(resolve) seamProject.resolve();
 			return seamProject;
 		} catch (Exception e) {
 			getPluginLog().logError(e);

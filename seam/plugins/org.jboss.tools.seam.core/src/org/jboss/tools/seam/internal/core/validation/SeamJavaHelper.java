@@ -19,7 +19,7 @@ public class SeamJavaHelper extends WorkbenchContext {
 	public ISeamProject getSeamProject() {
 		ISeamProject project = null;
 		try {
-			project = SeamCorePlugin.getSeamProject(getProject());
+			project = SeamCorePlugin.getSeamProject(getProject(), true);
 		} catch (Exception e) {
 			SeamCorePlugin.getDefault().logError("Can't get Seam Project", e);
 		}

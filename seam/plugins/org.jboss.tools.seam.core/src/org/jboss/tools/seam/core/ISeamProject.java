@@ -145,4 +145,9 @@ public interface ISeamProject extends IProjectNature, ISeamElement {
 	 */
 	public void removeSeamProjectListener(ISeamProjectChangeListener listener);
 	
+	/**
+	 * Loads results of last build if that was not done before.
+	 */
+	public void resolve();
+	
 }
