@@ -150,4 +150,13 @@
   </navigatorContent>
 </extension>
 
+<extension point="org.eclipse.core.runtime.adapters">
+  <factory 
+         class="org.jboss.tools.seam.ui.views.properties.SeamElementAdapterFactory" 
+         adaptableType="org.jboss.tools.seam.core.ISeamElement">
+            
+    <adapter type="org.eclipse.ui.views.properties.IPropertySource"/>
+  </factory>
+</extension>
+
 </plugin>
