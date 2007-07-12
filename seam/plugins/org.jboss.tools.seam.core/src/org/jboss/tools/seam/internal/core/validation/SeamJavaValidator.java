@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
@@ -180,37 +181,42 @@ public class SeamJavaValidator extends SeamValidator {
 			usedPrecedences.put(firstJavaDeclarationPrecedence, firstJavaDeclaration);
 			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
 			for (ISeamComponentDeclaration declaration : declarations) {
-				if(declaration instanceof ISeamJavaComponentDeclaration && declaration.getResource() instanceof IFile) {
-					// Save link between component name and java source file.
-					validationContext.addLinkedResource(declaration.getName(), declaration.getSourcePath());
-					// Validate all elements in declaration but @Name. 
-					validateJavaDeclaration(project, firstJavaDeclaration, helper, reporter);
-				}
-				if(declaration instanceof ISeamJavaComponentDeclaration && declaration!=firstJavaDeclaration) {
-					// Validate @Name
-					// Component class with the same component name. Check precedence.
-					ISeamJavaComponentDeclaration javaDeclaration = (ISeamJavaComponentDeclaration)declaration;
-					int javaDeclarationPrecedence = javaDeclaration.getPrecedence();
-					ISeamJavaComponentDeclaration checkedDeclaration = usedPrecedences.get(javaDeclarationPrecedence);
-					if(checkedDeclaration==null) {
-						usedPrecedences.put(javaDeclarationPrecedence, javaDeclaration);
-					} else {
-						IResource javaDeclarationResource = javaDeclaration.getResource();
-						// Mark nonunique name.
-						if(!markedDeclarations.contains(checkedDeclaration)) {
-							// Mark first wrong declaration with that name
-							IResource checkedDeclarationResource = checkedDeclaration.getResource();
-							ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-							if(location!=null) {
-								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, checkedDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+				if(declaration instanceof ISeamJavaComponentDeclaration) {
+					ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)declaration;
+					boolean sourceJavaDeclaration = !((IType)jd.getSourceMember()).isBinary();
+					if(sourceJavaDeclaration) {
+						// Save link between component name and java source file.
+						validationContext.addLinkedResource(declaration.getName(), declaration.getSourcePath());
+						// Validate all elements in declaration but @Name. 
+						validateJavaDeclaration(project, firstJavaDeclaration, helper, reporter);
+					}
+					if(declaration!=firstJavaDeclaration) {
+						// Validate @Name
+						// Component class with the same component name. Check precedence.
+						ISeamJavaComponentDeclaration javaDeclaration = (ISeamJavaComponentDeclaration)declaration;
+						int javaDeclarationPrecedence = javaDeclaration.getPrecedence();
+						ISeamJavaComponentDeclaration checkedDeclaration = usedPrecedences.get(javaDeclarationPrecedence);
+						boolean sourceCheckedDeclaration = !((IType)checkedDeclaration.getSourceMember()).isBinary();
+						if(checkedDeclaration==null) {
+							usedPrecedences.put(javaDeclarationPrecedence, javaDeclaration);
+						} else if(sourceJavaDeclaration) {
+							IResource javaDeclarationResource = javaDeclaration.getResource();
+							// Mark nonunique name.
+							if(!markedDeclarations.contains(checkedDeclaration) && sourceCheckedDeclaration) {
+								// Mark first wrong declaration with that name
+								IResource checkedDeclarationResource = checkedDeclaration.getResource();
+								ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+								if(location!=null) {
+									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, checkedDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+								}
+								markedDeclarations.add(checkedDeclaration);
 							}
-							markedDeclarations.add(checkedDeclaration);
-						}
-						// Mark next wrong declaration with that name
-						markedDeclarations.add(javaDeclaration);
-						ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-						if(location!=null) {
-							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+							// Mark next wrong declaration with that name
+							markedDeclarations.add(javaDeclaration);
+							ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+							if(location!=null) {
+								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+							}
 						}
 					}
 				}
