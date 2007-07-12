@@ -13,7 +13,9 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -27,9 +29,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.core.JavaModel;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -300,10 +299,11 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					new FilterSetCollection(projectFilterSet), true);	
 		}
 		
+		writeXModel(project, model);
+		
 		
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		
-		//TODO check if template file org.jboss.tools.jst.web.xml is added to .settings
 		EclipseResourceUtil.addNatureToProject(project, "org.jboss.tools.jsf.jsfnature");
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
 
@@ -499,5 +499,55 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		}
 	}
 	
+	private void writeXModel(IProject project, IDataModel model) {
+		String projectName = project.getName();
+		String webContent = "WebContent";
+		
+		//TODO This returns null. Why? How else can we get WebContent folder name?
+		webContent = (String)model.getProperty(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER);
+		
+		if(webContent == null) {
+			webContent = "WebContent";
+		}
+		String src = "src";
+		
+		String[] srcs = EclipseResourceUtil.getJavaProjectSrcLocations(project);
+		if (srcs.length > 0) {
+			src = srcs[0].replace('\\','/').substring(srcs[0].lastIndexOf('/') + 1);
+		}
+		File location = new File(project.getLocation().toFile(),".settings/org.jboss.tools.jst.web.xml");
+		
+		Object[] arguments = {
+			projectName,
+			webContent,
+			src
+		};
+		String body = MessageFormat.format(XMODEL, arguments);
+		
+		org.jboss.tools.common.util.FileUtil.writeFile(location, body);
+	}
 	
+	/**
+	 * {0} - project name
+	 * {1} - WebContent folder name
+	 * {2} - src folder name
+	 */
+	private static String XMODEL = 
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+		"<FILESYSTEMS APPLICATION_NAME=\"{0}\" ENTITY=\"FileSystems\"" +
+		" VERSION=\"2.0.0\" WORKSPACE_HOME=\"./{1}/WEB-INF\">" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"%redhat.workspace%\" NAME=\"WEB-INF\"/>" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\" INFO=\"Content-Type=Web\"" +
+		" LOCATION=\"%redhat.workspace%/..\" NAME=\"WEB-ROOT\"/>" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
+		" LOCATION=\"%redhat.workspace%/../../{2}\" NAME=\"src\"/>" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"%redhat.workspace%/lib\" NAME=\"lib\"/>" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
+		" LOCATION=\"%redhat.workspace%/classes\" NAME=\"classes\"/>" +
+		"<WEB ENTITY=\"JstWeb\" MODEL_PATH=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
+		"  <MODULE ENTITY=\"WebJSFModule\" MODEL_PATH=\"/faces-config.xml\"" +
+		"   ROOT=\"WEB-ROOT\" SRC=\"src\" URI=\"/WEB-INF/faces-config.xml\"/>" +
+		"</WEB>" +
+		"</FILESYSTEMS>"
+	;
 }

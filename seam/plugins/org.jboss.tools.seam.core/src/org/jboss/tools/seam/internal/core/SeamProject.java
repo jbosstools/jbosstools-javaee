@@ -260,6 +260,10 @@ public class SeamProject extends SeamObject implements ISeamProject {
 					current = null;
 					c = getComponent(name);
 				} else {
+					if(loaded instanceof ISeamXmlComponentDeclaration) {
+						ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
+						onXMLLoadedDeclaration(c, oldClassName, xml);
+					}
 					continue;
 				}
 			}
@@ -292,24 +296,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 				}
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
 				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
-				String className = xml.getClassName();
-				List<Change> changes = null;
-				if(isClassNameChanged(oldClassName, className)) {
-					SeamComponentDeclaration[] ds1 = c.getAllDeclarations().toArray(new SeamComponentDeclaration[0]);
-					for (int i1 = 0; i1 < ds1.length; i1++) {
-						if(!(ds1[i1] instanceof ISeamJavaComponentDeclaration)) continue;
-						ISeamJavaComponentDeclaration jcd = (ISeamJavaComponentDeclaration)ds1[i1];
-						if(jcd.getClassName().equals(className)) continue;
-						c.removeDeclaration(jcd);
-						changes = Change.addChange(changes, new Change(c, null, jcd, null));
-					}
-				}
-				SeamJavaComponentDeclaration j = javaDeclarations.get(className);
-				if(j != null) {
-					c.addDeclaration(j);
-					changes = Change.addChange(changes, new Change(c, null, null, j));
-				}
-				fireChanges(changes);
+				onXMLLoadedDeclaration(c, oldClassName, xml);
 			}			
 		}
 		fireChanges(addedComponents);
@@ -349,6 +336,27 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		if(oldClassName == null || oldClassName.length() == 0) return false;
 		if(newClassName == null || newClassName.length() == 0) return false;
 		return !oldClassName.equals(newClassName);
+	}
+	
+	private void onXMLLoadedDeclaration(SeamComponent c, String oldClassName, ISeamXmlComponentDeclaration xml) {
+		String className = xml.getClassName();
+		List<Change> changes = null;
+		if(isClassNameChanged(oldClassName, className)) {
+			SeamComponentDeclaration[] ds1 = c.getAllDeclarations().toArray(new SeamComponentDeclaration[0]);
+			for (int i1 = 0; i1 < ds1.length; i1++) {
+				if(!(ds1[i1] instanceof ISeamJavaComponentDeclaration)) continue;
+				ISeamJavaComponentDeclaration jcd = (ISeamJavaComponentDeclaration)ds1[i1];
+				if(jcd.getClassName().equals(className)) continue;
+				c.removeDeclaration(jcd);
+				changes = Change.addChange(changes, new Change(c, null, jcd, null));
+			}
+		}
+		SeamJavaComponentDeclaration j = javaDeclarations.get(className);
+		if(j != null && !c.getAllDeclarations().contains(j)) {
+			c.addDeclaration(j);
+			changes = Change.addChange(changes, new Change(c, null, null, j));
+		}
+		fireChanges(changes);
 	}
 
 	/**
