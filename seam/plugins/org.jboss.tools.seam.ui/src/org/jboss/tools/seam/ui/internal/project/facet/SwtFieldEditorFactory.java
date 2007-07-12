@@ -21,7 +21,9 @@ import org.jboss.tools.seam.ui.widget.editor.ComboFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
+import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.TaggedComboFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.TextFieldEditor;
 
 /**
@@ -45,11 +47,9 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	/**
 	 * 
 	 */
-	public IFieldEditor createComboEditor(String name, String label,
+	public ITaggedFieldEditor createComboEditor(String name, String label,
 			List values, Object defaultValue) {
-		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
-		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
-				new ComboFieldEditor(name,label,values,defaultValue.toString())});
+		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,true);
 		return editor;
 	}
 
@@ -60,6 +60,16 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
 				new TextFieldEditor(name,label, defaultValue)});
+		return editor;
+	}
+	
+	/**
+	 * 
+	 */
+	public IFieldEditor createUneditableTextEditor(String name, String label, String defaultValue) {
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new TextFieldEditor(name,label, defaultValue,false)});
 		return editor;
 	}
 	

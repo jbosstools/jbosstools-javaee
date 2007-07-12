@@ -25,9 +25,13 @@ import org.jboss.tools.seam.ui.widget.field.ComboBoxField;
 public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeListener{
 
 	List values = null;
-	public ComboFieldEditor(String name, String label, List values,Object defaultValue) {
+	
+	boolean flat = false;
+	
+	public ComboFieldEditor(String name, String label, List values,Object defaultValue,boolean flat) {
 		super(name, label, defaultValue);
 		this.values = Collections.unmodifiableList(values);
+		this.flat = flat;
 	}
 
 	private Control comboControl;
@@ -45,7 +49,7 @@ public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeL
 	public Control getComboControl(Composite composite) {
 		// TODO Auto-generated method stub
 		if(comboControl == null) {
-			ComboBoxField comboField = new ComboBoxField(composite,values,getValue());
+			ComboBoxField comboField = new ComboBoxField(composite,values,getValue(),flat);
 			comboControl = comboField.getComboControl();
 			comboField.addPropertyChangeListener(this);
 		} else if(composite!=null) {

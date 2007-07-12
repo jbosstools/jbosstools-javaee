@@ -38,9 +38,11 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 
 	ComboViewer comboControl = null;
 	List values = new ArrayList();
-	public ComboBoxField(Composite parent,List values, Object value) {
+	
+	
+	public ComboBoxField(Composite parent,List values, Object value, boolean floatStyle) {
 		this.values = values;
-		comboControl = new ComboViewer(parent, SWT.READ_ONLY);
+		comboControl = new ComboViewer(parent,floatStyle?SWT.FLAT:SWT.READ_ONLY);
 
 		comboControl.setContentProvider(new IStructuredContentProvider() {
 
@@ -101,7 +103,7 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 	}
 
 	public void selectionChanged(SelectionChangedEvent event) {
-		firePropertyChange("", event.getSelection());
+		firePropertyChange("", ((StructuredSelection)event.getSelection()).getFirstElement());
 	}
 	
 	public Combo getComboControl() {

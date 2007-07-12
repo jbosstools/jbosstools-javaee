@@ -27,6 +27,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jem,
  org.eclipse.jem.util,
  org.eclipse.emf.ecore,
+ org.eclipse.jst.j2ee.ui,
  org.eclipse.jst.j2ee.web
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,

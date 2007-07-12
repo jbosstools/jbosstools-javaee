@@ -14,16 +14,20 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.ui.PresetSelectionPanel;
 import org.osgi.framework.Bundle;
 
 /**
-
+ * 
+ * @author eskimo
+ *
  */
-
 public class SeamProjectWizard extends WebProjectWizard {
 
 	
@@ -50,6 +54,42 @@ public class SeamProjectWizard extends WebProjectWizard {
 		page.setDescription("TBD Description of wizard");
 		return page;
 	}
+
+	@Override
+	public void createPageControls(Composite container) {
+		super.createPageControls(container);
+		getModel().setSelectedPreset("preset.jst.seam.v2_0");
+		Control control = findControlByClass((Composite)getShell(), PresetSelectionPanel.class);
+		control.setVisible(false);
+		control = findGroupByText((Composite)getShell(), "EAR Membership");
+		control.setVisible(false);
+	}
 	
 	
+	Control findControlByClass(Composite comp, Class claz) {
+		for (Control child : comp.getChildren()) {
+			System.out.println(child.getClass().getName());
+			if(child.getClass()==claz) {
+				return child;
+			} else if(child instanceof Composite){
+				Control control = findControlByClass((Composite)child, claz);
+				if(control!=null) return control;
+			}
+		}
+		return null;
+	}
+	
+	
+	Control findGroupByText(Composite comp, String text) {
+		for (Control child : comp.getChildren()) {
+			System.out.println(child.getClass().getName());
+			if(child instanceof Group && ((Group)child).getText().equals(text)) {
+				return child;
+			} else if(child instanceof Composite){
+				Control control = findGroupByText((Composite)child, text);
+				if(control!=null) return control;
+			}
+		}
+		return null;
+	}
 }

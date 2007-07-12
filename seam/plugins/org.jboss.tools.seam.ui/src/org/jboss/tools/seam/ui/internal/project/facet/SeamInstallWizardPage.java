@@ -10,7 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.internal.project.facet;
 
-import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
 import org.eclipse.jface.wizard.IWizard;
@@ -29,6 +30,7 @@ import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
+import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 
 /**
  * @author eskimo
@@ -52,9 +54,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	DataModelValidatorDelegate validatorDelegate;
 	
 	// General group
-	IFieldEditor jBossAsHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
-			ISeamFacetDataModelProperties.JBOSS_AS_HOME, 
-			"JBoss AS Home Folder:","C:\\java\\jboss-4.0.5.GA");
+	//	IFieldEditor jBossAsHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
+	//			ISeamFacetDataModelProperties.JBOSS_AS_HOME, 
+	//			"JBoss AS Home Folder:","C:\\java\\jboss-4.0.5.GA");
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, 
 			"JBoss Seam Home Folder:","C:\\java\\jboss-seam-1.2.1.GA");
@@ -66,15 +68,17 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor jBossAsDbTypeEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.DB_TYPE,
 			"Database Type:",Arrays.asList(HIBERNATE_HELPER.getDialectNames()),"HSQL");
-	IFieldEditor jBossHibernateDialectEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
+	IFieldEditor jBossHibernateDialectEditor = IFieldEditorFactory.INSTANCE.createUneditableTextEditor(
 			ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
-			"Hibernate Dialect:",Arrays.asList(HIBERNATE_HELPER.getDialectNames()),"HSQL");
-	IFieldEditor jdbcDriverClassname = IFieldEditorFactory.INSTANCE.createTextEditor(
+			"Hibernate Dialect:",HIBERNATE_HELPER.getDialectClass("HSQL"));
+	
+	ITaggedFieldEditor jdbcDriverClassname = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JDBC_DRIVER_CLASS_NAME,
-			"JDBC Driver Class for Your Database:","com.package1.Classname");
-	IFieldEditor jdbcUrlForDb = IFieldEditorFactory.INSTANCE.createTextEditor(
+			"JDBC Driver Class for Your Database:",Arrays.asList(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))),HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))[0]);
+	ITaggedFieldEditor jdbcUrlForDb = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JDBC_URL_FOR_DB, 
-			"JDBC Url for Your Database:", "url://domain/");
+			"JDBC Url for Your Database:", 
+			Arrays.asList(HIBERNATE_HELPER.getConnectionURLS(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))[0])),HIBERNATE_HELPER.getConnectionURLS(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))[0])[0]);
 	IFieldEditor dbUserName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_USER_NAME, 
 			"Database User Name:", "username");
@@ -180,7 +184,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		gridLayout = new GridLayout(3, false);
 		
 		generalGroup.setLayout(gridLayout);
-		registerEditor(jBossAsHomeEditor,generalGroup, 3);
+//		registerEditor(jBossAsHomeEditor,generalGroup, 3);
 		registerEditor(jBossSeamHomeEditor,generalGroup, 3);
 		registerEditor(jBossAsDeployAsEditor,generalGroup, 3);
 		
@@ -219,8 +223,24 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		setControl(root);
 		
 		validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor.getName(), ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
-		validatorDelegate.addValidatorForProperty(jBossAsHomeEditor.getName(), ValidatorFactory.JBOSS_AS_HOME_FOLDER_VALIDATOR);
+//		validatorDelegate.addValidatorForProperty(jBossAsHomeEditor.getName(), ValidatorFactory.JBOSS_AS_HOME_FOLDER_VALIDATOR);
 		validatorDelegate.addValidatorForProperty(pathToJdbcDriverJar.getName(), ValidatorFactory.FILESYSTEM_FILE_EXISTS_VALIDATOR);
+		
+		jBossAsDbTypeEditor.addPropertyChangeListener(new PropertyChangeListener() {
+
+			public void propertyChange(PropertyChangeEvent evt) {
+				jBossHibernateDialectEditor.setValue(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString()));
+				jdbcDriverClassname.setTags(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString())));
+			
+			}
+		});
+		
+		jdbcDriverClassname.addPropertyChangeListener(new PropertyChangeListener(){
+
+			public void propertyChange(PropertyChangeEvent evt) {
+				jdbcUrlForDb.setTags(HIBERNATE_HELPER.getConnectionURLS(evt.getNewValue().toString()));			
+			}
+		});
 		
 	}
 

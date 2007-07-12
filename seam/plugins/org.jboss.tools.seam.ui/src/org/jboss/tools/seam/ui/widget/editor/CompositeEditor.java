@@ -40,7 +40,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
         for(int i=0;i<controls.length;i++) {
         	GridData gd = new GridData();
             gd.horizontalSpan = controls.length-1==i?gl.numColumns-i:1;
-            gd.horizontalAlignment = controls[i] instanceof Combo?SWT.BEGINNING:GridData.FILL;
+            gd.horizontalAlignment = GridData.FILL;
          	gd.grabExcessHorizontalSpace = (i==1);
             controls[i].setLayoutData(gd);
         }

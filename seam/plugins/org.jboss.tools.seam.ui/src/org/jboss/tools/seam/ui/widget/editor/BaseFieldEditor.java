@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.widget.editor;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -205,5 +206,24 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	 */
 	public void setLabelText(String labelText) {
 		this.labelText = labelText;
+	}
+	
+	/**
+	 * 
+	 */
+	private boolean editable = true;
+	
+	/**
+	 * 
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+
+	/**
+	 * 
+	 */
+	public void setEditable(boolean aEditable) {
+		this.editable = aEditable;
 	}
 }

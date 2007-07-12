@@ -8,7 +8,6 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-
 package org.jboss.tools.seam.ui.widget.editor;
 
 
@@ -43,9 +42,27 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	
 	protected int style = -1;
 	
+	/**
+	 * 
+	 * @param name
+	 * @param aLabelText
+	 * @param defaultvalue
+	 */
 	public TextFieldEditor(String name,String aLabelText,String defaultvalue) {
 		super(name, aLabelText, defaultvalue);
 	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param aLabelText
+	 * @param defaultvalue
+	 * @param editable
+	 */
+	public TextFieldEditor(String name,String aLabelText,String defaultvalue,boolean editable) {
+		super(name, aLabelText, defaultvalue);
+		setEditable(editable);
+	}	
 	
 	/**
 	 * 
@@ -97,17 +114,25 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
             textField.setFont(parent.getFont());
             Object value = getValue();
             textField.setText(getValue().toString());
+            textField.setEditable(isEditable());
             fTextField.addPropertyChangeListener(this);
         } else if (parent!=null){
         	Assert.isTrue(parent==fTextField.getTextControl().getParent());
         }  
         return fTextField.getTextControl();
     }
-        
+    
+    /**
+     * 
+     */
 	protected void updateWidgetValues() {
 		setValueAsString(getValueAsString());
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected int getInitialStyle() {
 		if(this.style >= 0) return style;
     	return SWT.SINGLE | SWT.BORDER;
@@ -146,6 +171,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
     private String checkSimple(Object value){
     	return (value != null) ? value.toString() : new String("");
     }
+    
     /**
      * 
      */
@@ -160,10 +186,9 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      * text field is created yet
      */
     protected Text getTextControl() {
-        return fTextField.getTextControl();
+        return fTextField!=null?fTextField.getTextControl():null;
     }
 
-   
     /**
      * @see com.kabira.ide.ex.workbench.ui.feature.eitors.BaseFeatureFieldEditor#setFocus()
      */
@@ -174,30 +199,41 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
         return setfocus;
     }
 
+    /**
+     * 
+     */
 	@Override
 	public Object[] getEditorControls(Object composite) {
 		return new Control[]{getTextControl((Composite)composite)};
 	}
 
+	/**
+	 * 
+	 * @param object
+	 */
 	public void save(Object object) {
 	}
 
+	/**
+	 * 
+	 */
 	public void setValue(Object newWalue) {
 		fTextField.removePropertyChangeListener(this);
 		fTextField.getTextControl().setText(newWalue.toString());
 		fTextField.addPropertyChangeListener(this);
 	}
-
-	public boolean isEditable() {
-		// TODO Auto-generated method stub
-		return false;
+	
+	/**
+	 * 
+	 */
+	public void setEditable(boolean aEditable) {
+		super.setEditable(aEditable);
+		if(getTextControl()!=null) getTextControl().setEditable(aEditable);
 	}
-
-	public void setEditable(boolean aEdiatble) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	/**
+	 * 
+	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		super.setValue(evt.getNewValue());
 	}

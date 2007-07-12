@@ -33,7 +33,7 @@ public interface IFieldEditorFactory {
 	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createComboEditor(String name, String label, List values, Object defaultValue);
+	ITaggedFieldEditor createComboEditor(String name, String label, List values, Object defaultValue);
 	
 	/**
 	 * 
@@ -61,5 +61,13 @@ public interface IFieldEditorFactory {
 	 * @return
 	 */
 	IFieldEditor createBrowseFileEditor(String name, String label, String defaultValue);
+	/**
+	 * @param jdbcDriverClassName
+	 * @param string
+	 * @param string2
+	 * @return
+	 */
+	IFieldEditor createUneditableTextEditor(String jdbcDriverClassName,
+			String string, String string2);
 
 }
