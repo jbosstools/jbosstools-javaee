@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -284,7 +285,10 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)loaded;
 				javaDeclarations.put(jd.getClassName(), jd);
-				allVariables.addAll(jd.getBijectedAttributes());
+				Set<IBijectedAttribute> as = jd.getBijectedAttributes();
+				for (IBijectedAttribute a : as) {
+					if(a.isContextVariable()) allVariables.add(a);
+				}
 				allVariables.addAll(jd.getRoles());
 				Set<ISeamComponent> cs = getComponentsByClass(jd.getClassName());
 				for (ISeamComponent ci: cs) {

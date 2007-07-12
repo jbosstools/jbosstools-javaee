@@ -163,6 +163,41 @@ public class ComponentBuilder implements SeamAnnotations {
 			
 			att.setSourceMember(findMethod(m));
 		}
+
+		for (AnnotatedASTNode<FieldDeclaration> n: annotatedFields) {
+			Map<BijectedAttributeType, Annotation> as = new HashMap<BijectedAttributeType, Annotation>();
+			List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
+			Annotation main = null;
+			for (int i = 0; i < BijectedAttributeType.values().length; i++) {
+				Annotation a = findAnnotation(n, BijectedAttributeType.values()[i].getAnnotationType());
+				if(a != null) {
+					as.put(BijectedAttributeType.values()[i], a);
+					if(main == null) main = a;
+					types.add(BijectedAttributeType.values()[i]);
+				}
+			}
+			if(as.size() == 0) continue;
+			
+			FieldDeclaration m = n.getNode();
+
+			BijectedAttribute att = new BijectedAttribute();
+			component.addBijectedAttribute(att);
+
+			att.setTypes(types.toArray(new BijectedAttributeType[0]));
+			
+			ValueInfo name = ValueInfo.getValueInfo(main, null);
+			if(name == null) {
+				name = new ValueInfo();
+				name.value = getFieldName(m);
+			}
+			
+			att.setName(name.getValue());
+
+			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
+			if(scope != null) att.setScopeAsString(scope.getValue());
+			
+			att.setSourceMember(findField(m));
+		}
 	}
 	
 	void processComponentMethods() {
@@ -272,7 +307,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Returns name of first field
 	 * @param node

@@ -27,5 +27,12 @@ public interface IBijectedAttribute extends ISeamContextVariable, ISeamJavaSourc
 	 * @return
 	 */
 	public boolean isOfType(BijectedAttributeType type);
+	
+	/**
+	 * Though this interface extends ISeamContextVariable, not all
+	 * types are allowed to be context variables
+	 * @return
+	 */
+	public boolean isContextVariable();
 
 }
