@@ -10,26 +10,37 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.util.Map;
+
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-public class SeamConversationWizard extends Wizard implements INewWizard {
+public class SeamConversationWizard extends SeamBaseWizard implements INewWizard {
 
 	public SeamConversationWizard() {
-		// TODO Auto-generated constructor stub
+		super(CREATE_SEAM_CONVERSATION);
+		setWindowTitle("reate New Conversation");
+		addPage(new SeamActionWizardPage1());
 	}
 
-	@Override
-	public boolean performFinish() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamBaseOperation("Action creating operation"){
 
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		// TODO Auto-generated method stub
-
-	}
+		@Override
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
+				throws ExecutionException {
+			Map params = (Map)info.getAdapter(Map.class);
+			
+			return Status.OK_STATUS;
+		}
+		
+	};
 
 }

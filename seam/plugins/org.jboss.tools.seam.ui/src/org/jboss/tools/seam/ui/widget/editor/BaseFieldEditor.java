@@ -14,7 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -48,6 +51,28 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 		this.nameText = name;
 	}
 	
+	/**
+	 * 
+	 * @param parent
+	 */
+	public void doFillIntoGrid(Object parent) {
+		Assert.isTrue(parent instanceof Composite, "Parent control should be Composite");
+		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,"Editor supports only grid layout");
+		Composite aComposite = (Composite) parent;
+		Control[] controls = (Control[])getEditorControls(aComposite);
+		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
+		
+		doFillIntoGrid(aComposite,gl.numColumns);
+	}
+	
+	/**
+	 * @param composite
+	 * @param numColumns
+	 */
+	protected void doFillIntoGrid(Composite composite, int numColumns) {
+		
+	}
+
 	/**
 	 * 
 	 */
@@ -85,10 +110,6 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	public Label getLabelControl() {
 		return createLabelControl(null);
 	}
-	/**
-	 * 
-	 */
-	abstract public void doFillIntoGrid(Object parent);
 
 	/**
 	 * 
@@ -111,9 +132,7 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	/**
 	 * 
 	 */
-	public int getNumberOfControls() {
-		return getEditorControls().length;
-	}
+	public abstract int getNumberOfControls();
 
 	/**
 	 * 

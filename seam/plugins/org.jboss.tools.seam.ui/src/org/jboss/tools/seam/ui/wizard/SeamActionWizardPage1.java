@@ -11,21 +11,31 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.seam.ui.internal.project.facet.SwtFieldEditorFactory;
+import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
 /**
  * @author eskimo
  *
  */
-public class SeamActionWizardPage1 extends WizardPage {
+public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 
-	/**
-	 * @param pageName
-	 */
+
+	public SeamActionWizardPage1(String pageName, String title,
+			ImageDescriptor titleImage) {
+		super(pageName, title, titleImage);
+	}
+
 	public SeamActionWizardPage1(String pageName) {
 		super(pageName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -33,18 +43,8 @@ public class SeamActionWizardPage1 extends WizardPage {
 	 * @param title
 	 * @param titleImage
 	 */
-	public SeamActionWizardPage1(String pageName, String title,
-			ImageDescriptor titleImage) {
-		super(pageName, title, titleImage);
-		// TODO Auto-generated constructor stub
+	public SeamActionWizardPage1() {
+		super("Create New Action", "Create a new Java interface and SLSB with key Seam/EJB annotations.", null);
+		addEditors(SeamWizardFactory.createDefaultWizardEditors(SeamWizardUtils.getSelectedProjectName()));
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
-	public void createControl(Composite parent) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

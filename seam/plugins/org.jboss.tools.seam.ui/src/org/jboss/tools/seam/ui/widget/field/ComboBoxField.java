@@ -11,11 +11,10 @@
 package org.jboss.tools.seam.ui.widget.field;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.IBaseLabelProvider;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -115,5 +114,16 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 		return getComboControl();
 	}
 	
+	public void setValue(Object newValue) {
+		comboControl.setSelection(new StructuredSelection(newValue));
+		comboControl.getCombo().setText(newValue.toString());
+	}
 	
+	public void setTags(String[] tags) {
+		values = Arrays.asList(tags);
+		comboControl.removeSelectionChangedListener(this);
+		comboControl.refresh(true);
+		comboControl.addPostSelectionChangedListener(this);
+		comboControl.setSelection(new StructuredSelection(tags.length>0?tags[0]:new String[]{}));
+	}
 }

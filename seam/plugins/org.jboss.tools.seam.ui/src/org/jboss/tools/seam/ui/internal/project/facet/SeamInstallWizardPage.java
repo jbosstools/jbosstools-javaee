@@ -14,6 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.swt.SWT;
@@ -21,6 +25,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ListDialog;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
@@ -28,6 +35,7 @@ import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
@@ -227,21 +235,21 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		validatorDelegate.addValidatorForProperty(pathToJdbcDriverJar.getName(), ValidatorFactory.FILESYSTEM_FILE_EXISTS_VALIDATOR);
 		
 		jBossAsDbTypeEditor.addPropertyChangeListener(new PropertyChangeListener() {
-
 			public void propertyChange(PropertyChangeEvent evt) {
 				jBossHibernateDialectEditor.setValue(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString()));
 				jdbcDriverClassname.setTags(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString())));
-			
 			}
 		});
 		
 		jdbcDriverClassname.addPropertyChangeListener(new PropertyChangeListener(){
-
 			public void propertyChange(PropertyChangeEvent evt) {
-				jdbcUrlForDb.setTags(HIBERNATE_HELPER.getConnectionURLS(evt.getNewValue().toString()));			
+				if(evt.getNewValue()==null) {
+					jdbcUrlForDb.setTags(new String[]{});
+				} else {
+					jdbcUrlForDb.setTags(HIBERNATE_HELPER.getConnectionURLS(evt.getNewValue().toString()));			
+				}
 			}
 		});
-		
 	}
 
 	/**
@@ -255,4 +263,5 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			
 		}
 	}
+
 }

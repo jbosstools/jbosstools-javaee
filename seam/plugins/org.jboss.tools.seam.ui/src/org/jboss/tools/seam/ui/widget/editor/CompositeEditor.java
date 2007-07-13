@@ -50,8 +50,8 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	
 	@Override
 	public Object[] getEditorControls() {
-		if(controls.size()>0) return controls.toArray();
-		else throw new IllegalStateException("This metod can be invoked after getEditorControls(parent) only");
+			if(controls.size()>0) return controls.toArray();
+			else throw new IllegalStateException("This metod can be invoked after getEditorControls(parent) only");
 	}
 	
 	
@@ -62,6 +62,10 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		return controls.toArray(new Control[]{});
 	}
 
+	public int getNumberOfControls() {
+		return editors.size();
+	}
+	
 	public boolean isEditable() {
 		return true;
 	}

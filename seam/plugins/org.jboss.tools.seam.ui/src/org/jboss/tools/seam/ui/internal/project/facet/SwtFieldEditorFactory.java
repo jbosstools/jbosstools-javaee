@@ -96,6 +96,14 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return editor;
 	}
 	
+	
+	public IFieldEditor createButtonFieldEditor(String name, String label, String defaultValue, ButtonFieldEditor.ButtonPressedAction action, IValidator validator ) {
+		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
+				new TextFieldEditor(name,label, defaultValue),
+				new ButtonFieldEditor(name,action,defaultValue)});
+		return editor;
+	}
 	/**
 	 * 
 	 * @param buttonName

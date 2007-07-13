@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.util.List;
 
+import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.SwtFieldEditorFactory;
 
 public interface IFieldEditorFactory {
@@ -61,6 +62,7 @@ public interface IFieldEditorFactory {
 	 * @return
 	 */
 	IFieldEditor createBrowseFileEditor(String name, String label, String defaultValue);
+	
 	/**
 	 * @param jdbcDriverClassName
 	 * @param string
@@ -69,5 +71,16 @@ public interface IFieldEditorFactory {
 	 */
 	IFieldEditor createUneditableTextEditor(String jdbcDriverClassName,
 			String string, String string2);
+	
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
+	 * @param action
+	 * @param validator
+	 * @return
+	 */
+	public IFieldEditor createButtonFieldEditor(String name, String label, String defaultValue, ButtonFieldEditor.ButtonPressedAction action, IValidator validator );
 
 }

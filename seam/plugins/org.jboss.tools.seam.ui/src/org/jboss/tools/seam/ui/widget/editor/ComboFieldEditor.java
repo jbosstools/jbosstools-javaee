@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.widget.field.ComboBoxField;
 
-public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeListener{
+public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEditor,PropertyChangeListener{
 
 	List values = null;
 	
@@ -34,7 +34,7 @@ public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeL
 		this.flat = flat;
 	}
 
-	private Control comboControl;
+	private ComboBoxField comboField;
 
 	@Override
 	public Object[] getEditorControls(Object composite) {
@@ -48,14 +48,13 @@ public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeL
 
 	public Control getComboControl(Composite composite) {
 		// TODO Auto-generated method stub
-		if(comboControl == null) {
-			ComboBoxField comboField = new ComboBoxField(composite,values,getValue(),flat);
-			comboControl = comboField.getComboControl();
+		if(comboField == null) {
+			comboField = new ComboBoxField(composite,values,getValue(),flat);
 			comboField.addPropertyChangeListener(this);
 		} else if(composite!=null) {
-			Assert.isTrue(comboControl.getParent()==composite);
+			Assert.isTrue(comboField.getControl().getParent()==composite);
 		}
-		return comboControl;
+		return comboField.getControl();
 	}
 
 	@Override
@@ -64,23 +63,34 @@ public class ComboFieldEditor extends BaseFieldEditor implements PropertyChangeL
 		return null;
 	}
 
-	public boolean isEditable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public void save(Object object) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setEditable(boolean ediatble) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		setValue(evt.getNewValue());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor#getTags()
+	 */
+	public String[] getTags() {
+		return comboField.getComboControl().getItems();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor#setTags(java.lang.String[])
+	 */
+	public void setTags(String[] tags) {
+		comboField.setTags(tags);	
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.BaseFieldEditor#getNumberOfControls()
+	 */
+	@Override
+	public int getNumberOfControls() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+	
 }

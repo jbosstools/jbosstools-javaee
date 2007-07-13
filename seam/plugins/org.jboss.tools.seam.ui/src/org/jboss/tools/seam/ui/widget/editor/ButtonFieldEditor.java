@@ -93,4 +93,13 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 				run();
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.BaseFieldEditor#getNumberOfControls()
+	 */
+	@Override
+	public int getNumberOfControls() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
 }

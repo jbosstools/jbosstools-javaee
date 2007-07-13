@@ -66,4 +66,13 @@ public class LabelFieldEditor extends BaseFieldEditor {
 	public void setValue(Object value) {
 		// supress parent method
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.BaseFieldEditor#getNumberOfControls()
+	 */
+	@Override
+	public int getNumberOfControls() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
 }

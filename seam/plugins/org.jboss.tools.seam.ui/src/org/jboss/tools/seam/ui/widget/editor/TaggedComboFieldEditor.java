@@ -45,9 +45,7 @@ public class TaggedComboFieldEditor extends CompositeEditor implements ITaggedFi
 	 * @see org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor#setTags(java.lang.String[])
 	 */
 	public void setTags(String[] tags) {
-		((Combo)getEditorControls()[1]).setItems(tags);
-		combo.setValue(tags.length==0? "":tags[0]);
-		((Combo)getEditorControls()[1]).getParent().layout(new Control[]{(Combo)getEditorControls()[1]});
+		combo.setTags(tags);
 	}
 
 }
