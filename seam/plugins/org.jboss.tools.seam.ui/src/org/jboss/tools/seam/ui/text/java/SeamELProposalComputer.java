@@ -20,7 +20,11 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposalComputer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 
-
+/**
+ * Custom Java Completion Proposal computer 
+ * 
+ * @author Jeremy
+ */
 public class SeamELProposalComputer implements IJavaCompletionProposalComputer {
 	/** The wrapped processor. */
 	private final SeamELProposalProcessor fProcessor= new SeamELProposalProcessor();

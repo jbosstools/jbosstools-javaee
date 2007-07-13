@@ -45,7 +45,14 @@ import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
+/**
+ * Content assist proposal processor.
+ * Computes Seam EL proposals.
+ * 
+ * @author Jeremy
+ */
 public class SeamELProposalProcessor implements IContentAssistProcessor {
 
 	private static final ICompletionProposal[] NO_PROPOSALS= new ICompletionProposal[0];
@@ -63,62 +70,103 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 			fOffset= offset;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(IDocument)
+		 */
 		public void apply(IDocument document) {
 			apply(null, '\0', 0, fOffset);
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getSelection(IDocument)
+		 */
 		public Point getSelection(IDocument document) {
 			return new Point(fOffset + fString.length(), 0);
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getAdditionalProposalInfo()
+		 */
 		public String getAdditionalProposalInfo() {
 			return null;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
+		 */
 		public String getDisplayString() {
 			return fPrefix + fString;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getImage()
+		 */
 		public Image getImage() {
 			return SharedXMLEditorPluginImageHelper.getImage(SharedXMLEditorPluginImageHelper.IMG_OBJ_ATTRIBUTE);
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getContextInformation()
+		 */
 		public IContextInformation getContextInformation() {
 			return null;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension#apply(IDocument, char, int)
+		 */
 		public void apply(IDocument document, char trigger, int offset) {
 			try {
 				String replacement= fString.substring(offset - fOffset);
 				document.replace(offset, 0, replacement);
 			} catch (BadLocationException x) {
-				// TODO Auto-generated catch block
-				x.printStackTrace();
+				SeamGuiPlugin.getPluginLog().logError(x);
 			}
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension#isValidFor(IDocument, int)
+		 */
 		public boolean isValidFor(IDocument document, int offset) {
 			return validate(document, offset, null);
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension#getTriggerCharacters()
+		 */
 		public char[] getTriggerCharacters() {
 			return null;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension#getContextInformationPosition()
+		 */
 		public int getContextInformationPosition() {
 			return 0;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension2#apply(ITextViewer, char, int, int)
+		 */
 		public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 			apply(viewer.getDocument(), trigger, offset);
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension2#selected(ITextViewer, boolean)
+		 */
 		public void selected(ITextViewer viewer, boolean smartToggle) {
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension2#unselected(ITextViewer)
+		 */
 		public void unselected(ITextViewer viewer) {
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension2#validate(IDocument document, int offset, DocumentEvent event)
+		 */
 		public boolean validate(IDocument document, int offset, DocumentEvent event) {
 			try {
 				int prefixStart= fOffset - fPrefix.length();
@@ -128,20 +176,32 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 			} 
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension3#getInformationControlCreator()
+		 */
 		public IInformationControlCreator getInformationControlCreator() {
 			return null;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension3#getPrefixCompletionText(IDocument, int)
+		 */
 		public CharSequence getPrefixCompletionText(IDocument document, int completionOffset) {
 			return fPrefix + fString;
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension3#getPrefixCompletionStart(IDocument, int)
+		 */
 		public int getPrefixCompletionStart(IDocument document, int completionOffset) {
 			return fOffset - fPrefix.length();
 		}
 
+		/*
+		 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension4#isAutoInsertable()
+		 */
 		public boolean isAutoInsertable() {
-			return true;
+			return false;
 		}
 
 	}
@@ -195,6 +255,13 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 		}
 	}
 
+	/* Creates Proposal object
+	 * 
+	 * @param string
+	 * @param prefix
+	 * @param offset
+	 * @return
+	 */
 	private ICompletionProposal createProposal(String string, String prefix, int offset) {
 		return new Proposal(string, prefix, offset);
 	}
@@ -252,6 +319,10 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 		return null; // no custom error message
 	}
 	
+	/*
+	 * Returns active text editor
+	 * @return
+	 */
 	private ITextEditor getActiveEditor() {
 		IWorkbenchWindow window= PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window != null) {
@@ -270,6 +341,14 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 		return null;
 	}
 
+
+	/*
+	 * Checks if the EL start starting characters are present
+	 * @param viewer
+	 * @param offset
+	 * @return
+	 * @throws BadLocationException
+	 */
 	private boolean checkStartPositionInEL(ITextViewer viewer, int offset) throws BadLocationException {
 		IDocument doc= viewer.getDocument();
 		if (doc == null || offset > doc.getLength())

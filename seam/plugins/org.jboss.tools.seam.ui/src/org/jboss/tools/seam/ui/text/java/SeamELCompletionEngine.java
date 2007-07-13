@@ -33,8 +33,16 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
+/**
+ * Utility class used to find Seam Project content assist proposals
+ * 
+ * @author Jeremy
+ */
 public final class SeamELCompletionEngine {
 	
+	/**
+	 * Constructs SeamELCompletionEngine object
+	 */
 	public SeamELCompletionEngine() {
 		
 	}
@@ -206,6 +214,13 @@ public final class SeamELCompletionEngine {
 		return sb.toString();
 	}
 	
+	/*
+	 * Compares to tokenized expressions.
+	 * 
+	 * @param first
+	 * @param second
+	 * @return boolean true if two expressions are equal
+	 */
 	private boolean areEqualExpressions(List<ELToken>first, List<ELToken>second) {
 		if (first == null || second == null)
 			return (first == second);
@@ -220,6 +235,12 @@ public final class SeamELCompletionEngine {
 		return true;
 	}
 	
+	/* Returns scope for the resource
+	 * 
+	 * @param project
+	 * @param resource
+	 * @return
+	 */
 	private ScopeType getScope(ISeamProject project, IResource resource) {
 		if (project == null || resource == null)
 			return null;
@@ -233,8 +254,17 @@ public final class SeamELCompletionEngine {
 		}
 		return null;
 	}
-	
-	List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELToken>part, List<ELToken> tokens) {
+
+	/*
+	 * Tries to resolve variables by part of expression
+	 *  
+	 * @param project
+	 * @param scope
+	 * @param part
+	 * @param tokens
+	 * @return
+	 */
+	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELToken>part, List<ELToken> tokens) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		String varName = computeVariableName(part);
 		if (varName != null) {
@@ -258,6 +288,13 @@ public final class SeamELCompletionEngine {
 		return new ArrayList<ISeamContextVariable>(); 
 	}
 	
+	/*
+	 * Creates and returns list of possible variable name combinations from expression starting from the longest name
+	 *  
+	 * 
+	 * @param prefix
+	 * @return
+	 */
 	private List<List<ELToken>> getPossibleVarsFromPrefix(List<ELToken>prefix) {
 		ArrayList<List<ELToken>> result = new ArrayList<List<ELToken>>();
 		for (int i = 0; prefix != null && i < prefix.size(); i++) {
@@ -274,7 +311,7 @@ public final class SeamELCompletionEngine {
 	}
 	
 	/**
-	 * Removes duplicates
+	 * Removes duplicates of completion strings
 	 *
 	 * @param suggestions a list of suggestions ({@link String}).
 	 * @return a list of unique completion suggestions.
@@ -297,6 +334,12 @@ public final class SeamELCompletionEngine {
 		return unique;
 	}
 	
+	/**
+	 * EL string parser.
+	 * Creates list of tokens for the name, method and separator parts 
+	 *  
+	 * @author Jeremy
+	 */
 	public static class SeamELTokenizer {
 		static final int STATE_INITIAL = 0;
 		static final int STATE_VAR = 1;
@@ -306,7 +349,13 @@ public final class SeamELCompletionEngine {
 		IDocument fDocument;
 		List<ELToken> fTokens;
 		int index;
-		
+
+		/**
+		 * Constructs SeamELTokenizer object
+		 * 
+		 * @param document
+		 * @param offset
+		 */
 		public SeamELTokenizer(IDocument document, int offset) {
 			fDocument = document;
 			index = (fDocument == null || fDocument.getLength() < offset? -1 : offset);
@@ -314,10 +363,18 @@ public final class SeamELCompletionEngine {
 			parseBackward();
 		}
 		
+		/**
+		 * Returns list of tokens for the expression parsed
+		 * 
+		 * @return
+		 */
 		public List<ELToken> getTokens() {
 			return fTokens;
 		}
 		
+		/*
+		 * Performs backward parsing of document text for expression
+		 */
 		private void parseBackward() {
 			ELToken token;
 			fState = STATE_INITIAL;
@@ -334,7 +391,13 @@ public final class SeamELCompletionEngine {
 		
 		int fState;
 		int fEndOfToken;
-		ELToken getNextToken() {
+
+		/*
+		 * Calculates and returns next token for expression
+		 * 
+		 * @return
+		 */
+		private ELToken getNextToken() {
 			switch (fState) {
 			case STATE_INITIAL: // Just started
 			{
@@ -400,6 +463,10 @@ public final class SeamELCompletionEngine {
 			return ELToken.EOF;
 		}
 		
+		/* Reads and returns the method token from the expression
+		 * 
+		 * @return
+		 */
 		ELToken readMethodToken() {
 			fState = STATE_METHOD;
 			int endOfToken = index;
@@ -417,7 +484,14 @@ public final class SeamELCompletionEngine {
 			
 			return (endOfToken - index > 0 ? new ELToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELToken.EL_METHOD_TOKEN) : ELToken.EOF);
 		}
-		
+
+		/*
+		 * Returns the CharSequence object
+		 *  
+		 * @param start
+		 * @param length
+		 * @return
+		 */
 		private CharSequence getCharSequence(int start, int length) {
 			String text = "";
 			try {
@@ -428,6 +502,10 @@ public final class SeamELCompletionEngine {
 			return text.subSequence(0, text.length());
 		}
 
+		
+		/*
+		 * Skips the space characters in the document
+		 */
 		boolean skipSpaceChars() {
 			int ch;
 			while ((ch = readCharBackward()) != -1) {
@@ -439,6 +517,11 @@ public final class SeamELCompletionEngine {
 			return true;
 		}
 		
+		/* 
+		 * Skips the method name characters in the document
+		 * 
+		 * @return boolean true if at least 1 character had been read
+		 */
 		boolean skipMethodName() {
 			int endOfToken = index;
 			int ch;
@@ -451,6 +534,11 @@ public final class SeamELCompletionEngine {
 			return false;
 		}
 
+		/* 
+		 * Skips the method parameters characters in the document
+		 * 
+		 * @return boolean true if complete parameters set had been read
+		 */
 		boolean skipMethodParameters() {
 			int ch = readCharBackward(); 
 			if (ch != ')')
@@ -477,6 +565,10 @@ public final class SeamELCompletionEngine {
 			return true;
 		}
 	
+		/* 
+		 * Skips the quoted characters 
+		 * 
+		 */
 		void skipQuotedChars(char pair) {
 			int ch = readCharBackward();
 			
@@ -498,7 +590,11 @@ public final class SeamELCompletionEngine {
 				ch = readCharBackward();
 			}
 		}
-		
+	
+		/* Reads and returns the separator token from the expression
+		 * 
+		 * @return
+		 */
 		ELToken readSeparatorToken() {
 			fState = STATE_SEPARATOR;
 			int ch = readCharBackward();
@@ -507,6 +603,10 @@ public final class SeamELCompletionEngine {
 				ELToken.EOF);
 		}
 		
+		/* Reads and returns the variable token from the expression
+		 * 
+		 * @return
+		 */
 		ELToken readVarToken() {
 			fState = STATE_VAR;
 			int endOfToken = index;
@@ -521,6 +621,10 @@ public final class SeamELCompletionEngine {
 			return (endOfToken - index > 0 ? new ELToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELToken.EL_NAME_TOKEN) : ELToken.EOF);
 		}
 		
+		/* Reads the next character in the document
+		 * 
+		 * @return
+		 */
 		int readCharBackward() {
 			if (--index < 0 || 
 					fDocument == null ||
@@ -534,12 +638,23 @@ public final class SeamELCompletionEngine {
 			}
 		}
 		
+		/* 
+		 * returns the character to the document
+		 */
 		void releaseChar() {
 			if (index < fDocument.getLength())
 				index++;
 		}
 	}
 
+	/**
+	 * Calculates the EX expression operand string
+	 * 
+	 * @param viewer
+	 * @param offset
+	 * @return
+	 * @throws BadLocationException
+	 */
 	public static String getPrefix(ITextViewer viewer, int offset) throws BadLocationException {
 		IDocument doc= viewer.getDocument();
 		if (doc == null || offset > doc.getLength())
@@ -553,9 +668,13 @@ public final class SeamELCompletionEngine {
 		
 		return doc.get(tokens.get(0).start, offset - tokens.get(0).start);
 	}
-
-	
 }
+
+/**
+ * Token for the EX expression
+ *  
+ * @author Jeremy
+ */
 class ELToken implements IToken {
 	static final ELToken EOF = new ELToken(-1, -1, null, -1);
 	static final int EL_NAME_TOKEN = 1;
@@ -567,6 +686,14 @@ class ELToken implements IToken {
 	CharSequence chars;
 	int type;
 	
+	/**
+	 * Constructs the ELToken object
+	 * 
+	 * @param start
+	 * @param length
+	 * @param chars
+	 * @param type
+	 */
 	public ELToken(int start, int length, CharSequence chars, int type) {
 		this.start = start;
 		this.length = length;
@@ -574,34 +701,58 @@ class ELToken implements IToken {
 		this.type = type;
 	}
 	
+	/**
+	 * Returns string representation for the token
+	 */
 	public String toString() {
 		return "ELToken(" + start + ", " + length + ", " + type + ") [" + (chars == null ? "<Empty>" : chars.toString()) + "]";
 	}
 
+	/*
+	 * @see org.eclipse.jface.text.rules.IToken#getData()
+	 */
 	public Object getData() {
 		return (chars == null ? null : chars.subSequence(start, start+length).toString());
 	}
 
+	/*
+	 * @see org.eclipse.jface.text.rules.IToken#isEOF()
+	 */
 	public boolean isEOF() {
 		return (start == -1 && length == -1 && chars == null);
 	}
-
+	
+	/*
+	 * @see org.eclipse.jface.text.rules.IToken#isOther()
+	 */
 	public boolean isOther() {
 		return false;
 	}
 
+	/*
+	 * @see org.eclipse.jface.text.rules.IToken#isUndefined()
+	 */
 	public boolean isUndefined() {
 		return false;
 	}
 
+	/*
+	 * @see org.eclipse.jface.text.rules.IToken#isWhitespace()
+	 */
 	public boolean isWhitespace() {
 		return false;
 	}
 	
+	/*
+	 * Returns the token type
+	 */
 	public int getType(){
 		return type;
 	}
 	
+	/*
+	 * Returns the token text
+	 */
 	public String getText() {
 		return chars.toString();
 	}

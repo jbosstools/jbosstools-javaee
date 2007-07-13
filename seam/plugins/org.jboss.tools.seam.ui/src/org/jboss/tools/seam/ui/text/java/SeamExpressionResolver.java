@@ -34,14 +34,35 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 
+/**
+ * Utility class used to resolve Seam project variables and to get the methods/properties and their presentation strings from type
+ * 
+ * @author Jeremy
+ */
 public class SeamExpressionResolver {
 
+	/**
+	 * Returns Seam project variables which names start from specified value
+	 *  
+	 * @param project
+	 * @param scope
+	 * @param name
+	 * @return
+	 */
 	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, String name) {
 		if (project == null || name == null) return null;
 		return (scope == null ? internalResolveVariables(project, name) :
 				internalResolveVariablesByScope(project, scope, name));
 	}
 	
+	/**
+	 * Returns Seam project variables which names start from specified value
+	 * No scope used
+	 *  
+	 * @param project
+	 * @param name
+	 * @return
+	 */
 	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		Set<ISeamContextVariable> variables = project.getVariables();
@@ -53,6 +74,15 @@ public class SeamExpressionResolver {
 		return resolvedVariables;
 	}
 
+	/**
+	 * Returns Seam project variables which names start from specified value
+	 * Search is performed using scope
+	 *  
+	 * @param project
+	 * @param scope
+	 * @param name
+	 * @return
+	 */
 	private static List<ISeamContextVariable> internalResolveVariablesByScope(ISeamProject project, ScopeType scope, String name) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		Set<ISeamContextVariable> variables = project.getVariablesByScope(scope);
@@ -63,7 +93,13 @@ public class SeamExpressionResolver {
 		}
 		return resolvedVariables;
 	}
-	
+
+	/**
+	 * Returns the IMember for the variable specified 
+	 * 
+	 * @param variable
+	 * @return
+	 */
 	public static IMember getMemberByVariable(ISeamContextVariable variable) {
 		IMember member = null;
 		if (variable instanceof ISeamComponent) {
@@ -101,6 +137,12 @@ public class SeamExpressionResolver {
 		return member;
 	}
 	
+	/**
+	 * Returns the methods for the type specified  
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static Set<IMember> getMethods(IType type) {
 		Set<IMember> methods = new HashSet<IMember>();
 		if (type != null) {
@@ -120,6 +162,12 @@ public class SeamExpressionResolver {
 		return methods;
 	}
 
+	/**
+	 * Returns the method presentation strings for the type specified  
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static Set<String> getMethodPresentations(IType type) {
 		Set<String> methods = new HashSet<String>();
 		if (type != null) {
@@ -151,6 +199,12 @@ public class SeamExpressionResolver {
 		return methods;
 	}
 
+	/**
+	 * Returns the properties for the type specified  
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static Set<IMember> getProperties(IType type) {
 		Set<IMember> properties = new HashSet<IMember>(); 
 		if (type != null) {
@@ -180,6 +234,13 @@ public class SeamExpressionResolver {
 		}
 		return properties;
 	}
+
+	/**
+	 * Returns the property presentation strings for the type specified  
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static Set<String> getPropertyPresentations(IType type) {
 		Set<String> properties = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 		if (type != null) {
@@ -214,5 +275,4 @@ public class SeamExpressionResolver {
 		}
 		return properties;
 	}
-
 }
