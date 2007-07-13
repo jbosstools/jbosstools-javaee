@@ -702,6 +702,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 				}
 			} else {
 				IResource variableResource = variable.getResource();
+				if(variableResource == null) continue;
 				if(path.equals(variableResource.getFullPath())) {
 					result.add(variable);
 				}

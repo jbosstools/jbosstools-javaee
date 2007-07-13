@@ -3,6 +3,7 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
 
@@ -61,24 +62,54 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 		this.className = className;
 	}
 	
+	public void setClassName(IValueInfo value) {
+		attributes.put(INSTALLED, value);
+		setInstalled(value == null ? null : value.getValue());
+	}
+
 	public void setAutoCreate(String autoCreate) {
 		this.autoCreate = autoCreate;
+	}
+
+	public void setAutoCreate(IValueInfo value) {
+		attributes.put(AUTO_CREATE, value);
+		setAutoCreate(value == null ? null : value.getValue());
 	}
 
 	public void setInstalled(String installed) {
 		this.installed = installed;
 	}
 
+	public void setInstalled(IValueInfo value) {
+		attributes.put(INSTALLED, value);
+		setInstalled(value == null ? null : value.getValue());
+	}
+
 	public void setJndiName(String jndiName) {
 		this.jndiName = jndiName;
+	}
+
+	public void setJndiName(IValueInfo value) {
+		attributes.put(JNDI_NAME, value);
+		setJndiName(value == null ? null : value.getValue());
 	}
 
 	public void setPrecedence(String precedence) {
 		this.precedence = precedence;
 	}
 
+	public void setPrecedence(IValueInfo value) {
+		attributes.put(PRECEDENCE, value);
+		setPrecedence(value == null ? null : value.getValue());
+	}
+
 	public void setScope(String scope) {
 		this.scope = scope;
+	}
+
+	public void setScope(IValueInfo value) {
+		attributes.put(SCOPE, value);
+		setScope(value == null ? null : value.getValue());
 	}
 
 	/**

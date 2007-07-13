@@ -97,13 +97,13 @@ public class XMLScanner implements IFileScanner {
 				component.setSourcePath(source);
 				component.setId(os[i]);
 
-				component.setName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.NAME));
-				component.setClassName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.CLASS));
-				component.setScope(os[i].getAttributeValue(ISeamXmlComponentDeclaration.SCOPE));
-				component.setPrecedence(os[i].getAttributeValue(ISeamXmlComponentDeclaration.PRECEDENCE));
-				component.setInstalled(os[i].getAttributeValue(ISeamXmlComponentDeclaration.INSTALLED));
-				component.setAutoCreate(os[i].getAttributeValue(ISeamXmlComponentDeclaration.AUTO_CREATE));
-				component.setJndiName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.JNDI_NAME));
+				component.setName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.NAME));
+				component.setClassName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.CLASS));
+				component.setScope(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.SCOPE));
+				component.setPrecedence(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.PRECEDENCE));
+				component.setInstalled(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.INSTALLED));
+				component.setAutoCreate(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.AUTO_CREATE));
+				component.setJndiName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.JNDI_NAME));
 				
 				XAttribute[] attributes = componentEntity.getAttributes();
 				for (int ia = 0; ia < attributes.length; ia++) {
@@ -152,10 +152,10 @@ public class XMLScanner implements IFileScanner {
 				SeamXmlFactory factory = new SeamXmlFactory();
 				factory.setId(os[i]);
 				factory.setSourcePath(source);
-				factory.setName(os[i].getAttributeValue(ISeamXmlComponentDeclaration.NAME));
-				factory.setScopeAsString(os[i].getAttributeValue(ISeamXmlComponentDeclaration.SCOPE));
-				factory.setValue(os[i].getAttributeValue("value"));
-				factory.setMethod(os[i].getAttributeValue("method"));
+				factory.setName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.NAME));
+				factory.setScope(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.SCOPE));
+				factory.setValue(new XMLValueInfo(os[i], "value"));
+				factory.setMethod(new XMLValueInfo(os[i], "method"));
 				ds.getFactories().add(factory);
 				//TODO assign positioning attributes to created ISeamProperty object
 			}

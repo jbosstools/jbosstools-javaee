@@ -9,8 +9,9 @@ import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.jboss.tools.seam.core.IValueInfo;
 
-public class ValueInfo {
+public class ValueInfo implements IValueInfo {
 	String value;
 	int valueStartPosition;
 	int valueLength;

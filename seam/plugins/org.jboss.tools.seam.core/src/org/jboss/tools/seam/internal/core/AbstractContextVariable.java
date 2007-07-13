@@ -14,14 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
-import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 /**
  * @author Viacheslav Kabanovich
@@ -32,7 +30,7 @@ public class AbstractContextVariable extends SeamObject implements ISeamContextV
 	protected ScopeType scopeType;
 	protected String scope;
 
-	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
+	protected Map<String,IValueInfo> attributes = new HashMap<String, IValueInfo>();
 	
 	public String getName() {
 		return name;
@@ -99,12 +97,12 @@ public class AbstractContextVariable extends SeamObject implements ISeamContextV
 		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 
-	public void setName(ValueInfo value) {
+	public void setName(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
 		name = value == null ? null : value.getValue();
 	}
 
-	public void setScope(ValueInfo value) {
+	public void setScope(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.SCOPE, value);
 		setScopeAsString(value == null ? null : value.getValue());
 	}

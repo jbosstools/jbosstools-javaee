@@ -16,12 +16,12 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
-import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		implements ISeamJavaComponentDeclaration {
@@ -316,12 +316,12 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		this.precedence = precedence;
 	}
 
-	public void setScope(ValueInfo value) {
+	public void setScope(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.SCOPE, value);
 		setScope(value == null ? null : value.getValue());
 	}
 
-	public void setPrecedence(ValueInfo value) {
+	public void setPrecedence(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.PRECEDENCE, value);
 		try {
 			setPrecedence(value == null ? 0 : Integer.parseInt(value.getValue()));
@@ -331,12 +331,12 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 	}
 
-	public void setEntity(ValueInfo value) {
+	public void setEntity(IValueInfo value) {
 		attributes.put("entity", value);
 		setEntity(value != null && "true".equals(value.getValue()));
 	}
 
-	public void setStateful(ValueInfo value) {
+	public void setStateful(IValueInfo value) {
 		attributes.put("stateful", value);
 		setStateful(value != null && "true".equals(value.getValue()));
 	}
@@ -349,4 +349,5 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
+
 }

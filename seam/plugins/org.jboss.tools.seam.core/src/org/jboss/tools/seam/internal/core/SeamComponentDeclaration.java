@@ -15,14 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
-import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 /**
  * @author Viacheslav Kabanovich
@@ -36,7 +35,7 @@ public abstract class SeamComponentDeclaration extends SeamObject implements ISe
 	 */
 	protected String name;
 	
-	protected Map<String,ValueInfo> attributes = new HashMap<String, ValueInfo>();
+	protected Map<String,IValueInfo> attributes = new HashMap<String, IValueInfo>();
 	
 	public String getName() {
 		return name;
@@ -100,7 +99,7 @@ public abstract class SeamComponentDeclaration extends SeamObject implements ISe
 	 * invoke getLocationFor("name");
 	 */
 	public ISeamTextSourceReference getLocationFor(String path) {
-		final ValueInfo valueInfo = attributes.get(path);
+		final IValueInfo valueInfo = attributes.get(path);
 		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
 			public int getLength() {
 				return valueInfo != null ? valueInfo.getLength() : 0;
@@ -113,7 +112,7 @@ public abstract class SeamComponentDeclaration extends SeamObject implements ISe
 		return reference;
 	}
 	
-	public void setName(ValueInfo value) {
+	public void setName(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
 		name = value == null ? null : value.getValue();
 	}

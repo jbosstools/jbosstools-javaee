@@ -16,8 +16,8 @@ import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
-import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 /**
  * @author Viacheslav Kabanovich
@@ -56,7 +56,7 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 	 * invoke getLocationFor("name");
 	 */
 	public ISeamTextSourceReference getLocationFor(String path) {
-		final ValueInfo valueInfo = attributes.get(path);
+		final IValueInfo valueInfo = attributes.get(path);
 		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
 			public int getLength() {
 				return valueInfo != null ? valueInfo.getLength() : 0;
@@ -69,7 +69,7 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		return reference;
 	}
 	
-	public void setAutoCreate(ValueInfo value) {
+	public void setAutoCreate(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.AUTO_CREATE, value);
 		setAutoCreate(value != null && "true".equals(value.getValue()));
 	}

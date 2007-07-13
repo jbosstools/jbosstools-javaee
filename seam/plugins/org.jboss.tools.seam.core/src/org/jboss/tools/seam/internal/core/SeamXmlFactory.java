@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 
 import org.jboss.tools.seam.core.ISeamXmlFactory;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
@@ -34,8 +35,18 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 		this.method = method;
 	}
 
+	public void setMethod(IValueInfo value) {
+		attributes.put("method", value);
+		setMethod(value == null ? null : value.getValue());
+	}
+
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	public void setValue(IValueInfo value) {
+		attributes.put("value", value);
+		setValue(value == null ? null : value.getValue());
 	}
 
 	public List<Change> merge(SeamObject s) {
