@@ -8,22 +8,18 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
+
 package org.jboss.tools.seam.ui.wizard;
 
 /**
  * @author eskimo
  *
  */
-public class SeamActionWizardPage1 extends SeamBaseWizardPage {
+public class SeamConversationVizardPage1 extends SeamBaseWizardPage {
 
-	/**
-	 * @param pageName
-	 * @param title
-	 * @param titleImage
-	 */
-	public SeamActionWizardPage1() {
-		super("seam.new.action.page1", "Seam Action", null);
-		setMessage("Select the name of the new Seam Conversation. A new Java interface and SLSB " +
-				"with key Seam/EJB annotations will be created.");
+	public SeamConversationVizardPage1() {
+		super("seam.new.conversation.page1","Seam Conversation",null);
+		setMessage("Select the name of the new Seam Conversation. A set of classes " +
+				"managing a coversation will be created.");
 	}
 }

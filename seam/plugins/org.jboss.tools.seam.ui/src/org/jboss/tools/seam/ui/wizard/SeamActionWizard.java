@@ -24,10 +24,9 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 
 	public SeamActionWizard() {
 		super(CREATE_SEAM_ACTION);
-		setWindowTitle("Create New Action");
+		setWindowTitle("New Seam Action");
 		//setDefaultPageImageDescriptor();
 		addPage(new SeamActionWizardPage1());
-		
 	}
 
 	// TODO move operations to core plugin

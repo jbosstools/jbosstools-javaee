@@ -13,12 +13,9 @@ package org.jboss.tools.seam.ui.wizard;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 
 public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedAction {

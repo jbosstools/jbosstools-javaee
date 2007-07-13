@@ -10,45 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.wizard;
 
-import java.util.Arrays;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
 /**
  * @author eskimo
  *
  */
-public class SeamFormWizardPage1 extends WizardPage {
+public class SeamFormWizardPage1 extends SeamBaseWizardPage {
 
 	/**
 	 * @param pageName
 	 */
-	public SeamFormWizardPage1(String pageName) {
-		super(pageName);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param pageName
-	 * @param title
-	 * @param titleImage
-	 */
-	public SeamFormWizardPage1(String pageName, String title,
-			ImageDescriptor titleImage) {
-		super(pageName, title, titleImage);
-		// TODO Auto-generated constructor stub
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
-	public void createControl(Composite parent) {
+	public SeamFormWizardPage1() {
+		super("seam.new.form.page1","Seam Form",null);
+		setMessage("Select the name of the new Seam Form. A new Seam Form with a single input field and related " +
+				"Java Interface, SLSB and key Seam/EJB3 annotations will be created.");
 	}
 }

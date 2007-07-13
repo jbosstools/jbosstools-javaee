@@ -10,31 +10,39 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.wizard;
 
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
+import java.util.Map;
+
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
 
 /**
  * 
  * @author eskimo
  *
  */
-public class SeamFofrmWizard extends Wizard implements INewWizard {
+public class SeamFofrmWizard extends SeamBaseWizard implements INewWizard {
 
 	public SeamFofrmWizard() {
-		// TODO Auto-generated constructor stub
+		super(CREATE_SEAM_FORM);
+		setWindowTitle("New Seam Form");
+		addPage(new SeamFormWizardPage1());
 	}
 
-	@Override
-	public boolean performFinish() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	private static IUndoableOperation CREATE_SEAM_FORM = new SeamBaseOperation("Action creating operation"){
 
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		// TODO Auto-generated method stub
-
-	}
-
+		@Override
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
+				throws ExecutionException {
+			Map params = (Map)info.getAdapter(Map.class);
+			
+			return Status.OK_STATUS;
+		}
+		
+	};
+	
 }

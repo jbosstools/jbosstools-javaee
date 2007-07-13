@@ -18,17 +18,14 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
 
 public class SeamConversationWizard extends SeamBaseWizard implements INewWizard {
 
 	public SeamConversationWizard() {
 		super(CREATE_SEAM_CONVERSATION);
 		setWindowTitle("reate New Conversation");
-		addPage(new SeamActionWizardPage1());
+		addPage(new SeamConversationVizardPage1());
 	}
 
 	public static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamBaseOperation("Action creating operation"){

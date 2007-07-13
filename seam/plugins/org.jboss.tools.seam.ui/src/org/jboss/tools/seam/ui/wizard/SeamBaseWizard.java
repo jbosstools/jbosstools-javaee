@@ -24,7 +24,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.wst.common.frameworks.internal.ui.RunnableWithProgressWrapper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -78,6 +77,7 @@ public abstract class SeamBaseWizard extends Wizard {
 	 * @return
 	 */
 	public IUndoableOperation getOperation() {
+		if(operation!=null) return operation;
 		throw new IllegalStateException("Operation is not defined for wizard");
 	}
 	

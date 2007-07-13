@@ -39,6 +39,7 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 	public SeamBaseWizardPage(String pageName, String title,
 			ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
+		createEditors();
 	}
 
 	/**
@@ -46,9 +47,13 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 	 */
 	protected SeamBaseWizardPage(String pageName) {
 		super(pageName);
-
+		createEditors();
 	}
 
+	protected void createEditors() {
+		addEditors(SeamWizardFactory.createDefaultWizardEditors(SeamWizardUtils.getSelectedProjectName()));
+	}
+	
 	Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
 	
 	List<IFieldEditor> editorOrder = new ArrayList<IFieldEditor>();
@@ -105,6 +110,10 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 					columnNumber=fieldEditor.getNumberOfControls();
 			}
 			GridLayout gl = new GridLayout(columnNumber,false);
+			gl.verticalSpacing = 5;
+			gl.marginTop = 3;
+			gl.marginLeft = 3;
+			gl.marginRight = 3;
 			setLayout(gl);
 			for (IFieldEditor fieldEditor2 : editorOrder) {
 				fieldEditor2.doFillIntoGrid(this);

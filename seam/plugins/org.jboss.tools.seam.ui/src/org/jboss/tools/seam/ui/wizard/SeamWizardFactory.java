@@ -11,11 +11,9 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
-import org.eclipse.core.resources.IProject;
 import org.jboss.tools.seam.ui.internal.project.facet.SwtFieldEditorFactory;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 
 /**
  * @author eskimo
@@ -80,5 +78,13 @@ public class SeamWizardFactory {
 			SeamWizardFactory.createSeamMethodNameFieldEditor(),
 			SeamWizardFactory.createSeamPageNameFieldEditor()	
 		};
+	}
+
+	/**
+	 * @return
+	 */
+	public static IFieldEditor createSeamEntityClasNameFieldEditor() {
+		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+				IParameter.SEAM_ENTITY_CLASS_NAME, "Seam entity class name:", "");
 	}
 }
