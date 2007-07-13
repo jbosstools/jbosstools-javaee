@@ -58,7 +58,7 @@ public final class SeamELCompletionEngine {
 		List<ELToken> tokens = tokenizer.getTokens();
 		
 		List<ELToken> resolvedExpressionPart = new ArrayList<ELToken>();
-		List<ISeamContextVariable> resolvedVariables = null;
+		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		ScopeType scope = getScope(project, file);
 		List<List<ELToken>> variations = getPossibleVarsFromPrefix(tokens);
 		

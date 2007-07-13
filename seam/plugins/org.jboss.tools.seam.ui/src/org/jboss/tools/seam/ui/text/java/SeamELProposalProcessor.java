@@ -41,6 +41,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -79,7 +80,7 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 		}
 
 		public Image getImage() {
-			return null;
+			return SharedXMLEditorPluginImageHelper.getImage(SharedXMLEditorPluginImageHelper.IMG_OBJ_ATTRIBUTE);
 		}
 
 		public IContextInformation getContextInformation() {

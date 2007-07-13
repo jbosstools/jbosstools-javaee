@@ -187,5 +187,24 @@
 			<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
 		</contentAssistProcessor>
   </extension>
+
+	<extension 
+		point="org.jboss.tools.common.text.xml.contentAssistProcessor"
+		id="org.jboss.tools.seam.ui.contentAssistProcessor"
+		name="org.jboss.tools.seam.ui.contentAssistProcessor">
+
+		<contentAssistProcessor 
+			class="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor" 
+			id="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor">
+			<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
+			<partitiontype id="org.eclipse.jst.jsp.DEFAULT_JSP" />
+			<partitiontype id="org.eclipse.jst.jsp.JSP_DIRECTIVE" />
+			<partitiontype id="org.eclipse.jst.jsp.SCRIPT.DELIMITER" />
+			<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
+			<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+			
+		</contentAssistProcessor>
+  </extension>
   
 </plugin>
