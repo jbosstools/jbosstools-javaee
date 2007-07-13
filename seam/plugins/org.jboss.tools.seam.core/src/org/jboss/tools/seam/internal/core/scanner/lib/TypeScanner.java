@@ -139,6 +139,10 @@ public class TypeScanner implements SeamAnnotations {
 			if(a != null) {
 				component.setStateful(true);
 			}
+			a = map.get(ENTITY_ANNOTATION_TYPE);
+			if(a != null) {
+				component.setEntity(true);
+			}
 		}
 		IBinaryMethod[] ms = null;
 		try {

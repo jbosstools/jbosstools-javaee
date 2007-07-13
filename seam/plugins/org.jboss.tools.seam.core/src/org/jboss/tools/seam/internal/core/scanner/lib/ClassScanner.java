@@ -128,6 +128,10 @@ public class ClassScanner implements SeamAnnotations {
 			if(a != null) {
 				component.setStateful(true);
 			}
+			a = map.get(ENTITY_ANNOTATION_TYPE);
+			if(a != null) {
+				component.setEntity(true);
+			}
 		}
 		Method[] ms = null;
 		try {

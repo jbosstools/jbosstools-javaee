@@ -331,6 +331,16 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 	}
 
+	public void setEntity(ValueInfo value) {
+		attributes.put("entity", value);
+		setEntity(value != null && "true".equals(value.getValue()));
+	}
+
+	public void setStateful(ValueInfo value) {
+		attributes.put("stateful", value);
+		setStateful(value != null && "true".equals(value.getValue()));
+	}
+
 	public void open() {
 		if(type == null) return;
 		try {

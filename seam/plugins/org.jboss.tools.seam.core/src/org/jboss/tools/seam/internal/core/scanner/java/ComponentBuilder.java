@@ -91,9 +91,14 @@ public class ComponentBuilder implements SeamAnnotations {
 				stateful.value = "true";
 				stateful.valueStartPosition = as[i].getAnnotation().getStartPosition();
 				stateful.valueLength = as[i].getAnnotation().getLength();
-				component.setStateful(true);
+				component.setStateful(stateful);
+			} else if(ENTITY_ANNOTATION_TYPE.equals(type)) {
+				ValueInfo entity = new ValueInfo();
+				entity.value = "true";
+				entity.valueStartPosition = as[i].getAnnotation().getStartPosition();
+				entity.valueLength = as[i].getAnnotation().getLength();
+				component.setEntity(entity);
 			}
-			//TODO entity
 		}
 		
 		processFactories();
