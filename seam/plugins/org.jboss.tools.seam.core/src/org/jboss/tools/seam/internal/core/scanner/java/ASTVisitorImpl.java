@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.jboss.tools.seam.internal.core.scanner.Util;
 
 /**
  * Processes AST tree to find annotated type, fields and methods.
@@ -54,7 +55,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
 	public boolean visit(SingleMemberAnnotation node) {
 		String type = resolveType(node);
-		if(isSeamAnnotationType(type) && currentAnnotatedNode != null) {
+		if(Util.isSeamAnnotationType(type) && currentAnnotatedNode != null) {
 			currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
 		}
 		return false;
@@ -62,7 +63,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 
 	public boolean visit(NormalAnnotation node) {
 		String type = resolveType(node);
-		if(isSeamAnnotationType(type) && currentAnnotatedNode != null) {
+		if(Util.isSeamAnnotationType(type) && currentAnnotatedNode != null) {
 			currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
 		}
 		return false;
@@ -70,7 +71,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 
 	public boolean visit(MarkerAnnotation node) {
 		String type = resolveType(node);
-		if(isSeamAnnotationType(type) && currentAnnotatedNode != null) {
+		if(Util.isSeamAnnotationType(type) && currentAnnotatedNode != null) {
 			currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
 		}
 		return true;
@@ -98,11 +99,6 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 			return qn.getFullyQualifiedName();
 		}
 		return null;
-	}
-
-	static boolean isSeamAnnotationType(String n) {
-		return n != null && (n.startsWith(SEAM_ANNOTATION_TYPE_PREFIX)
-		  || n.equals(STATEFUL_ANNOTATION_TYPE));
 	}
 
 	public boolean visit(Block node) {

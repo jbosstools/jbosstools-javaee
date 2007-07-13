@@ -30,6 +30,7 @@ import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.Role;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
@@ -202,18 +203,20 @@ public class ComponentBuilder implements SeamAnnotations {
 	
 	void processComponentMethods() {
 		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
-			Annotation aCreate = findAnnotation(n, CREATE_ANNOTATION_TYPE);
-			Annotation aDestroy = findAnnotation(n, DESTROY_ANNOTATION_TYPE);
-			if(aCreate == null || aDestroy == null) continue;
-			MethodDeclaration m = n.getNode();
-
-			SeamComponentMethod cm = new SeamComponentMethod();
-			component.addMethod(cm);
-			
-			if(aCreate != null) cm.setCreate(true);
-			if(aDestroy != null) cm.setDestroy(true);
-			
-			cm.setSourceMember(findMethod(m));
+			SeamComponentMethod cm = null;
+			for (int i = 0; i < SeamComponentMethodType.values().length; i++) {
+				SeamComponentMethodType type = SeamComponentMethodType.values()[i];
+				Annotation a = findAnnotation(n, type.getAnnotationType());
+				if(a == null) continue;
+				if(cm == null) {
+					cm = new SeamComponentMethod();
+					component.addMethod(cm);
+					MethodDeclaration m = n.getNode();
+					component.addMethod(cm);
+					cm.setSourceMember(findMethod(m));
+				}
+				cm.getTypes().add(type);
+			}
 		}
 	}
 	

@@ -10,11 +10,24 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
+
 /**
  * @author Alexey Kazakov
  */
-public enum SeamComponentMethodType {
-	CREATE,
-	DESTROY,
-	REMOVE
+public enum SeamComponentMethodType implements SeamAnnotations {
+	CREATE(CREATE_ANNOTATION_TYPE),
+	DESTROY(DESTROY_ANNOTATION_TYPE),
+	REMOVE(REMOVE_ANNOTATION_TYPE);
+	
+	String annotationType;
+	
+	SeamComponentMethodType(String annotationType) {
+		this.annotationType = annotationType;
+	}
+
+	public String getAnnotationType() {
+		return annotationType;
+	}
+
 }

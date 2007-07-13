@@ -29,6 +29,7 @@ import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.Util;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 
 public class TypeScanner implements SeamAnnotations {
@@ -80,7 +81,7 @@ public class TypeScanner implements SeamAnnotations {
 		IBinaryAnnotation[] as = cls.getAnnotations();
 		if(as != null) for (int i = 0; i < as.length; i++) {
 			String type = getTypeName(as[i]);
-			if(type.startsWith(SEAM_ANNOTATION_TYPE_PREFIX)) {
+			if(Util.isSeamAnnotationType(type)) {
 				return true;
 			}
 		}
@@ -103,9 +104,7 @@ public class TypeScanner implements SeamAnnotations {
 		Map<String,IBinaryAnnotation> map = null;
 		for (int i = 0; i < as.length; i++) {
 			String type = getTypeName(as[i]);
-			if(type.startsWith(SEAM_ANNOTATION_TYPE_PREFIX) ||
-					//TODO put all non-seam relevant annotations to set
-					type.equals(STATEFUL_ANNOTATION_TYPE)) {
+			if(Util.isSeamAnnotationType(type)) {
 				if(map == null) map = new HashMap<String, IBinaryAnnotation>();
 				map.put(type, as[i]);
 			}

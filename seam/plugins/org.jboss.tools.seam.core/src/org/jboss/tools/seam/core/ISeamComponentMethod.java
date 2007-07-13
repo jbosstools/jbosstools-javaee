@@ -10,6 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import java.util.Set;
+
 /**
  * Represents method of seam component.
  * This interface represents only methods with types enumerated in SeamComponentMethodType
@@ -18,14 +20,9 @@ package org.jboss.tools.seam.core;
 public interface ISeamComponentMethod extends ISeamJavaSourceReference, ISeamElement {
 
 	/**
-	 * @return is @ Create method
+	 * @return is types of the method
 	 */
-	public boolean isCreate();
-	
-	/**
-	 * @return is @ Destroy method
-	 */
-	public boolean isDestroy();
+	public Set<SeamComponentMethodType> getTypes();
 	
 	/**
 	 * Returns create or destroy depending on type
