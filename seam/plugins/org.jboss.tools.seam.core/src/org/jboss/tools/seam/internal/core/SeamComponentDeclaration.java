@@ -29,6 +29,7 @@ import org.jboss.tools.seam.core.event.Change;
 public abstract class SeamComponentDeclaration extends SeamObject implements ISeamComponentDeclaration, IOpenableElement {
 
 	public static final String PATH_OF_NAME = "name";
+	public static final String PATH_OF_SCOPE = "scope";
 
 	/**
 	 * Seam component name.

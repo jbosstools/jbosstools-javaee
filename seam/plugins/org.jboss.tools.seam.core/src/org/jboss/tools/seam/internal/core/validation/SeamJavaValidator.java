@@ -41,6 +41,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
 
 /**
  * Validator for Java files.
@@ -53,13 +54,15 @@ public class SeamJavaValidator extends SeamValidator {
 	private static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
 	private static final String UNKNOWN_INJECTION_NAME_MESSAGE_ID = "UNKNOWN_INJECTION_NAME";
 	private static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_METHOD_SUFIX_MESSAGE_ID = "STATEFUL_COMPONENT_DOES_NOT_CONTENT_";
-	private static final String STATEFUL_COMPONENT_DUPLICATE_METHOD__SUFIX_MESSAGE_ID = "STATEFUL_COMPONENT_DUPLICATE_";
+	private static final String DUPLICATE_METHOD_SUFIX_MESSAGE_ID = "DUPLICATE_";
 	private static final String REMOVE_METHOD_POSTFIX_MESSAGE_ID = "REMOVE";
 	private static final String DESTROY_METHOD_POSTFIX_MESSAGE_ID = "DESTROY";
-
+	private static final String CREATE_METHOD_POSTFIX_MESSAGE_ID = "CREATE";
 	private static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE";
+	private static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE";
 
 	private SeamValidationContext validationContext;
+	private ISeamProject project;
 
 	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
 		return null;
@@ -69,7 +72,7 @@ public class SeamJavaValidator extends SeamValidator {
 		super.validateInJob(helper, reporter);
 		SeamJavaHelper seamJavaHelper = (SeamJavaHelper)helper;
 		String[] uris = seamJavaHelper.getURIs();
-		ISeamProject project = seamJavaHelper.getSeamProject();
+		project = seamJavaHelper.getSeamProject();
 		validationContext = ((SeamProject)project).getValidationContext();
 		if (uris.length > 0) {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -85,7 +88,7 @@ public class SeamJavaValidator extends SeamValidator {
 					Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByResource(currentFile.getFullPath());
 					if(oldVariablesNamesOfChangedFile!=null) {
 						// Check if variable name was changed in java file
-						Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath(), project);
+						Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
 						for (String newVariableName : newVariableNamesOfChangedFile) {
 							if(!oldVariablesNamesOfChangedFile.contains(newVariableName)) {
 								// Name was changed.
@@ -113,27 +116,28 @@ public class SeamJavaValidator extends SeamValidator {
 				}
 			}
 			// Validate all collected linked resources.
-			// Remove all links between resources and variables names because they will be linked again during validation.
-			validationContext.clear();
+			// Remove all links between collected resources and variables names because they will be linked again during validation.
+			validationContext.removeLinkedResources(resources);
 			for (IPath linkedResource : resources) {
 				// Remove markers from collected java file
-				reporter.removeMessageSubset(this, linkedResource, MARKED_COMPONENT_MESSAGE_GROUP);
-				validateComponent(project, linkedResource, checkedComponents, helper, reporter);
+				IFile sourceFile = root.getFile(linkedResource);
+				reporter.removeMessageSubset(this, sourceFile, MARKED_COMPONENT_MESSAGE_GROUP);
+				validateComponent(linkedResource, checkedComponents);
 				// TODO
 			}
 		} else {
-			return validateAll(project, helper, reporter);
+			return validateAll();
 		}
 
 		return OK_STATUS;
 	}
 
-	private void validateComponent(ISeamProject project, IPath sourceFilePath, Set<ISeamComponent> checkedComponents, IValidationContext helper, IReporter reporter) {
+	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents) {
 		Set<ISeamComponent> components = project.getComponentsByPath(sourceFilePath);
 		for (ISeamComponent component : components) {
 			// Don't validate one component twice.
 			if(!checkedComponents.contains(component)) {
-				validateComponent(project, component, helper, reporter);
+				validateComponent(component);
 				checkedComponents.add(component);
 			}
 		}
@@ -142,7 +146,7 @@ public class SeamJavaValidator extends SeamValidator {
 	/*
 	 * Returns set of variables which are linked with this resource
 	 */
-	private Set<String> getVariablesNameByResource(IPath resourcePath, ISeamProject project) {
+	private Set<String> getVariablesNameByResource(IPath resourcePath) {
 		Set<ISeamContextVariable> variables = project.getVariablesByPath(resourcePath);
 		Set<String> result = new HashSet<String>();
 		for (ISeamContextVariable variable : variables) {
@@ -158,12 +162,12 @@ public class SeamJavaValidator extends SeamValidator {
 		super.cleanup(reporter);
 	}
 
-	private IStatus validateAll(ISeamProject project, IValidationContext helper, IReporter reporter) {
+	private IStatus validateAll() {
 		reporter.removeAllMessages(this);
 		validationContext.clear();
 		Set<ISeamComponent> components = project.getComponents();
 		for (ISeamComponent component : components) {
-			validateComponent(project, component, helper, reporter);
+			validateComponent(component);
 			// TODO
 		}
 		return OK_STATUS;
@@ -172,7 +176,7 @@ public class SeamJavaValidator extends SeamValidator {
 	/*
 	 * Validates the component 
 	 */
-	private void validateComponent(ISeamProject project, ISeamComponent component, IValidationContext helper, IReporter reporter) {
+	private void validateComponent(ISeamComponent component) {
 		ISeamJavaComponentDeclaration firstJavaDeclaration = component.getJavaDeclaration();
 		if(firstJavaDeclaration!=null) {
 			HashMap<Integer, ISeamJavaComponentDeclaration> usedPrecedences = new HashMap<Integer, ISeamJavaComponentDeclaration>();
@@ -188,7 +192,7 @@ public class SeamJavaValidator extends SeamValidator {
 						// Save link between component name and java source file.
 						validationContext.addLinkedResource(declaration.getName(), declaration.getSourcePath());
 						// Validate all elements in declaration but @Name. 
-						validateJavaDeclaration(project, firstJavaDeclaration, helper, reporter);
+						validateJavaDeclaration(firstJavaDeclaration);
 					}
 					if(declaration!=firstJavaDeclaration) {
 						// Validate @Name
@@ -196,10 +200,10 @@ public class SeamJavaValidator extends SeamValidator {
 						ISeamJavaComponentDeclaration javaDeclaration = (ISeamJavaComponentDeclaration)declaration;
 						int javaDeclarationPrecedence = javaDeclaration.getPrecedence();
 						ISeamJavaComponentDeclaration checkedDeclaration = usedPrecedences.get(javaDeclarationPrecedence);
-						boolean sourceCheckedDeclaration = !((IType)checkedDeclaration.getSourceMember()).isBinary();
 						if(checkedDeclaration==null) {
 							usedPrecedences.put(javaDeclarationPrecedence, javaDeclaration);
 						} else if(sourceJavaDeclaration) {
+							boolean sourceCheckedDeclaration = !((IType)checkedDeclaration.getSourceMember()).isBinary();
 							IResource javaDeclarationResource = javaDeclaration.getResource();
 							// Mark nonunique name.
 							if(!markedDeclarations.contains(checkedDeclaration) && sourceCheckedDeclaration) {
@@ -221,41 +225,84 @@ public class SeamJavaValidator extends SeamValidator {
 					}
 				}
 			}
-			validateStatefulComponent(project, component, helper, reporter);
+			boolean source = !((IType)firstJavaDeclaration.getSourceMember()).isBinary();
+			if(source) {
+				validateStatefulComponent(component);
+				validateDuplicateComponentMethods(component);
+				validateEntityComponent(component);
+			}
 		}
 	}
 
-	private void validateStatefulComponent(ISeamProject project, ISeamComponent component, IValidationContext helper, IReporter reporter) {
-		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
-		if(javaDeclaration!=null && javaDeclaration.isStateful()) {
-			int length = 0;
-			int offset = 0;
-			try {
-				length = javaDeclaration.getSourceMember().getNameRange().getLength();
-				offset = javaDeclaration.getSourceMember().getNameRange().getOffset();
-			} catch (Exception e) {
-				SeamCorePlugin.getDefault().logError(e);
+	private void validateEntityComponent(ISeamComponent component) {
+		if(component.isEntity()) {
+			ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
+			ScopeType scope = component.getScope();
+			if(scope == ScopeType.STATELESS) {
+				ISeamTextSourceReference location = getScopeLocation(component);
+				addError(ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
 			}
-			validateStatefulComponentMethods(project, SeamComponentMethodType.DESTROY, component, length, offset, DESTROY_METHOD_POSTFIX_MESSAGE_ID, helper, reporter);
-			validateStatefulComponentMethods(project, SeamComponentMethodType.REMOVE, component, length, offset, REMOVE_METHOD_POSTFIX_MESSAGE_ID, helper, reporter);
+		}
+	}
+
+	private ISeamTextSourceReference getScopeLocation(ISeamComponent component) {
+		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
+		ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_SCOPE);
+		if(location==null) {
+			location = getClassNameLocation(javaDeclaration);
+		}
+		return location;
+	}
+
+	private ISeamTextSourceReference getClassNameLocation(ISeamJavaComponentDeclaration declaration) {
+		int length = 0;
+		int offset = 0;
+		try {
+			length = declaration.getSourceMember().getNameRange().getLength();
+			offset = declaration.getSourceMember().getNameRange().getOffset();
+		} catch (Exception e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+		return new SeamTextSourceReference(length, offset);
+	}
+
+	private void validateStatefulComponent(ISeamComponent component) {
+		if(component.isStateful()) {
+			ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
+			validateStatefulComponentMethods(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_POSTFIX_MESSAGE_ID);
+			validateStatefulComponentMethods(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_POSTFIX_MESSAGE_ID);
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.PAGE || scope == ScopeType.STATELESS) {
-				addError(STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, length, offset, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+				ISeamTextSourceReference location = getScopeLocation(component);
+				addError(STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
 			}
 		}
 	}
 
-	private void validateStatefulComponentMethods(ISeamProject project, SeamComponentMethodType methodType, ISeamComponent component, int lengthOfClassName, int offsetOfClassName, String postfixMessageId, IValidationContext helper, IReporter reporter) {
+	private void validateStatefulComponentMethods(SeamComponentMethodType methodType, ISeamComponent component, String postfixMessageId) {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
+		ISeamTextSourceReference classNameLocation = getClassNameLocation(javaDeclaration);
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods==null || methods.size()==0) {
-			addError(STATEFUL_COMPONENT_DOES_NOT_CONTENT_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{component.getName()}, lengthOfClassName, offsetOfClassName, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
-		} else if(methods.size()>1) {
+			addError(STATEFUL_COMPONENT_DOES_NOT_CONTENT_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+		}
+	}
+
+	private void validateDuplicateComponentMethods(ISeamComponent component) {
+		validateDuplicateComponentMethod(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_POSTFIX_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_POSTFIX_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.CREATE, component, CREATE_METHOD_POSTFIX_MESSAGE_ID);
+	}
+
+	private void validateDuplicateComponentMethod(SeamComponentMethodType methodType, ISeamComponent component, String postfixMessageId) {
+		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
+		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
+		if(methods!=null && methods.size()>1) {
 			for (ISeamComponentMethod method : methods) {
 				try {
 					IMethod javaMethod = (IMethod)method.getSourceMember();
 					String methodName = javaMethod.getElementName();
-					addError(STATEFUL_COMPONENT_DUPLICATE_METHOD__SUFIX_MESSAGE_ID + postfixMessageId, new String[]{methodName}, method, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+					addError(DUPLICATE_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{methodName}, method, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
 				} catch (Exception e) {
 					SeamCorePlugin.getDefault().logError(e);
 				}
@@ -263,12 +310,12 @@ public class SeamJavaValidator extends SeamValidator {
 		}
 	}
 
-	private void validateJavaDeclaration(ISeamProject project, ISeamJavaComponentDeclaration declaration, IValidationContext helper, IReporter reporter) {
-		validateBijections(project, declaration, helper, reporter);
+	private void validateJavaDeclaration(ISeamJavaComponentDeclaration declaration) {
+		validateBijections(declaration);
 		// TODO
 	}
 
-	private void validateBijections(ISeamProject project, ISeamJavaComponentDeclaration declaration, IValidationContext helper, IReporter reporter) {
+	private void validateBijections(ISeamJavaComponentDeclaration declaration) {
 		Set<IBijectedAttribute> bijections = declaration.getBijectedAttributes();
 		if(bijections==null) {
 			return;

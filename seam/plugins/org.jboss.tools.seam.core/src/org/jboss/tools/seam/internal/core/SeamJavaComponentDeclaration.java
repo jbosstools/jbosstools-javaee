@@ -26,6 +26,8 @@ import org.jboss.tools.seam.core.event.Change;
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		implements ISeamJavaComponentDeclaration {
 
+	public static final String PATH_OF_STATEFUL = "stateful";
+
 	protected String className = null;
 	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
 	protected boolean stateful = false;

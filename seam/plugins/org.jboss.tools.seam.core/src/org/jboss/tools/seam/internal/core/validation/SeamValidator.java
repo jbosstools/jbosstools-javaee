@@ -28,8 +28,8 @@ import org.jboss.tools.seam.core.ISeamTextSourceReference;
  */
 public abstract class SeamValidator implements IValidatorJob {
 
-	private IValidationContext helper;
-	private IReporter reporter;
+	protected IValidationContext helper;
+	protected IReporter reporter;
 
 	public SeamValidator() {
 		super();

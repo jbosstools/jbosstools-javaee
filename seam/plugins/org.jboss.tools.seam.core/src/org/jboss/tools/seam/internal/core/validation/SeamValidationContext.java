@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,8 +60,8 @@ public class SeamValidationContext {
 	 * @param oldVariableName
 	 * @param linkedResourcePath
 	 */
-	public void removeLinkedResource(String oldVariableName, IPath linkedResourcePath) {
-		Set<IPath> linkedResources = resourcesByVariableName.get(oldVariableName);
+	public void removeLinkedResource(String name, IPath linkedResourcePath) {
+		Set<IPath> linkedResources = resourcesByVariableName.get(name);
 		if(linkedResources!=null) {
 			// remove linked resource.
 			linkedResources.remove(linkedResourcePath);
@@ -68,7 +69,26 @@ public class SeamValidationContext {
 		// Remove link between resource and variable names.
 		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
 		if(variableNames!=null) {
-			variableNames.remove(oldVariableName);
+			variableNames.remove(name);
+		}
+	}
+
+	/**
+	 * Removes link between resources and variable names.
+	 * @param linkedResources
+	 */
+	public void removeLinkedResources(Set<IPath> resources) {
+		for (IPath resource : resources) {
+			Set<String> resourceNames = variableNamesByResource.get(resource);
+			if(resourceNames!=null) {
+				for (String name : resourceNames) {
+					Set<IPath> linkedResources = resourcesByVariableName.get(name);
+					if(linkedResources!=null) {
+						linkedResources.remove(resource);
+					}
+				}
+			}
+			variableNamesByResource.remove(resource);
 		}
 	}
 
@@ -102,7 +122,7 @@ public class SeamValidationContext {
 	public void load(Element root) {
 		Element validation = XMLUtilities.getUniqueChild(root, "validation");
 		if(validation == null) return;
-		Element[] linkedResources = XMLUtilities.getChildren(validation, "inked-resource");
+		Element[] linkedResources = XMLUtilities.getChildren(validation, "linked-resource");
 		if(linkedResources != null) for (int i = 0; i < linkedResources.length; i++) {
 			String name = linkedResources[i].getAttribute("name");
 			if(name == null || name.trim().length() == 0) continue;
