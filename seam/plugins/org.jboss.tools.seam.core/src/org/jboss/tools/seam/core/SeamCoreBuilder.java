@@ -97,7 +97,11 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
-		sp.store();
+		try {
+			sp.store();
+		} catch (Exception e) {
+			SeamCorePlugin.getPluginLog().logError("Error storing build results");
+		}
 		return null;
 	}
 

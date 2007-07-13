@@ -16,6 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.w3c.dom.Element;
 
 /**
  * Contains information for seam validators that must be saved between
@@ -79,5 +83,38 @@ public class SeamValidationContext {
 	public void clear() {
 		resourcesByVariableName.clear();
 		variableNamesByResource.clear();
+	}
+	
+	public void store(Element root) {
+		Element validation = XMLUtilities.createElement(root, "validation");
+		Set<String> variables = resourcesByVariableName.keySet();
+		for (String name: variables) {
+			Set<IPath> paths = resourcesByVariableName.get(name);
+			if(paths == null) continue;
+			for (IPath path: paths) {
+				Element linkedResource = XMLUtilities.createElement(validation, "linked-resource");
+				linkedResource.setAttribute("name", name);
+				linkedResource.setAttribute("path", path.toString());
+			}
+		}
+	}
+	
+	public void load(Element root) {
+		Element validation = XMLUtilities.getUniqueChild(root, "validation");
+		if(validation == null) return;
+		Element[] linkedResources = XMLUtilities.getChildren(validation, "inked-resource");
+		if(linkedResources != null) for (int i = 0; i < linkedResources.length; i++) {
+			String name = linkedResources[i].getAttribute("name");
+			if(name == null || name.trim().length() == 0) continue;
+			String path = linkedResources[i].getAttribute("path");
+			if(path == null || path.trim().length() == 0) continue;
+			IPath pathObject = null;
+			try {
+				pathObject = new Path(path);
+			} catch (Exception e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+			addLinkedResource(name, pathObject);
+		}		
 	}
 }

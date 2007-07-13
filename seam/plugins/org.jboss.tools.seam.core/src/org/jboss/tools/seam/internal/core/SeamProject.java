@@ -29,7 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -49,6 +49,7 @@ import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -130,7 +131,11 @@ public class SeamProject extends SeamObject implements ISeamProject {
 	public void resolveStorage(boolean load) {
 		if(isStorageResolved) return;
 		if(load) {
-			load(); 
+			try {
+				load();
+			} catch (Exception e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
 		} else {
 			isStorageResolved = true;
 		}
@@ -155,15 +160,10 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		}
 		File file = getStorageFile();
 		if(file == null || !file.isFile()) return;
-		String s = FileUtil.readFile(file);
-		String[] ps = s.split("\n");
-		for (int i = 0; i < ps.length; i++) {
-			IPath path = new Path(ps[i].trim());
-			if(sourcePaths.contains(path)) continue;
-			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if(f == null || !f.exists() || !f.isSynchronized(IResource.DEPTH_ZERO)) continue;
-			SeamResourceVisitor b = new SeamResourceVisitor(this);
-			b.visit(f);
+		Element root = XMLUtilities.getElement(file, null);
+		if(root != null) {
+			loadSourcePaths(root);
+			getValidationContext().load(root);
 		}
 		
 		long e = System.currentTimeMillis();
@@ -175,14 +175,39 @@ public class SeamProject extends SeamObject implements ISeamProject {
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
 	 */
-	public void store() {
+	public void store() throws Exception {
 		File file = getStorageFile();
 		file.getParentFile().mkdirs();
-		StringBuffer sb = new StringBuffer();
+		
+		Element root = XMLUtilities.createDocumentElement("seam-project");
+		storeSourcePaths(root);
+		if(validationContext != null) validationContext.store(root);
+		
+		XMLUtilities.serialize(root, file.getAbsolutePath());
+	}
+	
+	private void storeSourcePaths(Element root) {
+		Element sourcePathsElement = XMLUtilities.createElement(root, "source-paths");
 		for (IPath path : sourcePaths) {
-			sb.append(path.toString()).append('\n');
-		}		
-		FileUtil.writeFile(file, sb.toString());
+			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path");
+			pathElement.setAttribute("value", path.toString());
+		}
+	}
+	
+	private void loadSourcePaths(Element root) {
+		Element sourcePathsElement = XMLUtilities.getUniqueChild(root, "source-paths");
+		if(sourcePathsElement == null) return;
+		Element[] paths = XMLUtilities.getChildren(sourcePathsElement, "path");
+		if(paths != null) for (int i = 0; i < paths.length; i++) {
+			String p = paths[i].getAttribute("value");
+			if(p == null || p.trim().length() == 0) continue;
+			IPath path = new Path(p.trim());
+			if(sourcePaths.contains(path)) continue;
+			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if(f == null || !f.exists() || !f.isSynchronized(IResource.DEPTH_ZERO)) continue;
+			SeamResourceVisitor b = new SeamResourceVisitor(this);
+			b.visit(f);
+		}
 	}
 	
 	private File getStorageFile() {
