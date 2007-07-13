@@ -119,6 +119,12 @@ public class SeamExpressionResolver {
 			ISeamXmlFactory factory = (ISeamXmlFactory)variable;
 			String value = factory.getValue();
 			if (value != null && value.length() > 0) {
+				if (value.startsWith("#{") || value.startsWith("${"))
+					value = value.substring(2);
+				if (value.endsWith("}"))
+					value = value.substring(0, value.length() - 1);
+			}
+			if (value != null && value.length() > 0) {
 				// TODO: Need to make sure that it's correct way to get the project and 
 				// the scope from the factory 
 				ISeamProject project = ((ISeamElement)factory).getSeamProject();
