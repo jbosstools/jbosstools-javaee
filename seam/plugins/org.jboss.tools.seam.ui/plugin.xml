@@ -108,55 +108,84 @@
       </perspectiveExtension>
    </extension>
 
-<extension point="org.eclipse.ui.navigator.viewer">
-  <viewerContentBinding viewerId="org.jboss.tools.seam.ui.views.SeamComponentsNavigator">
-    <includes>
-      <contentExtension pattern="org.jboss.tools.seam.ui.views.rootContent" />
-    </includes>
-  </viewerContentBinding>
-</extension>
+	<extension point="org.eclipse.ui.navigator.viewer">
+	  <viewerContentBinding viewerId="org.jboss.tools.seam.ui.views.SeamComponentsNavigator">
+	    <includes>
+	      <contentExtension pattern="org.jboss.tools.seam.ui.views.rootContent" />
+	    </includes>
+	  </viewerContentBinding>
+	</extension>
 
-<extension point="org.eclipse.ui.navigator.navigatorContent">
-  <navigatorContent
-            name="Seam Components"
-            priority="highest"
-            icon="icons/sample.gif"
-            activeByDefault="true"
-            contentProvider="org.jboss.tools.seam.ui.views.RootContentProvider"
-            labelProvider="org.jboss.tools.seam.ui.views.SeamLabelProvider"   
-            id="org.jboss.tools.seam.ui.views.rootContent">         
-    <triggerPoints>
-      <or>         
-        <instanceof 
-              value="org.eclipse.core.resources.IWorkspaceRoot" /> 
-        <instanceof 
-              value="org.jboss.tools.seam.core.ISeamElement" /> 
-      </or>
-    </triggerPoints>
-    <possibleChildren>
-       <or>         
-          <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
-       </or>
-    </possibleChildren>
-    <actionProvider
-      class="org.jboss.tools.seam.ui.views.actions.SeamActionProvider"
-      id="org.jboss.tools.seam.ui.views.actions.SeamActionProvider">
-      <enablement>
-        <or>
-          <instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
-        </or>
-      </enablement>
-    </actionProvider>
-  </navigatorContent>
-</extension>
+	<extension point="org.eclipse.ui.navigator.navigatorContent">
+	  <navigatorContent
+	            name="Seam Components"
+	            priority="highest"
+	            icon="icons/sample.gif"
+	            activeByDefault="true"
+	            contentProvider="org.jboss.tools.seam.ui.views.RootContentProvider"
+	            labelProvider="org.jboss.tools.seam.ui.views.SeamLabelProvider"   
+	            id="org.jboss.tools.seam.ui.views.rootContent">         
+	    <triggerPoints>
+	      <or>         
+	        <instanceof 
+	              value="org.eclipse.core.resources.IWorkspaceRoot" /> 
+	        <instanceof 
+	              value="org.jboss.tools.seam.core.ISeamElement" /> 
+	      </or>
+	    </triggerPoints>
+	    <possibleChildren>
+	       <or>         
+	          <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
+	       </or>
+	    </possibleChildren>
+	    <actionProvider
+	      class="org.jboss.tools.seam.ui.views.actions.SeamActionProvider"
+	      id="org.jboss.tools.seam.ui.views.actions.SeamActionProvider">
+	      <enablement>
+	        <or>
+	          <instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
+	        </or>
+	      </enablement>
+	    </actionProvider>
+	  </navigatorContent>
+	</extension>
 
-<extension point="org.eclipse.core.runtime.adapters">
-  <factory 
-         class="org.jboss.tools.seam.ui.views.properties.SeamElementAdapterFactory" 
-         adaptableType="org.jboss.tools.seam.core.ISeamElement">
-            
-    <adapter type="org.eclipse.ui.views.properties.IPropertySource"/>
-  </factory>
-</extension>
+	<extension point="org.eclipse.core.runtime.adapters">
+	  <factory 
+	         class="org.jboss.tools.seam.ui.views.properties.SeamElementAdapterFactory" 
+	         adaptableType="org.jboss.tools.seam.core.ISeamElement">
+	            
+	    <adapter type="org.eclipse.ui.views.properties.IPropertySource"/>
+	  </factory>
+	</extension>
 
+   <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+   		id="seam_el_proposals"
+			name="Seam EL Proposals">
+   	<proposalCategory icon="icons/sample.gif"/>
+ 	</extension>
+
+	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+   		id="SeamELCompletionProposalComputer" 
+   		name="Seam EL Completion Proposal Computer">
+   	<javaCompletionProposalComputer
+      		class="org.jboss.tools.seam.ui.text.java.SeamELProposalComputer"
+      		categoryId="org.jboss.tools.seam.ui.seam_el_proposals"
+      		activate="true">
+			<partition type="__java_string"/>
+   	</javaCompletionProposalComputer>
+	</extension>
+
+	<extension 
+		point="org.jboss.tools.common.text.xml.contentAssistProcessor"
+		id="org.jboss.tools.seam.ui.contentAssistProcessor"
+		name="org.jboss.tools.seam.ui.contentAssistProcessor">
+
+		<contentAssistProcessor 
+			class="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor" 
+			id="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor">
+			<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+		</contentAssistProcessor>
+  </extension>
+  
 </plugin>
