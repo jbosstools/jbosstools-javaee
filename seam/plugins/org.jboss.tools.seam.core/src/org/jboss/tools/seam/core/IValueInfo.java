@@ -13,26 +13,11 @@ package org.jboss.tools.seam.core;
 /**
  * @author Viacheslav Kabanovich
  */
-public interface IValueInfo {
+public interface IValueInfo extends ISeamTextSourceReference {
 	
 	/**
 	 * Returns string value
 	 * @return
 	 */
 	public String getValue();
-	
-	/**
-	 * Returns start position of value or, when value is implied,
-	 * position of object that could contains that value.
-	 * @return
-	 */
-	public int getStartPosition();
-	
-	/**
-	 * Returns length of value or, when value is implied,
-	 * that of object that could contains that value.
-	 * @return
-	 */
-	public int getLength();
-	
 }
