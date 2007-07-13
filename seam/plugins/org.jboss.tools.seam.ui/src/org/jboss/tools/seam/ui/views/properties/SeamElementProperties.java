@@ -23,14 +23,18 @@ public class SeamElementProperties implements IPropertySource {
 	static String CLASS = "class";
 	static String PRECEDENCE = "precedence";
 	static String INSTALLED = "installed";
+
+	static String ENTITY = "entity";
 	static String STATEFUL = "stateful";
 	
-
 	static IPropertyDescriptor NAME_DESCRIPTOR = new PropertyDescriptor(NAME, NAME);
 	static IPropertyDescriptor SCOPE_DESCRIPTOR = new PropertyDescriptor(SCOPE, SCOPE);
 	static IPropertyDescriptor CLASS_DESCRIPTOR = new PropertyDescriptor(CLASS, CLASS);
 	static IPropertyDescriptor PRECEDENCE_DESCRIPTOR = new PropertyDescriptor(PRECEDENCE, PRECEDENCE);
-	
+
+	static IPropertyDescriptor ENTITY_DESCRIPTOR = new PropertyDescriptor(ENTITY, ENTITY);
+	static IPropertyDescriptor STATEFUL_DESCRIPTOR = new PropertyDescriptor(STATEFUL, STATEFUL);
+
 	public SeamElementProperties() {
 	}
 

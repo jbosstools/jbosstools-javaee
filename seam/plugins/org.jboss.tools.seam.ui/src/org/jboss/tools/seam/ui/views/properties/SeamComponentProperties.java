@@ -41,7 +41,13 @@ public class SeamComponentProperties extends SeamElementProperties {
 	ISeamComponent element;
 	
 	static IPropertyDescriptor[] DESCRIPTORS = {
-		NAME_DESCRIPTOR, SCOPE_DESCRIPTOR, CLASS_DESCRIPTOR, PRECEDENCE_DESCRIPTOR
+		NAME_DESCRIPTOR, SCOPE_DESCRIPTOR, CLASS_DESCRIPTOR, PRECEDENCE_DESCRIPTOR, 
+		ENTITY_DESCRIPTOR
+	};
+	
+	static IPropertyDescriptor[] ENTITY_DESCRIPTORS = {
+		NAME_DESCRIPTOR, SCOPE_DESCRIPTOR, CLASS_DESCRIPTOR, PRECEDENCE_DESCRIPTOR, 
+		ENTITY_DESCRIPTOR, STATEFUL_DESCRIPTOR
 	};
 	
 	public SeamComponentProperties(ISeamComponent element) {
@@ -49,6 +55,7 @@ public class SeamComponentProperties extends SeamElementProperties {
 	}
 
 	public IPropertyDescriptor[] getPropertyDescriptors() {
+		if(element != null && element.isEntity()) return ENTITY_DESCRIPTORS;
 		return DESCRIPTORS;
 	}
 
@@ -61,6 +68,10 @@ public class SeamComponentProperties extends SeamElementProperties {
 			return element.getClassName();
 		} else if(PRECEDENCE.equals(id)) {
 			return Precedence.getStringValue(element.getPrecedence());
+		} if(ENTITY.equals(id)) {
+			return "" + element.isEntity();
+		} if(STATEFUL.equals(id)) {
+			return "" + element.isStateful();
 		}
 		return null;
 	}
