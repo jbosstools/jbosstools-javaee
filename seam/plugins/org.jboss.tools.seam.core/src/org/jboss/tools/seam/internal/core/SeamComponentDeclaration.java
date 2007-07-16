@@ -13,10 +13,12 @@ package org.jboss.tools.seam.internal.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
@@ -116,6 +118,10 @@ public abstract class SeamComponentDeclaration extends SeamObject implements ISe
 	public void setName(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
 		name = value == null ? null : value.getValue();
+	}
+	
+	public Set<ISeamContextVariable> getDeclaredVariables() {
+		return null;
 	}
 	
 	public void open() {

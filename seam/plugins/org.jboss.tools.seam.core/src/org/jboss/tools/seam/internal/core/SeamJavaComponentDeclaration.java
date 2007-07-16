@@ -13,6 +13,7 @@ import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -343,6 +344,15 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		setStateful(value != null && "true".equals(value.getValue()));
 	}
 
+	public Set<ISeamContextVariable> getDeclaredVariables() {
+		Set<ISeamContextVariable> set = new HashSet<ISeamContextVariable>();
+		set.addAll(roles);
+		for (IBijectedAttribute a : bijectedAttributes) {
+			if(a.isContextVariable()) set.add(a);
+		}
+		return set;
+	}
+	
 	public void open() {
 		if(type == null) return;
 		try {

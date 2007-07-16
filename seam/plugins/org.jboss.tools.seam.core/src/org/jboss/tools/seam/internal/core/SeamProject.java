@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.xml.XMLUtilities;
-import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -270,8 +269,24 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			String oldClassName = c == null ? null : c.getClassName();
 
 			if(current != null) {
+				Set<ISeamContextVariable> oldVariables = current.getDeclaredVariables();
 				List<Change> changes = current.merge(loaded);
 				if(changes != null && changes.size() > 0) {
+
+					Set<ISeamContextVariable> newVariables = current.getDeclaredVariables();
+					if(oldVariables != null && newVariables != null) {
+						for (ISeamContextVariable v : oldVariables) {
+							if(!newVariables.contains(v)) {
+								allVariables.remove(v);
+							}
+						}
+						for (ISeamContextVariable v : newVariables) {
+							if(!oldVariables.contains(v)) {
+								allVariables.add(v);
+							}
+						}
+					}
+					
 					Change cc = new Change(c, null, null, null);
 					cc.addChildren(changes);
 					List<Change> cchanges = Change.addChange(null, cc);
@@ -310,11 +325,7 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)loaded;
 				javaDeclarations.put(jd.getClassName(), jd);
-				Set<IBijectedAttribute> as = jd.getBijectedAttributes();
-				for (IBijectedAttribute a : as) {
-					if(a.isContextVariable()) allVariables.add(a);
-				}
-				allVariables.addAll(jd.getRoles());
+				allVariables.addAll(jd.getDeclaredVariables());
 				Set<ISeamComponent> cs = getComponentsByClass(jd.getClassName());
 				for (ISeamComponent ci: cs) {
 					if(ci == c) continue;
@@ -405,11 +416,10 @@ public class SeamProject extends SeamObject implements ISeamProject {
 				if(ds[i].source.equals(source)) {
 					c.removeDeclaration(ds[i]);
 					if(ds[i] instanceof ISeamJavaComponentDeclaration) {
-						ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)ds[i];
+						SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)ds[i];
 						String className = jd.getClassName();
 						javaDeclarations.remove(className);
-						allVariables.removeAll(jd.getBijectedAttributes());
-						allVariables.removeAll(jd.getRoles());
+						allVariables.removeAll(jd.getDeclaredVariables());
 					}
 					changes = Change.addChange(changes, new Change(c, null, ds[i], null));
 				}
@@ -450,13 +460,12 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		Collection<ISeamComponentDeclaration> declarations = removed.values();
 		for (ISeamComponentDeclaration declaration: declarations) {
 			if(declaration instanceof ISeamJavaComponentDeclaration) {
-				ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)declaration;
+				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)declaration;
 				String className = jd.getClassName();
 				if(javaDeclarations.get(className) == jd) {
 					javaDeclarations.remove(className);
 				}
-				allVariables.removeAll(jd.getRoles());
-				allVariables.removeAll(jd.getBijectedAttributes());
+				allVariables.removeAll(jd.getDeclaredVariables());
 			}
 		}
 		
