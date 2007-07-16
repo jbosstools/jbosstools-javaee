@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ant.core,
  org.eclipse.wst.validation,
  org.eclipse.jst.j2ee.web,
- org.eclipse.jst.j2ee
+ org.eclipse.jst.j2ee,
+ org.eclipse.jst.ws
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner

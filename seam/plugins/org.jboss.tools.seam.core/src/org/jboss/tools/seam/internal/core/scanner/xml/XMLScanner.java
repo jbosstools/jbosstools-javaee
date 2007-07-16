@@ -21,9 +21,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
+import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamXmlFactory;
@@ -54,7 +56,9 @@ public class XMLScanner implements IFileScanner {
 	 */
 	public boolean isLikelyComponentSource(IFile f) {
 		if(!f.isSynchronized(IFile.DEPTH_ZERO) || !f.exists()) return false;
-		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+		XModel model = InnerModelHelper.createXModel(f.getProject());
+		if(model == null) return false;
+		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return false;
 		if(o.getModelEntity().getName().startsWith("FileSeamComponents")) return true;
 		//TODO Above does not include .component.xml with root element <component>
@@ -69,7 +73,9 @@ public class XMLScanner implements IFileScanner {
 	 * @throws Exception
 	 */
 	public LoadedDeclarations parse(IFile f) throws Exception {
-		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+		XModel model = InnerModelHelper.createXModel(f.getProject());
+		if(model == null) return null;
+		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		return parse(o, f.getFullPath());
 	}
 	

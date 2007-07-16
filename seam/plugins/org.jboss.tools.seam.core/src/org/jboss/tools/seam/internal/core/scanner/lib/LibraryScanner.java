@@ -28,12 +28,14 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;
 import org.eclipse.jdt.internal.compiler.env.IBinaryAnnotation;
+import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -61,7 +63,9 @@ public class LibraryScanner implements IFileScanner {
 	}
 
 	public boolean isLikelyComponentSource(IFile f) {
-		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+		XModel model = InnerModelHelper.createXModel(f.getProject());
+		if(model == null) return false;
+		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return false;
 		if(!o.getModelEntity().getName().equals("FileSystemJar")) {
 			((FileSystemsImpl)o.getModel().getByPath("FileSystems")).updateOverlapped();
@@ -72,7 +76,9 @@ public class LibraryScanner implements IFileScanner {
 	}
 
 	public LoadedDeclarations parse(IFile f) throws Exception {
-		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+		XModel model = InnerModelHelper.createXModel(f.getProject());
+		if(model == null) return null;
+		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return null;
 		if(!o.getModelEntity().getName().equals("FileSystemJar")) {
 			((FileSystemsImpl)o.getModel().getByPath("FileSystems")).updateOverlapped();

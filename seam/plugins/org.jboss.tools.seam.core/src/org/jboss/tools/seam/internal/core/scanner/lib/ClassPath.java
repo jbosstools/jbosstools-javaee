@@ -36,6 +36,7 @@ import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
@@ -73,8 +74,7 @@ public class ClassPath {
 	 * Initialization of inner model.
 	 */
 	public void init() {
-		IModelNature n = EclipseResourceUtil.getModelNature(project.getProject());
-		model = n == null ? EclipseResourceUtil.createObjectForResource(project.getProject()).getModel() : n.getModel();
+		model = InnerModelHelper.createXModel(project.getProject());
 	}
 	
 	static String[] SYSTEM_JARS = {"rt.jar", "jsse.jar", "jce.jar", "charsets.jar"};
