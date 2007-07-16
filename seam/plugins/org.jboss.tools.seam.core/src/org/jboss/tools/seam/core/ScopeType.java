@@ -15,27 +15,35 @@ package org.jboss.tools.seam.core;
  * @author Alexey Kazakov
  */
 public enum ScopeType implements SeamScope {
-	STATELESS(),
-	METHOD(),
-	EVENT(EVENT_PRIORITY_ORDER),
-	PAGE(PAGE_PRIORITY_ORDER),
-	CONVERSATION(CONVERSATION_PRIORITY_ORDER),
-	SESSION(SESSION_PRIORITY_ORDER),
-	APPLICATION(APPLICATION_PRIORITY_ORDER),
-	BUSINESS_PROCESS(BUSINESS_PROCESS_PRIORITY_ORDER),
-	UNSPECIFIED(UNDEFINED_PRIORITY_ORDER);
+	STATELESS("Stateless"),
+	METHOD("Method"),
+	EVENT("Event", EVENT_PRIORITY_ORDER),
+	PAGE("Page", PAGE_PRIORITY_ORDER),
+	CONVERSATION("Conversation", CONVERSATION_PRIORITY_ORDER),
+	SESSION("Session", SESSION_PRIORITY_ORDER),
+	APPLICATION("Application", APPLICATION_PRIORITY_ORDER),
+	BUSINESS_PROCESS("Business Process", BUSINESS_PROCESS_PRIORITY_ORDER),
+	UNSPECIFIED("Unspecified", UNDEFINED_PRIORITY_ORDER); 
 
 	int priority;
+	private String label;
 
-	ScopeType(int priority) {
+	ScopeType(String label, int priority) {
 		this.priority = priority;
+		this.label = label;
 	}
 
-	ScopeType() {
+	ScopeType(String label) {
 		this.priority = UNDEFINED_PRIORITY_ORDER;
+		this.label = label;
 	}
 
 	public int getPriority() {
 		return priority;
 	}
+	
+	public String getLabel() {
+		return label;
+	}
+
 }

@@ -256,4 +256,8 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		}
 	}
 
+	@Override
+	public String toString() {		
+		return "SeamComponent: " + getName();
+	}
 }

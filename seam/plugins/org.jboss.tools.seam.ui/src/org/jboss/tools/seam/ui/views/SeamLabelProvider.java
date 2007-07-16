@@ -20,16 +20,16 @@ public class SeamLabelProvider extends LabelProvider {
 		if(element instanceof ISeamProject) {
 			return ((ISeamProject)element).getProject().getName();
 		} else if(element instanceof ISeamScope) {
-			return ((ISeamScope)element).getType().toString();
+			return ((ISeamScope)element).getType().getLabel();
 		} else if(element instanceof ISeamComponent) {
-			return "" + ((ISeamComponent)element).getName();
+			return ((ISeamComponent)element).getName();
 		} else if(element instanceof ISeamJavaSourceReference) {
 			ISeamJavaSourceReference d = (ISeamJavaSourceReference)element;
 			IMember m = d.getSourceMember();
 			IType type = (m instanceof IType) ? (IType)m : m.getTypeRoot().findPrimaryType();
-			if(type.isBinary()) {
+			if(type.isBinary()) { 
 				IResource r = ((ISeamElement)element).getResource();
-				String s = (r == null) ? "???" : r.getName();
+				String s = (r == null) ? "<no name>" : r.getName();
 				return  s + "/" + type.getFullyQualifiedName();
 			} else {
 				return type.getFullyQualifiedName();
