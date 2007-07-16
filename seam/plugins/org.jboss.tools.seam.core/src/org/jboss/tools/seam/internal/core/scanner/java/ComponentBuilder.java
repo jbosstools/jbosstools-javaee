@@ -167,7 +167,9 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
 			if(scope != null) att.setScope(scope);
 			
-			att.setSourceMember(findMethod(m));
+			IMethod im = findMethod(m);
+			att.setSourceMember(im);
+			att.setId(im);
 		}
 
 		for (AnnotatedASTNode<FieldDeclaration> n: annotatedFields) {
@@ -202,7 +204,9 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
 			if(scope != null) att.setScope(scope);
 			
-			att.setSourceMember(findField(m));
+			IField f = findField(m);
+			att.setSourceMember(f);
+			att.setId(f);
 		}
 	}
 	
@@ -218,7 +222,9 @@ public class ComponentBuilder implements SeamAnnotations {
 					component.addMethod(cm);
 					MethodDeclaration m = n.getNode();
 					component.addMethod(cm);
-					cm.setSourceMember(findMethod(m));
+					IMethod im = findMethod(m);
+					cm.setSourceMember(im);
+					cm.setId(im);
 				}
 				cm.getTypes().add(type);
 			}
