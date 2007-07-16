@@ -206,5 +206,23 @@
 			
 		</contentAssistProcessor>
   </extension>
+ 
+ <extension
+       point="org.eclipse.ui.popupMenus">
+       <!-- TODO: We should either remove this or move it to a not so prominient place in the final release -->
+    <objectContribution
+          adaptable="true"
+          id="org.jboss.tools.seam.ui.enableSeamAction"
+          nameFilter="*"
+          objectClass="org.eclipse.core.resources.IProject">
+       <action
+             class="org.jboss.tools.seam.ui.builder.ToggleSeamNatureAction"
+             enablesFor="+"
+             id="org.jboss.tools.seam.ui.addRemoveSeamNatureAction"
+             label="Add/Remove Seam support"
+             menubarPath="additions">
+       </action>
+    </objectContribution>
+ </extension>
   
 </plugin>
