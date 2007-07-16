@@ -636,6 +636,19 @@ public class SeamProject extends SeamObject implements ISeamProject {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getFactoriesByPath(org.eclipse.core.runtime.IPath)
+	 */
+	public Set<ISeamFactory> getFactoriesByPath(IPath path) {
+		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
+		for (ISeamFactory f: allFactories) {
+			if(path.equals(f.getSourcePath())) {
+				result.add(f);
+			}
+		}
+		return result;
+	}
+
 	public void removeFactory(ISeamFactory factory) {
 		allFactories.remove(factory);
 		allVariables.remove(factory);
@@ -781,5 +794,4 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			return;
 		}
 	}
-	
 }

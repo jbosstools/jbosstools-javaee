@@ -22,17 +22,21 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
+import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
@@ -123,6 +127,7 @@ public class SeamJavaValidator extends SeamValidator {
 				IFile sourceFile = root.getFile(linkedResource);
 				reporter.removeMessageSubset(this, sourceFile, MARKED_COMPONENT_MESSAGE_GROUP);
 				validateComponent(linkedResource, checkedComponents);
+				validateFactory(linkedResource);
 				// TODO
 			}
 		} else {
@@ -130,6 +135,58 @@ public class SeamJavaValidator extends SeamValidator {
 		}
 
 		return OK_STATUS;
+	}
+
+	private void validateFactory(IPath sourceFilePath) {
+		Set<ISeamFactory> factories = project.getFactoriesByPath(sourceFilePath);
+		for (ISeamFactory factory : factories) {
+			if(factory instanceof ISeamAnnotatedFactory) {
+				validateFactory((ISeamAnnotatedFactory)factory);
+			}
+		}
+	}
+
+	private void validateFactory(ISeamAnnotatedFactory factory) {
+		IMember sourceMember = factory.getSourceMember();
+		if(sourceMember instanceof IMethod) {
+			IMethod method = (IMethod)sourceMember;
+			try {
+				String returnType = method.getReturnType();
+				if("V".equals(returnType)) {
+					// return type is void
+					String factoryName = factory.getName();
+					if(factoryName==null) {
+						String methodName = method.getElementName();
+						if(methodName.startsWith("get") && methodName.length()>3) {
+							// This is getter
+							factoryName = methodName.substring(3);
+						} else {
+							// TODO
+							// Unknown factory name
+							factoryName = methodName;
+						}
+					}
+					ScopeType factoryScope = factory.getScope();
+					Set<ISeamContextVariable> variables = project.getVariablesByName(factoryName);
+					boolean unknownVariable = true;
+					for (ISeamContextVariable variable : variables) {
+						if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority()) && !(variable instanceof ISeamFactory)) {
+							// It's OK. We have that variable name
+							unknownVariable = false;
+							break;
+						}
+						if(unknownVariable) {
+							// TODO
+							// mark unknown factory name
+						}
+					}
+				}
+			} catch (Exception e) {
+				SeamCorePlugin.getDefault().logError(e);
+			}
+		} else {
+			// factory must be java method!
+		}
 	}
 
 	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents) {
@@ -168,8 +225,14 @@ public class SeamJavaValidator extends SeamValidator {
 		Set<ISeamComponent> components = project.getComponents();
 		for (ISeamComponent component : components) {
 			validateComponent(component);
-			// TODO
 		}
+		Set<ISeamFactory> factories = project.getFactories();
+		for (ISeamFactory factory : factories) {
+			if(factory instanceof ISeamAnnotatedFactory) {
+				validateFactory((ISeamAnnotatedFactory)factory);
+			}
+		}
+		// TODO
 		return OK_STATUS;
 	}
 

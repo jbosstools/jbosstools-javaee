@@ -122,6 +122,12 @@ public interface ISeamProject extends IProjectNature, ISeamElement {
 	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope);
 
 	/**
+	 * @param resource path of ISeamFactory that belongs to factory declaration
+	 * @return Set of ISeamFactory by resource path.
+	 */
+	public Set<ISeamFactory> getFactoriesByPath(IPath path);
+
+	/**
 	 * Adds factory method into project
 	 * @param factory
 	 */

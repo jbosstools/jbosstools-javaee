@@ -14,14 +14,28 @@ package org.jboss.tools.seam.core;
  * Types of Seam Scopes.
  * @author Alexey Kazakov
  */
-public enum ScopeType {
-	STATELESS,
-	METHOD,
-	EVENT,
-	PAGE,
-	CONVERSATION,
-	SESSION,
-	APPLICATION,
-	BUSINESS_PROCESS,
-	UNSPECIFIED;
+public enum ScopeType implements SeamScope {
+	STATELESS(),
+	METHOD(),
+	EVENT(EVENT_PRIORITY_ORDER),
+	PAGE(PAGE_PRIORITY_ORDER),
+	CONVERSATION(CONVERSATION_PRIORITY_ORDER),
+	SESSION(SESSION_PRIORITY_ORDER),
+	APPLICATION(APPLICATION_PRIORITY_ORDER),
+	BUSINESS_PROCESS(BUSINESS_PROCESS_PRIORITY_ORDER),
+	UNSPECIFIED(UNDEFINED_PRIORITY_ORDER);
+
+	int priority;
+
+	ScopeType(int priority) {
+		this.priority = priority;
+	}
+
+	ScopeType() {
+		this.priority = UNDEFINED_PRIORITY_ORDER;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
 }
