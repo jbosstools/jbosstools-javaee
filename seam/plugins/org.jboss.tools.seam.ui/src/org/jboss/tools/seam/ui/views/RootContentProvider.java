@@ -130,12 +130,12 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 
 	boolean isGoodProject(IProject project) {
 	if(project == null || !project.exists() || !project.isOpen()) return false;
-		try {
-			if(!project.hasNature("org.jboss.tools.jsf.jsfnature")) return false;
-		} catch (CoreException e) {
-			//ignore - all checks are done above
-			return false;
-		}
+//		try {
+//			if(!project.hasNature("org.jboss.tools.jsf.jsfnature")) return false;
+//		} catch (CoreException e) {
+//			//ignore - all checks are done above
+//			return false;
+//		}
 		return true;
 	}
 
