@@ -242,7 +242,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			}
 		}
 		ResolvedAnnotation[] as = annotatedType.getAnnotations();
-		for (int i = 0; i < as.length; i++) {
+		if(as != null) for (int i = 0; i < as.length; i++) {
 			if(ROLE_ANNOTATION_TYPE.equals(as[i].getType())) {
 				createRole(as[i].getAnnotation());
 			}
@@ -268,6 +268,7 @@ public class ComponentBuilder implements SeamAnnotations {
 
 	private Annotation findAnnotation(AnnotatedASTNode<?> n, String type) {
 		ResolvedAnnotation[] as = n.getAnnotations();
+		if(as == null) return null;
 		for (int i = 0; i < as.length; i++) {
 			if(type.equals(as[i].getType())) return as[i].getAnnotation();
 		}
