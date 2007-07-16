@@ -73,7 +73,7 @@ public class ComponentBuilder implements SeamAnnotations {
 	void process() {
 		if(annotatedType == null) return;
 		ResolvedAnnotation[] as = annotatedType.getAnnotations();
-		for (int i = 0; i < as.length; i++) {
+		if(as != null) for (int i = 0; i < as.length; i++) {
 			String type = as[i].getType();
 			if(NAME_ANNOTATION_TYPE.equals(type)) {
 				component.setName(ValueInfo.getValueInfo(as[i].getAnnotation(), null));
