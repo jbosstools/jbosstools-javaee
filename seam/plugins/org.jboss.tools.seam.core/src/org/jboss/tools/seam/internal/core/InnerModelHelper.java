@@ -21,7 +21,13 @@ public class InnerModelHelper {
 		XModelObject webinf = model.getByPath("FileSystems/WEB-INF");
 		if(webinf != null) return model;
 		
-		IPath webInfPath = J2EEUtils.getWebInfPath(project);
+		IPath webInfPath = null;
+		
+		try {
+			webInfPath = J2EEUtils.getWebInfPath(project);
+		} catch (Exception e) {
+			//ignore
+		}
 		
 		if(webInfPath == null) return model;
 		
