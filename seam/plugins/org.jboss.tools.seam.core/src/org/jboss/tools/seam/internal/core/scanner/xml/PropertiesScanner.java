@@ -86,6 +86,7 @@ public class PropertiesScanner implements IFileScanner {
 			}
 			d.addStringProperty(propertyName, value);
 		}
+		ds.getComponents().addAll(ds1.values());
 		return ds;
 	}
 	
