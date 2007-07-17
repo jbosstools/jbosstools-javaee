@@ -269,24 +269,8 @@ public class SeamProject extends SeamObject implements ISeamProject {
 			String oldClassName = c == null ? null : c.getClassName();
 
 			if(current != null) {
-				Set<ISeamContextVariable> oldVariables = current.getDeclaredVariables();
 				List<Change> changes = current.merge(loaded);
 				if(changes != null && changes.size() > 0) {
-
-					Set<ISeamContextVariable> newVariables = current.getDeclaredVariables();
-					if(oldVariables != null && newVariables != null) {
-						for (ISeamContextVariable v : oldVariables) {
-							if(!newVariables.contains(v)) {
-								allVariables.remove(v);
-							}
-						}
-						for (ISeamContextVariable v : newVariables) {
-							if(!oldVariables.contains(v)) {
-								allVariables.add(v);
-							}
-						}
-					}
-					
 					Change cc = new Change(c, null, null, null);
 					cc.addChildren(changes);
 					List<Change> cchanges = Change.addChange(null, cc);
