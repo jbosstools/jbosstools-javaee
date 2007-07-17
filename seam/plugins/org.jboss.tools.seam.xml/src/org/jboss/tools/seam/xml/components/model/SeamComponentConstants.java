@@ -17,6 +17,7 @@ public interface SeamComponentConstants {
 	public String ENT_SEAM_COMPONENTS = "FileSeamComponents";
 	public String ENT_SEAM_COMPONENTS_11 = ENT_SEAM_COMPONENTS + "11";
 	public String ENT_SEAM_COMPONENTS_12 = ENT_SEAM_COMPONENTS + "12";
+	public String ENT_SEAM_COMPONENT_12 = "FileSeamComponent" + "12";
 	public String ENT_SEAM_COMPONENT = "SeamComponent";
 	public String ENT_SEAM_FACTORY = "SeamFactory";
 	

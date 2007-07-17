@@ -19,7 +19,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
 
     static {
         try {
-            Class c = SeamComponentsEntityRecognizer.class;
+            Class<?> c = SeamComponentsEntityRecognizer.class;
             XMLEntityResolver.registerPublicEntity(PUBLIC_ID_11, FileLocator.resolve(c.getResource("/meta/components-1.1.dtd")).toString());
         } catch (Exception e) {
 			SeamXMLPlugin.log(e);
@@ -34,6 +34,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     		return ENT_SEAM_COMPONENTS_11;
     	}
         if(is12(body)) return ENT_SEAM_COMPONENTS_12;
+        if(is12Component(body)) return ENT_SEAM_COMPONENT_12;
         return null;
     }
     
@@ -46,4 +47,13 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
     }
 
+    private boolean is12Component(String body) {
+    	int i = body.indexOf("<component");
+    	int is = body.indexOf("<components");
+    	if(i < 0 || is >= 0) return false;
+    	int j = body.indexOf(">", i);
+    	if(j < 0) return false;
+    	String s = body.substring(i, j);
+    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
+    }
 }
