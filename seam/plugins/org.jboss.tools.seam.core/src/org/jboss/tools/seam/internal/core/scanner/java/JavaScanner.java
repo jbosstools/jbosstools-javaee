@@ -130,6 +130,8 @@ public class JavaScanner implements IFileScanner {
 			
 			b.component.setSourcePath(sourcePath);
 			b.component.setResource(resource);
+			
+			b.process();
 		}
 	}
 	

@@ -67,7 +67,6 @@ public class ComponentBuilder implements SeamAnnotations {
 		component.setId(visitor.type);
 		component.setClassName(n);
 		
-		process();
 	}
 	
 	void process() {
@@ -124,7 +123,10 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo autoCreate = ValueInfo.getValueInfo(a, "autoCreate");
 
 			SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
-			factory.setSourceMember(findMethod(m));
+			IMethod im = findMethod(m);
+			factory.setSourceMember(im);
+			factory.setId(im);
+			factory.setSourcePath(component.getSourcePath());
 			factory.setName(factoryName);
 			if(autoCreate != null) factory.setAutoCreate(true);
 			if(scope != null) {
