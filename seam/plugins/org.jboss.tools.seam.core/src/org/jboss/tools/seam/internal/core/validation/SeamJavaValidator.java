@@ -30,11 +30,13 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
+import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -42,6 +44,7 @@ import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
@@ -52,7 +55,7 @@ import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
  */
 public class SeamJavaValidator extends SeamValidator {
 
-	private static final String MARKED_COMPONENT_MESSAGE_GROUP = "markedComponent";
+	private static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamResource";
 
 	private static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
 	private static final String UNKNOWN_INJECTION_NAME_MESSAGE_ID = "UNKNOWN_INJECTION_NAME";
@@ -64,7 +67,8 @@ public class SeamJavaValidator extends SeamValidator {
 	private static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE";
 	private static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE";
 	private static final String UNKNOWN_FACTORY_NAME_MESSAGE_ID = "UNKNOWN_FACTORY_NAME";
-	private static final String DUPLICATE_FACTORY_NAME_MESSAGE_ID = "DUPLICATE_FACTORY_NAME";
+	private static final String MULTIPLE_DATA_BINDER_MESSAGE_ID = "MULTIPLE_DATA_BINDER";
+	private static final String DUPLICATE_VARIABLE_NAME_MESSAGE_ID = "DUPLICATE_VARIABLE_NAME";
 
 	private SeamValidationContext validationContext;
 	private ISeamProject project;
@@ -127,7 +131,7 @@ public class SeamJavaValidator extends SeamValidator {
 			for (IPath linkedResource : resources) {
 				// Remove markers from collected java file
 				IFile sourceFile = root.getFile(linkedResource);
-				reporter.removeMessageSubset(this, sourceFile, MARKED_COMPONENT_MESSAGE_GROUP);
+				reporter.removeMessageSubset(this, sourceFile, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 				validateComponent(linkedResource, checkedComponents);
 				validateFactory(linkedResource, markedDuplicateFactoryNames);
 				// TODO
@@ -171,27 +175,32 @@ public class SeamJavaValidator extends SeamValidator {
 					ScopeType factoryScope = factory.getScope();
 					Set<ISeamContextVariable> variables = project.getVariablesByName(factoryName);
 					boolean unknownVariable = true;
-					boolean firstDuplicateNameWasMarked = false;
+					boolean firstDuplicateVariableWasMarked = false;
 					for (ISeamContextVariable variable : variables) {
 						if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
-							if(variable instanceof ISeamFactory) {
+							if(variable instanceof ISeamFactory || variable instanceof ISeamComponent || variable instanceof IRole) {
 								if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName)) {
 									// Duplicate factory name. Mark it.
 									// save link to factory resource
-									validationContext.addLinkedResource(factoryName, variable.getSourcePath());
-									this.addError(DUPLICATE_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, (ISeamTextSourceReference)variable, variable.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
-									if(!firstDuplicateNameWasMarked) {
-										firstDuplicateNameWasMarked = true;
-										// mark first factory
+									ISeamTextSourceReference location = null;
+									if(!firstDuplicateVariableWasMarked) {
+										firstDuplicateVariableWasMarked = true;
+										// mark original factory
 										validationContext.addLinkedResource(factoryName, factory.getSourcePath());
-										this.addError(DUPLICATE_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, factory, factory.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+										location = getLoactionOfName(factory);
+										this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 									}
+									// mark duplicate variable
+									IResource resource = getComponentResourceWithName(variable);
+									validationContext.addLinkedResource(factoryName, resource.getFullPath());
+									location = getLoactionOfName(variable);
+									this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, resource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+
 									markedDuplicateFactoryNames.add(factoryName);
 								}
 							} else {
 								// We have that variable name
 								unknownVariable = false;
-								break;
 							}
 						}
 					}
@@ -199,7 +208,7 @@ public class SeamJavaValidator extends SeamValidator {
 						// mark unknown factory name
 						// save link to factory resource
 						validationContext.addLinkedResource(factoryName, factory.getSourcePath());
-						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, factory, factory.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, getLoactionOfName(factory), factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 					}
 				}
 			} catch (Exception e) {
@@ -209,6 +218,38 @@ public class SeamJavaValidator extends SeamValidator {
 			// factory must be java method!
 			// JDT should mark it.
 		}
+	}
+
+	private static IResource getComponentResourceWithName(ISeamElement element) {
+		if(element instanceof ISeamComponent) {
+			Set declarations = ((ISeamComponent)element).getAllDeclarations();
+			for (Object o : declarations) {
+				SeamComponentDeclaration d = (SeamComponentDeclaration)o;
+				if(d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME)!=null) {
+					return d.getResource();
+				}
+			}
+		}
+		return element.getResource();
+	}
+
+	private static ISeamTextSourceReference getLoactionOfName(ISeamElement element) {
+		ISeamTextSourceReference location = null;
+		if(element instanceof AbstractContextVariable) {
+			location = ((AbstractContextVariable)element).getLocationFor("name");
+		} else if(element instanceof ISeamComponent) {
+			Set declarations = ((ISeamComponent)element).getAllDeclarations();
+			for (Object d : declarations) {
+				location = ((SeamComponentDeclaration)d).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+				if(location!=null) {
+					break;
+				}
+			}
+		}
+		if(location==null && element instanceof ISeamTextSourceReference) {
+			location = (ISeamTextSourceReference)element;
+		}
+		return location;
 	}
 
 	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents) {
@@ -297,7 +338,7 @@ public class SeamJavaValidator extends SeamValidator {
 								IResource checkedDeclarationResource = checkedDeclaration.getResource();
 								ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 								if(location!=null) {
-									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, checkedDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, checkedDeclarationResource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 								}
 								markedDeclarations.add(checkedDeclaration);
 							}
@@ -305,7 +346,7 @@ public class SeamJavaValidator extends SeamValidator {
 							markedDeclarations.add(javaDeclaration);
 							ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 							if(location!=null) {
-								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclarationResource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 							}
 						}
 					}
@@ -326,7 +367,7 @@ public class SeamJavaValidator extends SeamValidator {
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.STATELESS) {
 				ISeamTextSourceReference location = getScopeLocation(component);
-				addError(ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+				addError(ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 			}
 		}
 	}
@@ -360,7 +401,7 @@ public class SeamJavaValidator extends SeamValidator {
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.PAGE || scope == ScopeType.STATELESS) {
 				ISeamTextSourceReference location = getScopeLocation(component);
-				addError(STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+				addError(STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID, new String[]{component.getName()}, location, javaDeclaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 			}
 		}
 	}
@@ -370,7 +411,7 @@ public class SeamJavaValidator extends SeamValidator {
 		ISeamTextSourceReference classNameLocation = getClassNameLocation(javaDeclaration);
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods==null || methods.size()==0) {
-			addError(STATEFUL_COMPONENT_DOES_NOT_CONTENT_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+			addError(STATEFUL_COMPONENT_DOES_NOT_CONTENT_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		}
 	}
 
@@ -388,7 +429,7 @@ public class SeamJavaValidator extends SeamValidator {
 				try {
 					IMethod javaMethod = (IMethod)method.getSourceMember();
 					String methodName = javaMethod.getElementName();
-					addError(DUPLICATE_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{methodName}, method, javaDeclaration.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+					addError(DUPLICATE_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{methodName}, method, javaDeclaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 				} catch (Exception e) {
 					SeamCorePlugin.getDefault().logError(e);
 				}
@@ -408,20 +449,30 @@ public class SeamJavaValidator extends SeamValidator {
 		}
 		for (IBijectedAttribute bijection : bijections) {
 			String name = bijection.getName();
-			if(name.startsWith("#{")) {
-				// TODO Validate EL
+			if(name==null) {
+				if(bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION_INDEX)) {
+					// here must be the only one @DataModel in the component
+					Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
+					if(dataBinders.size()>0) {
+						for (IBijectedAttribute dataBinder : dataBinders) {
+							addError(MULTIPLE_DATA_BINDER_MESSAGE_ID, dataBinder, declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+						}
+					}
+				}
+			} else if(name.startsWith("#{")) {
+				// EL Validator should do this work.
 			} else {
 				// save link between java source and variable name
 				validationContext.addLinkedResource(name, declaration.getSourcePath());
 
-				if(bijection.isOfType(BijectedAttributeType.IN)) {
-					// Validate injection
+				// Validate @In & @DataModelSelection & @DataModelSelectionIndex
+				if(bijection.isOfType(BijectedAttributeType.IN) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION_INDEX)) {
 					Set<ISeamContextVariable> variables = project.getVariablesByName(name);
 					if(variables==null || variables.size()<1) {
 						// Injection has unknown name. Mark it.
 						// TODO check preferences to mark it as Error or Warning or ignore it.
 						IResource declarationResource = declaration.getResource();
-						addError(UNKNOWN_INJECTION_NAME_MESSAGE_ID, new String[]{name}, bijection, declarationResource, MARKED_COMPONENT_MESSAGE_GROUP);
+						addError(UNKNOWN_INJECTION_NAME_MESSAGE_ID, new String[]{name}, bijection, declarationResource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 					}
 				}
 			}

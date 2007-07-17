@@ -16,12 +16,14 @@ import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
+import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISeamAnnotatedFactory {
+
 	boolean autoCreate = false;
 
 	public IMethod getSourceMethod() {
@@ -53,4 +55,29 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		setAutoCreate(value != null && "true".equals(value.getValue()));
 	}
 
+	@Override
+	public void setScope(ScopeType scope) {
+		if(scope==null) {
+			this.scopeType = ScopeType.EVENT;
+		} else {
+			super.setScope(scope);
+		}
+	}
+
+	@Override
+	public ScopeType getScope() {
+		if(scope==null) {
+			return ScopeType.EVENT;
+		}
+		return super.getScope();
+	}
+
+	@Override
+	public void setScopeAsString(String scope) {
+		if(scope==null) {
+			this.scopeType = ScopeType.EVENT;
+		} else {
+			super.setScopeAsString(scope);
+		}
+	}
 }
