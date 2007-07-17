@@ -97,6 +97,26 @@ public class AbstractContextVariable extends SeamObject implements ISeamContextV
 		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 
+	/**
+	 * @param path
+	 * @return source reference for some member of declaration.
+	 * e.g. if you need source reference for @Name you have to 
+	 * invoke getLocationFor("name");
+	 */
+	public ISeamTextSourceReference getLocationFor(String path) {
+		final IValueInfo valueInfo = attributes.get(path);
+		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
+			public int getLength() {
+				return valueInfo != null ? valueInfo.getLength() : 0;
+			}
+
+			public int getStartPosition() {
+				return valueInfo != null ? valueInfo.getStartPosition() : 0;
+			}
+		};
+		return reference;
+	}
+	
 	public void setName(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
 		name = value == null ? null : value.getValue();
