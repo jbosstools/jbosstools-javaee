@@ -29,12 +29,6 @@ import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder";
 	
-	static IFileScanner[] FILE_SCANNERS = {
-		new JavaScanner(), 
-		new XMLScanner(), 
-//		new LibraryScanner()
-	};
-	
 	SeamResourceVisitor resourceVisitor = null;
 	
 	SeamProject getSeamProject() {

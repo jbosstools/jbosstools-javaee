@@ -11,9 +11,6 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.ByteArrayInputStream;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -27,7 +24,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;
-import org.eclipse.jdt.internal.compiler.env.IBinaryAnnotation;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
@@ -36,9 +32,9 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
-import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.xml.PropertiesScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
 /**
@@ -113,26 +109,9 @@ public class LibraryScanner implements IFileScanner {
 			if(ds1 != null) ds.add(ds1);
 		}
 		if(seamProperties != null) {
-			XModelObject[] properties = seamProperties.getChildren();
-			Map<String, SeamPropertiesDeclaration> ds1 = new HashMap<String, SeamPropertiesDeclaration>();
-			for (int i = 0; i < properties.length; i++) {
-				String name = properties[i].getAttributeValue("name");
-				String value = properties[i].getAttributeValue("value");
-				int q = name.lastIndexOf('.');
-				if(q < 0) continue;
-				String componentName = name.substring(0, q);
-				String propertyName = name.substring(q + 1);
-				SeamPropertiesDeclaration d = ds1.get(componentName);
-				if(d == null) {
-					d = new SeamPropertiesDeclaration();
-					d.setId(properties[i]);
-					d.setSourcePath(path);
-					d.setName(componentName);
-					ds1.put(componentName, d);
-				}
-				d.addStringProperty(propertyName, value);
-			}
-			ds.getComponents().addAll(ds1.values());
+			PropertiesScanner scanner = new PropertiesScanner();
+			LoadedDeclarations ds1 = scanner.parse(seamProperties, path);
+			if(ds1 != null) ds.add(ds1);
 		}		
 		
 		return ds;

@@ -18,12 +18,11 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.jboss.tools.common.model.plugin.ModelPlugin;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
+import org.jboss.tools.seam.internal.core.scanner.xml.PropertiesScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
 /**
@@ -33,6 +32,7 @@ public class SeamResourceVisitor implements IResourceVisitor {
 	static IFileScanner[] FILE_SCANNERS = {
 		new JavaScanner(), 
 		new XMLScanner(), 
+		new PropertiesScanner(),
 	};
 	SeamProject p;
 	
