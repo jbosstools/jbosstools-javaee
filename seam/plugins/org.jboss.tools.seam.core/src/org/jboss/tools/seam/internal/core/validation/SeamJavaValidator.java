@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
@@ -64,6 +63,8 @@ public class SeamJavaValidator extends SeamValidator {
 	private static final String CREATE_METHOD_POSTFIX_MESSAGE_ID = "CREATE";
 	private static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE";
 	private static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE";
+	private static final String UNKNOWN_FACTORY_NAME_MESSAGE_ID = "UNKNOWN_FACTORY_NAME";
+	private static final String DUPLICATE_FACTORY_NAME_MESSAGE_ID = "DUPLICATE_FACTORY_NAME";
 
 	private SeamValidationContext validationContext;
 	private ISeamProject project;
@@ -82,6 +83,7 @@ public class SeamJavaValidator extends SeamValidator {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			IFile currentFile = null;
 			Set<ISeamComponent> checkedComponents = new HashSet<ISeamComponent>();
+			Set<String> markedDuplicateFactoryNames = new HashSet<String>();
 			// Collect all resources which we must validate.
 			Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
 			for (int i = 0; i < uris.length && !reporter.isCancelled(); i++) {
@@ -127,7 +129,7 @@ public class SeamJavaValidator extends SeamValidator {
 				IFile sourceFile = root.getFile(linkedResource);
 				reporter.removeMessageSubset(this, sourceFile, MARKED_COMPONENT_MESSAGE_GROUP);
 				validateComponent(linkedResource, checkedComponents);
-				validateFactory(linkedResource);
+				validateFactory(linkedResource, markedDuplicateFactoryNames);
 				// TODO
 			}
 		} else {
@@ -137,16 +139,16 @@ public class SeamJavaValidator extends SeamValidator {
 		return OK_STATUS;
 	}
 
-	private void validateFactory(IPath sourceFilePath) {
+	private void validateFactory(IPath sourceFilePath, Set<String> markedDuplicateFactoryNames) {
 		Set<ISeamFactory> factories = project.getFactoriesByPath(sourceFilePath);
 		for (ISeamFactory factory : factories) {
 			if(factory instanceof ISeamAnnotatedFactory) {
-				validateFactory((ISeamAnnotatedFactory)factory);
+				validateFactory((ISeamAnnotatedFactory)factory, markedDuplicateFactoryNames);
 			}
 		}
 	}
 
-	private void validateFactory(ISeamAnnotatedFactory factory) {
+	private void validateFactory(ISeamAnnotatedFactory factory, Set<String> markedDuplicateFactoryNames) {
 		IMember sourceMember = factory.getSourceMember();
 		if(sourceMember instanceof IMethod) {
 			IMethod method = (IMethod)sourceMember;
@@ -169,16 +171,35 @@ public class SeamJavaValidator extends SeamValidator {
 					ScopeType factoryScope = factory.getScope();
 					Set<ISeamContextVariable> variables = project.getVariablesByName(factoryName);
 					boolean unknownVariable = true;
+					boolean firstDuplicateNameWasMarked = false;
 					for (ISeamContextVariable variable : variables) {
-						if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority()) && !(variable instanceof ISeamFactory)) {
-							// It's OK. We have that variable name
-							unknownVariable = false;
-							break;
+						if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
+							if(variable instanceof ISeamFactory) {
+								if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName)) {
+									// Duplicate factory name. Mark it.
+									// save link to factory resource
+									validationContext.addLinkedResource(factoryName, variable.getSourcePath());
+									this.addError(DUPLICATE_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, (ISeamTextSourceReference)variable, variable.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+									if(!firstDuplicateNameWasMarked) {
+										firstDuplicateNameWasMarked = true;
+										// mark first factory
+										validationContext.addLinkedResource(factoryName, factory.getSourcePath());
+										this.addError(DUPLICATE_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, factory, factory.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
+									}
+									markedDuplicateFactoryNames.add(factoryName);
+								}
+							} else {
+								// We have that variable name
+								unknownVariable = false;
+								break;
+							}
 						}
-						if(unknownVariable) {
-							// TODO
-							// mark unknown factory name
-						}
+					}
+					if(unknownVariable) {
+						// mark unknown factory name
+						// save link to factory resource
+						validationContext.addLinkedResource(factoryName, factory.getSourcePath());
+						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, factory, factory.getResource(), MARKED_COMPONENT_MESSAGE_GROUP);
 					}
 				}
 			} catch (Exception e) {
@@ -186,6 +207,7 @@ public class SeamJavaValidator extends SeamValidator {
 			}
 		} else {
 			// factory must be java method!
+			// JDT should mark it.
 		}
 	}
 
@@ -227,9 +249,10 @@ public class SeamJavaValidator extends SeamValidator {
 			validateComponent(component);
 		}
 		Set<ISeamFactory> factories = project.getFactories();
+		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
 		for (ISeamFactory factory : factories) {
 			if(factory instanceof ISeamAnnotatedFactory) {
-				validateFactory((ISeamAnnotatedFactory)factory);
+				validateFactory((ISeamAnnotatedFactory)factory, markedDuplicateFactoryNames);
 			}
 		}
 		// TODO
