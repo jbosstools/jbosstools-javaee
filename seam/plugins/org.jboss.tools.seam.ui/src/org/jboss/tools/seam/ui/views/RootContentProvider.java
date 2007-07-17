@@ -19,9 +19,11 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
+import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -60,6 +62,15 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 			((ISeamScope)parentElement).getSeamProject().resolve();
 			return ((ISeamScope)parentElement).getComponents().toArray(new Object[0]);
 		} else if(parentElement instanceof ISeamComponent) {
+			List<Object> children = new ArrayList<Object>();
+			Set<ISeamComponentDeclaration> ds = ((ISeamComponent)parentElement).getAllDeclarations();
+			children.addAll(ds);
+			for (ISeamComponentDeclaration d : ds) {
+				if(d instanceof ISeamJavaComponentDeclaration) {
+					Set<IRole> rs = ((ISeamJavaComponentDeclaration)d).getRoles();
+					children.addAll(rs);
+				}
+			}
 			return ((ISeamComponent)parentElement).getAllDeclarations().toArray(new Object[0]);
 		}
 		return null;

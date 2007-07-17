@@ -1,5 +1,6 @@
 package org.jboss.tools.seam.ui.views;
 
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
@@ -7,9 +8,11 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
@@ -18,11 +21,13 @@ public class SeamLabelProvider extends LabelProvider {
 
 	public String getText(Object element) {
 		if(element instanceof ISeamProject) {
-			return ((ISeamProject)element).getProject().getName();
+			return ((IProjectNature)element).getProject().getName();
 		} else if(element instanceof ISeamScope) {
 			return ((ISeamScope)element).getType().getLabel();
 		} else if(element instanceof ISeamComponent) {
 			return ((ISeamComponent)element).getName();
+		} else if (element instanceof IRole) {
+			return "" + ((IRole)element).getName();
 		} else if(element instanceof ISeamJavaSourceReference) {
 			ISeamJavaSourceReference d = (ISeamJavaSourceReference)element;
 			IMember m = d.getSourceMember();
@@ -50,6 +55,11 @@ public class SeamLabelProvider extends LabelProvider {
 			imageKey = ISharedImages.IMG_OBJ_FOLDER;
 		} else if(obj instanceof ISeamComponent) {
 			imageKey = ISharedImages.IMG_OBJ_ELEMENT;
+		} else if(obj instanceof IRole) {
+			//
+		} else if(obj instanceof ISeamJavaComponentDeclaration) {
+			imageKey = org.eclipse.jdt.ui.ISharedImages.IMG_OBJS_CLASS;
+			return new org.eclipse.jdt.internal.ui.SharedImages().getImage(imageKey);
 		} else if(obj instanceof ISeamComponentDeclaration) {
 			imageKey = ISharedImages.IMG_OBJ_FILE;
 		}
