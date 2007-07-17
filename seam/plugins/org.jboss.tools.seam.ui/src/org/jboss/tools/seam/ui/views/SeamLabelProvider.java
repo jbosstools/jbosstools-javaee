@@ -2,8 +2,12 @@ package org.jboss.tools.seam.ui.views;
 
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IClassFile;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.ui.JavaPluginImages;
+import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -16,8 +20,11 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamProject;
 
 public class SeamLabelProvider extends LabelProvider {
+	JavaElementImageProvider jip = new JavaElementImageProvider();
 
 	public String getText(Object element) {
 		if(element instanceof ISeamProject) {
@@ -50,7 +57,9 @@ public class SeamLabelProvider extends LabelProvider {
 	public Image getImage(Object obj) {
 		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 		if (obj instanceof ISeamProject) {
-		   imageKey = org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJ_PROJECT;
+			SeamProject p = (SeamProject)obj;
+			return jip.getImageLabel(p.getProject(), 3);
+//		   imageKey = org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJ_PROJECT;
 		} else if(obj instanceof ISeamScope) {
 			imageKey = ISharedImages.IMG_OBJ_FOLDER;
 		} else if(obj instanceof ISeamComponent) {
@@ -58,9 +67,22 @@ public class SeamLabelProvider extends LabelProvider {
 		} else if(obj instanceof IRole) {
 			//
 		} else if(obj instanceof ISeamJavaComponentDeclaration) {
-			imageKey = org.eclipse.jdt.ui.ISharedImages.IMG_OBJS_CLASS;
-			return new org.eclipse.jdt.internal.ui.SharedImages().getImage(imageKey);
+			ISeamJavaComponentDeclaration d = (ISeamJavaComponentDeclaration)obj;
+			IType type = (IType)d.getSourceMember();
+			if(type != null) {
+				if(type.isBinary()) {
+					return new org.eclipse.jdt.internal.ui.SharedImages().getImage(JavaPluginImages.IMG_OBJS_CFILE);
+				}
+				IResource r = d.getResource();
+				if(r != null) return jip.getImageLabel(r, 3);
+				ICompilationUnit f = type.getCompilationUnit();
+				return(f != null) ? jip.getImageLabel(f, 0) : jip.getImageLabel(type, 3);
+			}
+			return new org.eclipse.jdt.internal.ui.SharedImages().getImage(JavaPluginImages.IMG_OBJS_CFILECLASS);
 		} else if(obj instanceof ISeamComponentDeclaration) {
+			SeamComponentDeclaration d = (SeamComponentDeclaration)obj;
+			IResource r = d.getResource();
+			if(r != null) return jip.getImageLabel(r, 3);
 			imageKey = ISharedImages.IMG_OBJ_FILE;
 		}
 		return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);

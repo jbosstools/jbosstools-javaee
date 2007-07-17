@@ -71,7 +71,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 					children.addAll(rs);
 				}
 			}
-			return ((ISeamComponent)parentElement).getAllDeclarations().toArray(new Object[0]);
+			return children.toArray(new Object[0]);
 		}
 		return null;
 	}
@@ -79,6 +79,9 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 	public Object getParent(Object element) {
 		if(element instanceof ISeamProject) {
 			return root;
+		} else if(element instanceof IRole) {
+			ISeamElement p = ((IRole)element).getParent();
+			return p == null ? p : p.getParent();
 		} else if(element instanceof ISeamElement) {
 			return ((ISeamElement)element).getParent();
 		}
@@ -87,6 +90,7 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 
 	public boolean hasChildren(Object element) {
 		if(element instanceof ISeamComponentDeclaration) return false;
+		if(element instanceof IRole) return false;
 		return true;
 	}
 
