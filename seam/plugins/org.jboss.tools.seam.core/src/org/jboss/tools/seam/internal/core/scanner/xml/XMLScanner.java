@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
@@ -60,9 +62,7 @@ public class XMLScanner implements IFileScanner {
 		if(model == null) return false;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return false;
-		if(o.getModelEntity().getName().startsWith("FileSeamComponents")) return true;
-		//TODO Above does not include .component.xml with root element <component>
-		//     and missing xmlns.
+		if(o.getModelEntity().getName().startsWith("FileSeamComponent")) return true;
 		return false;
 	}
 
@@ -94,66 +94,15 @@ public class XMLScanner implements IFileScanner {
 	public LoadedDeclarations parse(XModelObject o, IPath source) {
 		if(o == null) return null;
 		LoadedDeclarations ds = new LoadedDeclarations();
+		if(o.getModelEntity().getName().equals("FileSeamComponent12")) {
+			parseComponent(o, source, ds);
+			return ds;
+		}
 		XModelObject[] os = o.getChildren();
 		for (int i = 0; i < os.length; i++) {
 			XModelEntity componentEntity = os[i].getModelEntity();
 			if(componentEntity.getAttribute("class") != null) {
-				SeamXmlComponentDeclaration component = new SeamXmlComponentDeclaration();
-				
-				component.setSourcePath(source);
-				component.setId(os[i]);
-
-				component.setName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.NAME));
-				component.setClassName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.CLASS));
-				component.setScope(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.SCOPE));
-				component.setPrecedence(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.PRECEDENCE));
-				component.setInstalled(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.INSTALLED));
-				component.setAutoCreate(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.AUTO_CREATE));
-				component.setJndiName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.JNDI_NAME));
-				
-				XAttribute[] attributes = componentEntity.getAttributes();
-				for (int ia = 0; ia < attributes.length; ia++) {
-					XAttribute a = attributes[ia];
-					String xml = a.getXMLName();
-					if(xml == null) continue;
-					if(COMMON_ATTRIBUTES.contains(xml)) continue;
-					String stringValue = os[i].getAttributeValue(a.getName());
-					component.addStringProperty(xml, stringValue);					
-				}
-
-				XModelObject[] properties = os[i].getChildren();
-				for (int j = 0; j < properties.length; j++) {
-					XModelEntity entity = properties[j].getModelEntity();
-					String propertyName = properties[j].getAttributeValue("name");
-					if(entity.getAttribute("value") != null) {
-						//this is simple value;
-						String value = properties[j].getAttributeValue("value");
-						component.addStringProperty(propertyName, value);
-					} else {
-						XModelObject[] entries = properties[j].getChildren();
-						if(entity.getChild("SeamListEntry") != null
-							|| "list".equals(entity.getProperty("childrenLoader"))) {
-							//this is list value
-							List<String> listValues = new ArrayList<String>();
-							for (int k = 0; k < entries.length; k++) {
-								listValues.add(entries[k].getAttributeValue("value"));
-							}
-							component.addProperty(new SeamProperty(propertyName, listValues));
-						} else {
-							//this is map value
-							Map<String,String> mapValues = new HashMap<String, String>();
-							for (int k = 0; k < entries.length; k++) {
-								String entryKey = entries[k].getAttributeValue("key");
-								String entryValue = entries[k].getAttributeValue("value");
-								mapValues.put(entryKey, entryValue);
-							}
-							component.addProperty(new SeamProperty(propertyName, mapValues));
-						}
-					}
-					//TODO assign positioning attributes to created ISeamProperty object
-				}
-
-				ds.getComponents().add(component);
+				parseComponent(os[i], source, ds);
 			} else if(os[i].getModelEntity().getName().startsWith("SeamFactory")) {
 				SeamXmlFactory factory = new SeamXmlFactory();
 				factory.setId(os[i]);
@@ -163,9 +112,110 @@ public class XMLScanner implements IFileScanner {
 				factory.setValue(new XMLValueInfo(os[i], "value"));
 				factory.setMethod(new XMLValueInfo(os[i], "method"));
 				ds.getFactories().add(factory);
-				//TODO assign positioning attributes to created ISeamProperty object
 			}
 		}
 		return ds;
 	}
+	
+	private void parseComponent(XModelObject c, IPath source, LoadedDeclarations ds) {
+		SeamXmlComponentDeclaration component = new SeamXmlComponentDeclaration();
+		
+		component.setSourcePath(source);
+		component.setId(c);
+
+		component.setName(new XMLValueInfo(c, getComponentAttribute(c)));
+		if(isClassAttributeSet(c)) {
+			component.setClassName(new XMLValueInfo(c, ISeamXmlComponentDeclaration.CLASS));
+		} else if(c.getModelEntity().getName().equals("FileSeamComponent12")) {
+			component.setClassName(getImpliedComponentName(c, source));
+		}
+		component.setScope(new XMLValueInfo(c, ISeamXmlComponentDeclaration.SCOPE));
+		component.setPrecedence(new XMLValueInfo(c, ISeamXmlComponentDeclaration.PRECEDENCE));
+		component.setInstalled(new XMLValueInfo(c, ISeamXmlComponentDeclaration.INSTALLED));
+		component.setAutoCreate(new XMLValueInfo(c, ISeamXmlComponentDeclaration.AUTO_CREATE));
+		component.setJndiName(new XMLValueInfo(c, ISeamXmlComponentDeclaration.JNDI_NAME));
+		
+		XAttribute[] attributes = c.getModelEntity().getAttributes();
+		for (int ia = 0; ia < attributes.length; ia++) {
+			XAttribute a = attributes[ia];
+			String xml = a.getXMLName();
+			if(xml == null) continue;
+			if(COMMON_ATTRIBUTES.contains(xml)) continue;
+			String stringValue = c.getAttributeValue(a.getName());
+			component.addStringProperty(xml, stringValue);					
+		}
+
+		XModelObject[] properties = c.getChildren();
+		for (int j = 0; j < properties.length; j++) {
+			XModelEntity entity = properties[j].getModelEntity();
+			String propertyName = properties[j].getAttributeValue("name");
+			if(entity.getAttribute("value") != null) {
+				//this is simple value;
+				String value = properties[j].getAttributeValue("value");
+				component.addStringProperty(propertyName, value);
+			} else {
+				XModelObject[] entries = properties[j].getChildren();
+				if(entity.getChild("SeamListEntry") != null
+					|| "list".equals(entity.getProperty("childrenLoader"))) {
+					//this is list value
+					List<String> listValues = new ArrayList<String>();
+					for (int k = 0; k < entries.length; k++) {
+						listValues.add(entries[k].getAttributeValue("value"));
+					}
+					component.addProperty(new SeamProperty(propertyName, listValues));
+				} else {
+					//this is map value
+					Map<String,String> mapValues = new HashMap<String, String>();
+					for (int k = 0; k < entries.length; k++) {
+						String entryKey = entries[k].getAttributeValue("key");
+						String entryValue = entries[k].getAttributeValue("value");
+						mapValues.put(entryKey, entryValue);
+					}
+					component.addProperty(new SeamProperty(propertyName, mapValues));
+				}
+			}
+			//TODO assign positioning attributes to created ISeamProperty object
+		}
+
+		ds.getComponents().add(component);
+	}
+	
+	private String getComponentAttribute(XModelObject c) {
+		if(c.getModelEntity().getAttribute("component-name") != null) {
+			return "component-name";
+		}
+		return ISeamXmlComponentDeclaration.NAME;
+	}
+	
+	private boolean isClassAttributeSet(XModelObject c) {
+		String value = c.getAttributeValue(ISeamXmlComponentDeclaration.CLASS);
+		return value != null && value.length() > 0;
+	}
+	
+	private String getImpliedComponentName(XModelObject c, IPath path) {
+		if(path.toString().endsWith(".jar")) {
+			String suffix = ".component";
+			String cn = c.getAttributeValue("name");
+			if(cn.endsWith(suffix)) cn = cn.substring(0, cn.length() - suffix.length());
+			XModelObject p = c.getParent();
+			while(p != null && p.getFileType() == XModelObject.FOLDER) {
+				cn = p.getAttributeValue("name") + "." + cn;
+				p = p.getParent();
+			}
+			return cn;			
+		} else {
+			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if(!f.exists()) return "";
+			IResource root = EclipseResourceUtil.getJavaSourceRoot(f.getProject());
+			if(!root.getLocation().isPrefixOf(f.getLocation())) return "";
+			String relative = f.getLocation().toString().substring(root.getLocation().toString().length());
+			String suffix = ".component.xml";
+			if(!relative.endsWith(suffix)) return null;
+			relative = relative.substring(0, relative.length() - suffix.length());
+			relative = relative.replace('\\', '/');
+			if(relative.startsWith("/")) relative = relative.substring(1);
+			return relative.replace('/', '.');
+		}
+	}
+
 }
