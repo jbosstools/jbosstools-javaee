@@ -23,13 +23,13 @@ import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
  */
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
-	public static final String PREFIX = "ISeamFacetDataModelProperties.";
-		
-	public static final String SEAM_PROJECT_NAME = "project.name";
+	public static final String SEAM_PROJECT_NAME = "seam.project.name";
+	
+	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance";
 	
 	public static final String JBOSS_AS_HOME = "jboss.home";
 	
-	public static final String JBOSS_AS_DEPLOY_AS = "JBOSS_AS_DEPLOY_AS";
+	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type";
 	
 	public static final String DB_TYPE = "database.type";
 	
@@ -59,8 +59,8 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String TEST_CASES_PACKAGE_NAME = "test.package";
 
-	public static final String JBOSS_SEAM_HOME = "JBOSS_SEAM_HOME";
+	public static final String JBOSS_SEAM_HOME = "seam.jbossas.home.folder";
 	
-	public static final String WEB_CONTENTS_FOLDER = PREFIX + "WEB_CONTENTS_FOLDER";
+	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder";
 	
 }

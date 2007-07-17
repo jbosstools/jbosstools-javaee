@@ -12,12 +12,16 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.util.Map;
 
+import org.eclipse.core.runtime.IAdaptable;
+
 /**
  * 
  * @author eskimo
  *
  */
 public interface IValidator {
+	
+	public static final String DEFAULT_ERROR = "default.error";
 	
 	/**
 	 * 

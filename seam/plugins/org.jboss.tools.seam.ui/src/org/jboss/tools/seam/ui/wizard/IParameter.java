@@ -18,11 +18,11 @@ package org.jboss.tools.seam.ui.wizard;
 public interface IParameter {
 	
 	public static String SEAM_PROJECT_NAME = "seam.project.name";
-	public static String SEAM_COMPONENT_NAME = "seam.component.name";
-	public static String SEAM_LOCAL_INTERFACE_NAME = "seam.local.interface.name.";
-	public static String SEAM_BEAN_NAME = "seam.bean.name";
-	public static String SEAM_METHOD_NAME = "seam.method.name";
-	public static String SEAM_PAGE_NAME = "seam.page.name";
-	public static String SEAM_MASTER_PAGE_NAME = "seam.master.page.name";
-	public static String SEAM_ENTITY_CLASS_NAME = "seam.entity.class.name";	
+	public static String SEAM_COMPONENT_NAME = "component.name";
+	public static String SEAM_LOCAL_INTERFACE_NAME = "interface.name";
+	public static String SEAM_BEAN_NAME = "bean.name";
+	public static String SEAM_METHOD_NAME = "method.name";
+	public static String SEAM_PAGE_NAME = "page.name";
+	public static String SEAM_MASTER_PAGE_NAME = "masterPage.name";
+	public static String SEAM_ENTITY_CLASS_NAME = "entity.name";	
 }

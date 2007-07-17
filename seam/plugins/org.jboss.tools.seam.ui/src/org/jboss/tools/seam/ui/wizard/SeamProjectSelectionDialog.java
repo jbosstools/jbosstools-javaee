@@ -11,7 +11,11 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.util.ArrayList;
+
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -20,6 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamProject;
 
 /**
  * @author eskimo
@@ -38,7 +44,17 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 		setInput(new Object());
 		setContentProvider(new IStructuredContentProvider() {
 			public Object[] getElements(Object inputElement) {
-				return ResourcesPlugin.getWorkspace().getRoot().getProjects();
+				ArrayList<IProject> seamProjects = new ArrayList<IProject>();
+				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+					try {
+						if(project.hasNature(SeamProject.NATURE_ID)) {
+							seamProjects.add(project);
+						}
+					} catch (CoreException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					}
+				}
+				return seamProjects.toArray();
 			}
 			public void dispose() {
 			}

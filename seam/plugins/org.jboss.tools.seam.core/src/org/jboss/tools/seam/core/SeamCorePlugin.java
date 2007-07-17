@@ -11,10 +11,18 @@
 package org.jboss.tools.seam.core;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.core.internal.FacetedProject;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -108,4 +116,14 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		return null;
 	}
 
+	public static IEclipsePreferences getSeamFacetPreferences(IProject project) {
+		FacetedProject facetedProject = (FacetedProject) project.getAdapter(IFacetedProject.class);
+		IProjectFacet facet = ProjectFacetsManager.getProjectFacet(ISeamCoreConstants.SEAM_CORE_FACET_ID);
+		if(facetedProject.hasProjectFacet(facet)) {
+			IScopeContext projectScope = new ProjectScope(project);
+			return projectScope.getNode(PLUGIN_ID);
+		}
+		
+		return null;
+	}
 }

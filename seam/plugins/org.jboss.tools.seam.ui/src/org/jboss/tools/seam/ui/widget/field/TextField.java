@@ -31,7 +31,7 @@ public class TextField extends BaseField implements ModifyListener{
 	}
 
 	public void modifyText(ModifyEvent e) {
-		firePropertyChange("",((Text)e.widget).getText());
+		firePropertyChange(new Object(),((Text)e.widget).getText());
 	}
 
 	public Text getTextControl() {

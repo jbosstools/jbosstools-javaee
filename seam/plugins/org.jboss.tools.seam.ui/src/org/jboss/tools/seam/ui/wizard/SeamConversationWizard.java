@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.File;
 import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -30,14 +31,22 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 
 	public static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamBaseOperation("Action creating operation"){
 
-		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
-			Map params = (Map)info.getAdapter(Map.class);
-			
-			return Status.OK_STATUS;
+		public File getBeanFile(Map<String, Object> vars)  {
+			return new File(getSeamFolder(vars),"src/ActionJavaBean.java");
 		}
 		
+		public File getTestClassFile(Map<String, Object> vars) {
+			return new File(getSeamFolder(vars),"test/ActionTest.java");
+		}
+		
+		public File getTestngXmlFile(Map<String, Object> vars) {
+			return new File(getSeamFolder(vars),"test/testng.xml");
+		}
+		
+		public File getPageXhtml(Map<String, Object> vars) {
+			return new File(getSeamFolder(vars),"view/action.xhtml");
+		}
+
 	};
 
 }

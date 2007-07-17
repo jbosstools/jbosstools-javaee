@@ -98,7 +98,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("jbpm.*\\.jar")
 		.include("jsf-facelets\\.jar")
 		.include("oscache.*\\.jar")
-		.include("stringtemplate.*\\.jar");
+		.include("stringtemplate.*\\.jar")
+		.include("testng-.*\\.jar");
 	
 	public static FileSet EAR_LIB_FILESET  = new FileSet()
 		.include("jboss-aop-jdk50\\.jar")
@@ -131,8 +132,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("security\\.drl")
 		.include("seam\\.properties")
 		.include("messages_en\\.properties");
-		// .include(project.getName()+"ds\\.xml")
-		// .include("META-INF/persistence-" + PROFILE + "\\.xml" )
 	
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "drools/lib";
 	
@@ -177,9 +176,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs");
 		File persistenceFile = new File(seamGenResFolder,"META-INF/persistence-" + PROFILE + ".xml");
 		
-		FilterSet jdbcFilterSet = FilterSetFactory.createJdbcFilterSet(model);
-		FilterSet projectFilterSet =  FilterSetFactory.createProjectFilterSet(model);
-		FilterSet filtersFilterSet =  FilterSetFactory.createFiltersFilterSet(model);
+		FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		FilterSet filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
 		
 		// ****************************************************************
 		// Copy view folder from seam-gen installation to WebContent folder
@@ -227,7 +226,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
 		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
-		hibernateDialectFilterSet.addFilterSet(FilterSetFactory.createHibernateDialectFilterSet(model));
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		
 		AntCopyUtils.copyFileToFolder(
 				hibernateConsolePropsFile, 
@@ -423,82 +422,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		}
 	}
 
-	public static class FilterSetFactory {
-		
-		public static FilterSet JDBC_TEMPLATE;
-		public static FilterSet PROJECT_TEMPLATE;
-		public static FilterSet FILTERS_TEMPLATE;
-		public static FilterSet HIBERNATE_DIALECT_TEMPLATE;
-		
-		static {
-			JDBC_TEMPLATE = new FilterSet();
-			JDBC_TEMPLATE.addFilter("jdbcUrl","${hibernate.connection.url}");
-			JDBC_TEMPLATE.addFilter("driverClass","${hibernate.connection.driver_class}");
-			JDBC_TEMPLATE.addFilter("username","${hibernate.connection.username}");
-			JDBC_TEMPLATE.addFilter("password","${hibernate.connection.password}");
-			JDBC_TEMPLATE.addFilter("catalogProperty","${catalog.property}");
-			JDBC_TEMPLATE.addFilter("schemaProperty","${schema.property}");
-			
-			PROJECT_TEMPLATE = new FilterSet();
-			PROJECT_TEMPLATE.addFilter("projectName","${project.name}");
-			PROJECT_TEMPLATE.addFilter("jbossHome","${jboss.home}");
-			PROJECT_TEMPLATE.addFilter("hbm2ddl","${hibernate.hbm2ddl.auto}");
-			PROJECT_TEMPLATE.addFilter("driverJar","${driver.file}");
-			PROJECT_TEMPLATE.addFilter("jndiPattern","${project.name}/#{ejbName}/local");
-			PROJECT_TEMPLATE.addFilter("embeddedEjb","false");
-			
-			FILTERS_TEMPLATE = new FilterSet();
-			FILTERS_TEMPLATE.addFilter("interfaceName","${interface.name}");
-			FILTERS_TEMPLATE.addFilter("beanName","${bean.name}");
-			FILTERS_TEMPLATE.addFilter("entityName","${entity.name}");
-			FILTERS_TEMPLATE.addFilter("methodName","${method.name}");
-			FILTERS_TEMPLATE.addFilter("componentName","${component.name}");
-			FILTERS_TEMPLATE.addFilter("pageName","${page.name}");
-			FILTERS_TEMPLATE.addFilter("masterPageName","${masterPage.name}");
-			FILTERS_TEMPLATE.addFilter("actionPackage","${action.package}");
-			FILTERS_TEMPLATE.addFilter("modelPackage","${model.package}");
-			FILTERS_TEMPLATE.addFilter("testPackage","${test.package}");
-			FILTERS_TEMPLATE.addFilter("listName","${component.name}List");
-			FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home");
-			FILTERS_TEMPLATE.addFilter("query","${query.text}");
-			
-			
-			HIBERNATE_DIALECT_TEMPLATE = new FilterSet();
-			HIBERNATE_DIALECT_TEMPLATE.addFilter("hibernate.dialect","${hibernate.dialect}");
-			
-			
-		}
-		
-		public static FilterSet createJdbcFilterSet(IDataModel values) {
-			return aplayProperties(JDBC_TEMPLATE, values);
-		}
-		public static FilterSet createProjectFilterSet(IDataModel values){
-			return aplayProperties(PROJECT_TEMPLATE, values);
-		}
-		
-		public static FilterSet createFiltersFilterSet(IDataModel values) {
-			return aplayProperties(FILTERS_TEMPLATE, values);
-		}
-		
-		public static FilterSet createHibernateDialectFilterSet(IDataModel values) {
-			return aplayProperties(HIBERNATE_DIALECT_TEMPLATE, values);
-		}
-		
-		private static FilterSet aplayProperties(FilterSet template,IDataModel values) {
-			FilterSet result = new FilterSet();
-			for (Object filter : template.getFilterHash().keySet()) {
-				String value = template.getFilterHash().get(filter).toString();
-				for (Object property : values.getAllProperties()) {
-					if(value.contains("${"+property.toString()+"}")) {
-						value = value.replace("${"+property.toString()+"}",values.getProperty(property.toString()).toString());
-					}
-				}
-				result.addFilter(filter.toString(), value);
-			}
-			return result;
-		}
-	}
-	
 	private void writeXModel(IProject project, IDataModel model) {
 		String projectName = project.getName();
 		String webContent = "WebContent";

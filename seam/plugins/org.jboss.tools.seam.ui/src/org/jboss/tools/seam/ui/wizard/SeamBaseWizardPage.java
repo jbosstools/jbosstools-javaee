@@ -11,24 +11,37 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
 /**
  * @author eskimo
  *
  */
-public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
+public class SeamBaseWizardPage extends WizardPage implements IAdaptable, PropertyChangeListener {
 
 	/**
 	 * 
@@ -63,6 +76,16 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 	 */
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
+
+		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){
+			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+					editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
+			
+			if(errors.size()>0) {
+				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			}
+		}
+		setPageComplete(false);
 	}
 
 	/* (non-Javadoc)
@@ -82,7 +105,9 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 	public void addEditor(IFieldEditor editor) {
 		editorRegistry.put(editor.getName(), editor);
 		editorOrder.add(editor);
+		editor.addPropertyChangeListener(this);
 	}
+	
 	/**
 	 * 
 	 * @param id
@@ -90,9 +115,17 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 	 */
 	public void addEditors(IFieldEditor[] editors) {
 		for (IFieldEditor fieldEditor : editors) {
-			editorRegistry.put(fieldEditor.getName(), fieldEditor);
-			editorOrder.add(fieldEditor);
+			addEditor(fieldEditor);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public IFieldEditor getEditor(String name) {
+		return editorRegistry.get(name);
 	}
 	
 	/**
@@ -122,7 +155,76 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable {
 		
 		public GridLayoutComposite(Composite parent) {
 			this(parent, SWT.NONE);
-			
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent event) {
+		// TODO - finish validation
+
+		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
+		
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return;
+		}
+		
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+
+		
+		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), new Object[]{"Seam component",project});
+		
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return;
+		}
+		
+		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), new Object[]{"Local interface",project});
+		
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return;
+		}
+		
+		errors = ValidatorFactory.SEAM_METHOD_NAME_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_METHOD_NAME).getValue(), new Object[]{"Method",project});
+		
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return;
+		}
+		
+		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), (Object)new Object[]{"Page",project});
+		
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return;
+		}
+		
+		errors = ValidatorFactory.SEAM_JAVA_INTEFACE_NAME_CONVENTION_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), new Object[]{"Local interface",project});
+		
+		if(errors.size()>0) {
+			setErrorMessage(null);
+			setMessage(errors.get(IValidator.DEFAULT_ERROR).toString(),IMessageProvider.WARNING);
+			setPageComplete(true);
+			return;
+		}
+
+		setErrorMessage(null);
+		setMessage(null);
+		setPageComplete(true);
 	}
 }

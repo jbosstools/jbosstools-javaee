@@ -11,11 +11,28 @@
 package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaConventions;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.compiler.IProblem;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.internal.corext.util.Messages;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.wizard.IParameter;
 
 /**
  * 
@@ -23,6 +40,8 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
  *
  */
 public class ValidatorFactory {
+	
+	
 	
 	/**
 	 * 
@@ -69,7 +88,7 @@ public class ValidatorFactory {
 	 */
 	public static Map<String,String> createErrormessage(String text) {
 		Map<String,String> map = createErrorMap();
-		map.put("", text);
+		map.put(IValidator.DEFAULT_ERROR, text);
 		return map;
 	}
 	
@@ -145,7 +164,15 @@ public class ValidatorFactory {
 	 */
 	public static IValidator CLASS_QNAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
-			
+			String classDecl = "class " + value.toString() + " {}";
+			ASTParser parser= ASTParser.newParser(AST.JLS3);
+			parser.setSource(classDecl.toCharArray());
+			parser.setProject((IJavaProject)context);
+			CompilationUnit compilationUnit= (CompilationUnit) parser.createAST(null);
+			IProblem[] problems= compilationUnit.getProblems();
+			if (problems.length > 0) {
+				return createErrormessage(Messages.format("Component name is not invalid.", problems[0].getMessage()));
+			}			
 			return ValidatorFactory.NO_ERRORS;
 		}
 	};
@@ -158,5 +185,126 @@ public class ValidatorFactory {
 			return ValidatorFactory.NO_ERRORS;
 		};
 	};
+	/**
+	 * 
+	 * @author eskimo
+	 *
+	 */
+	public static IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
+
+		public Map<String, String> validate(Object value, Object context) {
+			String targetName = null;
+			IProject project = null;
+			if(context instanceof Object[]) {
+				Object[] contextArray = ((Object[])context);
+				targetName = contextArray[0].toString();
+				project = (IProject)contextArray[1];
+			}
+			
+			String classDecl = "class " + value + " {}";
+			ASTParser parser= ASTParser.newParser(AST.JLS3);
+			parser.setSource(classDecl.toCharArray());
+			parser.setProject(JavaCore.create(project));
+			CompilationUnit compilationUnit= (CompilationUnit) parser.createAST(null);
+			IProblem[] problems= compilationUnit.getProblems();
+			
+			if (problems.length > 0) {
+				return createErrormessage(targetName + " name is not valid.");
+			}			
+		
+			return NO_ERRORS;
+		}
+	};
 	
+	/**
+	 * 
+	 * @author eskimo
+	 *
+	 */
+	public static IValidator SEAM_JAVA_INTEFACE_NAME_CONVENTION_VALIDATOR = new IValidator() {
+
+		public Map<String, String> validate(Object value, Object context) {
+			String targetName = null;
+			IProject project = null;
+			if(context instanceof Object[]) {
+				Object[] contextArray = ((Object[])context);
+				targetName = contextArray[0].toString();
+				project = (IProject)contextArray[1];
+			}
+			IJavaProject jProject = JavaCore.create(project);
+			
+			String sourceLevel= jProject.getOption(JavaCore.COMPILER_SOURCE, true);
+			String compliance= jProject.getOption(JavaCore.COMPILER_COMPLIANCE, true);
+			IStatus status = JavaConventions.validateJavaTypeName(value.toString(), sourceLevel, compliance);
+			if(status.getSeverity() == IStatus.WARNING) {
+				return createErrormessage("Local Interface name is not valid.\n" + status.getMessage());
+			}
+			return NO_ERRORS;
+		}
+	};
+
+	public static IValidator SEAM_METHOD_NAME_VALIDATOR = new IValidator() {
+
+		public Map<String, String> validate(Object value, Object context) {
+			String targetName = null;
+			IProject project = null;
+			
+			if(context instanceof Object[]) {
+				Object[] contextArray = ((Object[])context);
+				targetName = contextArray[0].toString();
+				project = (IProject)contextArray[1];
+			}
+			
+			String classDecl = "class ClassName {public void " + value.toString() + "() {}}";
+			ASTParser parser= ASTParser.newParser(AST.JLS3);
+			parser.setSource(classDecl.toCharArray());
+			parser.setProject(JavaCore.create(project));
+			CompilationUnit compilationUnit= (CompilationUnit) parser.createAST(null);
+			IProblem[] problems= compilationUnit.getProblems();
+			
+			if (problems.length > 0) {
+				return createErrormessage(targetName + " name is not valid.");
+			}			
+		
+			return NO_ERRORS;
+		}
+	};
+
+	public static IValidator FILE_NAME_VALIDATOR = new IValidator() {
+
+		public Map<String, String> validate(Object value, Object context) {
+			String targetName = null;
+			IProject project = null;
+			
+			if(context instanceof Object[]) {
+				Object[] contextArray = ((Object[])context);
+				targetName = contextArray[0].toString();
+				project = (IProject)contextArray[1];
+			}
+			if("".equals(value) || !project.getLocation().isValidSegment(value.toString()))
+				return createErrormessage(targetName + " name is not valid.");		
+		
+			return NO_ERRORS;
+		}
+	};
+
+	public static IValidator SEAM_PROJECT_NAME_VALIDATOR = new IValidator() {
+		public Map<String, String> validate(Object value, Object context) {
+
+			IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(value.toString());
+			
+			if(project==null || !(project instanceof IProject) || !project.exists()) {
+				return createErrormessage("Project '" + value + "' does'n exist.");
+			} else {
+				try {
+					if(!((IProject)project).hasNature(ISeamProject.NATURE_ID)) {
+						return createErrormessage("Project '" + project.getName()+ "' has no Seam nature.");
+					}
+				} catch (CoreException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+			}
+			return NO_ERRORS;
+		}
+	};
 }

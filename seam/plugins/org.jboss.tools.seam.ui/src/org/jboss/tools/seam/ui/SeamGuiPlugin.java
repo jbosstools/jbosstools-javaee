@@ -69,5 +69,4 @@ public class SeamGuiPlugin extends BaseUIPlugin {
 	public static IPluginLog getPluginLog() {
 		return getDefault();
 	}
-
 }

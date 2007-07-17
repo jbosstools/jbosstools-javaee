@@ -58,7 +58,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	@Override
 	public void createPageControls(Composite container) {
 		super.createPageControls(container);
-		getModel().setSelectedPreset("preset.jst.seam.v2_0");
+		getModel().setSelectedPreset("preset.jst.seam.v1_2");
 		Control control = findControlByClass((Composite)getShell(), PresetSelectionPanel.class);
 		control.setVisible(false);
 		control = findGroupByText((Composite)getShell(), "EAR Membership");

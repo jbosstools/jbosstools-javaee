@@ -48,7 +48,7 @@
       </project-facet>
       <project-facet-version
             facet="jst.seam"
-            version="2.0">
+            version="1.2">
          <constraint>
             <and>
                <requires
@@ -68,9 +68,9 @@
       </project-facet-version>
       <action
             facet="jst.seam"
-            id="jst.seam.2.0.install"
+            id="jst.seam.1.2.install"
             type="install"
-            version="2.0">
+            version="1.2">
          <delegate
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete">
          </delegate>
@@ -80,37 +80,54 @@
       </action>
       <action
             facet="jst.seam"
-            id="jst.seam.2.0.uninstall"
+            id="jst.seam.1.2.uninstall"
             type="uninstall"
-            version="2.0">
+            version="1.2">
          <delegate
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetUninstallDelegate">
          </delegate>
       </action>
+      <event-handler
+            facet="jst.seam"
+            type="POST_INSTALL"
+            version="[1.2">
+         <delegate
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetPostInstallDelegate">
+         </delegate>
+      </event-handler>
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.core.runtimes">
       <supported>
+         <runtime-component
+               id="org.eclipse.jst.server.generic.runtime.jboss"
+               version="4.2">
+         </runtime-component>
+         <runtime-component
+               id="org.jboss.ide.eclipse.as.runtime.component.40"
+               version="4.0">
+         </runtime-component>
+         <runtime-component
+               id="org.jboss.ide.eclipse.as.runtime.component.42"
+               version="4.2">
+         </runtime-component>
          <facet
                id="jst.seam"
-               version="2.0">
+               version="1.2">
          </facet>
-         <runtime-component
-               any="true">
-         </runtime-component>
       </supported>
    </extension>
  <extension
        point="org.eclipse.wst.common.project.facet.core.presets">
        <static-preset
-           id="preset.jst.seam.v2_0">
-	    <label>Seam 2.0 project</label>
+           id="preset.jst.seam.v1_2">
+	    <label>Seam 1.2 project</label>
 	    <facet id="jst.java" version="5.0" />
 	    <facet id="jst.web" version="2.4"/>
 	    <facet id="jst.jsf" version="1.1" />
-	    <facet id="jst.seam" version="2.0"/>
+	    <facet id="jst.seam" version="1.2"/>
      <description>
-        Seam 2.0 project
+        Seam 1.2 project
      </description>
      </static-preset>
  </extension>

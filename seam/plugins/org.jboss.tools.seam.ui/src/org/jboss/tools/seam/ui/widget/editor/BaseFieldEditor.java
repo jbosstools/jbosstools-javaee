@@ -182,8 +182,9 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	 * @param newValue
 	 */
 	public void setValue(Object newValue) {
-		pcs.firePropertyChange(nameText,value,newValue);
+		Object oldValue = value;
 		value = newValue;
+		pcs.firePropertyChange(nameText,oldValue,newValue);
 	}
 
 	/**

@@ -30,7 +30,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	 * 
 	 */
 	protected void createEditors() {
-		addEditor(SeamWizardFactory.createSeamProjctSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()));
+		addEditor(SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()));
 		addEditor(SeamWizardFactory.createSeamEntityClasNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamMasterPageNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamPageNameFieldEditor());

@@ -20,7 +20,7 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
  *
  */
 public class SeamWizardFactory {
-	public static IFieldEditor createSeamProjctSelectionFieldEditor(
+	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
 		return SwtFieldEditorFactory.INSTANCE.createButtonFieldEditor(
 				IParameter.SEAM_PROJECT_NAME, "Seam Project:", defaultSelection, 
@@ -72,12 +72,22 @@ public class SeamWizardFactory {
 	
 	public static final IFieldEditor[] createDefaultWizardEditors(String defaultSelection) {
 		return new IFieldEditor[]{
-			SeamWizardFactory.createSeamProjctSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()),
+			SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()),
+			SeamWizardFactory.createSeamComponentNameFieldEditor(),
 			SeamWizardFactory.createSeamLocalInterfaceNameFieldEditor(),
-			SeamWizardFactory.createSeamBeanNameFieldEditor(),
+//			SeamWizardFactory.createSeamBeanNameFieldEditor(),
 			SeamWizardFactory.createSeamMethodNameFieldEditor(),
 			SeamWizardFactory.createSeamPageNameFieldEditor()	
 		};
+	}
+
+	/**
+	 * @return
+	 */
+	public static IFieldEditor createSeamComponentNameFieldEditor() {
+		// TODO Auto-generated method stub
+		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+				IParameter.SEAM_COMPONENT_NAME, "Seam component name:", "");
 	}
 
 	/**
