@@ -43,4 +43,20 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 	final static IFormData SEAM_COMPONENT_FORM_DEFINITION = new FormData(
 		ENT_SEAM_COMPONENT, new String[]{null}, SEAM_COMPONENT_DEFINITIONS);
 
+	private final static IFormData[] COMPONENT_FILE_12_DEFINITIONS = new IFormData[] {
+		new FormData(
+			"Seam Component File",
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_12)
+		),
+		SEAM_PROPERTY_LIST_DEFINITION,
+		new FormData(
+			"Advanced",
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_12)
+		)
+	};
+
+	final static IFormData SEAM_COMPONENT_FILE_FORM_DEFINITION = new FormData(
+		ENT_SEAM_COMPONENT_12, new String[]{null}, COMPONENT_FILE_12_DEFINITIONS);
 }

@@ -21,7 +21,7 @@
       <xmlEditor 
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
-            entities="FileSeamComponents11,FileSeamComponents12" 
+            entities="FileSeamComponents11,FileSeamComponents12,FileSeamComponent12" 
             icon="images/xstudio/editors/seam-components.gif" 
             name="%editors.spring-beans.name">
       </xmlEditor>
