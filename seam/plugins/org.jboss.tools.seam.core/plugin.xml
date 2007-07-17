@@ -137,7 +137,7 @@
 		id="SeamAnnatationValidator"
 		name="Seam Annatation Validator">
 		<validator>
-			<projectNature id="org.jboss.tools.seam.core.seam" />
+			<projectNature id="org.jboss.tools.seam.core.seamnature" />
 			<filter
 				objectClass="org.eclipse.core.resources.IFile"
 				nameFilter="*.java"/>
