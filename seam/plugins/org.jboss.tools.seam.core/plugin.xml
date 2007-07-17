@@ -14,7 +14,7 @@
       </builder>
    </extension>
    <extension
-         id="seam"
+         id="seamnature"
          name="Seam Project Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>

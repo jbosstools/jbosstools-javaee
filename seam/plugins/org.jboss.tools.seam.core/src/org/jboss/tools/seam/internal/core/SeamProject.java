@@ -24,6 +24,7 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -53,7 +54,7 @@ import org.w3c.dom.Element;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamProject extends SeamObject implements ISeamProject {
+public class SeamProject extends SeamObject implements ISeamProject, IProjectNature {
 	IProject project;
 	ClassPath classPath = new ClassPath(this);
 	

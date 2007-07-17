@@ -12,13 +12,12 @@ package org.jboss.tools.seam.core;
 
 import java.util.Set;
 
-import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 
-public interface ISeamProject extends IProjectNature, ISeamElement {
+public interface ISeamProject extends ISeamElement {
 
-	public static String NATURE_ID = "org.jboss.tools.seam.core.seam";
+	public static String NATURE_ID = "org.jboss.tools.seam.core.seamnature";
 
 	/**
 	 * Returns list of scope objects for all scope types.
