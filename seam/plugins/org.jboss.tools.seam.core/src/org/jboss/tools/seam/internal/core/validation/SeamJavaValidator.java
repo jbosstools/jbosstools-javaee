@@ -69,6 +69,8 @@ public class SeamJavaValidator extends SeamValidator {
 	private static final String UNKNOWN_FACTORY_NAME_MESSAGE_ID = "UNKNOWN_FACTORY_NAME";
 	private static final String MULTIPLE_DATA_BINDER_MESSAGE_ID = "MULTIPLE_DATA_BINDER";
 	private static final String DUPLICATE_VARIABLE_NAME_MESSAGE_ID = "DUPLICATE_VARIABLE_NAME";
+	private static final String UNKNOWN_DATA_MODEL_MESSAGE_ID = "UNKNOWN_DATA_MODEL";
+
 
 	private SeamValidationContext validationContext;
 	private ISeamProject project;
@@ -187,13 +189,13 @@ public class SeamJavaValidator extends SeamValidator {
 										firstDuplicateVariableWasMarked = true;
 										// mark original factory
 										validationContext.addLinkedResource(factoryName, factory.getSourcePath());
-										location = getLoactionOfName(factory);
+										location = getLocationOfName(factory);
 										this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 									}
 									// mark duplicate variable
 									IResource resource = getComponentResourceWithName(variable);
 									validationContext.addLinkedResource(factoryName, resource.getFullPath());
-									location = getLoactionOfName(variable);
+									location = getLocationOfName(variable);
 									this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, resource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 
 									markedDuplicateFactoryNames.add(factoryName);
@@ -208,7 +210,7 @@ public class SeamJavaValidator extends SeamValidator {
 						// mark unknown factory name
 						// save link to factory resource
 						validationContext.addLinkedResource(factoryName, factory.getSourcePath());
-						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, getLoactionOfName(factory), factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, getLocationOfName(factory), factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 					}
 				}
 			} catch (Exception e) {
@@ -233,7 +235,7 @@ public class SeamJavaValidator extends SeamValidator {
 		return element.getResource();
 	}
 
-	private static ISeamTextSourceReference getLoactionOfName(ISeamElement element) {
+	private static ISeamTextSourceReference getLocationOfName(ISeamElement element) {
 		ISeamTextSourceReference location = null;
 		if(element instanceof AbstractContextVariable) {
 			location = ((AbstractContextVariable)element).getLocationFor("name");
@@ -448,34 +450,54 @@ public class SeamJavaValidator extends SeamValidator {
 			return;
 		}
 		for (IBijectedAttribute bijection : bijections) {
-			String name = bijection.getName();
-			if(name==null) {
-				if(bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION_INDEX)) {
-					// here must be the only one @DataModel in the component
-					Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
-					if(dataBinders.size()>0) {
-						for (IBijectedAttribute dataBinder : dataBinders) {
-							addError(MULTIPLE_DATA_BINDER_MESSAGE_ID, dataBinder, declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-						}
-					}
-				}
-			} else if(name.startsWith("#{")) {
-				// EL Validator should do this work.
+			if(bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION_INDEX)) {
+				validateDataModelSelection(declaration, bijection);
 			} else {
-				// save link between java source and variable name
-				validationContext.addLinkedResource(name, declaration.getSourcePath());
+				validateInAndOut(declaration, bijection);
+			}
+		}
+	}
 
-				// Validate @In & @DataModelSelection & @DataModelSelectionIndex
-				if(bijection.isOfType(BijectedAttributeType.IN) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION) || bijection.isOfType(BijectedAttributeType.DATA_MODEL_SELECTION_INDEX)) {
-					Set<ISeamContextVariable> variables = project.getVariablesByName(name);
-					if(variables==null || variables.size()<1) {
-						// Injection has unknown name. Mark it.
-						// TODO check preferences to mark it as Error or Warning or ignore it.
-						IResource declarationResource = declaration.getResource();
-						addError(UNKNOWN_INJECTION_NAME_MESSAGE_ID, new String[]{name}, bijection, declarationResource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-					}
+	private void validateInAndOut(ISeamJavaComponentDeclaration declaration, IBijectedAttribute bijection) {
+		String name = bijection.getName();
+		if(name==null || name.startsWith("#{")) {
+			return;
+		}
+		// save link between java source and variable name
+		validationContext.addLinkedResource(name, declaration.getSourcePath());
+
+		// Validate @In
+		if(bijection.isOfType(BijectedAttributeType.IN)) {
+			Set<ISeamContextVariable> variables = project.getVariablesByName(name);
+			if(variables==null || variables.size()<1) {
+				// Injection has unknown name. Mark it.
+				// TODO check preferences to mark it as Error or Warning or ignore it.
+				IResource declarationResource = declaration.getResource();
+				addError(UNKNOWN_INJECTION_NAME_MESSAGE_ID, new String[]{name}, bijection, declarationResource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+			}
+		}
+	}
+
+	private void validateDataModelSelection(ISeamJavaComponentDeclaration declaration, IBijectedAttribute bijection) {
+		String name = bijection.getName();
+		if(name==null) {
+			// here must be the only one @DataModel in the component
+			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
+			if(dataBinders.size()>0) {
+				for (IBijectedAttribute dataBinder : dataBinders) {
+					addError(MULTIPLE_DATA_BINDER_MESSAGE_ID, dataBinder, declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 				}
 			}
+		} else {
+			// save link between java source and variable name
+			validationContext.addLinkedResource(name, declaration.getSourcePath());
+			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(name);
+			for (IBijectedAttribute dataBinder : dataBinders) {
+				if(dataBinder.isOfType(BijectedAttributeType.DATA_BINDER) || dataBinder.isOfType(BijectedAttributeType.OUT)) {
+					return;
+				}
+			}
+			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, new String[]{name}, getLocationOfName(bijection), declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		}
 	}
 }
