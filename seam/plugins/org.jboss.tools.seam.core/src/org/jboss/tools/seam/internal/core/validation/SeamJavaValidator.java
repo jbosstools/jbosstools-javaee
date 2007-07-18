@@ -10,8 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -25,6 +27,7 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
@@ -46,6 +49,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
 
@@ -60,17 +64,19 @@ public class SeamJavaValidator extends SeamValidator {
 	private static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
 	private static final String UNKNOWN_INJECTION_NAME_MESSAGE_ID = "UNKNOWN_INJECTION_NAME";
 	private static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_METHOD_SUFIX_MESSAGE_ID = "STATEFUL_COMPONENT_DOES_NOT_CONTENT_";
-	private static final String DUPLICATE_METHOD_SUFIX_MESSAGE_ID = "DUPLICATE_";
-	private static final String REMOVE_METHOD_POSTFIX_MESSAGE_ID = "REMOVE";
-	private static final String DESTROY_METHOD_POSTFIX_MESSAGE_ID = "DESTROY";
-	private static final String CREATE_METHOD_POSTFIX_MESSAGE_ID = "CREATE";
+	private static final String DUPLICATE_METHOD_PREFIX_MESSAGE_ID = "DUPLICATE_";
+	private static final String REMOVE_METHOD_SUFIX_MESSAGE_ID = "REMOVE";
+	private static final String DESTROY_METHOD_SUFIX_MESSAGE_ID = "DESTROY";
+	private static final String CREATE_METHOD_SUFIX_MESSAGE_ID = "CREATE";
+	private static final String UNWRAP_METHOD_SUFIX_MESSAGE_ID = "UNWRAP";
+	private static final String OBSERVER_METHOD_SUFIX_MESSAGE_ID = "OBSERVER";
+	private static final String NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID = "_DOESNT_BELONG_TO_COMPONENT";
 	private static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE";
 	private static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE";
 	private static final String UNKNOWN_FACTORY_NAME_MESSAGE_ID = "UNKNOWN_FACTORY_NAME";
 	private static final String MULTIPLE_DATA_BINDER_MESSAGE_ID = "MULTIPLE_DATA_BINDER";
 	private static final String DUPLICATE_VARIABLE_NAME_MESSAGE_ID = "DUPLICATE_VARIABLE_NAME";
 	private static final String UNKNOWN_DATA_MODEL_MESSAGE_ID = "UNKNOWN_DATA_MODEL";
-
 
 	private SeamValidationContext validationContext;
 	private ISeamProject project;
@@ -92,6 +98,7 @@ public class SeamJavaValidator extends SeamValidator {
 			Set<String> markedDuplicateFactoryNames = new HashSet<String>();
 			// Collect all resources which we must validate.
 			Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
+			Set<IPath> newResources = new HashSet<IPath>(); // New (unlinked) resources file
 			for (int i = 0; i < uris.length && !reporter.isCancelled(); i++) {
 				currentFile = root.getFile(new Path(uris[i]));
 				// Don't handle one resource twice.
@@ -120,11 +127,11 @@ public class SeamJavaValidator extends SeamValidator {
 								resources.addAll(linkedResources);
 							}
 						}
-
 					} else {
 						// Validate new (unlinked) Java file.
 						resources.add(currentFile.getFullPath());
 					}
+					newResources.add(currentFile.getFullPath());
 				}
 			}
 			// Validate all collected linked resources.
@@ -137,6 +144,16 @@ public class SeamJavaValidator extends SeamValidator {
 				validateComponent(linkedResource, checkedComponents);
 				validateFactory(linkedResource, markedDuplicateFactoryNames);
 				// TODO
+			}
+
+			// Validate all unnamed resources.
+			Set<IPath> unnamedResources = validationContext.getUnnamedResources();
+			newResources.addAll(unnamedResources);
+			for (IPath path : newResources) {
+				Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)project).findJavaDeclarations(path);
+				for (SeamJavaComponentDeclaration d : declarations) {
+					validateMethodsOfUnknownComponent(d);
+				}
 			}
 		} else {
 			return validateAll();
@@ -213,7 +230,7 @@ public class SeamJavaValidator extends SeamValidator {
 						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, getLocationOfName(factory), factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 					}
 				}
-			} catch (Exception e) {
+			} catch (JavaModelException e) {
 				SeamCorePlugin.getDefault().logError(e);
 			}
 		} else {
@@ -298,6 +315,13 @@ public class SeamJavaValidator extends SeamValidator {
 				validateFactory((ISeamAnnotatedFactory)factory, markedDuplicateFactoryNames);
 			}
 		}
+
+		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)project).getAllJavaComponentDeclarations();
+		Collection<SeamJavaComponentDeclaration> values = declarations.values();
+		for (SeamJavaComponentDeclaration d : values) {
+			validateMethodsOfUnknownComponent(d);
+		}
+
 		// TODO
 		return OK_STATUS;
 	}
@@ -389,7 +413,7 @@ public class SeamJavaValidator extends SeamValidator {
 		try {
 			length = declaration.getSourceMember().getNameRange().getLength();
 			offset = declaration.getSourceMember().getNameRange().getOffset();
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
 		return new SeamTextSourceReference(length, offset);
@@ -398,8 +422,8 @@ public class SeamJavaValidator extends SeamValidator {
 	private void validateStatefulComponent(ISeamComponent component) {
 		if(component.isStateful()) {
 			ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
-			validateStatefulComponentMethods(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_POSTFIX_MESSAGE_ID);
-			validateStatefulComponentMethods(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_POSTFIX_MESSAGE_ID);
+			validateStatefulComponentMethods(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_SUFIX_MESSAGE_ID);
+			validateStatefulComponentMethods(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_SUFIX_MESSAGE_ID);
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.PAGE || scope == ScopeType.STATELESS) {
 				ISeamTextSourceReference location = getScopeLocation(component);
@@ -418,9 +442,10 @@ public class SeamJavaValidator extends SeamValidator {
 	}
 
 	private void validateDuplicateComponentMethods(ISeamComponent component) {
-		validateDuplicateComponentMethod(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_POSTFIX_MESSAGE_ID);
-		validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_POSTFIX_MESSAGE_ID);
-		validateDuplicateComponentMethod(SeamComponentMethodType.CREATE, component, CREATE_METHOD_POSTFIX_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_SUFIX_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_SUFIX_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.CREATE, component, CREATE_METHOD_SUFIX_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.UNWRAP, component, UNWRAP_METHOD_SUFIX_MESSAGE_ID);
 	}
 
 	private void validateDuplicateComponentMethod(SeamComponentMethodType methodType, ISeamComponent component, String postfixMessageId) {
@@ -428,13 +453,9 @@ public class SeamJavaValidator extends SeamValidator {
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods!=null && methods.size()>1) {
 			for (ISeamComponentMethod method : methods) {
-				try {
-					IMethod javaMethod = (IMethod)method.getSourceMember();
-					String methodName = javaMethod.getElementName();
-					addError(DUPLICATE_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, new String[]{methodName}, method, javaDeclaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-				} catch (Exception e) {
-					SeamCorePlugin.getDefault().logError(e);
-				}
+				IMethod javaMethod = (IMethod)method.getSourceMember();
+				String methodName = javaMethod.getElementName();
+				addError(DUPLICATE_METHOD_PREFIX_MESSAGE_ID + postfixMessageId, new String[]{methodName}, method, javaDeclaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 			}
 		}
 	}
@@ -498,6 +519,34 @@ public class SeamJavaValidator extends SeamValidator {
 				}
 			}
 			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, new String[]{name}, getLocationOfName(bijection), declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+		}
+	}
+
+	/*
+	 *  Validates methods of java classes. They must belong components.
+	 */
+	private void validateMethodsOfUnknownComponent(ISeamJavaComponentDeclaration declaration) {
+		if(project.getComponentsByPath(declaration.getSourcePath()).size()>0) {
+			validationContext.removeUnnamedResource(declaration.getSourcePath());
+			return;
+		}
+		validateMethodOfUnknownComponent(SeamComponentMethodType.DESTROY, declaration, DESTROY_METHOD_SUFIX_MESSAGE_ID);
+		validateMethodOfUnknownComponent(SeamComponentMethodType.CREATE, declaration, CREATE_METHOD_SUFIX_MESSAGE_ID);
+		validateMethodOfUnknownComponent(SeamComponentMethodType.UNWRAP, declaration, UNWRAP_METHOD_SUFIX_MESSAGE_ID);
+		validateMethodOfUnknownComponent(SeamComponentMethodType.OBSERVER, declaration, OBSERVER_METHOD_SUFIX_MESSAGE_ID);
+	}
+
+	private void validateMethodOfUnknownComponent(SeamComponentMethodType methodType, ISeamJavaComponentDeclaration declaration, String sufixMessageId) {
+		Set<ISeamComponentMethod> methods = declaration.getMethodsByType(methodType);
+		if(methods!=null && methods.size()>0) {
+			for (ISeamComponentMethod method : methods) {
+				IMethod javaMethod = (IMethod)method.getSourceMember();
+				String methodName = javaMethod.getElementName();
+				addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, new String[]{methodName}, method, declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+				validationContext.addUnnamedResource(declaration.getSourcePath());
+			}
+		} else {
+			validationContext.removeUnnamedResource(declaration.getSourcePath());
 		}
 	}
 }

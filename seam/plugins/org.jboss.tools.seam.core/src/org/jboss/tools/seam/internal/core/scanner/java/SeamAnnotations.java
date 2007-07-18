@@ -31,6 +31,7 @@ public interface SeamAnnotations {
 	public static String CREATE_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Create";
 	public static String DESTROY_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Destroy";
 	public static String UNWRAP_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Unwrap";
+	public static String OBSERVER_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Observer";
 	public static String REMOVE_ANNOTATION_TYPE = "javax.ejb.Remove";
 
 	public static String FACTORY_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Factory";

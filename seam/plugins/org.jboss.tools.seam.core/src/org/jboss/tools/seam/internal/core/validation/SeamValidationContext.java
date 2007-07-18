@@ -12,7 +12,6 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +30,7 @@ public class SeamValidationContext {
 
 	private Map<String, Set<IPath>> resourcesByVariableName = new HashMap<String, Set<IPath>>();
 	private Map<IPath, Set<String>> variableNamesByResource = new HashMap<IPath, Set<String>>();
+	private Set<IPath> unnamedResources = new HashSet<IPath>();
 
 	/**
 	 * Save link between resource and variable name.
@@ -96,15 +96,40 @@ public class SeamValidationContext {
 		return resourcesByVariableName.get(variableName);
 	}
 
-	public Set<String> getVariableNamesByResource(IPath sourcePath) {
-		return variableNamesByResource.get(sourcePath);
+	public Set<String> getVariableNamesByResource(IPath fullPath) {
+		return variableNamesByResource.get(fullPath);
+	}
+
+	/**
+	 * Adds resource without any link to any context variable name.
+	 * @param fullPath
+	 */
+	public void addUnnamedResource(IPath fullPath) {
+		unnamedResources.add(fullPath);
+	}
+
+	/**
+	 * @return Set of resources without any link to any context variable name.
+	 * @param fullPath
+	 */
+	public Set<IPath> getUnnamedResources() {
+		return unnamedResources;
+	}
+
+	/**
+	 * Removes unnamed resource.
+	 * @param fullPath
+	 */
+	public void removeUnnamedResource(IPath fullPath) {
+		unnamedResources.remove(fullPath);
 	}
 
 	public void clear() {
 		resourcesByVariableName.clear();
 		variableNamesByResource.clear();
+		unnamedResources.clear();
 	}
-	
+
 	public void store(Element root) {
 		Element validation = XMLUtilities.createElement(root, "validation");
 		Set<String> variables = resourcesByVariableName.keySet();
@@ -117,8 +142,12 @@ public class SeamValidationContext {
 				linkedResource.setAttribute("path", path.toString());
 			}
 		}
+		for (IPath unnamedPath: unnamedResources) {
+			Element unnamedPathElement = XMLUtilities.createElement(validation, "unnamed-path");
+			unnamedPathElement.setAttribute("path", unnamedPath.toString());
+		}
 	}
-	
+
 	public void load(Element root) {
 		Element validation = XMLUtilities.getUniqueChild(root, "validation");
 		if(validation == null) return;
@@ -128,13 +157,22 @@ public class SeamValidationContext {
 			if(name == null || name.trim().length() == 0) continue;
 			String path = linkedResources[i].getAttribute("path");
 			if(path == null || path.trim().length() == 0) continue;
-			IPath pathObject = null;
 			try {
-				pathObject = new Path(path);
+				IPath pathObject = new Path(path);
+				addLinkedResource(name, pathObject);
 			} catch (Exception e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
-			addLinkedResource(name, pathObject);
-		}		
+		}
+		Element[] unnamedPathElement = XMLUtilities.getChildren(validation, "unnamed-path");
+		if(unnamedPathElement != null) for (int i = 0; i < unnamedPathElement.length; i++) {
+			String path = unnamedPathElement[i].getAttribute("path");
+			try {
+				IPath pathObject = new Path(path);
+				addUnnamedResource(pathObject);
+			} catch (Exception e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 }

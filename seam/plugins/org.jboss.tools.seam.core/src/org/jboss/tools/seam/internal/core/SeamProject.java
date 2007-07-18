@@ -650,7 +650,21 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public Map<String, SeamJavaComponentDeclaration> getAllJavaComponentDeclarations() {
 		return javaDeclarations;
 	}
-	
+
+	/**
+	 * Returns set of java classes that contain seam annotations with specified path.
+	 * They may be seam components, as well as cases of incomplete annotating
+	 * that does not create a seam component.
+	 * @return
+	 */
+	public Set<SeamJavaComponentDeclaration> findJavaDeclarations(IPath source) {
+		Set<SeamJavaComponentDeclaration> set = new HashSet<SeamJavaComponentDeclaration>();
+		for (SeamJavaComponentDeclaration d: javaDeclarations.values()) {
+			if(source.equals(d.getSourcePath())) set.add(d);
+		}		
+		return set;
+	}
+
 	public SeamComponent getComponent(String name) {
 		return name == null ? null : allComponents.get(name);
 	}
