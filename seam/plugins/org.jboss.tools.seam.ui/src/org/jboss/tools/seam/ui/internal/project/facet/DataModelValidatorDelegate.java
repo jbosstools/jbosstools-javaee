@@ -73,6 +73,7 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 */
 	public void validateUntillError() {
 		page.setErrorMessage(getFirstValidationError());
+		page.setPageComplete(page.getErrorMessage()==null);
 	}
 	
 	/**
