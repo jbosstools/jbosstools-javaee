@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -174,8 +175,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
+	 * @throws IOException 
 	 */
-	public void store() throws Exception {
+	public void store() throws IOException {
 		File file = getStorageFile();
 		file.getParentFile().mkdirs();
 		

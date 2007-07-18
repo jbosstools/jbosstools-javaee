@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -75,6 +76,10 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
 		SeamProject sp = getSeamProject();
+		if(sp==null) {
+			return null; // 
+		}
+		
 		sp.resolveStorage(kind != FULL_BUILD);
 		
 		if(sp.getClassPath().update()) {
@@ -93,8 +98,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		}
 		try {
 			sp.store();
-		} catch (Exception e) {
-			SeamCorePlugin.getPluginLog().logError("Error storing build results");
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError("Error storing build results for " + sp.getProject().getName(), e);
 		}
 		return null;
 	}
