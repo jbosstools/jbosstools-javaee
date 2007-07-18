@@ -159,7 +159,8 @@ public class RootContentProvider implements ITreeContentProvider, ISeamProjectCh
 
 		public void resourceChanged(IResourceChangeEvent event) {
 			try {
-				event.getDelta().accept(visitor);
+				if(event.getDelta()==null) refresh(null);
+				else event.getDelta().accept(visitor);
 			} catch (Exception e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}			
