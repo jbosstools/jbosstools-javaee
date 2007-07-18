@@ -26,7 +26,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.ws
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
- org.jboss.tools.seam.internal.core.scanner
+ org.jboss.tools.seam.internal.core.scanner,
+ org.jboss.tools.seam.internal.core.preferences
 Bundle-Version: 2.0.0
 Export-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,

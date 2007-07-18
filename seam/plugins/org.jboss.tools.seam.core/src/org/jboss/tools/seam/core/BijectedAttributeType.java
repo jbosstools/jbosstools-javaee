@@ -17,18 +17,30 @@ import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
  * @author Alexey Kazakov
  */
 public enum BijectedAttributeType implements SeamAnnotations {
-	IN(IN_ANNOTATION_TYPE),
-	OUT(OUT_ANNOTATION_TYPE),
-	DATA_BINDER(DATA_MODEL_ANNOTATION_TYPE),
-	DATA_MODEL_SELECTION(DATA_MODEL_SELECTION_ANNOTATION_TYPE),
-	DATA_MODEL_SELECTION_INDEX(DATA_MODEL_SELECTION_INDEX_ANNOTATION_TYPE);
+	IN(IN_ANNOTATION_TYPE, true),
+	OUT(OUT_ANNOTATION_TYPE, true),
+	DATA_BINDER(DATA_MODEL_ANNOTATION_TYPE, true),
+	DATA_MODEL_SELECTION(DATA_MODEL_SELECTION_ANNOTATION_TYPE, false),
+	DATA_MODEL_SELECTION_INDEX(DATA_MODEL_SELECTION_INDEX_ANNOTATION_TYPE, false);
 	
-	BijectedAttributeType(String annotationType) {
+	boolean isUsingMemberName;
+	
+	BijectedAttributeType(String annotationType, boolean isUsingMemberName) {
 		this.annotationType = annotationType;
+		this.isUsingMemberName = isUsingMemberName;
 	}
 
 	String annotationType;
 	public String getAnnotationType() {
 		return annotationType;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isUsingMemberName() {
+		return isUsingMemberName;
+	}
+
 }

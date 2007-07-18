@@ -641,6 +641,16 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		allVariables.remove(factory);
 	}
 	
+	/**
+	 * Returns map of all java classes that contain seam annotations.
+	 * They may be seam components, as well as cases of incomplete annotating
+	 * that does not create a seam component.
+	 * @return
+	 */
+	public Map<String, SeamJavaComponentDeclaration> getAllJavaComponentDeclarations() {
+		return javaDeclarations;
+	}
+	
 	public SeamComponent getComponent(String name) {
 		return name == null ? null : allComponents.get(name);
 	}

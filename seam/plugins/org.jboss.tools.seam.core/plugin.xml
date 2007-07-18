@@ -26,6 +26,11 @@
             id="org.jboss.tools.seam.core.seambuilder">
       </builder>
    </extension>
+
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.seam.internal.core.preferences.SeamPreferenceInitializer"/>
+   </extension>
+
    <extension
          id="seamProblem"
          name="Seam Problem"
@@ -163,4 +168,5 @@
             type="org.eclipse.wst.validation.problemmarker">
       </super>
    </extension>
+
 </plugin>

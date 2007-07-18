@@ -159,7 +159,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			att.setTypes(types.toArray(new BijectedAttributeType[0]));
 			
 			ValueInfo name = ValueInfo.getValueInfo(main, null);
-			if(name == null) {
+			if(name == null && types.size() > 0 && types.get(0).isUsingMemberName()) {
 				name = new ValueInfo();
 				name.value = m.getName().getIdentifier();
 			}
