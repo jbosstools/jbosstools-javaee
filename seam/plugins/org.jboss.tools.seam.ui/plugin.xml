@@ -48,7 +48,7 @@
                class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
-      <wizard
+      <!--wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
             icon="icons/sample.gif"
@@ -73,7 +73,7 @@
          <selection
                class="org.eclipse.core.resources.IResource">
          </selection>
-      </wizard>
+      </wizard-->
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.ui.wizardPages">
