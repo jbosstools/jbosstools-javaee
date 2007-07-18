@@ -57,21 +57,21 @@ public class SeamPreferences {
 		allOptionNames.addAll(severityOptionNames);
 	}
 	
-	public IEclipsePreferences getProjectPreferences(ISeamProject project) {
+	public static IEclipsePreferences getProjectPreferences(ISeamProject project) {
 		return new ProjectScope(project.getProject()).getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 	
-	public IEclipsePreferences getDefaultPreferences() {
+	public static IEclipsePreferences getDefaultPreferences() {
 		return new DefaultScope().getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 	
-	public String getProjectPreference(ISeamProject project, String key) {
+	public static String getProjectPreference(ISeamProject project, String key) {
 		IEclipsePreferences p = getProjectPreferences(project);
 		if(p == null) return null;
 		return p.get(key, null);
 	}
 
-	public String getDefaultPreference(String key) {
+	public static String getDefaultPreference(String key) {
 		IEclipsePreferences p = getDefaultPreferences();
 		if(p == null) return null;
 		return p.get(key, null);
