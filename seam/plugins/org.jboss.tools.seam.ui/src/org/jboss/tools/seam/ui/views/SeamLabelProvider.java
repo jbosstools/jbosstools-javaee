@@ -2,6 +2,7 @@ package org.jboss.tools.seam.ui.views;
 
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMember;
@@ -27,7 +28,9 @@ public class SeamLabelProvider extends LabelProvider {
 	JavaElementImageProvider jip = new JavaElementImageProvider();
 
 	public String getText(Object element) {
-		if(element instanceof ISeamProject) {
+		if(element instanceof IWorkspaceRoot) {
+			return "";
+		} else if(element instanceof ISeamProject) {
 			return ((IProjectNature)element).getProject().getName();
 		} else if(element instanceof ISeamScope) {
 			return ((ISeamScope)element).getType().getLabel();

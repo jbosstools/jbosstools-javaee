@@ -134,7 +134,8 @@
 	      </or>
 	    </triggerPoints>
 	    <possibleChildren>
-	       <or>         
+	       <or>
+	          <instanceof value="org.eclipse.core.resources.IWorkspaceRoot" /> 
 	          <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
 	       </or>
 	    </possibleChildren>
