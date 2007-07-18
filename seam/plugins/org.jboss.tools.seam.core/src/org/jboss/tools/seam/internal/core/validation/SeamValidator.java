@@ -28,7 +28,7 @@ import org.jboss.tools.seam.core.ISeamTextSourceReference;
  */
 public abstract class SeamValidator implements IValidatorJob {
 
-	protected IValidationContext helper;
+	protected SeamCoreValidationHelper coreHelper;
 	protected IReporter reporter;
 
 	public SeamValidator() {
@@ -36,7 +36,7 @@ public abstract class SeamValidator implements IValidatorJob {
 	}
 
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
-		this.helper = helper;
+		this.coreHelper = (SeamCoreValidationHelper)helper;
 		this.reporter = reporter;
 		return OK_STATUS;
 	}

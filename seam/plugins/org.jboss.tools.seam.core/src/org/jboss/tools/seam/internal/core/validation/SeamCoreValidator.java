@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -24,13 +25,16 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
@@ -39,25 +43,25 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
 
 /**
- * Validator for Java files.
+ * Validator for Java and XML files.
  * @author Alexey Kazakov
  */
-public class SeamJavaValidator extends SeamValidator {
+public class SeamCoreValidator extends SeamValidator {
 
 	private static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamResource";
 
@@ -77,6 +81,7 @@ public class SeamJavaValidator extends SeamValidator {
 	private static final String MULTIPLE_DATA_BINDER_MESSAGE_ID = "MULTIPLE_DATA_BINDER";
 	private static final String DUPLICATE_VARIABLE_NAME_MESSAGE_ID = "DUPLICATE_VARIABLE_NAME";
 	private static final String UNKNOWN_DATA_MODEL_MESSAGE_ID = "UNKNOWN_DATA_MODEL";
+	private static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME";
 
 	private SeamValidationContext validationContext;
 	private ISeamProject project;
@@ -87,9 +92,8 @@ public class SeamJavaValidator extends SeamValidator {
 
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
 		super.validateInJob(helper, reporter);
-		SeamJavaHelper seamJavaHelper = (SeamJavaHelper)helper;
-		String[] uris = seamJavaHelper.getURIs();
-		project = seamJavaHelper.getSeamProject();
+		String[] uris = coreHelper.getURIs();
+		project = coreHelper.getSeamProject();
 		validationContext = ((SeamProject)project).getValidationContext();
 		if (uris.length > 0) {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -106,7 +110,7 @@ public class SeamJavaValidator extends SeamValidator {
 					// Get all variable names that were linked with this resource.
 					Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByResource(currentFile.getFullPath());
 					if(oldVariablesNamesOfChangedFile!=null) {
-						// Check if variable name was changed in java file
+						// Check if variable name was changed in source file
 						Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
 						for (String newVariableName : newVariableNamesOfChangedFile) {
 							if(!oldVariablesNamesOfChangedFile.contains(newVariableName)) {
@@ -128,7 +132,7 @@ public class SeamJavaValidator extends SeamValidator {
 							}
 						}
 					} else {
-						// Validate new (unlinked) Java file.
+						// Validate new (unlinked) source file.
 						resources.add(currentFile.getFullPath());
 					}
 					newResources.add(currentFile.getFullPath());
@@ -138,7 +142,7 @@ public class SeamJavaValidator extends SeamValidator {
 			// Remove all links between collected resources and variables names because they will be linked again during validation.
 			validationContext.removeLinkedResources(resources);
 			for (IPath linkedResource : resources) {
-				// Remove markers from collected java file
+				// Remove markers from collected source file
 				IFile sourceFile = root.getFile(linkedResource);
 				reporter.removeMessageSubset(this, sourceFile, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 				validateComponent(linkedResource, checkedComponents);
@@ -162,16 +166,57 @@ public class SeamJavaValidator extends SeamValidator {
 		return OK_STATUS;
 	}
 
+	private IStatus validateAll() {
+		reporter.removeAllMessages(this);
+		validationContext.clear();
+		Set<ISeamComponent> components = project.getComponents();
+		for (ISeamComponent component : components) {
+			validateComponent(component);
+		}
+		Set<ISeamFactory> factories = project.getFactories();
+		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
+		for (ISeamFactory factory : factories) {
+			validateFactory(factory, markedDuplicateFactoryNames);
+		}
+
+		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)project).getAllJavaComponentDeclarations();
+		Collection<SeamJavaComponentDeclaration> values = declarations.values();
+		for (SeamJavaComponentDeclaration d : values) {
+			validateMethodsOfUnknownComponent(d);
+		}
+
+		// TODO
+		return OK_STATUS;
+	}
+
 	private void validateFactory(IPath sourceFilePath, Set<String> markedDuplicateFactoryNames) {
 		Set<ISeamFactory> factories = project.getFactoriesByPath(sourceFilePath);
 		for (ISeamFactory factory : factories) {
-			if(factory instanceof ISeamAnnotatedFactory) {
-				validateFactory((ISeamAnnotatedFactory)factory, markedDuplicateFactoryNames);
-			}
+			validateFactory(factory, markedDuplicateFactoryNames);
 		}
 	}
 
-	private void validateFactory(ISeamAnnotatedFactory factory, Set<String> markedDuplicateFactoryNames) {
+	private void validateFactory(ISeamFactory factory, Set<String> markedDuplicateFactoryNames) {
+		if(coreHelper.isJar(factory.getResource())) {
+			return;
+		}
+		if(factory instanceof ISeamAnnotatedFactory) {
+			validateAnnotatedFactory((ISeamAnnotatedFactory)factory, markedDuplicateFactoryNames);
+		} else {
+			validateXmlFactory((ISeamXmlFactory)factory, markedDuplicateFactoryNames);
+		}
+	}
+
+	private void validateXmlFactory(ISeamXmlFactory factory, Set<String> markedDuplicateFactoryNames) {
+		String name = factory.getName();
+		if(name==null) {
+			SeamCorePlugin.getDefault().logError("Factory method must have name: " + factory.getResource());
+			return;
+		}
+		validateFactoryName(factory, name, markedDuplicateFactoryNames, false);
+	}
+
+	private void validateAnnotatedFactory(ISeamAnnotatedFactory factory, Set<String> markedDuplicateFactoryNames) {
 		IMember sourceMember = factory.getSourceMember();
 		if(sourceMember instanceof IMethod) {
 			IMethod method = (IMethod)sourceMember;
@@ -186,49 +231,13 @@ public class SeamJavaValidator extends SeamValidator {
 							// This is getter
 							factoryName = methodName.substring(3);
 						} else {
-							// TODO
 							// Unknown factory name
-							factoryName = methodName;
+							SeamCorePlugin.getDefault().logError("Factory method must have name: " + factory.getResource());
+							//factoryName = methodName;
+							return;
 						}
 					}
-					ScopeType factoryScope = factory.getScope();
-					Set<ISeamContextVariable> variables = project.getVariablesByName(factoryName);
-					boolean unknownVariable = true;
-					boolean firstDuplicateVariableWasMarked = false;
-					for (ISeamContextVariable variable : variables) {
-						if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
-							if(variable instanceof ISeamFactory || variable instanceof ISeamComponent || variable instanceof IRole) {
-								if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName)) {
-									// Duplicate factory name. Mark it.
-									// save link to factory resource
-									ISeamTextSourceReference location = null;
-									if(!firstDuplicateVariableWasMarked) {
-										firstDuplicateVariableWasMarked = true;
-										// mark original factory
-										validationContext.addLinkedResource(factoryName, factory.getSourcePath());
-										location = getLocationOfName(factory);
-										this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-									}
-									// mark duplicate variable
-									IResource resource = getComponentResourceWithName(variable);
-									validationContext.addLinkedResource(factoryName, resource.getFullPath());
-									location = getLocationOfName(variable);
-									this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, resource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-
-									markedDuplicateFactoryNames.add(factoryName);
-								}
-							} else {
-								// We have that variable name
-								unknownVariable = false;
-							}
-						}
-					}
-					if(unknownVariable) {
-						// mark unknown factory name
-						// save link to factory resource
-						validationContext.addLinkedResource(factoryName, factory.getSourcePath());
-						this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, getLocationOfName(factory), factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-					}
+					validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
 				}
 			} catch (JavaModelException e) {
 				SeamCorePlugin.getDefault().logError(e);
@@ -239,36 +248,46 @@ public class SeamJavaValidator extends SeamValidator {
 		}
 	}
 
-	private static IResource getComponentResourceWithName(ISeamElement element) {
-		if(element instanceof ISeamComponent) {
-			Set declarations = ((ISeamComponent)element).getAllDeclarations();
-			for (Object o : declarations) {
-				SeamComponentDeclaration d = (SeamComponentDeclaration)o;
-				if(d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME)!=null) {
-					return d.getResource();
+	private void validateFactoryName(ISeamFactory factory, String factoryName, Set<String> markedDuplicateFactoryNames, boolean validateUnknownName) {
+		ScopeType factoryScope = factory.getScope();
+		Set<ISeamContextVariable> variables = project.getVariablesByName(factoryName);
+		boolean unknownVariable = true;
+		boolean firstDuplicateVariableWasMarked = false;
+		for (ISeamContextVariable variable : variables) {
+			if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
+				if(variable instanceof ISeamFactory || variable instanceof ISeamComponent || variable instanceof IRole) {
+					if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName)) {
+						// Duplicate factory name. Mark it.
+						// save link to factory resource
+						ISeamTextSourceReference location = null;
+						if(!firstDuplicateVariableWasMarked) {
+							firstDuplicateVariableWasMarked = true;
+							// mark original factory
+							validationContext.addLinkedResource(factoryName, factory.getSourcePath());
+							location = coreHelper.getLocationOfName(factory);
+							this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+						}
+						// mark duplicate variable
+						IResource resource = coreHelper.getComponentResourceWithName(variable);
+						if(!coreHelper.isJar(resource)) {
+							validationContext.addLinkedResource(factoryName, resource.getFullPath());
+							location = coreHelper.getLocationOfName(variable);
+							this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, new String[]{factoryName}, location, resource, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+						}
+						markedDuplicateFactoryNames.add(factoryName);
+					}
+				} else {
+					// We have that variable name
+					unknownVariable = false;
 				}
 			}
 		}
-		return element.getResource();
-	}
-
-	private static ISeamTextSourceReference getLocationOfName(ISeamElement element) {
-		ISeamTextSourceReference location = null;
-		if(element instanceof AbstractContextVariable) {
-			location = ((AbstractContextVariable)element).getLocationFor("name");
-		} else if(element instanceof ISeamComponent) {
-			Set declarations = ((ISeamComponent)element).getAllDeclarations();
-			for (Object d : declarations) {
-				location = ((SeamComponentDeclaration)d).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-				if(location!=null) {
-					break;
-				}
-			}
+		if(unknownVariable && validateUnknownName) {
+			// mark unknown factory name
+			// save link to factory resource
+			validationContext.addLinkedResource(factoryName, factory.getSourcePath());
+			this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, new String[]{factoryName}, coreHelper.getLocationOfName(factory), factory.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		}
-		if(location==null && element instanceof ISeamTextSourceReference) {
-			location = (ISeamTextSourceReference)element;
-		}
-		return location;
 	}
 
 	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents) {
@@ -299,31 +318,6 @@ public class SeamJavaValidator extends SeamValidator {
 
 	public void cleanup(IReporter reporter) {
 		super.cleanup(reporter);
-	}
-
-	private IStatus validateAll() {
-		reporter.removeAllMessages(this);
-		validationContext.clear();
-		Set<ISeamComponent> components = project.getComponents();
-		for (ISeamComponent component : components) {
-			validateComponent(component);
-		}
-		Set<ISeamFactory> factories = project.getFactories();
-		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
-		for (ISeamFactory factory : factories) {
-			if(factory instanceof ISeamAnnotatedFactory) {
-				validateFactory((ISeamAnnotatedFactory)factory, markedDuplicateFactoryNames);
-			}
-		}
-
-		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)project).getAllJavaComponentDeclarations();
-		Collection<SeamJavaComponentDeclaration> values = declarations.values();
-		for (SeamJavaComponentDeclaration d : values) {
-			validateMethodsOfUnknownComponent(d);
-		}
-
-		// TODO
-		return OK_STATUS;
 	}
 
 	/*
@@ -383,6 +377,34 @@ public class SeamJavaValidator extends SeamValidator {
 				validateStatefulComponent(component);
 				validateDuplicateComponentMethods(component);
 				validateEntityComponent(component);
+			}
+		}
+		validateXmlComponentDeclarations(component);
+	}
+
+	private void validateXmlComponentDeclarations(ISeamComponent component) {
+		String componentName = component.getName();
+		if(componentName!=null) {
+			Set<ISeamXmlComponentDeclaration> declarations = component.getXmlDeclarations();
+			for (ISeamXmlComponentDeclaration declaration : declarations) {
+				if(coreHelper.isJar(declaration)) {
+					return;
+				}
+				validationContext.addLinkedResource(componentName, declaration.getSourcePath());
+				// validate class name
+				String className = declaration.getClassName();
+				if(className!=null) {
+					try {
+						IProject p = project.getProject();
+						IType type = EclipseResourceUtil.getJavaProject(p).findType(className);
+						if(type==null) {
+							// Mark wrong class name
+							addError(UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID, new String[]{className}, coreHelper.getLocationOfAttribute(declaration, ISeamXmlComponentDeclaration.CLASS), declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+						}
+					} catch (JavaModelException e) {
+						SeamCorePlugin.getDefault().logError(e);
+					}
+				}
 			}
 		}
 	}
@@ -518,7 +540,7 @@ public class SeamJavaValidator extends SeamValidator {
 					return;
 				}
 			}
-			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, new String[]{name}, getLocationOfName(bijection), declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, new String[]{name}, coreHelper.getLocationOfName(bijection), declaration.getResource(), MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		}
 	}
 

@@ -22,4 +22,5 @@ public interface SeamScope {
 	public static final int SESSION_PRIORITY_ORDER = 3;
 	public static final int BUSINESS_PROCESS_PRIORITY_ORDER = 4;
 	public static final int APPLICATION_PRIORITY_ORDER = 5;
+	public static final int UNSPECIFIED_PRIORITY_ORDER = 6;
 }

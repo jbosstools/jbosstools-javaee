@@ -23,7 +23,7 @@ public enum ScopeType implements SeamScope {
 	SESSION("Session", SESSION_PRIORITY_ORDER),
 	APPLICATION("Application", APPLICATION_PRIORITY_ORDER),
 	BUSINESS_PROCESS("Business Process", BUSINESS_PROCESS_PRIORITY_ORDER),
-	UNSPECIFIED("Unspecified", UNDEFINED_PRIORITY_ORDER); 
+	UNSPECIFIED("Unspecified", UNSPECIFIED_PRIORITY_ORDER); 
 
 	int priority;
 	private String label;
@@ -41,9 +41,8 @@ public enum ScopeType implements SeamScope {
 	public int getPriority() {
 		return priority;
 	}
-	
+
 	public String getLabel() {
 		return label;
 	}
-
 }
