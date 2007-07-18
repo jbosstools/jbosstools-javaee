@@ -18,6 +18,23 @@ import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 /**
+ * Constants for names of seam preferences.
+ * Static accesses to seam preferences.
+ * 
+ * Framework for Severity preferences.
+ * 1) Add constant using static method createSeverityOption(String)
+ *    Put it under relevant section, e.g. //components, or create new section
+ * 2) Create in org.jboss.tools.seam.internal.core.validation.messages.properties
+ *    error message with the same name
+ * 3) Add to org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages
+ *    and to org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages.properties
+ *    constant and property named SeamValidatorConfigurationBlock_pb_%name%_label,
+ *    where %name% is produced from constant name in SeamPreferences like AAA_BBB_CCC -> aaaBbbCcc.
+ *    Put these entries under relevant section. For a new section add constant and property 
+ *    SeamValidatorConfigurationBlock_section_%newSectionName%
+ * 4) In class org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages
+ *    modify SectionDescription constants, according to instruction there.
+ * 
  * @author Viacheslav Kabanovich
  */
 public class SeamPreferences {
