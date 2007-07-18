@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public class ValidatorFactory {
 	/**
 	 * 
 	 */
-	static public Map<String,String> NO_ERRORS = new HashMap<String,String>();
+	static public Map<String,String> NO_ERRORS = Collections.unmodifiableMap(new HashMap<String,String>());
 	
 	/**
 	 * 
@@ -127,8 +128,7 @@ public class ValidatorFactory {
 				return errors;
 			}
 			if(!new File(value.toString(),"seam").isFile()) {
-				errors.put(
-						ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+				errors = createErrormessage(
 						"Seam Home Folde field points to location that doesn't look like seam home folder");
 				
 			}
