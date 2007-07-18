@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.scanner.java;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
@@ -27,7 +26,6 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 
 /**
@@ -122,12 +120,6 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 
 	public void endVisit(FieldDeclaration node) {
-		List<?> fragments = node.fragments();
-		for (int i = 0; i < fragments.size(); i++) {
-			VariableDeclaration vd = (VariableDeclaration)fragments.get(i);
-			String name = vd.getName().getIdentifier();
-			System.out.println("-->" + name);
-		}
 		if(currentAnnotatedField != null && currentAnnotatedField.getAnnotations() != null) {
 			annotatedFields.add(currentAnnotatedField);
 		}
