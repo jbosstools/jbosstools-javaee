@@ -225,4 +225,26 @@
     </objectContribution>
  </extension>
   
+   <extension point="org.eclipse.ui.preferencePages">
+      <page 
+         category="org.jboss.tools.common.model.ui" 
+         class="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage" 
+         id="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage" 
+         name="Seam Validator">
+      </page>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            name="Seam Validator"
+            class="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage"
+            id="org.jboss.tools.seam.ui.propertyPages.SeamValidatorPreferencePage">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.seam.core.seamnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+   </extension>
 </plugin>
