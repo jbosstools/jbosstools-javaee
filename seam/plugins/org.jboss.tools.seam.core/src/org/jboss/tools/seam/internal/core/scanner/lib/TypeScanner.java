@@ -186,6 +186,7 @@ public class TypeScanner implements SeamAnnotations {
 			name = new String(m.getSelector());
 		}
 		SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
+		factory.setParentDeclaration(component);
 		ds.getFactories().add(factory);
 		IMethod im = findIMethod(component, m);
 		

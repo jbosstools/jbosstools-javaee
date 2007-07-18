@@ -175,6 +175,7 @@ public class ClassScanner implements SeamAnnotations {
 			name = m.getName();
 		}
 		SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
+		factory.setParentDeclaration(component);
 		ds.getFactories().add(factory);
 		IMethod im = findIMethod(component, m);
 		

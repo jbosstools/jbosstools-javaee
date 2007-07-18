@@ -50,10 +50,10 @@ public class AbstractContextVariable extends SeamObject implements ISeamContextV
 	}
 
 	public void setScopeAsString(String scope) {
+		if(scope != null && scope.indexOf('.') > 0) {
+			scope = scope.substring(scope.lastIndexOf('.'));
+		}
 		try {
-			if(scope != null && scope.indexOf('.') > 0) {
-				scope = scope.substring(scope.lastIndexOf('.'));
-			}
 			this.scopeType = scope == null || scope.length() == 0 ? ScopeType.UNSPECIFIED : ScopeType.valueOf(scope.toUpperCase());
 		} catch (Exception e) {
 			//ignore

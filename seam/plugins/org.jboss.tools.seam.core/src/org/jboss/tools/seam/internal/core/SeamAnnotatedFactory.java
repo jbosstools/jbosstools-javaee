@@ -23,8 +23,10 @@ import org.jboss.tools.seam.core.event.Change;
  * @author Viacheslav Kabanovich
  */
 public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISeamAnnotatedFactory {
-
+	SeamJavaComponentDeclaration parentDeclaration = null;
 	boolean autoCreate = false;
+	
+	public SeamAnnotatedFactory() {}
 
 	public IMethod getSourceMethod() {
 		return (IMethod)javaSource;
@@ -56,28 +58,18 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 	}
 
 	@Override
-	public void setScope(ScopeType scope) {
-		if(scope==null) {
-			this.scopeType = ScopeType.EVENT;
-		} else {
-			super.setScope(scope);
-		}
-	}
-
-	@Override
 	public ScopeType getScope() {
-		if(scope==null) {
-			return ScopeType.EVENT;
+		ScopeType value = super.getScope();
+		if(value == null || value == ScopeType.UNSPECIFIED) {
+			if(parentDeclaration != null) value = parentDeclaration.getScope();
 		}
-		return super.getScope();
+		if(value == null || value == ScopeType.UNSPECIFIED) {
+			value = ScopeType.EVENT;
+		}
+		return value;
 	}
 
-	@Override
-	public void setScopeAsString(String scope) {
-		if(scope==null) {
-			this.scopeType = ScopeType.EVENT;
-		} else {
-			super.setScopeAsString(scope);
-		}
+	public void setParentDeclaration(SeamJavaComponentDeclaration parentDeclaration) {
+		this.parentDeclaration = parentDeclaration;
 	}
 }

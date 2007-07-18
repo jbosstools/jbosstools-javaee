@@ -123,6 +123,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo autoCreate = ValueInfo.getValueInfo(a, "autoCreate");
 
 			SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
+			factory.setParentDeclaration(component);
 			IMethod im = findMethod(m);
 			factory.setSourceMember(im);
 			factory.setId(im);
