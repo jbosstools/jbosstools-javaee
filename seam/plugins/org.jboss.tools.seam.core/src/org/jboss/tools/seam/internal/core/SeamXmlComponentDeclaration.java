@@ -63,8 +63,8 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	}
 	
 	public void setClassName(IValueInfo value) {
-		attributes.put(INSTALLED, value);
-		setInstalled(value == null ? null : value.getValue());
+		attributes.put(CLASS, value);
+		setClassName(value == null ? null : value.getValue());
 	}
 
 	public void setAutoCreate(String autoCreate) {
