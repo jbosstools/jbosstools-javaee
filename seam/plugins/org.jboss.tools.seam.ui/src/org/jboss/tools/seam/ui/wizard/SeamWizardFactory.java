@@ -70,12 +70,12 @@ public class SeamWizardFactory {
 				IParameter.SEAM_PAGE_NAME, "Master page name:", "");
 	}
 	
-	public static final IFieldEditor[] createDefaultWizardEditors(String defaultSelection) {
+	public static final IFieldEditor[] createActionFormFieldEditors(String defaultSelection) {
 		return new IFieldEditor[]{
 			SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()),
 			SeamWizardFactory.createSeamComponentNameFieldEditor(),
 			SeamWizardFactory.createSeamLocalInterfaceNameFieldEditor(),
-//			SeamWizardFactory.createSeamBeanNameFieldEditor(),
+			SeamWizardFactory.createSeamBeanNameFieldEditor(),
 			SeamWizardFactory.createSeamMethodNameFieldEditor(),
 			SeamWizardFactory.createSeamPageNameFieldEditor()	
 		};

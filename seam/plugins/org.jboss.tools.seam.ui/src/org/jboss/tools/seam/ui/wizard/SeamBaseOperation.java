@@ -12,9 +12,12 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
@@ -59,10 +62,13 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	@Override
 	public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 			throws ExecutionException {
-		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);
+		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+		
 		Map<String, Object> vars = new HashMap<String, Object>();
-		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamFacetPreferences(
-				ResourcesPlugin.getWorkspace().getRoot().getProject(params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString()));
+		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamFacetPreferences(project);
+		
 		try {
 			
 			for (String key : seamFacetPrefs.keys()) {
@@ -73,11 +79,35 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				INamedElement elem  = (INamedElement)valueHolder;
 				vars.put(elem.getName(),elem.getValue().toString());
 			}
-			vars.put(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE,
-					ResourcesPlugin.getWorkspace().getRoot().getProject(
-							vars.get(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString()));
 			
-			return execute(monitor, vars);
+			String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
+			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
+			
+			IVirtualComponent com = ComponentCore.createComponent(project);
+			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
+			IContainer webRootContainer = webRootFolder.getUnderlyingFolder();
+			
+			vars.put(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE,project);
+			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
+			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
+			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
+			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
+			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
+			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, testFolder);
+			
+			List<String[]> fileMapping = getFileMappings(vars);	
+			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
+			FilterSetCollection filters = getFilterSetCollection(vars);
+			for (String[] mapping : fileMappingCopy) {
+				if(SeamCorePlugin.getDefault().isDebugging()) {
+					System.out.println(mapping[0] + "->" + mapping[1]);
+				}
+				AntCopyUtils.copyFileToFile(new File(mapping[0]),new File(mapping[1]),filters,true); 			
+			}
+			
+			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
@@ -85,54 +115,45 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	/**
-	 * 
-	 * @param monitor
-	 * @param params
+	 * @param fileMapping
+	 * @param vars
 	 * @return
-	 * @throws ExecutionException
 	 */
-	public IStatus execute(IProgressMonitor monitor, Map<String,Object> vars) 
-		throws ExecutionException {
-		
-		// Target Project 
-		IProject targetProject = (IProject)vars.get(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE);
-		
-		IVirtualComponent com = ComponentCore.createComponent(targetProject);
-		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
-		IContainer webRootContainer = webRootFolder.getUnderlyingFolder();
-		
-		FilterSetCollection filters = new FilterSetCollection(SeamFacetFilterSetFactory.createFiltersFilterSet(vars));
-		
-		// Input data
-//		String beanName = vars.get(IParameter.SEAM_BEAN_NAME).toString();
-		String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
-		String interfaceName = vars.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).toString();
-		String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
-		String pageName = vars.get(IParameter.SEAM_PAGE_NAME).toString();
-		
-		File seamTargetInterfaceFile = new File(targetProject.getLocation().toFile().toString() 
-				+ "/src/" + actionFolder.replace('.','/') + "/" + interfaceName + ".java");
-		AntCopyUtils.copyFileToFile(getBeanFile(vars),seamTargetInterfaceFile,filters,true); 
-		
-		File seamTargetActionTestFile = new File(targetProject.getLocation().toFile().toString() 
-				+ "/src/" + testFolder.replace('.','/') + "/" + interfaceName + "Test.java");
-		AntCopyUtils.copyFileToFile(getTestClassFile(vars),seamTargetActionTestFile,filters,true); 			
-	
-		File seamTargetTestinFile = new File(targetProject.getLocation().toFile().toString() 
-				+ "/src/" + testFolder.replace('.','/') + "/" + interfaceName + "Test.xml");
-		AntCopyUtils.copyFileToFile(getTestngXmlFile(vars),seamTargetTestinFile,filters,true); 			
-	
-		File seamTargetActionPageFile = new File(webRootContainer.getLocation().toFile().toString() 
-				+ "/" + pageName + ".xhtml");
-		AntCopyUtils.copyFileToFile(getPageXhtml(vars),seamTargetActionPageFile,filters,true); 	
-		
-		try {
-			targetProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+	public static List<String[]> applayVariables(List<String[]> fileMapping,
+			Map<String, Object> vars) {
+		List<String[]> result = new ArrayList<String[]>();
+		for (String[] filter : fileMapping) {
+			String source = filter[0];
+			for (Object property : vars.keySet()){
+				if(source.contains("${"+property.toString()+"}")) {
+					source = source.replace("${"+property.toString()+"}",vars.get(property.toString()).toString());
+				}
 			}
-		return Status.OK_STATUS;
-	}		
+			String dest = filter[1];
+			for (Object property : vars.keySet()){
+				if(dest.contains("${"+property.toString()+"}")) {
+					dest = dest.replace("${"+property.toString()+"}",vars.get(property.toString()).toString());
+				}
+			}
+			result.add(new String[]{source,dest});
+		}
+		return result;
+	}
+
+	/**
+	 * @param vars
+	 * @return
+	 */
+	public abstract List<String[]> getFileMappings(Map<String, Object> vars);
+
+	/**
+	 * 
+	 * @param vars
+	 * @return
+	 */
+	public FilterSetCollection getFilterSetCollection(Map vars) {
+		return new FilterSetCollection(SeamFacetFilterSetFactory.createFiltersFilterSet(vars));
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.core.commands.operations.AbstractOperation#redo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
@@ -165,12 +186,4 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	public File getSeamFolder(Map<String, Object> vars) {
 		return new File(vars.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString(),"seam-gen");		
 	}
-
-	public abstract File getBeanFile(Map<String, Object> vars);
-	
-	public abstract File getTestClassFile(Map<String, Object> vars);
-	
-	public abstract File getTestngXmlFile(Map<String, Object> vars);
-	
-	public abstract File getPageXhtml(Map<String, Object> vars);
 }

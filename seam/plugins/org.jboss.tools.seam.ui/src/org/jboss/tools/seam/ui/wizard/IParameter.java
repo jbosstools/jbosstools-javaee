@@ -24,5 +24,9 @@ public interface IParameter {
 	public static String SEAM_METHOD_NAME = "method.name";
 	public static String SEAM_PAGE_NAME = "page.name";
 	public static String SEAM_MASTER_PAGE_NAME = "masterPage.name";
-	public static String SEAM_ENTITY_CLASS_NAME = "entity.name";	
+	public static String SEAM_ENTITY_CLASS_NAME = "entity.name";
+	public static String SEAM_PROJECT_LOCATION_PATH = "seam.project.location";
+	public static String SEAM_PROJECT_WEBCONTENT_PATH = "seam.project.webcontent";
+	
+
 }

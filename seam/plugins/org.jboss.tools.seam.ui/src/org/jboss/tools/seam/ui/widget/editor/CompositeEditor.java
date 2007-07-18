@@ -104,4 +104,10 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		}
 		super.setValue(event.getNewValue());
 	}
+	
+	public void setEnabled(boolean set) {
+		for (IFieldEditor editor : editors) {
+			editor.setEnabled(set);
+		}
+	}
 }

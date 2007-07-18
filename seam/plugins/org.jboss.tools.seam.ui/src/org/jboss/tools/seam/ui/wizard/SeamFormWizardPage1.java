@@ -25,4 +25,8 @@ public class SeamFormWizardPage1 extends SeamBaseWizardPage {
 		setMessage("Select the name of the new Seam Form. A new Seam Form with a single input field and related " +
 				"Java Interface, SLSB and key Seam/EJB3 annotations will be created.");
 	}
+	
+	protected void createEditors() {
+		addEditors(SeamWizardFactory.createActionFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
+	}
 }

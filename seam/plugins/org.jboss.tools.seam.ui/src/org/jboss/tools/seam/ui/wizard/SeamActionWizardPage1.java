@@ -26,4 +26,8 @@ public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 		setMessage("Select the name of the new Seam Conversation. A new Java interface and SLSB " +
 				"with key Seam/EJB annotations will be created.");
 	}
+	
+	protected void createEditors() {
+		addEditors(SeamWizardFactory.createActionFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
+	}
 }

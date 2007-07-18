@@ -149,7 +149,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
 		IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
 		IContainer folder = webRootFolder.getUnderlyingFolder();
-		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
+//		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
 		
 		File webContentFolder = folder.getLocation().toFile();
 		File webInfFolder = new File(webContentFolder,"WEB-INF");

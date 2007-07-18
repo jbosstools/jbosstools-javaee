@@ -50,6 +50,8 @@ public abstract class SeamBaseWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
+			
+			// TODO lock only current project, not entire workspace
 			getContainer().run(false,false, new WorkspaceModifyOperation(){
 				@Override
 				protected void execute(IProgressMonitor monitor)

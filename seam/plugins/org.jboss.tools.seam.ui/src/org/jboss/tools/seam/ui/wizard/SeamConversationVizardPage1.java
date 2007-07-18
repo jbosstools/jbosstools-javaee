@@ -22,4 +22,8 @@ public class SeamConversationVizardPage1 extends SeamBaseWizardPage {
 		setMessage("Select the name of the new Seam Conversation. A set of classes " +
 				"managing a coversation will be created.");
 	}
+	
+	protected void createEditors() {
+		addEditors(SeamWizardFactory.createActionFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
+	}
 }

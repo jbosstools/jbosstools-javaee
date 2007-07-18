@@ -41,7 +41,7 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
  * @author eskimo
  *
  */
-public class SeamBaseWizardPage extends WizardPage implements IAdaptable, PropertyChangeListener {
+public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptable, PropertyChangeListener {
 
 	/**
 	 * 
@@ -63,9 +63,7 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable, Proper
 		createEditors();
 	}
 
-	protected void createEditors() {
-		addEditors(SeamWizardFactory.createDefaultWizardEditors(SeamWizardUtils.getSelectedProjectName()));
-	}
+	protected abstract void createEditors();
 	
 	Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
 	
@@ -79,11 +77,18 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable, Proper
 
 		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){
 			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
-					editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
+					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 			
 			if(errors.size()>0) {
 				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
+			} else if(isWar()) {
+				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);			
+			} else {
+				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(true);
 			}
+		} else {
+			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);	
 		}
 		setPageComplete(false);
 	}
@@ -170,12 +175,15 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable, Proper
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
 			setPageComplete(false);
+			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
 			return;
 		}
 		
-		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(
-				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+		IResource project = getSelectedProject();
 
+		String type = SeamCorePlugin.getSeamFacetPreferences(project.getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war");
+	
+		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!"war".equals(type));
 		
 		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), new Object[]{"Seam component",project});
@@ -193,6 +201,19 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable, Proper
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
 			setPageComplete(false);
 			return;
+		}
+
+		if(!isWar()) {
+			errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+					editorRegistry.get(IParameter.SEAM_BEAN_NAME).getValue(), new Object[]{"Bean",project});
+			
+			if(errors.size()>0) {
+				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+				setPageComplete(false);
+				return;
+			}
+		} else {
+			
 		}
 		
 		errors = ValidatorFactory.SEAM_METHOD_NAME_VALIDATOR.validate(
@@ -226,5 +247,19 @@ public class SeamBaseWizardPage extends WizardPage implements IAdaptable, Proper
 		setErrorMessage(null);
 		setMessage(null);
 		setPageComplete(true);
+	}
+
+	/**
+	 * @return
+	 */
+	public IResource getSelectedProject() {
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+		return project;
+	}
+	
+	public boolean isWar() {
+		if(getSelectedProject()==null) return true;
+		return "war".equals(SeamCorePlugin.getSeamFacetPreferences(getSelectedProject().getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war"));
 	}
 }

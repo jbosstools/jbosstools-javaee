@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -54,6 +55,12 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 		
 		public File getPageXhtml(Map<String, Object> vars) {
 			return new File(getSeamFolder(vars),"view/action.xhtml");
+		}
+
+		@Override
+		public List<String[]> getFileMappings(Map<String, Object> vars) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	};

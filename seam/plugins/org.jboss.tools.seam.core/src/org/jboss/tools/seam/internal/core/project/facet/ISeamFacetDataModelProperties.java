@@ -55,9 +55,15 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String SESION_BEAN_PACKAGE_NAME = "action.package";
 	
+	public static final String SESION_BEAN_PACKAGE_PATH = "action.package.path";
+	
 	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package";
 	
+	public static final String ENTITY_BEAN_PACKAGE_PATH = "model.package.path";
+	
 	public static final String TEST_CASES_PACKAGE_NAME = "test.package";
+	
+	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path";
 
 	public static final String JBOSS_SEAM_HOME = "seam.jbossas.home.folder";
 	
