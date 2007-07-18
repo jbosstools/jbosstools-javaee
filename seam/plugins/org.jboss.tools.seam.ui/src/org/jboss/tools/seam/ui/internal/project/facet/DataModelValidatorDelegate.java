@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
@@ -65,7 +66,13 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * 
 	 */
 	public void propertyChanged(DataModelEvent event) {
-		validateUntillError();
+		//When SeamFacetInstallDelegete sets model property,
+		//it can result in Invalid thread access.
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				validateUntillError();
+			}
+		});
 	}
 	
 	/**
