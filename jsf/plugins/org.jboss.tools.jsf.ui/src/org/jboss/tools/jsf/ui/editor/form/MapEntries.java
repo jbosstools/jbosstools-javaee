@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.editor.form;
 
-import org.eclipse.core.runtime.Status;
 import org.jboss.tools.common.editor.form.RightFormContainer;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.adapter.XChildrenTableStructuredAdapter;

@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.editor.form;
 
-import org.eclipse.core.runtime.Status;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.adapter.XChildrenTableStructuredAdapter;
 import org.jboss.tools.common.model.ui.attribute.editor.IFieldEditor;
@@ -162,6 +161,13 @@ public class ListEntries extends ExpandableForm {
 		this.tableEditor = new TableStructuredEditor(settings);
 		this.tableEditor.setLabelText("");
 		this.tableEditor.setInput(this.tableAdapter);
+	}
+
+	public void update() {
+		if (support != null) {
+			support.load();			
+			support.updateEnablementByModelObject();
+		}
 	}
 
 	public void setEnabled(boolean enabled) {
