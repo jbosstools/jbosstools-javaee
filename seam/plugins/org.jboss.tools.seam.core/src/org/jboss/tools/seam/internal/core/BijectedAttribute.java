@@ -55,7 +55,7 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 		if(f instanceof BijectedAttribute) {
 			BijectedAttribute sf = (BijectedAttribute)f;
 			if(!typesAreEqual(types, sf.types)) {
-				changes = Change.addChange(changes, new Change(this, ISeamXmlComponentDeclaration.NAME, name, f.name));
+				changes = Change.addChange(changes, new Change(this, "types", types, sf.types));
 				this.types = sf.types;
 			}
 		}

@@ -41,5 +41,7 @@ public interface SeamAnnotations {
 	
 	public static String ENTITY_ANNOTATION_TYPE = "javax.persistence.Entity";
 	public static String STATEFUL_ANNOTATION_TYPE = "javax.ejb.Stateful";
+	public static String STATELESS_ANNOTATION_TYPE = "javax.ejb.Stateless";
+	public static String MESSAGE_DRIVEN_ANNOTATION_TYPE = "javax.ejb.MessageDriven";
 
 }

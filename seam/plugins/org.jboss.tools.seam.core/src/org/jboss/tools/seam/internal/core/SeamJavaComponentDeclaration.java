@@ -9,6 +9,7 @@ import java.util.Set;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.JavaUI;
+import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
@@ -31,8 +32,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	protected String className = null;
 	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
-	protected boolean stateful = false;
-	protected boolean entity = false;
+	Map<BeanType, IValueInfo> types = null;
 	protected int precedence = SeamComponentPrecedenceType.DEFAULT;
 	
 	protected IType type;
@@ -46,7 +46,16 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	}
 	
 	public ScopeType getScope() {
-		return scopeType;
+		if(scopeType != null && scopeType != ScopeType.UNSPECIFIED) {
+			return scopeType;
+		}
+		if(isEntity() || isStateful()) {
+			return ScopeType.CONVERSATION;
+		}
+		if(isOfType(BeanType.STATELESS) || isOfType(BeanType.MESSAGE_DRIVEN)) {
+			return ScopeType.STATELESS;
+		}
+		return ScopeType.EVENT;
 	}
 	
 	public void setScope(String scope) {
@@ -131,18 +140,18 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		return roles;
 	}
 	
+	public boolean isOfType(BeanType type) {
+		return types != null && types.containsKey(type);
+	}
+	
 	public boolean isEntity() {
-		return entity;
+		return isOfType(BeanType.ENTITY);
 	}
 
 	public boolean isStateful() {
-		return stateful;
+		return isOfType(BeanType.STATEFUL);
 	}
 	
-	public void setStateful(boolean b) {
-		stateful = b;
-	}
-
 	public void removeBijectedAttribute(IBijectedAttribute attribute) {
 		bijectedAttributes.remove(attribute);
 	}
@@ -153,10 +162,6 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public void removeRole(IRole role) {
 		roles.remove(role);
-	}
-
-	public void setEntity(boolean entity) {
-		this.entity = entity;
 	}
 
 	public IMember getSourceMember() {
@@ -186,14 +191,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 
 		if(type != jd.type) type = jd.type;
-		if(stateful != jd.stateful) {
-			changes = Change.addChange(changes, new Change(this, "stateful", stateful, jd.stateful));
-			stateful = jd.stateful;
+		if(!typesAreEqual(types, jd.types)) {
+			changes = Change.addChange(changes, new Change(this, "types", types, jd.types));
 		}
-		if(entity != jd.entity) {
-			changes = Change.addChange(changes, new Change(this, "entity", entity, jd.entity));
-			entity = jd.entity;
-		}
+		this.types = jd.types;
+
 		Change children = new Change(this, null, null, null);
 
 		mergeComponentMethods(jd, children);
@@ -305,6 +307,16 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	}
 
+	boolean typesAreEqual(Map<BeanType, IValueInfo> types1, Map<BeanType, IValueInfo> types2) {
+		if(types1 == null || types2 == null) return types2 == types1;
+		if(types1.size() != types2.size()) return false;
+		for (BeanType t : types1.keySet()) {
+			if(!types2.containsKey(t)) return false;
+		}
+		return true;
+		
+	}
+
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamJavaComponentDeclaration#getPrecedence()
 	 */
@@ -333,15 +345,9 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			//ignore - exact value is stored in ValueInfo
 		}
 	}
-
-	public void setEntity(IValueInfo value) {
-		attributes.put("entity", value);
-		setEntity(value != null && "true".equals(value.getValue()));
-	}
-
-	public void setStateful(IValueInfo value) {
-		attributes.put("stateful", value);
-		setStateful(value != null && "true".equals(value.getValue()));
+	
+	public void setTypes(Map<BeanType, IValueInfo> types) {
+		this.types = types;		
 	}
 
 	public Set<ISeamContextVariable> getDeclaredVariables() {

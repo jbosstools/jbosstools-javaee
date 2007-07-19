@@ -78,5 +78,9 @@ public class ValueInfo implements IValueInfo {
 		}
 		return exp.toString();
 	}
+	
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 }

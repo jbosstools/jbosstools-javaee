@@ -61,6 +61,12 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	public void removeBijectedAttribute(IBijectedAttribute attribute);
 
 	/**
+	 * @param type
+	 * @return true if class is marked with annotation referenced in type
+	 */
+	public boolean isOfType(BeanType type);
+
+	/**
 	 * @return true if class marked as Stateful
 	 */
 	public boolean isStateful();
@@ -69,11 +75,6 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	 * @return true if class marked as Entity
 	 */
 	public boolean isEntity();
-
-	/**
-	 * Set true if class marked as Entity
-	 */
-	public void setEntity(boolean entity);
 
 	/**
 	 * @return roles of component which defined in this component class

@@ -22,7 +22,9 @@ import org.eclipse.jdt.internal.compiler.env.IBinaryMethod;
 import org.eclipse.jdt.internal.compiler.impl.Constant;
 import org.eclipse.jdt.internal.compiler.impl.IntConstant;
 import org.eclipse.jdt.internal.compiler.impl.StringConstant;
+import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
@@ -31,6 +33,7 @@ import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
+import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 public class TypeScanner implements SeamAnnotations {
 
@@ -135,15 +138,23 @@ public class TypeScanner implements SeamAnnotations {
 					//ignore
 				}
 			}
-			a = map.get(STATEFUL_ANNOTATION_TYPE);
+		}
+		
+		Map<BeanType, IValueInfo> types = new HashMap<BeanType, IValueInfo>();
+		for (int i = 0; i < BeanType.values().length; i++) {
+			BeanType t = BeanType.values()[i];
+			IBinaryAnnotation a = map.get(t.getAnnotationType());
 			if(a != null) {
-				component.setStateful(true);
-			}
-			a = map.get(ENTITY_ANNOTATION_TYPE);
-			if(a != null) {
-				component.setEntity(true);
+				ValueInfo v = new ValueInfo();
+				v.setValue("true");
+				types.put(t, v);
 			}
 		}
+		if(types.size() > 0) {
+			component.setTypes(types);
+		}
+
+		
 		IBinaryMethod[] ms = null;
 		try {
 			ms = cls.getMethods();

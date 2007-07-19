@@ -28,8 +28,10 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.Role;
@@ -85,18 +87,23 @@ public class ComponentBuilder implements SeamAnnotations {
 				component.setScope(scope);
 			} else if(INSTALL_ANNOTATION_TYPE.equals(type)) {
 				component.setPrecedence(ValueInfo.getValueInfo(as[i].getAnnotation(), "precedence"));
-			} else if(STATEFUL_ANNOTATION_TYPE.equals(type)) {
-				ValueInfo stateful = new ValueInfo();
-				stateful.value = "true";
-				stateful.valueStartPosition = as[i].getAnnotation().getStartPosition();
-				stateful.valueLength = as[i].getAnnotation().getLength();
-				component.setStateful(stateful);
-			} else if(ENTITY_ANNOTATION_TYPE.equals(type)) {
-				ValueInfo entity = new ValueInfo();
-				entity.value = "true";
-				entity.valueStartPosition = as[i].getAnnotation().getStartPosition();
-				entity.valueLength = as[i].getAnnotation().getLength();
-				component.setEntity(entity);
+			}
+		}
+		
+		if(as != null) {
+			Map<BeanType, IValueInfo> types = new HashMap<BeanType, IValueInfo>();
+			for (int i = 0; i < BeanType.values().length; i++) {
+				Annotation a = findAnnotation(annotatedType, BeanType.values()[i].getAnnotationType());
+				if(a != null) {
+					ValueInfo v = new ValueInfo();
+					v.value = "true";
+					v.valueStartPosition = a.getStartPosition();
+					v.valueLength = a.getLength();
+					types.put(BeanType.values()[i], v);
+				}
+			}
+			if(types.size() > 0) {
+				component.setTypes(types);
 			}
 		}
 		
