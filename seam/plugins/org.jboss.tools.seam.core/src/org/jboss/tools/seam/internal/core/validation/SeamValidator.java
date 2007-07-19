@@ -78,16 +78,20 @@ public abstract class SeamValidator implements IValidatorJob {
 		return "org.jboss.tools.seam.internal.core.validation.messages";
 	}
 
-	protected void addError(String preferenceKey, String messageId, String[] messageArguments, ISeamTextSourceReference location, IResource target, String messageGroup) {
-		addError(preferenceKey, messageId, messageArguments, location.getLength(), location.getStartPosition(), target, messageGroup);
+	protected void addError(String messageId, String preferenceKey, String[] messageArguments, ISeamTextSourceReference location, IResource target, String messageGroup) {
+		addError(messageId, preferenceKey, messageArguments, location.getLength(), location.getStartPosition(), target, messageGroup);
 	}
 
-	protected void addError(String preferenceKey, String messageId, String[] messageArguments, int length, int offset, IResource target, String messageGroup) {
+	protected void addError(String messageId, String preferenceKey, ISeamTextSourceReference location, IResource target, String messageGroup) {
+		addError(messageId, preferenceKey, new String[0], location, target, messageGroup);
+	}
+
+	protected void addError(String messageId, String preferenceKey, String[] messageArguments, int length, int offset, IResource target, String messageGroup) {
 		String preferenceValue = SeamPreferences.getProjectPreference(project, preferenceKey);
 		boolean ignore = false;
 		int messageSeverity = IMessage.HIGH_SEVERITY;
 		if(SeamPreferences.WARNING.equals(preferenceValue)) {
-			messageSeverity = IMessage.HIGH_SEVERITY;
+			messageSeverity = IMessage.NORMAL_SEVERITY;
 		} else if(SeamPreferences.IGNORE.equals(preferenceValue)) {
 			ignore = true;
 		}
@@ -95,14 +99,9 @@ public abstract class SeamValidator implements IValidatorJob {
 		IMessage message = new Message(getBaseName(), messageSeverity, messageId, messageArguments, target, messageGroup);
 		message.setLength(length);
 		message.setOffset(offset);
-		message.setSeverity(IMessage.HIGH_SEVERITY);
 		if(!ignore) {
 			reporter.addMessage(this, message);
 		}
-	}
-
-	protected void addError(String preferenceKey, String messageId, ISeamTextSourceReference location, IResource target, String messageGroup) {
-		addError(preferenceKey, messageId, new String[0], location, target, messageGroup);
 	}
 
 	protected void removeMessagesFromResources(Set<IResource> resources, String messageGroup) {
