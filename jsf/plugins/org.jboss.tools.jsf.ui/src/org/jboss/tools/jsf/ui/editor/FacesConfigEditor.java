@@ -40,7 +40,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 		return !entity.startsWith(JSFConstants.ENT_FACESCONFIG);
 	}
 	protected void doCreatePages() {
-		if (isAppropriateNature()) {
+		if (isAppropriateNature() || true /* JBIDE-541 */) {
 			createGuiPage(); 
 			treeFormPage = createTreeFormPage();
 			treeFormPage.setTitle(JSFUIMessages.FACES_CONFIG_EDITOR);
