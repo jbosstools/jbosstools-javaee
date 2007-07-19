@@ -14,8 +14,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 
 /**
  * Constants for names of seam preferences.
@@ -95,10 +97,21 @@ public class SeamPreferences {
 		return new DefaultScope().getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 	
+	public static IEclipsePreferences getInstancePreferences() {
+		return new InstanceScope().getNode(SeamCorePlugin.PLUGIN_ID);
+	}
+	
 	public static String getProjectPreference(ISeamProject project, String key) {
 		IEclipsePreferences p = getProjectPreferences(project);
 		if(p == null) return null;
-		return p.get(key, null);
+		String value = p.get(key, null);
+		return value != null ? value : getInstancePreference(key);
+	}
+
+	public static String getInstancePreference(String key) {
+		IEclipsePreferences p = getInstancePreferences();
+		String value = p == null ? null : p.get(key, null);
+		return value != null ? value : getDefaultPreference(key);
 	}
 
 	public static String getDefaultPreference(String key) {
