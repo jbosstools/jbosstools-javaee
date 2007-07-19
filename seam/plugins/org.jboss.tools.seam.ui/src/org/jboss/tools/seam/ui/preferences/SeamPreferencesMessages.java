@@ -31,6 +31,8 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SeamValidatorConfigurationBlock_pb_statefulComponentDoesNotContainRemove_label;
 	public static String SeamValidatorConfigurationBlock_pb_statefulComponentDoesNotContainDestroy_label;
 	public static String SeamValidatorConfigurationBlock_pb_statefulComponentHasWrongScope_label;
+	public static String SeamValidatorConfigurationBlock_pb_unknownComponentClassName_label;
+	public static String SeamValidatorConfigurationBlock_pb_unknownComponentProperty_label;
 
 	//Section Entities
 	public static String SeamValidatorConfigurationBlock_section_entities;
@@ -59,7 +61,7 @@ public class SeamPreferencesMessages extends NLS {
 	//Section Context variables
 	public static String SeamValidatorConfigurationBlock_section_variable;
 	public static String SeamValidatorConfigurationBlock_pb_duplicateVariableName_label;
-	public static String SeamValidatorConfigurationBlock_pb_unknownInjectionName_label;
+	public static String SeamValidatorConfigurationBlock_pb_unknownVariableName_label;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamPreferencesMessages.class);

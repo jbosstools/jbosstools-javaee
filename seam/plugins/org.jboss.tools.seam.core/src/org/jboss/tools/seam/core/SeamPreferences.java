@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.ProjectScope;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -52,6 +51,8 @@ public class SeamPreferences {
 	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE = createSeverityOption("statefulComponentDoesNotContainRemove");
 	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY = createSeverityOption("statefulComponentDoesNotContainDestroy");
 	public static final String STATEFUL_COMPONENT_WRONG_SCOPE = createSeverityOption("statefulComponentHasWrongScope");
+	public static final String UNKNOWN_COMPONENT_CLASS_NAME = createSeverityOption("unknownComponentClassName");
+	public static final String UNKNOWN_COMPONENT_PROPERTY = createSeverityOption("unknownComponentProperty");
 
 	//Entities
 	public static final String ENTITY_COMPONENT_WRONG_SCOPE = createSeverityOption("entityComponentHasWrongScope");
@@ -75,7 +76,7 @@ public class SeamPreferences {
 
 	//Context variables
 	public static final String DUPLICATE_VARIABLE_NAME = createSeverityOption("duplicateVariableName");
-	public static final String UNKNOWN_INJECTION_NAME = createSeverityOption("unknownInjectionName");
+	public static final String UNKNOWN_VARIABLE_NAME = createSeverityOption("unknownVariableName");
 	
 	private static String createSeverityOption(String shortName) {
 		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName;

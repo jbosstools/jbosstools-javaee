@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock;
-import org.eclipse.jdt.internal.ui.preferences.PreferencesMessages;
 import org.eclipse.jdt.internal.ui.preferences.ScrolledPageContent;
-import org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock.Key;
 import org.eclipse.jdt.internal.ui.util.PixelConverter;
 import org.eclipse.jdt.internal.ui.wizards.IStatusChangeListener;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -54,7 +52,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
  */
 public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static final String SETTINGS_SECTION_NAME = "SeamValidatorConfigurationBlock";
-	
+
 	private static SectionDescription SECTION_COMPONENT = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_component,
 		new String[][]{
@@ -62,6 +60,8 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 			{SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_statefulComponentDoesNotContainRemove_label},
 			{SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_statefulComponentDoesNotContainDestroy_label},
 			{SeamPreferences.STATEFUL_COMPONENT_WRONG_SCOPE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_statefulComponentHasWrongScope_label},
+			{SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownComponentClassName_label},
+			{SeamPreferences.UNKNOWN_COMPONENT_PROPERTY, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownComponentProperty_label}
 		}
 	);
 
@@ -105,10 +105,10 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_variable,
 		new String[][]{
 			{SeamPreferences.DUPLICATE_VARIABLE_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateVariableName_label},
-			{SeamPreferences.UNKNOWN_INJECTION_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownInjectionName_label},
+			{SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownVariableName_label},
 		}
 	);
-	
+
 	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_COMPONENT, 
 		SECTION_ENTITY, 
@@ -125,7 +125,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static final String IGNORE = SeamPreferences.IGNORE;
 
 	private PixelConverter fPixelConverter;
-	
+
 	private static Key[] getKeys() {
 		ArrayList<Key> keys = new ArrayList<Key>();
 		for (int i = 0; i < ALL_SECTIONS.length; i++) {
@@ -146,55 +146,55 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
-		
+
 		Composite mainComp = new Composite(parent, SWT.NONE);
 		mainComp.setFont(parent.getFont());
 		GridLayout layout= new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		mainComp.setLayout(layout);
-		
+
 		Composite commonComposite = createStyleTabContent(mainComp);
 		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.heightHint = fPixelConverter.convertHeightInCharsToPixels(20);
 		commonComposite.setLayoutData(gridData);
-		
+
 		validateSettings(null, null, null);
-	
+
 		return mainComp;
 	}
 
 	private Composite createStyleTabContent(Composite folder) {
 		String[] errorWarningIgnore = new String[] {ERROR, WARNING, IGNORE};
-		
+
 		String[] errorWarningIgnoreLabels = new String[] {
 			"Error",  
 			"Warning", 
 			"Ignore"
 		};
-		
+
 		int nColumns = 3;
-		
+
 		final ScrolledPageContent sc1 = new ScrolledPageContent(folder);
-		
+
 		Composite composite = sc1.getBody();
 		GridLayout layout= new GridLayout(nColumns, false);
 		layout.marginHeight= 0;
 		layout.marginWidth= 0;
 		composite.setLayout(layout);
-		
+
 		Label description= new Label(composite, SWT.LEFT | SWT.WRAP);
 		description.setFont(description.getFont());
 		description.setText(SeamPreferencesMessages.SeamValidatorConfigurationBlock_common_description); 
 		description.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, false, nColumns - 1, 1));
-				
+
 		int defaultIndent = 0;
 
 		for (int i = 0; i < ALL_SECTIONS.length; i++) {
 			SectionDescription section = ALL_SECTIONS[i];
 			String label = section.label; 
 			ExpandableComposite excomposite = createStyleSection(composite, label, nColumns);
-			
+
 			Composite inner = new Composite(excomposite, SWT.NONE);
 			inner.setFont(composite.getFont());
 			inner.setLayout(new GridLayout(nColumns, false));
@@ -206,10 +206,10 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 				addComboBox(inner, label, option.key, errorWarningIgnore, errorWarningIgnoreLabels, defaultIndent);
 			}
 		}
-		
+
 		IDialogSettings section = SeamCorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 		restoreSectionExpansionStates(section);
-		
+
 		return sc1;
 	}
 
@@ -231,20 +231,20 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		if (!areSettingsEnabled()) {
 			return;
 		}
-		
+
 		//updateEnableStates();
-		
+
 		fContext.statusChanged(new StatusInfo());		
 	}
 
 	protected static Key getSeamKey(String key) {
 		return getKey(SeamCorePlugin.PLUGIN_ID, key);
 	}	
-	
+
 	static class SectionDescription {
 		String label;
 		OptionDescription[] options;
-		
+
 		public SectionDescription(String label, String[][] optionLabelsAndKeys) {
 			this.label = label;
 			options = new OptionDescription[optionLabelsAndKeys.length];
@@ -253,15 +253,14 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 			}
 		}
 	}
-	
+
 	static class OptionDescription {
 		String label;
 		Key key;
-		
+
 		public OptionDescription(String keyName, String label) {
 			this.label = label;
 			key = getSeamKey(keyName);
 		}
 	}
-
 }
