@@ -127,10 +127,8 @@
 	            id="org.jboss.tools.seam.ui.views.rootContent">         
 	    <triggerPoints>
 	      <or>         
-	        <instanceof 
-	              value="org.eclipse.core.resources.IWorkspaceRoot" /> 
-	        <instanceof 
-	              value="org.jboss.tools.seam.core.ISeamElement" /> 
+	        <instanceof value="org.eclipse.core.resources.IWorkspaceRoot" /> 
+	        <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
 	      </or>
 	    </triggerPoints>
 	    <possibleChildren>
@@ -149,6 +147,46 @@
 	      </enablement>
 	    </actionProvider>
 	  </navigatorContent>
+	</extension>
+
+	<extension point="org.eclipse.ui.navigator.viewer">
+		<viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+			<includes>
+				<contentExtension pattern="org.jboss.tools.seam.ui.views.projectContent" />
+			</includes>
+		</viewerContentBinding>
+	</extension>
+
+	<extension point="org.eclipse.ui.navigator.navigatorContent">
+		<navigatorContent
+            	name="Seam Components"
+            	priority="highest"
+            	icon="icons/sample.gif"
+            	activeByDefault="true"
+            	contentProvider="org.jboss.tools.seam.ui.views.ProjectContentProvider"
+            	labelProvider="org.jboss.tools.seam.ui.views.SeamProjectLabelProvider"   
+            	id="org.jboss.tools.seam.ui.views.projectContent">         
+			<triggerPoints>
+				<or>         
+					<instanceof value="org.eclipse.core.resources.IProject" /> 
+					<instanceof value="org.eclipse.jdt.core.IJavaProject" />
+				</or>
+			</triggerPoints>
+			<possibleChildren>
+				<or>
+					<instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
+				</or>
+			</possibleChildren>
+			<actionProvider
+					class="org.jboss.tools.seam.ui.views.actions.SeamActionProvider"
+					id="org.jboss.tools.seam.ui.views.actions.SeamActionProvider">
+				<enablement>
+					<or>
+						<instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
+					</or>
+				</enablement>
+			</actionProvider>
+		</navigatorContent>
 	</extension>
 
 	<extension point="org.eclipse.core.runtime.adapters">
