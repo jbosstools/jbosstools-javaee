@@ -20,6 +20,8 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
+import org.jboss.tools.seam.internal.core.SeamProperty;
+import org.jboss.tools.seam.internal.core.SeamValueString;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
@@ -71,7 +73,6 @@ public class PropertiesScanner implements IFileScanner {
 		Map<String, SeamPropertiesDeclaration> ds1 = new HashMap<String, SeamPropertiesDeclaration>();
 		for (int i = 0; i < properties.length; i++) {
 			String name = properties[i].getAttributeValue("name");
-			String value = properties[i].getAttributeValue("value");
 			int q = name.lastIndexOf('.');
 			if(q < 0) continue;
 			String componentName = name.substring(0, q);
@@ -84,7 +85,14 @@ public class PropertiesScanner implements IFileScanner {
 				d.setName(componentName);
 				ds1.put(componentName, d);
 			}
-			d.addStringProperty(propertyName, value);
+			SeamProperty p = new SeamProperty();
+			p.setId(properties[i]);
+			p.setName(new XMLValueInfo(properties[i], "name"));
+			p.setName(propertyName);
+			SeamValueString v = new SeamValueString();
+			v.setValue(new XMLValueInfo(properties[i], "value"));
+			p.setValue(v);
+			d.addProperty(p);
 		}
 		ds.getComponents().addAll(ds1.values());
 		return ds;

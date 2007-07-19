@@ -10,11 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.scanner.xml;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -29,11 +25,18 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProperty;
+import org.jboss.tools.seam.internal.core.SeamValueList;
+import org.jboss.tools.seam.internal.core.SeamValueMap;
+import org.jboss.tools.seam.internal.core.SeamValueMapEntry;
+import org.jboss.tools.seam.internal.core.SeamValueString;
 import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 
+/**
+ * @author Viacheslav Kabanovich
+ */
 public class XMLScanner implements IFileScanner {
 	
 	public XMLScanner() {}
@@ -80,6 +83,7 @@ public class XMLScanner implements IFileScanner {
 	}
 	
 	static Set<String> COMMON_ATTRIBUTES = new HashSet<String>();
+	static Set<String> INTERNAL_ATTRIBUTES = new HashSet<String>();
 	
 	static {
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.NAME);
@@ -89,6 +93,10 @@ public class XMLScanner implements IFileScanner {
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.INSTALLED);
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.AUTO_CREATE);
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.JNDI_NAME);
+		
+		INTERNAL_ATTRIBUTES.add("NAME");
+		INTERNAL_ATTRIBUTES.add("EXTENSION");
+		INTERNAL_ATTRIBUTES.add("#comment");
 	}
 	
 	public LoadedDeclarations parse(XModelObject o, IPath source) {
@@ -139,42 +147,72 @@ public class XMLScanner implements IFileScanner {
 		for (int ia = 0; ia < attributes.length; ia++) {
 			XAttribute a = attributes[ia];
 			String xml = a.getXMLName();
-			if(xml == null) continue;
+			if(xml == null || xml.length() == 0 || "#comment".equals(xml)) continue;
 			if(COMMON_ATTRIBUTES.contains(xml)) continue;
-			String stringValue = c.getAttributeValue(a.getName());
-			component.addStringProperty(xml, stringValue);					
+			if(INTERNAL_ATTRIBUTES.contains(xml)) continue;
+			if(xml.indexOf(":") >= 0) continue;
+			if(xml.startsWith("xmlns")) continue;
+			
+			SeamProperty p = new SeamProperty();
+			p.setId(xml);
+			p.setName(xml);
+			SeamValueString v = new SeamValueString();
+			v.setId("value");
+			p.setValue(v);
+			v.setValue(new XMLValueInfo(c, a.getName()));
+			component.addProperty(p);
 		}
 
 		XModelObject[] properties = c.getChildren();
 		for (int j = 0; j < properties.length; j++) {
 			XModelEntity entity = properties[j].getModelEntity();
-			String propertyName = properties[j].getAttributeValue("name");
+
+			SeamProperty p = new SeamProperty();
+			p.setId(properties[j]);
+			p.setName(new XMLValueInfo(properties[j], "name"));
+
 			if(entity.getAttribute("value") != null) {
 				//this is simple value;
-				String value = properties[j].getAttributeValue("value");
-				component.addStringProperty(propertyName, value);
+				SeamValueString v = new SeamValueString();
+				v.setId(properties[j]);
+				v.setValue(new XMLValueInfo(properties[j], "value"));
+				p.setValue(v);
 			} else {
 				XModelObject[] entries = properties[j].getChildren();
 				if(entity.getChild("SeamListEntry") != null
 					|| "list".equals(entity.getProperty("childrenLoader"))) {
 					//this is list value
-					List<String> listValues = new ArrayList<String>();
+					
+					SeamValueList vl = new SeamValueList();
+					vl.setId(properties[j]);
+					
 					for (int k = 0; k < entries.length; k++) {
-						listValues.add(entries[k].getAttributeValue("value"));
+						SeamValueString v = new SeamValueString();
+						v.setId(entries[k]);
+						v.setValue(new XMLValueInfo(entries[k], "value"));
+						vl.addValue(v);
 					}
-					component.addProperty(new SeamProperty(propertyName, listValues));
+					p.setValue(vl);
 				} else {
 					//this is map value
-					Map<String,String> mapValues = new HashMap<String, String>();
+					SeamValueMap vm = new SeamValueMap();
+					vm.setId(properties[j]);
 					for (int k = 0; k < entries.length; k++) {
-						String entryKey = entries[k].getAttributeValue("key");
-						String entryValue = entries[k].getAttributeValue("value");
-						mapValues.put(entryKey, entryValue);
+						SeamValueMapEntry e = new SeamValueMapEntry();
+						e.setId(entries[k]);
+						SeamValueString key = new SeamValueString();
+						key.setId(entries[k]);
+						key.setValue(new XMLValueInfo(entries[k], "key"));
+						e.setKey(key);
+						SeamValueString value = new SeamValueString();
+						value.setId(entries[k]);
+						value.setValue(new XMLValueInfo(entries[k], "value"));
+						e.setValue(value);
+						vm.addEntry(e);
 					}
-					component.addProperty(new SeamProperty(propertyName, mapValues));
 				}
+				component.addProperty(p);
 			}
-			//TODO assign positioning attributes to created ISeamProperty object
 		}
 
 		ds.getComponents().add(component);

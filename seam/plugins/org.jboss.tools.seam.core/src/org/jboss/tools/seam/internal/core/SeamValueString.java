@@ -12,45 +12,37 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
 
-import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
-import org.jboss.tools.seam.core.event.ISeamValue;
+import org.jboss.tools.seam.core.event.ISeamValueString;
 
-public class SeamProperty extends AbstractSeamDeclaration implements ISeamProperty {
-	protected ISeamValue value;
+/**
+ * @author Viacheslav Kabanovich
+ */
+public class SeamValueString extends SeamObject implements ISeamValueString {
+	IValueInfo value;
+	
+	public SeamValueString() {}
 
-	public SeamProperty() {}
-
-	public ISeamValue getValue() {
+	public IValueInfo getValue() {
 		return value;
 	}
 	
-	public void setValue(ISeamValue value) {
+	public void setValue(IValueInfo value) {
 		this.value = value;
-		adopt((SeamObject)value);
 	}
 
 	public List<Change> merge(SeamObject s) {
 		List<Change> changes = super.merge(s);
-		
-		SeamProperty d = (SeamProperty)s;
-
-		if(!stringsEqual(name, d.name)) {
-			changes = Change.addChange(changes, new Change(this, "name", name, d.name));
-			name = d.name;
-		}
-		
-		List<Change> cs = ((SeamObject)value).merge((SeamObject)d.value);
-		if(cs != null && cs.size() > 0) {
-			Change c = new Change(this, "value", value, value);
-			c.addChildren(cs);
+		SeamValueString v = (SeamValueString)s;
+		String v1 = value.getValue();
+		String v2 = v.value.getValue();
+		if(v1 == null || !v1.equals(v2)) {
+			changes = Change.addChange(changes, new Change(this, "value", v1, v2));
+			value = v.value;
+			adopt((SeamObject)value);
 		}		
-		
 		return changes;
 	}
 
-	boolean stringsEqual(String s1, String s2) {
-		return s1 == null ? s2 == null : s1.equals(s2);
-	}
-	
 }

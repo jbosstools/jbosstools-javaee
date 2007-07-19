@@ -45,12 +45,6 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 		properties.remove(property.getName());		
 	}
 	
-	public SeamProperty addStringProperty(String name, String value) {
-		SeamProperty p = new SeamProperty(name, value);
-		addProperty(p);
-		return p;
-	}
-
 	/**
 	 * Merges loaded data into currently used declaration.
 	 * If changes were done returns a list of changes. 

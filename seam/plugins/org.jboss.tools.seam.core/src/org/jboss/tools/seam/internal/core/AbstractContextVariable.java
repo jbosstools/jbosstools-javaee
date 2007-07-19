@@ -10,12 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
@@ -24,21 +21,10 @@ import org.jboss.tools.seam.core.event.Change;
 /**
  * @author Viacheslav Kabanovich
  */
-public class AbstractContextVariable extends SeamObject implements ISeamContextVariable, ISeamTextSourceReference {
+public class AbstractContextVariable extends AbstractSeamDeclaration implements ISeamContextVariable {
 
-	protected String name;
 	protected ScopeType scopeType;
 	protected String scope;
-
-	protected Map<String,IValueInfo> attributes = new HashMap<String, IValueInfo>();
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public ScopeType getScope() {
 		return scopeType;
@@ -58,16 +44,6 @@ public class AbstractContextVariable extends SeamObject implements ISeamContextV
 		} catch (Exception e) {
 			//ignore
 		}
-	}
-
-	public int getLength() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int getStartPosition() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	/**
@@ -91,35 +67,6 @@ public class AbstractContextVariable extends SeamObject implements ISeamContextV
 		}
 	
 		return changes;
-	}
-
-	boolean stringsEqual(String s1, String s2) {
-		return s1 == null ? s2 == null : s1.equals(s2);
-	}
-
-	/**
-	 * @param path
-	 * @return source reference for some member of declaration.
-	 * e.g. if you need source reference for @Name you have to 
-	 * invoke getLocationFor("name");
-	 */
-	public ISeamTextSourceReference getLocationFor(String path) {
-		final IValueInfo valueInfo = attributes.get(path);
-		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
-			public int getLength() {
-				return valueInfo != null ? valueInfo.getLength() : 0;
-			}
-
-			public int getStartPosition() {
-				return valueInfo != null ? valueInfo.getStartPosition() : 0;
-			}
-		};
-		return reference;
-	}
-	
-	public void setName(IValueInfo value) {
-		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
-		name = value == null ? null : value.getValue();
 	}
 
 	public void setScope(IValueInfo value) {
