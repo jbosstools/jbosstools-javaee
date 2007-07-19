@@ -10,12 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -28,8 +33,11 @@ import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamProject;
 
 public class SeamCoreValidationHelper extends WorkbenchContext {
+
+	private SeamValidationContext validationContext;
 
 	/**
 	 * @return Seam project
@@ -116,6 +124,33 @@ public class SeamCoreValidationHelper extends WorkbenchContext {
 	 * @return IType of component for <ComponentName>.component.xml
 	 */
 	public IType getClassTypeForComponentXml(IFile componentXmlFile) {
+		String className = getClassNameForComponentXml(componentXmlFile);
+		if(className==null) {
+			return null;
+		}
+		return findType(className);
+	}
+
+	/**
+	 * @param type name
+	 * @return IType
+	 */
+	public IType findType(String fullyQualifiedName) {
+		IProject p = getProject().getProject();
+		try {
+			IJavaProject jp = EclipseResourceUtil.getJavaProject(p);
+			return jp.findType(fullyQualifiedName);
+		} catch (JavaModelException e) {
+			SeamCorePlugin.getDefault().logError(e);
+			return null;
+		}
+	}
+
+	/**
+	 * @param componentXmlFile
+	 * @return name of component class for <ComponentName>.component.xml
+	 */
+	public String getClassNameForComponentXml(IFile componentXmlFile) {
 		String fileName  = componentXmlFile.getName();
 		int firstDot = fileName.indexOf('.');
 		if(firstDot==-1) {
@@ -129,10 +164,99 @@ public class SeamCoreValidationHelper extends WorkbenchContext {
 			if(packageFragment==null) {
 				return null;
 			}
-			return jp.findType(packageFragment.getElementName(), className);
+			return packageFragment.getElementName() + "." + className;
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(e);
 			return null;
 		}
+	}
+
+	/**
+	 * Find setter for property
+	 * @param type
+	 * @param propertyName
+	 * @return
+	 */
+	public IMethod findSetter(IType type, String propertyName) {
+		if(propertyName == null || propertyName.length()==0) {
+			return null;
+		}
+		String firstLetter = propertyName.substring(0, 1).toUpperCase();
+		String nameWithoutFirstLetter = propertyName.substring(1);
+		String setterName = "set" + firstLetter + nameWithoutFirstLetter;
+		try {
+			return findSetterInHierarchy(type, setterName);
+		} catch (JavaModelException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+		return null;
+	}
+
+	private IMethod findSetterInHierarchy(IType type, String setterName) throws JavaModelException {
+		IMethod[] methods = type.getMethods();
+		for (int i = 0; i < methods.length; i++) {
+			if(methods[i].getElementName().equals(setterName) && methods[i].getParameterNames().length==1) {
+				return methods[i];
+			}
+		}
+		String superclassName = type.getSuperclassName();
+		if(superclassName!=null) {
+			String[][] packages = type.resolveType(superclassName);
+			if(packages!=null) {
+				for (int i = 0; i < packages.length; i++) {
+					String packageName = packages[i][0];
+					if(packageName!=null && packageName.length()>0) {
+						packageName = packageName + "."; 
+					} else {
+						packageName = "";
+					}
+					String qName = packageName + packages[i][1];
+					IType superclass = type.getJavaProject().findType(qName);
+					if(superclass!=null) {
+						IMethod method = findSetterInHierarchy(superclass, setterName);
+						if(method!=null) {
+							return method;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.validation.internal.operations.WorkbenchContext#registerResource(org.eclipse.core.resources.IResource)
+	 */
+	@Override
+	public void registerResource(IResource resource) {
+		if(resource instanceof IFile) {
+			IFile file = (IFile)resource;
+			if(!file.exists()) {
+				getValidationContext().addRemovedFile(file);
+			}
+		}
+	}
+
+	/**
+	 * @return Set of changed resources
+	 */
+	public Set<IFile> getChangedFiles() {
+		Set<IFile> result = new HashSet<IFile>();
+		String[] uris = getURIs();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		for (int i = 0; i < uris.length; i++) {
+			IFile currentFile = root.getFile(new Path(uris[i]));
+			result.add(currentFile);
+		}
+		result.addAll(getValidationContext().getRemovedFiles());
+		return result;
+	}
+
+	public SeamValidationContext getValidationContext() {
+		if(validationContext==null) {
+			validationContext = ((SeamProject)getSeamProject()).getValidationContext();
+		}
+		return validationContext;
 	}
 }

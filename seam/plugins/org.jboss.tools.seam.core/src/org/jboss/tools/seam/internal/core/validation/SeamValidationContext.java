@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.xml.XMLUtilities;
@@ -31,12 +32,19 @@ public class SeamValidationContext {
 	private Map<String, Set<IPath>> resourcesByVariableName = new HashMap<String, Set<IPath>>();
 	private Map<IPath, Set<String>> variableNamesByResource = new HashMap<IPath, Set<String>>();
 	private Set<IPath> unnamedResources = new HashSet<IPath>();
+	private Set<IFile> removedFiles = new HashSet<IFile>();
 
 	/**
 	 * Save link between resource and variable name.
 	 * It's needed for incremental validation because we must save all linked resources of changed java file.
 	 */
 	public void addLinkedResource(String variableName, IPath linkedResourcePath) {
+		if(linkedResourcePath==null) {
+			throw new RuntimeException("Linked resource path must not be null!");
+		}
+		if(variableName==null) {
+			throw new RuntimeException("Variable name must not be null!");
+		}
 		Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
 		if(linkedResources==null) {
 			// create set of linked resources with variable name.
@@ -128,6 +136,7 @@ public class SeamValidationContext {
 		resourcesByVariableName.clear();
 		variableNamesByResource.clear();
 		unnamedResources.clear();
+		removedFiles.clear();
 	}
 
 	public void store(Element root) {
@@ -174,5 +183,13 @@ public class SeamValidationContext {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
 		}
+	}
+
+	public Set<IFile> getRemovedFiles() {
+		return removedFiles;
+	}
+
+	public void addRemovedFile(IFile file) {
+		removedFiles.add(file);
 	}
 }
