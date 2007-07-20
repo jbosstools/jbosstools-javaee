@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.model;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.struts.*;
 import org.jboss.tools.common.model.loaders.*;
@@ -19,10 +18,10 @@ public class StrutsEntityRecognizer implements EntityRecognizer, StrutsConstants
 
     static {
         try {
-            Class c = StrutsEntityRecognizer.class;
-            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_10, FileLocator.resolve(c.getResource("/meta/struts-config_1_0.dtd")).toString());
-            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, FileLocator.resolve(c.getResource("/meta/struts-config_1_1.dtd")).toString());
-            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_12, FileLocator.resolve(c.getResource("/meta/struts-config_1_2.dtd")).toString());
+            Class<?> c = StrutsEntityRecognizer.class;
+            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_10, c, "/meta/struts-config_1_0.dtd");
+            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, c, "/meta/struts-config_1_1.dtd");
+            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_12, c, "/meta/struts-config_1_2.dtd");
         } catch (Exception e) {
             StrutsModelPlugin.getPluginLog().logError(e);
         }

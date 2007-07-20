@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.validators.model;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.jboss.tools.common.model.loaders.*;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.struts.StrutsModelPlugin;
@@ -18,8 +17,8 @@ import org.jboss.tools.struts.StrutsModelPlugin;
 public class FileValidatorRecognizer implements EntityRecognizer, ValidatorConstants {
     static {
         try {
-            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID, FileLocator.resolve(FileValidatorRecognizer.class.getResource("/meta/validator_1_0.dtd")).toString());
-            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, FileLocator.resolve(FileValidatorRecognizer.class.getResource("/meta/validator_1_1_3.dtd")).toString());
+            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID, FileValidatorRecognizer.class, "/meta/validator_1_0.dtd");
+            XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, FileValidatorRecognizer.class, "/meta/validator_1_1_3.dtd");
         } catch (Exception e) {
             StrutsModelPlugin.getPluginLog().logError(e);
         }
