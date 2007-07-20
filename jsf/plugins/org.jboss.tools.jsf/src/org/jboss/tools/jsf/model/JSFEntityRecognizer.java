@@ -12,14 +12,14 @@ package org.jboss.tools.jsf.model;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.jboss.tools.common.model.loaders.*;
-import org.jboss.tools.common.model.util.*;
+import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.jsf.JSFModelPlugin;
 
 public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
 
     static {
         try {
-            Class c = JSFEntityRecognizer.class;
+            Class<?> c = JSFEntityRecognizer.class;
             XMLEntityResolver.registerPublicEntity(DOC_PUBLICID, FileLocator.resolve(c.getResource("/meta/web-facesconfig_1_0.dtd")).toString());
 			XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, FileLocator.resolve(c.getResource("/meta/web-facesconfig_1_1.dtd")).toString());
         } catch (Exception e) {
