@@ -21,6 +21,7 @@ import org.jboss.tools.seam.core.event.ISeamValueString;
  */
 public class SeamValueString extends SeamObject implements ISeamValueString {
 	IValueInfo value;
+	String currentValue;
 	
 	public SeamValueString() {}
 
@@ -30,18 +31,18 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 	
 	public void setValue(IValueInfo value) {
 		this.value = value;
+		if(value != null) currentValue = value.getValue();
 	}
 
 	public List<Change> merge(SeamObject s) {
 		List<Change> changes = super.merge(s);
 		SeamValueString v = (SeamValueString)s;
-		String v1 = value.getValue();
+		String v1 = currentValue;
 		String v2 = v.value.getValue();
 		if(v1 == null || !v1.equals(v2)) {
 			changes = Change.addChange(changes, new Change(this, "value", v1, v2));
-			value = v.value;
-			adopt((SeamObject)value);
-		}		
+		}
+		setValue(v.value);
 		return changes;
 	}
 

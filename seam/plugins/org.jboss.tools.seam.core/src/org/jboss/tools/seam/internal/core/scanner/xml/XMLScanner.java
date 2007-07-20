@@ -211,8 +211,8 @@ public class XMLScanner implements IFileScanner {
 						vm.addEntry(e);
 					}
 				}
-				component.addProperty(p);
 			}
+			component.addProperty(p);
 		}
 
 		ds.getComponents().add(component);

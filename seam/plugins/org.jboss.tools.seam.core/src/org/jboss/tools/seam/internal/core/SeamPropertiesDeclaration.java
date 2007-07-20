@@ -65,8 +65,13 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 				changes = Change.addChange(changes, new Change(this, null, p1, null));
 				properties.remove(names[i]);
 			} else {
+				String oldName = p1.getName();
 				List<Change> cc = p1.merge(p2);
 				if(cc != null && cc.size() > 0) children.addChildren(cc);
+				if(oldName != null && !oldName.equals(p1.getName())) {
+					properties.remove(oldName);
+					addProperty(p1);
+				}
 			}
 		}
 		names = pd.properties.keySet().toArray(new String[0]);
@@ -75,10 +80,9 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 			SeamProperty p2 = (SeamProperty)pd.properties.get(names[i]);
 			if(p1 == null) {
 				changes = Change.addChange(changes, new Change(this, null, null, p2));
-				properties.put(names[i], p2);
+				addProperty(p2);
 			}
 		}
-		properties = pd.properties;
 
 		changes = Change.addChange(changes, children);
 
