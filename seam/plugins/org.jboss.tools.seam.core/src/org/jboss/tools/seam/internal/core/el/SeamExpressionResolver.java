@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.seam.ui.text.java;
+package org.jboss.tools.seam.internal.core.el;
 
 import java.lang.reflect.Modifier;
 

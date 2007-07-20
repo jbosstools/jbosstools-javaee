@@ -32,7 +32,9 @@ public class SeamValidationContext {
 	private Map<String, Set<IPath>> resourcesByVariableName = new HashMap<String, Set<IPath>>();
 	private Map<IPath, Set<String>> variableNamesByResource = new HashMap<IPath, Set<String>>();
 	private Set<IPath> unnamedResources = new HashSet<IPath>();
+
 	private Set<IFile> removedFiles = new HashSet<IFile>();
+	private Set<IFile> registeredResources = new HashSet<IFile>();
 
 	/**
 	 * Save link between resource and variable name.
@@ -137,6 +139,7 @@ public class SeamValidationContext {
 		variableNamesByResource.clear();
 		unnamedResources.clear();
 		removedFiles.clear();
+		registeredResources.clear();
 	}
 
 	public void store(Element root) {
@@ -191,5 +194,13 @@ public class SeamValidationContext {
 
 	public void addRemovedFile(IFile file) {
 		removedFiles.add(file);
+	}
+
+	public Set<IFile> getRegisteredFiles() {
+		return registeredResources;
+	}
+
+	public void registerFile(IFile file) {
+		registeredResources.add(file);
 	}
 }

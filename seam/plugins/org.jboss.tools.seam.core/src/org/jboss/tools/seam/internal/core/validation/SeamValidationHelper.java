@@ -35,9 +35,13 @@ import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 
-public class SeamCoreValidationHelper extends WorkbenchContext {
+/**
+ * Base Helper for Seam Validators. 
+ * @author Alexey Kazakov
+ */
+public class SeamValidationHelper extends WorkbenchContext {
 
-	private SeamValidationContext validationContext;
+	protected SeamValidationContext validationContext;
 
 	/**
 	 * @return Seam project
@@ -234,6 +238,8 @@ public class SeamCoreValidationHelper extends WorkbenchContext {
 			IFile file = (IFile)resource;
 			if(!file.exists()) {
 				getValidationContext().addRemovedFile(file);
+			} else {
+				getValidationContext().registerFile(file);
 			}
 		}
 	}

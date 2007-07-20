@@ -23,14 +23,12 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -61,91 +59,84 @@ import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
  */
 public class SeamCoreValidator extends SeamValidator {
 
-	private static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamResource";
+	private static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamCoreResource";
 
-	private SeamValidationContext validationContext;
-
-	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
-		return null;
-	}
-
-	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
-		super.validateInJob(helper, reporter);
-		validationContext = ((SeamProject)project).getValidationContext();
-		Set<IFile> changedFiles = coreHelper.getChangedFiles();
-		validationContext.getRemovedFiles().clear();
-		if(changedFiles.size()>0) {
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			Set<ISeamComponent> checkedComponents = new HashSet<ISeamComponent>();
-			Set<String> markedDuplicateFactoryNames = new HashSet<String>();
-			// Collect all resources which we must validate.
-			Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
-			Set<IPath> newResources = new HashSet<IPath>(); // New (unlinked) resources file
-			for(IFile currentFile : changedFiles) {
-				if(reporter.isCancelled()) {
-					break;
-				}
-				if (currentFile != null) {
-					// Get all variable names that were linked with this resource.
-					Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByResource(currentFile.getFullPath());
-					if(oldVariablesNamesOfChangedFile!=null) {
-						// Check if variable name was changed in source file
-						Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
-						for (String newVariableName : newVariableNamesOfChangedFile) {
-							if(!oldVariablesNamesOfChangedFile.contains(newVariableName)) {
-								// Name was changed.
-								// Collect resources with new component name.
-								Set<IPath> linkedResources = validationContext.getResourcesByVariableName(newVariableName);
-								if(linkedResources!=null) {
-									resources.addAll(linkedResources);
-								}
-							}
-						}
-						resources.add(currentFile.getFullPath());
-
-						// Collect all linked resources with old variable names.
-						for (String name : oldVariablesNamesOfChangedFile) {
-							Set<IPath> linkedResources = validationContext.getResourcesByVariableName(name);
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.validation.SeamValidator#validate(java.util.Set)
+	 */
+	@Override
+	public IStatus validate(Set<IFile> changedFiles) throws ValidationException {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		Set<ISeamComponent> checkedComponents = new HashSet<ISeamComponent>();
+		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
+		// Collect all resources which we must validate.
+		Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
+		Set<IPath> newResources = new HashSet<IPath>(); // New (unlinked) resources file
+		for(IFile currentFile : changedFiles) {
+			if(reporter.isCancelled()) {
+				break;
+			}
+			if (currentFile != null) {
+				// Get all variable names that were linked with this resource.
+				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByResource(currentFile.getFullPath());
+				if(oldVariablesNamesOfChangedFile!=null) {
+					// Check if variable name was changed in source file
+					Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
+					for (String newVariableName : newVariableNamesOfChangedFile) {
+						if(!oldVariablesNamesOfChangedFile.contains(newVariableName)) {
+							// Name was changed.
+							// Collect resources with new component name.
+							Set<IPath> linkedResources = validationContext.getResourcesByVariableName(newVariableName);
 							if(linkedResources!=null) {
 								resources.addAll(linkedResources);
 							}
 						}
-					} else {
-						// Validate new (unlinked) source file.
-						resources.add(currentFile.getFullPath());
 					}
-					newResources.add(currentFile.getFullPath());
-				}
-			}
-			// Validate all collected linked resources.
-			// Remove all links between collected resources and variables names because they will be linked again during validation.
-			validationContext.removeLinkedResources(resources);
-			for (IPath linkedResource : resources) {
-				// Remove markers from collected source file
-				IFile sourceFile = root.getFile(linkedResource);
-				reporter.removeMessageSubset(this, sourceFile, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-				validateComponent(linkedResource, checkedComponents);
-				validateFactory(linkedResource, markedDuplicateFactoryNames);
-				// TODO
-			}
+					resources.add(currentFile.getFullPath());
 
-			// Validate all unnamed resources.
-			Set<IPath> unnamedResources = validationContext.getUnnamedResources();
-			newResources.addAll(unnamedResources);
-			for (IPath path : newResources) {
-				Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)project).findJavaDeclarations(path);
-				for (SeamJavaComponentDeclaration d : declarations) {
-					validateMethodsOfUnknownComponent(d);
+					// Collect all linked resources with old variable names.
+					for (String name : oldVariablesNamesOfChangedFile) {
+						Set<IPath> linkedResources = validationContext.getResourcesByVariableName(name);
+						if(linkedResources!=null) {
+							resources.addAll(linkedResources);
+						}
+					}
+				} else {
+					// Validate new (unlinked) source file.
+					resources.add(currentFile.getFullPath());
 				}
+				newResources.add(currentFile.getFullPath());
 			}
-		} else {
-			return validateAll();
+		}
+		// Validate all collected linked resources.
+		// Remove all links between collected resources and variables names because they will be linked again during validation.
+		validationContext.removeLinkedResources(resources);
+		for (IPath linkedResource : resources) {
+			// Remove markers from collected source file
+			IFile sourceFile = root.getFile(linkedResource);
+			reporter.removeMessageSubset(this, sourceFile, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+			validateComponent(linkedResource, checkedComponents);
+			validateFactory(linkedResource, markedDuplicateFactoryNames);
+		}
+
+		// Validate all unnamed resources.
+		Set<IPath> unnamedResources = validationContext.getUnnamedResources();
+		newResources.addAll(unnamedResources);
+		for (IPath path : newResources) {
+			Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)project).findJavaDeclarations(path);
+			for (SeamJavaComponentDeclaration d : declarations) {
+				validateMethodsOfUnknownComponent(d);
+			}
 		}
 
 		return OK_STATUS;
 	}
 
-	private IStatus validateAll() {
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.validation.SeamValidator#validateAll()
+	 */
+	@Override
+	public IStatus validateAll() throws ValidationException {
 		reporter.removeAllMessages(this);
 		validationContext.clear();
 		Set<ISeamComponent> components = project.getComponents();
@@ -164,7 +155,6 @@ public class SeamCoreValidator extends SeamValidator {
 			validateMethodsOfUnknownComponent(d);
 		}
 
-		// TODO
 		return OK_STATUS;
 	}
 
@@ -508,7 +498,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateInAndOut(ISeamJavaComponentDeclaration declaration, IBijectedAttribute bijection) {
 		String name = bijection.getName();
-		if(name==null || name.startsWith("#{")) {
+		if(name==null || name.startsWith("#{") || name.startsWith("${")) {
 			return;
 		}
 		// save link between java source and variable name

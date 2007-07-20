@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.validation,
  org.eclipse.jst.j2ee.web,
  org.eclipse.jst.j2ee,
- org.eclipse.jst.ws
+ org.eclipse.jst.ws,
+ org.eclipse.jface.text
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner,
@@ -32,6 +33,8 @@ Bundle-Version: 2.0.0
 Export-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,
  org.jboss.tools.seam.internal.core,
+ org.jboss.tools.seam.internal.core.el,
+ org.jboss.tools.seam.internal.core.preferences,
  org.jboss.tools.seam.internal.core.project.facet,
  org.jboss.tools.seam.internal.core.scanner,
  org.jboss.tools.seam.internal.core.scanner.java,

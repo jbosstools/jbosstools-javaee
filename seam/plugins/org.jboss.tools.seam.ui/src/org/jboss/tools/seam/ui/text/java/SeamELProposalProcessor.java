@@ -45,6 +45,7 @@ import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
@@ -253,6 +254,8 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 				return NO_PROPOSALS;
 			return (ICompletionProposal[]) result.toArray(new ICompletionProposal[uniqueSuggestions.size()]);
 		} catch (BadLocationException x) {
+			return NO_PROPOSALS;
+		} catch (StringIndexOutOfBoundsException e) {
 			return NO_PROPOSALS;
 		}
 	}

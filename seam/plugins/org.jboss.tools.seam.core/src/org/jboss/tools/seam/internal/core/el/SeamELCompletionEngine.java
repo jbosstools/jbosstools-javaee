@@ -8,7 +8,7 @@
  * Contributor:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.seam.ui.text.java;
+package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
-import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Utility class used to find Seam Project content assist proposals
@@ -46,7 +46,7 @@ public final class SeamELCompletionEngine {
 	public SeamELCompletionEngine() {
 		
 	}
-	
+
 	/**
 	 * Create the array of suggestions. 
 	 * 
@@ -59,10 +59,38 @@ public final class SeamELCompletionEngine {
 	 * @throws BadLocationException if accessing the current document fails
 	 */
 	public List<String> getCompletions(ISeamProject project, IFile file, IDocument document, CharSequence prefix, 
-			int position) throws BadLocationException {
-		
+			int position) throws BadLocationException, StringIndexOutOfBoundsException {
+		String documentContent = null;
+		if(document!=null) {
+			documentContent = document.get();
+		}
+		return getCompletions(project, file, documentContent, prefix, position, false);
+	}
+
+	/**
+	 * Create the array of suggestions. 
+	 * @param project Seam project 
+	 * @param file File 
+	 * @param document 
+	 * @param prefix the prefix to search for
+	 * @param position Offset of the prefix 
+	 * @return the list of all possible suggestions
+	 * @param returnCompletedVariablesOnly - if 'true' then returns only variables that equals prefix. It's useful for validation.
+	 *  for example:
+	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'  
+	 *   prefix is 'variableName.variableProperty'
+	 *   Result is {'variableProperty'}
+	 * if 'false' then returns ends of variables that starts with prefix. It's useful for CA.
+	 *  for example:
+	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'
+	 *   prefix is 'variableName.variableProperty'
+	 *   Result is {'1','2'}
+	 */
+	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
+			int position, boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
+
 		List<String> res= new ArrayList<String>();
-		SeamELTokenizer tokenizer = new SeamELTokenizer(document, position + prefix.length());
+		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, position + prefix.length());
 		List<ELToken> tokens = tokenizer.getTokens();
 		
 		List<ELToken> resolvedExpressionPart = new ArrayList<ELToken>();
@@ -132,7 +160,7 @@ public final class SeamELCompletionEngine {
 								}
 							}
 						} catch (JavaModelException ex) {
-							SeamGuiPlugin.getPluginLog().logError(ex);
+							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
 					members = newMembers;
@@ -154,7 +182,7 @@ public final class SeamELCompletionEngine {
 								}
 							}
 						} catch (JavaModelException ex) {
-							SeamGuiPlugin.getPluginLog().logError(ex);
+							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
 					members = newMembers;
@@ -169,7 +197,7 @@ public final class SeamELCompletionEngine {
 							proposals.addAll(SeamExpressionResolver.getMethodPresentations(type));
 							proposals.addAll(SeamExpressionResolver.getPropertyPresentations(type));
 						} catch (JavaModelException ex) {
-							SeamGuiPlugin.getPluginLog().logError(ex);
+							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
 				} else if (token.getType() == ELToken.EL_NAME_TOKEN ||
@@ -187,14 +215,22 @@ public final class SeamELCompletionEngine {
 							proposalsToFilter.addAll(SeamExpressionResolver.getMethodPresentations(type));
 							proposalsToFilter.addAll(SeamExpressionResolver.getPropertyPresentations(type));
 						} catch (JavaModelException ex) {
-							SeamGuiPlugin.getPluginLog().logError(ex);
+							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
 					for (String proposal : proposalsToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
 						String filter = token.getText();
-						if (proposal.startsWith(filter)) {
-							proposals.add(proposal.substring(filter.length()));
+						if(returnEqualedVariablesOnly) {
+							// This is used for validation.
+							if (proposal.equals(filter)) {
+								proposals.add(proposal);
+							}
+						} else {
+							// This is used for CA.
+							if (proposal.startsWith(filter)) {
+								proposals.add(proposal.substring(filter.length()));
+							}
 						}
 					}
 				}
@@ -351,7 +387,8 @@ public final class SeamELCompletionEngine {
 		static final int STATE_METHOD = 2;
 		static final int STATE_SEPARATOR = 3;
 		
-		IDocument fDocument;
+//		IDocument fDocument;
+		String documentContent;
 		List<ELToken> fTokens;
 		int index;
 
@@ -362,12 +399,27 @@ public final class SeamELCompletionEngine {
 		 * @param offset
 		 */
 		public SeamELTokenizer(IDocument document, int offset) {
-			fDocument = document;
-			index = (fDocument == null || fDocument.getLength() < offset? -1 : offset);
+			if(document!=null) {
+				this.documentContent = document.get();
+			}
+			index = (documentContent == null || documentContent.length() < offset? -1 : offset);
 			fTokens = new ArrayList<ELToken>();
 			parseBackward();
 		}
-		
+
+		/**
+		 * Constructs SeamELTokenizer object
+		 * 
+		 * @param document
+		 * @param offset
+		 */
+		public SeamELTokenizer(String documentContent, int offset) {
+			this.documentContent = documentContent;
+			index = (documentContent == null || documentContent.length() < offset? -1 : offset);
+			fTokens = new ArrayList<ELToken>();
+			parseBackward();
+		}
+
 		/**
 		 * Returns list of tokens for the expression parsed
 		 * 
@@ -500,8 +552,8 @@ public final class SeamELCompletionEngine {
 		private CharSequence getCharSequence(int start, int length) {
 			String text = "";
 			try {
-				text = fDocument.get(start, length);
-			} catch (BadLocationException e) {
+				text.substring(start, length);
+			} catch (StringIndexOutOfBoundsException e) {
 				text = ""; // For sure
 			}
 			return text.subSequence(0, text.length());
@@ -632,13 +684,13 @@ public final class SeamELCompletionEngine {
 		 */
 		int readCharBackward() {
 			if (--index < 0 || 
-					fDocument == null ||
-					fDocument.getLength() <= index)
+					documentContent == null ||
+					documentContent.length() <= index)
 				return -1;
 
 			try {
-				return fDocument.getChar(index);
-			} catch (BadLocationException e) {
+				return documentContent.charAt(index);
+			} catch (StringIndexOutOfBoundsException e) {
 				return -1;
 			}
 		}
@@ -647,7 +699,7 @@ public final class SeamELCompletionEngine {
 		 * returns the character to the document
 		 */
 		void releaseChar() {
-			if (index < fDocument.getLength())
+			if (index < documentContent.length())
 				index++;
 		}
 	}
@@ -660,18 +712,32 @@ public final class SeamELCompletionEngine {
 	 * @return
 	 * @throws BadLocationException
 	 */
-	public static String getPrefix(ITextViewer viewer, int offset) throws BadLocationException {
+	public static String getPrefix(ITextViewer viewer, int offset) throws StringIndexOutOfBoundsException {
 		IDocument doc= viewer.getDocument();
 		if (doc == null || offset > doc.getLength())
 			return null;
-		
-		SeamELTokenizer tokenizer = new SeamELTokenizer(doc, offset);
+		return getPrefix(doc.get(), offset);
+	}
+
+	/**
+	 * Calculates the EX expression operand string
+	 * 
+	 * @param viewer
+	 * @param offset
+	 * @return
+	 * @throws BadLocationException
+	 */
+	public static String getPrefix(String documentContent, int offset) throws StringIndexOutOfBoundsException {
+		if (documentContent == null || offset > documentContent.length())
+			return null;
+
+		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, offset);
 		List<ELToken> tokens = tokenizer.getTokens();
 
 		if (tokens == null || tokens.size() == 0)
 			return null;
-		
-		return doc.get(tokens.get(0).start, offset - tokens.get(0).start);
+
+		return documentContent.substring(tokens.get(0).start, offset - tokens.get(0).start);
 	}
 }
 
@@ -747,14 +813,14 @@ class ELToken implements IToken {
 	public boolean isWhitespace() {
 		return false;
 	}
-	
+
 	/*
 	 * Returns the token type
 	 */
 	public int getType(){
 		return type;
 	}
-	
+
 	/*
 	 * Returns the token text
 	 */

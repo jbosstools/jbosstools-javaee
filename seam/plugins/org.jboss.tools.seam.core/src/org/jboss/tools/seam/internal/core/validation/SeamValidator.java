@@ -12,9 +12,10 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
@@ -24,6 +25,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.internal.core.SeamProject;
 
 /**
  * Basic seam validator.
@@ -50,8 +52,9 @@ public abstract class SeamValidator implements IValidatorJob {
 	protected static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME";
 	protected static final String UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID = "UNKNOWN_COMPONENT_PROPERTY";
 
-	protected SeamCoreValidationHelper coreHelper;
+	protected SeamValidationHelper coreHelper;
 	protected IReporter reporter;
+	protected SeamValidationContext validationContext;
 
 	protected ISeamProject project;
 
@@ -59,12 +62,46 @@ public abstract class SeamValidator implements IValidatorJob {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#getSchedulingRule(org.eclipse.wst.validation.internal.provisional.core.IValidationContext)
+	 */
+	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
+		return null;
+	}
+
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
-		this.coreHelper = (SeamCoreValidationHelper)helper;
+		this.coreHelper = (SeamValidationHelper)helper;
 		this.reporter = reporter;
 		this.project = coreHelper.getSeamProject();
-		return OK_STATUS;
+		IStatus status = null;
+		try {
+			this.validationContext = ((SeamProject)project).getValidationContext();
+			Set<IFile> changedFiles = coreHelper.getChangedFiles();
+			if(changedFiles.size()>0) {
+				status = validate(changedFiles);
+			} else {
+				status = validateAll();
+			}
+		} finally {
+			validationContext.getRemovedFiles().clear();
+			validationContext.getRegisteredFiles().clear();
+		}
+		return status;
 	}
+
+	/**
+	 * Incremental Validation
+	 * @return
+	 * @throws ValidationException
+	 */
+	abstract public IStatus validate(Set<IFile> changedFiles) throws ValidationException;
+
+	/**
+	 * Full Validation
+	 * @return
+	 * @throws ValidationException
+	 */
+	abstract public IStatus validateAll() throws ValidationException;
 
 	public void cleanup(IReporter reporter) {
 		reporter = null;
