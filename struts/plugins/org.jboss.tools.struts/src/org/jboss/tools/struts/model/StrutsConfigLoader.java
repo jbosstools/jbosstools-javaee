@@ -18,7 +18,10 @@ import org.jboss.tools.common.model.filesystems.*;
 import org.jboss.tools.common.model.filesystems.impl.*;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.*;
+
 import java.io.*;
+import java.util.Set;
+
 import org.w3c.dom.*;
 
 public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
@@ -45,8 +48,11 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 //		String encoding = XModelObjectLoaderUtil.getEncoding(body);
 //		body = FileUtil.encode(body, encoding);
 
-		String[] errors = XMLUtil.getXMLErrors(new StringReader(body));
-        if(errors != null && errors.length > 0) {
+		String[] errors = 
+			//XMLUtil.getXMLErrors(new StringReader(body));
+			XMLUtil.getXMLErrors(new StringReader(body), false, false);
+		boolean hasErrors = (errors != null && errors.length > 0);
+		if(hasErrors) {
             object.setAttributeValue("isIncorrect", "yes");
             object.setAttributeValue("incorrectBody", body);
 			object.set("actualBodyTimeStamp", "-1");
@@ -76,11 +82,19 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
         }
 
         if (version != 10) {
-            util.load(element, object.getChildren(ENT_MSGRES_FOLDER + VER_SUFFIX_11)[0]);
-            util.load(element, object.getChildren(ENT_PLUGIN_FOLDER + VER_SUFFIX_11)[0]);
+            util.loadChildren(element, object.getChildren(ENT_MSGRES_FOLDER + VER_SUFFIX_11)[0]);
+            util.loadChildren(element, object.getChildren(ENT_PLUGIN_FOLDER + VER_SUFFIX_11)[0]);
         }
+		String loadingError = util.getError();
 		reloadProcess(object);
 		object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
+
+		((AbstractXMLFileImpl)object).setLoaderError(loadingError);
+		if(!hasErrors && loadingError != null) {
+			object.setAttributeValue("isIncorrect", "yes");
+			object.setAttributeValue("incorrectBody", body);
+			object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
+		}
     }
     
 	protected void setEncoding(XModelObject object, String body) {
@@ -209,8 +223,9 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 
 }
 
-class SPUtil extends XModelObjectLoaderUtil {
+class SPUtil extends XModelObjectLoaderUtil implements StrutsConstants {
     static String CODE = "UTF-8";
+
     public void loadAttributes(Element element, XModelObject o) {
         super.loadAttributes(element, o);
         if(o.getModelEntity().getName().equals("StrutsProcessComment")) {
@@ -256,7 +271,12 @@ class SPUtil extends XModelObjectLoaderUtil {
 
 }
 
-class SCUtil extends XModelObjectLoaderUtil {
+class SCUtil extends XModelObjectLoaderUtil implements StrutsConstants {
+	protected Set<String> getAllowedChildren(XModelEntity entity) {
+		Set<String> children = super.getAllowedChildren(entity);
+		return children;
+	}
+
 	protected boolean isSaveable(XModelEntity entity, String n, String v, String dv) {
 		if(v == null) return false;
 		if(v.length() == 0 || v.equals(dv)) {

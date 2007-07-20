@@ -337,7 +337,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         boolean is12 = s.indexOf(StrutsConstants.DOC_PUBLICID_12) >= 0;
         if(!is11 && !is12)
           throw new Exception("File is not Struts Configuration 1.1 or 1.2."); //$NON-NLS-1$
-        String[] es = XMLUtil.getXMLErrors(new StringReader(s));
+        String[] es = XMLUtil.getXMLErrors(new StringReader(s), false); //never validate dtd
         if(es != null && es.length > 0) {
           String version = (is11) ? "1.1" : "1.2"; //$NON-NLS-1$ //$NON-NLS-2$
           throw new Exception("Struts Configuration " + version + " file is not correct:\n" + es[0]); //$NON-NLS-1$ //$NON-NLS-2$
