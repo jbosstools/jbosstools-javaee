@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.xml.components.model;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.jboss.tools.common.model.loaders.*;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.seam.xml.SeamXMLPlugin;
@@ -20,7 +19,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     static {
         try {
             Class<?> c = SeamComponentsEntityRecognizer.class;
-            XMLEntityResolver.registerPublicEntity(PUBLIC_ID_11, FileLocator.resolve(c.getResource("/meta/components-1.1.dtd")).toString());
+            XMLEntityResolver.registerPublicEntity(PUBLIC_ID_11, c, "/meta/components-1.1.dtd");
         } catch (Exception e) {
 			SeamXMLPlugin.log(e);
         }
