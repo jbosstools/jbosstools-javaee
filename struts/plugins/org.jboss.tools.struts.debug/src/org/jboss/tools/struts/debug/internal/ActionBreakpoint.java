@@ -112,7 +112,7 @@ public abstract class ActionBreakpoint extends JavaMethodBreakpoint implements I
         return hiden;
     }
 
-    public void setHiden(boolean hiden) {
+    public void setHidden(boolean hiden) {
         this.hiden = hiden;
     }
 
