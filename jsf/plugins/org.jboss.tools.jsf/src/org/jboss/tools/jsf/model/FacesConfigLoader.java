@@ -11,6 +11,8 @@
 package org.jboss.tools.jsf.model;
 
 import java.io.*;
+import java.util.Set;
+
 import org.w3c.dom.*;
 
 import org.jboss.tools.common.meta.XAttribute;
@@ -35,10 +37,13 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
         
 		String body = XModelObjectLoaderUtil.getTempBody(object);
 		
-		String[] errors = (entity.equals(ENT_FACESCONFIG_12))
-			? new SAXValidator().getXMLErrors(new StringReader(body))
-			: XMLUtil.getXMLErrors(new StringReader(body));
-		if(errors != null && errors.length > 0) {
+		String[] errors = 
+//			(entity.equals(ENT_FACESCONFIG_12))
+//			? new SAXValidator().getXMLErrors(new StringReader(body))
+//			: XMLUtil.getXMLErrors(new StringReader(body));
+			XMLUtil.getXMLErrors(new StringReader(body), false, false);
+		boolean hasErrors = (errors != null && errors.length > 0);
+		if(hasErrors) {
 			object.setAttributeValue("isIncorrect", "yes");
 			object.setAttributeValue("incorrectBody", body);
 			object.set("actualBodyTimeStamp", "-1");
@@ -55,6 +60,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		}
 		Element element = doc.getDocumentElement();
 		util.load(element, object);
+		String loadingError = util.getError();
 		
 		((FileFacesConfigImpl)object).updateRuleIndices();
 		
@@ -71,6 +77,13 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		}
 		reloadProcess(object);
 		object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
+		
+		((AbstractXMLFileImpl)object).setLoaderError(loadingError);
+		if(!hasErrors && loadingError != null) {
+			object.setAttributeValue("isIncorrect", "yes");
+			object.setAttributeValue("incorrectBody", body);
+			object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
+		}
 	}
     
 	protected void setEncoding(XModelObject object, String body) {
@@ -192,6 +205,23 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 class SFUtil extends XModelObjectLoaderUtil {
 
 	static String[] folders = new String[]{"Components", "Converters", "Managed Beans", "Navigation Rules", "Referenced Beans", "Render Kits", "Validators", "Extensions"};
+
+	protected Set<String> getAllowedChildren(XModelEntity entity) {
+		Set<String> children = super.getAllowedChildren(entity);
+		if("JSFManagedProperty".equals(entity.getName())
+			|| "JSFListEntries".equals(entity.getName())
+			|| "JSFMapEntry".equals(entity.getName())) {
+			children.add("value");
+			children.add("null-value");
+		}
+		return children;
+	}
+
+	protected Set<String> getAllowedAttributes(XModelEntity entity) {
+		Set<String> attributes = super.getAllowedAttributes(entity);
+		return attributes;
+	}
+
 
 	public void loadChildren(Element element, XModelObject o) {
 		if(o.getFileType() == XModelObject.FILE) {
