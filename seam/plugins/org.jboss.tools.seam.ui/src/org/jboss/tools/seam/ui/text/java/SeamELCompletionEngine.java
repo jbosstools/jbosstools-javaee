@@ -178,7 +178,12 @@ public final class SeamELCompletionEngine {
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 					for (IMember mbr : members) {
 						try {
-							IType type = EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr));
+							IType type = null;
+							if(mbr instanceof IType) {
+								type = (IType)mbr;
+							} else {
+								type = EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr));
+							}
 							proposalsToFilter.addAll(SeamExpressionResolver.getMethodPresentations(type));
 							proposalsToFilter.addAll(SeamExpressionResolver.getPropertyPresentations(type));
 						} catch (JavaModelException ex) {
