@@ -1588,12 +1588,6 @@
    	<extension
 		point="org.eclipse.wst.xml.core.catalogContributions">
 		<catalogContribution id="default">
-			<public
-				publicId="-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
-				uri="dtds/web-facesconfig_1_0.dtd" />
-			<public
-				publicId="-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
-				uri="dtds/web-facesconfig_1_1.dtd" />
 		</catalogContribution>
 	</extension>
 	
