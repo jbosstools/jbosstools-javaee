@@ -59,8 +59,6 @@ import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
  */
 public class SeamCoreValidator extends SeamValidator {
 
-	private static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamCoreResource";
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.validation.SeamValidator#validate(java.util.Set)
 	 */
@@ -209,7 +207,7 @@ public class SeamCoreValidator extends SeamValidator {
 					validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
 				}
 			} catch (JavaModelException e) {
-				SeamCorePlugin.getDefault().logError(e);
+				SeamCorePlugin.getDefault().logError("Error validating Seam Core", e);
 			}
 		} else {
 			// factory must be java method!
@@ -379,7 +377,7 @@ public class SeamCoreValidator extends SeamValidator {
 							validationContext.addLinkedResource(componentName, type.getResource().getFullPath());
 						}
 					} catch (JavaModelException e) {
-						SeamCorePlugin.getDefault().logError(e);
+						SeamCorePlugin.getDefault().logError("Error validating Seam Core", e);
 					}
 					// validate properties
 					Collection<ISeamProperty> properties = declaration.getProperties();
@@ -428,7 +426,7 @@ public class SeamCoreValidator extends SeamValidator {
 			length = declaration.getSourceMember().getNameRange().getLength();
 			offset = declaration.getSourceMember().getNameRange().getOffset();
 		} catch (JavaModelException e) {
-			SeamCorePlugin.getDefault().logError(e);
+			SeamCorePlugin.getDefault().logError("Error validating Seam Core", e);
 		}
 		return new SeamTextSourceReference(length, offset);
 	}

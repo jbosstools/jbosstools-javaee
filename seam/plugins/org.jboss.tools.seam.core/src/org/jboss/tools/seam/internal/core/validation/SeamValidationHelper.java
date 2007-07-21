@@ -57,6 +57,13 @@ public class SeamValidationHelper extends WorkbenchContext {
 	}
 
 	/**
+	 * @return Java project
+	 */
+	public IJavaProject getJavaProject() {
+		return EclipseResourceUtil.getJavaProject(getProject());
+	}
+
+	/**
 	 * @param element
 	 * @return Resource of seam model element
 	 */

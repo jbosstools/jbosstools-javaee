@@ -117,7 +117,11 @@ public final class SeamELCompletionEngine {
 		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
 			// First segment is the last one
 			for (ISeamContextVariable var : resolvedVariables) {
-				res.add(var.getName().substring(prefix.toString().length()));
+				String varName = var.getName();
+				String prefixString = prefix.toString();
+				if(prefixString.length()<varName.length()) {
+					res.add(varName.substring(prefixString.length()));
+				}
 			}
 			return res;
 		}
@@ -552,8 +556,9 @@ public final class SeamELCompletionEngine {
 		private CharSequence getCharSequence(int start, int length) {
 			String text = "";
 			try {
-				text.substring(start, length);
+				text = documentContent.substring(start, start + length);
 			} catch (StringIndexOutOfBoundsException e) {
+				SeamCorePlugin.getDefault().logError(e);
 				text = ""; // For sure
 			}
 			return text.subSequence(0, text.length());
@@ -737,7 +742,8 @@ public final class SeamELCompletionEngine {
 		if (tokens == null || tokens.size() == 0)
 			return null;
 
-		return documentContent.substring(tokens.get(0).start, offset - tokens.get(0).start);
+		return documentContent.substring(tokens.get(0).start, offset);
+//		return documentContent.substring(tokens.get(0).start, tokens.get(0).start + tokens.get(0).length);
 	}
 }
 

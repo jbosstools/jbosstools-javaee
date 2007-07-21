@@ -21,7 +21,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
  * @author Viacheslav Kabanovich
  */
 public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
-	
+
 	public SeamPreferenceInitializer() {}
 
 	@Override
@@ -31,7 +31,7 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 		for (String name : SeamPreferences.severityOptionNames) {
 			defaultPreferences.put(name, SeamPreferences.ERROR);
 		}
-
+		defaultPreferences.put(SeamPreferences.INVALID_EXPRESSION, SeamPreferences.WARNING);
+		defaultPreferences.put(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.WARNING);
 	}
-
 }

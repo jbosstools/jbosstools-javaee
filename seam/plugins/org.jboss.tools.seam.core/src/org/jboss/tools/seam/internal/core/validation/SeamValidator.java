@@ -33,6 +33,8 @@ import org.jboss.tools.seam.internal.core.SeamProject;
  */
 public abstract class SeamValidator implements IValidatorJob {
 
+	protected static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamCoreResource";
+
 	protected static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
 	protected static final String UNKNOWN_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_VARIABLE_NAME";
 	protected static final String STATEFUL_COMPONENT_DOES_NOT_CONTAIN_METHOD_SUFIX_MESSAGE_ID = "STATEFUL_COMPONENT_DOES_NOT_CONTAIN_";
@@ -51,6 +53,7 @@ public abstract class SeamValidator implements IValidatorJob {
 	protected static final String UNKNOWN_DATA_MODEL_MESSAGE_ID = "UNKNOWN_DATA_MODEL";
 	protected static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME";
 	protected static final String UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID = "UNKNOWN_COMPONENT_PROPERTY";
+	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION";
 
 	protected SeamValidationHelper coreHelper;
 	protected IReporter reporter;

@@ -77,7 +77,10 @@ public class SeamPreferences {
 	//Context variables
 	public static final String DUPLICATE_VARIABLE_NAME = createSeverityOption("duplicateVariableName");
 	public static final String UNKNOWN_VARIABLE_NAME = createSeverityOption("unknownVariableName");
-	
+
+	// Seam Expression language
+	public static final String INVALID_EXPRESSION = createSeverityOption("invalidExpression");
+
 	private static String createSeverityOption(String shortName) {
 		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName;
 		severityOptionNames.add(name);
@@ -120,5 +123,4 @@ public class SeamPreferences {
 		if(p == null) return null;
 		return p.get(key, null);
 	}
-
 }

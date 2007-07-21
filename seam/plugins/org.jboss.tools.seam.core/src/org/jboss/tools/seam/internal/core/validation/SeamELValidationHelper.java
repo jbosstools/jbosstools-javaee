@@ -10,10 +10,15 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.Collection;
+
 /**
  * Helper for EL Seam valodator
  * @author Alexey Kazakov
  */
 public class SeamELValidationHelper extends SeamValidationHelper {
 
+	public Collection getAllFilesForValidation() {
+		  return getFiles(SeamELValidator.class.getName());
+	}
 }
