@@ -196,13 +196,17 @@ public class SeamELValidator extends SeamValidator {
 
 	private boolean validateEl(IFile file, EL el) {
 		try {
+//			String exp = "#{" + el.value + "}";
 			String exp = el.value;
-//			int offset = exp.length()-1;
+			int offset = exp.length();
 //			String prefix= SeamELCompletionEngine.getPrefix(exp, offset);
 //			prefix = (prefix == null ? "" : prefix);
 
-			String prefix = el.value;
-			int possition = prefix.length();
+			String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
+			if(prefix==null) {
+				return false;
+			}
+			int possition = 0;
 
 			// TODO ?
 			List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true);
