@@ -63,8 +63,11 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SeamValidatorConfigurationBlock_pb_duplicateVariableName_label;
 	public static String SeamValidatorConfigurationBlock_pb_unknownVariableName_label;
 
+	//Seam Expression language
+	public static String SeamValidatorConfigurationBlock_section_el;
+	public static String SeamValidatorConfigurationBlock_pb_invalidExpression_label;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamPreferencesMessages.class);
 	}
-
 }

@@ -109,6 +109,13 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		}
 	);
 
+	private static SectionDescription SECTION_EL = new SectionDescription(
+		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_el,
+		new String[][]{
+			{SeamPreferences.INVALID_EXPRESSION, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_invalidExpression_label},
+		}
+	);
+
 	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_COMPONENT, 
 		SECTION_ENTITY, 
@@ -116,6 +123,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		SECTION_FACTORY, 
 		SECTION_BIJECTION, 
 		SECTION_VARIABLE,
+		SECTION_EL
 	};
 
 	private static Key PREF_NON_UNIQUE_COMPONENT_NAME = getSeamKey(SeamPreferences.NONUNIQUE_COMPONENT_NAME);
@@ -202,7 +210,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 
 			for (int j = 0; j < section.options.length; j++) {
 				OptionDescription option = section.options[j];
-				label = option.label; 
+				label = option.label;
 				addComboBox(inner, label, option.key, errorWarningIgnore, errorWarningIgnoreLabels, defaultIndent);
 			}
 		}

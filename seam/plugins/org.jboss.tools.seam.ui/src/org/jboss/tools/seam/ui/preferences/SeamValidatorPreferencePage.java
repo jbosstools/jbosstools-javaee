@@ -23,9 +23,9 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
 	public static final String PREF_ID = "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage";
 	public static final String PROP_ID = "org.jboss.tools.seam.ui.propertyPages.SeamValidatorPreferencePage";
-	
+
 	private SeamValidatorConfigurationBlock fConfigurationBlock;
-	
+
 	public SeamValidatorPreferencePage() {
 		setPreferenceStore(SeamCorePlugin.getDefault().getPreferenceStore());
 		setTitle("Seam Validator");
@@ -54,7 +54,7 @@ public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
 	public void createControl(Composite parent) {
 		IWorkbenchPreferenceContainer container = (IWorkbenchPreferenceContainer) getContainer();
 		fConfigurationBlock = new SeamValidatorConfigurationBlock(getNewStatusChangedListener(), getProject(), container);
-		
+
 		super.createControl(parent);
 		if (isProjectPreferencePage()) {
 			// help goes here
@@ -72,7 +72,7 @@ public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
 		}
 		super.dispose();
 	}
-	
+
 	/*
 	 * @see org.eclipse.jdt.internal.ui.preferences.PropertyAndPreferencePage#enableProjectSpecificSettings(boolean)
 	 */
@@ -82,7 +82,7 @@ public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
 			fConfigurationBlock.useProjectSpecificSettings(useProjectSpecificSettings);
 		}
 	}
-	
+
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#performDefaults()
 	 */
@@ -102,7 +102,7 @@ public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
 		}	
 		return super.performOk();
 	}
-	
+
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#performApply()
 	 */
@@ -111,5 +111,4 @@ public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
 			fConfigurationBlock.performApply();
 		}
 	}
-	
 }
