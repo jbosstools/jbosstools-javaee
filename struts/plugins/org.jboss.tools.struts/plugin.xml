@@ -293,8 +293,6 @@
 
 		<xclass id="org.jboss.tools.struts.webprj.model.WebProjectTree"
 			class="org.jboss.tools.struts.webprj.model.WebProjectTree"/>
-		<xclass id="org.jboss.tools.struts.webprj.model.handlers.ImportWebPrjHandler"
-			class="org.jboss.tools.struts.webprj.model.handlers.ImportWebPrjHandler"/>
 		<xclass id="org.jboss.tools.struts.webprj.model.handlers.SetLocationHandler"
 			class="org.jboss.tools.struts.webprj.model.handlers.SetLocationHandler"/>
 		<xclass id="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems"
@@ -351,8 +349,6 @@
 			class="org.jboss.tools.struts.webprj.model.helpers.sync.AddModuleSupport"/>
 		<xclass id="org.jboss.tools.struts.model.helpers.path.SelectPathSupport"
 			class="org.jboss.tools.struts.model.helpers.path.SelectPathSupport"/>
-		<xclass id="org.jboss.tools.struts.webprj.model.handlers.ImportWebPrjSupport"
-			class="org.jboss.tools.struts.webprj.model.handlers.ImportWebPrjSupport"/>
 
 		<xclass id="org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintFileSize"
 			class="org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintFileSize"/>

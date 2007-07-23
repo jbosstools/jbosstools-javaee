@@ -47,7 +47,7 @@ public class AdoptProjectStepLocation extends AWStep {
         location = f.getAbsolutePath();
         support.setAttributeValue(id, "location", location); //$NON-NLS-1$
 
-        String wrk = NewWebProjectHelper.getWorkspace(f);
+        String wrk = null; //obsolete code removed
         if(wrk != null) {
             int i = support.getTarget().getModel().getService().showDialog(support.getTitle(),
                     NLS.bind(StrutsUIMessages.FOLDER_ALREADY_CONTAINS_ADOPTED_PROJECT, location),
