@@ -252,7 +252,7 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 
 			if (result == null || result.size() == 0)
 				return NO_PROPOSALS;
-			return (ICompletionProposal[]) result.toArray(new ICompletionProposal[uniqueSuggestions.size()]);
+			return (ICompletionProposal[]) result.toArray(new ICompletionProposal[result.size()]);
 		} catch (BadLocationException x) {
 			return NO_PROPOSALS;
 		} catch (StringIndexOutOfBoundsException e) {

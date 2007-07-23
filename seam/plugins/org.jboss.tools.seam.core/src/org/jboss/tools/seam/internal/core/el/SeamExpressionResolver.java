@@ -12,7 +12,6 @@
 package org.jboss.tools.seam.internal.core.el;
 
 import java.lang.reflect.Modifier;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +32,7 @@ import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Utility class used to resolve Seam project variables and to get the methods/properties and their presentation strings from type
@@ -163,6 +163,7 @@ public class SeamExpressionResolver {
 					}
 				}
 			} catch (JavaModelException e) {
+				SeamCorePlugin.getDefault().logError(e);
 			}
 		}
 		return methods;
@@ -186,7 +187,11 @@ public class SeamExpressionResolver {
 							"get".equals(m.getElementName()) || "set".equals(m.getElementName())) {
 						
 						StringBuffer name = new StringBuffer(m.getElementName());
-						
+
+						// Add method as 'foo'
+						methods.add(name.toString());
+
+						// Add method as 'foo(param1,param2)'
 						name.append('(');
 						String[] mParams = null;
 						mParams = m.getParameterNames();
@@ -195,11 +200,12 @@ public class SeamExpressionResolver {
 							name.append(mParams[j]);
 						}
 						name.append(')');
-						
+
 						methods.add(name.toString());
 					}
 				}
 			} catch (JavaModelException e) {
+				SeamCorePlugin.getDefault().logError(e);
 			}
 		}
 		return methods;
@@ -225,6 +231,7 @@ public class SeamExpressionResolver {
 					}
 				}
 			} catch (JavaModelException e) {
+				SeamCorePlugin.getDefault().logError(e);
 			}
 
 			try {
@@ -236,6 +243,7 @@ public class SeamExpressionResolver {
 					}
 				}
 			} catch (JavaModelException e) {
+				SeamCorePlugin.getDefault().logError(e);
 			}
 		}
 		return properties;
@@ -257,15 +265,16 @@ public class SeamExpressionResolver {
 					if (Modifier.isPublic(m.getFlags()) && 
 							(m.getElementName().startsWith("get") && !"get".equals(m.getElementName())) ||
 							(m.getElementName().startsWith("set") && !"set".equals(m.getElementName()))) {
-	
+
 						StringBuffer name = new StringBuffer(m.getElementName());
 						name.delete(0, 3);
 						name.setCharAt(0, Character.toLowerCase(name.charAt(0)));
-	
+
 						properties.add(name.toString());
 					}
 				}
 			} catch (JavaModelException e) {
+				SeamCorePlugin.getDefault().logError(e);
 			}
 
 			try {
@@ -277,6 +286,7 @@ public class SeamExpressionResolver {
 					}
 				}
 			} catch (JavaModelException e) {
+				SeamCorePlugin.getDefault().logError(e);
 			}
 		}
 		return properties;

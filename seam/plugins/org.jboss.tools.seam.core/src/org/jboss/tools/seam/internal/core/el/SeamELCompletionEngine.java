@@ -111,7 +111,7 @@ public final class SeamELCompletionEngine {
 				}
 			}
 		}
-		
+
 		// Here we have a list of vars for some part of expression
 		// OK. we'll proceed with members of these vars
 		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
@@ -121,6 +121,8 @@ public final class SeamELCompletionEngine {
 				String prefixString = prefix.toString();
 				if(prefixString.length()<varName.length()) {
 					res.add(varName.substring(prefixString.length()));
+				} else if(returnEqualedVariablesOnly) {
+					res.add(varName);
 				}
 			}
 			return res;
