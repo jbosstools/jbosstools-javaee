@@ -10,13 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.wizard.project;
 
-import java.io.File;
 import org.jboss.tools.common.model.ui.util.ModelUtilities;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.jboss.tools.common.meta.key.WizardKeys;
-import org.jboss.tools.common.model.ServiceDialog;
-import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.struts.ui.operation.StrutsProjectAdoptOperation;
 import org.jboss.tools.jst.web.ui.wizards.project.ImportWebProjectWizard;
@@ -57,21 +53,7 @@ public class ImportProjectWizard extends ImportWebProjectWizard {
 
 	protected boolean checkOldVersion() {
 		if(context.getProjectHandle() != null && context.getProjectHandle().exists()) return true;
-		if(!findPexFile(context.getWebInfLocation())) return true;
-		XModel model = PreferenceModelUtilities.getPreferenceModel();
-		ServiceDialog d = model.getService();
-		String message = WizardKeys.getString("IMPORT_STRUTS_PROJECT_EARLIER_VERSION_WARNING");
-		int i = d.showDialog("Warning", message, new String[]{"Yes", "No"}, null, ServiceDialog.WARNING);
-		return i == 0;
+		return true;
 	}
 	
-	private boolean findPexFile(String location) {
-		File f = new File(location);
-		if(!f.isDirectory()) return true;
-		File[] fs = f.listFiles();
-		if(fs != null) for (int i = 0; i < fs.length; i++) 
-			if(fs[i].getName().endsWith(".pex")) return true;		
-		return false;
-	}
-
 }
