@@ -34,6 +34,9 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	static String ENT_CONFIG_LOCATIONS = "SeamSpringConfigLocations";
 	static String ENT_CONTEXT_LOADER = "SeamSpringContextLoader";
 
+	static String ENT_ENTITY_MANAGER_FACTORY = "SeamCoreEntityManagerFactory";
+	static String ENT_PERSISTENCE_UNIT_PROPERTIES = "SeamCorePersistenceUnitProperties";
+
 	private static IFormData createListDefinition(String header) {
 		return new FormData(
 			header,
@@ -116,6 +119,33 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 		);
 	}
 
+	private static IFormData createMapDefinition2(String header, String child) {
+		return new FormData(
+			header,
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			child,
+			new FormAttributeData[]{new FormAttributeData(ATTR_KEY, 40), new FormAttributeData(ATTR_VALUE, 60)}, 
+			new String[]{ENT_SEAM_MAP_ENTRY},
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddEntry") //$NON-NLS-1$
+		);
+	}
+	
+	private static IFormData[] createDefinitionsForMapHolder(String header, String entity, String listHeader, String child) {
+		return new IFormData[] {
+			new FormData(
+				header,
+				SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+				FormLayoutDataUtil.createGeneralFormAttributeData(entity)
+			),
+			createMapDefinition2(listHeader, child),
+			new FormData(
+				"Advanced",
+				SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+				FormLayoutDataUtil.createAdvancedFormAttributeData(entity)
+			),
+		};
+	}
+
 	private final static IFormData[] HINTS_DEFINITIONS = new IFormData[] {
 		createMapDefinition("Hints")
 	};
@@ -130,6 +160,20 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	final static IFormData RESTRICTIONS_FORM_DEFINITION = new FormData(
 		ENT_RESTRICTIONS, new String[]{null}, RESTRICTIONS_DEFINITIONS);
 	
+
+	private final static IFormData[] PERSISTENCE_UNIT_PROPERTIES_DEFINITIONS = new IFormData[] {
+		createMapDefinition("Persistence Unit Properties")
+	};
+	
+	final static IFormData PERSISTENCE_UNIT_PROPERTIES_FORM_DEFINITION = new FormData(
+		ENT_PERSISTENCE_UNIT_PROPERTIES, new String[]{null}, PERSISTENCE_UNIT_PROPERTIES_DEFINITIONS);
+
+	private final static IFormData[] ENTITY_MANAGER_FACTORY_DEFINITIONS = 
+		createDefinitionsForMapHolder("Entity Manager Factory", ENT_ENTITY_MANAGER_FACTORY, "Persistence Unit Properties", "persistence unit properties");
+
+	final static IFormData ENTITY_MANAGER_FACTORY_FORM_DEFINITION = new FormData(
+		ENT_ENTITY_MANAGER_FACTORY, new String[]{null}, ENTITY_MANAGER_FACTORY_DEFINITIONS);
+
 	/**
 	 * Theme
 	 */
