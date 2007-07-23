@@ -16,7 +16,10 @@ import java.util.List;
  * @author Viacheslav Kabanovich
  */
 public interface ISeamValueList extends ISeamValue {
-	
+	/**
+	 * 
+	 * @return values of seam list property
+	 */
 	public List<ISeamValueString> getValues();
 
 }

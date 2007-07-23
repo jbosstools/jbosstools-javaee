@@ -17,6 +17,10 @@ import java.util.List;
  */
 public interface ISeamValueMap extends ISeamValue {
 
+	/**
+	 * 
+	 * @return entries of seam map property
+	 */
 	public List<ISeamValueMapEntry> getEntries();
 
 }

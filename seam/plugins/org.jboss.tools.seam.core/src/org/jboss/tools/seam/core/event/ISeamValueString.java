@@ -17,6 +17,11 @@ import org.jboss.tools.seam.core.IValueInfo;
  */
 public interface ISeamValueString extends ISeamValue {
 	
+	/**
+	 * Returns value info object that includes string value 
+	 * of seam property and its position in source.
+	 * @return value info object
+	 */
 	public IValueInfo getValue();
 
 }

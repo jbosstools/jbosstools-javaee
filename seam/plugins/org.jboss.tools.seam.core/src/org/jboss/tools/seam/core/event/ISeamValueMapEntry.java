@@ -17,8 +17,16 @@ import org.jboss.tools.seam.core.ISeamElement;
  */
 public interface ISeamValueMapEntry extends ISeamElement {
 
+	/**
+	 * 
+	 * @return key of entry of seam map property
+	 */
 	public ISeamValueString getKey();
 
+	/**
+	 * 
+	 * @return value of entry of seam map property
+	 */
 	public ISeamValueString getValue();
 
 }
