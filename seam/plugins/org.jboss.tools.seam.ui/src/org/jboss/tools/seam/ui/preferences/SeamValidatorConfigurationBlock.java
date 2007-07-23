@@ -113,6 +113,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_el,
 		new String[][]{
 			{SeamPreferences.INVALID_EXPRESSION, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_invalidExpression_label},
+			{SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unpairedGetterOrSetter_label}
 		}
 	);
 

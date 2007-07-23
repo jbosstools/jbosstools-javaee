@@ -66,6 +66,7 @@ public class SeamPreferencesMessages extends NLS {
 	//Seam Expression language
 	public static String SeamValidatorConfigurationBlock_section_el;
 	public static String SeamValidatorConfigurationBlock_pb_invalidExpression_label;
+	public static String SeamValidatorConfigurationBlock_pb_unpairedGetterOrSetter_label;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamPreferencesMessages.class);

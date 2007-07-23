@@ -80,6 +80,7 @@ public class SeamPreferences {
 
 	// Seam Expression language
 	public static final String INVALID_EXPRESSION = createSeverityOption("invalidExpression");
+	public static final String UNPAIRED_GETTER_OR_SETTER = createSeverityOption("unpairedGetterOrSetter");
 
 	private static String createSeverityOption(String shortName) {
 		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName;

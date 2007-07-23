@@ -13,8 +13,10 @@ package org.jboss.tools.seam.internal.core.el;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -256,21 +258,57 @@ public class SeamExpressionResolver {
 	 * @return
 	 */
 	public static Set<String> getPropertyPresentations(IType type) {
+		return getPropertyPresentations(type, null);
+	}
+
+	/**
+	 * Returns the property presentation strings for the type specified  
+	 * 
+	 * @param type
+	 * @param unpairedGettersOrSetters - map of unpaired getters or setters of type's properties. 'key' is property name.
+	 * @return
+	 */
+	public static Set<String> getPropertyPresentations(IType type, Map<String, IMethod> unpairedGettersOrSetters) {
 		Set<String> properties = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 		if (type != null) {
 			try {
 				IMethod[] props = type.getMethods();
+				HashMap<String, IMethod> getters = new HashMap<String, IMethod>();
+				HashMap<String, IMethod> setters = new HashMap<String, IMethod>();
 				for (int i = 0; props != null && i < props.length; i++) {
 					IMethod m = props[i];
-					if (Modifier.isPublic(m.getFlags()) && 
-							(m.getElementName().startsWith("get") && !"get".equals(m.getElementName())) ||
-							(m.getElementName().startsWith("set") && !"set".equals(m.getElementName()))) {
-
-						StringBuffer name = new StringBuffer(m.getElementName());
-						name.delete(0, 3);
-						name.setCharAt(0, Character.toLowerCase(name.charAt(0)));
-
-						properties.add(name.toString());
+					if (Modifier.isPublic(m.getFlags())) {
+						String methodName = m.getElementName();
+						boolean getter = (methodName.startsWith("get") && !"get".equals(methodName)) ||
+										 (methodName.startsWith("is") && !"is".equals(methodName));
+						boolean setter = methodName.startsWith("set") && !"set".equals(methodName);
+						if(getter || setter) {
+							StringBuffer name = new StringBuffer(methodName);
+							if(methodName.startsWith("i")) {
+								name.delete(0, 2);
+							} else {
+								name.delete(0, 3);
+							}
+							name.setCharAt(0, Character.toLowerCase(name.charAt(0)));
+							String propertyName = name.toString();
+							if(!properties.contains(propertyName)) {
+								properties.add(propertyName);
+							}
+							if(unpairedGettersOrSetters!=null) {
+								IMethod previousGetter = getters.get(propertyName);
+								IMethod previousSetter = setters.get(propertyName);
+								if((previousGetter!=null && setter)||(previousSetter!=null && getter)) {
+									// We have both Getter and Setter
+									unpairedGettersOrSetters.remove(propertyName);
+								} else if(setter) {
+									setters.put(propertyName, m);
+									unpairedGettersOrSetters.put(propertyName, m);
+								} else if(getter) {
+									getters.put(propertyName, m);
+									unpairedGettersOrSetters.put(propertyName, m);
+								}
+							}
+						}
 					}
 				}
 			} catch (JavaModelException e) {

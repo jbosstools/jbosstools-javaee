@@ -12,14 +12,17 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
@@ -36,6 +39,7 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -187,39 +191,55 @@ public class SeamELValidator extends SeamValidator {
 		}
 
 		for(EL el: els) {
-			if(!validateEl(file, el)) {
-				// Mark EL
-				addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{el.getValue()}, el.getLength(), el.getOffset(), file, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-			}
+			validateEl(file, el);
 		}
 	}
 
-	private boolean validateEl(IFile file, EL el) {
+	private void validateEl(IFile file, EL el) {
 		try {
-//			String exp = "#{" + el.value + "}";
 			String exp = el.value;
 			int offset = exp.length();
-//			String prefix= SeamELCompletionEngine.getPrefix(exp, offset);
-//			prefix = (prefix == null ? "" : prefix);
 
 			String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
-			if(prefix==null) {
-				return false;
-			}
-			int possition = 0;
+			if(prefix!=null) {
+				int possition = 0;
+	
+				Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
+				Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
+	
+				List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
 
-			// TODO ?
-			List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true);
+				// Check pair for getter/setter
+				if(unpairedGettersOrSetters.size()>0) {
+					IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
+					String methodName = unpairedMethod.getElementName();
+//					int indexOfPropertyName = 3;
+//					if(methodName.startsWith("i")) {
+//						indexOfPropertyName = 2;
+//					}
+					String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
+//					propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
+					String missingMethodName = "Setter";
+					String existedMethodName = "Getter";
+					if(methodName.startsWith("s")) {
+						missingMethodName = existedMethodName;
+						existedMethodName = "Setter";
+					}
+					addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+				}
 
-			if (suggestions != null && suggestions.size() > 0) {
-				return true;
+				if (suggestions != null && suggestions.size() > 0) {
+					// It's valid EL.
+					return;
+				}
 			}
 		} catch (BadLocationException e) {
 			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
 		} catch (StringIndexOutOfBoundsException e) {
 			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
 		}
-		return false;
+		// Mark invalid EL
+		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{el.getValue()}, el.getLength(), el.getOffset(), file, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 	}
 
 	private IJavaProject getJavaProject() {

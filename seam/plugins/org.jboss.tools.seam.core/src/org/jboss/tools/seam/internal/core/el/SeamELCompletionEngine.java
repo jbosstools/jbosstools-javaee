@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.el;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -64,7 +65,7 @@ public final class SeamELCompletionEngine {
 		if(document!=null) {
 			documentContent = document.get();
 		}
-		return getCompletions(project, file, documentContent, prefix, position, false);
+		return getCompletions(project, file, documentContent, prefix, position, false, null, null);
 	}
 
 	/**
@@ -75,6 +76,8 @@ public final class SeamELCompletionEngine {
 	 * @param prefix the prefix to search for
 	 * @param position Offset of the prefix 
 	 * @return the list of all possible suggestions
+	 * @param usedVariables - Set of variables which are used in this Expression. It's useful in incremental validation.
+	 * @param unpairedGettersOrSetters - map of unpaired getters or setters of property which is used in last segment of Expression. 'key' is property name.
 	 * @param returnCompletedVariablesOnly - if 'true' then returns only variables that equals prefix. It's useful for validation.
 	 *  for example:
 	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'  
@@ -87,7 +90,7 @@ public final class SeamELCompletionEngine {
 	 *   Result is {'1','2'}
 	 */
 	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
+			int position, boolean returnEqualedVariablesOnly, Set<ISeamContextVariable> usedVariables, Map<String, IMethod> unpairedGettersOrSetters) throws BadLocationException, StringIndexOutOfBoundsException {
 
 		List<String> res= new ArrayList<String>();
 		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, position + prefix.length());
@@ -110,6 +113,11 @@ public final class SeamELCompletionEngine {
 					break;
 				}
 			}
+		}
+
+		// Save all resolved variables. It's useful for incremental validation.
+		if(resolvedVariables!=null && resolvedVariables.size()>0 && usedVariables!=null) {
+			usedVariables.addAll(resolvedVariables);
 		}
 
 		// Here we have a list of vars for some part of expression
@@ -201,7 +209,7 @@ public final class SeamELCompletionEngine {
 						try {
 							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
 							proposals.addAll(SeamExpressionResolver.getMethodPresentations(type));
-							proposals.addAll(SeamExpressionResolver.getPropertyPresentations(type));
+							proposals.addAll(SeamExpressionResolver.getPropertyPresentations(type, unpairedGettersOrSetters));
 						} catch (JavaModelException ex) {
 							SeamCorePlugin.getPluginLog().logError(ex);
 						}
@@ -219,7 +227,7 @@ public final class SeamELCompletionEngine {
 								type = EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr));
 							}
 							proposalsToFilter.addAll(SeamExpressionResolver.getMethodPresentations(type));
-							proposalsToFilter.addAll(SeamExpressionResolver.getPropertyPresentations(type));
+							proposalsToFilter.addAll(SeamExpressionResolver.getPropertyPresentations(type, unpairedGettersOrSetters));
 						} catch (JavaModelException ex) {
 							SeamCorePlugin.getPluginLog().logError(ex);
 						}
@@ -231,6 +239,14 @@ public final class SeamELCompletionEngine {
 							// This is used for validation.
 							if (proposal.equals(filter)) {
 								proposals.add(proposal);
+								if(unpairedGettersOrSetters!=null) {
+									IMethod unpirMethod = unpairedGettersOrSetters.get(filter);
+									unpairedGettersOrSetters.clear();
+									if(unpirMethod!=null) {
+										unpairedGettersOrSetters.put(filter, unpirMethod);
+									}
+								}
+								break;
 							}
 						} else {
 							// This is used for CA.
@@ -243,7 +259,7 @@ public final class SeamELCompletionEngine {
 				res.addAll(proposals);
 			}
 		}
-		
+
 		return res;
 	}
 	

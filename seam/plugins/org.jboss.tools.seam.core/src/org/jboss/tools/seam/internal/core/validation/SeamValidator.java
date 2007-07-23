@@ -54,6 +54,7 @@ public abstract class SeamValidator implements IValidatorJob {
 	protected static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME";
 	protected static final String UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID = "UNKNOWN_COMPONENT_PROPERTY";
 	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION";
+	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER";
 
 	protected SeamValidationHelper coreHelper;
 	protected IReporter reporter;
