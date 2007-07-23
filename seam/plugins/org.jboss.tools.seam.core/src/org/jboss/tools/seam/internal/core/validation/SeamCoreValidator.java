@@ -64,6 +64,9 @@ public class SeamCoreValidator extends SeamValidator {
 	 */
 	@Override
 	public IStatus validate(Set<IFile> changedFiles) throws ValidationException {
+		if(!SeamPreferences.isValidateCore(project)) {
+			return OK_STATUS;
+		}
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		Set<ISeamComponent> checkedComponents = new HashSet<ISeamComponent>();
 		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
@@ -137,22 +140,23 @@ public class SeamCoreValidator extends SeamValidator {
 	public IStatus validateAll() throws ValidationException {
 		reporter.removeAllMessages(this);
 		validationContext.clear();
-		Set<ISeamComponent> components = project.getComponents();
-		for (ISeamComponent component : components) {
-			validateComponent(component);
-		}
-		Set<ISeamFactory> factories = project.getFactories();
-		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
-		for (ISeamFactory factory : factories) {
-			validateFactory(factory, markedDuplicateFactoryNames);
-		}
+		if(SeamPreferences.isValidateCore(project)) {
+			Set<ISeamComponent> components = project.getComponents();
+			for (ISeamComponent component : components) {
+				validateComponent(component);
+			}
+			Set<ISeamFactory> factories = project.getFactories();
+			Set<String> markedDuplicateFactoryNames = new HashSet<String>();
+			for (ISeamFactory factory : factories) {
+				validateFactory(factory, markedDuplicateFactoryNames);
+			}
 
-		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)project).getAllJavaComponentDeclarations();
-		Collection<SeamJavaComponentDeclaration> values = declarations.values();
-		for (SeamJavaComponentDeclaration d : values) {
-			validateMethodsOfUnknownComponent(d);
+			Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)project).getAllJavaComponentDeclarations();
+			Collection<SeamJavaComponentDeclaration> values = declarations.values();
+			for (SeamJavaComponentDeclaration d : values) {
+				validateMethodsOfUnknownComponent(d);
+			}
 		}
-
 		return OK_STATUS;
 	}
 

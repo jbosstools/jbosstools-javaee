@@ -69,11 +69,13 @@ public class SeamELValidator extends SeamValidator {
 	@Override
 	public IStatus validateAll() throws ValidationException {
 		reporter.removeAllMessages(this);
-		SeamELValidationHelper vlh = (SeamELValidationHelper)coreHelper;
-		Collection files = vlh.getAllFilesForValidation();
-		for (Object file : files) {
-			if(file instanceof IFile && !reporter.isCancelled()) {
-				validateFile((IFile)file);
+		if(SeamPreferences.isValidateEL(project)) {
+			SeamELValidationHelper vlh = (SeamELValidationHelper)coreHelper;
+			Collection files = vlh.getAllFilesForValidation();
+			for (Object file : files) {
+				if(file instanceof IFile && !reporter.isCancelled()) {
+					validateFile((IFile)file);
+				}
 			}
 		}
 		return OK_STATUS;

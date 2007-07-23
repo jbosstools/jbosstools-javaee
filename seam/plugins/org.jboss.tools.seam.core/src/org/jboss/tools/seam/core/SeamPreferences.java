@@ -39,7 +39,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
  * @author Viacheslav Kabanovich
  */
 public class SeamPreferences {
-	
+
 	public static final String ERROR = "error";
 	public static final String WARNING = "warning";
 	public static final String IGNORE = "ignore";
@@ -87,21 +87,21 @@ public class SeamPreferences {
 		severityOptionNames.add(name);
 		return name;
 	}
-	
+
 	public static final Set<String> allOptionNames = new HashSet<String>();
-	
+
 	static {
 		allOptionNames.addAll(severityOptionNames);
 	}
-	
+
 	public static IEclipsePreferences getProjectPreferences(ISeamProject project) {
 		return new ProjectScope(project.getProject()).getNode(SeamCorePlugin.PLUGIN_ID);
 	}
-	
+
 	public static IEclipsePreferences getDefaultPreferences() {
 		return new DefaultScope().getNode(SeamCorePlugin.PLUGIN_ID);
 	}
-	
+
 	public static IEclipsePreferences getInstancePreferences() {
 		return new InstanceScope().getNode(SeamCorePlugin.PLUGIN_ID);
 	}
@@ -123,5 +123,33 @@ public class SeamPreferences {
 		IEclipsePreferences p = getDefaultPreferences();
 		if(p == null) return null;
 		return p.get(key, null);
+	}
+
+	public static boolean isValidateCore(ISeamProject project) {
+		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, NONUNIQUE_COMPONENT_NAME)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_WRONG_SCOPE)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_COMPONENT_CLASS_NAME)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_COMPONENT_PROPERTY)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, ENTITY_COMPONENT_WRONG_SCOPE)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_REMOVE)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_DESTROY)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_CREATE)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_UNWRAP)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DESTROY_DOESNT_BELONG_TO_COMPONENT)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, CREATE_DOESNT_BELONG_TO_COMPONENT)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNWRAP_DOESNT_BELONG_TO_COMPONENT)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, OBSERVER_DOESNT_BELONG_TO_COMPONENT)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_FACTORY_NAME)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, MULTIPLE_DATA_BINDER)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_DATA_MODEL)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_VARIABLE_NAME)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_VARIABLE_NAME)));
+	}
+
+	public static boolean isValidateEL(ISeamProject project) {
+		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, INVALID_EXPRESSION)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNPAIRED_GETTER_OR_SETTER)));
 	}
 }
