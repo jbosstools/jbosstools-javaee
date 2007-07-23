@@ -139,7 +139,7 @@
 	    </possibleChildren>
 	    <actionProvider
 	      class="org.jboss.tools.seam.ui.views.actions.SeamActionProvider"
-	      id="org.jboss.tools.seam.ui.views.actions.SeamActionProvider">
+	      id="org.jboss.tools.seam.ui.views.actions.SeamActionProvider.root">
 	      <enablement>
 	        <or>
 	          <instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
