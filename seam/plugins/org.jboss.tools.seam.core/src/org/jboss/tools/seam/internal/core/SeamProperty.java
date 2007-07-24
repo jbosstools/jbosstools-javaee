@@ -27,7 +27,7 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 	
 	public void setValue(ISeamValue value) {
 		this.value = value;
-		adopt((SeamObject)value);
+		if(value != null) adopt((SeamObject)value);
 	}
 
 	public List<Change> merge(SeamObject s) {
@@ -40,11 +40,24 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 			name = d.name;
 		}
 		
-		List<Change> cs = ((SeamObject)value).merge((SeamObject)d.value);
-		if(cs != null && cs.size() > 0) {
-			Change c = new Change(this, "value", value, value);
-			c.addChildren(cs);
-		}		
+		if(value == null) {
+			if(d.value != null) {
+				setValue(d.value);
+				changes = Change.addChange(changes, new Change(this, "value", null, value));
+			}
+		} else if(d.value == null) {
+			if(value != null) {
+				changes = Change.addChange(changes, new Change(this, "value", value, null));
+			}
+			value = null;			
+		} else {		
+			List<Change> cs = ((SeamObject)value).merge((SeamObject)d.value);
+			if(cs != null && cs.size() > 0) {
+				Change c = new Change(this, "value", value, value);
+				c.addChildren(cs);
+				changes = Change.addChange(changes, c);
+			}
+		}
 		
 		return changes;
 	}

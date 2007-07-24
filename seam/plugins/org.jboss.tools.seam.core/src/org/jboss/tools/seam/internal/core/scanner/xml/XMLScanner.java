@@ -210,6 +210,7 @@ public class XMLScanner implements IFileScanner {
 						e.setValue(value);
 						vm.addEntry(e);
 					}
+					p.setValue(vm);
 				}
 			}
 			component.addProperty(p);
