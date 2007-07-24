@@ -239,6 +239,29 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 		super();
 	}
 
+	public static ILaunchConfigurationWorkingCopy createSeamgenLaunchConfig(String pathToSeamgenBuildXml) throws CoreException {
+		SeamGenPlugin.logInfo( "User selected: " + pathToSeamgenBuildXml + " as build.xml" );
+		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType( "org.eclipse.ant.AntLaunchConfigurationType" );
+		ILaunchConfigurationWorkingCopy wc = launchConfigurationType.newInstance( null, "seamgen" );
+		wc.setAttribute( "process_factory_id", "org.eclipse.ant.ui.remoteAntProcessFactory" );
+		wc.setAttribute(IAntUIConstants.ATTR_DEFAULT_VM_INSTALL, true);
+		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, "org.eclipse.ant.internal.ui.antsupport.InternalAntRunner");
+		
+		wc.setAttribute("org.eclipse.debug.core.appendEnvironmentVariables", true);
+		
+		wc.setAttribute( "org.eclipse.jdt.launching.CLASSPATH_PROVIDER", "org.eclipse.ant.ui.AntClasspathProvider" );
+		wc.setAttribute( "org.eclipse.jdt.launching.SOURCEPATH_PROVIDER", "org.eclipse.ant.ui.AntClasspathProvider" );
+		
+		wc.setAttribute( "org.eclipse.jdt.launching.VM_INSTALL_TYPE_ID", "org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType");
+		
+		wc.setAttribute( IExternalToolConstants.ATTR_LOCATION, pathToSeamgenBuildXml );
+		
+		wc.doSave();
+		SeamGenPlugin.logInfo( "seamgen launch config saved" );
+		return wc;
+	}
+
 	public void run(IAction action) {
 		
 		try {
@@ -253,25 +276,7 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 				fileDialog.setFileName("build.xml");
 				String text=fileDialog.open();
 				if (text != null) {
-					SeamGenPlugin.logInfo( "User selected: " + text + " as build.xml" );
-					ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-					ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType( "org.eclipse.ant.AntLaunchConfigurationType" );
-					wc = launchConfigurationType.newInstance( null, "seamgen" );
-					wc.setAttribute( "process_factory_id", "org.eclipse.ant.ui.remoteAntProcessFactory" );
-					wc.setAttribute(IAntUIConstants.ATTR_DEFAULT_VM_INSTALL, true);
-					wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, "org.eclipse.ant.internal.ui.antsupport.InternalAntRunner");
-					
-					wc.setAttribute("org.eclipse.debug.core.appendEnvironmentVariables", true);
-					
-					wc.setAttribute( "org.eclipse.jdt.launching.CLASSPATH_PROVIDER", "org.eclipse.ant.ui.AntClasspathProvider" );
-					wc.setAttribute( "org.eclipse.jdt.launching.SOURCEPATH_PROVIDER", "org.eclipse.ant.ui.AntClasspathProvider" );
-					
-					wc.setAttribute( "org.eclipse.jdt.launching.VM_INSTALL_TYPE_ID", "org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType");
-					
-					wc.setAttribute( IExternalToolConstants.ATTR_LOCATION, text );
-					
-					wc.doSave();
-					SeamGenPlugin.logInfo( "seamgen launch config saved" );
+					wc = createSeamgenLaunchConfig(text);
 				} else {
 					MessageDialog.openError( window.getShell(), "No build.xml selected", "You have to select the build.xml to be used by Seam Gen." );
 					return;
