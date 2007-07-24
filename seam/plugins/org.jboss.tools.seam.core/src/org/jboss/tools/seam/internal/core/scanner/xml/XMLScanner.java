@@ -135,7 +135,12 @@ public class XMLScanner implements IFileScanner {
 		if(isClassAttributeSet(c)) {
 			component.setClassName(new XMLValueInfo(c, ISeamXmlComponentDeclaration.CLASS));
 		} else if(c.getModelEntity().getName().equals("FileSeamComponent12")) {
-			component.setClassName(getImpliedComponentName(c, source));
+			component.setClassName(getImpliedClassName(c, source));
+		} else {
+			String className = getDefaultClassName(c);
+			if(className != null) {
+				component.setClassName(className);
+			}
 		}
 		component.setScope(new XMLValueInfo(c, ISeamXmlComponentDeclaration.SCOPE));
 		component.setPrecedence(new XMLValueInfo(c, ISeamXmlComponentDeclaration.PRECEDENCE));
@@ -231,7 +236,7 @@ public class XMLScanner implements IFileScanner {
 		return value != null && value.length() > 0;
 	}
 	
-	private String getImpliedComponentName(XModelObject c, IPath path) {
+	private String getImpliedClassName(XModelObject c, IPath path) {
 		if(path.toString().endsWith(".jar")) {
 			String suffix = ".component";
 			String cn = c.getAttributeValue("name");
@@ -241,7 +246,7 @@ public class XMLScanner implements IFileScanner {
 				cn = p.getAttributeValue("name") + "." + cn;
 				p = p.getParent();
 			}
-			return cn;			
+			return cn;
 		} else {
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if(!f.exists()) return "";
@@ -249,12 +254,35 @@ public class XMLScanner implements IFileScanner {
 			if(!root.getLocation().isPrefixOf(f.getLocation())) return "";
 			String relative = f.getLocation().toString().substring(root.getLocation().toString().length());
 			String suffix = ".component.xml";
-			if(!relative.endsWith(suffix)) return null;
-			relative = relative.substring(0, relative.length() - suffix.length());
-			relative = relative.replace('\\', '/');
-			if(relative.startsWith("/")) relative = relative.substring(1);
-			return relative.replace('/', '.');
+			if(relative.endsWith(suffix)) {
+				relative = relative.substring(0, relative.length() - suffix.length());
+				relative = relative.replace('\\', '/');
+				if(relative.startsWith("/")) relative = relative.substring(1);
+				return relative.replace('/', '.');
+			}
 		}
+		return null;
+	}
+	
+	/**
+	 * This is only limited to supported namespaces provided by seam.
+	 * @param c
+	 * @return
+	 */
+	private String getDefaultClassName(XModelObject c) {
+		String s = c.getModelEntity().getXMLSubPath();
+		int d = s.indexOf(':');
+		if(d < 0) return null;
+		String namespace = s.substring(0, d);
+		String tag = s.substring(d + 1);
+		String className = "org.jboss.seam." + namespace + ".";
+		String[] parts = tag.split("-");
+		if(parts != null) for (int i = 0; i < parts.length; i++) {
+			if(parts[i].length() < 1) continue;
+			String p = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1);
+			className += p;
+		}
+		return className;
 	}
 
 }
