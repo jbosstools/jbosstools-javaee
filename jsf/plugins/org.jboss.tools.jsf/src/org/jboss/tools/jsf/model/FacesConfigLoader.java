@@ -37,11 +37,12 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
         
 		String body = XModelObjectLoaderUtil.getTempBody(object);
 		
+        int resolution = EntityXMLRegistration.getInstance().resolve(object.getModelEntity());
 		String[] errors = 
 //			(entity.equals(ENT_FACESCONFIG_12))
 //			? new SAXValidator().getXMLErrors(new StringReader(body))
 //			: XMLUtil.getXMLErrors(new StringReader(body));
-			XMLUtil.getXMLErrors(new StringReader(body), false, false);
+			XMLUtil.getXMLErrors(new StringReader(body), resolution == EntityXMLRegistration.DTD, resolution == EntityXMLRegistration.SCHEMA);
 		boolean hasErrors = (errors != null && errors.length > 0);
 		if(hasErrors) {
 			object.setAttributeValue("isIncorrect", "yes");
