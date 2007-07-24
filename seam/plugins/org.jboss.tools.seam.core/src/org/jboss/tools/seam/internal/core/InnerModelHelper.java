@@ -5,6 +5,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jst.ws.internal.common.J2EEUtils;
+import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelObject;
@@ -23,11 +24,10 @@ public class InnerModelHelper {
 		
 		IPath webInfPath = null;
 		
-		try {
+		if(ComponentCore.createComponent(project)!=null) {
 			webInfPath = J2EEUtils.getWebInfPath(project);
-		} catch (Exception e) {
-			//ignore
 		}
+		
 		
 		if(webInfPath == null) return model;
 		
