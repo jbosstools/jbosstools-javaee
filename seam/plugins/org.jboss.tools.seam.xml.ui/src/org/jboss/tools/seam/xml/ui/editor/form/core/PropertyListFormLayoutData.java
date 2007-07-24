@@ -36,6 +36,9 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 
 	static String ENT_ENTITY_MANAGER_FACTORY = "SeamCoreEntityManagerFactory";
 	static String ENT_PERSISTENCE_UNIT_PROPERTIES = "SeamCorePersistenceUnitProperties";
+	
+	static String ENT_FILTER = "SeamCoreFilter";
+	static String ENT_PARAMETERS = "SeamCoreParameters";
 
 	private static IFormData createListDefinition(String header) {
 		return new FormData(
@@ -173,6 +176,19 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 
 	final static IFormData ENTITY_MANAGER_FACTORY_FORM_DEFINITION = new FormData(
 		ENT_ENTITY_MANAGER_FACTORY, new String[]{null}, ENTITY_MANAGER_FACTORY_DEFINITIONS);
+
+	private final static IFormData[] PARAMETERS_DEFINITIONS = new IFormData[] {
+		createMapDefinition("Parameters")
+	};
+	
+	final static IFormData PARAMETERS_FORM_DEFINITION = new FormData(
+		ENT_PARAMETERS, new String[]{null}, PARAMETERS_DEFINITIONS);
+
+	private final static IFormData[] FILTER_DEFINITIONS = 
+		createDefinitionsForMapHolder("Filter", ENT_FILTER, "Parameters", "parameters");
+
+	final static IFormData FILTER_FORM_DEFINITION = new FormData(
+		ENT_FILTER, new String[]{null}, FILTER_DEFINITIONS);
 
 	/**
 	 * Theme

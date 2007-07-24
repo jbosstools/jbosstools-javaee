@@ -46,6 +46,9 @@ public class SeamComponentsCoreFormLayoutData implements IFormLayoutData {
 		
 		PropertyListFormLayoutData.ENTITY_MANAGER_FACTORY_FORM_DEFINITION,
 		PropertyListFormLayoutData.PERSISTENCE_UNIT_PROPERTIES_FORM_DEFINITION,
+		
+		PropertyListFormLayoutData.FILTER_FORM_DEFINITION,
+		PropertyListFormLayoutData.PARAMETERS_FORM_DEFINITION,
 
 	};
 
