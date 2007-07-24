@@ -48,9 +48,10 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 //		String encoding = XModelObjectLoaderUtil.getEncoding(body);
 //		body = FileUtil.encode(body, encoding);
 
+        int resolution = EntityXMLRegistration.getInstance().resolve(object.getModelEntity());
 		String[] errors = 
 			//XMLUtil.getXMLErrors(new StringReader(body));
-			XMLUtil.getXMLErrors(new StringReader(body), false, false);
+			XMLUtil.getXMLErrors(new StringReader(body), resolution == EntityXMLRegistration.DTD, resolution == EntityXMLRegistration.SCHEMA);
 		boolean hasErrors = (errors != null && errors.length > 0);
 		if(hasErrors) {
             object.setAttributeValue("isIncorrect", "yes");
