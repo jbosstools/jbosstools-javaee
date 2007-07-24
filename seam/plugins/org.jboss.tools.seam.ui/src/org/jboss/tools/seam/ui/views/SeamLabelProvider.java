@@ -33,6 +33,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.ui.SeamUiImages;
 
 /**
  * @author Viacheslav Kabanovich
@@ -71,37 +72,31 @@ public class SeamLabelProvider extends LabelProvider {
 	}
 
 	public Image getImage(Object obj) {
-		String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 		if (obj instanceof ISeamProject) {
-			SeamProject p = (SeamProject)obj;
-			return jip.getImageLabel(p.getProject(), 3);
-//		   imageKey = org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJ_PROJECT;
+			return SeamUiImages.PROJECT_IMAGE;
 		} else if(obj instanceof ISeamScope) {
-			imageKey = ISharedImages.IMG_OBJ_FOLDER;
+			return SeamUiImages.SCOPE_IMAGE;
 		} else if(obj instanceof ISeamComponent) {
-			imageKey = ISharedImages.IMG_OBJ_ELEMENT;
+			return SeamUiImages.COMPONENT_IMAGE;
 		} else if(obj instanceof IRole) {
-			//
+			return SeamUiImages.ROLE_IMAGE;
 		} else if(obj instanceof ISeamJavaComponentDeclaration) {
 			ISeamJavaComponentDeclaration d = (ISeamJavaComponentDeclaration)obj;
 			IType type = (IType)d.getSourceMember();
 			if(type != null) {
 				if(type.isBinary()) {
-					return new org.eclipse.jdt.internal.ui.SharedImages().getImage(JavaPluginImages.IMG_OBJS_CFILE);
+					return SeamUiImages.JAVA_BINARY_IMAGE;
 				}
-				IResource r = d.getResource();
-				if(r != null) return jip.getImageLabel(r, 3);
-				ICompilationUnit f = type.getCompilationUnit();
-				return(f != null) ? jip.getImageLabel(f, 0) : jip.getImageLabel(type, 3);
+				return SeamUiImages.JAVA_IMAGE;
 			}
-			return new org.eclipse.jdt.internal.ui.SharedImages().getImage(JavaPluginImages.IMG_OBJS_CFILECLASS);
+			return SeamUiImages.JAVA_IMAGE;
 		} else if(obj instanceof ISeamComponentDeclaration) {
 			SeamComponentDeclaration d = (SeamComponentDeclaration)obj;
 			IResource r = d.getResource();
 			if(r != null) return jip.getImageLabel(r, 3);
-			imageKey = ISharedImages.IMG_OBJ_FILE;
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 		}
-		return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
+		return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
 	}
 
 }
