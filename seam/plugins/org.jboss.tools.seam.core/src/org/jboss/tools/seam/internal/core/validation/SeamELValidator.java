@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +18,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
@@ -36,10 +38,12 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -50,32 +54,58 @@ import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
  */
 public class SeamELValidator extends SeamValidator {
 
-	private SeamELCompletionEngine engine= new SeamELCompletionEngine();
-	private IJavaProject javaProject = null;
+	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION";
+	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER";
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.seam.internal.core.validation.SeamValidator#validate(java.util.Set)
-	 */
-	@Override
-	public IStatus validate(Set<IFile> changedFiles) throws ValidationException {
-		// TODO Incremental validation
-		validateAll();
-		return OK_STATUS;
+	private SeamELCompletionEngine engine= new SeamELCompletionEngine();
+	private IJavaProject javaProject;
+
+	public SeamELValidator(SeamValidatorManager validatorManager,
+			SeamValidationHelper coreHelper, IReporter reporter,
+			SeamValidationContext validationContext, ISeamProject project) {
+		super(validatorManager, coreHelper, reporter, validationContext, project);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.seam.internal.core.validation.SeamValidator#validateAll()
+	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#isEnabled()
 	 */
-	@Override
-	public IStatus validateAll() throws ValidationException {
-		reporter.removeAllMessages(this);
-		if(SeamPreferences.isValidateEL(project)) {
-			SeamELValidationHelper vlh = (SeamELValidationHelper)coreHelper;
-			Collection files = vlh.getAllFilesForValidation();
-			for (Object file : files) {
-				if(file instanceof IFile && !reporter.isCancelled()) {
-					validateFile((IFile)file);
+	public boolean isEnabled() {
+		return SeamPreferences.isValidateEL(project);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validate(java.util.Set)
+	 */
+	public IStatus validate(Set<IFile> changedFiles) throws ValidationException {
+		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+		Set<IPath> files = validationContext.getElResourcesForValidation(changedFiles);
+		validationContext.removeLinkedElResources(files);
+		for (IPath path : files) {
+			if(!reporter.isCancelled()) {
+				validationContext.removeUnnamedElResource(path);
+				IFile file = wsRoot.getFile(path);
+				if(file.exists()) {
+					reporter.removeMessageSubset(validationManager, file, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+					validateFile(file);
 				}
+			}
+		}
+
+		validationContext.clearOldVariableNameForElValidation();
+		return OK_STATUS;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
+	 */
+	public IStatus validateAll() throws ValidationException {
+		validationContext.clearElResourceLinks();
+		Set<IFile> files = validationContext.getRegisteredFiles();
+		for (IFile file : files) {
+			if(!reporter.isCancelled()) {
+				validateFile(file);
 			}
 		}
 		return OK_STATUS;
@@ -205,29 +235,34 @@ public class SeamELValidator extends SeamValidator {
 			String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
 			if(prefix!=null) {
 				int possition = 0;
-	
+
 				Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
 				Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
-	
+
 				List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
+
+				if(usedVariables.size()==0 && suggestions.size()==0) {
+					// Save resources with unknown variables names
+					validationContext.addUnnamedElResource(file.getFullPath());
+				} else {
+					// Save links between resource and used variables names
+					for(ISeamContextVariable variable: usedVariables) {
+						validationContext.addLinkedElResource(variable.getName(), file.getFullPath());					
+					}
+				}
 
 				// Check pair for getter/setter
 				if(unpairedGettersOrSetters.size()>0) {
 					IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
 					String methodName = unpairedMethod.getElementName();
-//					int indexOfPropertyName = 3;
-//					if(methodName.startsWith("i")) {
-//						indexOfPropertyName = 2;
-//					}
 					String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
-//					propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
 					String missingMethodName = "Setter";
 					String existedMethodName = "Getter";
 					if(methodName.startsWith("s")) {
 						missingMethodName = existedMethodName;
 						existedMethodName = "Setter";
 					}
-					addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+					addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file);
 				}
 
 				if (suggestions != null && suggestions.size() > 0) {
@@ -241,7 +276,7 @@ public class SeamELValidator extends SeamValidator {
 			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
 		}
 		// Mark invalid EL
-		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{el.getValue()}, el.getLength(), el.getOffset(), file, MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{el.getValue()}, el.getLength(), el.getOffset(), file);
 	}
 
 	private IJavaProject getJavaProject() {

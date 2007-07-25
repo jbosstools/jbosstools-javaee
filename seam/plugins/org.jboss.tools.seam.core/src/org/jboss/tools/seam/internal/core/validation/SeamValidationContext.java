@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.xml.XMLUtilities;
@@ -29,162 +30,195 @@ import org.w3c.dom.Element;
  */
 public class SeamValidationContext {
 
-	private Map<String, Set<IPath>> resourcesByVariableName = new HashMap<String, Set<IPath>>();
-	private Map<IPath, Set<String>> variableNamesByResource = new HashMap<IPath, Set<String>>();
-	private Set<IPath> unnamedResources = new HashSet<IPath>();
+	// We should load/save these collections between eclipse sessions.
+	private LinkCollection coreLinks = new LinkCollection();
+	private LinkCollection elLinks = new LinkCollection();
 
 	private Set<IFile> removedFiles = new HashSet<IFile>();
 	private Set<IFile> registeredResources = new HashSet<IFile>();
+	private Set<String> oldVariableNamesForELValidation = new HashSet<String>();
 
 	/**
-	 * Save link between resource and variable name.
+	 * Save link between core resource and variable name.
 	 * It's needed for incremental validation because we must save all linked resources of changed java file.
 	 */
-	public void addLinkedResource(String variableName, IPath linkedResourcePath) {
-		if(linkedResourcePath==null) {
-			throw new RuntimeException("Linked resource path must not be null!");
-		}
-		if(variableName==null) {
-			throw new RuntimeException("Variable name must not be null!");
-		}
-		Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
-		if(linkedResources==null) {
-			// create set of linked resources with variable name.
-			linkedResources = new HashSet<IPath>();
-			resourcesByVariableName.put(variableName, linkedResources);
-		}
-		// save linked resources.
-		linkedResources.add(linkedResourcePath);
-
-		// Save link between resource and variable names. It's needed if variable name changes in resource file.
-		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
-		if(variableNames==null) {
-			variableNames = new HashSet<String>();
-			variableNamesByResource.put(linkedResourcePath, variableNames);
-		}
-		variableNames.add(variableName);
+	public void addLinkedCoreResource(String variableName, IPath linkedResourcePath) {
+		coreLinks.addLinkedResource(variableName, linkedResourcePath);
 	}
 
 	/**
-	 * Removes link between resource and variable name.
+	 * Removes link between core resource and variable name.
 	 * @param oldVariableName
 	 * @param linkedResourcePath
 	 */
-	public void removeLinkedResource(String name, IPath linkedResourcePath) {
-		Set<IPath> linkedResources = resourcesByVariableName.get(name);
-		if(linkedResources!=null) {
-			// remove linked resource.
-			linkedResources.remove(linkedResourcePath);
-		}
-		// Remove link between resource and variable names.
-		Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
-		if(variableNames!=null) {
-			variableNames.remove(name);
-		}
+	public void removeLinkedCoreResource(String name, IPath linkedResourcePath) {
+		coreLinks.removeLinkedResource(name, linkedResourcePath);
+	}
+
+	/**
+	 * Removes link between core resources and variable names.
+	 * @param linkedResources
+	 */
+	public void removeLinkedCoreResources(Set<IPath> resources) {
+		coreLinks.removeLinkedResources(resources);
+	}
+
+	public Set<IPath> getCoreResourcesByVariableName(String variableName) {
+		return coreLinks.getResourcesByVariableName(variableName);
+	}
+
+	public Set<String> getVariableNamesByCoreResource(IPath fullPath) {
+		return coreLinks.getVariableNamesByResource(fullPath);
+	}
+
+	/**
+	 * Adds core resource without any link to any context variable name.
+	 * @param fullPath
+	 */
+	public void addUnnamedCoreResource(IPath fullPath) {
+		coreLinks.addUnnamedResource(fullPath);
+	}
+
+	/**
+	 * @return Set of coreresources without any link to any context variable name.
+	 * @param fullPath
+	 */
+	public Set<IPath> getUnnamedCoreResources() {
+		return coreLinks.getUnnamedResources();
+	}
+
+	/**
+	 * Removes unnamed EL resource.
+	 * @param fullPath
+	 */
+	public void removeUnnamedCoreResource(IPath fullPath) {
+		coreLinks.removeUnnamedResource(fullPath);
+	}
+
+	/**
+	 * Adds EL resource without any link to any context variable name.
+	 * @param fullPath
+	 */
+	public void addUnnamedElResource(IPath fullPath) {
+		elLinks.addUnnamedResource(fullPath);
+	}
+
+	/**
+	 * @return Set of EL resources without any link to any context variable name.
+	 * @param fullPath
+	 */
+	public Set<IPath> getUnnamedElResources() {
+		return elLinks.getUnnamedResources();
+	}
+
+	/**
+	 * Removes unnamed EL resource.
+	 * @param fullPath
+	 */
+	public void removeUnnamedElResource(IPath fullPath) {
+		elLinks.removeUnnamedResource(fullPath);
+	}
+
+	/**
+	 * We should validate all EL resources which use these names.
+	 * @param name
+	 */
+	public void addVariableNameForELValidation(String name) {
+		oldVariableNamesForELValidation.add(name);
+	}
+
+	/**
+	 * Save link between EL resource and variable name.
+	 * It's needed for incremental validation because we must save all linked resources of changed java file.
+	 */
+	public void addLinkedElResource(String variableName, IPath linkedResourcePath) {
+		elLinks.addLinkedResource(variableName, linkedResourcePath);
 	}
 
 	/**
 	 * Removes link between resources and variable names.
 	 * @param linkedResources
 	 */
-	public void removeLinkedResources(Set<IPath> resources) {
-		for (IPath resource : resources) {
-			Set<String> resourceNames = variableNamesByResource.get(resource);
-			if(resourceNames!=null) {
-				for (String name : resourceNames) {
-					Set<IPath> linkedResources = resourcesByVariableName.get(name);
-					if(linkedResources!=null) {
-						linkedResources.remove(resource);
+	public void removeLinkedElResources(Set<IPath> resources) {
+		elLinks.removeLinkedResources(resources);
+	}
+
+	/**
+	 * @param changedFiles - files which were changed.
+	 * @return Set of resources which we should validate during incremental EL validation.
+	 */
+	public Set<IPath> getElResourcesForValidation(Set<IFile> changedFiles) {
+		Set<IPath> result = new HashSet<IPath>();
+		// Collect all resources which use old variables names.
+		for(String name : oldVariableNamesForELValidation) {
+			Set<IPath> oldResources = elLinks.getResourcesByVariableName(name);
+			if(oldResources!=null) {
+				result.addAll(oldResources);
+			}
+		}
+		// Collect all resources which use new variables names
+		for(IResource resource : changedFiles) {
+			result.add(resource.getFullPath());
+			Set<String> names = getVariableNamesByCoreResource(resource.getFullPath());
+			if(names!=null) {
+				for (String name : names) {
+					Set<IPath> newResources = elLinks.getResourcesByVariableName(name);
+					if(newResources!=null) {
+						result.addAll(newResources);
 					}
 				}
 			}
-			variableNamesByResource.remove(resource);
 		}
+		result.addAll(elLinks.getUnnamedResources());
+		return result;
 	}
 
-	public Set<IPath> getResourcesByVariableName(String variableName) {
-		return resourcesByVariableName.get(variableName);
+	public void clearAll() {
+		removedFiles.clear();
+		registeredResources.clear();
+		oldVariableNamesForELValidation.clear();
+		coreLinks.clearAll();
+		elLinks.clearAll();
 	}
 
-	public Set<String> getVariableNamesByResource(IPath fullPath) {
-		return variableNamesByResource.get(fullPath);
+	public void clearAllResourceLinks() {
+		oldVariableNamesForELValidation.clear();
+		coreLinks.clearAll();
+		elLinks.clearAll();
 	}
 
-	/**
-	 * Adds resource without any link to any context variable name.
-	 * @param fullPath
-	 */
-	public void addUnnamedResource(IPath fullPath) {
-		unnamedResources.add(fullPath);
-	}
-
-	/**
-	 * @return Set of resources without any link to any context variable name.
-	 * @param fullPath
-	 */
-	public Set<IPath> getUnnamedResources() {
-		return unnamedResources;
-	}
-
-	/**
-	 * Removes unnamed resource.
-	 * @param fullPath
-	 */
-	public void removeUnnamedResource(IPath fullPath) {
-		unnamedResources.remove(fullPath);
-	}
-
-	public void clear() {
-		resourcesByVariableName.clear();
-		variableNamesByResource.clear();
-		unnamedResources.clear();
+	public void clearRegisteredFiles() {
 		removedFiles.clear();
 		registeredResources.clear();
 	}
 
+	public void clearElResourceLinks() {
+		oldVariableNamesForELValidation.clear();
+		elLinks.clearAll();
+	}
+
+	public void clearOldVariableNameForElValidation() {
+		oldVariableNamesForELValidation.clear();
+	}
+
 	public void store(Element root) {
 		Element validation = XMLUtilities.createElement(root, "validation");
-		Set<String> variables = resourcesByVariableName.keySet();
-		for (String name: variables) {
-			Set<IPath> paths = resourcesByVariableName.get(name);
-			if(paths == null) continue;
-			for (IPath path: paths) {
-				Element linkedResource = XMLUtilities.createElement(validation, "linked-resource");
-				linkedResource.setAttribute("name", name);
-				linkedResource.setAttribute("path", path.toString());
-			}
-		}
-		for (IPath unnamedPath: unnamedResources) {
-			Element unnamedPathElement = XMLUtilities.createElement(validation, "unnamed-path");
-			unnamedPathElement.setAttribute("path", unnamedPath.toString());
-		}
+		Element core = XMLUtilities.createElement(validation, "core");
+		coreLinks.store(core);
+		Element el = XMLUtilities.createElement(validation, "el");
+		elLinks.store(el);
 	}
 
 	public void load(Element root) {
 		Element validation = XMLUtilities.getUniqueChild(root, "validation");
 		if(validation == null) return;
-		Element[] linkedResources = XMLUtilities.getChildren(validation, "linked-resource");
-		if(linkedResources != null) for (int i = 0; i < linkedResources.length; i++) {
-			String name = linkedResources[i].getAttribute("name");
-			if(name == null || name.trim().length() == 0) continue;
-			String path = linkedResources[i].getAttribute("path");
-			if(path == null || path.trim().length() == 0) continue;
-			try {
-				IPath pathObject = new Path(path);
-				addLinkedResource(name, pathObject);
-			} catch (Exception e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+		Element core = XMLUtilities.getUniqueChild(validation, "core");
+		if(core != null) {
+			coreLinks.load(core);
 		}
-		Element[] unnamedPathElement = XMLUtilities.getChildren(validation, "unnamed-path");
-		if(unnamedPathElement != null) for (int i = 0; i < unnamedPathElement.length; i++) {
-			String path = unnamedPathElement[i].getAttribute("path");
-			try {
-				IPath pathObject = new Path(path);
-				addUnnamedResource(pathObject);
-			} catch (Exception e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+		Element el = XMLUtilities.getUniqueChild(validation, "el");
+		if(el != null) {
+			elLinks.load(el);
 		}
 	}
 
@@ -202,5 +236,162 @@ public class SeamValidationContext {
 
 	public void registerFile(IFile file) {
 		registeredResources.add(file);
+	}
+
+	public static class LinkCollection {
+		private Map<String, Set<IPath>> resourcesByVariableName = new HashMap<String, Set<IPath>>();
+		private Map<IPath, Set<String>> variableNamesByResource = new HashMap<IPath, Set<String>>();
+		private Set<IPath> unnamedResources = new HashSet<IPath>();
+
+		/**
+		 * Save link between resource and variable name.
+		 * It's needed for incremental validation because we must save all linked resources of changed java file.
+		 */
+		public void addLinkedResource(String variableName, IPath linkedResourcePath) {
+			if(linkedResourcePath==null) {
+				throw new RuntimeException("Linked resource path must not be null!");
+			}
+			if(variableName==null) {
+				throw new RuntimeException("Variable name must not be null!");
+			}
+			Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
+			if(linkedResources==null) {
+				// create set of linked resources with variable name.
+				linkedResources = new HashSet<IPath>();
+				resourcesByVariableName.put(variableName, linkedResources);
+			}
+			// save linked resources.
+			linkedResources.add(linkedResourcePath);
+
+			// Save link between resource and variable names. It's needed if variable name changes in resource file.
+			Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
+			if(variableNames==null) {
+				variableNames = new HashSet<String>();
+				variableNamesByResource.put(linkedResourcePath, variableNames);
+			}
+			variableNames.add(variableName);
+		}
+
+		/**
+		 * Removes link between resource and variable name.
+		 * @param oldVariableName
+		 * @param linkedResourcePath
+		 */
+		public void removeLinkedResource(String name, IPath linkedResourcePath) {
+			Set<IPath> linkedResources = resourcesByVariableName.get(name);
+			if(linkedResources!=null) {
+				// remove linked resource.
+				linkedResources.remove(linkedResourcePath);
+			}
+			// Remove link between resource and variable names.
+			Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
+			if(variableNames!=null) {
+				variableNames.remove(name);
+			}
+		}
+
+		/**
+		 * Removes link between resources and variable names.
+		 * @param linkedResources
+		 */
+		public void removeLinkedResources(Set<IPath> resources) {
+			for (IPath resource : resources) {
+				Set<String> resourceNames = variableNamesByResource.get(resource);
+				if(resourceNames!=null) {
+					for (String name : resourceNames) {
+						Set<IPath> linkedResources = resourcesByVariableName.get(name);
+						if(linkedResources!=null) {
+							linkedResources.remove(resource);
+							if(linkedResources.isEmpty()) {
+								resourcesByVariableName.remove(name);
+							}
+						}
+					}
+				}
+				variableNamesByResource.remove(resource);
+			}
+		}
+
+		public Set<IPath> getResourcesByVariableName(String variableName) {
+			return resourcesByVariableName.get(variableName);
+		}
+
+		public Set<String> getVariableNamesByResource(IPath fullPath) {
+			return variableNamesByResource.get(fullPath);
+		}
+
+		/**
+		 * Adds resource without any link to any context variable name.
+		 * @param fullPath
+		 */
+		public void addUnnamedResource(IPath fullPath) {
+			unnamedResources.add(fullPath);
+		}
+
+		/**
+		 * @return Set of resources without any link to any context variable name.
+		 * @param fullPath
+		 */
+		public Set<IPath> getUnnamedResources() {
+			return unnamedResources;
+		}
+
+		/**
+		 * Removes unnamed resource.
+		 * @param fullPath
+		 */
+		public void removeUnnamedResource(IPath fullPath) {
+			unnamedResources.remove(fullPath);
+		}
+
+		public void clearAll() {
+			resourcesByVariableName.clear();
+			variableNamesByResource.clear();
+			unnamedResources.clear();
+		}
+
+		public void store(Element root) {
+			Set<String> variables = resourcesByVariableName.keySet();
+			for (String name: variables) {
+				Set<IPath> paths = resourcesByVariableName.get(name);
+				if(paths == null) continue;
+				for (IPath path: paths) {
+					Element linkedResource = XMLUtilities.createElement(root, "linked-resource");
+					linkedResource.setAttribute("name", name);
+					linkedResource.setAttribute("path", path.toString());
+				}
+			}
+			for (IPath unnamedPath: unnamedResources) {
+				Element unnamedPathElement = XMLUtilities.createElement(root, "unnamed-path");
+				unnamedPathElement.setAttribute("path", unnamedPath.toString());
+			}
+		}
+
+		public void load(Element root) {
+			if(root == null) return;
+			Element[] linkedResources = XMLUtilities.getChildren(root, "linked-resource");
+			if(linkedResources != null) for (int i = 0; i < linkedResources.length; i++) {
+				String name = linkedResources[i].getAttribute("name");
+				if(name == null || name.trim().length() == 0) continue;
+				String path = linkedResources[i].getAttribute("path");
+				if(path == null || path.trim().length() == 0) continue;
+				try {
+					IPath pathObject = new Path(path);
+					addLinkedResource(name, pathObject);
+				} catch (Exception e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+			}
+			Element[] unnamedPathElement = XMLUtilities.getChildren(root, "unnamed-path");
+			if(unnamedPathElement != null) for (int i = 0; i < unnamedPathElement.length; i++) {
+				String path = unnamedPathElement[i].getAttribute("path");
+				try {
+					IPath pathObject = new Path(path);
+					addUnnamedResource(pathObject);
+				} catch (Exception e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+			}
+		}
 	}
 }

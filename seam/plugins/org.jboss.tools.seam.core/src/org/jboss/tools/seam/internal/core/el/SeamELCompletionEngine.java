@@ -102,11 +102,11 @@ public final class SeamELCompletionEngine {
 		List<List<ELToken>> variations = getPossibleVarsFromPrefix(tokens);
 		
 		if (variations.isEmpty()) {
-			resolvedVariables = resolveVariables(project, scope, tokens, tokens);
+			resolvedVariables = resolveVariables(project, scope, tokens, tokens, returnEqualedVariablesOnly);
 		} else {
 			for (List<ELToken> variation : variations) {
 				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = resolveVariables(project, scope, variation, tokens);
+				resolvedVars = resolveVariables(project, scope, variation, tokens, returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
 					resolvedExpressionPart = variation;
@@ -140,7 +140,7 @@ public final class SeamELCompletionEngine {
 		int startTokenIndex = (resolvedExpressionPart == null ? 0 : resolvedExpressionPart.size());
 		Set<IMember> members = new HashSet<IMember>();
 		for (ISeamContextVariable var : resolvedVariables) {
-			IMember member = SeamExpressionResolver.getMemberByVariable(var);
+			IMember member = SeamExpressionResolver.getMemberByVariable(var, returnEqualedVariablesOnly);
 			if (member != null && !members.contains(member)) 
 				members.add(member);
 		}
@@ -327,11 +327,11 @@ public final class SeamELCompletionEngine {
 	 * @param tokens
 	 * @return
 	 */
-	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELToken>part, List<ELToken> tokens) {
+	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELToken>part, List<ELToken> tokens, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		String varName = computeVariableName(part);
 		if (varName != null) {
-			resolvedVars = SeamExpressionResolver.resolveVariables(project, scope, varName);
+			resolvedVars = SeamExpressionResolver.resolveVariables(project, scope, varName, onlyEqualNames);
 		}
 		if (resolvedVars != null && resolvedVars.size() > 0) {
 			List<ISeamContextVariable> newResolvedVars = new ArrayList<ISeamContextVariable>();

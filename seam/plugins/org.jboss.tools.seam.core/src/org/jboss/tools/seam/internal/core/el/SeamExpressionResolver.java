@@ -51,10 +51,10 @@ public class SeamExpressionResolver {
 	 * @param name
 	 * @return
 	 */
-	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, String name) {
+	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
 		if (project == null || name == null) return null;
-		return (scope == null ? internalResolveVariables(project, name) :
-				internalResolveVariablesByScope(project, scope, name));
+		return (scope == null ? internalResolveVariables(project, name, onlyEqualNames) :
+				internalResolveVariablesByScope(project, scope, name, onlyEqualNames));
 	}
 	
 	/**
@@ -65,12 +65,18 @@ public class SeamExpressionResolver {
 	 * @param name
 	 * @return
 	 */
-	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name) {
+	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		Set<ISeamContextVariable> variables = project.getVariables();
 		for (ISeamContextVariable variable : variables) {
-			if (variable.getName().startsWith(name)) {
-				resolvedVariables.add(variable);
+			if(onlyEqualNames) {
+				if (variable.getName().equals(name)) {
+					resolvedVariables.add(variable);
+				}
+			} else {
+				if (variable.getName().startsWith(name)) {
+					resolvedVariables.add(variable);
+				}
 			}
 		}
 		return resolvedVariables;
@@ -85,12 +91,18 @@ public class SeamExpressionResolver {
 	 * @param name
 	 * @return
 	 */
-	private static List<ISeamContextVariable> internalResolveVariablesByScope(ISeamProject project, ScopeType scope, String name) {
+	private static List<ISeamContextVariable> internalResolveVariablesByScope(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		Set<ISeamContextVariable> variables = project.getVariablesByScope(scope);
 		for (ISeamContextVariable variable : variables) {
-			if (variable.getName().startsWith(name)) {
-				resolvedVariables.add(variable);
+			if(onlyEqualNames) {
+				if (variable.getName().equals(name)) {
+					resolvedVariables.add(variable);
+				}
+			} else {
+				if (variable.getName().startsWith(name)) {
+					resolvedVariables.add(variable);
+				}
 			}
 		}
 		return resolvedVariables;
@@ -102,7 +114,7 @@ public class SeamExpressionResolver {
 	 * @param variable
 	 * @return
 	 */
-	public static IMember getMemberByVariable(ISeamContextVariable variable) {
+	public static IMember getMemberByVariable(ISeamContextVariable variable, boolean onlyEqualNames) {
 		IMember member = null;
 		if (variable instanceof ISeamComponent) {
 			ISeamComponent component = (ISeamComponent)variable;
@@ -132,10 +144,10 @@ public class SeamExpressionResolver {
 				ISeamProject project = ((ISeamElement)factory).getSeamProject();
 //				ISeamProject project = getSeamProject(factory.getResource());
 				if (project != null) {
-					List<ISeamContextVariable> resolvedValues = resolveVariables(project, factory.getScope(), value);
+					List<ISeamContextVariable> resolvedValues = resolveVariables(project, factory.getScope(), value, onlyEqualNames);
 					for (ISeamContextVariable var : resolvedValues) {
 						if (var.getName().equals(value)) {
-							member = getMemberByVariable(var);
+							member = getMemberByVariable(var, onlyEqualNames);
 							break;
 						}
 					}

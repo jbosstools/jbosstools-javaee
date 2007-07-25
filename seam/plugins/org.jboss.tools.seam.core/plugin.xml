@@ -130,33 +130,8 @@
 
    <extension
         point="org.eclipse.wst.validation.validator"
-		id="SeamCoreValidator"
-		name="Seam Core Validator">
-		<validator>
-			<projectNature id="org.jboss.tools.seam.core.seamnature" />
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.java"/>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.xml"/>
-			<markerId
-               markerIdValue="seamCoreProblem">
-         	</markerId>
-			<helper 
-				class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper">
-			</helper>
-			<run
-         		class="org.jboss.tools.seam.internal.core.validation.SeamCoreValidator"
-         		incremental="true"
-         		fullBuild="true"
-         	/>
-		</validator>
-	</extension>
-    <extension
-        point="org.eclipse.wst.validation.validator"
-		id="SeamELValidator"
-		name="Seam EL Validator">
+		id="SeamValidator"
+		name="Seam Validator">
 		<validator>
 			<projectNature id="org.jboss.tools.seam.core.seamnature" />
 			<filter
@@ -192,31 +167,22 @@
          	<contentTypeBinding contentTypeId="org.eclipse.jst.jsp.core.jspfragmentsource"/>
          	<contentTypeBinding contentTypeId="org.eclipse.jst.jsp.core.tagsource"/>
 			<markerId
-               markerIdValue="seamELProblem">
+               markerIdValue="seamProblem">
          	</markerId>
 			<helper 
-				class="org.jboss.tools.seam.internal.core.validation.SeamELValidationHelper">
+				class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper">
 			</helper>
 			<run
-         		class="org.jboss.tools.seam.internal.core.validation.SeamELValidator"
+         		class="org.jboss.tools.seam.internal.core.validation.SeamValidatorManager"
          		incremental="true"
          		fullBuild="true"
          	/>
 		</validator>
-	 </extension>
+	</extension>
 
    <extension
-         id="seamCoreProblem"
-         name="Seam Core Problem"
-         point="org.eclipse.core.resources.markers">
-		<super type="org.eclipse.wst.validation.problemmarker"/>
-      	<persistent
-            value="true">
-      	</persistent>
-   </extension>
-   <extension
-         id="seamELProblem"
-         name="Seam EL Problem"
+         id="seamProblem"
+         name="Seam Problem"
          point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.wst.validation.problemmarker"/>
       	<persistent
