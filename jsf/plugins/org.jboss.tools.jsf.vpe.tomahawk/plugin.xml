@@ -5,7 +5,7 @@
          point="org.jboss.tools.vpe.templates">
       <templates
             default="false"
-            name="Otrix"
+            name="Tomahawk"
             path="templates/vpe-templates-tomahawk.xml"/>
    </extension>
 

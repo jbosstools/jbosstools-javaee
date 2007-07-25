@@ -10,17 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.tomahawk;
 
-import java.net.URL;
-
-import org.eclipse.ui.plugin.*;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.osgi.framework.Bundle;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-/**
- * The main plugin class to be used in the desktop.
- */
+
 public class TomahawkPlugin extends AbstractUIPlugin {
 
 	//The shared instance.
@@ -54,26 +47,5 @@ public class TomahawkPlugin extends AbstractUIPlugin {
 	public static TomahawkPlugin getDefault() {
 		return plugin;
 	}
-
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path.
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.vpe.otrix", path);
-	}
-
-	public static String getInstallPath() {
-		Bundle bundle = Platform.getBundle("org.jboss.tools.jsf.vpe.otrix");
-		URL url = null;
-		try {
-			url = bundle == null ? null : Platform.resolve(bundle.getEntry("/"));
-		} catch (Exception e) {
-			url = bundle.getEntry("/");
-		}
-		return (url == null) ? null : url.getPath();
-	}
+	
 }
