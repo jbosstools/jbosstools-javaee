@@ -40,6 +40,17 @@ import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 
 /**
+ * Basic type for content providers that add seam components 
+ * tree structure to views based on 
+ * org.eclipse.ui.navigator.CommonNavigator
+ * Sub-classes need to override methods getChildren(Object) 
+ * and getParent(Object) to specify starting points of the
+ * seam components sub-trees.
+ * Content provider for stand-alone view may start from 
+ * the workspace root, while content provider contributing
+ * to the standard Project Explorer is better to append 
+ * project-specific seam components to that project's node.
+ * 
  * @author Viacheslav Kabanovich
  */
 public abstract class AbstractSeamContentProvider implements ITreeContentProvider, ISeamProjectChangeListener {

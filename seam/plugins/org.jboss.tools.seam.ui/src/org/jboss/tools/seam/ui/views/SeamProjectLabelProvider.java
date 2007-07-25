@@ -13,12 +13,17 @@ package org.jboss.tools.seam.ui.views;
 import org.jboss.tools.seam.core.ISeamProject;
 
 /**
+ * This implementation is designed for standard Projects Explorer 
+ * view to provide 'Seam Components' name for the root node of
+ * the appended sub-tree.
+ *  
  * @author Viacheslav Kabanovich
  */
 public class SeamProjectLabelProvider extends SeamLabelProvider {
 	
 	public SeamProjectLabelProvider() {}
 
+	@Override
 	public String getText(Object element) {
 		if(element instanceof ISeamProject) {
 			return "Seam Components";

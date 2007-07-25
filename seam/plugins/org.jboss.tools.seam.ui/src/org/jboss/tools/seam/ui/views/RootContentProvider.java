@@ -20,6 +20,9 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
+ * This content provider is designed for stand-alone Seam Components view
+ * to build all the tree starting from the workspace root.
+ * 
  * @author Viacheslav Kabanovich
  */
 public class RootContentProvider extends AbstractSeamContentProvider {
@@ -27,7 +30,12 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 	
 	public RootContentProvider() {}
 	
-	
+	/**
+	 * Returns child nodes for the tree of stand alone Seam Components view.
+	 * On the first level, array of ISeamProject objects for projects that are
+	 * seam projects is returned.
+	 */
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof IWorkspaceRoot) {
 			IWorkspaceRoot root = (IWorkspaceRoot)parentElement;
@@ -50,6 +58,7 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 		}
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		if(element instanceof ISeamProject) {
 			return root;
@@ -58,6 +67,7 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 		}
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		super.inputChanged(viewer, oldInput, newInput);
 		if(newInput instanceof IWorkspaceRoot || newInput == null) {
