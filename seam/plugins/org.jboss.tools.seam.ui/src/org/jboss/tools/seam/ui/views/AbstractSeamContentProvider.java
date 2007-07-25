@@ -136,7 +136,9 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
 		viewer = null;
 		if(processed != null) {
-			for (ISeamProject p : processed) p.removeSeamProjectListener(this);
+			for (ISeamProject p : processed) {
+				p.removeSeamProjectListener(this);
+			}
 			processed.clear();
 		}
 	}
