@@ -11,9 +11,6 @@
 
 package org.jboss.tools.seam.internal.core.project.facet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
 
 /**
@@ -23,7 +20,7 @@ import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
  */
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
-	public static final String SEAM_PROJECT_NAME = "seam.project.name";
+	public static final String SEAM_PROJECT_NAME = "project.name";
 	
 	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance";
 	

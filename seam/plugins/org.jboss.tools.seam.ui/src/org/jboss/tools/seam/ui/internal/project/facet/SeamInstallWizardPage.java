@@ -86,7 +86,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	ITaggedFieldEditor jdbcUrlForDb = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JDBC_URL_FOR_DB, 
 			"JDBC Url for Your Database:", 
-			Arrays.asList(HIBERNATE_HELPER.getConnectionURLS(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))[0])),HIBERNATE_HELPER.getConnectionURLS(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))[0])[0]);
+			Arrays.asList(HIBERNATE_HELPER.getConnectionURLS(HIBERNATE_HELPER.getDriverClasses(
+					HIBERNATE_HELPER.getDialectClass("HSQL"))[0])),
+					HIBERNATE_HELPER.getConnectionURLS(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass("HSQL"))[0])[0].replace("<", "").replace(">", ""));
 	IFieldEditor dbUserName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_USER_NAME, 
 			"Database User Name:", "username");
@@ -246,7 +248,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 				if(evt.getNewValue()==null) {
 					jdbcUrlForDb.setTags(new String[]{});
 				} else {
-					jdbcUrlForDb.setTags(HIBERNATE_HELPER.getConnectionURLS(evt.getNewValue().toString()));			
+					String[] connectionUrls = HIBERNATE_HELPER.getConnectionURLS(evt.getNewValue().toString());
+					String[] newUrls = new String[connectionUrls.length];
+					int i = 0;
+					for (String string : connectionUrls) {
+						newUrls[i++] = string.replace("<", "").replace(">", "");
+					}
+					jdbcUrlForDb.setTags(newUrls);			
 				}
 			}
 		});

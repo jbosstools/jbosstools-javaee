@@ -23,6 +23,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Combo;
@@ -60,35 +62,31 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 		});
 
 		comboControl.addSelectionChangedListener(this);
+		comboControl.getCombo().addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				firePropertyChange(new Object(), comboControl.getCombo().getText());
+			}});
 		comboControl.setLabelProvider(new ILabelProvider() {
 
-			public void addListener(ILabelProviderListener listener) {
-				// TODO Auto-generated method stub
-				
+			public void addListener(ILabelProviderListener listener) {			
 			}
 
-			public void dispose() {
-				// TODO Auto-generated method stub
-				
+			public void dispose() {		
 			}
 
 			public boolean isLabelProperty(Object element, String property) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 
 			public void removeListener(ILabelProviderListener listener) {
-				// TODO Auto-generated method stub
-				
 			}
 
 			public Image getImage(Object element) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			public String getText(Object element) {
-				// TODO Auto-generated method stub
 				return element.toString();
 			}
 			

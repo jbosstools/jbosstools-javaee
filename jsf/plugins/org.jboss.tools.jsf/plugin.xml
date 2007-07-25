@@ -1908,5 +1908,16 @@
 		<xclass id="org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"
 			class="org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"/>
    </extension>
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.facets">
+      <event-handler
+            facet="jst.jsf"
+            type="PRE_INSTALL"
+            version="[1.1">
+         <delegate
+               class="org.jboss.tools.jsf.project.facet.PostInstallJsfFacetDelegate">
+         </delegate>
+      </event-handler>
+   </extension>
 
 </plugin>

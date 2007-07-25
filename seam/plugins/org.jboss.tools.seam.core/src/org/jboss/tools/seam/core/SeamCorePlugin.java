@@ -106,13 +106,15 @@ public class SeamCorePlugin extends BaseUIPlugin {
 			//ignore - all checks are done above
 			return null;
 		}
-		try {
-			ISeamProject seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
-			if(resolve) seamProject.resolve();
-			return seamProject;
-		} catch (Exception e) {
-			getPluginLog().logError(e);
-		}
+
+			ISeamProject seamProject;
+			try {
+				seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
+				if(resolve) seamProject.resolve();
+				return seamProject;
+			} catch (CoreException e) {
+				getPluginLog().logError(e);
+			}
 		return null;
 	}
 

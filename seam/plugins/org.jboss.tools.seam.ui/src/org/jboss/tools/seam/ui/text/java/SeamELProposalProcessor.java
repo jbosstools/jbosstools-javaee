@@ -12,6 +12,8 @@
 package org.jboss.tools.seam.ui.text.java;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -249,10 +251,17 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 				if (string.length() > 0)
 					result.add(createProposal(string, prefix, offset));
 			}
-
+			
 			if (result == null || result.size() == 0)
 				return NO_PROPOSALS;
-			return (ICompletionProposal[]) result.toArray(new ICompletionProposal[result.size()]);
+			ICompletionProposal[] resultArray = (ICompletionProposal[]) result.toArray(new ICompletionProposal[uniqueSuggestions.size()]);
+			Arrays.sort(resultArray, new Comparator<ICompletionProposal>() {
+
+				public int compare(ICompletionProposal arg0,
+						ICompletionProposal arg1) {
+					return arg1.getDisplayString().compareTo(arg1.getDisplayString());
+				}});
+			return resultArray;
 		} catch (BadLocationException x) {
 			return NO_PROPOSALS;
 		} catch (StringIndexOutOfBoundsException e) {

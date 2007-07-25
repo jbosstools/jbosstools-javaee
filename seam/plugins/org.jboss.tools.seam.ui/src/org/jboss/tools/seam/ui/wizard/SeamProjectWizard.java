@@ -68,7 +68,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 	
 	Control findControlByClass(Composite comp, Class claz) {
 		for (Control child : comp.getChildren()) {
-			System.out.println(child.getClass().getName());
 			if(child.getClass()==claz) {
 				return child;
 			} else if(child instanceof Composite){
@@ -82,7 +81,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 	
 	Control findGroupByText(Composite comp, String text) {
 		for (Control child : comp.getChildren()) {
-			System.out.println(child.getClass().getName());
 			if(child instanceof Group && ((Group)child).getText().equals(text)) {
 				return child;
 			} else if(child instanceof Composite){

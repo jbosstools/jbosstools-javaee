@@ -11,7 +11,7 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamProjectWizard"
-            icon="icons/sample.gif"
+            icon="icons/view/seam_project_new.gif"
             id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard"
             name="Seam Project"
             project="true">
@@ -25,7 +25,7 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
-            icon="icons/sample.gif"
+            icon="icons/view/component_new.gif"
             id="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
             name="Seam Action">
          <description>
@@ -38,7 +38,7 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamFofrmWizard"
-            icon="icons/sample.gif"
+            icon="icons/view/component_new.gif"
             id="org.jboss.tools.seam.ui.wizard2"
             name="Seam Form">
          <description>
@@ -90,7 +90,7 @@
       <view
             category="org.jboss.tools.seam.ui"
             class="org.eclipse.ui.navigator.CommonNavigator"
-            icon="icons/sample.gif"
+            icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.views.SeamComponentsNavigator"
             name="Seam Components">
       </view>

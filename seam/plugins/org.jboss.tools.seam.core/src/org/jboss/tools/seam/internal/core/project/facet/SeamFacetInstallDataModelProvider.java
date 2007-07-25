@@ -10,12 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.project.facet;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
-import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Data model provider for Seam facet wizard page
@@ -81,5 +85,9 @@ public class SeamFacetInstallDataModelProvider extends
 				return ISeamCoreConstants.SEAM_CORE_FACET_ID;
 		}
 		return super.getDefaultProperty(propertyName);
+	}
+	
+	public static File getTemplatesFolder() throws IOException {
+		return new File(FileLocator.resolve(Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry("/templates")).getPath());
 	}
 }

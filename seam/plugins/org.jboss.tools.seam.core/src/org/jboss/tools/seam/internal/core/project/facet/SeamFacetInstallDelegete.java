@@ -11,24 +11,21 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
-import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -39,12 +36,14 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
 
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
-	public static String PROFILE = "dev-war";
+	public static String DEV_WAR_PROFILE = "dev-war";
+	public static String DEV_EAR_PROFILE = "dev";	
 	
-	public static FileSet TOMCAT_WAR_LIB_FILESET = new FileSet()
+	public static AntCopyUtils.FileSet TOMCAT_WAR_LIB_FILESET = new AntCopyUtils.FileSet()
 		.include("activation\\.jar")
 		.include("ajax4jsf*.\\.jar")
 		.include("commons-beanutils.*\\.jar")
@@ -76,9 +75,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("spring\\.jar")
 		.include("thirdparty-all\\.jar");
 	
-	public static FileSet JBOSS_WAR_LIB_FILESET = new FileSet() 
+	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("ajax4jsf.*\\.jar")
-		.include("antlr.*\\.jar")
 		.include("antlr.*\\.jar")
 		.include("commons-beanutils.*\\.jar")
 		.include("commons-collections.*\\.jar")
@@ -101,13 +99,37 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("stringtemplate.*\\.jar")
 		.include("testng-.*\\.jar");
 	
-	public static FileSet EAR_LIB_FILESET  = new FileSet()
-		.include("jboss-aop-jdk50\\.jar")
-		.include("jboss-cache-jdk50\\.jar")
-		.include("jboss-seam\\.jar")
-		.include("jgroups\\.jar");
+	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
+		.include("ajax4jsf.*\\.jar")
+		.include("commons-beanutils.*\\.jar")
+		.include("commons-digester.*\\.jar")
+		.include("commons-collections.*\\.jar")
+		.include("jboss-seam-debug\\.jar")
+		.include("jboss-seam-ioc\\.jar")
+		.include("jboss-seam-mail\\.jar")
+		.include("jboss-seam-pdf\\.jar")
+		.include("jboss-seam-remoting\\.jar")
+		.include("jboss-seam-ui\\.jar")
+		.include("jsf-facelets\\.jar")
+		.include("oscache.*\\.jar");
+	
+	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
+		.include("antlr.*\\.jar")
+		.include("commons-jci-core.*\\.jar")
+		.include("commons-jci-janino.*\\.jar")
+		.include("drools-compiler.*\\.jar")
+		.include("drools-core.*\\.jar")
+		.include("janino.*\\.jar")
+		.include("jboss-seam.jar")
+		.include("jbpm.*\\.jar")
+		.include("security\\.drl")
+		.include("stringtemplate.*\\.jar");
 
-	public static FileSet VIEW_FILESET = new FileSet()
+	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
+		.include("META-INF/application\\.xml")
+		.include("META-INF/jboss-app\\.xml");
+	
+	public static AntCopyUtils.FileSet VIEW_FILESET = new AntCopyUtils.FileSet()
 		.include("home\\.xhtml")
 		.include("error\\.xhtml")
 		.include("login\\.xhtml")
@@ -120,18 +142,21 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("img")
 		.exclude(".*/.*\\.ftl");
 	
-	public static FileSet JBOOS_WAR_WEBINF_SET = new FileSet()
+	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF/web\\.xml")
 		.include("WEB-INF/pages\\.xml")
 		.include("WEB-INF/jboss-web\\.xml")
 		.include("WEB-INF/faces-config\\.xml")
 		.include("WEB-INF/componets\\.xml");
 	
-	public static FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new FileSet()
+	public static AntCopyUtils.FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql")
 		.include("security\\.drl")
 		.include("seam\\.properties")
 		.include("messages_en\\.properties");
+	
+	public static AntCopyUtils.FileSet JBOSS_EAR_META_INF_SET = new AntCopyUtils.FileSet()
+		.include("META-INF/jboss-app\\.xml");
 	
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "drools/lib";
 	
@@ -139,9 +164,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 	
 	public static String WEB_LIBRARIES_RELATED_PATH = "WEB-INF/lib";
 	
-	public void execute(IProject project, IProjectFacetVersion fv,
+	public void execute(final IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
-		IDataModel model = (IDataModel)config;
+		final IDataModel model = (IDataModel)config;
 
 		// get WebContents folder path from DWP model 
 		WebArtifactEdit edit = WebArtifactEdit.getWebArtifactEditForRead(project);
@@ -151,78 +176,70 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		IContainer folder = webRootFolder.getUnderlyingFolder();
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
 		
-		File webContentFolder = folder.getLocation().toFile();
-		File webInfFolder = new File(webContentFolder,"WEB-INF");
-		File webInfClasses = new File(webInfFolder,"classes");
-		File webInfClassesMetaInf = new File(webInfClasses, "META-INF");
+		final File webContentFolder = folder.getLocation().toFile();
+		final File webInfFolder = new File(webContentFolder,"WEB-INF");
+		final File webInfClasses = new File(webInfFolder,"classes");
+		final File webInfClassesMetaInf = new File(webInfClasses, "META-INF");
 		webInfClassesMetaInf.mkdirs();
-		File webLibFolder = new File(webContentFolder,WEB_LIBRARIES_RELATED_PATH);
-		File srcFolder = srcRootFolder.getUnderlyingFolder().getLocation().toFile();
-		File srcWebInf = new File(srcFolder, "META-INF");
-		String seamHomePath = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
+		final File webLibFolder = new File(webContentFolder,WEB_LIBRARIES_RELATED_PATH);
+		final File srcFolder = srcRootFolder.getUnderlyingFolder().getLocation().toFile();
+		final File srcWebInf = new File(srcFolder, "META-INF");
 		
-		File seamHomeFolder = new File(seamHomePath);
-		File seamLibFolder = new File(seamHomePath,SEAM_LIB_RELATED_PATH);
-		File seamGenResFolder = new File(seamHomePath,"seam-gen/resources");
-		File droolsLibFolder = new File(seamHomePath,DROOLS_LIB_SEAM_RELATED_PATH);
-		File securityDrools = new File(seamGenResFolder,"security.drl");
-		File seamGenHomeFolder = new File(seamHomePath,"seam-gen");
-		File seamGenViewSource = new File(seamGenHomeFolder,"view");
-		File dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml");
-
-		File jdbcDriverFile = new File(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH).toString());
-		File hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch");
-		File hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties");
-		File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs");
-		File persistenceFile = new File(seamGenResFolder,"META-INF/persistence-" + PROFILE + ".xml");
+		final String seamHomePath = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
 		
-		FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
-		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
-		FilterSet filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
+		final File seamHomeFolder = new File(seamHomePath);
+		final File seamLibFolder = new File(seamHomePath,SEAM_LIB_RELATED_PATH);
+		final File seamGenResFolder = new File(seamHomePath,"seam-gen/resources");
+		final File droolsLibFolder = new File(seamHomePath,DROOLS_LIB_SEAM_RELATED_PATH);
+		final File seamGenHomeFolder = new File(seamHomePath,"seam-gen");
+		final File seamGenViewSource = new File(seamGenHomeFolder,"view");
+		final File dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml");
+		final File componentsFile = new File(seamGenResFolder,"WEB-INF/components"+(isWarConfiguration(model)?"-war":"")+".xml");
+		
+		final File jdbcDriverFile = new File(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH).toString());
+		final File hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch");
+		final File hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties");
+		final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs");
+		final File persistenceFile = new File(seamGenResFolder,"META-INF/persistence-" + (isWarConfiguration(model)?DEV_WAR_PROFILE:DEV_EAR_PROFILE) + ".xml");
+		
+		final File applicationFile = new File(seamGenResFolder,"META-INF/application.xml");
+		
+		final FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		final FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		final FilterSet filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
 		
 		// ****************************************************************
 		// Copy view folder from seam-gen installation to WebContent folder
 		// ****************************************************************
-		
-		FileSet viewFileSet = new FileSet(VIEW_FILESET).dir(seamGenViewSource);
-		FilterSetCollection viewFilterSetCollection = new FilterSetCollection();
+		final AntCopyUtils.FileSet viewFileSet = new AntCopyUtils.FileSet(VIEW_FILESET).dir(seamGenViewSource);
+		final FilterSetCollection viewFilterSetCollection = new FilterSetCollection();
 		viewFilterSetCollection.addFilterSet(jdbcFilterSet);
 		viewFilterSetCollection.addFilterSet(projectFilterSet);
+		
 		AntCopyUtils.copyFilesAndFolders(
 				seamGenViewSource, 
 				webContentFolder, 
-				new FileSetFileFilter(viewFileSet), 
+				new AntCopyUtils.FileSetFileFilter(viewFileSet), 
 				viewFilterSetCollection, 
 				true);
 		
 		// *******************************************************************
 		// Copy manifest and configuration resources the same way as view
 		// *******************************************************************
-		
-		FileSet webInfSet = new FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
-		AntCopyUtils.copyFilesAndFolders(
-				seamGenResFolder,webContentFolder,new FileSetFileFilter(webInfSet), viewFilterSetCollection, true);
-		
-		FileSet webInfClassesSet = new FileSet(JBOOS_WAR_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
-		AntCopyUtils.copyFilesAndFolders(
-				seamGenResFolder,srcFolder,new FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, true);
-
-		AntCopyUtils.copyFileToFile(
-				dataSourceDsFile, 
-				new File(srcFolder,project.getName()+"-ds.xml"), 
-				viewFilterSetCollection, true);
+		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
 		
 		AntCopyUtils.copyFileToFile(
-				hibernateConsoleLaunchFile, 
-				new File(project.getLocation().toFile(),project.getName()+".launch"), 
+				componentsFile,
+				new File(webInfFolder,"components.xml"),
 				new FilterSetCollection(projectFilterSet), true);
 		
-
-		AntCopyUtils.copyFileToFile(
-				persistenceFile, 
-				new File(srcWebInf,"persistence.xml"), 
-				new FilterSetCollection(projectFilterSet), true);		
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenResFolder,webContentFolder,new AntCopyUtils.FileSetFileFilter(webInfSet), viewFilterSetCollection, true);
 		
+		AntCopyUtils.FileSet webInfClassesSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenResFolder,srcFolder,new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, true);
+
 		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
 		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
@@ -232,23 +249,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 				hibernateConsolePropsFile, 
 				project.getLocation().toFile(),
 				hibernateDialectFilterSet, true);
-		
-		// add copy for /hibernatetools/seam-gen.reveng.xml
-		
-		
-		AntCopyUtils.copyFileToFolder(
-				hibernateConsolePref,
-				new File(project.getLocation().toFile(),".settings"),
-				new FilterSetCollection(projectFilterSet), true);
-		
-		// ********************************************************************************************
-		// Copy libraries libraries (seam jars, seam dependencies jars, drols jars, jdbc jar)
-		// ********************************************************************************************
-		copyFiles(seamHomeFolder,webLibFolder,new FileSetFileFilter(new FileSet(JBOSS_WAR_LIB_FILESET).dir(seamHomeFolder)));
-		copyFiles(seamLibFolder,webLibFolder,new FileSetFileFilter(new FileSet(JBOSS_WAR_LIB_FILESET).dir(seamLibFolder)));
-		copyFiles(droolsLibFolder,webLibFolder,new FileSetFileFilter(new FileSet(JBOSS_WAR_LIB_FILESET).dir(droolsLibFolder)));
-		copyFiles(seamHomeFolder,webLibFolder,new FileSetFileFilter(new FileSet(JBOSS_WAR_LIB_FILESET).dir(seamHomeFolder)));
-		copyFiles(seamLibFolder,webLibFolder,new FileSetFileFilter(new FileSet(JBOSS_WAR_LIB_FILESET).dir(seamLibFolder)));		
 
 		// ********************************************************************************************
 		// Copy JDBC driver if there is any
@@ -256,221 +256,166 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		if(jdbcDriverFile.exists())
 			AntCopyUtils.copyFileToFolder(jdbcDriverFile, webLibFolder, true);
 		
-		// Copy sources to src
-		AntCopyUtils.copyFileToFile(
-				new File(seamGenHomeFolder,"src/Authenticator.java"),
-				new File(project.getLocation().toFile(),"src/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
-				new FilterSetCollection(filtersFilterSet), true);
-		
+	
 		// TODO may be generate RHDS studio feature to show it on projects view
 
 		// ********************************************************************************************
 		// Handle WAR/EAR configurations
 		// ********************************************************************************************
-		if(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS).equals("war")) {
-			AntCopyUtils.copyFileToFile(
-					new File(seamGenResFolder,"WEB-INF/components-war.xml"),
-					new File(webInfFolder,"components.xml"),
+		if(isWarConfiguration(model)) {
+			
+			AntCopyUtils.copyFileToFolder(
+					hibernateConsolePref,
+					new File(project.getLocation().toFile(),".settings"),
 					new FilterSetCollection(projectFilterSet), true);
+			
+			// In case of WAR configuration
+			AntCopyUtils.copyFiles(seamHomeFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamHomeFolder)));
+			AntCopyUtils.copyFiles(seamLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamLibFolder)));
+			AntCopyUtils.copyFiles(droolsLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(droolsLibFolder)));
 
-			// ********************************************************************************************
-			// TODO replace with appropriate one to handle Dynamic Web Project Structure
-			// ********************************************************************************************
-			AntCopyUtils.copyFileToFile(
-					new File(seamHomeFolder,"seam-gen/build-scripts/build-war.xml"),
-					new File(project.getLocation().toFile(),"build.xml"),
-					new FilterSetCollection(projectFilterSet), true);
 
 			// ********************************************************************************************
 			// Copy seam project indicator
 			// ********************************************************************************************
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true);
 			
-		} else {
-			// copy ear files
+			// Copy sources to src
 			AntCopyUtils.copyFileToFile(
-					new File(seamGenResFolder,"WEB-INF/components.xml"),
-					new File(webInfFolder,"components.xml"),
+					new File(seamGenHomeFolder,"src/Authenticator.java"),
+					new File(project.getLocation().toFile(),"src/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
+					new FilterSetCollection(filtersFilterSet), true);
+
+			AntCopyUtils.copyFileToFile(
+					persistenceFile,
+					new File(project.getLocation().toFile(),"src/META-INF/persistence.xml"),
+					viewFilterSetCollection, true);
+
+			AntCopyUtils.copyFileToFile(
+					dataSourceDsFile, 
+					new File(srcFolder,project.getName()+"-ds.xml"), 
+					viewFilterSetCollection, true);
+			
+			AntCopyUtils.copyFileToFile(
+					hibernateConsoleLaunchFile, 
+					new File(project.getLocation().toFile(),project.getName()+".launch"), 
 					new FilterSetCollection(projectFilterSet), true);
-			AntCopyUtils.copyFileToFile(
-					new File(seamHomeFolder,"seam-gen/build-scripts/build.xml"),
-					new File(project.getLocation().toFile(),"build.xml"),
-					new FilterSetCollection(projectFilterSet), true);	
+			
+			if(jdbcDriverFile.exists())
+				AntCopyUtils.copyFileToFolder(jdbcDriverFile, webLibFolder, true);
+			
+		} else {
+			
+			// In case of EAR configuration
+			AntCopyUtils.copyFiles(seamHomeFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
+			AntCopyUtils.copyFiles(seamLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
+			AntCopyUtils.copyFiles(droolsLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
+
+			Job create = new Job("New WTP") {
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					
+					IProject ear = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear", monitor);
+					
+					try {
+						FilterSet filterSet = new FilterSet();
+						filterSet.addFilter("projectName", project.getName());
+						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimename(project));
+						
+						File earContentsFolder = new File(ear.getLocation().toFile(),"EarContent");
+						File earContentsMetaInfFolder = new File(earContentsFolder,"META-INF");
+			
+						AntCopyUtils.copyFilesAndFolders(
+								seamGenResFolder,
+								earContentsFolder,
+								new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_META_INF_SET).dir(seamGenResFolder)),
+								viewFilterSetCollection,true);
+
+						// Copy configuration files from template
+						AntCopyUtils.copyFilesAndFolders(
+								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ear"), 
+								ear.getLocation().toFile(), 
+								new FilterSetCollection(filterSet), true);
+						
+						// Fill ear contents
+						AntCopyUtils.copyFiles(seamHomeFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)));
+						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
+						AntCopyUtils.copyFiles(droolsLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)));
+						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
+						AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
+			
+						// ********************************************************************************************
+						// Copy JDBC driver if there is any
+						// ********************************************************************************************
+						if(jdbcDriverFile.exists())
+							AntCopyUtils.copyFileToFolder(jdbcDriverFile, earContentsFolder, true);
+						
+						IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);
+						
+						
+						AntCopyUtils.copyFilesAndFolders(
+								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb"), 
+								ejb.getLocation().toFile(), 
+								new FilterSetCollection(filterSet), true);
+						
+						// *******************************************************************************************
+						// Copy sources to ejb project in case of EAR configuration
+						// *******************************************************************************************
+						AntCopyUtils.copyFileToFile(
+								new File(seamGenHomeFolder,"src/Authenticator.java"),
+								new File(ejb.getLocation().toFile(),"ejbModule/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
+								new FilterSetCollection(filtersFilterSet), true);
+						AntCopyUtils.copyFileToFile(
+								persistenceFile,
+								new File(ejb.getLocation().toFile(),"ejbModule/META-INF/persistence.xml"),
+								viewFilterSetCollection, true);
+						// ********************************************************************************************
+						// Copy seam project indicator
+						// ********************************************************************************************
+						AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb.getLocation().toFile(),"ejbModule/"), true);
+						
+						AntCopyUtils.copyFileToFile(
+								dataSourceDsFile, 
+								new File(ejb.getLocation().toFile(),"ejbModule/"+project.getName()+"-ds.xml"), 
+								viewFilterSetCollection, true);
+						
+						AntCopyUtils.copyFileToFolder(
+								new File(seamGenResFolder,"META-INF/ejb-jar.xml"), 
+								new File(ejb.getLocation().toFile(),"ejbModule/META-INF/"), 
+								viewFilterSetCollection, true);
+						
+						AntCopyUtils.copyFileToFolder(
+								hibernateConsolePref,
+								new File(ejb.getLocation().toFile(),".settings"),
+								new FilterSetCollection(projectFilterSet), true);
+						
+						AntCopyUtils.copyFileToFile(
+								hibernateConsoleLaunchFile, 
+								new File(ejb.getLocation().toFile(),ejb.getName()+".launch"), 
+								new FilterSetCollection(projectFilterSet), true);
+						
+						ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+						ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+						
+					} catch (IOException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					} catch (CoreException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					}
+					return Status.OK_STATUS;
+				}
+			};
+			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
+			create.schedule();
 		}
-		
-		writeXModel(project, model);
-		
 		
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		
-		EclipseResourceUtil.addNatureToProject(project, "org.jboss.tools.jsf.jsfnature");
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
 
 	}
 
-	public static void copyFiles(File source, File dest, FileFilter filter) {
-		dest.mkdir();
-		for (File file:source.listFiles(filter)) {
-			if(file.isDirectory())continue;
-			try {
-				FileUtils.getFileUtils().copyFile(file, new File(dest,file.getName()),new FilterSetCollection(),true);
-			} catch (IOException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
-		}
+	public static boolean isWarConfiguration(IDataModel model) {
+		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 	}
-
-	public static class FileSet {
-		
-		File dir = null;
-		
-		List<Pattern> include = new ArrayList<Pattern>();
-		
-		List<Pattern> exclude = new ArrayList<Pattern>();
-		
-		public FileSet(String dir) {
-			this.dir = new File(dir);
-		}
-		
-		public FileSet(File dir) {
-			this.dir = dir;
-		}
-		
-		public FileSet(FileSet template) {
-			addTemplate(template);
-		}
-		
-		public void addTemplate(FileSet template){
-			include.addAll(template.getIncluded());
-			exclude.addAll(template.getExcluded());
-		}
-		
-		public FileSet() {
-			
-		}
-		
-		public FileSet add(FileSet set) {
-			addTemplate(set);
-			return this;
-		}
-		
-		public FileSet dir(String dir) {
-			this.dir = new File(dir);
-			return this;
-		}
-		
-		public FileSet dir(File dir) {
-			this.dir = dir;
-			return this;
-		}
-		
-		public FileSet include(String pattern) {
-			include.add(Pattern.compile(pattern));
-			return this;
-			
-		}
-		
-		public FileSet exclude(String pattern) {
-			exclude.add(Pattern.compile(pattern));
-			return this;
-		}
-		
-		public boolean isIncluded(String file) { 
-			int i = dir.getAbsolutePath().length()+1;
-			String relatedPath = file.substring(i);
-			if(new File(file).isDirectory())return true;
-			for (Pattern pattern : include) {			
-				if(pattern.matcher(relatedPath.replace('\\', '/')).matches() ) {
-					return !isExcluded(relatedPath);
-				}
-			}
-			return false;
-		}
-		
-		public boolean isExcluded(String file){
-			for (Pattern pattern : exclude) {
-				if(pattern.matcher(file.replace('\\', '/')).matches()) return true;
-			}
-			return false;	
-		}
-		
-		public List<Pattern> getExcluded() {
-			return Collections.unmodifiableList(exclude);
-		}
-		
-		public List<Pattern> getIncluded() {
-			return Collections.unmodifiableList(include);
-		}
-
-		/**
-		 * @return
-		 */
-		public File getDir() {
-			return dir;
-		}
-	}
-	
-	public static class FileSetFileFilter implements FileFilter {
-		
-		FileSet set;
-		public FileSetFileFilter(FileSet set) {
-			this.set = set;
-		}
-		
-		public boolean accept(File pathname){
-			return set.isIncluded(pathname.getAbsolutePath());
-		}
-	}
-
-	private void writeXModel(IProject project, IDataModel model) {
-		String projectName = project.getName();
-		String webContent = "WebContent";
-		
-		//TODO This returns null. Why? How else can we get WebContent folder name?
-		webContent = (String)model.getProperty(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER);
-		
-		if(webContent == null) {
-			webContent = "WebContent";
-		}
-		String src = "src";
-		
-		String[] srcs = EclipseResourceUtil.getJavaProjectSrcLocations(project);
-		if (srcs.length > 0) {
-			src = srcs[0].replace('\\','/').substring(srcs[0].lastIndexOf('/') + 1);
-		}
-		File location = new File(project.getLocation().toFile(),".settings/org.jboss.tools.jst.web.xml");
-		
-		Object[] arguments = {
-			projectName,
-			webContent,
-			src
-		};
-		String body = MessageFormat.format(XMODEL, arguments);
-		
-		org.jboss.tools.common.util.FileUtil.writeFile(location, body);
-	}
-	
-	/**
-	 * {0} - project name
-	 * {1} - WebContent folder name
-	 * {2} - src folder name
-	 */
-	private static String XMODEL = 
-		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-		"<FILESYSTEMS APPLICATION_NAME=\"{0}\" ENTITY=\"FileSystems\"" +
-		" VERSION=\"2.0.0\" WORKSPACE_HOME=\"./{1}/WEB-INF\">" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"%redhat.workspace%\" NAME=\"WEB-INF\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" INFO=\"Content-Type=Web\"" +
-		" LOCATION=\"%redhat.workspace%/..\" NAME=\"WEB-ROOT\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
-		" LOCATION=\"%redhat.workspace%/../../{2}\" NAME=\"src\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"%redhat.workspace%/lib\" NAME=\"lib\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
-		" LOCATION=\"%redhat.workspace%/classes\" NAME=\"classes\"/>" +
-		"<WEB ENTITY=\"JstWeb\" MODEL_PATH=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
-		"  <MODULE ENTITY=\"WebJSFModule\" MODEL_PATH=\"/faces-config.xml\"" +
-		"   ROOT=\"WEB-ROOT\" SRC=\"src\" URI=\"/WEB-INF/faces-config.xml\"/>" +
-		"</WEB>" +
-		"</FILESYSTEMS>"
-	;
 }

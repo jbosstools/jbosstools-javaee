@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -117,7 +118,7 @@ public class SeamObject implements ISeamElement {
 		id = s.id;
 		resource = s.resource;
 		
-		return null;
+		return new ArrayList<Change>();
 	}
 
 }
