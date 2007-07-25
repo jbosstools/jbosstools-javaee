@@ -25,11 +25,4 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>seam-home</name>
-			<type>2</type>
-			<location>C:/java/jboss-seam-1.2.1.GA</location>
-		</link>
-	</linkedResources>
 </projectDescription>
