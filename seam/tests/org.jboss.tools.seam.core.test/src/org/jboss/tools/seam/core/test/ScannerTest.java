@@ -27,9 +27,13 @@ import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
+import org.jboss.tools.seam.core.event.ISeamValueList;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
+import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
+import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 
 public class ScannerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -46,10 +50,14 @@ public class ScannerTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		XJob.waitForJob();
+		try {
+			XJob.waitForJob();
+		} catch (InterruptedException e) {
+			//ignore
+		}
 	}
-
-	public void testXMLScanner() {
+	
+	private ISeamProject getSeamProject() {
 		try {
 			XJob.waitForJob();
 		} catch (Exception e) {
@@ -68,8 +76,20 @@ public class ScannerTest extends TestCase {
 			fail("Cannot get seam nature.");
 		}
 		assertNotNull("Seam project is null", seamProject);
-		
-		
+		return seamProject;
+	}
+	
+	/**
+	 * This empty test is meaningful as it gives Eclipse opportunity 
+	 * to pass for the first time setUp() and show the license dialog 
+	 * that may cause InterruptedException for XJob.waitForJob()
+	 */
+	public void testCreatingProject() {
+	}
+
+	public void testXMLScanner() {
+		ISeamProject seamProject = getSeamProject();
+
 		IFile f = project.getFile("WebContent/WEB-INF/components.xml");
 		assertTrue("Cannot find components.xml in test project", f != null && f.exists());
 		
@@ -98,25 +118,13 @@ public class ScannerTest extends TestCase {
 		assertTrue("Property myList is not found in components.xml", prs.size() == 1);		
 		ISeamProperty property = prs.get(0);
 		Object o = property.getValue();
-		assertTrue("Property myList in myComponent must be instanceof java.util.List.", o instanceof List);
-		List<?> oList = (List<?>)o;
-		assertTrue("Property myList misses value 'value1.", "value1".equals(oList.get(0)));
+		assertTrue("Property myList in myComponent must be instanceof ISeamValueList", o instanceof ISeamValueList);
+		ISeamValueList oList = (ISeamValueList)o;
+		assertTrue("Property myList misses value 'value1.", "value1".equals(oList.getValues().get(0).getValue().getValue()));
 	}
 	
 	public void testJavaScanner() {
-		try {
-			XJob.waitForJob();
-		} catch (Exception e) {
-			fail("Interrupted");
-		}
-		ISeamProject seamProject = null;
-		try {
-			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
-		} catch (Exception e) {
-			fail("Cannot get seam nature.");
-		}
-		assertNotNull("Seam project is null", seamProject);
-		
+		ISeamProject seamProject = getSeamProject();
 		
 		IFile f = project.getFile("JavaSource/demo/User.java");
 		assertTrue("Cannot find User.java in test project", f != null && f.exists());
@@ -144,40 +152,32 @@ public class ScannerTest extends TestCase {
 	}
 
 	public void testLibraryScanner() {
-		
-		try {
-			XJob.waitForJob();
-		} catch (Exception e) {
-			fail("Interrupted");
-		}
-		ISeamProject seamProject = null;
-		try {
-			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
-		} catch (Exception e) {
-			fail("Cannot get seam nature.");
-		}
-		assertNotNull("Seam project is null", seamProject);
-		
+		ISeamProject seamProject = getSeamProject();
 		
 		IFile f = project.getFile("WebContent/WEB-INF/lib/jboss-seam.jar");
 		assertTrue("Cannot find User.java in test project", f != null && f.exists());
 		
-		IFileScanner scanner = SeamCoreBuilder.getLibraryScanner();
+		LibraryScanner scanner =(LibraryScanner)SeamCoreBuilder.getLibraryScanner();
+		ClassPath cp = ((SeamProject)seamProject).getClassPath();
+		scanner.setClassPath(cp);
+		cp.update();
+
 		assertTrue("Scanner cannot recognise jboss-seam.jar", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise jboss-seam.jar content", scanner.isLikelyComponentSource(f));
-		
+
 		ISeamFactory[] cs = null;
 		
 		try {
 			cs = scanner.parse(f).getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail("Error in library scanner:" + e.getMessage());
 		}
 		assertTrue("Factories are not found in jboss-seam.jar", cs != null && cs.length > 0);
 		
 		boolean hasActor = false;
 		for (int i = 0; i < cs.length && !hasActor; i++) {
-			if("actor".equals(cs[0].getName())) hasActor = true;
+			if("actor".equals(cs[i].getName())) hasActor = true;
 		}
 
 		assertTrue("Factory " + "actor" + " is not found in jboss-seam.jar", hasActor);
@@ -197,4 +197,23 @@ public class ScannerTest extends TestCase {
 	
 		assertTrue("Seam builder must put actor to project.", components.size()==1);		
 	}
+	
+	/**
+	 * This method is to cover most cases of configuring components 
+	 */
+	public void testSeamProjectObjects() {
+		ISeamProject seamProject = getSeamProject();
+	
+		//1. components.xml has entry
+		// <core:managed-persistence-context name="myPersistenceContext1"/>
+		// check that myPersistenceContext1 exists and has scope CONVERSATION
+		
+		ISeamComponent c = seamProject.getComponent("myPersistenceContext1");
+		assertNotNull("Component myPersistenceContext1 not found.", c);
+		ScopeType scope = c.getScope();
+		assertTrue("Component myPersistenceContext1 has scope=" + (scope == null ? null : scope.getLabel()) + ", but has to have " + ScopeType.CONVERSATION.getLabel(), ScopeType.CONVERSATION == scope);		
+		
+		
+	}
+
 }
