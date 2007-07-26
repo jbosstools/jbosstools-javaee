@@ -39,4 +39,96 @@
 			class="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"/>
 	</extension>
 
+ <extension point="org.eclipse.wst.xml.core.catalogContributions">
+      <catalogContribution id="default">
+         <uri 
+            name="http://jboss.com/products/seam/components" 
+            uri="schemas/components-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/components" 
+         	uri="schemas/components-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/core" 
+            uri="schemas/core-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/core" 
+         	uri="schemas/core-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/drools" 
+            uri="schemas/drools-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/drools" 
+         	uri="schemas/drools-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/framework" 
+            uri="schemas/framework-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/framework" 
+         	uri="schemas/framework-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/jms" 
+            uri="schemas/jms-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/jms" 
+         	uri="schemas/jms-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/mail" 
+            uri="schemas/mail-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/mail" 
+         	uri="schemas/mail-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pdf" 
+            uri="schemas/pdf-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/pdf" 
+         	uri="schemas/pdf-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/remoting" 
+            uri="schemas/remoting-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/remoting" 
+         	uri="schemas/remoting-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/security" 
+            uri="schemas/security-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/security" 
+         	uri="schemas/security-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring" 
+            uri="schemas/spring-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/spring" 
+         	uri="schemas/spring-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/theme" 
+            uri="schemas/theme-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/theme" 
+         	uri="schemas/theme-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/web" 
+            uri="schemas/web-1.2.xsd"/>
+         <public 
+         	publicId="http://jboss.com/products/seam/web" 
+         	uri="schemas/web-1.2.xsd"/>
+
+         <public 
+         	publicId="-//JBoss/Seam Component Configuration DTD 1.1//EN" 
+         	uri="dtds/components-1.1.dtd"/>
+
+      </catalogContribution>
+   </extension>
 </plugin>
