@@ -44,9 +44,7 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 		List<Change> changes = super.merge(s);
 		SeamComponentDeclaration d = (SeamComponentDeclaration)s;
 
-		if(!source.equals(d.source)) {
-			source = d.source;
-		}
+		source = d.source;
 		if(!stringsEqual(name, d.name)) {
 			changes = Change.addChange(changes, new Change(this, "name", name, d.name));
 			name = d.name;

@@ -109,7 +109,9 @@ public class SeamObject implements ISeamElement {
 	
 	/**
 	 * Merges loaded object into current object.
-	 * If changes were done returns a list of changes. 
+	 * If changes were done returns a list of changes.
+	 * If there are no changes, null is returned, 
+	 * which prevents creating a lot of unnecessary objects. 
 	 * @param f
 	 * @return list of changes
 	 */
@@ -117,8 +119,11 @@ public class SeamObject implements ISeamElement {
 		source = s.source;
 		id = s.id;
 		resource = s.resource;
-		
-		return new ArrayList<Change>();
+		//If there are no changes, null is returned, 
+		//which prevents creating a lot of unnecessary objects.
+		//Subclasses and clients must check returned 
+		//value for null, before using it.		
+		return null;
 	}
 
 }
