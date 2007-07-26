@@ -391,7 +391,7 @@ public class SeamCoreValidator extends SeamValidator {
 					return;
 				}
 				validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
-				String className = declaration.getClassName();
+				String className = component.getClassName();
 				if(className!=null) {
 					IType type = null;
 					// validate class name
