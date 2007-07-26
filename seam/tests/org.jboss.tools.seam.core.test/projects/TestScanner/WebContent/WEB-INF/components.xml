@@ -9,4 +9,20 @@
   </property>
  </component>
  <core:managed-persistence-context name="myPersistenceContext1"/>
+ 
+ <core:resource-bundle>
+ 	<core:bundle-names>
+ 		<value>bundleA</value>
+ 		<value>bundleB</value>
+ 	</core:bundle-names>
+ </core:resource-bundle>
+ 
+ <core:manager
+ 	conversation-is-long-running-parameter="a"
+ 	parent-conversation-id-parameter="b"
+ 	conversation-id-parameter="c"
+ 	concurrent-request-timeout="2"
+ 	conversation-timeout="3"
+ />
+ 
 </components>

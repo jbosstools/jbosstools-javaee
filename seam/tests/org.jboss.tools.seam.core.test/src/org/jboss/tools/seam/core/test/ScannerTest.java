@@ -30,6 +30,7 @@ import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.event.ISeamValueList;
+import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
@@ -213,7 +214,70 @@ public class ScannerTest extends TestCase {
 		ScopeType scope = c.getScope();
 		assertTrue("Component myPersistenceContext1 has scope=" + (scope == null ? null : scope.getLabel()) + ", but has to have " + ScopeType.CONVERSATION.getLabel(), ScopeType.CONVERSATION == scope);		
 		
+		//2. components.xml has entry
+		//<core:resource-bundle>
+		// 	<core:bundle-names>
+		// 		<value>bundleA</value>
+		// 		<value>bundleB</value>
+		// 	</core:bundle-names>
+		//</core:resource-bundle>
+		// check that
+		// a) component org.jboss.seam.core.resourceBundle exists,
+		// b) getClassName returns org.jboss.seam.core.ResourceBundle
+		// c) it has property bundleNames as list with two specified values.
 		
+		c = seamProject.getComponent("org.jboss.seam.core.resourceBundle");
+		assertNotNull("Component org.jboss.seam.core.resourceBundle not found.", c);
+		String className = c.getClassName();
+		assertTrue("Class name of org.jboss.seam.core.resourceBundle must be "
+			+ "org.jboss.seam.core.ResourceBundle " 
+			+ " rather than " + className, "org.jboss.seam.core.ResourceBundle".equals(className));
+		List<ISeamProperty> bundleNamesPropertyList = c.getProperties("bundleNames");
+		assertTrue("Property bundleNames is not found", bundleNamesPropertyList != null && bundleNamesPropertyList.size() == 1);
+		ISeamProperty bundleNamesProperty = bundleNamesPropertyList.get(0);
+		assertTrue("Value of bundleNames must be instanceof ISeamValueList", (bundleNamesProperty.getValue() instanceof ISeamValueList));
+		ISeamValueList bundleNames = (ISeamValueList)bundleNamesProperty.getValue();
+		List<ISeamValueString> valueList = bundleNames.getValues();
+		assertTrue("There must be 2 bundle names rather than " + valueList.size(), valueList.size() == 2);
+		assertTrue("First bundle name is " + valueList.get(0).getValue().getValue() + " rather than bundleA"
+				, "bundleA".equals(valueList.get(0).getValue().getValue()));
+		assertTrue("Second bundle name is " + valueList.get(1).getValue().getValue() + " rather than bundleB"
+				, "bundleB".equals(valueList.get(1).getValue().getValue()));
+		
+		//3. components.xml has entry
+		// <core:manager
+		// 	conversation-is-long-running-parameter="a"
+		// 	parent-conversation-id-parameter="b"
+		// 	conversation-id-parameter="c"
+		// 	concurrent-request-timeout="2"
+		// 	conversation-timeout="3"
+		// />
+		// check that
+		// a) component org.jboss.seam.core.manager exists,
+		// b) specified properties are loaded correctly
+		
+		String[][] managerTestProperties = new String[][]{
+			{"conversationIsLongRunningParameter", "a"},
+			{"parentConversationIdParameter", "b"},
+			{"conversationIdParameter", "c"},
+			{"concurrentRequestTimeout", "2"},
+			{"conversationTimeout", "3"}
+		};
+
+		c = seamProject.getComponent("org.jboss.seam.core.manager");
+		assertNotNull("Component org.jboss.seam.core.manager not found.", c);
+		
+		for (int p = 0; p < managerTestProperties.length; p++) {
+			String propertyName = managerTestProperties[p][0]; 
+			String expectedValue = managerTestProperties[p][1]; 
+			List<ISeamProperty> ps = c.getProperties(propertyName);
+			assertTrue("Property " + propertyName + " is not found", ps != null && ps.size() == 1);
+			ISeamProperty property = ps.get(0);
+			ISeamValueString valueObject = (ISeamValueString)property.getValue();
+			String actualValue = valueObject.getValue().getValue();
+			assertTrue("Property " + propertyName + " has value " + actualValue + " rather than " + expectedValue, expectedValue.equals(actualValue));
+		}
+
 	}
 
 }
