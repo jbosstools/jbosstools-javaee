@@ -161,6 +161,7 @@ public class XMLScanner implements IFileScanner {
 			
 			SeamProperty p = new SeamProperty();
 			p.setId(xml);
+			p.setName(new XMLValueInfo(c, "&" + a.getName()));
 			p.setName(toCamelCase(xml, false));
 			SeamValueString v = new SeamValueString();
 			v.setId("value");

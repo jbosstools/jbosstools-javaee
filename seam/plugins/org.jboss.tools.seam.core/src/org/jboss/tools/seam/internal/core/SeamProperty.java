@@ -13,6 +13,8 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValue;
 
@@ -28,6 +30,18 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 	public void setValue(ISeamValue value) {
 		this.value = value;
 		if(value != null) adopt((SeamObject)value);
+	}
+
+	public int getLength() {
+		IValueInfo info = attributes.get(ISeamXmlComponentDeclaration.NAME);
+		if(info != null) return info.getLength();
+		return 0;
+	}
+
+	public int getStartPosition() {
+		IValueInfo info = attributes.get(ISeamXmlComponentDeclaration.NAME);
+		if(info != null) return info.getStartPosition();
+		return 0;
 	}
 
 	public List<Change> merge(SeamObject s) {
