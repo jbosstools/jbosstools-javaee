@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.scanner.xml;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -160,7 +161,7 @@ public class XMLScanner implements IFileScanner {
 			
 			SeamProperty p = new SeamProperty();
 			p.setId(xml);
-			p.setName(xml);
+			p.setName(toCamelCase(xml, false));
 			SeamValueString v = new SeamValueString();
 			v.setId("value");
 			p.setValue(v);
@@ -175,6 +176,9 @@ public class XMLScanner implements IFileScanner {
 			SeamProperty p = new SeamProperty();
 			p.setId(properties[j]);
 			p.setName(new XMLValueInfo(properties[j], "name"));
+			String name = properties[j].getAttributeValue("name");
+			String cname = toCamelCase(name, false);
+			if(!cname.equals(name)) p.setName(cname);
 
 			if(entity.getAttribute("value") != null) {
 				//this is simple value;
@@ -275,14 +279,37 @@ public class XMLScanner implements IFileScanner {
 		if(d < 0) return null;
 		String namespace = s.substring(0, d);
 		String tag = s.substring(d + 1);
-		String className = "org.jboss.seam." + namespace + ".";
-		String[] parts = tag.split("-");
-		if(parts != null) for (int i = 0; i < parts.length; i++) {
-			if(parts[i].length() < 1) continue;
-			String p = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1);
-			className += p;
-		}
+		String className = "org.jboss.seam." + namespace + "." + toCamelCase(tag, true);
 		return className;
 	}
+
+	/**
+	 * Copied from org.jboss.seam.init.Initialization
+	 * @param hyphenated
+	 * @param initialUpper
+	 * @return
+	 */
+	   private static String toCamelCase(String hyphenated, boolean initialUpper)
+	   {
+	      StringTokenizer tokens = new StringTokenizer(hyphenated, "-");
+	      StringBuilder result = new StringBuilder( hyphenated.length() );
+	      String firstToken = tokens.nextToken();
+	      if (initialUpper)
+	      {
+	         result.append( Character.toUpperCase( firstToken.charAt(0) ) )
+	         .append( firstToken.substring(1) );         
+	      }
+	      else
+	      {
+	         result.append(firstToken);
+	      }
+	      while ( tokens.hasMoreTokens() )
+	      {
+	         String token = tokens.nextToken();
+	         result.append( Character.toUpperCase( token.charAt(0) ) )
+	               .append( token.substring(1) );
+	      }
+	      return result.toString();
+	   }
 
 }
