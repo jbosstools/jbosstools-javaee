@@ -49,28 +49,31 @@ public abstract class SeamBaseWizard extends Wizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		try {
-			
+	
 			// TODO lock only current project, not entire workspace
-			getContainer().run(false,false, new WorkspaceModifyOperation(){
-				@Override
-				protected void execute(IProgressMonitor monitor)
-						throws CoreException, InvocationTargetException,
-						InterruptedException {
-					IUndoableOperation operation = getOperation();
-					IOperationHistory operationHistory = workbench.getOperationSupport().getOperationHistory();
-					IUndoContext undoContext = workbench.getOperationSupport().getUndoContext();
-					operation.addContext(undoContext);
-					try {
-						operationHistory.execute(operation, monitor, (IAdaptable)getPages()[0]);
-					} catch (ExecutionException e) {
-						SeamCorePlugin.getPluginLog().logError(e);
+			try {
+				getContainer().run(false,false, new WorkspaceModifyOperation(){
+					@Override
+					protected void execute(IProgressMonitor monitor)
+							throws CoreException, InvocationTargetException,
+							InterruptedException {
+						IUndoableOperation operation = getOperation();
+						IOperationHistory operationHistory = workbench.getOperationSupport().getOperationHistory();
+						IUndoContext undoContext = workbench.getOperationSupport().getUndoContext();
+						operation.addContext(undoContext);
+						try {
+							operationHistory.execute(operation, monitor, (IAdaptable)getPages()[0]);
+						} catch (ExecutionException e) {
+							SeamCorePlugin.getPluginLog().logError(e);
+						}
 					}
-				}
-			});
-		} catch (Exception e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
+				});
+			} catch (InvocationTargetException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			} catch (InterruptedException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+
 		return true;
 	}
 	

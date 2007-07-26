@@ -26,6 +26,7 @@ public interface IFieldEditorFactory {
 	 * @return
 	 */
 	IFieldEditor createTextEditor(String name, String label, String defaultValue);
+
 	/**
 	 * 
 	 * @param name TODO
@@ -35,6 +36,17 @@ public interface IFieldEditorFactory {
 	 * @return
 	 */
 	ITaggedFieldEditor createComboEditor(String name, String label, List values, Object defaultValue);
+
+	/**
+	 * 
+	 * @param name TODO
+	 * @param label
+	 * @param values
+	 * @param defaultValue
+	 * @return
+	 */
+	ITaggedFieldEditor createComboEditor(String name, String label, List values, Object defaultValue, boolean flat);
+
 	
 	/**
 	 * 

@@ -56,6 +56,15 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	/**
 	 * 
 	 */
+	public ITaggedFieldEditor createComboEditor(String name, String label,
+			List values, Object defaultValue, boolean flat) {
+		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,flat);
+		return editor;
+	}
+	
+	/**
+	 * 
+	 */
 	public IFieldEditor createTextEditor(String name, String label, String defaultValue) {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),

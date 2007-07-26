@@ -201,7 +201,8 @@ public class ValidatorFactory {
 				project = (IProject)contextArray[1];
 			}
 			
-			String classDecl = "class " + value + " {}";
+			// to allow qualified names for component use import statement as target
+			String classDecl = "import " + value.toString() +"; class Dummy {}";
 			ASTParser parser= ASTParser.newParser(AST.JLS3);
 			parser.setSource(classDecl.toCharArray());
 			parser.setProject(JavaCore.create(project));
