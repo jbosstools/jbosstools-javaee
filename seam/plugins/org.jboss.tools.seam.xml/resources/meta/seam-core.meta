@@ -649,8 +649,7 @@
     <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.core.managedPersistenceContext" name="name" xmlname="name">
+   <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name">
     <Constraint/>
     <Editor/>
    </XModelAttribute>
