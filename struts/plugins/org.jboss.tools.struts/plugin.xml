@@ -39,6 +39,21 @@
    
     <extension point="org.eclipse.wst.xml.core.catalogContributions">
       <catalogContribution id="default">
+         <public 
+         	publicId="-//Apache Software Foundation//DTD Struts Configuration 1.0//EN" 
+         	uri="dtds/struts-config_1_0.dtd"/>
+         <public 
+         	publicId="-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+         	uri="dtds/struts-config_1_1.dtd"/>
+         <public 
+         	publicId="-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" 
+         	uri="dtds/struts-config_1_2.dtd"/>
+         <public 
+         	publicId="-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN" 
+         	uri="dtds/tiles-config_1_1.dtd"/>
+         <public 
+         	publicId="-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN" 
+         	uri="dtds/validator_1_0.dtd"/>
       </catalogContribution>
   </extension>
    
