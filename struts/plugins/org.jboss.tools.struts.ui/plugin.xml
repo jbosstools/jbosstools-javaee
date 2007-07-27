@@ -146,7 +146,7 @@
          <action class="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.ModulesConfigurationActionDelegate" label="%popupMenus.action.modulesConfiguration" menubarPath="RedHat4Web/b">
          </action>
       </objectContribution>
-      <objectContribution id="RedHatStrutsStudio_IFile" objectClass="org.eclipse.core.resources.IFile">
+      <!--objectContribution id="RedHatStrutsStudio_IFile" objectClass="org.eclipse.core.resources.IFile">
          <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
             <separator name="a">
             </separator>
@@ -159,7 +159,7 @@
          </action>
          <action class="org.jboss.tools.struts.ui.internal.action.GenerateCodeActionDelegate" enablesFor="*" id="org.jboss.tools.struts.ui.internal.action.GenerateCodeActionDelegate" label="Generate Java Code..." menubarPath="RedHat4Web/generate">
          </action>
-      </objectContribution>
+      </objectContribution-->
       <objectContribution id="RedHatStrutsStudio_XModelObject" objectClass="org.jboss.tools.common.model.XModelObject">
          <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
             <separator name="a">
@@ -277,7 +277,7 @@
              menubarPath="RedHat4Web/b">
          </action>
       </objectContribution>
-      <objectContribution id="RedHatEclipse4Web_IFile" objectClass="org.eclipse.core.resources.IFile">
+      <!--objectContribution id="RedHatEclipse4Web_IFile" objectClass="org.eclipse.core.resources.IFile">
          <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
             <separator name="a">
             </separator>
@@ -288,15 +288,15 @@
          </menu>
          <action class="org.jboss.tools.struts.ui.internal.action.VerifyActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.VerifyActionDelegate" label="%popupMenus.action.verify" menubarPath="RedHat4Web/a">
          </action>
-      </objectContribution>
-      <objectContribution id="RedHatEclipse4Web_IFolder" objectClass="org.eclipse.core.resources.IFolder">
+      </objectContribution-->
+      <!--objectContribution id="RedHatEclipse4Web_IFolder" objectClass="org.eclipse.core.resources.IFolder">
          <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
             <separator name="a">
             </separator>
          </menu>
          <action class="org.jboss.tools.struts.ui.internal.action.VerifyActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.VerifyActionDelegate" label="%popupMenus.action.verify" menubarPath="RedHat4Web/a">
          </action>
-      </objectContribution>
+      </objectContribution-->
 
       <objectContribution id="verify" objectClass="org.jboss.tools.common.model.XModelObject">
          <action class="org.jboss.tools.struts.ui.internal.action.VerifyActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.VerifyActionDelegate" label="%popupMenus.action.verify" menubarPath="RedHat4Web/a">
