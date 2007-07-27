@@ -196,14 +196,14 @@
          </action-->
       </objectContribution>
 <!-- IFile -->
-      <objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
+      <!--objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
          <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
             <separator name="a">
             </separator>
             <separator name="d">
             </separator>
          </menu>
-      </objectContribution>
+      </objectContribution-->
    </extension>
    <!--extension id="org.jboss.tools.jsf.ui.views" name="JSF Views" point="org.eclipse.ui.views">
       <category id="jsf.views.category.id" name="%jsf.views.category.name">
