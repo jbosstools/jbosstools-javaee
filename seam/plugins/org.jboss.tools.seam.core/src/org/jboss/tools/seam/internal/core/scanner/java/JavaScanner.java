@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
@@ -119,7 +120,7 @@ public class JavaScanner implements IFileScanner {
 				if(ts != null && ts.length > 0) {
 					visitor.type = ts[0];
 				}
-			} catch (Exception e) {
+			} catch (JavaModelException e) {
 				//ignore
 			}
 			ast.accept(visitor);
@@ -136,14 +137,17 @@ public class JavaScanner implements IFileScanner {
 	}
 	
 	static String getResolvedType(IType type, String n) {
+
+		String[][] rs;
 		try {
-			String[][] rs = type.resolveType(n);
+			rs = type.resolveType(n);
 			if(rs != null && rs.length > 0) {
 				return (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1];
 			}
-		} catch (Exception e) {
-			//ignore
+		} catch (JavaModelException e) {
+			// ignore
 		}
+
 		return n;
 	}
 

@@ -291,7 +291,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		IMethod[] ms = null;
 		try {
 			ms = type.getMethods();
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			//ignore
 		}
 		String name = m.getName().getIdentifier();
@@ -313,11 +313,13 @@ public class ComponentBuilder implements SeamAnnotations {
 		if(f == null || getFieldName(f) == null) return null;
 		IType type = (IType)component.getSourceMember();
 		IField[] fs = null;
+
 		try {
 			fs = type.getFields();
-		} catch (Exception e) {
-			//ignore
+		} catch (JavaModelException e1) {
+			// ignore
 		}
+
 		String name = getFieldName(f);
 		if(fs != null) for (int i = 0; i < fs.length; i++) {
 			if(!name.equals(fs[i].getElementName())) continue;
