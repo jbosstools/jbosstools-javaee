@@ -263,13 +263,35 @@ public class ScannerTest extends TestCase {
 			{"concurrentRequestTimeout", "2"},
 			{"conversationTimeout", "3"}
 		};
-
-		c = seamProject.getComponent("org.jboss.seam.core.manager");
-		assertNotNull("Component org.jboss.seam.core.manager not found.", c);
+		scanSimpleProperties(seamProject, "org.jboss.seam.core.manager", managerTestProperties);
 		
-		for (int p = 0; p < managerTestProperties.length; p++) {
-			String propertyName = managerTestProperties[p][0]; 
-			String expectedValue = managerTestProperties[p][1]; 
+		//4. seam.properties has entry
+		//org.jboss.seam.core.microcontainer.persistenceUnitName=MyPersistenceUnit
+		// check that
+		// a) component org.jboss.seam.core.microcontainer exists,
+		// b) specified property is loaded correctly
+
+		String[][] microcontainerTestProperties = new String[][]{
+			{"persistenceUnitName", "MyPersistenceUnit"},
+		};
+		scanSimpleProperties(seamProject, "org.jboss.seam.core.microcontainer", microcontainerTestProperties);
+	}
+	
+	/**
+	 * Tests if component componentName exists.
+	 * Then tests if it has properties, names of which are listed by testProperties[i][0],
+	 * and compares their values to those listed in testProperties[i][1].
+	 * @param seamProject
+	 * @param componentName
+	 * @param testProperties = String[][]{{name1, value1}, {name2, value2}, ... }
+	 */
+	private void scanSimpleProperties(ISeamProject seamProject, String componentName, String[][] testProperties) {
+		ISeamComponent c = seamProject.getComponent(componentName);
+		assertNotNull("Component " + componentName + " not found.", c);
+		
+		for (int p = 0; p < testProperties.length; p++) {
+			String propertyName = testProperties[p][0]; 
+			String expectedValue = testProperties[p][1]; 
 			List<ISeamProperty> ps = c.getProperties(propertyName);
 			assertTrue("Property " + propertyName + " is not found", ps != null && ps.size() == 1);
 			ISeamProperty property = ps.get(0);
@@ -277,7 +299,7 @@ public class ScannerTest extends TestCase {
 			String actualValue = valueObject.getValue().getValue();
 			assertTrue("Property " + propertyName + " has value " + actualValue + " rather than " + expectedValue, expectedValue.equals(actualValue));
 		}
-
+		
 	}
 
 }
