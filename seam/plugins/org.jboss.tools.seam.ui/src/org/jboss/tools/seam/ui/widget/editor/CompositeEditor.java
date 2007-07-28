@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.rmi.CORBA.ValueHandler;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -92,6 +94,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 			editor.setValue(newValue);
 			editor.addPropertyChangeListener(this);
 		}
+		super.setValue(newValue);
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {

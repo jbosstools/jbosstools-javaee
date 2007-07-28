@@ -11,9 +11,9 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
-import org.jboss.tools.seam.ui.internal.project.facet.SwtFieldEditorFactory;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 
 /**
  * @author eskimo

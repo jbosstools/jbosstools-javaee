@@ -8,23 +8,14 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-package org.jboss.tools.seam.ui.internal.project.facet;
+package org.jboss.tools.seam.ui.widget.editor;
 
 import java.util.List;
 
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.CheckBoxFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.ComboFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.TaggedComboFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.TextFieldEditor;
+import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 
 /**
  * 

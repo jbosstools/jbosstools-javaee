@@ -13,7 +13,6 @@ package org.jboss.tools.seam.ui.widget.editor;
 import java.util.List;
 
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.internal.project.facet.SwtFieldEditorFactory;
 
 public interface IFieldEditorFactory {
 	

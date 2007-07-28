@@ -266,10 +266,16 @@
   
    <extension point="org.eclipse.ui.preferencePages">
       <page 
-         category="org.jboss.tools.common.model.ui" 
+         category="org.jboss.tools.common.model.ui.seam" 
          class="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage" 
          id="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage" 
-         name="Seam Validator">
+         name="Validator">
+      </page>
+      <page
+            category="org.jboss.tools.common.model.ui"
+            class="org.jboss.tools.seam.ui.preferences.SeamPreferencePage"
+            id="org.jboss.tools.common.model.ui.seam"
+            name="Seam">
       </page>
    </extension>
 

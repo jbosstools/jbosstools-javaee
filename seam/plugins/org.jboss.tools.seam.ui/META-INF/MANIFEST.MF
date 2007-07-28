@@ -44,13 +44,17 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.ide.eclipse.jdt.core
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,
- org.jboss.tools.seam.ui.views,
+ org.jboss.tools.seam.ui.builder,
  org.jboss.tools.seam.ui.internal.project.facet;x-internal:=true,
- org.jboss.tools.seam.ui.widget.editor,
- org.jboss.tools.seam.ui.widget.field,
- org.jboss.tools.seam.ui.wizard,
+ org.jboss.tools.seam.ui.preferences,
  org.jboss.tools.seam.ui.text.java;
   uses:="org.eclipse.jface.text,
    org.eclipse.jdt.ui.text.java,
    org.eclipse.core.runtime,
-   org.eclipse.jface.text.contentassist"
+   org.eclipse.jface.text.contentassist",
+ org.jboss.tools.seam.ui.views,
+ org.jboss.tools.seam.ui.views.actions,
+ org.jboss.tools.seam.ui.views.properties,
+ org.jboss.tools.seam.ui.widget.editor,
+ org.jboss.tools.seam.ui.widget.field,
+ org.jboss.tools.seam.ui.wizard

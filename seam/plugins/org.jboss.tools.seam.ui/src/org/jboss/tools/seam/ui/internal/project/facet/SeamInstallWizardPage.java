@@ -34,6 +34,7 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
+import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
@@ -67,7 +68,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	//			"JBoss AS Home Folder:","C:\\java\\jboss-4.0.5.GA");
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, 
-			"JBoss Seam Home Folder:","C:\\java\\jboss-seam-1.2.1.GA");
+			"JBoss Seam Home Folder:",SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER));
 	IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 			"Deploy as:",Arrays.asList(new String[]{"war","ear"}),"war",false);

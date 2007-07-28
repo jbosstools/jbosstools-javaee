@@ -66,8 +66,6 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * 
 	 */
 	public void propertyChanged(DataModelEvent event) {
-		//When SeamFacetInstallDelegete sets model property,
-		//it can result in Invalid thread access.
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				validateUntillError();
