@@ -36,7 +36,7 @@ public class SeamGenProperty {
 	}
 	
 	public String getDefaultValue(Properties others) {
-		return null;
+		return "";
 	}
 	
 	protected String upper(String name)

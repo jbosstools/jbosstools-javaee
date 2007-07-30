@@ -44,8 +44,6 @@ public class SetupDeluxeAction extends SeamGenAction implements
 						return GENERAL; 
 					}
 				}
-
-				
 		);
 
 		properties.put( "workspace.home.new", new SeamGenProperty(

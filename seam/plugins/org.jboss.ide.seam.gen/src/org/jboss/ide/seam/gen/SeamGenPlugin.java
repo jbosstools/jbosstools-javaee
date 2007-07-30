@@ -8,15 +8,17 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.jboss.ide.seam.gen.actions.SeamGenAction;
-import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -56,7 +58,9 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 		File buildXmlPath = null;
 		if(config==null) {
 			try {
-				String seamHome = SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER);
+				Bundle plugin = Platform.getBundle("org.jboss.tools.seam.core");
+				if(plugin==null) return;
+				String seamHome = new ScopedPreferenceStore(new InstanceScope(),plugin.getSymbolicName()).getString("org.jboss.tools.seam.core.project.facet.seamhome");
 				buildXmlPath = new File(seamHome+File.separator+"seam-gen"+File.separator+"build.xml");
 				if(buildXmlPath.exists())
 					SeamGenAction.createSeamgenLaunchConfig(buildXmlPath.getAbsolutePath());
