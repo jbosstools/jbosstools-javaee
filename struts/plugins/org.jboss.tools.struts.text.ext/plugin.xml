@@ -46,6 +46,21 @@
 					<axis path="*/web-app/*" />
            		</partitionType>
          	</contentType>
+         	<contentType id="org.eclipse.jst.j2ee.webDD">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- Web.xml -->
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/login-config/form-login-config/form-error-page/" />
+         			<axis path="/web-app/login-config/form-login-config/form-login-page/" />
+         			<axis path="/web-app/servlet/jsp-file/" />
+         			<axis path="/web-app/*/icon/large-icon/" />
+         			<axis path="/web-app/*/icon/small-icon/" />
+         			<axis path="/web-app/taglib/taglib-location/" />
+         			<axis path="/web-app/jsp-config/taglib/taglib-location/" />
+         			<axis path="/web-app/welcome-file-list/welcome-file/" />
+         			<!-- Web.xml -->
+           		</partitionType>
+        		</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -260,6 +275,11 @@
          			<axis path="/web-app/servlet/init-param/param-value/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.eclipse.jst.j2ee.webDD">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/web-app/servlet/init-param/param-value/" />
+         		</partitionType>
+        		</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1153,6 +1173,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_CONTEXT_PARAM_LINK" />
 			</contenttypeidentifier>
+         <contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_CONTEXT_PARAM_LINK" />
+        	</contenttypeidentifier>
 		</hyperlink>
 		<!-- Web.inf File -->
   
