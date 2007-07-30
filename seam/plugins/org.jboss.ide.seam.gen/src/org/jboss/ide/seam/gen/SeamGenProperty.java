@@ -66,7 +66,12 @@ public class SeamGenProperty {
 	
 	public void applyValue(Properties existing, Control control) {
 			if(getDefaultPropertyName()==null) return;
-			String property = existing==null?null:existing.getProperty( getDefaultPropertyName() );
+			String property = "";
+			if(existing == null || existing.get(getDefaultPropertyName())==null) {
+				property = getDefaultValue(existing)==null?"":getDefaultValue(existing);
+			} else {
+				property = existing.getProperty( getDefaultPropertyName() );
+			}
 			if(property!=null) {
 				if(control instanceof Text) {
 					((Text)control).setText( property );

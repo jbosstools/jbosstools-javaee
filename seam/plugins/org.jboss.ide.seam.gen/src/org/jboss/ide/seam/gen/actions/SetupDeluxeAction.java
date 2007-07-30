@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.jboss.ide.seam.gen.SeamGenPlugin;
 import org.jboss.ide.seam.gen.SeamGenProperty;
 
 public class SetupDeluxeAction extends SeamGenAction implements
@@ -51,7 +52,7 @@ public class SetupDeluxeAction extends SeamGenAction implements
 				"Seam project workspace", "workspace.home" ) {
 			public String getDefaultValue(Properties others) {
 				String property = others.getProperty( "workspace.home",
-						"c:/projects" );
+						SeamGenPlugin.assumeWorkspacePath() );
 				return property;
 			}
 			
@@ -77,7 +78,7 @@ public class SetupDeluxeAction extends SeamGenAction implements
 				"JBoss AS home directory", "jboss.home" ) {
 			public String getDefaultValue(Properties others) {
 				String property = others.getProperty( "jboss.home.new",
-						"C:/Program Files/jboss-4.0.5.GA" );
+						SeamGenPlugin.assumeJBossASHome() );
 				return property;
 			}
 			

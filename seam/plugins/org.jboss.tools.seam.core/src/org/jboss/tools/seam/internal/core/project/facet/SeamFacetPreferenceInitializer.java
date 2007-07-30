@@ -55,7 +55,7 @@ public class SeamFacetPreferenceInitializer extends
 		Path  p = new Path(seamGenDir.getPath());
 		p.makeAbsolute();
 		if(p.toFile().exists()) {
-			return p.toFile().getAbsolutePath();
+			return p.toOSString();
 		} else {
 			return "";
 		}

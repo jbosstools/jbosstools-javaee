@@ -3,9 +3,11 @@ package org.jboss.ide.seam.gen;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -13,6 +15,7 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.jboss.ide.seam.gen.actions.SeamGenAction;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.osgi.framework.BundleContext;
 
@@ -50,17 +53,41 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 		} catch (CoreException e1) {
 			logError("Exception occured during search in Launch Configuration list.", e1);
 		}
-		String buildXmlPath = null;
+		File buildXmlPath = null;
 		if(config==null) {
 			try {
 				String seamHome = SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER);
-				buildXmlPath = seamHome+File.separator+"seam-gen"+File.separator+"build.xml";
-				SeamGenAction.createSeamgenLaunchConfig(buildXmlPath);
+				buildXmlPath = new File(seamHome+File.separator+"seam-gen"+File.separator+"build.xml");
+				if(buildXmlPath.exists())
+					SeamGenAction.createSeamgenLaunchConfig(buildXmlPath.getAbsolutePath());
 			} catch (CoreException e) {
 				logError("Cannot create configuration for Seam-Gen tool. Seamgen build.xml file: " + buildXmlPath, e);
 				return;
 			}
 		}
+	}
+	
+	public static final String JBOSS_AS_HOME = "../../../../jboss-eap/jboss-as";
+	
+	static public String assumeJBossASHome() {
+		String pluginLocation=null;
+		try {
+			pluginLocation = FileLocator.resolve(SeamGenPlugin.getDefault().getBundle().getEntry("/")).getFile();
+		} catch (IOException e) {
+			SeamGenPlugin.log(new Status(IStatus.ERROR,SeamGenPlugin.PLUGIN_ID,e.getMessage(),e));
+		};
+		File seamGenDir = new File(pluginLocation, JBOSS_AS_HOME);
+		Path  p = new Path(seamGenDir.getPath());
+		p.makeAbsolute();
+		if(p.toFile().exists()) {
+			return p.toOSString();
+		} else {
+			return "";
+		}
+	}
+	
+	public static String assumeWorkspacePath() {
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
 	}
 	
 	static public ILaunchConfiguration findLaunchConfig(String name) throws CoreException {
