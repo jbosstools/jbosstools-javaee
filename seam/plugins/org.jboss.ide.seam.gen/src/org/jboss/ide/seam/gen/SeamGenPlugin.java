@@ -67,7 +67,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 		}
 	}
 	
-	public static final String JBOSS_AS_HOME = "../../../../jboss-eap/jboss-as";
+	private static final String JBOSS_AS_HOME = "../../../../jboss-eap/jboss-as";
 	
 	static public String assumeJBossASHome() {
 		String pluginLocation=null;
