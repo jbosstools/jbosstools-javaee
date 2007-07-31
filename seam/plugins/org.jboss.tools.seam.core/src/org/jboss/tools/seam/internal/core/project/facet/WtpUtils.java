@@ -29,6 +29,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathContainer;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -97,18 +99,14 @@ public class WtpUtils {
 
 	public static String getServerRuntimename(IProject project) {
 		IJavaProject javaProject = JavaCore.create(project);
+
 		if(javaProject!=null) {
 			try {
-				IClasspathEntry[] entries = javaProject.getRawClasspath();
-				IClasspathContainer container = JavaCore.getClasspathContainer(Path.ROOT.append("org.eclipse.jst.server.core.container"), javaProject);
-				for (IClasspathEntry classpathEntry : entries) {
-					if(Path.ROOT.append("org.eclipse.jst.server.core.container").isPrefixOf(classpathEntry.getPath())) {
-						return classpathEntry.getPath().lastSegment();
-					}
-				}
-				System.out.println(container.getPath().lastSegment());
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
+				IFacetedProject facetedProject = ProjectFacetsManager.create(project);
+				return facetedProject.getPrimaryRuntime().getName();
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return "";

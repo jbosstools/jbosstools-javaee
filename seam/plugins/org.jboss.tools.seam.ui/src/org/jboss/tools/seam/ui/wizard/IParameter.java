@@ -28,5 +28,6 @@ public interface IParameter {
 	public static String SEAM_PROJECT_LOCATION_PATH = "seam.project.location";
 	public static String SEAM_PROJECT_WEBCONTENT_PATH = "seam.project.webcontent";
 	
+	public static String SEAM_EAR_PROJECT_LOCATION_PATH = "seam.ear.project.location";
 
 }

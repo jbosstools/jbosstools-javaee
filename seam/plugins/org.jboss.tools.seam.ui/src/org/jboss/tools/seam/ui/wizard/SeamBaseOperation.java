@@ -90,11 +90,11 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE,project);
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
+			vars.put(IParameter.SEAM_EAR_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-ejb").toFile().toString());
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, testFolder);
-			
 			List<String[]> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
@@ -105,7 +105,8 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				AntCopyUtils.copyFileToFile(new File(mapping[0]),new File(mapping[1]),filters,true); 			
 			}
 			
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			project.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		} catch (BackingStoreException e) {

@@ -37,6 +37,8 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
+import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils.FileSet;
+import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils.FileSetFileFilter;
 
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
@@ -123,7 +125,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("jboss-seam.jar")
 		.include("jbpm.*\\.jar")
 		.include("security\\.drl")
-		.include("stringtemplate.*\\.jar");
+		.include("stringtemplate.*\\.jar")
+		.include("testng-.*\\.jar");
 
 	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
 		.include("META-INF/application\\.xml")
@@ -174,6 +177,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
 		IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
 		IContainer folder = webRootFolder.getUnderlyingFolder();
+		edit.dispose();
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
 		
 		final File webContentFolder = folder.getLocation().toFile();
@@ -183,7 +187,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		webInfClassesMetaInf.mkdirs();
 		final File webLibFolder = new File(webContentFolder,WEB_LIBRARIES_RELATED_PATH);
 		final File srcFolder = srcRootFolder.getUnderlyingFolder().getLocation().toFile();
-		final File srcWebInf = new File(srcFolder, "META-INF");
+		final File webMetaInf = new File(webContentFolder, "META-INF");
 		
 		final String seamHomePath = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
 		
@@ -256,9 +260,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		if(jdbcDriverFile.exists())
 			AntCopyUtils.copyFileToFolder(jdbcDriverFile, webLibFolder, true);
 		
-	
-		// TODO may be generate RHDS studio feature to show it on projects view
-
 		// ********************************************************************************************
 		// Handle WAR/EAR configurations
 		// ********************************************************************************************
@@ -310,8 +311,12 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			AntCopyUtils.copyFiles(seamHomeFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
 			AntCopyUtils.copyFiles(seamLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
-
-			Job create = new Job("New WTP") {
+			try {
+				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"war/META-INF/MANIFEST.MF"), webMetaInf, new FilterSetCollection(projectFilterSet), true);
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+			Job create = new Job("Creating EAR and EJB modules") {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					
@@ -322,36 +327,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 						filterSet.addFilter("projectName", project.getName());
 						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimename(project));
 						
-						File earContentsFolder = new File(ear.getLocation().toFile(),"EarContent");
-						File earContentsMetaInfFolder = new File(earContentsFolder,"META-INF");
-			
-						AntCopyUtils.copyFilesAndFolders(
-								seamGenResFolder,
-								earContentsFolder,
-								new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_META_INF_SET).dir(seamGenResFolder)),
-								viewFilterSetCollection,true);
-
-						// Copy configuration files from template
-						AntCopyUtils.copyFilesAndFolders(
-								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ear"), 
-								ear.getLocation().toFile(), 
-								new FilterSetCollection(filterSet), true);
-						
-						// Fill ear contents
-						AntCopyUtils.copyFiles(seamHomeFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)));
-						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
-						AntCopyUtils.copyFiles(droolsLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)));
-						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
-						AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
-			
-						// ********************************************************************************************
-						// Copy JDBC driver if there is any
-						// ********************************************************************************************
-						if(jdbcDriverFile.exists())
-							AntCopyUtils.copyFileToFolder(jdbcDriverFile, earContentsFolder, true);
-						
-						IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);
-						
+						IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					
 						
 						AntCopyUtils.copyFilesAndFolders(
 								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb"), 
@@ -394,9 +370,39 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 								new File(ejb.getLocation().toFile(),ejb.getName()+".launch"), 
 								new FilterSetCollection(projectFilterSet), true);
 						
-						ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 						ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 						
+						File earContentsFolder = new File(ear.getLocation().toFile(),"EarContent");
+						File earContentsMetaInfFolder = new File(earContentsFolder,"META-INF");
+			
+						AntCopyUtils.copyFilesAndFolders(
+								seamGenResFolder,
+								earContentsFolder,
+								new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_META_INF_SET).dir(seamGenResFolder)),
+								viewFilterSetCollection,true);
+
+						// Copy configuration files from template
+						AntCopyUtils.copyFilesAndFolders(
+								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ear"), 
+								ear.getLocation().toFile(), 
+								new FilterSetCollection(filterSet), true);
+						
+						// Fill ear contents
+						AntCopyUtils.copyFiles(seamHomeFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)));
+						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
+						AntCopyUtils.copyFiles(droolsLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)));
+						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
+						AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
+			
+						// ********************************************************************************************
+						// Copy JDBC driver if there is any
+						// ********************************************************************************************
+						if(jdbcDriverFile.exists())
+							AntCopyUtils.copyFileToFolder(jdbcDriverFile, earContentsFolder, true);
+
+
+						ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+					
 					} catch (IOException e) {
 						SeamCorePlugin.getPluginLog().logError(e);
 					} catch (CoreException e) {
