@@ -92,7 +92,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 			if(s == null || s.length() == 0) continue;
 			try {
 				return Integer.valueOf(s);
-			} catch (Exception e) {
+			} catch (NumberFormatException e) {
 				//ignore here
 			}
 		}

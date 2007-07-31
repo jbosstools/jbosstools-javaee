@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -299,8 +300,13 @@ public class ComponentBuilder implements SeamAnnotations {
 			if(!name.equals(ms[i].getElementName())) continue;
 			int s = m.getStartPosition() + m.getLength() / 2;
 			try {
-				int b = ms[i].getSourceRange().getOffset();
-				int e = b + ms[i].getSourceRange().getLength();
+				ISourceRange range = ms[i].getSourceRange();
+				if(range == null) {
+					//no source and we cannot check position.
+					return ms[i];
+				}
+				int b = range.getOffset();
+				int e = b + range.getLength();
 				if(s >= b && s <= e) return ms[i];
 			} catch (JavaModelException e) {
 				return ms[i];
@@ -325,8 +331,13 @@ public class ComponentBuilder implements SeamAnnotations {
 			if(!name.equals(fs[i].getElementName())) continue;
 			int s = f.getStartPosition() + f.getLength() / 2;
 			try {
-				int b = fs[i].getSourceRange().getOffset();
-				int e = b + fs[i].getSourceRange().getLength();
+				ISourceRange range = fs[i].getSourceRange();
+				if(range == null) {
+					//no source and we cannot check position.
+					return fs[i];
+				}
+				int b = range.getOffset();
+				int e = b + range.getLength();
 				if(s >= b && s <= e) return fs[i];
 			} catch (JavaModelException e) {
 				return fs[i];

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathContainer;
@@ -38,6 +39,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 
 /**
  * Monitors class path of project and loads seam components of it.
@@ -175,7 +177,7 @@ public class ClassPath {
 			LoadedDeclarations c = null;
 			try {
 				c = scanner.parse(o, new Path(p));
-			} catch (Exception e) {
+			} catch (ScannerException e) {
 				SeamCorePlugin.getDefault().logError(e);
 			}
 			if(c != null) componentsLoaded(c, new Path(p));
@@ -213,7 +215,7 @@ public class ClassPath {
 		return classLoader;
 	}
 
-	public static List<String> getJREClassPath(IProject project) throws Exception {
+	public static List<String> getJREClassPath(IProject project) throws CoreException {
 		if(!project.hasNature(JavaCore.NATURE_ID)) return null;
 		ArrayList<String> l = new ArrayList<String>();
 		IJavaProject javaProject = JavaCore.create(project);

@@ -34,6 +34,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 import org.jboss.tools.seam.internal.core.scanner.xml.PropertiesScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
@@ -71,7 +72,7 @@ public class LibraryScanner implements IFileScanner {
 		return isLikelyComponentSource(o);
 	}
 
-	public LoadedDeclarations parse(IFile f) throws Exception {
+	public LoadedDeclarations parse(IFile f) throws ScannerException {
 		XModel model = InnerModelHelper.createXModel(f.getProject());
 		if(model == null) return null;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
@@ -92,7 +93,7 @@ public class LibraryScanner implements IFileScanner {
 		return false;
 	}
 
-	public LoadedDeclarations parse(XModelObject o, IPath path) throws Exception {
+	public LoadedDeclarations parse(XModelObject o, IPath path) throws ScannerException {
 		if(o == null) return null;
 		sourcePath = path;
 		XModelObject seamProperties = o.getChildByPath("META-INF/seam.properties");
@@ -102,7 +103,11 @@ public class LibraryScanner implements IFileScanner {
 		
 		LoadedDeclarations ds = new LoadedDeclarations();
 
-		processJavaClasses(o, ds);
+		try {
+			processJavaClasses(o, ds);
+		} catch (JavaModelException e) {
+			throw new ScannerException("Cannot process Java Classes", e);
+		}
 		
 		if(componentsXML != null) {
 			LoadedDeclarations ds1 = new XMLScanner().parse(componentsXML, path);
@@ -174,16 +179,10 @@ public class LibraryScanner implements IFileScanner {
 		LoadedDeclarations ds1 = null;
 
 		TypeScanner scanner = new TypeScanner();
-		try {
-			if(!scanner.isLikelyComponentSource(reader)) return;
-			ds1 = scanner.parse(type, reader, sourcePath);
-		} catch (Throwable t) {
-			System.out.println("failed " + className);
-//			SeamCorePlugin.getPluginLog().logError(t);
-		}
+		if(!scanner.isLikelyComponentSource(reader)) return;
+		ds1 = scanner.parse(type, reader, sourcePath);
 
 		if(ds1 != null) {
-//			System.out.println("declarations found in " + className);
 			ds.add(ds1);
 		}
 	}

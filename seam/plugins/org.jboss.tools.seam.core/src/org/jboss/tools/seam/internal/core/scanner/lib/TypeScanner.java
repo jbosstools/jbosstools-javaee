@@ -1,9 +1,6 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +9,7 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileConstants;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;
 import org.eclipse.jdt.internal.compiler.env.EnumConstantSignature;
@@ -134,7 +132,7 @@ public class TypeScanner implements SeamAnnotations {
 				try {
 					int i = Integer.parseInt(precedence);
 					component.setPrecedence(i);
-				} catch (Exception e) {
+				} catch (NumberFormatException e) {
 					//ignore
 				}
 			}
@@ -269,7 +267,7 @@ public class TypeScanner implements SeamAnnotations {
 		IMethod[] ms = null;
 		try {
 			ms = type.getMethods();
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			//ignore
 		}
 		if(ms != null) for (int i = 0; i < ms.length; i++) {
@@ -277,7 +275,7 @@ public class TypeScanner implements SeamAnnotations {
 			//check parameters
 			try {
 				if(ms[i].getParameterNames().length != m.getArgumentNames().length) continue;
-			} catch (Exception e) {
+			} catch (JavaModelException e) {
 				continue;
 			}
 			//compare

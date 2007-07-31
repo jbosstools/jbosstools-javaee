@@ -132,11 +132,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void resolveStorage(boolean load) {
 		if(isStorageResolved) return;
 		if(load) {
-			try {
-				load();
-			} catch (Exception e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+			load();
 		} else {
 			isStorageResolved = true;
 		}

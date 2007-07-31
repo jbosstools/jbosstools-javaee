@@ -41,7 +41,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 		if(scope == null || scope.length() == 0) return ScopeType.UNSPECIFIED;
 		try {
 			return ScopeType.valueOf(scope.toUpperCase());
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			return ScopeType.UNSPECIFIED;
 		}
 	}

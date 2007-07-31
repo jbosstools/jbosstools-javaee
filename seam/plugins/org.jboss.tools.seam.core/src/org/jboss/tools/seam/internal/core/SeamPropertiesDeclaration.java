@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
@@ -92,17 +95,17 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 	public void open() {
 		if(id instanceof XModelObject) {
 			XModelObject o = (XModelObject)id;
-			try {
-				FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
-			} catch(Exception e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+			FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
 		} else if(getResource() instanceof IFile) {
 			IFile f = (IFile)getResource();
 			try {
-				IWorkbenchPage page = SeamCorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IWorkbench workbench = SeamCorePlugin.getDefault().getWorkbench();
+				if(workbench == null) return;
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+				if(window == null) return;
+				IWorkbenchPage page = window.getActivePage();
 				if(page != null) IDE.openEditor(page, f);
-			} catch(Exception e) {
+			} catch(PartInitException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
 			

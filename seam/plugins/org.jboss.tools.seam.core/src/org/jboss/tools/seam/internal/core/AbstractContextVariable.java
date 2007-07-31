@@ -41,7 +41,7 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 		}
 		try {
 			this.scopeType = scope == null || scope.length() == 0 ? ScopeType.UNSPECIFIED : ScopeType.valueOf(scope.toUpperCase());
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			//ignore
 		}
 	}

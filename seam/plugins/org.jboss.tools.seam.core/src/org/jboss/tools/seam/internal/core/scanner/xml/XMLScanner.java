@@ -34,6 +34,7 @@ import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 
 /**
  * @author Viacheslav Kabanovich
@@ -74,9 +75,9 @@ public class XMLScanner implements IFileScanner {
 	 * Returns list of components
 	 * @param f
 	 * @return
-	 * @throws Exception
+	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws Exception {
+	public LoadedDeclarations parse(IFile f) throws ScannerException {
 		XModel model = InnerModelHelper.createXModel(f.getProject());
 		if(model == null) return null;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);

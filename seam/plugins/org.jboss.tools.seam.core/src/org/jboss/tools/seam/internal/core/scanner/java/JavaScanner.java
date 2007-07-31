@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.scanner.java;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -28,6 +29,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 
 /**
  * This object collects changes in target that should be fired to listeners.
@@ -70,10 +72,15 @@ public class JavaScanner implements IFileScanner {
 	 * TODO change return type
 	 * @param f
 	 * @return
-	 * @throws Exception
+	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws Exception {
-		ICompilationUnit u = getCompilationUnit(f);
+	public LoadedDeclarations parse(IFile f) throws ScannerException {
+		ICompilationUnit u = null;
+		try {
+			u = getCompilationUnit(f);
+		} catch (CoreException e) {
+			throw new ScannerException("Cannot get compilation unit for " + f, e);
+		}
 		if(u == null) return null;
 		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
@@ -81,7 +88,7 @@ public class JavaScanner implements IFileScanner {
 		return requestor.getDeclarations();
 	}
 	
-	private ICompilationUnit getCompilationUnit(IFile f) throws Exception {
+	private ICompilationUnit getCompilationUnit(IFile f) throws CoreException {
 		IProject project = f.getProject();
 		IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
 		IResource[] rs = EclipseResourceUtil.getJavaSourceRoots(project);

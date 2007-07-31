@@ -24,6 +24,7 @@ import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamValueString;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 
 public class PropertiesScanner implements IFileScanner {
 	
@@ -56,9 +57,9 @@ public class PropertiesScanner implements IFileScanner {
 	 * Returns list of components
 	 * @param f
 	 * @return
-	 * @throws Exception
+	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws Exception {
+	public LoadedDeclarations parse(IFile f) throws ScannerException {
 		XModel model = InnerModelHelper.createXModel(f.getProject());
 		if(model == null) return null;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);

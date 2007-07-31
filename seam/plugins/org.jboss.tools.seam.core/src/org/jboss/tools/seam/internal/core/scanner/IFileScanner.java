@@ -34,8 +34,8 @@ public interface IFileScanner {
 	 * Loading components declared in resource.
 	 * @param f
 	 * @return
-	 * @throws Exception
+	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws Exception;
+	public LoadedDeclarations parse(IFile f) throws ScannerException;
 
 }
