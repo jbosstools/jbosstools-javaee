@@ -16,7 +16,10 @@ public class FacetObjectImpl extends RegularObjectImpl {
     private static final long serialVersionUID = 534845753792987818L;
 
 	public String name() {
-		return "" + getAttributeValue("facet-name");
+		return "facet:" + getAttributeValue("facet-name");
 	}
 
+    public String getPresentationString() {
+    	return "" + getAttributeValue("facet-name");
+    }
 }
