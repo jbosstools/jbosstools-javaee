@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.ltk.core.refactoring.*;
 import org.eclipse.osgi.util.NLS;
 
-import org.jboss.tools.common.ant.model.FileAntImpl;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 
@@ -24,8 +24,8 @@ public class StrutsRenamePathDiagramChange extends CompositeChange {
 	
 	static String getName(XModelObject config) {
 		String n = config.getAttributeValue("name"); //$NON-NLS-1$
-		if(config instanceof FileAntImpl) {
-			n = FileAntImpl.toFileName(config);
+		if(config instanceof FileAnyImpl) {
+			n = FileAnyImpl.toFileName(config);
 		}
 		IResource r = EclipseResourceUtil.getResource(config);
 		if(r != null && r.getParent() != null) {
