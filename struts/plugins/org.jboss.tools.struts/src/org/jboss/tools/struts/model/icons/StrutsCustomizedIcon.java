@@ -33,7 +33,7 @@ public class StrutsCustomizedIcon implements ImageComponent {
             if(p == null) throw new Exception("");
             java.net.URL url = null;
             try {
-                url = obj.getModel().getModelClassLoader().getResource(p.substring(1));
+//                url = obj.getModel().getModelClassLoader().getResource(p.substring(1));
             } catch (Exception e) {
                 StrutsModelPlugin.getPluginLog().logError(e);
             }
