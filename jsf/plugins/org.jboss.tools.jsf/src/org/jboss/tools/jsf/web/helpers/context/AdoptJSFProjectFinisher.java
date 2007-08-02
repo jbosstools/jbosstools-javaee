@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.impl.XModelClassLoader;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
 import org.jboss.tools.jst.web.project.WebModuleConstants;
@@ -59,8 +58,6 @@ public class AdoptJSFProjectFinisher {
         fss.setModified(true);
         appendModules();
         model.save();
-        XModelClassLoader cl = (XModelClassLoader)model.getModelClassLoader();
-        cl.validate();
     }
 
     private XModelObject getOrCreateFileSystem(String name, String location, boolean req) {
