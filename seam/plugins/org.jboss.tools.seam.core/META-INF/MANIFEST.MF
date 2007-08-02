@@ -27,7 +27,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.jdt.launching,
  org.eclipse.wst.sse.core,
- org.eclipse.wst.xml.core
+ org.eclipse.wst.xml.core,
+ org.eclipse.datatools.connectivity,
+ org.eclipse.datatools.connectivity.db.generic,
+ org.eclipse.datatools.connectivity.db.generic.ui,
+ org.eclipse.datatools.connectivity.ui,
+ org.eclipse.datatools.connectivity.ui.dse
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner,

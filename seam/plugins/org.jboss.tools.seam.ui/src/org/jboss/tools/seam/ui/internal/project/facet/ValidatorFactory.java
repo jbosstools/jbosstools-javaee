@@ -308,4 +308,13 @@ public class ValidatorFactory {
 			return NO_ERRORS;
 		}
 	};
+
+	public static IValidator CONNECTION_PROFILE_IS_NOT_SELECTED = new IValidator() {
+		public Map<String, String> validate(Object value, Object context) {
+			if(value==null || "".equals(value.toString().trim())) {
+				return createErrormessage("Connection profile is not selected.");
+			}
+			return NO_ERRORS;
+		}
+	};
 }

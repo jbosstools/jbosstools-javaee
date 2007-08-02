@@ -29,12 +29,12 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
  * @author eskimo
  *
  */
-public class SeamFofrmWizard extends SeamBaseWizard implements INewWizard {
+public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 
 	/**
 	 * 
 	 */
-	public SeamFofrmWizard() {
+	public SeamFormWizard() {
 		super(CREATE_SEAM_FORM);
 		setWindowTitle("New Seam Form");
 		addPage(new SeamFormWizardPage1());

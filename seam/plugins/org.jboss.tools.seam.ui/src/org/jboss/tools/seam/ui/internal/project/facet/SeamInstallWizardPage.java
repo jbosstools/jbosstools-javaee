@@ -12,31 +12,40 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.window.Window;
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.IPropertySetChangeEvent;
+import org.eclipse.datatools.connectivity.IPropertySetListener;
+import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
+import org.eclipse.datatools.connectivity.ui.dse.dialogs.ProfileSelectionComposite;
+import org.eclipse.jdt.internal.core.SetVariablesOperation;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ListDialog;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
@@ -62,10 +71,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	 */
 	DataModelValidatorDelegate validatorDelegate;
 	
-	// General group
-	//	IFieldEditor jBossAsHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
-	//			ISeamFacetDataModelProperties.JBOSS_AS_HOME, 
-	//			"JBoss AS Home Folder:","C:\\java\\jboss-4.0.5.GA");
+
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, 
 			"JBoss Seam Home Folder:",SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER));
@@ -73,10 +79,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 			"Deploy as:",Arrays.asList(new String[]{"war","ear"}),"war",false);
 	
+	String lastCreatedCPName = "";
+	
 	// Database group
+	IFieldEditor connProfileSelEditor = IFieldEditorFactory.INSTANCE.createComboWithTwoButtons(
+			ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "Connection profile", 
+			getProfileNameList(), "", true, 
+			new EditConnectionProfileAction(),  
+			new NewConnectionProfileAction(), 
+			ValidatorFactory.NO_ERRORS_VALIDATOR);
 	IFieldEditor jBossAsDbTypeEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.DB_TYPE,
-			"Database Type:",Arrays.asList(HIBERNATE_HELPER.getDialectNames()),"HSQL");
+			"Database Type:",Arrays.asList(HIBERNATE_HELPER.getDialectNames()),"HSQL",true);
 	IFieldEditor jBossHibernateDialectEditor = IFieldEditorFactory.INSTANCE.createUneditableTextEditor(
 			ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
 			"Hibernate Dialect:",HIBERNATE_HELPER.getDialectClass("HSQL"));
@@ -98,10 +112,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 			"User Password:", "password");
 	IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_SCHEMA_NAME, 
-			"Database Schema Name:", "schema-name");
+			"Database Schema Name:", "");
 	IFieldEditor dbCatalogName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_CATALOG_NAME, 
-			"Database Catalog Name:", "catalog-name");
+			"Database Catalog Name:", "");
 	IFieldEditor dbTablesExists = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 			ISeamFacetDataModelProperties. DB_ALREADY_EXISTS, 
 			"DB Tables already exists in database:", false);
@@ -177,7 +191,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	 * 
 	 */
 	public void createControl(Composite parent) {
-		// TODO Auto-generated method stub
 		initializeDialogUnits(parent);
 		Composite root = new Composite(parent, SWT.NONE);
 		GridData gd = new GridData();
@@ -195,7 +208,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		gridLayout = new GridLayout(3, false);
 		
 		generalGroup.setLayout(gridLayout);
-//		registerEditor(jBossAsHomeEditor,generalGroup, 3);
 		registerEditor(jBossSeamHomeEditor,generalGroup, 3);
 		registerEditor(jBossAsDeployAsEditor,generalGroup, 3);
 		
@@ -208,21 +220,24 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		Group databaseGroup = new Group(root,SWT.NONE);
 		databaseGroup.setLayoutData(gd);
 		databaseGroup.setText("Database");
-		gridLayout = new GridLayout(3, false);
+		gridLayout = new GridLayout(4, false);
 		databaseGroup.setLayout(gridLayout);
-		registerEditor(jBossAsDbTypeEditor,databaseGroup, 3);
-		registerEditor(jBossHibernateDialectEditor,databaseGroup, 3);
-		registerEditor(jdbcDriverClassname,databaseGroup, 3);
-		registerEditor(jdbcUrlForDb,databaseGroup,3);
-		registerEditor(dbUserName,databaseGroup, 3);
-		registerEditor(dbUserPassword,databaseGroup, 3);
-		registerEditor(dbSchemaName,databaseGroup, 3);
-		registerEditor(dbCatalogName,databaseGroup, 3);
-		registerEditor(dbTablesExists,databaseGroup, 3);
-		registerEditor(recreateTablesOnDeploy,databaseGroup, 3);
-		registerEditor(pathToJdbcDriverJar,databaseGroup, 3);
-		
+		registerEditor(jBossAsDbTypeEditor,databaseGroup, 4);
+		registerEditor(jBossHibernateDialectEditor,databaseGroup, 4);
+		registerEditor(connProfileSelEditor,databaseGroup,4);
+		registerEditor(dbSchemaName,databaseGroup, 4);
+		registerEditor(dbCatalogName,databaseGroup, 4);
+		registerEditor(dbTablesExists,databaseGroup, 4);
+		registerEditor(recreateTablesOnDeploy,databaseGroup, 4);
+		//registerEditor(pathToJdbcDriverJar,databaseGroup, 4);
+
 		Group generationGroup = new Group(root,SWT.NONE);
+		gd = new GridData();
+        gd.horizontalSpan = 1;
+        gd.horizontalAlignment = GridData.FILL;
+        gd.grabExcessHorizontalSpace = true;
+        gd.grabExcessVerticalSpace = false;
+        
 		generationGroup.setLayoutData(gd);
 		generationGroup.setText("Code Generation");
 		gridLayout = new GridLayout(3, false);
@@ -230,35 +245,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		registerEditor(sessionBeanPkgNameditor,generationGroup, 3);
 		registerEditor(entityBeanPkgNameditor,generationGroup, 3);
 		registerEditor(testsPkgNameditor,generationGroup, 3);
-			
+		
 		setControl(root);
 		
 		validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor.getName(), ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
-//		validatorDelegate.addValidatorForProperty(jBossAsHomeEditor.getName(), ValidatorFactory.JBOSS_AS_HOME_FOLDER_VALIDATOR);
 		validatorDelegate.addValidatorForProperty(pathToJdbcDriverJar.getName(), ValidatorFactory.FILESYSTEM_FILE_EXISTS_VALIDATOR);
-		
-		jBossAsDbTypeEditor.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
-				jBossHibernateDialectEditor.setValue(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString()));
-				jdbcDriverClassname.setTags(HIBERNATE_HELPER.getDriverClasses(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString())));
-			}
-		});
-		
-		jdbcDriverClassname.addPropertyChangeListener(new PropertyChangeListener(){
-			public void propertyChange(PropertyChangeEvent evt) {
-				if(evt.getNewValue()==null) {
-					jdbcUrlForDb.setTags(new String[]{});
-				} else {
-					String[] connectionUrls = HIBERNATE_HELPER.getConnectionURLS(evt.getNewValue().toString());
-					String[] newUrls = new String[connectionUrls.length];
-					int i = 0;
-					for (String string : connectionUrls) {
-						newUrls[i++] = string.replace("<", "").replace(">", "");
-					}
-					jdbcUrlForDb.setTags(newUrls);			
-				}
-			}
-		});
+		validatorDelegate.addValidatorForProperty(connProfileSelEditor.getName(),ValidatorFactory.CONNECTION_PROFILE_IS_NOT_SELECTED);
 	}
 
 	/**
@@ -273,4 +265,84 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		}
 	}
 
+	
+	// Utils method 
+	private List<String> getProfileNameList() {
+		IConnectionProfile[] profiles = ProfileManager.getInstance().getProfilesByCategory(ProfileSelectionComposite.JDBC_CATEGORY);
+		List<String> names = new ArrayList<String>();
+		for (IConnectionProfile connectionProfile : profiles) {
+			names.add(connectionProfile.getName());
+		}
+		return names;
+	}
+	
+	public class EditConnectionProfileAction extends ButtonFieldEditor.ButtonPressedAction {
+		
+		/**
+		 * @param label
+		 */
+		public EditConnectionProfileAction() {
+			super("Edit...");
+		}
+
+		@Override
+		public void run() {
+			IConnectionProfile selectedProfile = ProfileManager.getInstance().getProfileByName(getFieldEditor().getValue().toString());
+			String oldName = getFieldEditor().getValue().toString();
+
+			if(selectedProfile==null) return;
+			PropertyDialog.createDialogOn(Display.getCurrent().getActiveShell(), 
+				"org.eclipse.datatools.connectivity.db.generic.profileProperties", selectedProfile).open();
+			
+			if(!oldName.equals(selectedProfile.getName())) {
+				getFieldEditor().setValue(selectedProfile.getName());
+				((ITaggedFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(1)).setTags(getProfileNameList().toArray(new String[0]));
+				oldName = selectedProfile.getName();
+			}
+		}
+	};
+	
+	public class NewConnectionProfileAction extends ButtonFieldEditor.ButtonPressedAction {
+		/**
+		 * @param label
+		 */
+		public NewConnectionProfileAction() {
+			super("New...");
+		}
+
+		@Override
+		public void run() {
+			NewConnectionProfileWizard wizard = new NewConnectionProfileWizard() {
+				
+				/* (non-Javadoc)
+				 * @see org.eclipse.datatools.connectivity.ui.wizards.NewConnectionProfileWizard#performFinish()
+				 */
+				@Override
+				public boolean performFinish() {
+					// create profile only 
+					try {
+						ProfileManager.getInstance().createProfile(
+								getProfileName()==null?"":getProfileName(),
+								getProfileDescription()==null?"":getProfileDescription(), 
+								mProviderID,
+								getProfileProperties(), 
+								mProfilePage.getRepository()==null?"":mProfilePage.getRepository().getName(),
+								 false);
+						lastCreatedCPName = getProfileName();
+					} catch (ConnectionProfileException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					}
+					
+					return true;
+				}};
+				wizard.initProviderID(IDBConnectionProfileConstants.CONNECTION_PROFILE_ID);
+			WizardDialog wizardDialog = new WizardDialog(Display.getCurrent().getActiveShell(),wizard);
+			wizardDialog.open();
+			
+			if(wizardDialog.getReturnCode() != WizardDialog.CANCEL) {
+				getFieldEditor().setValue(lastCreatedCPName);
+				((ITaggedFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(1)).setTags(getProfileNameList().toArray(new String[0]));
+			}
+		}
+	};
 }

@@ -40,7 +40,12 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 	ComboViewer comboControl = null;
 	List values = new ArrayList();
 	
-	
+	public ComboBoxField(Composite parent,List values, ILabelProvider labelProvider, 
+			Object value, boolean floatStyle) { 
+		this(parent, values, value, floatStyle);
+		
+		comboControl.setLabelProvider(labelProvider);
+	}
 	public ComboBoxField(Composite parent,List values, Object value, boolean floatStyle) {
 		this.values = values;
 		comboControl = new ComboViewer(parent,floatStyle?SWT.FLAT:SWT.READ_ONLY);
@@ -117,11 +122,11 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 		comboControl.getCombo().setText(newValue.toString());
 	}
 	
-	public void setTags(String[] tags) {
+	public void setTags(String[] tags,String value) {
 		values = Arrays.asList(tags);
 		comboControl.removeSelectionChangedListener(this);
 		comboControl.refresh(true);
 		comboControl.addPostSelectionChangedListener(this);
-		comboControl.setSelection(new StructuredSelection(tags.length>0?tags[0]:new String[]{}));
+		comboControl.setSelection(new StructuredSelection(value));
 	}
 }

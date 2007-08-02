@@ -81,7 +81,7 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 	 * @see org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor#setTags(java.lang.String[])
 	 */
 	public void setTags(String[] tags) {
-		comboField.setTags(tags);	
+		comboField.setTags(tags,getValueAsString());	
 	}
 
 	/* (non-Javadoc)

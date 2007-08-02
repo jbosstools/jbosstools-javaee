@@ -69,6 +69,7 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
 		names.add(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER);
 		names.add(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
+		names.add(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE);
 
 		return names;
 	}

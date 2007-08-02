@@ -94,6 +94,14 @@
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetPostInstallDelegate">
          </delegate>
       </event-handler>
+      <event-handler
+            facet="jst.seam"
+            type="PRE_INSTALL"
+            version="[1.2">
+         <delegate
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate">
+         </delegate>
+      </event-handler>
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.core.runtimes">

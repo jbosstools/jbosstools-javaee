@@ -37,7 +37,7 @@
       </wizard>
       <wizard
             category="org.jboss.tools.seam.ui"
-            class="org.jboss.tools.seam.ui.wizard.SeamFofrmWizard"
+            class="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
             icon="icons/view/component_new.gif"
             id="org.jboss.tools.seam.ui.wizard2"
             name="Seam Form">

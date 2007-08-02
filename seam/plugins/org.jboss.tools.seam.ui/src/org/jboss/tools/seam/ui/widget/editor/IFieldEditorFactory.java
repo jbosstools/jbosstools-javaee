@@ -7,7 +7,7 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.seam.ui.widget.editor;
 
 import java.util.List;
@@ -15,11 +15,13 @@ import java.util.List;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 
 public interface IFieldEditorFactory {
-	
+
 	public static final IFieldEditorFactory INSTANCE = new SwtFieldEditorFactory();
+
 	/**
 	 * 
-	 * @param name TODO
+	 * @param name
+	 *            TODO
 	 * @param label
 	 * @param defaultValue
 	 * @return
@@ -28,33 +30,38 @@ public interface IFieldEditorFactory {
 
 	/**
 	 * 
-	 * @param name TODO
+	 * @param name
+	 *            TODO
 	 * @param label
 	 * @param values
 	 * @param defaultValue
 	 * @return
 	 */
-	ITaggedFieldEditor createComboEditor(String name, String label, List values, Object defaultValue);
+	ITaggedFieldEditor createComboEditor(String name, String label,
+			List values, Object defaultValue);
 
 	/**
 	 * 
-	 * @param name TODO
+	 * @param name
+	 *            TODO
 	 * @param label
 	 * @param values
 	 * @param defaultValue
 	 * @return
 	 */
-	ITaggedFieldEditor createComboEditor(String name, String label, List values, Object defaultValue, boolean flat);
+	ITaggedFieldEditor createComboEditor(String name, String label,
+			List values, Object defaultValue, boolean flat);
 
-	
 	/**
 	 * 
-	 * @param name TODO
+	 * @param name
+	 *            TODO
 	 * @param label
 	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createCheckboxEditor(String name, String label, boolean defaultValue);
+	IFieldEditor createCheckboxEditor(String name, String label,
+			boolean defaultValue);
 
 	/**
 	 * 
@@ -63,8 +70,9 @@ public interface IFieldEditorFactory {
 	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createBrowseFolderEditor(String name, String label, String defaultValue);
-	
+	IFieldEditor createBrowseFolderEditor(String name, String label,
+			String defaultValue);
+
 	/**
 	 * 
 	 * @param name
@@ -72,8 +80,9 @@ public interface IFieldEditorFactory {
 	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createBrowseFileEditor(String name, String label, String defaultValue);
-	
+	IFieldEditor createBrowseFileEditor(String name, String label,
+			String defaultValue);
+
 	/**
 	 * @param jdbcDriverClassName
 	 * @param string
@@ -82,7 +91,7 @@ public interface IFieldEditorFactory {
 	 */
 	IFieldEditor createUneditableTextEditor(String jdbcDriverClassName,
 			String string, String string2);
-	
+
 	/**
 	 * 
 	 * @param name
@@ -92,6 +101,26 @@ public interface IFieldEditorFactory {
 	 * @param validator
 	 * @return
 	 */
-	public IFieldEditor createButtonFieldEditor(String name, String label, String defaultValue, ButtonFieldEditor.ButtonPressedAction action, IValidator validator );
+	public IFieldEditor createButtonFieldEditor(String name, String label,
+			String defaultValue, ButtonFieldEditor.ButtonPressedAction action,
+			IValidator validator);
 
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param values
+	 * @param defaultValue
+	 * @param flat
+	 * @param action1
+	 * @param action2
+	 * @param validator
+	 * @return
+	 */
+	public IFieldEditor createComboWithTwoButtons(String name, String label,
+			List values, Object defaultValue, boolean flat,
+			ButtonFieldEditor.ButtonPressedAction action1,
+			ButtonFieldEditor.ButtonPressedAction action2, IValidator validator);
+	
+	public ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName);
 }

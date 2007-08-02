@@ -24,6 +24,8 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance";
 	
+	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile";
+	
 	public static final String JBOSS_AS_HOME = "jboss.home";
 	
 	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type";

@@ -12,10 +12,18 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.util.List;
 
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
+import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 
 /**
  * 
@@ -145,4 +153,33 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			}
 		};
 	}
+
+	
+	public ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName) {
+		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
+			@Override
+			public void run() {
+				new MessageDialog(Display.getCurrent().getActiveShell(), "Error", 
+					null, "Not implemented yet", MessageDialog.ERROR, new String[]{"Ok"},1)
+				.open();
+			}
+		};
+	}
+	/**
+	 * 
+	 */
+	public IFieldEditor createComboWithTwoButtons(String name, String label,
+			List values, Object defaultValue, boolean flat,
+			ButtonPressedAction action1, ButtonPressedAction action2,
+			IValidator validator) {
+		CompositeEditor editor = new CompositeEditor("seam.project.connection.profile","Connection Profile",null);
+		editor.addFieldEditors(new IFieldEditor[]{
+				new LabelFieldEditor(name,label),
+				new ComboFieldEditor(name,label, values, defaultValue, false),
+				new ButtonFieldEditor(name, action1, defaultValue),
+				new ButtonFieldEditor(name, action2, defaultValue)
+		});
+		return editor;
+	}
+	
 }

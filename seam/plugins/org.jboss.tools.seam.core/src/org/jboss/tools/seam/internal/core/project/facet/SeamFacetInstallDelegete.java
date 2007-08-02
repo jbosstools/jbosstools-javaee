@@ -200,7 +200,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		final File dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml");
 		final File componentsFile = new File(seamGenResFolder,"WEB-INF/components"+(isWarConfiguration(model)?"-war":"")+".xml");
 		
-		final File jdbcDriverFile = new File(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH).toString());
 		final File hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch");
 		final File hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties");
 		final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs");
@@ -255,12 +254,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 				hibernateDialectFilterSet, true);
 
 		// ********************************************************************************************
-		// Copy JDBC driver if there is any
-		// ********************************************************************************************
-		if(jdbcDriverFile.exists())
-			AntCopyUtils.copyFileToFolder(jdbcDriverFile, webLibFolder, true);
-		
-		// ********************************************************************************************
 		// Handle WAR/EAR configurations
 		// ********************************************************************************************
 		if(isWarConfiguration(model)) {
@@ -302,8 +295,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					new File(project.getLocation().toFile(),project.getName()+".launch"), 
 					new FilterSetCollection(projectFilterSet), true);
 			
-			if(jdbcDriverFile.exists())
-				AntCopyUtils.copyFileToFolder(jdbcDriverFile, webLibFolder, true);
+			// Copy JDBC driver if there is any
+			AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), webLibFolder);
+
 			
 		} else {
 			
@@ -394,12 +388,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 						AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
 						AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
 			
-						// ********************************************************************************************
 						// Copy JDBC driver if there is any
-						// ********************************************************************************************
-						if(jdbcDriverFile.exists())
-							AntCopyUtils.copyFileToFolder(jdbcDriverFile, earContentsFolder, true);
-
+						AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), earContentsFolder);
 
 						ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 					

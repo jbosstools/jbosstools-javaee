@@ -185,4 +185,19 @@ public class AntCopyUtils {
 			}
 		}
 	}
+	
+	public static void copyFiles(String[] files, File dest) {
+		for (String fileName : files) {
+			File file = new File(fileName);
+			if(file.exists() && file.isFile()) {
+				copyFileToFolder(file, dest, null, true);
+			} else {
+				try {
+					SeamCorePlugin.getPluginLog().logError("Cannot copy JDBC driver jar '" + file.getCanonicalPath() + "'");
+				} catch (IOException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+			}
+		}
+	}
 }

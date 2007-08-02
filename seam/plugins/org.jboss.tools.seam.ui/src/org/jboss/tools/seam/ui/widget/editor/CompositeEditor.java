@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.rmi.CORBA.ValueHandler;
@@ -41,7 +42,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		
         for(int i=0;i<controls.length;i++) {
         	GridData gd = new GridData();
-            gd.horizontalSpan = controls.length-1==i?gl.numColumns-i:1;
+            gd.horizontalSpan = i==1?gl.numColumns-controls.length+1:1;
             gd.horizontalAlignment = GridData.FILL;
          	gd.grabExcessHorizontalSpace = (i==1);
             controls[i].setLayoutData(gd);
@@ -112,5 +113,9 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		for (IFieldEditor editor : editors) {
 			editor.setEnabled(set);
 		}
+	}
+	
+	public List<IFieldEditor> getEditors() {
+		return Collections.unmodifiableList(editors);
 	}
 }

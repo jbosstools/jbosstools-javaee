@@ -43,7 +43,8 @@ public class SeamFacetFilterSetFactory {
 		PROJECT_TEMPLATE.addFilter("driverJar","${driver.file}");
 		PROJECT_TEMPLATE.addFilter("jndiPattern","${project.name}/#{ejbName}/local");
 		PROJECT_TEMPLATE.addFilter("embeddedEjb","false");
-		
+		PROJECT_TEMPLATE.addFilter("debug","true");		
+
 		FILTERS_TEMPLATE = new FilterSet();
 		FILTERS_TEMPLATE.addFilter("interfaceName","${interface.name}");
 		FILTERS_TEMPLATE.addFilter("beanName","${bean.name}");
@@ -59,11 +60,8 @@ public class SeamFacetFilterSetFactory {
 		FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home");
 		FILTERS_TEMPLATE.addFilter("query","${query.text}");
 		
-		
 		HIBERNATE_DIALECT_TEMPLATE = new FilterSet();
 		HIBERNATE_DIALECT_TEMPLATE.addFilter("hibernate.dialect","${hibernate.dialect}");
-		
-		
 	}
 	
 	public static FilterSet createJdbcFilterSet(IDataModel values) {

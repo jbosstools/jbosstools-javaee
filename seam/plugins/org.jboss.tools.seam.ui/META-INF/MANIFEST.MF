@@ -41,7 +41,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.j2ee.web,
  org.eclipse.wst.xml.ui,
  org.apache.ant,
- org.jboss.ide.eclipse.jdt.core
+ org.jboss.ide.eclipse.jdt.core,
+ org.eclipse.datatools.connectivity,
+ org.eclipse.datatools.connectivity.ui.dse,
+ org.eclipse.datatools.connectivity.db.generic.ui,
+ org.eclipse.datatools.connectivity.db.generic
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.builder,
