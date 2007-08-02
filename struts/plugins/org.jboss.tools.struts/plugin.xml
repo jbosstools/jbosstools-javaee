@@ -308,8 +308,6 @@
 
 		<xclass id="org.jboss.tools.struts.webprj.model.WebProjectTree"
 			class="org.jboss.tools.struts.webprj.model.WebProjectTree"/>
-		<xclass id="org.jboss.tools.struts.webprj.model.handlers.SetLocationHandler"
-			class="org.jboss.tools.struts.webprj.model.handlers.SetLocationHandler"/>
 		<xclass id="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems"
 			class="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems"/>
 		<xclass id="org.jboss.tools.struts.webprj.model.helpers.sync.SyncProjectContext"
