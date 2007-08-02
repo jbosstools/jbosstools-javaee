@@ -10,7 +10,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,12 +25,19 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.struts.StrutsConstants;
 import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
@@ -97,7 +103,7 @@ private static String[] EXCLUDE_PKGS = {
 		if (!checkOverwrite(source, forward.getModel())) return null;
 		targetPath = source.getAbsolutePath();
 		
-		ArrayList properties = getProperties(forward, genProps);
+		ArrayList<PropertyDescriptor> properties = getProperties(forward, genProps);
 		Map<String,Object> parameters = getParameters(forward, className, baseClass, properties);
 		executeTemplate(parameters, templatePath, targetPath);
 
@@ -120,7 +126,7 @@ private static String[] EXCLUDE_PKGS = {
 		if (!checkOverwrite(source, exception.getModel())) return null;
 		targetPath = source.getAbsolutePath();
 		
-		ArrayList properties = getProperties(exception, genProps);
+		ArrayList<PropertyDescriptor> properties = getProperties(exception, genProps);
 		Map<String,Object> parameters = getParameters(exception, className, baseClass, properties);
 		parameters.put("constructors", getConstructors(exception, baseClass)); //$NON-NLS-1$
 		
@@ -145,7 +151,7 @@ private static String[] EXCLUDE_PKGS = {
 		if (!checkOverwrite(source, formBean.getModel())) return null;
 		targetPath = source.getAbsolutePath();
 		
-		ArrayList properties = getProperties(formBean, genProps);
+		ArrayList<PropertyDescriptor> properties = getProperties(formBean, genProps);
 		Map<String,Object> parameters = getParameters(formBean, className, baseClass, properties);	
 		executeTemplate(parameters, templatePath, targetPath);
 
@@ -173,7 +179,7 @@ private static String[] EXCLUDE_PKGS = {
     	return velocityEngine;
     }
 
-	private void executeTemplate(Map parameters, String templatePath, String targetPath) {
+	private void executeTemplate(Map<String,Object> parameters, String templatePath, String targetPath) {
 		ServiceDialog d = PreferenceModelUtilities.getPreferenceModel().getService();
 		try {
 			VelocityContext context = new VelocityContext(parameters);
@@ -234,7 +240,7 @@ private static String[] EXCLUDE_PKGS = {
 		if (!checkOverwrite(source, action.getModel())) return null;
 		targetPath = source.getAbsolutePath();
 		
-		ArrayList<Object> properties = getProperties(action, genProps);
+		ArrayList<PropertyDescriptor> properties = getProperties(action, genProps);
 
 		ArrayList<Object> globalForwards = null;
 		if (genGlobal) {
@@ -269,16 +275,22 @@ private static String[] EXCLUDE_PKGS = {
         return className;
     }
     
-    private List getConstructors(XModelObject object, String baseClass)
-    {
-    	List<Object> constructors = new ArrayList<Object>();
+    private List<MethodDescriptor> getConstructors(XModelObject object, String baseClass) {
+    	List<MethodDescriptor> constructors = new ArrayList<MethodDescriptor>();
     	
-    	ClassLoader classLoader = object.getModel().getModelClassLoader();
     	try {
-			Class classObject = classLoader.loadClass(baseClass);
-			Constructor constr[] = classObject.getConstructors();
-			for (int i = 0; i < constr.length; i++) constructors.add(new MethodDescriptor(constr[i])); 
-		} catch (ClassNotFoundException ex)	{
+    		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(EclipseResourceUtil.getProject(object));
+    		IType type = EclipseJavaUtil.findType(javaProject, baseClass);
+    		if(type == null) return constructors;
+    		IJavaElement[] ch = type.getChildren();
+			for (int i = 0; i < ch.length; i++) {
+				if(!(ch[i] instanceof IMethod)) continue;
+				IMethod method = (IMethod)ch[i];
+				if(!method.isConstructor()) continue;
+				constructors.add(new MethodDescriptor(method));
+				
+			}
+		} catch (JavaModelException ex)	{
 			StrutsModelPlugin.getPluginLog().logError(ex);
 		}
     	
@@ -332,7 +344,7 @@ private static String[] EXCLUDE_PKGS = {
 		return (ind > 0) ? fullName.substring(0, ind) : ""; //$NON-NLS-1$
 	}
 	
-	private Map<String,Object> getParameters(XModelObject o, String className, String baseClass, ArrayList properties) {
+	private Map<String,Object> getParameters(XModelObject o, String className, String baseClass, ArrayList<PropertyDescriptor> properties) {
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		parameters.put("package", getPackageName(className)); //$NON-NLS-1$
 		parameters.put("className", getClassName(className)); //$NON-NLS-1$
@@ -341,10 +353,10 @@ private static String[] EXCLUDE_PKGS = {
 		return parameters;
 	}
 	
-	private ArrayList<Object> getProperties(XModelObject o, boolean genProps) {
-		ArrayList<Object> p = null;
+	private ArrayList<PropertyDescriptor> getProperties(XModelObject o, boolean genProps) {
+		ArrayList<PropertyDescriptor> p = null;
 		if (genProps) {
-			p = new ArrayList<Object>();
+			p = new ArrayList<PropertyDescriptor>();
 			XModelObject[] props = o.getChildren(ENT_SETPROPERTY); /// one entity for both versions
 			for (int i = 0; i < props.length; i++) {
 				String name = props[i].getAttributeValue(ATT_PROPERTY);

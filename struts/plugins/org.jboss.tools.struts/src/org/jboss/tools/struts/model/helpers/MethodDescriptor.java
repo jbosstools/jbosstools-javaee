@@ -10,71 +10,92 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.model.helpers;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
+import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
-
-public class MethodDescriptor
-{
-	private Constructor constructor;
+public class MethodDescriptor {
+	private IMethod constructor;
 	
-	public MethodDescriptor(Constructor constructor)
-	{
+	public MethodDescriptor(IMethod constructor) {
 		this.constructor = constructor;
 	}
 	
-	public String getName()
-	{
-		return constructor.getName();	
+	public String getName() {
+		return constructor.getElementName();
 	}
 	
-	public String getParameters()
-	{
+	public String getParameters() {
 		StringBuffer result = new StringBuffer();
 		
-		Class parameters[] = constructor.getParameterTypes();
-		for (int i = 0; i < parameters.length; i++)
-			result.append('p').append(i).append((i == parameters.length - 1) ? "" : ", ");
+		String[] ps = constructor.getParameterTypes();
+		
+		for (int i = 0; i < ps.length; i++) {
+			String type = EclipseJavaUtil.resolveType(constructor.getDeclaringType(), ps[i]);
+			if(type == null) type = ps[i];
+			result.append('p').append(i).append((i == ps.length - 1) ? "" : ", ");
+		}
 			 		
 		return result.toString();
 	}
 
-	public String getParametersWithType()
-	{
+	public String getParametersWithType() {
 		StringBuffer result = new StringBuffer();
 		
-		Class parameters[] = constructor.getParameterTypes();
-		for (int i = 0; i < parameters.length; i++)
-		{
-			if (parameters[i].isArray())
-				result.append(parameters[i].getComponentType().getName()).append("[]");
-			else
-				result.append(parameters[i].getName());
+		String[] ps = constructor.getParameterTypes();
+		
+		for (int i = 0; i < ps.length; i++) {
+			String type = EclipseJavaUtil.resolveType(constructor.getDeclaringType(), ps[i]);
+			if(type == null) type = ps[i];
+			type = convertType(type);
+			result.append(type);
 			result.append(' ').append('p').append(i);
-			if (i < parameters.length - 1) result.append(", ");
+			if (i < ps.length - 1) result.append(", ");
 		}
 			 		
 		return result.toString();
 	}
 	
+	private String convertType(String type) {
+		String postfix = "";
+		while(type.startsWith("[")) {
+			postfix += "[]";
+			type = type.substring(1);
+		}
+		if(type.startsWith("L") && type.endsWith(";")) {
+			return type.substring(1, type.length() - 1) + postfix;
+		}
+		if(type.equals("I")) {
+			type = "int";
+		}
+		return type + postfix;
+	}
+	
 	public String getModifiers()
 	{
 		StringBuffer result = new StringBuffer();
-		int modifiers = constructor.getModifiers();
+		int modifiers = 0;
+		try {
+			modifiers = constructor.getFlags();
+		} catch (JavaModelException e) {
+			//ignore
+		}
 		
-		if ((Modifier.PUBLIC & modifiers) != 0)
+		if (Flags.isPublic(modifiers))
 			result.append("public");
-		else if ((Modifier.PRIVATE & modifiers) != 0)
+		else if (Flags.isPrivate(modifiers))
 			result.append("private");
-		else if ((Modifier.PROTECTED & modifiers) != 0)
+		else if (Flags.isProtected(modifiers))
 			result.append("protected");
 		
-		if ((Modifier.STATIC & modifiers) != 0)
+		if (Flags.isStatic(modifiers))
 			result.append(result.length() > 0 ? " " : "").append("static");
 		
-		if ((Modifier.FINAL & modifiers) != 0)
+		if (Flags.isFinal(modifiers))
 			result.append(result.length() > 0 ? " " : "").append("final");
 
 		return result.toString();
 	}
+
 }
