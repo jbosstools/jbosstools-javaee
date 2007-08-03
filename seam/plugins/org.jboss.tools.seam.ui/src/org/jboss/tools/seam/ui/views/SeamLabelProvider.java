@@ -56,7 +56,7 @@ public class SeamLabelProvider extends LabelProvider {
 			ISeamComponent c = (ISeamComponent)element;
 			String name = c.getName();
 			if(ScopePresentationActionProvider.isScopePresentedAsLabel()) {
-				name += " " + ((ISeamScope)c.getParent()).getType().getLabel();
+				name += " (" + ((ISeamScope)c.getParent()).getType().getLabel() + ")";
 			}
 			return name; 
 		} else if (element instanceof IRole) {
