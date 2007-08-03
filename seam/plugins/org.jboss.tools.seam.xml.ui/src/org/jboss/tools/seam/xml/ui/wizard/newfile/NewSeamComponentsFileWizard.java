@@ -10,11 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.xml.ui.wizard.newfile;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.model.ui.wizard.newfile.NewFileContextEx;
 import org.jboss.tools.common.model.ui.wizard.newfile.NewFileWizardEx;
 
 public class NewSeamComponentsFileWizard extends NewFileWizardEx {
 
+	public NewSeamComponentsFileWizard() {
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(NewSeamComponentsFileWizard.class, "SeamComponentsFile_wiz.png"));
+	}
+	
 	protected NewFileContextEx createNewFileContext() {
 		return new NewSeamComponentsFileContext();
 	}

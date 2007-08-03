@@ -41,15 +41,10 @@ public class SeamProjectWizard extends WebProjectWizard {
 		setWindowTitle("New Seam Project");
 	}
 
-	protected ImageDescriptor getDefaultPageImageDescriptor() {
-		final Bundle bundle = Platform.getBundle("org.jboss.tools.common.model.ui");
-		final URL url = bundle.getEntry("images/xstudio/wizards/EclipseCreateNewProject.png");
-		return ImageDescriptor.createFromURL(url);
-	}
-
 	@Override
 	protected IWizardPage createFirstPage() {
 		IWizardPage page = super.createFirstPage();
+		page.setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png")); 
 		page.setTitle("Seam Web Project");
 		page.setDescription("Create standalone Seam Web Project");
 		return page;

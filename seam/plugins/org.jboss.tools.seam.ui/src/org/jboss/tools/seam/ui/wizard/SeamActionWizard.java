@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
@@ -31,7 +32,7 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 	public SeamActionWizard() {
 		super(CREATE_SEAM_ACTION);
 		setWindowTitle("New Seam Action");
-		//setDefaultPageImageDescriptor();
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png"));
 		addPage(new SeamActionWizardPage1());
 	}
 

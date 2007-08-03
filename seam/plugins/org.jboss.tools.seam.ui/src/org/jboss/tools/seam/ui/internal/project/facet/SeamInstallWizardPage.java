@@ -20,6 +20,7 @@ import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
 import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
 import org.eclipse.datatools.connectivity.ui.dse.dialogs.ProfileSelectionComposite;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
@@ -46,6 +47,7 @@ import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
+import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 
 /**
  * @author eskimo
@@ -140,6 +142,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	public SeamInstallWizardPage() {
 		super("Seam Facet");
 		setTitle("Seam Facet");
+		setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png"));
 		setDescription("Configure Seam Facest Settings");
 	}
 	

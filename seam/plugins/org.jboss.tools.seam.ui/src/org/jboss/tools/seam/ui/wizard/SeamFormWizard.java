@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
@@ -37,6 +38,7 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 	public SeamFormWizard() {
 		super(CREATE_SEAM_FORM);
 		setWindowTitle("New Seam Form");
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png"));
 		addPage(new SeamFormWizardPage1());
 	}
 
