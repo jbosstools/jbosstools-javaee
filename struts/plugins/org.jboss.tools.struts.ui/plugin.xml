@@ -188,7 +188,7 @@
       </objectContribution>
    </extension>
    <extension point="org.eclipse.ui.actionSets">
-      <actionSet description="Red Hat Struts Modules Configuration" id="org.jboss.tools.struts.modules" label="Red Hat Struts Modules Configuration" visible="true">
+      <!-- actionSet description="Red Hat Struts Modules Configuration" id="org.jboss.tools.struts.modules" label="Red Hat Struts Modules Configuration" visible="true">
          <action class="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" enablesFor="1" id="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" label="Red Hat Struts Modules Configuration" menubarPath="org.jboss.tools.common.model.ui.redhat/c">
          </action>
          <menu id="org.jboss.tools.common.model.ui.redhat" label="Red Hat">
@@ -197,7 +197,7 @@
             <separator name="d"/>
             <separator name="b"/>
          </menu>
-      </actionSet>
+      </actionSet -->
       <actionSet description="%actionSets.projectActions.description" id="org.jboss.tools.common.studio.actionSet" label="%actionSets.projectActions.label" visible="false">
                <!--toolbarPath="Normal/SSProject"-->
          <action class="org.jboss.tools.struts.ui.internal.action.ImportProjectAction" icon="images/xstudio/wizards/import_project.gif" id="org.jboss.tools.common.xstudio.action1" label="%actionSets.projectActions.importStrutsProject.label" tooltip="%actionSets.projectActions.importStrutsProject.label">
