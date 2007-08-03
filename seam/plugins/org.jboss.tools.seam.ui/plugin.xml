@@ -147,7 +147,14 @@
 	        </or>
 	      </enablement>
 	    </actionProvider>
+	    <actionProvider
+	      class="org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider"
+	      id="a1">
+	      <enablement>
+	      </enablement>
+	    </actionProvider>
 	  </navigatorContent>
+
       <commonFilter
             class="org.jboss.tools.seam.ui.views.SeamJarFilter"
             description="Hide Seam Components loaded from libraries and not overriden in project"
@@ -192,6 +199,12 @@
 					<or>
 						<instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
 					</or>
+				</enablement>
+			</actionProvider>
+			<actionProvider
+					class="org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider"
+					id="a2">
+				<enablement>
 				</enablement>
 			</actionProvider>
 		</navigatorContent>

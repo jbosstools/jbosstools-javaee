@@ -33,11 +33,13 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
+import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
 /**
  * Basic type for content providers that add seam components 
@@ -58,10 +60,18 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 	IResourceChangeListener listener = new ResourceChangeListener();
 	Set<ISeamProject> processed = new HashSet<ISeamProject>();
 	
+
 	public AbstractSeamContentProvider() {}
 
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
+	}
+	
+	boolean isNotShowingScopeNodes() {
+		return ScopePresentationActionProvider.isScopePresentedAsLabel();
+//		if(viewer == null) return false;
+//		Boolean b = (Boolean)viewer.getData("scopeAsNode");
+//		return b != null && b.booleanValue();
 	}
 
 	public boolean hasChildren(Object element) {
@@ -72,10 +82,18 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 
 	public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof ISeamProject) {
-			return ((ISeamProject)parentElement).getScopes();
+			ISeamProject project = (ISeamProject)parentElement;
+			if(isNotShowingScopeNodes()) {
+				project.resolve();
+				return project.getPackages().toArray(new Object[0]);
+			}
+			return project.getScopes();
 		} else if(parentElement instanceof ISeamScope) {
 			((ISeamScope)parentElement).getSeamProject().resolve();
-			return ((ISeamScope)parentElement).getComponents().toArray(new Object[0]);
+			return ((ISeamScope)parentElement).getPackages().toArray(new Object[0]);
+//			return ((ISeamScope)parentElement).getComponents().toArray(new Object[0]);
+		} else if(parentElement instanceof ISeamPackage) {
+			return ((ISeamPackage)parentElement).getComponents().toArray(new Object[0]);
 		} else if(parentElement instanceof ISeamComponent) {
 			List<Object> children = new ArrayList<Object>();
 			Set<ISeamComponentDeclaration> ds = ((ISeamComponent)parentElement).getAllDeclarations();
@@ -96,6 +114,17 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			ISeamElement p = ((IRole)element).getParent();
 			return p == null ? p : p.getParent();
 		} else if(element instanceof ISeamElement) {
+			if(element instanceof ISeamComponent) {
+				ISeamComponent c = (ISeamComponent)element;
+				if(isNotShowingScopeNodes()) {
+					return c.getSeamProject().getPackage(c);
+				} else {
+					ISeamScope s = (ISeamScope)c.getParent();
+					ISeamPackage p = s.getPackage(c);
+					return p == null ? s : p;
+					
+				}
+			}
 			return ((ISeamElement)element).getParent();
 		}
 		return null;

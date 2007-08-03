@@ -29,11 +29,13 @@ import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
+import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.ui.SeamUiImages;
+import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
 /**
  * @author Viacheslav Kabanovich
@@ -48,8 +50,15 @@ public class SeamLabelProvider extends LabelProvider {
 			return ((IProjectNature)element).getProject().getName();
 		} else if(element instanceof ISeamScope) {
 			return ((ISeamScope)element).getType().getLabel();
+		} else if(element instanceof ISeamPackage) {
+			return ((ISeamPackage)element).getName();
 		} else if(element instanceof ISeamComponent) {
-			return ((ISeamComponent)element).getName();
+			ISeamComponent c = (ISeamComponent)element;
+			String name = c.getName();
+			if(ScopePresentationActionProvider.isScopePresentedAsLabel()) {
+				name += " " + ((ISeamScope)c.getParent()).getType().getLabel();
+			}
+			return name; 
 		} else if (element instanceof IRole) {
 			return "" + ((IRole)element).getName();
 		} else if(element instanceof ISeamJavaSourceReference) {
@@ -76,6 +85,8 @@ public class SeamLabelProvider extends LabelProvider {
 			return SeamUiImages.PROJECT_IMAGE;
 		} else if(obj instanceof ISeamScope) {
 			return SeamUiImages.SCOPE_IMAGE;
+		} else if(obj instanceof ISeamPackage) {
+			return SeamUiImages.PACKAGE_IMAGE;
 		} else if(obj instanceof ISeamComponent) {
 			return SeamUiImages.COMPONENT_IMAGE;
 		} else if(obj instanceof IRole) {

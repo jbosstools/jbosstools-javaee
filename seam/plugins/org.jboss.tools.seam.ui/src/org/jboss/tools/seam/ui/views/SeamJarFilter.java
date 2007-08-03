@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamPackage;
 
 /**
  * 
@@ -30,6 +31,9 @@ public class SeamJarFilter extends ViewerFilter {
 		if(element instanceof ISeamComponent) {
 			return isUserDefinedComponent((ISeamComponent)element);
 		}
+		if(element instanceof ISeamPackage) {
+			return isUserDefinedPackage((ISeamPackage)element);
+		}
 		return true;
 	}
 	
@@ -41,10 +45,14 @@ public class SeamJarFilter extends ViewerFilter {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
+	boolean isUserDefinedPackage(ISeamPackage p) {
+		for (ISeamComponent c : p.getComponents()) {
+			if(isUserDefinedComponent(c)) return true;
+		}
+		return false;
+	}
 	
-
 }

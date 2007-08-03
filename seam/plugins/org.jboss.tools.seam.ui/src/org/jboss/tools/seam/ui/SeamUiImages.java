@@ -25,6 +25,7 @@ public class SeamUiImages {
 	public static Image ROLE_IMAGE = getImage("view/role.gif");
 	public static Image JAVA_IMAGE = getImage("view/java.gif");
 	public static Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif");
+	public static Image PACKAGE_IMAGE = getImage("view/package.gif");
 	
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();
