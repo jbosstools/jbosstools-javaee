@@ -3,17 +3,18 @@
 <plugin>
 
    <extension point="org.eclipse.ui.newWizards">
-      <category id="org.jboss.tools.seam" name="Seam" parentCategory="org.jboss.tools.jst.web">
-      </category>
       <wizard 
-         category="org.jboss.tools.jst.web/org.jboss.tools.shale" 
+         category="org.jboss.tools.seam.ui" 
          class="org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard" 
-         icon="images/xstudio/wizards/seam-components.gif" 
+         icon="images/seam16.png" 
          id="org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard" 
          name="Seam Components File" 
          project="false">
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
+         <description>
+            Create a Seam Components XM LFile
+         </description>
       </wizard>
    </extension>
 

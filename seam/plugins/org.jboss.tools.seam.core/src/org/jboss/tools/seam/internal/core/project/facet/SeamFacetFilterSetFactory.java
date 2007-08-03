@@ -89,7 +89,8 @@ public class SeamFacetFilterSetFactory {
 			String value = template.getFilterHash().get(filter).toString();
 			for (Object property : values.getAllProperties()) {
 				if(value.contains("${"+property.toString()+"}")) {
-					value = value.replace("${"+property.toString()+"}",values.getProperty(property.toString()).toString());
+					Object propertyValue = values.getProperty(property.toString());
+					value = value.replace("${"+property.toString()+"}",propertyValue==null?"":propertyValue.toString());
 				}
 			}
 			result.addFilter(filter.toString(), value);
@@ -103,7 +104,8 @@ public class SeamFacetFilterSetFactory {
 			String value = template.getFilterHash().get(filter).toString();
 			for (Object property : values.keySet()){
 				if(value.contains("${"+property.toString()+"}")) {
-					value = value.replace("${"+property.toString()+"}",values.get(property.toString()).toString());
+					Object propertyValue = values.get(property.toString());
+					value = value.replace("${"+property.toString()+"}",propertyValue==null?"":propertyValue.toString());
 				}
 			}
 			result.addFilter(filter.toString(), value);

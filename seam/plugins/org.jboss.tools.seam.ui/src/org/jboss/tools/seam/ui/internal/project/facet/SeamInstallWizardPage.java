@@ -10,21 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.internal.project.facet;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
-import org.eclipse.datatools.connectivity.IPropertySetChangeEvent;
-import org.eclipse.datatools.connectivity.IPropertySetListener;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
 import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
 import org.eclipse.datatools.connectivity.ui.dse.dialogs.ProfileSelectionComposite;
-import org.eclipse.jdt.internal.core.SetVariablesOperation;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
@@ -35,11 +30,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.internal.dialogs.PropertyDialog;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
+import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
@@ -129,7 +126,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	// Code generation group
 	IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
-			"Session Bean Package Name:","com.mydomain.projectname.session");
+			"Session Bean Package Name:","");
 	IFieldEditor entityBeanPkgNameditor = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME,
 			"Entity Bean Package Name:","com.mydomain.projectname.entity");
@@ -143,7 +140,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	public SeamInstallWizardPage() {
 		super("Seam Facet");
 		setTitle("Seam Facet");
-		setDescription("Seam Facest Description");
+		setDescription("Configure Seam Facest Settings");
 	}
 	
 	/**
@@ -192,6 +189,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	 */
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
+		
 		Composite root = new Composite(parent, SWT.NONE);
 		GridData gd = new GridData();
         
@@ -251,6 +249,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 		validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor.getName(), ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
 		validatorDelegate.addValidatorForProperty(pathToJdbcDriverJar.getName(), ValidatorFactory.FILESYSTEM_FILE_EXISTS_VALIDATOR);
 		validatorDelegate.addValidatorForProperty(connProfileSelEditor.getName(),ValidatorFactory.CONNECTION_PROFILE_IS_NOT_SELECTED);
+		setMessage(null);
+		setErrorMessage(null);
 	}
 
 	/**
@@ -344,5 +344,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 				((ITaggedFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(1)).setTags(getProfileNameList().toArray(new String[0]));
 			}
 		}
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		NewProjectDataModelFacetWizard wizard = (NewProjectDataModelFacetWizard)getWizard();
+		IDataModel model = wizard.getDataModel();
+		sessionBeanPkgNameditor.setValue("org.domain."+model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)+".session");
+		entityBeanPkgNameditor.setValue("org.domain."+model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)+".entity");
+		testsPkgNameditor.setValue("org.domain."+model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)+".test");
+		super.setVisible(visible);
 	};
 }

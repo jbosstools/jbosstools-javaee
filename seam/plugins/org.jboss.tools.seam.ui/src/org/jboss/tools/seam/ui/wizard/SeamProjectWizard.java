@@ -51,7 +51,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	protected IWizardPage createFirstPage() {
 		IWizardPage page = super.createFirstPage();
 		page.setTitle("Seam Web Project");
-		page.setDescription("TBD Description of wizard");
+		page.setDescription("Create standalone Seam Web Project");
 		return page;
 	}
 

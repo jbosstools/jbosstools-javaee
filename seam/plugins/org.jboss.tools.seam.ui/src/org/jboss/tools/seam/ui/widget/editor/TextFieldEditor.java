@@ -217,10 +217,13 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	/**
 	 * 
 	 */
-	public void setValue(Object newWalue) {
-		fTextField.removePropertyChangeListener(this);
-		fTextField.getTextControl().setText(newWalue.toString());
-		fTextField.addPropertyChangeListener(this);
+	public void setValue(Object newValue) {
+		super.setValue(newValue);
+		if(fTextField!=null){
+			fTextField.removePropertyChangeListener(this);
+			fTextField.getTextControl().setText(newValue.toString());
+			fTextField.addPropertyChangeListener(this);
+		}
 	}
 	
 	/**

@@ -296,7 +296,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					new FilterSetCollection(projectFilterSet), true);
 			
 			// Copy JDBC driver if there is any
-			AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), webLibFolder);
+			if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
+				AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), webLibFolder);
 
 			
 		} else {

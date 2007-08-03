@@ -13,10 +13,10 @@
             class="org.jboss.tools.seam.ui.wizard.SeamProjectWizard"
             icon="icons/view/seam_project_new.gif"
             id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard"
-            name="Seam Project"
+            name="Seam Web Project"
             project="true">
          <description>
-            description body text
+            Create a Seam Web Project
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -25,11 +25,11 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
-            icon="icons/view/component_new.gif"
+            icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
             name="Seam Action">
          <description>
-            description body text
+            Create a Seam Action
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -38,11 +38,11 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
-            icon="icons/view/component_new.gif"
+            icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard2"
             name="Seam Form">
          <description>
-            description body text
+            Create a Seam Form
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">

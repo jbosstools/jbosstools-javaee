@@ -28,6 +28,7 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		IDataModel model = (IDataModel)config;
+		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE)==null) return;
 		IConnectionProfile connProfile = ProfileManager.getInstance().getProfileByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).toString());
 		Properties props = connProfile.getProperties("org.eclipse.datatools.connectivity.db.generic.connectionProfile");
 
@@ -37,7 +38,8 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 		model.setProperty(ISeamFacetDataModelProperties.DB_USERP_PASSWORD,props.get("org.eclipse.datatools.connectivity.db.password").toString());
 		model.setProperty(ISeamFacetDataModelProperties.JDBC_URL_FOR_DB,props.get("org.eclipse.datatools.connectivity.db.URL").toString());
 		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,DriverManager.getInstance().getDriverInstanceByID(
-				props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());
+		props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());
+		
 	}
 
 }
