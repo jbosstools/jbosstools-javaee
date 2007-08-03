@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -37,6 +38,19 @@ public interface ISeamProject extends ISeamElement {
 	 * @return
 	 */
 	public ISeamScope getScope(ScopeType scopeType);
+	
+	/**
+	 * Returns packages
+	 * @return
+	 */
+	public Collection<ISeamPackage> getPackages();
+	
+	/**
+	 * Finds package object in this project for component.
+	 * @param c
+	 * @return
+	 */
+	public ISeamPackage getPackage(ISeamComponent c);
 
 	/**
 	 * Returns seam component. Project can have only one ISeamComponent with

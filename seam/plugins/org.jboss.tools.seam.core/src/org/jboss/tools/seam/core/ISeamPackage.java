@@ -10,37 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public interface ISeamScope extends ISeamElement {
+public interface ISeamPackage extends ISeamElement {
 	
-	/**
-	 * 
-	 * @return ScopeType object identifying this object in project
-	 */
-	public ScopeType getType();
+	public String getName();
 	
-	/**
-	 *  
-	 * @return list of all seam components resolved to this scope
-	 */
-	public List<ISeamComponent> getComponents();
-	
-	/**
-	 * 
-	 * @return collection of all packages
-	 */
-	public Collection<ISeamPackage> getPackages();
-	
-	/**
-	 * 
-	 * @param c
-	 * @return
-	 */
-	public ISeamPackage getPackage(ISeamComponent c);
+	public Set<ISeamComponent> getComponents();
 
 }
