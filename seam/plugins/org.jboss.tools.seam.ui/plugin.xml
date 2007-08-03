@@ -112,6 +112,7 @@
 	  <viewerContentBinding viewerId="org.jboss.tools.seam.ui.views.SeamComponentsNavigator">
 	    <includes>
 	      <contentExtension pattern="org.jboss.tools.seam.ui.views.rootContent" />
+	      <contentExtension pattern="org.jboss.tools.seam.ui.views.SeamJarFilter"/>
 	    </includes>
 	  </viewerContentBinding>
 	</extension>
@@ -147,12 +148,19 @@
 	      </enablement>
 	    </actionProvider>
 	  </navigatorContent>
+      <commonFilter
+            class="org.jboss.tools.seam.ui.views.SeamJarFilter"
+            description="Hide Seam Components loaded from libraries and not overriden in project"
+            id="org.jboss.tools.seam.ui.views.SeamJarFilter"
+            name="Seam Components from Libraries"
+            activeByDefault="true"/>
 	</extension>
 
 	<extension point="org.eclipse.ui.navigator.viewer">
 		<viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
 			<includes>
 				<contentExtension pattern="org.jboss.tools.seam.ui.views.projectContent" />
+				<contentExtension pattern="org.jboss.tools.seam.ui.views.SeamJarFilter"/>
 			</includes>
 		</viewerContentBinding>
 	</extension>
