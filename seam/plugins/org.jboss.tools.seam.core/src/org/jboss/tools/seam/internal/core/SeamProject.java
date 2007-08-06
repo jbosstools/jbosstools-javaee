@@ -812,12 +812,26 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	static String getPackageName(ISeamComponent c) {
-		String cls = c.getClassName();
+		// Package name can be based 
+		// 1) on qualified java class name, 
+		//    then it is java package name
+		// 2) on seam component name, 
+		//    then name is processed by analogy with java,
+		//    and package name is its part until the last dot.
+		
+		// Presently, only second approach is implemented,
+		// in future an option can be added, that 
+		// will allow user to customize view by selecting 
+		// the 'kind' of packages.
+		String cls = c.getName();
+				//c.getClassName();
 		if(cls == null || cls.length() == 0) {
-			return "<Unspecified>";
+			return "(unspecified)";
+		} else if(cls.startsWith("${") || cls.startsWith("#{")) {
+			return "(specified with EL)";
 		} else {
 			int d = cls.lastIndexOf('.');
-			return (d < 0) ? "<default>" : cls.substring(0, d);
+			return (d < 0) ? "(default package)" : cls.substring(0, d);
 		}
 	}
 	
