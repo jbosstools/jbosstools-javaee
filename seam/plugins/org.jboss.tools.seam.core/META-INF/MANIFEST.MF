@@ -32,7 +32,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.datatools.connectivity.db.generic,
  org.eclipse.datatools.connectivity.db.generic.ui,
  org.eclipse.datatools.connectivity.ui,
- org.eclipse.datatools.connectivity.ui.dse
+ org.eclipse.datatools.connectivity.ui.dse,
+ org.eclipse.jst.common.project.facet.core
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner,

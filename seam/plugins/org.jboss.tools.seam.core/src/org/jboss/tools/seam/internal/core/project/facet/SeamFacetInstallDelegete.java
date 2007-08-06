@@ -12,7 +12,6 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -26,6 +25,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -36,9 +36,6 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
-import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils.FileSet;
-import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils.FileSetFileFilter;
 
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
@@ -405,7 +402,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
 		}
-		
+		ClasspathHelper.addClasspathEntries(project, fv);
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
