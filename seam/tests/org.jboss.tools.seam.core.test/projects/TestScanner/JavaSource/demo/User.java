@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package demo;
 
+import javax.persistence.Entity;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 
@@ -19,10 +21,18 @@ import org.jboss.seam.annotations.*;
 
 @Name("myUser")
 @Scope(ScopeType.APPLICATION)
+@Entity
+@Install(precedence=Install.FRAMEWORK)
 
 public class User {
 
 	private String name;
+	
+	@Out
+	private String address = "";
+	
+	@In
+	private String payment = "";
 
 	/**
 	 * @return User Name
@@ -37,4 +47,21 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	public String getPayment() {
+		return payment;
+	}
+	
+	@Unwrap
+	public void unwrapMethod() {
+	}
+	
+	@Create @Destroy
+	public void createAndDestroyMethod() {
+	}
+
 }

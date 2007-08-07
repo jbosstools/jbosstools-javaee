@@ -7,6 +7,10 @@
   <property name="myList">
    <value>value1</value>
   </property>
+  <property name="myMap">
+   <key>key1</key>
+   <value>map value 1</value>
+  </property>
  </component>
  <core:managed-persistence-context name="myPersistenceContext1"/>
  

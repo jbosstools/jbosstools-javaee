@@ -22,14 +22,20 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
+import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamFactory;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.event.ISeamValueList;
+import org.jboss.tools.seam.core.event.ISeamValueMap;
+import org.jboss.tools.seam.core.event.ISeamValueMapEntry;
 import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
@@ -88,6 +94,10 @@ public class ScannerTest extends TestCase {
 	public void testCreatingProject() {
 	}
 
+	/**
+	 * This test is to check different cases of declaring components in xml.
+	 * It does not check interaction of xml declaration with other declarations.
+	 */
 	public void testXMLScanner() {
 		ISeamProject seamProject = getSeamProject();
 
@@ -106,22 +116,72 @@ public class ScannerTest extends TestCase {
 		}
 		assertTrue("Components are not found in components.xml", cs != null && cs.length > 0);
 
-		assertTrue("First component name must be " + "myComponent", "myComponent".equals(cs[0].getName()));
-
-		//After having tested details of xml scanner now let us check
-		// that it succeeded in build.
-		ISeamComponent c = seamProject.getComponent("myComponent");
-
-		assertTrue("Seam builder must put myComponent to project.", c != null);
+		//1. components.xml has entry
+		// <component class="java.lang.Boolean" name="myComponent" scope="page">
+		//  <property name="property1">value1</property>
+		//  <property name="myList">
+		//   <value>value1</value>
+		//  </property>
+		// <property name="myMap">
+		//   <key>key1</key>
+		//   <value>map value 1</value>
+		//  </property>
+		// </component>
+		// check that
+		// a) Declaration "myComponent" is loaded
+		// b) property "property1" has value 'value1'
+		// c) property "myList" has value 'value1'
+		// d) property "myMap" has value 'map value 1' for key 'key1'
+		ISeamComponentDeclaration myComponent = findDeclaration(cs, "myComponent");
+		assertTrue("Declaration of " + "myComponent" + " is not found", myComponent instanceof ISeamXmlComponentDeclaration);
 
 		//We have list property in this component
-		List<ISeamProperty> prs = c.getProperties("myList");
-		assertTrue("Property myList is not found in components.xml", prs.size() == 1);		
-		ISeamProperty property = prs.get(0);
+		ISeamProperty property = ((ISeamXmlComponentDeclaration)myComponent).getProperty("myList");
+		assertTrue("Property myList is not found in declaration 'myComponent'", property != null);		
 		Object o = property.getValue();
 		assertTrue("Property myList in myComponent must be instanceof ISeamValueList", o instanceof ISeamValueList);
 		ISeamValueList oList = (ISeamValueList)o;
 		assertTrue("Property myList misses value 'value1.", "value1".equals(oList.getValues().get(0).getValue().getValue()));
+		
+		property = ((ISeamXmlComponentDeclaration)myComponent).getProperty("myMap");
+		assertTrue("Property myMap is not found in declaration 'myComponent'", property != null);		
+		o = property.getValue();
+		assertTrue("Property myMap in myComponent must be instanceof ISeamValueMap", o instanceof ISeamValueMap);
+		ISeamValueMap oMap = (ISeamValueMap)o;
+		List<ISeamValueMapEntry> es = oMap.getEntries();
+		assertTrue("Property myMap in myComponent is empty", es.size() > 0);
+
+		assertTrue("First entry in myMap must have key='key1'", "key1".equals(es.get(0).getKey().getValue().getValue()));
+		assertTrue("First entry in myMap must have value='map value 1'", "map value 1".equals(es.get(0).getValue().getValue().getValue()));
+		
+		//2. components.xml has entry
+		// <core:resource-bundle>
+		// 	<core:bundle-names>
+		// 		<value>bundleA</value>
+		// 		<value>bundleB</value>
+		// 	</core:bundle-names>
+		// </core:resource-bundle>
+		// check that
+		// a) declaration org.jboss.seam.core.resourceBundle exists,
+		// b) it has property bundleNames as list with two specified values.
+		ISeamComponentDeclaration resourceBundle = findDeclaration(cs, "org.jboss.seam.core.resourceBundle");
+		assertTrue("Declaration of " + "org.jboss.seam.core.resourceBundle" + " is not found", resourceBundle instanceof ISeamXmlComponentDeclaration);
+		property = ((ISeamXmlComponentDeclaration)resourceBundle).getProperty("bundleNames");
+		assertTrue("Property 'bundleNames' is not found in declaration 'org.jboss.seam.core.resourceBundle'", property != null);		
+		o = property.getValue();
+		assertTrue("Property bundleNames in myComponent must be instanceof ISeamValueList", o instanceof ISeamValueList);
+		oList = (ISeamValueList)o;
+		assertTrue("Property bundleNames misses value 'bundleA'.", "bundleA".equals(oList.getValues().get(0).getValue().getValue()));
+		assertTrue("Property bundleNames misses value 'bundleB'.", "bundleB".equals(oList.getValues().get(1).getValue().getValue()));
+		
+		//TODO check factory
+	}
+	
+	private ISeamComponentDeclaration findDeclaration(ISeamComponentDeclaration[] declarations, String name) {
+		for (int i = 0; i < declarations.length; i++) {
+			if(name.equals(declarations[i].getName())) return declarations[i];
+		}
+		return null;
 	}
 	
 	public void testJavaScanner() {
@@ -141,15 +201,48 @@ public class ScannerTest extends TestCase {
 			fail("Error in java scanner:" + e.getMessage());
 		}
 		assertTrue("Components are not found in User.java", cs != null && cs.length > 0);
+		
+		ISeamJavaComponentDeclaration myUser = (ISeamJavaComponentDeclaration)findDeclaration(cs, "myUser");
 
-		assertTrue("First component name must be " + "myUser", "myUser".equals(cs[0].getName()));
+		assertTrue("Component declaration myUser not found", myUser != null);
 
 		 //After having tested details of java scanner now let us check
 		 //that it succeeded in build.
 		ISeamComponent c = seamProject.getComponent("myUser");
+		assertTrue("Seam builder must put myUser to project.", c != null);
+
+		//Now check annotations in User.java
+		// a) @Scope(ScopeType.APPLICATION)
+		ScopeType scope = myUser.getScope();
+		assertTrue("Declared scope for myUser is Application rather than " + scope.getLabel(), scope == ScopeType.APPLICATION);
 		
-		assertTrue("Seam builder must put myUser to project.", c != null);		
+		// b) @Install(precedence=Install.FRAMEWORK)
+		int precedence = c.getPrecedence();
+		assertTrue("Declared precedence for myUser is 10 rather than " + precedence, precedence == 10);
+		
+		// c) @Entity
+		boolean isEntity = myUser.isEntity();
+		assertTrue("Java source for myUser is declared as entity", isEntity);
+
+		// d) @In @Out
+		Set<IBijectedAttribute> bijected = myUser.getBijectedAttributes();
+		
+		IBijectedAttribute a1 = findBijectedAttribute(bijected, "address");
+		assertTrue("Attribute 'address' is not found in bijected attributes", a1 != null);
+		assertTrue("Attribute 'address' is @Out annotated", a1.isOfType(BijectedAttributeType.OUT));
 	
+		IBijectedAttribute a2 = findBijectedAttribute(bijected, "payment");
+		assertTrue("Attribute 'payment' is not found in bijected attributes", a2 != null);
+		assertTrue("Attribute 'payment' is @In annotated", a2.isOfType(BijectedAttributeType.IN));
+	
+		//To be continued
+	}
+	
+	private IBijectedAttribute findBijectedAttribute(Set<IBijectedAttribute> bijected, String name) {
+		for (IBijectedAttribute a : bijected) {
+			if(name.equals(a.getName())) return a;
+		}
+		return null;
 	}
 
 	public void testLibraryScanner() {
