@@ -201,4 +201,9 @@
       	</persistent>
    </extension>
 
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.internal.core.el.SeamPromptingProvider"
+			class="org.jboss.tools.seam.internal.core.el.SeamPromptingProvider"/>
+	</extension>
+
 </plugin>
