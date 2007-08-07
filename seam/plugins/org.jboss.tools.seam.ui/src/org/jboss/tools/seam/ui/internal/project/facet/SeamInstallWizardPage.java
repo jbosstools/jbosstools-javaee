@@ -74,6 +74,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 			ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, 
 			"JBoss Seam Home Folder:",SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER));
+	boolean seamHomeRequiresSave = SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER).equals("");
+	
 	IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 			ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 			"Deploy as:",Arrays.asList(new String[]{"war","ear"}),"war",false);
@@ -170,11 +172,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements IF
 	}
 	
 	/**
-	 * 
+	 * Finish has been pressed. 
 	 */
 	public void transferStateToConfig() {
-		
+		if( seamHomeRequiresSave) {
+			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
+				SeamFacetPreference.SEAM_HOME_FOLDER, jBossSeamHomeEditor.getValueAsString());	
+		}
 	}
+		
 
 	/**
 	 * 
