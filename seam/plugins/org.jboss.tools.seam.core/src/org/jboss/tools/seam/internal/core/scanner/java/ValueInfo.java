@@ -74,8 +74,12 @@ public class ValueInfo implements IValueInfo {
 		if(exp instanceof StringLiteral) {
 			return ((StringLiteral)exp).getLiteralValue();
 		} else if(exp instanceof QualifiedName) {
+			Object o = exp.resolveConstantExpressionValue();
+			if(o != null) return o.toString();
 			return exp.toString();
 		}
+		Object o = exp.resolveConstantExpressionValue();
+		if(o != null) return o.toString();
 		return exp.toString();
 	}
 	

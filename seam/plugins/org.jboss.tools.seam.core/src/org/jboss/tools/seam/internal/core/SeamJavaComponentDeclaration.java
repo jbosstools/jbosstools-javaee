@@ -335,15 +335,31 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		attributes.put(ISeamXmlComponentDeclaration.SCOPE, value);
 		setScope(value == null ? null : value.getValue());
 	}
+	
+	static final Map<String, Integer> NAMED_PRECEDENCES = new HashMap<String, Integer>();
+	
+	static {
+		NAMED_PRECEDENCES.put("Install.BUILT_IN", new Integer(0));
+		NAMED_PRECEDENCES.put("Install.FRAMEWORK", new Integer(10));
+		NAMED_PRECEDENCES.put("Install.APPLICATION", new Integer(20));
+		NAMED_PRECEDENCES.put("Install.DEPLOYMENT", new Integer(30));
+		NAMED_PRECEDENCES.put("Install.MOCK", new Integer(40));
+	}
 
 	public void setPrecedence(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.PRECEDENCE, value);
-		try {
-			setPrecedence(value == null ? 0 : Integer.parseInt(value.getValue()));
+		String p = value.getValue();
+		if(p == null) {
+			setPrecedence(0);
+			return;
+		}
+		Integer i = NAMED_PRECEDENCES.get(p);
+		if(i == null) try {
+			i = Integer.parseInt(p);
 		} catch (NumberFormatException e) {
-			setPrecedence(-1); //error value
 			//ignore - exact value is stored in ValueInfo
 		}
+		setPrecedence(i == null ? -1 : i.intValue());
 	}
 	
 	public void setTypes(Map<BeanType, IValueInfo> types) {
