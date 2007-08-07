@@ -308,6 +308,8 @@ public final class SeamELCompletionEngine {
 		if (project == null || resource == null)
 			return null;
 		
+		if (!"java".equals(resource.getFileExtension()))
+			return null;
 		Set<ISeamComponent> components = project.getComponentsByPath(resource.getFullPath());
 
 		if (components.size() > 1) // Don't use scope in case of more than one component
