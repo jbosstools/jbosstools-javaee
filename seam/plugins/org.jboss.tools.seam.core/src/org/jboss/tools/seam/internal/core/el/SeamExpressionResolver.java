@@ -144,7 +144,7 @@ public class SeamExpressionResolver {
 				ISeamProject project = ((ISeamElement)factory).getSeamProject();
 //				ISeamProject project = getSeamProject(factory.getResource());
 				if (project != null) {
-					List<ISeamContextVariable> resolvedValues = resolveVariables(project, factory.getScope(), value, onlyEqualNames);
+					List<ISeamContextVariable> resolvedValues = resolveVariables(project, null /* factory.getScope()*/, value, onlyEqualNames);
 					for (ISeamContextVariable var : resolvedValues) {
 						if (var.getName().equals(value)) {
 							member = getMemberByVariable(var, onlyEqualNames);

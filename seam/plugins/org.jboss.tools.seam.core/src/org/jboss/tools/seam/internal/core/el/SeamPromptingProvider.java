@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IPromptingProvider;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -17,6 +18,8 @@ public class SeamPromptingProvider implements IPromptingProvider {
 	static String IS_SEAM_PROJECT = "seam.is_seam_project";
 	static String VARIABLES = "seam.variables";
 	static String MEMBERS = "seam.members";
+	
+	SeamELCompletionEngine engine= new SeamELCompletionEngine();
 	
 	public SeamPromptingProvider() {}
 
@@ -40,6 +43,13 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			list.addAll(set);
 			return list;
 		} else if(MEMBERS.equals(id)) {
+			try {
+				String prefix2 = SeamELCompletionEngine.getPrefix(prefix, prefix.length());
+				List<String> suggestions = engine.getCompletions(p, f, prefix, prefix2, 2, true, null, null);
+				return suggestions;
+			} catch (BadLocationException e) {
+				return EMPTY_LIST;
+			}
 			
 		}
 		return null;
