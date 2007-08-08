@@ -543,9 +543,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getComponentsByScope(org.jboss.tools.seam.core.ScopeType)
 	 */
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type) {
+		return getComponentsByScope(type, false);
+	}
+
+	public Set<ISeamComponent> getComponentsByScope(ScopeType type, boolean addVisibleScopes) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
 		for(SeamComponent component: allComponents.values()) {
-			if(type.equals(component.getScope())) {
+			if(isVisibleInScope(component, type, addVisibleScopes)) {
 				result.add(component);
 			}
 		}		
@@ -590,13 +594,28 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByScope(org.jboss.tools.seam.core.ScopeType)
 	 */
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope) {
+		return getVariablesByScope(scope, false);
+	}
+
+	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope, boolean addVisibleScopes) {
 		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
 		for (ISeamContextVariable v: allVariables) {
-			if(scope.equals(v.getScope())) {
+			if(isVisibleInScope(v, scope, addVisibleScopes)) {
 				result.add(v);
 			}
 		}
 		return result;
+	}
+
+	private boolean isVisibleInScope(ISeamContextVariable v, ScopeType scope, boolean addVisibleScopes) {
+		if(scope == v.getScope()) {
+			return true;
+		} else if(addVisibleScopes && scope != null && v.getScope() != null) {
+			if(v.getScope().getPriority() >= scope.getPriority()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addFactory(ISeamFactory factory) {
@@ -624,9 +643,15 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 
 	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope) {
+		return getFactoriesByScope(scope, false);
+	}
+
+	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope, boolean addVisibleScopes) {
 		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
 		for (ISeamFactory f: allFactories) {
-			if(scope.equals(f.getScope())) result.add(f);
+			if(isVisibleInScope(f, scope, addVisibleScopes)) {
+				result.add(f);
+			}
 		}
 		return result;
 	}

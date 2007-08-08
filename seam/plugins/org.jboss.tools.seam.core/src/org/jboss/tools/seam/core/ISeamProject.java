@@ -69,6 +69,14 @@ public interface ISeamProject extends ISeamElement {
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type);
 
 	/**
+	 * 
+	 * @param type
+	 * @param addVisibleScopes
+	 * @return Set of all ISeamComponents visible in specified context.
+	 */
+	public Set<ISeamComponent> getComponentsByScope(ScopeType type, boolean addVisibleScopes);
+
+	/**
 	 * @param resource path of ISeamComponentDeclaration that belongs to component
 	 * @return Set of ISeamComponents by resource path.
 	 */
@@ -115,6 +123,14 @@ public interface ISeamProject extends ISeamElement {
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope);
 
 	/**
+	 * 
+	 * @param scope
+	 * @param addVisibleScopes
+	 * @return all seam variables visible in specific context
+	 */
+	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope, boolean addVisibleScopes);
+
+	/**
 	 * @param full path of IResource where the variable is declared.
 	 * @return Set of ISeamContextVariables by resource path.
 	 */
@@ -139,6 +155,14 @@ public interface ISeamProject extends ISeamElement {
 	 * @return Factories methods of project by scope
 	 */
 	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope);
+	
+	/**
+	 * 
+	 * @param scope
+	 * @param addVisibleScopes
+	 * @return Factories of project visible in specified scope
+	 */
+	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope, boolean addVisibleScopes);
 
 	/**
 	 * @param resource path of ISeamFactory that belongs to factory declaration
