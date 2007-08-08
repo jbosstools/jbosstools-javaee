@@ -23,7 +23,6 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jsf.model.helpers.bean.AnnotatedBeans;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 
 public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode {
@@ -54,9 +53,6 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 				process(fcs[i], BeanConstants.MANAGED_BEAN_CONSTANTS, map, classes);
 				process(fcs[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, map, classes);
 			}
-			
-			AnnotatedBeans bs = AnnotatedBeans.getAnnotatedBeans(getModel());
-			process(bs.getBeans(), BeanConstants.MANAGED_BEAN_CONSTANTS, map, classes);
 			
 			Iterator<XModelObject> it = map.values().iterator();
 			while(it.hasNext()) {
@@ -162,11 +158,6 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 		valid = false;
 		Display.getDefault().asyncExec(new XJob.XRunnable() {
 			public void run() {
-				try {
-					AnnotatedBeans.getAnnotatedBeans(getModel()).update();
-				} catch (Exception e) {
-					//ignore
-				}
 				fireStructureChanged(XModelTreeEvent.STRUCTURE_CHANGED, this);
 			}
 			public String getId() {

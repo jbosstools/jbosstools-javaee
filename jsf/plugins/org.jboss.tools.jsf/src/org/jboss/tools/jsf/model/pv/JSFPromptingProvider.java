@@ -22,7 +22,6 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jsf.model.JSFConstants;
-import org.jboss.tools.jsf.model.helpers.bean.AnnotatedBeans;
 import org.jboss.tools.jsf.model.helpers.converter.*;
 import org.jboss.tools.jsf.model.helpers.pages.OpenCaseHelper;
 import org.jboss.tools.jsf.model.helpers.pages.ResourceBundleHelper;
@@ -183,10 +182,6 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 			getBeans(os[i], BeanConstants.MANAGED_BEAN_CONSTANTS, list);
 			getBeans(os[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, list);
 		}
-		XModelObject[] bs = AnnotatedBeans.getAnnotatedBeans(model).getBeans();
-		for (int i = 0; i < bs.length; i++) {
-			list.add(bs[i].getAttributeValue(BeanConstants.MANAGED_BEAN_CONSTANTS.nameAttribute));
-		}
 		return list;
 	}
 	
@@ -211,9 +206,6 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		WebProjectNode conf = (WebProjectNode)root.getChildByPath("Configuration");
 		if(n == null || conf == null) return EMPTY_LIST;
 		XModelObject bean = findBean(conf, beanName);
-		if(bean == null) {
-			bean = AnnotatedBeans.getAnnotatedBeans(model).findBean(beanName);
-		}
 		if(bean == null) return EMPTY_LIST;
 		List<Object> list = new ArrayList<Object>();
 		XModelObject beanClass = findBeanClass(n, bean);
@@ -327,11 +319,6 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 			if(bean != null) return bean;
 			bean = os[i].getChildByPath("Referenced Beans/" + beanName);
 			if(bean != null) return bean;
-		}
-		////to be committed
-		XModelObject[] bs = AnnotatedBeans.getAnnotatedBeans(conf.getModel()).getBeans();
-		for (int i = 0; i < bs.length; i++) {
-			if(beanName.equals(bs[i].getPathPart())) return bs[i];
 		}
 		return null;
 	}
