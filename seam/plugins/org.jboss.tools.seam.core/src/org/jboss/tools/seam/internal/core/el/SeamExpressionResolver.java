@@ -170,7 +170,8 @@ public class SeamExpressionResolver {
 				IMethod[] mthds = type.getMethods();
 				for (int i = 0; mthds != null && i < mthds.length; i++) {
 					IMethod m = mthds[i];
-					if (Modifier.isPublic(m.getFlags()) && 
+					if (Modifier.isPublic(m.getFlags()) &&
+							!m.isConstructor() && 
 							(!m.getElementName().startsWith("get") && !m.getElementName().startsWith("set")) ||
 							"get".equals(m.getElementName()) || "set".equals(m.getElementName())) {
 						methods.add(m);
@@ -197,6 +198,7 @@ public class SeamExpressionResolver {
 				for (int i = 0; mthds != null && i < mthds.length; i++) {
 					IMethod m = mthds[i];
 					if (Modifier.isPublic(m.getFlags()) && 
+							!m.isConstructor() && 
 							(!m.getElementName().startsWith("get") && !m.getElementName().startsWith("set")) ||
 							"get".equals(m.getElementName()) || "set".equals(m.getElementName())) {
 						
