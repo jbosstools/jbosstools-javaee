@@ -16,35 +16,40 @@
             visible="true">
          <menu
                id="seamgenMenu"
-               label="Seam &amp;Gen">
-            <separator name="seamgenGroup"/>
+               label="Seam &amp;Gen"
+               path="org.eclipse.ui.run/additions">
+            <separator
+                  name="seamgenMenuGroup">
+            </separator>
          </menu>
 
          <menu
                id="seamgenConfiguration"
                label="Setup/Configuration"
-               path="seamgenMenu/seamgenGroup">
-            <separator name="seamgenConfigSeperator"/>
+               path="org.eclipse.ui.run/seamgenMenu/seamgenMenuGroup">
+            <separator
+                  name="seamgenConfigGroup">
+            </separator>
          </menu>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.SetupDeluxeAction"
                id="org.jboss.ide.seam.gen.actions.SetupDeluxeAction"
                label="Setup"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Setup"/>
          <action
                class="org.jboss.ide.seam.gen.actions.NewProjectAction"
                icon="icons/java_app.gif"
                id="org.jboss.ide.seam.gen.actions.NewProjectAction"
                label="New Project"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="New Project"/>               
          <action
                class="org.jboss.ide.seam.gen.actions.DeployAction"
                id="org.jboss.ide.seam.gen.actions.DeployAction"
                label="Deploy"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Deploy"/>                              
 
          <action
@@ -52,7 +57,7 @@
                icon="icons/newform.png"
                id="org.jboss.ide.seam.gen.actions.NewFormAction"
                label="New &amp;Form"
-               menubarPath="seamgenMenu/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenMenuGroup"
                tooltip="New Form"/>
                
                
@@ -60,7 +65,7 @@
                class="org.jboss.ide.seam.gen.actions.NewActionAction"
                id="org.jboss.ide.seam.gen.actions.NewActionAction"
                label="New &amp;Action"
-               menubarPath="seamgenMenu/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenMenuGroup"
                tooltip="New Action"/>
                
 
@@ -69,7 +74,7 @@
                icon="icons/conversation.gif"
                id="org.jboss.ide.seam.gen.actions.NewConversationAction"
                label="New &amp;Conversation"
-               menubarPath="seamgenMenu/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenMenuGroup"
                tooltip="New Conversation"/>               
 
          <action
@@ -77,52 +82,79 @@
                icon="icons/newclass_wiz.gif"
                id="org.jboss.ide.seam.gen.actions.NewEntityAction"
                label="New &amp;Entity"
-               menubarPath="seamgenMenu/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenMenuGroup"
                tooltip="New Entity"/>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.GenerateEntitiesAction"
                id="org.jboss.ide.seam.gen.actions.GenerateEntitiesAction"
                label="Generate Entities"
-               menubarPath="seamgenMenu/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenMenuGroup"
                tooltip="Generate Entities"/>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.ExplodeAction"
                id="org.jboss.ide.seam.gen.actions.ExplodeAction"
                label="Explode"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Explode"/>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.UnexplodeAction"
                id="org.jboss.ide.seam.gen.actions.UnexplodeAction"
                label="Unexplode"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Unexplode"/>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.RestartAction"
                id="org.jboss.ide.seam.gen.actions.RestartAction"
                label="Restart"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Restart"/>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.UpdateProjectAction"
                id="org.jboss.ide.seam.gen.actions.UpdateProjectAction"
                label="Update Project"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Update Project"/>               
 
          <action
                class="org.jboss.ide.seam.gen.actions.UndeployAction"
                id="org.jboss.ide.seam.gen.actions.UndeployAction"
                label="Undeploy"
-               menubarPath="seamgenMenu/seamgenConfiguration/seamgenGroup"
+               menubarPath="org.eclipse.ui.run/seamgenMenu/seamgenConfiguration/seamgenConfigGroup"
                tooltip="Undeploy"/>
 
       </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.run?after=additions">
+         <menu
+               id="menu"
+               label="Seam Gen"
+               mnemonic="G"
+               tooltip="Seam Gen">
+            <command
+                  commandId="org.jboss.ide.seam.gen.testcommand"
+                  icon="icons/java_app.gif"
+                  label="Test Command"
+                  mnemonic="T"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="TestCommandHandler"
+            id="org.jboss.ide.seam.gen.testcommand"
+            name="Test Command">
+      </command>
    </extension>
  
 </plugin>
