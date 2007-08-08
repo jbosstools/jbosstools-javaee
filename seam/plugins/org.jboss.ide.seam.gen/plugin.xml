@@ -129,32 +129,5 @@
 
       </actionSet>
    </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.run?after=additions">
-         <menu
-               id="menu"
-               label="Seam Gen"
-               mnemonic="G"
-               tooltip="Seam Gen">
-            <command
-                  commandId="org.jboss.ide.seam.gen.testcommand"
-                  icon="icons/java_app.gif"
-                  label="Test Command"
-                  mnemonic="T"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="TestCommandHandler"
-            id="org.jboss.ide.seam.gen.testcommand"
-            name="Test Command">
-      </command>
-   </extension>
  
 </plugin>
