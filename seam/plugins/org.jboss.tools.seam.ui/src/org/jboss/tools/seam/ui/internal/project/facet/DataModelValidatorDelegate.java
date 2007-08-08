@@ -20,24 +20,27 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 
 /**
+ * Delegate class used during validation process in wizard dialog. It contains 
+ * map from property name to IValidator instance. It is triggered by property 
+ * change event from any registered property editor
+ * 
  * @author eskimo
  *
  */
 public class DataModelValidatorDelegate implements IDataModelListener {
 	
 	/**
-	 * 
+	 * Target IDataModel instance
 	 */
 	protected IDataModel model = null;
 	
-	
 	/**
-	 * 
+	 * WizardPage instance that should be validated
 	 */
 	protected WizardPage page = null;
 	
 	/**
-	 * 
+	 * Map from property name to IValidator instance
 	 */
 	protected Map<String,IValidator> mapPropToValidator = new HashMap<String,IValidator>();
 	

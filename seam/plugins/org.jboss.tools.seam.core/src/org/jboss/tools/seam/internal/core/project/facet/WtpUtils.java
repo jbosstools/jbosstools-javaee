@@ -97,7 +97,7 @@ public class WtpUtils {
 		}
 	}
 
-	public static String getServerRuntimename(IProject project) {
+	public static String getServerRuntimeName(IProject project) {
 		IJavaProject javaProject = JavaCore.create(project);
 
 		if(javaProject!=null) {

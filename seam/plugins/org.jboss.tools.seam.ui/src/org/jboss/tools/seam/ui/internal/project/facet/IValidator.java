@@ -15,7 +15,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.IAdaptable;
 
 /**
- * 
+ * Simple validator interface
  * @author eskimo
  *
  */
@@ -24,10 +24,10 @@ public interface IValidator {
 	public static final String DEFAULT_ERROR = "default.error";
 	
 	/**
-	 * 
-	 * @param value
-	 * @param context
-	 * @return
+	 * Method perform validation of given value against a provided context. 
+	 * @param value - an object that should be validated against context
+	 * @param context - a contextual data that can be used during validation
+	 * @return map from editor name to error text
 	 */
 	Map<String,String> validate(Object value, Object context);
 }

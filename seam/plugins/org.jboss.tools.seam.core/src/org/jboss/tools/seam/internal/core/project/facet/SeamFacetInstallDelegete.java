@@ -313,13 +313,12 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 				protected IStatus run(IProgressMonitor monitor) {
 					
 					IProject ear = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear", monitor);
-					
-					try {
+					IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					try {
 						FilterSet filterSet = new FilterSet();
 						filterSet.addFilter("projectName", project.getName());
-						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimename(project));
+						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(project));
 						
-						IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					
+											
 						
 						AntCopyUtils.copyFilesAndFolders(
 								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb"), 
@@ -362,7 +361,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 								new File(ejb.getLocation().toFile(),ejb.getName()+".launch"), 
 								new FilterSetCollection(projectFilterSet), true);
 						
-						ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 						
 						File earContentsFolder = new File(ear.getLocation().toFile(),"EarContent");
 						File earContentsMetaInfFolder = new File(earContentsFolder,"META-INF");
@@ -387,14 +385,17 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 						AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
 			
 						// Copy JDBC driver if there is any
-						AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), earContentsFolder);
-
-						ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-					
+						if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
+							AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), earContentsFolder);
 					} catch (IOException e) {
 						SeamCorePlugin.getPluginLog().logError(e);
-					} catch (CoreException e) {
-						SeamCorePlugin.getPluginLog().logError(e);
+					} finally {
+						try {
+							ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+							ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+						} catch(CoreException e) {
+							SeamCorePlugin.getPluginLog().logError(e);
+						}
 					}
 					return Status.OK_STATUS;
 				}
