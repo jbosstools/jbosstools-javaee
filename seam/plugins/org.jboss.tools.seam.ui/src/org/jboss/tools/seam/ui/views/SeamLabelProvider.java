@@ -55,6 +55,12 @@ public class SeamLabelProvider extends LabelProvider {
 		} else if(element instanceof ISeamComponent) {
 			ISeamComponent c = (ISeamComponent)element;
 			String name = c.getName();
+			
+			int lastIndexOf = name.lastIndexOf('.'); 
+			if(lastIndexOf!=-1&&lastIndexOf!=name.length()) {
+				name = name.substring(lastIndexOf+1); // temp fix for JBIDE-644; shouldn't need to do this here. shold be a method to getShortName or similar but ISeamComponent extends ISeamContextVariable so ended up being weird to do clean.
+			}
+
 			if(ScopePresentationActionProvider.isScopePresentedAsLabel()) {
 				name += " (" + ((ISeamScope)c.getParent()).getType().getLabel() + ")";
 			}
