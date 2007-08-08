@@ -93,7 +93,7 @@ public class SeamExpressionResolver {
 	 */
 	private static List<ISeamContextVariable> internalResolveVariablesByScope(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
-		Set<ISeamContextVariable> variables = project.getVariablesByScope(scope);
+		Set<ISeamContextVariable> variables = project.getVariablesByScope(scope, true);
 		for (ISeamContextVariable variable : variables) {
 			if(onlyEqualNames) {
 				if (variable.getName().equals(name)) {
