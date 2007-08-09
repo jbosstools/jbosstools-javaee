@@ -22,16 +22,19 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
+import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.event.ISeamValueList;
 import org.jboss.tools.seam.core.event.ISeamValueMap;
@@ -39,6 +42,7 @@ import org.jboss.tools.seam.core.event.ISeamValueMapEntry;
 import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
+import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 
@@ -259,19 +263,21 @@ public class ScannerTest extends TestCase {
 		assertTrue("Scanner cannot recognise jboss-seam.jar", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise jboss-seam.jar content", scanner.isLikelyComponentSource(f));
 
-		ISeamFactory[] cs = null;
+		ISeamFactory[] factories = null;
+		ISeamJavaComponentDeclaration[] componentDeclarations = null;
 		
 		try {
-			cs = scanner.parse(f).getFactories().toArray(new ISeamFactory[0]);
+			LoadedDeclarations ds = scanner.parse(f);
+			factories = ds.getFactories().toArray(new ISeamFactory[0]);
+			componentDeclarations = ds.getComponents().toArray(new ISeamJavaComponentDeclaration[0]);
 		} catch (Exception e) {
-			e.printStackTrace();
 			fail("Error in library scanner:" + e.getMessage());
 		}
-		assertTrue("Factories are not found in jboss-seam.jar", cs != null && cs.length > 0);
+		assertTrue("Factories are not found in jboss-seam.jar", factories != null && factories.length > 0);
 		
 		boolean hasActor = false;
-		for (int i = 0; i < cs.length && !hasActor; i++) {
-			if("actor".equals(cs[i].getName())) hasActor = true;
+		for (int i = 0; i < factories.length && !hasActor; i++) {
+			if("actor".equals(factories[i].getName())) hasActor = true;
 		}
 
 		assertTrue("Factory " + "actor" + " is not found in jboss-seam.jar", hasActor);
@@ -289,7 +295,37 @@ public class ScannerTest extends TestCase {
 		 */
 		Set<ISeamFactory> components = seamProject.getFactoriesByName("actor");
 	
-		assertTrue("Seam builder must put actor to project.", components.size()==1);		
+		assertTrue("Seam builder must put actor to project.", components.size()==1);
+		
+		
+		//1. Test component declaration org.jboss.seam.core.dispatcher
+		
+		ISeamJavaComponentDeclaration d = (ISeamJavaComponentDeclaration)findDeclaration(componentDeclarations, "org.jboss.seam.core.dispatcher");
+		assertTrue("Java declaration 'org.jboss.seam.core.dispatcher' is not found", d != null);
+		assertTrue("Java declaration 'org.jboss.seam.core.dispatcher' must be stateless", d.isOfType(BeanType.STATELESS));
+		assertTrue("Java declaration 'org.jboss.seam.core.dispatcher' must have precedence 0", d.getPrecedence() == 0);
+		
+		//2. Test component declaration org.jboss.seam.core.ejb
+		
+		d = (ISeamJavaComponentDeclaration)findDeclaration(componentDeclarations, "org.jboss.seam.core.ejb");
+		assertTrue("Java declaration 'org.jboss.seam.core.ejb' is not found", d != null);
+		assertTrue("Java declaration 'org.jboss.seam.core.dispatcher' must have precedence 0", d.getPrecedence() == 0);
+		Set<ISeamComponentMethod> methods = d.getMethods();
+		ISeamComponentMethod m = find(methods, "startup");
+		assertTrue("Declared method 'startup' is not found in 'org.jboss.seam.core.ejb'", m != null);
+		assertTrue("Method 'startup' in 'org.jboss.seam.core.ejb' must be create method", m.isOfType(SeamComponentMethodType.CREATE));
+		m = find(methods, "shutdown");
+		assertTrue("Declared method 'shutdown' is not found in 'org.jboss.seam.core.ejb'", m != null);
+		assertTrue("Method 'shutdown' in 'org.jboss.seam.core.ejb' must be destroy method", m.isOfType(SeamComponentMethodType.DESTROY));
+		
+		
+	}
+	
+	private ISeamComponentMethod find(Set<ISeamComponentMethod> methods, String name) {
+		for (ISeamComponentMethod m : methods) {
+			if(name.equals(m.getSourceMember().getElementName())) return m;
+		}
+		return null;
 	}
 	
 	/**
