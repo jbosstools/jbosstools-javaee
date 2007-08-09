@@ -33,6 +33,7 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
@@ -275,12 +276,10 @@ public class ScannerTest extends TestCase {
 		}
 		assertTrue("Factories are not found in jboss-seam.jar", factories != null && factories.length > 0);
 		
-		boolean hasActor = false;
-		for (int i = 0; i < factories.length && !hasActor; i++) {
-			if("actor".equals(factories[i].getName())) hasActor = true;
-		}
-
-		assertTrue("Factory " + "actor" + " is not found in jboss-seam.jar", hasActor);
+		// Test factory 'actor'
+		ISeamXmlFactory actor = (ISeamXmlFactory)find(factories, "actor");
+		assertTrue("Factory " + "actor" + " is not found in jboss-seam.jar", actor != null);
+		assertTrue("Factory " + "actor" + " loaded wrong value", "#{org.jboss.seam.core.actor}".equals(actor.getValue()));
 		
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
@@ -289,14 +288,13 @@ public class ScannerTest extends TestCase {
 			fail("Cannot build");
 		}
 
-		/*
-		 * After having tested details of library scanner now let us check
-		 * that it succeeded in build.
-		 */
+		//After having tested details of library scanner now let us check
+		//that it succeeded in build.
 		Set<ISeamFactory> components = seamProject.getFactoriesByName("actor");
 	
 		assertTrue("Seam builder must put actor to project.", components.size()==1);
 		
+		//Test components
 		
 		//1. Test component declaration org.jboss.seam.core.dispatcher
 		
@@ -318,12 +316,28 @@ public class ScannerTest extends TestCase {
 		assertTrue("Declared method 'shutdown' is not found in 'org.jboss.seam.core.ejb'", m != null);
 		assertTrue("Method 'shutdown' in 'org.jboss.seam.core.ejb' must be destroy method", m.isOfType(SeamComponentMethodType.DESTROY));
 		
+		//3. Test component declaration org.jboss.seam.core.eventContext
+		
+		d = (ISeamJavaComponentDeclaration)findDeclaration(componentDeclarations, "org.jboss.seam.core.eventContext");
+		assertTrue("Java declaration 'org.jboss.seam.core.eventContext' is not found", d != null);
+		methods = d.getMethods();
+		m = find(methods, "getContext");
+		assertTrue("Declared method 'getContext' is not found in 'org.jboss.seam.core.eventContext'", m != null);
+		assertTrue("Method 'getContext' in 'org.jboss.seam.core.eventContext' must be unwrap method", m.isOfType(SeamComponentMethodType.UNWRAP));
+		
 		
 	}
 	
 	private ISeamComponentMethod find(Set<ISeamComponentMethod> methods, String name) {
 		for (ISeamComponentMethod m : methods) {
 			if(name.equals(m.getSourceMember().getElementName())) return m;
+		}
+		return null;
+	}
+	
+	private ISeamFactory find(ISeamFactory[] factories, String name) {
+		for (int i = 0; i < factories.length; i++) {
+			if("actor".equals(factories[i].getName())) return factories[i];
 		}
 		return null;
 	}
