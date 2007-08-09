@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -29,6 +30,12 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 public class SeamFacetInstallDataModelProvider extends
 		FacetInstallDataModelProvider implements ISeamFacetDataModelProperties {
 	
+	@Override
+	public IStatus validate(String name) {
+		// TODO Auto-generated method stub
+		return super.validate(name);
+	}
+
 	public static final Map<String,String[]> SEAM_LIBRARIES= new HashMap<String,String[]>();
 	
 	static {

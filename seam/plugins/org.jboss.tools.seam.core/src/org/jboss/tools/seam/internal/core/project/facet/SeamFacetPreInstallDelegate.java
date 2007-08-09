@@ -33,12 +33,25 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 		Properties props = connProfile.getProperties("org.eclipse.datatools.connectivity.db.generic.connectionProfile");
 
 		// Collect properties name from DTP Connection Profile
-		model.setProperty(ISeamFacetDataModelProperties.DB_USER_NAME,props.get("org.eclipse.datatools.connectivity.db.username").toString());
-		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_CLASS_NAME,props.get("org.eclipse.datatools.connectivity.db.driverClass").toString());
-		model.setProperty(ISeamFacetDataModelProperties.DB_USERP_PASSWORD,props.get("org.eclipse.datatools.connectivity.db.password").toString());
-		model.setProperty(ISeamFacetDataModelProperties.JDBC_URL_FOR_DB,props.get("org.eclipse.datatools.connectivity.db.URL").toString());
-		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,DriverManager.getInstance().getDriverInstanceByID(
-		props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());
+		model.setProperty(ISeamFacetDataModelProperties.DB_USER_NAME,
+				props.get("org.eclipse.datatools.connectivity.db.username")==null
+				?"":props.get("org.eclipse.datatools.connectivity.db.username").toString());
+		
+		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_CLASS_NAME,
+				props.get("org.eclipse.datatools.connectivity.db.driverClass")==null
+				?"":props.get("org.eclipse.datatools.connectivity.db.driverClass").toString());
+		
+		model.setProperty(ISeamFacetDataModelProperties.DB_USERP_PASSWORD,
+				props.get("org.eclipse.datatools.connectivity.db.password")==null
+				?"":props.get("org.eclipse.datatools.connectivity.db.password").toString());
+		
+		model.setProperty(ISeamFacetDataModelProperties.JDBC_URL_FOR_DB,
+				props.get("org.eclipse.datatools.connectivity.db.URL")==null
+				?"":props.get("org.eclipse.datatools.connectivity.db.URL").toString());
+		
+		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
+				DriverManager.getInstance().getDriverInstanceByID(
+							props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());
 		
 	}
 

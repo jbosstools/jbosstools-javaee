@@ -22,15 +22,15 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathContainer;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
+import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -98,16 +98,12 @@ public class WtpUtils {
 	}
 
 	public static String getServerRuntimeName(IProject project) {
-		IJavaProject javaProject = JavaCore.create(project);
-
-		if(javaProject!=null) {
-			try {
-				IFacetedProject facetedProject = ProjectFacetsManager.create(project);
-				return facetedProject.getPrimaryRuntime().getName();
-			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
+			IRuntime rt = facetedProject.getPrimaryRuntime();
+			return facetedProject.getPrimaryRuntime().getName();
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
 		}
 		return "";
 	}

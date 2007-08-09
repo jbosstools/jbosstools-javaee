@@ -45,12 +45,13 @@ public class ValidatorFactory {
 	/**
 	 * 
 	 */
-	static public Map<String, IValidator> validators = new HashMap<String, IValidator>();
+	static public Map<String, IValidator> validators 
+											= new HashMap<String, IValidator>();
 
 	/**
 	 * 
 	 */
-	static public Map<String, String> NO_ERRORS = Collections
+	static public final Map<String, String> NO_ERRORS = Collections
 			.unmodifiableMap(new HashMap<String, String>());
 
 	/**
@@ -94,6 +95,18 @@ public class ValidatorFactory {
 
 	/**
 	 * 
+	 * @param text
+	 * @return
+	 */
+	public static Map<String, String> createErrormessage(String propertyName, 
+																 String text) {
+		Map<String, String> map = createErrorMap();
+		map.put(propertyName, text);
+		return map;
+	}
+	
+	/**
+	 * 
 	 */
 	public static final IValidator FILE_SYSTEM_FOLDER_EXISTS = new IValidator() {
 
@@ -129,7 +142,8 @@ public class ValidatorFactory {
 				return errors;
 			}
 			if (!new File(value.toString(), "seam").isFile()) {
-				errors = createErrormessage("Seam Home Folde field points to location that doesn't look like seam home folder");
+				errors = createErrormessage("Seam Home Folde field points to " +
+						"location that doesn't look like seam home folder");
 
 			}
 			return errors;
@@ -150,10 +164,10 @@ public class ValidatorFactory {
 				return errors;
 			}
 			if (!new File(value.toString(), "bin/twiddle.jar").isFile()) {
-				errors
-						.put(
-								ISeamFacetDataModelProperties.JBOSS_AS_HOME,
-								"JBoss AS Home Folde field points to location that doesn't look like JBoss AS home folder");
+				errors.put(
+					ISeamFacetDataModelProperties.JBOSS_AS_HOME,
+					"JBoss AS Home Folde field points to location that doesn't " +
+					"look like JBoss AS home folder");
 			}
 			return errors;
 		}
@@ -197,27 +211,9 @@ public class ValidatorFactory {
 	public static IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
-			String targetName = null;
-			IProject project = null;
-			if (context instanceof Object[]) {
-				Object[] contextArray = ((Object[]) context);
-				targetName = contextArray[0].toString();
-				project = (IProject) contextArray[1];
-			}
-
-			// to allow qualified names for component use import statement as
-			// target
-			String classDecl = "import " + value.toString()
-					+ "; class Dummy {}";
-			ASTParser parser = ASTParser.newParser(AST.JLS3);
-			parser.setSource(classDecl.toCharArray());
-			parser.setProject(JavaCore.create(project));
-			CompilationUnit compilationUnit = (CompilationUnit) parser
-					.createAST(null);
-			IProblem[] problems = compilationUnit.getProblems();
-
-			if (problems.length > 0) {
-				return createErrormessage(targetName + " name is not valid.");
+			IStatus status = JavaConventions.validateClassFileName(value.toString()+".class", "5.0", "5.0");
+			if (!status.isOK()) {
+				return createErrormessage("{0} name is not valid.");
 			}
 
 			return NO_ERRORS;
@@ -267,13 +263,10 @@ public class ValidatorFactory {
 				project = (IProject) contextArray[1];
 			}
 
-			String classDecl = "class ClassName {public void "
-					+ value.toString() + "() {}}";
-			ASTParser parser = ASTParser.newParser(AST.JLS3);
-			parser.setSource(classDecl.toCharArray());
-			parser.setProject(JavaCore.create(project));
-			CompilationUnit compilationUnit = (CompilationUnit) parser
-					.createAST(null);
+			CompilationUnit compilationUnit = createCompilationUnit(
+					"class ClassName {public void "
+					+ value.toString() + "() {}}",project);
+			
 			IProblem[] problems = compilationUnit.getProblems();
 
 			if (problems.length > 0) {
@@ -311,13 +304,13 @@ public class ValidatorFactory {
 
 			if (project == null || !(project instanceof IProject)
 					|| !project.exists()) {
-				return createErrormessage("Project '" + value
-						+ "' does'n exist.");
+				return createErrormessage(
+						"Project '" + value	+ "' does'n exist.");
 			} else {
 				try {
 					if (!((IProject) project).hasNature(ISeamProject.NATURE_ID)) {
-						return createErrormessage("Project '"
-								+ project.getName() + "' has no Seam nature.");
+						return createErrormessage(
+								"Project '" + project.getName() + "' has no Seam nature");
 					}
 				} catch (CoreException e) {
 					SeamCorePlugin.getPluginLog().logError(e);
@@ -327,12 +320,25 @@ public class ValidatorFactory {
 		}
 	};
 
-	public static IValidator CONNECTION_PROFILE_IS_NOT_SELECTED = new IValidator() {
+	public static IValidator CONNECTION_PROFILE_IS_NOT_SELECTED = 
+															new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			if (value == null || "".equals(value.toString().trim())) {
-				return createErrormessage("Connection profile is not selected.");
+				return createErrormessage(
+						ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
+						"Connection profile is not selected");
 			}
 			return NO_ERRORS;
 		}
 	};
+	
+	public static CompilationUnit createCompilationUnit(String classDecl, 
+															IProject project) {
+		ASTParser parser = ASTParser.newParser(AST.JLS3);
+		parser.setSource(classDecl.toCharArray());
+		parser.setProject(JavaCore.create(project));
+		CompilationUnit compilationUnit = (CompilationUnit) parser
+				.createAST(null);
+		return compilationUnit;
+	}
 }

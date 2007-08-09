@@ -27,6 +27,7 @@ import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -186,29 +187,29 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!"war".equals(type));
 		
 		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), new Object[]{"Seam component",project});
+				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), null);
 		
 		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).toString(),"Seam component"));
 			setPageComplete(false);
 			return;
 		}
 		
 		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), new Object[]{"Local interface",project});
+				editorRegistry.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), null);
 		
 		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).toString(),"Local interface"));
 			setPageComplete(false);
 			return;
 		}
 
 		if(!isWar()) {
 			errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
-					editorRegistry.get(IParameter.SEAM_BEAN_NAME).getValue(), new Object[]{"Bean",project});
+					editorRegistry.get(IParameter.SEAM_BEAN_NAME).getValue(), null);
 			
 			if(errors.size()>0) {
-				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).toString(),"Bean"));
 				setPageComplete(false);
 				return;
 			}

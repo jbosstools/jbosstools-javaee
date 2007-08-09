@@ -13,13 +13,17 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
 import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
 import org.eclipse.datatools.connectivity.ui.dse.dialogs.ProfileSelectionComposite;
+import org.eclipse.jdt.core.JavaConventions;
+import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -56,6 +60,7 @@ import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		IFacetWizardPage, IDataModelListener {
 	
+	public static final String PAGE_DESCRIPTION = "Configure Seam Facet Settings";
 	/**
 	 *
 	 */
@@ -93,7 +98,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	IFieldEditor connProfileSelEditor = IFieldEditorFactory.INSTANCE
 			.createComboWithTwoButtons(
 					ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-					"Connection profile", getProfileNameList(), "", true,
+					"Connection profile:", getProfileNameList(), SeamCorePlugin.getDefault().getPluginPreferences().getString(
+							SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE), true,
 					new EditConnectionProfileAction(),
 					new NewConnectionProfileAction(),
 					ValidatorFactory.NO_ERRORS_VALIDATOR);
@@ -176,7 +182,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		setTitle("Seam Facet");
 		setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class,
 				"SeamWebProjectWizBan.png"));
-		setDescription("Configure Seam Facest Settings");
+		setDescription(PAGE_DESCRIPTION);
 	}
 
 	/**
@@ -207,7 +213,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	public void transferStateToConfig() {
 		if( seamHomeRequiresSave) {
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-				SeamFacetPreference.SEAM_HOME_FOLDER, jBossSeamHomeEditor.getValueAsString());	
+				SeamFacetPreference.SEAM_HOME_FOLDER, jBossSeamHomeEditor.getValueAsString());
+		}
+		if("".equals(SeamCorePlugin.getDefault().getPluginPreferences().getString((
+				SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE)))) {
+			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
+				SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE, connProfileSelEditor.getValueAsString());	
 		}
 	}
 		
@@ -286,10 +297,31 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		registerEditor(testsPkgNameditor, generationGroup, 3);
 
 		setControl(root);
+		NewProjectDataModelFacetWizard wizard = (NewProjectDataModelFacetWizard) getWizard();
+		
+		IDataModel model = wizard.getDataModel();
 
-
-		setMessage(null);
-		setErrorMessage(null);
+		if(validatorDelegate==null) {
+			validatorDelegate = new DataModelValidatorDelegate(this.model, this);
+			validatorDelegate.addValidatorForProperty(
+					jBossSeamHomeEditor.getName(),
+					ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
+			validatorDelegate
+					.addValidatorForProperty(connProfileSelEditor.getName(),
+							ValidatorFactory.CONNECTION_PROFILE_IS_NOT_SELECTED);
+			validatorDelegate
+				.addValidatorForProperty(testsPkgNameditor.getName(),
+						 new PackageNameValidator(
+								 testsPkgNameditor.getName(), "tests"));
+			validatorDelegate
+				.addValidatorForProperty(entityBeanPkgNameditor.getName(),
+						 new PackageNameValidator(
+								 entityBeanPkgNameditor.getName(), "entity beans"));
+			validatorDelegate
+				.addValidatorForProperty(sessionBeanPkgNameditor.getName(),
+						 new PackageNameValidator(
+								 sessionBeanPkgNameditor.getName(), "session beans"));			
+		} 
 	}
 
 	/**
@@ -421,32 +453,52 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 */
 	@Override
 	public void setVisible(boolean visible) {
-		NewProjectDataModelFacetWizard wizard = (NewProjectDataModelFacetWizard) getWizard();
-		
-		IDataModel model = wizard.getDataModel();
 		sessionBeanPkgNameditor
-				.setValue("org.domain."
-						+ model
-								.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
-						+ ".session");
+			.setValue("org.domain."
+				+ model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
+				+ ".session");
 		entityBeanPkgNameditor
-				.setValue("org.domain."
-						+ model
-								.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
-						+ ".entity");
+			.setValue("org.domain."
+				+ model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
+				+ ".entity");
 		testsPkgNameditor
-				.setValue("org.domain."
-						+ model
-								.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
-						+ ".test");
-		
-		validatorDelegate = new DataModelValidatorDelegate(model, this);
-		validatorDelegate.addValidatorForProperty(
-				jBossSeamHomeEditor.getName(),
-				ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR);
-		validatorDelegate
-				.addValidatorForProperty(connProfileSelEditor.getName(),
-						ValidatorFactory.CONNECTION_PROFILE_IS_NOT_SELECTED);
+			.setValue("org.domain."
+				+ model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
+				+ ".test");
+		if(visible) {
+			String message = validatorDelegate.getFirstValidationError();
+			this.setPageComplete(message==null);
+			this.setMessage(message);
+		}
 		super.setVisible(visible);
 	};
+	
+	public class PackageNameValidator implements IValidator {
+
+		String fieldName;
+		String targetName;
+		
+		/**
+		 * @param fieldName
+		 * @param targetName
+		 */
+		public PackageNameValidator(String fieldName, String targetName) {
+			this.fieldName = fieldName;
+			this.targetName = targetName;
+		}
+		
+		/**
+		 * @see IValidator#validate(Object, Object)
+		 */
+		public Map<String, String> validate(Object value, Object context) {
+			IStatus status = JavaConventions.validatePackageName(
+				value.toString(),
+				CompilerOptions.VERSION_1_5,
+				CompilerOptions.VERSION_1_5);
+			if(!status.isOK()) {
+				return ValidatorFactory.createErrormessage(fieldName, "Package name for " + targetName  + " is not valid" );
+			}
+			return ValidatorFactory.NO_ERRORS;
+		}
+	}
 }

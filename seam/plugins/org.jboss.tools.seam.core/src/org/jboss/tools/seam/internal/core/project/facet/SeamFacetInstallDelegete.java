@@ -268,7 +268,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			
 			AntCopyUtils.copyFileToFolder(
 					hibernateConsolePref,
-					new File(project.getLocation().toFile(),".settings"),
+					new File(project.getLocation().toFile(),".settings"),	
 					new FilterSetCollection(projectFilterSet), true);
 			
 			// In case of WAR configuration
@@ -330,12 +330,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 							}
 						}
 					}
-					
-					
-					
-					 
-			         
-					
+
 					if(s==null) {
 						return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID, "No server selected to deploy datasource to");							
 					} 
@@ -477,10 +472,10 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			create.schedule();
 		}
 		ClasspathHelper.addClasspathEntries(project, fv);
-		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		
+	
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
 
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
 	public static boolean isWarConfiguration(IDataModel model) {

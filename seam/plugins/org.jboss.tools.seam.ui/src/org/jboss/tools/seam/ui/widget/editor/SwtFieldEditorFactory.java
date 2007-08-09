@@ -165,6 +165,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			}
 		};
 	}
+	
 	/**
 	 * 
 	 */
@@ -172,7 +173,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			List values, Object defaultValue, boolean flat,
 			ButtonPressedAction action1, ButtonPressedAction action2,
 			IValidator validator) {
-		CompositeEditor editor = new CompositeEditor("seam.project.connection.profile","Connection Profile",null);
+		CompositeEditor editor = new CompositeEditor(name,label,defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{
 				new LabelFieldEditor(name,label),
 				new ComboFieldEditor(name,label, values, defaultValue, false),
