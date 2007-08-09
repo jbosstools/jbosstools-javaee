@@ -53,8 +53,12 @@ public class SeamExpressionResolver {
 	 */
 	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
 		if (project == null || name == null) return null;
-		return (scope == null ? internalResolveVariables(project, name, onlyEqualNames) :
-				internalResolveVariablesByScope(project, scope, name, onlyEqualNames));
+/*  
+ * JBIDE-670 scope isn't used anymore
+ */		
+//		return (scope == null ? internalResolveVariables(project, name, onlyEqualNames) :
+//				internalResolveVariablesByScope(project, scope, name, onlyEqualNames));
+		return internalResolveVariables(project, name, onlyEqualNames);
 	}
 	
 	/**
