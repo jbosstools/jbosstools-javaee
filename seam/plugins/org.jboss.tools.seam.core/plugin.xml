@@ -107,10 +107,6 @@
          point="org.eclipse.wst.common.project.facet.core.runtimes">
       <supported>
          <runtime-component
-               id="org.eclipse.jst.server.generic.runtime.jboss"
-               version="4.2">
-         </runtime-component>
-         <runtime-component
                id="org.jboss.ide.eclipse.as.runtime.component.40"
                version="4.0">
          </runtime-component>
