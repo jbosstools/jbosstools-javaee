@@ -1,7 +1,9 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
@@ -10,6 +12,8 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileConstants;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileReader;
 import org.eclipse.jdt.internal.compiler.env.EnumConstantSignature;
@@ -23,13 +27,16 @@ import org.eclipse.jdt.internal.compiler.impl.StringConstant;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IValueInfo;
+import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
+import org.jboss.tools.seam.internal.core.SeamComponentMethod;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.Util;
+import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
@@ -181,11 +188,8 @@ public class TypeScanner implements SeamAnnotations {
 		if(a != null) {
 			processFactory(m, a, component, ds);
 		}
-		IBinaryAnnotation in = map.get(IN_ANNOTATION_TYPE);
-		IBinaryAnnotation out = map.get(OUT_ANNOTATION_TYPE);
-		if(in != null || out != null) {
-			processBijection(m, in, out, component, ds);
-		}
+		processBijection(m, map, component, ds);
+		processComponentMethod(m, map, component, ds);
 	}
 	
 	private void processFactory(IBinaryMethod m, IBinaryAnnotation a, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
@@ -212,27 +216,53 @@ public class TypeScanner implements SeamAnnotations {
 		}
 	}
 	
-	private void processBijection(IBinaryMethod m, IBinaryAnnotation in, IBinaryAnnotation out, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
-		if(in == null && out == null) return;
+	private void processBijection(IBinaryMethod m, Map<String,IBinaryAnnotation> map, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
+		Map<BijectedAttributeType, IBinaryAnnotation> as = new HashMap<BijectedAttributeType, IBinaryAnnotation>();
+		List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
+		IBinaryAnnotation main = null;
+		for (int i = 0; i < BijectedAttributeType.values().length; i++) {
+			IBinaryAnnotation a = map.get(BijectedAttributeType.values()[i].getAnnotationType());
+			if(a != null) {
+				as.put(BijectedAttributeType.values()[i], a);
+				if(main == null) main = a;
+				types.add(BijectedAttributeType.values()[i]);
+			}
+		}
+		if(as.size() == 0) return;
+
 		BijectedAttribute att = new BijectedAttribute();
 		component.addBijectedAttribute(att);
 
-		BijectedAttributeType[] types = (in == null) ? new BijectedAttributeType[]{BijectedAttributeType.OUT}
-			: (out == null) ? new BijectedAttributeType[]{BijectedAttributeType.IN}
-			: new BijectedAttributeType[]{BijectedAttributeType.IN, BijectedAttributeType.OUT};
-		att.setTypes(types);
+		att.setTypes(types.toArray(new BijectedAttributeType[0]));
 
-		String name = (String)getValue(in != null ? in : out, "value");
+		String name = (String)getValue(main, "value");
 		if(name == null || name.length() == 0) {
 			name = new String(m.getSelector());
 		}
 		att.setName(name);
-		Object scope = getValue(in != null ? in : out, "scope");
+		Object scope = getValue(main, "scope");
 		if(scope != null) att.setScopeAsString(scope.toString());
 
 		IMember im = findIMethod(component, m);
 		att.setSourceMember(im);
 		
+	}
+
+	void processComponentMethod(IBinaryMethod m, Map<String,IBinaryAnnotation> map, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
+		SeamComponentMethod cm = null;
+		for (int i = 0; i < SeamComponentMethodType.values().length; i++) {
+			SeamComponentMethodType type = SeamComponentMethodType.values()[i];
+			IBinaryAnnotation a = map.get(type.getAnnotationType());
+			if(a == null) continue;
+			if(cm == null) {
+				cm = new SeamComponentMethod();
+				component.addMethod(cm);
+				IMethod im = findIMethod(component, m);
+				cm.setSourceMember(im);
+				cm.setId(im);
+			}
+			cm.getTypes().add(type);
+		}
 	}
 
 	private String getValue(IBinaryAnnotation a, String method) {

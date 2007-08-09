@@ -232,7 +232,6 @@ public class ComponentBuilder implements SeamAnnotations {
 					cm = new SeamComponentMethod();
 					component.addMethod(cm);
 					MethodDeclaration m = n.getNode();
-					component.addMethod(cm);
 					IMethod im = findMethod(m);
 					cm.setSourceMember(im);
 					cm.setId(im);
