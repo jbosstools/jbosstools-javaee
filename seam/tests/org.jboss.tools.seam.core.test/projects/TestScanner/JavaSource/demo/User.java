@@ -63,5 +63,10 @@ public class User {
 	@Create @Destroy
 	public void createAndDestroyMethod() {
 	}
+	
+	@Factory(value="myFactory", scope=ScopeType.SESSION)
+	public void testFactory() {
+		
+	}
 
 }

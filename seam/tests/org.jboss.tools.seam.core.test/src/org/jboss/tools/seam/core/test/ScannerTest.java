@@ -25,6 +25,7 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
+import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
@@ -113,9 +114,12 @@ public class ScannerTest extends TestCase {
 		assertTrue("Scanner cannot recognise components.xml", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise components.xml content", scanner.isLikelyComponentSource(f));
 		ISeamComponentDeclaration[] cs = null;
+		ISeamFactory[] fs = null;
 		
 		try {
-			cs = scanner.parse(f).getComponents().toArray(new ISeamComponentDeclaration[0]);
+			LoadedDeclarations ds = scanner.parse(f);
+			cs = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
+			fs = ds.getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
 			fail("Error in xml scanner:" + e.getMessage());
 		}
@@ -179,7 +183,15 @@ public class ScannerTest extends TestCase {
 		assertTrue("Property bundleNames misses value 'bundleA'.", "bundleA".equals(oList.getValues().get(0).getValue().getValue()));
 		assertTrue("Property bundleNames misses value 'bundleB'.", "bundleB".equals(oList.getValues().get(1).getValue().getValue()));
 		
-		//TODO check factory
+		//3. components.xml has entry
+		//<factory name="factory1" scope="conversation"/>
+		// check that
+		// a) declaration 'factory1' exists,
+		// b) it has scope 'conversation'.
+		ISeamFactory factory = find(fs, "factory1");
+		assertTrue("Declared factory 'factory1' is not found in components.xml", factory != null);
+		ISeamXmlFactory af = (ISeamXmlFactory)factory;
+		assertTrue("Scope of 'factory1' must be 'conversation'", af.getScope() == ScopeType.CONVERSATION);
 	}
 	
 	private ISeamComponentDeclaration findDeclaration(ISeamComponentDeclaration[] declarations, String name) {
@@ -199,9 +211,12 @@ public class ScannerTest extends TestCase {
 		assertTrue("Scanner cannot recognise User.java", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise User.java content", scanner.isLikelyComponentSource(f));
 		ISeamComponentDeclaration[] cs = null;
+		ISeamFactory[] fs = null;
 		
 		try {
-			cs = scanner.parse(f).getComponents().toArray(new ISeamComponentDeclaration[0]);
+			LoadedDeclarations ds = scanner.parse(f);
+			cs = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
+			fs = ds.getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
 			fail("Error in java scanner:" + e.getMessage());
 		}
@@ -239,8 +254,23 @@ public class ScannerTest extends TestCase {
 		IBijectedAttribute a2 = findBijectedAttribute(bijected, "payment");
 		assertTrue("Attribute 'payment' is not found in bijected attributes", a2 != null);
 		assertTrue("Attribute 'payment' is @In annotated", a2.isOfType(BijectedAttributeType.IN));
-	
-		//To be continued
+
+		// e) @Create @Destroy @Unwrap
+		Set<ISeamComponentMethod> methods = myUser.getMethods();
+		ISeamComponentMethod m = find(methods, "unwrapMethod");
+		assertTrue("Declared method 'unwrapMethod' is not found in 'myUser'", m != null);
+		assertTrue("Method 'unwrapMethod' in 'myUser' must be create method", m.isOfType(SeamComponentMethodType.UNWRAP));
+		m = find(methods, "createAndDestroyMethod");
+		assertTrue("Declared method 'createAndDestroyMethod' is not found in 'myUser'", m != null);
+		assertTrue("Method 'createAndDestroyMethod' in 'myUser' must be create method", m.isOfType(SeamComponentMethodType.CREATE));
+		assertTrue("Method 'createAndDestroyMethod' in 'myUser' must be destroy method", m.isOfType(SeamComponentMethodType.DESTROY));
+
+		// f) @Factory
+		ISeamFactory myFactory = find(fs, "myFactory");
+		assertTrue("Declared factory 'myFactory' is not found in 'myUser'", myFactory != null);
+		ISeamAnnotatedFactory af = (ISeamAnnotatedFactory)myFactory;
+		assertTrue("Scope of 'myFactory' must be 'session'", af.getScope() == ScopeType.SESSION);
+
 	}
 	
 	private IBijectedAttribute findBijectedAttribute(Set<IBijectedAttribute> bijected, String name) {
@@ -337,7 +367,7 @@ public class ScannerTest extends TestCase {
 	
 	private ISeamFactory find(ISeamFactory[] factories, String name) {
 		for (int i = 0; i < factories.length; i++) {
-			if("actor".equals(factories[i].getName())) return factories[i];
+			if(name.equals(factories[i].getName())) return factories[i];
 		}
 		return null;
 	}

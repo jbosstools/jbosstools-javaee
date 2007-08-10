@@ -29,4 +29,6 @@
  	conversation-timeout="3"
  />
  
+ <factory name="factory1" scope="conversation"/>
+ 
 </components>
