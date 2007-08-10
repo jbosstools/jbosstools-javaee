@@ -36,9 +36,10 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 	}
 
 	public void setScopeAsString(String scope) {
-		if(scope != null && scope.indexOf('.') > 0) {
-			scope = scope.substring(scope.lastIndexOf('.'));
+		if(scope != null && scope.indexOf('.') >= 0) {
+			scope = scope.substring(scope.lastIndexOf('.') + 1);
 		}
+		this.scope = scope;
 		try {
 			this.scopeType = scope == null || scope.length() == 0 ? ScopeType.UNSPECIFIED : ScopeType.valueOf(scope.toUpperCase());
 		} catch (IllegalArgumentException e) {
