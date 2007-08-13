@@ -11,8 +11,14 @@
 
 package org.jboss.tools.seam.ui.test.wizard;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import junit.framework.TestCase;
+
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * @author eskimo
@@ -21,35 +27,16 @@ import junit.framework.TestCase;
 public class SeamFormNewWizardTest extends TestCase {
 
 	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void tearDown() throws Exception {
-	}
-
-	/**
-	 * 
-	 */
-	public void testSeamFormNewWizardIsDefined() {
-		fail("Not yet implemented");
-	}
-	
-	/**
 	 * 
 	 */
 	public void testSeamFormNewWizardInstanceIsCreated() {
-		fail("Not yet implemented");
-	}
-	
-	/**
-	 * 
-	 */
-	public void testSeamFormNewWizardIsAvailableInNewMenu() {
-		fail("Not yet implemented");
+		IWizard
+		aWizard = WorkbenchUtils.findWizardByDefId(
+				ISeamUiConstants.NEW_SEAM_FORM_WIZARD_ID);
+		
+		WizardDialog dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				aWizard);
+		IWizardPage startPage = aWizard.getStartingPage();
 	}
 }

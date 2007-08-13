@@ -39,7 +39,7 @@
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
             icon="icons/seam16.png"
-            id="org.jboss.tools.seam.ui.wizard2"
+            id="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
             name="Seam Form">
          <description>
             Create a Seam Form

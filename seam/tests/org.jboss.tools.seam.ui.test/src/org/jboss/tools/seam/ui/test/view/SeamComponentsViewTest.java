@@ -11,8 +11,12 @@
 
 package org.jboss.tools.seam.ui.test.view;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import junit.framework.TestCase;
+
+import org.eclipse.ui.IWorkbenchPage;
+import org.jboss.tools.jst.web.ui.RedHat4WebPerspectiveFactory;
+import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * 
@@ -21,46 +25,21 @@ import junit.framework.TestCase;
  */
 public class SeamComponentsViewTest extends TestCase {
 
-	/**
-	 * 
-	 */
+	
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-	}
+		WorkbenchUtils.getWorkbench().showPerspective(
+				RedHat4WebPerspectiveFactory.PERSPECTIVE_ID,
+				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
+		}
 
-	/**
-	 * 
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
-	/**
-	 * 
-	 */
-	public void testSeamComponentsViewisDefined() {
-		fail("Not yet implemented");
-	}
-	
-	/**
-	 * 
-	 */
-	public void testSeamComponentsViewIsViewMenuOnPerspective() {
-		fail("Not yet implemented");
-	}
-	
 	/**
 	 * 
 	 */
 	public void testSeamComponentsViewIsShowedOnPerspective() {
-		fail("Not yet implemented");
-	}
-	
-	/**
-	 * 
-	 */
-	public void testSeamComponentsViewInstamceIsCreated() {
-		fail("Not yet implemented");
+		IWorkbenchPage page  = WorkbenchUtils.getWorkbenchActivePage();
+		page.findView(ISeamUiConstants.SEAM_COMPONENTS_VIEW_ID);
 	}
 	
 }

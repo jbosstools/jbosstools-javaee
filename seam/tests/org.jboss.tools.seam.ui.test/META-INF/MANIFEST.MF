@@ -4,7 +4,12 @@ Bundle-Name: Seam UI Tets Plug-in
 Bundle-SymbolicName: org.jboss.tools.seam.ui.test
 Bundle-Version: 1.0.0
 Bundle-Vendor: Red Hat, Inc.
-Require-Bundle: org.junit
+Require-Bundle: org.junit,
+ org.jboss.tools.seam.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.jboss.tools.tests,
+ org.jboss.tools.jst.web.ui
 Export-Package: org.jboss.tools.seam.ui.test,
  org.jboss.tools.seam.ui.test.view,
  org.jboss.tools.seam.ui.test.wizard

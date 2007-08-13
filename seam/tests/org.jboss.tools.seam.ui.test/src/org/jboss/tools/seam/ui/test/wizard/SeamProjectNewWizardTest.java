@@ -12,7 +12,13 @@
 package org.jboss.tools.seam.ui.test.wizard;
 
 import junit.framework.TestCase;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * @author eskimo
@@ -20,37 +26,28 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class SeamProjectNewWizardTest extends TestCase{
 	
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void tearDown() throws Exception {
-	}
-	
-	/**
-	 * 
-	 */
-	public void testSeamProjectNewWizardIsDefined() {
-		fail("Not yet implemented");
-	}
-	
 	/**
 	 * 
 	 */
 	public void testSeamProjectNewWizardInstanceIsCreated() {
-		fail("Not yet implemented");
-	}
-	
-	/**
-	 * 
-	 */
-	public void testSeamProjectNewWizardIsAvailableInNewMenu() {
-		fail("Not yet implemented");
+		IWizard
+		aWizard = WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
+
+			
+		WizardDialog dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				aWizard);
+		dialog.create();
+		IWizardPage startSeamPrjWzPg = aWizard.getStartingPage();
+		assertNotNull("Cannot create seam start wizard page",startSeamPrjWzPg);
+		IWizardPage projectFacetsWizPg = aWizard.getNextPage(startSeamPrjWzPg);
+		assertNotNull("Cannot create select facets wizard page",projectFacetsWizPg);
+		IWizardPage webModuleWizPg = aWizard.getNextPage(projectFacetsWizPg);
+		assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
+		IWizardPage jsfCapabilitiesWizPg = aWizard.getNextPage(webModuleWizPg);
+		assertNotNull("Cannot create JSF capabilities wizard page",jsfCapabilitiesWizPg);
+		IWizardPage seamWizPg = aWizard.getNextPage(jsfCapabilitiesWizPg);
+		assertNotNull("Cannot create seam facet wizard page",seamWizPg);
+		aWizard.performCancel();
 	}
 }
