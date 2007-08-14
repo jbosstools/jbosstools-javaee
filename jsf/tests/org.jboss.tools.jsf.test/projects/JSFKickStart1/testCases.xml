@@ -113,22 +113,22 @@
 	<!-- Test facet -->
 
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="path" value="/faces-config.xml/Components/c1/facet:f1"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="facet"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="path" value="/faces-config.xml/Components/c1/facet:f1"/>
 		<property name="attributeName" value="facet-name"/>
 		<property name="attributeValue" value="f1"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="path" value="/faces-config.xml/Components/c1/facet:f1"/>
 		<property name="attributeName" value="display-name"/>
 		<property name="attributeValue" value="Facet f1"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Components/c1/f1"/>
+		<property name="path" value="/faces-config.xml/Components/c1/facet:f1"/>
 		<property name="attributeName" value="description"/>
 		<property name="attributeValue" value="Facet Example."/>
 	</test>
@@ -309,7 +309,7 @@
 	</test>
 	<!-- check child elements in renderer -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1/f3"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1/facet:f3"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="facet"/>
 	</test>
