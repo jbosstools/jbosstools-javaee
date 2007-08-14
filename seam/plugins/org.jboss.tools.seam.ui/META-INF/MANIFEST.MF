@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Seam GUI tools
+Bundle-Name: Seam GUI Tools
 Bundle-SymbolicName: org.jboss.tools.seam.ui; singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.seam.ui.SeamGuiPlugin
@@ -63,3 +63,4 @@ Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.widget.editor,
  org.jboss.tools.seam.ui.widget.field,
  org.jboss.tools.seam.ui.wizard
+Bundle-Vendor: Red Hat, Inc.
