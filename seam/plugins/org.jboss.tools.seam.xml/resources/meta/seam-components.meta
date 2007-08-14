@@ -173,7 +173,7 @@
     <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
-   <XActionItem ICON="action.newclass" displayName="New" group="1"
+   <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      WizardClassName="%Default%" displayName="Add Simple Property..."

@@ -63,7 +63,7 @@
      </EntityData>
     </XActionItem>
    </XActionItem>
-   <XActionItem ICON="action.newclass" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -123,7 +123,7 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.newclass" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -150,7 +150,7 @@
    <XChildEntity name="SeamSpringContextLoader"/>
   </XChildrenEntities>
   <XActionItem kind="list">
-   <XActionItem ICON="action.newclass" displayName="New" group="1"
+   <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Spring" group="1"
      kind="list" name="Spring">
@@ -169,7 +169,7 @@
  <XEntityExtension name="FileSeamComponents12_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
-   <XActionItem ICON="action.newclass" displayName="New" group="1"
+   <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Spring" group="1"
      kind="list" name="Spring">
