@@ -68,6 +68,31 @@
 					<axis path="*/web-app/*" />
            		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- Web.xml -->
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/login-config/form-login-config/form-error-page/" />
+         			<axis path="/web-app/login-config/form-login-config/form-login-page/" />
+         			<axis path="/web-app/servlet/jsp-file/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/*/icon/large-icon/" />
+         			<axis path="/web-app/*/icon/small-icon/" />
+         			<axis path="/web-app/taglib/taglib-location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<!-- Web.xml -->
+         			
+         			<axis path="/faces-config/navigation-rule/from-view-id/" />
+         			<axis path="/faces-config/navigation-rule/navigation-case/to-view-id/" />
+         			<axis path="/faces-config/*/icon/large-icon/" />
+         			<axis path="/faces-config/*/icon/small-icon/" />
+           		</partitionType>
+           		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/web-app/*" />
+           		</partitionType>
+         	</contentType>
          	<contentType id="org.eclipse.jst.j2ee.webDD">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<!-- Web.xml -->
@@ -96,6 +121,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/web-app/context-param/param-value/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/web-app/context-param/param-value/" />
          		</partitionType>
@@ -194,6 +224,34 @@
          			<axis path="/faces-config/*/value-class/" />
            		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/action-listener/" />
+         			<axis path="/faces-config/application/navigation-handler/" />
+         			<axis path="/faces-config/application/view-handler/" />
+         			<axis path="/faces-config/application/state-manager/" />
+         			<axis path="/faces-config/application/property-resolver/" />
+         			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/factory/application-factory/" />
+         			<axis path="/faces-config/factory/faces-context-factory/" />
+         			<axis path="/faces-config/factory/lifecycle-factory/" />
+         			<axis path="/faces-config/factory/render-kit-factory/" />
+         			<axis path="/faces-config/component/component-class/" />
+         			<axis path="/faces-config/render-kit/render-kit-class/" />
+         			<axis path="/faces-config/render-kit/renderer/renderer-class/" />
+         			<axis path="/faces-config/converter/converter-class/" />
+         			<axis path="/faces-config/converter/converter-for-class/" />
+         			<axis path="/faces-config/managed-bean/managed-bean-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-class/" />
+         			<axis path="/faces-config/managed-bean/managed-property/map-entries/key-class/" />
+         			<axis path="/faces-config/lifecycle/phase-listener/" />
+         			<axis path="/faces-config/validator/validator-class/" />
+         			<axis path="/faces-config/referenced-bean/referenced-bean-class/" />
+         			<axis path="/faces-config/*/attribute/attribute-class/" />
+         			<axis path="/faces-config/*/property-class/" />
+         			<axis path="/faces-config/*/value-class/" />
+           		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -223,6 +281,14 @@
          			<axis path="/faces-config/validator/property/property-name/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/component/property/property-name/" />
+         			<axis path="/faces-config/converter/property/property-name/" />
+         			<axis path="/faces-config/managed-bean/managed-property/property-name/" />
+         			<axis path="/faces-config/validator/property/property-name/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -239,6 +305,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/default-render-kit-id/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/faces-config/application/default-render-kit-id/" />
          		</partitionType>
@@ -263,6 +334,11 @@
          			<axis path="/faces-config/converter/converter-id/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/converter/converter-id/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -279,6 +355,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/faces-config/application/message-bundle/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/faces-config/application/message-bundle/" />
          		</partitionType>
@@ -888,6 +969,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
+			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
      		</contenttypeidentifier>
@@ -904,6 +988,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
 			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
@@ -923,6 +1010,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
      		</contenttypeidentifier>
@@ -938,6 +1028,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
 			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
@@ -990,6 +1083,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
+			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
      		</contenttypeidentifier>
@@ -1035,6 +1131,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
+			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
      		</contenttypeidentifier>
@@ -1073,6 +1172,9 @@
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
 			</contenttypeidentifier>
 		</hyperlink>
