@@ -59,19 +59,24 @@ public class WtpUtils {
 		return newProjectHandle;
 	}
 	
-	public static IProject createEarProject(String projectName, IProgressMonitor monitor) {
+	public static IProject createEarProject(String projectName, 
+													IProgressMonitor monitor) {
 		IProject earProject = createEclipseProject(projectName,monitor);
-		return null;
+		// TODO - implements this through WTP API
+		return earProject;
 	}
 	
-	public static IProject createDefaultEjbProject(String projectName,IProgressMonitor monitor) {
+	public static IProject createDefaultEjbProject(String projectName,
+													IProgressMonitor monitor) {
 		IProject ejbProject = createEclipseProject(projectName,monitor);
-		//J2EEComponentClasspathContainer.CONTAINER_ID;
-		addJavaNature(ejbProject, new Path("build/classes"), new Path("ejbModule"), monitor);
-		return null;
+		addJavaNature(ejbProject, new Path("build/classes"), 
+				new Path("ejbModule"), monitor);
+		// TODO - implements this through WTP API
+		return ejbProject;
 	}
 	
-	public static void addJavaNature(IProject project, IPath outputLocation, IPath srcLocation, IProgressMonitor monitor) {
+	public static void addJavaNature(IProject project, 
+			IPath outputLocation, IPath srcLocation, IProgressMonitor monitor) {
 		try {
 			IProjectDescription newDescr = project.getDescription();
 			newDescr.setNatureIds(new String[] {JavaCore.NATURE_ID});

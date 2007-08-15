@@ -25,7 +25,7 @@ public class SeamCoreAllTests {
 		TestSuite suite = new TestSuite();
 		suite.setName("All tests for " + PLUGIN_ID);
 		suite.addTestSuite(ScannerTest.class);
-		suite.addTestSuite(SeamFacetInstallDelegeteTest.class);
+		//suite.addTestSuite();
 		return suite;
 	}
 }

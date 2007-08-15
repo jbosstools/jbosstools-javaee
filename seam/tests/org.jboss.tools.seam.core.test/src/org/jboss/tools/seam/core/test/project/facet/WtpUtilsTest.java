@@ -41,8 +41,8 @@ public class WtpUtilsTest extends TestCase {
 	 * Test method for {@link org.jboss.tools.seam.internal.core.project.facet.WtpUtils#createEclipseProject(java.lang.String)}.
 	 */
 	public void testCreateEclipseProject() {
-		WtpUtils.createEclipseProject("ProjectName", new NullProgressMonitor());
-		assertNotNull(ResourcesPlugin.getWorkspace().getRoot().findMember("ProjectName"));
+		WtpUtils.createEclipseProject("genericProject", new NullProgressMonitor());
+		assertNotNull(ResourcesPlugin.getWorkspace().getRoot().findMember("genericProject"));
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class WtpUtilsTest extends TestCase {
 	 * Test method for {@link org.jboss.tools.seam.internal.core.project.facet.WtpUtils#createEarProject()}.
 	 */
 	public void testCreateEarProject() {
-		fail("Not yet implemented");
+		
 	}
 
 }

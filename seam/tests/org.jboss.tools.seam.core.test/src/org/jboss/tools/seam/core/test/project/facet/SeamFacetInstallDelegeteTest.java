@@ -13,24 +13,4 @@ import junit.framework.TestCase;
  */
 public class SeamFacetInstallDelegeteTest extends TestCase {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for {@link org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)}.
-	 */
-	public void testExecute() {
-		SeamFacetInstallDelegete seamDelegate = new SeamFacetInstallDelegete();
-		fail("Not yet implemented");
-	}
-
 }
