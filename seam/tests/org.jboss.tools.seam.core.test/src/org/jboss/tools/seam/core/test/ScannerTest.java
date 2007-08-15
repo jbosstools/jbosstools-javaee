@@ -78,8 +78,13 @@ public class ScannerTest extends TestCase {
 		}
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			XJob.waitForJob();
+			try {
+				XJob.waitForJob();
+			} catch (InterruptedException e) {
+				System.out.println("Interruption ignored");
+			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail("Cannot build");
 		}
 		ISeamProject seamProject = null;
