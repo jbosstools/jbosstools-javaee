@@ -19,12 +19,14 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.rules.IToken;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -764,6 +766,211 @@ public final class SeamELCompletionEngine {
 
 		return documentContent.substring(tokens.get(0).start, offset);
 //		return documentContent.substring(tokens.get(0).start, tokens.get(0).start + tokens.get(0).length);
+	}
+	
+	public String getJavaElementExpression(String documentContent, int offset, IRegion region) throws StringIndexOutOfBoundsException {
+		if (documentContent == null || offset > documentContent.length())
+			return null;
+
+		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, region.getOffset() + region.getLength());
+		List<ELToken> tokens = tokenizer.getTokens();
+
+		if (tokens == null || tokens.size() == 0)
+			return null;
+		
+		List<List<ELToken>> vars = getPossibleVarsFromPrefix(tokens);
+		if (vars == null) 
+			return null;
+		
+		String prefixPart = documentContent.substring(tokens.get(0).start, offset);
+		
+		// Search from the shortest variation to the longest one
+		for (int i = vars.size() - 1; i >= 0; i--) { 
+			List<ELToken>var = vars.get(i);
+			String varText = computeVariableName(var); 
+			if (varText != null && varText.startsWith(prefixPart)) {
+				return varText; 
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Create the array of suggestions. 
+	 * @param project Seam project 
+	 * @param file File 
+	 * @param document 
+	 * @param prefix the prefix to search for
+	 * @param position Offset of the prefix 
+	 */
+	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression) throws BadLocationException, StringIndexOutOfBoundsException {
+
+		List<IJavaElement> res= new ArrayList<IJavaElement>();
+		
+		SeamELTokenizer tokenizer = new SeamELTokenizer(expression, expression.length());
+		List<ELToken> tokens = tokenizer.getTokens();
+		
+		if (tokens == null || tokens.size() == 0 || tokens.get(tokens.size() - 1).getType() == ELToken.EL_SEPARATOR_TOKEN)
+			return res;
+		
+		List<ELToken> resolvedExpressionPart = new ArrayList<ELToken>();
+		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
+		ScopeType scope = getScope(project, file);
+		List<List<ELToken>> variations = getPossibleVarsFromPrefix(tokens);
+		
+		if (variations.isEmpty()) {
+			resolvedVariables = resolveVariables(project, scope, tokens, tokens, true);
+		} else {
+			for (List<ELToken> variation : variations) {
+				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
+				resolvedVars = resolveVariables(project, scope, variation, tokens, true);
+				if (resolvedVars != null && !resolvedVars.isEmpty()) {
+					resolvedVariables = resolvedVars;
+					resolvedExpressionPart = variation;
+					break;
+				}
+			}
+		}
+
+		// Here we have a list of vars for some part of expression
+		// OK. we'll proceed with members of these vars
+		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
+			// First segment is the last one
+			for (ISeamContextVariable var : resolvedVariables) {
+				String varName = var.getName();
+/*				if(expression.length()<varName.length()) {
+					res.add(varName.substring(prefixString.length()));
+				} else if(returnEqualedVariablesOnly) {
+					res.add(varName);
+				}
+				*/
+				IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
+				if (member instanceof IJavaElement){
+					res.add((IJavaElement)member);
+				}
+			}
+			return res;
+		}
+
+		// First segment is found - proceed with next tokens 
+		int startTokenIndex = (resolvedExpressionPart == null ? 0 : resolvedExpressionPart.size());
+		Set<IMember> members = new HashSet<IMember>();
+		for (ISeamContextVariable var : resolvedVariables) {
+			IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
+			if (member != null && !members.contains(member)) 
+				members.add(member);
+		}
+		for (int i = startTokenIndex; 
+				tokens != null && i < tokens.size() && 
+				members != null && members.size() > 0; 
+				i++) {
+			ELToken token = tokens.get(i);
+			
+			if (i < tokens.size() - 1) { // inside expression
+				if (token.getType() == ELToken.EL_SEPARATOR_TOKEN)
+					// proceed with next token
+					continue;
+
+				if (token.getType() == ELToken.EL_NAME_TOKEN) {
+					// Find properties for the token
+					String name = token.getText();
+					Set<IMember> newMembers = new HashSet<IMember>();
+					for (IMember mbr : members) {
+						try {
+							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
+							Set<IMember> properties = SeamExpressionResolver.getProperties(type);
+							for (IMember property : properties) {
+								StringBuffer propertyName = new StringBuffer(property.getElementName());
+								if (property instanceof IMethod) { // Setter or getter
+									propertyName.delete(0, 3);
+									propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
+								}
+								if (name.equals(propertyName.toString())) {
+									newMembers.add(property);
+								}
+							}
+						} catch (JavaModelException ex) {
+							SeamCorePlugin.getPluginLog().logError(ex);
+						}
+					}
+					members = newMembers;
+				}
+				if (token.getType() == ELToken.EL_METHOD_TOKEN) {
+					// Find methods for the token
+					String name = token.getText();
+					if (name.indexOf('(') != -1) {
+						name = name.substring(0, name.indexOf('('));
+					}
+					Set<IMember> newMembers = new HashSet<IMember>();
+					for (IMember mbr : members) {
+						try {
+							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
+							Set<IMember> methods = SeamExpressionResolver.getMethods(type);
+							for (IMember method : methods) {
+								if (name.equals(method.getElementName())) {
+									newMembers.add(method);
+								}
+							}
+						} catch (JavaModelException ex) {
+							SeamCorePlugin.getPluginLog().logError(ex);
+						}
+					}
+					members = newMembers;
+				}
+			} else { // Last segment
+				Set<IJavaElement> javaElements = new HashSet<IJavaElement>();
+				if (token.getType() == ELToken.EL_NAME_TOKEN ||
+					token.getType() == ELToken.EL_METHOD_TOKEN) {
+					// return filtered methods + properties 
+					Set<IJavaElement> javaElementsToFilter = new HashSet<IJavaElement>(); 
+					for (IMember mbr : members) {
+						try {
+							IType type = null;
+							if(mbr instanceof IType) {
+								type = (IType)mbr;
+							} else {
+								type = EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr));
+							}
+							javaElementsToFilter.addAll(SeamExpressionResolver.getMethods(type));
+							javaElementsToFilter.addAll(SeamExpressionResolver.getProperties(type));
+						} catch (JavaModelException ex) {
+							SeamCorePlugin.getPluginLog().logError(ex);
+						}
+					}
+					for (IJavaElement javaElement : javaElementsToFilter) {
+						// We do expect nothing but name for method tokens (No round brackets)
+						String filter = token.getText();
+						String elementName = javaElement.getElementName();
+						// This is used for validation.
+						if (javaElement.getElementName().equals(filter)) {
+							javaElements.add(javaElement);
+						} else {
+							if (javaElement instanceof IMethod) {
+								boolean getter = (elementName.startsWith("get") && !"get".equals(elementName)) ||
+								 (elementName.startsWith("is") && !"is".equals(elementName));
+								boolean setter = elementName.startsWith("set") && !"set".equals(elementName);
+								if(getter || setter) {
+									StringBuffer name = new StringBuffer(elementName);
+									if(elementName.startsWith("i")) {
+										name.delete(0, 2);
+									} else {
+										name.delete(0, 3);
+									}
+									name.setCharAt(0, Character.toLowerCase(name.charAt(0)));
+									String propertyName = name.toString();
+									if (propertyName.equals(filter)) {
+										javaElements.add(javaElement);
+									}
+								}
+							}
+						}
+					}
+				}
+				res.addAll(javaElements);
+			}
+		}
+
+		return res;
 	}
 }
 
