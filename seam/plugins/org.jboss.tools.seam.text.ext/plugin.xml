@@ -19,15 +19,19 @@
          	<contentType id="org.eclipse.core.runtime.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-         	
-         	<!-- org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE -->
-         	<!-- org.jboss.tools.common.text.ext.xml.XML_TEXT -->
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
 		</hyperlinkPartitioner>
 		<hyperlinkPartitioner 
 	         id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner1"
    	      class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
 
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
          	</contentType>
@@ -49,6 +53,9 @@
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
 			</contenttypeidentifier>
 		</hyperlink>
