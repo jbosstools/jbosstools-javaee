@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.text.ext,
  org.eclipse.wst.sse.core,
  org.jboss.tools.common.model,
- org.jboss.tools.common.test
+ org.jboss.tools.common.test,
+ org.jboss.tools.seam.text.ext
 Eclipse-LazyStart: true
 Bundle-Vendor: Red Hat, Inc.
 Export-Package: org.jboss.tools.jsf.text.ext.tests

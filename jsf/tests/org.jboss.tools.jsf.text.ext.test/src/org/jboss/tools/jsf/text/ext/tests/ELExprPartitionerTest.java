@@ -137,6 +137,10 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList.add(new Region(871, 16));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_BEAN", regionList);
 		regionList = new ArrayList<Region>();
+		regionList.add(new Region(859, 11));
+		regionList.add(new Region(871, 16));
+		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_BEAN", regionList);
+		regionList = new ArrayList<Region>();
 		regionList.add(new Region(639, 1));
 		regionList.add(new Region(722, 1));
 		regionList.add(new Region(831, 1));
