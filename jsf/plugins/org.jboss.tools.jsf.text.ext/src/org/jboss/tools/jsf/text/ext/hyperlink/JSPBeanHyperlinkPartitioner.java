@@ -261,7 +261,8 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			String beanName = null;
 			for (int i = 0; beanList != null && i < beanList.size(); i++) {
 				String bn = (String)beanList.get(i);
-				if (propText.trim().startsWith(bn)) {
+				if (propText.trim().equals(bn) ||
+						propText.trim().startsWith(bn + ".")) {
 					beanName = bn;
 					break;
 				}
