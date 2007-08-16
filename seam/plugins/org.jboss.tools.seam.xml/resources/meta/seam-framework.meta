@@ -29,7 +29,7 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="framework:entity-home" name="SeamFrameworkEntityHome">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -110,7 +110,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="framework:entity-query" name="SeamFrameworkEntityQuery">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="SeamFrameworkRestrictions" required="yes"/>
@@ -175,7 +175,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="framework:hibernate-entity-home" name="SeamFrameworkHibernateEntityHome">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -229,7 +229,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="framework:hibernate-entity-query" name="SeamFrameworkHibernateEntityQuery">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="SeamFrameworkRestrictions" required="yes"/>
@@ -310,7 +310,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=map;saveDefault=false"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=map;saveDefault=false"
   XMLSUBPATH="framework:hints" name="SeamFrameworkHints">
   <XChildrenEntities>
    <XChildEntity name="SeamMapEntry"/>
@@ -371,7 +371,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
   XMLSUBPATH="framework:restrictions" name="SeamFrameworkRestrictions">
   <XChildrenEntities>
    <XChildEntity name="SeamListEntry"/>

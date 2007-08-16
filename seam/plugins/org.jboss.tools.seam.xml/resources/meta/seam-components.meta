@@ -58,7 +58,7 @@
   ImplementationLoadingClass="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
   ImplementingClass="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="component" name="FileSeamComponent12">
   <XChildrenEntities>
    <XChildEntity name="SeamProperty"/>
@@ -276,7 +276,7 @@
   ImplementationLoadingClass="org.jboss.tools.seam.xml.components.model.SeamComponents11FileLoader"
   ImplementingClass="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="components" name="FileSeamComponents11">
   <XChildrenEntities>
    <XChildEntity name="SeamComponent"/>
@@ -474,7 +474,7 @@
   ImplementationLoadingClass="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
   ImplementingClass="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="components" name="FileSeamComponents12">
   <XChildrenEntities>
    <XChildEntity name="SeamComponent"/>
@@ -677,7 +677,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="action" name="SeamAction">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -725,7 +725,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="component" name="SeamComponent">
   <XChildrenEntities>
    <XChildEntity name="SeamProperty"/>
@@ -853,7 +853,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="event" name="SeamEvent">
   <XChildrenEntities>
    <XChildEntity name="SeamAction"/>
@@ -912,7 +912,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="factory" name="SeamFactory">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -1137,7 +1137,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="property" name="SeamPropertyList">
   <XChildrenEntities>
    <XChildEntity name="SeamListEntry"/>
@@ -1196,7 +1196,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="property" name="SeamPropertyMap">
   <XChildrenEntities>
    <XChildEntity name="SeamMapEntry"/>

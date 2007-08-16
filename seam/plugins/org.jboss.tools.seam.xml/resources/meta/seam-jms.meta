@@ -28,7 +28,7 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="jms:queue-connection" name="SeamJmsQueueConnection">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -84,7 +84,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="jms:managed-queue-sender" name="SeamJmsQueueSender">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -134,7 +134,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="jms:topic-connection" name="SeamJmsTopicConnection">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -190,7 +190,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="jms:managed-topic-publisher" name="SeamJmsTopicPublisher">
   <XChildrenEntities/>
   <XEntityRenderer>

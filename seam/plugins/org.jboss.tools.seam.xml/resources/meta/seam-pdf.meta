@@ -28,7 +28,7 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="pdf:document-store" name="SeamPdfDocumentStore">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -82,7 +82,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="pdf:key-store-config" name="SeamPdfKeyStoreConfig">
   <XChildrenEntities/>
   <XEntityRenderer>

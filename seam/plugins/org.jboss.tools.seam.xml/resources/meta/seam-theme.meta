@@ -28,7 +28,7 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
   XMLSUBPATH="theme:available-themes" name="SeamThemeAvailableThemes">
   <XChildrenEntities>
    <XChildEntity name="SeamListEntry"/>
@@ -88,7 +88,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="theme:theme-selector" name="SeamThemeSelector">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="SeamThemeAvailableThemes" required="yes"/>
