@@ -1058,7 +1058,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.struts.model.SetPropertyObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jst.web.tiles.ui.editor.form.TilesFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jst.web.tiles.ui.editor.form.TilesFormLayoutData"
   XMLSUBPATH="set-property" name="StrutsSetProperty">
   <XChildrenEntities/>
   <XEntityRenderer>
