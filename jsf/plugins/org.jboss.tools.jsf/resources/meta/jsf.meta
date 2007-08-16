@@ -84,7 +84,7 @@
   ImplementationLoadingClass="org.jboss.tools.jsf.model.FacesConfigLoader"
   ImplementingClass="org.jboss.tools.jsf.model.FileFacesConfigImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="faces-config" name="FacesConfig">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFApplication" required="yes"/>
@@ -278,7 +278,7 @@
   ImplementationLoadingClass="org.jboss.tools.jsf.model.FacesConfigLoader"
   ImplementingClass="org.jboss.tools.jsf.model.FileFacesConfigImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="faces-config" name="FacesConfig11">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFApplication" required="yes"/>
@@ -488,7 +488,7 @@
   ImplementationLoadingClass="org.jboss.tools.jsf.model.FacesConfigLoader"
   ImplementingClass="org.jboss.tools.jsf.model.FileFacesConfigImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="faces-config" name="FacesConfig12">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFApplication12" required="yes"/>
@@ -727,7 +727,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="application" name="JSFApplication">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFLocaleConfig" required="yes"/>
@@ -852,7 +852,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="application" name="JSFApplication12">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFLocaleConfig" required="yes"/>
@@ -1003,7 +1003,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="application-extension" name="JSFApplicationExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -1046,7 +1046,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.AttributeObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="attribute" name="JSFAttribute">
   <XChildrenEntities>
    <XChildEntity name="JSFAttributeExtension"/>
@@ -1137,7 +1137,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="attribute-extension" name="JSFAttributeExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -1180,7 +1180,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ComponentObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="component" name="JSFComponent">
   <XChildrenEntities>
    <XChildEntity name="JSFAttribute"/>
@@ -1285,7 +1285,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ComponentObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="component" name="JSFComponent11">
   <XChildrenEntities>
    <XChildEntity name="JSFFacet11"/>
@@ -1398,7 +1398,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="component-extension" name="JSFComponentExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -1440,7 +1440,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFComponents">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFComponents">
   <XChildrenEntities>
    <XChildEntity name="JSFComponent"/>
   </XChildrenEntities>
@@ -1492,7 +1492,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFComponents11">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFComponents11">
   <XChildrenEntities>
    <XChildEntity name="JSFComponent11"/>
   </XChildrenEntities>
@@ -1545,7 +1545,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="faces-config-extension" name="JSFConfigExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -1588,7 +1588,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFConfigExtensions">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFConfigExtensions">
   <XChildrenEntities>
    <XChildEntity name="JSFConfigExtension"/>
   </XChildrenEntities>
@@ -1641,7 +1641,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ConverterObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="converter" name="JSFConverter">
   <XChildrenEntities>
    <XChildEntity name="JSFAttribute"/>
@@ -1743,7 +1743,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFConverters">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFConverters">
   <XChildrenEntities>
    <XChildEntity name="JSFConverter"/>
   </XChildrenEntities>
@@ -1805,7 +1805,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="el-resolver" name="JSFELResolver">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -1858,7 +1858,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.FacetObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="facet" name="JSFFacet11">
   <XChildrenEntities>
    <XChildEntity name="JSFFacetExtension"/>
@@ -1937,7 +1937,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="facet-extension" name="JSFFacetExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -2117,7 +2117,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.EntriesObject"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.FormFactory;formClassName=org.jboss.tools.jsf.ui.editor.form.ListEntries"
+  PROPERTIES="formFactory=org.jboss.tools.common.model.ui.forms.FormFactory;formClassName=org.jboss.tools.jsf.ui.editor.form.ListEntries"
   XMLSUBPATH="list-entries" name="JSFListEntries">
   <XChildrenEntities>
    <XChildEntity name="JSFListEntry"/>
@@ -2161,7 +2161,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ListEntryObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFListEntry">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFListEntry">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
@@ -2289,7 +2289,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ManagedBeanObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="managed-bean" name="JSFManagedBean">
   <XChildrenEntities>
    <XChildEntity name="JSFManagedProperty"/>
@@ -2432,7 +2432,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFManagedBeans">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFManagedBeans">
   <XChildrenEntities>
    <XChildEntity name="JSFManagedBean"/>
   </XChildrenEntities>
@@ -2487,7 +2487,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ManagedPropertyObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="managed-property" name="JSFManagedProperty">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFListEntries"/>
@@ -2629,7 +2629,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.EntriesObject"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.FormFactory;formClassName=org.jboss.tools.jsf.ui.editor.form.MapEntries"
+  PROPERTIES="formFactory=org.jboss.tools.common.model.ui.forms.FormFactory;formClassName=org.jboss.tools.jsf.ui.editor.form.MapEntries"
   XMLSUBPATH="map-entries" name="JSFMapEntries">
   <XChildrenEntities>
    <XChildEntity name="JSFMapEntry"/>
@@ -2678,7 +2678,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.MapEntryObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="map-entry" name="JSFMapEntry">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -2786,7 +2786,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationCaseObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="navigation-case" name="JSFNavigationCase">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -2889,7 +2889,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="navigation-rule" name="JSFNavigationRule">
   <XChildrenEntities>
    <XChildEntity name="JSFNavigationCase"/>
@@ -3001,7 +3001,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationRulesObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFNavigationRules">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFNavigationRules">
   <XChildrenEntities>
    <XChildEntity name="JSFNavigationRule"/>
   </XChildrenEntities>
@@ -3665,7 +3665,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.PropertyObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="property" name="JSFProperty">
   <XChildrenEntities>
    <XChildEntity name="JSFPropertyExtension"/>
@@ -3767,7 +3767,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="property-extension" name="JSFPropertyExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -3809,7 +3809,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="property-resolver" name="JSFPropertyResolver">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -3862,7 +3862,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ReferencedBeanObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="referenced-bean" name="JSFReferencedBean">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -3938,7 +3938,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFReferencedBeans">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFReferencedBeans">
   <XChildrenEntities>
    <XChildEntity name="JSFReferencedBean"/>
   </XChildrenEntities>
@@ -3991,7 +3991,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.RenderKitObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="render-kit" name="JSFRenderKit">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderer"/>
@@ -4076,7 +4076,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.RenderKitObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="render-kit" name="JSFRenderKit11">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderer11"/>
@@ -4161,7 +4161,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.RenderKitObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="render-kit" name="JSFRenderKit12">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderer11"/>
@@ -4251,7 +4251,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="render-kit-extension" name="JSFRenderKitExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -4293,7 +4293,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFRenderKits">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFRenderKits">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderKit"/>
   </XChildrenEntities>
@@ -4345,7 +4345,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFRenderKits11">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFRenderKits11">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderKit11"/>
   </XChildrenEntities>
@@ -4397,7 +4397,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFRenderKits12">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFRenderKits12">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderKit12"/>
   </XChildrenEntities>
@@ -4450,7 +4450,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.RendererObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="renderer" name="JSFRenderer">
   <XChildrenEntities>
    <XChildEntity name="JSFAttribute"/>
@@ -4568,7 +4568,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.RendererObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="renderer" name="JSFRenderer11">
   <XChildrenEntities>
    <XChildEntity name="JSFFacet11"/>
@@ -4674,7 +4674,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="renderer-extension" name="JSFRendererExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -4949,7 +4949,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ValidatorObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="validator" name="JSFValidator">
   <XChildrenEntities>
    <XChildEntity name="JSFAttribute"/>
@@ -5047,7 +5047,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ValidatorObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="validator" name="JSFValidator12">
   <XChildrenEntities>
    <XChildEntity name="JSFAttribute"/>
@@ -5150,7 +5150,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="validator-extension" name="JSFValidatorExtension">
   <XChildrenEntities>
    <XChildEntity name="AnyElement"/>
@@ -5192,7 +5192,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFValidators">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFValidators">
   <XChildrenEntities>
    <XChildEntity name="JSFValidator"/>
   </XChildrenEntities>
@@ -5248,7 +5248,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Ordered%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFValidators12">
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFValidators12">
   <XChildrenEntities>
    <XChildEntity name="JSFValidator12"/>
   </XChildrenEntities>
@@ -5304,7 +5304,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="variable-resolver" name="JSFVariableResolver">
   <XChildrenEntities/>
   <XEntityRenderer>

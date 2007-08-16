@@ -296,7 +296,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl"
-  PROPERTIES="formFactoryClassName=org.jboss.tools.common.model.ui.forms.LayouredFormFactory;formLayoutDataClassName=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="navigation-rule" name="JSFNavigationRuleRename">
   <XChildrenEntities/>
   <XEntityRenderer>
