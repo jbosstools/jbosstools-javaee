@@ -34,9 +34,37 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	if(body.indexOf(PUBLIC_ID_11) >= 0) {
     		return ENT_SEAM_COMPONENTS_11;
     	}
-        if(is12(body)) return ENT_SEAM_COMPONENTS_12;
-        if(is12Component(body)) return ENT_SEAM_COMPONENT_12;
+    	if(!isComponentsSchema(body)) {
+    		return null;
+    	}
+    	
+    	int i = body.indexOf("xsi:schemaLocation");
+    	if(i < 0) return null;
+    	int j = body.indexOf("\"", i);
+    	if(j < 0) return null;
+    	int k = body.indexOf("\"", j + 1);
+    	if(k < 0) return null;
+    	String schemaLocation = body.substring(j + 1, k);
+    	boolean isSingleComponent = is12Component(body);
+    	
+    	int i20 = schemaLocation.indexOf("2.0");
+    	if(i20 >= 0) return null;
+    	
+    	int i12 = schemaLocation.indexOf("1.2");
+    	if(i12 >= 0) {
+    		if(isSingleComponent) return ENT_SEAM_COMPONENT_12;
+    		if(is12(body)) return ENT_SEAM_COMPONENTS_12;
+    	}
         return null;
+    }
+    
+    private boolean isComponentsSchema(String body) {
+    	int i = body.indexOf("<components");
+    	if(i < 0) return false;
+    	int j = body.indexOf(">", i);
+    	if(j < 0) return false;
+    	String s = body.substring(i, j);
+    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
     }
     
     private boolean is12(String body) {
