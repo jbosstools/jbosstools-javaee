@@ -102,6 +102,41 @@
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate">
          </delegate>
       </event-handler>
+      <template
+            id="template.jst.seam">
+         <label>
+            Seam Web Project
+         </label>
+         <fixed
+               facet="jst.java"/>
+         <fixed
+               facet="jst.web"/>
+         <fixed
+               facet="jst.seam"/>
+         <fixed
+               facet="jst.jsf"/>
+         <preset
+               id="jst.seam.preset">
+         </preset>
+      </template>
+      <preset
+            id="jst.seam.preset">
+         <label>
+            Dynamic Web Project with Seam 1.2
+         </label>
+         <facet
+               id="jst.java"
+               version="5.0"/>
+         <facet
+               id="jst.web"
+               version="2.5"/>
+         <facet
+               id="jst.jsf"
+               version="1.2"/>
+         <facet
+               id="jst.seam"
+               version="1.2"/>               
+      </preset>
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.core.runtimes">
@@ -120,20 +155,6 @@
          </facet>
       </supported>
    </extension>
- <extension
-       point="org.eclipse.wst.common.project.facet.core.presets">
-       <static-preset
-           id="preset.jst.seam.v1_2">
-	    <label>Seam 1.2 project</label>
-	    <facet id="jst.java" version="5.0" />
-	    <facet id="jst.web" version="2.5"/>
-	    <facet id="jst.jsf" version="1.2" />
-	    <facet id="jst.seam" version="1.2"/>
-     <description>
-        Seam 1.2 project
-     </description>
-     </static-preset>
- </extension>
 
    <extension
         point="org.eclipse.wst.validation.validator"

@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 
 package org.jboss.tools.seam.ui.wizard;
 
@@ -24,6 +24,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -93,5 +95,9 @@ public abstract class SeamBaseWizard extends Wizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
+	}
+	
+	protected IFacetedProjectTemplate getTemplate() {
+		return ProjectFacetsManager.getTemplate("template.jst.seam"); //$NON-NLS-1$
 	}
 }

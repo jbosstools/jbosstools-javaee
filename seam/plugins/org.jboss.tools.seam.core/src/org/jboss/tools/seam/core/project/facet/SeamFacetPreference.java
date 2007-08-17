@@ -11,10 +11,6 @@
 
 package org.jboss.tools.seam.core.project.facet;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -25,7 +21,7 @@ public class SeamFacetPreference {
 	public static final String SEAM_HOME_FOLDER = SeamCorePlugin.PLUGIN_ID + ".project.facet.seamhome";
 	public static final String SEAM_DEFAULT_CONNECTION_PROFILE = SeamCorePlugin.PLUGIN_ID + ".project.facet.default.conn.profile";
 	
-	public static String getStringPreference(String name) {
+	public static String getStringPreference(final String name) {
 		return SeamCorePlugin.getDefault().getPreferenceStore().getString(SeamFacetPreference.SEAM_HOME_FOLDER);
 	}
 }
