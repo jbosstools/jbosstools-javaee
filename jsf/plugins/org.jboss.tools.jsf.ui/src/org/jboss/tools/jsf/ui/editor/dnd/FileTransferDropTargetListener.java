@@ -60,7 +60,7 @@ public class FileTransferDropTargetListener implements TransferDropTargetListene
 		if (!baseDropAccept)
 			event.detail = DND.DROP_NONE;
 		else
-			event.detail = DND.DROP_DEFAULT;
+			event.detail = DND.DROP_COPY;
 
 	}
 

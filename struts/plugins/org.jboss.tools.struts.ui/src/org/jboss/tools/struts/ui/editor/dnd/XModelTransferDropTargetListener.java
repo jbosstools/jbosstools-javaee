@@ -68,7 +68,7 @@ public void dragEnter(DropTargetEvent event){
 
 public void dragOver(DropTargetEvent event){
 	if(!baseDropAccept) event.detail = DND.DROP_NONE;
-	else event.detail = DND.DROP_DEFAULT;
+	else event.detail = DND.DROP_COPY;
 
 }
 

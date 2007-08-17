@@ -74,7 +74,7 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 		if (!baseDropAccept)
 			event.detail = DND.DROP_NONE;
 		else
-			event.detail = DND.DROP_DEFAULT;
+			event.detail = DND.DROP_COPY;
 	}
 
 	public void dragLeave(DropTargetEvent event) {
