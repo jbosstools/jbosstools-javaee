@@ -6,23 +6,24 @@
  <MAPPINGS>
   <MAPPING name="Handlers"/>
   <MAPPING name="SeamNamespaces">
-   <PAIR name="security" value="http://jboss.com/products/seam/security"/>
+   <PAIR name="transaction" value="http://jboss.com/products/seam/transaction"/>
   </MAPPING>
   <MAPPING name="SeamSchemas">
-   <PAIR name="security" value="http://jboss.com/products/seam/security-1.2.xsd"/>
-   <PAIR name="security$20" value="http://jboss.com/products/seam/security-2.0.xsd"/>
+   <PAIR name="transaction$20" value="http://jboss.com/products/seam/transaction-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
   <GROUP name="action">
    <GROUP name="new">
-    <GROUP name="security"/>
+    <GROUP name="drools"/>
    </GROUP>
   </GROUP>
   <GROUP name="main">
    <GROUP name="seam">
-    <GROUP name="security">
-     <ICON name="identity" path="images/struts/plug_in.gif"/>
+    <GROUP name="transaction">
+     <ICON name="ejb" path="images/struts/plug_in.gif"/>
+     <ICON name="entity" path="images/struts/plug_in.gif"/>
+     <ICON name="hibernate" path="images/struts/plug_in.gif"/>
     </GROUP>
    </GROUP>
   </GROUP>
@@ -30,42 +31,22 @@
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
-  XMLSUBPATH="security:identity" name="SeamSecurityIdentity">
+  XMLSUBPATH="transaction:ejb-transaction" name="SeamTransactionEjb">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.security.identity" type="main"/>
+    <ICON info="main.seam.transaction.ejb" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="identity" loader="ElementType" name="element type">
+   <XModelAttribute default="ejb transaction" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.security.identity" name="name" xmlname="name"/>
+    default="org.jboss.seam.transaction.transaction" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
+    attributes="class,scope,precedence,installed,auto-create,jndi-name"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general"
-    name="authenticate-method" xmlname="authenticate-method"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="remember-me" xmlname="remember-me">
-    <Constraint loader="List">
-     <value/>
-     <value name="true"/>
-     <value name="false"/>
-    </Constraint>
-    <Editor name="List"/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced"
-    name="jaas-config-name" xmlname="jaas-config-name">
-    <Constraint loader="ListString">
-     <value/>
-     <value name="true"/>
-     <value name="false"/>
-    </Constraint>
-    <Editor name="ListString"/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="security-rules" xmlname="security-rules"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -96,30 +77,23 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
-  XMLSUBPATH="security:identity" name="SeamSecurityIdentity20">
+  XMLSUBPATH="transaction:entity-transaction" name="SeamTransactionEntity">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.security.identity" type="main"/>
+    <ICON info="main.seam.transaction.entity" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="identity" loader="ElementType" name="element type">
+   <XModelAttribute default="entity transaction" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.transaction.transaction" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create,authenticate-method,remember-me,jaas-config-name,security-rules"
-    entity="SeamSecurityIdentity" name="sequrity"/>
-   <XModelAttribute PROPERTIES="category=advanced"
-    name="authenticate-every-request" xmlname="authenticate-every-request">
-    <Constraint loader="List">
-     <value/>
-     <value name="true"/>
-     <value name="false"/>
-    </Constraint>
-    <Editor name="List"/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="save=always" name="entity-manager" xmlname="entity-manager"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -148,64 +122,86 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XEntityExtension name="FileSeamComponents12">
-  <XChildrenEntities>
-   <XChildEntity name="SeamSecurityIdentity"/>
-  </XChildrenEntities>
-  <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Security" group="1"
-     kind="list" name="Security">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Identity..." kind="action" name="AddIdentity">
-      <EntityData EntityName="SeamSecurityIdentity">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
-       <AttributeData AttributeName="remember-me" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
-    </XActionItem>
-   </XActionItem>
-  </XActionItem>
- </XEntityExtension>
- <XEntityExtension name="FileSeamComponents12_EditorActionList">
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="transaction:hibernate-transaction" name="SeamTransactionHibernate">
   <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.transaction.hibernate" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="hibernate transaction" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.transaction.transaction" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="save=always" name="session" xmlname="session"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Security" group="1"
-     kind="list" name="Security">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Identity..." kind="action" name="AddIdentity">
-      <EntityData EntityName="SeamSecurityIdentity">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
-       <AttributeData AttributeName="remember-me" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
-    </XActionItem>
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
   </XActionItem>
- </XEntityExtension>
+  <XDependencies/>
+ </XModelEntity>
  <XEntityExtension name="FileSeamComponents20">
   <XChildrenEntities>
-   <XChildEntity name="SeamSecurityIdentity20"/>
+   <XChildEntity name="SeamTransactionEjb"/>
+   <XChildEntity name="SeamTransactionEntity"/>
+   <XChildEntity name="SeamTransactionHibernate"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Security" group="1"
-     kind="list" name="Security">
+    <XActionItem ICON="action.empty" displayName="Transaction" group="1"
+     kind="list" name="Transaction">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Identity..." kind="action" name="AddIdentity">
-      <EntityData EntityName="SeamSecurityIdentity20">
+      displayName="Ejb..." kind="action" name="AddEjb">
+      <EntityData EntityName="SeamTransactionEjb">
        <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
-       <AttributeData AttributeName="remember-me" Mandatory="no"/>
+       <AttributeData AttributeName="jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Entity..." kind="action" name="AddEntity">
+      <EntityData EntityName="SeamTransactionEntity">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="entity-manager"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Hibernate..." kind="action" name="AddHibernate">
+      <EntityData EntityName="SeamTransactionHibernate">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="session"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
@@ -217,15 +213,30 @@
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Security" group="1"
-     kind="list" name="Security">
+    <XActionItem ICON="action.empty" displayName="Transaction" group="1"
+     kind="list" name="Transaction">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Identity..." kind="action" name="AddIdentity">
-      <EntityData EntityName="SeamSecurityIdentity20">
+      displayName="Ejb..." kind="action" name="AddEjb">
+      <EntityData EntityName="SeamTransactionEjb">
        <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
-       <AttributeData AttributeName="remember-me" Mandatory="no"/>
+       <AttributeData AttributeName="jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Entity..." kind="action" name="AddEntity">
+      <EntityData EntityName="SeamTransactionEntity">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="entity-manager"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Hibernate..." kind="action" name="AddHibernate">
+      <EntityData EntityName="SeamTransactionHibernate">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="session"/>
       </EntityData>
      </XActionItem>
     </XActionItem>

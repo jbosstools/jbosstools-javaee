@@ -15,6 +15,7 @@
       <meta path="meta/seam-jms.meta"/>
       <meta path="meta/seam-remoting.meta"/>
       <meta path="meta/seam-spring.meta"/>
+      <meta path="meta/seam-transaction.meta"/>
    </extension>
 
    <extension point="org.jboss.tools.common.model.keys">
