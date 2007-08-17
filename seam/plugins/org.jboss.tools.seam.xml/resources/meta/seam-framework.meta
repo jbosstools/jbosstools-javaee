@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="framework" value="http://jboss.com/products/seam/framework-1.2.xsd"/>
+   <PAIR name="framework$20" value="http://jboss.com/products/seam/framework-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

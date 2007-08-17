@@ -45,15 +45,18 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	int k = body.indexOf("\"", j + 1);
     	if(k < 0) return null;
     	String schemaLocation = body.substring(j + 1, k);
-    	boolean isSingleComponent = is12Component(body);
+    	boolean isSingleComponent = isSingleComponent(body);
     	
     	int i20 = schemaLocation.indexOf("2.0");
-    	if(i20 >= 0) return null;
+    	if(i20 >= 0) {
+    		if(isSingleComponent) return ENT_SEAM_COMPONENT_20;
+    		if(isMultiComponent(body)) return ENT_SEAM_COMPONENTS_20;
+    	}
     	
     	int i12 = schemaLocation.indexOf("1.2");
     	if(i12 >= 0) {
     		if(isSingleComponent) return ENT_SEAM_COMPONENT_12;
-    		if(is12(body)) return ENT_SEAM_COMPONENTS_12;
+    		if(isMultiComponent(body)) return ENT_SEAM_COMPONENTS_12;
     	}
         return null;
     }
@@ -67,7 +70,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
     }
     
-    private boolean is12(String body) {
+    private boolean isMultiComponent(String body) {
     	int i = body.indexOf("<components");
     	if(i < 0) return false;
     	int j = body.indexOf(">", i);
@@ -76,7 +79,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
     }
 
-    private boolean is12Component(String body) {
+    private boolean isSingleComponent(String body) {
     	int i = body.indexOf("<component");
     	int is = body.indexOf("<components");
     	if(i < 0 || is >= 0) return false;

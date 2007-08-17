@@ -24,22 +24,26 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class SeamNamespaces {
-	private static SeamNamespaces instance;
+	private static Map<String,SeamNamespaces> map = new HashMap<String, SeamNamespaces>();
 	
-	public static SeamNamespaces getInstance(XModelMetaData meta) {
+	public static SeamNamespaces getInstance(XModelMetaData meta, String version) {
+		SeamNamespaces instance = map.get(version);
 		if(instance == null) {
-			instance = new SeamNamespaces(meta);
+			instance = new SeamNamespaces(meta, version);
 		}
 		return instance;
 	}
+	
+	String versionSuffix = null;
 	
 	private Map<String, String> namespaceToURI = new HashMap<String, String>();
 	private Map<String, String> uriToNamespace = new HashMap<String, String>();
 	private Map<String, String> namespaceToSchema = new HashMap<String, String>();
 	
-	private SeamNamespaces(XModelMetaData meta) {
+	private SeamNamespaces(XModelMetaData meta, String versionSuffix) {
 		XMapping m = meta.getMapping("SeamNamespaces");
 		if(m == null) return;
+		this.versionSuffix = versionSuffix;
 		String[] keys = m.getKeys();
 		for (int i = 0; i < keys.length; i++) {
 			String v = m.getValue(keys[i]);
@@ -50,8 +54,10 @@ public class SeamNamespaces {
 		if(m == null) return;
 		keys = m.getKeys();
 		for (int i = 0; i < keys.length; i++) {
+			if(!keys[i].endsWith(versionSuffix)) continue;
 			String v = m.getValue(keys[i]);
-			namespaceToSchema.put(keys[i], v);
+			String key = keys[i].substring(0, keys[i].length() - versionSuffix.length());
+			namespaceToSchema.put(key, v);
 		}
 	}
 	

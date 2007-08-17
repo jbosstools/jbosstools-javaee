@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="mail" value="http://jboss.com/products/seam/mail-1.2.xsd"/>
+   <PAIR name="mail$20" value="http://jboss.com/products/seam/mail-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

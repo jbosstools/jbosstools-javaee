@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="drools" value="http://jboss.com/products/seam/drools-1.2.xsd"/>
+   <PAIR name="drools$20" value="http://jboss.com/products/seam/drools-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

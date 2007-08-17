@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.xml.components.model;
 
-import java.util.Map;
-
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.NamespaceMapping;
@@ -35,7 +33,7 @@ public class SeamComponentsFileLoader extends SimpleWebFileLoader {
     }
 
     protected String loadNamespace(Element element, XModelObject object) {
-    	NamespaceMapping namespaceMapping = SeamNamespaces.getInstance(object.getModel().getMetaData()).getNamespaceMapping(element);
+    	NamespaceMapping namespaceMapping = SeamNamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).getNamespaceMapping(element);
     	object.set("namespaceMapping", namespaceMapping.toString());
     	util.setNamespaceMapping(namespaceMapping);
     	
@@ -45,10 +43,16 @@ public class SeamComponentsFileLoader extends SimpleWebFileLoader {
     public String serializeObject(XModelObject object) {
     	String rootName = getRootName(object);
         Element element = createRootElement(rootName, null, null);
-        SeamNamespaces.getInstance(object.getModel().getMetaData()).validateNamespaces(object, element);
+        SeamNamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).validateNamespaces(object, element);
 		NamespaceMapping namespaceMapping = NamespaceMapping.load(object.get("namespaceMapping"));
     	util.setNamespaceMapping(namespaceMapping);
         return serializeToElement(element, object);
+    }
+    
+    private String getVersionSuffix(XModelObject o) {
+    	String entity = o.getModelEntity().getName();
+    	if(entity.endsWith("20")) return "$20";
+    	return "";
     }
     
 }

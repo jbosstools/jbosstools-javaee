@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="theme" value="http://jboss.com/products/seam/theme-1.2.xsd"/>
+   <PAIR name="theme$20" value="http://jboss.com/products/seam/theme-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

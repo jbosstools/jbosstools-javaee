@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="security" value="http://jboss.com/products/seam/security-1.2.xsd"/>
+   <PAIR name="security$20" value="http://jboss.com/products/seam/security-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

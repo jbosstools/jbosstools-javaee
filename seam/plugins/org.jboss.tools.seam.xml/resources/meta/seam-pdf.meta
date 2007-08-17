@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="pdf" value="http://jboss.com/products/seam/pdf-1.2.xsd"/>
+   <PAIR name="pdf$20" value="http://jboss.com/products/seam/pdf-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
