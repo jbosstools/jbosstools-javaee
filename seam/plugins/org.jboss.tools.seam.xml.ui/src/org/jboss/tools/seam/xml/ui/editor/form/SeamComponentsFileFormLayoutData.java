@@ -52,9 +52,20 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 
 	private final static IFormData[] FILE_12_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Components File",
+			"Seam Components 1.2 File",
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_12)
+		),
+		SEAM_COMPONENT_LIST_DEFINITION,
+		SEAM_FACTORY_LIST_DEFINITION,
+		SEAM_EVENT_LIST_DEFINITION
+	};
+
+	private final static IFormData[] FILE_20_DEFINITIONS = new IFormData[] {
+		new FormData(
+			"Seam Components 2.0 File",
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_20)
 		),
 		SEAM_COMPONENT_LIST_DEFINITION,
 		SEAM_FACTORY_LIST_DEFINITION,
@@ -66,5 +77,8 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 
 	final static IFormData FILE_11_FORM_DEFINITION = new FormData(
 		ENT_SEAM_COMPONENTS_11, new String[]{null}, FILE_11_DEFINITIONS);
+
+	final static IFormData FILE_20_FORM_DEFINITION = new FormData(
+		ENT_SEAM_COMPONENTS_20, new String[]{null}, FILE_20_DEFINITIONS);
 
 }

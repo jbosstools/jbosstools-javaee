@@ -22,9 +22,11 @@ public class SeamXMLFormLayoutData implements IFormLayoutData {
 	public static String EMPTY_DESCRIPTION = "";
 
 	private final static IFormData[] FORM_LAYOUT_DEFINITIONS = new IFormData[] {
-		SeamComponentsFileFormLayoutData.FILE_12_FORM_DEFINITION,
 		SeamComponentsFileFormLayoutData.FILE_11_FORM_DEFINITION,
+		SeamComponentsFileFormLayoutData.FILE_12_FORM_DEFINITION,
+		SeamComponentsFileFormLayoutData.FILE_20_FORM_DEFINITION,
 		SeamComponentFormLayoutData.SEAM_COMPONENT_FILE_FORM_DEFINITION,
+		SeamComponentFormLayoutData.SEAM_COMPONENT_FILE_20_FORM_DEFINITION,
 		SeamComponentFormLayoutData.SEAM_COMPONENT_FORM_DEFINITION,
 		SeamPropertyFormLayoutData.SEAM_PROPERTY_LIST_FORM_DEFINITION,
 		SeamPropertyFormLayoutData.SEAM_PROPERTY_MAP_FORM_DEFINITION,
