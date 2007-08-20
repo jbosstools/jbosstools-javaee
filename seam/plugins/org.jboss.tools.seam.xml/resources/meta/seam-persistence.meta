@@ -169,7 +169,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Managed Persistence Context..." kind="action" name="SeamPersistenceManagedContext">
-      <EntityData EntityName="SeamCoreManagedPersistenceContext">
+      <EntityData EntityName="SeamPersistenceManagedContext">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="persistence-unit-jndi-name" Mandatory="no"/>
       </EntityData>
