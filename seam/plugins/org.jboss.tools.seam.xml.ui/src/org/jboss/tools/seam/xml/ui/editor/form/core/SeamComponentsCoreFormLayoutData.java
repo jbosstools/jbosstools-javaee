@@ -30,6 +30,8 @@ public class SeamComponentsCoreFormLayoutData implements IFormLayoutData {
 		ActorFormLayoutData.SEAM_ACTOR_FORM_DEFINITION,
 		PropertyListFormLayoutData.PROCESS_DEFS_FORM_DEFINITION,
 		PropertyListFormLayoutData.PAGEFLOW_DEFS_FORM_DEFINITION,
+		PropertyListFormLayoutData.PROCESS_20_DEFS_FORM_DEFINITION,
+		PropertyListFormLayoutData.PAGEFLOW_20_DEFS_FORM_DEFINITION,
 		PropertyListFormLayoutData.BUNDLE_NAMES_FORM_DEFINITION,
 		PropertyListFormLayoutData.FILTERS_FORM_DEFINITION,
 		

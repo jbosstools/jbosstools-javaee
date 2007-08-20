@@ -20,6 +20,8 @@ import org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;
 public class PropertyListFormLayoutData implements SeamComponentConstants {
 	static String ENT_PROCESS_DEFINITIONS = "SeamCoreProcessDefinitions";
 	static String ENT_PAGEFLOW_DEFINITIONS = "SeamCorePageflowDefinitions";
+	static String ENT_PROCESS_DEFINITIONS_20 = "SeamBPMProcessDefinitions20";
+	static String ENT_PAGEFLOW_DEFINITIONS_20 = "SeamBPMPageflowDefinitions20";
 
 	static String ENT_BUNDLE_NAMES = "SeamCoreBundleNames";
 	static String ENT_FILTERS = "SeamCoreFilters";
@@ -76,6 +78,9 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 			),
 		};
 	}
+	
+	
+	//BPM
 
 	private final static IFormData[] PROCESS_DEFS_DEFINITIONS = new IFormData[] {
 		createListDefinition("Process Definitions")
@@ -90,6 +95,15 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	
 	final static IFormData PAGEFLOW_DEFS_FORM_DEFINITION = new FormData(
 		ENT_PAGEFLOW_DEFINITIONS, new String[]{null}, PAGEFLOW_DEFS_DEFINITIONS);
+	
+	//BPM-2.0
+	
+	final static IFormData PROCESS_20_DEFS_FORM_DEFINITION = new FormData(
+		ENT_PROCESS_DEFINITIONS_20, new String[]{null}, PROCESS_DEFS_DEFINITIONS);
+
+	final static IFormData PAGEFLOW_20_DEFS_FORM_DEFINITION = new FormData(
+		ENT_PAGEFLOW_DEFINITIONS_20, new String[]{null}, PAGEFLOW_DEFS_DEFINITIONS);
+
 
 	private final static IFormData[] BUNDLE_NAMES_DEFINITIONS = new IFormData[] {
 		createListDefinition("Bundle Names")
