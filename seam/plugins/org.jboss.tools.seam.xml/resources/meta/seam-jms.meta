@@ -39,24 +39,16 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="queue connection" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.jms.queueConnection" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    default="org.jboss.seam.jms.queueConnection" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
-    name="factory-jndi-name" xmlname="queue-connection-factory-jndi-name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="factory-jndi-name" xmlname="queue-connection-factory-jndi-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -95,18 +87,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="managed queue sender" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
     attributes="name,class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="queue-jndi-name" xmlname="queue-jndi-name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="queue-jndi-name" xmlname="queue-jndi-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -145,24 +132,16 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="topic connection" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.jms.topicConnection" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    default="org.jboss.seam.jms.topicConnection" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
-    name="factory-jndi-name" xmlname="topic-connection-factory-jndi-name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="factory-jndi-name" xmlname="topic-connection-factory-jndi-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -202,18 +181,13 @@
   <XModelAttributes>
    <XModelAttribute default="managed topic publisher"
     loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
     attributes="name,class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="topic-jndi-name" xmlname="topic-jndi-name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="topic-jndi-name" xmlname="topic-jndi-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -290,6 +264,97 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents12_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="JMS" group="1"
+     kind="list" name="JMS">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Queue Connection..." kind="action" name="AddQueueConnection">
+      <EntityData EntityName="SeamJmsQueueConnection">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="factory-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Topic Connection..." kind="action" name="AddTopicConnection">
+      <EntityData EntityName="SeamJmsTopicConnection">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="factory-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Topic Publisher..." kind="action" name="AddTopicPublisher">
+      <EntityData EntityName="SeamJmsTopicPublisher">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="topic-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Queue Sender..." kind="action" name="AddQueueSender">
+      <EntityData EntityName="SeamJmsQueueSender">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="queue-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamJmsQueueConnection"/>
+   <XChildEntity name="SeamJmsTopicConnection"/>
+   <XChildEntity name="SeamJmsTopicPublisher"/>
+   <XChildEntity name="SeamJmsQueueSender"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="JMS" group="1"
+     kind="list" name="JMS">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Queue Connection..." kind="action" name="AddQueueConnection">
+      <EntityData EntityName="SeamJmsQueueConnection">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="factory-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Topic Connection..." kind="action" name="AddTopicConnection">
+      <EntityData EntityName="SeamJmsTopicConnection">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="factory-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Topic Publisher..." kind="action" name="AddTopicPublisher">
+      <EntityData EntityName="SeamJmsTopicPublisher">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="topic-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Queue Sender..." kind="action" name="AddQueueSender">
+      <EntityData EntityName="SeamJmsQueueSender">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="queue-jndi-name" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"

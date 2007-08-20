@@ -41,18 +41,13 @@
   <XModelAttributes>
    <XModelAttribute default="managed working memory"
     loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
     attributes="name,class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="rule-base" xmlname="rule-base">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="rule-base" xmlname="rule-base"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -93,22 +88,14 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="rule base" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
     attributes="name,class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="dsl-file" xmlname="dsl-file">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="rule-files" xmlname="rule-files">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="dsl-file" xmlname="dsl-file"/>
+   <XModelAttribute PROPERTIES="category=general" name="rule-files" xmlname="rule-files"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -149,16 +136,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="rule files" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="rule-files" name="name">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -227,6 +211,63 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents12_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Drools" group="1"
+     kind="list" name="Drools">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Working Memory..." kind="action" name="AddManagedWorkingMemory">
+      <EntityData EntityName="SeamDroolsManagedWorkingMemory">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="rule-base" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Base..." kind="action" name="AddRuleBase">
+      <EntityData EntityName="SeamDroolsRuleBase">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="rule-files" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamDroolsManagedWorkingMemory"/>
+   <XChildEntity name="SeamDroolsRuleBase"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Drools" group="1"
+     kind="list" name="Drools">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Working Memory..." kind="action" name="AddManagedWorkingMemory">
+      <EntityData EntityName="SeamDroolsManagedWorkingMemory">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="rule-base" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Base..." kind="action" name="AddRuleBase">
+      <EntityData EntityName="SeamDroolsRuleBase">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="rule-files" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"

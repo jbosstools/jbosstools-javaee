@@ -41,16 +41,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="available-themes" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="available themes" name="name">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -101,21 +98,14 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="theme selector" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
     attributes="name,class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="theme" xmlname="theme">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="theme" xmlname="theme"/>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="available-themes" xmlname="available-themes">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="available-themes" xmlname="available-themes"/>
    <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
     <Constraint loader="ListString">
      <value/>
@@ -125,7 +115,64 @@
     <Editor name="ListString"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="theme:theme-selector" name="SeamThemeSelector20">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamThemeAvailableThemes" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.theme.selector" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="theme selector" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="name,class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="theme" xmlname="theme"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="available-themes" xmlname="available-themes"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -185,6 +232,46 @@
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Theme Selector..." kind="action" name="AddThemeSelector">
       <EntityData EntityName="SeamThemeSelector">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="theme" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamThemeSelector20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Theme" group="1"
+     kind="list" name="Theme">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Theme Selector..." kind="action" name="AddThemeSelector">
+      <EntityData EntityName="SeamThemeSelector20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="theme" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Theme" group="1"
+     kind="list" name="Theme">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Theme Selector..." kind="action" name="AddThemeSelector">
+      <EntityData EntityName="SeamThemeSelector20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="theme" Mandatory="no"/>
       </EntityData>

@@ -39,25 +39,15 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="remoting config" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.remoting.remoting" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    default="org.jboss.seam.remoting.remoting" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="poll-interval" xmlname="poll-interval">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="poll-timeout" xmlname="poll-timeout">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="poll-interval" xmlname="poll-interval"/>
+   <XModelAttribute PROPERTIES="category=general" name="poll-timeout" xmlname="poll-timeout"/>
    <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug">
     <Constraint loader="ListString">
      <value/>
@@ -67,7 +57,6 @@
     <Editor name="ListString"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -119,6 +108,50 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents12_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Remoting" group="1"
+     kind="list" name="Remoting">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Config..." kind="action" name="AddRemotingConfig">
+      <EntityData EntityName="SeamRemotingConfig">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="poll-interval" Mandatory="no"/>
+       <AttributeData AttributeName="poll-timeout" Mandatory="no"/>
+       <AttributeData AttributeName="debug" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamRemotingConfig"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Remoting" group="1"
+     kind="list" name="Remoting">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Config..." kind="action" name="AddRemotingConfig">
+      <EntityData EntityName="SeamRemotingConfig">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="poll-interval" Mandatory="no"/>
+       <AttributeData AttributeName="poll-timeout" Mandatory="no"/>
+       <AttributeData AttributeName="debug" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"

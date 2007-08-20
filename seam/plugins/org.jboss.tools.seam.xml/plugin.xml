@@ -7,6 +7,7 @@
       <meta path="meta/seam-core.meta"/>
       <meta path="meta/seam-drools.meta"/>
       <meta path="meta/seam-framework.meta"/>
+      <meta path="meta/seam-international.meta"/>
       <meta path="meta/seam-mail.meta"/>
       <meta path="meta/seam-pdf.meta"/>
       <meta path="meta/seam-persistence.meta"/>

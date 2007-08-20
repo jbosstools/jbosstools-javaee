@@ -41,16 +41,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="config-locations" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="config locations" name="name">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -101,24 +98,67 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="context loader" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.ioc.spring.contextLoader" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    default="org.jboss.seam.ioc.spring.contextLoader" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="config-locations" xmlname="config-locations">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="config-locations" xmlname="config-locations"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="spring:task-executor-dispatcher" name="SeamSpringTaskDispatcher20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.dispatcher" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="task executor dispatcher"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.async.dispatcher" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,jndi-name"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="task-executor" xmlname="task-executor"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="schedule-dispatcher" xmlname="schedule-dispatcher"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -180,6 +220,63 @@
       <EntityData EntityName="SeamSpringContextLoader">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="config-locations" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamSpringContextLoader"/>
+   <XChildEntity name="SeamSpringTaskDispatcher20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Spring" group="1"
+     kind="list" name="Spring">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Context Loader..." kind="action" name="AddContextLoader">
+      <EntityData EntityName="SeamSpringContextLoader">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="config-locations" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Task Dispatcher..." kind="action" name="AddTaskDispatcher">
+      <EntityData EntityName="SeamSpringTaskDispatcher20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="task-executor"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Spring" group="1"
+     kind="list" name="Spring">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Context Loader..." kind="action" name="AddContextLoader">
+      <EntityData EntityName="SeamSpringContextLoader">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="config-locations" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Task Dispatcher..." kind="action" name="AddTaskDispatcher">
+      <EntityData EntityName="SeamSpringTaskDispatcher20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="task-executor"/>
       </EntityData>
      </XActionItem>
     </XActionItem>

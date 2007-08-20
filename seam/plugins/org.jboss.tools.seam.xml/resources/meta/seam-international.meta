@@ -6,46 +6,53 @@
  <MAPPINGS>
   <MAPPING name="Handlers"/>
   <MAPPING name="SeamNamespaces">
-   <PAIR name="pdf" value="http://jboss.com/products/seam/pdf"/>
+   <PAIR name="international" value="http://jboss.com/products/seam/international"/>
   </MAPPING>
   <MAPPING name="SeamSchemas">
-   <PAIR name="pdf" value="http://jboss.com/products/seam/pdf-1.2.xsd"/>
-   <PAIR name="pdf$20" value="http://jboss.com/products/seam/pdf-2.0.xsd"/>
+   <PAIR name="international$20" value="http://jboss.com/products/seam/international-2.0.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
   <GROUP name="action">
    <GROUP name="new">
-    <GROUP name="drools"/>
+    <GROUP name="international"/>
    </GROUP>
   </GROUP>
   <GROUP name="main">
    <GROUP name="seam">
-    <GROUP name="pdf">
-     <ICON name="store" path="images/struts/plug_in.gif"/>
-    </GROUP>
+    <GROUP name="international"/>
    </GROUP>
   </GROUP>
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
-  XMLSUBPATH="pdf:document-store" name="SeamPdfDocumentStore">
+  XMLSUBPATH="international:locale-selector" name="SeamCoreLocaleSelector20">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.pdf.store" type="main"/>
+    <ICON info="main.seam.core.ejb" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="document store" loader="ElementType" name="element type">
+   <XModelAttribute default="locale-selector" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.international.localeSelector" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
+    attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="error-page" xmlname="error-page"/>
-   <XModelAttribute PROPERTIES="category=general" name="use-extensions" xmlname="use-extensions"/>
+   <XModelAttribute PROPERTIES="category=general" name="locale-string" xmlname="locale-string"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -76,25 +83,32 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
-  XMLSUBPATH="pdf:key-store-config" name="SeamPdfKeyStoreConfig">
+  XMLSUBPATH="international:time-zone-selector" name="SeamCoreTimeZoneSelector20">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.pdf.store" type="main"/>
+    <ICON info="main.seam.core.timeZoneSelector" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="key store config" loader="ElementType" name="element type">
+   <XModelAttribute default="time zone selector" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.international.timeZoneSelector" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
+    attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="key-store" xmlname="key-store"/>
-   <XModelAttribute PROPERTIES="category=general"
-    name="key-store-password" xmlname="key-store-password"/>
-   <XModelAttribute PROPERTIES="category=general" name="key-password" xmlname="key-password"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="key-alias" xmlname="key-alias"/>
+   <XModelAttribute PROPERTIES="category=general" name="time-zone-id" xmlname="time-zone-id"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -123,87 +137,30 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XEntityExtension name="FileSeamComponents12">
-  <XChildrenEntities>
-   <XChildEntity name="SeamPdfDocumentStore"/>
-   <XChildEntity name="SeamPdfKeyStoreConfig"/>
-  </XChildrenEntities>
-  <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Pdf" group="1"
-     kind="list" name="Pdf">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Document Store..." kind="action" name="AddDocumentStore">
-      <EntityData EntityName="SeamPdfDocumentStore">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="error-page" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Key Store Config..." kind="action" name="AddKeyStoreConfig">
-      <EntityData EntityName="SeamPdfKeyStoreConfig">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="key-store" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
-    </XActionItem>
-   </XActionItem>
-  </XActionItem>
- </XEntityExtension>
- <XEntityExtension name="FileSeamComponents12_EditorActionList">
-  <XChildrenEntities/>
-  <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Pdf" group="1"
-     kind="list" name="Pdf">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Document Store..." kind="action" name="AddDocumentStore">
-      <EntityData EntityName="SeamPdfDocumentStore">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="error-page" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Key Store Config..." kind="action" name="AddKeyStoreConfig">
-      <EntityData EntityName="SeamPdfKeyStoreConfig">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="key-store" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
-    </XActionItem>
-   </XActionItem>
-  </XActionItem>
- </XEntityExtension>
  <XEntityExtension name="FileSeamComponents20">
   <XChildrenEntities>
-   <XChildEntity name="SeamPdfDocumentStore"/>
-   <XChildEntity name="SeamPdfKeyStoreConfig"/>
+   <XChildEntity name="SeamCoreLocaleSelector20"/>
+   <XChildEntity name="SeamCoreTimeZoneSelector20"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Pdf" group="1"
-     kind="list" name="Pdf">
+    <XActionItem ICON="action.empty" displayName="International"
+     group="1" kind="list" name="International">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Document Store..." kind="action" name="AddDocumentStore">
-      <EntityData EntityName="SeamPdfDocumentStore">
+      displayName="Locale Selector..." kind="action" name="AddLocaleSelector">
+      <EntityData EntityName="SeamCoreLocaleSelector20">
        <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="error-page" Mandatory="no"/>
+       <AttributeData AttributeName="locale-string" Mandatory="no"/>
       </EntityData>
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Key Store Config..." kind="action" name="AddKeyStoreConfig">
-      <EntityData EntityName="SeamPdfKeyStoreConfig">
+      displayName="Time Zone Selector..." kind="action" name="AddTimeZoneSelector">
+      <EntityData EntityName="SeamCoreTimeZoneSelector20">
        <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="key-store" Mandatory="no"/>
+       <AttributeData AttributeName="time-zone-id" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
@@ -215,22 +172,22 @@
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Pdf" group="1"
-     kind="list" name="Pdf">
+    <XActionItem ICON="action.empty" displayName="International"
+     group="1" kind="list" name="International">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Document Store..." kind="action" name="AddDocumentStore">
-      <EntityData EntityName="SeamPdfDocumentStore">
+      displayName="Locale Selector..." kind="action" name="AddLocaleSelector">
+      <EntityData EntityName="SeamCoreLocaleSelector20">
        <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="error-page" Mandatory="no"/>
+       <AttributeData AttributeName="locale-string" Mandatory="no"/>
       </EntityData>
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Key Store Config..." kind="action" name="AddKeyStoreConfig">
-      <EntityData EntityName="SeamPdfKeyStoreConfig">
+      displayName="Time Zone Selector..." kind="action" name="AddTimeZoneSelector">
+      <EntityData EntityName="SeamCoreTimeZoneSelector20">
        <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="key-store" Mandatory="no"/>
+       <AttributeData AttributeName="time-zone-id" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
