@@ -47,6 +47,7 @@ import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
+import org.jboss.tools.test.util.JUnitUtils;
 
 public class ScannerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -61,12 +62,12 @@ public class ScannerTest extends TestCase {
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		} catch (Exception e) {
-			e.printStackTrace();
+			JUnitUtils.fail("Error in refreshing",e);
 		}
 		try {
 			XJob.waitForJob();
 		} catch (InterruptedException e) {
-			//ignore
+			JUnitUtils.fail("Interrupted",e);
 		}
 	}
 	
@@ -74,24 +75,24 @@ public class ScannerTest extends TestCase {
 		try {
 			XJob.waitForJob();
 		} catch (Exception e) {
-			fail("Interrupted");
+			JUnitUtils.fail("Interrupted",e);
 		}
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 			try {
 				XJob.waitForJob();
 			} catch (InterruptedException e) {
-				System.out.println("Interruption ignored");
+				JUnitUtils.fail("Interrupted",e);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Cannot build");
+			JUnitUtils.fail("Cannot build",e);
 		}
 		ISeamProject seamProject = null;
 		try {
 			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
 		} catch (Exception e) {
-			fail("Cannot get seam nature.");
+			JUnitUtils.fail("Cannot get seam nature.",e);
 		}
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
@@ -126,7 +127,7 @@ public class ScannerTest extends TestCase {
 			cs = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 			fs = ds.getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
-			fail("Error in xml scanner:" + e.getMessage());
+			JUnitUtils.fail("Error in xml scanner",e);
 		}
 		assertTrue("Components are not found in components.xml", cs != null && cs.length > 0);
 
@@ -223,7 +224,7 @@ public class ScannerTest extends TestCase {
 			cs = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 			fs = ds.getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
-			fail("Error in java scanner:" + e.getMessage());
+			JUnitUtils.fail("Error in java scanner",e);
 		}
 		assertTrue("Components are not found in User.java", cs != null && cs.length > 0);
 		
@@ -307,7 +308,7 @@ public class ScannerTest extends TestCase {
 			factories = ds.getFactories().toArray(new ISeamFactory[0]);
 			componentDeclarations = ds.getComponents().toArray(new ISeamJavaComponentDeclaration[0]);
 		} catch (Exception e) {
-			fail("Error in library scanner:" + e.getMessage());
+			JUnitUtils.fail("Error in library scanner",e);
 		}
 		assertTrue("Factories are not found in jboss-seam.jar", factories != null && factories.length > 0);
 		
@@ -320,7 +321,7 @@ public class ScannerTest extends TestCase {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 			XJob.waitForJob();
 		} catch (Exception e) {
-			fail("Cannot build");
+			JUnitUtils.fail("Cannot build",e);
 		}
 
 		//After having tested details of library scanner now let us check
