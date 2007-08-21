@@ -15,6 +15,11 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IClassFile;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.ui.javaeditor.IClassFileEditorInput;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
@@ -27,6 +32,7 @@ import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -61,6 +67,21 @@ public class SeamLinkHelper implements ILinkHelper {
 
 	public IStructuredSelection findSelection(IEditorInput anInput) {
 		IFile file = ResourceUtil.getFile(anInput);
+		if(anInput instanceof IClassFileEditorInput) {
+			IClassFile cf = ((IClassFileEditorInput)anInput).getClassFile();
+			IJavaProject jp = cf.getJavaProject();
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(jp.getProject(), true);
+			if(seamProject == null) return null;
+			IType type = cf.getType();
+			Set<ISeamComponent> cs = seamProject.getComponents();
+			for (ISeamComponent c : cs) {
+				ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+				IMember m = d.getSourceMember();
+				if(m == type)
+					return new StructuredSelection(d);
+			}
+			return null;
+		}
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(file.getProject(), true);
 		if(seamProject == null) return null;
 		Set<ISeamComponent> set = seamProject.getComponentsByPath(file.getFullPath());

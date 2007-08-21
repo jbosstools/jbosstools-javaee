@@ -223,7 +223,10 @@
             </or> 
           </selectionEnablement>
           <editorInputEnablement>
+          	<or>
              <instanceof value="org.eclipse.ui.IFileEditorInput"/>
+             <instanceof value="org.eclipse.jdt.internal.ui.javaeditor.IClassFileEditorInput"/>
+            </or> 
           </editorInputEnablement>
        </linkHelper>
     </extension>
