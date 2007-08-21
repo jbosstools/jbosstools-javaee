@@ -50,6 +50,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.model.ui
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,
+ org.jboss.tools.seam.ui.actions,
  org.jboss.tools.seam.ui.builder,
  org.jboss.tools.seam.ui.internal.project.facet;x-internal:=true,
  org.jboss.tools.seam.ui.preferences,
