@@ -113,6 +113,7 @@
 	    <includes>
 	      <contentExtension pattern="org.jboss.tools.seam.ui.views.rootContent" />
 	      <contentExtension pattern="org.jboss.tools.seam.ui.views.SeamJarFilter"/>
+	      <contentExtension pattern="org.jboss.tools.seam.ui.views.SeamLinkHelper"/>
 	    </includes>
 	  </viewerContentBinding>
 	</extension>
@@ -209,6 +210,24 @@
 			</actionProvider>
 		</navigatorContent>
 	</extension>
+
+    <extension
+          point="org.eclipse.ui.navigator.linkHelper">
+       <linkHelper
+             class="org.jboss.tools.seam.ui.views.SeamLinkHelper"
+             id="org.jboss.tools.seam.ui.views.SeamLinkHelper">
+          <selectionEnablement>
+          	<or>
+             <instanceof value="org.jboss.tools.seam.core.IOpenableElement"/>
+             <instanceof value="org.jboss.tools.seam.core.ISeamElement"/>
+            </or> 
+          </selectionEnablement>
+          <editorInputEnablement>
+             <instanceof value="org.eclipse.ui.IFileEditorInput"/>
+          </editorInputEnablement>
+       </linkHelper>
+    </extension>
+
 
 	<extension point="org.eclipse.core.runtime.adapters">
 	  <factory 
