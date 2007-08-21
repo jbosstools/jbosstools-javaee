@@ -29,6 +29,161 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="mail:aliases" name="SeamMailAliases">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="aliases" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="aliases" name="name">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="mail:meldware" name="SeamMailMeldware">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamMailUsers" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="meldware" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.mail.meldware" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="mail:meldware-user" name="SeamMailMeldwareUser">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamMailAliases" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="meldware user" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.mail.meldwareUser" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="username" xmlname="username"/>
+   <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="mail:mail-session" name="SeamMailSession">
   <XChildrenEntities/>
@@ -39,33 +194,17 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="mail session" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.mail.mailSession" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    default="org.jboss.seam.mail.mailSession" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="username" xmlname="username">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="host" xmlname="host">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="port" xmlname="port">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="username" xmlname="username"/>
+   <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password"/>
+   <XModelAttribute PROPERTIES="category=general" name="host" xmlname="host"/>
+   <XModelAttribute PROPERTIES="category=general" name="port" xmlname="port"/>
    <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug">
     <Constraint loader="ListString">
      <value/>
@@ -83,12 +222,8 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="session-jndi-name" xmlname="session-jndi-name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="session-jndi-name" xmlname="session-jndi-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -100,6 +235,63 @@
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="mail:users" name="SeamMailUsers">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="users" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="users" name="name">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
@@ -149,6 +341,82 @@
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Mail Session..." kind="action" name="AddMailSession">
       <EntityData EntityName="SeamMailSession">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="username" Mandatory="no"/>
+       <AttributeData AttributeName="password" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamMailSession"/>
+   <XChildEntity name="SeamMailMeldware"/>
+   <XChildEntity name="SeamMailMeldwareUser"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Mail" group="1"
+     kind="list" name="Mail">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Mail Session..." kind="action" name="AddMailSession">
+      <EntityData EntityName="SeamMailSession">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="username" Mandatory="no"/>
+       <AttributeData AttributeName="password" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Meldware..." kind="action" name="AddMeldware">
+      <EntityData EntityName="SeamMailMeldware">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Meldware User..." kind="action" name="AddMeldwareUser">
+      <EntityData EntityName="SeamMailMeldwareUser">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="username" Mandatory="no"/>
+       <AttributeData AttributeName="password" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents20_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Mail" group="1"
+     kind="list" name="Mail">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Mail Session..." kind="action" name="AddMailSession">
+      <EntityData EntityName="SeamMailSession">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="username" Mandatory="no"/>
+       <AttributeData AttributeName="password" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Meldware..." kind="action" name="AddMeldware">
+      <EntityData EntityName="SeamMailMeldware">
+       <AttributeData AttributeName="name"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Meldware User..." kind="action" name="AddMeldwareUser">
+      <EntityData EntityName="SeamMailMeldwareUser">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="username" Mandatory="no"/>
        <AttributeData AttributeName="password" Mandatory="no"/>
