@@ -37,6 +37,9 @@ public class SeamUiImages {
 	public static Image JAVA_IMAGE = getImage("view/java.gif");
 	public static Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif");
 	public static Image PACKAGE_IMAGE = getImage("view/package.gif");
+
+	public static String SEAM_CREATE_PROJECT_ACTION = "view/seam_project_new.gif";
+
 	
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();
