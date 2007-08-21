@@ -25,6 +25,7 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 
 	static String ENT_BUNDLE_NAMES = "SeamCoreBundleNames";
 	static String ENT_FILTERS = "SeamCoreFilters";
+	static String ENT_FILTERS_20 = "SeamPersistenceFilters";
 	static String ENT_RULE_FILES = "SeamDroolsRuleFiles";
 	
 	static String ENT_RESTRICTIONS = "SeamFrameworkRestrictions";
@@ -118,6 +119,9 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	
 	final static IFormData FILTERS_FORM_DEFINITION = new FormData(
 		ENT_FILTERS, new String[]{null}, FILTERS_DEFINITIONS);
+
+	final static IFormData FILTERS_20_FORM_DEFINITION = new FormData(
+		ENT_FILTERS_20, new String[]{null}, FILTERS_DEFINITIONS);
 
 	private final static IFormData[] RULE_FILES_DEFINITIONS = new IFormData[] {
 		createListDefinition("Rule Files")
@@ -235,5 +239,39 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 
 	final static IFormData CONTEXT_LOADER_FORM_DEFINITION = new FormData(
 		ENT_CONTEXT_LOADER, new String[]{null}, CONTEXT_LOADER_DEFINITIONS);
+
+	/**
+	 * Mail
+	 */
+	static String ENT_MAIL_ALIASES = "SeamMailAliases";
+	static String ENT_MAIL_USERS = "SeamMailUsers";
+	static String ENT_MAIL_MELDWARE = "SeamMailMeldware";
+	static String ENT_MAIL_MELDWARE_USER = "SeamMailMeldwareUser";
+
+	private final static IFormData[] MAIL_ALIASES_DEFINITIONS = new IFormData[] {
+		createListDefinition("Aliases")
+	};
+	
+	final static IFormData MAIL_ALIASES_FORM_DEFINITION = new FormData(
+		ENT_MAIL_ALIASES, new String[]{null}, MAIL_ALIASES_DEFINITIONS);
+
+	private final static IFormData[] MAIL_USERS_DEFINITIONS = new IFormData[] {
+		createListDefinition("Users")
+	};
+	
+	final static IFormData MAIL_USERS_FORM_DEFINITION = new FormData(
+		ENT_MAIL_USERS, new String[]{null}, MAIL_USERS_DEFINITIONS);
+
+	private final static IFormData[] MAIL_MELDWARE_DEFINITIONS = 
+		createDefinitionsForListHolder("Meldware", ENT_MAIL_MELDWARE, "Users", "users");
+
+	private final static IFormData[] MAIL_MELDWARE_USER_DEFINITIONS = 
+		createDefinitionsForListHolder("Meldware User", ENT_MAIL_MELDWARE_USER, "Aliases", "aliases");
+
+	final static IFormData MAIL_MELDWARE_FORM_DEFINITION = new FormData(
+		ENT_MAIL_MELDWARE, new String[]{null}, MAIL_MELDWARE_DEFINITIONS);
+
+	final static IFormData MAIL_MELDWARE_USER_FORM_DEFINITION = new FormData(
+		ENT_MAIL_MELDWARE_USER, new String[]{null}, MAIL_MELDWARE_USER_DEFINITIONS);
 
 }

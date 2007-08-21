@@ -34,6 +34,7 @@ public class SeamComponentsCoreFormLayoutData implements IFormLayoutData {
 		PropertyListFormLayoutData.PAGEFLOW_20_DEFS_FORM_DEFINITION,
 		PropertyListFormLayoutData.BUNDLE_NAMES_FORM_DEFINITION,
 		PropertyListFormLayoutData.FILTERS_FORM_DEFINITION,
+		PropertyListFormLayoutData.FILTERS_20_FORM_DEFINITION,
 		
 		PropertyListFormLayoutData.RULE_FILES_FORM_DEFINITION,
 		
@@ -51,6 +52,11 @@ public class SeamComponentsCoreFormLayoutData implements IFormLayoutData {
 		
 		PropertyListFormLayoutData.FILTER_FORM_DEFINITION,
 		PropertyListFormLayoutData.PARAMETERS_FORM_DEFINITION,
+		
+		PropertyListFormLayoutData.MAIL_ALIASES_FORM_DEFINITION,
+		PropertyListFormLayoutData.MAIL_MELDWARE_FORM_DEFINITION,
+		PropertyListFormLayoutData.MAIL_MELDWARE_USER_FORM_DEFINITION,
+		PropertyListFormLayoutData.MAIL_USERS_FORM_DEFINITION,
 
 	};
 
