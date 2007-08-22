@@ -1101,23 +1101,23 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Add Simple Property..."
-     kind="action" name="AddProperty">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Simple Property..." kind="action" name="AddProperty">
      <EntityData EntityName="SeamProperty">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Add List Property..."
-     kind="action" name="AddListProperty">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add List Property..." kind="action" name="AddListProperty">
      <EntityData EntityName="SeamPropertyList">
       <AttributeData AttributeName="name"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Add Map Property..."
-     kind="action" name="AddMapProperty">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Map Property..." kind="action" name="AddMapProperty">
      <EntityData EntityName="SeamPropertyMap">
       <AttributeData AttributeName="name"/>
      </EntityData>
