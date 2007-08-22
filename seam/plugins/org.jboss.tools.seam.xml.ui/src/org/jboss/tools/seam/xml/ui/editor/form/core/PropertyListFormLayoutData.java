@@ -274,4 +274,25 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	final static IFormData MAIL_MELDWARE_USER_FORM_DEFINITION = new FormData(
 		ENT_MAIL_MELDWARE_USER, new String[]{null}, MAIL_MELDWARE_USER_DEFINITIONS);
 
+	/**
+	 * Persistence
+	 */
+	static String ENT_PERS_MAPPING_CLASSES = "SeamPersistenceMappingClasses";
+	static String ENT_PERS_MAPPING_FILES = "SeamPersistenceMappingFiles";
+	static String ENT_PERS_MAPPING_JARS = "SeamPersistenceMappingJars";
+	static String ENT_PERS_MAPPING_PACKAGES = "SeamPersistenceMappingPackages";
+	static String ENT_PERS_MAPPING_RESOURCES = "SeamPersistenceMappingResources";
+	
+	final static IFormData PERS_MAPPING_CLASSES_FORM_DEFINITION = new FormData(
+		ENT_PERS_MAPPING_CLASSES, new String[]{null}, new IFormData[] {createListDefinition("Mapping Classes")});
+	final static IFormData PERS_MAPPING_FILES_FORM_DEFINITION = new FormData(
+		ENT_PERS_MAPPING_FILES, new String[]{null}, new IFormData[] {createListDefinition("Mapping Files")});
+	final static IFormData PERS_MAPPING_JARS_FORM_DEFINITION = new FormData(
+		ENT_PERS_MAPPING_JARS, new String[]{null}, new IFormData[] {createListDefinition("Mapping Jars")});
+	final static IFormData PERS_MAPPING_PACKAGES_FORM_DEFINITION = new FormData(
+		ENT_PERS_MAPPING_PACKAGES, new String[]{null}, new IFormData[] {createListDefinition("Mapping Packages")});
+	final static IFormData PERS_MAPPING_RESOURCES_FORM_DEFINITION = new FormData(
+		ENT_PERS_MAPPING_RESOURCES, new String[]{null}, new IFormData[] {createListDefinition("Mapping Resources")});
+	
+
 }

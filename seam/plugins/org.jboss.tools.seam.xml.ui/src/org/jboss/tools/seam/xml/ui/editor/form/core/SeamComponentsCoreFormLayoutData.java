@@ -57,6 +57,12 @@ public class SeamComponentsCoreFormLayoutData implements IFormLayoutData {
 		PropertyListFormLayoutData.MAIL_MELDWARE_FORM_DEFINITION,
 		PropertyListFormLayoutData.MAIL_MELDWARE_USER_FORM_DEFINITION,
 		PropertyListFormLayoutData.MAIL_USERS_FORM_DEFINITION,
+		
+		PropertyListFormLayoutData.PERS_MAPPING_CLASSES_FORM_DEFINITION,
+		PropertyListFormLayoutData.PERS_MAPPING_FILES_FORM_DEFINITION,
+		PropertyListFormLayoutData.PERS_MAPPING_JARS_FORM_DEFINITION,
+		PropertyListFormLayoutData.PERS_MAPPING_PACKAGES_FORM_DEFINITION,
+		PropertyListFormLayoutData.PERS_MAPPING_RESOURCES_FORM_DEFINITION,
 
 	};
 
