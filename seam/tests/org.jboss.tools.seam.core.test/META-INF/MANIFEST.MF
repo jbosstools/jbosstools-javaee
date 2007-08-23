@@ -16,5 +16,6 @@ Require-Bundle:
  org.jboss.tools.seam.xml,
  org.jboss.tools.common.test,
  org.jboss.tools.jsf,
- org.eclipse.wst.common.project.facet.core
+ org.eclipse.wst.common.project.facet.core,
+ org.jboss.tools.tests
 Provide-Package: org.jboss.tools.seam.core.test
