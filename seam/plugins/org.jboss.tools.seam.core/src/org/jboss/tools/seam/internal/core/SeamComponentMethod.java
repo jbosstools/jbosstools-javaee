@@ -100,4 +100,11 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 		
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamComponentMethod m = (SeamComponentMethod)copy;
+		m.types.addAll(types);
+		m.javaSource = javaSource;
+	}
+
 }

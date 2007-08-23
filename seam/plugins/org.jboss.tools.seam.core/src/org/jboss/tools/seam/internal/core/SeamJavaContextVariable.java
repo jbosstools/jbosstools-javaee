@@ -68,4 +68,12 @@ public class SeamJavaContextVariable extends AbstractContextVariable implements 
 		return changes;
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		if(copy instanceof SeamJavaContextVariable) {
+			SeamJavaContextVariable sf = (SeamJavaContextVariable)copy;
+			sf.javaSource = javaSource;
+		}
+	}
+
 }

@@ -75,4 +75,10 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 		setScopeAsString(value == null ? null : value.getValue());
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		AbstractContextVariable f = (AbstractContextVariable)copy;
+		f.scope = scope;
+		f.scopeType = scopeType;
+	}
 }

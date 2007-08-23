@@ -66,6 +66,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	SeamScope[] scopes = new SeamScope[ScopeType.values().length];
 	Map<ScopeType, SeamScope> scopesMap = new HashMap<ScopeType, SeamScope>();
 	
+	Set<SeamProject> dependsOn = new HashSet<SeamProject>();
+	Set<SeamProject> usedBy = new HashSet<SeamProject>();
+	
 	{
 		ScopeType[] types = ScopeType.values();
 		for (int i = 0; i < scopes.length; i++) {
@@ -137,6 +140,42 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 //		load();
 	}
 	
+	public void addSeamProject(SeamProject p) {
+		if(dependsOn.contains(p)) return;
+		dependsOn.add(p);
+		p.addDependentSeamProject(this);
+		if(!p.isStorageResolved) {
+			p.resolve();
+		} else {
+			Map<IPath,LoadedDeclarations> map = p.getAllDeclarations();
+			for (IPath source : map.keySet()) {
+				LoadedDeclarations ds = map.get(source);
+				registerComponents(ds, source);
+			}
+		}
+	}
+	
+	public Set<SeamProject> getSeamProjects() {
+		return dependsOn;
+	}
+	
+	public void addDependentSeamProject(SeamProject p) {
+		usedBy.add(p);
+	}
+	
+	public void removeSeamProject(SeamProject p) {
+		if(!dependsOn.contains(p)) return;
+		p.usedBy.remove(this);
+		dependsOn.remove(p);
+		IPath[] ps = sourcePaths.toArray(new IPath[0]);
+		for (int i = 0; i < ps.length; i++) {
+			IPath pth = ps[i];
+			if(p.getSourcePath().isPrefixOf(pth)) {
+				pathRemoved(pth);
+			}
+		}
+	}
+	
 	public ClassPath getClassPath() {
 		return classPath;
 	}
@@ -171,6 +210,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(file == null || !file.isFile()) return;
 		Element root = XMLUtilities.getElement(file, null);
 		if(root != null) {
+			loadProjectDependencies(root);
 			loadSourcePaths(root);
 			getValidationContext().load(root);
 		}
@@ -190,7 +230,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		file.getParentFile().mkdirs();
 		
 		Element root = XMLUtilities.createDocumentElement("seam-project");
+		storeProjectDependencies(root);
 		storeSourcePaths(root);
+		
 		if(validationContext != null) validationContext.store(root);
 		
 		XMLUtilities.serialize(root, file.getAbsolutePath());
@@ -201,6 +243,21 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		for (IPath path : sourcePaths) {
 			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path");
 			pathElement.setAttribute("value", path.toString());
+		}
+	}
+	
+	private void storeProjectDependencies(Element root) {
+		Element dependsOnElement = XMLUtilities.createElement(root, "depends-on-projects");
+		for (ISeamProject p : dependsOn) {
+			if(!p.getProject().isAccessible()) continue;
+			Element pathElement = XMLUtilities.createElement(dependsOnElement, "project");
+			pathElement.setAttribute("name", p.getProject().getName());
+		}
+		Element usedElement = XMLUtilities.createElement(root, "used-by-projects");
+		for (ISeamProject p : usedBy) {
+			if(!p.getProject().isAccessible()) continue;
+			Element pathElement = XMLUtilities.createElement(usedElement, "project");
+			pathElement.setAttribute("name", p.getProject().getName());
 		}
 	}
 	
@@ -218,6 +275,38 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			SeamResourceVisitor b = new SeamResourceVisitor(this);
 			b.visit(f);
 		}
+	}
+	
+	private void loadProjectDependencies(Element root) {
+		Element dependsOnElement = XMLUtilities.getUniqueChild(root, "depends-on-projects");
+		if(dependsOnElement != null) {
+			Element[] paths = XMLUtilities.getChildren(dependsOnElement, "project");
+			for (int i = 0; i < paths.length; i++) {
+				String p = paths[i].getAttribute("name");
+				if(p == null || p.trim().length() == 0) continue;
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
+				if(project == null || !project.isAccessible()) continue;
+				SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(project, false);
+				if(sp != null) {
+					dependsOn.add(sp);
+					sp.addDependentSeamProject(this);
+				}
+			}
+		}
+
+		Element usedElement = XMLUtilities.getUniqueChild(root, "used-by-projects");
+		if(usedElement != null) {
+			Element[] paths = XMLUtilities.getChildren(usedElement, "project");
+			for (int i = 0; i < paths.length; i++) {
+				String p = paths[i].getAttribute("name");
+				if(p == null || p.trim().length() == 0) continue;
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
+				if(project == null || !project.isAccessible()) continue;
+				SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(project, false);
+				if(sp != null) usedBy.add(sp);
+			}
+		}
+	
 	}
 	
 	private File getStorageFile() {
@@ -361,6 +450,25 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		fireChanges(addedFactories); 
 		
 		factoryDeclarationsRemoved(currentFactories);
+		
+		registerComponentsInDependentProjects(ds, source);
+	}
+	
+	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) {
+		if(usedBy.size() == 0) return;
+		if(source.toString().endsWith(".jar")) return;
+		
+		for (SeamProject p : usedBy) {
+			p.resolve();
+			LoadedDeclarations ds1 = new LoadedDeclarations();
+			for (SeamComponentDeclaration d:  ds.getComponents()) {
+				ds1.getComponents().add((SeamComponentDeclaration)d.copy());
+			}
+			for (ISeamFactory f : ds.getFactories()) {
+				ds1.getFactories().add((ISeamFactory)f.copy());
+			}
+			p.registerComponents(ds1, source);
+		}
 	}
 	
 	boolean stringsEqual(String s1, String s2) {
@@ -872,7 +980,33 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return p;
 	}
 	
-
+	Map<IPath, LoadedDeclarations> getAllDeclarations() {
+		Map<IPath, LoadedDeclarations> map = new HashMap<IPath, LoadedDeclarations>();
+		for (ISeamComponent c : allComponents.values()) {
+			for (ISeamComponentDeclaration d : c.getAllDeclarations()) {
+				IPath p = d.getSourcePath();
+				if(p == null || p.toString().endsWith(".jar")) continue;
+				LoadedDeclarations ds = map.get(p);
+				if(ds == null) {
+					ds = new LoadedDeclarations();
+					map.put(p, ds);
+				}
+				ds.getComponents().add((SeamComponentDeclaration)d.copy());
+			}
+		}
+		for (ISeamFactory f : allFactories) {
+			IPath p = f.getSourcePath();
+			if(p == null || p.toString().endsWith(".jar")) continue;
+			LoadedDeclarations ds = map.get(p);
+			if(ds == null) {
+				ds = new LoadedDeclarations();
+				map.put(p, ds);
+			}
+			ds.getFactories().add((ISeamFactory)f.copy());
+		}
+		return map;
+	}
+	
 	protected void addToBuildSpec(String builderID) throws CoreException {
 		IProjectDescription description = getProject().getDescription();
 		ICommand command = null;

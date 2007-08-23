@@ -80,4 +80,10 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 	
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamProperty p = (SeamProperty)copy;
+		p.value = value == null ? null : (ISeamValue)value.copy();
+	}
+
 }

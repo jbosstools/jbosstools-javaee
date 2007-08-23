@@ -65,4 +65,11 @@ public class SeamValueMapEntry extends SeamObject implements ISeamValueMapEntry 
 		return changes;
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamValueMapEntry vl = (SeamValueMapEntry)copy;
+		vl.key = key == null ? null : (SeamValueString)key.copy();
+		vl.value = value == null ? null : (SeamValueString)value.copy();
+	}
+
 }

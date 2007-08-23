@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -35,6 +36,7 @@ import org.jboss.tools.common.model.filesystems.impl.FileSystemsLoader;
 import org.jboss.tools.common.model.filesystems.impl.JarSystemImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProject;
@@ -182,6 +184,27 @@ public class ClassPath {
 			}
 			if(c != null) componentsLoaded(c, new Path(p));
 		}
+		
+		List<SeamProject> ps = null;
+		
+		try {
+			ps = getSeamProjects(project.getProject());
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		if(ps != null) {
+			Set<SeamProject> set = project.getSeamProjects();
+			Set<SeamProject> removable = new HashSet<SeamProject>();
+			removable.addAll(set);
+			removable.removeAll(ps);
+			ps.removeAll(set);
+			for (SeamProject p : ps) {
+//				project.addSeamProject(p);
+			}
+			for (SeamProject p : removable) {
+				project.removeSeamProject(p);
+			}
+		}
 	}	
 
 	void componentsLoaded(LoadedDeclarations c, IPath path) {
@@ -247,6 +270,21 @@ public class ClassPath {
 			}
 		}
 		return l;
+	}
+	
+	List<SeamProject> getSeamProjects(IProject project) throws CoreException {
+		List<SeamProject> list = new ArrayList<SeamProject>();
+		IJavaProject javaProject = JavaCore.create(project);
+		IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
+		for (int i = 0; i < es.length; i++) {
+			if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
+				if(p == null || !p.isAccessible()) continue;
+				ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
+				if(sp != null) list.add((SeamProject)sp);
+			}
+		}
+		return list;
 	}
 
 }

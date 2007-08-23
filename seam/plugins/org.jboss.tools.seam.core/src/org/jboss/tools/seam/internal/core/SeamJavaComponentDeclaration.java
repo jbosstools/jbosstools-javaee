@@ -395,4 +395,26 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamJavaComponentDeclaration d = (SeamJavaComponentDeclaration)copy;
+		d.className = className;
+		d.scopeType = scopeType;
+		if(types != null) {
+			d.types = new HashMap<BeanType, IValueInfo>();
+			d.types.putAll(types);
+		}
+		d.precedence = precedence;
+		d.type = type;
+		for (IBijectedAttribute a : bijectedAttributes) {
+			d.addBijectedAttribute((IBijectedAttribute)a.copy());
+		}
+		for (ISeamComponentMethod m : componentMethods) {
+			d.addMethod((ISeamComponentMethod)m.copy());
+		}
+		for (IRole r : roles) {
+			d.addRole((IRole)r.copy());
+		}
+	}
+
 }

@@ -161,4 +161,14 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 		return changes;
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamXmlComponentDeclaration d = (SeamXmlComponentDeclaration)copy;
+		d.className = className;
+		d.autoCreate = autoCreate;
+		d.installed = installed;
+		d.jndiName = jndiName;
+		d.precedence = precedence;
+		d.scope = scope;
+	}
 }

@@ -25,9 +25,11 @@ import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
 
 public class SeamScope extends SeamObject implements ISeamScope {
+	//Contains all components for that scope.
 	private List<ISeamComponent> components = new ArrayList<ISeamComponent>();
 	private ScopeType scopeType = null;
 
+	//Contains first level packages for that scope
 	Map<String, ISeamPackage> packages = new HashMap<String, ISeamPackage>();
 	
 	SeamScope(SeamProject project, ScopeType scopeType) {

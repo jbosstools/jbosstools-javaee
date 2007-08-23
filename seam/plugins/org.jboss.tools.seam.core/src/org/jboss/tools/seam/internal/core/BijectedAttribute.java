@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
-import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
@@ -71,6 +70,14 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 		}
 		return true;
 		
+	}
+
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		if(copy instanceof BijectedAttribute) {
+			BijectedAttribute sf = (BijectedAttribute)copy;
+			sf.types = types;
+		}
 	}
 
 }

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -19,6 +20,10 @@ public interface ISeamPackage extends ISeamElement {
 	
 	public String getName();
 	
+	public String getQualifiedName();
+	
 	public Set<ISeamComponent> getComponents();
+
+	public Collection<ISeamPackage> getPackages();
 
 }

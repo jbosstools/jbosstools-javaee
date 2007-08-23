@@ -11,7 +11,10 @@
 
 package org.jboss.tools.seam.internal.core;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -19,6 +22,8 @@ import org.jboss.tools.seam.core.ISeamPackage;
 
 public class SeamPackage extends SeamObject implements ISeamPackage {
 	Set<ISeamComponent> components = new HashSet<ISeamComponent>();
+	Map<String, ISeamPackage> packages = new HashMap<String, ISeamPackage>();
+
 	public String name;
 	
 	public SeamPackage() {}
@@ -38,6 +43,17 @@ public class SeamPackage extends SeamObject implements ISeamPackage {
 	public void setName(String name) {
 		this.name = name;
 		setId(name);
+	}
+
+	public Collection<ISeamPackage> getPackages() {
+		return packages.values();
+	}
+
+	public String getQualifiedName() {
+		if(parent instanceof ISeamPackage) {
+			return ((ISeamPackage)parent).getQualifiedName() + "." + getName();
+		}
+		return getName();
 	}
 
 }

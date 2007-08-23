@@ -79,4 +79,10 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		AbstractSeamDeclaration d = (AbstractSeamDeclaration)copy;
+		d.name = name;
+		d.attributes.putAll(attributes);
+	}
 }

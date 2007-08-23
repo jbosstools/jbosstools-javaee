@@ -125,5 +125,25 @@ public class SeamObject implements ISeamElement {
 		//value for null, before using it.		
 		return null;
 	}
+	
+	public final SeamObject copy() {
+		SeamObject result = null;
+		try {
+			result = (SeamObject)this.getClass().newInstance();
+			copyTo(result);
+		} catch (InstantiationException e1) {
+			
+		} catch (IllegalAccessException e2) {
+			
+		}
+		return result;
+	}
+	
+	public void copyTo(SeamObject copy) {
+		copy.source = source;
+		copy.id = id;
+		copy.resource = resource;
+		//do not copy parent
+	}
 
 }

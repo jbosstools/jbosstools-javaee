@@ -50,4 +50,12 @@ public class SeamValueMap extends SeamObject implements ISeamValueMap {
 		return changes;
 	}
 
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamValueMap vl = (SeamValueMap)copy;
+		for (ISeamValueMapEntry v : entries) {
+			vl.addEntry((SeamValueMapEntry)v.copy());
+		}
+	}
+
 }

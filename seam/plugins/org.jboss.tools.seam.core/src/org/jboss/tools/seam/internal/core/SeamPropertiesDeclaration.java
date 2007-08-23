@@ -122,4 +122,14 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 			
 		}
 	}
+
+	public void copyTo(SeamObject copy) {
+		super.copyTo(copy);
+		SeamPropertiesDeclaration d = (SeamPropertiesDeclaration)copy;
+		for (String name : properties.keySet()) {
+			ISeamProperty p = (ISeamProperty)properties.get(name).copy();
+			d.addProperty(p);
+		}
+	}
+
 }
