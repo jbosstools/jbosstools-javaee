@@ -323,4 +323,12 @@
          </enabledWhen>
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.jboss.tools.seam.ui.SeamPerspectiveFactory"
+            id="org.jboss.tools.seam.ui.SeamPerspective"
+            name="Seam">
+      </perspective>
+   </extension>
 </plugin>
