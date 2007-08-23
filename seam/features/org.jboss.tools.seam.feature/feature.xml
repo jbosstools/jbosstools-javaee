@@ -223,6 +223,7 @@ litigation.
       <import feature="org.jboss.ide.eclipse.as.feature"/>
       <import feature="org.hibernate.eclipse.feature"/>
       <import feature="org.eclipse.datatools.connectivity.feature"/>
+      <import feature="org.eclipse.datatools.enablement.jdbc.feature"/>
    </requires>
 
    <plugin
