@@ -50,12 +50,13 @@ public class SeamValueList extends SeamObject implements ISeamValueList {
 		return changes;
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		SeamValueList vl = (SeamValueList)copy;
+	public SeamValueList clone() throws CloneNotSupportedException {
+		SeamValueList c = (SeamValueList)super.clone();
+		c.values = new ArrayList<ISeamValueString>();
 		for (ISeamValueString v : values) {
-			vl.addValue((SeamValueString)v.copy());
+			c.addValue((SeamValueString)doClone(v));
 		}
+		return c;
 	}
 
 }

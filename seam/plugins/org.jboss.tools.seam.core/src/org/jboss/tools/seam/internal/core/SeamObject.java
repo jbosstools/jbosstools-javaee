@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -103,6 +102,7 @@ public class SeamObject implements ISeamElement {
 	}
 	
 	protected void adopt(ISeamElement child) {
+		if(child.getSeamProject() != null && child.getSeamProject() != getSeamProject()) return;
 		((SeamObject)child).setParent(this);
 	}
 
@@ -126,24 +126,18 @@ public class SeamObject implements ISeamElement {
 		return null;
 	}
 	
-	public final SeamObject copy() {
-		SeamObject result = null;
-		try {
-			result = (SeamObject)this.getClass().newInstance();
-			copyTo(result);
-		} catch (InstantiationException e1) {
-			
-		} catch (IllegalAccessException e2) {
-			
-		}
-		return result;
-	}
-	
-	public void copyTo(SeamObject copy) {
-		copy.source = source;
-		copy.id = id;
-		copy.resource = resource;
+	public SeamObject clone() throws CloneNotSupportedException {
+		SeamObject c = (SeamObject)super.clone();
+		c.parent = null;
 		//do not copy parent
+		return c;
+	}
+
+	protected static ISeamElement doClone(ISeamElement object) throws CloneNotSupportedException {
+		if(!(object instanceof SeamObject)) {
+			throw new CloneNotSupportedException("Only instance of SeamObject can be cloned: " + object);
+		}
+		return ((SeamObject)object).clone();
 	}
 
 }

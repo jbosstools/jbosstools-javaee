@@ -72,12 +72,9 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 		
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		if(copy instanceof BijectedAttribute) {
-			BijectedAttribute sf = (BijectedAttribute)copy;
-			sf.types = types;
-		}
+	public BijectedAttribute clone() throws CloneNotSupportedException {
+		BijectedAttribute c = (BijectedAttribute)super.clone();
+		return c;
 	}
 
 }

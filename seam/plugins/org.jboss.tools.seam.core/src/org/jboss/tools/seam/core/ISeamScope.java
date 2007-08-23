@@ -32,9 +32,15 @@ public interface ISeamScope extends ISeamElement {
 	
 	/**
 	 * 
-	 * @return collection of all packages
+	 * @return collection of root packages
 	 */
 	public Collection<ISeamPackage> getPackages();
+	
+	/**
+	 * 
+	 * @return collection of all packages
+	 */
+	public Collection<ISeamPackage> getAllPackages();
 	
 	/**
 	 * 

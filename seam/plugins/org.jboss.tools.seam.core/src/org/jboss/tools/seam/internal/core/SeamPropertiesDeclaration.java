@@ -123,13 +123,14 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 		}
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		SeamPropertiesDeclaration d = (SeamPropertiesDeclaration)copy;
+	public SeamPropertiesDeclaration clone() throws CloneNotSupportedException {
+		SeamPropertiesDeclaration c = (SeamPropertiesDeclaration)super.clone();
+		c.properties = new HashMap<String, ISeamProperty>();
 		for (String name : properties.keySet()) {
-			ISeamProperty p = (ISeamProperty)properties.get(name).copy();
-			d.addProperty(p);
+			ISeamProperty p = (ISeamProperty)doClone(properties.get(name));
+			c.addProperty(p);
 		}
+		return c;
 	}
 
 }

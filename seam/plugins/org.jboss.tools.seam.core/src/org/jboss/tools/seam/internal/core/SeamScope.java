@@ -14,7 +14,6 @@ package org.jboss.tools.seam.internal.core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +25,7 @@ import org.jboss.tools.seam.core.event.Change;
 
 public class SeamScope extends SeamObject implements ISeamScope {
 	//Contains all components for that scope.
+	private Map<String,SeamComponent> componentMap = new HashMap<String, SeamComponent>();
 	private List<ISeamComponent> components = new ArrayList<ISeamComponent>();
 	private ScopeType scopeType = null;
 
@@ -45,17 +45,25 @@ public class SeamScope extends SeamObject implements ISeamScope {
 		return packages.values();
 	}
 	
+	public Collection<ISeamPackage> getAllPackages() {
+		List<ISeamPackage> list = new ArrayList<ISeamPackage>();
+		SeamPackageUtil.collectAllPackages(packages, list);
+		return list;
+	}
+	
 	public ISeamPackage getPackage(ISeamComponent c) {
-		String pkg = SeamProject.getPackageName(c);
-		return packages.get(pkg);
+		String pkg = SeamPackageUtil.getPackageName(c);
+		return SeamPackageUtil.findPackage(this, packages, pkg);
 	}
 
-	public void addComponent(ISeamComponent component) {
-		components.add(component);		
+	public void addComponent(SeamComponent component) {
+		components.add(component);
+		componentMap.put(component.getName(), component);
 	}
 	
 	public void removeComponent(ISeamComponent component) {
 		components.remove(component);
+		componentMap.remove(component.getName());
 	}
 
 	public ScopeType getType() {
@@ -63,33 +71,7 @@ public class SeamScope extends SeamObject implements ISeamScope {
 	}
 
 	void revalidatePackages() {
-		List<Change> changes = null;
-		for (ISeamPackage p : packages.values()) {
-			Iterator<ISeamComponent> cs = p.getComponents().iterator();
-			while(cs.hasNext()) {
-				ISeamComponent c = cs.next();
-				String pkg = SeamProject.getPackageName(c);
-				if(!components.contains(c) || !p.getName().equals(pkg)) {
-					cs.remove();
-					changes = Change.addChange(changes, new Change(p, null, c, null));
-				}
-			}
-		}
-		for (ISeamComponent c : getComponents()) {
-			String pkg = SeamProject.getPackageName(c);
-			ISeamPackage p = SeamProject.findOrCreatePackage(this, packages, pkg);
-			if(p.getComponents().contains(c)) continue;
-			p.getComponents().add(c);
-			changes = Change.addChange(changes, new Change(p, null, null, c));
-		}
-		Iterator<String> ps = packages.keySet().iterator();
-		while(ps.hasNext()) {
-			ISeamPackage p = packages.get(ps.next());
-			if(p.getComponents().size() == 0) {
-				ps.remove();
-				changes = Change.addChange(changes, new Change(this, null, p, null));
-			}
-		}
+		List<Change> changes = SeamPackageUtil.revalidatePackages(this, componentMap, getComponents(), packages);
 		((SeamProject)getSeamProject()).fireChanges(changes);
 	}
 	

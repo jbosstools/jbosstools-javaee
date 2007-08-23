@@ -395,26 +395,25 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		SeamJavaComponentDeclaration d = (SeamJavaComponentDeclaration)copy;
-		d.className = className;
-		d.scopeType = scopeType;
+	public SeamJavaComponentDeclaration clone() throws CloneNotSupportedException {
+		SeamJavaComponentDeclaration c = (SeamJavaComponentDeclaration)super.clone();
 		if(types != null) {
-			d.types = new HashMap<BeanType, IValueInfo>();
-			d.types.putAll(types);
+			c.types = new HashMap<BeanType, IValueInfo>();
+			c.types.putAll(types);
 		}
-		d.precedence = precedence;
-		d.type = type;
+		c.bijectedAttributes = new HashSet<IBijectedAttribute>();
 		for (IBijectedAttribute a : bijectedAttributes) {
-			d.addBijectedAttribute((IBijectedAttribute)a.copy());
+			c.addBijectedAttribute((IBijectedAttribute)doClone(a));
 		}
+		c.componentMethods = new HashSet<ISeamComponentMethod>();
 		for (ISeamComponentMethod m : componentMethods) {
-			d.addMethod((ISeamComponentMethod)m.copy());
+			c.addMethod((ISeamComponentMethod)doClone(m));
 		}
+		c.roles = new HashSet<IRole>();
 		for (IRole r : roles) {
-			d.addRole((IRole)r.copy());
+			c.addRole((IRole)doClone(r));
 		}
+		return c;
 	}
 
 }

@@ -122,10 +122,16 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public Collection<ISeamPackage> getPackages() {
 		return packages.values();
 	}
-
+	
+	public Collection<ISeamPackage> getAllPackages() {
+		List<ISeamPackage> list = new ArrayList<ISeamPackage>();
+		SeamPackageUtil.collectAllPackages(packages, list);
+		return list;
+	}
+	
 	public ISeamPackage getPackage(ISeamComponent c) {
-		String pkg = getPackageName(c);
-		return packages.get(pkg);
+		String pkg = SeamPackageUtil.getPackageName(c);
+		return SeamPackageUtil.findPackage(this, packages, pkg);
 	}
 
 	public ISeamProject getSeamProject() {
@@ -147,7 +153,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(!p.isStorageResolved) {
 			p.resolve();
 		} else {
-			Map<IPath,LoadedDeclarations> map = p.getAllDeclarations();
+			Map<IPath,LoadedDeclarations> map = null;
+			try {
+				map = p.getAllDeclarations();
+			} catch (CloneNotSupportedException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
 			for (IPath source : map.keySet()) {
 				LoadedDeclarations ds = map.get(source);
 				registerComponents(ds, source);
@@ -355,7 +366,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		List<Change> addedComponents = null;
 		for (int i = 0; i < components.length; i++) {
 			SeamComponentDeclaration loaded = (SeamComponentDeclaration)components[i];
-			loaded.setParent(this);
+			adopt(loaded);
 			SeamComponentDeclaration current = (SeamComponentDeclaration)currentComponents.remove(loaded.getId());
 
 			loaded.setSourcePath(source);
@@ -451,10 +462,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		factoryDeclarationsRemoved(currentFactories);
 		
-		registerComponentsInDependentProjects(ds, source);
+		try {
+			registerComponentsInDependentProjects(ds, source);
+		} catch (CloneNotSupportedException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
 	}
 	
-	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) {
+	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) throws CloneNotSupportedException {
 		if(usedBy.size() == 0) return;
 		if(source.toString().endsWith(".jar")) return;
 		
@@ -462,10 +477,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			p.resolve();
 			LoadedDeclarations ds1 = new LoadedDeclarations();
 			for (SeamComponentDeclaration d:  ds.getComponents()) {
-				ds1.getComponents().add((SeamComponentDeclaration)d.copy());
+				ds1.getComponents().add(d.clone());
 			}
 			for (ISeamFactory f : ds.getFactories()) {
-				ds1.getFactories().add((ISeamFactory)f.copy());
+				SeamObject copy = ((SeamObject)f).clone();
+				ds1.getFactories().add((ISeamFactory)copy);
 			}
 			p.registerComponents(ds1, source);
 		}
@@ -914,73 +930,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	void revalidatePackages() {
-		List<Change> changes = null;
-		for (ISeamPackage p : packages.values()) {
-			Iterator<ISeamComponent> cs = p.getComponents().iterator();
-			while(cs.hasNext()) {
-				ISeamComponent c = cs.next();
-				String pkg = getPackageName(c);
-				if(allComponents.get(c.getName()) == null || !p.getName().equals(pkg)) {
-					cs.remove();
-					changes = Change.addChange(changes, new Change(p, null, c, null));
-				}
-			}
-		}
-		for (ISeamComponent c : getComponents()) {
-			String pkg = getPackageName(c);
-			ISeamPackage p = findOrCreatePackage(this, packages, pkg);
-			if(p.getComponents().contains(c)) continue;
-			p.getComponents().add(c);
-			changes = Change.addChange(changes, new Change(p, null, null, c));
-		}
-		Iterator<String> ps = packages.keySet().iterator();
-		while(ps.hasNext()) {
-			ISeamPackage p = packages.get(ps.next());
-			if(p.getComponents().size() == 0) {
-				ps.remove();
-				changes = Change.addChange(changes, new Change(this, null, p, null));
-			}
-		}
+		List<Change> changes = SeamPackageUtil.revalidatePackages(this, allComponents, getComponents(), packages);
 		fireChanges(changes);
 	}
 	
-	static String getPackageName(ISeamComponent c) {
-		// Package name can be based 
-		// 1) on qualified java class name, 
-		//    then it is java package name
-		// 2) on seam component name, 
-		//    then name is processed by analogy with java,
-		//    and package name is its part until the last dot.
-		
-		// Presently, only second approach is implemented,
-		// in future an option can be added, that 
-		// will allow user to customize view by selecting 
-		// the 'kind' of packages.
-		String cls = c.getName();
-				//c.getClassName();
-		if(cls == null || cls.length() == 0) {
-			return "(unspecified)";
-		} else if(cls.startsWith("${") || cls.startsWith("#{")) {
-			return "(specified with EL)";
-		} else {
-			int d = cls.lastIndexOf('.');
-			return (d < 0) ? "(default package)" : cls.substring(0, d);
-		}
-	}
-	
-	static ISeamPackage findOrCreatePackage(ISeamElement parent, Map<String, ISeamPackage> packages, String name) {
-		ISeamPackage p = packages.get(name);
-		if(p == null) {
-			SeamPackage pi = new SeamPackage(name);
-			pi.setParent(parent);
-			pi.setSourcePath(parent.getSourcePath());
-			p = pi;
-			packages.put(name, pi);
-		}
-		return p;
-	}
-	
-	Map<IPath, LoadedDeclarations> getAllDeclarations() {
+	Map<IPath, LoadedDeclarations> getAllDeclarations() throws CloneNotSupportedException {
 		Map<IPath, LoadedDeclarations> map = new HashMap<IPath, LoadedDeclarations>();
 		for (ISeamComponent c : allComponents.values()) {
 			for (ISeamComponentDeclaration d : c.getAllDeclarations()) {
@@ -991,7 +945,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					ds = new LoadedDeclarations();
 					map.put(p, ds);
 				}
-				ds.getComponents().add((SeamComponentDeclaration)d.copy());
+				ds.getComponents().add(((SeamComponentDeclaration)d).clone());
 			}
 		}
 		for (ISeamFactory f : allFactories) {
@@ -1002,7 +956,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				ds = new LoadedDeclarations();
 				map.put(p, ds);
 			}
-			ds.getFactories().add((ISeamFactory)f.copy());
+			ds.getFactories().add((ISeamFactory)((SeamObject)f).clone());
 		}
 		return map;
 	}

@@ -65,11 +65,9 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 		return changes;
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		SeamXmlFactory xf = (SeamXmlFactory)copy;
-		xf.value = value;
-		xf.method = method;		
+	public SeamXmlFactory clone() throws CloneNotSupportedException {
+		SeamXmlFactory c = (SeamXmlFactory)super.clone();
+		return c;
 	}
 
 }

@@ -61,4 +61,9 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 		return null;
 	}
 	
+	public SeamComponentDeclaration clone() throws CloneNotSupportedException {
+		SeamComponentDeclaration c = (SeamComponentDeclaration)super.clone();
+		return c;
+	}
+
 }

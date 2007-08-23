@@ -45,8 +45,8 @@ public class SeamPackage extends SeamObject implements ISeamPackage {
 		setId(name);
 	}
 
-	public Collection<ISeamPackage> getPackages() {
-		return packages.values();
+	public Map<String,ISeamPackage> getPackages() {
+		return packages;
 	}
 
 	public String getQualifiedName() {

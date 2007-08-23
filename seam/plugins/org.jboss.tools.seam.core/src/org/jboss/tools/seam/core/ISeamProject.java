@@ -40,11 +40,17 @@ public interface ISeamProject extends ISeamElement {
 	public ISeamScope getScope(ScopeType scopeType);
 	
 	/**
-	 * Returns packages
+	 * Returns root packages
 	 * @return
 	 */
 	public Collection<ISeamPackage> getPackages();
 	
+	/**
+	 * 
+	 * @return collection of all packages
+	 */
+	public Collection<ISeamPackage> getAllPackages();
+
 	/**
 	 * Finds package object in this project for component.
 	 * @param c

@@ -50,12 +50,13 @@ public class SeamValueMap extends SeamObject implements ISeamValueMap {
 		return changes;
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		SeamValueMap vl = (SeamValueMap)copy;
+	public SeamValueMap clone() throws CloneNotSupportedException {
+		SeamValueMap c = (SeamValueMap)super.clone();
+		c.entries = new ArrayList<ISeamValueMapEntry>();
 		for (ISeamValueMapEntry v : entries) {
-			vl.addEntry((SeamValueMapEntry)v.copy());
+			c.addEntry((SeamValueMapEntry)doClone(v));
 		}
+		return c;
 	}
 
 }

@@ -19,7 +19,7 @@ import org.jboss.tools.seam.internal.core.SeamObject;
  *  
  * @author Viacheslav Kabanovich
  */
-public interface ISeamElement {
+public interface ISeamElement extends Cloneable {
 	
 	/**
 	 * Returns seam project that contains this object.
@@ -45,6 +45,6 @@ public interface ISeamElement {
 	 */
 	public IResource getResource();
 	
-	public ISeamElement copy();
+//	public ISeamElement copy();
 
 }

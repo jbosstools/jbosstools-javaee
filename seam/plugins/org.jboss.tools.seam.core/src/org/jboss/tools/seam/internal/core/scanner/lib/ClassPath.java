@@ -199,7 +199,7 @@ public class ClassPath {
 			removable.removeAll(ps);
 			ps.removeAll(set);
 			for (SeamProject p : ps) {
-//				project.addSeamProject(p);
+				project.addSeamProject(p);
 			}
 			for (SeamProject p : removable) {
 				project.removeSeamProject(p);

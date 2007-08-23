@@ -46,11 +46,9 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 		return changes;
 	}
 
-	public void copyTo(SeamObject copy) {
-		super.copyTo(copy);
-		SeamValueString vl = (SeamValueString)copy;
-		vl.value = value;
-		vl.currentValue = currentValue;
+	public SeamValueString clone() throws CloneNotSupportedException {
+		SeamValueString c = (SeamValueString)super.clone();
+		return c;
 	}
 
 }

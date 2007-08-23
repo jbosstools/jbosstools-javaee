@@ -20,6 +20,6 @@ public interface ISeamValueList extends ISeamValue {
 	 * 
 	 * @return values of seam list property
 	 */
-	public List<ISeamValueString> getValues();
+	public  List<ISeamValueString> getValues();
 
 }
