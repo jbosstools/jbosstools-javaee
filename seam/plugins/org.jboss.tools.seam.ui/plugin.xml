@@ -327,6 +327,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="org.jboss.tools.seam.ui.SeamPerspectiveFactory"
+            icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.SeamPerspective"
             name="Seam">
       </perspective>
