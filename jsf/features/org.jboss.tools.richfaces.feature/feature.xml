@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.jboss.tools.richfaces.feature"
-      label="JBossTools RichFaces Feature"
+      label="RichFaces VPE Feature"
       version="2.0.0"
       provider-name="JBoss, a division of Red Hat">
 
