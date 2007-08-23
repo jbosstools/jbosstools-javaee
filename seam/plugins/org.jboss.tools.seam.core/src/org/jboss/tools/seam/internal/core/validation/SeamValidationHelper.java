@@ -118,6 +118,9 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 * @return true if resource is Jar file
 	 */
 	public boolean isJar(IResource resource) {
+		if(resource==null) {
+			throw new IllegalArgumentException("Resource must not be null");
+		}
 		String ext = resource.getFileExtension();
 		return ext!=null && ext.equalsIgnoreCase("jar");
 	}

@@ -205,6 +205,9 @@
          		incremental="true"
          		fullBuild="true"
          	/>
+         	<dependentValidator
+               depValValue="true">
+         	</dependentValidator>
 		</validator>
 	</extension>
 
