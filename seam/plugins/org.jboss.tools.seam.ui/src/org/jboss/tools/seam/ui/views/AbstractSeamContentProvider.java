@@ -73,6 +73,10 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 //		Boolean b = (Boolean)viewer.getData("scopeAsNode");
 //		return b != null && b.booleanValue();
 	}
+	
+	boolean isPackageStructureFlat() {
+		return ScopePresentationActionProvider.isPackageStructureFlat();
+	}
 
 	public boolean hasChildren(Object element) {
 		if(element instanceof ISeamComponentDeclaration) return false;
@@ -85,15 +89,33 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			ISeamProject project = (ISeamProject)parentElement;
 			if(isNotShowingScopeNodes()) {
 				project.resolve();
-				return project.getPackages().toArray(new Object[0]);
+
+				if(isPackageStructureFlat()) {
+					return project.getAllPackages().toArray(new Object[0]);
+				} else {
+					return project.getPackages().toArray(new Object[0]);
+				}
 			}
 			return project.getScopes();
 		} else if(parentElement instanceof ISeamScope) {
 			((ISeamScope)parentElement).getSeamProject().resolve();
-			return ((ISeamScope)parentElement).getPackages().toArray(new Object[0]);
+			
+			if(isPackageStructureFlat()) {
+				return ((ISeamScope)parentElement).getAllPackages().toArray(new Object[0]);
+			} else {
+				return ((ISeamScope)parentElement).getPackages().toArray(new Object[0]);
+			}
 //			return ((ISeamScope)parentElement).getComponents().toArray(new Object[0]);
 		} else if(parentElement instanceof ISeamPackage) {
-			return ((ISeamPackage)parentElement).getComponents().toArray(new Object[0]);
+			ISeamPackage p = (ISeamPackage)parentElement;
+			List<Object> children = new ArrayList<Object>();
+			for (ISeamComponent c : p.getComponents()) {
+				children.add(c);
+			}
+			for (ISeamPackage pc : p.getPackages().values()) {
+				children.add(pc);
+			}
+			return children.toArray(new Object[0]);
 		} else if(parentElement instanceof ISeamComponent) {
 			List<Object> children = new ArrayList<Object>();
 			Set<ISeamComponentDeclaration> ds = ((ISeamComponent)parentElement).getAllDeclarations();

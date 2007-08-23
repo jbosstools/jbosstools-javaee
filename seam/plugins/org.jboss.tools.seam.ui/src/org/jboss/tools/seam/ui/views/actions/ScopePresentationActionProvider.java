@@ -32,10 +32,15 @@ import org.jboss.tools.seam.core.SeamPreferences;
  */
 public class ScopePresentationActionProvider extends CommonActionProvider {
 	public static String SCOPE_PRESENTATION = "seam.scopePresentation";
+	public static String PACKAGE_STRUCTURE = "seam.packageStructure";
 	
 	public static boolean isScopePresentedAsLabel() {
 		String s = SeamPreferences.getInstancePreference(SCOPE_PRESENTATION);
 		return "label".equals(s);
+	}
+	
+	public static boolean isPackageStructureFlat() {
+		return true;
 	}
 	
 	public void setScopePresentedAsLabel(boolean s) {

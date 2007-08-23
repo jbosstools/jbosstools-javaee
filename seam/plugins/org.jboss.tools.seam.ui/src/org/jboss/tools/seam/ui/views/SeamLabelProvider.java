@@ -51,7 +51,11 @@ public class SeamLabelProvider extends LabelProvider {
 		} else if(element instanceof ISeamScope) {
 			return ((ISeamScope)element).getType().getLabel();
 		} else if(element instanceof ISeamPackage) {
-			return ((ISeamPackage)element).getName();
+			if(ScopePresentationActionProvider.isPackageStructureFlat()) {
+				return ((ISeamPackage)element).getQualifiedName();
+			} else {
+				return ((ISeamPackage)element).getName();
+			}
 		} else if(element instanceof ISeamComponent) {
 			ISeamComponent c = (ISeamComponent)element;
 			String name = c.getName();
