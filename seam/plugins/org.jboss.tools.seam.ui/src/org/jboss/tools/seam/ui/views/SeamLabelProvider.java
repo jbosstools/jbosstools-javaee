@@ -13,11 +13,8 @@ package org.jboss.tools.seam.ui.views;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.jdt.core.IClassFile;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -32,8 +29,6 @@ import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
-import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
-import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.ui.SeamUiImages;
 import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
@@ -112,7 +107,7 @@ public class SeamLabelProvider extends LabelProvider {
 			}
 			return SeamUiImages.JAVA_IMAGE;
 		} else if(obj instanceof ISeamComponentDeclaration) {
-			SeamComponentDeclaration d = (SeamComponentDeclaration)obj;
+			ISeamComponentDeclaration d = (ISeamComponentDeclaration)obj;
 			IResource r = d.getResource();
 			if(r != null) return jip.getImageLabel(r, 3);
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
