@@ -22,10 +22,6 @@
       <specialwizard class="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems" id="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems">
       </specialwizard>
    </extension>
-   <extension point="org.eclipse.jdt.core.classpathVariableInitializer">
-      <classpathVariableInitializer class="org.jboss.tools.struts.StrutsStudioVariableInitializer" variable=" STRUTSSTUDIO_LIB_HOME">
-      </classpathVariableInitializer>
-   </extension>
    <extension id="strutsnature" point="org.eclipse.core.resources.natures">
       <runtime>
          <run class="org.jboss.tools.struts.StrutsProject">

@@ -2,12 +2,6 @@
 <XStudio ENTITY="SharableXStudio" NAME="XStudio" SCOPE="project">
  <Options ENTITY="SharableOptions" NAME="Options" SCOPE="project">
   <StrutsStudio ENTITY="SharableStrutsStudio" NAME="Struts Studio" SCOPE="project">
-   <Servlet24Libs ENTITY="SharableServlet24Libs"
-    NAME="Servlet 2.4 Libraries" SCOPE="project" libraries="STRUTSSTUDIO_LIB_HOME/servlet-2.4/jdbc2_0-stdext.jar;STRUTSSTUDIO_LIB_HOME/servlet-2.4/servlet-api.jar"/>
-   <Servlet22Libs ENTITY="SharableServlet22Libs"
-    NAME="Servlet 2.2 Libraries" SCOPE="project" libraries="STRUTSSTUDIO_LIB_HOME/servlet-2.2/jdbc2_0-stdext.jar;STRUTSSTUDIO_LIB_HOME/servlet-2.2/servlet.jar"/>
-   <Struts10Libs ENTITY="SharableStruts10Libs"
-    NAME="Struts 1.0 Libraries" SCOPE="project" libraries="STRUTSSTUDIO_LIB_HOME/struts-1.0/struts.jar"/>
    <Verification ENTITY="SharableVerification" NAME="Verification"
     SCOPE="project" error_number_limit="unlimited"/>
    <Running ENTITY="SharableRunning" NAME="Running" SCOPE="project"
@@ -43,8 +37,6 @@
  <link ENTITY="JSPLink" attribute="name" refer-to="forward" tag="logic:forward"/>
  <link ENTITY="JSPLink" attribute="forward" refer-to="forward" tag="logic:redirect"/>
 </link-recognizer>]]></LinkRecognizer>
-   <Servlet23Libs ENTITY="SharableServlet23Libs"
-    NAME="Servlet 2.3 Libraries" SCOPE="project" libraries="STRUTSSTUDIO_LIB_HOME/servlet-2.3/jdbc2_0-stdext.jar;STRUTSSTUDIO_LIB_HOME/servlet-2.3/servlet.jar"/>
    <Project ENTITY="SharableProject" NAME="Project" SCOPE="project">
     <StrutsSupport ENTITY="SharableStrutsSupport" NAME="Struts Support" SCOPE="project">
      <Struts11Support ENTITY="SharableStruts11Support"
@@ -76,8 +68,6 @@
       NAME="Default Error Messages" SCOPE="project" text="errors.required={0} is required.\n\nerrors.minlength={0} can not be less than {1} characters.\nerrors.maxlength={0} can not be greater than {1} characters.\nerrors.invalid={0} is invalid.\n \nerrors.byte={0} must be a byte.\nerrors.short={0} must be a short.\nerrors.integer={0} must be an integer.\nerrors.long={0} must be a long.\nerrors.float={0} must be a float.\nerrors.double={0} must be a double.\n \nerrors.date={0} is not a date.\nerrors.range={0} is not in the range {1} through {2}.\nerrors.creditcard={0} is an invalid credit card number.\nerrors.email={0} is an invalid e-mail address.\n"/>
     </ResourcesInsets>
    </Automation>
-   <Struts11Libs ENTITY="SharableStruts11Libs"
-    NAME="Struts 1.1 Libraries" SCOPE="project" libraries="STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-beanutils.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-collections.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-digester.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-fileupload.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-lang.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-logging.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/commons-validator.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/jakarta-oro.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/struts.jar;STRUTSSTUDIO_LIB_HOME/struts-1.1/struts-legacy.jar"/>
    <Editors ENTITY="SharableEditors" NAME="Editors" SCOPE="project"
     selectSourceTab="no" tabWidth="4" useRedHatEditors="yes">
     <StrutsEditor ENTITY="SharableStrutsEditor" NAME="Web Flow Diagram"
