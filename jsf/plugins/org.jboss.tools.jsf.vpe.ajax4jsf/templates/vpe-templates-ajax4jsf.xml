@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vpe:templates>
+	<vpe:template-taglib uri="http://richfaces.org/a4j" prefix="a4j" />
 	<vpe:template-taglib uri="https://ajax4jsf.dev.java.net/ajax" prefix="a4j" />
 
     <vpe:tag name="a4j:page" case-sensitive="yes">
