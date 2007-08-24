@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.internal.project.facet;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -322,6 +324,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 						 new PackageNameValidator(
 								 sessionBeanPkgNameditor.getName(), "session beans"));			
 		} 
+		
+		jBossAsDbTypeEditor.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				jBossHibernateDialectEditor.setValue(HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString()));
+			}
+		});
 	}
 
 	/**

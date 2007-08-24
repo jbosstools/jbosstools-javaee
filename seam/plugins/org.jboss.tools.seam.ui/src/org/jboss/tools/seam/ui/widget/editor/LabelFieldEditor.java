@@ -75,7 +75,6 @@ public class LabelFieldEditor extends BaseFieldEditor {
 	}
 	
 	public void setValue(Object value) {
-		// supress parent method
 	}
 
 	/* (non-Javadoc)

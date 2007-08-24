@@ -36,7 +36,9 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
 
 /**
  * @author eskimo
@@ -70,7 +72,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	
 	List<IFieldEditor> editorOrder = new ArrayList<IFieldEditor>();
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
@@ -84,7 +86,9 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
 				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
 			} else if(isWar()) {
-				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);			
+				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);	
+				LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(IParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
+				label.getLabelControl().setText("POJO class name:");
 			} else {
 				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(true);
 			}
@@ -184,7 +188,10 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 
 		String type = SeamCorePlugin.getSeamFacetPreferences(project.getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war");
 	
-		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!"war".equals(type));
+		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!isWar());
+	
+		LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(IParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
+		label.getLabelControl().setText(isWar()?"POJO class name:": "Local interface:");
 		
 		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), null);
