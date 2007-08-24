@@ -1575,10 +1575,6 @@
          <library name="$nl$/"/>         
       </runtime>
    </extension>
-   <extension point="org.eclipse.jdt.core.classpathVariableInitializer">
-      <classpathVariableInitializer class="org.jboss.tools.jsf.JSFStudioVariableInitializer" variable="JSFSTUDIO_LIB_HOME">
-      </classpathVariableInitializer>
-   </extension>
 
    <extension point="org.jboss.tools.common.model.jspAdopt">
       <jspAdopt class="org.jboss.tools.jsf.model.handlers.JSPAdopt"/>

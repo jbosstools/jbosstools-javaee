@@ -48,7 +48,6 @@ public class JSFModelPlugin extends BaseUIPlugin {
 			PreferenceModelUtilities.initPreferenceValue(initialModel, JSFPreference.DEFAULT_JSF_SERVLET_VERSION);
 			PreferenceModelUtilities.initPreferenceValue(initialModel, JSFPreference.REGISTER_NEW_JSF_PROJECT_IN_TOMCAT);
 			PreferenceModelUtilities.initPreferenceValue(initialModel, JSFPreference.REGISTER_IMPORTED_JSF_PROJECT_IN_TOMCAT);
-			PreferenceModelUtilities.initPreferenceValue(initialModel, JSFPreference.JSF_10_LIBRARIES);
 			
 			PreferenceModelUtilities.getPreferenceModel().save();
 		}
