@@ -18,4 +18,5 @@ public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamJavaSourceRefe
 	
 	boolean isAutoCreate();
 
+	public ISeamAnnotatedFactory clone() throws CloneNotSupportedException;
 }

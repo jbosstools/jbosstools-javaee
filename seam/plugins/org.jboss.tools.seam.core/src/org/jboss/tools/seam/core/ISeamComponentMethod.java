@@ -31,4 +31,6 @@ public interface ISeamComponentMethod extends ISeamJavaSourceReference, ISeamEle
 	 */
 	public boolean isOfType(SeamComponentMethodType type);
 	
+	public ISeamComponentMethod clone() throws CloneNotSupportedException;
+
 }

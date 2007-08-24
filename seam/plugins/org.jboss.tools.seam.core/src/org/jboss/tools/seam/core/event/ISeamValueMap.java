@@ -23,4 +23,6 @@ public interface ISeamValueMap extends ISeamValue {
 	 */
 	public List<ISeamValueMapEntry> getEntries();
 
+	public ISeamValueMap clone() throws CloneNotSupportedException;
+
 }

@@ -127,7 +127,7 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 		SeamPropertiesDeclaration c = (SeamPropertiesDeclaration)super.clone();
 		c.properties = new HashMap<String, ISeamProperty>();
 		for (String name : properties.keySet()) {
-			ISeamProperty p = (ISeamProperty)doClone(properties.get(name));
+			ISeamProperty p = properties.get(name).clone();
 			c.addProperty(p);
 		}
 		return c;

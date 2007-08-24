@@ -403,15 +403,15 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 		c.bijectedAttributes = new HashSet<IBijectedAttribute>();
 		for (IBijectedAttribute a : bijectedAttributes) {
-			c.addBijectedAttribute((IBijectedAttribute)doClone(a));
+			c.addBijectedAttribute(a.clone());
 		}
 		c.componentMethods = new HashSet<ISeamComponentMethod>();
 		for (ISeamComponentMethod m : componentMethods) {
-			c.addMethod((ISeamComponentMethod)doClone(m));
+			c.addMethod(m.clone());
 		}
 		c.roles = new HashSet<IRole>();
 		for (IRole r : roles) {
-			c.addRole((IRole)doClone(r));
+			c.addRole(r.clone());
 		}
 		return c;
 	}

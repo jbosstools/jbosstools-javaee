@@ -54,4 +54,7 @@ public interface ISeamPropertiesDeclaration extends ISeamComponentDeclaration {
 	 * @param property
 	 */
 	public void removeProperty(ISeamProperty property);
+
+	public ISeamPropertiesDeclaration clone() throws CloneNotSupportedException;
+
 }

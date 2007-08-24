@@ -37,4 +37,7 @@ public interface ISeamContextVariable extends ISeamElement {
 	 * @param type
 	 */
 	public void setScope(ScopeType type);
+	
+	public ISeamContextVariable clone() throws CloneNotSupportedException;
+
 }

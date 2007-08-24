@@ -260,4 +260,9 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	public String toString() {		
 		return "SeamComponent: " + getName();
 	}
+	
+	public SeamComponent clone() throws CloneNotSupportedException {
+		return this;
+	}
+
 }

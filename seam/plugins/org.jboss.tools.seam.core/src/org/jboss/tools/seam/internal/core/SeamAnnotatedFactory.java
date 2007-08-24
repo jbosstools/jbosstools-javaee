@@ -76,7 +76,7 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 	public SeamAnnotatedFactory clone() throws CloneNotSupportedException {
 		SeamAnnotatedFactory c = (SeamAnnotatedFactory)super.clone();
 		//we need not new copy here but reference!
-		c.parentDeclaration = parentDeclaration == null ? null : (SeamJavaComponentDeclaration)doClone(parentDeclaration);
+		c.parentDeclaration = parentDeclaration == null ? null : parentDeclaration.clone();
 		return c;
 	}
 

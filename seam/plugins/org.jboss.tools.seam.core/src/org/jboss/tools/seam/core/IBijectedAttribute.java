@@ -34,5 +34,7 @@ public interface IBijectedAttribute extends ISeamContextVariable, ISeamJavaSourc
 	 * @return
 	 */
 	public boolean isContextVariable();
+	
+	public IBijectedAttribute clone() throws CloneNotSupportedException;
 
 }

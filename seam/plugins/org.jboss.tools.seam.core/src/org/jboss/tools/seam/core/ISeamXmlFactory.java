@@ -37,4 +37,7 @@ public interface ISeamXmlFactory extends ISeamFactory, ISeamTextSourceReference 
 	 * @param method
 	 */
 	public void setMethod(String method);
+
+	public ISeamXmlFactory clone() throws CloneNotSupportedException;
+
 }

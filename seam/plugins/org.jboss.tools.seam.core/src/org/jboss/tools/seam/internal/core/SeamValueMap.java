@@ -29,7 +29,7 @@ public class SeamValueMap extends SeamObject implements ISeamValueMap {
 		return entries;
 	}
 	
-	public void addEntry(SeamValueMapEntry entry) {
+	public void addEntry(ISeamValueMapEntry entry) {
 		entries.add(entry);
 		adopt(entry);
 	}
@@ -54,7 +54,7 @@ public class SeamValueMap extends SeamObject implements ISeamValueMap {
 		SeamValueMap c = (SeamValueMap)super.clone();
 		c.entries = new ArrayList<ISeamValueMapEntry>();
 		for (ISeamValueMapEntry v : entries) {
-			c.addEntry((SeamValueMapEntry)doClone(v));
+			c.addEntry(v.clone());
 		}
 		return c;
 	}

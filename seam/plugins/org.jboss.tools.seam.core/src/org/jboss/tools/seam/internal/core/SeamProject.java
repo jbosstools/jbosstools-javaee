@@ -350,7 +350,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */	
 	public void registerComponents(LoadedDeclarations ds, IPath source) {
 
-		SeamComponentDeclaration[] components = ds.getComponents().toArray(new SeamComponentDeclaration[0]);
+		ISeamComponentDeclaration[] components = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 		ISeamFactory[] factories = ds.getFactories().toArray(new ISeamFactory[0]);
 		
 		if(components.length == 0 && factories.length == 0) {
@@ -476,12 +476,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		for (SeamProject p : usedBy) {
 			p.resolve();
 			LoadedDeclarations ds1 = new LoadedDeclarations();
-			for (SeamComponentDeclaration d:  ds.getComponents()) {
+			for (ISeamComponentDeclaration d:  ds.getComponents()) {
 				ds1.getComponents().add(d.clone());
 			}
 			for (ISeamFactory f : ds.getFactories()) {
-				SeamObject copy = ((SeamObject)f).clone();
-				ds1.getFactories().add((ISeamFactory)copy);
+				ds1.getFactories().add(f.clone());
 			}
 			p.registerComponents(ds1, source);
 		}
@@ -501,7 +500,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		String className = xml.getClassName();
 		List<Change> changes = null;
 		if(isClassNameChanged(oldClassName, className)) {
-			SeamComponentDeclaration[] ds1 = c.getAllDeclarations().toArray(new SeamComponentDeclaration[0]);
+			ISeamComponentDeclaration[] ds1 = c.getAllDeclarations().toArray(new ISeamComponentDeclaration[0]);
 			for (int i1 = 0; i1 < ds1.length; i1++) {
 				if(!(ds1[i1] instanceof ISeamJavaComponentDeclaration)) continue;
 				ISeamJavaComponentDeclaration jcd = (ISeamJavaComponentDeclaration)ds1[i1];
@@ -530,9 +529,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		while(iterator.hasNext()) {
 			List<Change> changes = null;
 			SeamComponent c = iterator.next();
-			SeamComponentDeclaration[] ds = c.getAllDeclarations().toArray(new SeamComponentDeclaration[0]);
+			ISeamComponentDeclaration[] ds = c.getAllDeclarations().toArray(new ISeamComponentDeclaration[0]);
 			for (int i = 0; i < ds.length; i++) {
-				if(ds[i].source.equals(source)) {
+				if(ds[i].getSourcePath().equals(source)) {
 					c.removeDeclaration(ds[i]);
 					if(ds[i] instanceof ISeamJavaComponentDeclaration) {
 						SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)ds[i];
@@ -592,9 +591,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		while(iterator.hasNext()) {
 			List<Change> changes = null;
 			SeamComponent c = iterator.next();
-			SeamComponentDeclaration[] ds = c.getAllDeclarations().toArray(new SeamComponentDeclaration[0]);
+			ISeamComponentDeclaration[] ds = c.getAllDeclarations().toArray(new ISeamComponentDeclaration[0]);
 			for (int i = 0; i < ds.length; i++) {
-				if(removed.containsKey(ds[i].getId())) {
+				if(removed.containsKey(((SeamObject)ds[i]).getId())) {
 					c.removeDeclaration(ds[i]);
 					changes = Change.addChange(changes, new Change(c, null, ds[i], null));
 				}
@@ -945,7 +944,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					ds = new LoadedDeclarations();
 					map.put(p, ds);
 				}
-				ds.getComponents().add(((SeamComponentDeclaration)d).clone());
+				ds.getComponents().add(d.clone());
 			}
 		}
 		for (ISeamFactory f : allFactories) {
@@ -956,7 +955,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				ds = new LoadedDeclarations();
 				map.put(p, ds);
 			}
-			ds.getFactories().add((ISeamFactory)((SeamObject)f).clone());
+			ds.getFactories().add(f.clone());
 		}
 		return map;
 	}

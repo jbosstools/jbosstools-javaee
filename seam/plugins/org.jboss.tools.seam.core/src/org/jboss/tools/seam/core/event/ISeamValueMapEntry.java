@@ -29,4 +29,6 @@ public interface ISeamValueMapEntry extends ISeamElement {
 	 */
 	public ISeamValueString getValue();
 
+	public ISeamValueMapEntry clone() throws CloneNotSupportedException;
+
 }

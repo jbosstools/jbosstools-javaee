@@ -24,4 +24,6 @@ public interface ISeamValueString extends ISeamValue {
 	 */
 	public IValueInfo getValue();
 
+	public ISeamValueString clone() throws CloneNotSupportedException;
+
 }

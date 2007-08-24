@@ -127,4 +127,7 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	 * @param precedence
 	 */
 	public void setPrecedence(int precedence);
+
+	public ISeamJavaComponentDeclaration clone() throws CloneNotSupportedException;
+
 }

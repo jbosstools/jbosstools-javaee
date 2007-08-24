@@ -32,4 +32,6 @@ public interface ISeamProperty extends ISeamElement, ISeamTextSourceReference {
 	 * @param value
 	 */
 	public void setValue(ISeamValue value);
+
+	public ISeamProperty clone() throws CloneNotSupportedException;
 }

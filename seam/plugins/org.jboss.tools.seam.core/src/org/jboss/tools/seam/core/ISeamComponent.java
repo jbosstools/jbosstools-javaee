@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.tools.seam.core.event.ISeamValue;
+
 /**
  * Represents component in seam tools model.
  * @author Alexey Kazakov
@@ -114,4 +116,7 @@ public interface ISeamComponent extends ISeamContextVariable {
 	 * @return
 	 */
 	public List<ISeamProperty> getProperties(String propertyName);
+
+	public ISeamComponent clone() throws CloneNotSupportedException;
+
 }

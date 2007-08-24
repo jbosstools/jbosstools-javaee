@@ -71,4 +71,7 @@ public interface ISeamXmlComponentDeclaration extends ISeamPropertiesDeclaration
 	 * @return string value of 'auto-create' attribute
 	 */
 	public String getAutoCreateAsString();
+
+	public ISeamXmlComponentDeclaration clone() throws CloneNotSupportedException;
+
 }

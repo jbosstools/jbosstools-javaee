@@ -17,4 +17,6 @@ import org.jboss.tools.seam.core.ISeamElement;
  */
 public interface ISeamValue extends ISeamElement {
 
+	public ISeamValue clone() throws CloneNotSupportedException;
+
 }

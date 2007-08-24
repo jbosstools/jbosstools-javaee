@@ -20,4 +20,7 @@ public interface ISeamComponentDeclaration extends ISeamElement, ISeamTextSource
 	 * @return name of component.
 	 */
 	public String getName();
+	
+	public ISeamComponentDeclaration clone() throws CloneNotSupportedException;
+
 }

@@ -15,5 +15,5 @@ package org.jboss.tools.seam.core;
  * @author Alexey Kazakov
  */
 public interface ISeamFactory extends ISeamContextVariable {
-
+	public ISeamFactory clone() throws CloneNotSupportedException;
 }

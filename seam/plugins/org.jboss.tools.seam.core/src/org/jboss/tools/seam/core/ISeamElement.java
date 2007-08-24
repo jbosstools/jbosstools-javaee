@@ -12,7 +12,6 @@ package org.jboss.tools.seam.core;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.seam.internal.core.SeamObject;
 
 /**
  * Common interface for objects of seam model.
@@ -45,6 +44,6 @@ public interface ISeamElement extends Cloneable {
 	 */
 	public IResource getResource();
 	
-//	public ISeamElement copy();
+	public ISeamElement clone() throws CloneNotSupportedException;
 
 }

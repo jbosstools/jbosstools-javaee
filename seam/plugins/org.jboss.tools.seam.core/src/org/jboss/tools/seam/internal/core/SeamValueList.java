@@ -29,7 +29,7 @@ public class SeamValueList extends SeamObject implements ISeamValueList {
 		return values;
 	}
 	
-	public void addValue(SeamValueString value) {
+	public void addValue(ISeamValueString value) {
 		values.add(value);
 		adopt(value);
 	}
@@ -54,7 +54,7 @@ public class SeamValueList extends SeamObject implements ISeamValueList {
 		SeamValueList c = (SeamValueList)super.clone();
 		c.values = new ArrayList<ISeamValueString>();
 		for (ISeamValueString v : values) {
-			c.addValue((SeamValueString)doClone(v));
+			c.addValue(v.clone());
 		}
 		return c;
 	}

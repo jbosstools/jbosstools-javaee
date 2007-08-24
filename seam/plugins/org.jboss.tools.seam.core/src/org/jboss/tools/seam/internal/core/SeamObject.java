@@ -133,11 +133,4 @@ public class SeamObject implements ISeamElement {
 		return c;
 	}
 
-	protected static ISeamElement doClone(ISeamElement object) throws CloneNotSupportedException {
-		if(!(object instanceof SeamObject)) {
-			throw new CloneNotSupportedException("Only instance of SeamObject can be cloned: " + object);
-		}
-		return ((SeamObject)object).clone();
-	}
-
 }

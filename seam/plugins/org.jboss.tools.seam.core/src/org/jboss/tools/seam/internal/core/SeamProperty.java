@@ -82,7 +82,7 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 	
 	public SeamProperty clone() throws CloneNotSupportedException {
 		SeamProperty c = (SeamProperty)super.clone();
-		c.value = value == null ? null : (ISeamValue)doClone(value);
+		c.value = value == null ? null : value.clone();
 		return c;
 	}
 

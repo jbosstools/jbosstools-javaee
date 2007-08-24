@@ -15,4 +15,8 @@ import org.jboss.tools.seam.core.IRole;
 
 public class Role extends SeamJavaContextVariable implements IRole {
 
+	public Role clone() throws CloneNotSupportedException {
+		return (Role)super.clone();
+	}
+
 }

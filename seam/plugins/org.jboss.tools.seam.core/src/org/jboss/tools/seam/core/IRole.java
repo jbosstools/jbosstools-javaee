@@ -16,4 +16,6 @@ package org.jboss.tools.seam.core;
  */
 public interface IRole extends ISeamJavaSourceReference, ISeamContextVariable {
 
+	public IRole clone() throws CloneNotSupportedException;
+
 }
