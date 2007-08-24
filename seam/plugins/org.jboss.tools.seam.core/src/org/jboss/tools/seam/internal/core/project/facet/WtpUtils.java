@@ -106,7 +106,9 @@ public class WtpUtils {
 		try {
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 			IRuntime rt = facetedProject.getPrimaryRuntime();
-			return facetedProject.getPrimaryRuntime().getName();
+			if(facetedProject.getPrimaryRuntime()!=null) {
+				return facetedProject.getPrimaryRuntime().getName();
+			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
