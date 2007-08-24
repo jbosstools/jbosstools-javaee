@@ -51,9 +51,10 @@ public class CapabilityPerformersProvider extends LabelProvider implements ITree
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	public Image getImage(Object element) {
-		if(!(element instanceof IPerformerItem)) return null;
-		IPerformerItem w = (IPerformerItem)element;
-		return (w.isSelected() && w.isEnabled()) ? IMAGE_ENABLED : IMAGE_DISABLED;
+		return null;
+//		if(!(element instanceof IPerformerItem)) return null;
+//		IPerformerItem w = (IPerformerItem)element;
+//		return (w.isSelected() && w.isEnabled()) ? IMAGE_ENABLED : IMAGE_DISABLED;
 	}
 
 	public Color getForeground(Object element) {

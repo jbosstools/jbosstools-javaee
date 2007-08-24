@@ -41,7 +41,7 @@ public class AddCapabilitiesScreenOne extends AbstractSpecialWizardStep {
 		composite.setLayout(layout);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		composite.setLayoutData(gd);
-		treeViewer = new TreeViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		treeViewer = new TreeViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.CHECK);
 		treeViewer.setContentProvider(provider);
 		treeViewer.setLabelProvider(provider);
 		treeViewer.setInput(this);
