@@ -348,10 +348,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		}
 	}
 
-	// Utils method
+	public static final String GENERIC_JDBC_PROVIDER_ID 
+		= "org.eclipse.datatools.connectivity.db.generic.connectionProfile";
+	
+	/*
+	 * 
+	 */
 	private List<String> getProfileNameList() {
 		IConnectionProfile[] profiles = ProfileManager.getInstance()
-				.getProfilesByCategory(ProfileSelectionComposite.JDBC_CATEGORY);
+				.getProfileByProviderID(GENERIC_JDBC_PROVIDER_ID);
 		List<String> names = new ArrayList<String>();
 		for (IConnectionProfile connectionProfile : profiles) {
 			names.add(connectionProfile.getName());
@@ -359,6 +364,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		return names;
 	}
 
+	/**
+	 * 
+	 */
 	public class EditConnectionProfileAction extends
 			ButtonFieldEditor.ButtonPressedAction {
 
@@ -369,6 +377,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			super("Edit...");
 		}
 
+		/**
+		 * 
+		 */
 		@Override
 		public void run() {
 			IConnectionProfile selectedProfile = ProfileManager.getInstance()
@@ -412,13 +423,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		@Override
 		public void run() {
 			NewConnectionProfileWizard wizard = new NewConnectionProfileWizard() {
-
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see org.eclipse.datatools.connectivity.ui.wizards.NewConnectionProfileWizard#performFinish()
-				 */
-				@Override
 				public boolean performFinish() {
 					// create profile only
 					try {
