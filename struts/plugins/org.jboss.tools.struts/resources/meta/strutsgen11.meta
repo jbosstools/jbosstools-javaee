@@ -42,7 +42,7 @@
      <value name="--EmptyChoice--"/>
      <value name="--WriteOnly--"/>
     </Constraint>
-    <Editor name="RedHatFileSystem"/>
+    <Editor name="CommonFileSystem"/>
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list"/>
@@ -101,7 +101,7 @@
      <value name="--EmptyChoice--"/>
      <value name="--WriteOnly--"/>
     </Constraint>
-    <Editor name="RedHatFileSystem"/>
+    <Editor name="CommonFileSystem"/>
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list"/>
@@ -164,7 +164,7 @@
      <value name="--EmptyChoice--"/>
      <value name="--WriteOnly--"/>
     </Constraint>
-    <Editor name="RedHatFileSystem"/>
+    <Editor name="CommonFileSystem"/>
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list"/>
@@ -218,7 +218,7 @@
      <value name="--EmptyChoice--"/>
      <value name="--WriteOnly--"/>
     </Constraint>
-    <Editor name="RedHatFileSystem"/>
+    <Editor name="CommonFileSystem"/>
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list"/>
@@ -253,7 +253,7 @@
      <value name="--EmptyChoice--"/>
      <value name="--WriteOnly--"/>
     </Constraint>
-    <Editor name="RedHatFileSystem"/>
+    <Editor name="CommonFileSystem"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="actions">
     <Constraint/>

@@ -119,7 +119,7 @@
      <value name="--EmptyChoice--"/>
      <value name="--WriteOnly--"/>
     </Constraint>
-    <Editor name="RedHatFileSystem"/>
+    <Editor name="CommonFileSystem"/>
    </XModelAttribute>
    <XModelAttribute default="yes" name="register in web.xml">
     <Constraint loader="List">
