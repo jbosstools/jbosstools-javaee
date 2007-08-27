@@ -45,21 +45,22 @@ public class InnerModelHelper {
 		IFolder webInfFolder = ResourcesPlugin.getWorkspace().getRoot().getFolder(webInfPath);
 		
 		model.getProperties().setProperty(XModelConstants.WORKSPACE, webInfFolder.getLocation().toString());
+		model.getProperties().setProperty(XModelConstants.WORKSPACE_OLD, webInfFolder.getLocation().toString());
 		
 		XModelObject fs = model.getByPath("FileSystems");
 		webinf = model.createModelObject("FileSystemFolder", null);
 		webinf.setAttributeValue("name", "WEB-INF");
-		webinf.setAttributeValue("location", "%redhat.workspace%");
+		webinf.setAttributeValue("location", XModelConstants.WORKSPACE_REF);
 		fs.addChild(webinf);
 		
 		XModelObject webroot = model.createModelObject("FileSystemFolder", null);
 		webroot.setAttributeValue("name", "WEB-ROOT");
-		webroot.setAttributeValue("location", "%redhat.workspace%/..");
+		webroot.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/..");
 		fs.addChild(webroot);
 		
 		XModelObject lib = model.createModelObject("FileSystemFolder", null);
 		lib.setAttributeValue("name", "lib");
-		lib.setAttributeValue("location", "%redhat.workspace%/lib");
+		lib.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/lib");
 		fs.addChild(lib);		
 		
 		return model;
