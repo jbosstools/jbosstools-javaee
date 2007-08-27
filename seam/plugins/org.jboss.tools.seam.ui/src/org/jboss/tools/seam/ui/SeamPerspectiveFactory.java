@@ -4,17 +4,22 @@ import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.navigator.resources.ProjectExplorer;
 
 public class SeamPerspectiveFactory implements IPerspectiveFactory {
 
+	private static final String SEAM_COMPONENTS_NAVIGATOR = "org.jboss.tools.seam.ui.views.SeamComponentsNavigator";
+	private static String JBOSS_SERVERS_VIEW = "org.jboss.ide.eclipse.as.ui.views.JBossServerView"; 
+	private static String WTP_SERVERS_VIEW = "org.eclipse.wst.server.ui.ServersView";
+	
 	public static final String PERSPECTIVE_ID = "org.jboss.tools.seam.ui.SeamPerspective";
-
+	
 	public void createInitialLayout(IPageLayout layout) {
  		String editorArea = layout.getEditorArea();
 
 		IFolderLayout leftTop = layout.createFolder("leftTop", IPageLayout.LEFT, (float)0.2, editorArea); //$NON-NLS-1$
 		leftTop.addView(JavaUI.ID_PACKAGES);
-		leftTop.addView("org.jboss.tools.seam.ui.views.SeamComponentsNavigator");
+		leftTop.addView(ProjectExplorer.VIEW_ID);
 		leftTop.addPlaceholder(IPageLayout.ID_RES_NAV);
 		
 
@@ -26,10 +31,12 @@ public class SeamPerspectiveFactory implements IPerspectiveFactory {
 		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, (float)0.78, editorArea); //$NON-NLS-1$
 		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
 		bottom.addView(IPageLayout.ID_TASK_LIST);
-
-
+		bottom.addView(SEAM_COMPONENTS_NAVIGATOR);
+		bottom.addView(JBOSS_SERVERS_VIEW);
+		bottom.addView(WTP_SERVERS_VIEW);
+		
 		IFolderLayout rightTop = layout.createFolder("right", IPageLayout.RIGHT, (float)0.8, editorArea); //$NON-NLS-1$
-		rightTop.addView("com.redhat.palette.swt");
+		rightTop.addView("org.jboss.tools.common.model.ui.views.palette.PaletteView");
 		IFolderLayout rightBottom = layout.createFolder("rightBottom", IPageLayout.BOTTOM, (float)0.64, "right"); //$NON-NLS-1$
 		rightBottom.addView(IPageLayout.ID_OUTLINE);
 
@@ -38,7 +45,7 @@ public class SeamPerspectiveFactory implements IPerspectiveFactory {
 		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
 
 		// views - seam
-		layout.addShowViewShortcut("org.jboss.tools.seam.ui.views.SeamComponentsNavigator");
+		layout.addShowViewShortcut(SEAM_COMPONENTS_NAVIGATOR);
 		
 		// views - java
 		layout.addShowViewShortcut(JavaUI.ID_PACKAGES);
