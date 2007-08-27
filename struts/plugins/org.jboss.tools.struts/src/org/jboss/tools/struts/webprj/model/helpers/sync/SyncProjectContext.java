@@ -571,7 +571,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 	    if(loc != null && loc.startsWith("/..")) loc = loc.substring(3); //$NON-NLS-1$
 	    if(loc.startsWith("/..")) { //$NON-NLS-1$
 	    	int i = loc.lastIndexOf("/"); //$NON-NLS-1$
-	    	String fsp = "%redhat.workspace%" + "/.." + loc.substring(0, i); //$NON-NLS-1$ //$NON-NLS-2$
+	    	String fsp = XModelConstants.WORKSPACE_REF + "/.." + loc.substring(0, i); //$NON-NLS-1$ //$NON-NLS-2$
 	    	loc = loc.substring(i);
 	    	XModelObject f = m.getModel().getByPath(loc);
 	    	if(f == null) {

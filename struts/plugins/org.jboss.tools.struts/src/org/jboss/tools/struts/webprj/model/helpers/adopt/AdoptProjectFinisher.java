@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
@@ -87,7 +88,7 @@ public class AdoptProjectFinisher {
     }
 
     private void createWebInfFileSystem() {
-        getOrCreateFileSystem("WEB-INF", "%redhat.workspace%", true);
+        getOrCreateFileSystem("WEB-INF", XModelConstants.WORKSPACE_REF, true);
     }
 
     private void createWebXMLFileSystem() {
@@ -95,7 +96,7 @@ public class AdoptProjectFinisher {
         String webxmlfolder = webxml.getParent();
         String relative = getRelativePath(workspace, webxmlfolder);
         if(relative == null || relative.startsWith("/..")) {
-            String loc = (relative == null) ? webxmlfolder : "%redhat.workspace%" + relative;
+            String loc = (relative == null) ? webxmlfolder : XModelConstants.WORKSPACE_REF + relative;
             getOrCreateFileSystem("web-xml", loc, true);
             web.setAttributeValue("model path", "/" + webxml.getName());
         } else {
@@ -118,7 +119,7 @@ public class AdoptProjectFinisher {
         String configLoc = config.getParent();
         String relative = getRelativePath(workspace, configLoc);
         if(relative == null || relative.startsWith("/..")) {
-            String loc = (relative == null) ? configLoc : "%redhat.workspace%" + relative;
+            String loc = (relative == null) ? configLoc : XModelConstants.WORKSPACE_REF + relative;
             getOrCreateFileSystem(fsn + "-config-xml", loc, false);
             m.setAttributeValue("model path", "/" + config.getName());
         } else {
@@ -246,7 +247,7 @@ public class AdoptProjectFinisher {
     public static String getFileSystemLocation(String rootpath, String path) {
         path = path.replace('\\', '/');
         String relative = getRelativePath(rootpath, path);
-        return (relative == null) ? path : "%redhat.workspace%" + relative;
+        return (relative == null) ? path : XModelConstants.WORKSPACE_REF + relative;
     }
 
 }
