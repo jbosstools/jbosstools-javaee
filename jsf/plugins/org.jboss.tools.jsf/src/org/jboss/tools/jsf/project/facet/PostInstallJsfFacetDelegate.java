@@ -15,6 +15,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -75,14 +76,14 @@ public class PostInstallJsfFacetDelegate implements IDelegate  {
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
 		"<FILESYSTEMS APPLICATION_NAME=\"{0}\" ENTITY=\"FileSystems\"" +
 		" VERSION=\"2.0.0\" WORKSPACE_HOME=\"./{1}/WEB-INF\">" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"%redhat.workspace%\" NAME=\"WEB-INF\"/>" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "\" NAME=\"WEB-INF\"/>" +
 		"<FILESYSTEM ENTITY=\"FileSystemFolder\" INFO=\"Content-Type=Web\"" +
-		" LOCATION=\"%redhat.workspace%/..\" NAME=\"WEB-ROOT\"/>" +
+		" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/..\" NAME=\"WEB-ROOT\"/>" +
 		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
-		" LOCATION=\"%redhat.workspace%/../../{2}\" NAME=\"src\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"%redhat.workspace%/lib\" NAME=\"lib\"/>" +
+		" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/../../{2}\" NAME=\"src\"/>" +
+		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/lib\" NAME=\"lib\"/>" +
 		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
-		" LOCATION=\"%redhat.workspace%/classes\" NAME=\"classes\"/>" +
+		" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/classes\" NAME=\"classes\"/>" +
 		"<WEB ENTITY=\"JstWeb\" MODEL_PATH=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
 		"  <MODULE ENTITY=\"WebJSFModule\" MODEL_PATH=\"/faces-config.xml\"" +
 		"   ROOT=\"WEB-ROOT\" SRC=\"src\" URI=\"/WEB-INF/faces-config.xml\"/>" +

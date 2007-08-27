@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
@@ -82,7 +83,7 @@ public class AdoptJSFProjectFinisher {
     }
 
     private void createWebInfFileSystem() {
-        getOrCreateFileSystem("WEB-INF", "%redhat.workspace%", true);
+        getOrCreateFileSystem("WEB-INF", XModelConstants.WORKSPACE_REF, true);
     }
 
     private void createWebXMLFileSystem() {
@@ -90,7 +91,7 @@ public class AdoptJSFProjectFinisher {
         String webxmlfolder = webxml.getParent();
         String relative = getRelativePath(workspace, webxmlfolder);
         if(relative == null || relative.startsWith("/..")) {
-            String loc = (relative == null) ? webxmlfolder : "%redhat.workspace%" + relative;
+            String loc = (relative == null) ? webxmlfolder : XModelConstants.WORKSPACE_REF + relative;
             getOrCreateFileSystem("web-xml", loc, true);
             web.setAttributeValue("model path", "/" + webxml.getName());
         } else {
@@ -197,7 +198,7 @@ public class AdoptJSFProjectFinisher {
     public static String getFileSystemLocation(String rootpath, String path) {
         path = path.replace('\\', '/');
         String relative = getRelativePath(rootpath, path);
-        return (relative == null) ? path : "%redhat.workspace%" + relative;
+        return (relative == null) ? path : XModelConstants.WORKSPACE_REF + relative;
     }
 
 }

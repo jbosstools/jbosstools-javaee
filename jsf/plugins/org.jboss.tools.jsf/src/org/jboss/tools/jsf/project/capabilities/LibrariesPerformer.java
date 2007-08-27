@@ -116,7 +116,7 @@ public class LibrariesPerformer extends PerformerItem {
 		XModelObject webinf = FileSystemsHelper.getWebInf(model);
 		File webInfDir = ((IResource)webinf.getAdapter(IResource.class)).getLocation().toFile();
         libName = (location.getParentFile().equals(webInfDir))
-        ? "%redhat.workspace%/lib/" : location.getAbsolutePath().replace('\\', '/')+"/";
+        ? XModelConstants.WORKSPACE_REF + "/lib/" : location.getAbsolutePath().replace('\\', '/')+"/";
         
         CapabilityPerformer pp = (CapabilityPerformer)getParent();
 		String capability = pp.capability.getAttributeValue("name");
