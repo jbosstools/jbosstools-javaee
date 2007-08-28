@@ -462,6 +462,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 						try {
 							ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 							ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+							EclipseResourceUtil.addNatureToProject(ejb, ISeamProject.NATURE_ID);
 						} catch(CoreException e) {
 							SeamCorePlugin.getPluginLog().logError(e);
 						}
