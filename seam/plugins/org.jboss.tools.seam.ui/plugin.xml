@@ -48,6 +48,20 @@
                class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
+      <wizard
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
+            icon="icons/seam16.png"
+            id="org.jboss.tools.seam.ui.SeamGenerateEntitiesWizard"
+            name="Seam Generate Entities">
+         <description>
+            Generate Entities
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+
       <!--wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"

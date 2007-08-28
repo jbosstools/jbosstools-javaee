@@ -12,6 +12,8 @@ public class SeamUIMessages extends NLS {
 	private static ResourceBundle fResourceBundle; 
 
 	public static String CREATE_NEW_SEAM_PROJECT;
+	public static String GENERATE_SEAM_ENTITIES_WIZARD_TITLE;
+	public static String GENERATE_SEAM_ENTITIES_WIZARD_PAGE1_MESSAGE;
 
 	static {
 		// load message values from bundle file
