@@ -27,8 +27,8 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 
 public class SeamPromptingProvider implements IPromptingProvider {
 	static String IS_SEAM_PROJECT = "seam.is_seam_project";
-	static String VARIABLES = "seam.variables";
-	static String MEMBERS = "seam.members";
+	public static String VARIABLES = "seam.variables";
+	public static String MEMBERS = "seam.members";
 	
 	SeamELCompletionEngine engine= new SeamELCompletionEngine();
 	
@@ -38,6 +38,9 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			Properties properties) {
 		IFile f = (IFile)properties.get("file");
 		ISeamProject p = (f == null) ? null : SeamCorePlugin.getSeamProject(f.getProject(), false);
+		if(f == null) {
+			p = (ISeamProject)properties.get("seamProject");
+		}
 		if(p == null) return null;
 		if(IS_SEAM_PROJECT.equals(id)) {
 			ArrayList<Object> list = new ArrayList<Object>();
