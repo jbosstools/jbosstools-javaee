@@ -27,6 +27,7 @@ public interface IParameter {
 	public static String SEAM_ENTITY_CLASS_NAME = "entity.name";
 	public static String SEAM_PROJECT_LOCATION_PATH = "seam.project.location";
 	public static String SEAM_PROJECT_WEBCONTENT_PATH = "seam.project.webcontent";
+	public static String HIBERNATE_CONFIGURATION_NAME = "hibernate.configuratrion.name";
 	
 	public static String SEAM_EAR_PROJECT_LOCATION_PATH = "seam.ear.project.location";
 

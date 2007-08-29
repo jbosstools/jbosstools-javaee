@@ -11,6 +11,12 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.console.ConsoleConfiguration;
+import org.hibernate.console.KnownConfigurations;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
@@ -96,5 +102,26 @@ public class SeamWizardFactory {
 	public static IFieldEditor createSeamEntityClasNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_ENTITY_CLASS_NAME, "Seam entity class name:", "");
+	}
+
+	/**
+	 * @param defaultSelection if "null" sets first configuration as default
+	 * @return
+	 */
+	public static IFieldEditor createHibernateConsoleConfigurationSelectionFieldEditor(String defaultSelection) {
+		ConsoleConfiguration[] configs = KnownConfigurations.getInstance().getConfigurations();
+		List<String> configurationNames = new ArrayList<String>();
+		for (int i = 0; i < configs.length; i++) {
+			configurationNames.add(configs[i].getName());
+		}
+		if(defaultSelection==null) {
+			if(configurationNames.size()>0) {
+				defaultSelection = configurationNames.get(0);
+			} else {
+				defaultSelection = "";
+			}
+		}
+		IFieldEditor editor = SwtFieldEditorFactory.INSTANCE.createComboEditor(IParameter.HIBERNATE_CONFIGURATION_NAME, SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, configurationNames, defaultSelection);
+		return editor;
 	}
 }

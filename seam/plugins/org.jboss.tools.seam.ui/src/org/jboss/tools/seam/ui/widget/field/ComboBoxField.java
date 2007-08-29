@@ -23,13 +23,14 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * @author eskimo
@@ -43,13 +44,14 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 	public ComboBoxField(Composite parent,List values, ILabelProvider labelProvider, 
 			Object value, boolean floatStyle) { 
 		this(parent, values, value, floatStyle);
-		
 		comboControl.setLabelProvider(labelProvider);
 	}
+
 	public ComboBoxField(Composite parent,List values, Object value, boolean floatStyle) {
 		this.values = values;
-		comboControl = new ComboViewer(parent,floatStyle?SWT.FLAT:SWT.READ_ONLY);
-
+		CCombo ccombo = new CCombo(parent, SWT.BORDER);
+		ccombo.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		comboControl = new ComboViewer(ccombo);
 		comboControl.setContentProvider(new IStructuredContentProvider() {
 
 			public void dispose() {			
@@ -62,18 +64,14 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 			public Object[] getElements(Object inputElement) {
 				return ComboBoxField.this.values.toArray();
 			}
-			
-			
 		});
 
 		comboControl.addSelectionChangedListener(this);
-		comboControl.getCombo().addModifyListener(new ModifyListener() {
-
+		comboControl.getCCombo().addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				firePropertyChange(new Object(), comboControl.getCombo().getText());
+				firePropertyChange(new Object(), comboControl.getCCombo().getText());
 			}});
 		comboControl.setLabelProvider(new ILabelProvider() {
-
 			public void addListener(ILabelProviderListener listener) {			
 			}
 
@@ -94,39 +92,41 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 			public String getText(Object element) {
 				return element.toString();
 			}
-			
 		});
 		comboControl.setInput(values);
 		comboControl.setSelection(new StructuredSelection(value), true);
-		
-		
 	}
+
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	public void selectionChanged(SelectionChangedEvent event) {
 		firePropertyChange("", ((StructuredSelection)event.getSelection()).getFirstElement());
 	}
-	
-	public Combo getComboControl() {
-		return comboControl.getCombo();
+
+	public CCombo getComboControl() {
+		return comboControl.getCCombo();
 	}
 
 	@Override
 	public Control getControl() {
 		return getComboControl();
 	}
-	
+
 	public void setValue(Object newValue) {
 		comboControl.setSelection(new StructuredSelection(newValue));
-		comboControl.getCombo().setText(newValue.toString());
+		comboControl.getCCombo().setText(newValue.toString());
 	}
-	
+
 	public void setTags(String[] tags,String value) {
 		values = Arrays.asList(tags);
 		comboControl.removeSelectionChangedListener(this);
 		comboControl.refresh(true);
 		comboControl.addPostSelectionChangedListener(this);
 		comboControl.setSelection(new StructuredSelection(value));
+	}
+
+	public void setEditable(boolean ediatble) {
+		comboControl.getCCombo().setEditable(ediatble);
 	}
 }

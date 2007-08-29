@@ -14,9 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
 
 public class TaggedComboFieldEditor extends CompositeEditor implements ITaggedFieldEditor, PropertyChangeListener{
 
@@ -25,7 +23,7 @@ public class TaggedComboFieldEditor extends CompositeEditor implements ITaggedFi
 	boolean floatStyle = true;
 	ComboFieldEditor combo = null;
 	
-	public TaggedComboFieldEditor(String name, String label, List values,Object defaultValue, boolean floatStyle) {
+	public TaggedComboFieldEditor(String name, String label, List values, Object defaultValue, boolean floatStyle) {
 		super(name, label, defaultValue);
 		this.values = Collections.unmodifiableList(values);
 		this.floatStyle = floatStyle;
@@ -48,4 +46,21 @@ public class TaggedComboFieldEditor extends CompositeEditor implements ITaggedFi
 		combo.setTags(tags);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.CompositeEditor#setEditable(boolean)
+	 */
+	@Override
+	public void setEditable(boolean ediatble) {
+		combo.setEditable(ediatble);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.CompositeEditor#isEditable()
+	 */
+	@Override
+	public boolean isEditable() {
+		return combo.isEditable();
+	}
 }

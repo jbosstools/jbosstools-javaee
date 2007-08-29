@@ -16,8 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.widget.field.ComboBoxField;
@@ -92,5 +90,14 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 		// TODO Auto-generated method stub
 		return 1;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.CompositeEditor#setEditable(boolean)
+	 */
+	@Override
+	public void setEditable(boolean ediatble) {
+		super.setEditable(ediatble);
+		comboField.setEditable(ediatble);
+	}
 }
