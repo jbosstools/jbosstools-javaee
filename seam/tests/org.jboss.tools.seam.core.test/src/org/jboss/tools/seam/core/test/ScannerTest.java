@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -43,6 +44,7 @@ import org.jboss.tools.seam.core.event.ISeamValueMap;
 import org.jboss.tools.seam.core.event.ISeamValueMapEntry;
 import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.el.SeamPromptingProvider;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
@@ -479,6 +481,18 @@ public class ScannerTest extends TestCase {
 			assertTrue("Property " + propertyName + " has value " + actualValue + " rather than " + expectedValue, expectedValue.equals(actualValue));
 		}
 		
+	}
+	
+	public void testPromptingProvider() {
+		ISeamProject seamProject = getSeamProject();
+		SeamPromptingProvider pp = new SeamPromptingProvider();
+		Properties properties = new Properties();
+		properties.put("seamProject", seamProject);
+		List list = pp.getList(null, SeamPromptingProvider.VARIABLES, "", properties);
+		assertTrue("Prompting has to contain 'myUser' variable", list.contains("myUser"));
+		
+		list = pp.getList(null, SeamPromptingProvider.MEMBERS, "#{myUser.", properties);
+		assertTrue("Prompting has to contain 'payment' property for '#{myUser.' seed", list.contains("payment"));
 	}
 
 }
