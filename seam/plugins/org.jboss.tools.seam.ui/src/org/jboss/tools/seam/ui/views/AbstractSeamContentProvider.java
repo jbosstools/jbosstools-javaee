@@ -24,10 +24,16 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.navigator.ICommonContentExtensionSite;
+import org.eclipse.ui.navigator.ICommonContentProvider;
+import org.eclipse.ui.navigator.IExtensionStateModel;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -55,27 +61,71 @@ import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
  * 
  * @author Viacheslav Kabanovich
  */
-public abstract class AbstractSeamContentProvider implements ITreeContentProvider, ISeamProjectChangeListener {
+public abstract class AbstractSeamContentProvider implements ITreeContentProvider, ISeamProjectChangeListener, ICommonContentProvider {
 	protected Viewer viewer;
 	IResourceChangeListener listener = new ResourceChangeListener();
 	Set<ISeamProject> processed = new HashSet<ISeamProject>();
 	
-
+	private IExtensionStateModel fStateModel;
+	IPropertyChangeListener scopePropertyListener;
+	IPropertyChangeListener layoutPropertyListener;
+	boolean isFlatLayout = true;
+	boolean isScopeLable = false;
+	
 	public AbstractSeamContentProvider() {}
+	
+	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
+		fStateModel = commonContentExtensionSite.getExtensionStateModel();
+		IMemento memento = commonContentExtensionSite.getMemento();
+		restoreState(memento);
+
+		scopePropertyListener = new IPropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if (ViewConstants.SCOPE_PRESENTATION.equals(event.getProperty())) {
+					if (event.getNewValue() != null) {
+						boolean newValue = ((Boolean) event.getNewValue()).booleanValue();
+						setIsScopeLable(newValue);
+					}
+				}
+			}
+		};
+		fStateModel.addPropertyChangeListener(scopePropertyListener);
+
+		layoutPropertyListener = new IPropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if (ViewConstants.PACKAGE_STRUCTURE.equals(event.getProperty())) {
+					if (event.getNewValue() != null) {
+						boolean newValue = ((Boolean)event.getNewValue()).booleanValue();
+						setIsFlatLayout(newValue);
+					}
+				}
+			}
+		};
+		fStateModel.addPropertyChangeListener(layoutPropertyListener);
+		
+	}
+
+	void setIsFlatLayout(boolean b) {
+		isFlatLayout = b;
+	}
+	
+	void setIsScopeLable(boolean b) {
+		isScopeLable = b;
+	}
 
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 	
 	boolean isNotShowingScopeNodes() {
-		return ScopePresentationActionProvider.isScopePresentedAsLabel();
+		return isScopeLable; // ScopePresentationActionProvider.isScopePresentedAsLabel();
 //		if(viewer == null) return false;
 //		Boolean b = (Boolean)viewer.getData("scopeAsNode");
 //		return b != null && b.booleanValue();
 	}
 	
 	boolean isPackageStructureFlat() {
-		return ScopePresentationActionProvider.isPackageStructureFlat();
+		return isFlatLayout; //ScopePresentationActionProvider.isPackageStructureFlat();
 	}
 
 	public boolean hasChildren(Object element) {
@@ -183,17 +233,6 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
 	}
 
-	public void dispose() {
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
-		viewer = null;
-		if(processed != null) {
-			for (ISeamProject p : processed) {
-				p.removeSeamProjectListener(this);
-			}
-			processed.clear();
-		}
-	}
-
 	class ResourceChangeListener implements IResourceChangeListener {
 		ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
 
@@ -230,6 +269,27 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			return true;
 		}
 		
+	}
+
+	public void restoreState(IMemento memento) {
+	}
+
+	public void saveState(IMemento memento) {
+	}
+
+	public void dispose() { 
+		fStateModel.removePropertyChangeListener(layoutPropertyListener);
+		fStateModel.removePropertyChangeListener(scopePropertyListener);
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
+		viewer = null;
+		if(processed != null) {
+			for (ISeamProject p : processed) {
+				p.removeSeamProjectListener(this);
+			}
+			processed.clear();
+		}
+		fStateModel.removePropertyChangeListener(layoutPropertyListener);
+		fStateModel.removePropertyChangeListener(scopePropertyListener);
 	}
 
 }

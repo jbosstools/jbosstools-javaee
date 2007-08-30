@@ -52,6 +52,9 @@ public class SeamJarFilter extends ViewerFilter {
 		for (ISeamComponent c : p.getComponents()) {
 			if(isUserDefinedComponent(c)) return true;
 		}
+		for (ISeamPackage c : p.getPackages().values()) {
+			if(isUserDefinedPackage(c)) return true;
+		}
 		return false;
 	}
 	

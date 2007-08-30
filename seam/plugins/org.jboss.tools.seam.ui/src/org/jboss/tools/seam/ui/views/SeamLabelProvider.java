@@ -15,11 +15,19 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
+import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.ICommonContentExtensionSite;
+import org.eclipse.ui.navigator.ICommonLabelProvider;
+import org.eclipse.ui.navigator.IExtensionStateModel;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -35,8 +43,54 @@ import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamLabelProvider extends LabelProvider {
+public class SeamLabelProvider extends LabelProvider implements ICommonLabelProvider {
+	private IExtensionStateModel fStateModel;
+	private AbstractSeamContentProvider contentProvider;
+	
+	boolean isFlatLayout = true;
+	boolean isScopeLable = false;
+	
+	IPropertyChangeListener scopePropertyListener;
+	IPropertyChangeListener layoutPropertyListener;
+
 	JavaElementImageProvider jip = new JavaElementImageProvider();
+
+	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
+		fStateModel = commonContentExtensionSite.getExtensionStateModel();
+		contentProvider = (AbstractSeamContentProvider) commonContentExtensionSite.getExtension().getContentProvider();
+
+		scopePropertyListener = new IPropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if (ViewConstants.SCOPE_PRESENTATION.equals(event.getProperty())) {
+					if (event.getNewValue() != null) {
+						boolean newValue = ((Boolean) event.getNewValue()).booleanValue();
+						setIsScopeLable(newValue);
+					}
+				}
+			}
+		};
+		fStateModel.addPropertyChangeListener(scopePropertyListener);
+
+		layoutPropertyListener = new IPropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if (ViewConstants.PACKAGE_STRUCTURE.equals(event.getProperty())) {
+					if (event.getNewValue() != null) {
+						boolean newValue = ((Boolean)event.getNewValue()).booleanValue();
+						setIsFlatLayout(newValue);
+					}
+				}
+			}
+		};
+		fStateModel.addPropertyChangeListener(layoutPropertyListener);
+	}
+	
+	void setIsFlatLayout(boolean b) {
+		isFlatLayout = b;
+	}
+	
+	void setIsScopeLable(boolean b) {
+		isScopeLable = b;
+	}
 
 	public String getText(Object element) {
 		if(element instanceof IWorkspaceRoot) {
@@ -46,7 +100,7 @@ public class SeamLabelProvider extends LabelProvider {
 		} else if(element instanceof ISeamScope) {
 			return ((ISeamScope)element).getType().getLabel();
 		} else if(element instanceof ISeamPackage) {
-			if(ScopePresentationActionProvider.isPackageStructureFlat()) {
+			if(isFlatLayout/* ScopePresentationActionProvider.isPackageStructureFlat()*/) {
 				return ((ISeamPackage)element).getQualifiedName();
 			} else {
 				return ((ISeamPackage)element).getName();
@@ -60,7 +114,7 @@ public class SeamLabelProvider extends LabelProvider {
 				name = name.substring(lastIndexOf+1); // temp fix for JBIDE-644; shouldn't need to do this here. shold be a method to getShortName or similar but ISeamComponent extends ISeamContextVariable so ended up being weird to do clean.
 			}
 
-			if(ScopePresentationActionProvider.isScopePresentedAsLabel()) {
+			if(isScopeLable /* ScopePresentationActionProvider.isScopePresentedAsLabel()*/) {
 				name += " (" + ((ISeamScope)c.getParent()).getType().getLabel() + ")";
 			}
 			return name; 
@@ -113,6 +167,22 @@ public class SeamLabelProvider extends LabelProvider {
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 		}
 		return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+	}
+
+	public void restoreState(IMemento memento) {
+	}
+
+	public void saveState(IMemento memento) {
+	}
+
+	public String getDescription(Object anElement) {
+		return "";
+	}
+
+	public void dispose() { 
+		super.dispose();
+		fStateModel.removePropertyChangeListener(layoutPropertyListener);
+		fStateModel.removePropertyChangeListener(scopePropertyListener);
 	}
 
 }
