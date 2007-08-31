@@ -13,14 +13,17 @@ package org.jboss.tools.seam.ui.wizard;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -30,7 +33,7 @@ import org.jboss.tools.seam.ui.widget.field.RadioField;
 /**
  * @author Alexey Kazakov
  */
-public class SeamGenerateEnitiesWizardPage extends WizardPage implements PropertyChangeListener {
+public class SeamGenerateEnitiesWizardPage extends WizardPage implements PropertyChangeListener, IAdaptable {
 
 	private IFieldEditor projectEditor;
 	private IFieldEditor configEditor;
@@ -130,4 +133,17 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		setMessage(null);
 		setPageComplete(true);
 	}
+
+	public Object getAdapter(Class adapter) {
+		if(adapter == Map.class) {
+			Map<String,String> values = new HashMap<String, String>();
+			values.put(projectEditor.getName(), projectEditor.getValueAsString());
+			values.put(configEditor.getName(), configEditor.getValueAsString());
+			String mode = radios.getValue().toString();
+			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, ("reverse".equals(mode) ? "true" : "false"));
+			return values;
+		}
+		return null;
+	}
+	
 }
