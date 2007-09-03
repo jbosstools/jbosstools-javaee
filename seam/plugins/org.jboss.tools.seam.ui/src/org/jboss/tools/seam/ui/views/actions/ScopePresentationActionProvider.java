@@ -90,12 +90,12 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		fEnabled = true;
 	}
 
-	public void setPackageStructureFlat(boolean s) {
+	public static void setPackageStructureFlat(boolean s) {
 		IEclipsePreferences p = SeamPreferences.getInstancePreferences();
 		p.put(PACKAGE_STRUCTURE, s ? "flat" : "hierarchical");
 	}
 	
-	public void setScopePresentedAsLabel(boolean s) {
+	public static void setScopePresentedAsLabel(boolean s) {
 		IEclipsePreferences p = SeamPreferences.getInstancePreferences();
 		p.put(SCOPE_PRESENTATION, s ? "label" : "node");
 	}
