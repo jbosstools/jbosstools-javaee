@@ -267,7 +267,8 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	}
 	
 	public boolean isWar() {
-		if(getSelectedProject()==null) return true;
+		if(getSelectedProject()==null ||
+		SeamCorePlugin.getSeamFacetPreferences(getSelectedProject().getProject())==null) return true;
 		return "war".equals(SeamCorePlugin.getSeamFacetPreferences(getSelectedProject().getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war"));
 	}
 }
