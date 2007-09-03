@@ -214,6 +214,8 @@ class SFUtil extends XModelObjectLoaderUtil {
 			|| "JSFMapEntry".equals(entity.getName())) {
 			children.add("value");
 			children.add("null-value");
+		} else if("JSFNavigationCase".equals(entity.getName())) {
+			children.add("redirect");
 		}
 		return children;
 	}
