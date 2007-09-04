@@ -86,7 +86,7 @@ public class AntCopyUtils {
 		public boolean isIncluded(String file) { 
 			int i = dir.getAbsolutePath().length()+1;
 			String relatedPath = file.substring(i);
-			if(new File(file).isDirectory())return true;
+			//if(new File(file).isDirectory())return true;
 			for (Pattern pattern : include) {			
 				if(pattern.matcher(relatedPath.replace('\\', '/')).matches() ) {
 					return !isExcluded(relatedPath);
@@ -147,7 +147,6 @@ public class AntCopyUtils {
 						destinationFolder.mkdirs();
 					FileUtils.getFileUtils().copyFile(file, new File(destinationFolder,file.getName()),filterSetCollection,override);
 				} catch (IOException e) {
-					e.printStackTrace();
 					SeamCorePlugin.getPluginLog().logError(e);
 				}
 			}

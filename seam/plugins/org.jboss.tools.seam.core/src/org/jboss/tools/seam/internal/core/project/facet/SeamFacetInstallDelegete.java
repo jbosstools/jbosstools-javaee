@@ -148,12 +148,21 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("index\\.html")
 		.include("layout")
 		.include("layout/.*")
+		.include("stylesheet")
 		.include("stylesheet/.*")
 		.include("img/.*")
 		.include("img")
-		.exclude(".*/.*\\.ftl");
+		.exclude(".*/.*\\.ftl")
+		.exclude(".*/CVS")
+		.exclude(".*/\\.svn");
+	
+	public static AntCopyUtils.FileSet CVS_SVN = new AntCopyUtils.FileSet()
+		.include(".*")
+		.exclude(".*/CVS")
+		.exclude(".*/\\.svn");	
 	
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
+		.include("WEB-INF")
 		.include("WEB-INF/web\\.xml")
 		.include("WEB-INF/pages\\.xml")
 		.include("WEB-INF/jboss-web\\.xml")
@@ -385,13 +394,13 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					try {
 						FilterSet filterSet = new FilterSet();
 						filterSet.addFilter("projectName", project.getName());
-						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(project));
+						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(project));					
 						
-											
+						AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(seamGenResFolder);
 						
 						AntCopyUtils.copyFilesAndFolders(
 								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb"), 
-								ejb.getLocation().toFile(), 
+								ejb.getLocation().toFile(), new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
 								new FilterSetCollection(filterSet), true);
 						
 						// *******************************************************************************************
@@ -443,7 +452,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 						// Copy configuration files from template
 						AntCopyUtils.copyFilesAndFolders(
 								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ear"), 
-								ear.getLocation().toFile(), 
+								ear.getLocation().toFile(), new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
 								new FilterSetCollection(filterSet), true);
 						
 						// Fill ear contents
