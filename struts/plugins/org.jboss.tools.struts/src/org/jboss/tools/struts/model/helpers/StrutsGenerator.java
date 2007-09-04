@@ -212,19 +212,16 @@ private static String[] EXCLUDE_PKGS = {
 				StrutsModelPlugin.getPluginLog().logError(rnfe);
 				d.showDialog(StrutsUIMessages.ERROR, rnfe.getMessage(), new String[]{StrutsUIMessages.OK}, null, ServiceDialog.ERROR);
 ///				ErrorDialog.openError(ModelPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(),rnfe);
-				//rnfe.printStackTrace();
 			} catch (ParseErrorException pee) {
 				StrutsModelPlugin.getPluginLog().logError(pee);
 				d.showDialog(StrutsUIMessages.ERROR, pee.getMessage(), new String[]{StrutsUIMessages.OK}, null, ServiceDialog.ERROR);
 ///				ErrorDialog.openError(ModelPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(),pee);
-				//pee.printStackTrace();
 			}
 
 		} catch (Exception e) {
 			StrutsModelPlugin.getPluginLog().logError(e);
 			d.showDialog(StrutsUIMessages.ERROR, e.getMessage(), new String[]{StrutsUIMessages.OK}, null, ServiceDialog.ERROR);
 ///			ErrorDialog.openError(ModelPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(),e);
-			//e.printStackTrace();
 		}
 	};
 
