@@ -109,7 +109,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		try {
 			getProject().accept(getResourceVisitor().getVisitor());
 		} catch (CoreException e) {
-			e.printStackTrace();
+			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
 
