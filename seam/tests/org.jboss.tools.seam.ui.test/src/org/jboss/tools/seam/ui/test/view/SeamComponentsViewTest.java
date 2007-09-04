@@ -11,19 +11,26 @@
 ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.view;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IViewPart;
@@ -34,7 +41,9 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.web.ui.RedHat4WebPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
@@ -45,7 +54,7 @@ import org.jboss.tools.test.util.WorkbenchUtils;
  *
  */
 public class SeamComponentsViewTest extends TestCase {
-
+	IProject project;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -53,40 +62,111 @@ public class SeamComponentsViewTest extends TestCase {
 		WorkbenchUtils.getWorkbench().showPerspective(
 				RedHat4WebPerspectiveFactory.PERSPECTIVE_ID,
 				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
-		}
-	
-	public void testComponentViewTree(){
-		System.out.println("testAComponentViewTree!");
 		TestProjectProvider provider=null;
 		try {
 			provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, "TestComponentView", true);
 		} catch (Exception e1) {
 			JUnitUtils.fail("Cannot create Project Provider", e1);
 		} 
-		IProject project = provider.getProject();
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot refresh created test Project", e);
-		}
-		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
-			JUnitUtils.fail(e.getMessage(),e);
-		}
-		System.out.println("Refresh is DONE!");
+		project = provider.getProject();
+	}
+	
+	public void testComponentView(){
+		addComponent();
+		deleteComponent();
+	}
+	
+	public void addComponent(){
+		SeamCorePlugin.getSeamProject(project, true);
 		
-		IFile f = project.getFile("WebContent/WEB-INF/components.xml");
-		assertTrue("Cannot find components.xml in test project", f != null && f.exists());
+		try {
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		} catch (Exception e) {
+			JUnitUtils.fail("Cannot build test Project", e);
+		}
+		
+		IFile file = project.getFile("WebContent/WEB-INF/components.xml");
+		assertTrue("Cannot find components.xml in test project", file != null && file.exists());
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
+		
+		Tree tree = navigator.getCommonViewer().getTree();
+
+		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
+		assertTrue("Package \"myPackage\" found!",seamPackage==null);
+		
+		IFile file1 = project.getFile("WebContent/WEB-INF/components.1");
+		assertTrue("Cannot find components.1 in test project", file1 != null && file1.exists());
+		
+		try{
+			file.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.1", ex);
+		}
+		
+		try {
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		} catch (Exception e) {
+			JUnitUtils.fail("Cannot build test Project", e);
+		}
+		
+		seamPackage = findSeamPackage(tree, "myPackage");
+		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
+		
+		if(seamPackage != null){
+			ISeamComponent component = findSeamComponent(seamPackage, "myPackage.myStringComponent");
+			assertTrue("Component \"myPackage.myStringComponent\" not found!",component!=null);
+		}
+
+	}
+	
+	public void deleteComponent(){
+		
+		IFile file = project.getFile("WebContent/WEB-INF/components.xml");
+		assertTrue("Cannot find components.xml in test project", file != null && file.exists());
+		
+		CommonNavigator navigator = getSeamComponentsView();
+		navigator.getCommonViewer().expandAll();
+		
 		Tree tree = navigator.getCommonViewer().getTree();
 		
 		System.out.println("tree.getItemCount() - "+tree.getItemCount());
 		for(int i=0;i<tree.getItemCount();i++){
 			showTreeItem(tree.getItem(i),0);
 		}
+
+		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
+		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
+		
+		if(seamPackage != null){
+			ISeamComponent component = findSeamComponent(seamPackage, "myPackage.myStringComponent");
+			assertTrue("Component \"myPackage.myStringComponent\" not found!",component!=null);
+		}
+		
+		IFile file1 = project.getFile("WebContent/WEB-INF/components.2");
+		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
+		
+		try{
+			file.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.2", ex);
+		}
+		
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (Exception e) {
+			JUnitUtils.fail("Cannot build test Project", e);
+		}
+		
+		System.out.println("tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
+		}
+
+		seamPackage = findSeamPackage(tree, "myPackage");
+		assertTrue("Package \"myPackage\" found!",seamPackage==null);
+
 	}
 	
 	/**
@@ -111,11 +191,11 @@ public class SeamComponentsViewTest extends TestCase {
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot refresh created test Project", e);
 		}
-		try {
+		/*try {
 			XJob.waitForJob();
 		} catch (InterruptedException e) {
 			JUnitUtils.fail(e.getMessage(),e);
-		}
+		}*/
 		IStructuredContentProvider content 
 		      = (IStructuredContentProvider)getSeamComponentsView().getCommonViewer().getContentProvider();
 		assertTrue("Created Seam enabled project haven't been shown in tree",1==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);		
@@ -146,39 +226,92 @@ public class SeamComponentsViewTest extends TestCase {
 			System.out.print("-");
 		
 		System.out.print(item.getText());
-		System.out.println(" "+item.getData());
+		System.out.println("Item "+item.getData());
 		if(item.getData() instanceof ISeamScope){
 			ISeamScope scope = (ISeamScope)item.getData();
-			Collection packages = scope.getPackages();
-			System.out.println(" packages - "+packages.size());
-			Iterator iter = packages.iterator();
+			Iterator<ISeamPackage> iter = scope.getAllPackages().iterator();
 			while(iter.hasNext())
-				showSeamPackage((ISeamPackage)iter.next(), level++);
+				showSeamPackage(iter.next(), level+1);
 			
 			
-			List components = scope.getComponents();
+			List<ISeamComponent> components = scope.getComponents();
 			for(int i=0;i<components.size();i++)
-				showSeamComponent((ISeamComponent)components.get(i), level++);
+				showSeamComponent(components.get(i), level+1);
 		}
 		
 		for(int i=0;i<item.getItemCount();i++){
-			showTreeItem(item.getItem(i),level++);
+			showTreeItem(item.getItem(i),level+1);
 		}
-	}
-	
-	private void showSeamComponent(ISeamComponent component, int level){
-		for(int i=0;i<level;i++)
-			System.out.print("-");
-		
-		System.out.println("Component - "+component.getName());
-		
 	}
 
 	private void showSeamPackage(ISeamPackage seamPackage, int level){
 		for(int i=0;i<level;i++)
 			System.out.print("-");
 		
-		System.out.println("Package - "+seamPackage.getName());
+		System.out.println("Package - "+seamPackage.getName()+" "+seamPackage.getQualifiedName());
 		
+		Iterator<ISeamComponent> iter = seamPackage.getComponents().iterator();
+		while(iter.hasNext())
+			showSeamComponent(iter.next(), level+1);
 	}
+
+	private void showSeamComponent(ISeamComponent component, int level){
+		for(int i=0;i<level;i++)
+			System.out.print("-");
+		
+		System.out.println("Component - "+component.getName()+" "+component.getClassName());
+	}
+	
+	private ISeamComponent findSeamComponent(ISeamPackage seamPackage, String name){
+		ISeamComponent component=null;
+		
+		Iterator<ISeamComponent> iter = seamPackage.getComponents().iterator();
+		while(iter.hasNext()){
+			component = iter.next();
+			if(component.getName().equals(name)) return component;
+		}
+		
+		return null;
+	}
+
+	private ISeamPackage findSeamPackage(ISeamScope seamScope, String name){
+		ISeamPackage seamPackage=null;
+		
+		Iterator<ISeamPackage> iter = seamScope.getAllPackages().iterator();
+		while(iter.hasNext()){
+			seamPackage = iter.next();
+			if(seamPackage.getName().equals(name)) return seamPackage;
+		}
+		
+		return null;
+	}
+
+	private ISeamPackage findSeamPackage(TreeItem item, String name){
+		ISeamPackage seamPackage=null;
+		
+		if(item.getData() instanceof ISeamScope){
+			seamPackage = findSeamPackage((ISeamScope)item.getData(), name);
+			if(seamPackage != null) return seamPackage;
+		}
+		for(int i=0;i<item.getItemCount();i++){
+			seamPackage = findSeamPackage(item.getItem(i), name);
+			if(seamPackage != null) return seamPackage;
+		}
+		
+		return null;
+	}
+	
+	private ISeamPackage findSeamPackage(Tree tree, String name){
+		ISeamPackage seamPackage=null;
+		TreeItem item;
+		
+		for(int i=0;i<tree.getItemCount();i++){
+			item = tree.getItem(i);
+			seamPackage = findSeamPackage(item, name);
+			if(seamPackage != null) return seamPackage;
+		}
+		
+		return null;
+	}
+
 }
