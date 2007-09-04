@@ -22,6 +22,7 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.IExtensionActivationListener;
 import org.eclipse.ui.navigator.IExtensionStateModel;
 import org.eclipse.ui.navigator.INavigatorActivationService;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.ui.views.ViewConstants;
 
@@ -121,7 +122,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 					try {
 						getActionSite().getStructuredViewer().refresh();
 					} catch (Exception e2) {
-						e2.printStackTrace();
+						SeamCorePlugin.getPluginLog().logError(e2);
 						//ignore
 					}
 				}
