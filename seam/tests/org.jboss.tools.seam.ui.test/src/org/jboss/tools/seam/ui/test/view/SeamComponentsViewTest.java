@@ -69,6 +69,7 @@ public class SeamComponentsViewTest extends TestCase {
 	
 	public void testComponentView(){
 		addComponent();
+		renameComponent();
 		deleteComponent();
 	}
 	
@@ -113,17 +114,12 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 
 	}
-	
-	public void deleteComponent(){
+
+	public void renameComponent(){
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
-		
-//		System.out.println("tree.getItemCount() - "+tree.getItemCount());
-//		for(int i=0;i<tree.getItemCount();i++){
-//			showTreeItem(tree.getItem(i),0);
-//		}
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
@@ -148,6 +144,73 @@ public class SeamComponentsViewTest extends TestCase {
 			JUnitUtils.fail("Cannot build test Project", e);
 		}
 		
+		seamPackage = findSeamPackage(tree, "myPackage");
+		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
+		
+		if(seamPackage != null){
+			ISeamComponent component = findSeamComponent(seamPackage, "myPackage.myTextComponent");
+			assertTrue("Component \"myPackage.myTextComponent\" not found!",component!=null);
+		}
+		
+		IFile file2 = project.getFile("WebContent/WEB-INF/components.3");
+		assertTrue("Cannot find components.3 in test project", file2 != null && file2.exists());
+		
+		try{
+			file.setContents(file2.getContents(), false, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.3", ex);
+		}
+		
+		try {
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		} catch (Exception e) {
+			JUnitUtils.fail("Cannot build test Project", e);
+		}
+		
+		seamPackage = findSeamPackage(tree, "myNewPackage");
+		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
+		
+		if(seamPackage != null){
+			ISeamComponent component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
+			assertTrue("Component \"myNewPackage.myTextComponent\" not found!",component!=null);
+		}
+
+	}
+	
+	public void deleteComponent(){
+		CommonNavigator navigator = getSeamComponentsView();
+		navigator.getCommonViewer().expandAll();
+		
+		Tree tree = navigator.getCommonViewer().getTree();
+		
+//		System.out.println("tree.getItemCount() - "+tree.getItemCount());
+//		for(int i=0;i<tree.getItemCount();i++){
+//			showTreeItem(tree.getItem(i),0);
+//		}
+
+		ISeamPackage seamPackage = findSeamPackage(tree, "myNewPackage");
+		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
+		
+		if(seamPackage != null){
+			ISeamComponent component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
+			assertTrue("Component \"myNewPackage.myTextComponent\" not found!",component!=null);
+		}
+		
+		IFile file1 = project.getFile("WebContent/WEB-INF/components.4");
+		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
+		
+		try{
+			file.setContents(file1.getContents(), false, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.4", ex);
+		}
+		
+		try {
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		} catch (Exception e) {
+			JUnitUtils.fail("Cannot build test Project", e);
+		}
+		
 //		System.out.println("Before!");
 //		
 //		waitForJobs();
@@ -159,8 +222,8 @@ public class SeamComponentsViewTest extends TestCase {
 //			showTreeItem(tree.getItem(i),0);
 //		}
 
-		seamPackage = findSeamPackage(tree, "myPackage");
-		assertTrue("Package \"myPackage\" found!",seamPackage==null);
+		seamPackage = findSeamPackage(tree, "myNewPackage");
+		assertTrue("Package \"myNewPackage\" found!",seamPackage==null);
 
 	}
 	
