@@ -11,13 +11,8 @@
 ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.view;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -36,12 +31,10 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.navigator.CommonNavigator;
-import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.web.ui.RedHat4WebPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
-import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
@@ -55,6 +48,7 @@ import org.jboss.tools.test.util.WorkbenchUtils;
  */
 public class SeamComponentsViewTest extends TestCase {
 	IProject project;
+	IFile file;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -69,6 +63,8 @@ public class SeamComponentsViewTest extends TestCase {
 			JUnitUtils.fail("Cannot create Project Provider", e1);
 		} 
 		project = provider.getProject();
+		file = project.getFile("WebContent/WEB-INF/components.xml");
+		assertTrue("Cannot find components.xml in test project", file != null && file.exists());
 	}
 	
 	public void testComponentView(){
@@ -84,10 +80,7 @@ public class SeamComponentsViewTest extends TestCase {
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot build test Project", e);
 		}
-		
-		IFile file = project.getFile("WebContent/WEB-INF/components.xml");
-		assertTrue("Cannot find components.xml in test project", file != null && file.exists());
-		
+
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
@@ -100,7 +93,7 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.1 in test project", file1 != null && file1.exists());
 		
 		try{
-			file.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			file.setContents(file1.getContents(), false, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.1", ex);
 		}
@@ -122,19 +115,15 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 	
 	public void deleteComponent(){
-		
-		IFile file = project.getFile("WebContent/WEB-INF/components.xml");
-		assertTrue("Cannot find components.xml in test project", file != null && file.exists());
-		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-		System.out.println("tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
+//		System.out.println("tree.getItemCount() - "+tree.getItemCount());
+//		for(int i=0;i<tree.getItemCount();i++){
+//			showTreeItem(tree.getItem(i),0);
+//		}
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
@@ -148,21 +137,27 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
 		
 		try{
-			file.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			file.setContents(file1.getContents(), false, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.2", ex);
 		}
 		
 		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot build test Project", e);
 		}
 		
-		System.out.println("tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
+//		System.out.println("Before!");
+//		
+//		waitForJobs();
+//		
+//		System.out.println("After!");
+		
+//		System.out.println("tree.getItemCount() - "+tree.getItemCount());
+//		for(int i=0;i<tree.getItemCount();i++){
+//			showTreeItem(tree.getItem(i),0);
+//		}
 
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" found!",seamPackage==null);
@@ -313,5 +308,32 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		return null;
 	}
-
+	
+	public void waitForJobs() {
+		while (Job.getJobManager().currentJob() != null)
+			delay(10000);
+	}
+	
+	/** * Process UI input but do not return for the 
+	 * specified time interval. *
+	 * @param waitTimeMillis the number of milliseconds */ 
+	protected void delay(long waitTimeMillis) {
+		Display display = Display.getCurrent();
+		// If this is the UI thread,
+		// then process input.
+		if (display != null) {
+			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
+			while (System.currentTimeMillis() < endTimeMillis){
+				if (!display.readAndDispatch()) display.sleep();
+			} display.update();
+		}
+		// Otherwise, perform a simple sleep.
+		else {
+			try {
+				Thread.sleep(waitTimeMillis);
+			} catch (InterruptedException e) {
+					// Ignored.
+			}
+		}
+	}
 }
