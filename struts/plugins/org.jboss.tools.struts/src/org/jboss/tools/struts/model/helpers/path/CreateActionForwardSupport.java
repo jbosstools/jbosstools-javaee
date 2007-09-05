@@ -70,7 +70,10 @@ public class CreateActionForwardSupport extends SpecialWizardSupport implements 
 
     private void resetTiles() {
         tiles.clear();
-        tiles.addAll(StrutsProcessStructureHelper.instance.getTiles(getTarget()));
+        Set<String> tilePaths = StrutsProcessStructureHelper.instance.getTiles(getTarget());
+        for (String s : tilePaths) {
+        	tiles.add(s.replace("#", "/"));
+        }
         p.put("tiles", tiles);
     }
 
