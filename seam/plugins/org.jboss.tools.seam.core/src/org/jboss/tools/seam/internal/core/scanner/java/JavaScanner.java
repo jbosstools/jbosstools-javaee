@@ -84,7 +84,10 @@ public class JavaScanner implements IFileScanner {
 		if(u == null) return null;
 		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
-		ASTParser.newParser(AST.JLS3).createASTs(us, new String[0], requestor, null);
+		ASTParser p = ASTParser.newParser(AST.JLS3);
+		p.setSource(u);
+		p.setResolveBindings(true);
+		p.createASTs(us, new String[0], requestor, null);
 		return requestor.getDeclarations();
 	}
 	
@@ -159,3 +162,4 @@ public class JavaScanner implements IFileScanner {
 	}
 
 }
+//:Pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss
