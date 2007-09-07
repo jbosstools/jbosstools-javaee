@@ -171,6 +171,8 @@ public class WtpUtils {
 							return null;
 						}
 					} catch (CoreException e) {
+						// Ignore if we cannot check that the file exists.
+						// Assume that it doesn't 
 					}
 				}
 			}
@@ -194,7 +196,7 @@ public class WtpUtils {
 			if (projectEntryIndex != -1) {
 				newEntries.set(projectEntryIndex, newEntry);
 			} else {
-				IClasspathEntry entry= JavaCore.newSourceEntry(path);
+				IClasspathEntry entry= JavaCore.newSourceEntry(newSourceFolderPath);
 				insertClasspathEntry(entry, newEntries);
 			}
 
@@ -216,7 +218,7 @@ public class WtpUtils {
 			
 			IFolder newSourceFolder= javaProject.getProject().getFolder(newSourceFolderPath);
 			if (!newSourceFolder.exists()) {
-				CoreUtility.createFolder(newSourceFolder, true, true, new SubProgressMonitor(new NullProgressMonitor(), 1));			
+				CoreUtility.createFolder(newSourceFolder, true, true, null);			
 			}
 			
 			javaProject.setRawClasspath(newClasspathEntries, newOutputLocation, new NullProgressMonitor());
