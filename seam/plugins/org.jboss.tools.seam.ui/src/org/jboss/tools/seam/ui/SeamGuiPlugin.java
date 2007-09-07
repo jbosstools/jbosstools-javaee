@@ -10,10 +10,25 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui;
 
+import java.util.Properties;
+
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.datatools.connectivity.ConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.db.generic.IDBDriverDefinitionConstants;
+import org.eclipse.datatools.connectivity.drivers.DriverInstance;
+import org.eclipse.datatools.connectivity.drivers.DriverManager;
+import org.eclipse.datatools.connectivity.drivers.IDriverMgmtConstants;
+import org.eclipse.datatools.connectivity.drivers.IPropertySet;
+import org.eclipse.datatools.connectivity.drivers.PropertySetImpl;
+import org.eclipse.datatools.connectivity.drivers.models.OverrideTemplateDescriptor;
+import org.eclipse.datatools.connectivity.drivers.models.TemplateDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
+import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.osgi.framework.BundleContext;
 
 /**

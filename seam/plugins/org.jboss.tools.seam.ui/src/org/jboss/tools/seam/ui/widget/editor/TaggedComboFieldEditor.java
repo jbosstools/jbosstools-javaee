@@ -16,20 +16,27 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Combo;
 
+/**
+ * 
+ */
 public class TaggedComboFieldEditor extends CompositeEditor implements ITaggedFieldEditor, PropertyChangeListener{
 
 	List values = null;
 	
 	boolean floatStyle = true;
+	
 	ComboFieldEditor combo = null;
 	
-	public TaggedComboFieldEditor(String name, String label, List values, Object defaultValue, boolean floatStyle) {
+	public TaggedComboFieldEditor(String name, String label, List values, 
+									Object defaultValue, boolean floatStyle) {
+		
 		super(name, label, defaultValue);
 		this.values = Collections.unmodifiableList(values);
 		this.floatStyle = floatStyle;
-		combo = new ComboFieldEditor(name,label,values,defaultValue.toString(),floatStyle);
+		combo = new ComboFieldEditor(
+						name,label,values,defaultValue.toString(),floatStyle);
 		addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
-				combo});
+																		combo});
 	}
 
 	/* (non-Javadoc)

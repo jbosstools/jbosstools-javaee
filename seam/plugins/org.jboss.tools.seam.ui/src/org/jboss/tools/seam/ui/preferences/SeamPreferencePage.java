@@ -13,6 +13,8 @@ package org.jboss.tools.seam.ui.preferences;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -20,16 +22,17 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 
 /**
@@ -42,11 +45,9 @@ public class SeamPreferencePage extends PreferencePage implements
 	/**
 	 * 
 	 */
-	IFieldEditor editor 
-		= SwtFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
-				"seam.home.folder", "Seam Home Folder:", 
-				SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER));
-	
+	SeamRuntimeListFieldEditor seamRuntimes
+		= new SeamRuntimeListFieldEditor("rtlist","Runtime List",new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes())));
+
 	/**
 	 * 
 	 */
@@ -75,8 +76,7 @@ public class SeamPreferencePage extends PreferencePage implements
 		Composite root = new Composite(parent, SWT.NONE);
 		GridLayout gl = new GridLayout(3,false);
 		root.setLayout(gl);	
-		editor.doFillIntoGrid(root);
-		editor.addPropertyChangeListener(this);
+		seamRuntimes.doFillIntoGrid(root);
 		return root;
 	}
 
@@ -90,15 +90,6 @@ public class SeamPreferencePage extends PreferencePage implements
 	 * 
 	 */
 	public void propertyChange(PropertyChangeEvent arg0) {
-		Map errors 
-			= ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR.validate(editor.getValue(), null);
-		if(errors.size()>0) {
-			setValid(false);
-			setMessage(errors.get(errors.keySet().iterator().next()).toString(), IMessageProvider.ERROR);
-		} else {
-			setMessage(null);
-			setValid(true);
-		}
 	}
 	
 	/**
@@ -106,8 +97,11 @@ public class SeamPreferencePage extends PreferencePage implements
 	 */
 	@Override
 	protected void performApply() {
-		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-				SeamFacetPreference.SEAM_HOME_FOLDER, editor.getValueAsString());
+		for (SeamRuntime rt : seamRuntimes.getAddedSeamRuntimes()) {
+			SeamRuntimeManager.getInstance().addRuntime(rt);
+		}
+		seamRuntimes.getDefaultSeamRuntime().setDefault(true);
+		SeamRuntimeManager.getInstance().save();
 	}
 
 	/**
@@ -115,11 +109,6 @@ public class SeamPreferencePage extends PreferencePage implements
 	 */
 	@Override
 	protected void performDefaults() {
-		editor.removePropertyChangeListener(this);
-		editor.setValue(
-				SeamCorePlugin.getDefault().getPluginPreferences().getDefaultString(
-						SeamFacetPreference.SEAM_HOME_FOLDER));
-		editor.addPropertyChangeListener(this);
 		setValid(true);
 		setMessage(null);
 		performApply();

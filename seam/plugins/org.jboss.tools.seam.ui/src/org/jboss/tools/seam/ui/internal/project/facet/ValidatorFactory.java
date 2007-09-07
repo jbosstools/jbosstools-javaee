@@ -125,7 +125,6 @@ public class ValidatorFactory {
 						+ "' points to file");
 			return NO_ERRORS;
 		}
-
 	};
 
 	/**
@@ -144,7 +143,6 @@ public class ValidatorFactory {
 			if (!new File(value.toString(), "seam").isFile()) {
 				errors = createErrormessage("Seam Home Folde field points to " +
 						"location that doesn't look like seam home folder");
-
 			}
 			return errors;
 		}
@@ -327,6 +325,17 @@ public class ValidatorFactory {
 				return createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
 						"Connection profile is not selected");
+			}
+			return NO_ERRORS;
+		}
+	};
+	
+	public static IValidator JBOSS_SEAM_HOME_IS_NOT_SELECTED = new IValidator() {
+		public Map<String, String> validate(Object value, Object context) {
+			if (value == null || "".equals(value.toString().trim())) {
+				return createErrormessage(
+						ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+						"Seam Runtime is not selected");
 			}
 			return NO_ERRORS;
 		}

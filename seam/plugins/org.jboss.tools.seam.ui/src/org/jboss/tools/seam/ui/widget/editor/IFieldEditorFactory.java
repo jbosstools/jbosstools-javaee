@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.widget.editor;
 import java.util.List;
 
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 
 public interface IFieldEditorFactory {
 
@@ -123,4 +124,9 @@ public interface IFieldEditorFactory {
 			ButtonFieldEditor.ButtonPressedAction action2, IValidator validator);
 	
 	public ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName);
+	
+	public IFieldEditor createComboWithButton(String name, String label,
+			List values, Object defaultValue, boolean flat,
+			ButtonPressedAction action1,
+			IValidator validator);
 }

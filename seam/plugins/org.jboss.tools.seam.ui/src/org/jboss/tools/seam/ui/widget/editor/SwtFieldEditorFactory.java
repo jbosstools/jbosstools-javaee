@@ -17,13 +17,16 @@ import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
 import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
+import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**
  * 
@@ -154,7 +157,9 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		};
 	}
 
-	
+	/**
+	 * 
+	 */
 	public ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName) {
 		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
 			@Override
@@ -183,4 +188,20 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return editor;
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public IFieldEditor createComboWithButton(String name, String label,
+			List values, Object defaultValue, boolean flat,
+			ButtonPressedAction action1,
+			IValidator validator) {
+		CompositeEditor editor = new CompositeEditor(name,label,defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{
+				new LabelFieldEditor(name,label),
+				new ComboFieldEditor(name,label, values, defaultValue, false),
+				new ButtonFieldEditor(name, action1, defaultValue)
+		});
+		return editor;
+	}
 }
