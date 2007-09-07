@@ -47,6 +47,8 @@ import org.jboss.ide.eclipse.as.core.singledeployable.SingleDeployableFactory;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 
 public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
@@ -205,8 +207,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		final File webLibFolder = new File(webContentFolder,WEB_LIBRARIES_RELATED_PATH);
 		final File srcFolder = srcRootFolder.getUnderlyingFolder().getLocation().toFile();
 		final File webMetaInf = new File(webContentFolder, "META-INF");
-		
-		final String seamHomePath = model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString();
+		final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString());
+
+		final String seamHomePath = selectedRuntime.getHomeDir();
 		
 		final File seamHomeFolder = new File(seamHomePath);
 		final File seamLibFolder = new File(seamHomePath,SEAM_LIB_RELATED_PATH);
@@ -260,15 +263,12 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		AntCopyUtils.copyFilesAndFolders(
 				seamGenResFolder,srcFolder,new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, true);
 
-		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
+		final FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
 		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		
-		AntCopyUtils.copyFileToFolder(
-				hibernateConsolePropsFile, 
-				project.getLocation().toFile(),
-				hibernateDialectFilterSet, true);
+		
 
 		// ********************************************************************************************
 		// Handle WAR/EAR configurations
@@ -311,6 +311,11 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					hibernateConsoleLaunchFile, 
 					new File(project.getLocation().toFile(),project.getName()+".launch"), 
 					new FilterSetCollection(projectFilterSet), true);
+			
+			AntCopyUtils.copyFileToFolder(
+					hibernateConsolePropsFile, 
+					project.getLocation().toFile(),
+					hibernateDialectFilterSet, true);
 			
 			// Copy JDBC driver if there is any
 			if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
@@ -391,11 +396,17 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 				protected IStatus run(IProgressMonitor monitor) {
 					
 					IProject ear = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear", monitor);
-					IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					try {
+					IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					
+					try {
 						FilterSet filterSet = new FilterSet();
 						filterSet.addFilter("projectName", project.getName());
-						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(project));					
-						
+						filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(project));
+						if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null) {
+							File driver = new File(((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
+							filterSet.addFilter("driverJar"," " + driver.getName() + "\n");
+						} else {
+							filterSet.addFilter("driverJar","");
+						}
 						AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(seamGenResFolder);
 						
 						AntCopyUtils.copyFilesAndFolders(
@@ -434,11 +445,18 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 								new File(ejb.getLocation().toFile(),".settings"),
 								new FilterSetCollection(projectFilterSet), true);
 						
+						FilterSet ejbFilterSet =  new FilterSet();
+						ejbFilterSet.addFilter("projectName",ejb.getName());
+						
 						AntCopyUtils.copyFileToFile(
 								hibernateConsoleLaunchFile, 
 								new File(ejb.getLocation().toFile(),ejb.getName()+".launch"), 
-								new FilterSetCollection(projectFilterSet), true);
+								new FilterSetCollection(ejbFilterSet), true);
 						
+						AntCopyUtils.copyFileToFolder(
+								hibernateConsolePropsFile, 
+								ejb.getLocation().toFile(),
+								hibernateDialectFilterSet, true);
 						
 						File earContentsFolder = new File(ear.getLocation().toFile(),"EarContent");
 						File earContentsMetaInfFolder = new File(earContentsFolder,"META-INF");
