@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamPreferenceInitializer;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
@@ -140,7 +141,8 @@ public class SeamRuntimeManager {
 	 * @return
 	 */
 	public SeamRuntime getRuntimeForProject(IProject project) {
-		return null;
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
+		return (seamProject == null) ? null : seamProject.getRuntime();
 	}
 	
 	/**

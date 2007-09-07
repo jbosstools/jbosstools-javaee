@@ -16,15 +16,24 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 
 public interface ISeamProject extends ISeamElement {
 
 	public static String NATURE_ID = "org.jboss.tools.seam.core.seamnature";
 	
+	public static String RUNTIME_NAME = "seam.runtime.name";
+	
 	/**
 	 * Returns Eclipse project.
 	 */
 	public IProject getProject();
+	
+	/**
+	 * Returns Seam runtime object.
+	 * @return
+	 */
+	public SeamRuntime getRuntime();
 
 	/**
 	 * Returns list of scope objects for all scope types.

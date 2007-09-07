@@ -27,10 +27,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -48,9 +51,12 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
+import org.osgi.service.prefs.BackingStoreException;
 import org.w3c.dom.Element;
 
 /**
@@ -59,6 +65,8 @@ import org.w3c.dom.Element;
 public class SeamProject extends SeamObject implements ISeamProject, IProjectNature {
 	IProject project;
 	ClassPath classPath = new ClassPath(this);
+	
+	SeamRuntime runtime = null;
 	
 	Set<IPath> sourcePaths = new HashSet<IPath>();
 	private boolean isStorageResolved = false;
@@ -102,6 +110,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return project;
 	}
 	
+	public SeamRuntime getRuntime() {
+		return runtime;
+	}
+	
 	/**
 	 * Returns list of scope objects for all scope types.
 	 * @return
@@ -143,9 +155,27 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		setSourcePath(project.getFullPath());
 		resource = project;
 		classPath.init();
+		loadRuntime();
 //		load();
 	}
 	
+	void loadRuntime() {
+		IEclipsePreferences prefs = getSeamPreferences();
+		if(prefs == null) return;
+		String runtimeName = prefs.get(RUNTIME_NAME, null);
+		if(runtimeName != null) {
+			runtime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
+		} else {
+			runtime = SeamRuntimeManager.getInstance().getDefaultRuntime();
+			storeRuntime();
+		}
+	}
+	
+	public IEclipsePreferences getSeamPreferences() {
+		IScopeContext projectScope = new ProjectScope(project);
+		return projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+	}
+
 	public void addSeamProject(SeamProject p) {
 		if(dependsOn.contains(p)) return;
 		dependsOn.add(p);
@@ -247,6 +277,26 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(validationContext != null) validationContext.store(root);
 		
 		XMLUtilities.serialize(root, file.getAbsolutePath());
+	}
+	
+	void storeRuntime() {
+		IEclipsePreferences prefs = getSeamPreferences();
+		String runtimeName = prefs.get(RUNTIME_NAME, null);
+		if((runtime == null || runtime.isDefault()) && runtimeName != null) {
+			prefs.remove(RUNTIME_NAME);
+			try {
+				prefs.flush();
+			} catch (BackingStoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		} else if(runtime != null && !runtime.isDefault() && !runtime.getName().equals(runtimeName)) {
+			prefs.put(RUNTIME_NAME, runtime.getName());
+			try {
+				prefs.flush();
+			} catch (BackingStoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}		
 	}
 	
 	private void storeSourcePaths(Element root) {
