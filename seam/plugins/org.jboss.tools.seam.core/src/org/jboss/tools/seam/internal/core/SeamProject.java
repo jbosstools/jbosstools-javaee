@@ -63,18 +63,23 @@ import org.w3c.dom.Element;
  * @author Viacheslav Kabanovich
  */
 public class SeamProject extends SeamObject implements ISeamProject, IProjectNature {
+	
 	IProject project;
+	
 	ClassPath classPath = new ClassPath(this);
 	
 	SeamRuntime runtime = null;
 	
 	Set<IPath> sourcePaths = new HashSet<IPath>();
+	
 	private boolean isStorageResolved = false;
 	
 	SeamScope[] scopes = new SeamScope[ScopeType.values().length];
+	
 	Map<ScopeType, SeamScope> scopesMap = new HashMap<ScopeType, SeamScope>();
 	
 	Set<SeamProject> dependsOn = new HashSet<SeamProject>();
+	
 	Set<SeamProject> usedBy = new HashSet<SeamProject>();
 	
 	{
@@ -86,8 +91,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
+	
 	protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
+	
 	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
+	
 	Map<String, SeamJavaComponentDeclaration> javaDeclarations = new HashMap<String, SeamJavaComponentDeclaration>();
 	
 	Map<String, ISeamPackage> packages = new HashMap<String, ISeamPackage>();
@@ -96,20 +104,35 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	SeamValidationContext validationContext;
 
+	/**
+	 * 
+	 */
 	public SeamProject() {}
 
+	/**
+	 * 
+	 */
 	public void configure() throws CoreException {
 		addToBuildSpec(SeamCoreBuilder.BUILDER_ID);
 	}
 
+	/**
+	 * 
+	 */
 	public void deconfigure() throws CoreException {
 		removeFromBuildSpec(SeamCoreBuilder.BUILDER_ID);
 	}
 
+	/**
+	 * 
+	 */
 	public IProject getProject() {
 		return project;
 	}
 	
+	/**
+	 * 
+	 */
 	public SeamRuntime getRuntime() {
 		return runtime;
 	}
@@ -137,25 +160,40 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return scopesMap.get(scopeType);
 	}
 	
+	/**
+	 * 
+	 */
 	public Collection<ISeamPackage> getPackages() {
 		return packages.values();
 	}
 	
+	/**
+	 * 
+	 */
 	public Collection<ISeamPackage> getAllPackages() {
 		List<ISeamPackage> list = new ArrayList<ISeamPackage>();
 		SeamPackageUtil.collectAllPackages(packages, list);
 		return list;
 	}
 	
+	/**
+	 * 
+	 */
 	public ISeamPackage getPackage(ISeamComponent c) {
 		String pkg = SeamPackageUtil.getPackageName(c);
 		return SeamPackageUtil.findPackage(this, packages, pkg);
 	}
 
+	/**
+	 * 
+	 */
 	public ISeamProject getSeamProject() {
 		return this;
 	}
 
+	/**
+	 * 
+	 */
 	public void setProject(IProject project) {
 		this.project = project;
 		setSourcePath(project.getFullPath());
@@ -165,6 +203,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 //		load();
 	}
 	
+	/**
+	 * 
+	 */
 	void loadRuntime() {
 		IEclipsePreferences prefs = getSeamPreferences();
 		if(prefs == null) return;
@@ -177,11 +218,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public IEclipsePreferences getSeamPreferences() {
 		IScopeContext projectScope = new ProjectScope(project);
 		return projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 
+	/**
+	 * 
+	 * @param p
+	 */
 	public void addSeamProject(SeamProject p) {
 		if(dependsOn.contains(p)) return;
 		dependsOn.add(p);
@@ -202,14 +251,26 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Set<SeamProject> getSeamProjects() {
 		return dependsOn;
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 */
 	public void addDependentSeamProject(SeamProject p) {
 		usedBy.add(p);
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 */
 	public void removeSeamProject(SeamProject p) {
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
@@ -223,10 +284,18 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ClassPath getClassPath() {
 		return classPath;
 	}
 	
+	/**
+	 * 
+	 * @param load
+	 */
 	public void resolveStorage(boolean load) {
 		if(isStorageResolved) return;
 		if(load) {
@@ -236,6 +305,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void resolve() {
 		resolveStorage(true);
 	}
@@ -285,6 +357,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		XMLUtilities.serialize(root, file.getAbsolutePath());
 	}
 	
+	/**
+	 * 
+	 */
 	void storeRuntime() {
 		IEclipsePreferences prefs = getSeamPreferences();
 		String runtimeName = prefs.get(RUNTIME_NAME, null);
@@ -305,6 +380,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}		
 	}
 	
+	/*
+	 * 
+	 */
 	private void storeSourcePaths(Element root) {
 		Element sourcePathsElement = XMLUtilities.createElement(root, "source-paths");
 		for (IPath path : sourcePaths) {
@@ -313,6 +391,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/*
+	 * 
+	 */
 	private void storeProjectDependencies(Element root) {
 		Element dependsOnElement = XMLUtilities.createElement(root, "depends-on-projects");
 		for (ISeamProject p : dependsOn) {
@@ -328,6 +409,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/*
+	 * 
+	 */
 	private void loadSourcePaths(Element root) {
 		Element sourcePathsElement = XMLUtilities.getUniqueChild(root, "source-paths");
 		if(sourcePathsElement == null) return;
@@ -344,6 +428,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/*
+	 * 
+	 */
 	private void loadProjectDependencies(Element root) {
 		Element dependsOnElement = XMLUtilities.getUniqueChild(root, "depends-on-projects");
 		if(dependsOnElement != null) {
@@ -376,12 +463,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	}
 	
+	/*
+	 * 
+	 */
 	private File getStorageFile() {
 		IPath path = SeamCorePlugin.getDefault().getStateLocation();
 		File file = new File(path.toFile(), "projects/" + project.getName());
 		return file;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public SeamValidationContext getValidationContext() {
 		if(validationContext==null) {
 			validationContext = new SeamValidationContext();
@@ -389,10 +483,18 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return validationContext;
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public ISeamComponent getComponentByName(String name) {
 		return allComponents.get(name);
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamComponent> getComponents() {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
 		result.addAll(allComponents.values());
@@ -525,6 +627,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/**
+	 * 
+	 * @param ds
+	 * @param source
+	 * @throws CloneNotSupportedException
+	 */
 	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) throws CloneNotSupportedException {
 		if(usedBy.size() == 0) return;
 		if(source.toString().endsWith(".jar")) return;
@@ -542,16 +650,31 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/**
+	 * 
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
 	boolean stringsEqual(String s1, String s2) {
 		return s1 == null ? s2 == null : s1.equals(s2);
 	}
 	
+	/*
+	 * 
+	 * @param oldClassName
+	 * @param newClassName
+	 * @return
+	 */
 	private boolean isClassNameChanged(String oldClassName, String newClassName) {
 		if(oldClassName == null || oldClassName.length() == 0) return false;
 		if(newClassName == null || newClassName.length() == 0) return false;
 		return !oldClassName.equals(newClassName);
 	}
 	
+	/*
+	 * 
+	 */
 	private void onXMLLoadedDeclaration(SeamComponent c, String oldClassName, ISeamXmlComponentDeclaration xml) {
 		String className = xml.getClassName();
 		List<Change> changes = null;
@@ -619,6 +742,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
 	public Map<Object,ISeamComponentDeclaration> findComponentDeclarations(IPath source) {
 		Map<Object,ISeamComponentDeclaration> map = new HashMap<Object, ISeamComponentDeclaration>();
 		for (SeamComponent c: allComponents.values()) {
@@ -630,6 +758,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return map;
 	}
 	
+	/**
+	 * 
+	 * @param removed
+	 */
 	void componentDeclarationsRemoved(Map<Object,ISeamComponentDeclaration> removed) {
 		Collection<ISeamComponentDeclaration> declarations = removed.values();
 		for (ISeamComponentDeclaration declaration: declarations) {
@@ -662,6 +794,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}		
 	}
 	
+	/*
+	 * 
+	 */
 	private List<Change> removeEmptyComponent(SeamComponent c) {
 		List<Change> changes = null;
 		ISeamElement p = c.getParent();
@@ -674,6 +809,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return changes;
 	}
 	
+	/*
+	 * 
+	 */
 	private boolean isComponentEmpty(SeamComponent c) {
 		if(c.getAllDeclarations().size() == 0) return true;
 		for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
@@ -682,6 +820,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
 	public Map<Object,ISeamFactory> findFactoryDeclarations(IPath source) {
 		Map<Object,ISeamFactory> map = new HashMap<Object, ISeamFactory>();
 		for (ISeamFactory c: allFactories) {
@@ -691,6 +834,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return map;
 	}
 	
+	/**
+	 * 
+	 * @param removed
+	 */
 	void factoryDeclarationsRemoved(Map<Object,ISeamFactory> removed) {
 		Iterator<ISeamFactory> iterator = allFactories.iterator();
 		List<Change> changes = null;
@@ -725,6 +872,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return getComponentsByScope(type, false);
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamComponent> getComponentsByScope(ScopeType type, boolean addVisibleScopes) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
 		for(SeamComponent component: allComponents.values()) {
@@ -776,6 +926,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return getVariablesByScope(scope, false);
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope, boolean addVisibleScopes) {
 		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
 		for (ISeamContextVariable v: allVariables) {
@@ -786,6 +939,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param v
+	 * @param scope
+	 * @param addVisibleScopes
+	 * @return
+	 */
 	private boolean isVisibleInScope(ISeamContextVariable v, ScopeType scope, boolean addVisibleScopes) {
 		if(scope == v.getScope()) {
 			return true;
@@ -797,14 +957,23 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return false;
 	}
 
+	/**
+	 * 
+	 */
 	public void addFactory(ISeamFactory factory) {
 		allFactories.add(factory);		
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamFactory> getFactories() {
 		return allFactories;
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamFactory> getFactories(String name, ScopeType scope) {
 		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
 		for (ISeamFactory f: allFactories) {
@@ -813,6 +982,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamFactory> getFactoriesByName(String name) {
 		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
 		for (ISeamFactory f: allFactories) {
@@ -821,10 +993,16 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope) {
 		return getFactoriesByScope(scope, false);
 	}
 
+	/**
+	 * 
+	 */
 	public Set<ISeamFactory> getFactoriesByScope(ScopeType scope, boolean addVisibleScopes) {
 		Set<ISeamFactory> result = new HashSet<ISeamFactory>();
 		for (ISeamFactory f: allFactories) {
@@ -835,7 +1013,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getFactoriesByPath(org.eclipse.core.runtime.IPath)
 	 */
 	public Set<ISeamFactory> getFactoriesByPath(IPath path) {
@@ -848,6 +1026,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
+	/**
+	 * 
+	 */
 	public void removeFactory(ISeamFactory factory) {
 		allFactories.remove(factory);
 		allVariables.remove(factory);
@@ -877,10 +1058,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return set;
 	}
 
+	/**
+	 * 
+	 */
 	public SeamComponent getComponent(String name) {
 		return name == null ? null : allComponents.get(name);
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @param scopeType
+	 * @return
+	 */
 	SeamComponent newComponent(String name, ScopeType scopeType) {
 		SeamComponent c = new SeamComponent();
 		c.setName(name);
@@ -890,6 +1080,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return c;
 	}
 	
+	/**
+	 * 
+	 * @param changes
+	 */
 	void fireChanges(List<Change> changes) {
 		if(changes == null || changes.size() == 0) return;
 		SeamProjectChangeEvent event = new SeamProjectChangeEvent(this, changes);
@@ -904,11 +1098,17 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public synchronized void addSeamProjectListener(ISeamProjectChangeListener listener) {
 		if(listeners.contains(listener)) return;
 		listeners.add(listener);
 	}
 
+	/**
+	 * 
+	 */
 	public synchronized void removeSeamProjectListener(ISeamProjectChangeListener listener) {
 		listeners.remove(listener);
 	}
@@ -956,14 +1156,23 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
+	/**
+	 * 
+	 */
 	int revalidateLock = 0;
 	
+	/**
+	 * 
+	 */
 	void revalidate() {
 		if(revalidateLock > 0) return;
 		revalidateScopes();
 		revalidatePackages();
 	}
 	
+	/**
+	 * 
+	 */
 	void revalidateScopes() {
 		List<Change> changes = null;
 		for(SeamComponent c : allComponents.values()) {
@@ -984,11 +1193,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		fireChanges(changes);
 	}
 	
+	/**
+	 * 
+	 */
 	void revalidatePackages() {
 		List<Change> changes = SeamPackageUtil.revalidatePackages(this, allComponents, getComponents(), packages);
 		fireChanges(changes);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
 	Map<IPath, LoadedDeclarations> getAllDeclarations() throws CloneNotSupportedException {
 		Map<IPath, LoadedDeclarations> map = new HashMap<IPath, LoadedDeclarations>();
 		for (ISeamComponent c : allComponents.values()) {
@@ -1016,6 +1233,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return map;
 	}
 	
+	/**
+	 * 
+	 * @param builderID
+	 * @throws CoreException
+	 */
 	protected void addToBuildSpec(String builderID) throws CoreException {
 		IProjectDescription description = getProject().getDescription();
 		ICommand command = null;
@@ -1036,9 +1258,21 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 
+	/**
+	 * 
+	 */
 	static String EXTERNAL_TOOL_BUILDER = "org.eclipse.ui.externaltools.ExternalToolBuilder";
+	
+	/**
+	 * 
+	 */
 	static final String LAUNCH_CONFIG_HANDLE = "LaunchConfigHandle";
 
+	/**
+	 * 
+	 * @param builderID
+	 * @throws CoreException
+	 */
 	protected void removeFromBuildSpec(String builderID) throws CoreException {
 		IProjectDescription description = getProject().getDescription();
 		ICommand[] commands = description.getBuildSpec();

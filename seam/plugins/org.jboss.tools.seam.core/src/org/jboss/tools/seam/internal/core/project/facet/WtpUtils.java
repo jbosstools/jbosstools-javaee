@@ -129,7 +129,7 @@ public class WtpUtils {
 		return "";
 	}
 	
-	public static IResource createSourceFolder (IProject project, IPath path) {
+	public static IResource createSourceFolder (IProject project, IPath path, IPath exclude) {
 		IJavaProject javaProject;
 		IClasspathEntry[] javaProjectEntries;
 		IPath outputLocation;
@@ -152,30 +152,8 @@ public class WtpUtils {
 
 			IPath projPath= javaProject.getProject().getFullPath();
 			IPath newSourceFolderPath = projPath.append(path);
+			IPath excludeSourceFolderPath = projPath.append(exclude);
 
-			IStatus validate= workspaceRoot.getWorkspace().validatePath(newSourceFolderPath.toString(), IResource.FOLDER);
-			if (validate.matches(IStatus.ERROR))
-				return null;
-
-			IResource res= workspaceRoot.findMember(newSourceFolderPath);
-			if (res != null) {
-				if (res.getType() != IResource.FOLDER) {
-					return null;
-				}
-			} else {
-				URI projLocation= javaProject.getProject().getLocationURI();
-				if (projLocation != null) {
-					try {
-						IFileStore store= EFS.getStore(projLocation).getChild(path.toString());
-						if (store.fetchInfo().exists()) {
-							return null;
-						}
-					} catch (CoreException e) {
-						// Ignore if we cannot check that the file exists.
-						// Assume that it doesn't 
-					}
-				}
-			}
 			ArrayList newEntries= new ArrayList(javaProjectEntries.length + 1);
 			int projectEntryIndex= -1;
 			
@@ -187,7 +165,10 @@ public class WtpUtils {
 					}
 					if (projPath.equals(curr.getPath())) {
 						projectEntryIndex= i;
-					}	
+					}
+					if (excludeSourceFolderPath.equals(curr.getPath())) {
+						continue;
+					}
 				}
 				newEntries.add(curr);
 			}
@@ -216,9 +197,9 @@ public class WtpUtils {
 				}
 			}
 			
-			IFolder newSourceFolder= javaProject.getProject().getFolder(newSourceFolderPath);
+			IFolder newSourceFolder= javaProject.getProject().getFolder(path);
 			if (!newSourceFolder.exists()) {
-				CoreUtility.createFolder(newSourceFolder, true, true, null);			
+				CoreUtility.createFolder(newSourceFolder, true, true, new NullProgressMonitor()); 			
 			}
 			
 			javaProject.setRawClasspath(newClasspathEntries, newOutputLocation, new NullProgressMonitor());

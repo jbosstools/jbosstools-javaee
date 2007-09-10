@@ -291,6 +291,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			// ********************************************************************************************
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true);
 			
+			WtpUtils.createSourceFolder(project, new Path("src/test"),new Path("src"));
+			WtpUtils.createSourceFolder(project, new Path("src/action"),new Path("src"));
+			WtpUtils.createSourceFolder(project, new Path("src/model"),new Path("src"));
 			// Copy sources to src
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"),

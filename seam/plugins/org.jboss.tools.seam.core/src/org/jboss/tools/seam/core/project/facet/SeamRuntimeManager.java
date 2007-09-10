@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.project.facet;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,10 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamPreferenceInitializer;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
 
 /**
