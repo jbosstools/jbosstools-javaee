@@ -114,6 +114,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return runtime;
 	}
 	
+	public void setRuntime(SeamRuntime runtime) {
+		if(this.runtime == runtime) return;
+		this.runtime = runtime;
+		storeRuntime();
+	}
+	
 	/**
 	 * Returns list of scope objects for all scope types.
 	 * @return
