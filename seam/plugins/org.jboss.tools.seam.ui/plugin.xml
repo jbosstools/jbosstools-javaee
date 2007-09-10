@@ -336,6 +336,15 @@
 		     </adapt>         
          </enabledWhen>
       </page>
+
+      <page
+            name="Seam Settings"
+            class="org.jboss.tools.seam.ui.preferences.SeamSettingsPreferencePage"
+            id="org.jboss.tools.seam.ui.propertyPages.SeamSettingsPreferencePage">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject"/>
+         </enabledWhen>
+      </page>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

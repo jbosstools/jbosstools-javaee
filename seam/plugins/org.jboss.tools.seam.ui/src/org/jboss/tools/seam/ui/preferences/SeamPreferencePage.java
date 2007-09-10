@@ -47,6 +47,8 @@ public class SeamPreferencePage extends PreferencePage implements
 	 */
 	SeamRuntimeListFieldEditor seamRuntimes
 		= new SeamRuntimeListFieldEditor("rtlist","Runtime List",new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes())));
+	
+	SeamRuntime initialDefault;
 
 	/**
 	 * 
@@ -77,6 +79,9 @@ public class SeamPreferencePage extends PreferencePage implements
 		GridLayout gl = new GridLayout(3,false);
 		root.setLayout(gl);	
 		seamRuntimes.doFillIntoGrid(root);
+
+		initialDefault = SeamRuntimeManager.getInstance().getDefaultRuntime();
+		
 		return root;
 	}
 
@@ -99,6 +104,9 @@ public class SeamPreferencePage extends PreferencePage implements
 	protected void performApply() {
 		for (SeamRuntime rt : seamRuntimes.getAddedSeamRuntimes()) {
 			SeamRuntimeManager.getInstance().addRuntime(rt);
+		}
+		if(initialDefault != null && seamRuntimes.getDefaultSeamRuntime() != initialDefault) {
+			initialDefault.setDefault(false);
 		}
 		seamRuntimes.getDefaultSeamRuntime().setDefault(true);
 		SeamRuntimeManager.getInstance().save();

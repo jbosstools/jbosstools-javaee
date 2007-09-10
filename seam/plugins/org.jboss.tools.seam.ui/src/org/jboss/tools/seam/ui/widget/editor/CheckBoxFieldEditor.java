@@ -64,6 +64,9 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 			CheckBoxField checkBoxFild= new CheckBoxField(parent);
 			checkBoxFild.addPropertyChangeListener(this);
 			checkBoxControl = checkBoxFild.getCheckBox();
+			if(getValue() instanceof Boolean) {
+				checkBoxFild.getCheckBox().setSelection(((Boolean)getValue()).booleanValue());
+			}
 		} else if(parent!=null) {
 			Assert.isTrue(checkBoxControl.getParent()==parent);
 		}
