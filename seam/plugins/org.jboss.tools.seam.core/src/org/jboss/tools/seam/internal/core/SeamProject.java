@@ -32,6 +32,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.jboss.tools.common.xml.XMLUtilities;
@@ -51,6 +52,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
+import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -67,6 +69,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	IProject project;
 	
 	ClassPath classPath = new ClassPath(this);
+	
+	boolean useDefaultRuntime = false;
 	
 	SeamRuntime runtime = null;
 	
@@ -134,12 +138,20 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	public SeamRuntime getRuntime() {
+		if(useDefaultRuntime) {
+			SeamRuntimeManager.getInstance().getDefaultRuntime();
+		}
 		return runtime;
 	}
 	
 	public void setRuntime(SeamRuntime runtime) {
 		if(this.runtime == runtime) return;
-		this.runtime = runtime;
+		useDefaultRuntime = runtime == SeamRuntimeManager.getInstance().getDefaultRuntime();
+		if(useDefaultRuntime) {
+			this.runtime = null;
+		} else {
+			this.runtime = runtime;
+		}
 		storeRuntime();
 	}
 	
@@ -213,9 +225,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(runtimeName != null) {
 			runtime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 		} else {
-			runtime = SeamRuntimeManager.getInstance().getDefaultRuntime();
+			useDefaultRuntime = true;
+			runtime = null;
 			storeRuntime();
 		}
+		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
+			public void propertyChange(Preferences.PropertyChangeEvent event) {
+				if(SeamFacetPreference.RUNTIME_LIST.equals(event.getProperty()) && runtime != null && runtime.isDefault()) {
+					runtime = null;
+					useDefaultRuntime = true;
+					storeRuntime();
+				}
+			}
+		});
 	}
 	
 	/**
