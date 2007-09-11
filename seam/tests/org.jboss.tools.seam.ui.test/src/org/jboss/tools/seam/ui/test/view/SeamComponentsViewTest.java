@@ -71,176 +71,143 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 	}
 	
-	public void testSeamComponentViewFromComponentsXML(){
-		addComponent();
-		renameComponent();
-		deleteComponent();
-	}
-
-	public void testSeamComponentViewFromClasses(){
-		addClass();
-		renameClass();
-		deleteClass();
-	}
-	
-	public void addComponent(){
-		System.out.println("addComponent...");
-		
+	public void testAddComponentInXmlFile(){
 		SeamCorePlugin.getSeamProject(project, true);
 		
 		refreshProject(project);
 
 		CommonNavigator navigator = getSeamComponentsView();
+
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
-		System.out.println("End tree.");
+		updateTree(tree);
 		
-
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
-		assertTrue("Package \"myPackage\" found!",seamPackage==null);
+		
+		assertTrue("Error in initial loading components from components.xml. " +
+				"Unexpected package 'myPackage' was found",seamPackage==null);
 		
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.1");
-		assertTrue("Cannot find components.1 in test project", file1 != null && file1.exists());
-		
-		System.out.println("Modifying...");
-		try{
-			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+		if(file1 == null || !file1.exists()) {
+			fail("Cannot find test data file 'WebContent/WEB-INF/components.1'");
+		}
+
+
+		try {
+			componentsFile.setContents(file1.getContents(), 
+										true, false, new NullProgressMonitor());
 			componentsFile.touch(new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.1", ex);
+		} catch (CoreException e) {
+			JUnitUtils.fail("Error in changing 'components.xml' content to " +
+					"'WebContent/WEB-INF/components.1'", e);
 		}
 		
 		refreshProject(project);
-		
-		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
-		System.out.println("End tree.");
+
+		updateTree(tree);
 
 		seamPackage = findSeamPackage(tree, "myPackage");
-		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
-		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "myPackage.myStringComponent");
-			assertTrue("Component \"myPackage.myStringComponent\" not found!",component!=null);
-		}
+		assertTrue("Seam model is not updated, expected package 'myPackage'" +
+				" is not found in tree",seamPackage!=null);
 
+		ISeamComponent component = findSeamComponent(seamPackage, 
+												"myPackage.myStringComponent");
+		
+		assertTrue("Expected component 'myPackage.myStringComponent' was not" +
+													 " found",component!=null);
+		
 	}
 
-	public void renameComponent(){
-		System.out.println("renameComponent...");
-		
-		System.out.println("phase 1...");
+	public void testRenameComponentInXmlFile(){
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
-		
-		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
-		System.out.println("End tree.");
+		updateTree(tree);
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
-		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "myPackage.myStringComponent");
-			assertTrue("Component \"myPackage.myStringComponent\" not found!",component!=null);
-		}
+		assertTrue("Expected package 'myPackage' was not found it tree",
+															seamPackage!=null);
 		
+		ISeamComponent component = findSeamComponent(seamPackage, 
+												"myPackage.myStringComponent");
+		
+		assertTrue("Expected component 'myPackage.myStringComponent' was not" +
+				 " found",component!=null);
+				
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.2");
-		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
-		
-		System.out.println("Modifying...");
+		if(file1 == null || !file1.exists()) {
+			fail("Cannot find test data file 'WebContent/WEB-INF/components.2'");
+		}		
+
 		try{
 			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
 			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
-			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.2", ex);
+			JUnitUtils.fail("Error in changing 'components.xml' content to " +
+					"'WebContent/WEB-INF/components.2'", ex);
 		}
 		
 		refreshProject(project);
 		
-		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
-		System.out.println("End tree.");
+		updateTree(tree);
 		
 		seamPackage = findSeamPackage(tree, "myPackage");
-		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
+		assertTrue("Expected package 'myPackage' was not found it tree",
+				seamPackage!=null);
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "myPackage.myTextComponent");
-			assertTrue("Component \"myPackage.myTextComponent\" not found!",component!=null);
-		}
+		component = findSeamComponent(seamPackage, "myPackage.myTextComponent");
+		assertTrue("Expected component 'myPackage.myTextComponent' not found " +
+				"after renaming",component!=null);
 		
-		System.out.println("phase 2...");
-		
-		IFile file2 = project.getFile("WebContent/WEB-INF/components.3");
-		assertTrue("Cannot find components.3 in test project", file2 != null && file2.exists());
-		
-		System.out.println("Modifying...");
+		file1 = project.getFile("WebContent/WEB-INF/components.3");
+		if(file1 == null || !file1.exists()) {
+			fail("Cannot find test data file 'WebContent/WEB-INF/components.3'");
+		}		
 		try{
-			componentsFile.setContents(file2.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
 			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
-			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.3", ex);
+			JUnitUtils.fail("Error in changing 'components.xml' content to " +
+					"'WebContent/WEB-INF/components.3'", ex);
 		}
 		
 		refreshProject(project);
 		
-		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
-		System.out.println("End tree.");
+		updateTree(tree);
 		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
-		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
+		assertTrue("Expected package 'myNewPackage' was not found it tree after " +
+				"renaming",
+				seamPackage!=null);		
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
-			assertTrue("Component \"myNewPackage.myTextComponent\" not found!",component!=null);
-		}
-
+		component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
+		assertTrue("Expected component 'myNewPackage.myTextComponent' not found " +
+				"after renaming",component!=null);
 	}
 	
-	public void deleteComponent(){
-		System.out.println("deleteComponent...");
+	public void testDeleteComponentInXmlFile(){
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
-		
+
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-		System.out.println("tree.getItemCount() - "+tree.getItemCount());
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
+		updateTree(tree);
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
-			assertTrue("Component \"myNewPackage.myTextComponent\" not found!",component!=null);
-		}
+		ISeamComponent component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
+		assertTrue("Component \"myNewPackage.myTextComponent\" not found!",component!=null);
 		
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.4");
 		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
 		
-		System.out.println("Modifying...");
 		try{
 			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
 			componentsFile.touch(new NullProgressMonitor());
@@ -250,19 +217,18 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 		
+		updateTree(tree);
+		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" found!",seamPackage==null);
 
 	}
 	
-	public void addClass(){
-		System.out.println("addClass...");
-		
+	public void testAddComponentInClass(){
+	
 		classFile = project.getFile("JavaSource/demo/Person.java");
 		assertTrue("Cannot find Person.java in test project", componentsFile != null);
 		
-		//refreshProject(project);
-
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
@@ -274,7 +240,6 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("JavaSource/demo/Person.1");
 		assertTrue("Cannot find Person.1 in test project", file1 != null && file1.exists());
 		
-		System.out.println("Modifying...");
 		try{
 			classFile.create(file1.getContents(), false, new NullProgressMonitor());
 			classFile.touch(new NullProgressMonitor());
@@ -284,18 +249,20 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 		
+		updateTree(tree);
+		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "demo.John");
-			assertTrue("Component \"demo.John\" not found!",component!=null);
-		}
+		ISeamComponent component = findSeamComponent(seamPackage, "demo.John");
+		assertTrue("Component \"demo.John\" not found!",component!=null);
+
 
 	}
 	
-	private void renameClass(){
-		System.out.println("renameClass...");
+	public void testRenameComponentInClass(){
+	
+		classFile = project.getFile("JavaSource/demo/Person.java");
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
@@ -305,38 +272,35 @@ public class SeamComponentsViewTest extends TestCase {
 		ISeamPackage seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "demo.John");
-			assertTrue("Component \"demo.John\" not found!",component!=null);
-		}
+		ISeamComponent component = findSeamComponent(seamPackage, "demo.John");
+		assertTrue("Component \"demo.John\" not found!",component!=null);
 		
 		IFile file1 = project.getFile("JavaSource/demo/Person.2");
 		assertTrue("Cannot find Person.2 in test project", file1 != null && file1.exists());
 		
-		System.out.println("Modifying...");
 		try{
 			classFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
 			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
-			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.1", ex);
+			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.2", ex);
 		}
 		
 		refreshProject(project);
 		
+		updateTree(tree);
+		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "demo.John");
-			assertTrue("Component \"demo.John\" found!",component==null);
+
+		component = findSeamComponent(seamPackage, "demo.John");
+		assertTrue("Component \"demo.John\" found!",component==null);
 			
-			component = findSeamComponent(seamPackage, "demo.Pall");
-			assertTrue("Component \"demo.Pall\" not found!",component!=null);
-		}
+		component = findSeamComponent(seamPackage, "demo.Pall");
+		assertTrue("Component \"demo.Pall\" not found!",component!=null);
 		
 		IFile file2 = project.getFile("JavaSource/demo/Person.3");
 		assertTrue("Cannot find Person.3 in test project", file2 != null && file2.exists());
 		
-		System.out.println("Modifying...");
 		try{
 			classFile.setContents(file2.getContents(), true, false, new NullProgressMonitor());
 			classFile.touch(new NullProgressMonitor());
@@ -346,22 +310,19 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 		
+		updateTree(tree);
+		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" found!",seamPackage==null);
 		
 		seamPackage = findSeamPackage(tree, "beatles");
 		assertTrue("Package \"beatles\" not found!",seamPackage!=null);
 		
-		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "beatles.Pall");
-			assertTrue("Component \"beatles.Pall\" not found!",component!=null);
-		}
-
+		component = findSeamComponent(seamPackage, "beatles.Pall");
+		assertTrue("Component \"beatles.Pall\" not found!",component!=null);
 	}
 	
-	private void deleteClass(){
-		System.out.println("deleteClass...");
-		
+	public void tstDeleteComponentInClass(){
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
@@ -375,15 +336,15 @@ public class SeamComponentsViewTest extends TestCase {
 			assertTrue("Component \"beatles.Pall\" not found!",component!=null);
 		}
 		
-		System.out.println("Modifying...");
 		try{
 			classFile.delete(true, new NullProgressMonitor());
-			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot delete file JavaSource/demo/Person.java", ex);
 		}
 		
 		refreshProject(project);
+		
+		updateTree(tree);
 		
 		seamPackage = findSeamPackage(tree, "beatles");
 		assertTrue("Package \"beatles\" found!",seamPackage==null);
@@ -411,11 +372,6 @@ public class SeamComponentsViewTest extends TestCase {
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot refresh created test Project", e);
 		}
-		/*try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
-			JUnitUtils.fail(e.getMessage(),e);
-		}*/
 		IStructuredContentProvider content 
 		      = (IStructuredContentProvider)getSeamComponentsView().getCommonViewer().getContentProvider();
 		assertTrue("Created Seam enabled project haven't been shown in tree",1==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);		
@@ -509,16 +465,20 @@ public class SeamComponentsViewTest extends TestCase {
 	private ISeamPackage findSeamPackage(TreeItem item, String name){
 		ISeamPackage seamPackage=null;
 		
-		if(item.getData() instanceof ISeamScope){
-			seamPackage = findSeamPackage((ISeamScope)item.getData(), name);
-			if(seamPackage != null) return seamPackage;
-		}
 		for(int i=0;i<item.getItemCount();i++){
-			seamPackage = findSeamPackage(item.getItem(i), name);
-			if(seamPackage != null) return seamPackage;
+			TreeItem cur = item.getItem(i);
+			if(cur.getData() instanceof ISeamPackage) {
+				ISeamPackage pkg =(ISeamPackage)cur.getData();
+				if(name.equals(pkg.getName())) {
+					seamPackage = pkg;
+					break;
+				}
+			}else {
+				seamPackage = findSeamPackage(cur, name);
+			}
 		}
 		
-		return null;
+		return seamPackage;
 	}
 	
 	private ISeamPackage findSeamPackage(Tree tree, String name){
@@ -645,4 +605,10 @@ public class SeamComponentsViewTest extends TestCase {
 		
 	}
 
+	public void updateTree(Tree tree) {
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
+		}
+
+	}
 }
