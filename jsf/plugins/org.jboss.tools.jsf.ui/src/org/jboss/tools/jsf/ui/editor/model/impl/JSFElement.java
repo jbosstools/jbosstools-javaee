@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Control;
 
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.meta.*;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.model.IJSFElement;
 import org.jboss.tools.jsf.ui.editor.model.IJSFModel;
 
@@ -116,6 +117,7 @@ public class JSFElement implements IJSFElement{
 				if (oldValue == null ||!oldValue.equals(newValue))
 					getJSFModel().setModified(true);
 			} catch (Exception exception) {
+				JsfUiPlugin.getPluginLog().logError(exception);
 				if (newValue != null)
 					getJSFModel().setModified(true);
 			}

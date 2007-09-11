@@ -36,7 +36,7 @@ public class JsfUiImages extends ModelUIImages {
 				);
 			
 		} catch (MalformedURLException e) {
-			
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 

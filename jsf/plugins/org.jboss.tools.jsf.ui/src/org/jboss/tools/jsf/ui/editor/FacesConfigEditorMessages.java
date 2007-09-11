@@ -15,6 +15,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 
 /**
  * @author Igels
@@ -56,6 +57,7 @@ public class FacesConfigEditorMessages extends NLS{
 				fResourceBundle = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
 		}
 		catch (MissingResourceException x) {
+			JsfUiPlugin.getPluginLog().logError(x);
 			fResourceBundle = null;
 		}
 		return fResourceBundle;

@@ -18,6 +18,7 @@ import org.jboss.tools.common.model.XModelTransferBuffer;
 import org.eclipse.draw2d.geometry.Point;
 import org.jboss.tools.common.model.ui.dnd.DnDUtil;
 import org.jboss.tools.common.meta.action.XAction;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 
 
 public class DndHelper{
@@ -40,6 +41,7 @@ public class DndHelper{
 		try {
 			copy.executeHandler((XModelObject) source, properties);
 		} catch (Exception e) {
+			JsfUiPlugin.getPluginLog().logError(e);
 			XModelTransferBuffer.getInstance().disable();
 			return false;
 		}
@@ -63,7 +65,7 @@ public class DndHelper{
 		try {
 			DnDUtil.paste((XModelObject) target, properties);
 		} catch (Exception ex) {
-			//ignore
+			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}
 

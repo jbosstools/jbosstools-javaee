@@ -10,8 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.editor.model.impl;
 
+import java.beans.PropertyVetoException;
+
 import org.w3c.dom.*;
 
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.model.ILink;
 import org.jboss.tools.jsf.ui.editor.model.ISegment;
 
@@ -23,9 +26,17 @@ public class Segment extends JSFElement implements ISegment {
       super(parent);
       try {
          setName("SEGMENT");
-         length = Integer.parseInt(segmentElement.getAttribute("length"));
+         String s = segmentElement.getAttribute("length");
+         if(s == null || s.length() == 0) {
+        	 length = 0;
+         } else {
+        	 length = Integer.parseInt(s);
+         }
+      } catch(PropertyVetoException exception) {
+          length = 0;
       } catch(Exception exception) {
-         length = 0;
+          length = 0;
+          JsfUiPlugin.getPluginLog().logError(exception);
       }
       this.prevSegment = prevSegment;
       if(prevSegment!=null)
@@ -37,7 +48,7 @@ public class Segment extends JSFElement implements ISegment {
       try {
          setName("SEGMENT");
          this.length = length;
-      } catch(Exception exception) {
+      } catch(PropertyVetoException exception) {
          length = 0;
       }
 

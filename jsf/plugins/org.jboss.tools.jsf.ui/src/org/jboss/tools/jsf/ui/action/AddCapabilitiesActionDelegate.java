@@ -16,17 +16,13 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.ui.action.file.ProjectRootActionDelegate;
 
 public class AddCapabilitiesActionDelegate extends ProjectRootActionDelegate {
+
 	protected String getActionPath() {
 		return "EclipseActions.AddCustomJSFCapabilities";
 	}
 	
 	protected boolean hasModelNature(IProject project) {
-		try {
-			if(EclipseResourceUtil.getModelNature(project) != null) return true;
-		} catch (Exception e) {
-			//ignore
-		}
-		return false;
+		return EclipseResourceUtil.getModelNature(project) != null;
 	}
 	
 }

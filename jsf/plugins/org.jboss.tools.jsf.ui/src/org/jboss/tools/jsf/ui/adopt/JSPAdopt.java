@@ -56,8 +56,11 @@ public class JSPAdopt implements XAdoptManager {
 		String bundle = getBundle(object.getParent());
 		int pos = -1;
 		try {
-			pos = Integer.parseInt(p.getProperty("pos"));
-		} catch (Exception e) {}
+			String s = p.getProperty("pos");
+			if(s != null && s.length() > 0) pos = Integer.parseInt(s);
+		} catch (Exception e) {
+			JsfUiPlugin.getPluginLog().logError(e);
+		}
 		SourceViewer viewer = (SourceViewer)p.get("viewer");
 		
 		JSPTokenizer tokenizer = new JSPTokenizer();
@@ -112,7 +115,9 @@ public class JSPAdopt implements XAdoptManager {
 			viewer.getDocument().replace(pos, 0, start);
 			viewer.setSelectedRange(pos, 0);
 			viewer.getTextWidget().setFocus();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			JsfUiPlugin.getPluginLog().logError(e);
+		}
 		p.remove("start text");
 	}
 	
@@ -158,8 +163,11 @@ public class JSPAdopt implements XAdoptManager {
 
 		int pos = -1;
 		try {
-			pos = Integer.parseInt(p.getProperty("pos"));
-		} catch (Exception e) {}
+			String s = p.getProperty("pos");
+			if(s != null && s.length() > 0) pos = Integer.parseInt(s);
+		} catch (Exception e) {
+			JsfUiPlugin.getPluginLog().logError(e);
+		}
 		SourceViewer viewer = (SourceViewer)p.get("viewer");
 
 		JSPTokenizer tokenizer = new JSPTokenizer();

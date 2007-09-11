@@ -110,6 +110,7 @@ import org.jboss.tools.common.model.XModelTransferBuffer;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.actions.JSFCopyAction;
 import org.jboss.tools.jsf.ui.editor.actions.JSFCutAction;
 import org.jboss.tools.jsf.ui.editor.actions.JSFDeleteAction;
@@ -173,6 +174,7 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 				if (delta != null)
 					delta.accept(this);
 			} catch (CoreException exception) {
+				JsfUiPlugin.getPluginLog().logError(exception);
 				// What should be done here?
 			}
 		}

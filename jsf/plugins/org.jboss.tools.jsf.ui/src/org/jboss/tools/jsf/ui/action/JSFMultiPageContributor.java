@@ -25,6 +25,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.common.gef.action.ActionRegistrySupport;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.FacesConfigGuiEditor;
 import org.jboss.tools.jsf.ui.editor.actions.JSFCutRetargetAction;
 
@@ -120,10 +121,12 @@ public class JSFMultiPageContributor extends AbstractMultiPageContributor {
 		}
 
 		try {
-			fToggleOccurencesMarkUp.setEditor(getTextEditor(part));
-			fToggleOccurencesMarkUp.update();
+			if(fToggleOccurencesMarkUp != null) {
+				fToggleOccurencesMarkUp.setEditor(getTextEditor(part));
+				fToggleOccurencesMarkUp.update();
+			}
 		} catch (Exception x) {
-			//ignore
+			JsfUiPlugin.getPluginLog().logError(x);
 		}
 	
 		updateStatus();
