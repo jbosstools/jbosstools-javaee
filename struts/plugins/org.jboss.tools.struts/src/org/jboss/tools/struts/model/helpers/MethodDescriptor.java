@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.struts.StrutsModelPlugin;
 
 public class MethodDescriptor {
 	private IMethod constructor;
@@ -79,7 +80,7 @@ public class MethodDescriptor {
 		try {
 			modifiers = constructor.getFlags();
 		} catch (JavaModelException e) {
-			//ignore
+        	StrutsModelPlugin.getPluginLog().logError(e);
 		}
 		
 		if (Flags.isPublic(modifiers))

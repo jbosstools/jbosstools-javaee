@@ -121,7 +121,9 @@ public class StrutsAdoptManager implements XAdoptManager, StrutsConstants {
            ((StrutsProcessImpl)target).getHelper().updateTiles();
 //           XModelObject tile = 
         	   CreatePageSupport.createPage(target, path, p);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        	StrutsModelPlugin.getPluginLog().logError(e);
+        }
     }
 
     protected boolean isAdoptableBundle(XModelObject object) {

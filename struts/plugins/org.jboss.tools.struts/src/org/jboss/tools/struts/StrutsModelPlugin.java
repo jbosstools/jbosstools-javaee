@@ -29,11 +29,6 @@ public class StrutsModelPlugin extends BaseUIPlugin {
 		INSTANCE = this;
 	}
 
-	public void stop(BundleContext context) throws Exception {
-//		StrutsStudioVariableInitializer.save(getPreferenceStore());
-		super.stop(context);
-	}
-
 	protected void initializeDefaultPluginPreferences() {
 		super.initializeDefaultPluginPreferences();
 		

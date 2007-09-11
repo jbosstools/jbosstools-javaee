@@ -13,6 +13,7 @@ package org.jboss.tools.struts.webprj.model.helpers.adopt;
 import java.util.Properties;
 
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.struts.StrutsModelPlugin;
 
 public class AdoptProjectSupport extends SpecialWizardSupport {
     protected AdoptProjectContext context = new AdoptProjectContext();
@@ -55,6 +56,7 @@ public class AdoptProjectSupport extends SpecialWizardSupport {
 	        	action(NEXT);
 			} catch (Exception e) {
 				//obsolete //ignore
+	        	StrutsModelPlugin.getPluginLog().logError(e);
 				return;
 			}
 			int i = presetLocation.lastIndexOf('/');
@@ -67,6 +69,7 @@ public class AdoptProjectSupport extends SpecialWizardSupport {
 				action(NEXT);
 			} catch (Exception e) {
 				//obsolete //ignore
+	        	StrutsModelPlugin.getPluginLog().logError(e);
 				return;
 			}
 			presetSuccess = true;
