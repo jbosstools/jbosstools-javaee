@@ -30,7 +30,10 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.internal.decorators.DecoratorManager;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.eclipse.ui.progress.UIJob;
+import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.web.ui.RedHat4WebPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -68,29 +71,36 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 	}
 	
-	public void testComponentView(){
+	public void testSeamComponentViewFromComponentsXML(){
 		addComponent();
 		renameComponent();
 		deleteComponent();
-		
+	}
+
+	public void testSeamComponentViewFromClasses(){
 		addClass();
 		renameClass();
 		deleteClass();
 	}
 	
 	public void addComponent(){
+		System.out.println("addComponent...");
+		
 		SeamCorePlugin.getSeamProject(project, true);
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
+		
+		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
+		}
+		System.out.println("End tree.");
+		
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" found!",seamPackage==null);
@@ -98,18 +108,22 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.1");
 		assertTrue("Cannot find components.1 in test project", file1 != null && file1.exists());
 		
+		System.out.println("Modifying...");
 		try{
-			componentsFile.setContents(file1.getContents(), false, false, new NullProgressMonitor());
+			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.1", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 		
+		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
+		}
+		System.out.println("End tree.");
+
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
 		
@@ -121,10 +135,20 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 
 	public void renameComponent(){
+		System.out.println("renameComponent...");
+		
+		System.out.println("phase 1...");
+		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
+		
+		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
+		}
+		System.out.println("End tree.");
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
@@ -137,17 +161,21 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.2");
 		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
 		
+		System.out.println("Modifying...");
 		try{
-			componentsFile.setContents(file1.getContents(), false, false, new NullProgressMonitor());
+			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.2", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
+		refreshProject(project);
+		
+		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
 		}
+		System.out.println("End tree.");
 		
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Package \"myPackage\" not found!",seamPackage!=null);
@@ -157,20 +185,26 @@ public class SeamComponentsViewTest extends TestCase {
 			assertTrue("Component \"myPackage.myTextComponent\" not found!",component!=null);
 		}
 		
+		System.out.println("phase 2...");
+		
 		IFile file2 = project.getFile("WebContent/WEB-INF/components.3");
 		assertTrue("Cannot find components.3 in test project", file2 != null && file2.exists());
 		
+		System.out.println("Modifying...");
 		try{
-			componentsFile.setContents(file2.getContents(), false, false, new NullProgressMonitor());
+			componentsFile.setContents(file2.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.3", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
+		refreshProject(project);
+		
+		System.out.println("Tree tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
 		}
+		System.out.println("End tree.");
 		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
@@ -183,15 +217,17 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 	
 	public void deleteComponent(){
+		System.out.println("deleteComponent...");
+		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-//		System.out.println("tree.getItemCount() - "+tree.getItemCount());
-//		for(int i=0;i<tree.getItemCount();i++){
-//			showTreeItem(tree.getItem(i),0);
-//		}
+		System.out.println("tree.getItemCount() - "+tree.getItemCount());
+		for(int i=0;i<tree.getItemCount();i++){
+			showTreeItem(tree.getItem(i),0);
+		}
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
@@ -204,45 +240,28 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.4");
 		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
 		
+		System.out.println("Modifying...");
 		try{
-			componentsFile.setContents(file1.getContents(), false, false, new NullProgressMonitor());
+			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.4", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 		
-//		System.out.println("Before!");
-//		
-//		waitForJobs();
-//		
-//		System.out.println("After!");
-		
-//		System.out.println("tree.getItemCount() - "+tree.getItemCount());
-//		for(int i=0;i<tree.getItemCount();i++){
-//			showTreeItem(tree.getItem(i),0);
-//		}
-
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" found!",seamPackage==null);
 
 	}
 	
 	public void addClass(){
+		System.out.println("addClass...");
 		
 		classFile = project.getFile("JavaSource/demo/Person.java");
 		assertTrue("Cannot find Person.java in test project", componentsFile != null);
 		
-		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		//refreshProject(project);
 
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
@@ -255,17 +274,15 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("JavaSource/demo/Person.1");
 		assertTrue("Cannot find Person.1 in test project", file1 != null && file1.exists());
 		
+		System.out.println("Modifying...");
 		try{
 			classFile.create(file1.getContents(), false, new NullProgressMonitor());
+			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.1", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
@@ -278,6 +295,8 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 	
 	private void renameClass(){
+		System.out.println("renameClass...");
+		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
@@ -294,17 +313,15 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("JavaSource/demo/Person.2");
 		assertTrue("Cannot find Person.2 in test project", file1 != null && file1.exists());
 		
+		System.out.println("Modifying...");
 		try{
-			classFile.setContents(file1.getContents(), false, false, new NullProgressMonitor());
+			classFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.1", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
@@ -319,17 +336,15 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file2 = project.getFile("JavaSource/demo/Person.3");
 		assertTrue("Cannot find Person.3 in test project", file2 != null && file2.exists());
 		
+		System.out.println("Modifying...");
 		try{
-			classFile.setContents(file2.getContents(), false, false, new NullProgressMonitor());
+			classFile.setContents(file2.getContents(), true, false, new NullProgressMonitor());
+			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.3", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" found!",seamPackage==null);
@@ -345,6 +360,8 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 	
 	private void deleteClass(){
+		System.out.println("deleteClass...");
+		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
@@ -358,17 +375,15 @@ public class SeamComponentsViewTest extends TestCase {
 			assertTrue("Component \"beatles.Pall\" not found!",component!=null);
 		}
 		
+		System.out.println("Modifying...");
 		try{
-			classFile.delete(false, new NullProgressMonitor());
+			classFile.delete(true, new NullProgressMonitor());
+			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot delete file JavaSource/demo/Person.java", ex);
 		}
 		
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build test Project", e);
-		}
+		refreshProject(project);
 		
 		seamPackage = findSeamPackage(tree, "beatles");
 		assertTrue("Package \"beatles\" found!",seamPackage==null);
@@ -519,9 +534,41 @@ public class SeamComponentsViewTest extends TestCase {
 		return null;
 	}
 	
+	private static final int NUMBER_OF_REFRESHES = 1;
+	
+	private void refreshProject(IProject project){
+		long timestamp = project.getModificationStamp();
+		int count = 1;
+		while(true){
+			System.out.println("Refresh project "+count);
+			try {
+//				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+//				waitForJobs();
+//				try {
+//					waitForJob();
+//				} catch (InterruptedException e) {
+//					JUnitUtils.fail(e.getMessage(),e);
+//				}
+				project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+				//waitForJobs();
+				try {
+					waitForJob();
+				} catch (InterruptedException e) {
+					JUnitUtils.fail(e.getMessage(),e);
+				}
+			} catch (Exception e) {
+				JUnitUtils.fail("Cannot build test Project", e);
+				break;
+			}
+			if(project.getModificationStamp() != timestamp) break;
+			count++;
+			if(count > NUMBER_OF_REFRESHES) break;
+		}
+	}
+	
 	public void waitForJobs() {
 		while (Job.getJobManager().currentJob() != null)
-			delay(10000);
+			delay(5000);
 	}
 	
 	/** * Process UI input but do not return for the 
@@ -546,4 +593,56 @@ public class SeamComponentsViewTest extends TestCase {
 			}
 		}
 	}
+	public static void waitForJob() throws InterruptedException {
+		Object[] o = {
+			XJob.FAMILY_XJOB, ResourcesPlugin.FAMILY_AUTO_REFRESH, ResourcesPlugin.FAMILY_AUTO_BUILD
+		};
+		while(true) {
+			boolean stop = true;
+			for (int i = 0; i < o.length; i++) {
+				Job[] js = Job.getJobManager().find(o[i]);
+				if(js != null && js.length > 0) {
+					Job.getJobManager().join(o[i], new NullProgressMonitor());
+					stop = false;
+				}
+			}
+			if(stop) {
+				Job running = getJobRunning(10);
+				if(running != null) {
+					running.join();
+					stop = false;
+				}
+			}
+			if(stop) break;
+		}
+	}
+	
+	public static Job getJobRunning(int iterationLimit) {
+		Job[] js = Job.getJobManager().find(null);
+		Job dm = null;
+		if(js != null) for (int i = 0; i < js.length; i++) {
+			if(js[i].getState() == Job.RUNNING && js[i].getThread() != Thread.currentThread()) {
+				if(js[i] instanceof UIJob) continue;
+				if(js[i].belongsTo(DecoratorManager.FAMILY_DECORATE) || js[i].getName().equals("Task List Saver")) {
+					dm = js[i];
+					continue;
+				}
+				//TODO keep watching 
+				System.out.println(js[i].getName());
+				return js[i];
+			}
+		}
+		if(dm != null) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				//ignore
+			}
+			if(iterationLimit > 0)
+				return getJobRunning(iterationLimit - 1);
+		}
+		return null;
+		
+	}
+
 }
