@@ -542,14 +542,14 @@ public class SeamComponentsViewTest extends TestCase {
 		while(true){
 			System.out.println("Refresh project "+count);
 			try {
-//				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 //				waitForJobs();
 //				try {
 //					waitForJob();
 //				} catch (InterruptedException e) {
 //					JUnitUtils.fail(e.getMessage(),e);
 //				}
-				project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+//				project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 				//waitForJobs();
 				try {
 					waitForJob();
