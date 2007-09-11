@@ -12,7 +12,6 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -42,8 +41,8 @@ import org.eclipse.wst.server.core.IRuntime;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.ServerCore;
 import org.eclipse.wst.server.core.model.ServerBehaviourDelegate;
-import org.jboss.ide.eclipse.as.core.server.stripped.DeployableServerBehavior;
-import org.jboss.ide.eclipse.as.core.singledeployable.SingleDeployableFactory;
+import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
+import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -110,6 +109,19 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		.include("oscache.*\\.jar")
 		.include("stringtemplate.*\\.jar")
 		.include("testng-.*\\.jar");
+	
+	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
+		.include("testng-.*-jdk15\\.jar")
+		.include("myfaces-api-.*\\.jar")
+		.include("myfaces-impl-.*\\.jar")
+		.include("servlet-api\\.jar")
+		.include("hibernate-all\\.jar")
+		.include("jboss-ejb3-all\\.jar")
+		.include("thirdparty-all\\.jar")
+		.include("el-api\\.jar")
+		.include("el-ri\\.jar")
+		.exclude(".*/CVS")
+		.exclude(".*/\\.svn");
 	
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("ajax4jsf.*\\.jar")
@@ -500,6 +512,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					return Status.OK_STATUS;
 				}
 			};
+			create.setUser(true);
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
 		}
@@ -512,5 +525,56 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 
 	public static boolean isWarConfiguration(IDataModel model) {
 		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
+	}
+	
+	public class CreateTestProject extends Job {
+
+		IDataModel model = null;
+		IProject seamWebProject = null;
+		SeamRuntime seamRuntime = null;
+		
+		/**
+		 * @param name
+		 */
+		public CreateTestProject(IDataModel model, IProject seamWebProject, SeamRuntime seamRuntime) {
+			super("Create Test project");
+			this.model = model;
+			this.seamWebProject = seamWebProject;
+			this.seamRuntime = seamRuntime;
+		}
+
+		/**
+		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
+		 */
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			String projectName = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString();
+			IProject test = WtpUtils.createEclipseProject(projectName+"-test", monitor);
+			File testProjectDir = seamWebProject.getLocation().toFile();
+			File testLibDir = new File(testProjectDir,"lib");
+			File embededEjbDir = new File(testProjectDir,"embedded-ejb");
+			FilterSet filterSet = new FilterSet();
+			filterSet.addFilter("projectName", projectName);
+			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject));
+			File testTemplateDir = null;
+			try {
+				testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"test");
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				return new Status(IStatus.ERROR,SeamCorePlugin.PLUGIN_ID,e.getMessage()+"");
+			}
+			AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
+			
+			AntCopyUtils.copyFilesAndFolders(
+					testTemplateDir,
+					testProjectDir,
+					new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+					new FilterSetCollection(filterSet), true);
+			
+			AntCopyUtils.FileSet includeLibs = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
+			
+			return Status.OK_STATUS;
+		}
+		
 	}
 }
