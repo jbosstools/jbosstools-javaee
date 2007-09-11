@@ -28,7 +28,6 @@ import org.eclipse.jdt.debug.eval.IAstEvaluationEngine;
 import org.eclipse.jdt.debug.eval.ICompiledExpression;
 import org.eclipse.jdt.debug.eval.IEvaluationListener;
 import org.eclipse.jdt.debug.eval.IEvaluationResult;
-import org.eclipse.jdt.internal.debug.core.JDIDebugPlugin;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
@@ -112,7 +111,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 			return handleConditionalBreakpointEvent(event, thread, target);
 
 		} catch (CoreException e) {
-			JDIDebugPlugin.log(e);
+            StrutsDebugPlugin.log(e);
 		}
 		return true;
 	}
@@ -239,7 +238,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 				}
 				return;
 			} catch (DebugException e) {
-				JDIDebugPlugin.log(e);
+	            StrutsDebugPlugin.log(e);
 			}
 			suspendForEvent(event, thread);
 		}

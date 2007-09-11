@@ -17,8 +17,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugException;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.jdt.debug.core.IJavaStackFrame;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaMethodBreakpoint;
@@ -28,7 +26,6 @@ import org.jboss.tools.jst.web.debug.IBreakpointPresentation;
 import org.jboss.tools.jst.web.debug.WebDebugPlugin;
 import org.jboss.tools.jst.web.debug.xpl.DebugSupport;
 import org.jboss.tools.jst.web.launching.sourcelookup.IBreakpointSourceFinder;
-import org.jboss.tools.jst.web.launching.sourcelookup.xpl.WebSourceLocator;
 
 import com.sun.jdi.event.Event;
 

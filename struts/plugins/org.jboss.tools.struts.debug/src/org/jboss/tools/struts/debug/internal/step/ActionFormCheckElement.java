@@ -29,11 +29,7 @@ public class ActionFormCheckElement extends BaseCheckElement {
 	public ActionFormCheckElement(XModelObject xObject) {
 		super(xObject);
 		String actionMappingPath = getAttributeValue(xObject, StrutsConstants.ATT_PATH);
-		try {
-			condition = new ActionFormCondition(actionMappingPath);
-		} catch(Exception e) {
-            StrutsDebugPlugin.log(e);
-		}
+		condition = new ActionFormCondition(actionMappingPath);
 	}
 
 	public ICondition getCondition() {

@@ -25,11 +25,8 @@ public class ActionExceptionCheckElement extends BaseCheckElement {
 
 		String exceptionTypeName = getAttributeValue(xObject, StrutsConstants.ATT_TYPE);
 
-		try {
-			condition = new ActionExceptionCondition(actionTypeName, exceptionTypeName);
-		} catch(Exception e) {
-			StrutsDebugPlugin.log(e);
-		}
+		condition = new ActionExceptionCondition(actionTypeName, exceptionTypeName);
+
 		StrutsDebugPlugin.log("ActionExceptionCheckElement(" + actionTypeName + ", " + exceptionTypeName + ")");
 	}
 

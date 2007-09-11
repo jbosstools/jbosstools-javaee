@@ -29,11 +29,7 @@ public class GlobalForwardCheckElement extends BaseCheckElement {
 	public GlobalForwardCheckElement(XModelObject xObject) {
 		super(xObject);
 		String forwardName = getAttributeValue(xObject, StrutsConstants.ATT_NAME);
-		try {
-			condition = new GlobalForwardCondition(forwardName);
-		} catch(Exception e) {
-            StrutsDebugPlugin.log(e);
-		}
+		condition = new GlobalForwardCondition(forwardName);
 	}
 
 	public ICondition getCondition() {

@@ -30,12 +30,7 @@ public class GlobalExceptionCheckElement extends BaseCheckElement {
 		super(xObject);
 
 		String exceptionTypeName = getAttributeValue(xObject, StrutsConstants.ATT_TYPE);
-
-		try {
-			condition = new GlobalExceptionCondition(exceptionTypeName);
-		} catch(Exception e) {
-            StrutsDebugPlugin.log(e);
-		}
+		condition = new GlobalExceptionCondition(exceptionTypeName);
 	}
 
 	public ICondition getCondition() {

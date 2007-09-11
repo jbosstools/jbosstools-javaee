@@ -23,11 +23,7 @@ public class ActionForwardCheckElement extends BaseCheckElement {
 	public ActionForwardCheckElement(XModelObject xObject, String actionTypeName) {
 		super(xObject);
 		String forwardName = getAttributeValue(xObject, StrutsConstants.ATT_NAME);
-		try {
-			condition = new ActionForwardCondition(actionTypeName, forwardName);
-		} catch(Exception e) {
-            StrutsDebugPlugin.log(e);
-		}
+		condition = new ActionForwardCondition(actionTypeName, forwardName);
 	}
 
 	public ICondition getCondition() {

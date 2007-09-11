@@ -10,15 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.debug.internal;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
 
-public class StrutsDebugPlugin extends AbstractUIPlugin {
+public class StrutsDebugPlugin extends BaseUIPlugin {
 
 	public static final String PLUGIN_ID = "org.jboss.tools.struts.debug";
 
@@ -27,18 +25,19 @@ public class StrutsDebugPlugin extends AbstractUIPlugin {
 		StrutsDebugModel.init();
 	}
 	
-	public void startup( ) throws CoreException  {
-		super.startup();
-	}
-
     public static void printStackTrace(Throwable throwable) {
-        if (isDebugEnabled() && throwable != null) throwable.printStackTrace();
+        if (isDebugEnabled() && throwable != null) {
+        	throwable.printStackTrace();
+        }
     }
 
     public static void println(String str) {
         if (isDebugEnabled()) {
-            if (str != null) System.out.println(str);
-            else System.out.println();
+            if (str != null) {
+            	System.out.println(str);
+            } else {
+            	System.out.println();
+            }
         }
     }
 
@@ -59,11 +58,15 @@ public class StrutsDebugPlugin extends AbstractUIPlugin {
 	}
 
 	public static void log(String msg) {
-		if(isDebugEnabled()) PluginHolder.INSTANCE.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));		
+		if(isDebugEnabled()) {
+			PluginHolder.INSTANCE.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));		
+		}
 	}
 	
 	public static void log(IStatus status) {
-		if(isDebugEnabled() || !status.isOK()) PluginHolder.INSTANCE.getLog().log(status);
+		if(isDebugEnabled() || !status.isOK()) { 
+			PluginHolder.INSTANCE.getLog().log(status);
+		}
 	}
 	
 	public static void log(String message, Throwable exception) {
