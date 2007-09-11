@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
-import org.jboss.tools.common.log.LogHelper;
 import org.osgi.framework.BundleContext;
 
 
@@ -67,7 +66,7 @@ public class StrutsExtensionsPlugin  extends BaseUIPlugin {
 		try {
 			return bundle.getString(key);
 		} catch (MissingResourceException e) {
-			LogHelper.logError(PLUGIN_ID, e);
+			StrutsExtensionsPlugin.getPluginLog().logError(e);
 			return key;
 		}
 	}
