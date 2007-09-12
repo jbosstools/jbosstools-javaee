@@ -209,7 +209,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
 		IContainer folder = webRootFolder.getUnderlyingFolder();
 		edit.dispose();
+		
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
+		model.setProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, project.getName()+"-test");
 		
 		final File webContentFolder = folder.getLocation().toFile();
 		final File webInfFolder = new File(webContentFolder,"WEB-INF");
@@ -219,7 +221,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		final File webLibFolder = new File(webContentFolder,WEB_LIBRARIES_RELATED_PATH);
 		final File srcFolder = srcRootFolder.getUnderlyingFolder().getLocation().toFile();
 		final File webMetaInf = new File(webContentFolder, "META-INF");
-		final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString());
+		final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 
 		final String seamHomePath = selectedRuntime.getHomeDir();
 		
@@ -303,9 +305,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			// ********************************************************************************************
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true);
 			
-			WtpUtils.createSourceFolder(project, new Path("src/test"),new Path("src"));
-			WtpUtils.createSourceFolder(project, new Path("src/action"),new Path("src"));
-			WtpUtils.createSourceFolder(project, new Path("src/model"),new Path("src"));
+//			WtpUtils.createSourceFolder(project, new Path("src/test"),new Path("src"));
+//			WtpUtils.createSourceFolder(project, new Path("src/action"),new Path("src"));
+//			WtpUtils.createSourceFolder(project, new Path("src/model"),new Path("src"));
 			// Copy sources to src
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"),
@@ -396,6 +398,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			create.schedule();
 			
 		} else {
+			model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, project.getName()+"-ejb");
+			model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, project.getName()+"-ear");
 			
 			// In case of EAR configuration
 			AntCopyUtils.copyFiles(seamHomeFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
@@ -516,6 +520,11 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
 		}
+		Job createTest = new CreateTestProject(model,project,selectedRuntime);
+		createTest.setUser(true);
+		createTest.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		createTest.schedule();
+		
 		ClasspathHelper.addClasspathEntries(project, fv);
 	
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
@@ -530,7 +539,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 	public class CreateTestProject extends Job {
 
 		IDataModel model = null;
+		
 		IProject seamWebProject = null;
+		
 		SeamRuntime seamRuntime = null;
 		
 		/**
@@ -550,12 +561,26 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		protected IStatus run(IProgressMonitor monitor) {
 			String projectName = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString();
 			IProject test = WtpUtils.createEclipseProject(projectName+"-test", monitor);
-			File testProjectDir = seamWebProject.getLocation().toFile();
+			File testProjectDir = test.getLocation().toFile();
+			File seamProjectDir = seamWebProject.getLocation().toFile();
 			File testLibDir = new File(testProjectDir,"lib");
 			File embededEjbDir = new File(testProjectDir,"embedded-ejb");
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName);
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject));
+			
+			AntCopyUtils.FileSet includeLibs 
+				= new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET)
+												.dir(new File(seamRuntime.getHomeDir(),"lib"));
+			File[] libs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
+			StringBuffer testLibraries = new StringBuffer();
+			
+			for (File file : libs) {
+				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n");
+			}
+			
+			filterSet.addFilter("testLibraries",testLibraries.toString());
+			
 			File testTemplateDir = null;
 			try {
 				testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"test");
@@ -563,7 +588,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 				SeamCorePlugin.getPluginLog().logError(e);
 				return new Status(IStatus.ERROR,SeamCorePlugin.PLUGIN_ID,e.getMessage()+"");
 			}
-			AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
+			AntCopyUtils.FileSet excludeCvsSvn 
+					 = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
 			
 			AntCopyUtils.copyFilesAndFolders(
 					testTemplateDir,
@@ -571,10 +597,23 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 					new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
 					new FilterSetCollection(filterSet), true);
 			
-			AntCopyUtils.FileSet includeLibs = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
+			excludeCvsSvn.dir(new File(seamRuntime.getHomeDir(),"embedded-ejb/conf"));
+			AntCopyUtils.copyFiles(
+					new File(seamRuntime.getHomeDir(),"embedded-ejb/conf"),
+					embededEjbDir,
+					new AntCopyUtils.FileSetFileFilter(excludeCvsSvn));
 			
+
+			AntCopyUtils.copyFiles(
+					new File(seamRuntime.getHomeDir(),"lib"),
+					testLibDir,
+					new AntCopyUtils.FileSetFileFilter(includeLibs));
+			try {
+				test.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
 			return Status.OK_STATUS;
 		}
-		
 	}
 }

@@ -151,6 +151,9 @@ public class AntCopyUtils {
 				}
 			}
 		}
+		if(files.length==0 && !destinationFolder.exists()) {
+			destinationFolder.mkdir();
+		}
 	}
 	
 	public static void copyFileToFolder(File source, File dest, boolean override) {

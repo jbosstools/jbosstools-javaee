@@ -26,6 +26,8 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile";
 	
+	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name";
+	
 	public static final String JBOSS_AS_HOME = "jboss.home";
 	
 	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type";
@@ -68,4 +70,13 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder";
 	
+	public static final String SEAM_EJB_PROJECT = "seam.ejb.project";
+	
+	public static final String SEAM_TEST_PROJECT = "seam.test.project";
+	
+	public static final String SEAM_EAR_PROJECT = "seam.ear.project";
+	
+	public static final String DEPLOY_AS_WAR = "war";
+	
+	public static final String DEPLOY_AS_EAR = "ear";	
 }

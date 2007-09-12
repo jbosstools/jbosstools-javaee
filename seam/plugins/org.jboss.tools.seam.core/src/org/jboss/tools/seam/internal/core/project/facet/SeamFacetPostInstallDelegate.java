@@ -40,7 +40,7 @@ import org.osgi.service.prefs.BackingStoreException;
  *
  */
 public class SeamFacetPostInstallDelegate implements
-		IDelegate {
+		IDelegate, ISeamFacetDataModelProperties{
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
@@ -49,15 +49,43 @@ public class SeamFacetPostInstallDelegate implements
 			Object config, IProgressMonitor monitor) throws CoreException {
 		IEclipsePreferences prefs = SeamCorePlugin.getSeamFacetPreferences(project);
 		final IDataModel model = (IDataModel)config;
-		for (Object propertyName : model.getAllProperties()) {
-			Object value = model.getProperty(propertyName.toString());
-			prefs.put(propertyName.toString(), value==null?"":value.toString());
+		
+		prefs.put(JBOSS_AS_DEPLOY_AS, model.getProperty(JBOSS_AS_DEPLOY_AS).toString());
+		
+		prefs.put(SEAM_RUNTIME_NAME, model.getProperty(SEAM_RUNTIME_NAME).toString());
+		
+		prefs.put(SEAM_CONNECTION_PROFILE,model.getProperty(SEAM_CONNECTION_PROFILE).toString());
+		
+		prefs.put(SESION_BEAN_PACKAGE_NAME, model.getProperty(SESION_BEAN_PACKAGE_NAME).toString());
+		
+		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
+		
+		prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());
+	
+		prefs.put(SEAM_TEST_PROJECT, 
+				model.getProperty(SEAM_TEST_PROJECT)==null?
+						"":model.getProperty(SEAM_TEST_PROJECT).toString());
+		
+		if(DEPLOY_AS_EAR.equals(model.getProperty(JBOSS_AS_DEPLOY_AS))) {
+			prefs.put(SEAM_EJB_PROJECT, 
+					model.getProperty(SEAM_EJB_PROJECT)==null?
+							"":model.getProperty(SEAM_EJB_PROJECT).toString());
+			
+			prefs.put(SEAM_EAR_PROJECT, 
+					model.getProperty(SEAM_EAR_PROJECT)==null?
+							"":model.getProperty(SEAM_EAR_PROJECT).toString());
 		}
+		
 		try {
 			prefs.flush();
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
-		
 	}
+
+	/**
+	 * @see org.eclipse.wst.common.project.facet.core.IActionConfigFactory#create()
+	 */
+	public Object create() throws CoreException {return null; }
+	
 }
