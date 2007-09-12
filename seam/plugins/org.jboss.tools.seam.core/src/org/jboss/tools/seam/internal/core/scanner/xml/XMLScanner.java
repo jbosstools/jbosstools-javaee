@@ -22,6 +22,7 @@ import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
@@ -103,6 +104,12 @@ public class XMLScanner implements IFileScanner {
 	
 	public LoadedDeclarations parse(XModelObject o, IPath source) {
 		if(o == null) return null;
+		
+		if(o.getParent() instanceof FolderImpl) {
+			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
+			if(f != null && f.exists()) ((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+		}
+		
 		LoadedDeclarations ds = new LoadedDeclarations();
 		if(o.getModelEntity().getName().equals("FileSeamComponent12")) {
 			parseComponent(o, source, ds);
