@@ -41,6 +41,7 @@ import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
@@ -71,6 +72,54 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 	}
 	
+	public void testFlatSeamPackages(){
+		ScopePresentationActionProvider.setPackageStructureFlat(true);
+		
+		SeamCorePlugin.getSeamProject(project, true);
+		
+		refreshProject(project);
+
+		CommonNavigator navigator = getSeamComponentsView();
+
+		navigator.getCommonViewer().expandAll();
+		
+		
+		Tree tree = navigator.getCommonViewer().getTree();
+		
+		updateTree(tree);
+		
+		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
+		
+		assertTrue("Unexpected package 'package1' was" +
+				 " found",seamPackage==null);
+		
+		seamPackage = findSeamPackage(tree, "package1.package2.package3.package4");
+		
+		assertTrue("Expected package 'package1.package2.package3.package4' was not" +
+				 " found",seamPackage!=null);
+	}
+
+	public void testHierarchicalSeamPackages(){
+		ScopePresentationActionProvider.setPackageStructureFlat(false);
+		
+		SeamCorePlugin.getSeamProject(project, true);
+		
+		refreshProject(project);
+
+		CommonNavigator navigator = getSeamComponentsView();
+
+		navigator.getCommonViewer().expandAll();
+		
+		Tree tree = navigator.getCommonViewer().getTree();
+		
+		updateTree(tree);
+		
+		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
+		
+		assertTrue("Expected package 'package1' was not" +
+				 " found",seamPackage!=null);
+	}
+	
 	public void testAddComponentInXmlFile(){
 		SeamCorePlugin.getSeamProject(project, true);
 		
@@ -79,6 +128,7 @@ public class SeamComponentsViewTest extends TestCase {
 		CommonNavigator navigator = getSeamComponentsView();
 
 		navigator.getCommonViewer().expandAll();
+		
 		
 		Tree tree = navigator.getCommonViewer().getTree();
 		
@@ -323,6 +373,8 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 	
 	public void testDeleteComponentInClass(){
+		classFile = project.getFile("JavaSource/demo/Person.java");
+		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
@@ -395,25 +447,16 @@ public class SeamComponentsViewTest extends TestCase {
 		return part;
 	}
 	
-	
-	
 	private void showTreeItem(TreeItem item, int level){
 		for(int i=0;i<level;i++)
 			System.out.print("-");
 		
-		System.out.print(item.getText());
-		System.out.println("Item "+item.getData());
-		if(item.getData() instanceof ISeamScope){
-			ISeamScope scope = (ISeamScope)item.getData();
-			Iterator<ISeamPackage> iter = scope.getAllPackages().iterator();
-			while(iter.hasNext())
-				showSeamPackage(iter.next(), level+1);
-			
-			
-			List<ISeamComponent> components = scope.getComponents();
-			for(int i=0;i<components.size();i++)
-				showSeamComponent(components.get(i), level+1);
-		}
+		System.out.print("Item "+item.getText());
+		System.out.println(" Data "+item.getData());
+		if(item.getData() instanceof ISeamPackage)
+			showSeamPackage((ISeamPackage)item.getData(),1);
+		else if(item.getData() instanceof ISeamComponent)
+			showSeamComponent((ISeamComponent)item.getData(),1);
 		
 		for(int i=0;i<item.getItemCount();i++){
 			showTreeItem(item.getItem(i),level+1);
@@ -421,8 +464,8 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 
 	private void showSeamPackage(ISeamPackage seamPackage, int level){
-		for(int i=0;i<level;i++)
-			System.out.print("-");
+//		for(int i=0;i<level;i++)
+//			System.out.print("-");
 		
 		System.out.println("Package - "+seamPackage.getName()+" "+seamPackage.getQualifiedName());
 		
@@ -432,8 +475,8 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 
 	private void showSeamComponent(ISeamComponent component, int level){
-		for(int i=0;i<level;i++)
-			System.out.print("-");
+//		for(int i=0;i<level;i++)
+//			System.out.print("-");
 		
 		System.out.println("Component - "+component.getName()+" "+component.getClassName());
 	}
@@ -450,17 +493,17 @@ public class SeamComponentsViewTest extends TestCase {
 		return null;
 	}
 
-	private ISeamPackage findSeamPackage(ISeamScope seamScope, String name){
-		ISeamPackage seamPackage=null;
-		
-		Iterator<ISeamPackage> iter = seamScope.getAllPackages().iterator();
-		while(iter.hasNext()){
-			seamPackage = iter.next();
-			if(seamPackage.getName().equals(name)) return seamPackage;
-		}
-		
-		return null;
-	}
+//	private ISeamPackage findSeamPackage(ISeamScope seamScope, String name){
+//		ISeamPackage seamPackage=null;
+//		
+//		Iterator<ISeamPackage> iter = seamScope.getAllPackages().iterator();
+//		while(iter.hasNext()){
+//			seamPackage = iter.next();
+//			if(seamPackage.getName().equals(name)) return seamPackage;
+//		}
+//		
+//		return null;
+//	}
 
 	private ISeamPackage findSeamPackage(TreeItem item, String name){
 		ISeamPackage seamPackage=null;
@@ -469,12 +512,15 @@ public class SeamComponentsViewTest extends TestCase {
 			TreeItem cur = item.getItem(i);
 			if(cur.getData() instanceof ISeamPackage) {
 				ISeamPackage pkg =(ISeamPackage)cur.getData();
-				if(name.equals(pkg.getName())) {
+				//System.out.println("Searching: "+name+" found: "+pkg.getQualifiedName());
+				if(name.equals(pkg.getQualifiedName())) {
 					seamPackage = pkg;
+					//System.out.println("Found!");
 					break;
 				}
 			}else {
 				seamPackage = findSeamPackage(cur, name);
+				if(seamPackage != null) return seamPackage;
 			}
 		}
 		
