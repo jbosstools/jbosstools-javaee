@@ -322,7 +322,7 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Component \"beatles.Pall\" not found!",component!=null);
 	}
 	
-	public void tstDeleteComponentInClass(){
+	public void testDeleteComponentInClass(){
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
