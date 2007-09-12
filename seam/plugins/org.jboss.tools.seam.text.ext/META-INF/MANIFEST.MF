@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
 Bundle-Name: Seam Text Editors Extensions
-Bundle-ClassPath: seamextensions.jar
+Bundle-ClassPath: seam-text-ext.jar
 Bundle-Activator: org.jboss.tools.seam.text.ext.SeamExtPlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
