@@ -11,9 +11,11 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamProjectWizard"
+            finalPerspective="org.jboss.tools.seam.ui.SeamPerspective"
             icon="icons/view/seam_project_new.gif"
             id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard"
             name="Seam Web Project"
+            preferredPerspectives="org.jboss.tools.seam.ui.SeamPerspective"
             project="true">
          <description>
             Create a Seam Web Project

@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.internal.core.SeamProject;
 
 /**
@@ -47,7 +48,7 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 				ArrayList<IProject> seamProjects = new ArrayList<IProject>();
 				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 					try {
-						if(project.hasNature(SeamProject.NATURE_ID)) {
+						if(project.hasNature(SeamProject.NATURE_ID) && SeamCorePlugin.getSeamFacetPreferences(project)!=null) {
 							seamProjects.add(project);
 						}
 					} catch (CoreException e) {

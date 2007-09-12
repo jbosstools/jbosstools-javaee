@@ -38,6 +38,9 @@ import org.hibernate.eclipse.console.model.impl.ExporterDefinition;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -62,15 +65,21 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 			
 			try {
 				ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-				ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType("org.hibernate.eclipse.launch.CodeGenerationLaunchConfigurationType");
-				ILaunchConfigurationWorkingCopy wc = launchConfigurationType.newInstance(null, "GenerateEntities");
+				ILaunchConfigurationType launchConfigurationType = 
+					launchManager.getLaunchConfigurationType(
+							"org.hibernate.eclipse.launch.CodeGenerationLaunchConfigurationType");
+				ILaunchConfigurationWorkingCopy wc = 
+					launchConfigurationType.newInstance(project, project.getName() + "generate-entities");
 				
 				//Main
-				wc.setAttribute(HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, params.get(IParameter.HIBERNATE_CONFIGURATION_NAME));
+				wc.setAttribute(
+						HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
+						params.get(IParameter.HIBERNATE_CONFIGURATION_NAME));
 				
 				IPath src = getSourceFolder(project);
 				if(src == null) {
-					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, "Source folder not found in project " + project.getName()));
+					throw new CoreException(
+							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, "Source folder not found in project " + project.getName()));
 				}
 				wc.setAttribute(HibernateLaunchConstants.ATTR_OUTPUT_DIR, src.toString());
 
@@ -85,20 +94,27 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				}
 				
 				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, true);
-				String template = "" + SeamFacetPreference.getStringPreference(SeamFacetPreference.SEAM_HOME_FOLDER) + "/seam-gen/view";
-//				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_TEMPLATE_DIR, true);
+				SeamRuntime seamRt = SeamRuntimeManager.getInstance().getDefaultRuntime();
+				
+				String runtimeName = SeamCorePlugin.getSeamFacetPreferences(project)
+					.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,"");
+				
+				if(!"".equals(runtimeName)) {
+					seamRt = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
+				}
+				
+				String template = "" + seamRt.getHomeDir() + "/seam-gen/view";
 				wc.setAttribute(HibernateLaunchConstants.ATTR_TEMPLATE_DIR, template);
 				
-				//Exporters
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_JDK5, true);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_EJB3_ANNOTATIONS, true);
 				
 				ExporterDefinition[] ds = ExtensionManager.findExporterDefinitions();
-				if(ds != null) for (int i = 0; i < ds.length; i++) {
-					wc.setAttribute(ds[i].getId(), true);
-				}
+				wc.setAttribute("org.hibernate.tools.hbm2java", true);
 
-				wc.launch("run", new NullProgressMonitor());
+				wc.doSave();
+				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
+				
 			} catch (CoreException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}

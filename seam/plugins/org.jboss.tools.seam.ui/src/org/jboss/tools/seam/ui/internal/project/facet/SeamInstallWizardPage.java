@@ -88,7 +88,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	DataModelValidatorDelegate validatorDelegate;
 	
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
-		.createComboWithButton(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 				"Seam Runtime", getRuntimeNames(), SeamRuntimeManager.getInstance().getDefaultRuntime().getName(), true, new NewSeamRuntimeAction(), (IValidator)null);
 	
 //	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
