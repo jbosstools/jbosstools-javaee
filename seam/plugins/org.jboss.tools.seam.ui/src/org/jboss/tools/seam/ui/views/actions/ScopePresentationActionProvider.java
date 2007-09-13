@@ -93,12 +93,12 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 
 	public static void setPackageStructureFlat(boolean s) {
 		IEclipsePreferences p = SeamPreferences.getInstancePreferences();
-		p.put(PACKAGE_STRUCTURE, s ? "flat" : "hierarchical");
+		p.put(PACKAGE_STRUCTURE, s ? PACKAGES_FLAT : PACKAGES_HIERARCHICAL);
 	}
 	
 	public static void setScopePresentedAsLabel(boolean s) {
 		IEclipsePreferences p = SeamPreferences.getInstancePreferences();
-		p.put(SCOPE_PRESENTATION, s ? "label" : "node");
+		p.put(SCOPE_PRESENTATION, s ?  SCOPE_AS_LABEL : SCOPE_AS_NODE);
 	}
 	
     public void fillActionBars(IActionBars actionBars) {
@@ -106,9 +106,6 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		actionGroup.fillActionBars(actionBars);
     }
 
-	boolean isFlatLayout = true;
-	boolean isScopeLable = false;
-    
     public void dispose() {
     	super.dispose();
 		fExtensionSite.getContentService().getActivationService().removeExtensionActivationListener(fMenuUpdater);
@@ -162,19 +159,17 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 	public void saveState(IMemento aMemento) {
 		super.saveState(aMemento);
 		
-		setPackageStructureFlat(isFlatLayout);
-		setScopePresentedAsLabel(isScopeLable);
+		setPackageStructureFlat(stateModel.getBooleanProperty(PACKAGE_STRUCTURE));
+		setScopePresentedAsLabel(stateModel.getBooleanProperty(SCOPE_PRESENTATION));
 		
 	}
 
 	void setFlatLayout(boolean b) {
-		isFlatLayout = b;
 		stateModel.setBooleanProperty(PACKAGE_STRUCTURE, b);
 		actionGroup.setFlatLayout(b);
 	}
 	
 	void setScopeLable(boolean b) {
-		isScopeLable = b;
 		stateModel.setBooleanProperty(SCOPE_PRESENTATION, b);
 		actionGroup.setScopeLable(b);
 	}
