@@ -141,7 +141,9 @@ public class ValidatorFactory {
 				return errors;
 			}
 			if (!new File(value.toString(), "seam").isFile()) {
-				errors = createErrormessage("Seam Home Folde field points to " +
+				errors = createErrorMap();
+				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+					"Seam Home Folde field points to " +
 						"location that doesn't look like seam home folder");
 			}
 			return errors;

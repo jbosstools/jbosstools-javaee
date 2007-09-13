@@ -30,5 +30,8 @@ public interface IParameter {
 	public static String HIBERNATE_CONFIGURATION_NAME = "hibernate.configuratrion.name";
 	
 	public static String SEAM_EAR_PROJECT_LOCATION_PATH = "seam.ear.project.location";
+	public static String SEAM_TEST_PROJECT_LOCATION_PATH = "seam.test.project.location";
+	public static String SEAM_EJB_PROJECT_LOCATION_PATH = "seam.ejb.project.location";
+
 
 }
