@@ -18,6 +18,7 @@ import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -26,6 +27,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.wst.common.componentcore.ComponentCore;
@@ -48,8 +51,9 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.osgi.service.prefs.BackingStoreException;
 
-public class SeamFacetInstallDelegete extends Object implements IDelegate {
+public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamFacetDataModelProperties {
 
 	public static String DEV_WAR_PROFILE = "dev-war";
 	public static String DEV_EAR_PROFILE = "dev";	
@@ -282,7 +286,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		
-		
+		final CreateTestProject createTest = new CreateTestProject(model,project,selectedRuntime);
+		createTest.setUser(true);
+		createTest.setRule(ResourcesPlugin.getWorkspace().getRoot());
 
 		// ********************************************************************************************
 		// Handle WAR/EAR configurations
@@ -396,6 +402,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			};
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
+			
+			createTest.schedule();
 			
 		} else {
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, project.getName()+"-ejb");
@@ -513,6 +521,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 							SeamCorePlugin.getPluginLog().logError(e);
 						}
 					}
+					createTest.run(monitor);
 					return Status.OK_STATUS;
 				}
 			};
@@ -520,15 +529,47 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
 		}
-		Job createTest = new CreateTestProject(model,project,selectedRuntime);
-		createTest.setUser(true);
-		createTest.setRule(ResourcesPlugin.getWorkspace().getRoot());
-		createTest.schedule();
-		
+
 		ClasspathHelper.addClasspathEntries(project, fv);
 	
-		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
 
+
+		IScopeContext projectScope = new ProjectScope(project);
+		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+		
+		prefs.put(JBOSS_AS_DEPLOY_AS, model.getProperty(JBOSS_AS_DEPLOY_AS).toString());
+		
+		prefs.put(SEAM_RUNTIME_NAME, model.getProperty(SEAM_RUNTIME_NAME).toString());
+		
+		prefs.put(SEAM_CONNECTION_PROFILE,model.getProperty(SEAM_CONNECTION_PROFILE).toString());
+		
+		prefs.put(SESION_BEAN_PACKAGE_NAME, model.getProperty(SESION_BEAN_PACKAGE_NAME).toString());
+		
+		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
+		
+		prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());
+	
+		prefs.put(SEAM_TEST_PROJECT, 
+				model.getProperty(SEAM_TEST_PROJECT)==null?
+						"":model.getProperty(SEAM_TEST_PROJECT).toString());
+		
+		if(DEPLOY_AS_EAR.equals(model.getProperty(JBOSS_AS_DEPLOY_AS))) {
+			prefs.put(SEAM_EJB_PROJECT, 
+					model.getProperty(SEAM_EJB_PROJECT)==null?
+							"":model.getProperty(SEAM_EJB_PROJECT).toString());
+			
+			prefs.put(SEAM_EAR_PROJECT, 
+					model.getProperty(SEAM_EAR_PROJECT)==null?
+							"":model.getProperty(SEAM_EAR_PROJECT).toString());
+		}
+		
+		try {
+			prefs.flush();
+		} catch (BackingStoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		
+		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
@@ -558,7 +599,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
 		 */
 		@Override
-		protected IStatus run(IProgressMonitor monitor) {
+		public IStatus run(IProgressMonitor monitor) {
 			String projectName = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString();
 			IProject test = WtpUtils.createEclipseProject(projectName+"-test", monitor);
 			File testProjectDir = test.getLocation().toFile();
@@ -615,5 +656,13 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate {
 			}
 			return Status.OK_STATUS;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.wst.common.project.facet.core.IActionConfigFactory#create()
+	 */
+	public Object create() throws CoreException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

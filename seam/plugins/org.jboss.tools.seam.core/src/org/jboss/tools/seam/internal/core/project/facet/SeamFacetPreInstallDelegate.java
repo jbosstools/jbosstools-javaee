@@ -16,12 +16,15 @@ import java.util.Properties;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.datatools.connectivity.drivers.DriverManager;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.osgi.service.prefs.BackingStoreException;
 
 public class SeamFacetPreInstallDelegate implements IDelegate {
 
@@ -51,8 +54,7 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 		
 		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
 				DriverManager.getInstance().getDriverInstanceByID(
-							props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());
+							props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());		
 		
 	}
-
 }

@@ -66,7 +66,7 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path";
 
-	public static final String JBOSS_SEAM_HOME = "seam.jbossas.home.folder";
+	public static final String JBOSS_SEAM_HOME = "seam.home.folder";
 	
 	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder";
 	
