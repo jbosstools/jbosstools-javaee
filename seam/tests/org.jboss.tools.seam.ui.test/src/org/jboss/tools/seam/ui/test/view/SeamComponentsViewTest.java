@@ -12,14 +12,12 @@
 package org.jboss.tools.seam.ui.test.view;
 
 import java.util.Iterator;
-import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -38,7 +36,6 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.web.ui.RedHat4WebPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
-import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
@@ -58,6 +55,7 @@ public class SeamComponentsViewTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		ScopePresentationActionProvider.setPackageStructureFlat(false);
 		WorkbenchUtils.getWorkbench().showPerspective(
 				RedHat4WebPerspectiveFactory.PERSPECTIVE_ID,
 				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
@@ -73,8 +71,6 @@ public class SeamComponentsViewTest extends TestCase {
 	}
 	
 	public void testFlatSeamPackages(){
-		ScopePresentationActionProvider.setPackageStructureFlat(true);
-		
 		SeamCorePlugin.getSeamProject(project, true);
 		
 		refreshProject(project);
@@ -99,27 +95,6 @@ public class SeamComponentsViewTest extends TestCase {
 				 " found",seamPackage!=null);
 	}
 
-	public void testHierarchicalSeamPackages(){
-		ScopePresentationActionProvider.setPackageStructureFlat(false);
-		
-		SeamCorePlugin.getSeamProject(project, true);
-		
-		refreshProject(project);
-
-		CommonNavigator navigator = getSeamComponentsView();
-
-		navigator.getCommonViewer().expandAll();
-		
-		Tree tree = navigator.getCommonViewer().getTree();
-		
-		updateTree(tree);
-		
-		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
-		
-		assertTrue("Expected package 'package1' was not" +
-				 " found",seamPackage!=null);
-	}
-	
 	public void testAddComponentInXmlFile(){
 		SeamCorePlugin.getSeamProject(project, true);
 		
@@ -441,6 +416,45 @@ public class SeamComponentsViewTest extends TestCase {
 			assertTrue("Created Seam enabled project haven't been deleted from tree",0==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);
 	}
 	
+
+	public void testHierarchicalSeamPackages(){
+		SeamCorePlugin.getSeamProject(project, true);
+		
+		refreshProject(project);
+
+		CommonNavigator navigator = getSeamComponentsView();
+
+		navigator.getCommonViewer().expandAll();
+//		IActionBars bars = ((IViewSite)navigator.getSite()).getActionBars();
+//		IMenuManager mm = bars.getMenuManager();
+//		IContributionItem item = ((MenuManager)mm).find("Seam Packages");
+//		IContributionItem item2 = ((MenuManager)item).find("package.hierarchical");
+		
+		Tree tree = navigator.getCommonViewer().getTree();
+		
+		updateTree(tree);
+		
+		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
+		
+		assertTrue("Expected package 'package1' was not" +
+				 " found",seamPackage!=null);
+		
+		seamPackage = findSeamPackage(tree, "package1.package2");
+		
+		assertTrue("Expected package 'package1.package2' was not" +
+				 " found",seamPackage!=null);
+
+		seamPackage = findSeamPackage(tree, "package1.package2.package3");
+		
+		assertTrue("Expected package 'package1.package2.package3' was not" +
+				 " found",seamPackage!=null);
+
+		seamPackage = findSeamPackage(tree, "package1.package2.package3.package4");
+		
+		assertTrue("Expected package 'package1.package2.package3.package4' was not" +
+				 " found",seamPackage!=null);
+	}
+
 	private CommonNavigator getSeamComponentsView() {
 		IWorkbenchPage page  = WorkbenchUtils.getWorkbenchActivePage();
 		CommonNavigator part = (CommonNavigator)page.findView(ISeamUiConstants.SEAM_COMPONENTS_VIEW_ID);
@@ -514,14 +528,13 @@ public class SeamComponentsViewTest extends TestCase {
 				ISeamPackage pkg =(ISeamPackage)cur.getData();
 				//System.out.println("Searching: "+name+" found: "+pkg.getQualifiedName());
 				if(name.equals(pkg.getQualifiedName())) {
-					seamPackage = pkg;
 					//System.out.println("Found!");
-					break;
+					return pkg;
 				}
-			}else {
-				seamPackage = findSeamPackage(cur, name);
-				if(seamPackage != null) return seamPackage;
 			}
+			seamPackage = findSeamPackage(cur, name);
+			if(seamPackage != null) return seamPackage;
+			
 		}
 		
 		return seamPackage;
