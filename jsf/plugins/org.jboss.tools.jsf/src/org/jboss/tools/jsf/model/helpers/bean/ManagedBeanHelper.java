@@ -22,7 +22,7 @@ public class ManagedBeanHelper {
 		IJavaProject jp = BeanHelper.getJavaProject(bean);
 		try {
 			return jp == null ? null : jp.findType(typename);
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			//ignore
 			return null;
 		}

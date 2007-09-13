@@ -14,6 +14,7 @@ import java.util.*;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.java.generation.*;
 import org.jboss.tools.common.meta.action.*;
 import org.jboss.tools.common.meta.action.impl.*;
@@ -60,7 +61,7 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 		classCheck.update(s);
 		try {
 			fields = BeanHelper.getJavaProperties(classCheck.getExistingClass());
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			fields = new TreeMap<String,IJavaElement>();
 		}
 		XModelObject[] cs = getTarget().getChildren("JSFManagedProperty");

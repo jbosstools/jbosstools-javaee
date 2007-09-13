@@ -21,7 +21,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class BeanHelper {
 	
-	public static Map<String,IJavaElement> getJavaProperties(IType type) throws Exception {
+	public static Map<String,IJavaElement> getJavaProperties(IType type) throws JavaModelException {
 		Map<String,IJavaElement> map = new TreeMap<String,IJavaElement>();
 		if(type == null || !type.exists()) return map;
 		IField[] fs = type.getFields();
@@ -44,7 +44,7 @@ public class BeanHelper {
 		return (rootName.toUpperCase().equals(rootName)) ? rootName : rootName.substring(0, 1).toLowerCase() + rootName.substring(1);
 	}
 
-	static Map<String,IJavaElement> getSuperTypeJavaProperties(IType type) throws Exception {
+	static Map<String,IJavaElement> getSuperTypeJavaProperties(IType type) throws JavaModelException {
 		String scn = type.getSuperclassName();
 		if(scn == null || scn.length() == 0 || scn.equals("java.lang.Object")) return null;
 		String[][] rs = type.resolveType(scn);
@@ -71,7 +71,7 @@ public class BeanHelper {
 		}			
 	}
 	
-	public static IMethod findGetter(IType type, String property) throws Exception {
+	public static IMethod findGetter(IType type, String property) throws JavaModelException {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			String n = ms[i].getElementName();
@@ -88,7 +88,7 @@ public class BeanHelper {
 		return null;
 	}
 
-	public static IMethod findSetter(IType type, String property) throws Exception {
+	public static IMethod findSetter(IType type, String property) throws JavaModelException {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			String n = ms[i].getElementName();

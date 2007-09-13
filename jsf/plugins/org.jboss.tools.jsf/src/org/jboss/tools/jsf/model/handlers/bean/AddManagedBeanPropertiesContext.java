@@ -33,7 +33,7 @@ public class AddManagedBeanPropertiesContext {
 		properties = new HashMap<String,IJavaElement>();
 		try {
 			properties = BeanHelper.getJavaProperties(type);
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			//ignore
 		}
 		if(properties.size() != enablement.length) {
