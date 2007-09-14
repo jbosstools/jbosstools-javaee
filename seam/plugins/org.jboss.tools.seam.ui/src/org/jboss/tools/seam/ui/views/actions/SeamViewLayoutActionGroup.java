@@ -62,10 +62,11 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 		private String property;
 		private final boolean value;
 
-		public CommonLayoutAction(String property, boolean value) {
+		public CommonLayoutAction(String property, boolean value, String id) {
 			super("", AS_RADIO_BUTTON);
 			this.property = property;
 			this.value = value;
+			this.setId(id);
 		}
 
 		public void run() {
@@ -87,13 +88,13 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 			IMenuManager viewMenu = actionBars.getMenuManager();
 			// Create layout sub menu
 			if (layoutSubMenu == null) {
-				layoutSubMenu = new MenuManager("Seam Packages");
+				layoutSubMenu = new MenuManager("Seam Packages", "Seam Packages");
 				addLayoutActions(layoutSubMenu);
 				viewMenu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new Separator(LAYOUT_GROUP_NAME));
 			}
 			
 			if(scopeSubMenu == null) {
-				scopeSubMenu = new MenuManager("Scope Presentation");
+				scopeSubMenu = new MenuManager("Scope Presentation", "Scope Presentation");
 				addScopeActions(scopeSubMenu);
 			}
 
@@ -145,14 +146,14 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 	}
 
 	private void createActions() {
-		flatLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, true);
-		hierarchicalLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, false);
-		labelScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, true);
-		nodeScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, false);
+		flatLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, true, "package.flat");
+		hierarchicalLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, false,"package.hierarchical");
+		labelScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, true,"layout.label");
+		nodeScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, false,"layout.node");
 	}
 
 	protected void addLayoutActions(IMenuManager viewMenu) {
-		viewMenu.add(new ContributionItem() {
+		viewMenu.add(new SeamContributionItem(flatLayoutAction) {
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -179,7 +180,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 			}
 		});
 
-		viewMenu.add(new ContributionItem() {
+		viewMenu.add(new SeamContributionItem(hierarchicalLayoutAction) {
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -209,7 +210,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 	}
 
 	protected void addScopeActions(IMenuManager viewMenu) {
-		viewMenu.add(new ContributionItem() {
+		viewMenu.add(new SeamContributionItem(labelScopeAction) {
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -236,7 +237,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 			}
 		});
 
-		viewMenu.add(new ContributionItem() {
+		viewMenu.add(new SeamContributionItem(nodeScopeAction) {
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -264,5 +265,16 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 		});
 
 	}
-
+	public class SeamContributionItem extends ContributionItem{
+		IAction action;
+		
+		public SeamContributionItem(IAction action){
+			super(action.getId());
+			this.action = action;
+		}
+		
+		public IAction getAction(){
+			return action;
+		}
+	}
 }
