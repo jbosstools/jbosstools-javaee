@@ -46,6 +46,24 @@
 					<axis path="*/web-app/*" />
            		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- Web.xml -->
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/login-config/form-login-config/form-error-page/" />
+         			<axis path="/web-app/login-config/form-login-config/form-login-page/" />
+         			<axis path="/web-app/servlet/jsp-file/" />
+         			<axis path="/web-app/*/icon/large-icon/" />
+         			<axis path="/web-app/*/icon/small-icon/" />
+         			<axis path="/web-app/taglib/taglib-location/" />
+         			<axis path="/web-app/jsp-config/taglib/taglib-location/" />
+         			<axis path="/web-app/welcome-file-list/welcome-file/" />
+         			<!-- Web.xml -->
+           		</partitionType>
+           		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/web-app/*" />
+           		</partitionType>
+         	</contentType>
          	<contentType id="org.eclipse.jst.j2ee.webDD">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<!-- Web.xml -->
@@ -128,6 +146,37 @@
          			<axis path="/form-validation/global/validator/methodParams/" />
            		</partitionType>
 			</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/data-sources/className/" />
+         			<axis path="/struts-config/data-sources/type/" />
+         			<axis path="/struts-config/data-sources/data-source/className/" />
+         			<axis path="/struts-config/data-sources/data-source/type/" />
+         			<axis path="/struts-config/form-beans/type/" />
+         			<axis path="/struts-config/form-beans/form-bean/className/" />
+         			<axis path="/struts-config/form-beans/form-bean/type/" />
+         			<axis path="/struts-config/form-beans/form-bean/form-property/className/" />
+         			<axis path="/struts-config/form-beans/form-bean/form-property/type/" />
+         			<axis path="/struts-config/form-beans/form-bean/form-property/className/" />
+         			<axis path="/struts-config/global-exceptions/exception/className/" />
+         			<axis path="/struts-config/global-exceptions/exception/handler/" />
+         			<axis path="/struts-config/global-exceptions/exception/type/" />
+         			<axis path="/struts-config/global-forwards/type/" />
+         			<axis path="/struts-config/*/forward/className/" />
+         			<axis path="/struts-config/action-mappings/type/" />
+         			<axis path="/struts-config/action-mappings/action/className/" />
+         			<axis path="/struts-config/action-mappings/action/type/" />
+         			<axis path="/struts-config/controller/className/" />
+         			<axis path="/struts-config/controller/multipartClass/" />
+         			<axis path="/struts-config/controller/processorClass/" />
+         			<axis path="/struts-config/message-resources/className/" />
+         			<axis path="/struts-config/message-resources/factory/" />
+         			<axis path="/struts-config/plug-in/className/" />
+         			
+         			<axis path="/form-validation/global/validator/classname/" />
+         			<axis path="/form-validation/global/validator/methodParams/" />
+           		</partitionType>
+			</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -151,6 +200,15 @@
          			<axis path="/struts-config/action-mappings/action/input" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/global-exceptions/exception/path" />
+         			<axis path="/struts-config/*/forward/path" />
+         			<axis path="/struts-config/action-mappings/action/forward" />
+         			<axis path="/struts-config/action-mappings/action/include" />
+         			<axis path="/struts-config/action-mappings/action/input" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -162,6 +220,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/form-beans/form-bean/form-property/name" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="/struts-config/form-beans/form-bean/form-property/name" />
          		</partitionType>
@@ -181,6 +244,11 @@
          			<axis path="/struts-config/global-exceptions/exception/bundle" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/global-exceptions/exception/bundle" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -192,6 +260,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/global-exceptions/exception/key" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="/struts-config/global-exceptions/exception/key" />
          		</partitionType>
@@ -213,6 +286,12 @@
          			<axis path="/struts-config/action-mappings/action/name" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/action-mappings/action/attribute" />
+         			<axis path="/struts-config/action-mappings/action/name" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -228,6 +307,11 @@
          			<axis path="/struts-config/plug-in/set-property/value" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/plug-in/set-property/value" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -239,6 +323,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/*/set-property/property" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="/struts-config/*/set-property/property" />
          		</partitionType>
@@ -260,6 +349,12 @@
          			<axis path="/struts-config/*/icon/large-icon/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/struts-config/*/icon/small-icon/" />
+         			<axis path="/struts-config/*/icon/large-icon/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -271,6 +366,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/web-app/servlet/init-param/param-value/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/web-app/servlet/init-param/param-value/" />
          		</partitionType>
@@ -597,6 +697,11 @@
          			<axis path="/struts-config/message-resources/parameter" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/struts-config/message-resources/parameter" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -886,6 +991,11 @@
          			<axis path="/form-validation/formset/form/name/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/formset/form/name/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1017,6 +1127,11 @@
          			<axis path="/form-validation/global/validator/msg" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/global/validator/msg" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1042,6 +1157,16 @@
          			<axis path="/form-validation/formset/form/field/arg3/bundle" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/formset/form/field/msg/bundle" />
+         			<axis path="/form-validation/formset/form/field/arg/bundle" />
+         			<axis path="/form-validation/formset/form/field/arg0/bundle" />
+         			<axis path="/form-validation/formset/form/field/arg1/bundle" />
+         			<axis path="/form-validation/formset/form/field/arg2/bundle" />
+         			<axis path="/form-validation/formset/form/field/arg3/bundle" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1058,6 +1183,16 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/formset/form/field/msg/key" />
+         			<axis path="/form-validation/formset/form/field/arg/key" />
+         			<axis path="/form-validation/formset/form/field/arg0/key" />
+         			<axis path="/form-validation/formset/form/field/arg1/key" />
+         			<axis path="/form-validation/formset/form/field/arg2/key" />
+         			<axis path="/form-validation/formset/form/field/arg3/key" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="/form-validation/formset/form/field/msg/key" />
          			<axis path="/form-validation/formset/form/field/arg/key" />
@@ -1098,6 +1233,19 @@
          			<axis path="/form-validation/formset/form/field/arg3/name" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/global/validator/depends" />
+         			<axis path="/form-validation/formset/form/field/depends" />
+         			<axis path="/form-validation/formset/form/field/msg/name" />
+
+         			<axis path="/form-validation/formset/form/field/arg/name" />
+         			<axis path="/form-validation/formset/form/field/arg0/name" />
+         			<axis path="/form-validation/formset/form/field/arg1/name" />
+         			<axis path="/form-validation/formset/form/field/arg2/name" />
+         			<axis path="/form-validation/formset/form/field/arg3/name" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1115,6 +1263,12 @@
          			<axis path="/form-validation/formset/form/field/indexedListProperty" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/formset/form/field/property" />
+         			<axis path="/form-validation/formset/form/field/indexedListProperty" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1126,6 +1280,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/form-validation/global/validator/method" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="/form-validation/global/validator/method" />
          		</partitionType>
@@ -1173,6 +1332,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_CONTEXT_PARAM_LINK" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_CONTEXT_PARAM_LINK" />
+			</contenttypeidentifier>
          <contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_CONTEXT_PARAM_LINK" />
         	</contenttypeidentifier>
@@ -1188,6 +1350,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORWARD_PATH" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORWARD_PATH" />
+			</contenttypeidentifier>
 		</hyperlink>
   
 		<hyperlink 
@@ -1197,6 +1362,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_PROPERTY" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_PROPERTY" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1210,6 +1378,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_BUNDLE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_BUNDLE" />
+			</contenttypeidentifier>
 		</hyperlink>
   
 		<hyperlink 
@@ -1219,6 +1390,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_BUNDLE_KEY" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_BUNDLE_KEY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_BUNDLE_KEY" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1232,6 +1406,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_BEAN" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_BEAN" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1241,6 +1418,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PLUGIN_SET_PROPERTY" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PLUGIN_SET_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PLUGIN_SET_PROPERTY" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1254,6 +1434,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_SET_PROPERTY" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_SET_PROPERTY" />
+			</contenttypeidentifier>
 		</hyperlink>
   
 		<hyperlink 
@@ -1263,6 +1446,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PAGE" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PAGE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PAGE" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1276,6 +1462,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_VALIDATION_BUNDLE_KEY" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_VALIDATION_BUNDLE_KEY" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1287,6 +1476,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_LINK" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_LINK" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1296,6 +1488,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_RELATIVE_LINK" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_RELATIVE_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_RELATIVE_LINK" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1315,6 +1510,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PROPERTIES_FILE" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PROPERTIES_FILE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_PROPERTIES_FILE" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1391,6 +1589,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORM_BEAN" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORM_BEAN" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1426,6 +1627,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_BUNDLE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_BUNDLE" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1435,6 +1639,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_BUNDLE_KEY" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_BUNDLE_KEY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_BUNDLE_KEY" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1448,6 +1655,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_VALIDATOR" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_VALIDATOR" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1459,6 +1669,9 @@
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_PROPERTY" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_VALIDATION_PROPERTY" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1468,6 +1681,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_VALIDATION_METHOD" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_VALIDATION_METHOD" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_FORM_VALIDATION_METHOD" />
 			</contenttypeidentifier>
 		</hyperlink>
