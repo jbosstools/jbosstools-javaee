@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
@@ -121,6 +122,10 @@ public class JSFWebHelper {
 	}
 	
 	public static void getConfigFiles(List<XModelObject> list, Set<XModelObject> set, XModel model, ConfigFilesData data) {
+		FileSystemsImpl fs = (FileSystemsImpl)model.getByPath("FileSystems");
+		if(fs != null) {
+			fs.updateOverlapped();
+		}
 		XModelObject webxml = getWebConfig(model);
 		String[] paths = getCompleteConfigFilesList(webxml, data);
 		if(paths != null) for (int i = 0; i < paths.length; i++) { 
