@@ -89,7 +89,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	
 	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
 		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-				"Seam Runtime", getRuntimeNames(), SeamRuntimeManager.getInstance().getDefaultRuntime().getName(), true, new NewSeamRuntimeAction(), (IValidator)null);
+				"Seam Runtime", getRuntimeNames(), 
+				SeamRuntimeManager.getInstance().getDefaultRuntime()==null?"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName(), 
+				true, new NewSeamRuntimeAction(), (IValidator)null);
 	
 //	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
 //			.createBrowseFolderEditor(
