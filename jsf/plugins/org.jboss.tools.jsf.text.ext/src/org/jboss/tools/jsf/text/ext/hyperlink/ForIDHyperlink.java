@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 
@@ -92,65 +94,60 @@ public class ForIDHyperlink extends AbstractHyperlink {
 	}
 	
 	private IDOMElement findElementByID(NodeList list, String id) {
-		try {
-			for (int i = 0; list != null && i < list.getLength(); i++) {
-				try {
-					IDOMElement element = (IDOMElement)list.item(i);
-					Attr idAttr = element.getAttributeNode("id");
-					if (idAttr != null) {
-						String val = trimQuotes(idAttr.getNodeValue());
-						if (id.equals(val)) {
-							return element;
-						}
-					}
-					
-					if (element.hasChildNodes()) {
-						IDOMElement child = findElementByID(element.getChildNodes(), id);
-						if (child != null) return child;
-					}
-				} catch (Exception x) { 
-					// Probably not an IDOMElement
+		if(list == null || id == null) return null;
+		for (int i = 0; i < list.getLength(); i++) {
+			Node n = list.item(i);
+			if(!(n instanceof IDOMElement)) continue;
+
+			IDOMElement element = (IDOMElement)n;
+			Attr idAttr = element.getAttributeNode("id");
+			if (idAttr != null) {
+				String val = trimQuotes(idAttr.getNodeValue());
+				if (id.equals(val)) {
+					return element;
 				}
 			}
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("Error in looking for element by id " + id, x);
+					
+			if (element.hasChildNodes()) {
+				IDOMElement child = findElementByID(element.getChildNodes(), id);
+				if (child != null) return child;
+			}
 		}
 		return null;
 	}
 
 	String getForId(IRegion region) {
+		if(region == null) return null;
+		IDocument document = getDocument();
+		if(document == null) return null;
 		try {
-			return trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+			return trimQuotes(document.get(region.getOffset(), region.getLength()));
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		}
 	}
 	
 	private String trimQuotes(String word) {
-		try {
-			String attrText = word;
-			int bStart = 0;
-			int bEnd = word.length() - 1;
-			StringBuffer sb = new StringBuffer(attrText);
+		if(word == null) return null;
+		String attrText = word;
+		int bStart = 0;
+		int bEnd = word.length() - 1;
+		StringBuffer sb = new StringBuffer(attrText);
 
-			//find start and end of path property
-			while (bStart < bEnd && 
-					(sb.charAt(bStart) == '\'' || sb.charAt(bStart) == '\"' ||
-							Character.isWhitespace(sb.charAt(bStart)))) { 
-				bStart++;
-			}
-			while (bEnd > bStart && 
-					(sb.charAt(bEnd) == '\'' || sb.charAt(bEnd) == '\"' ||
-							Character.isWhitespace(sb.charAt(bEnd)))) { 
-				bEnd--;
-			}
-			bEnd++;
-			return sb.substring(bStart, bEnd);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return word;
-		}		
+		//find start and end of path property
+		while (bStart < bEnd && 
+				(sb.charAt(bStart) == '\'' || sb.charAt(bStart) == '\"' ||
+						Character.isWhitespace(sb.charAt(bStart)))) { 
+			bStart++;
+		}
+		while (bEnd > bStart && 
+				(sb.charAt(bEnd) == '\'' || sb.charAt(bEnd) == '\"' ||
+						Character.isWhitespace(sb.charAt(bEnd)))) { 
+			bEnd--;
+		}
+		bEnd++;
+		return sb.substring(bStart, bEnd);
 	}
 
 	/**

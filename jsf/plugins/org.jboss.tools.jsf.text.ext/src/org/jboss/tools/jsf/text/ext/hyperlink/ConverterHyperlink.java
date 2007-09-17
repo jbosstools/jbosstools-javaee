@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -23,6 +24,7 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
@@ -37,21 +39,22 @@ public class ConverterHyperlink extends AbstractHyperlink {
 	protected void doHyperlink(IRegion region) {
 		XModel xModel = getXModel();
 		if (xModel == null) return;
-		try {	
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
-			region = getRegion(region.getOffset());
-			String converterID = getDocument().get(region.getOffset(), region.getLength());
-			Properties p = new Properties();
-			IFile file = getFile();
-			if(file != null) p.put(WebPromptingProvider.FILE, file);
-			provider.getList(xModel, WebPromptingProvider.JSF_OPEN_CONVERTOR, converterID, p);
-			String error = p.getProperty(WebPromptingProvider.ERROR); 
-			if ( error != null && error.length() > 0) {
-				openFileFailed();
-			}
-		} catch (Exception x) {
-			//ignore
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
+		Properties p = new Properties();
+		region = getRegion(region.getOffset());
+		String converterID = null;
+		String error = null;
+		if(getDocument() != null && region != null) try {
+			converterID = getDocument().get(region.getOffset(), region.getLength());
+		} catch (BadLocationException x) {
+			JSFModelPlugin.getPluginLog().logError("Cannot get convertor id", x);
+		}
+		IFile file = getFile();
+		if(file != null) p.put(WebPromptingProvider.FILE, file);
+		provider.getList(xModel, WebPromptingProvider.JSF_OPEN_CONVERTOR, converterID, p);
+		error = p.getProperty(WebPromptingProvider.ERROR); 
+		if ( error != null && error.length() > 0) {
+			openFileFailed();
 		}
 	}
 
