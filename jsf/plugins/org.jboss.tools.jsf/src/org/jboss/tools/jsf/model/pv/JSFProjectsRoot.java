@@ -12,12 +12,14 @@ package org.jboss.tools.jsf.model.pv;
 
 import java.util.*;
 import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.CoreException;
 
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.impl.ExtraRootImpl;
 import org.jboss.tools.common.model.util.*;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 
@@ -127,7 +129,7 @@ public class JSFProjectsRoot extends ExtraRootImpl implements WebProjectNode {
 		if(org.jboss.tools.common.model.project.WatcherLoader.isLocked(getModel())) return 0;
 		if(!isLoaded()) {
 			IProject p = EclipseResourceUtil.getProject(fs);
-			try {
+			if(p != null && p.exists() && p.isAccessible()) try {
 				IMarker[] ms = p.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 				if(ms != null && ms.length > 0) {
 					for (int i = 0; i < ms.length; i++) {
@@ -135,8 +137,8 @@ public class JSFProjectsRoot extends ExtraRootImpl implements WebProjectNode {
 					}
 				}
 				return 0;
-			} catch (Exception e) {
-				//ignore
+			} catch (CoreException e) {
+				JSFModelPlugin.getPluginLog().logError(e);
 				return 0;
 			}
 		}

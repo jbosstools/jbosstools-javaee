@@ -17,6 +17,7 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.XFileObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.meta.*;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.pv.JSFProjectBean;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebProject;
@@ -57,12 +58,7 @@ public class JSPAdopt implements XAdoptManager {
 
     public void adoptProperty(XModelObject target, XModelObject object, Properties p) {
         if(p == null) return;
-        int c = -1;
-        try {
-        	c = Integer.parseInt(p.getProperty("pos"));
-        } catch (Exception e) {
-        	//ignore
-        }
+        int c = getPos(p);
         if(c < 0) return;
 		String bean = object.getParent().getAttributeValue("managed-bean-name");
         String name = object.getAttributeValue("property-name");
@@ -85,12 +81,7 @@ public class JSPAdopt implements XAdoptManager {
 			JSFUrlPattern pattern = JSFWebProject.getInstance(object.getModel()).getPatternLoader().getUrlPattern();
 			res = pattern.getJSFUrl(res);
 		}
-        int pos = -1;
-        try {
-        	pos = Integer.parseInt(p.getProperty("pos"));
-        } catch (Exception e) {
-        	//ignore
-        }
+        int pos = getPos(p);
 		if(res.startsWith("/") && pos >= 0 && isInsideResponseRedirect(p.getProperty("text"), pos)) {
 			res = res.substring(1);
 		}
@@ -142,12 +133,7 @@ public class JSPAdopt implements XAdoptManager {
 
 	public void adoptPropertyReference(XModelObject target, XModelObject object, Properties p) {
 		if(p == null) return;
-		int c = -1;
-		try {
-			c = Integer.parseInt(p.getProperty("pos"));
-		} catch (Exception e) {
-			//ignore
-		}
+        int c = getPos(p);
 		if(c < 0) return;
 		String s = object.getAttributeValue("name");
 		XModelObject o = object;
@@ -167,6 +153,19 @@ public class JSPAdopt implements XAdoptManager {
 		}
 		String start = "#{" + s + "}";
 		p.setProperty("start text", start);
+	}
+	
+	int getPos(Properties p) {
+		int c = -1;
+		if(p == null) return -1;
+		String s = p.getProperty("pos");
+		if(s == null || s.trim().length() == 0) return c;
+		try {
+			c = Integer.parseInt(s.trim());
+		} catch (NumberFormatException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
+		return c;
 	}
 	
 	public boolean isAdoptableMapEntry(XModelObject object) {

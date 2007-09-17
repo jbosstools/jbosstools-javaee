@@ -60,7 +60,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 		if(loaded) {
 			try {
 				update();
-			} catch (Exception e) {
+			} catch (JavaModelException e) {
 				JSFModelPlugin.getPluginLog().logError(e);
 			}
 		}
@@ -72,7 +72,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 		isLoading = true;
 		try {
 			update();
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		}
 		isLoading = false;
@@ -84,7 +84,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 		return super.hasChildren(); 
 	}
 
-	public void update() throws Exception {
+	public void update() throws JavaModelException {
 		if(!loaded) return;
 		Map<String,XModelObject> map = new HashMap<String,XModelObject>();
 		Set<String> properties = new HashSet<String>();
@@ -92,7 +92,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 		for (int i = 0; i < cs.length; i++) map.put(cs[i].getPathPart(), cs[i]);
 		if(type != null) {
 			IField[] fs = type.getFields();
-			for (int i = 0; i < fs.length; i++) {
+			if(fs != null) for (int i = 0; i < fs.length; i++) {
 				String n = fs[i].getElementName();
 				JSFProjectBeanMember c = (JSFProjectBeanMember)map.get(n);
 				if(c != null && !c.getModelEntity().getName().equals("JSFProjectBeanProperty")) {
@@ -112,7 +112,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 				properties.add(n);
 			}
 			IMethod[] ms = type.getMethods();
-			for (int i = 0; i < ms.length; i++) {
+			if(ms != null) for (int i = 0; i < ms.length; i++) {
 				if(ms[i].isConstructor()) continue;
 				if(!Flags.isPublic(ms[i].getFlags())) continue;				
 				String n = ms[i].getElementName();

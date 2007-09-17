@@ -27,12 +27,9 @@ public class ClassExistsCheck {
 
 	public void setModelContext(XModelObject context) {
 		this.context = context;
-		try {
-			IProject project = EclipseResourceUtil.getResource(context).getProject();
-			javaProject = EclipseResourceUtil.getJavaProject(project);
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
+		IResource resource = EclipseResourceUtil.getResource(context);
+		IProject project =  resource.getProject();
+		javaProject = EclipseResourceUtil.getJavaProject(project);
 		qualifiedClassName = "";
 		existingClass = null;
 		valid = false;
@@ -60,7 +57,7 @@ public class ClassExistsCheck {
 		}
 		try {
 			if(javaProject != null) existingClass = javaProject.findType(qualifiedClassName);
-		} catch (Exception e) {
+		} catch (JavaModelException e) {
 			existingClass = null;
 			JSFModelPlugin.getPluginLog().logError(e);
 		}			

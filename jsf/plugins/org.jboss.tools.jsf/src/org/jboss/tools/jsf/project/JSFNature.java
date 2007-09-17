@@ -26,10 +26,11 @@ public class JSFNature extends ModelNature {
 	}
 	
 	public static boolean hasJSFNature(IProject project) {
+		if(project == null || !project.isAccessible()) return false;
 		try {
-			return project != null && project.hasNature(NATURE_ID);
-		} catch (Exception e) {
-			//ignore
+			return project.hasNature(NATURE_ID);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
 			return false;
 		}
 	}

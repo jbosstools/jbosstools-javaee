@@ -12,9 +12,11 @@ package org.jboss.tools.jsf.model.handlers;
 
 import java.util.Properties;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 
 import org.jboss.tools.common.meta.action.SignificanceMessageFactory;
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
@@ -42,8 +44,9 @@ public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 		if(unregister) {
 			try {
 				if(f != null && f.exists()) f.delete(true, null);
-			} catch (Exception e) {
-				//ignore
+			} catch (CoreException e) {
+				ServiceDialog d = object.getModel().getService();
+				d.showDialog("Failure", "Cannot delete file " + f, new String[]{SpecialWizardSupport.CLOSE}, null, ServiceDialog.ERROR);
 			}
 		}
 	}

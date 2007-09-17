@@ -28,15 +28,11 @@ public class JSFRenameFieldChange extends JSFPagesRefactoringChange {
 	}
 	
 	private static XModel getModel(IField field) {
-		try {
-			IProject project = field.getJavaProject().getProject();
-			if (!project.hasNature(JSFNature.NATURE_ID)) return null;
-			IModelNature n = EclipseResourceUtil.getModelNature(project);
-			return (n != null) ? n.getModel() : null;
-		} catch (Exception e) {
-			//ignore
-			return null;
-		}
+		if(field == null || field.getJavaProject() == null) return null;
+		IProject project = field.getJavaProject().getProject();
+		if(!JSFNature.hasJSFNature(project)) return null;
+		IModelNature n = EclipseResourceUtil.getModelNature(project);
+		return (n != null) ? n.getModel() : null;
 	}	
 
 }
