@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
+import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -27,6 +28,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(ScannerTest.class);
 		suite.addTestSuite(SeamEARTest.class);
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
+		suite.addTestSuite(SeamRuntimeManagerTest.class);
 		return suite;
 	}
 }

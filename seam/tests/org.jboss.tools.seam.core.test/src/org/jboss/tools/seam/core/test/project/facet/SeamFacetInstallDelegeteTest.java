@@ -19,5 +19,7 @@ import junit.framework.TestCase;
  *
  */
 public class SeamFacetInstallDelegeteTest extends TestCase {
-
+	public void testSeamFacetInstallDelegateExists() {
+		SeamFacetInstallDelegete instance = new SeamFacetInstallDelegete();
+	}
 }
