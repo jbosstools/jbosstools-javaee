@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
@@ -46,6 +47,7 @@ import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 import org.jboss.tools.seam.ui.views.actions.SeamViewLayoutActionGroup.SeamContributionItem;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
@@ -66,12 +68,11 @@ public class SeamComponentsViewTest extends TestCase {
 				RedHat4WebPerspectiveFactory.PERSPECTIVE_ID,
 				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
 		TestProjectProvider provider=null;
-		try {
-			provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, "TestComponentView", true);
-		} catch (Exception e1) {
-			JUnitUtils.fail("Cannot create Project Provider", e1);
-		} 
-		project = provider.getProject();
+		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
+		
+		if(project==null) {
+			project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestComponentView", new NullProgressMonitor());
+		}
 		componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 	}
@@ -79,8 +80,6 @@ public class SeamComponentsViewTest extends TestCase {
 	public void testAddComponentInXmlFile(){
 		SeamCorePlugin.getSeamProject(project, true);
 		
-		refreshProject(project);
-
 		CommonNavigator navigator = getSeamComponentsView();
 
 		navigator.getCommonViewer().expandAll();
@@ -578,14 +577,6 @@ public class SeamComponentsViewTest extends TestCase {
 			System.out.println("Refresh project "+count);
 			try {
 				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-//				waitForJobs();
-//				try {
-//					waitForJob();
-//				} catch (InterruptedException e) {
-//					JUnitUtils.fail(e.getMessage(),e);
-//				}
-//				project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-				//waitForJobs();
 				try {
 					waitForJob();
 				} catch (InterruptedException e) {
