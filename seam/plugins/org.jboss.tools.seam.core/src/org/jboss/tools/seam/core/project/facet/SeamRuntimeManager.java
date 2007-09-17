@@ -88,11 +88,10 @@ public class SeamRuntimeManager {
 	 * @param runtime
 	 */
 	public void addRuntime(SeamRuntime runtime) {
-		runtimes.put(runtime.getName(),runtime);
 		if(getDefaultRuntime()!=null && runtime.isDefault()) {
 			getDefaultRuntime().setDefault(false);
 		}
-	
+		runtimes.put(runtime.getName(),runtime);	
 		save();
 	}
 	
