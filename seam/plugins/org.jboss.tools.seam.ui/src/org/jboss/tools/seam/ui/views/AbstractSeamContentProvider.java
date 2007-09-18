@@ -45,6 +45,7 @@ import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
 /**
@@ -208,7 +209,7 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		if(o instanceof ISeamElement) {
 			refresh(o);
 		} else {
-			System.out.println("event without source");
+			SeamGuiPlugin.getPluginLog().logError("Seam Project change event occurs, but no soyrce of project provided");
 		}
 	}
 
