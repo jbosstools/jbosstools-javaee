@@ -38,10 +38,8 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		String body = XModelObjectLoaderUtil.getTempBody(object);
 		
         int resolution = EntityXMLRegistration.getInstance().resolve(object.getModelEntity());
+        if(EntityXMLRegistration.isSystemId(body)) resolution = EntityXMLRegistration.UNRESOLVED;
 		String[] errors = 
-//			(entity.equals(ENT_FACESCONFIG_12))
-//			? new SAXValidator().getXMLErrors(new StringReader(body))
-//			: XMLUtil.getXMLErrors(new StringReader(body));
 			XMLUtil.getXMLErrors(new StringReader(body), resolution == EntityXMLRegistration.DTD, resolution == EntityXMLRegistration.SCHEMA);
 		boolean hasErrors = (errors != null && errors.length > 0);
 		if(hasErrors) {
@@ -73,6 +71,9 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 				if(n instanceof DocumentType) {
 					DocumentType dt = (DocumentType)n;
 					object.setAttributeValue("systemId", dt.getSystemId());
+					if(dt.getPublicId() == null) {
+						object.setAttributeValue("publicId", "null");
+					}
 				}
 			}
 		}
@@ -164,6 +165,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		String entity = object.getModelEntity().getName();
 		String systemId = object.getAttributeValue("systemId");
         String publicId = object.getAttributeValue("publicId");
+        if("null".equals(publicId)) publicId = null;
 
         if(systemId != null) {
         	int version = entity.equals(ENT_FACESCONFIG_11) ? 11 : 10;
@@ -171,7 +173,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
         	if(publicId != null && publicId.length() == 0) publicId = (version == 10) ? DOC_PUBLICID : DOC_PUBLICID_11;
         }
 
-        Element element = (systemId == null || publicId == null)
+        Element element = (systemId == null && publicId == null)
     	? XMLUtil.createDocumentElement(object.getModelEntity().getXMLSubPath())
         : XMLUtil.createDocumentElement(object.getModelEntity().getXMLSubPath(), DOC_QUALIFIEDNAME, publicId, systemId, null);
 		

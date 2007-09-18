@@ -30,8 +30,16 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
 
     public String getEntityName(String ext, String body) {
         if(body == null) return null;
-        if(body.indexOf(DOC_PUBLICID) > 0) return ENT_FACESCONFIG;
-        if(body.indexOf(DOC_PUBLICID_11) > 0) return ENT_FACESCONFIG_11;
+        int i = body.indexOf("<!DOCTYPE");
+        if(i >= 0) {
+        	int j = body.indexOf(">", i);
+        	if(j < 0) return null;
+        	String dt = body.substring(i, j);
+        	if(dt.indexOf("faces-config") < 0) return null;
+        	if(dt.indexOf(DOC_PUBLICID) > 0) return ENT_FACESCONFIG;
+        	if(dt.indexOf(DOC_PUBLICID_11) > 0) return ENT_FACESCONFIG_11;
+        	if(dt.indexOf("SYSTEM") > 0 && dt.indexOf("web-facesconfig_1_1.dtd") > 0) return ENT_FACESCONFIG_11;
+        }
         if(is12(body)) return ENT_FACESCONFIG_12;
         return null;
     }
