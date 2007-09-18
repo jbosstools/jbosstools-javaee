@@ -37,6 +37,7 @@ public class IPathSourceImpl implements IPathSource, StrutsConstants {
 		if(isPage) object = StrutsProcessStructureHelper.instance.getPhysicalPage(object);
 		XModel model = object.getModel();
 		String bp = context.getBrowserPrefix(model);
+		if(bp == null) return null;
 		String path = (isRoot) ? "/"
 			   : (isForward) ? getCompleteForwardPath(object)
 			   : (isAction) ? getCompleteActionPath(object)
