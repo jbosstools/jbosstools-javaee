@@ -35,6 +35,7 @@ public class IPathSourceImpl implements IPathSource, JSFConstants {
 		String f = getPath(object);
 		if(f == null) return null;
 		String bp = context.getBrowserPrefix(model);
+		if(bp == null) return null;
 		String path = JSFWebProject.getInstance(model).getUrlPattern().getJSFUrl(f);
 		String url = (path == null) ? null
 				: (bp.endsWith("/") && path.startsWith("/")) 
