@@ -52,8 +52,6 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 				STYLE_ATTR_NAME,
 				HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
 
-		Attr ddmLabelFromAttribute = sourceElement.getAttributeNode("value");
-
 		Element visualMenuLabel = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		visualMenuLabel.setAttribute("class", "dr-label-text-decor rich-label-text-decor");
 		correctAttribute(sourceElement, visualMenuLabel,
@@ -68,21 +66,23 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 
 		visualMenu.appendChild(visualMenuLabel);
 		
-		String ddmLabelFromFacet = getLabelFacet(sourceElement);
-		Map visualNodeMap = pageContext.getDomMapping().getVisualMap();
-		
 		VpeCreationData creatorInfo = new VpeCreationData(visualMenu);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(visualMenuLabel);
-		Node textLabel = null;
-		if (ddmLabelFromFacet != null) {
-			textLabel = visualDocument.createTextNode(ddmLabelFromFacet);
+//		Node textLabel = null;
+//		String ddmLabelFromFacet = getLabelFacet(sourceElement);
+		Element facetElement = getLabelFacet1(sourceElement); 
+		if ( facetElement != null) {
+			childrenInfo.addSourceChild(facetElement);
 		} else {
-			textLabel = visualDocument.createTextNode(ddmLabelFromAttribute.getValue());
+			Attr ddmLabelFromAttribute = sourceElement.getAttributeNode("value");
+			String textLabel = ddmLabelFromAttribute != null && ddmLabelFromAttribute.getValue() != null
+								? ddmLabelFromAttribute.getValue()
+								: "";
+			Node textLabelNode = visualDocument.createTextNode(textLabel);
+			visualMenuLabel.appendChild(textLabelNode);
 		}
-		if (textLabel != null) {
-			visualMenuLabel.appendChild(textLabel);
-			creatorInfo.addChildrenInfo(childrenInfo);
-		}
+
+		creatorInfo.addChildrenInfo(childrenInfo);
 		visualMenu.appendChild(visualMenuLabel);
 		MozillaSupports.release(visualMenuLabel);
 		
@@ -121,6 +121,31 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			}
 		}
 		return labelFacet;
+	}
+	
+	private Element getLabelFacet1(Element sourceElement) {
+		if (sourceElement == null) {
+			return null;
+		}
+		
+		NodeList children = sourceElement.getChildNodes();
+		if (children != null) {
+			int size = children.getLength();
+			if (size > 0) {
+				for (int i=0; i<size; i++) {
+					Node child = children.item(i);
+					if (child.getNodeType() == Node.ELEMENT_NODE
+							&& child.getNodeName().endsWith(":facet")) {
+						Element facetElement = (Element)child;
+						if (LABEL_FACET_NAME.equals(facetElement.getAttribute("name"))) {
+							return facetElement;
+						}
+					}
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	private String getElementTextContent(Element element) {
