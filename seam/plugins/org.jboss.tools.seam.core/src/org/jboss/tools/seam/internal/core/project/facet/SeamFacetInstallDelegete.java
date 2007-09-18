@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -47,6 +48,7 @@ import org.eclipse.wst.server.core.model.ServerBehaviourDelegate;
 import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
 import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -286,9 +288,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		
-		final CreateTestProject createTest = new CreateTestProject(model,project,selectedRuntime);
-		createTest.setUser(true);
-		createTest.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		createTestProject(model,project,selectedRuntime);
 
 		// ********************************************************************************************
 		// Handle WAR/EAR configurations
@@ -403,8 +403,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
 			
-			createTest.schedule();
-			
 		} else {
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, project.getName()+"-ejb");
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, project.getName()+"-ear");
@@ -418,12 +416,17 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
-			Job create = new Job("Creating EAR and EJB modules") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					
-					IProject ear = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear", monitor);
-					IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					
+//			Job create = new Job("Creating EAR and EJB modules") {
+//				@Override
+//				protected IStatus run(IProgressMonitor monitor) {
+//					
+//					IProject ear = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear", monitor);
+//					IProject ejb = WtpUtils.createEclipseProject(model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb", monitor);					
+
+					File ear = new File(project.getLocation().removeLastSegments(1).toFile(),model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear");
+					File ejb = new File(project.getLocation().removeLastSegments(1).toFile(),model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb");
+					ear.mkdir();
+					ejb.mkdir();
 					try {
 						FilterSet filterSet = new FilterSet();
 						filterSet.addFilter("projectName", project.getName());
@@ -438,7 +441,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 						
 						AntCopyUtils.copyFilesAndFolders(
 								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb"), 
-								ejb.getLocation().toFile(), new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+								ejb, new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
 								new FilterSetCollection(filterSet), true);
 						
 						// *******************************************************************************************
@@ -446,30 +449,30 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 						// *******************************************************************************************
 						AntCopyUtils.copyFileToFile(
 								new File(seamGenHomeFolder,"src/Authenticator.java"),
-								new File(ejb.getLocation().toFile(),"ejbModule/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
+								new File(ejb,"ejbModule/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
 								new FilterSetCollection(filtersFilterSet), true);
 						AntCopyUtils.copyFileToFile(
 								persistenceFile,
-								new File(ejb.getLocation().toFile(),"ejbModule/META-INF/persistence.xml"),
+								new File(ejb,"ejbModule/META-INF/persistence.xml"),
 								viewFilterSetCollection, true);
 						// ********************************************************************************************
 						// Copy seam project indicator
 						// ********************************************************************************************
-						AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb.getLocation().toFile(),"ejbModule/"), true);
+						AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb,"ejbModule/"), true);
 						
 						AntCopyUtils.copyFileToFile(
 								dataSourceDsFile, 
-								new File(ejb.getLocation().toFile(),"ejbModule/"+project.getName()+"-ds.xml"), 
+								new File(ejb,"ejbModule/"+project.getName()+"-ds.xml"), 
 								viewFilterSetCollection, true);
 						
 						AntCopyUtils.copyFileToFolder(
 								new File(seamGenResFolder,"META-INF/ejb-jar.xml"), 
-								new File(ejb.getLocation().toFile(),"ejbModule/META-INF/"), 
+								new File(ejb,"ejbModule/META-INF/"), 
 								viewFilterSetCollection, true);
 						
 						AntCopyUtils.copyFileToFolder(
 								hibernateConsolePref,
-								new File(ejb.getLocation().toFile(),".settings"),
+								new File(ejb,".settings"),
 								new FilterSetCollection(projectFilterSet), true);
 						
 						FilterSet ejbFilterSet =  new FilterSet();
@@ -477,15 +480,15 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 						
 						AntCopyUtils.copyFileToFile(
 								hibernateConsoleLaunchFile, 
-								new File(ejb.getLocation().toFile(),ejb.getName()+".launch"), 
+								new File(ejb,ejb.getName()+".launch"), 
 								new FilterSetCollection(ejbFilterSet), true);
 						
 						AntCopyUtils.copyFileToFolder(
 								hibernateConsolePropsFile, 
-								ejb.getLocation().toFile(),
+								ejb,
 								hibernateDialectFilterSet, true);
 						
-						File earContentsFolder = new File(ear.getLocation().toFile(),"EarContent");
+						File earContentsFolder = new File(ear,"EarContent");
 						File earContentsMetaInfFolder = new File(earContentsFolder,"META-INF");
 			
 						AntCopyUtils.copyFilesAndFolders(
@@ -497,7 +500,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 						// Copy configuration files from template
 						AntCopyUtils.copyFilesAndFolders(
 								new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ear"), 
-								ear.getLocation().toFile(), new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+								ear, new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
 								new FilterSetCollection(filterSet), true);
 						
 						// Fill ear contents
@@ -512,22 +515,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 							AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), earContentsFolder);
 					} catch (IOException e) {
 						SeamCorePlugin.getPluginLog().logError(e);
-					} finally {
-						try {
-							ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-							ear.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-						//	EclipseResourceUtil.addNatureToProject(ejb, ISeamProject.NATURE_ID);
-						} catch(CoreException e) {
-							SeamCorePlugin.getPluginLog().logError(e);
-						}
 					}
-					createTest.run(monitor);
-					return Status.OK_STATUS;
-				}
-			};
-			create.setUser(true);
-			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
-			create.schedule();
 		}
 
 		ClasspathHelper.addClasspathEntries(project, fv);
@@ -568,41 +556,33 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
-		
-		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
-		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		try {
+			EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			if(!isWarConfiguration(model)) {
+				ResourcesUtils.importProject(project.getLocation().removeLastSegments(1).toFile().getAbsoluteFile()+"/"+project.getName()+"-ejb", monitor);
+				ResourcesUtils.importProject(project.getLocation().removeLastSegments(1).toFile().getAbsoluteFile()+"/"+project.getName()+"-ear", monitor);
+			}
+			ResourcesUtils.importProject(project.getLocation().removeLastSegments(1).toFile().getAbsoluteFile()+"/"+project.getName()+"-test", monitor);
+
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (InvocationTargetException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (InterruptedException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+
 	}
 
 	public static boolean isWarConfiguration(IDataModel model) {
 		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 	}
 	
-	public class CreateTestProject extends Job {
-
-		IDataModel model = null;
-		
-		IProject seamWebProject = null;
-		
-		SeamRuntime seamRuntime = null;
-		
-		/**
-		 * @param name
-		 */
-		public CreateTestProject(IDataModel model, IProject seamWebProject, SeamRuntime seamRuntime) {
-			super("Create Test project");
-			this.model = model;
-			this.seamWebProject = seamWebProject;
-			this.seamRuntime = seamRuntime;
-		}
-
-		/**
-		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
-		 */
-		@Override
-		public IStatus run(IProgressMonitor monitor) {
+	void createTestProject(IDataModel model, IProject seamWebProject, SeamRuntime seamRuntime) {
 			String projectName = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString();
-			IProject test = WtpUtils.createEclipseProject(projectName+"-test", monitor);
-			File testProjectDir = test.getLocation().toFile();
+			File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(),projectName+"-test");
+			testProjectDir.mkdir();
 			File seamProjectDir = seamWebProject.getLocation().toFile();
 			File testLibDir = new File(testProjectDir,"lib");
 			File embededEjbDir = new File(testProjectDir,"embedded-ejb");
@@ -627,7 +607,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 				testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"test");
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
-				return new Status(IStatus.ERROR,SeamCorePlugin.PLUGIN_ID,e.getMessage()+"");
+				return;
 			}
 			AntCopyUtils.FileSet excludeCvsSvn 
 					 = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
@@ -649,14 +629,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 					new File(seamRuntime.getHomeDir(),"lib"),
 					testLibDir,
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
-			try {
-				test.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			} catch (CoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
-			return Status.OK_STATUS;
 		}
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IActionConfigFactory#create()
