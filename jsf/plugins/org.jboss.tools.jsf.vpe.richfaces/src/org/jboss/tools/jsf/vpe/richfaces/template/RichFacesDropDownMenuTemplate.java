@@ -68,9 +68,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		
 		VpeCreationData creatorInfo = new VpeCreationData(visualMenu);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(visualMenuLabel);
-//		Node textLabel = null;
-//		String ddmLabelFromFacet = getLabelFacet(sourceElement);
-		Element facetElement = getLabelFacet1(sourceElement); 
+		Element facetElement = getLabelFacet(sourceElement); 
 		if ( facetElement != null) {
 			childrenInfo.addSourceChild(facetElement);
 		} else {
@@ -91,39 +89,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 
 	private static final String LABEL_FACET_NAME = "label";
 	
-	private String getLabelFacet(Element sourceElement) {
-		String labelFacet = null;
-		NodeList children = sourceElement.getChildNodes();
-
-		int cnt = children != null ? children.getLength() : 0;
-		if (cnt > 0) {
-			for (int i = 0; i < cnt; i++) {
-				Node child = children.item(i);
-				if (child.getNodeType() == Node.ELEMENT_NODE &&
-						child.getNodeName().endsWith(":facet")) {
-					Element facetElement = (Element)child;
-					String facetName = facetElement.getAttribute("name");
-					if (LABEL_FACET_NAME.equals(facetName)) {
-						NodeList facetChildren = facetElement.getChildNodes();
-						int facetCnt = facetChildren != null ? facetChildren.getLength() : 0;
-						if (facetCnt > 0) {
-							for (int j = 0; j < facetCnt; j++) {
-								Node facetChild = facetChildren.item(i);
-								if (facetChild.getNodeType() == Node.ELEMENT_NODE &&
-										facetChild.getNodeName().endsWith(":verbatim")) {
-									labelFacet = getElementTextContent((Element)facetChild);
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return labelFacet;
-	}
-	
-	private Element getLabelFacet1(Element sourceElement) {
+	private Element getLabelFacet(Element sourceElement) {
 		if (sourceElement == null) {
 			return null;
 		}
