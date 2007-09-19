@@ -351,7 +351,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 				}
 				
 				if(!name.getValueAsString().matches("[a-zA-Z_][a-zA-Z0-9_\\-\\.]*")) {
-					setErrorMessage("Runtime name is not correct");
+					setErrorMessage("Runtime name contain invalid characters, e.g. space is not allowed");
 					setPageComplete(false);
 					return;
 				}
