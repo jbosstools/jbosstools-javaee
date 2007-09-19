@@ -34,7 +34,7 @@ public class TaggedComboFieldEditor extends CompositeEditor implements ITaggedFi
 		this.values = Collections.unmodifiableList(values);
 		this.floatStyle = floatStyle;
 		combo = new ComboFieldEditor(
-						name,label,values,defaultValue.toString(),floatStyle);
+						name,label,values,defaultValue,floatStyle);
 		addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
 																		combo});
 	}
