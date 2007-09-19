@@ -24,8 +24,11 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -53,10 +56,12 @@ import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
  * @author eskimo
  *
  */
-public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
+public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISelectionChangedListener, SelectionListener {
 
 	CheckboxTableViewer tableView = null;
 	Composite root  = null;
+	Button rmBtn = null;
+	Button addBtn = null;
 	/**
 	 * @param name
 	 * @param label
@@ -126,6 +131,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
         gd.grabExcessHorizontalSpace = true;
         
 		tableView.getControl().setLayoutData(gd);
+		tableView.addSelectionChangedListener(this);	
 		
 		Composite buttons = new Composite(root,SWT.NONE);	
 		buttons.setLayout(new GridLayout(1,false));
@@ -135,7 +141,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
         gd.grabExcessVerticalSpace = true;
 		buttons.setLayoutData(gd);
 		
-		final Button addBtn = new Button(buttons,SWT.PUSH);
+		addBtn = new Button(buttons,SWT.PUSH);
 		addBtn.setText("Add");
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
         gd.horizontalAlignment = GridData.FILL;
@@ -143,30 +149,17 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
         gd.widthHint = 50;
         
 		addBtn.setLayoutData(gd);
-		addBtn.addSelectionListener(new SelectionListener() {
-			/* (non-Javadoc)
-			 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				
-				Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)getValue(), added);
-				WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
-				dialog.open();
-				tableView.refresh();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
+		addBtn.addSelectionListener(this);
 		
-		/*final Button rmBtn = new Button(buttons,SWT.PUSH);
+		rmBtn = new Button(buttons,SWT.PUSH);
 		rmBtn.setText("Remove");
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
         gd.horizontalAlignment = GridData.FILL;
         gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
 		rmBtn.setLayoutData(gd);
+		rmBtn.addSelectionListener(this);
 		
-		final Button editBtn = new Button(buttons,SWT.PUSH);
+		/*final Button editBtn = new Button(buttons,SWT.PUSH);
 		editBtn.setText("Edit");
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
         gd.horizontalAlignment = GridData.FILL;
@@ -270,32 +263,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	@Override
 	public int getNumberOfControls() {
 		return 1;
-	}
-
-	public static void main (String [] args) {
-		Display display = new Display ();
-		Shell shell = new Shell(display);
-		shell.setLayout(new GridLayout());
-		SeamRuntime rt = new SeamRuntime();
-		rt.setName("rtName1");
-		rt.setDefault(true);
-		rt.setHomeDir("/home");
-		rt.setVersion(SeamVersion.SEAM_1_2);
-		SeamRuntime rt2 = new SeamRuntime();
-		rt2.setName("rtName2");
-		rt2.setDefault(false);
-		rt2.setHomeDir("/home1");
-		rt2.setVersion(SeamVersion.SEAM_2_0);		
-		List<SeamRuntime> rts = Arrays.asList(new SeamRuntime[]{rt,rt2});
-
-		
-		new SeamRuntimeListFieldEditor("name","label",rts).doFillIntoGrid(shell);
-		
-		shell.open ();
-		while (!shell.isDisposed ()) {
-			if (!display.readAndDispatch ()) display.sleep ();
-		}
-		display.dispose ();
 	}
 
 	/**
@@ -446,6 +413,42 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			added.add(page1.getRuntime());
 			value.add(page1.getRuntime());
 			return true;
+		}
+	}
+
+	/**
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 */
+	public void selectionChanged(SelectionChangedEvent event) {
+		IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+		selectionChanged((SeamRuntime)selection.getFirstElement());
+	}
+
+	/**
+	 * @param firstElement
+	 */
+	public void selectionChanged(SeamRuntime selection) {
+		if(selection==null 
+				|| selection == SeamRuntimeManager.getInstance().getDefaultRuntime()) {
+		} else {
+		}
+	}
+
+	/**
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected(SelectionEvent e) {}
+
+	/**
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected(SelectionEvent e) {
+		if(e.widget==addBtn) {
+			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)getValue(), added);
+			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
+			dialog.open();
+			tableView.refresh();
+//		} else if(e.widget==rmBtn) {
 		}
 	}
 }
