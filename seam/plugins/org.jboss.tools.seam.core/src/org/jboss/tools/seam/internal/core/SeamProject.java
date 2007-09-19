@@ -357,8 +357,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		
 		long e = System.currentTimeMillis();
-		
-		System.out.println("loaded in " + (e - begin));
 	}
 
 	/**

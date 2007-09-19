@@ -210,7 +210,6 @@ public class LibraryScanner implements IFileScanner {
 		if(ds1 != null) {
 			ds.add(ds1);
 		}
-//		System.out.println(className);
 	}
 	
 	
