@@ -334,7 +334,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			AntCopyUtils.copyFileToFile(
 					hibernateConsoleLaunchFile, 
 					new File(project.getLocation().toFile(),project.getName()+".launch"), 
-					new FilterSetCollection(projectFilterSet), true);
+					viewFilterSetCollection, true);
 			
 			AntCopyUtils.copyFileToFolder(
 					hibernateConsolePropsFile, 

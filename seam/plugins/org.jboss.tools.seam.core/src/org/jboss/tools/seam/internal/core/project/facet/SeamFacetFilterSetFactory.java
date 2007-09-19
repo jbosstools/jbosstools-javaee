@@ -41,8 +41,6 @@ public class SeamFacetFilterSetFactory {
 		PROJECT_TEMPLATE.addFilter("jbossHome","${jboss.home}");
 		PROJECT_TEMPLATE.addFilter("hbm2ddl","${hibernate.hbm2ddl.auto}");
 		PROJECT_TEMPLATE.addFilter("driverJar","${driver.file}");
-		PROJECT_TEMPLATE.addFilter("jndiPattern","#{ejbName}/local");
-		PROJECT_TEMPLATE.addFilter("embeddedEjb","false");
 		PROJECT_TEMPLATE.addFilter("debug","true");		
 
 		FILTERS_TEMPLATE = new FilterSet();
