@@ -60,6 +60,9 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 			} else {
 				setMessage(null);
 			}
+		} else {
+			setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
+			setPageComplete(false);
 		}
 
 		Composite top = new GridLayoutComposite(parent);
