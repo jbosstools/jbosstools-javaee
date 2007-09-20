@@ -758,10 +758,23 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				factories.remove();
 				allVariables.remove(f);
 				fireChanges(changes);
+//				System.out.println("Factory removed 1 " + f.getName());
 			}
 		}
+		
+		firePathRemovedToDependentProjects(source);
 	}
-	
+
+	public void firePathRemovedToDependentProjects(IPath source) {
+		if(usedBy.size() == 0) return;
+		if(source.toString().endsWith(".jar")) return;
+		
+		for (SeamProject p : usedBy) {
+			p.resolve();
+			p.pathRemoved(source);
+		}
+	}
+
 	/**
 	 * 
 	 * @param source
@@ -866,6 +879,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(removed.containsKey(c.getId())) {
 				iterator.remove();
 				allVariables.remove(c);
+//				System.out.println("Factory removed 2 " + c.getName());
 				changes = Change.addChange(changes, new Change(this, null, c, null));
 			}
 		}
@@ -1051,6 +1065,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void removeFactory(ISeamFactory factory) {
 		allFactories.remove(factory);
+//		System.out.println("Factory removed 3 " + factory.getName());
 		allVariables.remove(factory);
 	}
 	

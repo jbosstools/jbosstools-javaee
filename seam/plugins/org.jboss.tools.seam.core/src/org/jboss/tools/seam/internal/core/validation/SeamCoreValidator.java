@@ -206,6 +206,21 @@ public class SeamCoreValidator extends SeamValidator {
 	}
 
 	private void validateFactory(ISeamFactory factory, Set<String> markedDuplicateFactoryNames) {
+
+		if(factory.getResource() == null) {
+			IPath source = factory.getSourcePath();
+			String name = factory.getName();
+			String message = null;
+			if(factory.getSeamProject() != null) {
+				factory.getSeamProject().removeFactory(factory);
+				message = "Seam core validator detected factory with null resource " + "(name=" + name + " source=" + source + ").";
+			} else {
+				message = "Seam core validator detected factory with null resource " + "(name=" + name + " source=" + source + ")" + " and null parent in seam model.";
+			}
+			SeamCorePlugin.getPluginLog().logInfo(message);
+			return;
+		}
+		
 		if(coreHelper.isJar(factory.getResource())) {
 			return;
 		}
