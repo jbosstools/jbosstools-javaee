@@ -11,8 +11,10 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -22,11 +24,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
@@ -37,16 +36,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
-import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.server.core.IModule;
-import org.eclipse.wst.server.core.IRuntime;
-import org.eclipse.wst.server.core.IServer;
-import org.eclipse.wst.server.core.ServerCore;
-import org.eclipse.wst.server.core.model.ServerBehaviourDelegate;
-import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
-import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -288,6 +278,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		
+		createComponentsProperties(srcFolder, project.getName(), Boolean.FALSE);	
 		createTestProject(model,project,selectedRuntime);
 
 		// ********************************************************************************************
@@ -310,6 +301,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			// Copy seam project indicator
 			// ********************************************************************************************
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true);
+
 			
 //			WtpUtils.createSourceFolder(project, new Path("src/test"),new Path("src"));
 //			WtpUtils.createSourceFolder(project, new Path("src/action"),new Path("src"));
@@ -539,9 +531,15 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			testProjectDir.mkdir();
 			File testLibDir = new File(testProjectDir,"lib");
 			File embededEjbDir = new File(testProjectDir,"embedded-ejb");
+			File testSrcDir = new File(testProjectDir,"test-src");
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName);
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject));
+			
+	
+			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
+			final String seamHomePath = selectedRuntime.getHomeDir();
+			final File seamGenResFolder = new File(selectedRuntime.getHomeDir());
 			
 			AntCopyUtils.FileSet includeLibs 
 				= new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET)
@@ -553,8 +551,15 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n");
 			}
 			
+			StringBuffer requiredProjects = new StringBuffer();
+			requiredProjects.append(
+					"\t<classpathentry combineaccessrules=\"false\" kind=\"src\" path=\"/" + seamWebProject.getName() + "\"/>");
+			if(!isWarConfiguration(model)) {
+				requiredProjects.append(
+						"\n\t<classpathentry combineaccessrules=\"false\" kind=\"src\" path=\"/" + seamWebProject.getName() + "-ejb\"/>");
+			} 
 			filterSet.addFilter("testLibraries",testLibraries.toString());
-			
+			filterSet.addFilter("requiredProjects",requiredProjects.toString());
 			File testTemplateDir = null;
 			try {
 				testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"test");
@@ -582,7 +587,26 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 					new File(seamRuntime.getHomeDir(),"lib"),
 					testLibDir,
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
+			
+			createComponentsProperties(testSrcDir, seamWebProject.getName(), Boolean.TRUE);
 		}
+
+	/**
+	 * @param seamGenResFolder
+	 */
+	private void createComponentsProperties(final File seamGenResFolder, String seamWebProjectName, Boolean embedded) {
+		Properties components = new Properties();
+		components.put("embeddedEjb", embedded.toString());
+		components.put("jndiPattern", seamWebProjectName+"/#{ejbName}/local");
+		File componentsProps = new File(seamGenResFolder,"components.properties");
+		try {
+			componentsProps.createNewFile();
+			components.store(new FileOutputStream(componentsProps), "");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IActionConfigFactory#create()

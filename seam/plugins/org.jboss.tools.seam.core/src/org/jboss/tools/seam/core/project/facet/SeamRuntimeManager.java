@@ -166,4 +166,16 @@ public class SeamRuntimeManager {
 	public String getConfigurationVersion() {
 		return SeamFacetPreferenceInitializer.RUNTIME_CONFIG_FORMAT_VERSION;
 	}
+
+	/**
+	 * @return
+	 */
+	public List<String> getRuntimeNames() {
+		SeamRuntime[] rts = getRuntimes(SeamVersion.SEAM_1_2);
+		List<String> result = new ArrayList<String>();
+		for(SeamRuntime seamRuntime : rts) {
+			result.add(seamRuntime.getName());
+		}
+		return result;
+	}
 }
