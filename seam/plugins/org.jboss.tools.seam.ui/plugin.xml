@@ -122,6 +122,21 @@
                relative="org.eclipse.ui.views.TaskList">
          </view>
       </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.jboss.tools.seam.ui.SeamPerspective">
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.wizard.SeamActionWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.wizard.SeamFormWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.SeamGenerateEntitiesWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
    </extension>
 
 	<extension point="org.eclipse.ui.navigator.viewer">

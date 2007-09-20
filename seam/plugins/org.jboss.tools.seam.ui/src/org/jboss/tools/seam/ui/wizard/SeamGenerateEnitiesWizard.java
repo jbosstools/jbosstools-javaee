@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -37,10 +36,10 @@ import org.hibernate.eclipse.console.ExtensionManager;
 import org.hibernate.eclipse.console.model.impl.ExporterDefinition;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -116,7 +115,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
 				
 			} catch (CoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
+				SeamGuiPlugin.getPluginLog().logError(e);
 			}
 			return Status.OK_STATUS;
 		}
