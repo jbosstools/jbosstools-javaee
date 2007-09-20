@@ -11,10 +11,16 @@
 package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -30,6 +36,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.internal.corext.util.Messages;
+import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -140,16 +147,36 @@ public class ValidatorFactory {
 						"Seam Home folder doesn't exist");
 				return errors;
 			}
-			if (!new File(value.toString(), "seam").isFile()) {
+			File seamJarFile = new File(value.toString(), "jboss-seam.jar");
+			if (!seamJarFile.isFile()) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
 					"Home folder points to " +
-						"location that does not look like seam home folder ('seam' script is missing)");
+						"location that does not look like seam home folder ('jboss-seam.jar' is missing)");
 			}
 			return errors;
 		}
 	};
 
+	
+	public static void main(String[] args) {
+		ZipFile seamJar;
+		try {
+			seamJar = new ZipFile(new File("C:\\jboss-eap.rc1\\seam", "jboss-seam.jar"));
+
+			ZipFileStructureProvider provider = new ZipFileStructureProvider(seamJar);
+			ZipEntry entry = seamJar.getEntry("META-INF/MANIFEST.MF");
+			InputStream str = provider.getContents(entry);
+
+			Properties manifest = new Properties();
+			manifest.load(str);
+			
+			System.out.println(manifest.get("Seam-Version"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 
 	 */
@@ -336,7 +363,7 @@ public class ValidatorFactory {
 		public Map<String, String> validate(Object value, Object context) {
 			if (value == null || "".equals(value.toString().trim())) {
 				return createErrormessage(
-						ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+						ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 						"Seam Runtime is not selected");
 			}
 			return NO_ERRORS;

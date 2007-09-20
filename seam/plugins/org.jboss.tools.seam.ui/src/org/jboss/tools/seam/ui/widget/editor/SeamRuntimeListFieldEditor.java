@@ -495,7 +495,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 			dialog.open();
 			tableView.refresh();
-//		} else if(e.widget==rmBtn) {
 		}
 	}
 }

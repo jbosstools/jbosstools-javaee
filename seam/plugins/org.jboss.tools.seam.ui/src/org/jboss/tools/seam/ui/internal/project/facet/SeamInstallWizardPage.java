@@ -87,10 +87,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 */
 	DataModelValidatorDelegate validatorDelegate;
 	
-	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
+	final IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
 		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 				"Seam Runtime", getRuntimeNames(), 
-				SeamRuntimeManager.getInstance().getDefaultRuntime()==null?"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName(), 
+				SeamRuntimeManager.getInstance().getDefaultRuntime()==null?
+						"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName(), 
 				true, new NewSeamRuntimeAction(), (IValidator)null);
 	
 //	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
@@ -113,7 +114,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
 					"Connection profile:",
 					getProfileNameList(),
-					"DefaultDS",
+					getProfileNameList().contains("DefaultDS")?"DefaultDS":"",
 					true, new EditConnectionProfileAction(),
 					new NewConnectionProfileAction(),
 					ValidatorFactory.NO_ERRORS_VALIDATOR);
@@ -363,10 +364,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, event
 							.getProperty().toString());
-		}
-		if (event.getPropertyName().equals(
-				ISeamFacetDataModelProperties.DB_TYPE)) {
-
 		}
 	}
 
