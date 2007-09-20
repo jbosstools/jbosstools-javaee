@@ -12,11 +12,17 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -45,6 +51,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -376,9 +384,48 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					setPageComplete(false);
 					return;
 				}
+				String seamVersion = getSeamVersion(homeDir.getValueAsString());
+				if("".equals(seamVersion)) {
+					setErrorMessage("Cannot obtain Seam version number from jboss-seam.jar file.");
+					setPageComplete(false);
+					return;
+				} else if(!seamVersion.matches(version.getValueAsString()+".*")) {
+					setErrorMessage("Selected seam has wrong version number '" + seamVersion + "'");
+					setPageComplete(false);
+					return;
+				}
 				
 			setErrorMessage(null);
 			setPageComplete(true);
+		}
+		
+		public static String getSeamVersion(String path) {
+			File seamJarFile = new File(path, "jboss-seam.jar");
+			InputStream str=null;
+			ZipFile seamJar;
+			try {
+				seamJar = new ZipFile(seamJarFile);
+
+				ZipFileStructureProvider provider = new ZipFileStructureProvider(seamJar);
+				ZipEntry entry = seamJar.getEntry("META-INF/MANIFEST.MF");
+				str = provider.getContents(entry);
+
+				Properties manifest = new Properties();
+				manifest.load(str);
+				Object sv = manifest.get("Seam-Version");
+				return sv==null?"":sv.toString();
+				
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError("Cannot read jboss-seam.jar file",e);
+			} finally {
+				if(str!=null)
+					try {
+						str.close();
+					} catch (IOException e) {
+						// nothing to do with that
+					}
+			}
+			return "";
 		}
 		
 		/**
