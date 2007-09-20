@@ -15,3 +15,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide
 Eclipse-LazyStart: true
 Bundle-Vendor: Red Hat, Inc.
+Bundle-ClassPath: lib/jhighlight-1.0.jar,
+ .

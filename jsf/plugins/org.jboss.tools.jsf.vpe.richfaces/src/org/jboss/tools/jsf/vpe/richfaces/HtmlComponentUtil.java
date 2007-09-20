@@ -62,6 +62,9 @@ public class HtmlComponentUtil {
 
 	/** HTML_HEIGHT_ATTR * */
 	public static final String HTML_HEIGHT_ATTR = "height";
+	
+	/** HTML_CLASS_ATTR * */
+	public static final String HTML_STYLECLASS_ATTR = "styleClass";
 
 	/** HTML_CLASS_ATTR * */
 	public static final String HTML_CLASS_ATTR = "class";
@@ -74,6 +77,9 @@ public class HtmlComponentUtil {
 
 	/** HTML_ALIGN_LEFT_VALUE * */
 	public static final String HTML_ALIGN_LEFT_VALUE = "left";
+	
+	/** HTML_ALIGN_RIGHT_VALUE * */
+	public static final String HTML_ALIGN_RIGHT_VALUE = "right";
 
 	/** HTML_ALIGN_CENTER_VALUE * */
 	public static final String HTML_ALIGN_CENTER_VALUE = "center";	

@@ -451,4 +451,86 @@
 	    <vpe:template children="no" modify="no">
 	    </vpe:template>
     </vpe:tag>
+    
+    <vpe:tag name="rich:virtualEarth" case-sensitive="yes">
+    	<vpe:template children="no" modify="yes" 
+    			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesVirtualEarthTemplate">
+    	
+    		<vpe:resize>
+    			<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no"></vpe:drop>
+			</vpe:dnd>
+		</vpe:template>
+    </vpe:tag>
+    
+      <vpe:tag name="rich:toolTip" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<span style="display:none">
+			</span>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:effect" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<span style="display:none">
+			</span>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:insert" case-sensetive="yes">
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesInsertTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes"/>
+			</vpe:dnd>	
+		</vpe:template>
+	</vpe:tag>
+	
+	 <vpe:tag name="rich:message" case-sensitive="yes">
+    	<vpe:template children="yes" modify="yes" 
+    			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesMessageTemplate">
+  
+    		<vpe:resize>
+    			<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes"/>
+			</vpe:dnd>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="rich:messages" case-sensitive="yes">
+    	<vpe:template children="yes" modify="yes" 
+    			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesMessagesTemplate">
+  
+    		<vpe:resize>
+    			<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes"/>
+			</vpe:dnd>
+		</vpe:template>
+    </vpe:tag>
+    
+    <vpe:tag name="rich:changeExpandListener" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<span style="display:none">
+			</span>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:nodeSelectListener" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<span style="display:none">
+			</span>
+		</vpe:template>
+	</vpe:tag>
 </vpe:templates>

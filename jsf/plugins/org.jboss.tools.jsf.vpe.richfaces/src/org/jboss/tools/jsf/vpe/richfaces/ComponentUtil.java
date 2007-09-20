@@ -281,6 +281,22 @@ public class ComponentUtil {
     		img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, undefinedImgName);
     	}
 	}
+    
+    /**
+	 * Open file
+	 * 
+	 * @param pageContext
+	 *            Page Context
+	 * @param fileName
+	 *            file name
+	 * @return file
+	 */
+	public static File openFile(VpePageContext pageContext, String fileName) {
+		IEditorInput input = pageContext.getEditPart().getEditorInput();
+		IPath inputPath = getInputParentPath(input);
+		File file = new File(inputPath.toOSString() + File.separator + fileName);
+		return file;
+	}
 
     /**
      * Returns locale of user input
