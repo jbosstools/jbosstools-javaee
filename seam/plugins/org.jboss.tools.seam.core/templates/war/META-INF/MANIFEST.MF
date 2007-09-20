@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: jboss-seam.jar 
- @projectName@-ejb.jar
-
+Class-Path: @projectName@-ejb.jar 
+@earLibs@

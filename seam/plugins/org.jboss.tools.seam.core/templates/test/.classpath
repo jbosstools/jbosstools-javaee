@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="test-src"/>
 	<classpathentry kind="src" path="embedded-ejb"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-@requiredProjects@
 @testLibraries@<classpathentry kind="lib" path="/@projectName@/WebContent"/>
+@requiredProjects@
 	<classpathentry kind="output" path="bin"/>
 </classpath>

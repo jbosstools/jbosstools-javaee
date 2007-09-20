@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
@@ -335,6 +336,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
 				AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), webLibFolder);
 
+			
+			
 			Job create = new DataSourceXmlDeployer(project);
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
@@ -347,11 +350,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			AntCopyUtils.copyFiles(seamHomeFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
 			AntCopyUtils.copyFiles(seamLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
-			try {
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"war/META-INF/MANIFEST.MF"), webMetaInf, new FilterSetCollection(projectFilterSet), true);
-			} catch (IOException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+
 
 			File ear = new File(project.getLocation().removeLastSegments(1).toFile(),model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ear");
 			File ejb = new File(project.getLocation().removeLastSegments(1).toFile(),model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME)+"-ejb");
@@ -439,10 +438,39 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 				AntCopyUtils.copyFiles(droolsLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)));
 				AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
 				AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
-	
-				// Copy JDBC driver if there is any
+				
+
+				
 				if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
 					AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), earContentsFolder);
+
+				try {
+					
+					File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
+						/* (non-Javadoc)
+						 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+						 */
+						public boolean accept(File dir, String name) {
+							if(name.lastIndexOf(".jar")>0) return true;
+							return false;
+						}
+					});
+					String earJarsStr = "";
+					for (File file : earJars) {
+						earJarsStr +=" " + file.getName() +" \n";
+					}
+					
+					FilterSetCollection manifestFilterCol = new FilterSetCollection(projectFilterSet);
+					FilterSet manifestFilter = new FilterSet();
+					manifestFilter.addFilter("earLibs",earJarsStr);
+					manifestFilterCol.addFilterSet(manifestFilter);
+					AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterCol, true);
+					File ejbMetaInf = new File(ejb,"ejbModule/META-INF");
+					AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterCol, true);
+				} catch (IOException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+				
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
@@ -587,6 +615,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
 			
 			createComponentsProperties(testSrcDir, seamWebProject.getName(), Boolean.TRUE);
+			
 		}
 
 	/**
@@ -595,7 +624,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 	private void createComponentsProperties(final File seamGenResFolder, String seamWebProjectName, Boolean embedded) {
 		Properties components = new Properties();
 		components.put("embeddedEjb", embedded.toString());
-		components.put("jndiPattern", seamWebProjectName+"/#{ejbName}/local");
+		components.put("jndiPattern", "/#{ejbName}/local");
 		File componentsProps = new File(seamGenResFolder,"components.properties");
 		try {
 			componentsProps.createNewFile();
