@@ -103,8 +103,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		.include("jbpm.*\\.jar")
 		.include("jsf-facelets\\.jar")
 		.include("oscache.*\\.jar")
-		.include("stringtemplate.*\\.jar")
-		.include("testng-.*\\.jar");
+		.include("stringtemplate.*\\.jar");
 	
 	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
 		.include("testng-.*-jdk15\\.jar")
@@ -143,8 +142,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		.include("jboss-seam.jar")
 		.include("jbpm.*\\.jar")
 		.include("security\\.drl")
-		.include("stringtemplate.*\\.jar")
-		.include("testng-.*\\.jar");
+		.include("stringtemplate.*\\.jar");
 
 	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
 		.include("META-INF/application\\.xml")
