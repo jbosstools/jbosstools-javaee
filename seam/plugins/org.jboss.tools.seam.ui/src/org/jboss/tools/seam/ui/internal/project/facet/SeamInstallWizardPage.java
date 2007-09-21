@@ -71,7 +71,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * 
 	 */
 	boolean seamHomeRequiresSave = SeamFacetPreference.getStringPreference(
-			SeamFacetPreference.SEAM_HOME_FOLDER).equals("");
+			SeamFacetPreference.SEAM_RUNTIME_NAME).equals("");
 	/**
 	 * 
 	 */
@@ -227,7 +227,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	public void transferStateToConfig() {
 		if (seamHomeRequiresSave) {
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-					SeamFacetPreference.SEAM_HOME_FOLDER,
+					SeamFacetPreference.SEAM_RUNTIME_NAME,
 					jBossSeamHomeEditor.getValueAsString());
 		}
 		if ("".equals(SeamCorePlugin.getDefault().getPluginPreferences()
