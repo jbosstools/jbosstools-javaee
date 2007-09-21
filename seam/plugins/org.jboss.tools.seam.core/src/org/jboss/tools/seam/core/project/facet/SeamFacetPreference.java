@@ -18,7 +18,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  *
  */
 public class SeamFacetPreference {
-	public static final String SEAM_HOME_FOLDER = SeamCorePlugin.PLUGIN_ID + ".project.facet.seamhome";
+	public static final String SEAM_RUNTIME_NAME = SeamCorePlugin.PLUGIN_ID + ".project.facet.runtime.name";
 	public static final String SEAM_DEFAULT_CONNECTION_PROFILE = SeamCorePlugin.PLUGIN_ID + ".project.facet.default.conn.profile";
 	public static final String RUNTIME_CONFIG_FORMAT_VERSION = SeamCorePlugin.PLUGIN_ID + ".runtime.config.format.version";
 	public static final String RUNTIME_LIST = SeamCorePlugin.PLUGIN_ID+".runtime.list";
