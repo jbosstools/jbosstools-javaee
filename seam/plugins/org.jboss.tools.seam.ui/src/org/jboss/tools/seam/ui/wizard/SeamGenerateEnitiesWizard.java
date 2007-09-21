@@ -115,7 +115,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
 				
 			} catch (CoreException e) {
-				SeamGuiPlugin.getPluginLog().logError(e);
+				SeamCorePlugin.getDefault().showError("Can't generate seam entities", e);
 			}
 			return Status.OK_STATUS;
 		}
