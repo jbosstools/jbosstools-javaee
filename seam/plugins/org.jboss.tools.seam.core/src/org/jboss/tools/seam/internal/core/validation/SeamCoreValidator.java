@@ -206,22 +206,7 @@ public class SeamCoreValidator extends SeamValidator {
 	}
 
 	private void validateFactory(ISeamFactory factory, Set<String> markedDuplicateFactoryNames) {
-
-		if(factory.getResource() == null) {
-			IPath source = factory.getSourcePath();
-			String name = factory.getName();
-			String message = null;
-			if(factory.getSeamProject() != null) {
-				factory.getSeamProject().removeFactory(factory);
-				message = "Seam core validator detected factory with null resource " + "(name=" + name + " source=" + source + ").";
-			} else {
-				message = "Seam core validator detected factory with null resource " + "(name=" + name + " source=" + source + ")" + " and null parent in seam model.";
-			}
-			SeamCorePlugin.getPluginLog().logInfo(message);
-			return;
-		}
-		
-		if(coreHelper.isJar(factory.getResource())) {
+		if(coreHelper.isJar(factory.getSourcePath())) {
 			return;
 		}
 		if(factory instanceof ISeamAnnotatedFactory) {
@@ -292,8 +277,8 @@ public class SeamCoreValidator extends SeamValidator {
 							this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, factory.getResource());
 						}
 						// mark duplicate variable
-						IResource resource = coreHelper.getComponentResourceWithName(variable);
-						if(!coreHelper.isJar(resource)) {
+						if(!coreHelper.isJar(variable.getSourcePath())) {
+							IResource resource = coreHelper.getComponentResourceWithName(variable);
 							validationContext.addLinkedCoreResource(factoryName, resource.getFullPath());
 							location = coreHelper.getLocationOfName(variable);
 							this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, resource);

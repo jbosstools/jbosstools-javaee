@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
@@ -117,12 +118,12 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 * @param resource
 	 * @return true if resource is Jar file
 	 */
-	public boolean isJar(IResource resource) {
-		if(resource==null) {
+	public boolean isJar(IPath path) {
+		if(path == null) {
 			throw new IllegalArgumentException("Resource must not be null");
 		}
-		String ext = resource.getFileExtension();
-		return ext!=null && ext.equalsIgnoreCase("jar");
+		String ext = path.getFileExtension();
+		return ext != null && ext.equalsIgnoreCase("jar");
 	}
 
 	/**
@@ -130,7 +131,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 * @return true if seam element packed in Jar file
 	 */
 	public boolean isJar(ISeamElement element) {
-		return isJar(element.getResource());
+		return isJar(element.getSourcePath());
 	}
 
 	/**

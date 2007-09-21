@@ -42,7 +42,7 @@ public class SeamJavaContextVariable extends AbstractContextVariable implements 
 	}
 
 	public IResource getResource() {
-		return javaSource == null ? super.getResource() : javaSource.getTypeRoot().getResource();
+		return javaSource == null || javaSource.getTypeRoot().getResource() == null ? super.getResource() : javaSource.getTypeRoot().getResource();
 	}
 
 	public int getStartPosition() {
