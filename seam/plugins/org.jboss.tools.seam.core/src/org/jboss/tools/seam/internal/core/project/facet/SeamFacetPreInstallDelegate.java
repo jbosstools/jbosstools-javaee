@@ -33,7 +33,7 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 		IDataModel model = (IDataModel)config;
 		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE)==null) return;
 		IConnectionProfile connProfile = ProfileManager.getInstance().getProfileByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).toString());
-		Properties props = connProfile.getProperties("org.eclipse.datatools.connectivity.db.generic.connectionProfile");
+		Properties props = connProfile.getBaseProperties(); //Properties("org.eclipse.datatools.connectivity.db.generic.connectionProfile");
 
 		// Collect properties name from DTP Connection Profile
 		model.setProperty(ISeamFacetDataModelProperties.DB_USER_NAME,
