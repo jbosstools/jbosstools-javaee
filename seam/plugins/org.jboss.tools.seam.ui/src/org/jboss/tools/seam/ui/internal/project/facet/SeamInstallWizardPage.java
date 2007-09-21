@@ -90,8 +90,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	final IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
 		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 				"Seam Runtime", getRuntimeNames(), 
-				SeamRuntimeManager.getInstance().getDefaultRuntime()==null?
-						"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName(), 
+				("".equals(SeamFacetPreference
+							.getStringPreference(SeamFacetPreference.SEAM_RUNTIME_NAME)) ?
+				(SeamRuntimeManager.getInstance().getDefaultRuntime()==null?
+						"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName()) :
+							SeamFacetPreference
+							.getStringPreference(SeamFacetPreference.SEAM_RUNTIME_NAME)), 
 				true, new NewSeamRuntimeAction(), (IValidator)null);
 	
 //	IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
@@ -114,7 +118,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
 					"Connection profile:",
 					getProfileNameList(),
-					getProfileNameList().contains("DefaultDS")?"DefaultDS":"",
+					("".equals(SeamCorePlugin.getDefault().getPluginPreferences()
+							.getString((SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE))) ?
+					(getProfileNameList().contains("DefaultDS")?"DefaultDS":""):
+						SeamCorePlugin.getDefault().getPluginPreferences()
+						.getString((SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE))),
 					true, new EditConnectionProfileAction(),
 					new NewConnectionProfileAction(),
 					ValidatorFactory.NO_ERRORS_VALIDATOR);
