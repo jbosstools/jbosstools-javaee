@@ -240,5 +240,23 @@ public class WtpUtils {
 			break;
 		}
 	}
+	
+	/**
+	 * @param project
+	 * @param monitor
+	 * @throws JavaModelException
+	 */
+	public static void setClasspathEntryAsExported(final IProject project,IPath path,
+			IProgressMonitor monitor) throws JavaModelException {
+		IJavaProject jProject = JavaCore.create(project);
+		IClasspathEntry[] cps = jProject.getRawClasspath();
+		for (int i=0;i<cps.length;i++) {
+			if(cps[i].getEntryKind()==IClasspathEntry.CPE_CONTAINER 
+					&& cps[i].getPath().equals(path)) {
+				cps[i]=JavaCore.newContainerEntry(cps[i].getPath(),true);
+			}
+		}
+		jProject.setRawClasspath(cps, monitor);
+	}
 
 }
