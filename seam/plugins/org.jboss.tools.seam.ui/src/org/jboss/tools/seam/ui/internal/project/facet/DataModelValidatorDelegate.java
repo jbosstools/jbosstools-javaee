@@ -10,7 +10,9 @@
  ******************************************************************************/  
 package org.jboss.tools.seam.ui.internal.project.facet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.wizard.WizardPage;
@@ -43,6 +45,8 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * Map from property name to IValidator instance
 	 */
 	protected Map<String,IValidator> mapPropToValidator = new HashMap<String,IValidator>();
+
+	private List<String> validationOrder= new ArrayList<String>();
 	
 	/**
 	 * 
@@ -90,7 +94,7 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * @return
 	 */
 	public String getFirstValidationError() {
-		for (String validatorName : mapPropToValidator.keySet()) {
+		for (String validatorName : validationOrder) {
 			Map<String,String> errors = getValidator(validatorName).validate(
 					model.getProperty(validatorName),model);
 			String message = errors.get(validatorName);	
@@ -118,5 +122,6 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 */
 	public void addValidatorForProperty(String name, IValidator validator) {
 		mapPropToValidator.put(name, validator);
+		validationOrder.add(name);
 	}
 }
