@@ -42,15 +42,16 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 	List values = new ArrayList();
 	
 	public ComboBoxField(Composite parent,List values, ILabelProvider labelProvider, 
-			Object value, boolean floatStyle) { 
-		this(parent, values, value, floatStyle);
+			Object value, boolean flatStyle) { 
+		this(parent, values, value, flatStyle);
 		comboControl.setLabelProvider(labelProvider);
 	}
 
-	public ComboBoxField(Composite parent,List values, Object value, boolean floatStyle) {
+	public ComboBoxField(Composite parent,List values, Object value, boolean editable) {
 		this.values = values;
 		CCombo ccombo = new CCombo(parent, SWT.BORDER);
 		ccombo.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		ccombo.setEditable(editable);
 		comboControl = new ComboViewer(ccombo);
 		comboControl.setContentProvider(new IStructuredContentProvider() {
 

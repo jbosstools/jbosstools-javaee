@@ -108,7 +108,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			.createComboEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					"Deploy as:", Arrays.asList(new String[] { "war", "ear" }),
-					"war", false);
+					"war", true);
 
 	String lastCreatedCPName = "";
 

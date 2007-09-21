@@ -112,7 +112,7 @@ public interface IFieldEditorFactory {
 	 * @param label
 	 * @param values
 	 * @param defaultValue
-	 * @param flat
+	 * @param editable
 	 * @param action1
 	 * @param action2
 	 * @param validator

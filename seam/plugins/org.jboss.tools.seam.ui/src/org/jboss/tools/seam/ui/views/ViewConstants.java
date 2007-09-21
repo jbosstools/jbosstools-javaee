@@ -20,7 +20,7 @@ public interface ViewConstants {
 	
 	public String SCOPE_AS_LABEL = "label";
 	public String SCOPE_AS_NODE = "node";
-	public String PACKAGES_FLAT = "flat";
+	public String PACKAGES_FLAT = "editable";
 	public String PACKAGES_HIERARCHICAL = "hierarchical";
 
 }

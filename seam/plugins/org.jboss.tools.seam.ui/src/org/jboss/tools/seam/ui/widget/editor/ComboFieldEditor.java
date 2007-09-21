@@ -24,12 +24,12 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 
 	List values = null;
 	
-	boolean flat = false;
+	boolean editable = false;
 	
-	public ComboFieldEditor(String name, String label, List values,Object defaultValue,boolean flat) {
+	public ComboFieldEditor(String name, String label, List values,Object defaultValue,boolean editableSelection) {
 		super(name, label, defaultValue);
 		this.values = Collections.unmodifiableList(values);
-		this.flat = flat;
+		this.editable = editableSelection;
 	}
 
 	private ComboBoxField comboField;
@@ -47,7 +47,7 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 	public Control getComboControl(Composite composite) {
 		// TODO Auto-generated method stub
 		if(comboField == null) {
-			comboField = new ComboBoxField(composite,values,getValue(),flat);
+			comboField = new ComboBoxField(composite,values,getValue(),editable);
 			comboField.addPropertyChangeListener(this);
 		} else if(composite!=null) {
 			Assert.isTrue(comboField.getControl().getParent()==composite);
