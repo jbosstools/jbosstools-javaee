@@ -15,9 +15,15 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.jboss.tools.seam.core.seambuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.jboss.ide.eclipse.archives.core.archivesNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.jboss.tools.seam.core.seamnature</nature>
 	</natures>
 </projectDescription>
