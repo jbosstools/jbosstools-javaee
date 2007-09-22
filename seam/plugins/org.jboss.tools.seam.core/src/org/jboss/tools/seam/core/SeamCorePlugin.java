@@ -118,14 +118,8 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		return null;
 	}
 
-	public static IEclipsePreferences getSeamFacetPreferences(IProject project) {
-		FacetedProject facetedProject = (FacetedProject) project.getAdapter(IFacetedProject.class);
-		IProjectFacet facet = ProjectFacetsManager.getProjectFacet(ISeamCoreConstants.SEAM_CORE_FACET_ID);
-		if(facetedProject.hasProjectFacet(facet)) {
-			IScopeContext projectScope = new ProjectScope(project);
-			return projectScope.getNode(PLUGIN_ID);
-		}
-		
-		return null;
+	public static IEclipsePreferences getSeamPreferences(IProject project) {
+		IScopeContext projectScope = new ProjectScope(project);
+		return projectScope.getNode(PLUGIN_ID);
 	}
 }

@@ -57,6 +57,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 
 	public static String DEV_WAR_PROFILE = "dev-war";
 	public static String DEV_EAR_PROFILE = "dev";	
+	public static String TEST_WAR_PROFILE = "test-war";
+	public static String TEST_EAR_PROFILE = "test";
 	
 	public static AntCopyUtils.FileSet TOMCAT_WAR_LIB_FILESET = new AntCopyUtils.FileSet()
 		.include("activation\\.jar")
@@ -284,7 +286,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		
-		createComponentsProperties(srcFolder, project.getName(), Boolean.FALSE);	
+		createComponentsProperties(srcFolder, isWarConfiguration(model)?"":project.getName()+"-ear", false);	
 		createTestProject(model,project,selectedRuntime);
 
 		// ********************************************************************************************
@@ -312,6 +314,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 //			WtpUtils.createSourceFolder(project, new Path("src/test"),new Path("src"));
 //			WtpUtils.createSourceFolder(project, new Path("src/action"),new Path("src"));
 //			WtpUtils.createSourceFolder(project, new Path("src/model"),new Path("src"));
+			
+			
 			// Copy sources to src
 
 			AntCopyUtils.copyFileToFile(
@@ -567,14 +571,16 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			File testLibDir = new File(testProjectDir,"lib");
 			File embededEjbDir = new File(testProjectDir,"embedded-ejb");
 			File testSrcDir = new File(testProjectDir,"test-src");
+			String seamGenResFolder = seamRuntime.getHomeDir()+"/seam-gen/resources";
+			File persistenceFile = new File(seamGenResFolder ,"META-INF/persistence-" + (isWarConfiguration(model)?TEST_WAR_PROFILE:TEST_EAR_PROFILE) + ".xml");
+			File jbossBeansFile = new File(seamGenResFolder ,"META-INF/jboss-beans.xml");
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName);
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject));
-			
+		
 	
 			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 			final String seamHomePath = selectedRuntime.getHomeDir();
-			final File seamGenResFolder = new File(selectedRuntime.getHomeDir());
 			
 			AntCopyUtils.FileSet includeLibs 
 				= new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET)
@@ -617,23 +623,32 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 					embededEjbDir,
 					new AntCopyUtils.FileSetFileFilter(excludeCvsSvn));
 			
+			AntCopyUtils.copyFileToFile(
+					persistenceFile,
+					new File(testProjectDir,"test-src/META-INF/persistence.xml"),
+					new FilterSetCollection(filterSet), true);
 
+			AntCopyUtils.copyFileToFolder(
+					jbossBeansFile,
+					new File(testProjectDir,"test-src/META-INF"),
+					new FilterSetCollection(filterSet), true);
+			
 			AntCopyUtils.copyFiles(
 					new File(seamRuntime.getHomeDir(),"lib"),
 					testLibDir,
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
 			
-			createComponentsProperties(testSrcDir, seamWebProject.getName(), Boolean.TRUE);
-			
+			createComponentsProperties(testSrcDir, "", Boolean.TRUE);
 		}
 
 	/**
 	 * @param seamGenResFolder
 	 */
-	private void createComponentsProperties(final File seamGenResFolder, String seamWebProjectName, Boolean embedded) {
+	private void createComponentsProperties(final File seamGenResFolder, String projectName, Boolean embedded) {
 		Properties components = new Properties();
+		String prefix = "".equals(projectName)?"":projectName+"/";
 		components.put("embeddedEjb", embedded.toString());
-		components.put("jndiPattern", "/#{ejbName}/local");
+		components.put("jndiPattern", prefix+"#{ejbName}/local");
 		File componentsProps = new File(seamGenResFolder,"components.properties");
 		try {
 			componentsProps.createNewFile();

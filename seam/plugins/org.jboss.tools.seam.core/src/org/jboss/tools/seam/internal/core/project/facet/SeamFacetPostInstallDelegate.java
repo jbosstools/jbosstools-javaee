@@ -47,7 +47,7 @@ public class SeamFacetPostInstallDelegate implements
 	 */
 	public void execute(final IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
-		IEclipsePreferences prefs = SeamCorePlugin.getSeamFacetPreferences(project);
+		IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(project);
 		final IDataModel model = (IDataModel)config;
 		
 		prefs.put(JBOSS_AS_DEPLOY_AS, model.getProperty(JBOSS_AS_DEPLOY_AS).toString());
