@@ -186,7 +186,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		
 		IResource project = getSelectedProject();
 
-		String type = SeamCorePlugin.getSeamFacetPreferences(project.getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war");
+		String type = SeamCorePlugin.getSeamPreferences(project.getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war");
 	
 		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!isWar());
 	
@@ -268,7 +268,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	
 	public boolean isWar() {
 		if(getSelectedProject()==null ||
-		SeamCorePlugin.getSeamFacetPreferences(getSelectedProject().getProject())==null) return true;
-		return "war".equals(SeamCorePlugin.getSeamFacetPreferences(getSelectedProject().getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war"));
+		SeamCorePlugin.getSeamPreferences(getSelectedProject().getProject())==null) return true;
+		return "war".equals(SeamCorePlugin.getSeamPreferences(getSelectedProject().getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war"));
 	}
 }

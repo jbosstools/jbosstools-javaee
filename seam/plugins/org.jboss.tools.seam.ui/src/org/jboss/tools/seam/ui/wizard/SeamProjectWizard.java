@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.Platform;
@@ -84,8 +85,14 @@ public class SeamProjectWizard extends WebProjectWizard {
 		}
 		return null;
 	}
-	
-	
+
+
+	@Override
+	protected String getFinalPerspectiveID() {
+		// TODO Auto-generated method stub
+		return "org.jboss.tools.seam.ui.SeamPerspective";
+	}
+
 	protected IFacetedProjectTemplate getTemplate() {
 		return ProjectFacetsManager.getTemplate("template.jst.seam"); //$NON-NLS-1$
 	}

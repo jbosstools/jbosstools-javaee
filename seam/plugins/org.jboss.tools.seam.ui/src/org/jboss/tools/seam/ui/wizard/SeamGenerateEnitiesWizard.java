@@ -95,7 +95,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, true);
 				SeamRuntime seamRt = SeamRuntimeManager.getInstance().getDefaultRuntime();
 				
-				String runtimeName = SeamCorePlugin.getSeamFacetPreferences(project)
+				String runtimeName = SeamCorePlugin.getSeamPreferences(project)
 					.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,"");
 				
 				if(!"".equals(runtimeName)) {

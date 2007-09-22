@@ -68,7 +68,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
-		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamFacetPreferences(project);
+		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
 		
 		try {
 			
