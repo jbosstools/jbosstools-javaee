@@ -144,6 +144,7 @@
 	    <includes>
 	      <contentExtension pattern="org.jboss.tools.seam.ui.views.rootContent" />
 	      <contentExtension pattern="org.jboss.tools.seam.ui.views.SeamJarFilter"/>
+	      <contentExtension pattern="org.jboss.tools.seam.ui.views.SeamReferencedFilter"/>
 	      <contentExtension pattern="org.jboss.tools.seam.ui.views.SeamLinkHelper"/>
 	    </includes>
 	  </viewerContentBinding>
@@ -193,6 +194,13 @@
             id="org.jboss.tools.seam.ui.views.SeamJarFilter"
             name="Seam Components from Libraries"
             activeByDefault="true"/>
+
+      <commonFilter
+            class="org.jboss.tools.seam.ui.views.SeamReferencedFilter"
+            description="Hide Seam Components loaded from referenced projects and not overriden in project"
+            id="org.jboss.tools.seam.ui.views.SeamReferencedFilter"
+            name="Seam Components from Referenced Projects"
+            activeByDefault="true"/>
 	</extension>
 
 	<extension point="org.eclipse.ui.navigator.viewer">
@@ -200,6 +208,7 @@
 			<includes>
 				<contentExtension pattern="org.jboss.tools.seam.ui.views.projectContent" />
 				<contentExtension pattern="org.jboss.tools.seam.ui.views.SeamJarFilter"/>
+				<contentExtension pattern="org.jboss.tools.seam.ui.views.SeamReferencedFilter"/>
 			</includes>
 		</viewerContentBinding>
 	</extension>
