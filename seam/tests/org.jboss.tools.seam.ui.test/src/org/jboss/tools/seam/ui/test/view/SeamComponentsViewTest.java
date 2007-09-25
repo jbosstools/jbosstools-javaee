@@ -369,7 +369,7 @@ public class SeamComponentsViewTest extends TestCase {
 	public void testCreatedProjectIsShownOnTree() {
 		TestProjectProvider provider=null;
 		try {
-			provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, "TestComponentView", true);
+			provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, "TestComponentView1", true);
 		} catch (Exception e1) {
 			JUnitUtils.fail("Cannot create Project Provider", e1);
 		} 
@@ -387,7 +387,7 @@ public class SeamComponentsViewTest extends TestCase {
 	
 	public void testThatDeletedProjectIsDisappearedFromTree() {
 		try {
-			ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView").delete(true, new NullProgressMonitor());
+			ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView1").delete(true, new NullProgressMonitor());
 		} catch (CoreException e) {
 			JUnitUtils.fail(e.getMessage(),e);
 		}	
