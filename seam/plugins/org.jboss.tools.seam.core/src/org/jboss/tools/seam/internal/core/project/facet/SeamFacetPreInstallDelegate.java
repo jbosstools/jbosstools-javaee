@@ -44,7 +44,7 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 				props.get("org.eclipse.datatools.connectivity.db.driverClass")==null
 				?"":props.get("org.eclipse.datatools.connectivity.db.driverClass").toString());
 		
-		model.setProperty(ISeamFacetDataModelProperties.DB_USERP_PASSWORD,
+		model.setProperty(ISeamFacetDataModelProperties.DB_USER_PASSWORD,
 				props.get("org.eclipse.datatools.connectivity.db.password")==null
 				?"":props.get("org.eclipse.datatools.connectivity.db.password").toString());
 		

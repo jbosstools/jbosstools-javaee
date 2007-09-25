@@ -42,7 +42,7 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String DB_USER_NAME = "hibernate.connection.username";
 	
-	public static final String DB_USERP_PASSWORD = "hibernate.connection.password";
+	public static final String DB_USER_PASSWORD = "hibernate.connection.password";
 	
 	public static final String DB_SCHEMA_NAME = "schema.property";
 	

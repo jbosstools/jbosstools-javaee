@@ -27,7 +27,6 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.jboss.ide.eclipse.archives.core.archivesNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>

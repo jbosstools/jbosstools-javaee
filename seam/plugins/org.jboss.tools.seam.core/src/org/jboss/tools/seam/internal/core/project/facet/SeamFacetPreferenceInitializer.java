@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter1;
@@ -47,6 +48,9 @@ public class SeamFacetPreferenceInitializer extends
 		IScopeContext context = new DefaultScope();
 		IEclipsePreferences node = context.getNode(SeamCorePlugin.PLUGIN_ID);
 		node.put(SeamFacetPreference.RUNTIME_CONFIG_FORMAT_VERSION, RUNTIME_CONFIG_FORMAT_VERSION);
+		node.put(SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS");
+		node.put(SeamFacetPreference.JBOSS_AS_DEFAULT_DEPLOY_AS, "war");
+		node.put(SeamFacetPreference.HIBERNATE_DEFAULT_DB_TYPE, "HSQL");
 		initializeDefault(node,getSeamGenBuildPath());
 	}
 
