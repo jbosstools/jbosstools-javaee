@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.internal.core.SeamProject;
@@ -40,8 +41,8 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 	 */
 	public SeamProjectSelectionDialog(Shell parent) {
 		super(parent);
-		setTitle("Seam Projects");
-		setMessage("Select Seam Project");
+		setTitle("Seam Web Projects");
+		setMessage("Select Seam Web Project");
 		setLabelProvider(new WorkbenchLabelProvider());
 		setInput(new Object());
 		setContentProvider(new IStructuredContentProvider() {
@@ -51,7 +52,8 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 					try {
 						if(project.hasNature(SeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
-								&& project.getAdapter(IFacetedProject.class)!=null) {
+								&& project.getAdapter(IFacetedProject.class)!=null
+								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) {
 							seamProjects.add(project);
 						}
 					} catch (CoreException e) {

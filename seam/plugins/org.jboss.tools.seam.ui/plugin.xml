@@ -50,25 +50,25 @@
                class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
-      <wizard
+ 	  <wizard
             category="org.jboss.tools.seam.ui"
-            class="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
+            class="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
             icon="icons/seam16.png"
-            id="org.jboss.tools.seam.ui.SeamGenerateEntitiesWizard"
-            name="Seam Generate Entities">
+            id="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
+            name="Seam Conversation">
          <description>
-            Generate Entities
+            description body text
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
 
-      <!--wizard
+      <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
-            icon="icons/sample.gif"
-            id="org.jboss.tools.seam.ui.wizard3"
+            icon="icons/seam16.png"
+            id="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
             name="Seam Entity">
          <description>
             description body text
@@ -77,19 +77,20 @@
                class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
-      <wizard
+            <wizard
             category="org.jboss.tools.seam.ui"
-            class="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
-            icon="icons/sample.gif"
-            id="org.jboss.tools.seam.ui.wizard4"
-            name="Seam Conversation">
+            class="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
+            icon="icons/seam16.png"
+            id="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
+            name="Seam Generate Entities">
          <description>
-            description body text
+            Generate Entities
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
          </selection>
-      </wizard-->
+      </wizard>
+     
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.ui.wizardPages">
@@ -134,7 +135,13 @@
                id="org.jboss.tools.seam.ui.wizard.SeamFormWizard">
          </newWizardShortcut>
          <newWizardShortcut
-               id="org.jboss.tools.seam.ui.SeamGenerateEntitiesWizard">
+               id="org.jboss.tools.seam.ui.wizard.SeamEntityWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.wizard.SeamConversationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard">
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>

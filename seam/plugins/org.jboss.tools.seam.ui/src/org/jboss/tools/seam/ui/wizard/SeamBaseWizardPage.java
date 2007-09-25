@@ -138,6 +138,13 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		return editorRegistry.get(name);
 	}
 	
+	
+	public void setDefaultValue(String name, Object value) {
+		IFieldEditor editor = getEditor(name);
+		editor.removePropertyChangeListener(this);
+		editor.setValue(value);
+		editor.addPropertyChangeListener(this);
+	}
 	/**
 	 * 
 	 * @author eskimo
@@ -172,7 +179,6 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		// TODO - finish validation
 
 		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);

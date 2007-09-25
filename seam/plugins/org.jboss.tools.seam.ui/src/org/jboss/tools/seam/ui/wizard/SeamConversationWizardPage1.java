@@ -8,32 +8,53 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
+
 package org.jboss.tools.seam.ui.wizard;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Map;
 
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
-
+import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
+import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
+import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage.GridLayoutComposite;
 
 /**
  * @author eskimo
  *
  */
-public class SeamFormWizardPage1 extends SeamBaseWizardPage {
+public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
-	/**
-	 * @param pageName
-	 */
-	public SeamFormWizardPage1() {
-		super("seam.new.form.page1","Seam Form",null);
-		setMessage("Select the name of the new Seam Form. A new Seam Form with a single input field and related " +
-				"Java Interface, SLSB and key Seam/EJB3 annotations will be created.");
+	public SeamConversationWizardPage1() {
+		super("seam.new.conversation.page1","Seam Conversation",null);
+		setMessage("Select the name of the new Seam Conversation. A set of classes " +
+				"managing a coversation will be created.");
 	}
 	
 	protected void createEditors() {
 		addEditors(SeamWizardFactory.createActionFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
 	}
+	
+	/**
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
+	public void createControl(Composite parent) {
+		setControl(new GridLayoutComposite(parent));
 
+		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){
+			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
+			
+			if(errors.size()>0) {
+				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
+			}
+		}
+		setPageComplete(false);
+	}
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals(IParameter.SEAM_COMPONENT_NAME)) {

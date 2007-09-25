@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,39 +22,64 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.INewWizard;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.wizard.SeamEntityWizard.SeamEntityCreateOperation;
 
 public class SeamConversationWizard extends SeamBaseWizard implements INewWizard {
 
 	public SeamConversationWizard() {
 		super(CREATE_SEAM_CONVERSATION);
 		setWindowTitle("reate New Conversation");
-		addPage(new SeamConversationVizardPage1());
+		addPage(new SeamConversationWizardPage1());
 	}
 
-	public static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamBaseOperation("Action creating operation"){
-
-		public File getBeanFile(Map<String, Object> vars)  {
-			return new File(getSeamFolder(vars),"src/ActionJavaBean.java");
-		}
+	public static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamConversationCreateOperation();
+	/**
+	 * 
+	 * TODO move operations to core plugin
+	 */
+	public static class SeamConversationCreateOperation extends SeamBaseOperation{
 		
-		public File getTestClassFile(Map<String, Object> vars) {
-			return new File(getSeamFolder(vars),"test/ActionTest.java");
-		}
-		
-		public File getTestngXmlFile(Map<String, Object> vars) {
-			return new File(getSeamFolder(vars),"test/testng.xml");
-		}
-		
-		public File getPageXhtml(Map<String, Object> vars) {
-			return new File(getSeamFolder(vars),"view/action.xhtml");
+		/**
+		 * @param label
+		 */
+		public SeamConversationCreateOperation() {
+			super(("Entity creating operation"));
 		}
 
 		@Override
 		public List<String[]> getFileMappings(Map<String, Object> vars) {
-			// TODO Auto-generated method stub
-			return null;
+			if("war".equals(vars.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)))
+				return ACTION_WAR_MAPPING;
+			else
+				return ACTION_EAR_MAPPING;
 		}
-
+		
+		public static final List<String[]> ACTION_WAR_MAPPING = new ArrayList<String[]>();
+		
+		public static final List<String[]> ACTION_EAR_MAPPING = new ArrayList<String[]>();
+		
+		static {
+			// initialize war files mapping
+			ACTION_WAR_MAPPING.add(new String[]{
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationBean.java",
+					"${" + IParameter.SEAM_PROJECT_LOCATION_PATH + "}/src/${" + ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java"});
+			ACTION_WAR_MAPPING.add(new String[]{
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Conversation.java",
+					"${" + IParameter.SEAM_PROJECT_LOCATION_PATH + "}/src/${" + ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java"});
+			ACTION_WAR_MAPPING.add(new String[]{
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/conversation.xhtml",
+					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"});	
+			
+			// initialize ear files mapping
+			ACTION_EAR_MAPPING.add(new String[]{
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationBean.java",
+					"${" + IParameter.SEAM_EJB_PROJECT_LOCATION_PATH + "}/ejbModule/${" + ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java"});
+			ACTION_EAR_MAPPING.add(new String[]{
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Conversation.java",
+					"${" + IParameter.SEAM_EJB_PROJECT_LOCATION_PATH + "}/ejbModule/${" + ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java"});
+			ACTION_EAR_MAPPING.add(ACTION_WAR_MAPPING.get(2));
+		}
 	};
 
 }

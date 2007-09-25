@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+
+import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+
 /**
  * @author eskimo
  *
@@ -29,5 +33,27 @@ public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 	
 	protected void createEditors() {
 		addEditors(SeamWizardFactory.createActionFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
+	}
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if(event.getPropertyName().equals(IParameter.SEAM_COMPONENT_NAME)) {
+			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) {
+				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, "");
+				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "");
+				setDefaultValue(IParameter.SEAM_BEAN_NAME, "");
+				setDefaultValue(IParameter.SEAM_METHOD_NAME, "");
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, "");
+			} else {
+				String value = event.getNewValue().toString();
+				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
+				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "I" + valueU);
+				setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean");
+				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
+				setDefaultValue(IParameter.SEAM_METHOD_NAME, valueL);
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
+			}
+		}
+		super.propertyChange(event);
 	}
 }

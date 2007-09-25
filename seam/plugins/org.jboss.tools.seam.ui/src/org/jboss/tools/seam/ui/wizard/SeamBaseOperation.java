@@ -81,7 +81,10 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				vars.put(elem.getName(),elem.getValue().toString());
 			}
 			
+			loadCustomVariables(vars);
+			
 			String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
+			String entityFolder = vars.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).toString();
 			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
 			
 			IVirtualComponent com = ComponentCore.createComponent(project);
@@ -92,19 +95,22 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_EAR_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-ejb").toFile().toString());
+			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-ejb").toFile().toString());
 			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-test").toFile().toString());
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, testFolder);
+			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
+			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+			
 			List<String[]> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
 			for (String[] mapping : fileMappingCopy) {
-				if(SeamCorePlugin.getDefault().isDebugging()) {
+//				if(SeamCorePlugin.getDefault().isDebugging()) {
 					System.out.println(mapping[0] + "->" + mapping[1]);
-				}
+//				}
 				AntCopyUtils.copyFileToFile(new File(mapping[0]),new File(mapping[1]),filters,true); 			
 			}
 			
@@ -189,5 +195,9 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	
 	public File getSeamFolder(Map<String, Object> vars) {
 		return new File(vars.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString(),"seam-gen");		
+	}
+	
+	protected void loadCustomVariables(Map<String, Object> vars) {
+		
 	}
 }

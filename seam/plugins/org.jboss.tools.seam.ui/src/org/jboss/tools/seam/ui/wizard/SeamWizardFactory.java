@@ -73,7 +73,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMasterPageNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_PAGE_NAME, "Master page name:", "");
+				IParameter.SEAM_MASTER_PAGE_NAME, "Master page name:", "");
 	}
 	
 	public static final IFieldEditor[] createActionFormFieldEditors(String defaultSelection) {
