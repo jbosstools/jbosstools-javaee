@@ -28,6 +28,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
@@ -158,25 +160,6 @@ public class ValidatorFactory {
 		}
 	};
 
-	
-	public static void main(String[] args) {
-		ZipFile seamJar;
-		try {
-			seamJar = new ZipFile(new File("C:\\jboss-eap.rc1\\seam", "jboss-seam.jar"));
-
-			ZipFileStructureProvider provider = new ZipFileStructureProvider(seamJar);
-			ZipEntry entry = seamJar.getEntry("META-INF/MANIFEST.MF");
-			InputStream str = provider.getContents(entry);
-
-			Properties manifest = new Properties();
-			manifest.load(str);
-			
-			System.out.println(manifest.get("Seam-Version"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	/**
 	 * 
 	 */
@@ -347,13 +330,26 @@ public class ValidatorFactory {
 		}
 	};
 
-	public static IValidator CONNECTION_PROFILE_IS_NOT_SELECTED = 
+	public static IValidator CONNECTION_PROFILE_VALIDATOR = 
 															new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			if (value == null || "".equals(value.toString().trim())) {
 				return createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
 						"Connection profile is not selected");
+			} else {
+				IConnectionProfile connProfile 
+					= ProfileManager.getInstance().getProfileByName(value.toString());
+				Properties props = connProfile.getBaseProperties();
+				Object driverClass 
+					= props.get("org.eclipse.datatools.connectivity.db.driverClass");
+
+				if(driverClass==null || "".equals(driverClass)) {
+					return createErrormessage(
+							ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
+							"Driver Class proberty is empty for selected '" 
+							+ value + "' connection profile");
+				}
 			}
 			return NO_ERRORS;
 		}
