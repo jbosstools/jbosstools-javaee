@@ -77,6 +77,14 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 	}
 	
+	public void testCreatedProjectIsShownOnTree() {
+
+		IStructuredContentProvider content 
+		      = (IStructuredContentProvider)getSeamComponentsView().getCommonViewer().getContentProvider();
+		assertTrue("Created Seam enabled project haven't been shown in tree",1==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);		
+		
+	}
+	
 	public void testAddComponentInXmlFile(){
 		SeamCorePlugin.getSeamProject(project, true);
 		
@@ -366,36 +374,6 @@ public class SeamComponentsViewTest extends TestCase {
 		assertNotNull("Cannot show the Seam Components View", part);
 	}
 	
-	public void testCreatedProjectIsShownOnTree() {
-		TestProjectProvider provider=null;
-		try {
-			provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, "TestComponentView1", true);
-		} catch (Exception e1) {
-			JUnitUtils.fail("Cannot create Project Provider", e1);
-		} 
-		IProject project = provider.getProject();
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot refresh created test Project", e);
-		}
-		IStructuredContentProvider content 
-		      = (IStructuredContentProvider)getSeamComponentsView().getCommonViewer().getContentProvider();
-		assertTrue("Created Seam enabled project haven't been shown in tree",1==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);		
-		
-	}
-	
-	public void testThatDeletedProjectIsDisappearedFromTree() {
-		try {
-			ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView1").delete(true, new NullProgressMonitor());
-		} catch (CoreException e) {
-			JUnitUtils.fail(e.getMessage(),e);
-		}	
-		IStructuredContentProvider content 
-	      = (IStructuredContentProvider)getSeamComponentsView().getCommonViewer().getContentProvider();
-			assertTrue("Created Seam enabled project haven't been deleted from tree",0==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);
-	}
-	
 	public void testFlatSeamPackages(){
 		SeamCorePlugin.getSeamProject(project, true);
 		
@@ -470,6 +448,17 @@ public class SeamComponentsViewTest extends TestCase {
 				 " found",seamPackage!=null);
 	}
 
+	public void testThatDeletedProjectIsDisappearedFromTree() {
+		try {
+			ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView").delete(true, new NullProgressMonitor());
+		} catch (CoreException e) {
+			JUnitUtils.fail(e.getMessage(),e);
+		}	
+		IStructuredContentProvider content 
+	      = (IStructuredContentProvider)getSeamComponentsView().getCommonViewer().getContentProvider();
+			assertTrue("Created Seam enabled project haven't been deleted from tree",0==content.getElements(ResourcesPlugin.getWorkspace().getRoot()).length);
+	}
+	
 	private CommonNavigator getSeamComponentsView() {
 		IWorkbenchPage page  = WorkbenchUtils.getWorkbenchActivePage();
 		CommonNavigator part = (CommonNavigator)page.findView(ISeamUiConstants.SEAM_COMPONENTS_VIEW_ID);
