@@ -144,6 +144,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				hbmtemplate1Attributes.put("file_pattern", "{class-name}List.xhtml");
 				hbmtemplate1Attributes.put("template_path", template);
 				hbmtemplate1Attributes.put("template_name", "list.xhtml.ftl");
+				// TODO create "view" folder
 				hbmtemplate1Attributes.put("outputdir", webContentPath.toString() + "/view");
 				hbmtemplate1Attributes.put("for_each", "entity");
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.properties", hbmtemplate1Attributes);
