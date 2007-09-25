@@ -85,7 +85,7 @@ public class J2EEProjects {
 			for (int i = 0; i < rs.length; i++) {
 				IVirtualComponent c = rs[i].getReferencedComponent();
 				if(c == null) continue;
-				IProject p = c.getRootFolder().getProject();
+				IProject p = c.getProject();
 				if(J2EEProjectUtilities.isDynamicWebProject(p)) {
 					if(!wars.contains(p)) wars.add(p);
 				} else if(J2EEProjectUtilities.isEJBProject(project)) {
