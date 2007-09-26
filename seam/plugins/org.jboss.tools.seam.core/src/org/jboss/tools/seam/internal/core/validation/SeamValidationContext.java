@@ -10,6 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -175,7 +177,9 @@ public class SeamValidationContext {
 
 	public void clearAll() {
 		removedFiles.clear();
-		registeredResources.clear();
+		synchronized (registeredResources) {
+			registeredResources.clear();
+		}
 		oldVariableNamesForELValidation.clear();
 		coreLinks.clearAll();
 		elLinks.clearAll();
@@ -189,7 +193,9 @@ public class SeamValidationContext {
 
 	public void clearRegisteredFiles() {
 		removedFiles.clear();
-		registeredResources.clear();
+		synchronized (registeredResources) {
+			registeredResources.clear();
+		}
 	}
 
 	public void clearElResourceLinks() {
@@ -231,11 +237,17 @@ public class SeamValidationContext {
 	}
 
 	public Set<IFile> getRegisteredFiles() {
-		return registeredResources;
+		Set<IFile> copy = new HashSet<IFile>();
+		synchronized (registeredResources) {
+			copy.addAll(registeredResources);
+		}
+		return copy;
 	}
 
 	public void registerFile(IFile file) {
-		registeredResources.add(file);
+		synchronized (registeredResources) {
+			registeredResources.add(file);
+		}
 	}
 
 	public static class LinkCollection {
