@@ -39,8 +39,11 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.internal.corext.util.Messages;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 
@@ -317,10 +320,14 @@ public class ValidatorFactory {
 				return createErrormessage(
 						"Project '" + value	+ "' does'n exist.");
 			} else {
+				IProject selection = (IProject)project;
 				try {
-					if (!((IProject) project).hasNature(ISeamProject.NATURE_ID)) {
+					if (!selection.hasNature(SeamProject.NATURE_ID) 
+							|| SeamCorePlugin.getSeamPreferences(selection)==null
+							|| selection.getAdapter(IFacetedProject.class)==null
+							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) {
 						return createErrormessage(
-								"Project '" + project.getName() + "' has no Seam nature");
+								"Selected project '" + project.getName() + "' is not a Seam Web Project");
 					}
 				} catch (CoreException e) {
 					SeamCorePlugin.getPluginLog().logError(e);

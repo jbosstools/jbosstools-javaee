@@ -58,14 +58,14 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals(IParameter.SEAM_COMPONENT_NAME)) {
-			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) {
+			String value = getEditor(IParameter.SEAM_COMPONENT_NAME).getValueAsString();
+			if(value==null||"".equals(value)) {
 				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, "");
 				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "");
 				setDefaultValue(IParameter.SEAM_BEAN_NAME, "");
 				setDefaultValue(IParameter.SEAM_METHOD_NAME, "");
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, "");
 			} else {
-				String value = event.getNewValue().toString();
 				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
 				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "I" + valueU);
 				setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean");
@@ -74,6 +74,5 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
-		super.propertyChange(event);
 	}
 }

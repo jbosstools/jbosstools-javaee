@@ -389,7 +389,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					setErrorMessage("Cannot obtain Seam version number from jboss-seam.jar file.");
 					setPageComplete(false);
 					return;
-				} else if(!seamVersion.matches(version.getValueAsString()+".*")) {
+				} else if(!seamVersion.matches(version.getValueAsString().replace(".","\\.")+".*")) {
 					setErrorMessage("Selected seam has wrong version number '" + seamVersion + "'");
 					setPageComplete(false);
 					return;

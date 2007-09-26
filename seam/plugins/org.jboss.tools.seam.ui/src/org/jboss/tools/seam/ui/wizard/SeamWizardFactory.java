@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
+import org.hibernate.eclipse.console.HibernateConsolePlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
@@ -109,6 +110,7 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createHibernateConsoleConfigurationSelectionFieldEditor(String defaultSelection) {
+		HibernateConsolePlugin.getDefault();
 		ConsoleConfiguration[] configs = KnownConfigurations.getInstance().getConfigurations();
 		List<String> configurationNames = new ArrayList<String>();
 		for (int i = 0; i < configs.length; i++) {
@@ -121,7 +123,10 @@ public class SeamWizardFactory {
 				defaultSelection = "";
 			}
 		}
-		IFieldEditor editor = SwtFieldEditorFactory.INSTANCE.createComboEditor(IParameter.HIBERNATE_CONFIGURATION_NAME, SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, configurationNames, defaultSelection);
+		IFieldEditor editor = SwtFieldEditorFactory.INSTANCE.createComboEditor(
+				IParameter.HIBERNATE_CONFIGURATION_NAME, 
+				SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, 
+				configurationNames, defaultSelection);
 		return editor;
 	}
 }

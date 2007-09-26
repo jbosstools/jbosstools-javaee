@@ -65,57 +65,42 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				ILaunchConfigurationType launchConfigurationType = 
 					launchManager.getLaunchConfigurationType("org.hibernate.eclipse.launch.CodeGenerationLaunchConfigurationType");
 				ILaunchConfigurationWorkingCopy wc = 
-					launchConfigurationType.newInstance(project, project.getName() + "generate-entities");
+					launchConfigurationType.newInstance(project, project.getName() + "-generate-entities");
 
 				//Main
 				wc.setAttribute(
 					HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
 					params.get(IParameter.HIBERNATE_CONFIGURATION_NAME));
 
-				J2EEProjects seamProjectUtil = J2EEProjects.create(project);
-				IPath webContentPath = null;
-				IFolder webContent = seamProjectUtil.getWARContentFolder();
-				IProject webProject = null;
-				if(webContent!=null && webContent.exists()) {
-					webContentPath = webContent.getFullPath();
-					webProject = seamProjectUtil.getWARProjects().get(0);
-				}
+				J2EEProjects seamProjectsSet = J2EEProjects.create(project);
 
-				if(webContentPath == null) {
-					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, "WebContent folder not found in project " + project.getName()));
-				}
-				wc.setAttribute(HibernateLaunchConstants.ATTR_OUTPUT_DIR, webContentPath.toString());
+				wc.setAttribute(HibernateLaunchConstants.ATTR_OUTPUT_DIR, 
+						seamProjectsSet.getBeansFolder()==null?
+								"":seamProjectsSet.getBeansFolder().getFullPath().toString());
 
 				boolean isReverseEngineer = "true".equals(params.get(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER));
 				wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, isReverseEngineer);
 
 				if(isReverseEngineer) {
-					wc.setAttribute(HibernateLaunchConstants.ATTR_PACKAGE_NAME, "seamtest");
+					wc.setAttribute(HibernateLaunchConstants.ATTR_PACKAGE_NAME, seamProjectsSet.getEntityPackage());
 					wc.setAttribute(HibernateLaunchConstants.ATTR_PREFER_BASIC_COMPOSITE_IDS, true);
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_MANY_TO_MANY, true);
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_VERSIONING, true);
 				}
 
-				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, false);
+				wc.setAttribute("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.Util");
+				
 				SeamRuntime seamRt = getRuntime(project);
 				if(seamRt==null) {
-					seamRt = getRuntime(webProject);
+					seamRt = getRuntime(project);
 				}
 				if(seamRt == null) {
 					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, "Can't find seam runtime for project " + project.getName()));
 				}
-
-				IResource[] resources = seamProjectUtil.getEJBSourceRoots();
-				IPath javaSource = null;
-				if(resources!=null && resources.length>0) {
-					javaSource = resources[0].getFullPath();
-				}
-				if(javaSource == null) {
-					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, "Source folder not found in project " + project.getName()));
-				}
-
-				String template = "" + seamRt.getHomeDir() + "/seam-gen/view";
-				wc.setAttribute(HibernateLaunchConstants.ATTR_TEMPLATE_DIR, template);
+				String viewTemplate = seamRt.getViewTemplatesDir();
+				String srcTemplate = seamRt.getSrcTemplatesDir();
+				wc.setAttribute(HibernateLaunchConstants.ATTR_TEMPLATE_DIR, viewTemplate);
 
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_JDK5, true);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_EJB3_ANNOTATIONS, true);
@@ -123,48 +108,161 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				// Create exporters
 				// TODO Add others exporters
 				List<String> exporters = new ArrayList<String>();
+				
+				exporters.add("hbmtemplate0");
 				exporters.add("hbmtemplate1");
 				exporters.add("hbmtemplate2");
+				exporters.add("hbmtemplate3");
+				exporters.add("hbmtemplate4");
+				exporters.add("hbmtemplate5");
+				exporters.add("hbmtemplate6");
+				exporters.add("hbmtemplate7");
+				exporters.add("hbmtemplate8");
+				exporters.add("hbmtemplate9");
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS, exporters);
-
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0.extension_id", "org.hibernate.tools.hbm2java");
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1", true);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.extension_id", "org.hibernate.tools.hbmtemplate");
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate2", true);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate2.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate3", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate3.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate4", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate4.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate5", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate5.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate6", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate6.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate7", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate7.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate8", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate8.extension_id", "org.hibernate.tools.hbmtemplate");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9", true);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9.extension_id", "org.hibernate.tools.hbmtemplate");
+				
+				Map<String, String> hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}List.xhtml");
+				hbmtemplateAttributes.put("template_path", viewTemplate);
+				hbmtemplateAttributes.put("template_name", "list.xhtml.ftl");
+				hbmtemplateAttributes.put("outputdir", seamProjectsSet.getViewsFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");				
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");	
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.properties", hbmtemplateAttributes);
 
-//				ExporterDefinition[] ds = ExtensionManager.findExporterDefinitions();
+//				<hbmtemplate filepattern="{class-name}.xhtml"
+//	                template="view/view.xhtml.ftl" 
+//		             destdir="${project.home}/view"
+//                     foreach="entity"/>
 
-				// Set properties:
-				//         	<hbmtemplate filepattern="{class-name}List.xhtml"
-				//                       template="view/list.xhtml.ftl" 
-		        //                       destdir="${project.home}/view"
-	            //                       foreach="entity"/>
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}.xhtml");
+				hbmtemplateAttributes.put("template_path", viewTemplate);
+				hbmtemplateAttributes.put("template_name", "view.xhtml.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate2.properties", hbmtemplateAttributes);
 
-				Map<String, String> hbmtemplate1Attributes = new HashMap<String, String>();
-				hbmtemplate1Attributes.put("file_pattern", "{class-name}List.xhtml");
-				hbmtemplate1Attributes.put("template_path", template);
-				hbmtemplate1Attributes.put("template_name", "list.xhtml.ftl");
-				// TODO create "view" folder
-				hbmtemplate1Attributes.put("outputdir", webContentPath.toString() + "/view");
-				hbmtemplate1Attributes.put("for_each", "entity");
-				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.properties", hbmtemplate1Attributes);
+//				<hbmtemplate filepattern="{class-name}.page.xml"
+//	                template="view/view.page.xml.ftl" 
+//		             destdir="${project.home}/view"
+//                     foreach="entity"/>
 
-				// Set properties:
-				//       	<hbmtemplate filepattern="{class-name}.page.xml"
-				//                       template="view/view.page.xml.ftl" 
-				//		                 destdir="${project.home}/view"
-				//                       foreach="entity"/>
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}.page.xml");
+				hbmtemplateAttributes.put("template_path", viewTemplate);
+				hbmtemplateAttributes.put("template_name", "view.page.xml.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate3.properties", hbmtemplateAttributes);
+				
+//				<hbmtemplate filepattern="{class-name}Edit.xhtml"
+//	                template="view/edit.xhtml.ftl" 
+//		             destdir="${project.home}/view"
+//                     foreach="entity"/>
 
-				Map<String, String> hbmtemplate2Attributes = new HashMap<String, String>();
-				hbmtemplate2Attributes.put("file_pattern", "{class-name}.page.xml");
-				hbmtemplate1Attributes.put("template_path", template);
-				hbmtemplate1Attributes.put("template_name", "view.page.xml.ftl");
-				hbmtemplate2Attributes.put("outputdir", webContentPath.toString() + "/view");
-				hbmtemplate2Attributes.put("for_each", "entity");
-				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate2.properties", hbmtemplate2Attributes);
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}Edit.xhtml");
+				hbmtemplateAttributes.put("template_path", viewTemplate);
+				hbmtemplateAttributes.put("template_name", "edit.xhtml.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate4.properties", hbmtemplateAttributes);
 
-				// TODO Set properties for others exporters
+//				<hbmtemplate filepattern="{class-name}Edit.page.xml"
+//	                template="view/edit.page.xml.ftl" 
+//		             destdir="${project.home}/view"
+//                     foreach="entity"/>
+				
+				
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}Edit.page.xml");
+				hbmtemplateAttributes.put("template_path", viewTemplate);
+				hbmtemplateAttributes.put("template_name", "edit.page.xml.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate5.properties", hbmtemplateAttributes);
 
+//				<hbmtemplate filepattern="{package-name}/{class-name}List.java"
+//	                template="src/EntityList.java.ftl" 
+//		             destdir="${project.home}/src"
+//                     foreach="entity"/>
+
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}List.java");
+				hbmtemplateAttributes.put("template_path", srcTemplate);
+				hbmtemplateAttributes.put("template_name", "EntityList.java.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getBeansFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate6.properties", hbmtemplateAttributes);
+
+//				<hbmtemplate filepattern="{class-name}List.page.xml"
+//	                template="view/list.page.xml.ftl" 
+//		             destdir="${project.home}/view"
+//                     foreach="entity"/>
+
+				
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}List.page.xml");
+				hbmtemplateAttributes.put("template_path", viewTemplate);
+				hbmtemplateAttributes.put("template_name", "list.page.xml.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate7.properties", hbmtemplateAttributes);
+				
+//				<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
+//	                template="src/EntityHome.java.ftl" 
+//		             destdir="${project.home}/src"
+//                     foreach="entity"/>
+
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "{class-name}Home.java");
+				hbmtemplateAttributes.put("template_path", srcTemplate);
+				hbmtemplateAttributes.put("template_name", "EntityHome.java.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getBeansFolder().getFullPath().toString());
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate8.properties", hbmtemplateAttributes);
+				
+//				<hbmtemplate filepattern="menu.xhtml"
+//	                template="view/layout/menu.xhtml.ftl" 
+//		             destdir="${project.home}/view/layout"
+//                     foreach="entity"/>
+
+				hbmtemplateAttributes = new HashMap<String, String>();
+				hbmtemplateAttributes.put("file_pattern", "menu.xhtml");
+				hbmtemplateAttributes.put("template_path", viewTemplate+"/layout");
+				hbmtemplateAttributes.put("template_name", "menu.xhtml.ftl");
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString()+"/layout");
+				hbmtemplateAttributes.put("for_each", "entity");
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
+				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9.properties", hbmtemplateAttributes);
 				wc.doSave();
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
 			} catch (CoreException e) {
