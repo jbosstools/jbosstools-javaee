@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -25,9 +25,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Creates VPE content for rich:treeNode
+ * Create template for rich:treeNodes element
  * 
- * @author Max Areshkau
+ * @author dsakovich@exadel.com
  * 
  */
 public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
@@ -60,7 +60,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 
     public static final String ICON_EXPANDED_ADAPTER_WITHOUT_LINES = "/tree/iconClosedNode.gif";
 
-    public static final String ICON_LEAF_WITH_LINES = "/tree/iconLeaf.gif";
+    public static final String ICON_LEAF_WITH_LINES = "/tree/iconLeafWithLines.gif";
 
     public static final String ICON_RIGHT_LINE = "/tree/rightLine.gif";
 
@@ -68,7 +68,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 
     public static final String ICON_LINE = "/tree/line.gif";
 
-    public static final String ICON_LEAF_WITHOUT_LINES = "/tree/iconLeafWithLines.gif";
+    public static final String ICON_LEAF_WITHOUT_LINES = "/tree/iconLeaf.gif";
 
     private static final String TREE_TABLE_PICTURE_STYLE_CLASS_NAME = "treePictureStyle";
 
@@ -85,10 +85,6 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
     private static final String TREE_TABLE_ATR_CELLPADDING_VALUE = "0px";
 
     private static final String TREE_TABLE_ATR_BORDER_VALUE = "0px";
-
-    private static final String TREE_NODES_ADAPTOR_NAME = "treeNodesAdaptor";
-
-    private static final String TREE_NODES_RECURSIVE_ADAPTOR_NAME = "recursiveTreeNodesAdaptor";
 
     private static final String TREE_NAME = "tree";
 
@@ -175,8 +171,10 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	String imgName = sourceNode.getAttribute(nodeAttrName);
 	// if in tree node image doesn't exist we get image attr from tree
 	if (imgName == null || imgName.length() == 0) {
-	    imgName = ((Element) sourceNode.getParentNode())
-		    .getAttribute(nodeAttrName);
+	    Node parentElement = sourceNode.getParentNode();
+	    if (parentElement instanceof Element) {
+		imgName = ((Element) parentElement).getAttribute(nodeAttrName);
+	    }
 	} else {
 	    img.setAttribute(ICON_PARAM_NAME, "");
 	}
@@ -211,7 +209,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    Document visualDocument, Element treeRow, Node sourceNode,
 	    VpeCreationData vpeCreationData) {
 	// creates icon node
-	String backgroundImagePath;
+	String backgroundLinePath = null;
 	if (RichFacesTemplatesActivator.getDefault().isDebugging()) {
 	    System.out.println("call createBasicTree");
 	}
@@ -224,81 +222,59 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 	// sets icon node
-	if (!isLastElement(sourceNode.getParentNode(), sourceNode)) {
-	    // sets attribute for icon expanded picture or not
-
-	    if (!isAdaptorsChild(sourceNode.getParentNode())) {
-		backgroundImagePath = RichFacesTemplatesActivator
-			.getPluginResourcePath()
-			+ ICON_RIGHT_LINE;
-		setAttributeForPictureNode(pageContext, visualDocument,
-			(Element) sourceNode, td1,
-			NODE_ICON_EXPANDED_ATTR_NAME,
-			showLinesValue == true ? ICON_EXPANDED_WITH_LINES
-				: ICON_EXPANDED_WITHOUT_LINES);
-		setAttributeForPictureNode(pageContext, visualDocument,
-			(Element) sourceNode, iconNode, NODE_ICON_ATTR_NAME,
-			showLinesValue == true ? ICON_NODE_WITH_LINES
-				: ICON_NODE_WITHOUT_LINES);
-		String path = RichFacesTemplatesActivator
-			.getPluginResourcePath()
-			+ ICON_LEFT_LINE;
-		if (showLinesValue) {
-		    iconNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-			    "background-image: url(file://" + path + "); "
-				    + NODE_LINES_STYLE);
-		}
-
-	    } else {
-		backgroundImagePath = RichFacesTemplatesActivator
-			.getPluginResourcePath()
-			+ ICON_LINE;
-		setAttributeForPictureNode(
-			pageContext,
-			visualDocument,
-			(Element) sourceNode,
-			td1,
-			NODE_ICON_EXPANDED_ATTR_NAME,
-			showLinesValue == true ? ICON_EXPANDED_ADAPTER_WITH_LINES
-				: ICON_EXPANDED_ADAPTER_WITHOUT_LINES);
-		setAttributeForPictureNode(pageContext, visualDocument,
-			(Element) sourceNode, iconNode, NODE_ICON_ATTR_NAME,
-			showLinesValue == true ? ICON_NODE_WITH_LINE
-				: ICON_NODE_WITHOUT_LINES);
-	    }
-
-	} else {
-	    backgroundImagePath = RichFacesTemplatesActivator
+	if (!isLastElement(sourceNode) && isAdaptorChild(sourceNode)) {
+	    backgroundLinePath = RichFacesTemplatesActivator
+		    .getPluginResourcePath()
+		    + ICON_LINE;
+	    setAttributeForPictureNode(pageContext, visualDocument,
+		    (Element) sourceNode, td1, NODE_ICON_EXPANDED_ATTR_NAME,
+		    showLinesValue == true ? ICON_EXPANDED_ADAPTER_WITH_LINES
+			    : ICON_EXPANDED_ADAPTER_WITHOUT_LINES);
+	    setAttributeForPictureNode(pageContext, visualDocument,
+		    (Element) sourceNode, iconNode, NODE_ICON_ATTR_NAME,
+		    showLinesValue == true ? ICON_NODE_WITH_LINE
+			    : ICON_NODE_WITHOUT_LINES);
+	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && isLastElementAfterAdaptor(sourceNode))
+		|| (!isAdaptorChild(sourceNode) && isLastElement(sourceNode))) {
+	    backgroundLinePath = RichFacesTemplatesActivator
 		    .getPluginResourcePath()
 		    + ICON_RIGHT_LINE;
 	    setAttributeForPictureNode(pageContext, visualDocument,
 		    (Element) sourceNode, td1, NODE_ICON_EXPANDED_ATTR_NAME,
 		    showLinesValue == true ? ICON_NOT_EXPANDED_WITH_LINES
 			    : ICON_NOT_EXPANDED_WITHOUT_LINES);
-	    if (isAdaptorsChild(sourceNode.getParentNode())) {
-		if (!isLastNodesAdaptor(sourceNode)) {
-		    String path = RichFacesTemplatesActivator
-			    .getPluginResourcePath()
-			    + ICON_LEFT_LINE;
-		    if (showLinesValue) {
-			iconNode.setAttribute(
-				HtmlComponentUtil.HTML_STYLE_ATTR,
-				"background-image: url(file://" + path + "); "
-					+ NODE_LINES_STYLE);
-		    }
-
-		}
-	    }
 	    setAttributeForPictureNode(pageContext, visualDocument,
 		    (Element) sourceNode, iconNode, NODE_ICON_LEAF_ATTR_NAME,
 		    showLinesValue == true ? ICON_LEAF_WITH_LINES
 			    : ICON_LEAF_WITHOUT_LINES);
+	} else {
+	    backgroundLinePath = RichFacesTemplatesActivator
+		    .getPluginResourcePath()
+		    + ICON_RIGHT_LINE;
+	    setAttributeForPictureNode(pageContext, visualDocument,
+		    (Element) sourceNode, td1, NODE_ICON_EXPANDED_ATTR_NAME,
+		    showLinesValue == true ? ICON_EXPANDED_WITH_LINES
+			    : ICON_EXPANDED_WITHOUT_LINES);
+
+	    if (showLinesValue) {
+		String path = RichFacesTemplatesActivator
+			.getPluginResourcePath()
+			+ ICON_LEFT_LINE;
+		iconNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+			"background-image: url(file://" + path + "); "
+				+ NODE_LINES_STYLE);
+	    }
+
+	    setAttributeForPictureNode(pageContext, visualDocument,
+		    (Element) sourceNode, iconNode, NODE_ICON_ATTR_NAME,
+		    showLinesValue == true ? ICON_NODE_WITH_LINES
+			    : ICON_NODE_WITHOUT_LINES);
 	}
+
 	if (showLinesValue) {
 	    td1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-		    "background-image: url(file://" + backgroundImagePath
+		    "background-image: url(file://" + backgroundLinePath
 			    + "); " + NODE_LINES_STYLE);
-
 	}
 	treeRow.appendChild(td1);
 	treeRow.appendChild(iconNode);
@@ -317,6 +293,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	}
 	vpeCreationData.addChildrenInfo(tdInfo);
 	treeRow.appendChild(nodeTitle);
+
     }
 
     /**
@@ -346,14 +323,14 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, "");
 	} else if (NODE_ICON_ATTR_NAME.equals(name)
-		&& !isLastElement(visualNode.getParentNode(), visualNode)) {
+		&& !isLastElement(visualNode)) {
 	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
 	    Element img = (Element) iconCell.getChildNodes().item(0);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, "");
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equals(name)
-		&& isLastElement(sourceElement.getParentNode(), sourceElement)) {
+		&& isLastElement(sourceElement)) {
 	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
 	    Element img = (Element) iconCell.getChildNodes().item(0);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
@@ -391,7 +368,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 		    .setAttribute(ICON_PARAM_NAME,
 			    DEFAULT_ICON_EXPANDED_PARAM_VALUE);
 	} else if (NODE_ICON_ATTR_NAME.equalsIgnoreCase(name)
-		&& !isLastElement(sourceElement.getParentNode(), sourceElement)) {
+		&& !isLastElement(sourceElement)) {
 	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
 	    Element img = (Element) iconCell.getChildNodes().item(0);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
@@ -407,7 +384,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    img.setAttribute(ICON_PARAM_NAME, DEFAULT_ICON_PARAM_VALUE);
 
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equalsIgnoreCase(name)
-		&& isLastElement(sourceElement.getParentNode(), sourceElement)) {
+		&& isLastElement(sourceElement)) {
 	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
 	    Element img = (Element) iconCell.getChildNodes().item(0);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
@@ -429,13 +406,19 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * @param sourceNode
      * @return
      */
-    private boolean isAdaptorsChild(Node sourceNode) {
-	String treeNodesAdaptor = sourceNode.getPrefix() + ":"
-		+ TREE_NODES_ADAPTOR_NAME;
-	String recursiveTreeNodesAdaptor = sourceNode.getPrefix() + ":"
-		+ TREE_NODES_RECURSIVE_ADAPTOR_NAME;
-	if (sourceNode.getNodeName().equals(treeNodesAdaptor)
-		|| sourceNode.getNodeName().equals(recursiveTreeNodesAdaptor)) {
+    private boolean isAdaptorChild(Node sourceNode) {
+	Node parentNode = sourceNode.getParentNode();
+	if (!(parentNode instanceof Element)) {
+	    return true;
+	}
+
+	String treeNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
+	String treeRecursiveNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
+	if (parentNode.getNodeName().equals(treeNodesAdaptorName)
+		|| parentNode.getNodeName().equals(
+			treeRecursiveNodesAdaptorName)) {
 	    return true;
 	}
 	return false;
@@ -444,22 +427,32 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
     /**
      * 
      * @param parentTree
-     * @param currentNode
+     * @param sourceNode
      * @return
      */
-    private boolean isLastElement(Node parentTree, Node currentNode) {
+    private boolean isLastElement(Node sourceNode) {
+	Node parentTree = sourceNode.getParentNode();
+	if (!(parentTree instanceof Element)) {
+	    return true;
+	}
 	NodeList childs = parentTree.getChildNodes();
 	String treeNodeName = parentTree.getPrefix() + ":"
 		+ RichFacesTreeTemplate.TREE_NODE_NAME;
+	String treeNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
+	String treeRecursiveNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
 	Node lastElement = null;
 	Node el = null;
 	for (int i = 0; i < childs.getLength(); i++) {
 	    el = childs.item(i);
-	    if (el.getNodeName().equals(treeNodeName)) {
+	    if (el.getNodeName().equals(treeNodeName)
+		    || el.getNodeName().equals(treeNodesAdaptorName)
+		    || el.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
 		lastElement = el;
 	    }
 	}
-	return currentNode.equals(lastElement);
+	return sourceNode.equals(lastElement);
     }
 
     /**
@@ -522,16 +515,11 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * @param sourceNode
      * @return
      */
-    private boolean isLastNodesAdaptor(Node sourceNode) {
+    private boolean isLastElementAfterAdaptor(Node sourceNode) {
 	Node nodeAdaptor = sourceNode.getParentNode();
 	if (!(nodeAdaptor instanceof Element)) {
 	    return true;
 	}
-	Node parentNode = nodeAdaptor.getParentNode();
-	if (!(parentNode instanceof Element)) {
-	    return true;
-	}
-	Node lastNode = parentNode.getLastChild();
-	return lastNode.equals(nodeAdaptor);
+	return isLastElement(nodeAdaptor);
     }
 }
