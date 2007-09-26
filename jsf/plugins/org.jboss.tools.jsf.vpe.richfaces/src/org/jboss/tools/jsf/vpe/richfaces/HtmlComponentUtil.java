@@ -17,6 +17,9 @@ package org.jboss.tools.jsf.vpe.richfaces;
  * 
  */
 public class HtmlComponentUtil {
+	
+	/** HTML TAG BR */
+	public static final String HTML_TAG_BR = "br";
 
 	/** HTML TAG COLGROUP */
 	public static final String HTML_TAG_COLGROUP = "colgroup";
@@ -125,6 +128,9 @@ public class HtmlComponentUtil {
 
 	/** HTML_ROWSPAN_ATTR * */
 	public static final String HTML_ROWSPAN_ATTR = "rowspan";
+	
+	/** HTML_READONLY_ATTR * */
+	public static final String HTML_READONLY_ATTR = "readonly";
 
 	/** HTML_SIZE_ATTR * */
 	public static final String HTML_SIZE_ATTR = "size";

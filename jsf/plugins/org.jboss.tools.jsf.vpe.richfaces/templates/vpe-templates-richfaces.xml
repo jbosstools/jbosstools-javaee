@@ -452,6 +452,20 @@
 	    </vpe:template>
     </vpe:tag>
     
+     <vpe:tag name="rich:calendar" case-sensitive="yes">
+		<vpe:template children="no" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCalendarTemplate">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
+    
     <vpe:tag name="rich:virtualEarth" case-sensitive="yes">
     	<vpe:template children="no" modify="yes" 
     			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesVirtualEarthTemplate">
