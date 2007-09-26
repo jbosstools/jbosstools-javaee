@@ -67,6 +67,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				ILaunchConfigurationWorkingCopy wc = 
 					launchConfigurationType.newInstance(project, project.getName() + "-generate-entities");
 
+				
 				//Main
 				wc.setAttribute(
 					HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
@@ -88,8 +89,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_VERSIONING, true);
 				}
 
-				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, false);
-				wc.setAttribute("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.Util");
+				
 				
 				SeamRuntime seamRt = getRuntime(project);
 				if(seamRt==null) {
@@ -98,10 +98,11 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				if(seamRt == null) {
 					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, "Can't find seam runtime for project " + project.getName()));
 				}
-				String viewTemplate = seamRt.getViewTemplatesDir();
-				String srcTemplate = seamRt.getSrcTemplatesDir();
-				wc.setAttribute(HibernateLaunchConstants.ATTR_TEMPLATE_DIR, viewTemplate);
-
+				String seamTemplatesRoot = seamRt.getTemplatesDir();
+				
+				wc.setAttribute(HibernateLaunchConstants.ATTR_TEMPLATE_DIR, seamTemplatesRoot);
+				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, true);
+								
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_JDK5, true);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_EJB3_ANNOTATIONS, true);
 
@@ -142,9 +143,14 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9.extension_id", "org.hibernate.tools.hbmtemplate");
 				
 				Map<String, String> hbmtemplateAttributes = new HashMap<String, String>();
+
+//	        	<hbmtemplate filepattern="{class-name}List.xhtml"
+//	                template="view/list.xhtml.ftl" 
+//		             destdir="${project.home}/view"
+//	                 foreach="entity"/>
+
 				hbmtemplateAttributes.put("file_pattern", "{class-name}List.xhtml");
-				hbmtemplateAttributes.put("template_path", viewTemplate);
-				hbmtemplateAttributes.put("template_name", "list.xhtml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/list.xhtml.ftl");
 				hbmtemplateAttributes.put("outputdir", seamProjectsSet.getViewsFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");				
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");	
@@ -157,8 +163,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}.xhtml");
-				hbmtemplateAttributes.put("template_path", viewTemplate);
-				hbmtemplateAttributes.put("template_name", "view.xhtml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/view.xhtml.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -171,8 +176,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}.page.xml");
-				hbmtemplateAttributes.put("template_path", viewTemplate);
-				hbmtemplateAttributes.put("template_name", "view.page.xml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/view.page.xml.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -185,8 +189,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}Edit.xhtml");
-				hbmtemplateAttributes.put("template_path", viewTemplate);
-				hbmtemplateAttributes.put("template_name", "edit.xhtml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/edit.xhtml.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -200,8 +203,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}Edit.page.xml");
-				hbmtemplateAttributes.put("template_path", viewTemplate);
-				hbmtemplateAttributes.put("template_name", "edit.page.xml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/edit.page.xml.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -213,9 +215,8 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 //                     foreach="entity"/>
 
 				hbmtemplateAttributes = new HashMap<String, String>();
-				hbmtemplateAttributes.put("file_pattern", "{class-name}List.java");
-				hbmtemplateAttributes.put("template_path", srcTemplate);
-				hbmtemplateAttributes.put("template_name", "EntityList.java.ftl");
+				hbmtemplateAttributes.put("file_pattern", "{package-name}/{class-name}List.java");
+				hbmtemplateAttributes.put("template_name", "src/EntityList.java.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getBeansFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -229,8 +230,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}List.page.xml");
-				hbmtemplateAttributes.put("template_path", viewTemplate);
-				hbmtemplateAttributes.put("template_name", "list.page.xml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/list.page.xml.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -242,9 +242,8 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 //                     foreach="entity"/>
 
 				hbmtemplateAttributes = new HashMap<String, String>();
-				hbmtemplateAttributes.put("file_pattern", "{class-name}Home.java");
-				hbmtemplateAttributes.put("template_path", srcTemplate);
-				hbmtemplateAttributes.put("template_name", "EntityHome.java.ftl");
+				hbmtemplateAttributes.put("file_pattern", "{package-name}/{class-name}Home.java");
+				hbmtemplateAttributes.put("template_name", "src/EntityHome.java.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getBeansFolder().getFullPath().toString());
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");
@@ -257,8 +256,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "menu.xhtml");
-				hbmtemplateAttributes.put("template_path", viewTemplate+"/layout");
-				hbmtemplateAttributes.put("template_name", "menu.xhtml.ftl");
+				hbmtemplateAttributes.put("template_name", "view/layout/menu.xhtml.ftl");
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getViewsFolder().getFullPath().toString()+"/layout");
 				hbmtemplateAttributes.put("for_each", "entity");
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil");

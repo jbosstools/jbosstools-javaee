@@ -116,4 +116,9 @@ public class SeamRuntime {
 	public String getViewTemplatesDir() {
 		return getSeamGenDir()+"/view";
 	}
+	
+	public String getTemplatesDir() {
+		return getSeamGenDir();
+	}
+	
 }
