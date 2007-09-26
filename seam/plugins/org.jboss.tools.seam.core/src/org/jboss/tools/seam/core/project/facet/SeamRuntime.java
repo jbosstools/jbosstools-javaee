@@ -104,4 +104,16 @@ public class SeamRuntime {
 	public boolean isDefault() {
 		return defaultRt;
 	}
+	
+	public String getSeamGenDir() {
+		return getHomeDir()+"/seam-gen";
+	}
+	
+	public String getSrcTemplatesDir() {
+		return getSeamGenDir()+"/src";
+	}
+	
+	public String getViewTemplatesDir() {
+		return getSeamGenDir()+"/view";
+	}
 }
