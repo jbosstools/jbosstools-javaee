@@ -319,6 +319,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true);
 
 			IContainer source = srcRootFolder.getUnderlyingFolder();
+			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
 			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/action"),new Path(source.getFullPath().lastSegment()));
 			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/model"),new Path(source.getFullPath().lastSegment()));			
 			
