@@ -78,10 +78,6 @@
 	<vpe:tag name="rich:treeNodesAdaptor" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTreeNodesAdaptorTemplate">
-			<vpe:resize>
-				<vpe:width width-attr="style.width" />
-				<vpe:height height-attr="style.height" />
-			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
@@ -93,11 +89,7 @@
 	
 	<vpe:tag name="rich:recursiveTreeNodesAdaptor" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"
-			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTreeNodesAdaptorTemplate">
-			<vpe:resize>
-				<vpe:width width-attr="style.width" />
-				<vpe:height height-attr="style.height" />
-			</vpe:resize>
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesRecursiveTreeNodesAdaptorTemplate">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
