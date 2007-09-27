@@ -178,6 +178,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 	public static AntCopyUtils.FileSet CVS_SVN = new AntCopyUtils.FileSet()
 		.include(".*")
 		.exclude(".*/CVS")
+		.exclude("CVS")
+		.exclude(".*\\.svn")
 		.exclude(".*/\\.svn");	
 	
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
