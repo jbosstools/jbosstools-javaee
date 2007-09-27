@@ -240,43 +240,45 @@ public class SeamELValidator extends SeamValidator {
 			String exp = el.value;
 			int offset = exp.length();
 
-			String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
-			if(prefix!=null) {
-				int possition = exp.indexOf(prefix);
-				if (possition == -1) possition = 0;
-					
-				Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
-				Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
-
-				List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
-
-				if(usedVariables.size()==0 && suggestions.size()==0) {
-					// Save resources with unknown variables names
-					validationContext.addUnnamedElResource(file.getFullPath());
-				} else {
-					// Save links between resource and used variables names
-					for(ISeamContextVariable variable: usedVariables) {
-						validationContext.addLinkedElResource(variable.getName(), file.getFullPath());					
+			if (!exp.endsWith(".")) {
+				String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
+				if(prefix!=null) {
+					int possition = exp.indexOf(prefix);
+					if (possition == -1) possition = 0;
+						
+					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
+					Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
+	
+					List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
+	
+					if(usedVariables.size()==0 && suggestions.size()==0) {
+						// Save resources with unknown variables names
+						validationContext.addUnnamedElResource(file.getFullPath());
+					} else {
+						// Save links between resource and used variables names
+						for(ISeamContextVariable variable: usedVariables) {
+							validationContext.addLinkedElResource(variable.getName(), file.getFullPath());					
+						}
 					}
-				}
-
-				// Check pair for getter/setter
-				if(unpairedGettersOrSetters.size()>0) {
-					IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
-					String methodName = unpairedMethod.getElementName();
-					String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
-					String missingMethodName = "Setter";
-					String existedMethodName = "Getter";
-					if(methodName.startsWith("s")) {
-						missingMethodName = existedMethodName;
-						existedMethodName = "Setter";
+	
+					// Check pair for getter/setter
+					if(unpairedGettersOrSetters.size()>0) {
+						IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
+						String methodName = unpairedMethod.getElementName();
+						String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
+						String missingMethodName = "Setter";
+						String existedMethodName = "Getter";
+						if(methodName.startsWith("s")) {
+							missingMethodName = existedMethodName;
+							existedMethodName = "Setter";
+						}
+						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file);
 					}
-					addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file);
-				}
-
-				if (suggestions != null && suggestions.size() > 0) {
-					// It's valid EL.
-					return;
+	
+					if (suggestions != null && suggestions.size() > 0) {
+						// It's valid EL.
+						return;
+					}
 				}
 			}
 		} catch (BadLocationException e) {
