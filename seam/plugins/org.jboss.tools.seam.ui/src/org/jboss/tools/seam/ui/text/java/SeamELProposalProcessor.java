@@ -259,7 +259,9 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 
 				public int compare(ICompletionProposal arg0,
 						ICompletionProposal arg1) {
-					return arg1.getDisplayString().compareTo(arg1.getDisplayString());
+					String str0 = (arg0 == null ? "" : arg0.getDisplayString());
+					String str1 = (arg1 == null ? "" : arg1.getDisplayString());
+					return str0.compareTo(str1);
 				}});
 			return resultArray;
 		} catch (BadLocationException x) {
