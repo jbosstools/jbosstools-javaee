@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -198,7 +199,8 @@ public class SeamExpressionResolver {
 		Set<String> methods = new HashSet<String>();
 		if (type != null) {
 			try {
-				IMethod[] mthds = type.getMethods();
+//				IMethod[] mthds = type.getMethods();
+				IMethod[] mthds = getAllMethods(type);
 				for (int i = 0; mthds != null && i < mthds.length; i++) {
 					IMethod m = mthds[i];
 					if (Modifier.isPublic(m.getFlags()) && 
@@ -229,6 +231,43 @@ public class SeamExpressionResolver {
 			}
 		}
 		return methods;
+	}
+
+	/**
+	 * @param type
+	 * @return methods of type and methods of all super classes
+	 */
+	private static IMethod[] getAllMethods(IType type) {
+		ArrayList<IMethod> result = new ArrayList<IMethod>();
+		try {
+			IMethod[] mthds = type.getMethods();
+			for(int i=0; i<mthds.length; i++) {
+				result.add(mthds[i]);
+			}
+			IType superType = getSuperclass(type);
+			while(superType!=null) {
+				mthds = superType.getMethods();
+				for(int i=0; i<mthds.length; i++) {
+					result.add(mthds[i]);
+				}
+				superType = getSuperclass(superType);
+			}
+		} catch (JavaModelException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return result.toArray(new IMethod[result.size()]);
+	}
+
+	private static IType getSuperclass(IType type) throws JavaModelException {
+		String superclassName = type.getSuperclassName();
+		if(superclassName!=null) {
+			String fullySuperclassName = EclipseJavaUtil.resolveType(type, superclassName);
+			if(fullySuperclassName!=null&&!fullySuperclassName.equals("java.lang.Object")) {
+				IType superType = type.getJavaProject().findType(fullySuperclassName);
+				return superType;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -290,7 +329,8 @@ public class SeamExpressionResolver {
 		Set<String> properties = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 		if (type != null) {
 			try {
-				IMethod[] props = type.getMethods();
+//				IMethod[] props = type.getMethods();
+				IMethod[] props = getAllMethods(type); 
 				HashMap<String, IMethod> getters = new HashMap<String, IMethod>();
 				HashMap<String, IMethod> setters = new HashMap<String, IMethod>();
 				for (int i = 0; props != null && i < props.length; i++) {
