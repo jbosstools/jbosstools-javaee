@@ -139,7 +139,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public SeamRuntime getRuntime() {
 		if(useDefaultRuntime) {
-			SeamRuntimeManager.getInstance().getDefaultRuntime();
+			return SeamRuntimeManager.getInstance().getDefaultRuntime();
 		}
 		return runtime;
 	}
