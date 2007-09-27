@@ -262,7 +262,7 @@ public final class SeamELCompletionEngine {
 			}
 		}
 
-		if(res.isEmpty()) {
+		if(res.isEmpty() && unpairedGettersOrSetters!=null) {
 			unpairedGettersOrSetters.clear();
 		}
 		return res;
