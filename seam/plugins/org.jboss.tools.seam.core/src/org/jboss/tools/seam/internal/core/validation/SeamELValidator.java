@@ -32,6 +32,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
@@ -150,9 +151,16 @@ public class SeamELValidator extends SeamValidator {
 	}
 
 	private void validateDom(IFile file, String content) {
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if(manager == null) {
+			// this can happen if plugin org.eclipse.wst.sse.core 
+			// is stopping or uninstalled, that is Eclipse is shutting down.
+			// there is no need to report it, just stop validation.
+			return;
+		}
 		IStructuredModel model = null;		
 		try {
-			model = StructuredModelManager.getModelManager().getModelForRead(file);
+			model = manager.getModelForRead(file);
 			if (model instanceof IDOMModel) {
 				IDOMModel domModel = (IDOMModel) model;
     			IStructuredDocument structuredDoc = domModel.getStructuredDocument();
