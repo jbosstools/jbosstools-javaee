@@ -108,9 +108,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
 			for (String[] mapping : fileMappingCopy) {
-//				if(SeamCorePlugin.getDefault().isDebugging()) {
-					System.out.println(mapping[0] + "->" + mapping[1]);
-//				}
 				AntCopyUtils.copyFileToFile(new File(mapping[0]),new File(mapping[1]),filters,true); 			
 			}
 			
