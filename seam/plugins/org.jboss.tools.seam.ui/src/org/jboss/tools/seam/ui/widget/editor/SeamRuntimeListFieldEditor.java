@@ -159,7 +159,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		addBtn.setLayoutData(gd);
 		addBtn.addSelectionListener(this);
 		
-		rmBtn = new Button(buttons,SWT.PUSH);
+		/*rmBtn = new Button(buttons,SWT.PUSH);
 		rmBtn.setText("Remove");
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
         gd.horizontalAlignment = GridData.FILL;
@@ -167,7 +167,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		rmBtn.setLayoutData(gd);
 		rmBtn.addSelectionListener(this);
 		
-		/*final Button editBtn = new Button(buttons,SWT.PUSH);
+		final Button editBtn = new Button(buttons,SWT.PUSH);
 		editBtn.setText("Edit");
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
         gd.horizontalAlignment = GridData.FILL;
@@ -197,7 +197,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					return ((List<SeamRuntime>)inputElement).toArray();
 				else
 					throw new IllegalArgumentException("inputElement must be " +
-							"n instance of List<SeamRuntime>.");
+							"an instance of List<SeamRuntime>.");
 			}
 
 			public void dispose() {
