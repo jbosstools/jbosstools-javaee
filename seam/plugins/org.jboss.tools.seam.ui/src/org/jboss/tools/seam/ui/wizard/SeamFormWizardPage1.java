@@ -53,5 +53,6 @@ public class SeamFormWizardPage1 extends SeamBaseWizardPage {
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
+		super.propertyChange(event);
 	}
 }
