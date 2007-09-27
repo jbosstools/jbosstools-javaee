@@ -129,7 +129,7 @@ public class WtpUtils {
 		return "";
 	}
 	
-	public static IResource createSourceFolder (IProject project, IPath path, IPath exclude) {
+	public static IResource createSourceFolder (IProject project, IPath path, IPath exclude, Path outputFolder) {
 		IJavaProject javaProject;
 		IClasspathEntry[] javaProjectEntries;
 		IPath outputLocation;
@@ -172,13 +172,15 @@ public class WtpUtils {
 				}
 				newEntries.add(curr);
 			}
+			if(outputFolder!=null) {
+				CoreUtility.createDerivedFolder(project.getFolder(outputFolder), true, true, new NullProgressMonitor());
+			}
+			IClasspathEntry newEntry= JavaCore.newSourceEntry(newSourceFolderPath,new Path[]{},new Path[]{},outputFolder!=null?project.getFullPath().append(outputFolder):null);
 			
-			IClasspathEntry newEntry= JavaCore.newSourceEntry(newSourceFolderPath);
 			if (projectEntryIndex != -1) {
 				newEntries.set(projectEntryIndex, newEntry);
 			} else {
-				IClasspathEntry entry= JavaCore.newSourceEntry(newSourceFolderPath);
-				insertClasspathEntry(entry, newEntries);
+				insertClasspathEntry(newEntry, newEntries);
 			}
 
 			IClasspathEntry[] newClasspathEntries= (IClasspathEntry[]) newEntries.toArray(new IClasspathEntry[newEntries.size()]);
@@ -203,7 +205,6 @@ public class WtpUtils {
 			}
 			
 			javaProject.setRawClasspath(newClasspathEntries, newOutputLocation, new NullProgressMonitor());
-	
 			return newSourceFolder;
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);

@@ -7,7 +7,7 @@
  *
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import org.eclipse.core.resources.IContainer;
@@ -34,69 +34,85 @@ import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
+ * This class is provided to deploy data source descriptor to JBoss AS for Seam
+ * Web Project in WAR deployment configuration.
+ * 
  * @author eskimo
- *
+ * 
  */
 public class DataSourceXmlDeployer extends Job {
 	IProject project = null;
+
 	public DataSourceXmlDeployer(IProject project) {
 		super("Deploying datasource to server");
 		this.project = project;
 	}
-		@Override
-		protected IStatus run(IProgressMonitor monitor) {
 
-			IFacetedProject facetedProject;
-			try {
-				facetedProject = ProjectFacetsManager.create(project);
-			} catch (CoreException e) {
-				return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID, "No server selected to deploy datasource to");
-			}
-			org.eclipse.wst.common.project.facet.core.runtime.IRuntime primaryRuntime = facetedProject.getPrimaryRuntime();
-			IServer s = null;
-			IServer[] servers = ServerCore.getServers();
-			for (IServer server : servers) {
-				String primaryName = primaryRuntime.getName();
-				IRuntime runtime = server.getRuntime();
-				if(runtime!=null) {
-					String serverName = runtime.getName();
-					if(primaryName.equals(serverName)) {
-						s = server;
-					}
+	@Override
+	protected IStatus run(IProgressMonitor monitor) {
+
+		IFacetedProject facetedProject;
+		try {
+			facetedProject = ProjectFacetsManager.create(project);
+		} catch (CoreException e) {
+			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
+					"No server selected to deploy datasource to");
+		}
+		org.eclipse.wst.common.project.facet.core.runtime.IRuntime primaryRuntime = facetedProject
+				.getPrimaryRuntime();
+		IServer s = null;
+		IServer[] servers = ServerCore.getServers();
+		for (IServer server : servers) {
+			String primaryName = primaryRuntime.getName();
+			IRuntime runtime = server.getRuntime();
+			if (runtime != null) {
+				String serverName = runtime.getName();
+				if (primaryName.equals(serverName)) {
+					s = server;
 				}
 			}
-
-			if(s==null) {
-				return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID, "No server selected to deploy datasource to");							
-			} 
-			
-	        // convert it to a DeployableServer instance
-            DeployableServerBehavior deployer =  (DeployableServerBehavior) s.loadAdapter(DeployableServerBehavior.class, null);
-
-            // if its not null, the adaptation worked.
-            if( deployer == null ) {
-            	return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID, "Server did not support deploy of datasource.");
-            }
-
-            IVirtualComponent com = ComponentCore.createComponent(project);
-    		final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
-	        IContainer underlyingFolder = srcRootFolder.getUnderlyingFolder();
-			
-			IPath projectPath = new Path("/"+underlyingFolder.getProject().getName());
-			IPath projectRelativePath = underlyingFolder.getProjectRelativePath();
-			
-			IPath append = projectPath.append(projectRelativePath).append(project.getName()+"-ds.xml");
-			
-			if(SingleDeployableFactory.makeDeployable(append)) {
-			
-				IModule module = SingleDeployableFactory.findModule(append);
-				
-		         // custom API to deploy / publish only one module.
-				IStatus t = deployer.publishOneModule(IServer.PUBLISH_FULL, new IModule[] { module}, ServerBehaviourDelegate.ADDED, monitor);
-				SingleDeployableFactory.unmakeDeployable(append);
-		        return 	t;				
-			} else {
-				return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID, "Could not deploy datasource " + append);
-			}
 		}
+
+		if (s == null) {
+			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
+					"No server selected to deploy datasource to");
+		}
+
+		// convert it to a DeployableServer instance
+		DeployableServerBehavior deployer = (DeployableServerBehavior) s
+				.loadAdapter(DeployableServerBehavior.class, null);
+
+		// if its not null, the adaptation worked.
+		if (deployer == null) {
+			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
+					"Server did not support deploy of datasource.");
+		}
+
+		IVirtualComponent com = ComponentCore.createComponent(project);
+		final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(
+				new Path("/WEB-INF/classes"));
+		IContainer underlyingFolder = srcRootFolder.getUnderlyingFolder();
+
+		IPath projectPath = new Path("/"
+				+ underlyingFolder.getProject().getName());
+		IPath projectRelativePath = new Path("src/model");
+
+		IPath append = projectPath.append(projectRelativePath).append(
+				project.getName() + "-ds.xml");
+
+		if (SingleDeployableFactory.makeDeployable(append)) {
+
+			IModule module = SingleDeployableFactory.findModule(append);
+
+			// custom API to deploy / publish only one module.
+			IStatus t = deployer.publishOneModule(IServer.PUBLISH_FULL,
+					new IModule[] { module }, ServerBehaviourDelegate.ADDED,
+					monitor);
+			SingleDeployableFactory.unmakeDeployable(append);
+			return t;
+		} else {
+			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
+					"Could not deploy datasource " + append);
+		}
+	}
 }

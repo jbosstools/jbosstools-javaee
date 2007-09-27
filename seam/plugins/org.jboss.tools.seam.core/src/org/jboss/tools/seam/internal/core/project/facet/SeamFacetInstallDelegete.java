@@ -320,13 +320,13 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 
 			IContainer source = srcRootFolder.getUnderlyingFolder();
 			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/action"),new Path(source.getFullPath().lastSegment()));
-			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/model"),new Path(source.getFullPath().lastSegment()));			
+			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/action"),new Path(source.getFullPath().lastSegment()), new Path("WebContent/WEB-INF/dev"));
+			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/model"),new Path(source.getFullPath().lastSegment()), null);			
 			
 			// Copy sources to src
 
 			AntCopyUtils.copyFileToFile(
-					new File(seamGenHomeFolder,"src/modelAuthenticator.java"),
+					new File(seamGenHomeFolder,"src/Authenticator.java"),
 					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/model/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
 					new FilterSetCollection(filtersFilterSet), true);
 
@@ -357,6 +357,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			WtpUtils.setClasspathEntryAsExported(project, new Path("org.eclipse.jst.j2ee.internal.web.container"), monitor);
 
 			Job create = new DataSourceXmlDeployer(project);
+			create.setUser(true);
 			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
 			create.schedule();
 			
@@ -671,8 +672,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			componentsProps.createNewFile();
 			components.store(new FileOutputStream(componentsProps), "");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
 
