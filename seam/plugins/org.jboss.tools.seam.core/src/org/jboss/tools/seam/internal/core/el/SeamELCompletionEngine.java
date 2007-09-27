@@ -503,6 +503,7 @@ public final class SeamELCompletionEngine {
 					releaseChar();
 					return readMethodToken();
 				}
+				releaseChar();
 				return ELToken.EOF;
 			}
 			case STATE_VAR: // Variable name is read - expecting a separator 
@@ -515,6 +516,7 @@ public final class SeamELCompletionEngine {
 					releaseChar();
 					return readSeparatorToken();
 				}
+				releaseChar();
 				return ELToken.EOF;
 			}
 			case STATE_METHOD: // Method name and parameters are read - expecting a separator
@@ -527,6 +529,7 @@ public final class SeamELCompletionEngine {
 					releaseChar();
 					return readSeparatorToken();
 				}
+				releaseChar();
 				return ELToken.EOF;
 			}
 			case STATE_SEPARATOR: // Separator is read - expecting a var or method
@@ -543,6 +546,7 @@ public final class SeamELCompletionEngine {
 					releaseChar();
 					return readMethodToken();
 				}
+				releaseChar();
 				return ELToken.EOF;
 			}
 			}

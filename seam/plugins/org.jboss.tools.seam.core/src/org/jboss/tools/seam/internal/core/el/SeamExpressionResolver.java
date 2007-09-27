@@ -172,14 +172,13 @@ public class SeamExpressionResolver {
 		Set<IMember> methods = new HashSet<IMember>();
 		if (type != null) {
 			try {
-				IMethod[] mthds = type.getMethods();
+				IMethod[] mthds = getAllMethods(type);
 				for (int i = 0; mthds != null && i < mthds.length; i++) {
-					IMethod m = mthds[i];
-					if (Modifier.isPublic(m.getFlags()) &&
-							!m.isConstructor() && 
-							(!m.getElementName().startsWith("get") && !m.getElementName().startsWith("set")) ||
-							"get".equals(m.getElementName()) || "set".equals(m.getElementName())) {
-						methods.add(m);
+					if (Modifier.isPublic(mthds[i].getFlags()) &&
+							!mthds[i].isConstructor() && 
+							(!mthds[i].getElementName().startsWith("get") && !mthds[i].getElementName().startsWith("set")) ||
+							"get".equals(mthds[i].getElementName()) || "set".equals(mthds[i].getElementName())) {
+						methods.add(mthds[i]);
 					}
 				}
 			} catch (JavaModelException e) {
@@ -257,6 +256,33 @@ public class SeamExpressionResolver {
 		}
 		return result.toArray(new IMethod[result.size()]);
 	}
+	
+	/**
+	 * @param type
+	 * @return fields of type and fields of all super classes
+	 */
+	private static IField[] getAllFields(IType type) {
+		ArrayList<IField> result = new ArrayList<IField>();
+		try {
+			IField[] fields = type.getFields();
+			for(int i=0; i<fields.length; i++) {
+				result.add(fields[i]);
+			}
+			IType superType = getSuperclass(type);
+			while(superType!=null) {
+				fields = superType.getFields();
+				for(int i=0; i<fields.length; i++) {
+					result.add(fields[i]);
+				}
+				superType = getSuperclass(superType);
+			}
+		} catch (JavaModelException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return result.toArray(new IField[result.size()]);
+	}
+
+
 
 	private static IType getSuperclass(IType type) throws JavaModelException {
 		String superclassName = type.getSuperclassName();
@@ -280,13 +306,12 @@ public class SeamExpressionResolver {
 		Set<IMember> properties = new HashSet<IMember>(); 
 		if (type != null) {
 			try {
-				IMethod[] props = type.getMethods();
-				for (int i = 0; props != null && i < props.length; i++) {
-					IMethod m = props[i];
-					if (Modifier.isPublic(m.getFlags()) && 
-							(m.getElementName().startsWith("get") && !"get".equals(m.getElementName())) ||
-							(m.getElementName().startsWith("set") && !"set".equals(m.getElementName()))) {
-						properties.add(m);
+				IMethod[] mthds = getAllMethods(type);
+				for (int i = 0; mthds != null && i < mthds.length; i++) {
+					if (Modifier.isPublic(mthds[i].getFlags()) && 
+							(mthds[i].getElementName().startsWith("get") && !"get".equals(mthds[i].getElementName())) ||
+							(mthds[i].getElementName().startsWith("set") && !"set".equals(mthds[i].getElementName()))) {
+						properties.add(mthds[i]);
 					}
 				}
 			} catch (JavaModelException e) {
@@ -294,7 +319,7 @@ public class SeamExpressionResolver {
 			}
 
 			try {
-				IField[] fields = type.getFields();
+				IField[] fields = getAllFields(type);
 				for (int i = 0; fields != null && i < fields.length; i++) {
 					IField f = fields[i];
 					if (Modifier.isPublic(f.getFlags())) {

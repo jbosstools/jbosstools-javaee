@@ -242,8 +242,9 @@ public class SeamELValidator extends SeamValidator {
 
 			String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
 			if(prefix!=null) {
-				int possition = 0;
-
+				int possition = exp.indexOf(prefix);
+				if (possition == -1) possition = 0;
+					
 				Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
 				Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
 
