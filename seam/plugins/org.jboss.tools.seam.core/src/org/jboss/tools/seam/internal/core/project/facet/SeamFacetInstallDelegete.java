@@ -29,8 +29,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
@@ -41,11 +43,14 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.ModuleCoreNature;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.eclipse.wst.common.componentcore.resources.IVirtualResource;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.uriresolver.internal.URI;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -314,19 +319,24 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			AntCopyUtils.copyFiles(seamLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(droolsLibFolder)));
 
-
 			// ********************************************************************************************
 			// Copy seam project indicator
 			// ********************************************************************************************
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true);
-
-			IContainer source = srcRootFolder.getUnderlyingFolder();
-			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/action"),new Path(source.getFullPath().lastSegment()), new Path("WebContent/WEB-INF/dev"));
-			WtpUtils.createSourceFolder(project, new Path(source.getFullPath().lastSegment()+"/model"),new Path(source.getFullPath().lastSegment()), null);			
+			final IContainer source = srcRootFolder.getUnderlyingFolder();
 			
-			// Copy sources to src
+			IPath actionSrcPath = new Path(source.getFullPath().lastSegment()+"/action");
+			IPath modelSrcPath = new Path(source.getFullPath().lastSegment()+"/model");
 
+			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
+			WtpUtils.createSourceFolder(project, actionSrcPath, new Path(source.getFullPath().lastSegment()), new Path("WebContent/WEB-INF/dev"));
+			WtpUtils.createSourceFolder(project, modelSrcPath, new Path(source.getFullPath().lastSegment()), null);			
+		
+			IVirtualComponent c = ComponentCore.createComponent(project);
+			IVirtualFolder src = c.getRootFolder().getFolder("/WEB-INF/classes");
+			src.createLink(actionSrcPath.removeFirstSegments(1), 0, null);
+			src.createLink(modelSrcPath.removeFirstSegments(1), 0, null);					
+			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"),
 					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/model/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
