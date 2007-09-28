@@ -84,7 +84,7 @@ public class SeamFacetPreferenceInitializer extends
 		if(seamFolder.exists() && seamFolder.isDirectory()) {
 			SeamRuntime rt = new SeamRuntime();
 			rt.setHomeDir(seamGenBuildPath);
-			rt.setName(seamFolder.getName()+"."+SeamVersion.V_1_2);
+			rt.setName("Seam " + SeamVersion.V_1_2+".AP");
 			rt.setDefault(true);
 			rt.setVersion(SeamVersion.SEAM_1_2);
 			map.put(rt.getName(), rt);
