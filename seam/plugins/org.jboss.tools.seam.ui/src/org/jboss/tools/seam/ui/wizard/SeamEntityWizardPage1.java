@@ -61,15 +61,14 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) {
 				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, "");
 				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "");
-				setDefaultValue(IParameter.SEAM_BEAN_NAME, "");
-				setDefaultValue(IParameter.SEAM_METHOD_NAME, "");
+						setDefaultValue(IParameter.SEAM_METHOD_NAME, "");
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, "");
 			} else {
 				String value = event.getNewValue().toString();
 				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
 				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+"-edit");
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL+"-list");
+				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL);
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL+"List");
 			}
 		}
 
@@ -79,7 +78,6 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
 			setPageComplete(false);
-			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
 			return;
 		}
 		

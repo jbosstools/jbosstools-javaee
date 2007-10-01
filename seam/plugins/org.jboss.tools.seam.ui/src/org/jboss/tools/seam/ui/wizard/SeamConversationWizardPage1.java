@@ -67,7 +67,7 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, "");
 			} else {
 				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "I" + valueU);
+				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, valueU);
 				setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean");
 				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
 				setDefaultValue(IParameter.SEAM_METHOD_NAME, valueL);
