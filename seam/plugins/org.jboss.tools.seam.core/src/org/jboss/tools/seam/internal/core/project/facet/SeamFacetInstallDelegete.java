@@ -227,6 +227,16 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, project.getName()+"-test");
 		
+		Boolean dbExists = (Boolean)model.getProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
+		Boolean dbRecreate = (Boolean)model.getProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
+		if(!dbExists && !dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO,"update");
+		} else if(dbExists && !dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO,"validate");
+		} else if(dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO,"create-drop");
+		}
+		
 		final File webContentFolder = folder.getLocation().toFile();
 		final File webInfFolder = new File(webContentFolder,"WEB-INF");
 		final File webInfClasses = new File(webInfFolder,"classes");
