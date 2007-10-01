@@ -334,8 +334,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		
 			IVirtualComponent c = ComponentCore.createComponent(project);
 			IVirtualFolder src = c.getRootFolder().getFolder("/WEB-INF/classes");
-			src.createLink(actionSrcPath.removeFirstSegments(1), 0, null);
-			src.createLink(modelSrcPath.removeFirstSegments(1), 0, null);					
+			src.createLink(actionSrcPath, 0, null);
+			src.createLink(modelSrcPath, 0, null);					
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"),
