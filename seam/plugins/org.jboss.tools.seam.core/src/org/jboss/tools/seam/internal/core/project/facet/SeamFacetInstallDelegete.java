@@ -339,7 +339,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"),
-					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/model/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
+					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"),
 					new FilterSetCollection(filtersFilterSet), true);
 
 			AntCopyUtils.copyFileToFile(
