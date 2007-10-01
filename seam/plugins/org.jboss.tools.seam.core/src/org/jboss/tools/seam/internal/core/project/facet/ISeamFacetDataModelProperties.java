@@ -50,7 +50,7 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String DB_ALREADY_EXISTS = "database.exists";
 	
-	public static final String RECREATE_TABLES_AND_DATA_ON_DEPLOY = "database.drop";
+	public static final String RECREATE_TABLES_AND_DATA_ON_DEPLOY = "hibernate.hbm2ddl.auto";
 	
 	public static final String JDBC_DRIVER_JAR_PATH = "driver.file";
 	
