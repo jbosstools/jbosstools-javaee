@@ -143,6 +143,7 @@
          <newWizardShortcut
                id="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard">
          </newWizardShortcut>
+         <actionSet id="org.hibernate.eclipse.launch.actionset"/>
       </perspectiveExtension>
    </extension>
 
