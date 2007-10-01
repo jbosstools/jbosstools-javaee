@@ -20,6 +20,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.jboss.tools.common.model.ui.*;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
+import org.jboss.tools.struts.ui.wizard.project.NewProjectWizard;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 
 public class CreateProjectAction extends Action implements IWorkbenchWindowActionDelegate {
@@ -34,10 +35,13 @@ public class CreateProjectAction extends Action implements IWorkbenchWindowActio
 			StrutsUIPlugin.PLUGIN_ID,
 			"org.jboss.tools.struts.ui.wizard.project.NewStrutsProjectWizard" //$NON-NLS-1$
 		);
+		((NewProjectWizard)wizard).setHelpAvailable(false);
 		if (wizard != null) {
 			wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
-			dialog.open();  
+			dialog.create();
+			StrutsUIPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.ide.new_project_wizard_context");
+			dialog.open();
 		} else {
 			StrutsUIPlugin.getPluginLog().logInfo("Unable to create wizard 'org.jboss.tools.struts.ui.wizard.project.NewStrutsProjectWizard'."); //$NON-NLS-1$
 		}
