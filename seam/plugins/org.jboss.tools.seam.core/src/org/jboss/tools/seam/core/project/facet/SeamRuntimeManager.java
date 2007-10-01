@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.project.facet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
@@ -146,11 +149,19 @@ public class SeamRuntimeManager {
 	}
 	
 	/**
-	 * 
+	 * Save preference value and force save changes to disk
 	 */
 	public void save() {
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 				SeamFacetPreference.RUNTIME_LIST, converter.getString(runtimes));
+		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
+		if(store instanceof IPersistentPreferenceStore) {
+			try {
+				((IPersistentPreferenceStore)store).save();
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 
 	/**
