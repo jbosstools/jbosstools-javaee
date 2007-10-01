@@ -457,8 +457,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		}
 		
 		public boolean performFinish() {
-			added.add(page1.getRuntime());
-			value.add(page1.getRuntime());
+			SeamRuntime rt = page1.getRuntime();
+			added.add(rt);
+			value.add(rt);
 			return true;
 		}
 	}
