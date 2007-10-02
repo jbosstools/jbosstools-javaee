@@ -81,6 +81,8 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
 		names.add(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
 		names.add(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+		names.add(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO);
+		
 		return names;
 	}
 	
