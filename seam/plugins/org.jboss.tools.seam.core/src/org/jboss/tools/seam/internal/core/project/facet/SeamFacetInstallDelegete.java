@@ -219,10 +219,10 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		final IDataModel model = (IDataModel)config;
 
 		// get WebContents folder path from DWP model 
-		IVirtualComponent com = ComponentCore.createComponent(project);
-		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
-		final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
-		IContainer folder = webRootFolder.getUnderlyingFolder();
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/"));
+		final IVirtualFolder srcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
+		IContainer webRootFolder = webRootVirtFolder.getUnderlyingFolder();
 		
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, project.getName()+"-test");
@@ -237,7 +237,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO,"create-drop");
 		}
 		
-		final File webContentFolder = folder.getLocation().toFile();
+		final File webContentFolder = webRootFolder.getLocation().toFile();
 		final File webInfFolder = new File(webContentFolder,"WEB-INF");
 		final File webInfClasses = new File(webInfFolder,"classes");
 		final File webInfClassesMetaInf = new File(webInfClasses, "META-INF");
@@ -339,13 +339,11 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			IPath modelSrcPath = new Path(source.getFullPath().lastSegment()+"/model");
 
 			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, actionSrcPath, new Path(source.getFullPath().lastSegment()), new Path("WebContent/WEB-INF/dev"));
+			WtpUtils.createSourceFolder(project, actionSrcPath, new Path(source.getFullPath().lastSegment()), new Path(webRootFolder.getLocation().lastSegment()+"/WEB-INF/dev"));
 			WtpUtils.createSourceFolder(project, modelSrcPath, new Path(source.getFullPath().lastSegment()), null);			
 		
-			IVirtualComponent c = ComponentCore.createComponent(project);
-			IVirtualFolder src = c.getRootFolder().getFolder("/WEB-INF/classes");
-			src.createLink(actionSrcPath, 0, null);
-			src.createLink(modelSrcPath, 0, null);					
+			srcRootFolder.createLink(actionSrcPath, 0, null);
+			srcRootFolder.createLink(modelSrcPath, 0, null);					
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"),
@@ -608,16 +606,20 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 			String projectName = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString();
 			File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(),projectName+"-test");
 			testProjectDir.mkdir();
+			
+			IVirtualComponent component = ComponentCore.createComponent(seamWebProject);
+			IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/"));
+			
 			File testLibDir = new File(testProjectDir,"lib");
 			File embededEjbDir = new File(testProjectDir,"embedded-ejb");
 			File testSrcDir = new File(testProjectDir,"test-src");
-			String seamGenResFolder = seamRuntime.getHomeDir()+"/seam-gen/resources";
+			String seamGenResFolder = seamRuntime.getResourceTemplatesDir();
 			File persistenceFile = new File(seamGenResFolder ,"META-INF/persistence-" + (isWarConfiguration(model)?TEST_WAR_PROFILE:TEST_EAR_PROFILE) + ".xml");
 			File jbossBeansFile = new File(seamGenResFolder ,"META-INF/jboss-beans.xml");
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName);
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject));
-		
+			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getLocation().lastSegment());
 	
 			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 			final String seamHomePath = selectedRuntime.getHomeDir();

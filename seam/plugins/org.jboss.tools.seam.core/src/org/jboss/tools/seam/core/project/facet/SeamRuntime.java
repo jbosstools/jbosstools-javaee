@@ -117,6 +117,10 @@ public class SeamRuntime {
 		return getSeamGenDir()+"/view";
 	}
 	
+	public String getResourceTemplatesDir() {
+		return getHomeDir()+"/seam-gen/resources";
+	}
+	
 	public String getTemplatesDir() {
 		return getSeamGenDir();
 	}
