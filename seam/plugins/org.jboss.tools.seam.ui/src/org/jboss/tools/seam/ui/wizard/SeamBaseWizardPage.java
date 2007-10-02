@@ -66,7 +66,9 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		createEditors();
 	}
 
-	protected abstract void createEditors();
+	protected void createEditors() {
+		addEditors(SeamWizardFactory.createBaseFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
+	}
 	
 	Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
 	
@@ -179,7 +181,14 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
+		doFillDefaults(event);
+		doValidate(event);
+	}
 
+	/**
+	 * 
+	 */
+	protected void doValidate(PropertyChangeEvent event) {
 		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 		
@@ -261,6 +270,29 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		setErrorMessage(null);
 		setMessage(null);
 		setPageComplete(true);
+	}
+
+	/**
+	 * 
+	 */
+	protected void doFillDefaults(PropertyChangeEvent event) {
+		if(event.getPropertyName().equals(IParameter.SEAM_COMPONENT_NAME) || event.getPropertyName().equals(IParameter.SEAM_PROJECT_NAME)) {
+			String value = getEditor(IParameter.SEAM_COMPONENT_NAME).getValueAsString();
+			if(value==null||"".equals(value)) {
+				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, "");
+				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "");
+				setDefaultValue(IParameter.SEAM_BEAN_NAME, "");
+				setDefaultValue(IParameter.SEAM_METHOD_NAME, "");
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, "");
+			} else {
+				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
+				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, valueU);
+				setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean");
+				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
+				setDefaultValue(IParameter.SEAM_METHOD_NAME, valueL);
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
+			}
+		}
 	}
 
 	/**

@@ -56,7 +56,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		setPageComplete(false);
 	}
 	
-	public void propertyChange(PropertyChangeEvent event) {
+	public void doFillDefaults(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals(IParameter.SEAM_ENTITY_CLASS_NAME)) {
 			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) {
 				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, "");
@@ -71,7 +71,9 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL+"List");
 			}
 		}
-
+	}
+	
+	protected void doValidate(PropertyChangeEvent event) {
 		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 		

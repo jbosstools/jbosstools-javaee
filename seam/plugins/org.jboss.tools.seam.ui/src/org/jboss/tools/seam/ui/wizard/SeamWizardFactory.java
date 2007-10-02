@@ -77,7 +77,7 @@ public class SeamWizardFactory {
 				IParameter.SEAM_MASTER_PAGE_NAME, "Master page name:", "");
 	}
 	
-	public static final IFieldEditor[] createActionFormFieldEditors(String defaultSelection) {
+	public static final IFieldEditor[] createBaseFormFieldEditors(String defaultSelection) {
 		return new IFieldEditor[]{
 			SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()),
 			SeamWizardFactory.createSeamComponentNameFieldEditor(),

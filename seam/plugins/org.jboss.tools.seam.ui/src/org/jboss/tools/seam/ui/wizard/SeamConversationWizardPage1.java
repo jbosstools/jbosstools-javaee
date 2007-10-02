@@ -33,10 +33,6 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 				"managing a coversation will be created.");
 	}
 	
-	protected void createEditors() {
-		addEditors(SeamWizardFactory.createActionFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
-	}
-	
 	/**
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -53,26 +49,5 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 			}
 		}
 		setPageComplete(false);
-	}
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getPropertyName().equals(IParameter.SEAM_COMPONENT_NAME)) {
-			String value = getEditor(IParameter.SEAM_COMPONENT_NAME).getValueAsString();
-			if(value==null||"".equals(value)) {
-				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, "");
-				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, "");
-				setDefaultValue(IParameter.SEAM_BEAN_NAME, "");
-				setDefaultValue(IParameter.SEAM_METHOD_NAME, "");
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, "");
-			} else {
-				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, valueU);
-				setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean");
-				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_METHOD_NAME, valueL);
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
-			}
-		}
 	}
 }
