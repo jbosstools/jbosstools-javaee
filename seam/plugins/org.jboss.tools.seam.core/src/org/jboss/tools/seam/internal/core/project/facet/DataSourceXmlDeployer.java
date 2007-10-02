@@ -108,7 +108,6 @@ public class DataSourceXmlDeployer extends Job {
 			IStatus t = deployer.publishOneModule(IServer.PUBLISH_FULL,
 					new IModule[] { module }, ServerBehaviourDelegate.ADDED,
 					monitor);
-			SingleDeployableFactory.unmakeDeployable(append);
 			return t;
 		} else {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
