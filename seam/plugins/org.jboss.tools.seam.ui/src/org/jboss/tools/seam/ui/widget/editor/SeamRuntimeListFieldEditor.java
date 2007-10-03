@@ -304,7 +304,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		IFieldEditor version = SwtFieldEditorFactory.INSTANCE.createComboEditor(
 				"version", "Version:", Arrays.asList(
 						new Object[]{SeamVersion.SEAM_1_2.toString()}), 
-						                SeamVersion.SEAM_1_2.toString(), true);
+						                SeamVersion.SEAM_1_2.toString(), false);
 		
 		IFieldEditor homeDir = SwtFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 				"homeDir", "Home Folder:", "");
