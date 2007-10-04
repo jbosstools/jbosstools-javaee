@@ -89,10 +89,10 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 
 				ACTION_WAR_MAPPING.add(new String[]{
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/edit.xhtml",
-						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml"});
+						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"});
 				ACTION_WAR_MAPPING.add(new String[]{
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/list.xhtml",
-						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"});	
+						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml"});	
 				
 		
 				ACTION_EAR_MAPPING.add(new String[]{

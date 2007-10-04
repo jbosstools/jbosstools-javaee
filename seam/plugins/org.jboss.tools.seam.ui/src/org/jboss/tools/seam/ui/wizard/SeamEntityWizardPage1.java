@@ -67,8 +67,8 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 				String value = event.getNewValue().toString();
 				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
 				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL);
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL+"List");
+				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
 	}
