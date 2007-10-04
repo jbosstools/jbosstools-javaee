@@ -390,7 +390,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					setPageComplete(false);
 					return;
 				} else if(!seamVersion.matches(version.getValueAsString().replace(".","\\.")+".*")) {
-					setErrorMessage("Selected seam has wrong version number '" + seamVersion + "'");
+					setErrorMessage("The selected seam appears to be of an incompatible version '" + seamVersion + "'");
 					setPageComplete(false);
 					return;
 				}
