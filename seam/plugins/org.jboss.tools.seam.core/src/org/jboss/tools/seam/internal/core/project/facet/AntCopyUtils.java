@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,6 +129,11 @@ public class AntCopyUtils {
 		public boolean accept(File pathname){
 			return set.isIncluded(pathname.getAbsolutePath());
 		}
+		
+		@Override
+		public String toString() {
+			return "included: " + set.getIncluded() + " excluded: " + set.getExcluded(); 
+		}
 	}
 
 	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder, FilterSetCollection set, boolean override) {
@@ -137,7 +143,18 @@ public class AntCopyUtils {
 	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder,
 			AntCopyUtils.FileSetFileFilter fileSetFilter,
 			FilterSetCollection filterSetCollection, boolean override) {
+		if(!sourceFolder.exists()) {
+			throw new IllegalArgumentException("Copy failed - " + sourceFolder + " does not exist");
+		}
 		File[] files = fileSetFilter==null?sourceFolder.listFiles():sourceFolder.listFiles(fileSetFilter);
+		
+		if(files==null) {
+			if(fileSetFilter==null) {
+				throw new IllegalArgumentException("Could not find " + sourceFolder);
+			} else {
+				throw new IllegalArgumentException("Could not find " + fileSetFilter + " in "+ sourceFolder);
+			}
+		}
 		for (File file : files) {
 			if(file.isDirectory()) {
 				copyFilesAndFolders(file,new File(destinationFolder,file.getName()),fileSetFilter,filterSetCollection,override);
@@ -177,8 +194,22 @@ public class AntCopyUtils {
 	}
 
 	public static void copyFiles(File source, File dest, FileFilter filter) {
+		
 		dest.mkdir();
-		for (File file:source.listFiles(filter)) {
+		
+		if(!source.exists()) {
+			throw new IllegalArgumentException("Copy failed - " + source + " does not exist");
+		}
+		
+		File[] listFiles = source.listFiles(filter);
+		if(listFiles==null) {
+			if(filter==null) {
+				throw new IllegalArgumentException("Could not find " + source);
+			} else {
+				throw new IllegalArgumentException("Could not find " + filter + " in "+ source);
+			}
+		}
+		for (File file:listFiles) {
 			if(file.isDirectory())continue;
 			try {
 				FileUtils.getFileUtils().copyFile(file, new File(dest,file.getName()),new FilterSetCollection(),true);
