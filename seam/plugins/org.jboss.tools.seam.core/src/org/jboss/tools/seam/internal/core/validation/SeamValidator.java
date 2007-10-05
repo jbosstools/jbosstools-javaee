@@ -35,6 +35,7 @@ public abstract class SeamValidator implements ISeamValidator {
 	protected IReporter reporter;
 	protected SeamValidationContext validationContext;
 	protected ISeamProject project;
+	protected String projectName;
 
 	public SeamValidator(SeamValidatorManager validatorManager, SeamValidationHelper coreHelper, IReporter reporter, SeamValidationContext validationContext, ISeamProject project) {
 		this.validationManager = validatorManager;
@@ -42,6 +43,7 @@ public abstract class SeamValidator implements ISeamValidator {
 		this.project = project;
 		this.reporter = reporter;
 		this.validationContext = validationContext;
+		this.projectName = project.getProject().getName();
 	}
 
 	protected String getBaseName() {
@@ -72,6 +74,15 @@ public abstract class SeamValidator implements ISeamValidator {
 		if(!ignore) {
 			reporter.addMessage(validationManager, message);
 		}
+	}
+
+	protected void displaySubtask(String messageId) {
+		displaySubtask(messageId, null);
+	}
+
+	protected void displaySubtask(String messageId, String[] messageArguments) {
+		IMessage message = new Message(getBaseName(), IMessage.NORMAL_SEVERITY, messageId, messageArguments);
+		reporter.displaySubtask(validationManager, message);
 	}
 
 	protected void removeMessagesFromResources(Set<IResource> resources, String messageGroup) {

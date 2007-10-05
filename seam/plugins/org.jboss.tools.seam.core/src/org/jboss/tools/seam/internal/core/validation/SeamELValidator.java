@@ -59,6 +59,8 @@ public class SeamELValidator extends SeamValidator {
 	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION"; //$NON-NLS-1$
 	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
 
+	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
+
 	private SeamELCompletionEngine engine= new SeamELCompletionEngine();
 	private IJavaProject javaProject;
 
@@ -114,6 +116,7 @@ public class SeamELValidator extends SeamValidator {
 	}
 
 	private void validateFile(IFile file) {
+		displaySubtask(VALIDATING_EL_FILE_MESSAGE_ID, new String[]{projectName, file.getName()});
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
