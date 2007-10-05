@@ -6,7 +6,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public class RichFacesPanelMenuGroup extends VpeAbstractTemplate {
+public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			Document visualDocument) {
