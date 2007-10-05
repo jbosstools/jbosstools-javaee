@@ -29,6 +29,7 @@ import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizard;
 import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizardCategoryFilter;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
@@ -368,6 +369,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					}
 				}
 			);
+        Dialog.applyDialogFont(parent);
 	}
 
 	/**
@@ -569,7 +571,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					,added);
 			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 			dialog.open();
-
 
 			if (added.size()>0) {
 				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
