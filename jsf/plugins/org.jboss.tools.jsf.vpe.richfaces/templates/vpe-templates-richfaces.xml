@@ -613,5 +613,19 @@
 			<vpe:pseudoContent defaultText="yes"/>
 		</vpe:template>
     </vpe:tag>
+    
+    <vpe:tag name="rich:dragListener" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<span style="display:none">
+			</span>
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:dropListener" case-sensitive="yes">
+		<vpe:template children="no" modify="yes">
+			<span style="display:none">
+			</span>
+		</vpe:template>
+	</vpe:tag>    
 	
 </vpe:templates>
