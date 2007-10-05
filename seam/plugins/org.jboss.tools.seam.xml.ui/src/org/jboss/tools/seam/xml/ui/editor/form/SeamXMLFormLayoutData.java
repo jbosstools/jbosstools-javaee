@@ -32,7 +32,9 @@ public class SeamXMLFormLayoutData implements IFormLayoutData {
 		SeamPropertyFormLayoutData.SEAM_PROPERTY_MAP_FORM_DEFINITION,
 		SeamFactoryFormLayoutData.SEAM_FACTORY_FORM_DEFINITION,
 		SeamEventFormLayoutData.SEAM_EVENT_FORM_DEFINITION,
-		SeamEventFormLayoutData.SEAM_ACTION_FORM_DEFINITION,		
+		SeamEventFormLayoutData.SEAM_ACTION_FORM_DEFINITION,
+		SeamEventFormLayoutData.SEAM_EVENT_20_FORM_DEFINITION,
+		SeamEventFormLayoutData.SEAM_ACTION_20_FORM_DEFINITION,
 		
 	};
 
