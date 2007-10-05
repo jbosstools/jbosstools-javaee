@@ -238,7 +238,7 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 				return NO_PROPOSALS;
 
 			String prefix= SeamELCompletionEngine.getPrefix(viewer, offset);
-			prefix = (prefix == null ? "" : prefix);
+			prefix = (prefix == null ? "" : prefix); //$NON-NLS-1$
 			
 			if (!checkStartPositionInEL(viewer, offset))
 				return NO_PROPOSALS;
@@ -259,8 +259,8 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 
 				public int compare(ICompletionProposal arg0,
 						ICompletionProposal arg1) {
-					String str0 = (arg0 == null ? "" : arg0.getDisplayString());
-					String str1 = (arg1 == null ? "" : arg1.getDisplayString());
+					String str0 = (arg0 == null ? "" : arg0.getDisplayString()); //$NON-NLS-1$
+					String str1 = (arg1 == null ? "" : arg1.getDisplayString()); //$NON-NLS-1$
 					return str0.compareTo(str1);
 				}});
 			return resultArray;
@@ -300,10 +300,10 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 			IPreferenceStore store= EditorsUI.getPreferenceStore();
 			String superDefaultChars = store.getDefaultString(PreferenceConstants.CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA);
 			StringBuffer redhatDefaultChars = new StringBuffer(superDefaultChars);
-			if(superDefaultChars.indexOf("{")<0) {
+			if(superDefaultChars.indexOf("{")<0) { //$NON-NLS-1$
 				redhatDefaultChars.append('{');
 			}
-			if(superDefaultChars.indexOf(".")<0) {
+			if(superDefaultChars.indexOf(".")<0) { //$NON-NLS-1$
 				redhatDefaultChars.append('.');
 			}
 			autoActivChars = new char[redhatDefaultChars.length()];

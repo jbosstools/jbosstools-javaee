@@ -28,56 +28,66 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 
 /**
  * @author Jeremy
- *
+ * 
  */
-public class CreateProjectAction extends Action implements IWorkbenchWindowActionDelegate {
+public class CreateProjectAction extends Action implements
+		IWorkbenchWindowActionDelegate {
 
-	private final static String SEAM_CREATE_PROJECT_WIZARD_ID = "org.jboss.tools.seam.ui.wizards.SeamProjectWizard";
-    /**
-     * The wizard dialog width
-     */
-    private static final int SIZING_WIZARD_WIDTH = 500;
+	private final static String SEAM_CREATE_PROJECT_WIZARD_ID = "org.jboss.tools.seam.ui.wizards.SeamProjectWizard"; //$NON-NLS-1$
+	/**
+	 * The wizard dialog width
+	 */
+	private static final int SIZING_WIZARD_WIDTH = 500;
 
-    /**
-     * The wizard dialog height
-     */
-    private static final int SIZING_WIZARD_HEIGHT = 500;
-	
+	/**
+	 * The wizard dialog height
+	 */
+	private static final int SIZING_WIZARD_HEIGHT = 500;
+
 	public CreateProjectAction() {
 		super(SeamUIMessages.CREATE_NEW_SEAM_PROJECT);
 		setToolTipText(SeamUIMessages.CREATE_NEW_SEAM_PROJECT);
-		setImageDescriptor(SeamUiImages.getImageDescriptor(SeamUiImages.SEAM_CREATE_PROJECT_ACTION));
+		setImageDescriptor(SeamUiImages
+				.getImageDescriptor(SeamUiImages.SEAM_CREATE_PROJECT_ACTION));
 	}
 
 	public void run() {
 		INewWizard wizard = ExtensionPointUtils.findNewWizardsItem(
-			SeamGuiPlugin.PLUGIN_ID,
-			SEAM_CREATE_PROJECT_WIZARD_ID
-		);
+				SeamGuiPlugin.PLUGIN_ID, SEAM_CREATE_PROJECT_WIZARD_ID);
 		if (wizard != null) {
 			wizard.init(PlatformUI.getWorkbench(), null);
-			WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
+			WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getShell(), wizard);
 			dialog.create();
-	        dialog.getShell().setSize(
-	                Math.max(SIZING_WIZARD_WIDTH, dialog.getShell().getSize().x),
-	                SIZING_WIZARD_HEIGHT);
-	        PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(),
-	                IIDEHelpContextIds.NEW_PROJECT_WIZARD);
+			dialog.getShell().setSize(
+					Math
+							.max(SIZING_WIZARD_WIDTH, dialog.getShell()
+									.getSize().x), SIZING_WIZARD_HEIGHT);
+			PlatformUI.getWorkbench().getHelpSystem().setHelp(
+					dialog.getShell(), IIDEHelpContextIds.NEW_PROJECT_WIZARD);
 
-			dialog.open();  
+			dialog.open();
 		} else {
-			SeamGuiPlugin.getPluginLog().logError("Unable to create wizard '" + SEAM_CREATE_PROJECT_WIZARD_ID + "'");
+			SeamGuiPlugin
+					.getPluginLog()
+					.logError(
+							SeamUIMessages.CREATE_PROJECT_ACTION_UNABLE_TO_CREATE_WIZARD
+									+ SEAM_CREATE_PROJECT_WIZARD_ID + "'"); //$NON-NLS-1$
+
 		}
 	}
 
-	public void dispose() {}
+	public void dispose() {
+	}
 
-	public void init(IWorkbenchWindow window) {}
+	public void init(IWorkbenchWindow window) {
+	}
 
 	public void run(IAction action) {
 		run();
 	}
-	
-	public void selectionChanged(IAction action, ISelection selection) {}
+
+	public void selectionChanged(IAction action, ISelection selection) {
+	}
 
 }

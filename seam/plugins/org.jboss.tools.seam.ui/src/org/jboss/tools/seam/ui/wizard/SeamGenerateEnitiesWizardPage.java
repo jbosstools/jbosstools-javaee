@@ -40,7 +40,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	private RadioField radios;
 
 	public SeamGenerateEnitiesWizardPage() {
-		super("seam.generate.entities.page", SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null);
+		super("seam.generate.entities.page", SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null); //$NON-NLS-1$
 		setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
 	}
 
@@ -89,8 +89,8 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 
 		Composite radioComposite = new GridLayoutComposite(group, SWT.NONE, 2);
 		ArrayList<Object> values = new ArrayList<Object>();
-		values.add("reverse");
-		values.add("existing");
+		values.add("reverse"); //$NON-NLS-1$
+		values.add("existing"); //$NON-NLS-1$
 		ArrayList<String> labels = new ArrayList<String>();
 		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_REVERSE_ENGINEER_LABEL);
 		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_EXISTING_ENTITIES_LABEL);
@@ -143,7 +143,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 			values.put(projectEditor.getName(), projectEditor.getValueAsString());
 			values.put(configEditor.getName(), configEditor.getValueAsString());
 			String mode = radios.getValue().toString();
-			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, ("reverse".equals(mode) ? "true" : "false"));
+			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, ("reverse".equals(mode) ? "true" : "false")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return values;
 		}
 		return null;

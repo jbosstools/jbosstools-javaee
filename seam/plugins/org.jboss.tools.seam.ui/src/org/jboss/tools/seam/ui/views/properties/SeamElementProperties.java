@@ -18,14 +18,14 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
  * @author Viacheslav Kabanovich
  */
 public class SeamElementProperties implements IPropertySource {
-	static String NAME = "name";
-	static String SCOPE = "scope";
-	static String CLASS = "class";
-	static String PRECEDENCE = "precedence";
-	static String INSTALLED = "installed";
+	static String NAME = "name"; //$NON-NLS-1$
+	static String SCOPE = "scope"; //$NON-NLS-1$
+	static String CLASS = "class"; //$NON-NLS-1$
+	static String PRECEDENCE = "precedence"; //$NON-NLS-1$
+	static String INSTALLED = "installed"; //$NON-NLS-1$
 
-	static String ENTITY = "entity";
-	static String STATEFUL = "stateful";
+	static String ENTITY = "entity"; //$NON-NLS-1$
+	static String STATEFUL = "stateful"; //$NON-NLS-1$
 	
 	static IPropertyDescriptor NAME_DESCRIPTOR = new PropertyDescriptor(NAME, NAME);
 	static IPropertyDescriptor SCOPE_DESCRIPTOR = new PropertyDescriptor(SCOPE, SCOPE);

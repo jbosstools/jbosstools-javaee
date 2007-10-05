@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.wizard;
 
 import java.beans.PropertyChangeEvent;
 
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
 /**
@@ -26,9 +27,9 @@ public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 	 * @param titleImage
 	 */
 	public SeamActionWizardPage1() {
-		super("seam.new.action.page1", "Seam Action", null);
-		setMessage("Select the name of the new Seam Conversation. A new Java interface and SLSB " +
-				"with key Seam/EJB annotations will be created.");
+		super("seam.new.action.page1", SeamUIMessages.SEAM_ACTION_WIZARD_PAGE1_SEAM_ACTION, null); //$NON-NLS-1$
+		setMessage(SeamUIMessages.SEAM_ACTION_WIZARD_PAGE1_SELECT_THE_NAME_OF_THE_SEAM_CONVERSATION +
+				SeamUIMessages.SEAM_ACTION_WIZARD_PAGE1_WITH_KEY_SEAM_EJB_ANNOTATIONS_WILL_BE_CREATED);
 	}
 	
 	protected void createEditors() {

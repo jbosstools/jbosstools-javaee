@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.IAdaptable;
  */
 public interface IValidator {
 	
-	public static final String DEFAULT_ERROR = "default.error";
+	public static final String DEFAULT_ERROR = "default.error"; //$NON-NLS-1$
 	
 	/**
 	 * Method perform validation of given value against a provided context. 

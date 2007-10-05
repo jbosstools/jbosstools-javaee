@@ -37,7 +37,7 @@ import org.osgi.framework.BundleContext;
 public class SeamGuiPlugin extends BaseUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.tools.seam.ui";
+	public static final String PLUGIN_ID = "org.jboss.tools.seam.ui"; //$NON-NLS-1$
 
 	// The shared instance
 	private static SeamGuiPlugin plugin;

@@ -64,14 +64,14 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 				.getSeamProject(project, false);
 		boolean hasSeamSupport = seamProject != null;
 		seamEnablement = SwtFieldEditorFactory.INSTANCE.createCheckboxEditor(
-				"Seam support", "Seam support", false);
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
 		seamEnablement.setValue(hasSeamSupport);
 
 		SeamRuntime rs = SeamRuntimeManager.getInstance().getDefaultRuntime();
 
-		runtime = SwtFieldEditorFactory.INSTANCE.createComboWithButton("Runtime",
-				"Runtime", SeamRuntimeManager.getInstance().getRuntimeNames(), 
-				rs==null?"":rs.getName(),true,new NewSeamRuntimeAction(),(IValidator)null);
+		runtime = SwtFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME, SeamRuntimeManager.getInstance().getRuntimeNames(), 
+				rs==null?"":rs.getName(),true,new NewSeamRuntimeAction(),(IValidator)null); //$NON-NLS-1$
 
 		List<IFieldEditor> editorOrder = new ArrayList<IFieldEditor>();
 		editorOrder.add(seamEnablement);
@@ -182,9 +182,9 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 	}
 
 	private void validate() {
-		if(getSeamSupport() && (runtime.getValue()== null || "".equals(runtime.getValue()))) {
+		if(getSeamSupport() && (runtime.getValue()== null || "".equals(runtime.getValue()))) { //$NON-NLS-1$
 			setValid(false);
-			setErrorMessage("Seam runtime is not selected");
+			setErrorMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED);
 		} else {
 			setValid(true);
 			setErrorMessage(null);
@@ -197,7 +197,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		 * @param label
 		 */
 		public NewSeamRuntimeAction() {
-			super("Add");
+			super(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ADD);
 		}
 
 		public void run() {

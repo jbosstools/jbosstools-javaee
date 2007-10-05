@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.field.TextField;
 
 /**
@@ -86,8 +87,8 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	 * @see com.kabira.ide.ex.workbench.ui.feature.IFeatureFieldEditor#doFillIntoGrid(java.lang.Object)
 	 */
 	public void doFillIntoGrid(Object aParent) {
-		Assert.isTrue(aParent instanceof Composite, "Parent control should be Composite");
-		Assert.isTrue(((Composite)aParent).getLayout() instanceof GridLayout,"Editor supports only grid layout");
+		Assert.isTrue(aParent instanceof Composite, SeamUIMessages.TEXT_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
+		Assert.isTrue(((Composite)aParent).getLayout() instanceof GridLayout,SeamUIMessages.TEXT_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) aParent;
 		Control[] controls = (Control[])getEditorControls(aComposite);
 		GridLayout gl = (GridLayout)((Composite)aParent).getLayout();
@@ -144,7 +145,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      */
     private String checkCollection(Object value){
     	
-    	return value != null && (((Collection)value).size() > 0) ? prepareCollectionToString((Collection)value) : new String("");
+    	return value != null && (((Collection)value).size() > 0) ? prepareCollectionToString((Collection)value) : new String(""); //$NON-NLS-1$
     }
     
     /*
@@ -153,12 +154,12 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      */
     private String prepareCollectionToString(Collection collection)
     {
-    	String stringValue = "";
+    	String stringValue = ""; //$NON-NLS-1$
     	Object[] objects = collection.toArray();
     	for(int i = 0; i < objects.length; i++){
     		stringValue += objects[i];
     		if(i < objects.length - 1)
-    			stringValue += " ";
+    			stringValue += " "; //$NON-NLS-1$
     	}
     	return stringValue;
     }
@@ -169,7 +170,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      * @return 
      */
     private String checkSimple(Object value){
-    	return (value != null) ? value.toString() : new String("");
+    	return (value != null) ? value.toString() : new String(""); //$NON-NLS-1$
     }
     
     /**

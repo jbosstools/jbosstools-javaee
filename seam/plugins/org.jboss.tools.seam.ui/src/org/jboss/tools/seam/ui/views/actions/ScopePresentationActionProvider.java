@@ -131,7 +131,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		boolean isCurrentLayoutFlat = true;
 		String state = null;
 		if (memento != null)
-			state = memento.getString("seam-isFlatLayout");
+			state = memento.getString("seam-isFlatLayout"); //$NON-NLS-1$
 
 		if (state == null) {
 			state = SeamPreferences.getInstancePreference(PACKAGE_STRUCTURE);
@@ -144,7 +144,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		boolean isCurrentScopeLabel = false;
 		state = null;
 		if (memento != null)
-			state = memento.getString("seam-isScopeLabel");
+			state = memento.getString("seam-isScopeLabel"); //$NON-NLS-1$
 		
 		if (state == null) {
 			state = SeamPreferences.getInstancePreference(SCOPE_PRESENTATION);

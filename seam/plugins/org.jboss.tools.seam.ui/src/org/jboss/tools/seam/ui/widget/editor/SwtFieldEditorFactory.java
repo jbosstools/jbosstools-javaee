@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
@@ -91,7 +92,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
 				new TextFieldEditor(name,label, defaultValue),
-				new ButtonFieldEditor(name,createSelectFolderAction("Browse"),defaultValue)});
+				new ButtonFieldEditor(name,createSelectFolderAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS),defaultValue)});
 		return editor;
 	}
 	
@@ -103,7 +104,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
 				new TextFieldEditor(name,label, defaultValue),
-				new ButtonFieldEditor(name,createSelectFileAction("Browse"),defaultValue)});
+				new ButtonFieldEditor(name,createSelectFileAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS),defaultValue)});
 		return editor;
 	}
 	
@@ -126,7 +127,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			public void run() {
 				DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
-				dialog.setMessage("Select Seam Home Folder");
+				dialog.setMessage(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_SELECT_SEAM_HOME_FOLDER);
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
 				String directory = dialog.open();
 				if(directory!=null) {
@@ -147,7 +148,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			public void run() {
 				FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell());
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
-				dialog.setText("Select Seam Home Folder");
+				dialog.setText(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_SELECT_SEAM_HOME_FOLDER);
 				dialog.setFilterPath(getFieldEditor().getValueAsString());
 				String directory = dialog.open();
 				if(directory!=null) {
@@ -164,8 +165,8 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
 			@Override
 			public void run() {
-				new MessageDialog(Display.getCurrent().getActiveShell(), "Error", 
-					null, "Not implemented yet", MessageDialog.ERROR, new String[]{"Ok"},1)
+				new MessageDialog(Display.getCurrent().getActiveShell(), SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_ERROR, 
+					null, SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_NOT_IMPLEMENTED_YET, MessageDialog.ERROR, new String[]{SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_OK},1)
 				.open();
 			}
 		};

@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.views.actions;
 
 import org.eclipse.jface.action.Action;
 import org.jboss.tools.seam.core.IOpenableElement;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author Viacheslav Kabanovich
@@ -20,7 +21,7 @@ public class SeamOpenAction extends Action {
 	IOpenableElement element;
 	
 	public SeamOpenAction(IOpenableElement element) {
-		setText("Open");
+		setText(SeamUIMessages.SEAM_OPEN_ACTION_OPEN);
 		this.element = element;
 	}
 	

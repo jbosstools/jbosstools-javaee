@@ -102,7 +102,7 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 	}
 
 	public void selectionChanged(SelectionChangedEvent event) {
-		firePropertyChange("", ((StructuredSelection)event.getSelection()).getFirstElement());
+		firePropertyChange("", ((StructuredSelection)event.getSelection()).getFirstElement()); //$NON-NLS-1$
 	}
 
 	public CCombo getComboControl() {

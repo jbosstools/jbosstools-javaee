@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.wizard;
 
 import java.beans.PropertyChangeEvent;
 
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
 
@@ -25,9 +26,9 @@ public class SeamFormWizardPage1 extends SeamBaseWizardPage {
 	 * @param pageName
 	 */
 	public SeamFormWizardPage1() {
-		super("seam.new.form.page1","Seam Form",null);
-		setMessage("Select the name of the new Seam Form. A new Seam Form with a single input field and related " +
-				"Java Interface, SLSB and key Seam/EJB3 annotations will be created.");
+		super("seam.new.form.page1",SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_SEAM_FORM,null); //$NON-NLS-1$
+		setMessage(SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_SELECT_THE_NAME_OF_THE_NEW_SEAM_FORM +
+				SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_JAVA_INTERFACE_SLSB_AND_KEY_SEAMEJB3_ANNOTATIONS_WILL_BE_CREATED);
 	}
 	
 	protected void createEditors() {

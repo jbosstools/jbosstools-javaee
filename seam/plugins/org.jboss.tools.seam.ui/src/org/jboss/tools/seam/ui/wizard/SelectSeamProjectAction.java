@@ -16,6 +16,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 
 public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedAction {
@@ -24,7 +25,7 @@ public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedActi
 	 * @param label
 	 */
 	public SelectSeamProjectAction() {
-		super("Browse");
+		super(SeamUIMessages.SELECT_SEAM_PROJECT_ACTION_BROWSE);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -32,7 +33,7 @@ public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedActi
 	public void run() {
 		ListDialog dialog = new SeamProjectSelectionDialog(
 				Display.getCurrent().getActiveShell());
-		if(!"".equals(this.getFieldEditor().getValueAsString()))
+		if(!"".equals(this.getFieldEditor().getValueAsString())) //$NON-NLS-1$
 			dialog.setInitialSelections(new Object[] {
 				ResourcesPlugin.getWorkspace().getRoot().getProject(this.getFieldEditor().getValueAsString())});
 		if (dialog.open() == Window.CANCEL) {

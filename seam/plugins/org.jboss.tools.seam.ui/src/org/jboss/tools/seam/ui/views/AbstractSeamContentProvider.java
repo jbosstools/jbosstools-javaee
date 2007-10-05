@@ -46,6 +46,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
 /**
@@ -209,7 +210,7 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		if(o instanceof ISeamElement) {
 			refresh(o);
 		} else {
-			SeamGuiPlugin.getPluginLog().logError("Seam Project change event occurs, but no soyrce of project provided");
+			SeamGuiPlugin.getPluginLog().logError(SeamUIMessages.ABSTRACT_SEAM_CONTENT_PROVIDER_SEAM_PROJECT_CHANGE_EVENT_OCCURS_BUT_NO_SORCE_OF_PROJECT_PROVIDED);
 		}
 	}
 
@@ -261,7 +262,7 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 				IResourceDelta[] cs = delta.getAffectedChildren();
 				if(cs != null) for (int i = 0; i < cs.length; i++) {
 					IResource c = cs[i].getResource();
-					if(c instanceof IFile && c.getName().endsWith(".project")) {
+					if(c instanceof IFile && c.getName().endsWith(".project")) { //$NON-NLS-1$
 						refresh(null);
 					}
 				}

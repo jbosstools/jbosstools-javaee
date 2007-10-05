@@ -26,6 +26,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.navigator.IExtensionStateModel;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.views.ViewConstants;
 
 /**
@@ -63,7 +64,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 		private final boolean value;
 
 		public CommonLayoutAction(String property, boolean value, String id) {
-			super("", AS_RADIO_BUTTON);
+			super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 			this.property = property;
 			this.value = value;
 			this.setId(id);
@@ -88,13 +89,13 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 			IMenuManager viewMenu = actionBars.getMenuManager();
 			// Create layout sub menu
 			if (layoutSubMenu == null) {
-				layoutSubMenu = new MenuManager("Seam Packages", "Seam Packages");
+				layoutSubMenu = new MenuManager(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SEAM_PACKAGES, SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SEAM_PACKAGES);
 				addLayoutActions(layoutSubMenu);
 				viewMenu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new Separator(LAYOUT_GROUP_NAME));
 			}
 			
 			if(scopeSubMenu == null) {
-				scopeSubMenu = new MenuManager("Scope Presentation", "Scope Presentation");
+				scopeSubMenu = new MenuManager(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SCOPE_PRESENTATION, SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SCOPE_PRESENTATION);
 				addScopeActions(scopeSubMenu);
 			}
 
@@ -146,10 +147,10 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 	}
 
 	private void createActions() {
-		flatLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, true, "package.flat");
-		hierarchicalLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, false,"package.hierarchical");
-		labelScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, true,"layout.label");
-		nodeScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, false,"layout.node");
+		flatLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, true, "package.flat"); //$NON-NLS-1$
+		hierarchicalLayoutAction = new CommonLayoutAction(PACKAGE_STRUCTURE, false,"package.hierarchical"); //$NON-NLS-1$
+		labelScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, true,"layout.label"); //$NON-NLS-1$
+		nodeScopeAction = new CommonLayoutAction(SCOPE_PRESENTATION, false,"layout.node"); //$NON-NLS-1$
 	}
 
 	protected void addLayoutActions(IMenuManager viewMenu) {
@@ -158,7 +159,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				flatLayoutItem = mi;
-				mi.setText("Flat");
+				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_FLAT);
 				mi.setSelection(isFlatLayout);
 				mi.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent e) {
@@ -185,7 +186,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				hierarchicalLayoutItem = mi;
-				mi.setText("Hierarchical");
+				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_HIERARCHICAL);
 				mi.setSelection(!isFlatLayout);
 				mi.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent e) {
@@ -215,7 +216,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				labelScopeItem = mi;
-				mi.setText("Label");
+				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_LABEL);
 				mi.setSelection(isScopeLable);
 				mi.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent e) {
@@ -242,7 +243,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				nodeScopeItem = mi;
-				mi.setText("Node");
+				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_NODE);
 				mi.setSelection(!isScopeLable);
 				mi.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent e) {

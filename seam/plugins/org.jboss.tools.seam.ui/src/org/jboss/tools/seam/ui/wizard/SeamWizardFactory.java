@@ -30,7 +30,7 @@ public class SeamWizardFactory {
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
 		return SwtFieldEditorFactory.INSTANCE.createButtonFieldEditor(
-				IParameter.SEAM_PROJECT_NAME, "Seam Project:", defaultSelection, 
+				IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, 
 				 new SelectSeamProjectAction(), ValidatorFactory.NO_ERRORS_VALIDATOR);
 	}
 
@@ -40,7 +40,7 @@ public class SeamWizardFactory {
 	public static IFieldEditor createSeamLocalInterfaceNameFieldEditor() {
 		// TODO Auto-generated method stub
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_LOCAL_INTERFACE_NAME, "Local interface name:", "");
+				IParameter.SEAM_LOCAL_INTERFACE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamBeanNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_BEAN_NAME, "Bean name:", "");
+				IParameter.SEAM_BEAN_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
 	
 	}
 
@@ -57,7 +57,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMethodNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_METHOD_NAME, "Method name:", "");
+				IParameter.SEAM_METHOD_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
 	
 	}
 
@@ -66,7 +66,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamPageNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_PAGE_NAME, "Page name:", "");
+				IParameter.SEAM_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMasterPageNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_MASTER_PAGE_NAME, "Master page name:", "");
+				IParameter.SEAM_MASTER_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 	
 	public static final IFieldEditor[] createBaseFormFieldEditors(String defaultSelection) {
@@ -94,7 +94,7 @@ public class SeamWizardFactory {
 	public static IFieldEditor createSeamComponentNameFieldEditor() {
 		// TODO Auto-generated method stub
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_COMPONENT_NAME, "Seam component name:", "");
+				IParameter.SEAM_COMPONENT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamEntityClasNameFieldEditor() {
 		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_ENTITY_CLASS_NAME, "Seam entity class name:", "");
+				IParameter.SEAM_ENTITY_CLASS_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class SeamWizardFactory {
 			if(configurationNames.size()>0) {
 				defaultSelection = configurationNames.get(0);
 			} else {
-				defaultSelection = "";
+				defaultSelection = ""; //$NON-NLS-1$
 			}
 		}
 		IFieldEditor editor = SwtFieldEditorFactory.INSTANCE.createComboEditor(

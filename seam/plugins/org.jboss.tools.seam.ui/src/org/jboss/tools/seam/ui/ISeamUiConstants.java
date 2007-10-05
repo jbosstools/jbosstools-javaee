@@ -17,8 +17,8 @@ package org.jboss.tools.seam.ui;
  */
 public class ISeamUiConstants {
 	public static final String 
-		NEW_SEAM_PROJECT_WIZARD_ID = "org.jboss.tools.seam.ui.wizards.SeamProjectWizard",
-		NEW_SEAM_FORM_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamFormWizard",
-		NEW_SEAM_ACTION_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamActionWizard",
-		SEAM_COMPONENTS_VIEW_ID = "org.jboss.tools.seam.ui.views.SeamComponentsNavigator";
+		NEW_SEAM_PROJECT_WIZARD_ID = "org.jboss.tools.seam.ui.wizards.SeamProjectWizard", //$NON-NLS-1$
+		NEW_SEAM_FORM_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamFormWizard", //$NON-NLS-1$
+		NEW_SEAM_ACTION_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamActionWizard", //$NON-NLS-1$
+		SEAM_COMPONENTS_VIEW_ID = "org.jboss.tools.seam.ui.views.SeamComponentsNavigator"; //$NON-NLS-1$
 }

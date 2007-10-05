@@ -94,7 +94,7 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 
 	public String getText(Object element) {
 		if(element instanceof IWorkspaceRoot) {
-			return "";
+			return ""; //$NON-NLS-1$
 		} else if(element instanceof ISeamProject) {
 			return ((IProjectNature)element).getProject().getName();
 		} else if(element instanceof ISeamScope) {
@@ -115,26 +115,26 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 			}
 
 			if(isScopeLable /* ScopePresentationActionProvider.isScopePresentedAsLabel()*/) {
-				name += " (" + ((ISeamScope)c.getParent()).getType().getLabel() + ")";
+				name += " (" + ((ISeamScope)c.getParent()).getType().getLabel() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			return name; 
 		} else if (element instanceof IRole) {
-			return "" + ((IRole)element).getName();
+			return "" + ((IRole)element).getName(); //$NON-NLS-1$
 		} else if(element instanceof ISeamJavaSourceReference) {
 			ISeamJavaSourceReference d = (ISeamJavaSourceReference)element;
 			IMember m = d.getSourceMember();
 			IType type = (m instanceof IType) ? (IType)m : m.getTypeRoot().findPrimaryType();
 			if(type.isBinary()) { 
 				IResource r = ((ISeamElement)element).getResource();
-				String s = (r == null) ? "<no name>" : r.getName();
-				return  s + "/" + type.getFullyQualifiedName();
+				String s = (r == null) ? "<no name>" : r.getName(); //$NON-NLS-1$
+				return  s + "/" + type.getFullyQualifiedName(); //$NON-NLS-1$
 			} else {
 				return type.getFullyQualifiedName();
 			}
 
 		} else if(element instanceof ISeamComponentDeclaration) {
 			IResource r = ((ISeamComponentDeclaration)element).getResource();
-			return r == null ? "???" : r.getName();
+			return r == null ? "???" : r.getName(); //$NON-NLS-1$
 		}
 		return element == null ? "" : element.toString();//$NON-NLS-1$
 	}
@@ -176,7 +176,7 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 	}
 
 	public String getDescription(Object anElement) {
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public void dispose() { 

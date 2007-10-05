@@ -21,11 +21,12 @@ import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
 import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 public class CreateSeamWebProjectAction extends Action implements IWorkbenchWindowActionDelegate {
 	public CreateSeamWebProjectAction() {
-		super("Create Seam Project");
-		setToolTipText("Create Seam Project");
+		super(SeamUIMessages.CREATE_SEAM_WEB_PROJECTACTION_CREATE_SEAM_PROJECT);
+		setToolTipText(SeamUIMessages.CREATE_SEAM_WEB_PROJECTACTION_CREATE_SEAM_PROJECT);
 		ModelUIImages.setImageDescriptors(this, ModelUIImages.ACT_CREATE_PROJECT);
 	}
 

@@ -52,7 +52,7 @@ public class SeamLinkHelper implements ILinkHelper {
 			ISeamElement e = (ISeamElement)o;
 			IPath path = e.getSourcePath();
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if(f != null && f.exists() && !"jar".equals(path.getFileExtension())) {
+			if(f != null && f.exists() && !"jar".equals(path.getFileExtension())) { //$NON-NLS-1$
 				IEditorInput fileInput = new FileEditorInput(f);
 				IEditorPart editor = null;
 				if ((editor = page.findEditor(fileInput)) != null) {

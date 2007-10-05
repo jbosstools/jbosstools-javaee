@@ -21,6 +21,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * 
@@ -33,7 +34,7 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	
 	private Object value = new Object();
 	
-	private String labelText = "No label";
+	private String labelText = SeamUIMessages.BASE_FIELD_EDITOR_NO_LABEL;
 	
 	private String nameText = null;
 
@@ -56,8 +57,8 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	 * @param parent
 	 */
 	public void doFillIntoGrid(Object parent) {
-		Assert.isTrue(parent instanceof Composite, "Parent control should be Composite");
-		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,"Editor supports only grid layout");
+		Assert.isTrue(parent instanceof Composite, SeamUIMessages.BASE_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
+		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,SeamUIMessages.BASE_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) parent;
 		Control[] controls = (Control[])getEditorControls(aComposite);
 		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
@@ -98,7 +99,7 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 			labelControl.setText(this.labelText);
 		} else if(parent!=null) {
 			if(labelControl.getParent()!=parent)
-				throw new IllegalArgumentException("Parent for label is different");
+				throw new IllegalArgumentException(SeamUIMessages.BASE_FIELD_EDITOR_PARENT_FOR_LABEL_IS_DIFFERENT);
 		}
 		return labelControl;
 	}

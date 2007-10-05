@@ -24,21 +24,21 @@ public class SeamUiImages {
 	
 	static {
 		try {
-			INSTANCE = new SeamUiImages(new URL(SeamGuiPlugin.getDefault().getBundle().getEntry("/"), "icons/"));
+			INSTANCE = new SeamUiImages(new URL(SeamGuiPlugin.getDefault().getBundle().getEntry("/"), "icons/")); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (MalformedURLException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
 	}
 	
-	public static Image SCOPE_IMAGE = getImage("view/scope.gif");
-	public static Image PROJECT_IMAGE = getImage("view/seam_project.gif");
-	public static Image COMPONENT_IMAGE = getImage("view/component.gif");
-	public static Image ROLE_IMAGE = getImage("view/role.gif");
-	public static Image JAVA_IMAGE = getImage("view/java.gif");
-	public static Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif");
-	public static Image PACKAGE_IMAGE = getImage("view/package.gif");
+	public static Image SCOPE_IMAGE = getImage("view/scope.gif"); //$NON-NLS-1$
+	public static Image PROJECT_IMAGE = getImage("view/seam_project.gif"); //$NON-NLS-1$
+	public static Image COMPONENT_IMAGE = getImage("view/component.gif"); //$NON-NLS-1$
+	public static Image ROLE_IMAGE = getImage("view/role.gif"); //$NON-NLS-1$
+	public static Image JAVA_IMAGE = getImage("view/java.gif"); //$NON-NLS-1$
+	public static Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif"); //$NON-NLS-1$
+	public static Image PACKAGE_IMAGE = getImage("view/package.gif"); //$NON-NLS-1$
 
-	public static String SEAM_CREATE_PROJECT_ACTION = "view/seam_project_new.gif";
+	public static String SEAM_CREATE_PROJECT_ACTION = "view/seam_project_new.gif"; //$NON-NLS-1$
 
 	
 	public static Image getImage(String key) {
@@ -62,7 +62,7 @@ public class SeamUiImages {
 	
 	protected SeamUiImages(URL registryUrl, SeamUiImages parent){
 
-		if(registryUrl == null) throw new NullPointerException("Base url for image registry cannot be null.");
+		if(registryUrl == null) throw new NullPointerException(SeamUIMessages.SEAM_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
 		baseUrl = registryUrl;
 		parentRegistry = parent;
 	}
@@ -89,7 +89,7 @@ public class SeamUiImages {
 	}
 
 	private URL makeIconFileURL(String name) throws MalformedURLException {
-		if (name == null) throw new MalformedURLException("Image name cannot be null.");
+		if (name == null) throw new MalformedURLException(SeamUIMessages.SEAM_UI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
 		return new URL(baseUrl, name);
 	}	
 

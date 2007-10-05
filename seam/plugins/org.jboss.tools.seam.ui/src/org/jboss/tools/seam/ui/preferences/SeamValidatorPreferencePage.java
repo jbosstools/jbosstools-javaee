@@ -22,14 +22,14 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Viacheslav Kabanovich
  */
 public class SeamValidatorPreferencePage extends PropertyAndPreferencePage {
-	public static final String PREF_ID = "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage";
-	public static final String PROP_ID = "org.jboss.tools.seam.ui.propertyPages.SeamValidatorPreferencePage";
+	public static final String PREF_ID = "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage"; //$NON-NLS-1$
+	public static final String PROP_ID = "org.jboss.tools.seam.ui.propertyPages.SeamValidatorPreferencePage"; //$NON-NLS-1$
 
 	private SeamValidatorConfigurationBlock fConfigurationBlock;
 
 	public SeamValidatorPreferencePage() {
 		setPreferenceStore(SeamCorePlugin.getDefault().getPreferenceStore());
-		setTitle("Seam Validator");
+		setTitle(SeamPreferencesMessages.SEAM_VALIDATOR_PREFERENCE_PAGE_SEAM_VALIDATOR);
 	}
 
 	@Override

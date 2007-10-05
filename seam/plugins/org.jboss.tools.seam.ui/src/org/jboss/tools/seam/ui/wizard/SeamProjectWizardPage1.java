@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -50,9 +51,9 @@ public class SeamProjectWizardPage1 extends WizardPage {
 	 * @param pageName
 	 */
 	public SeamProjectWizardPage1(ISelection selection) {
-		super("wizardPage");
-		setTitle("Multi-page Editor File");
-		setDescription("This wizard creates a new file with *.mpe extension that can be opened by a multi-page editor.");
+		super("wizardPage"); //$NON-NLS-1$
+		setTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_MULTIPAGE_EDITOR_FILE);
+		setDescription(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_THIS_WIZARD_CREATES_A_NEW_FILE);
 		this.selection = selection;
 	}
 
@@ -66,7 +67,7 @@ public class SeamProjectWizardPage1 extends WizardPage {
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&Container:");
+		label.setText(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_CONTAINER);
 
 		containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -78,14 +79,14 @@ public class SeamProjectWizardPage1 extends WizardPage {
 		});
 
 		Button button = new Button(container, SWT.PUSH);
-		button.setText("Browse...");
+		button.setText(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_BROWSE);
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowse();
 			}
 		});
 		label = new Label(container, SWT.NULL);
-		label.setText("&File name:");
+		label.setText(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_FILE_NAME);
 
 		fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -120,7 +121,7 @@ public class SeamProjectWizardPage1 extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("new_file.mpe");
+		fileText.setText("new_file.mpe"); //$NON-NLS-1$
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class SeamProjectWizardPage1 extends WizardPage {
 	private void handleBrowse() {
 		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
 				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-				"Select new file container");
+				SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_SELECT_NEW_FILE_CONTAINER);
 		if (dialog.open() == ContainerSelectionDialog.OK) {
 			Object[] result = dialog.getResult();
 			if (result.length == 1) {
@@ -150,31 +151,31 @@ public class SeamProjectWizardPage1 extends WizardPage {
 		String fileName = getFileName();
 
 		if (getContainerName().length() == 0) {
-			updateStatus("File container must be specified");
+			updateStatus(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_FILE_CONTAINER_MUST_BE_SPECIFIED);
 			return;
 		}
 		if (container == null
 				|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
-			updateStatus("File container must exist");
+			updateStatus(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_FILE_CONTAINER_MUST_EXIST);
 			return;
 		}
 		if (!container.isAccessible()) {
-			updateStatus("Project must be writable");
+			updateStatus(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_PROJECT_MUST_BE_WRITABLE);
 			return;
 		}
 		if (fileName.length() == 0) {
-			updateStatus("File name must be specified");
+			updateStatus(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_FILE_NAME_MUST_BE_SPECIFIED);
 			return;
 		}
 		if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
-			updateStatus("File name must be valid");
+			updateStatus(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_FILE_NAME_MUST_BE_VALID);
 			return;
 		}
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("mpe") == false) {
-				updateStatus("File extension must be \"mpe\"");
+			if (ext.equalsIgnoreCase("mpe") == false) { //$NON-NLS-1$
+				updateStatus(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_FILE_EXTENSION_MUST_BE_MPE);
 				return;
 			}
 		}

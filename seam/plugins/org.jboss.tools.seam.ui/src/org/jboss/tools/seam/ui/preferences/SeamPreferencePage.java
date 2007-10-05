@@ -46,7 +46,7 @@ public class SeamPreferencePage extends PreferencePage implements
 	 * 
 	 */
 	SeamRuntimeListFieldEditor seamRuntimes
-		= new SeamRuntimeListFieldEditor("rtlist","Seam Runtimes",new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes())));
+		= new SeamRuntimeListFieldEditor("rtlist",SeamPreferencesMessages.SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES,new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))); //$NON-NLS-1$
 	
 	SeamRuntime initialDefault;
 

@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Control;
 public class LabelFieldEditor extends BaseFieldEditor {
 
 	public LabelFieldEditor(String name, String label) {
-		super(name, label, "");
+		super(name, label, ""); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)

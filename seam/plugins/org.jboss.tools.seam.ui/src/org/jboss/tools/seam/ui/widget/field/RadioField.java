@@ -72,7 +72,7 @@ public class RadioField extends BaseField implements SelectionListener {
 	 */
 	public void widgetSelected(SelectionEvent event) {
 		value = event.widget.getData();
-		firePropertyChange("", value);
+		firePropertyChange("", value); //$NON-NLS-1$
 	}
 
 	/**

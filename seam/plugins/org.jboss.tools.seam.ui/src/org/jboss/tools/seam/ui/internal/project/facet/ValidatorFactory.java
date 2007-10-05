@@ -45,6 +45,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 
 /**
@@ -125,16 +126,16 @@ public class ValidatorFactory {
 		public Map<String, String> validate(Object value, Object context) {
 			if (value == null)
 				throw new IllegalArgumentException(
-						"Path to a folder cannot be null");
+						SeamUIMessages.VALIDATOR_FACTORY_PATH_TO_A_FOLDER_CANNOT_BE_NULL);
 			String folderPath = value.toString();
 			File folder = new File(folderPath);
 
 			if (!folder.exists())
-				return createErrormessage("Folder '" + folderPath
-						+ "' doesn't exists");
+				return createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_FOLDER + folderPath
+						+ SeamUIMessages.VALIDATOR_FACTORY_DOES_NOT_EXISTS);
 			if (!folder.isDirectory())
-				return createErrormessage("Path '" + folderPath
-						+ "' points to file");
+				return createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_PATH + folderPath
+						+ SeamUIMessages.VALIDATOR_FACTORY_POINTS_TO_FILE);
 			return NO_ERRORS;
 		}
 	};
@@ -149,15 +150,15 @@ public class ValidatorFactory {
 			if (errors.size() > 0) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
-						"Seam Home folder doesn't exist");
+						SeamUIMessages.VALIDATOR_FACTORY_SEAM_HOME_FOLDER_DOES_NOT_EXISTS);
 				return errors;
 			}
-			File seamJarFile = new File(value.toString(), "jboss-seam.jar");
+			File seamJarFile = new File(value.toString(), "jboss-seam.jar"); //$NON-NLS-1$
 			if (!seamJarFile.isFile()) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
-					"Home folder points to " +
-						"location that does not look like seam home folder ('jboss-seam.jar' is missing)");
+					SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO +
+						SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER);
 			}
 			return errors;
 		}
@@ -173,14 +174,14 @@ public class ValidatorFactory {
 			if (errors.size() > 0) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_AS_HOME,
-						"JBoss AS Home folder doesn't exist");
+						SeamUIMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_DOES_NOT_EXIST);
 				return errors;
 			}
-			if (!new File(value.toString(), "bin/twiddle.jar").isFile()) {
+			if (!new File(value.toString(), "bin/twiddle.jar").isFile()) { //$NON-NLS-1$
 				errors.put(
 					ISeamFacetDataModelProperties.JBOSS_AS_HOME,
-					"JBoss AS Home Folde field points to location that doesn't " +
-					"look like JBoss AS home folder");
+					SeamUIMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_POINT_TO_LOCATION_THAT_DOES_NOT +
+					SeamUIMessages.VALIDATOR_FACTORY_LOOK_LIKE_JBOSS_AS_HOME_FOLDER);
 			}
 			return errors;
 		}
@@ -191,7 +192,7 @@ public class ValidatorFactory {
 	 */
 	public static IValidator CLASS_QNAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
-			String classDecl = "class " + value.toString() + " {}";
+			String classDecl = "class " + value.toString() + " {}"; //$NON-NLS-1$ //$NON-NLS-2$
 			ASTParser parser = ASTParser.newParser(AST.JLS3);
 			parser.setSource(classDecl.toCharArray());
 			parser.setProject((IJavaProject) context);
@@ -200,7 +201,7 @@ public class ValidatorFactory {
 			IProblem[] problems = compilationUnit.getProblems();
 			if (problems.length > 0) {
 				return createErrormessage(Messages.format(
-						"Component name is not invalid.", problems[0]
+						SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_NAME_IS_NOT_VALID, problems[0]
 								.getMessage()));
 			}
 			return ValidatorFactory.NO_ERRORS;
@@ -224,9 +225,9 @@ public class ValidatorFactory {
 	public static IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
-			IStatus status = JavaConventions.validateClassFileName(value.toString()+".class", "5.0", "5.0");
+			IStatus status = JavaConventions.validateClassFileName(value.toString()+".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			if (!status.isOK()) {
-				return createErrormessage("{0} name is not valid.");
+				return createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID);
 			}
 
 			return NO_ERRORS;
@@ -257,7 +258,7 @@ public class ValidatorFactory {
 			IStatus status = JavaConventions.validateJavaTypeName(value
 					.toString(), sourceLevel, compliance);
 			if (status.getSeverity() == IStatus.WARNING) {
-				return createErrormessage("Local Interface name is not valid.\n"
+				return createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_LOCAL_INTERFACE_NAME_IS_NOT_VALID
 						+ status.getMessage());
 			}
 			return NO_ERRORS;
@@ -277,13 +278,13 @@ public class ValidatorFactory {
 			}
 
 			CompilationUnit compilationUnit = createCompilationUnit(
-					"class ClassName {public void "
-					+ value.toString() + "() {}}",project);
+					"class ClassName {public void " //$NON-NLS-1$
+					+ value.toString() + "() {}}",project); //$NON-NLS-1$
 			
 			IProblem[] problems = compilationUnit.getProblems();
 
 			if (problems.length > 0) {
-				return createErrormessage(targetName + " name is not valid.");
+				return createErrormessage(targetName + SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID2);
 			}
 
 			return NO_ERRORS;
@@ -301,9 +302,9 @@ public class ValidatorFactory {
 				targetName = contextArray[0].toString();
 				project = (IProject) contextArray[1];
 			}
-			if ("".equals(value)
+			if ("".equals(value) //$NON-NLS-1$
 					|| !project.getLocation().isValidSegment(value.toString()))
-				return createErrormessage(targetName + " name is not valid.");
+				return createErrormessage(targetName + SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID2);
 
 			return NO_ERRORS;
 		}
@@ -318,16 +319,16 @@ public class ValidatorFactory {
 			if (project == null || !(project instanceof IProject)
 					|| !project.exists()) {
 				return createErrormessage(
-						"Project '" + value	+ "' does'n exist.");
+						SeamUIMessages.VALIDATOR_FACTORY_PROJECT + value	+ SeamUIMessages.VALIDATOR_FACTORY_DOES_NOT_EXIST);
 			} else {
 				IProject selection = (IProject)project;
 				try {
 					if (!selection.hasNature(SeamProject.NATURE_ID) 
 							|| SeamCorePlugin.getSeamPreferences(selection)==null
 							|| selection.getAdapter(IFacetedProject.class)==null
-							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) {
+							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) { //$NON-NLS-1$
 						return createErrormessage(
-								"Selected project '" + project.getName() + "' is not a Seam Web Project");
+								SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PROJECT + project.getName() + SeamUIMessages.VALIDATOR_FACTORY_IS_NOT_A_SEAM_WEB_PROJECT);
 					}
 				} catch (CoreException e) {
 					SeamCorePlugin.getPluginLog().logError(e);
@@ -340,22 +341,22 @@ public class ValidatorFactory {
 	public static IValidator CONNECTION_PROFILE_VALIDATOR = 
 															new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
-			if (value == null || "".equals(value.toString().trim())) {
+			if (value == null || "".equals(value.toString().trim())) { //$NON-NLS-1$
 				return createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-						"Connection profile is not selected");
+						SeamUIMessages.VALIDATOR_FACTORY_CONNECTION_PROFILE_IS_NOT_SELECTED);
 			} else {
 				IConnectionProfile connProfile 
 					= ProfileManager.getInstance().getProfileByName(value.toString());
 				Properties props = connProfile.getBaseProperties();
 				Object driverClass 
-					= props.get("org.eclipse.datatools.connectivity.db.driverClass");
+					= props.get("org.eclipse.datatools.connectivity.db.driverClass"); //$NON-NLS-1$
 
-				if(driverClass==null || "".equals(driverClass)) {
+				if(driverClass==null || "".equals(driverClass)) { //$NON-NLS-1$
 					return createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-							"Driver Class proberty is empty for selected '" 
-							+ value + "' connection profile");
+							SeamUIMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED 
+							+ value + SeamUIMessages.VALIDATOR_FACTORY_CONNECTION_PROFILE);
 				}
 			}
 			return NO_ERRORS;
@@ -364,10 +365,10 @@ public class ValidatorFactory {
 	
 	public static IValidator JBOSS_SEAM_HOME_IS_NOT_SELECTED = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
-			if (value == null || "".equals(value.toString().trim())) {
+			if (value == null || "".equals(value.toString().trim())) { //$NON-NLS-1$
 				return createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-						"Seam Runtime is not selected");
+						SeamUIMessages.VALIDATOR_FACTORY_SEAM_RUNTIME_IS_NOT_SELECTED);
 			}
 			return NO_ERRORS;
 		}

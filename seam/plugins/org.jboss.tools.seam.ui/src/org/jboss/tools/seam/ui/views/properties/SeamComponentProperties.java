@@ -34,7 +34,7 @@ public class SeamComponentProperties extends SeamElementProperties {
 			for (int i = 0; i < Precedence.values().length; i++) {
 				if(v == Precedence.values()[i].value) return Precedence.values()[i].toString();
 			}
-			return "" + v;
+			return "" + v; //$NON-NLS-1$
 		}
 	}
 	
@@ -69,9 +69,9 @@ public class SeamComponentProperties extends SeamElementProperties {
 		} else if(PRECEDENCE.equals(id)) {
 			return Precedence.getStringValue(element.getPrecedence());
 		} if(ENTITY.equals(id)) {
-			return "" + element.isEntity();
+			return "" + element.isEntity(); //$NON-NLS-1$
 		} if(STATEFUL.equals(id)) {
-			return "" + element.isStateful();
+			return "" + element.isStateful(); //$NON-NLS-1$
 		}
 		return null;
 	}

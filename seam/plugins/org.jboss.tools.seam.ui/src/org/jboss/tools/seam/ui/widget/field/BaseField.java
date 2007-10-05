@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Control;
 
 public abstract class BaseField {
 
-	public static final String PROPERTY_NAME = "value";
+	public static final String PROPERTY_NAME = "value"; //$NON-NLS-1$
 	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	

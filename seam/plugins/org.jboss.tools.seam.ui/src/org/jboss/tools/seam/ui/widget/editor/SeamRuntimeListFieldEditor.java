@@ -57,6 +57,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 
@@ -150,7 +151,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		buttons.setLayoutData(gd);
 		
 		addBtn = new Button(buttons,SWT.PUSH);
-		addBtn.setText("Add");
+		addBtn.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_ADD);
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
         gd.horizontalAlignment = GridData.FILL;
         gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
@@ -180,15 +181,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		
 		TableColumn tc2 = new TableColumn(tableView.getTable(),SWT.LEFT);
 		tc2.setWidth(100);
-		tc2.setText("Name");	
+		tc2.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME);	
 
 		TableColumn tc3 = new TableColumn(tableView.getTable(),SWT.LEFT);
 		tc3.setWidth(50);
-		tc3.setText("Version");	
+		tc3.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION);	
 		
 		TableColumn tc4 = new TableColumn(tableView.getTable(),SWT.LEFT);
 		tc4.setWidth(100);
-		tc4.setText("Path");
+		tc4.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH);
 		
 		tableView.setContentProvider(new IStructuredContentProvider() {
 
@@ -196,8 +197,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 				if(inputElement instanceof List)
 					return ((List<SeamRuntime>)inputElement).toArray();
 				else
-					throw new IllegalArgumentException("inputElement must be " +
-							"an instance of List<SeamRuntime>.");
+					throw new IllegalArgumentException(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_INPUTELEMENT_MUST_BE +
+							SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_AN_INSTANCEOF_OF_LIST);
 			}
 
 			public void dispose() {
@@ -227,11 +228,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 
 			public String getColumnText(Object element, int columnIndex) {
 				SeamRuntime rt = (SeamRuntime)element;
-				if(columnIndex==0) return "";
+				if(columnIndex==0) return ""; //$NON-NLS-1$
 				if(columnIndex==1) return rt.getName();
 				if(columnIndex==2) return rt.getVersion().toString();
 				if(columnIndex==3) return rt.getHomeDir();
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		});
 		
@@ -279,9 +280,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	 */
 	public void doFillIntoGrid(Object parent) {
 		Assert.isTrue(parent instanceof Composite, 
-										"Parent control should be Composite");
+										SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
 		Assert.isTrue(((Composite)parent).getLayout() 
-					instanceof GridLayout,"Editor supports only grid layout");
+					instanceof GridLayout,SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) parent;
 		Control[] controls = (Control[])getEditorControls(aComposite);
 		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
@@ -299,29 +300,29 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		List<SeamRuntime> value = null;
 		
 		IFieldEditor name = SwtFieldEditorFactory.INSTANCE.createTextEditor(
-				"name", "Name:", "");
+				"name", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME2, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		IFieldEditor version = SwtFieldEditorFactory.INSTANCE.createComboEditor(
-				"version", "Version:", Arrays.asList(
+				"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
 						new Object[]{SeamVersion.SEAM_1_2.toString()}), 
 						                SeamVersion.SEAM_1_2.toString(), false);
 		
 		IFieldEditor homeDir = SwtFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
-				"homeDir", "Home Folder:", "");
+				"homeDir", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_HOME_FOLDER, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		IFieldEditor dflt = SwtFieldEditorFactory.INSTANCE.createCheckboxEditor(
-				                           "default", "Use as default:", false);
+				                           "default", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_USE_AS_DEFAULT, false); //$NON-NLS-1$
 		
 		/**
 		 * @param parent
 		 * @param style
 		 */
 		public SeamRuntimeWizardPage(List<SeamRuntime> editedList) {
-			super("New Seam Runtime");
-			setMessage("Create a Seam Runtime");
-			setTitle("Seam Runtime");
+			super(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
+			setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CREATE_A_SEAM_RUNTIME);
+			setTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_SEAM_RUNTIME);
 			setImageDescriptor(ImageDescriptor.createFromFile(
-					SeamFormWizard.class, "SeamWebProjectWizBan.png"));
+					SeamFormWizard.class, "SeamWebProjectWizBan.png")); //$NON-NLS-1$
 			value = editedList;
 		}
 		/**
@@ -351,28 +352,28 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		 */
 		public void propertyChange(PropertyChangeEvent evt) {
 
-				if(name.getValueAsString()==null || "".equals(
+				if(name.getValueAsString()==null || "".equals( //$NON-NLS-1$
 						name.getValueAsString().toString().trim())) {
-					setErrorMessage("Name cannot be empty");
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME_CANNOT_BE_EMPTY);
 					setPageComplete(false);
 					return;
 				}
 				
-				if(!name.getValueAsString().matches("[a-zA-Z_][a-zA-Z0-9_\\-\\. ]*")) {
-					setErrorMessage("Runtime name is not correct");
+				if(!name.getValueAsString().matches("[a-zA-Z_][a-zA-Z0-9_\\-\\. ]*")) { //$NON-NLS-1$
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME_NAME_IS_NOT_CORRECT);
 					setPageComplete(false);
 					return;
 				}
 				for (SeamRuntime rt : value) {
 					if(rt.getName().equals(name.getValueAsString())) {
-						setErrorMessage("Runtime '"+name.getValueAsString()+ "' already exists");
+						setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME+name.getValueAsString()+ SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_ALREADY_EXISTS);
 						setPageComplete(false);
 						return;	
 					}
 				}				
 
-				if(homeDir.getValueAsString()==null || "".equals(homeDir.getValueAsString().trim())) {
-					setErrorMessage("Path to seam home directory cannot be empty");
+				if(homeDir.getValueAsString()==null || "".equals(homeDir.getValueAsString().trim())) { //$NON-NLS-1$
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH_TO_SEAM_HOME_DIRECTORY_CANNOT_BE_EMPTY);
 					setPageComplete(false);
 					return;
 				}			
@@ -385,12 +386,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					return;
 				}
 				String seamVersion = getSeamVersion(homeDir.getValueAsString());
-				if("".equals(seamVersion)) {
-					setErrorMessage("Cannot obtain Seam version number from jboss-seam.jar file.");
+				if("".equals(seamVersion)) { //$NON-NLS-1$
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER);
 					setPageComplete(false);
 					return;
-				} else if(!seamVersion.matches(version.getValueAsString().replace(".","\\.")+".*")) {
-					setErrorMessage("The selected seam appears to be of an incompatible version '" + seamVersion + "'");
+				} else if(!seamVersion.matches(version.getValueAsString().replace(".","\\.")+".*")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION + seamVersion + "'"); //$NON-NLS-1$
 					setPageComplete(false);
 					return;
 				}
@@ -400,23 +401,23 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		}
 		
 		public static String getSeamVersion(String path) {
-			File seamJarFile = new File(path, "jboss-seam.jar");
+			File seamJarFile = new File(path, "jboss-seam.jar"); //$NON-NLS-1$
 			InputStream str=null;
 			ZipFile seamJar;
 			try {
 				seamJar = new ZipFile(seamJarFile);
 
 				ZipFileStructureProvider provider = new ZipFileStructureProvider(seamJar);
-				ZipEntry entry = seamJar.getEntry("META-INF/MANIFEST.MF");
+				ZipEntry entry = seamJar.getEntry("META-INF/MANIFEST.MF"); //$NON-NLS-1$
 				str = provider.getContents(entry);
 
 				Properties manifest = new Properties();
 				manifest.load(str);
-				Object sv = manifest.get("Seam-Version");
-				return sv==null?"":sv.toString();
+				Object sv = manifest.get(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_SEAM_VERSION);
+				return sv==null?"":sv.toString(); //$NON-NLS-1$
 				
 			} catch (IOException e) {
-				SeamCorePlugin.getPluginLog().logError("Cannot read jboss-seam.jar file",e);
+				SeamCorePlugin.getPluginLog().logError(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_READ_JAR_FILE,e);
 			} finally {
 				if(str!=null)
 					try {
@@ -425,7 +426,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 						// nothing to do with that
 					}
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		
 		/**
@@ -449,7 +450,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		List<SeamRuntime> value = null;
 		public SeamRuntimeNewWizard(List<SeamRuntime> value, List<SeamRuntime> added) {
 			super();
-			setWindowTitle("New Seam Runtime");
+			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
 			page1 = new SeamRuntimeWizardPage(value);
 			addPage(page1);
 			this.value = value;

@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.field.PushButtonField;
 
 /**
@@ -30,10 +31,10 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 
 	PushButtonField button= null;
 	
-	private ButtonPressedAction buttonAction = new ButtonPressedAction("Browse") {
+	private ButtonPressedAction buttonAction = new ButtonPressedAction(SeamUIMessages.BUTTON_FIELD_EDITOR_BROWSE) {
 		@Override
 		public void run() {
-			throw new RuntimeException("Not implemented yet. Please setup real acion for editor.");
+			throw new RuntimeException(SeamUIMessages.BUTTON_FIELD_EDITOR_NOT_IMPLEMENTED_YET);
 		}
 	};
 	

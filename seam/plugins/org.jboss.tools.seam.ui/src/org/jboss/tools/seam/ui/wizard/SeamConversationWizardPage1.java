@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
@@ -28,9 +29,9 @@ import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage.GridLayoutComposite;
 public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
 	public SeamConversationWizardPage1() {
-		super("seam.new.conversation.page1","Seam Conversation",null);
-		setMessage("Select the name of the new Seam Conversation. A set of classes " +
-				"managing a coversation will be created.");
+		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null); //$NON-NLS-1$
+		setMessage(SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SELECT_THE_NAME_OF_THE_NEW_SEAM_CONVERSATION +
+				SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_MANAGING_A_CONVERSATION_WILL_BE_CREATED);
 	}
 	
 	/**
@@ -39,7 +40,7 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 
-		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){
+		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
 			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 			

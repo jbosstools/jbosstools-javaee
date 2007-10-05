@@ -29,6 +29,7 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author eskimo
@@ -41,8 +42,8 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 	 */
 	public SeamProjectSelectionDialog(Shell parent) {
 		super(parent);
-		setTitle("Seam Web Projects");
-		setMessage("Select Seam Web Project");
+		setTitle(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SEAM_WEB_PROJECT);
+		setMessage(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SELECT_SEAM_WEB_PROJECT);
 		setLabelProvider(new WorkbenchLabelProvider());
 		setInput(new Object());
 		setContentProvider(new IStructuredContentProvider() {
@@ -53,7 +54,7 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 						if(project.hasNature(SeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
 								&& project.getAdapter(IFacetedProject.class)!=null
-								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) {
+								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) { //$NON-NLS-1$
 							seamProjects.add(project);
 						}
 					} catch (CoreException e) {

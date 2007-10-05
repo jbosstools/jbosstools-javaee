@@ -24,6 +24,7 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.ui.PresetSelectionPanel;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.osgi.framework.Bundle;
 
 /**
@@ -36,27 +37,27 @@ public class SeamProjectWizard extends WebProjectWizard {
 	
 	public SeamProjectWizard() {
 		super();
-		setWindowTitle("New Seam Project");
+		setWindowTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
 	}
 
 	public SeamProjectWizard(IDataModel model) {
 		super(model);
-		setWindowTitle("New Seam Project");
+		setWindowTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
 	}
 
 	@Override
 	protected IWizardPage createFirstPage() {
 		IWizardPage page = super.createFirstPage();
-		page.setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png")); 
-		page.setTitle("Seam Web Project");
-		page.setDescription("Create standalone Seam Web Project");
+		page.setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png"));  //$NON-NLS-1$
+		page.setTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_SEAM_WEB_PROJECT);
+		page.setDescription(SeamUIMessages.SEAM_PROJECT_WIZARD_CREATE_STANDALONE_SEAM_WEB_PROJECT);
 		return page;
 	}
 
 	@Override
 	public void createPageControls(Composite container) {
 		super.createPageControls(container);
-		Control control = findGroupByText((Composite)getShell(), "EAR Membership");
+		Control control = findGroupByText((Composite)getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
 		control.setVisible(false);
 	}
 	
@@ -90,7 +91,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	@Override
 	protected String getFinalPerspectiveID() {
 		// TODO Auto-generated method stub
-		return "org.jboss.tools.seam.ui.SeamPerspective";
+		return "org.jboss.tools.seam.ui.SeamPerspective"; //$NON-NLS-1$
 	}
 
 	protected IFacetedProjectTemplate getTemplate() {

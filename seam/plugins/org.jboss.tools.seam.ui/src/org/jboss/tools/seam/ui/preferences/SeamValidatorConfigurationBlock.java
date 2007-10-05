@@ -52,7 +52,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
  * @author Viacheslav Kabanovich
  */
 public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
-	private static final String SETTINGS_SECTION_NAME = "SeamValidatorConfigurationBlock";
+	private static final String SETTINGS_SECTION_NAME = SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_SEAM_VALIDATOR_CONFIGURATION_BLOCK;
 
 	private static SectionDescription SECTION_COMPONENT = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_component,
@@ -178,9 +178,9 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		String[] errorWarningIgnore = new String[] {ERROR, WARNING, IGNORE};
 
 		String[] errorWarningIgnoreLabels = new String[] {
-			"Error",  
-			"Warning", 
-			"Ignore"
+			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_ERROR,  
+			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_WARNING, 
+			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_IGNORE
 		};
 
 		int nColumns = 3;

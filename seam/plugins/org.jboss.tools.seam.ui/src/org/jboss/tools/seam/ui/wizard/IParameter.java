@@ -11,27 +11,29 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import org.jboss.tools.seam.ui.SeamUIMessages;
+
 /**
  * @author eskimo
  *
  */
 public interface IParameter {
 	
-	public static String SEAM_PROJECT_NAME = "seam.project.name";
-	public static String SEAM_COMPONENT_NAME = "component.name";
-	public static String SEAM_LOCAL_INTERFACE_NAME = "interface.name";
-	public static String SEAM_BEAN_NAME = "bean.name";
-	public static String SEAM_METHOD_NAME = "method.name";
-	public static String SEAM_PAGE_NAME = "page.name";
-	public static String SEAM_MASTER_PAGE_NAME = "masterPage.name";
-	public static String SEAM_ENTITY_CLASS_NAME = "entity.name";
-	public static String SEAM_PROJECT_LOCATION_PATH = "seam.project.location";
-	public static String SEAM_PROJECT_WEBCONTENT_PATH = "seam.project.webcontent";
-	public static String HIBERNATE_CONFIGURATION_NAME = "hibernate.configuratrion.name";
+	public static String SEAM_PROJECT_NAME = "seam.project.name"; //$NON-NLS-1$
+	public static String SEAM_COMPONENT_NAME = "component.name"; //$NON-NLS-1$
+	public static String SEAM_LOCAL_INTERFACE_NAME = "interface.name"; //$NON-NLS-1$
+	public static String SEAM_BEAN_NAME = "bean.name"; //$NON-NLS-1$
+	public static String SEAM_METHOD_NAME = "method.name"; //$NON-NLS-1$
+	public static String SEAM_PAGE_NAME = "page.name"; //$NON-NLS-1$
+	public static String SEAM_MASTER_PAGE_NAME = "masterPage.name"; //$NON-NLS-1$
+	public static String SEAM_ENTITY_CLASS_NAME = "entity.name"; //$NON-NLS-1$
+	public static String SEAM_PROJECT_LOCATION_PATH = "seam.project.location"; //$NON-NLS-1$
+	public static String SEAM_PROJECT_WEBCONTENT_PATH = "seam.project.webcontent"; //$NON-NLS-1$
+	public static String HIBERNATE_CONFIGURATION_NAME = "hibernate.configuratrion.name"; //$NON-NLS-1$
 	
-	public static String SEAM_EAR_PROJECT_LOCATION_PATH = "seam.ear.project.location";
-	public static String SEAM_TEST_PROJECT_LOCATION_PATH = "seam.test.project.location";
-	public static String SEAM_EJB_PROJECT_LOCATION_PATH = "seam.ejb.project.location";
+	public static String SEAM_EAR_PROJECT_LOCATION_PATH = "seam.ear.project.location"; //$NON-NLS-1$
+	public static String SEAM_TEST_PROJECT_LOCATION_PATH = "seam.test.project.location"; //$NON-NLS-1$
+	public static String SEAM_EJB_PROJECT_LOCATION_PATH = "seam.ejb.project.location"; //$NON-NLS-1$
 
 
 }

@@ -40,6 +40,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -73,7 +74,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		try {
 			
 			for (String key : seamFacetPrefs.keys()) {
-				vars.put(key, seamFacetPrefs.get(key, ""));
+				vars.put(key, seamFacetPrefs.get(key, "")); //$NON-NLS-1$
 			}
 			
 			for (Object valueHolder : params.values()) {
@@ -88,15 +89,15 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
 			
 			IVirtualComponent com = ComponentCore.createComponent(project);
-			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
+			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 			IContainer webRootContainer = webRootFolder.getUnderlyingFolder();
 			
 			vars.put(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE,project);
 			vars.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-ejb").toFile().toString());
-			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-test").toFile().toString());
+			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-ejb").toFile().toString()); //$NON-NLS-1$
+			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-test").toFile().toString()); //$NON-NLS-1$
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
@@ -132,14 +133,14 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		for (String[] filter : fileMapping) {
 			String source = filter[0];
 			for (Object property : vars.keySet()){
-				if(source.contains("${"+property.toString()+"}")) {
-					source = source.replace("${"+property.toString()+"}",vars.get(property.toString()).toString());
+				if(source.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
+					source = source.replace("${"+property.toString()+"}",vars.get(property.toString()).toString()); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			String dest = filter[1];
 			for (Object property : vars.keySet()){
-				if(dest.contains("${"+property.toString()+"}")) {
-					dest = dest.replace("${"+property.toString()+"}",vars.get(property.toString()).toString());
+				if(dest.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
+					dest = dest.replace("${"+property.toString()+"}",vars.get(property.toString()).toString()); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			result.add(new String[]{source,dest});
@@ -191,7 +192,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 	
 	public File getSeamFolder(Map<String, Object> vars) {
-		return new File(vars.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString(),"seam-gen");		
+		return new File(vars.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString(),"seam-gen");		 //$NON-NLS-1$
 	}
 	
 	protected void loadCustomVariables(Map<String, Object> vars) {

@@ -41,7 +41,7 @@ public class SeamJarFilter extends ViewerFilter {
 		Set<ISeamComponentDeclaration> ds = c.getAllDeclarations();
 		for (ISeamComponentDeclaration d : ds) {
 			IPath path = d.getSourcePath();
-			if(path != null && !path.toString().endsWith(".jar")) {
+			if(path != null && !path.toString().endsWith(".jar")) { //$NON-NLS-1$
 				return true;
 			}
 		}

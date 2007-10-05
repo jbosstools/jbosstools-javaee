@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author eskimo
@@ -41,8 +42,8 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 
 	@Override
 	public void doFillIntoGrid(Object parent) {
-		Assert.isTrue(parent instanceof Composite, "Parent control should be Composite");
-		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,"Editor supports only grid layout");
+		Assert.isTrue(parent instanceof Composite, SeamUIMessages.COMPOSITE_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
+		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,SeamUIMessages.COMPOSITE_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) parent;
 		Control[] controls = (Control[])getEditorControls(aComposite);
 		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
@@ -61,7 +62,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	@Override
 	public Object[] getEditorControls() {
 			if(controls.size()>0) return controls.toArray();
-			else throw new IllegalStateException("This metod can be invoked after getEditorControls(parent) only");
+			else throw new IllegalStateException(SeamUIMessages.COMPOSITE_EDITOR_THIS_METOD_CAN_BE_INVOKED);
 	}
 	
 	
