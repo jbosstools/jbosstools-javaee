@@ -8,6 +8,7 @@
                 <xs:element ref="components:component"/>
                 <xs:element ref="components:factory"/>
                 <xs:element ref="components:event"/>
+                <xs:element ref="components:import"/>
                 <xs:any namespace="##other" processContents="strict"/>
             </xs:choice>
         </xs:complexType>
@@ -21,6 +22,8 @@
             <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
         </xs:complexType>
     </xs:element>
+    
+    <xs:element name="import" type="xs:string"/>
 
     <xs:attributeGroup name="attlist.ejbcomponent">
         <xs:attribute name="jndi-name"/>
@@ -90,7 +93,15 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="auto-create" default="false">
+        <xs:attribute name="auto-create">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="startup">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
                     <xs:enumeration value="true"/>
@@ -145,7 +156,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.action">
-        <xs:attribute name="expression" use="required"/>
+        <xs:attribute name="execute" use="required"/>
     </xs:attributeGroup>
 
 </xs:schema>
