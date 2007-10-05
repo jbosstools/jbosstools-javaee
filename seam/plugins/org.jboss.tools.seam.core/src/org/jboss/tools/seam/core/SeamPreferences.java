@@ -40,79 +40,79 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
  */
 public class SeamPreferences {
 
-	public static final String ERROR = "error";
-	public static final String WARNING = "warning";
-	public static final String IGNORE = "ignore";
+	public static final String ERROR = "error"; //$NON-NLS-1$
+	public static final String WARNING = "warning"; //$NON-NLS-1$
+	public static final String IGNORE = "ignore"; //$NON-NLS-1$
 
 	public static final Set<String> severityOptionNames = new HashSet<String>();
 
 	//Components
 
 	// Duplicate names found in @Name annotations will be marked
-	public static final String NONUNIQUE_COMPONENT_NAME = createSeverityOption("nonUniqueComponentName");
+	public static final String NONUNIQUE_COMPONENT_NAME = createSeverityOption("nonUniqueComponentName"); //$NON-NLS-1$
 	// Components with @Stateful and without @Remove methods will be marked
-	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE = createSeverityOption("statefulComponentDoesNotContainRemove");
+	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE = createSeverityOption("statefulComponentDoesNotContainRemove"); //$NON-NLS-1$
 	// Components with @Stateful and without @Destroy methods will be marked
-	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY = createSeverityOption("statefulComponentDoesNotContainDestroy");
+	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY = createSeverityOption("statefulComponentDoesNotContainDestroy"); //$NON-NLS-1$
 	// Components with @Stateful can't have PAGE or STATELESS scopes. If it has wrong scope then component will be marked.
-	public static final String STATEFUL_COMPONENT_WRONG_SCOPE = createSeverityOption("statefulComponentHasWrongScope");
+	public static final String STATEFUL_COMPONENT_WRONG_SCOPE = createSeverityOption("statefulComponentHasWrongScope"); //$NON-NLS-1$
 	// If className ('component' element) contains unknown class name then component.xml will be marked.
-	public static final String UNKNOWN_COMPONENT_CLASS_NAME = createSeverityOption("unknownComponentClassName");
+	public static final String UNKNOWN_COMPONENT_CLASS_NAME = createSeverityOption("unknownComponentClassName"); //$NON-NLS-1$
 	// If component/property@name contains some property name which does not have setter then mark it.
-	public static final String UNKNOWN_COMPONENT_PROPERTY = createSeverityOption("unknownComponentProperty");
+	public static final String UNKNOWN_COMPONENT_PROPERTY = createSeverityOption("unknownComponentProperty"); //$NON-NLS-1$
 
 	//Entities
 
 	// Component marked as @Entity can't have STATELESS scope. If it has wrong scope mark it.
-	public static final String ENTITY_COMPONENT_WRONG_SCOPE = createSeverityOption("entityComponentHasWrongScope");
+	public static final String ENTITY_COMPONENT_WRONG_SCOPE = createSeverityOption("entityComponentHasWrongScope"); //$NON-NLS-1$
 	// Mark any duplicated @Remove methods within one component.
-	public static final String DUPLICATE_REMOVE = createSeverityOption("duplicateRemove");
+	public static final String DUPLICATE_REMOVE = createSeverityOption("duplicateRemove"); //$NON-NLS-1$
 
 	//Component life-cycle methods
 
 	// Mark duplicated @Destroy methods within one component.
-	public static final String DUPLICATE_DESTROY = createSeverityOption("duplicateDestroy");
+	public static final String DUPLICATE_DESTROY = createSeverityOption("duplicateDestroy"); //$NON-NLS-1$
 	// Mark duplicated @Create methods within one component.
-	public static final String DUPLICATE_CREATE = createSeverityOption("duplicateCreate");
+	public static final String DUPLICATE_CREATE = createSeverityOption("duplicateCreate"); //$NON-NLS-1$
 	// Mark duplicated @Unwrap methods within one component.
-	public static final String DUPLICATE_UNWRAP = createSeverityOption("duplicateUnwrap");
+	public static final String DUPLICATE_UNWRAP = createSeverityOption("duplicateUnwrap"); //$NON-NLS-1$
 	// Mark all @Destroy methods which are not declared in components' classes.
-	public static final String DESTROY_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("destroyDoesNotBelongToComponent");
+	public static final String DESTROY_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("destroyDoesNotBelongToComponent"); //$NON-NLS-1$
 	// Mark all @Create methods which are not declared in components' classes.
-	public static final String CREATE_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("createDoesNotBelongToComponent");
+	public static final String CREATE_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("createDoesNotBelongToComponent"); //$NON-NLS-1$
 	// Mark all @Unwrap methods which are not declared in components' classes.
-	public static final String UNWRAP_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("unwrapDoesNotBelongToComponent");
+	public static final String UNWRAP_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("unwrapDoesNotBelongToComponent"); //$NON-NLS-1$
 	// Mark all @Observer methods which are not declared in components' classes.
-	public static final String OBSERVER_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("observerDoesNotBelongToComponent");
+	public static final String OBSERVER_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("observerDoesNotBelongToComponent"); //$NON-NLS-1$
 
 	//Factories
 
 	// Factory method with a void return type must have an associated @Out/Databinder. Mark factory otherwise.
-	public static final String UNKNOWN_FACTORY_NAME = createSeverityOption("unknownFactoryName");
+	public static final String UNKNOWN_FACTORY_NAME = createSeverityOption("unknownFactoryName"); //$NON-NLS-1$
 
 	//Bijections
 
 	// @DataModelSelection and @DataModelSelectionIndex without name requires the only one @DataModel in the component. Mark @DataModelSelection or @DataModelSelectionIndex otherwise.
-	public static final String MULTIPLE_DATA_BINDER = createSeverityOption("multipleDataBinder");
+	public static final String MULTIPLE_DATA_BINDER = createSeverityOption("multipleDataBinder"); //$NON-NLS-1$
 	// Mark @DataModelSelection or @DataModelSelectionIndex with unknown name. We should have @DataModel or @Out with the same name.
-	public static final String UNKNOWN_DATA_MODEL = createSeverityOption("unknownDataModel");
+	public static final String UNKNOWN_DATA_MODEL = createSeverityOption("unknownDataModel"); //$NON-NLS-1$
 
 	//Context variables
 
 	// If factory uses a name of any components (roles) or other factories then mark all these context variables' names. 
-	public static final String DUPLICATE_VARIABLE_NAME = createSeverityOption("duplicateVariableName");
+	public static final String DUPLICATE_VARIABLE_NAME = createSeverityOption("duplicateVariableName"); //$NON-NLS-1$
 	// If @In uses a unknown context variable name then mark it.
-	public static final String UNKNOWN_VARIABLE_NAME = createSeverityOption("unknownVariableName");
+	public static final String UNKNOWN_VARIABLE_NAME = createSeverityOption("unknownVariableName"); //$NON-NLS-1$
 
 	// Seam Expression language
 
 	// Mark Expressions which we can't resolve.
-	public static final String INVALID_EXPRESSION = createSeverityOption("invalidExpression");
+	public static final String INVALID_EXPRESSION = createSeverityOption("invalidExpression"); //$NON-NLS-1$
 	// If Expression use property of component and this property has only setter(getter) without getter(setter) then mark it.
-	public static final String UNPAIRED_GETTER_OR_SETTER = createSeverityOption("unpairedGetterOrSetter");
+	public static final String UNPAIRED_GETTER_OR_SETTER = createSeverityOption("unpairedGetterOrSetter"); //$NON-NLS-1$
 
 	private static String createSeverityOption(String shortName) {
-		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName;
+		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName; //$NON-NLS-1$
 		severityOptionNames.add(name);
 		return name;
 	}

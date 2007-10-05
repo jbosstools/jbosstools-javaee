@@ -15,15 +15,15 @@ package org.jboss.tools.seam.core;
  * @author Alexey Kazakov
  */
 public enum ScopeType implements SeamScope {
-	STATELESS("Stateless"),
-	METHOD("Method"),
-	EVENT("Event", EVENT_PRIORITY_ORDER),
-	PAGE("Page", PAGE_PRIORITY_ORDER),
-	CONVERSATION("Conversation", CONVERSATION_PRIORITY_ORDER),
-	SESSION("Session", SESSION_PRIORITY_ORDER),
-	APPLICATION("Application", APPLICATION_PRIORITY_ORDER),
-	BUSINESS_PROCESS("Business Process", BUSINESS_PROCESS_PRIORITY_ORDER),
-	UNSPECIFIED("Unspecified", UNSPECIFIED_PRIORITY_ORDER); 
+	STATELESS("Stateless"), //$NON-NLS-1$
+	METHOD("Method"), //$NON-NLS-1$
+	EVENT("Event", EVENT_PRIORITY_ORDER), //$NON-NLS-1$
+	PAGE("Page", PAGE_PRIORITY_ORDER), //$NON-NLS-1$
+	CONVERSATION("Conversation", CONVERSATION_PRIORITY_ORDER), //$NON-NLS-1$
+	SESSION("Session", SESSION_PRIORITY_ORDER), //$NON-NLS-1$
+	APPLICATION("Application", APPLICATION_PRIORITY_ORDER), //$NON-NLS-1$
+	BUSINESS_PROCESS("Business Process", BUSINESS_PROCESS_PRIORITY_ORDER), //$NON-NLS-1$
+	UNSPECIFIED("Unspecified", UNSPECIFIED_PRIORITY_ORDER);  //$NON-NLS-1$
 
 	int priority;
 	private String label;

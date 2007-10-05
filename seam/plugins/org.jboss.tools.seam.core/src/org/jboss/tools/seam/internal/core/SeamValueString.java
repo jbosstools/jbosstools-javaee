@@ -40,7 +40,7 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 		String v1 = currentValue;
 		String v2 = v.value.getValue();
 		if(v1 == null || !v1.equals(v2)) {
-			changes = Change.addChange(changes, new Change(this, "value", v1, v2));
+			changes = Change.addChange(changes, new Change(this, "value", v1, v2)); //$NON-NLS-1$
 		}
 		setValue(v.value);
 		return changes;

@@ -14,10 +14,10 @@ package org.jboss.tools.seam.core;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 
 public enum BeanType implements SeamAnnotations {
-	ENTITY(ENTITY_ANNOTATION_TYPE, ScopeType.CONVERSATION, "entity"),
-	STATEFUL(STATEFUL_ANNOTATION_TYPE, ScopeType.CONVERSATION, "stateful"),
-	STATELESS(STATELESS_ANNOTATION_TYPE, ScopeType.STATELESS, "stateless"),
-	MESSAGE_DRIVEN(MESSAGE_DRIVEN_ANNOTATION_TYPE, ScopeType.STATELESS, "message-driven");
+	ENTITY(ENTITY_ANNOTATION_TYPE, ScopeType.CONVERSATION, "entity"), //$NON-NLS-1$
+	STATEFUL(STATEFUL_ANNOTATION_TYPE, ScopeType.CONVERSATION, "stateful"), //$NON-NLS-1$
+	STATELESS(STATELESS_ANNOTATION_TYPE, ScopeType.STATELESS, "stateless"), //$NON-NLS-1$
+	MESSAGE_DRIVEN(MESSAGE_DRIVEN_ANNOTATION_TYPE, ScopeType.STATELESS, "message-driven"); //$NON-NLS-1$
 
 	String annotationType;
 	ScopeType defaultScope;

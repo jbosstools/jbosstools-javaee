@@ -64,16 +64,16 @@ public class SeamFacetPostInstallDelegate implements
 	
 		prefs.put(SEAM_TEST_PROJECT, 
 				model.getProperty(SEAM_TEST_PROJECT)==null?
-						"":model.getProperty(SEAM_TEST_PROJECT).toString());
+						"":model.getProperty(SEAM_TEST_PROJECT).toString()); //$NON-NLS-1$
 		
 		if(DEPLOY_AS_EAR.equals(model.getProperty(JBOSS_AS_DEPLOY_AS))) {
 			prefs.put(SEAM_EJB_PROJECT, 
 					model.getProperty(SEAM_EJB_PROJECT)==null?
-							"":model.getProperty(SEAM_EJB_PROJECT).toString());
+							"":model.getProperty(SEAM_EJB_PROJECT).toString()); //$NON-NLS-1$
 			
 			prefs.put(SEAM_EAR_PROJECT, 
 					model.getProperty(SEAM_EAR_PROJECT)==null?
-							"":model.getProperty(SEAM_EAR_PROJECT).toString());
+							"":model.getProperty(SEAM_EAR_PROJECT).toString()); //$NON-NLS-1$
 		}
 		
 		try {

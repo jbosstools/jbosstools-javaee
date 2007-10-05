@@ -39,7 +39,7 @@ import org.jboss.tools.seam.core.event.Change;
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		implements ISeamJavaComponentDeclaration {
 
-	public static final String PATH_OF_STATEFUL = "stateful";
+	public static final String PATH_OF_STATEFUL = "stateful"; //$NON-NLS-1$
 
 	protected String className = null;
 	protected ScopeType scopeType = ScopeType.UNSPECIFIED;
@@ -189,21 +189,21 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		List<Change> changes = super.merge(s);
 		SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)s;
 		if(!stringsEqual(className, jd.className)) {
-			changes = Change.addChange(changes, new Change(this, "class", className, jd.className));
+			changes = Change.addChange(changes, new Change(this, "class", className, jd.className)); //$NON-NLS-1$
 			className = jd.className;
 		}
 		if(scopeType != jd.scopeType) {
-			changes = Change.addChange(changes, new Change(this, "scope", scopeType, jd.scopeType));
+			changes = Change.addChange(changes, new Change(this, "scope", scopeType, jd.scopeType)); //$NON-NLS-1$
 			scopeType = jd.scopeType;
 		}
 		if(precedence != jd.precedence) {
-			changes = Change.addChange(changes, new Change(this, "precedence", precedence, jd.precedence));
+			changes = Change.addChange(changes, new Change(this, "precedence", precedence, jd.precedence)); //$NON-NLS-1$
 			precedence = jd.precedence;
 		}
 
 		if(type != jd.type) type = jd.type;
 		if(!typesAreEqual(types, jd.types)) {
-			changes = Change.addChange(changes, new Change(this, "types", types, jd.types));
+			changes = Change.addChange(changes, new Change(this, "types", types, jd.types)); //$NON-NLS-1$
 		}
 		this.types = jd.types;
 
@@ -350,11 +350,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	static final Map<String, Integer> NAMED_PRECEDENCES = new HashMap<String, Integer>();
 	
 	static {
-		NAMED_PRECEDENCES.put("Install.BUILT_IN", new Integer(0));
-		NAMED_PRECEDENCES.put("Install.FRAMEWORK", new Integer(10));
-		NAMED_PRECEDENCES.put("Install.APPLICATION", new Integer(20));
-		NAMED_PRECEDENCES.put("Install.DEPLOYMENT", new Integer(30));
-		NAMED_PRECEDENCES.put("Install.MOCK", new Integer(40));
+		NAMED_PRECEDENCES.put("Install.BUILT_IN", new Integer(0)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.FRAMEWORK", new Integer(10)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.APPLICATION", new Integer(20)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.DEPLOYMENT", new Integer(30)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.MOCK", new Integer(40)); //$NON-NLS-1$
 	}
 
 	public void setPrecedence(IValueInfo value) {

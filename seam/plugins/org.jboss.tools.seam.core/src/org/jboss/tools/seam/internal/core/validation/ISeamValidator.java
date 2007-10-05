@@ -22,7 +22,7 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
  */
 public interface ISeamValidator {
 
-	public static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamResource";
+	public static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamResource"; //$NON-NLS-1$
 
 	/**
 	 * @return true if validator is enabled.

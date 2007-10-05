@@ -11,32 +11,32 @@
 package org.jboss.tools.seam.xml.components.model;
 
 public interface SeamComponentConstants {
-	public String PUBLIC_ID_11 = "-//JBoss/Seam Component Configuration DTD 1.1//EN";
-	public String SYSTEM_ID_11 = "http://jboss.com/products/seam/components-1.1.dtd";
+	public String PUBLIC_ID_11 = "-//JBoss/Seam Component Configuration DTD 1.1//EN"; //$NON-NLS-1$
+	public String SYSTEM_ID_11 = "http://jboss.com/products/seam/components-1.1.dtd"; //$NON-NLS-1$
 	
-	public String ENT_SEAM_COMPONENTS = "FileSeamComponents";
-	public String ENT_SEAM_COMPONENTS_11 = ENT_SEAM_COMPONENTS + "11";
-	public String ENT_SEAM_COMPONENTS_12 = ENT_SEAM_COMPONENTS + "12";
-	public String ENT_SEAM_COMPONENT_12 = "FileSeamComponent" + "12";
-	public String ENT_SEAM_COMPONENTS_20 = ENT_SEAM_COMPONENTS + "20";
-	public String ENT_SEAM_COMPONENT_20 = "FileSeamComponent" + "20";
-	public String ENT_SEAM_COMPONENT = "SeamComponent";
-	public String ENT_SEAM_FACTORY = "SeamFactory";
+	public String ENT_SEAM_COMPONENTS = "FileSeamComponents"; //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENTS_11 = ENT_SEAM_COMPONENTS + "11"; //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENTS_12 = ENT_SEAM_COMPONENTS + "12"; //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENT_12 = "FileSeamComponent" + "12"; //$NON-NLS-1$ //$NON-NLS-2$
+	public String ENT_SEAM_COMPONENTS_20 = ENT_SEAM_COMPONENTS + "20"; //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENT_20 = "FileSeamComponent" + "20"; //$NON-NLS-1$ //$NON-NLS-2$
+	public String ENT_SEAM_COMPONENT = "SeamComponent"; //$NON-NLS-1$
+	public String ENT_SEAM_FACTORY = "SeamFactory"; //$NON-NLS-1$
 	
-	public String ENT_SEAM_PROPERTY = "SeamProperty";
-	public String ENT_SEAM_PROPERTY_LIST = "SeamPropertyList";
-	public String ENT_SEAM_PROPERTY_MAP = "SeamPropertyMap";
+	public String ENT_SEAM_PROPERTY = "SeamProperty"; //$NON-NLS-1$
+	public String ENT_SEAM_PROPERTY_LIST = "SeamPropertyList"; //$NON-NLS-1$
+	public String ENT_SEAM_PROPERTY_MAP = "SeamPropertyMap"; //$NON-NLS-1$
 
-	public String ENT_SEAM_LIST_ENTRY = "SeamListEntry";
-	public String ENT_SEAM_MAP_ENTRY = "SeamMapEntry";
+	public String ENT_SEAM_LIST_ENTRY = "SeamListEntry"; //$NON-NLS-1$
+	public String ENT_SEAM_MAP_ENTRY = "SeamMapEntry"; //$NON-NLS-1$
 	
-	public String ENT_SEAM_EVENT = "SeamEvent";
-	public String ENT_SEAM_ACTION = "SeamAction";
+	public String ENT_SEAM_EVENT = "SeamEvent"; //$NON-NLS-1$
+	public String ENT_SEAM_ACTION = "SeamAction"; //$NON-NLS-1$
 	
-	public String ATTR_NAME = "name";
-	public String ATTR_KEY = "key";
-	public String ATTR_VALUE = "value";
-	public String ATTR_TYPE = "type";
-	public String ATTR_EXPR = "expression";
+	public String ATTR_NAME = "name"; //$NON-NLS-1$
+	public String ATTR_KEY = "key"; //$NON-NLS-1$
+	public String ATTR_VALUE = "value"; //$NON-NLS-1$
+	public String ATTR_TYPE = "type"; //$NON-NLS-1$
+	public String ATTR_EXPR = "expression"; //$NON-NLS-1$
 
 }

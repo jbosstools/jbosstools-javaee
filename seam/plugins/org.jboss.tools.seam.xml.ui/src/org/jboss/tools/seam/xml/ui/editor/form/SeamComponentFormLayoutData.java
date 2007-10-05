@@ -15,11 +15,12 @@ import org.jboss.tools.common.model.ui.forms.FormData;
 import org.jboss.tools.common.model.ui.forms.FormLayoutDataUtil;
 import org.jboss.tools.common.model.ui.forms.IFormData;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
+import org.jboss.tools.seam.xml.ui.SeamXMLUIMessages;
 
 public class SeamComponentFormLayoutData implements SeamComponentConstants {
 
 	static IFormData SEAM_PROPERTY_LIST_DEFINITION = new FormData(
-		"Properties",
+		SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_PROPERTIES"), //$NON-NLS-1$
 		SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 		new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 100)}, 
 		new String[]{ENT_SEAM_PROPERTY, ENT_SEAM_PROPERTY_LIST, ENT_SEAM_PROPERTY_MAP},
@@ -28,13 +29,13 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 		
 	private final static IFormData[] SEAM_COMPONENT_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Component",
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_SEAM_COMPONENT"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT)
 		),
 		SEAM_PROPERTY_LIST_DEFINITION,
 		new FormData(
-			"Advanced",
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT)
 		)
@@ -45,13 +46,13 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 
 	private final static IFormData[] COMPONENT_FILE_12_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Component 1.2 File",
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_SEAM_COMPONENT_1_2_FILE"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_12)
 		),
 		SEAM_PROPERTY_LIST_DEFINITION,
 		new FormData(
-			"Advanced",
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_12)
 		)
@@ -59,13 +60,13 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 
 	private final static IFormData[] COMPONENT_FILE_20_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Component 2.0 File",
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_SEAM_COMPONENT_2_0_FILE"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_20)
 		),
 		SEAM_PROPERTY_LIST_DEFINITION,
 		new FormData(
-			"Advanced",
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_20)
 		)

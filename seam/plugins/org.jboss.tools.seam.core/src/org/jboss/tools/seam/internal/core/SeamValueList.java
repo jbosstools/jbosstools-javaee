@@ -40,7 +40,7 @@ public class SeamValueList extends SeamObject implements ISeamValueList {
 		
 		//improve
 		if(values.size() != v.values.size()) {
-			changes = Change.addChange(changes, new Change(this, "value", values, v.values));
+			changes = Change.addChange(changes, new Change(this, "value", values, v.values)); //$NON-NLS-1$
 		}
 		values = v.values;
 		for (int i = 0; i < values.size(); i++) {

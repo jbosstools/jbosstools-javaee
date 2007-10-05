@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.apache.tools.ant.util.FileUtils;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -132,7 +133,7 @@ public class AntCopyUtils {
 		
 		@Override
 		public String toString() {
-			return "included: " + set.getIncluded() + " excluded: " + set.getExcluded(); 
+			return SeamCoreMessages.getString("ANT_COPY_UTILS_INCLUDED") + set.getIncluded() + SeamCoreMessages.getString("ANT_COPY_UTILS_EXCLUDED") + set.getExcluded();  //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -144,15 +145,15 @@ public class AntCopyUtils {
 			AntCopyUtils.FileSetFileFilter fileSetFilter,
 			FilterSetCollection filterSetCollection, boolean override) {
 		if(!sourceFolder.exists()) {
-			throw new IllegalArgumentException("Copy failed - " + sourceFolder + " does not exist");
+			throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COPY_FAILED") + sourceFolder + SeamCoreMessages.getString("ANT_COPY_UTILS_DOES_NOT_EXIST")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		File[] files = fileSetFilter==null?sourceFolder.listFiles():sourceFolder.listFiles(fileSetFilter);
 		
 		if(files==null) {
 			if(fileSetFilter==null) {
-				throw new IllegalArgumentException("Could not find " + sourceFolder);
+				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + sourceFolder); //$NON-NLS-1$
 			} else {
-				throw new IllegalArgumentException("Could not find " + fileSetFilter + " in "+ sourceFolder);
+				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + fileSetFilter + SeamCoreMessages.getString("ANT_COPY_UTILS_IN")+ sourceFolder); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		for (File file : files) {
@@ -198,15 +199,15 @@ public class AntCopyUtils {
 		dest.mkdir();
 		
 		if(!source.exists()) {
-			throw new IllegalArgumentException("Copy failed - " + source + " does not exist");
+			throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COPY_FAILED") + source + SeamCoreMessages.getString("ANT_COPY_UTILS_DOES_NOT_EXIST")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 		File[] listFiles = source.listFiles(filter);
 		if(listFiles==null) {
 			if(filter==null) {
-				throw new IllegalArgumentException("Could not find " + source);
+				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + source); //$NON-NLS-1$
 			} else {
-				throw new IllegalArgumentException("Could not find " + filter + " in "+ source);
+				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + filter + SeamCoreMessages.getString("ANT_COPY_UTILS_IN")+ source); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		for (File file:listFiles) {
@@ -226,7 +227,7 @@ public class AntCopyUtils {
 				copyFileToFolder(file, dest, null, true);
 			} else {
 				try {
-					SeamCorePlugin.getPluginLog().logError("Cannot copy JDBC driver jar '" + file.getCanonicalPath() + "'");
+					SeamCorePlugin.getPluginLog().logError(SeamCoreMessages.getString("ANT_COPY_UTILS_CANNOT_COPY_JDBC_DRIVER_JAR") + file.getCanonicalPath() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 				} catch (IOException e) {
 					SeamCorePlugin.getPluginLog().logError(e);
 				}

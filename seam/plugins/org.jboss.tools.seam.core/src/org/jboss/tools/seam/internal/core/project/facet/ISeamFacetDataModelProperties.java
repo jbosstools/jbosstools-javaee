@@ -20,65 +20,65 @@ import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
  */
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
-	public static final String SEAM_PROJECT_NAME = "project.name";
+	public static final String SEAM_PROJECT_NAME = "project.name"; //$NON-NLS-1$
 	
-	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance";
+	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance"; //$NON-NLS-1$
 	
-	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile";
+	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile"; //$NON-NLS-1$
 	
-	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name";
+	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
 	
-	public static final String JBOSS_AS_HOME = "jboss.home";
+	public static final String JBOSS_AS_HOME = "jboss.home"; //$NON-NLS-1$
 	
-	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type";
+	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type"; //$NON-NLS-1$
 	
-	public static final String DB_TYPE = "database.type";
+	public static final String DB_TYPE = "database.type"; //$NON-NLS-1$
 	
-	public static final String HIBERNATE_DIALECT = "hibernate.dialect";
+	public static final String HIBERNATE_DIALECT = "hibernate.dialect"; //$NON-NLS-1$
 	
-	public static final String JDBC_DRIVER_CLASS_NAME = "hibernate.connection.driver_class";
+	public static final String JDBC_DRIVER_CLASS_NAME = "hibernate.connection.driver_class"; //$NON-NLS-1$
 	
-	public static final String JDBC_URL_FOR_DB = "hibernate.connection.url";
+	public static final String JDBC_URL_FOR_DB = "hibernate.connection.url"; //$NON-NLS-1$
 	
-	public static final String DB_USER_NAME = "hibernate.connection.username";
+	public static final String DB_USER_NAME = "hibernate.connection.username"; //$NON-NLS-1$
 	
-	public static final String DB_USER_PASSWORD = "hibernate.connection.password";
+	public static final String DB_USER_PASSWORD = "hibernate.connection.password"; //$NON-NLS-1$
 	
-	public static final String DB_SCHEMA_NAME = "schema.property";
+	public static final String DB_SCHEMA_NAME = "schema.property"; //$NON-NLS-1$
 	
-	public static final String DB_CATALOG_NAME  = "catalog.property";
+	public static final String DB_CATALOG_NAME  = "catalog.property"; //$NON-NLS-1$
 	
-	public static final String DB_ALREADY_EXISTS = "database.exists";
+	public static final String DB_ALREADY_EXISTS = "database.exists"; //$NON-NLS-1$
 	
-	public static final String RECREATE_TABLES_AND_DATA_ON_DEPLOY = "database.drop";
+	public static final String RECREATE_TABLES_AND_DATA_ON_DEPLOY = "database.drop"; //$NON-NLS-1$
 	
-	public static final String HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+	public static final String HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto"; //$NON-NLS-1$
 	
-	public static final String JDBC_DRIVER_JAR_PATH = "driver.file";
+	public static final String JDBC_DRIVER_JAR_PATH = "driver.file"; //$NON-NLS-1$
 	
-	public static final String SESION_BEAN_PACKAGE_NAME = "action.package";
+	public static final String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
 	
-	public static final String SESION_BEAN_PACKAGE_PATH = "action.package.path";
+	public static final String SESION_BEAN_PACKAGE_PATH = "action.package.path"; //$NON-NLS-1$
 	
-	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package";
+	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
 	
-	public static final String ENTITY_BEAN_PACKAGE_PATH = "model.package.path";
+	public static final String ENTITY_BEAN_PACKAGE_PATH = "model.package.path"; //$NON-NLS-1$
 	
-	public static final String TEST_CASES_PACKAGE_NAME = "test.package";
+	public static final String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
 	
-	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path";
+	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path"; //$NON-NLS-1$
 
-	public static final String JBOSS_SEAM_HOME = "seam.home.folder";
+	public static final String JBOSS_SEAM_HOME = "seam.home.folder"; //$NON-NLS-1$
 	
-	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder";
+	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder"; //$NON-NLS-1$
 	
-	public static final String SEAM_EJB_PROJECT = "seam.ejb.project";
+	public static final String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
 	
-	public static final String SEAM_TEST_PROJECT = "seam.test.project";
+	public static final String SEAM_TEST_PROJECT = "seam.test.project"; //$NON-NLS-1$
 	
-	public static final String SEAM_EAR_PROJECT = "seam.ear.project";
+	public static final String SEAM_EAR_PROJECT = "seam.ear.project"; //$NON-NLS-1$
 	
-	public static final String DEPLOY_AS_WAR = "war";
+	public static final String DEPLOY_AS_WAR = "war"; //$NON-NLS-1$
 	
-	public static final String DEPLOY_AS_EAR = "ear";	
+	public static final String DEPLOY_AS_EAR = "ear";	 //$NON-NLS-1$
 }

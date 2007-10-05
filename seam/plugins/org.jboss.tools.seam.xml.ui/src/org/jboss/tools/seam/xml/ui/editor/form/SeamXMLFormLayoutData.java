@@ -19,7 +19,7 @@ public class SeamXMLFormLayoutData implements IFormLayoutData {
 		ClassLoaderUtil.init();
 	}
 	
-	public static String EMPTY_DESCRIPTION = "";
+	public static String EMPTY_DESCRIPTION = ""; //$NON-NLS-1$
 
 	private final static IFormData[] FORM_LAYOUT_DEFINITIONS = new IFormData[] {
 		SeamComponentsFileFormLayoutData.FILE_11_FORM_DEFINITION,

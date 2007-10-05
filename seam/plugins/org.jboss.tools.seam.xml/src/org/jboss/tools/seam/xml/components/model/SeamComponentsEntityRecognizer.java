@@ -21,7 +21,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     static {
         try {
             Class<?> c = SeamComponentsEntityRecognizer.class;
-            XMLEntityResolver.registerPublicEntity(PUBLIC_ID_11, c, "/meta/components-1.1.dtd");
+            XMLEntityResolver.registerPublicEntity(PUBLIC_ID_11, c, "/meta/components-1.1.dtd"); //$NON-NLS-1$
         } catch (IOException e) {
 			SeamXMLPlugin.log(e);
         }
@@ -38,22 +38,22 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     		return null;
     	}
     	
-    	int i = body.indexOf("xsi:schemaLocation");
+    	int i = body.indexOf("xsi:schemaLocation"); //$NON-NLS-1$
     	if(i < 0) return null;
-    	int j = body.indexOf("\"", i);
+    	int j = body.indexOf("\"", i); //$NON-NLS-1$
     	if(j < 0) return null;
-    	int k = body.indexOf("\"", j + 1);
+    	int k = body.indexOf("\"", j + 1); //$NON-NLS-1$
     	if(k < 0) return null;
     	String schemaLocation = body.substring(j + 1, k);
     	boolean isSingleComponent = isSingleComponent(body);
     	
-    	int i20 = schemaLocation.indexOf("2.0");
+    	int i20 = schemaLocation.indexOf("2.0"); //$NON-NLS-1$
     	if(i20 >= 0) {
     		if(isSingleComponent) return ENT_SEAM_COMPONENT_20;
     		if(isMultiComponent(body)) return ENT_SEAM_COMPONENTS_20;
     	}
     	
-    	int i12 = schemaLocation.indexOf("1.2");
+    	int i12 = schemaLocation.indexOf("1.2"); //$NON-NLS-1$
     	if(i12 >= 0) {
     		if(isSingleComponent) return ENT_SEAM_COMPONENT_12;
     		if(isMultiComponent(body)) return ENT_SEAM_COMPONENTS_12;
@@ -62,30 +62,30 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     }
     
     private boolean isComponentsSchema(String body) {
-    	int i = body.indexOf("<components");
+    	int i = body.indexOf("<components"); //$NON-NLS-1$
     	if(i < 0) return false;
-    	int j = body.indexOf(">", i);
+    	int j = body.indexOf(">", i); //$NON-NLS-1$
     	if(j < 0) return false;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
+    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0; //$NON-NLS-1$
     }
     
     private boolean isMultiComponent(String body) {
-    	int i = body.indexOf("<components");
+    	int i = body.indexOf("<components"); //$NON-NLS-1$
     	if(i < 0) return false;
-    	int j = body.indexOf(">", i);
+    	int j = body.indexOf(">", i); //$NON-NLS-1$
     	if(j < 0) return false;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
+    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0; //$NON-NLS-1$
     }
 
     private boolean isSingleComponent(String body) {
-    	int i = body.indexOf("<component");
-    	int is = body.indexOf("<components");
+    	int i = body.indexOf("<component"); //$NON-NLS-1$
+    	int is = body.indexOf("<components"); //$NON-NLS-1$
     	if(i < 0 || is >= 0) return false;
-    	int j = body.indexOf(">", i);
+    	int j = body.indexOf(">", i); //$NON-NLS-1$
     	if(j < 0) return false;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0;
+    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0; //$NON-NLS-1$
     }
 }

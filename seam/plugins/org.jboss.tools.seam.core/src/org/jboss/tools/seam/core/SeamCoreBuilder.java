@@ -28,7 +28,7 @@ import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
 public class SeamCoreBuilder extends IncrementalProjectBuilder {
-	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder";
+	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder"; //$NON-NLS-1$
 	
 	SeamResourceVisitor resourceVisitor = null;
 	
@@ -99,7 +99,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		try {
 			sp.store();
 		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError("Error storing build results for " + sp.getProject().getName(), e);
+			SeamCorePlugin.getPluginLog().logError(SeamCoreMessages.getString("SeamCoreBuilder.1") + sp.getProject().getName(), e); //$NON-NLS-1$
 		}
 		return null;
 	}

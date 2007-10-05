@@ -51,7 +51,7 @@ public class SeamPackage extends SeamObject implements ISeamPackage {
 
 	public String getQualifiedName() {
 		if(parent instanceof ISeamPackage) {
-			return ((ISeamPackage)parent).getQualifiedName() + "." + getName();
+			return ((ISeamPackage)parent).getQualifiedName() + "." + getName(); //$NON-NLS-1$
 		}
 		return getName();
 	}

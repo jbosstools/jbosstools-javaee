@@ -84,7 +84,7 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 		List<Change> changes = super.merge(s);
 		SeamComponentMethod m = (SeamComponentMethod)s;
 		if(!typesAreEqual(types, m.types)) {
-			changes = Change.addChange(changes, new Change(this, "types", types, m.types));
+			changes = Change.addChange(changes, new Change(this, "types", types, m.types)); //$NON-NLS-1$
 			this.types = m.types;
 		}
 		return changes;

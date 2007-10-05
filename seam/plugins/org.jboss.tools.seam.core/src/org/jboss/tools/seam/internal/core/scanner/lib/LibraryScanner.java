@@ -30,6 +30,7 @@ import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
@@ -55,7 +56,7 @@ public class LibraryScanner implements IFileScanner {
 	}
 
 	public boolean isRelevant(IFile f) {
-		if(f.getName().endsWith(".jar")) return true;
+		if(f.getName().endsWith(".jar")) return true; //$NON-NLS-1$
 		return false;
 	}
 
@@ -64,10 +65,10 @@ public class LibraryScanner implements IFileScanner {
 		if(model == null) return false;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return false;
-		if(!o.getModelEntity().getName().equals("FileSystemJar")) {
-			((FileSystemsImpl)o.getModel().getByPath("FileSystems")).updateOverlapped();
+		if(!o.getModelEntity().getName().equals("FileSystemJar")) { //$NON-NLS-1$
+			((FileSystemsImpl)o.getModel().getByPath("FileSystems")).updateOverlapped(); //$NON-NLS-1$
 			o = EclipseResourceUtil.getObjectByResource(f);
-			if(o == null || !o.getModelEntity().getName().equals("FileSystemJar")) return false;
+			if(o == null || !o.getModelEntity().getName().equals("FileSystemJar")) return false; //$NON-NLS-1$
 		}
 		return isLikelyComponentSource(o);
 	}
@@ -77,28 +78,28 @@ public class LibraryScanner implements IFileScanner {
 		if(model == null) return null;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return null;
-		if(!o.getModelEntity().getName().equals("FileSystemJar")) {
-			((FileSystemsImpl)o.getModel().getByPath("FileSystems")).updateOverlapped();
+		if(!o.getModelEntity().getName().equals("FileSystemJar")) { //$NON-NLS-1$
+			((FileSystemsImpl)o.getModel().getByPath("FileSystems")).updateOverlapped(); //$NON-NLS-1$
 			o = EclipseResourceUtil.getObjectByResource(f);
-			if(o == null || !o.getModelEntity().getName().equals("FileSystemJar")) return null;
+			if(o == null || !o.getModelEntity().getName().equals("FileSystemJar")) return null; //$NON-NLS-1$
 		}
 		return parse(o, f.getFullPath());
 	}
 
 	public boolean isLikelyComponentSource(XModelObject o) {
 		if(o == null) return false;
-		if(o.getChildByPath("seam.properties") != null) return true;
-		if(o.getChildByPath("META-INF/seam.properties") != null) return true;
-		if(o.getChildByPath("META-INF/components.xml") != null) return true;
+		if(o.getChildByPath("seam.properties") != null) return true; //$NON-NLS-1$
+		if(o.getChildByPath("META-INF/seam.properties") != null) return true; //$NON-NLS-1$
+		if(o.getChildByPath("META-INF/components.xml") != null) return true; //$NON-NLS-1$
 		return false;
 	}
 
 	public LoadedDeclarations parse(XModelObject o, IPath path) throws ScannerException {
 		if(o == null) return null;
 		sourcePath = path;
-		XModelObject seamProperties = o.getChildByPath("META-INF/seam.properties");
-		if(seamProperties == null) seamProperties = o.getChildByPath("seam.properties");
-		XModelObject componentsXML = o.getChildByPath("META-INF/components.xml");
+		XModelObject seamProperties = o.getChildByPath("META-INF/seam.properties"); //$NON-NLS-1$
+		if(seamProperties == null) seamProperties = o.getChildByPath("seam.properties"); //$NON-NLS-1$
+		XModelObject componentsXML = o.getChildByPath("META-INF/components.xml"); //$NON-NLS-1$
 		if(componentsXML == null && seamProperties == null) return null;
 		
 		LoadedDeclarations ds = new LoadedDeclarations();
@@ -106,7 +107,7 @@ public class LibraryScanner implements IFileScanner {
 		try {
 			processJavaClasses(o, ds);
 		} catch (JavaModelException e) {
-			throw new ScannerException("Cannot process Java Classes", e);
+			throw new ScannerException(SeamCoreMessages.getString("LIBRARY_SCANNER_CANNOT_PROCESS_JAVA_CLASSES"), e); //$NON-NLS-1$
 		}
 		
 		if(componentsXML != null) {
@@ -124,7 +125,7 @@ public class LibraryScanner implements IFileScanner {
 	
 	protected void processJavaClasses(XModelObject o, LoadedDeclarations ds) throws JavaModelException {
 		IJavaProject javaProject = JavaCore.create(classPath.getProject().getProject());
-		String location = o.getAttributeValue("location");
+		String location = o.getAttributeValue("location"); //$NON-NLS-1$
 		location = XModelObjectUtil.expand(location, o.getModel(), null);
 		
 		IFile[] fs = ModelPlugin.getWorkspace().getRoot().findFilesForLocation(new Path(location));

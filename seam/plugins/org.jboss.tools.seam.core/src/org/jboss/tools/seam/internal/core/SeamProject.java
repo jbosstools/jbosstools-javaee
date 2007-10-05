@@ -368,7 +368,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		File file = getStorageFile();
 		file.getParentFile().mkdirs();
 		
-		Element root = XMLUtilities.createDocumentElement("seam-project");
+		Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
 		storeProjectDependencies(root);
 		storeSourcePaths(root);
 		
@@ -404,10 +404,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	private void storeSourcePaths(Element root) {
-		Element sourcePathsElement = XMLUtilities.createElement(root, "source-paths");
+		Element sourcePathsElement = XMLUtilities.createElement(root, "source-paths"); //$NON-NLS-1$
 		for (IPath path : sourcePaths) {
-			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path");
-			pathElement.setAttribute("value", path.toString());
+			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path"); //$NON-NLS-1$
+			pathElement.setAttribute("value", path.toString()); //$NON-NLS-1$
 		}
 	}
 	
@@ -415,17 +415,17 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	private void storeProjectDependencies(Element root) {
-		Element dependsOnElement = XMLUtilities.createElement(root, "depends-on-projects");
+		Element dependsOnElement = XMLUtilities.createElement(root, "depends-on-projects"); //$NON-NLS-1$
 		for (ISeamProject p : dependsOn) {
 			if(!p.getProject().isAccessible()) continue;
-			Element pathElement = XMLUtilities.createElement(dependsOnElement, "project");
-			pathElement.setAttribute("name", p.getProject().getName());
+			Element pathElement = XMLUtilities.createElement(dependsOnElement, "project"); //$NON-NLS-1$
+			pathElement.setAttribute("name", p.getProject().getName()); //$NON-NLS-1$
 		}
-		Element usedElement = XMLUtilities.createElement(root, "used-by-projects");
+		Element usedElement = XMLUtilities.createElement(root, "used-by-projects"); //$NON-NLS-1$
 		for (ISeamProject p : usedBy) {
 			if(!p.getProject().isAccessible()) continue;
-			Element pathElement = XMLUtilities.createElement(usedElement, "project");
-			pathElement.setAttribute("name", p.getProject().getName());
+			Element pathElement = XMLUtilities.createElement(usedElement, "project"); //$NON-NLS-1$
+			pathElement.setAttribute("name", p.getProject().getName()); //$NON-NLS-1$
 		}
 	}
 	
@@ -433,11 +433,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	private void loadSourcePaths(Element root) {
-		Element sourcePathsElement = XMLUtilities.getUniqueChild(root, "source-paths");
+		Element sourcePathsElement = XMLUtilities.getUniqueChild(root, "source-paths"); //$NON-NLS-1$
 		if(sourcePathsElement == null) return;
-		Element[] paths = XMLUtilities.getChildren(sourcePathsElement, "path");
+		Element[] paths = XMLUtilities.getChildren(sourcePathsElement, "path"); //$NON-NLS-1$
 		if(paths != null) for (int i = 0; i < paths.length; i++) {
-			String p = paths[i].getAttribute("value");
+			String p = paths[i].getAttribute("value"); //$NON-NLS-1$
 			if(p == null || p.trim().length() == 0) continue;
 			IPath path = new Path(p.trim());
 			if(sourcePaths.contains(path)) continue;
@@ -452,11 +452,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	private void loadProjectDependencies(Element root) {
-		Element dependsOnElement = XMLUtilities.getUniqueChild(root, "depends-on-projects");
+		Element dependsOnElement = XMLUtilities.getUniqueChild(root, "depends-on-projects"); //$NON-NLS-1$
 		if(dependsOnElement != null) {
-			Element[] paths = XMLUtilities.getChildren(dependsOnElement, "project");
+			Element[] paths = XMLUtilities.getChildren(dependsOnElement, "project"); //$NON-NLS-1$
 			for (int i = 0; i < paths.length; i++) {
-				String p = paths[i].getAttribute("name");
+				String p = paths[i].getAttribute("name"); //$NON-NLS-1$
 				if(p == null || p.trim().length() == 0) continue;
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
 				if(project == null || !project.isAccessible()) continue;
@@ -468,11 +468,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 		}
 
-		Element usedElement = XMLUtilities.getUniqueChild(root, "used-by-projects");
+		Element usedElement = XMLUtilities.getUniqueChild(root, "used-by-projects"); //$NON-NLS-1$
 		if(usedElement != null) {
-			Element[] paths = XMLUtilities.getChildren(usedElement, "project");
+			Element[] paths = XMLUtilities.getChildren(usedElement, "project"); //$NON-NLS-1$
 			for (int i = 0; i < paths.length; i++) {
-				String p = paths[i].getAttribute("name");
+				String p = paths[i].getAttribute("name"); //$NON-NLS-1$
 				if(p == null || p.trim().length() == 0) continue;
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
 				if(project == null || !project.isAccessible()) continue;
@@ -488,7 +488,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	private File getStorageFile() {
 		IPath path = SeamCorePlugin.getDefault().getStateLocation();
-		File file = new File(path.toFile(), "projects/" + project.getName());
+		File file = new File(path.toFile(), "projects/" + project.getName()); //$NON-NLS-1$
 		return file;
 	}
 
@@ -655,7 +655,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) throws CloneNotSupportedException {
 		if(usedBy.size() == 0) return;
-		if(source.toString().endsWith(".jar")) return;
+		if(source.toString().endsWith(".jar")) return; //$NON-NLS-1$
 		
 		for (SeamProject p : usedBy) {
 			p.resolve();
@@ -767,7 +767,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	public void firePathRemovedToDependentProjects(IPath source) {
 		if(usedBy.size() == 0) return;
-		if(source.toString().endsWith(".jar")) return;
+		if(source.toString().endsWith(".jar")) return; //$NON-NLS-1$
 		
 		for (SeamProject p : usedBy) {
 			p.resolve();
@@ -1246,7 +1246,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		for (ISeamComponent c : allComponents.values()) {
 			for (ISeamComponentDeclaration d : c.getAllDeclarations()) {
 				IPath p = d.getSourcePath();
-				if(p == null || p.toString().endsWith(".jar")) continue;
+				if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
 				LoadedDeclarations ds = map.get(p);
 				if(ds == null) {
 					ds = new LoadedDeclarations();
@@ -1257,7 +1257,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		for (ISeamFactory f : allFactories) {
 			IPath p = f.getSourcePath();
-			if(p == null || p.toString().endsWith(".jar")) continue;
+			if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
 			LoadedDeclarations ds = map.get(p);
 			if(ds == null) {
 				ds = new LoadedDeclarations();
@@ -1296,12 +1296,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	/**
 	 * 
 	 */
-	static String EXTERNAL_TOOL_BUILDER = "org.eclipse.ui.externaltools.ExternalToolBuilder";
+	static String EXTERNAL_TOOL_BUILDER = "org.eclipse.ui.externaltools.ExternalToolBuilder"; //$NON-NLS-1$
 	
 	/**
 	 * 
 	 */
-	static final String LAUNCH_CONFIG_HANDLE = "LaunchConfigHandle";
+	static final String LAUNCH_CONFIG_HANDLE = "LaunchConfigHandle"; //$NON-NLS-1$
 
 	/**
 	 * 

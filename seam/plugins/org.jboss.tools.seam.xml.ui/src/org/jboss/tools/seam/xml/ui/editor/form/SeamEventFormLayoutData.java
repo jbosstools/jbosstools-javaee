@@ -15,11 +15,12 @@ import org.jboss.tools.common.model.ui.forms.FormData;
 import org.jboss.tools.common.model.ui.forms.FormLayoutDataUtil;
 import org.jboss.tools.common.model.ui.forms.IFormData;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
+import org.jboss.tools.seam.xml.ui.SeamXMLUIMessages;
 
 public class SeamEventFormLayoutData implements SeamComponentConstants {
 
 	static IFormData SEAM_ACTION_LIST_DEFINITION = new FormData(
-			"Actions",
+			SeamXMLUIMessages.getString("SEAM_EVENT_FORM_LAYOUT_DATA_ACTIONS"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			new FormAttributeData[]{new FormAttributeData(ATTR_EXPR, 100)}, 
 			new String[]{ENT_SEAM_ACTION},
@@ -28,7 +29,7 @@ public class SeamEventFormLayoutData implements SeamComponentConstants {
 			
 	private final static IFormData[] SEAM_EVENT_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam EVENT",
+			SeamXMLUIMessages.getString("SEAM_EVENT_FORM_LAYOUT_DATA_SEAM_EVENT"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_EVENT)
 		),
@@ -37,7 +38,7 @@ public class SeamEventFormLayoutData implements SeamComponentConstants {
 	
 	private final static IFormData[] SEAM_ACTION_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Action",
+			SeamXMLUIMessages.getString("SEAM_EVENT_FORM_LAYOUT_DATA_SEAM_ACTION"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_ACTION)
 		)

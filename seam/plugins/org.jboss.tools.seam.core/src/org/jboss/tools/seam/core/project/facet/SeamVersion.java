@@ -15,13 +15,13 @@ package org.jboss.tools.seam.core.project.facet;
  *
  */
 public enum SeamVersion {
-	SEAM_1_2("1.2"), SEAM_2_0("2.0");
+	SEAM_1_2("1.2"), SEAM_2_0("2.0"); //$NON-NLS-1$ //$NON-NLS-2$
 	
-	String version = "";
+	String version = ""; //$NON-NLS-1$
 	
-	public static final String V_1_2 = "1.2";
+	public static final String V_1_2 = "1.2"; //$NON-NLS-1$
 	
-	public static final String V_2_0 = "2.0";
+	public static final String V_2_0 = "2.0"; //$NON-NLS-1$
 	
 	SeamVersion(String version) {
 		this.version = version;
@@ -37,6 +37,6 @@ public enum SeamVersion {
 		} else if(V_2_0.equals(version)) {
 			return SEAM_2_0;
 		}
-		throw new IllegalArgumentException("Seam version " + version + "is not supported");
+		throw new IllegalArgumentException(Messages.getString("SeamVersion.5") + version + Messages.getString("SeamVersion.6")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

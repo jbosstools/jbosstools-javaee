@@ -50,24 +50,24 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 		SeamProperty d = (SeamProperty)s;
 
 		if(!stringsEqual(name, d.name)) {
-			changes = Change.addChange(changes, new Change(this, "name", name, d.name));
+			changes = Change.addChange(changes, new Change(this, "name", name, d.name)); //$NON-NLS-1$
 			name = d.name;
 		}
 		
 		if(value == null) {
 			if(d.value != null) {
 				setValue(d.value);
-				changes = Change.addChange(changes, new Change(this, "value", null, value));
+				changes = Change.addChange(changes, new Change(this, "value", null, value)); //$NON-NLS-1$
 			}
 		} else if(d.value == null) {
 			if(value != null) {
-				changes = Change.addChange(changes, new Change(this, "value", value, null));
+				changes = Change.addChange(changes, new Change(this, "value", value, null)); //$NON-NLS-1$
 			}
 			value = null;			
 		} else {		
 			List<Change> cs = ((SeamObject)value).merge((SeamObject)d.value);
 			if(cs != null && cs.size() > 0) {
-				Change c = new Change(this, "value", value, value);
+				Change c = new Change(this, "value", value, value); //$NON-NLS-1$
 				c.addChildren(cs);
 				changes = Change.addChange(changes, c);
 			}

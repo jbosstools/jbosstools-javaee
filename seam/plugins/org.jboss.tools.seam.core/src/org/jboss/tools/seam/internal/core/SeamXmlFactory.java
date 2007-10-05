@@ -36,7 +36,7 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 	}
 
 	public void setMethod(IValueInfo value) {
-		attributes.put("method", value);
+		attributes.put("method", value); //$NON-NLS-1$
 		setMethod(value == null ? null : value.getValue());
 	}
 
@@ -45,7 +45,7 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 	}
 	
 	public void setValue(IValueInfo value) {
-		attributes.put("value", value);
+		attributes.put("value", value); //$NON-NLS-1$
 		setValue(value == null ? null : value.getValue());
 	}
 
@@ -54,11 +54,11 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 		SeamXmlFactory xf = (SeamXmlFactory)s;
 
 		if(!stringsEqual(value, xf.value)) {
-			changes = Change.addChange(changes, new Change(this, "value", value, xf.value));
+			changes = Change.addChange(changes, new Change(this, "value", value, xf.value)); //$NON-NLS-1$
 			value = xf.value;
 		}
 		if(!stringsEqual(method, xf.method)) {
-			changes = Change.addChange(changes, new Change(this, "method", method, xf.method));
+			changes = Change.addChange(changes, new Change(this, "method", method, xf.method)); //$NON-NLS-1$
 			method = xf.method;
 		}
 	

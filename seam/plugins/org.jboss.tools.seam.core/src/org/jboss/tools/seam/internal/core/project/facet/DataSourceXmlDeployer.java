@@ -31,6 +31,7 @@ import org.eclipse.wst.server.core.ServerCore;
 import org.eclipse.wst.server.core.model.ServerBehaviourDelegate;
 import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
 import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -44,7 +45,7 @@ public class DataSourceXmlDeployer extends Job {
 	IProject project = null;
 
 	public DataSourceXmlDeployer(IProject project) {
-		super("Deploying datasource to server");
+		super(SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER")); //$NON-NLS-1$
 		this.project = project;
 	}
 
@@ -56,7 +57,7 @@ public class DataSourceXmlDeployer extends Job {
 			facetedProject = ProjectFacetsManager.create(project);
 		} catch (CoreException e) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					"No server selected to deploy datasource to");
+					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO")); //$NON-NLS-1$
 		}
 		org.eclipse.wst.common.project.facet.core.runtime.IRuntime primaryRuntime = facetedProject
 				.getPrimaryRuntime();
@@ -75,7 +76,7 @@ public class DataSourceXmlDeployer extends Job {
 
 		if (s == null) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					"No server selected to deploy datasource to");
+					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO")); //$NON-NLS-1$
 		}
 
 		// convert it to a DeployableServer instance
@@ -85,20 +86,20 @@ public class DataSourceXmlDeployer extends Job {
 		// if its not null, the adaptation worked.
 		if (deployer == null) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					"Server did not support deploy of datasource.");
+					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_SERVER_DID_NOT_SUPPORT_DEPLOY_OF_DATASOURCE")); //$NON-NLS-1$
 		}
 
 		IVirtualComponent com = ComponentCore.createComponent(project);
 		final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(
-				new Path("/WEB-INF/classes"));
+				new Path("/WEB-INF/classes")); //$NON-NLS-1$
 		IContainer underlyingFolder = srcRootFolder.getUnderlyingFolder();
 
-		IPath projectPath = new Path("/"
+		IPath projectPath = new Path("/" //$NON-NLS-1$
 				+ underlyingFolder.getProject().getName());
-		IPath projectRelativePath = new Path("src/model");
+		IPath projectRelativePath = new Path("src/model"); //$NON-NLS-1$
 
 		IPath append = projectPath.append(projectRelativePath).append(
-				project.getName() + "-ds.xml");
+				project.getName() + "-ds.xml"); //$NON-NLS-1$
 
 		if (SingleDeployableFactory.makeDeployable(append)) {
 
@@ -111,7 +112,7 @@ public class DataSourceXmlDeployer extends Job {
 			return t;
 		} else {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					"Could not deploy datasource " + append);
+					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_COULD_NOT_DEPLOY_DATASOURCE") + append); //$NON-NLS-1$
 		}
 	}
 }

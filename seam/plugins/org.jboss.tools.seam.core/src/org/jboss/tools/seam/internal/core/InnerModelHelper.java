@@ -30,7 +30,7 @@ public class InnerModelHelper {
 		if(n != null) return n.getModel();
 		
 		XModel model = EclipseResourceUtil.createObjectForResource(project.getProject()).getModel();
-		XModelObject webinf = model.getByPath("FileSystems/WEB-INF");
+		XModelObject webinf = model.getByPath("FileSystems/WEB-INF"); //$NON-NLS-1$
 		if(webinf != null) return model;
 		
 		IPath webInfPath = null;
@@ -47,20 +47,20 @@ public class InnerModelHelper {
 		model.getProperties().setProperty(XModelConstants.WORKSPACE, webInfFolder.getLocation().toString());
 		model.getProperties().setProperty(XModelConstants.WORKSPACE_OLD, webInfFolder.getLocation().toString());
 		
-		XModelObject fs = model.getByPath("FileSystems");
-		webinf = model.createModelObject("FileSystemFolder", null);
-		webinf.setAttributeValue("name", "WEB-INF");
-		webinf.setAttributeValue("location", XModelConstants.WORKSPACE_REF);
+		XModelObject fs = model.getByPath("FileSystems"); //$NON-NLS-1$
+		webinf = model.createModelObject("FileSystemFolder", null); //$NON-NLS-1$
+		webinf.setAttributeValue("name", "WEB-INF"); //$NON-NLS-1$ //$NON-NLS-2$
+		webinf.setAttributeValue("location", XModelConstants.WORKSPACE_REF); //$NON-NLS-1$
 		fs.addChild(webinf);
 		
-		XModelObject webroot = model.createModelObject("FileSystemFolder", null);
-		webroot.setAttributeValue("name", "WEB-ROOT");
-		webroot.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/..");
+		XModelObject webroot = model.createModelObject("FileSystemFolder", null); //$NON-NLS-1$
+		webroot.setAttributeValue("name", "WEB-ROOT"); //$NON-NLS-1$ //$NON-NLS-2$
+		webroot.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/.."); //$NON-NLS-1$ //$NON-NLS-2$
 		fs.addChild(webroot);
 		
-		XModelObject lib = model.createModelObject("FileSystemFolder", null);
-		lib.setAttributeValue("name", "lib");
-		lib.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/lib");
+		XModelObject lib = model.createModelObject("FileSystemFolder", null); //$NON-NLS-1$
+		lib.setAttributeValue("name", "lib"); //$NON-NLS-1$ //$NON-NLS-2$
+		lib.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/lib"); //$NON-NLS-1$ //$NON-NLS-2$
 		fs.addChild(lib);		
 		
 		return model;

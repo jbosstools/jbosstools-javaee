@@ -26,9 +26,9 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 public class SeamPromptingProvider implements IPromptingProvider {
-	static String IS_SEAM_PROJECT = "seam.is_seam_project";
-	public static String VARIABLES = "seam.variables";
-	public static String MEMBERS = "seam.members";
+	static String IS_SEAM_PROJECT = "seam.is_seam_project"; //$NON-NLS-1$
+	public static String VARIABLES = "seam.variables"; //$NON-NLS-1$
+	public static String MEMBERS = "seam.members"; //$NON-NLS-1$
 	
 	SeamELCompletionEngine engine= new SeamELCompletionEngine();
 	
@@ -36,10 +36,10 @@ public class SeamPromptingProvider implements IPromptingProvider {
 
 	public List getList(XModel model, String id, String prefix,
 			Properties properties) {
-		IFile f = (IFile)properties.get("file");
+		IFile f = (IFile)properties.get("file"); //$NON-NLS-1$
 		ISeamProject p = (f == null) ? null : SeamCorePlugin.getSeamProject(f.getProject(), false);
 		if(f == null) {
-			p = (ISeamProject)properties.get("seamProject");
+			p = (ISeamProject)properties.get("seamProject"); //$NON-NLS-1$
 		}
 		if(p == null) return null;
 		if(IS_SEAM_PROJECT.equals(id)) {
@@ -70,7 +70,7 @@ public class SeamPromptingProvider implements IPromptingProvider {
 	}
 
 	public boolean isSupporting(String id) {
-		return id != null && id.startsWith("seam.");
+		return id != null && id.startsWith("seam."); //$NON-NLS-1$
 	}
 
 }

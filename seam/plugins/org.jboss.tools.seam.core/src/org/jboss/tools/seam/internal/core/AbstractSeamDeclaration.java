@@ -22,7 +22,7 @@ import org.jboss.tools.seam.core.IValueInfo;
  * @author Viacheslav Kabanovich
  */
 public abstract class AbstractSeamDeclaration extends SeamObject implements ISeamTextSourceReference, IOpenableElement {
-	public static final String PATH_OF_NAME = "name";
+	public static final String PATH_OF_NAME = "name"; //$NON-NLS-1$
 
 	protected String name;
 	

@@ -24,7 +24,7 @@ import org.jboss.tools.seam.core.event.Change;
  */
 public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration implements ISeamComponentDeclaration {
 
-	public static final String PATH_OF_SCOPE = "scope";
+	public static final String PATH_OF_SCOPE = "scope"; //$NON-NLS-1$
 	
 	public void setResource(IResource resource) {
 		this.resource = resource;
@@ -46,7 +46,7 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 
 		source = d.source;
 		if(!stringsEqual(name, d.name)) {
-			changes = Change.addChange(changes, new Change(this, "name", name, d.name));
+			changes = Change.addChange(changes, new Change(this, "name", name, d.name)); //$NON-NLS-1$
 			name = d.name;
 		}
 		if(id != d.id) id = d.id;

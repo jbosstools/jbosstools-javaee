@@ -106,19 +106,19 @@ public class SeamRuntime {
 	}
 	
 	public String getSeamGenDir() {
-		return getHomeDir()+"/seam-gen";
+		return getHomeDir()+"/seam-gen"; //$NON-NLS-1$
 	}
 	
 	public String getSrcTemplatesDir() {
-		return getSeamGenDir()+"/src";
+		return getSeamGenDir()+"/src"; //$NON-NLS-1$
 	}
 	
 	public String getViewTemplatesDir() {
-		return getSeamGenDir()+"/view";
+		return getSeamGenDir()+"/view"; //$NON-NLS-1$
 	}
 	
 	public String getResourceTemplatesDir() {
-		return getHomeDir()+"/seam-gen/resources";
+		return getHomeDir()+"/seam-gen/resources"; //$NON-NLS-1$
 	}
 	
 	public String getTemplatesDir() {

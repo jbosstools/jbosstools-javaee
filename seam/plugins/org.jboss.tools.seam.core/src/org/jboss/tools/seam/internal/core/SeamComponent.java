@@ -258,7 +258,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 
 	@Override
 	public String toString() {		
-		return "SeamComponent: " + getName();
+		return "SeamComponent: " + getName(); //$NON-NLS-1$
 	}
 	
 	public SeamComponent clone() throws CloneNotSupportedException {

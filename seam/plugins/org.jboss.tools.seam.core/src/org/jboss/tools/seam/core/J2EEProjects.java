@@ -73,18 +73,18 @@ public class J2EEProjects {
 		war = project;
 		
 		String earName = prefs.get(
-				ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,project.getName()+"-ear");
-		if(earName!=null && !"".equals(earName.trim())) {
+				ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,project.getName()+"-ear"); //$NON-NLS-1$
+		if(earName!=null && !"".equals(earName.trim())) { //$NON-NLS-1$
 			ear = (IProject)project.getWorkspace().getRoot().findMember(earName);
 		}
 		String ejbName = prefs.get(
-				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,project.getName()+"-ejb");
-		if(ejbName!=null && !"".equals(ejbName.trim())) {
+				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,project.getName()+"-ejb"); //$NON-NLS-1$
+		if(ejbName!=null && !"".equals(ejbName.trim())) { //$NON-NLS-1$
 			ejb = (IProject)project.getWorkspace().getRoot().findMember(ejbName);
 		}
 		String testName = prefs.get(
-				ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,project.getName()+"test");
-		if(testName!=null && !"".equals(testName)) {
+				ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,project.getName()+"test"); //$NON-NLS-1$
+		if(testName!=null && !"".equals(testName)) { //$NON-NLS-1$
 			test = (IProject)project.getWorkspace().getRoot().findMember(testName);
 		}
 	}
@@ -137,14 +137,14 @@ public class J2EEProjects {
 		IFolder actionsFolder = null;
 		if(isWarConfiguration()) {
 			IVirtualComponent com = ComponentCore.createComponent(war);
-			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
-			final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
+			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+			final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
 			IContainer[] folder = webRootFolder.getUnderlyingFolders();
 			if(folder.length==1) {
 				actionsFolder = (IFolder)folder[0];
 			} else if(folder.length>1) {
 				IContainer parent = folder[0].getParent();
-				IResource actions = parent.findMember("actions");
+				IResource actions = parent.findMember("actions"); //$NON-NLS-1$
 				if(actions!=null && actions instanceof IFolder) {
 					actionsFolder = (IFolder)actions;
 				} else {
@@ -153,7 +153,7 @@ public class J2EEProjects {
 			}
 		} else {
 			IVirtualComponent com = ComponentCore.createComponent(ejb);
-			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/"));
+			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 			actionsFolder = (IFolder)ejbRootFolder.getUnderlyingFolder();
 		}
 		return actionsFolder; 
@@ -167,13 +167,13 @@ public class J2EEProjects {
 		IFolder actionsFolder = null;
 		if(isWarConfiguration()) {
 			IVirtualComponent com = ComponentCore.createComponent(war);
-			final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes"));
+			final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
 			IContainer[] folder = srcRootFolder.getUnderlyingFolders();
 			if(folder.length==1) {
 				actionsFolder = (IFolder)folder[0];
 			} else if(folder.length>1) {
 				IContainer parent = folder[0].getParent();
-				IResource actions = parent.findMember("model");
+				IResource actions = parent.findMember("model"); //$NON-NLS-1$
 				if(actions!=null && actions instanceof IFolder) {
 					actionsFolder = (IFolder)actions;
 				} else {
@@ -182,7 +182,7 @@ public class J2EEProjects {
 			}
 		} else {
 			IVirtualComponent com = ComponentCore.createComponent(ejb);
-			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/"));
+			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 			actionsFolder = (IFolder)ejbRootFolder.getUnderlyingFolder();
 		}
 		return actionsFolder; 
@@ -194,7 +194,7 @@ public class J2EEProjects {
 	 */
 	public IFolder getViewsFolder() {
 		IVirtualComponent com = ComponentCore.createComponent(war);
-		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
+		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 		return (IFolder)webRootFolder.getUnderlyingFolder();
 	}
 	
@@ -203,7 +203,7 @@ public class J2EEProjects {
 	 * @return
 	 */
 	public IFolder getTestsFolder() {
-		IResource testRes = test.findMember("test-src");
+		IResource testRes = test.findMember("test-src"); //$NON-NLS-1$
 		IFolder testFolder = null;
 		if(testRes instanceof IFolder) {
 			testFolder = (IFolder)testRes;
@@ -212,7 +212,7 @@ public class J2EEProjects {
 	}
 	
 	public String getEntityPackage(){
-		return prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "entity");
+		return prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "entity"); //$NON-NLS-1$
 	}
 	
 }

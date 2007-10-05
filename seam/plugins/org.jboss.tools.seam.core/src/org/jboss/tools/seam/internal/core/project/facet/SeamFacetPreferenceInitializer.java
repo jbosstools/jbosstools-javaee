@@ -36,7 +36,7 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 public class SeamFacetPreferenceInitializer extends
 		AbstractPreferenceInitializer {
 
-	public static String RUNTIME_CONFIG_FORMAT_VERSION = "1.0";
+	public static String RUNTIME_CONFIG_FORMAT_VERSION = "1.0"; //$NON-NLS-1$
 	
 	/**
 	 * 
@@ -48,18 +48,18 @@ public class SeamFacetPreferenceInitializer extends
 		IScopeContext context = new DefaultScope();
 		IEclipsePreferences node = context.getNode(SeamCorePlugin.PLUGIN_ID);
 		node.put(SeamFacetPreference.RUNTIME_CONFIG_FORMAT_VERSION, RUNTIME_CONFIG_FORMAT_VERSION);
-		node.put(SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS");
-		node.put(SeamFacetPreference.JBOSS_AS_DEFAULT_DEPLOY_AS, "war");
-		node.put(SeamFacetPreference.HIBERNATE_DEFAULT_DB_TYPE, "HSQL");
+		node.put(SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS"); //$NON-NLS-1$
+		node.put(SeamFacetPreference.JBOSS_AS_DEFAULT_DEPLOY_AS, "war"); //$NON-NLS-1$
+		node.put(SeamFacetPreference.HIBERNATE_DEFAULT_DB_TYPE, "HSQL"); //$NON-NLS-1$
 		initializeDefault(node,getSeamGenBuildPath());
 	}
 
-	public static final String SEAM_GEN_HOME = "../../../../jboss-eap/seam"; 
+	public static final String SEAM_GEN_HOME = "../../../../jboss-eap/seam";  //$NON-NLS-1$
 	
 	public String getSeamGenBuildPath() {
 		String pluginLocation=null;
 		try {
-			pluginLocation = FileLocator.resolve(SeamCorePlugin.getDefault().getBundle().getEntry("/")).getFile();
+			pluginLocation = FileLocator.resolve(SeamCorePlugin.getDefault().getBundle().getEntry("/")).getFile(); //$NON-NLS-1$
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		};
@@ -69,7 +69,7 @@ public class SeamFacetPreferenceInitializer extends
 		if(p.toFile().exists()) {
 			return p.toOSString();
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class SeamFacetPreferenceInitializer extends
 		if(seamFolder.exists() && seamFolder.isDirectory()) {
 			SeamRuntime rt = new SeamRuntime();
 			rt.setHomeDir(seamGenBuildPath);
-			rt.setName("Seam " + SeamVersion.V_1_2+".AP");
+			rt.setName("Seam " + SeamVersion.V_1_2+".AP"); //$NON-NLS-1$ //$NON-NLS-2$
 			rt.setDefault(true);
 			rt.setVersion(SeamVersion.SEAM_1_2);
 			map.put(rt.getName(), rt);

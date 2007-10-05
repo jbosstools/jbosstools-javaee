@@ -13,6 +13,6 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 public interface ISeamCoreConstants {
 
-	public static final String SEAM_CORE_FACET_ID = "jst.seam";
+	public static final String SEAM_CORE_FACET_ID = "jst.seam"; //$NON-NLS-1$
 
 }

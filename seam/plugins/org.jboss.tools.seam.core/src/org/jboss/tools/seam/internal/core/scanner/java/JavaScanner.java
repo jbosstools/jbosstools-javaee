@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
@@ -46,7 +47,7 @@ public class JavaScanner implements IFileScanner {
 	 * @return
 	 */	
 	public boolean isRelevant(IFile resource) {
-		if(resource.getName().endsWith(".java")) return true;
+		if(resource.getName().endsWith(".java")) return true; //$NON-NLS-1$
 		return false;
 	}
 	
@@ -60,9 +61,9 @@ public class JavaScanner implements IFileScanner {
 		if(!f.isSynchronized(IFile.DEPTH_ZERO) || !f.exists()) return false;
 		String content = FileUtil.readFile(f.getLocation().toFile());
 		if(content == null) return false;
-		int a = content.indexOf("org.jboss.seam.annotations.");
+		int a = content.indexOf("org.jboss.seam.annotations."); //$NON-NLS-1$
 		if(a < 0) return false;
-		int i = content.indexOf("@");
+		int i = content.indexOf("@"); //$NON-NLS-1$
 		if(i < 0) return false;
 		return true;
 	}
@@ -79,7 +80,7 @@ public class JavaScanner implements IFileScanner {
 		try {
 			u = getCompilationUnit(f);
 		} catch (CoreException e) {
-			throw new ScannerException("Cannot get compilation unit for " + f, e);
+			throw new ScannerException(SeamCoreMessages.getString("JAVA_SCANNER_CANNOT_GET_COMPILATION_UNIT_FOR") + f, e); //$NON-NLS-1$
 		}
 		if(u == null) return null;
 		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
@@ -152,7 +153,7 @@ public class JavaScanner implements IFileScanner {
 		try {
 			rs = type.resolveType(n);
 			if(rs != null && rs.length > 0) {
-				return (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1];
+				return (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1]; //$NON-NLS-1$
 			}
 		} catch (JavaModelException e) {
 			// ignore

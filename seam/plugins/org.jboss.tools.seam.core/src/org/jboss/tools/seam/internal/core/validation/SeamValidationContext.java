@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 
@@ -206,21 +207,21 @@ public class SeamValidationContext {
 	}
 
 	public void store(Element root) {
-		Element validation = XMLUtilities.createElement(root, "validation");
-		Element core = XMLUtilities.createElement(validation, "core");
+		Element validation = XMLUtilities.createElement(root, "validation"); //$NON-NLS-1$
+		Element core = XMLUtilities.createElement(validation, "core"); //$NON-NLS-1$
 		coreLinks.store(core);
-		Element el = XMLUtilities.createElement(validation, "el");
+		Element el = XMLUtilities.createElement(validation, "el"); //$NON-NLS-1$
 		elLinks.store(el);
 	}
 
 	public void load(Element root) {
-		Element validation = XMLUtilities.getUniqueChild(root, "validation");
+		Element validation = XMLUtilities.getUniqueChild(root, "validation"); //$NON-NLS-1$
 		if(validation == null) return;
-		Element core = XMLUtilities.getUniqueChild(validation, "core");
+		Element core = XMLUtilities.getUniqueChild(validation, "core"); //$NON-NLS-1$
 		if(core != null) {
 			coreLinks.load(core);
 		}
-		Element el = XMLUtilities.getUniqueChild(validation, "el");
+		Element el = XMLUtilities.getUniqueChild(validation, "el"); //$NON-NLS-1$
 		if(el != null) {
 			elLinks.load(el);
 		}
@@ -259,10 +260,10 @@ public class SeamValidationContext {
 		 */
 		public void addLinkedResource(String variableName, IPath linkedResourcePath) {
 			if(linkedResourcePath==null) {
-				throw new RuntimeException("Linked resource path must not be null!");
+				throw new RuntimeException(SeamCoreMessages.getString("SEAM_VALIDATION_CONTEXT_LINKED_RESOURCE_PATH_MUST_NOT_BE_NULL")); //$NON-NLS-1$
 			}
 			if(variableName==null) {
-				throw new RuntimeException("Variable name must not be null!");
+				throw new RuntimeException(SeamCoreMessages.getString("SEAM_VALIDATION_CONTEXT_VARIABLE_NAME_MUST_NOT_BE_NULL")); //$NON-NLS-1$
 			}
 			Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
 			if(linkedResources==null) {
@@ -366,24 +367,24 @@ public class SeamValidationContext {
 				Set<IPath> paths = resourcesByVariableName.get(name);
 				if(paths == null) continue;
 				for (IPath path: paths) {
-					Element linkedResource = XMLUtilities.createElement(root, "linked-resource");
-					linkedResource.setAttribute("name", name);
-					linkedResource.setAttribute("path", path.toString());
+					Element linkedResource = XMLUtilities.createElement(root, "linked-resource"); //$NON-NLS-1$
+					linkedResource.setAttribute("name", name); //$NON-NLS-1$
+					linkedResource.setAttribute("path", path.toString()); //$NON-NLS-1$
 				}
 			}
 			for (IPath unnamedPath: unnamedResources) {
-				Element unnamedPathElement = XMLUtilities.createElement(root, "unnamed-path");
-				unnamedPathElement.setAttribute("path", unnamedPath.toString());
+				Element unnamedPathElement = XMLUtilities.createElement(root, "unnamed-path"); //$NON-NLS-1$
+				unnamedPathElement.setAttribute("path", unnamedPath.toString()); //$NON-NLS-1$
 			}
 		}
 
 		public void load(Element root) {
 			if(root == null) return;
-			Element[] linkedResources = XMLUtilities.getChildren(root, "linked-resource");
+			Element[] linkedResources = XMLUtilities.getChildren(root, "linked-resource"); //$NON-NLS-1$
 			if(linkedResources != null) for (int i = 0; i < linkedResources.length; i++) {
-				String name = linkedResources[i].getAttribute("name");
+				String name = linkedResources[i].getAttribute("name"); //$NON-NLS-1$
 				if(name == null || name.trim().length() == 0) continue;
-				String path = linkedResources[i].getAttribute("path");
+				String path = linkedResources[i].getAttribute("path"); //$NON-NLS-1$
 				if(path == null || path.trim().length() == 0) continue;
 				try {
 					IPath pathObject = new Path(path);
@@ -392,9 +393,9 @@ public class SeamValidationContext {
 					SeamCorePlugin.getPluginLog().logError(e);
 				}
 			}
-			Element[] unnamedPathElement = XMLUtilities.getChildren(root, "unnamed-path");
+			Element[] unnamedPathElement = XMLUtilities.getChildren(root, "unnamed-path"); //$NON-NLS-1$
 			if(unnamedPathElement != null) for (int i = 0; i < unnamedPathElement.length; i++) {
-				String path = unnamedPathElement[i].getAttribute("path");
+				String path = unnamedPathElement[i].getAttribute("path"); //$NON-NLS-1$
 				try {
 					IPath pathObject = new Path(path);
 					addUnnamedResource(pathObject);

@@ -39,7 +39,7 @@ public class SeamFacetInstallDataModelProvider extends
 	public static final Map<String,String[]> SEAM_LIBRARIES= new HashMap<String,String[]>();
 	
 	static {
-		SEAM_LIBRARIES.put("1.2",new String[] {
+		SEAM_LIBRARIES.put("1.2",new String[] { //$NON-NLS-1$
 		});
 	}
 	/**
@@ -91,9 +91,9 @@ public class SeamFacetInstallDataModelProvider extends
 	 */
 	public Object getDefaultProperty(String propertyName) {
 		if(JBOSS_AS_HOME.equals(propertyName)) {
-			return "Jboss_AS_HOME";
+			return "Jboss_AS_HOME"; //$NON-NLS-1$
 		}else if(JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
-			return "Jboos_DEPLOY_AS";
+			return "Jboos_DEPLOY_AS"; //$NON-NLS-1$
 		}else if (propertyName.equals(FACET_ID)) {
 				return ISeamCoreConstants.SEAM_CORE_FACET_ID;
 		}
@@ -101,6 +101,6 @@ public class SeamFacetInstallDataModelProvider extends
 	}
 	
 	public static File getTemplatesFolder() throws IOException {
-		return new File(FileLocator.resolve(Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry("/templates")).getPath());
+		return new File(FileLocator.resolve(Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry("/templates")).getPath()); //$NON-NLS-1$
 	}
 }

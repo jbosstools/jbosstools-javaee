@@ -45,6 +45,7 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -55,8 +56,8 @@ import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
  */
 public class SeamELValidator extends SeamValidator {
 
-	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION";
-	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER";
+	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION"; //$NON-NLS-1$
+	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
 
 	private SeamELCompletionEngine engine= new SeamELCompletionEngine();
 	private IJavaProject javaProject;
@@ -118,10 +119,10 @@ public class SeamELValidator extends SeamValidator {
 		try {
 			content = FileUtil.readStream(file.getContents());
 		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 			return;
 		}
-		if(ext.equalsIgnoreCase("java")) {
+		if(ext.equalsIgnoreCase("java")) { //$NON-NLS-1$
 			validateJava(file, content);
 		} else {
 			validateDom(file, content);
@@ -146,7 +147,7 @@ public class SeamELValidator extends SeamValidator {
 				token = scaner.nextToken();
 			}
 		} catch (BadLocationException e) {
-			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -176,9 +177,9 @@ public class SeamELValidator extends SeamValidator {
     			}
 			}
 		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
         } catch (IOException e) {
-        	SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
+        	SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 		} finally {
 			if (model != null) {
 				model.releaseFromRead();
@@ -194,7 +195,7 @@ public class SeamELValidator extends SeamValidator {
 			ITextRegion region = regions.get(i);
 			if(region.getType() == regionType) {
 				String text = node.getFullText(region);
-				if(text.indexOf("{")>-1) {
+				if(text.indexOf("{")>-1) { //$NON-NLS-1$
 					int offset = node.getStartOffset() + region.getStart();
 					validateString(file, text, offset);
 				}
@@ -210,7 +211,7 @@ public class SeamELValidator extends SeamValidator {
 		Set<EL> els = new HashSet<EL>();
 		String localString = string;
 		while(!reporter.isCancelled()) {
-			int startEl = localString.indexOf("#{");
+			int startEl = localString.indexOf("#{"); //$NON-NLS-1$
 			int endEl = -1;
 //			if(startEl==-1) {
 //				startEl = localString.indexOf("${");
@@ -240,7 +241,7 @@ public class SeamELValidator extends SeamValidator {
 			String exp = el.value;
 			int offset = exp.length();
 
-			if (!exp.endsWith(".")) {
+			if (!exp.endsWith(".")) { //$NON-NLS-1$
 				String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
 				if(prefix!=null) {
 					int possition = exp.indexOf(prefix);
@@ -266,11 +267,11 @@ public class SeamELValidator extends SeamValidator {
 						IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
 						String methodName = unpairedMethod.getElementName();
 						String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
-						String missingMethodName = "Setter";
-						String existedMethodName = "Getter";
-						if(methodName.startsWith("s")) {
+						String missingMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_SETTER"); //$NON-NLS-1$
+						String existedMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_GETTER"); //$NON-NLS-1$
+						if(methodName.startsWith("s")) { //$NON-NLS-1$
 							missingMethodName = existedMethodName;
-							existedMethodName = "Setter";
+							existedMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_SETTER"); //$NON-NLS-1$
 						}
 						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file);
 					}
@@ -282,9 +283,9 @@ public class SeamELValidator extends SeamValidator {
 				}
 			}
 		} catch (BadLocationException e) {
-			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 		} catch (StringIndexOutOfBoundsException e) {
-			SeamCorePlugin.getDefault().logError("Error validating Seam EL", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 		}
 		// Mark invalid EL
 		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{el.getValue()}, el.getLength(), el.getOffset(), file);

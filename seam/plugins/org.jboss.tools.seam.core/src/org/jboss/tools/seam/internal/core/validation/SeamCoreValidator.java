@@ -47,6 +47,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
@@ -60,24 +61,24 @@ import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
  */
 public class SeamCoreValidator extends SeamValidator {
 
-	protected static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE";
-	protected static final String UNKNOWN_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_VARIABLE_NAME";
-	protected static final String STATEFUL_COMPONENT_DOES_NOT_CONTAIN_METHOD_SUFIX_MESSAGE_ID = "STATEFUL_COMPONENT_DOES_NOT_CONTAIN_";
-	protected static final String DUPLICATE_METHOD_PREFIX_MESSAGE_ID = "DUPLICATE_";
-	protected static final String REMOVE_METHOD_SUFIX_MESSAGE_ID = "REMOVE";
-	protected static final String DESTROY_METHOD_SUFIX_MESSAGE_ID = "DESTROY";
-	protected static final String CREATE_METHOD_SUFIX_MESSAGE_ID = "CREATE";
-	protected static final String UNWRAP_METHOD_SUFIX_MESSAGE_ID = "UNWRAP";
-	protected static final String OBSERVER_METHOD_SUFIX_MESSAGE_ID = "OBSERVER";
-	protected static final String NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID = "_DOESNT_BELONG_TO_COMPONENT";
-	protected static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE";
-	protected static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE";
-	protected static final String UNKNOWN_FACTORY_NAME_MESSAGE_ID = "UNKNOWN_FACTORY_NAME";
-	protected static final String MULTIPLE_DATA_BINDER_MESSAGE_ID = "MULTIPLE_DATA_BINDER";
-	protected static final String DUPLICATE_VARIABLE_NAME_MESSAGE_ID = "DUPLICATE_VARIABLE_NAME";
-	protected static final String UNKNOWN_DATA_MODEL_MESSAGE_ID = "UNKNOWN_DATA_MODEL";
-	protected static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME";
-	protected static final String UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID = "UNKNOWN_COMPONENT_PROPERTY";
+	protected static final String NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = "NONUNIQUE_COMPONENT_NAME_MESSAGE"; //$NON-NLS-1$
+	protected static final String UNKNOWN_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_VARIABLE_NAME"; //$NON-NLS-1$
+	protected static final String STATEFUL_COMPONENT_DOES_NOT_CONTAIN_METHOD_SUFIX_MESSAGE_ID = "STATEFUL_COMPONENT_DOES_NOT_CONTAIN_"; //$NON-NLS-1$
+	protected static final String DUPLICATE_METHOD_PREFIX_MESSAGE_ID = "DUPLICATE_"; //$NON-NLS-1$
+	protected static final String REMOVE_METHOD_SUFIX_MESSAGE_ID = "REMOVE"; //$NON-NLS-1$
+	protected static final String DESTROY_METHOD_SUFIX_MESSAGE_ID = "DESTROY"; //$NON-NLS-1$
+	protected static final String CREATE_METHOD_SUFIX_MESSAGE_ID = "CREATE"; //$NON-NLS-1$
+	protected static final String UNWRAP_METHOD_SUFIX_MESSAGE_ID = "UNWRAP"; //$NON-NLS-1$
+	protected static final String OBSERVER_METHOD_SUFIX_MESSAGE_ID = "OBSERVER"; //$NON-NLS-1$
+	protected static final String NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID = "_DOESNT_BELONG_TO_COMPONENT"; //$NON-NLS-1$
+	protected static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE"; //$NON-NLS-1$
+	protected static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE"; //$NON-NLS-1$
+	protected static final String UNKNOWN_FACTORY_NAME_MESSAGE_ID = "UNKNOWN_FACTORY_NAME"; //$NON-NLS-1$
+	protected static final String MULTIPLE_DATA_BINDER_MESSAGE_ID = "MULTIPLE_DATA_BINDER"; //$NON-NLS-1$
+	protected static final String DUPLICATE_VARIABLE_NAME_MESSAGE_ID = "DUPLICATE_VARIABLE_NAME"; //$NON-NLS-1$
+	protected static final String UNKNOWN_DATA_MODEL_MESSAGE_ID = "UNKNOWN_DATA_MODEL"; //$NON-NLS-1$
+	protected static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME"; //$NON-NLS-1$
+	protected static final String UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID = "UNKNOWN_COMPONENT_PROPERTY"; //$NON-NLS-1$
 
 	public SeamCoreValidator(SeamValidatorManager validatorManager,
 			SeamValidationHelper coreHelper, IReporter reporter,
@@ -219,7 +220,7 @@ public class SeamCoreValidator extends SeamValidator {
 	private void validateXmlFactory(ISeamXmlFactory factory, Set<String> markedDuplicateFactoryNames) {
 		String name = factory.getName();
 		if(name==null) {
-			SeamCorePlugin.getDefault().logError("Factory method must have name: " + factory.getResource());
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME") + factory.getResource()); //$NON-NLS-1$
 			return;
 		}
 		validateFactoryName(factory, name, markedDuplicateFactoryNames, false);
@@ -231,17 +232,17 @@ public class SeamCoreValidator extends SeamValidator {
 			IMethod method = (IMethod)sourceMember;
 			try {
 				String returnType = method.getReturnType();
-				if("V".equals(returnType)) {
+				if("V".equals(returnType)) { //$NON-NLS-1$
 					// return type is void
 					String factoryName = factory.getName();
 					if(factoryName==null) {
 						String methodName = method.getElementName();
-						if(methodName.startsWith("get") && methodName.length()>3) {
+						if(methodName.startsWith("get") && methodName.length()>3) { //$NON-NLS-1$
 							// This is getter
 							factoryName = methodName.substring(3);
 						} else {
 							// Unknown factory name
-							SeamCorePlugin.getDefault().logError("Factory method must have name: " + factory.getResource());
+							SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME") + factory.getResource()); //$NON-NLS-1$
 							//factoryName = methodName;
 							return;
 						}
@@ -249,7 +250,7 @@ public class SeamCoreValidator extends SeamValidator {
 					validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
 				}
 			} catch (JavaModelException e) {
-				SeamCorePlugin.getDefault().logError("Error validating Seam Core", e);
+				SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE"), e); //$NON-NLS-1$
 			}
 		} else {
 			// factory must be java method!
@@ -413,7 +414,7 @@ public class SeamCoreValidator extends SeamValidator {
 							validationContext.addLinkedCoreResource(componentName, type.getResource().getFullPath());
 						}
 					} catch (JavaModelException e) {
-						SeamCorePlugin.getDefault().logError("Error validating Seam Core", e);
+						SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE"), e); //$NON-NLS-1$
 					}
 					// validate properties
 					Collection<ISeamProperty> properties = declaration.getProperties();
@@ -462,7 +463,7 @@ public class SeamCoreValidator extends SeamValidator {
 			length = declaration.getSourceMember().getNameRange().getLength();
 			offset = declaration.getSourceMember().getNameRange().getOffset();
 		} catch (JavaModelException e) {
-			SeamCorePlugin.getDefault().logError("Error validating Seam Core", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE"), e); //$NON-NLS-1$
 		}
 		return new SeamTextSourceReference(length, offset);
 	}
@@ -532,7 +533,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateInAndOut(ISeamJavaComponentDeclaration declaration, IBijectedAttribute bijection) {
 		String name = bijection.getName();
-		if(name==null || name.startsWith("#{") || name.startsWith("${")) {
+		if(name==null || name.startsWith("#{") || name.startsWith("${")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		// save link between java source and variable name
@@ -600,7 +601,7 @@ public class SeamCoreValidator extends SeamValidator {
 		}
 	}
 
-	private final static String[] extns = new String[]{"java", "xml"};
+	private final static String[] extns = new String[]{"java", "xml"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	private boolean checkFileExtension(IFile file) {
 		String ext = file.getFileExtension();

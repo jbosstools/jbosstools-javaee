@@ -19,6 +19,7 @@ import org.jboss.tools.common.meta.XMapping;
 import org.jboss.tools.common.meta.XModelMetaData;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.NamespaceMapping;
+import org.jboss.tools.seam.xml.SeamXMLMessages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -41,7 +42,7 @@ public class SeamNamespaces {
 	private Map<String, String> namespaceToSchema = new HashMap<String, String>();
 	
 	private SeamNamespaces(XModelMetaData meta, String versionSuffix) {
-		XMapping m = meta.getMapping("SeamNamespaces");
+		XMapping m = meta.getMapping("SeamNamespaces"); //$NON-NLS-1$
 		if(m == null) return;
 		this.versionSuffix = versionSuffix;
 		String[] keys = m.getKeys();
@@ -50,7 +51,7 @@ public class SeamNamespaces {
 			namespaceToURI.put(keys[i], v);
 			uriToNamespace.put(v, keys[i]);
 		}
-		m = meta.getMapping("SeamSchemas");
+		m = meta.getMapping("SeamSchemas"); //$NON-NLS-1$
 		if(m == null) return;
 		keys = m.getKeys();
 		for (int i = 0; i < keys.length; i++) {
@@ -61,7 +62,7 @@ public class SeamNamespaces {
 		}
 	}
 	
-	static String XMLNS_PREFIX = "xmlns:";	
+	static String XMLNS_PREFIX = "xmlns:";	 //$NON-NLS-1$
 
 	public NamespaceMapping getNamespaceMapping(Element element) {
 		NamespaceMapping mapping = new NamespaceMapping();
@@ -93,10 +94,10 @@ public class SeamNamespaces {
 	}
 	
 	public void validateNamespaces(XModelObject object, Element element) {
-		NamespaceMapping namespaceMapping = NamespaceMapping.load(object.get("namespaceMapping"));
+		NamespaceMapping namespaceMapping = NamespaceMapping.load(object.get("namespaceMapping")); //$NON-NLS-1$
 		if(namespaceMapping == null) namespaceMapping = new NamespaceMapping();
 		StringBuffer loc = new StringBuffer();
-		loc.append(object.getAttributeValue("xsi:schemaLocation"));
+		loc.append(object.getAttributeValue("xsi:schemaLocation")); //$NON-NLS-1$
 		XModelObject[] cs = object.getChildren();
 		Set<String> ns = new HashSet<String>();
 		for (int i = 0; i < cs.length; i++) {
@@ -117,7 +118,7 @@ public class SeamNamespaces {
 			}
 			
 		}
-		object.setAttributeValue("xsi:schemaLocation", loc.toString());
+		object.setAttributeValue("xsi:schemaLocation", loc.toString()); //$NON-NLS-1$
 	}
 
 }

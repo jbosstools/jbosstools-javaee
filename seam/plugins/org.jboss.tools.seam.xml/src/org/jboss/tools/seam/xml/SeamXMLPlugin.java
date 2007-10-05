@@ -17,7 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  */
 public class SeamXMLPlugin extends AbstractUIPlugin {
-	public static final String PLUGIN_ID = "org.jboss.tools.seam.xml";
+	public static final String PLUGIN_ID = "org.jboss.tools.seam.xml"; //$NON-NLS-1$
 
 	public SeamXMLPlugin() {
 		super();
@@ -37,7 +37,7 @@ public class SeamXMLPlugin extends AbstractUIPlugin {
 	}
 	
 	public static void log(Exception ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, "No message", ex));
+		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, SeamXMLMessages.getString("SEAM_XML_PLUGIN_NO_MESSAGE"), ex)); //$NON-NLS-1$
 	}
 
 	public static boolean isDebugEnabled() {

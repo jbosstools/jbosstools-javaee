@@ -27,7 +27,7 @@ public class SeamComponentsLoaderUtil extends XModelObjectLoaderUtil implements 
 		if(v == null) return false;
 		if(v.length() == 0 || v.equals(dv)) {
 			XAttribute attr = entity.getAttribute(n);
-			return (attr != null && "always".equals(attr.getProperty("save")));
+			return (attr != null && "always".equals(attr.getProperty("save"))); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return super.isSaveable(entity, n, v, dv);
 	}
@@ -39,8 +39,8 @@ public class SeamComponentsLoaderUtil extends XModelObjectLoaderUtil implements 
     }
 
     protected boolean needToSave(XModelObject o) {
-    	String s = o.getModelEntity().getProperty("saveDefault");
-    	if(!"false".equals(s)) return true;
+    	String s = o.getModelEntity().getProperty("saveDefault"); //$NON-NLS-1$
+    	if(!"false".equals(s)) return true; //$NON-NLS-1$
     	if(hasSetAttributes(o)) return true;
     	if(o.getChildren().length > 0) return true;
     	return false;
@@ -51,20 +51,20 @@ public class SeamComponentsLoaderUtil extends XModelObjectLoaderUtil implements 
     	for (int i = 0; i < as.length; i++) {
     		String xml = as[i].getXMLName();
     		// it would be more safe to check isSavable
-    		if(xml == null || xml.length() == 0 || "NAME".equals(xml)) continue;
+    		if(xml == null || xml.length() == 0 || "NAME".equals(xml)) continue; //$NON-NLS-1$
     		String v = o.getAttributeValue(as[i].getName());
     		if(v != null && v.length() > 0) return true;
     	}
-    	String finalComment = o.get("#final-comment");
+    	String finalComment = o.get("#final-comment"); //$NON-NLS-1$
     	if(finalComment != null && finalComment.length() > 0) return true;
     	return false;
     }
 
 	public boolean saveChildren(Element element, XModelObject o) {
 		String entity = o.getModelEntity().getName();
-    	String childrenLoader = o.getModelEntity().getProperty("childrenLoader");
+    	String childrenLoader = o.getModelEntity().getProperty("childrenLoader"); //$NON-NLS-1$
     	if(ENT_SEAM_PROPERTY_MAP.equals(entity) 
-    			|| "map".equals(childrenLoader)) {
+    			|| "map".equals(childrenLoader)) { //$NON-NLS-1$
 			return savePropertyMapChildren(element, o);
 		}
 		return super.saveChildren(element, o);
@@ -73,10 +73,10 @@ public class SeamComponentsLoaderUtil extends XModelObjectLoaderUtil implements 
     private boolean savePropertyMapChildren(Element element, XModelObject o) {
     	XModelObject[] cs = o.getChildren();
     	for (int i = 0; i < cs.length; i++) {
-    		Element k = XMLUtilities.createElement(element, "key");
-    		saveAttribute(k, "#text", cs[i].getAttributeValue("key"));
-    		Element v = XMLUtilities.createElement(element, "value");
-    		saveAttribute(v, "#text", cs[i].getAttributeValue("value"));
+    		Element k = XMLUtilities.createElement(element, "key"); //$NON-NLS-1$
+    		saveAttribute(k, "#text", cs[i].getAttributeValue("key")); //$NON-NLS-1$ //$NON-NLS-2$
+    		Element v = XMLUtilities.createElement(element, "value"); //$NON-NLS-1$
+    		saveAttribute(v, "#text", cs[i].getAttributeValue("value")); //$NON-NLS-1$ //$NON-NLS-2$
     	}
     	return true;
     }
@@ -88,21 +88,21 @@ public class SeamComponentsLoaderUtil extends XModelObjectLoaderUtil implements 
     
     protected String getChildEntity(XModelEntity entity, Element e) {
     	String n = e.getNodeName();
-    	if("property".equals(n)) {
-    		Element[] es = XMLUtilities.getChildren(e, "key");
+    	if("property".equals(n)) { //$NON-NLS-1$
+    		Element[] es = XMLUtilities.getChildren(e, "key"); //$NON-NLS-1$
     		if(es != null && es.length > 0) return ENT_SEAM_PROPERTY_MAP;
-    		es = XMLUtilities.getChildren(e, "value");
-    		if(es != null && es.length > 0) return "SeamPropertyList";
-    		return "SeamProperty";
+    		es = XMLUtilities.getChildren(e, "value"); //$NON-NLS-1$
+    		if(es != null && es.length > 0) return "SeamPropertyList"; //$NON-NLS-1$
+    		return "SeamProperty"; //$NON-NLS-1$
     	}    	
     	return super.getChildEntity(entity, e);
     }
 
     public void load(Element element, XModelObject o) {
     	String entity = o.getModelEntity().getName();
-    	String childrenLoader = o.getModelEntity().getProperty("childrenLoader");
+    	String childrenLoader = o.getModelEntity().getProperty("childrenLoader"); //$NON-NLS-1$
     	if(ENT_SEAM_PROPERTY_MAP.equals(entity) 
-    			|| "map".equals(childrenLoader)) {
+    			|| "map".equals(childrenLoader)) { //$NON-NLS-1$
     		loadPropertyMap(element, o);
     	} else {
     		super.load(element, o);
@@ -116,16 +116,16 @@ public class SeamComponentsLoaderUtil extends XModelObjectLoaderUtil implements 
     	for (int i = 0; i < nl.getLength(); i++) {
     		Node n = nl.item(i);
     		if(n.getNodeType() != Node.ELEMENT_NODE) continue;
-    		if(n.getNodeName().equals("key")) {
-    			last = o.getModel().createModelObject("SeamMapEntry", null);
-    			last.setAttributeValue("key", getAttribute((Element)n, "#text"));
+    		if(n.getNodeName().equals("key")) { //$NON-NLS-1$
+    			last = o.getModel().createModelObject("SeamMapEntry", null); //$NON-NLS-1$
+    			last.setAttributeValue("key", getAttribute((Element)n, "#text")); //$NON-NLS-1$ //$NON-NLS-2$
     			o.addChild(last);
-    		} else if(n.getNodeName().equals("value")) {
+    		} else if(n.getNodeName().equals("value")) { //$NON-NLS-1$
     			if(last == null) {
-        			last = o.getModel().createModelObject("SeamMapEntry", null);
+        			last = o.getModel().createModelObject("SeamMapEntry", null); //$NON-NLS-1$
         			o.addChild(last);
     			}
-    			last.setAttributeValue("value", getAttribute((Element)n, "#text"));
+    			last.setAttributeValue("value", getAttribute((Element)n, "#text")); //$NON-NLS-1$ //$NON-NLS-2$
     			last = null;
     		}
     	}

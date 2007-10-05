@@ -75,12 +75,12 @@ public class SeamPackageUtil {
 		String cls = c.getName();
 				//c.getClassName();
 		if(cls == null || cls.length() == 0) {
-			return "(unspecified)";
-		} else if(cls.startsWith("${") || cls.startsWith("#{")) {
-			return "(specified with EL)";
+			return "(unspecified)"; //$NON-NLS-1$
+		} else if(cls.startsWith("${") || cls.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
+			return "(specified with EL)"; //$NON-NLS-1$
 		} else {
 			int d = cls.lastIndexOf('.');
-			return (d < 0) ? "(default package)" : cls.substring(0, d);
+			return (d < 0) ? "(default package)" : cls.substring(0, d); //$NON-NLS-1$
 		}
 	}
 	

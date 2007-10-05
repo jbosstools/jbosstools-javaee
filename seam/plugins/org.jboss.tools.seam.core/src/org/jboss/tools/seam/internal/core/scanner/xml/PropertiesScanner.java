@@ -39,7 +39,7 @@ public class PropertiesScanner implements IFileScanner {
 	 * @return
 	 */	
 	public boolean isRelevant(IFile resource) {
-		if(resource.getName().equals("seam.properties")) return true;
+		if(resource.getName().equals("seam.properties")) return true; //$NON-NLS-1$
 		return false;
 	}
 	
@@ -51,7 +51,7 @@ public class PropertiesScanner implements IFileScanner {
 	 */
 	public boolean isLikelyComponentSource(IFile f) {
 		if(!f.isSynchronized(IFile.DEPTH_ZERO) || !f.exists()) return false;
-		if(f.getName().equals("seam.properties")) return true;
+		if(f.getName().equals("seam.properties")) return true; //$NON-NLS-1$
 		return false;
 	}
 
@@ -81,7 +81,7 @@ public class PropertiesScanner implements IFileScanner {
 		XModelObject[] properties = o.getChildren();
 		Map<String, SeamPropertiesDeclaration> ds1 = new HashMap<String, SeamPropertiesDeclaration>();
 		for (int i = 0; i < properties.length; i++) {
-			String name = properties[i].getAttributeValue("name");
+			String name = properties[i].getAttributeValue("name"); //$NON-NLS-1$
 			int q = name.lastIndexOf('.');
 			if(q < 0) continue;
 			String componentName = name.substring(0, q);
@@ -96,10 +96,10 @@ public class PropertiesScanner implements IFileScanner {
 			}
 			SeamProperty p = new SeamProperty();
 			p.setId(properties[i]);
-			p.setName(new XMLValueInfo(properties[i], "name"));
+			p.setName(new XMLValueInfo(properties[i], "name")); //$NON-NLS-1$
 			p.setName(propertyName);
 			SeamValueString v = new SeamValueString();
-			v.setValue(new XMLValueInfo(properties[i], "value"));
+			v.setValue(new XMLValueInfo(properties[i], "value")); //$NON-NLS-1$
 			p.setValue(v);
 			d.addProperty(p);
 		}

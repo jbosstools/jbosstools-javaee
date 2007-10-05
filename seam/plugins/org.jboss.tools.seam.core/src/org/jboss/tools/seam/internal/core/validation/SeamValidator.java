@@ -45,7 +45,7 @@ public abstract class SeamValidator implements ISeamValidator {
 	}
 
 	protected String getBaseName() {
-		return "org.jboss.tools.seam.internal.core.validation.messages";
+		return "org.jboss.tools.seam.internal.core.validation.messages"; //$NON-NLS-1$
 	}
 
 	protected void addError(String messageId, String preferenceKey, String[] messageArguments, ISeamTextSourceReference location, IResource target) {

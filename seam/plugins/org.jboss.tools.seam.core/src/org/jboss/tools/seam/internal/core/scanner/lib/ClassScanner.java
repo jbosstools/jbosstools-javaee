@@ -114,17 +114,17 @@ public class ClassScanner implements SeamAnnotations {
 		if(map != null) {
 			Annotation a = map.get(NAME_ANNOTATION_TYPE);
 			if(a != null) {
-				String name = (String)getValue(a, "value");
+				String name = (String)getValue(a, "value"); //$NON-NLS-1$
 				if(name != null) component.setName(name);
 			}
 			a = map.get(SCOPE_ANNOTATION_TYPE);
 			if(a != null) {
-				Object scope = getValue(a, "value");
+				Object scope = getValue(a, "value"); //$NON-NLS-1$
 				if(scope != null) component.setScope(scope.toString());
 			}
 			a = map.get(INSTALL_ANNOTATION_TYPE);
 			if(a != null) {
-				Object precedence = getValue(a, "precedence");
+				Object precedence = getValue(a, "precedence"); //$NON-NLS-1$
 				if(precedence instanceof Integer) component.setPrecedence((Integer)precedence);
 			}
 		}
@@ -135,7 +135,7 @@ public class ClassScanner implements SeamAnnotations {
 			Annotation a = map.get(t.getAnnotationType());
 			if(a != null) {
 				ValueInfo v = new ValueInfo();
-				v.setValue("true");
+				v.setValue("true"); //$NON-NLS-1$
 				types.put(t, v);
 			}
 		}
@@ -180,7 +180,7 @@ public class ClassScanner implements SeamAnnotations {
 	
 	private void processFactory(Method m, Annotation a, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
 		if(a == null) return;
-		String name = (String)getValue(a, "value");
+		String name = (String)getValue(a, "value"); //$NON-NLS-1$
 		if(name == null || name.length() == 0) {
 			name = m.getName();
 		}
@@ -193,9 +193,9 @@ public class ClassScanner implements SeamAnnotations {
 		factory.setSourceMember(im);
 		factory.setName(name);
 			
-		Object scope = getValue(a, "scope");
+		Object scope = getValue(a, "scope"); //$NON-NLS-1$
 		if(scope != null) factory.setScopeAsString(scope.toString());
-		Object autoCreate = getValue(a, "autoCreate");
+		Object autoCreate = getValue(a, "autoCreate"); //$NON-NLS-1$
 		if(autoCreate instanceof Boolean) {
 			factory.setAutoCreate((Boolean)autoCreate);
 		}
@@ -211,12 +211,12 @@ public class ClassScanner implements SeamAnnotations {
 			: new BijectedAttributeType[]{BijectedAttributeType.IN, BijectedAttributeType.OUT};
 		att.setTypes(types);
 
-		String name = (String)getValue(in != null ? in : out, "value");
+		String name = (String)getValue(in != null ? in : out, "value"); //$NON-NLS-1$
 		if(name == null || name.length() == 0) {
 			name = m.getName();
 		}
 		att.setName(name);
-		Object scope = getValue(in != null ? in : out, "scope");
+		Object scope = getValue(in != null ? in : out, "scope"); //$NON-NLS-1$
 		if(scope != null) att.setScopeAsString(scope.toString());
 
 		IMember im = findIMember(component, m);

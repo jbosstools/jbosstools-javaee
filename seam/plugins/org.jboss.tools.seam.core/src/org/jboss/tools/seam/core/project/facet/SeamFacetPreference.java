@@ -19,19 +19,19 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  */
 public class SeamFacetPreference {
 	public static final String SEAM_DEFAULT_RUNTIME_NAME 
-		= SeamCorePlugin.PLUGIN_ID + ".project.facet.default.runtime.name";
+		= SeamCorePlugin.PLUGIN_ID + ".project.facet.default.runtime.name"; //$NON-NLS-1$
 	public static final String SEAM_DEFAULT_CONNECTION_PROFILE 
-		= SeamCorePlugin.PLUGIN_ID + ".project.facet.default.conn.profile";
+		= SeamCorePlugin.PLUGIN_ID + ".project.facet.default.conn.profile"; //$NON-NLS-1$
 	public static final String RUNTIME_CONFIG_FORMAT_VERSION 
-		= SeamCorePlugin.PLUGIN_ID + ".runtime.config.format.version";
+		= SeamCorePlugin.PLUGIN_ID + ".runtime.config.format.version"; //$NON-NLS-1$
 	public static final String RUNTIME_LIST 
-		= SeamCorePlugin.PLUGIN_ID+".runtime.list";
+		= SeamCorePlugin.PLUGIN_ID+".runtime.list"; //$NON-NLS-1$
 	public static final String RUNTIME_DEFAULT 
-		= SeamCorePlugin.PLUGIN_ID+".runtime.default";
+		= SeamCorePlugin.PLUGIN_ID+".runtime.default"; //$NON-NLS-1$
 	public static final String JBOSS_AS_DEFAULT_DEPLOY_AS 
-		= SeamCorePlugin.PLUGIN_ID + ".project.default.deployment.type";
+		= SeamCorePlugin.PLUGIN_ID + ".project.default.deployment.type"; //$NON-NLS-1$
 	public static final String HIBERNATE_DEFAULT_DB_TYPE 
-		= SeamCorePlugin.PLUGIN_ID + ".hibernate.default.db.type";
+		= SeamCorePlugin.PLUGIN_ID + ".hibernate.default.db.type"; //$NON-NLS-1$
 	
 	public static String getStringPreference(final String name) {
 		return SeamCorePlugin.getDefault().getPreferenceStore().getString(name);

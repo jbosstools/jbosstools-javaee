@@ -138,9 +138,9 @@ public class SeamExpressionResolver {
 			ISeamXmlFactory factory = (ISeamXmlFactory)variable;
 			String value = factory.getValue();
 			if (value != null && value.length() > 0) {
-				if (value.startsWith("#{") || value.startsWith("${"))
+				if (value.startsWith("#{") || value.startsWith("${")) //$NON-NLS-1$ //$NON-NLS-2$
 					value = value.substring(2);
-				if (value.endsWith("}"))
+				if (value.endsWith("}")) //$NON-NLS-1$
 					value = value.substring(0, value.length() - 1);
 			}
 			if (value != null && value.length() > 0) {
@@ -176,8 +176,8 @@ public class SeamExpressionResolver {
 				for (int i = 0; mthds != null && i < mthds.length; i++) {
 					if (Modifier.isPublic(mthds[i].getFlags()) &&
 							!mthds[i].isConstructor() && 
-							(!mthds[i].getElementName().startsWith("get") && !mthds[i].getElementName().startsWith("set")) ||
-							"get".equals(mthds[i].getElementName()) || "set".equals(mthds[i].getElementName())) {
+							(!mthds[i].getElementName().startsWith("get") && !mthds[i].getElementName().startsWith("set")) || //$NON-NLS-1$ //$NON-NLS-2$
+							"get".equals(mthds[i].getElementName()) || "set".equals(mthds[i].getElementName())) { //$NON-NLS-1$ //$NON-NLS-2$
 						methods.add(mthds[i]);
 					}
 				}
@@ -204,8 +204,8 @@ public class SeamExpressionResolver {
 					IMethod m = mthds[i];
 					if (Modifier.isPublic(m.getFlags()) && 
 							!m.isConstructor() && 
-							(!m.getElementName().startsWith("get") && !m.getElementName().startsWith("set")) ||
-							"get".equals(m.getElementName()) || "set".equals(m.getElementName())) {
+							(!m.getElementName().startsWith("get") && !m.getElementName().startsWith("set")) || //$NON-NLS-1$ //$NON-NLS-2$
+							"get".equals(m.getElementName()) || "set".equals(m.getElementName())) { //$NON-NLS-1$ //$NON-NLS-2$
 						
 						StringBuffer name = new StringBuffer(m.getElementName());
 
@@ -217,7 +217,7 @@ public class SeamExpressionResolver {
 						String[] mParams = null;
 						mParams = m.getParameterNames();
 						for (int j = 0; mParams != null && j < mParams.length; j++) {
-							if (j > 0) name.append(", ");
+							if (j > 0) name.append(", "); //$NON-NLS-1$
 							name.append(mParams[j]);
 						}
 						name.append(')');
@@ -288,7 +288,7 @@ public class SeamExpressionResolver {
 		String superclassName = type.getSuperclassName();
 		if(superclassName!=null) {
 			String fullySuperclassName = EclipseJavaUtil.resolveType(type, superclassName);
-			if(fullySuperclassName!=null&&!fullySuperclassName.equals("java.lang.Object")) {
+			if(fullySuperclassName!=null&&!fullySuperclassName.equals("java.lang.Object")) { //$NON-NLS-1$
 				IType superType = type.getJavaProject().findType(fullySuperclassName);
 				return superType;
 			}
@@ -309,8 +309,8 @@ public class SeamExpressionResolver {
 				IMethod[] mthds = getAllMethods(type);
 				for (int i = 0; mthds != null && i < mthds.length; i++) {
 					if (Modifier.isPublic(mthds[i].getFlags()) && 
-							(mthds[i].getElementName().startsWith("get") && !"get".equals(mthds[i].getElementName())) ||
-							(mthds[i].getElementName().startsWith("set") && !"set".equals(mthds[i].getElementName()))) {
+							(mthds[i].getElementName().startsWith("get") && !"get".equals(mthds[i].getElementName())) || //$NON-NLS-1$ //$NON-NLS-2$
+							(mthds[i].getElementName().startsWith("set") && !"set".equals(mthds[i].getElementName()))) { //$NON-NLS-1$ //$NON-NLS-2$
 						properties.add(mthds[i]);
 					}
 				}
@@ -362,12 +362,12 @@ public class SeamExpressionResolver {
 					IMethod m = props[i];
 					if (Modifier.isPublic(m.getFlags())) {
 						String methodName = m.getElementName();
-						boolean getter = (methodName.startsWith("get") && !"get".equals(methodName)) ||
-										 (methodName.startsWith("is") && !"is".equals(methodName));
-						boolean setter = methodName.startsWith("set") && !"set".equals(methodName);
+						boolean getter = (methodName.startsWith("get") && !"get".equals(methodName)) || //$NON-NLS-1$ //$NON-NLS-2$
+										 (methodName.startsWith("is") && !"is".equals(methodName)); //$NON-NLS-1$ //$NON-NLS-2$
+						boolean setter = methodName.startsWith("set") && !"set".equals(methodName); //$NON-NLS-1$ //$NON-NLS-2$
 						if(getter || setter) {
 							StringBuffer name = new StringBuffer(methodName);
-							if(methodName.startsWith("i")) {
+							if(methodName.startsWith("i")) { //$NON-NLS-1$
 								name.delete(0, 2);
 							} else {
 								name.delete(0, 3);

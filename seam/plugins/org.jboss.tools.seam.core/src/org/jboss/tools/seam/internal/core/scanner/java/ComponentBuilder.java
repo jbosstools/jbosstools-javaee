@@ -87,7 +87,7 @@ public class ComponentBuilder implements SeamAnnotations {
 				}
 				component.setScope(scope);
 			} else if(INSTALL_ANNOTATION_TYPE.equals(type)) {
-				component.setPrecedence(ValueInfo.getValueInfo(as[i].getAnnotation(), "precedence"));
+				component.setPrecedence(ValueInfo.getValueInfo(as[i].getAnnotation(), "precedence")); //$NON-NLS-1$
 			}
 		}
 		
@@ -97,7 +97,7 @@ public class ComponentBuilder implements SeamAnnotations {
 				Annotation a = findAnnotation(annotatedType, BeanType.values()[i].getAnnotationType());
 				if(a != null) {
 					ValueInfo v = new ValueInfo();
-					v.value = "true";
+					v.value = "true"; //$NON-NLS-1$
 					v.valueStartPosition = a.getStartPosition();
 					v.valueLength = a.getLength();
 					types.put(BeanType.values()[i], v);
@@ -128,7 +128,7 @@ public class ComponentBuilder implements SeamAnnotations {
 				factoryName.valueStartPosition = m.getName().getStartPosition();
 			}
 			ValueInfo scope = ValueInfo.getValueInfo(a, ISeamXmlComponentDeclaration.SCOPE);
-			ValueInfo autoCreate = ValueInfo.getValueInfo(a, "autoCreate");
+			ValueInfo autoCreate = ValueInfo.getValueInfo(a, "autoCreate"); //$NON-NLS-1$
 
 			SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
 			factory.setParentDeclaration(component);
@@ -175,7 +175,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			
 			att.setName(name);
 
-			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
+			ValueInfo scope = ValueInfo.getValueInfo(main, "scope"); //$NON-NLS-1$
 			if(scope != null) att.setScope(scope);
 			
 			IMethod im = findMethod(m);
@@ -212,7 +212,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			
 			att.setName(name);
 
-			ValueInfo scope = ValueInfo.getValueInfo(main, "scope");
+			ValueInfo scope = ValueInfo.getValueInfo(main, "scope"); //$NON-NLS-1$
 			if(scope != null) att.setScope(scope);
 			
 			IField f = findField(m);
@@ -264,13 +264,13 @@ public class ComponentBuilder implements SeamAnnotations {
 		r.setSourcePath(component.getSourcePath());
 		r.setSourceMember(component.getSourceMember());
 		
-		ValueInfo name = ValueInfo.getValueInfo(role, "name");
+		ValueInfo name = ValueInfo.getValueInfo(role, "name"); //$NON-NLS-1$
 		if(name == null) return;
 		
-		r.setId("" + component.getName() + ":" + name.getValue());
+		r.setId("" + component.getName() + ":" + name.getValue()); //$NON-NLS-1$ //$NON-NLS-2$
 		r.setName(name);
 
-		ValueInfo scope = ValueInfo.getValueInfo(role, "scope");
+		ValueInfo scope = ValueInfo.getValueInfo(role, "scope"); //$NON-NLS-1$
 		if(scope != null) r.setScope(scope);
 		
 		component.addRole(r);

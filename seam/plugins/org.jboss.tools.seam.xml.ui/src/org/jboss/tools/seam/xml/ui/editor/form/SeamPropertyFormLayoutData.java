@@ -15,11 +15,12 @@ import org.jboss.tools.common.model.ui.forms.FormData;
 import org.jboss.tools.common.model.ui.forms.FormLayoutDataUtil;
 import org.jboss.tools.common.model.ui.forms.IFormData;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
+import org.jboss.tools.seam.xml.ui.SeamXMLUIMessages;
 
 public class SeamPropertyFormLayoutData implements SeamComponentConstants {
 
 	public static IFormData SEAM_LIST_ENTRIES_LIST_DEFINITION = new FormData(
-		"Values",
+		SeamXMLUIMessages.getString("SEAM_PROPERTY_FORM_LAYOUT_DATA_VALUES"), //$NON-NLS-1$
 		SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 		new FormAttributeData[]{new FormAttributeData(ATTR_VALUE, 100)}, 
 		new String[]{ENT_SEAM_LIST_ENTRY},
@@ -28,7 +29,7 @@ public class SeamPropertyFormLayoutData implements SeamComponentConstants {
 		
 	private final static IFormData[] SEAM_PROPERTY_LIST_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Property (List)",
+			SeamXMLUIMessages.getString("SEAM_PROPERTY_FORM_LAYOUT_DATA_SEAM_PROPERTY_LIST"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_PROPERTY_LIST)
 		),
@@ -40,7 +41,7 @@ public class SeamPropertyFormLayoutData implements SeamComponentConstants {
 
 
 	static IFormData SEAM_MAP_ENTRIES_LIST_DEFINITION = new FormData(
-		"Entries",
+		SeamXMLUIMessages.getString("SEAM_PROPERTY_FORM_LAYOUT_DATA_ENTRIES"), //$NON-NLS-1$
 		SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 		new FormAttributeData[]{new FormAttributeData(ATTR_KEY, 40), new FormAttributeData(ATTR_VALUE, 60)}, 
 		new String[]{ENT_SEAM_MAP_ENTRY},
@@ -49,7 +50,7 @@ public class SeamPropertyFormLayoutData implements SeamComponentConstants {
 			
 	private final static IFormData[] SEAM_PROPERTY_MAP_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Property (Map)",
+			SeamXMLUIMessages.getString("SEAM_PROPERTY_FORM_LAYOUT_DATA_SEAM_PROPERTY_MAP"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_PROPERTY_MAP)
 		),

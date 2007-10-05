@@ -17,7 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 public class SeamXMLUiPlugin extends AbstractUIPlugin {
-	public static String PLUGIN_ID = "org.jboss.tools.seam.xml.ui";
+	public static String PLUGIN_ID = "org.jboss.tools.seam.xml.ui"; //$NON-NLS-1$
 	static SeamXMLUiPlugin INSTANCE = null;
 
 	public SeamXMLUiPlugin() {
@@ -49,7 +49,7 @@ public class SeamXMLUiPlugin extends AbstractUIPlugin {
 	}
 	
 	public static void log(Throwable ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, "No message", ex));
+		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, SeamXMLUIMessages.getString("SEAM_XML_UI_PLUGIN_NO_MESSAGES"), ex)); //$NON-NLS-1$
 	}
 
 	public static Shell getShell() {

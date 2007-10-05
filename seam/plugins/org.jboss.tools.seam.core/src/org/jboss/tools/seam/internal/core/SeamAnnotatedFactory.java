@@ -54,7 +54,7 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 
 	public void setAutoCreate(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.AUTO_CREATE, value);
-		setAutoCreate(value != null && "true".equals(value.getValue()));
+		setAutoCreate(value != null && "true".equals(value.getValue())); //$NON-NLS-1$
 	}
 
 	@Override

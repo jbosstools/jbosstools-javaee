@@ -51,8 +51,8 @@ public class XMLScanner implements IFileScanner {
 	 * @return
 	 */	
 	public boolean isRelevant(IFile resource) {
-		if(resource.getName().equals("components.xml")) return true;
-		if(resource.getName().endsWith(".component.xml")) return true;
+		if(resource.getName().equals("components.xml")) return true; //$NON-NLS-1$
+		if(resource.getName().endsWith(".component.xml")) return true; //$NON-NLS-1$
 		return false;
 	}
 	
@@ -68,7 +68,7 @@ public class XMLScanner implements IFileScanner {
 		if(model == null) return false;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		if(o == null) return false;
-		if(o.getModelEntity().getName().startsWith("FileSeamComponent")) return true;
+		if(o.getModelEntity().getName().startsWith("FileSeamComponent")) return true; //$NON-NLS-1$
 		return false;
 	}
 
@@ -97,9 +97,9 @@ public class XMLScanner implements IFileScanner {
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.AUTO_CREATE);
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.JNDI_NAME);
 		
-		INTERNAL_ATTRIBUTES.add("NAME");
-		INTERNAL_ATTRIBUTES.add("EXTENSION");
-		INTERNAL_ATTRIBUTES.add("#comment");
+		INTERNAL_ATTRIBUTES.add("NAME"); //$NON-NLS-1$
+		INTERNAL_ATTRIBUTES.add("EXTENSION"); //$NON-NLS-1$
+		INTERNAL_ATTRIBUTES.add("#comment"); //$NON-NLS-1$
 	}
 	
 	public LoadedDeclarations parse(XModelObject o, IPath source) {
@@ -111,23 +111,23 @@ public class XMLScanner implements IFileScanner {
 		}
 		
 		LoadedDeclarations ds = new LoadedDeclarations();
-		if(o.getModelEntity().getName().equals("FileSeamComponent12")) {
+		if(o.getModelEntity().getName().equals("FileSeamComponent12")) { //$NON-NLS-1$
 			parseComponent(o, source, ds);
 			return ds;
 		}
 		XModelObject[] os = o.getChildren();
 		for (int i = 0; i < os.length; i++) {
 			XModelEntity componentEntity = os[i].getModelEntity();
-			if(componentEntity.getAttribute("class") != null) {
+			if(componentEntity.getAttribute("class") != null) { //$NON-NLS-1$
 				parseComponent(os[i], source, ds);
-			} else if(os[i].getModelEntity().getName().startsWith("SeamFactory")) {
+			} else if(os[i].getModelEntity().getName().startsWith("SeamFactory")) { //$NON-NLS-1$
 				SeamXmlFactory factory = new SeamXmlFactory();
 				factory.setId(os[i]);
 				factory.setSourcePath(source);
 				factory.setName(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.NAME));
 				factory.setScope(new XMLValueInfo(os[i], ISeamXmlComponentDeclaration.SCOPE));
-				factory.setValue(new XMLValueInfo(os[i], "value"));
-				factory.setMethod(new XMLValueInfo(os[i], "method"));
+				factory.setValue(new XMLValueInfo(os[i], "value")); //$NON-NLS-1$
+				factory.setMethod(new XMLValueInfo(os[i], "method")); //$NON-NLS-1$
 				ds.getFactories().add(factory);
 			}
 		}
@@ -143,7 +143,7 @@ public class XMLScanner implements IFileScanner {
 		component.setName(new XMLValueInfo(c, getComponentAttribute(c)));
 		if(isClassAttributeSet(c)) {
 			component.setClassName(new XMLValueInfo(c, ISeamXmlComponentDeclaration.CLASS));
-		} else if(c.getModelEntity().getName().equals("FileSeamComponent12")) {
+		} else if(c.getModelEntity().getName().equals("FileSeamComponent12")) { //$NON-NLS-1$
 			component.setClassName(getImpliedClassName(c, source));
 		} else {
 			String className = getDefaultClassName(c);
@@ -161,18 +161,18 @@ public class XMLScanner implements IFileScanner {
 		for (int ia = 0; ia < attributes.length; ia++) {
 			XAttribute a = attributes[ia];
 			String xml = a.getXMLName();
-			if(xml == null || xml.length() == 0 || "#comment".equals(xml)) continue;
+			if(xml == null || xml.length() == 0 || "#comment".equals(xml)) continue; //$NON-NLS-1$
 			if(COMMON_ATTRIBUTES.contains(xml)) continue;
 			if(INTERNAL_ATTRIBUTES.contains(xml)) continue;
-			if(xml.indexOf(":") >= 0) continue;
-			if(xml.startsWith("xmlns")) continue;
+			if(xml.indexOf(":") >= 0) continue; //$NON-NLS-1$
+			if(xml.startsWith("xmlns")) continue; //$NON-NLS-1$
 			
 			SeamProperty p = new SeamProperty();
 			p.setId(xml);
-			p.setName(new XMLValueInfo(c, "&" + a.getName()));
+			p.setName(new XMLValueInfo(c, "&" + a.getName())); //$NON-NLS-1$
 			p.setName(toCamelCase(xml, false));
 			SeamValueString v = new SeamValueString();
-			v.setId("value");
+			v.setId("value"); //$NON-NLS-1$
 			p.setValue(v);
 			v.setValue(new XMLValueInfo(c, a.getName()));
 			component.addProperty(p);
@@ -184,21 +184,21 @@ public class XMLScanner implements IFileScanner {
 
 			SeamProperty p = new SeamProperty();
 			p.setId(properties[j]);
-			p.setName(new XMLValueInfo(properties[j], "name"));
-			String name = properties[j].getAttributeValue("name");
+			p.setName(new XMLValueInfo(properties[j], "name")); //$NON-NLS-1$
+			String name = properties[j].getAttributeValue("name"); //$NON-NLS-1$
 			String cname = toCamelCase(name, false);
 			if(!cname.equals(name)) p.setName(cname);
 
-			if(entity.getAttribute("value") != null) {
+			if(entity.getAttribute("value") != null) { //$NON-NLS-1$
 				//this is simple value;
 				SeamValueString v = new SeamValueString();
 				v.setId(properties[j]);
-				v.setValue(new XMLValueInfo(properties[j], "value"));
+				v.setValue(new XMLValueInfo(properties[j], "value")); //$NON-NLS-1$
 				p.setValue(v);
 			} else {
 				XModelObject[] entries = properties[j].getChildren();
-				if(entity.getChild("SeamListEntry") != null
-					|| "list".equals(entity.getProperty("childrenLoader"))) {
+				if(entity.getChild("SeamListEntry") != null //$NON-NLS-1$
+					|| "list".equals(entity.getProperty("childrenLoader"))) { //$NON-NLS-1$ //$NON-NLS-2$
 					//this is list value
 					
 					SeamValueList vl = new SeamValueList();
@@ -207,7 +207,7 @@ public class XMLScanner implements IFileScanner {
 					for (int k = 0; k < entries.length; k++) {
 						SeamValueString v = new SeamValueString();
 						v.setId(entries[k]);
-						v.setValue(new XMLValueInfo(entries[k], "value"));
+						v.setValue(new XMLValueInfo(entries[k], "value")); //$NON-NLS-1$
 						vl.addValue(v);
 					}
 					p.setValue(vl);
@@ -220,11 +220,11 @@ public class XMLScanner implements IFileScanner {
 						e.setId(entries[k]);
 						SeamValueString key = new SeamValueString();
 						key.setId(entries[k]);
-						key.setValue(new XMLValueInfo(entries[k], "key"));
+						key.setValue(new XMLValueInfo(entries[k], "key")); //$NON-NLS-1$
 						e.setKey(key);
 						SeamValueString value = new SeamValueString();
 						value.setId(entries[k]);
-						value.setValue(new XMLValueInfo(entries[k], "value"));
+						value.setValue(new XMLValueInfo(entries[k], "value")); //$NON-NLS-1$
 						e.setValue(value);
 						vm.addEntry(e);
 					}
@@ -238,8 +238,8 @@ public class XMLScanner implements IFileScanner {
 	}
 	
 	private String getComponentAttribute(XModelObject c) {
-		if(c.getModelEntity().getAttribute("component-name") != null) {
-			return "component-name";
+		if(c.getModelEntity().getAttribute("component-name") != null) { //$NON-NLS-1$
+			return "component-name"; //$NON-NLS-1$
 		}
 		return ISeamXmlComponentDeclaration.NAME;
 	}
@@ -250,27 +250,27 @@ public class XMLScanner implements IFileScanner {
 	}
 	
 	private String getImpliedClassName(XModelObject c, IPath path) {
-		if(path.toString().endsWith(".jar")) {
-			String suffix = ".component";
-			String cn = c.getAttributeValue("name");
+		if(path.toString().endsWith(".jar")) { //$NON-NLS-1$
+			String suffix = ".component"; //$NON-NLS-1$
+			String cn = c.getAttributeValue("name"); //$NON-NLS-1$
 			if(cn.endsWith(suffix)) cn = cn.substring(0, cn.length() - suffix.length());
 			XModelObject p = c.getParent();
 			while(p != null && p.getFileType() == XModelObject.FOLDER) {
-				cn = p.getAttributeValue("name") + "." + cn;
+				cn = p.getAttributeValue("name") + "." + cn; //$NON-NLS-1$ //$NON-NLS-2$
 				p = p.getParent();
 			}
 			return cn;
 		} else {
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if(!f.exists()) return "";
+			if(!f.exists()) return ""; //$NON-NLS-1$
 			IResource root = EclipseResourceUtil.getJavaSourceRoot(f.getProject());
-			if(!root.getLocation().isPrefixOf(f.getLocation())) return "";
+			if(!root.getLocation().isPrefixOf(f.getLocation())) return ""; //$NON-NLS-1$
 			String relative = f.getLocation().toString().substring(root.getLocation().toString().length());
-			String suffix = ".component.xml";
+			String suffix = ".component.xml"; //$NON-NLS-1$
 			if(relative.endsWith(suffix)) {
 				relative = relative.substring(0, relative.length() - suffix.length());
 				relative = relative.replace('\\', '/');
-				if(relative.startsWith("/")) relative = relative.substring(1);
+				if(relative.startsWith("/")) relative = relative.substring(1); //$NON-NLS-1$
 				return relative.replace('/', '.');
 			}
 		}
@@ -288,7 +288,7 @@ public class XMLScanner implements IFileScanner {
 		if(d < 0) return null;
 		String namespace = s.substring(0, d);
 		String tag = s.substring(d + 1);
-		String className = "org.jboss.seam." + namespace + "." + toCamelCase(tag, true);
+		String className = "org.jboss.seam." + namespace + "." + toCamelCase(tag, true); //$NON-NLS-1$ //$NON-NLS-2$
 		return className;
 	}
 
@@ -300,7 +300,7 @@ public class XMLScanner implements IFileScanner {
 	 */
 	   private static String toCamelCase(String hyphenated, boolean initialUpper)
 	   {
-	      StringTokenizer tokens = new StringTokenizer(hyphenated, "-");
+	      StringTokenizer tokens = new StringTokenizer(hyphenated, "-"); //$NON-NLS-1$
 	      StringBuilder result = new StringBuilder( hyphenated.length() );
 	      String firstToken = tokens.nextToken();
 	      if (initialUpper)

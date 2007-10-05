@@ -19,13 +19,13 @@ public interface ISeamXmlComponentDeclaration extends ISeamPropertiesDeclaration
 	/*
 	 * Names of <component> attributes.
 	 */
-	public final static String NAME = "name";
-	public final static String CLASS = "class";
-	public final static String SCOPE = "scope";
-	public final static String PRECEDENCE = "precedence";
-	public final static String INSTALLED = "installed";
-	public final static String AUTO_CREATE = "auto-create";
-	public final static String JNDI_NAME = "jndi-name";
+	public final static String NAME = "name"; //$NON-NLS-1$
+	public final static String CLASS = "class"; //$NON-NLS-1$
+	public final static String SCOPE = "scope"; //$NON-NLS-1$
+	public final static String PRECEDENCE = "precedence"; //$NON-NLS-1$
+	public final static String INSTALLED = "installed"; //$NON-NLS-1$
+	public final static String AUTO_CREATE = "auto-create"; //$NON-NLS-1$
+	public final static String JNDI_NAME = "jndi-name"; //$NON-NLS-1$
 
 	/**
 	 * @return scope type

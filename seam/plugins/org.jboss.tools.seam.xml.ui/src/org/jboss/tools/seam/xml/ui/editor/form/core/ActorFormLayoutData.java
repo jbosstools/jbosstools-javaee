@@ -16,17 +16,17 @@ import org.jboss.tools.common.model.ui.forms.IFormData;
 import org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;
 
 public class ActorFormLayoutData {
-	static String ENT_SEAM_ACTOR = "SeamCoreActor";
-	static String ENT_SEAM_DISPATCHER = "SeamCoreDispatcher";
+	static String ENT_SEAM_ACTOR = "SeamCoreActor"; //$NON-NLS-1$
+	static String ENT_SEAM_DISPATCHER = "SeamCoreDispatcher"; //$NON-NLS-1$
 
 	private final static IFormData[] SEAM_ACTOR_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Actor",
+			"Seam Actor", //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_ACTOR)
 		),
 		new FormData(
-			"Advanced",
+			"Advanced", //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_ACTOR)
 		)

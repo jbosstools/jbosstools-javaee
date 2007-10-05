@@ -14,17 +14,18 @@ import org.jboss.tools.common.model.ui.forms.FormData;
 import org.jboss.tools.common.model.ui.forms.FormLayoutDataUtil;
 import org.jboss.tools.common.model.ui.forms.IFormData;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
+import org.jboss.tools.seam.xml.ui.SeamXMLUIMessages;
 
 public class SeamFactoryFormLayoutData implements SeamComponentConstants {
 
 	private final static IFormData[] SEAM_FACTORY_DEFINITIONS = new IFormData[] {
 		new FormData(
-			"Seam Factory",
+			SeamXMLUIMessages.getString("SEAM_FACTORY_FORM_LAYOUT_DATA_SEAM_FACTORY"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_FACTORY)
 		),
 		new FormData(
-			"Advanced",
+			SeamXMLUIMessages.getString("SEAM_FACTORY_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_FACTORY)
 		)

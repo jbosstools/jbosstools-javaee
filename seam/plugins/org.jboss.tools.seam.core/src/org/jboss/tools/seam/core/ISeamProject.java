@@ -20,9 +20,9 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 
 public interface ISeamProject extends ISeamElement {
 
-	public static String NATURE_ID = "org.jboss.tools.seam.core.seamnature";
+	public static String NATURE_ID = "org.jboss.tools.seam.core.seamnature"; //$NON-NLS-1$
 	
-	public static String RUNTIME_NAME = "seam.runtime.name";
+	public static String RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
 	
 	/**
 	 * Returns Eclipse project.

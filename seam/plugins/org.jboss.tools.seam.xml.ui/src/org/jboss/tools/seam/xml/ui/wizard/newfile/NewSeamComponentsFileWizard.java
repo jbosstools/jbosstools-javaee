@@ -17,7 +17,7 @@ import org.jboss.tools.common.model.ui.wizard.newfile.NewFileWizardEx;
 public class NewSeamComponentsFileWizard extends NewFileWizardEx {
 
 	public NewSeamComponentsFileWizard() {
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(NewSeamComponentsFileWizard.class, "SeamComponentsFile_wiz.png"));
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(NewSeamComponentsFileWizard.class, "SeamComponentsFile_wiz.png")); //$NON-NLS-1$
 	}
 	
 	protected NewFileContextEx createNewFileContext() {
@@ -26,7 +26,7 @@ public class NewSeamComponentsFileWizard extends NewFileWizardEx {
 	
 	class NewSeamComponentsFileContext extends NewFileContextEx {
 		protected String getActionPath() {
-			return "CreateActions.CreateFiles.Seam.CreateFileSeamComponents";
+			return "CreateActions.CreateFiles.Seam.CreateFileSeamComponents"; //$NON-NLS-1$
 		}
 	}
 

@@ -31,6 +31,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
@@ -52,7 +53,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 		try {
 			project = SeamCorePlugin.getSeamProject(getProject(), true);
 		} catch (Exception e) {
-			SeamCorePlugin.getDefault().logError("Can't get Seam Project", e);
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_VALIDATION_HELPER_CANNOT_GET_SEAM_PROJECT"), e); //$NON-NLS-1$
 		}
 		return project;
 	}
@@ -120,10 +121,10 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 */
 	public boolean isJar(IPath path) {
 		if(path == null) {
-			throw new IllegalArgumentException("Resource must not be null");
+			throw new IllegalArgumentException(SeamCoreMessages.getString("SEAM_VALIDATION_HELPER_RESOURCE_MUST_NOT_BE_NULL")); //$NON-NLS-1$
 		}
 		String ext = path.getFileExtension();
-		return ext != null && ext.equalsIgnoreCase("jar");
+		return ext != null && ext.equalsIgnoreCase("jar"); //$NON-NLS-1$
 	}
 
 	/**
@@ -179,7 +180,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 			if(packageFragment==null) {
 				return null;
 			}
-			return packageFragment.getElementName() + "." + className;
+			return packageFragment.getElementName() + "." + className; //$NON-NLS-1$
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(e);
 			return null;
@@ -198,7 +199,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 		}
 		String firstLetter = propertyName.substring(0, 1).toUpperCase();
 		String nameWithoutFirstLetter = propertyName.substring(1);
-		String setterName = "set" + firstLetter + nameWithoutFirstLetter;
+		String setterName = "set" + firstLetter + nameWithoutFirstLetter; //$NON-NLS-1$
 		try {
 			return findSetterInHierarchy(type, setterName);
 		} catch (JavaModelException e) {
@@ -221,9 +222,9 @@ public class SeamValidationHelper extends WorkbenchContext {
 				for (int i = 0; i < packages.length; i++) {
 					String packageName = packages[i][0];
 					if(packageName!=null && packageName.length()>0) {
-						packageName = packageName + "."; 
+						packageName = packageName + ".";  //$NON-NLS-1$
 					} else {
-						packageName = "";
+						packageName = ""; //$NON-NLS-1$
 					}
 					String qName = packageName + packages[i][1];
 					IType superclass = type.getJavaProject().findType(qName);

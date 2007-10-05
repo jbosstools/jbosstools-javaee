@@ -313,7 +313,7 @@ public final class SeamELCompletionEngine {
 		if (project == null || resource == null)
 			return null;
 		
-		if (!"java".equals(resource.getFileExtension()))
+		if (!"java".equals(resource.getFileExtension())) //$NON-NLS-1$
 			return null;
 		Set<ISeamComponent> components = project.getComponentsByPath(resource.getFullPath());
 
@@ -583,12 +583,12 @@ public final class SeamELCompletionEngine {
 		 * @return
 		 */
 		private CharSequence getCharSequence(int start, int length) {
-			String text = "";
+			String text = ""; //$NON-NLS-1$
 			try {
 				text = documentContent.substring(start, start + length);
 			} catch (StringIndexOutOfBoundsException e) {
 				SeamCorePlugin.getDefault().logError(e);
-				text = ""; // For sure
+				text = ""; // For sure //$NON-NLS-1$
 			}
 			return text.subSequence(0, text.length());
 		}
@@ -953,12 +953,12 @@ public final class SeamELCompletionEngine {
 							javaElements.add(javaElement);
 						} else {
 							if (javaElement instanceof IMethod) {
-								boolean getter = (elementName.startsWith("get") && !"get".equals(elementName)) ||
-								 (elementName.startsWith("is") && !"is".equals(elementName));
-								boolean setter = elementName.startsWith("set") && !"set".equals(elementName);
+								boolean getter = (elementName.startsWith("get") && !"get".equals(elementName)) || //$NON-NLS-1$ //$NON-NLS-2$
+								 (elementName.startsWith("is") && !"is".equals(elementName)); //$NON-NLS-1$ //$NON-NLS-2$
+								boolean setter = elementName.startsWith("set") && !"set".equals(elementName); //$NON-NLS-1$ //$NON-NLS-2$
 								if(getter || setter) {
 									StringBuffer name = new StringBuffer(elementName);
-									if(elementName.startsWith("i")) {
+									if(elementName.startsWith("i")) { //$NON-NLS-1$
 										name.delete(0, 2);
 									} else {
 										name.delete(0, 3);
@@ -1016,7 +1016,7 @@ class ELToken implements IToken {
 	 * Returns string representation for the token
 	 */
 	public String toString() {
-		return "ELToken(" + start + ", " + length + ", " + type + ") [" + (chars == null ? "<Empty>" : chars.toString()) + "]";
+		return "ELToken(" + start + ", " + length + ", " + type + ") [" + (chars == null ? "<Empty>" : chars.toString()) + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	}
 
 	/*

@@ -80,7 +80,7 @@ public class ClassPath {
 		model = InnerModelHelper.createXModel(project.getProject());
 	}
 	
-	static String[] SYSTEM_JARS = {"rt.jar", "jsse.jar", "jce.jar", "charsets.jar"};
+	static String[] SYSTEM_JARS = {"rt.jar", "jsse.jar", "jce.jar", "charsets.jar"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	static Set<String> SYSTEM_JAR_SET = new HashSet<String>();
 	
 	static {
@@ -113,33 +113,33 @@ public class ClassPath {
 			if(!b) return false;
 			paths = newPaths;
 		}
-		XModelObject object = model.getByPath("FileSystems");
-		XModelObject[] fs = object.getChildren("FileSystemJar");
+		XModelObject object = model.getByPath("FileSystems"); //$NON-NLS-1$
+		XModelObject[] fs = object.getChildren("FileSystemJar"); //$NON-NLS-1$
 		Set<XModelObject> fss = new HashSet<XModelObject>();
 		for (int i = 0; i < fs.length; i++) fss.add(fs[i]);
 		
 		for (int i = 0; i < paths.size(); i++) {
 			String path = paths.get(i);
-			if(!path.endsWith(".jar")) continue;
+			if(!path.endsWith(".jar")) continue; //$NON-NLS-1$
 			String fileName = new File(path).getName();
 			if(SYSTEM_JAR_SET.contains(fileName)) continue;
-			String jsname = "lib-" + fileName;
-			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname);
+			String jsname = "lib-" + fileName; //$NON-NLS-1$
+			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
 			if(o != null) {
 				fss.remove(o);
 			} else {
-				o = object.getModel().createModelObject("FileSystemJar", null);
-				o.setAttributeValue("name", jsname);
-				o.setAttributeValue("location", path);
-				o.set(FileSystemsLoader.IS_ADDED_TO_CLASSPATH, "true");
+				o = object.getModel().createModelObject("FileSystemJar", null); //$NON-NLS-1$
+				o.setAttributeValue("name", jsname); //$NON-NLS-1$
+				o.setAttributeValue("location", path); //$NON-NLS-1$
+				o.set(FileSystemsLoader.IS_ADDED_TO_CLASSPATH, "true"); //$NON-NLS-1$
 				object.addChild(o);
 //				object.setModified(true);
 			}			
 		}
 		
 		for (XModelObject o: fss) {
-			String path = XModelObjectUtil.expand(o.getAttributeValue("location"), o.getModel(), null);
-			if("true".equals(o.get(FileSystemsLoader.IS_ADDED_TO_CLASSPATH))) {
+			String path = XModelObjectUtil.expand(o.getAttributeValue("location"), o.getModel(), null); //$NON-NLS-1$
+			if("true".equals(o.get(FileSystemsLoader.IS_ADDED_TO_CLASSPATH))) { //$NON-NLS-1$
 				o.removeFromParent(); 
 			} else if(!new File(path).exists()) {
 				o.removeFromParent();
@@ -172,8 +172,8 @@ public class ClassPath {
 
 			String fileName = new File(p).getName();
 			if(SYSTEM_JAR_SET.contains(fileName)) continue;
-			String jsname = "lib-" + fileName;
-			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname);
+			String jsname = "lib-" + fileName; //$NON-NLS-1$
+			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
 			if(!scanner.isLikelyComponentSource(o)) continue;
 			
 			LoadedDeclarations c = null;
@@ -215,8 +215,8 @@ public class ClassPath {
 	public ClassLoader getClassLoader() {
 		if(classLoader != null) return classLoader;
 
-		XModelObject object = model.getByPath("FileSystems");
-		XModelObject[] fs = object.getChildren("FileSystemJar");
+		XModelObject object = model.getByPath("FileSystems"); //$NON-NLS-1$
+		XModelObject[] fs = object.getChildren("FileSystemJar"); //$NON-NLS-1$
 		
 		List<URL> urls = new ArrayList<URL>();
 		for (int i = 0; i < fs.length; i++) {
@@ -246,7 +246,7 @@ public class ClassPath {
 		IClasspathEntry[] es = null;
 		for (int i = 0; i < es0.length && es == null; i++) {
 			if(es0[i].getEntryKind() == IClasspathEntry.CPE_CONTAINER && 
-					es0[i].getPath().toString().equals("org.eclipse.jdt.launching.JRE_CONTAINER")) {
+					es0[i].getPath().toString().equals("org.eclipse.jdt.launching.JRE_CONTAINER")) { //$NON-NLS-1$
 				IClasspathContainer container = JavaCore.getClasspathContainer(es0[i].getPath(), javaProject);
 				if(container == null) continue;
 				es = container.getClasspathEntries();
@@ -257,7 +257,7 @@ public class ClassPath {
 			try {
 				String s = null;
 				String path = es[i].getPath().toString();
-				if(path.startsWith("/" + project.getName() + "/")) {
+				if(path.startsWith("/" + project.getName() + "/")) { //$NON-NLS-1$ //$NON-NLS-2$
 					s = project.findMember(es[i].getPath().removeFirstSegments(1)).getLocation().toString();
 				} else if(new java.io.File(path).isFile()) {
 					s = path;

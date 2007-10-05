@@ -83,8 +83,8 @@ public class WtpUtils {
 	public static IProject createDefaultEjbProject(String projectName,
 													IProgressMonitor monitor) {
 		IProject ejbProject = createEclipseProject(projectName,monitor);
-		addJavaNature(ejbProject, new Path("build/classes"), 
-				new Path("ejbModule"), monitor);
+		addJavaNature(ejbProject, new Path("build/classes"),  //$NON-NLS-1$
+				new Path("ejbModule"), monitor); //$NON-NLS-1$
 		// TODO - implements this through WTP API
 		return ejbProject;
 	}
@@ -126,7 +126,7 @@ public class WtpUtils {
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 	
 	public static IResource createSourceFolder (IProject project, IPath path, IPath exclude, Path outputFolder) {

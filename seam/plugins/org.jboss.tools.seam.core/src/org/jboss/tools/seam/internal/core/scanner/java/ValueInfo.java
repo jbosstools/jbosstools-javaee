@@ -34,9 +34,9 @@ public class ValueInfo implements IValueInfo {
 	 * @return
 	 */
 	public static ValueInfo getValueInfo(Annotation node, String name) {
-		if(name == null) name = "value";
+		if(name == null) name = "value"; //$NON-NLS-1$
 		if(node instanceof SingleMemberAnnotation) {
-			if(name == null || "value".equals(name)) {
+			if(name == null || "value".equals(name)) { //$NON-NLS-1$
 				SingleMemberAnnotation m = (SingleMemberAnnotation)node;
 				ValueInfo result = new ValueInfo();
 				Expression exp = m.getValue();

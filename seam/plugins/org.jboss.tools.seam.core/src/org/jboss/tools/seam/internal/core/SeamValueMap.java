@@ -40,7 +40,7 @@ public class SeamValueMap extends SeamObject implements ISeamValueMap {
 		
 		//improve
 		if(entries.size() != v.entries.size()) { 
-			changes = Change.addChange(changes, new Change(this, "value", entries, v.entries));
+			changes = Change.addChange(changes, new Change(this, "value", entries, v.entries)); //$NON-NLS-1$
 		}
 		entries = v.entries;
 		for (int i = 0; i < entries.size(); i++) {

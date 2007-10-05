@@ -108,9 +108,9 @@ public class TypeScanner implements SeamAnnotations {
 	}
 	
 	protected String getTypeName(IBinaryAnnotation a) {
-		if(a.getTypeName() == null) return "";
+		if(a.getTypeName() == null) return ""; //$NON-NLS-1$
 		String t = new String(a.getTypeName());
-		if(t.startsWith("L") && t.endsWith(";")) {
+		if(t.startsWith("L") && t.endsWith(";")) { //$NON-NLS-1$ //$NON-NLS-2$
 			t = t.substring(1, t.length() - 1);
 		}
 		t = t.replace('/', '.');
@@ -136,17 +136,17 @@ public class TypeScanner implements SeamAnnotations {
 		if(map != null) {
 			IBinaryAnnotation a = map.get(NAME_ANNOTATION_TYPE);
 			if(a != null) {
-				String name = (String)getValue(a, "value");
+				String name = (String)getValue(a, "value"); //$NON-NLS-1$
 				if(name != null) component.setName(name);
 			}
 			a = map.get(SCOPE_ANNOTATION_TYPE);
 			if(a != null) {
-				Object scope = getValue(a, "value");
+				Object scope = getValue(a, "value"); //$NON-NLS-1$
 				if(scope != null) component.setScope(scope.toString());
 			}
 			a = map.get(INSTALL_ANNOTATION_TYPE);
 			if(a != null) {
-				String precedence = getValue(a, "precedence");
+				String precedence = getValue(a, "precedence"); //$NON-NLS-1$
 				try {
 					int i = Integer.parseInt(precedence);
 					component.setPrecedence(i);
@@ -162,7 +162,7 @@ public class TypeScanner implements SeamAnnotations {
 			IBinaryAnnotation a = map.get(t.getAnnotationType());
 			if(a != null) {
 				ValueInfo v = new ValueInfo();
-				v.setValue("true");
+				v.setValue("true"); //$NON-NLS-1$
 				types.put(t, v);
 			}
 		}
@@ -205,7 +205,7 @@ public class TypeScanner implements SeamAnnotations {
 	
 	private void processFactory(IBinaryMethod m, IBinaryAnnotation a, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
 		if(a == null) return;
-		String name = (String)getValue(a, "value");
+		String name = (String)getValue(a, "value"); //$NON-NLS-1$
 		if(name == null || name.length() == 0) {
 			name = new String(m.getSelector());
 		}
@@ -219,9 +219,9 @@ public class TypeScanner implements SeamAnnotations {
 		factory.setSourceMember(im);
 		factory.setName(name);
 			
-		Object scope = getValue(a, "scope");
+		Object scope = getValue(a, "scope"); //$NON-NLS-1$
 		if(scope != null) factory.setScopeAsString(scope.toString());
-		Object autoCreate = getValue(a, "autoCreate");
+		Object autoCreate = getValue(a, "autoCreate"); //$NON-NLS-1$
 		if(autoCreate instanceof Boolean) {
 			factory.setAutoCreate((Boolean)autoCreate);
 		}
@@ -246,12 +246,12 @@ public class TypeScanner implements SeamAnnotations {
 
 		att.setTypes(types.toArray(new BijectedAttributeType[0]));
 
-		String name = (String)getValue(main, "value");
+		String name = (String)getValue(main, "value"); //$NON-NLS-1$
 		if(name == null || name.length() == 0) {
 			name = new String(m.getSelector());
 		}
 		att.setName(name);
-		Object scope = getValue(main, "scope");
+		Object scope = getValue(main, "scope"); //$NON-NLS-1$
 		if(scope != null) att.setScopeAsString(scope.toString());
 
 		IMember im = findIMethod(component, m);
