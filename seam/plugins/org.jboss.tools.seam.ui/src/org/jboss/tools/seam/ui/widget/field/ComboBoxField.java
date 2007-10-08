@@ -23,11 +23,11 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -49,10 +49,19 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 
 	public ComboBoxField(Composite parent,List values, Object value, boolean editable) {
 		this.values = values;
-		CCombo ccombo = new CCombo(parent, SWT.BORDER);
-		ccombo.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
-		ccombo.setEditable(editable);
-		comboControl = new ComboViewer(ccombo);
+		/*
+		 * Used combo box instead of custom combobox(CCombo), 
+		 * CCombo looks ugly under MAC OS X
+		 */
+		Combo combo;
+		if(editable==true) {
+		
+			combo = new Combo(parent, SWT.DROP_DOWN);
+		} else {
+			combo = new Combo(parent, SWT.READ_ONLY);
+		}
+		combo.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		comboControl = new ComboViewer(combo);
 		comboControl.setContentProvider(new IStructuredContentProvider() {
 
 			public void dispose() {			
@@ -68,9 +77,9 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 		});
 
 		comboControl.addSelectionChangedListener(this);
-		comboControl.getCCombo().addModifyListener(new ModifyListener() {
+		comboControl.getCombo().addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				firePropertyChange(new Object(), comboControl.getCCombo().getText());
+				firePropertyChange(new Object(), comboControl.getCombo().getText());
 			}});
 		comboControl.setLabelProvider(new ILabelProvider() {
 			public void addListener(ILabelProviderListener listener) {			
@@ -105,8 +114,8 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 		firePropertyChange("", ((StructuredSelection)event.getSelection()).getFirstElement()); //$NON-NLS-1$
 	}
 
-	public CCombo getComboControl() {
-		return comboControl.getCCombo();
+	public Combo getComboControl() {
+		return comboControl.getCombo();
 	}
 
 	@Override
@@ -116,7 +125,7 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 
 	public void setValue(Object newValue) {
 		comboControl.setSelection(new StructuredSelection(newValue));
-		comboControl.getCCombo().setText(newValue.toString());
+		comboControl.getCombo().setText(newValue.toString());
 	}
 
 	public void setTags(String[] tags,String value) {
@@ -126,8 +135,13 @@ public class ComboBoxField extends BaseField implements ISelectionChangedListene
 		comboControl.addPostSelectionChangedListener(this);
 		comboControl.setSelection(new StructuredSelection(value));
 	}
-
-	public void setEditable(boolean ediatble) {
-		comboControl.getCCombo().setEditable(ediatble);
+	/*
+	 * We can't modify combo, change style of this object, 
+	 * if we such functionality please use CCombo
+	 * 
+	 */
+	public void setEditable(
+			boolean ediatble) {
+		//comboControl.getCCombo().setEditable(false);
 	}
 }

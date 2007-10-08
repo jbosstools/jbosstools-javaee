@@ -50,6 +50,11 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	/**
 	 * 
 	 */
+	/*
+	 * Starting from 4022 revision it creates standart combo box, if it be necessary
+	 * to use custom combo box, use another implementation of this method.
+	 * PS. custom combo box looks ugly under mac os. 
+	 */
 	public ITaggedFieldEditor createComboEditor(String name, String label,
 			List values, Object defaultValue) {
 		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,true);
