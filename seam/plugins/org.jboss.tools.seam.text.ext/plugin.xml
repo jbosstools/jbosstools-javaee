@@ -61,4 +61,14 @@
 		</hyperlink>
    </extension>
 
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.seam.text.ext.hyperlink.SeamELInJavaStringHyperlinkDetector"
+            id="org.jboss.tools.seam.text.ext.hyperlink.SeamELInJavaStringHyperlinkDetector"
+            name="%SeamELInJavaStringHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+
 </plugin>
