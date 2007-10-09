@@ -60,9 +60,8 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	public void doFillDefaults(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals(IParameter.SEAM_ENTITY_CLASS_NAME)) {
 			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) { //$NON-NLS-1$
-				setDefaultValue(IParameter.SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
-				setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
-						setDefaultValue(IParameter.SEAM_METHOD_NAME, ""); //$NON-NLS-1$
+				setDefaultValue(IParameter.SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
+				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, ""); //$NON-NLS-1$
 			} else {
 				String value = event.getNewValue().toString();
