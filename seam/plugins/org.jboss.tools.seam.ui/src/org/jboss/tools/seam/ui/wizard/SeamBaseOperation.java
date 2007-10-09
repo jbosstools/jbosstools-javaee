@@ -17,13 +17,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -32,6 +33,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -40,7 +42,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -108,11 +110,22 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			List<String[]> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
+			File[] file = new File[fileMappingCopy.size()];
+			int index=0;
 			for (String[] mapping : fileMappingCopy) {
-				AntCopyUtils.copyFileToFile(new File(mapping[0]),new File(mapping[1]),filters,true); 			
+				file[index] = new File(mapping[1]);
+				AntCopyUtils.copyFileToFile(new File(mapping[0]),file[index],filters,true);
+				index++;
 			}
 			
 			project.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+			
+			if(file.length > 0){
+				IFile iFile = project.getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
+				IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
+			}
 			
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
