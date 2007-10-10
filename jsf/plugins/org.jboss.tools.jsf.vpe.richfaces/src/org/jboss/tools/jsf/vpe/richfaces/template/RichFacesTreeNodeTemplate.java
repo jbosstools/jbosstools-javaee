@@ -220,9 +220,9 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	// creates icon with status of node(collapsed or not) node
 	Element td1 = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
-
 	// sets icon node
-	if (!isLastElement(sourceNode) && isAdaptorChild(sourceNode)) {
+	if (!isLastElement(sourceNode) && isAdaptorChild(sourceNode)
+		&& !isHasNextAdaptorElement(sourceNode)) {
 	    backgroundLinePath = RichFacesTemplatesActivator
 		    .getPluginResourcePath()
 		    + ICON_LINE;
@@ -234,7 +234,28 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 		    (Element) sourceNode, iconNode, NODE_ICON_ATTR_NAME,
 		    showLinesValue == true ? ICON_NODE_WITH_LINE
 			    : ICON_NODE_WITHOUT_LINES);
-	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && isLastElementAfterAdaptor(sourceNode))
+	} else if (!isLastElement(sourceNode) && isAdaptorChild(sourceNode)
+		&& isHasNextAdaptorElement(sourceNode)) {
+	    backgroundLinePath = RichFacesTemplatesActivator
+		    .getPluginResourcePath()
+		    + ICON_LINE;
+	    setAttributeForPictureNode(pageContext, visualDocument,
+		    (Element) sourceNode, td1, NODE_ICON_EXPANDED_ATTR_NAME,
+		    showLinesValue == true ? ICON_EXPANDED_ADAPTER_WITH_LINES
+			    : ICON_EXPANDED_ADAPTER_WITHOUT_LINES);
+	    setAttributeForPictureNode(pageContext, visualDocument,
+		    (Element) sourceNode, iconNode, NODE_ICON_ATTR_NAME,
+		    showLinesValue == true ? ICON_NODE_WITH_LINES
+			    : ICON_NODE_WITHOUT_LINES);
+	    if (showLinesValue) {
+		String path = RichFacesTemplatesActivator
+			.getPluginResourcePath()
+			+ ICON_LEFT_LINE;
+		iconNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+			"background-image: url(file://" + path + "); "
+				+ NODE_LINES_STYLE);
+	    }
+	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && (isAdaptorInTree(sourceNode) == isLastElementAfterAdaptor(sourceNode)))
 		|| (!isAdaptorChild(sourceNode) && isLastElement(sourceNode))) {
 	    backgroundLinePath = RichFacesTemplatesActivator
 		    .getPluginResourcePath()
@@ -311,8 +332,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    Document visualDocument, Node visualNode, Object data, String name,
 	    String value) {
 	/*
-	 * processed only next attributes iconExpanded and icon, becouse tree
-	 * allways shows as expanded and information is it leaf or not contains
+	 * processed only next attributes iconExpanded and icon, because tree
+	 * always shows as expanded and information is it leaf or not contains
 	 * in model
 	 */
 	if (NODE_ICON_EXPANDED_ATTR_NAME.equalsIgnoreCase(name)) {
@@ -344,8 +365,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    Element sourceElement, Document visualDocument, Node visualNode,
 	    Object data, String name) {
 	/*
-	 * processed only next attributes iconExpanded and icon, becouse tree
-	 * allways shows as expanded and information is it leaf or not contains
+	 * processed only next attributes iconExpanded and icon, because tree
+	 * always shows as expanded and information is it leaf or not contains
 	 * in model
 	 */
 
@@ -402,6 +423,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
     }
 
     /**
+     * Node is Adaptor child
      * 
      * @param sourceNode
      * @return
@@ -425,6 +447,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
     }
 
     /**
+     * Node is last element
      * 
      * @param parentTree
      * @param sourceNode
@@ -453,6 +476,45 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    }
 	}
 	return sourceNode.equals(lastElement);
+    }
+
+    /**
+     * Next element is Adaptor
+     * 
+     * @param sourceNode
+     * @return
+     */
+    private boolean isHasNextAdaptorElement(Node sourceNode) {
+	Node parentTree = sourceNode.getParentNode();
+	if (!(parentTree instanceof Element)) {
+	    return true;
+	}
+	NodeList childs = parentTree.getChildNodes();
+	String treeNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
+	String treeRecursiveNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
+	Node lastElement = null;
+	Node el = null;
+
+	for (int i = 0; i < childs.getLength(); i++) {
+	    el = childs.item(i);
+	    if (!(el instanceof Element)) {
+		continue;
+	    }
+
+	    if (lastElement != null) {
+		break;
+	    }
+	    if (el.equals(sourceNode)) {
+		lastElement = el;
+	    }
+	}
+	if (el.getNodeName().equals(treeNodesAdaptorName)
+		|| el.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
+	    return true;
+	}
+	return false;
     }
 
     /**
@@ -511,6 +573,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
     }
 
     /**
+     * Node has element after adaptor
      * 
      * @param sourceNode
      * @return
@@ -521,5 +584,31 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    return true;
 	}
 	return isLastElement(nodeAdaptor);
+    }
+
+    /**
+     * 
+     * @param sourceNode
+     * @return
+     */
+    private boolean isAdaptorInTree(Node sourceNode) {
+	Node adaptorNode = sourceNode.getParentNode();
+	if (!(adaptorNode instanceof Element)) {
+	    return true;
+	}
+	String treeNodesAdaptorName = adaptorNode.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
+	String treeRecursiveNodesAdaptorName = adaptorNode.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
+	if (adaptorNode.getNodeName().equals(treeNodesAdaptorName)
+		|| adaptorNode.getNodeName().equals(
+			treeRecursiveNodesAdaptorName)) {
+	    Node treeNode = adaptorNode.getParentNode();
+	    String treeName = treeNode.getPrefix() + ":" + TREE_NAME;
+	    if (treeNode.getNodeName().equals(treeName)) {
+		return true;
+	    }
+	}
+	return false;
     }
 }

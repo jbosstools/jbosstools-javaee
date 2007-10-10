@@ -178,8 +178,14 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 	    return;
 	}
 	NodeList list = node.getChildNodes();
+	Element element = (Element) node;
+	String id = element
+		.getAttribute(RichFacesTreeNodesAdaptorTemplate.ID_ATTR_NAME);
 	if (node.getNodeName().equalsIgnoreCase(HtmlComponentUtil.HTML_TAG_DIV)
-		&& list.getLength() == 2) {
+		&& list.getLength() == 2
+		&& !(id
+			.equalsIgnoreCase(RichFacesTreeNodesAdaptorTemplate.TREE_NODES_ADAPTOR_NAME) || id
+			.equalsIgnoreCase(RichFacesTreeNodesAdaptorTemplate.RECURSIVE_TREE_NODES_ADAPTOR_NAME))) {
 	    Node table1 = list.item(0);
 	    Node table2 = list.item(1);
 	    node.removeChild(table1);

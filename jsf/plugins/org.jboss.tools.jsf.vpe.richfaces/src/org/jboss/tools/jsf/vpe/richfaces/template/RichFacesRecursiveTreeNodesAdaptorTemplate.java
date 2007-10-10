@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -28,19 +30,41 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	VpeAbstractTemplate {
+
+    private static final String TREE_NAME = "tree";
+
     private final static String TREE_NODE_NAME = "treeNode";
 
-    private static final String TREE_TABLE_ATR_CELLSPACING_VALUE = "0px";
+    public final static String TREE_NODES_ADAPTOR_NAME = "treeNodesAdaptor";
 
-    private static final String TREE_TABLE_ATR_CELLPADDING_VALUE = "0px";
+    public final static String RECURSIVE_TREE_NODES_ADAPTOR_NAME = "recursiveTreeNodesAdaptor";
 
-    private static final String TREE_TABLE_ATR_BORDER_VALUE = "0px";
+    private static final String STYLE_PATH = "/tree/tree.css";
+
+    public static final String ICON_DIV_LINE = "/tree/divLine.gif";
+
+    private static final String ADAPTER_LINES_STYLE = "background-position: left center; background-repeat: repeat-y;";
+
+    public static final String ID_ATTR_NAME = "ID";
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    Document visualDocument) {
+	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "recursiveTreeNodesAdaptor");
 	Element visualElement = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-	addBasicTreeNodeAttributes(visualElement);
+		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	visualElement.setAttribute(ID_ATTR_NAME, RECURSIVE_TREE_NODES_ADAPTOR_NAME);
+	if (isHasParentAdapter(sourceNode)) {
+	    visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+		    "dr-tree-h-ic-div");
+	    if (getShowLinesAttr(sourceNode)) {
+		String path = RichFacesTemplatesActivator
+			.getPluginResourcePath()
+			+ ICON_DIV_LINE;
+		visualElement.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+			"background-image: url(file://" + path + "); "
+				+ ADAPTER_LINES_STYLE);
+	    }
+	}
 	VpeCreationData vpeCreationData = new VpeCreationData(visualElement);
 	parseTree(pageContext, sourceNode, visualDocument, vpeCreationData,
 		visualElement);
@@ -63,43 +87,70 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	Element element = null;
 	int lenght = nodeList.getLength();
 	String treeNodeName = sourceNode.getPrefix() + ":" + TREE_NODE_NAME;
+	String treeNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ TREE_NODES_ADAPTOR_NAME;
+	String recursiveTreeNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ RECURSIVE_TREE_NODES_ADAPTOR_NAME;
 	VpeChildrenInfo vpeChildrenInfo = null;
 	for (int i = 0; i < lenght; i++) {
 	    if (!(nodeList.item(i) instanceof Element)) {
 		continue;
 	    }
 	    element = (Element) nodeList.item(i);
-	    if (element.getNodeName().equals(treeNodeName)) {
-		Element tr = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_TR);
-		Element td = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		tr.appendChild(td);
-		vpeChildrenInfo = new VpeChildrenInfo(td);
+	    if (element.getNodeName().equals(treeNodeName)
+		    || element.getNodeName().equals(
+			    recursiveTreeNodesAdaptorName)) {
+		vpeChildrenInfo = new VpeChildrenInfo(parentElement);
 		vpeCreationData.addChildrenInfo(vpeChildrenInfo);
 		vpeChildrenInfo.addSourceChild(element);
-		parentElement.appendChild(tr);
+	    } else if (element.getNodeName().equals(treeNodesAdaptorName)) {
+		vpeChildrenInfo = new VpeChildrenInfo(parentElement);
+		vpeCreationData.addChildrenInfo(vpeChildrenInfo);
+		vpeChildrenInfo.addSourceChild(element);
 	    }
 	}
     }
 
     /**
-     * Set attributes for treeNode
      * 
-     * @param table
+     * @param sourceNode
+     * @return
      */
-    private void addBasicTreeNodeAttributes(Element table) {
-	if (table == null) {
-	    return;
+    public boolean isHasParentAdapter(Node sourceNode) {
+	String treeNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ TREE_NODES_ADAPTOR_NAME;
+	String recursiveTreeNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ RECURSIVE_TREE_NODES_ADAPTOR_NAME;
+	Node node = sourceNode.getParentNode();
+	if (node.getNodeName().equals(treeNodesAdaptorName)
+		|| node.getNodeName().equals(recursiveTreeNodesAdaptorName)) {
+	    return true;
 	}
-	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR,
-		TREE_TABLE_ATR_CELLPADDING_VALUE);
-	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR,
-		TREE_TABLE_ATR_CELLSPACING_VALUE);
-	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,
-		TREE_TABLE_ATR_BORDER_VALUE);
-	table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		"dr-tree-full-width");
+	return false;
     }
 
+    /**
+     * Get showConnectingLines attribute
+     * 
+     * @param sourceNode
+     * @return
+     */
+    private boolean getShowLinesAttr(Node sourceNode) {
+	String treeName = sourceNode.getPrefix() + ":" + TREE_NAME;
+	do {
+	    sourceNode = sourceNode.getParentNode();
+	    if (!(sourceNode instanceof Element)) {
+		return true;
+	    }
+	} while (!sourceNode.getNodeName().equals(treeName));
+
+	String showLinesParam = ((Element) sourceNode)
+		.getAttribute(RichFacesTreeTemplate.SHOW_LINES_ATTR_NAME);
+
+	boolean showLinesValue = true;
+	if (showLinesParam != null && showLinesParam.equalsIgnoreCase("false")) {
+	    showLinesValue = false;
+	}
+	return showLinesValue;
+    }
 }
