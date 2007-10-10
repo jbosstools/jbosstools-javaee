@@ -254,7 +254,7 @@ public class SeamELProposalProcessor implements IContentAssistProcessor {
 			
 			if (result == null || result.size() == 0)
 				return NO_PROPOSALS;
-			ICompletionProposal[] resultArray = (ICompletionProposal[]) result.toArray(new ICompletionProposal[uniqueSuggestions.size()]);
+			ICompletionProposal[] resultArray = (ICompletionProposal[]) result.toArray(new ICompletionProposal[result.size()]);
 			Arrays.sort(resultArray, new Comparator<ICompletionProposal>() {
 
 				public int compare(ICompletionProposal arg0,
