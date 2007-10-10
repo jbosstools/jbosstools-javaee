@@ -647,6 +647,17 @@
 			<vpe:drag start-enable="yes"/>
 			<vpe:drop container="yes"/>
 		</vpe:template>
+		<vpe:resize>
+				<vpe:width width-attr="width" />
+				<vpe:height height-attr="height" />
+		</vpe:resize>
+		<vpe:dnd>
+			<vpe:drag start-enable="yes" />
+			<vpe:drop container="yes">
+				<vpe:container-child tag-name="panelMenuGroup"/>
+				<vpe:container-child tag-name="panelMenuItem"/>
+			</vpe:drop>
+		</vpe:dnd>
 	</vpe:tag>
 	
 </vpe:templates>
