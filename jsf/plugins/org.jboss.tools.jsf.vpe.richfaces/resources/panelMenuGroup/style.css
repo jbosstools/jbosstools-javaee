@@ -1,0 +1,43 @@
+.dr-pmenu-top-group-div {
+	border-color: #C4C0B9;
+}
+
+.dr-pmenu-top-group-div {
+	border: 1px solid;
+	margin-bottom: 3px;
+	padding: 1px;
+	border-color: #C4C0B9;
+}
+
+.dr-pmenu-top-group {
+	background-color: #D4CFC7;
+	color: #000000;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.dr-pmenu-top-group {
+	background-position: left top;
+	background-repeat: repeat-x;
+	cursor: pointer;
+	height: 20px;
+	padding: 2px 1px 2px 2px;
+	width: 100%;
+}
+
+.dr-pmenu-selected-item {
+	font-style: italic;
+}
+
+.dr-pmenu-group-self-label {
+	padding-left: 5px;
+	width: 100%;
+}
+
+.rich-pmenu-group-self-label {
+	color: #000000;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
