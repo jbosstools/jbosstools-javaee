@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.validation;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +49,9 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
+import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 
 /**
  * EL Validator
@@ -220,7 +223,7 @@ public class SeamELValidator extends SeamValidator {
 //				startEl = localString.indexOf("${");
 //			}
 			if(startEl>-1) {
-				endEl = localString.indexOf('}', startEl);
+				endEl = localString.lastIndexOf('}');
 				if(endEl>-1) {
 					String value = localString.substring(startEl+2, endEl);
 					int os = offset + startEl + 2;
@@ -240,31 +243,44 @@ public class SeamELValidator extends SeamValidator {
 	}
 
 	private void validateEl(IFile file, EL el) {
-		try {
-			String exp = el.value;
-			int offset = exp.length();
+		String exp = el.value;
+//		String test = "hotelBooking.bookHotel(hotel.id, user.username) not null av.test[] ! = var2 <> var3.test3";
+		SeamELTokenizer elTokenizer = new SeamELTokenizer(exp);
+		List<ELToken> tokens = elTokenizer.getTokens();
+		for (ELToken token : tokens) {
+			if(token.getType()==ELToken.EL_OPERAND_TOKEN) {
+				validateElOperand(file, token, el.getOffset());
+			}
+		}
+	}
 
-			if (!exp.endsWith(".")) { //$NON-NLS-1$
-				String prefix = SeamELCompletionEngine.getPrefix(exp, offset);
+	private void validateElOperand(IFile file, ELToken operandToken, int documnetOffset) {
+		String operand = operandToken.getText();
+		try {
+			int offset = operand.length();
+			if (!operand.endsWith(".")) { //$NON-NLS-1$
+				String prefix = SeamELCompletionEngine.getPrefix(operand, offset);
 				if(prefix!=null) {
-					int possition = exp.indexOf(prefix);
-					if (possition == -1) possition = 0;
-						
+					int possition = operand.indexOf(prefix);
+					if (possition == -1) {
+						possition = 0;
+					}
+
 					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
 					Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
-	
-					List<String> suggestions = engine.getCompletions(project, file, exp, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
-	
+
+					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
+
 					if(usedVariables.size()==0 && suggestions.size()==0) {
 						// Save resources with unknown variables names
 						validationContext.addUnnamedElResource(file.getFullPath());
 					} else {
 						// Save links between resource and used variables names
 						for(ISeamContextVariable variable: usedVariables) {
-							validationContext.addLinkedElResource(variable.getName(), file.getFullPath());					
+							validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
 						}
 					}
-	
+
 					// Check pair for getter/setter
 					if(unpairedGettersOrSetters.size()>0) {
 						IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
@@ -276,9 +292,9 @@ public class SeamELValidator extends SeamValidator {
 							missingMethodName = existedMethodName;
 							existedMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_SETTER"); //$NON-NLS-1$
 						}
-						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, el.getLength(), el.getOffset(), file);
+						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, operand.length(), documnetOffset, file);
 					}
-	
+
 					if (suggestions != null && suggestions.size() > 0) {
 						// It's valid EL.
 						return;
@@ -291,14 +307,7 @@ public class SeamELValidator extends SeamValidator {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 		}
 		// Mark invalid EL
-		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{el.getValue()}, el.getLength(), el.getOffset(), file);
-	}
-
-	private IJavaProject getJavaProject() {
-		if(javaProject == null) {
-			javaProject = coreHelper.getJavaProject();
-		}
-		return javaProject;
+		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{operand}, operand.length(), documnetOffset + operandToken.getStart(), file);
 	}
 
 	public static class EL {

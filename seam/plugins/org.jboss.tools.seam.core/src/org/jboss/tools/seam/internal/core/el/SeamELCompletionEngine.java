@@ -95,18 +95,18 @@ public final class SeamELCompletionEngine {
 			int position, boolean returnEqualedVariablesOnly, Set<ISeamContextVariable> usedVariables, Map<String, IMethod> unpairedGettersOrSetters) throws BadLocationException, StringIndexOutOfBoundsException {
 
 		List<String> res= new ArrayList<String>();
-		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, position + prefix.length());
-		List<ELToken> tokens = tokenizer.getTokens();
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
+		List<ELOperandToken> tokens = tokenizer.getTokens();
 		
-		List<ELToken> resolvedExpressionPart = new ArrayList<ELToken>();
+		List<ELOperandToken> resolvedExpressionPart = new ArrayList<ELOperandToken>();
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		ScopeType scope = getScope(project, file);
-		List<List<ELToken>> variations = getPossibleVarsFromPrefix(tokens);
+		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(tokens);
 		
 		if (variations.isEmpty()) {
 			resolvedVariables = resolveVariables(project, scope, tokens, tokens, returnEqualedVariablesOnly);
 		} else {
-			for (List<ELToken> variation : variations) {
+			for (List<ELOperandToken> variation : variations) {
 				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 				resolvedVars = resolveVariables(project, scope, variation, tokens, returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -150,14 +150,14 @@ public final class SeamELCompletionEngine {
 				tokens != null && i < tokens.size() && 
 				members != null && members.size() > 0; 
 				i++) {
-			ELToken token = tokens.get(i);
+			ELOperandToken token = tokens.get(i);
 			
 			if (i < tokens.size() - 1) { // inside expression
-				if (token.getType() == ELToken.EL_SEPARATOR_TOKEN)
+				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 					// proceed with next token
 					continue;
 
-				if (token.getType() == ELToken.EL_NAME_TOKEN) {
+				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
 					// Find properties for the token
 					String name = token.getText();
 					Set<IMember> newMembers = new HashSet<IMember>();
@@ -181,7 +181,7 @@ public final class SeamELCompletionEngine {
 					}
 					members = newMembers;
 				}
-				if (token.getType() == ELToken.EL_METHOD_TOKEN) {
+				if (token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// Find methods for the token
 					String name = token.getText();
 					if (name.indexOf('(') != -1) {
@@ -205,7 +205,7 @@ public final class SeamELCompletionEngine {
 				}
 			} else { // Last segment
 				Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-				if (token.getType() == ELToken.EL_SEPARATOR_TOKEN) {
+				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
 					// return all the methods + properties
 					for (IMember mbr : members) {
 						try {
@@ -216,8 +216,8 @@ public final class SeamELCompletionEngine {
 							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
-				} else if (token.getType() == ELToken.EL_NAME_TOKEN ||
-					token.getType() == ELToken.EL_METHOD_TOKEN) {
+				} else if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 					for (IMember mbr : members) {
@@ -268,14 +268,14 @@ public final class SeamELCompletionEngine {
 		return res;
 	}
 	
-	private String computeVariableName(List<ELToken> tokens){
+	private String computeVariableName(List<ELOperandToken> tokens){
 		if (tokens == null)
-			tokens = new ArrayList<ELToken>();
+			tokens = new ArrayList<ELOperandToken>();
 		StringBuffer sb = new StringBuffer();
-		for (ELToken token : tokens) {
-			if (token.getType() == ELToken.EL_NAME_TOKEN ||
-					token.getType() == ELToken.EL_METHOD_TOKEN ||
-					token.getType() == ELToken.EL_SEPARATOR_TOKEN) {
+		for (ELOperandToken token : tokens) {
+			if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
+					token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
 				sb.append(token.getText());
 			}
 		}
@@ -289,7 +289,7 @@ public final class SeamELCompletionEngine {
 	 * @param second
 	 * @return boolean true if two expressions are equal
 	 */
-	private boolean areEqualExpressions(List<ELToken>first, List<ELToken>second) {
+	private boolean areEqualExpressions(List<ELOperandToken>first, List<ELOperandToken>second) {
 		if (first == null || second == null)
 			return (first == second);
 		
@@ -334,7 +334,7 @@ public final class SeamELCompletionEngine {
 	 * @param tokens
 	 * @return
 	 */
-	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELToken>part, List<ELToken> tokens, boolean onlyEqualNames) {
+	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELOperandToken>part, List<ELOperandToken> tokens, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		String varName = computeVariableName(part);
 		if (varName != null) {
@@ -365,12 +365,12 @@ public final class SeamELCompletionEngine {
 	 * @param prefix
 	 * @return
 	 */
-	private List<List<ELToken>> getPossibleVarsFromPrefix(List<ELToken>prefix) {
-		ArrayList<List<ELToken>> result = new ArrayList<List<ELToken>>();
+	private List<List<ELOperandToken>> getPossibleVarsFromPrefix(List<ELOperandToken>prefix) {
+		ArrayList<List<ELOperandToken>> result = new ArrayList<List<ELOperandToken>>();
 		for (int i = 0; prefix != null && i < prefix.size(); i++) {
-			ELToken lastToken = prefix.get(i);
-			if (lastToken.getType() != ELToken.EL_SEPARATOR_TOKEN) {
-				ArrayList<ELToken> prefixPart = new ArrayList<ELToken>();
+			ELOperandToken lastToken = prefix.get(i);
+			if (lastToken.getType() != ELOperandToken.EL_SEPARATOR_TOKEN) {
+				ArrayList<ELOperandToken> prefixPart = new ArrayList<ELOperandToken>();
 				for (int j = 0; j <= i; j++) {
 					prefixPart.add(prefix.get(j));
 				}
@@ -403,50 +403,47 @@ public final class SeamELCompletionEngine {
 		present.clear();
 		return unique;
 	}
-	
+
 	/**
 	 * EL string parser.
 	 * Creates list of tokens for the name, method and separator parts 
-	 *  
+	 *
 	 * @author Jeremy
 	 */
-	public static class SeamELTokenizer {
+	public static class SeamELOperandTokenizer {
 		static final int STATE_INITIAL = 0;
 		static final int STATE_VAR = 1;
 		static final int STATE_METHOD = 2;
 		static final int STATE_SEPARATOR = 3;
-		
-//		IDocument fDocument;
+
 		String documentContent;
-		List<ELToken> fTokens;
+		List<ELOperandToken> fTokens;
 		int index;
 
 		/**
-		 * Constructs SeamELTokenizer object
-		 * 
-		 * @param document
+		 * Constructs SeamELTokenizer object.
+		 * Parse expression from offset to first operator or space.
+		 * Tokenizer parses document from offset to beginning.
+		 * For example: documentContetn is '<tag attr="#{var1.pr!=var2.pr}"/>'
+		 *              offset =  29 ("...var2.pr|}")
+		 *              then tokens are {"pr",".","var2"}
+		 * @param documentContent
 		 * @param offset
 		 */
-		public SeamELTokenizer(IDocument document, int offset) {
-			if(document!=null) {
-				this.documentContent = document.get();
-			}
+		public SeamELOperandTokenizer(String documentContent, int offset) {
+			this.documentContent = documentContent;
 			index = (documentContent == null || documentContent.length() < offset? -1 : offset);
-			fTokens = new ArrayList<ELToken>();
+			fTokens = new ArrayList<ELOperandToken>();
 			parseBackward();
 		}
 
 		/**
-		 * Constructs SeamELTokenizer object
-		 * 
+		 * Constructs SeamELTokenizer object.
 		 * @param document
 		 * @param offset
 		 */
-		public SeamELTokenizer(String documentContent, int offset) {
-			this.documentContent = documentContent;
-			index = (documentContent == null || documentContent.length() < offset? -1 : offset);
-			fTokens = new ArrayList<ELToken>();
-			parseBackward();
+		public SeamELOperandTokenizer(IDocument document, int offset) {
+			this(document.get(), offset);
 		}
 
 		/**
@@ -454,27 +451,27 @@ public final class SeamELCompletionEngine {
 		 * 
 		 * @return
 		 */
-		public List<ELToken> getTokens() {
+		public List<ELOperandToken> getTokens() {
 			return fTokens;
 		}
-		
+
 		/*
 		 * Performs backward parsing of document text for expression
 		 */
 		private void parseBackward() {
-			ELToken token;
+			ELOperandToken token;
 			fState = STATE_INITIAL;
-			while ((token = getNextToken()) != ELToken.EOF) {
-				
-				if (token.type == ELToken.EL_NAME_TOKEN ||
-						token.type == ELToken.EL_METHOD_TOKEN ||
-						token.type == ELToken.EL_SEPARATOR_TOKEN) {
-					
+			while ((token = getNextToken()) != ELOperandToken.EOF) {
+
+				if (token.type == ELOperandToken.EL_NAME_TOKEN ||
+						token.type == ELOperandToken.EL_METHOD_TOKEN ||
+						token.type == ELOperandToken.EL_SEPARATOR_TOKEN) {
+
 					fTokens.add(0, token);
 				}
 			}
 		}
-		
+
 		int fState;
 		int fEndOfToken;
 
@@ -483,13 +480,13 @@ public final class SeamELCompletionEngine {
 		 * 
 		 * @return
 		 */
-		private ELToken getNextToken() {
+		private ELOperandToken getNextToken() {
 			switch (fState) {
 			case STATE_INITIAL: // Just started
 			{
 				int ch = readCharBackward();
 				if (ch == -1) {
-					return ELToken.EOF;
+					return ELOperandToken.EOF;
 				}
 				if (Character.isJavaIdentifierPart((char)ch)) {
 					releaseChar();
@@ -504,39 +501,39 @@ public final class SeamELCompletionEngine {
 					return readMethodToken();
 				}
 				releaseChar();
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			}
 			case STATE_VAR: // Variable name is read - expecting a separator 
 			{
 				int ch = readCharBackward();
 				if (ch == -1) {
-					return ELToken.EOF;
+					return ELOperandToken.EOF;
 				}
 				if (ch == '.') {
 					releaseChar();
 					return readSeparatorToken();
 				}
 				releaseChar();
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			}
 			case STATE_METHOD: // Method name and parameters are read - expecting a separator
 			{
 				int ch = readCharBackward();
 				if (ch == -1) {
-					return ELToken.EOF;
+					return ELOperandToken.EOF;
 				}
 				if (ch == '.') {
 					releaseChar();
 					return readSeparatorToken();
 				}
 				releaseChar();
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			}
 			case STATE_SEPARATOR: // Separator is read - expecting a var or method
 			{
 				int ch = readCharBackward();
 				if (ch == -1) {
-					return ELToken.EOF;
+					return ELOperandToken.EOF;
 				}
 				if (Character.isJavaIdentifierPart((char)ch)) {
 					releaseChar();
@@ -547,32 +544,32 @@ public final class SeamELCompletionEngine {
 					return readMethodToken();
 				}
 				releaseChar();
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			}
 			}
-			return ELToken.EOF;
+			return ELOperandToken.EOF;
 		}
 		
 		/* Reads and returns the method token from the expression
 		 * 
 		 * @return
 		 */
-		ELToken readMethodToken() {
+		ELOperandToken readMethodToken() {
 			fState = STATE_METHOD;
 			int endOfToken = index;
 			
 			// read the method parameters
 			if (!skipMethodParameters()) 
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			
 			// skip spaces between the method's name and it's parameters
 			if (!skipSpaceChars())
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			// read the method name
 			if (!skipMethodName())
-				return ELToken.EOF;
+				return ELOperandToken.EOF;
 			
-			return (endOfToken - index > 0 ? new ELToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELToken.EL_METHOD_TOKEN) : ELToken.EOF);
+			return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELOperandToken.EL_METHOD_TOKEN) : ELOperandToken.EOF);
 		}
 
 		/*
@@ -686,30 +683,30 @@ public final class SeamELCompletionEngine {
 		 * 
 		 * @return
 		 */
-		ELToken readSeparatorToken() {
+		ELOperandToken readSeparatorToken() {
 			fState = STATE_SEPARATOR;
 			int ch = readCharBackward();
 			
-			return (ch == '.' ? new ELToken(index, 1, getCharSequence(index, 1), ELToken.EL_SEPARATOR_TOKEN) :
-				ELToken.EOF);
+			return (ch == '.' ? new ELOperandToken(index, 1, getCharSequence(index, 1), ELOperandToken.EL_SEPARATOR_TOKEN) :
+				ELOperandToken.EOF);
 		}
 		
 		/* Reads and returns the variable token from the expression
 		 * 
 		 * @return
 		 */
-		ELToken readVarToken() {
+		ELOperandToken readVarToken() {
 			fState = STATE_VAR;
 			int endOfToken = index;
 			int ch;
 			while((ch = readCharBackward()) != -1) {
 				if (!Character.isJavaIdentifierPart(ch)) {
 					releaseChar();
-					return (endOfToken - index > 0 ? new ELToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELToken.EL_NAME_TOKEN) : ELToken.EOF);
+					return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELOperandToken.EL_NAME_TOKEN) : ELOperandToken.EOF);
 				}
 			}
 			releaseChar();
-			return (endOfToken - index > 0 ? new ELToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELToken.EL_NAME_TOKEN) : ELToken.EOF);
+			return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELOperandToken.EL_NAME_TOKEN) : ELOperandToken.EOF);
 		}
 		
 		/* Reads the next character in the document
@@ -759,33 +756,32 @@ public final class SeamELCompletionEngine {
 	 * @param viewer
 	 * @param offset
 	 * @return
-	 * @throws BadLocationException
+	 * @throws StringIndexOutOfBoundsException
 	 */
 	public static String getPrefix(String documentContent, int offset) throws StringIndexOutOfBoundsException {
 		if (documentContent == null || offset > documentContent.length())
 			return null;
 
-		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, offset);
-		List<ELToken> tokens = tokenizer.getTokens();
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, offset);
+		List<ELOperandToken> tokens = tokenizer.getTokens();
 
 		if (tokens == null || tokens.size() == 0)
 			return null;
 
 		return documentContent.substring(tokens.get(0).start, offset);
-//		return documentContent.substring(tokens.get(0).start, tokens.get(0).start + tokens.get(0).length);
 	}
-	
+
 	public String getJavaElementExpression(String documentContent, int offset, IRegion region) throws StringIndexOutOfBoundsException {
 		if (documentContent == null || offset > documentContent.length())
 			return null;
 
-		SeamELTokenizer tokenizer = new SeamELTokenizer(documentContent, region.getOffset() + region.getLength());
-		List<ELToken> tokens = tokenizer.getTokens();
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, region.getOffset() + region.getLength());
+		List<ELOperandToken> tokens = tokenizer.getTokens();
 
 		if (tokens == null || tokens.size() == 0)
 			return null;
 		
-		List<List<ELToken>> vars = getPossibleVarsFromPrefix(tokens);
+		List<List<ELOperandToken>> vars = getPossibleVarsFromPrefix(tokens);
 		if (vars == null) 
 			return null;
 		
@@ -793,7 +789,7 @@ public final class SeamELCompletionEngine {
 		
 		// Search from the shortest variation to the longest one
 		for (int i = vars.size() - 1; i >= 0; i--) { 
-			List<ELToken>var = vars.get(i);
+			List<ELOperandToken>var = vars.get(i);
 			String varText = computeVariableName(var); 
 			if (varText != null && varText.startsWith(prefixPart)) {
 				return varText; 
@@ -814,21 +810,21 @@ public final class SeamELCompletionEngine {
 
 		List<IJavaElement> res= new ArrayList<IJavaElement>();
 		
-		SeamELTokenizer tokenizer = new SeamELTokenizer(expression, expression.length());
-		List<ELToken> tokens = tokenizer.getTokens();
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(expression, expression.length());
+		List<ELOperandToken> tokens = tokenizer.getTokens();
 		
-		if (tokens == null || tokens.size() == 0 || tokens.get(tokens.size() - 1).getType() == ELToken.EL_SEPARATOR_TOKEN)
+		if (tokens == null || tokens.size() == 0 || tokens.get(tokens.size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 			return res;
 		
-		List<ELToken> resolvedExpressionPart = new ArrayList<ELToken>();
+		List<ELOperandToken> resolvedExpressionPart = new ArrayList<ELOperandToken>();
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		ScopeType scope = getScope(project, file);
-		List<List<ELToken>> variations = getPossibleVarsFromPrefix(tokens);
+		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(tokens);
 		
 		if (variations.isEmpty()) {
 			resolvedVariables = resolveVariables(project, scope, tokens, tokens, true);
 		} else {
-			for (List<ELToken> variation : variations) {
+			for (List<ELOperandToken> variation : variations) {
 				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 				resolvedVars = resolveVariables(project, scope, variation, tokens, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -844,13 +840,13 @@ public final class SeamELCompletionEngine {
 		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
 			// First segment is the last one
 			for (ISeamContextVariable var : resolvedVariables) {
-				String varName = var.getName();
-/*				if(expression.length()<varName.length()) {
+/*				String varName = var.getName();
+				if(expression.length()<varName.length()) {
 					res.add(varName.substring(prefixString.length()));
 				} else if(returnEqualedVariablesOnly) {
 					res.add(varName);
 				}
-				*/
+*/
 				IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
 				if (member instanceof IJavaElement){
 					res.add((IJavaElement)member);
@@ -871,14 +867,14 @@ public final class SeamELCompletionEngine {
 				tokens != null && i < tokens.size() && 
 				members != null && members.size() > 0; 
 				i++) {
-			ELToken token = tokens.get(i);
+			ELOperandToken token = tokens.get(i);
 			
 			if (i < tokens.size() - 1) { // inside expression
-				if (token.getType() == ELToken.EL_SEPARATOR_TOKEN)
+				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 					// proceed with next token
 					continue;
 
-				if (token.getType() == ELToken.EL_NAME_TOKEN) {
+				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
 					// Find properties for the token
 					String name = token.getText();
 					Set<IMember> newMembers = new HashSet<IMember>();
@@ -902,7 +898,7 @@ public final class SeamELCompletionEngine {
 					}
 					members = newMembers;
 				}
-				if (token.getType() == ELToken.EL_METHOD_TOKEN) {
+				if (token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// Find methods for the token
 					String name = token.getText();
 					if (name.indexOf('(') != -1) {
@@ -926,8 +922,8 @@ public final class SeamELCompletionEngine {
 				}
 			} else { // Last segment
 				Set<IJavaElement> javaElements = new HashSet<IJavaElement>();
-				if (token.getType() == ELToken.EL_NAME_TOKEN ||
-					token.getType() == ELToken.EL_METHOD_TOKEN) {
+				if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
 					Set<IJavaElement> javaElementsToFilter = new HashSet<IJavaElement>(); 
 					for (IMember mbr : members) {
@@ -982,12 +978,12 @@ public final class SeamELCompletionEngine {
 }
 
 /**
- * Token for the EX expression
- *  
+ * Token for the EX expression operand parts
+ *
  * @author Jeremy
  */
-class ELToken implements IToken {
-	static final ELToken EOF = new ELToken(-1, -1, null, -1);
+class ELOperandToken implements IToken {
+	static final ELOperandToken EOF = new ELOperandToken(-1, -1, null, -1);
 	static final int EL_NAME_TOKEN = 1;
 	static final int EL_METHOD_TOKEN = 2;
 	static final int EL_SEPARATOR_TOKEN = 3;
@@ -1005,7 +1001,7 @@ class ELToken implements IToken {
 	 * @param chars
 	 * @param type
 	 */
-	public ELToken(int start, int length, CharSequence chars, int type) {
+	public ELOperandToken(int start, int length, CharSequence chars, int type) {
 		this.start = start;
 		this.length = length;
 		this.chars = chars;
