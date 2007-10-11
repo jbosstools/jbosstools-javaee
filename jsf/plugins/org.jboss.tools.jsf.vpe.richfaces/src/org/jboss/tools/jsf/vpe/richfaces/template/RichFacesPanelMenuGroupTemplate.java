@@ -57,7 +57,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 			RichFacesPanelMenuGroupTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, false);
 		    }
 		    if(child.getNodeName().endsWith(":panelMenuItem")){
-			RichFacesPanelMenuItemTemplate.encode(creationData, (Element)child, visualDocument, div, false);
+			RichFacesPanelMenuItemTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, false);
 		    }
 		    childInfo.addSourceChild(child);
 		}

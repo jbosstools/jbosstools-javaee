@@ -88,9 +88,9 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 			boolean active = (i == activeId);
 			
 			if(child.getNodeName().endsWith(":panelMenuGroup")) {
-				RichFacesPanelMenuGroupTemplate.encode(vpeCreationData, (Element)child, visualDocument, div, active);			
+				RichFacesPanelMenuGroupTemplate.encode(pageContext, vpeCreationData, (Element)child, visualDocument, div, active);			
 			} else if(child.getNodeName().endsWith(":panelMenuItem")) {
-				RichFacesPanelMenuItemTemplate.encode(vpeCreationData, (Element)child, visualDocument, div, active);	
+				RichFacesPanelMenuItemTemplate.encode(pageContext, vpeCreationData, (Element)child, visualDocument, div, active);	
 			} else {	
 				childrenInfo.addSourceChild(child);				
 			}
