@@ -26,7 +26,7 @@ import org.w3c.dom.Text;
 
 public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
-	//private static final String STYLE_PATH = "/panelMenuItem/style.css";
+	private static final String STYLE_PATH = "/panelMenuItem/style.css";
 
 	private static final String PANEL_MENU_ITEM_CLASS = "dr-pmenu-item";
 
@@ -48,12 +48,12 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			Document visualDocument) {
-		return encode(null,(Element)sourceNode, visualDocument, null, false);
+		return encode(pageContext, null,(Element)sourceNode, visualDocument, null, false);
 	}
 	
-	public static VpeCreationData encode(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active){
+	public static VpeCreationData encode(VpePageContext pageContext,VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active){
 		
-		//ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
 		
 		Element div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
