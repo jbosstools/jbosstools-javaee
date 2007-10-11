@@ -63,7 +63,6 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		parentVisualElement.appendChild(div);
 		div.setAttribute("vpeSupport", PANEL_MENU_ITEM);
-		creationData = new VpeCreationData(div);
 		if (sourceElement.getParentNode().getNodeName().endsWith(
 				":panelMenuGroup")
 				|| (sourceElement.getParentNode().getNodeName()
