@@ -15,57 +15,67 @@ import org.w3c.dom.Text;
 
 public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
-    private static String PANEL_MENU_GROUP_SPACER = "/panelMenuGroup/spacer.gif";
+    private static final String DEFAULT_PANEL_MENU_GROUP_SPACER = "/panelMenuGroup/spacer.gif";
 
-    private static String PANEL_MENU_GROUP_POINTER = "/panelMenuGroup/pointer.gif";
+    private static final String DEFAULT_PANEL_MENU_GROUP_POINTER = "/panelMenuGroup/pointer.gif";
 
-    private static String PANEL_MENU_GROUP_POINT = "/panelMenuGroup/point.gif";
-
-    private static String STYLE_PATH = "/panelMenuGroup/style.css";
-
+    private static final String DEFAULT_PANEL_MENU_GROUP_POINT = "/panelMenuGroup/point.gif";
+    
+    private static final String STYLE_PATH = "/panelMenuGroup/style.css";
+    
+    private static final String ICON_WIDTH = "16";
+    
+    private static final String ICON_HEIGHT = "16";
+    
+    private static final String ICON_VSPACE = "0";
+    
+    private static final String ICON_HSPACE = "0";
+    
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	return new VpeCreationData(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV));
+    }
 
+    public static VpeCreationData encode(VpePageContext pageContext, VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean expanded) {
 	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "panelMenuGroup");
 
 	Element div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-	VpeCreationData creationData = new VpeCreationData(div);
+	parentVisualElement.appendChild(div);
+	
+	div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-top-group-div");
+	div.setAttribute("vpeSupport", "panelMenuGroup");
+	buildTable(sourceElement, visualDocument, div);
+	
+	List<Node> children = ComponentUtil.getChildren(sourceElement);
 
-	if (checkPanelMenuParent(sourceNode)) {
-	    div.setAttribute("class", "dr-pmenu-top-group-div");
-	    div.setAttribute("vpeSupport", "panelMenuGroup");
-
-	    buildTable(sourceNode, visualDocument, div);
-
-	    Element sourceElement = (Element) sourceNode;
-
-	    List<Node> children = ComponentUtil.getChildren(sourceElement);
-
-	    if (!children.isEmpty()) {
-		VpeChildrenInfo childInfo = new VpeChildrenInfo(div);
-		for (Node child : children) {
+	if (!children.isEmpty()) {
+	    VpeChildrenInfo childInfo = new VpeChildrenInfo(div);
+	    for (Node child : children) {
+		if(!expanded && !child.getNodeName().endsWith(":panelMenuGroup") && !child.getNodeName().endsWith(":panelMenuItem")) {
+		    childInfo.addSourceChild(child);
+		} else {
+		    if(child.getNodeName().endsWith(":panelMenuGroup")) {
+			RichFacesPanelMenuGroupTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, false);
+		    }
+		    if(child.getNodeName().endsWith(":panelMenuItem")){
+			RichFacesPanelMenuItemTemplate.encode(creationData, (Element)child, visualDocument, div, false);
+		    }
 		    childInfo.addSourceChild(child);
 		}
-		creationData.addChildrenInfo(childInfo);
 	    }
-	} else {
-	    div.setAttribute("style", "display:none;");
+	    creationData.addChildrenInfo(childInfo);
 	}
 
 	return creationData;
     }
-    
-    public static VpeCreationData encode(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active) {
-	return null;
-    }
 
-    private void buildTable(Node sourceNode, Document visualDocument, Element div) {
-	Node parent = getRichPanelParent(sourceNode);
+    private static final void buildTable(Element sourceElement, Document visualDocument, Element div) {
+	Node parent = getRichPanelParent(sourceElement);
 
-	Element table = visualDocument.createElement("table");
+	Element table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 	div.appendChild(table);
-	table.setAttribute("cellspacing", "0");
-	table.setAttribute("cellpadding", "0");
-	table.setAttribute("border", "0");
+	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
+	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
+	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
 
 	Element tableBody = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 	table.appendChild(tableBody);
@@ -75,16 +85,16 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	Element img1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 	column1.appendChild(img1);
-	img1.setAttribute("width", "16");
-	img1.setAttribute("vspace", "0");
-	img1.setAttribute("hspace", "0");
-	img1.setAttribute("height", "16");
+	img1.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, ICON_WIDTH);
+	img1.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ICON_HEIGHT);
+	img1.setAttribute("vspace", ICON_VSPACE);
+	img1.setAttribute("hspace", ICON_HSPACE);
 
 	Element column2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	tableBody.appendChild(column2);
-	column2.setAttribute("style", "width: 100%;");
+	column2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;");
 
-	Text name = visualDocument.createTextNode(sourceNode.getAttributes().getNamedItem("label").getNodeValue());
+	Text name = visualDocument.createTextNode(sourceElement.getAttribute("label"));
 	column2.appendChild(name);
 
 	Element column3 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
@@ -92,45 +102,27 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	Element img2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 	column3.appendChild(img2);
-	img2.setAttribute("width", "16");
-	img2.setAttribute("vspace", "0");
-	img2.setAttribute("hspace", "0");
-	img2.setAttribute("height", "16");
+	img2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, ICON_WIDTH);
+	img2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ICON_WIDTH);
+	img2.setAttribute("vspace", ICON_VSPACE);
+	img2.setAttribute("hspace", ICON_HSPACE);
 
 	if (parent.getNodeName().endsWith(":panelMenu")) {
-	    ComponentUtil.setImg(img1, PANEL_MENU_GROUP_SPACER);
-	    ComponentUtil.setImg(img2, PANEL_MENU_GROUP_POINTER);
-	    column2.setAttribute("class", "dr-pmenu-group-self-label dr-pmenu-selected-item");
-	    table.setAttribute("class", "dr-pmenu-top-group");
+	    ComponentUtil.setImg(img1, DEFAULT_PANEL_MENU_GROUP_SPACER);
+	    ComponentUtil.setImg(img2,  DEFAULT_PANEL_MENU_GROUP_POINTER);
+	    column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-group-self-label dr-pmenu-selected-item");
+	    table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-top-group");
 	} else {
-	    div.setAttribute("style", "display:none;");
-	    ComponentUtil.setImg(img1, PANEL_MENU_GROUP_POINT);
-	    img1.setAttribute("style", "vertical-align: middle");
-	    ComponentUtil.setImg(img2, PANEL_MENU_GROUP_SPACER);
-	    column2.setAttribute("class", "dr-pmenu-group rich-pmenu-group");
-	    table.setAttribute("class", "dr-pmenu-group-self-label rich-pmenu-group-self-label");
+	    ComponentUtil.setImg(img1,  DEFAULT_PANEL_MENU_GROUP_POINT);
+	    img1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "vertical-align: middle");
+	    ComponentUtil.setImg(img2,  DEFAULT_PANEL_MENU_GROUP_SPACER);
+	    column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-group rich-pmenu-group");
+	    table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-group-self-label rich-pmenu-group-self-label");
 	}
     }
 
-    private boolean checkPanelMenuParent(Node checkNode) {
-	boolean result = false;
-
-	Node parent = checkNode.getParentNode();
-
-	while (parent != null) {
-	    if (parent.getNodeName().endsWith(":panelMenu")) {
-		result = true;
-		break;
-	    }
-
-	    parent = parent.getParentNode();
-	}
-
-	return result;
-    }
-
-    private Node getRichPanelParent(Node sourceNode) {
-	Node parent = sourceNode.getParentNode();
+    private static final Node getRichPanelParent(Element sourceElement) {
+	Node parent = sourceElement.getParentNode();
 
 	while (true) {
 	    if (parent.getNodeName().endsWith(":panelMenu") || parent.getNodeName().endsWith(":panelMenuGroup")) {
@@ -139,8 +131,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		parent = parent.getParentNode();
 	    }
 	}
-
+	
 	return parent;
-
     }
 }
