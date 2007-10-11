@@ -13,7 +13,6 @@ package org.jboss.tools.seam.internal.core.validation;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,8 +48,10 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
+import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 
 /**
@@ -256,20 +257,23 @@ public class SeamELValidator extends SeamValidator {
 
 	private void validateElOperand(IFile file, ELToken operandToken, int documnetOffset) {
 		String operand = operandToken.getText();
+		String varName = operand;
+		int offsetOfVarName = documnetOffset + operandToken.getStart();
+		int lengthOfVarName = varName.length();
 		try {
 			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
 				String prefix = SeamELCompletionEngine.getPrefix(operand, offset);
 				if(prefix!=null) {
-					int possition = operand.indexOf(prefix);
-					if (possition == -1) {
-						possition = 0;
+					int position = operand.indexOf(prefix);
+					if (position == -1) {
+						position = 0;
 					}
 
 					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
 					Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
 
-					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, possition, true, usedVariables, unpairedGettersOrSetters);
+					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, position, true, usedVariables, unpairedGettersOrSetters);
 
 					if(usedVariables.size()==0 && suggestions.size()==0) {
 						// Save resources with unknown variables names
@@ -299,6 +303,19 @@ public class SeamELValidator extends SeamValidator {
 						// It's valid EL.
 						return;
 					}
+
+					SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(operand, position + prefix.length());
+					List<ELOperandToken> tokens = tokenizer.getTokens();
+					for (ELOperandToken token : tokens) {
+						if((token.getType()==ELOperandToken.EL_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
+							if(!isResolvedVar(token.getText(), usedVariables)) {
+								varName = token.getText();
+								offsetOfVarName = documnetOffset + operandToken.getStart() + token.getStart();
+								lengthOfVarName = varName.length();
+								break;
+							}
+						}
+					}
 				}
 			}
 		} catch (BadLocationException e) {
@@ -307,7 +324,16 @@ public class SeamELValidator extends SeamValidator {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
 		}
 		// Mark invalid EL
-		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{operand}, operand.length(), documnetOffset + operandToken.getStart(), file);
+		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+	}
+
+	private boolean isResolvedVar(String varName, Set<ISeamContextVariable> usedVariables) {
+		for (ISeamContextVariable seamContextVariable : usedVariables) {
+			if(varName.equals(seamContextVariable.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static class EL {
