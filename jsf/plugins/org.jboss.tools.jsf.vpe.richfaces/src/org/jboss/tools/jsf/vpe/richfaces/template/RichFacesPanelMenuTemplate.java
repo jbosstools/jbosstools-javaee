@@ -83,7 +83,8 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 		}
 
-		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
+		//VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
+	//	vpeCreationData.addChildrenInfo(childrenInfo);
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int activeId = getActiveId(sourceElement, children);
 		int i = 0;
@@ -100,20 +101,15 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 				RichFacesPanelMenuItemTemplate.encode(pageContext,
 						vpeCreationData, (Element) child, visualDocument, div,
 						active);
-			}
-			if (child.getNodeName().endsWith(":panelMenuGroup")) {
-				RichFacesPanelMenuGroupTemplate.encode(pageContext,
-						vpeCreationData, (Element) child, visualDocument, div,
-						active);
-			} else if (child.getNodeName().endsWith(":panelMenuItem")) {
-				RichFacesPanelMenuItemTemplate.encode(pageContext,
-						vpeCreationData, (Element) child, visualDocument, div,
-						active);
 			} else {
+				Element childDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childDiv);
+				div.appendChild(childDiv);
 				childrenInfo.addSourceChild(child);
+				vpeCreationData.addChildrenInfo(childrenInfo);
 			}
 			i++;
-		}
+		}		
 
 		return vpeCreationData;
 	}

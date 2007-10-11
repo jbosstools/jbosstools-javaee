@@ -44,11 +44,15 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 	private static final String IMG_SPACER_SRC = "/panelMenuItem/spacer.gif";
 
-	//private static final String EMPTY_DIV_STYLE = "display: none;";
+	private static final String EMPTY_DIV_STYLE = "display: none;";
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			Document visualDocument) {
-		return encode(pageContext, null,(Element)sourceNode, visualDocument, null, false);
+		Element div = visualDocument
+			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
+		
+		return new VpeCreationData(div);
 	}
 	
 	public static VpeCreationData encode(VpePageContext pageContext,VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active){
@@ -57,7 +61,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		
 		Element div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		//div.setAttribute("style", EMPTY_DIV_STYLE);
+		parentVisualElement.appendChild(div);
 		div.setAttribute("vpeSupport", PANEL_MENU_ITEM);
 		creationData = new VpeCreationData(div);
 		if (sourceElement.getParentNode().getNodeName().endsWith(

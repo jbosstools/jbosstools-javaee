@@ -31,9 +31,16 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
     
     private static final String ICON_HSPACE = "0";
     
-    public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
-	return new VpeCreationData(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV));
-    }
+    private static final String EMPTY_DIV_STYLE = "display: none;";
+
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
+			Document visualDocument) {
+		Element div = visualDocument
+			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
+		
+		return new VpeCreationData(div);
+	}
 
     public static VpeCreationData encode(VpePageContext pageContext, VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean expanded) {
 	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "panelMenuGroup");
@@ -54,7 +61,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		    childInfo.addSourceChild(child);
 		} else {
 		    if(child.getNodeName().endsWith(":panelMenuGroup")) {
-			RichFacesPanelMenuGroupTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, false);
+			RichFacesPanelMenuGroupTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, true);
 		    }
 		    if(child.getNodeName().endsWith(":panelMenuItem")){
 			RichFacesPanelMenuItemTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, false);
