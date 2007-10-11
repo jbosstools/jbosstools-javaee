@@ -37,16 +37,20 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 	private static final String WIDTH_ATTR_PANELMENU = "width";
 	private static final String STYLE_ATTR_PANELMENU = "style";
-	//private static final String DISABLED_ATTR_PANELMENU = "disabled";
-	//private static final String EXPANDSINGLE_ATTR_PANELMENU = "expandSingle";
+	// private static final String DISABLED_ATTR_PANELMENU = "disabled";
+	// private static final String EXPANDSINGLE_ATTR_PANELMENU = "expandSingle";
 	private static final String STYLECLASS_ATTR_PANELMENU = "styleClass";
 
-	//private static final String PATH_TO_COLLAPSED_GROUP = "/panelMenuGroup/collapsed.gif";
+	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup";
+	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem";
+
+	// private static final String PATH_TO_COLLAPSED_GROUP =
+	// "/panelMenuGroup/collapsed.gif";
 
 	@SuppressWarnings("unchecked")
 	private static Map toggleMap = new HashMap();
 
-	//private boolean collapsedFalg = false;
+	// private boolean collapsedFalg = false;
 
 	// private static final String DISABLED_STYLE_FOR_TABLE = "color:#B1ADA7";
 
@@ -57,9 +61,10 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		String width = sourceElement.getAttribute(WIDTH_ATTR_PANELMENU);
 		String style = sourceElement.getAttribute(STYLE_ATTR_PANELMENU);
-	//	String disabled = sourceElement.getAttribute(DISABLED_ATTR_PANELMENU);
-	//	String expandSingle = sourceElement
-	//			.getAttribute(EXPANDSINGLE_ATTR_PANELMENU);
+		// String disabled =
+		// sourceElement.getAttribute(DISABLED_ATTR_PANELMENU);
+		// String expandSingle = sourceElement
+		// .getAttribute(EXPANDSINGLE_ATTR_PANELMENU);
 		String styleClass = sourceElement
 				.getAttribute(STYLECLASS_ATTR_PANELMENU);
 
@@ -77,31 +82,42 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 		if (styleClass != null) {
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 		}
-		
+
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int activeId = getActiveId(sourceElement, children);
 		int i = 0;
-		
+
 		for (Node child : children) {
-			
-			boolean active = (i == activeId);
-			
-			if(child.getNodeName().endsWith(":panelMenuGroup")) {
-				RichFacesPanelMenuGroupTemplate.encode(pageContext, vpeCreationData, (Element)child, visualDocument, div, active);			
-			} else if(child.getNodeName().endsWith(":panelMenuItem")) {
-				RichFacesPanelMenuItemTemplate.encode(pageContext, vpeCreationData, (Element)child, visualDocument, div, active);	
-			} else {	
-				childrenInfo.addSourceChild(child);				
+
+			boolean active = true; // (i == activeId);
+
+			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
+				RichFacesPanelMenuGroupTemplate.encode(pageContext,
+						vpeCreationData, (Element) child, visualDocument, div,
+						active);
+			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
+				RichFacesPanelMenuItemTemplate.encode(pageContext,
+						vpeCreationData, (Element) child, visualDocument, div,
+						active);
+			}
+			if (child.getNodeName().endsWith(":panelMenuGroup")) {
+				RichFacesPanelMenuGroupTemplate.encode(pageContext,
+						vpeCreationData, (Element) child, visualDocument, div,
+						active);
+			} else if (child.getNodeName().endsWith(":panelMenuItem")) {
+				RichFacesPanelMenuItemTemplate.encode(pageContext,
+						vpeCreationData, (Element) child, visualDocument, div,
+						active);
+			} else {
+				childrenInfo.addSourceChild(child);
 			}
 			i++;
-		}		
+		}
 
 		return vpeCreationData;
 	}
-	
-	
-	
+
 	/**
 	 * 
 	 * @param sourceElement
@@ -135,13 +151,13 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	private int getChildrenCount(List<Node> children) {
 		int count = 0;
 		for (Node child : children) {
-			if (child.getNodeName().endsWith(":panelMenuGroup")) {
+			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
 				count++;
 			}
 		}
 		return count;
 	}
-	
+
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
 		toggleMap.put(sourceNode, toggleId);
