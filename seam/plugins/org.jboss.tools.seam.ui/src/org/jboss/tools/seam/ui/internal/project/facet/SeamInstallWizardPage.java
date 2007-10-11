@@ -611,5 +611,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		public void profileDeleted(IConnectionProfile profile) {
 			// this event never happens
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void finishPressed() {
+		model.removeListener(validatorDelegate);		
 	};
 }

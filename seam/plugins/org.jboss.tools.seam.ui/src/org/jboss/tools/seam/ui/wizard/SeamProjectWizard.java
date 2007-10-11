@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
@@ -23,9 +19,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.common.project.facet.ui.PresetSelectionPanel;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.osgi.framework.Bundle;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
 
 /**
  * 
@@ -57,7 +52,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	@Override
 	public void createPageControls(Composite container) {
 		super.createPageControls(container);
-		Control control = findGroupByText((Composite)getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
+		Control control = findGroupByText(getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
 		control.setVisible(false);
 	}
 	
@@ -94,7 +89,18 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return "org.jboss.tools.seam.ui.SeamPerspective"; //$NON-NLS-1$
 	}
 
+	@Override
 	protected IFacetedProjectTemplate getTemplate() {
 		return ProjectFacetsManager.getTemplate("template.jst.seam"); //$NON-NLS-1$
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard#performFinish()
+	 */
+	@Override
+	public boolean performFinish() {
+		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
+		page.finishPressed();
+		return super.performFinish();
 	}
 }
