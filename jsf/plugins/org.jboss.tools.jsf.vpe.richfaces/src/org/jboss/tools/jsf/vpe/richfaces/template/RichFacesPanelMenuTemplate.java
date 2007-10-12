@@ -88,17 +88,17 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		for (Node child : children) {
 
-			boolean active = true; // (i == activeId);
+			boolean expanded = true; // (i == activeId);
 
 			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
 				RichFacesPanelMenuGroupTemplate.encode(pageContext,
 						vpeCreationData, (Element) child, visualDocument, div,
-						active);
+						expanded, i);
 				i++;
 			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
 				RichFacesPanelMenuItemTemplate.encode(pageContext,
 						vpeCreationData, (Element) child, visualDocument, div,
-						active);
+						expanded);
 			} else {
 				Element childDiv = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_DIV);

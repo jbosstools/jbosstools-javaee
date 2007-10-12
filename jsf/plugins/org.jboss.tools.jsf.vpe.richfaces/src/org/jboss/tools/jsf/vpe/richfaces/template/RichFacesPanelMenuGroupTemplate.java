@@ -20,56 +20,68 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
     private static final String DEFAULT_PANEL_MENU_GROUP_POINTER = "/panelMenuGroup/pointer.gif";
 
     private static final String DEFAULT_PANEL_MENU_GROUP_POINT = "/panelMenuGroup/point.gif";
-    
+
     private static final String STYLE_PATH = "/panelMenuGroup/style.css";
-    
+
     private static final String ICON_WIDTH = "16";
-    
+
     private static final String ICON_HEIGHT = "16";
-    
+
     private static final String ICON_VSPACE = "0";
-    
+
     private static final String ICON_HSPACE = "0";
-    
+
     private static final String EMPTY_DIV_STYLE = "display: none;";
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
-		Element div = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
-		
-		return new VpeCreationData(div);
-	}
+    public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	Element div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
 
-    public static VpeCreationData encode(VpePageContext pageContext, VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean expanded) {
+	return new VpeCreationData(div);
+    }
+
+    public static VpeCreationData encode(VpePageContext pageContext, VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean expanded, int activeChildId) {
 	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "panelMenuGroup");
 
 	Element div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 	parentVisualElement.appendChild(div);
-	
+
 	div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-top-group-div");
 	div.setAttribute("vpeSupport", "panelMenuGroup");
+	div.setAttribute("vpe-user-toggle-id", String.valueOf(activeChildId));
 	buildTable(sourceElement, visualDocument, div);
-	
+
 	List<Node> children = ComponentUtil.getChildren(sourceElement);
 
 	if (!children.isEmpty()) {
-	    VpeChildrenInfo childInfo = new VpeChildrenInfo(div);
+	    Element childDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+	    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childDiv);
 	    for (Node child : children) {
-		if(!expanded && !child.getNodeName().endsWith(":panelMenuGroup") && !child.getNodeName().endsWith(":panelMenuItem")) {
-		    childInfo.addSourceChild(child);
+		if (!child.getNodeName().endsWith(":panelMenuGroup") && !child.getNodeName().endsWith(":panelMenuItem")) {
+		    if (childrenInfo.getSourceChildren() == null || childrenInfo.getSourceChildren().size() == 0) {
+			div.appendChild(childDiv);
+		    }
+		    childrenInfo.addSourceChild(child);
 		} else {
-		    if(child.getNodeName().endsWith(":panelMenuGroup")) {
-			RichFacesPanelMenuGroupTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, true);
+		    if (expanded) {
+			if (child.getNodeName().endsWith(":panelMenuGroup")) {
+			    RichFacesPanelMenuGroupTemplate.encode(pageContext, creationData, (Element) child, visualDocument, div, false, -1);
+			} else {
+			    RichFacesPanelMenuItemTemplate.encode(pageContext, creationData, (Element) child, visualDocument, div, false);
+			}
 		    }
-		    if(child.getNodeName().endsWith(":panelMenuItem")){
-			RichFacesPanelMenuItemTemplate.encode(pageContext, creationData, (Element)child, visualDocument, div, false);
+
+		    if (childrenInfo.getSourceChildren() != null && childrenInfo.getSourceChildren().size() > 0) {
+			creationData.addChildrenInfo(childrenInfo);
+			childDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+			childrenInfo = new VpeChildrenInfo(childDiv);
 		    }
-		    childInfo.addSourceChild(child);
 		}
 	    }
-	    creationData.addChildrenInfo(childInfo);
+	    
+	    if(childrenInfo.getSourceChildren() != null && childrenInfo.getSourceChildren().size() > 0) {
+		creationData.addChildrenInfo(childrenInfo);
+	    }
 	}
 
 	return creationData;
@@ -116,13 +128,13 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	if (parent.getNodeName().endsWith(":panelMenu")) {
 	    ComponentUtil.setImg(img1, DEFAULT_PANEL_MENU_GROUP_SPACER);
-	    ComponentUtil.setImg(img2,  DEFAULT_PANEL_MENU_GROUP_POINTER);
+	    ComponentUtil.setImg(img2, DEFAULT_PANEL_MENU_GROUP_POINTER);
 	    column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-group-self-label dr-pmenu-selected-item");
 	    table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-top-group");
 	} else {
-	    ComponentUtil.setImg(img1,  DEFAULT_PANEL_MENU_GROUP_POINT);
+	    ComponentUtil.setImg(img1, DEFAULT_PANEL_MENU_GROUP_POINT);
 	    img1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "vertical-align: middle");
-	    ComponentUtil.setImg(img2,  DEFAULT_PANEL_MENU_GROUP_SPACER);
+	    ComponentUtil.setImg(img2, DEFAULT_PANEL_MENU_GROUP_SPACER);
 	    column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-group rich-pmenu-group");
 	    table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-pmenu-group-self-label rich-pmenu-group-self-label");
 	}
@@ -138,7 +150,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		parent = parent.getParentNode();
 	    }
 	}
-	
+
 	return parent;
     }
 }
