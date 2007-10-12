@@ -4,7 +4,6 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -29,10 +28,6 @@ public class StatefulComponent {
     }
 	
    //add additional action methods
-    @Destroy
-	public void destroyMethod(){
-		
-	}
     
     @Remove
     public void removeMethod(){
@@ -42,8 +37,9 @@ public class StatefulComponent {
 	public String getAbc() {
 		return abc;
 	}
-	
+
 	public void setAbc(String abc) {
 		this.abc = abc;
 	}
+    
 }

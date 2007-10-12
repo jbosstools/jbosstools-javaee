@@ -11,7 +11,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.log.Log;
 
 @Name("statefulComponent")
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.PAGE)
 @Stateful
 public class StatefulComponent {
 
@@ -42,8 +42,9 @@ public class StatefulComponent {
 	public String getAbc() {
 		return abc;
 	}
-	
+
 	public void setAbc(String abc) {
 		this.abc = abc;
 	}
+    
 }
