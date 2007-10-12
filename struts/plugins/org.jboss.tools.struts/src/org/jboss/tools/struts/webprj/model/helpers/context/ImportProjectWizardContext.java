@@ -39,9 +39,9 @@ public class ImportProjectWizardContext extends ImportWebDirProjectContext {
 	}
 	
 	protected void initRegistry() {
-		getRegisterTomcatContext().setNatureIndex(StrutsProjectUtil.NATURE_NICK);
-		getRegisterTomcatContext().setPreferences(StrutsPreference.REGISTER_IMPORTED_PROJECT_IN_TOMCAT);
-		getRegisterTomcatContext().init();
+		getRegisterServerContext().setNatureIndex(StrutsProjectUtil.NATURE_NICK);
+		getRegisterServerContext().setPreferences(StrutsPreference.REGISTER_IMPORTED_PROJECT_IN_SERVER);
+		getRegisterServerContext().init();
 	}
 	
 	public void setPexFileName(String value) {

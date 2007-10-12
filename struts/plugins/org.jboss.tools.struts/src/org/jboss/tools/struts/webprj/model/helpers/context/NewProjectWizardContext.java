@@ -15,7 +15,7 @@ import java.util.Properties;
 import org.jboss.tools.struts.StrutsPreference;
 import org.jboss.tools.struts.StrutsProjectUtil;
 import org.jboss.tools.struts.StrutsUtils;
-import org.jboss.tools.jst.web.context.RegisterTomcatContext;
+import org.jboss.tools.jst.web.context.RegisterServerContext;
 import org.jboss.tools.jst.web.project.helpers.IWebProjectTemplate;
 import org.jboss.tools.jst.web.project.helpers.NewWebProjectContext;
 
@@ -31,7 +31,7 @@ public class NewProjectWizardContext extends NewWebProjectContext {
 
 	protected void initRegistry() {
 		registry.setNatureIndex(StrutsProjectUtil.NATURE_NICK);
-		registry.setPreferences(StrutsPreference.REGISTER_NEW_PROJECT_IN_TOMCAT);
+		registry.setPreferences(StrutsPreference.REGISTER_NEW_PROJECT_IN_SERVER);
 		registry.init();
 	}
 
@@ -56,7 +56,7 @@ public class NewProjectWizardContext extends NewWebProjectContext {
 		}
 	}
 
-	public RegisterTomcatContext getRegisterTomcatContext()	{
+	public RegisterServerContext getRegisterServerContext()	{
 		return registry;
 	}
 

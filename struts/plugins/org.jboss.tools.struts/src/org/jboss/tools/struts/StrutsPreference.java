@@ -25,8 +25,8 @@ public class StrutsPreference extends WebPreference {
 	public static final Preference DEFAULT_PROJECT_ROOT_DIR = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Projects Root");
 	public static final Preference DEFAULT_TLD_SET          = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Default TLDs");
 	
-	public static final Preference REGISTER_NEW_PROJECT_IN_TOMCAT      = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, ATTR_REGISTER_IN_TOMCAT);
-	public static final Preference REGISTER_IMPORTED_PROJECT_IN_TOMCAT = new StrutsPreference(OPTIONS_IMPORT_PROJECT_PATH, ATTR_REGISTER_IN_TOMCAT);
+	public static final Preference REGISTER_NEW_PROJECT_IN_SERVER      = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, ATTR_REGISTER_IN_SERVER);
+	public static final Preference REGISTER_IMPORTED_PROJECT_IN_SERVER = new StrutsPreference(OPTIONS_IMPORT_PROJECT_PATH, ATTR_REGISTER_IN_SERVER);
 
 	public static final Preference DEFAULT_STRUTS_IMPORT_SERVLET_VERSION  = new StrutsPreference(OPTIONS_IMPORT_PROJECT_PATH, "Servlet Version");
 
