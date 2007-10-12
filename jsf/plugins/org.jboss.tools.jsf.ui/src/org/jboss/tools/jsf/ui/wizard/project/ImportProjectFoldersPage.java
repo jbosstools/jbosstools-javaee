@@ -60,7 +60,7 @@ public class ImportProjectFoldersPage extends WizardPage {
 	protected ImportProjectFoldersPage(ImportWebProjectContext context) {
 		super("Import Project Folders");
 		this.context = context;
-		appRegister.setContext(context.getRegisterTomcatContext());
+		appRegister.setContext(context.getRegisterServerContext());
 		appRegister.setLayoutForSupport(getLayoutForSupport());
 
 		appRegister.setEnabling(false);

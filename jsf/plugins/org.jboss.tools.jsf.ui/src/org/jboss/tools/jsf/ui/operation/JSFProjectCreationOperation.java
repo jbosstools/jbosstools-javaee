@@ -28,14 +28,14 @@ import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jst.web.WebUtils;
-import org.jboss.tools.jst.web.context.RegisterTomcatContext;
+import org.jboss.tools.jst.web.context.RegisterServerContext;
 import org.jboss.tools.jst.web.project.helpers.IWebProjectTemplate;
 import org.jboss.tools.jst.web.project.helpers.NewWebProjectContext;
 import org.jboss.tools.jst.web.ui.operation.WebProjectCreationOperation;
 
 public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 	
-	public JSFProjectCreationOperation(IProject project, IPath projectLocation, RegisterTomcatContext registry, Properties properties) {
+	public JSFProjectCreationOperation(IProject project, IPath projectLocation, RegisterServerContext registry, Properties properties) {
 		super(project, projectLocation, registry, properties);
 	}
 
