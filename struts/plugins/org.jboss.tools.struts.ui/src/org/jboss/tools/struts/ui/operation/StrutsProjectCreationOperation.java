@@ -28,7 +28,7 @@ import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.struts.StrutsProjectUtil;
 import org.jboss.tools.struts.StrutsUtils;
 import org.jboss.tools.jst.web.WebUtils;
-import org.jboss.tools.jst.web.context.RegisterTomcatContext;
+import org.jboss.tools.jst.web.context.RegisterServerContext;
 import org.jboss.tools.jst.web.project.helpers.IWebProjectTemplate;
 import org.jboss.tools.jst.web.project.helpers.NewWebProjectContext;
 import org.jboss.tools.jst.web.ui.operation.WebNatureOperation;
@@ -37,7 +37,7 @@ import org.jboss.tools.struts.webprj.model.helpers.context.NewProjectWizardConte
 
 public class StrutsProjectCreationOperation extends WebProjectCreationOperation {
 
-	public StrutsProjectCreationOperation(IProject project, IPath projectLocation, RegisterTomcatContext registry, Properties properties) {
+	public StrutsProjectCreationOperation(IProject project, IPath projectLocation, RegisterServerContext registry, Properties properties) {
 		super(project, projectLocation, registry, properties);
 		setProperty(WebNatureOperation.TLDS_ID, properties.getProperty(NewProjectWizardContext.ATTR_TLDS));
 	}

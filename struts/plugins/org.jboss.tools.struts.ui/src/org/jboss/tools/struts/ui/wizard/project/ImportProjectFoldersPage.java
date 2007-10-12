@@ -59,7 +59,7 @@ public class ImportProjectFoldersPage extends WizardPage {
 		
 		this.context = context;
 		context.setServletVersion(StrutsPreference.DEFAULT_STRUTS_IMPORT_SERVLET_VERSION.getValue());
-		appRegister.setContext(context.getRegisterTomcatContext());
+		appRegister.setContext(context.getRegisterServerContext());
 		appRegister.setLayoutForSupport(getLayoutForSupport());
 		//For new WTP
 		appRegister.setEnabling(false);
