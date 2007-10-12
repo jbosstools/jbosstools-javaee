@@ -22,7 +22,7 @@ public class NewProjectWizardContext extends NewWebProjectContext {
 
 	protected void initRegistry() {
 		registry.setNatureIndex(JSFNature.NATURE_NICK);
-		registry.setPreferences(JSFPreference.REGISTER_NEW_JSF_PROJECT_IN_TOMCAT);
+		registry.setPreferences(JSFPreference.REGISTER_NEW_JSF_PROJECT_IN_SERVER);
 		registry.init();
 	}
 
