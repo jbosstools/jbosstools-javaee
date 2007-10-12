@@ -37,20 +37,12 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 	private static final String WIDTH_ATTR_PANELMENU = "width";
 	private static final String STYLE_ATTR_PANELMENU = "style";
-
-	// private static final String DISABLED_ATTR_PANELMENU = "disabled";
-	// private static final String EXPANDSINGLE_ATTR_PANELMENU = "expandSingle";
 	private static final String STYLECLASS_ATTR_PANELMENU = "styleClass";
 
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup";
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem";
 
-	// private static final String PATH_TO_COLLAPSED_GROUP =
-	// "/panelMenuGroup/collapsed.gif";
-
 	private static Map toggleMap = new HashMap();
-
-	// private boolean collapsedFalg = false;
 
 	// private static final String DISABLED_STYLE_FOR_TABLE = "color:#B1ADA7";
 
@@ -61,19 +53,14 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		String width = sourceElement.getAttribute(WIDTH_ATTR_PANELMENU);
 		String style = sourceElement.getAttribute(STYLE_ATTR_PANELMENU);
-		// String disabled =
-		// sourceElement.getAttribute(DISABLED_ATTR_PANELMENU);
-		// String expandSingle = sourceElement
-		// .getAttribute(EXPANDSINGLE_ATTR_PANELMENU);
-		String styleClass = sourceElement
-				.getAttribute(STYLECLASS_ATTR_PANELMENU);
+		String styleClass = sourceElement.getAttribute(STYLECLASS_ATTR_PANELMENU);
+		
+		if(width != null) {
+			style += "" + "; width:" + width;
+		}
 
 		Element div = visualDocument.createElement(HTML.TAG_DIV);
 		VpeCreationData vpeCreationData = new VpeCreationData(div);
-
-		if (width != null) {
-			div.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, width);
-		}
 
 		if (style != null) {
 			div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
