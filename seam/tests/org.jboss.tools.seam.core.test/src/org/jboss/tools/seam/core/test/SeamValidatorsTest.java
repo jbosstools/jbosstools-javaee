@@ -206,7 +206,37 @@ public class SeamValidatorsTest extends TestCase {
 	}
 
 	public void testComponentLifeCycleMethodsValidator() {
+		ISeamProject seamProject = getSeamProject(project);
 		
+		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
+		
+		int number = getMarkersNumber(statefulComponentFile);
+		assertTrue("Problem marker was found in StatefulComponent.java file", number == 0);
+
+		// Duplicate @Destroy method
+		System.out.println("Test - Duplicate @Destroy method");
+		
+		IFile statefulComponentFile6 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile6.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.6'", ex);
+		}
+		
+		refreshProject(project);
+		
+		String message = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove".equals(message));
+
+		// Duplicate @Create method
+		// Duplicate @Unwrap method
+		// Only component class can have @Destroy method
+		// Only component class can have @Create method
+		// Only component class can have @Unwrap method
+		// Only component class can have @Observer method
+
 	}
 	
 	public void testFactoriesValidator() {
