@@ -59,7 +59,7 @@ public class SeamRuntimeManagerTest extends TestCase {
 	public void testGetRuntimesSeamVersion() {
 		SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
 		SeamRuntime[] rtms = manager.getRuntimes(SeamVersion.SEAM_1_2);
-		assertTrue("Error in obtaining seam runtimes lis for Seam 1.2", rtms.length==1);
+		assertTrue("Error in obtaining seam runtimes list for Seam 1.2", rtms.length==1);
 	}
 
 	/**
