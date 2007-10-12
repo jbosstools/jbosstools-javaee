@@ -55,7 +55,8 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 	if (isHasParentAdapter(sourceNode)) {
 	    visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		    "dr-tree-h-ic-div");
-	    if (getShowLinesAttr(sourceNode)) {
+	    if (getShowLinesAttr(sourceNode)
+		    && isHasNextParentAdaptorElement(sourceNode)) {
 		String path = RichFacesTemplatesActivator
 			.getPluginResourcePath()
 			+ ICON_DIV_LINE;
@@ -151,5 +152,47 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 	    showLinesValue = false;
 	}
 	return showLinesValue;
+    }
+
+    /**
+     * Has Next element
+     * 
+     * @param sourceNode
+     * @return
+     */
+    private boolean isHasNextParentAdaptorElement(Node sourceNode) {
+	Node parentTree = sourceNode.getParentNode();
+	if (!(parentTree instanceof Element)) {
+	    return true;
+	}
+	NodeList childs = parentTree.getChildNodes();
+	String treeNodeName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODE_NAME;
+	String treeNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
+	String treeRecursiveNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
+	Node lastElement = null;
+	Node el = null;
+
+	for (int i = 0; i < childs.getLength(); i++) {
+	    el = childs.item(i);
+	    if (!(el instanceof Element)) {
+		continue;
+	    }
+
+	    if (lastElement != null) {
+		break;
+	    }
+	    if (el.equals(sourceNode)) {
+		lastElement = el;
+	    }
+	}
+	if (el.getNodeName().equals(treeNodeName)
+		|| el.getNodeName().equals(treeNodesAdaptorName)
+		|| el.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
+	    return true;
+	}
+	return false;
     }
 }

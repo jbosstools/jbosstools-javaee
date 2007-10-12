@@ -255,7 +255,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 			"background-image: url(file://" + path + "); "
 				+ NODE_LINES_STYLE);
 	    }
-	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && (isAdaptorInTree(sourceNode) == isLastElementAfterAdaptor(sourceNode)))
+	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && (isLastElementAfterAdaptor(sourceNode) == isAdaptorInTree(sourceNode)) /*&& (isAdaptorInTree(sourceNode) == isLastElementAfterAdaptor(sourceNode))*/)
 		|| (!isAdaptorChild(sourceNode) && isLastElement(sourceNode))) {
 	    backgroundLinePath = RichFacesTemplatesActivator
 		    .getPluginResourcePath()
