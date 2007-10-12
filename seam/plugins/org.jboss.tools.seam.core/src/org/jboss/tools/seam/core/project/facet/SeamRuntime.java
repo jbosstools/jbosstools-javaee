@@ -118,7 +118,11 @@ public class SeamRuntime {
 	}
 	
 	public String getResourceTemplatesDir() {
-		return getHomeDir()+"/seam-gen/resources"; //$NON-NLS-1$
+		return getSeamGenDir()+"/resources"; //$NON-NLS-1$
+	}
+	
+	public String getTestTemplatesDir() {
+		return getSeamGenDir()+"/test"; //$NON-NLS-1$
 	}
 	
 	public String getTemplatesDir() {
