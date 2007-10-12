@@ -14,18 +14,13 @@ package org.jboss.tools.seam.ui.wizard;
 import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
-import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
-import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage.GridLayoutComposite;
 
 /**
  * @author eskimo
@@ -38,13 +33,13 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	 */
 	public SeamEntityWizardPage1() {
 		super("seam.new.entity.page1",SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_SEAM_ENTITY, null); //$NON-NLS-1$
-		setMessage(SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_SELECT_THE_NAME_OF_NEW_SEAM_ENTITY +
-				SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ANNOTATIONS_AND_EXAMPLES_ATTRIBUTES_WILL_BE_CREATED);
+		setMessage(getDefaultMessageText());
 	}
 	
 	/**
 	 * 
 	 */
+	@Override
 	protected void createEditors() {
 		addEditor(SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()));
 		addEditor(SeamWizardFactory.createSeamEntityClasNameFieldEditor());
@@ -52,11 +47,13 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		addEditor(SeamWizardFactory.createSeamPageNameFieldEditor());
 	}
 	
+	@Override
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 		setPageComplete(false);
 	}
 	
+	@Override
 	public void doFillDefaults(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals(IParameter.SEAM_ENTITY_CLASS_NAME)) {
 			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) { //$NON-NLS-1$
@@ -73,6 +70,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 	}
 	
+	@Override
 	protected void doValidate(PropertyChangeEvent event) {
 		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
@@ -83,8 +81,9 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			return;
 		}
 		
-		IResource project = getSelectedProject();
-
+		IProject project = getSelectedProject();
+		
+		if(!isValidRuntimeConfigured(project)) return;
 
 		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_ENTITY_CLASS_NAME).getValue(), null);
@@ -96,7 +95,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 		
 		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue(), (Object)new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project});
+				editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project});
 		
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
@@ -105,7 +104,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 		
 		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), (Object)new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
+				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
 		
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
@@ -114,7 +113,16 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 
 		setErrorMessage(null);
-		setMessage(null);
+		setMessage(getDefaultMessageText());
 		setPageComplete(true);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()
+	 */
+	@Override
+	public String getDefaultMessageText() {
+		// TODO Auto-generated method stub
+		return "Create a new Entity";
 	}
 }

@@ -15,8 +15,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
-import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -38,7 +36,6 @@ import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.ui.SeamUiImages;
-import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
 /**
  * @author Viacheslav Kabanovich
@@ -92,6 +89,7 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 		isScopeLable = b;
 	}
 
+	@Override
 	public String getText(Object element) {
 		if(element instanceof IWorkspaceRoot) {
 			return ""; //$NON-NLS-1$
@@ -139,6 +137,7 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 		return element == null ? "" : element.toString();//$NON-NLS-1$
 	}
 
+	@Override
 	public Image getImage(Object obj) {
 		if (obj instanceof ISeamProject) {
 			return SeamUiImages.PROJECT_IMAGE;
@@ -179,6 +178,7 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public void dispose() { 
 		super.dispose();
 		fStateModel.removePropertyChangeListener(layoutPropertyListener);

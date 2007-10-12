@@ -17,10 +17,6 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -78,6 +74,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	/**
 	 * 
 	 */
+	@Override
 	public Object[] getEditorControls() {
 		return new Control[] {getTextControl()};
 	}
@@ -86,6 +83,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	/**
 	 * @see com.kabira.ide.ex.workbench.ui.feature.IFeatureFieldEditor#doFillIntoGrid(java.lang.Object)
 	 */
+	@Override
 	public void doFillIntoGrid(Object aParent) {
 		Assert.isTrue(aParent instanceof Composite, SeamUIMessages.TEXT_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
 		Assert.isTrue(((Composite)aParent).getLayout() instanceof GridLayout,SeamUIMessages.TEXT_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
@@ -176,6 +174,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
     /**
      * 
      */
+	@Override
 	public int getNumberOfControls() {
 		return 2;
 	}
@@ -193,7 +192,8 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
     /**
      * @see com.kabira.ide.ex.workbench.ui.feature.eitors.BaseFeatureFieldEditor#setFocus()
      */
-    public boolean setFocus() {
+    @Override
+	public boolean setFocus() {
     	boolean setfocus = false;
         if(fTextField!=null && !fTextField.getTextControl().isDisposed())
         	setfocus = fTextField.getTextControl().setFocus();
@@ -218,6 +218,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	/**
 	 * 
 	 */
+	@Override
 	public void setValue(Object newValue) {
 		super.setValue(newValue);
 		if(fTextField!=null){
@@ -230,6 +231,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 	/**
 	 * 
 	 */
+	@Override
 	public void setEditable(boolean aEditable) {
 		super.setEditable(aEditable);
 		if(getTextControl()!=null) getTextControl().setEditable(aEditable);

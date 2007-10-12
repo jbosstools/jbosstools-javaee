@@ -21,17 +21,14 @@ import java.util.Map;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -80,7 +77,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 */
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
-
+		
 		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
 			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
@@ -200,11 +197,10 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 			return;
 		}
 		
-		IResource project = getSelectedProject();
-
-		String type = SeamCorePlugin.getSeamPreferences(project.getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war"); //$NON-NLS-1$
-	
+		IProject project = getSelectedProject();
 		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!isWar());
+
+		if(!isValidRuntimeConfigured(project)) return;
 	
 		LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(IParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
 		label.getLabelControl().setText(isWar()?SeamUIMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME: SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_CLASS_NAME);
@@ -250,7 +246,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		}
 		
 		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), (Object)new Object[]{"Page",project}); //$NON-NLS-1$
+				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), new Object[]{"Page",project}); //$NON-NLS-1$
 		
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
@@ -269,8 +265,23 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		}
 
 		setErrorMessage(null);
-		setMessage(null);
+		setMessage(getDefaultMessageText());
 		setPageComplete(true);
+	}
+
+	/**
+	 * @param project
+	 */
+	protected boolean isValidRuntimeConfigured(IProject project) {
+		Map errors;
+		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,"war"); //$NON-NLS-1$
+		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -299,10 +310,10 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	/**
 	 * @return
 	 */
-	public IResource getSelectedProject() {
+	public IProject getSelectedProject() {
 		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
-		return project;
+		return (IProject)project;
 	}
 	
 	public boolean isWar() {
@@ -310,4 +321,6 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		SeamCorePlugin.getSeamPreferences(getSelectedProject().getProject())==null) return true;
 		return "war".equals(SeamCorePlugin.getSeamPreferences(getSelectedProject().getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	public abstract String getDefaultMessageText();
 }

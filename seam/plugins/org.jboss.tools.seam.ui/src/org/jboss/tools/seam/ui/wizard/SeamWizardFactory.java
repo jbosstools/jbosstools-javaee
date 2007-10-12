@@ -20,6 +20,7 @@ import org.hibernate.eclipse.console.HibernateConsolePlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 
 /**
@@ -29,7 +30,7 @@ import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 public class SeamWizardFactory {
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
-		return SwtFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
 				IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, 
 				 new SelectSeamProjectAction(), ValidatorFactory.NO_ERRORS_VALIDATOR);
 	}
@@ -39,7 +40,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamLocalInterfaceNameFieldEditor() {
 		// TODO Auto-generated method stub
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_LOCAL_INTERFACE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
 	}
 
@@ -47,7 +48,7 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamBeanNameFieldEditor() {
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_BEAN_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
 	
 	}
@@ -56,7 +57,7 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamMethodNameFieldEditor() {
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_METHOD_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
 	
 	}
@@ -65,7 +66,7 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamPageNameFieldEditor() {
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 	
@@ -73,7 +74,7 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamMasterPageNameFieldEditor() {
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_MASTER_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 	
@@ -93,7 +94,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamComponentNameFieldEditor() {
 		// TODO Auto-generated method stub
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_COMPONENT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
 	}
 
@@ -101,7 +102,7 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamEntityClasNameFieldEditor() {
-		return SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_ENTITY_CLASS_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
 	}
 
@@ -123,7 +124,7 @@ public class SeamWizardFactory {
 				defaultSelection = ""; //$NON-NLS-1$
 			}
 		}
-		IFieldEditor editor = SwtFieldEditorFactory.INSTANCE.createComboEditor(
+		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createComboEditor(
 				IParameter.HIBERNATE_CONFIGURATION_NAME, 
 				SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, 
 				configurationNames, defaultSelection);

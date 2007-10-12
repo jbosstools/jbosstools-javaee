@@ -17,13 +17,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.rmi.CORBA.ValueHandler;
-
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -66,6 +62,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	}
 	
 	
+	@Override
 	public Object[] getEditorControls(Object parent) {
 		for (IFieldEditor editor : editors) {
 			controls.addAll(Arrays.asList((Control[])editor.getEditorControls(parent)));
@@ -73,10 +70,12 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		return controls.toArray(new Control[]{});
 	}
 
+	@Override
 	public int getNumberOfControls() {
 		return editors.size();
 	}
 	
+	@Override
 	public boolean isEditable() {
 		return true;
 	}
@@ -84,6 +83,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	public void save(Object object) {
 	}
 
+	@Override
 	public void setEditable(boolean ediatble) {
 	}
 
@@ -97,6 +97,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		return this;
 	}
 	
+	@Override
 	public void setValue(Object newValue) {
 		for (IFieldEditor editor : editors) {
 			editor.removePropertyChangeListener(this);
@@ -117,6 +118,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		super.setValue(event.getNewValue());
 	}
 	
+	@Override
 	public void setEnabled(boolean set) {
 		for (IFieldEditor editor : editors) {
 			editor.setEnabled(set);

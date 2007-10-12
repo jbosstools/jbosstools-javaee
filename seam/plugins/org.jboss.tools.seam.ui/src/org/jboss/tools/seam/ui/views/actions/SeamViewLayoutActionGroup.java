@@ -70,6 +70,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 			this.setId(id);
 		}
 
+		@Override
 		public void run() {
 			if (stateModel.getBooleanProperty(property) != value) {
 				stateModel.setBooleanProperty(property, value);
@@ -83,6 +84,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 		}
 	}
 
+	@Override
 	public void fillActionBars(IActionBars actionBars) {
 		if (!hasContributedToViewMenu) {
 
@@ -155,6 +157,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 
 	protected void addLayoutActions(IMenuManager viewMenu) {
 		viewMenu.add(new SeamContributionItem(flatLayoutAction) {
+			@Override
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -162,6 +165,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_FLAT);
 				mi.setSelection(isFlatLayout);
 				mi.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						if (isFlatLayout) {
 							flatLayoutItem.setSelection(true);
@@ -176,12 +180,14 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 					}
 				});
 			}
+			@Override
 			public boolean isDynamic() {
 				return false;
 			}
 		});
 
 		viewMenu.add(new SeamContributionItem(hierarchicalLayoutAction) {
+			@Override
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -189,6 +195,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_HIERARCHICAL);
 				mi.setSelection(!isFlatLayout);
 				mi.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						if (!isFlatLayout) {
 							hierarchicalLayoutItem.setSelection(true);
@@ -203,6 +210,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 					}
 				});
 			}
+			@Override
 			public boolean isDynamic() {
 				return false;
 			}
@@ -212,6 +220,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 
 	protected void addScopeActions(IMenuManager viewMenu) {
 		viewMenu.add(new SeamContributionItem(labelScopeAction) {
+			@Override
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -219,6 +228,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_LABEL);
 				mi.setSelection(isScopeLable);
 				mi.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						if (isScopeLable) {
 							labelScopeItem.setSelection(true);
@@ -233,12 +243,14 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 					}
 				});
 			}
+			@Override
 			public boolean isDynamic() {
 				return false;
 			}
 		});
 
 		viewMenu.add(new SeamContributionItem(nodeScopeAction) {
+			@Override
 			public void fill(Menu menu, int index) {
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
@@ -246,6 +258,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_NODE);
 				mi.setSelection(!isScopeLable);
 				mi.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						if (!isScopeLable) {
 							nodeScopeItem.setSelection(true);
@@ -260,6 +273,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 					}
 				});
 			}
+			@Override
 			public boolean isDynamic() {
 				return false;
 			}

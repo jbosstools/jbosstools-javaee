@@ -37,6 +37,7 @@ import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
@@ -53,6 +54,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 	public SeamSettingsPreferencePage() {
 	}
 
+	@Override
 	public void setElement(IAdaptable element) {
 		super.setElement(element);
 		project = (IProject) getElement().getAdapter(IProject.class);
@@ -63,13 +65,13 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		ISeamProject seamProject = SeamCorePlugin
 				.getSeamProject(project, false);
 		boolean hasSeamSupport = seamProject != null;
-		seamEnablement = SwtFieldEditorFactory.INSTANCE.createCheckboxEditor(
+		seamEnablement = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
 		seamEnablement.setValue(hasSeamSupport);
 
 		SeamRuntime rs = SeamRuntimeManager.getInstance().getDefaultRuntime();
 
-		runtime = SwtFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
+		runtime = IFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME, SeamRuntimeManager.getInstance().getRuntimeNames(), 
 				rs==null?"":rs.getName(),true,new NewSeamRuntimeAction(),(IValidator)null); //$NON-NLS-1$
 
@@ -124,6 +126,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		return composite;
 	}
 
+	@Override
 	public boolean performOk() {
 		if (getSeamSupport()) {
 			addSeamSupport();
@@ -200,10 +203,11 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 			super(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ADD);
 		}
 
+		@Override
 		public void run() {
 			List<SeamRuntime> added = new ArrayList<SeamRuntime>();
 			Wizard wiz = new SeamRuntimeNewWizard(
-					(List<SeamRuntime>) new ArrayList<SeamRuntime>(Arrays
+					new ArrayList<SeamRuntime>(Arrays
 							.asList(SeamRuntimeManager.getInstance()
 									.getRuntimes())), added);
 			WizardDialog dialog = new WizardDialog(Display.getCurrent()

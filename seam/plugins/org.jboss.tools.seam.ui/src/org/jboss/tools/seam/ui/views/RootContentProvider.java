@@ -75,6 +75,7 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 		}
 	}
 	
+	@Override
 	public void dispose() {
 		super.dispose();
 		root = null;

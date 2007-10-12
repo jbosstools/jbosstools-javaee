@@ -30,13 +30,13 @@ public class SeamUiImages {
 		}
 	}
 	
-	public static Image SCOPE_IMAGE = getImage("view/scope.gif"); //$NON-NLS-1$
-	public static Image PROJECT_IMAGE = getImage("view/seam_project.gif"); //$NON-NLS-1$
-	public static Image COMPONENT_IMAGE = getImage("view/component.gif"); //$NON-NLS-1$
-	public static Image ROLE_IMAGE = getImage("view/role.gif"); //$NON-NLS-1$
-	public static Image JAVA_IMAGE = getImage("view/java.gif"); //$NON-NLS-1$
-	public static Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif"); //$NON-NLS-1$
-	public static Image PACKAGE_IMAGE = getImage("view/package.gif"); //$NON-NLS-1$
+	public static final Image SCOPE_IMAGE = getImage("view/scope.gif"); //$NON-NLS-1$
+	public static final Image PROJECT_IMAGE = getImage("view/seam_project.gif"); //$NON-NLS-1$
+	public static final Image COMPONENT_IMAGE = getImage("view/component.gif"); //$NON-NLS-1$
+	public static final Image ROLE_IMAGE = getImage("view/role.gif"); //$NON-NLS-1$
+	public static final Image JAVA_IMAGE = getImage("view/java.gif"); //$NON-NLS-1$
+	public static final Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif"); //$NON-NLS-1$
+	public static final Image PACKAGE_IMAGE = getImage("view/package.gif"); //$NON-NLS-1$
 
 	public static String SEAM_CREATE_PROJECT_ACTION = "view/seam_project_new.gif"; //$NON-NLS-1$
 
@@ -62,7 +62,7 @@ public class SeamUiImages {
 	
 	protected SeamUiImages(URL registryUrl, SeamUiImages parent){
 
-		if(registryUrl == null) throw new NullPointerException(SeamUIMessages.SEAM_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
+		if(registryUrl == null) throw new IllegalArgumentException(SeamUIMessages.SEAM_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
 		baseUrl = registryUrl;
 		parentRegistry = parent;
 	}

@@ -49,7 +49,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -131,7 +130,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
         gd.grabExcessHorizontalSpace = true;		
         root.setLayoutData(gd);
         
-		tableView = CheckboxTableViewer.newCheckList((Composite) root, 
+		tableView = CheckboxTableViewer.newCheckList(root, 
 				        SWT.V_SCROLL|SWT.BORDER|SWT.FULL_SELECTION|SWT.SINGLE);
 		
 		gd = new GridData();
@@ -278,6 +277,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	 * 
 	 * @param parent
 	 */
+	@Override
 	public void doFillIntoGrid(Object parent) {
 		Assert.isTrue(parent instanceof Composite, 
 										SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
@@ -299,18 +299,18 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 
 		List<SeamRuntime> value = null;
 		
-		IFieldEditor name = SwtFieldEditorFactory.INSTANCE.createTextEditor(
+		IFieldEditor name = IFieldEditorFactory.INSTANCE.createTextEditor(
 				"name", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME2, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		IFieldEditor version = SwtFieldEditorFactory.INSTANCE.createComboEditor(
+		IFieldEditor version = IFieldEditorFactory.INSTANCE.createComboEditor(
 				"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
 						new Object[]{SeamVersion.SEAM_1_2.toString()}), 
 						                SeamVersion.SEAM_1_2.toString(), false);
 		
-		IFieldEditor homeDir = SwtFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
+		IFieldEditor homeDir = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 				"homeDir", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_HOME_FOLDER, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		IFieldEditor dflt = SwtFieldEditorFactory.INSTANCE.createCheckboxEditor(
+		IFieldEditor dflt = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 				                           "default", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_USE_AS_DEFAULT, false); //$NON-NLS-1$
 		
 		/**
@@ -457,6 +457,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 			this.added = added;
 		}
 		
+		@Override
 		public boolean performFinish() {
 			SeamRuntime rt = page1.getRuntime();
 			added.add(rt);

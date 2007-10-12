@@ -47,7 +47,6 @@ import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 
 /**
  * Basic type for content providers that add seam components 

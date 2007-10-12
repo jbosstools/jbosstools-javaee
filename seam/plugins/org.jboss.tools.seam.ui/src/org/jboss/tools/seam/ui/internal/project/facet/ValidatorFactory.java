@@ -11,23 +11,15 @@
 package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.IJavaProject;
@@ -38,15 +30,15 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.internal.corext.util.Messages;
-import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.wizard.IParameter;
 
 /**
  * 
@@ -217,6 +209,7 @@ public class ValidatorFactory {
 			return ValidatorFactory.NO_ERRORS;
 		};
 	};
+	
 	/**
 	 * 
 	 * @author eskimo
@@ -225,12 +218,14 @@ public class ValidatorFactory {
 	public static IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
-			IStatus status = JavaConventions.validateClassFileName(value.toString()+".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			if (!status.isOK()) {
-				return createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID);
+			IStatus status = JavaConventions.validateClassFileName(
+					value.toString()+".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if (status.isOK()) {
+				return NO_ERRORS;
+			} else {
+				return createErrormessage(
+						SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID);
 			}
-
-			return NO_ERRORS;
 		}
 	};
 
@@ -242,13 +237,14 @@ public class ValidatorFactory {
 	public static IValidator SEAM_JAVA_INTEFACE_NAME_CONVENTION_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
-			String targetName = null;
-			IProject project = null;
-			if (context instanceof Object[]) {
-				Object[] contextArray = ((Object[]) context);
-				targetName = contextArray[0].toString();
-				project = (IProject) contextArray[1];
+			if(!(context instanceof Object[])) {
+				throw new IllegalArgumentException(
+						"Context parameter should be instance of Object[]");
 			}
+		
+			Object[] contextArray = ((Object[]) context);
+			IProject project = (IProject) contextArray[1];
+
 			IJavaProject jProject = JavaCore.create(project);
 
 			String sourceLevel = jProject.getOption(JavaCore.COMPILER_SOURCE,
@@ -268,14 +264,14 @@ public class ValidatorFactory {
 	public static IValidator SEAM_METHOD_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
-			String targetName = null;
-			IProject project = null;
-
-			if (context instanceof Object[]) {
-				Object[] contextArray = ((Object[]) context);
-				targetName = contextArray[0].toString();
-				project = (IProject) contextArray[1];
+			if(!(context instanceof Object[])) {
+				throw new IllegalArgumentException(
+						"Context parameter should be instance of Object[]");
 			}
+
+			Object[] contextArray = ((Object[]) context);
+			String targetName = contextArray[0].toString();
+			IProject project = (IProject) contextArray[1];
 
 			CompilationUnit compilationUnit = createCompilationUnit(
 					"class ClassName {public void " //$NON-NLS-1$
@@ -294,14 +290,15 @@ public class ValidatorFactory {
 	public static IValidator FILE_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
-			String targetName = null;
-			IProject project = null;
-
-			if (context instanceof Object[]) {
-				Object[] contextArray = ((Object[]) context);
-				targetName = contextArray[0].toString();
-				project = (IProject) contextArray[1];
+			if(!(context instanceof Object[])) {
+				throw new IllegalArgumentException(
+						"Context parameter should be instance of Object[]");
 			}
+
+			Object[] contextArray = ((Object[]) context);
+			String targetName = contextArray[0].toString();
+			IProject project = (IProject) contextArray[1];
+
 			if ("".equals(value) //$NON-NLS-1$
 					|| !project.getLocation().isValidSegment(value.toString()))
 				return createErrormessage(targetName + SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID2);
@@ -319,11 +316,11 @@ public class ValidatorFactory {
 			if (project == null || !(project instanceof IProject)
 					|| !project.exists()) {
 				return createErrormessage(
-						SeamUIMessages.VALIDATOR_FACTORY_PROJECT + value	+ SeamUIMessages.VALIDATOR_FACTORY_DOES_NOT_EXIST);
+						SeamUIMessages.VALIDATOR_FACTORY_PROJECT + value + SeamUIMessages.VALIDATOR_FACTORY_DOES_NOT_EXIST);
 			} else {
 				IProject selection = (IProject)project;
 				try {
-					if (!selection.hasNature(SeamProject.NATURE_ID) 
+					if (!selection.hasNature(ISeamProject.NATURE_ID) 
 							|| SeamCorePlugin.getSeamPreferences(selection)==null
 							|| selection.getAdapter(IFacetedProject.class)==null
 							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) { //$NON-NLS-1$
@@ -363,7 +360,7 @@ public class ValidatorFactory {
 		}
 	};
 	
-	public static IValidator JBOSS_SEAM_HOME_IS_NOT_SELECTED = new IValidator() {
+	public static IValidator SEAM_RUNTIME_NAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			if (value == null || "".equals(value.toString().trim())) { //$NON-NLS-1$
 				return createErrormessage(
@@ -374,6 +371,41 @@ public class ValidatorFactory {
 		}
 	};
 	
+	public static IValidator SEAM_RUNTIME_VALIDATOR = new IValidator() {
+		public java.util.Map<String, String> validate(Object value,
+				Object context) {
+			Map<String,String> errors = NO_ERRORS;
+			String rtName = value.toString();
+			
+			if(value==null || "".equals(value)) {
+				errors = createErrormessage("Seam Runtime is not configured for selected Seam Web Project");
+			} else {
+				SeamRuntime rt = SeamRuntimeManager.getInstance()
+						.findRuntimeByName(value.toString());
+				if (rt == null) {
+					errors = createErrormessage("Cannot find '" + value
+							+ "' Seam Runtime for selected Seam Web Project");
+				} else if (!new File(rt.getHomeDir()).exists()) {
+					errors = createErrormessage(
+							"Seam Runtime '" + value + "' home directory doesn't exist for selected Seam Web Project");
+				} else if (!new File(rt.getSeamGenDir()).exists()) {
+					errors = createErrormessage(
+							"Seam Runtime '" + value + "' templates directory doesn't exist for selected Seam Web Project");
+				} else if (!new File(rt.getSrcTemplatesDir()).exists()) {
+					errors = createErrormessage(
+							"Seam Runtime '" + value + "' source templates directory doesn't exist for selected Seam Web Project");
+				} else if (!new File(rt.getViewTemplatesDir()).exists()) {
+					errors = createErrormessage(
+							"Seam Runtime '" + value + "' view templates directory doesn't exist for selected Seam Web Project");
+				} else if(!new File(rt.getResourceTemplatesDir()).exists()) {
+					errors = createErrormessage(
+							"Seam Runtime '" + value + "' resources templates directory doesn't exist for selected Seam Web Project");
+				}
+			}
+			return errors;
+		}
+	};
+
 	public static CompilationUnit createCompilationUnit(String classDecl, 
 															IProject project) {
 		ASTParser parser = ASTParser.newParser(AST.JLS3);

@@ -15,9 +15,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-
-import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -26,14 +23,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 
 /**
  * @author eskimo
@@ -74,6 +66,7 @@ public class SeamPreferencePage extends PreferencePage implements
 	/**
 	 * 
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		Composite root = new Composite(parent, SWT.NONE);
 		GridLayout gl = new GridLayout(3,false);

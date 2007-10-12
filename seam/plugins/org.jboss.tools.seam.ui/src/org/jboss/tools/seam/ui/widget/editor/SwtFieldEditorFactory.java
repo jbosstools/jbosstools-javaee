@@ -12,22 +12,13 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.util.List;
 
-import org.eclipse.datatools.connectivity.ConnectionProfileException;
-import org.eclipse.datatools.connectivity.ProfileManager;
-import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
-import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
-import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**
  * 
@@ -57,7 +48,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	 */
 	public ITaggedFieldEditor createComboEditor(String name, String label,
 			List values, Object defaultValue) {
-		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,true);
+		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,false);
 		return editor;
 	}
 
@@ -65,8 +56,8 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	 * 
 	 */
 	public ITaggedFieldEditor createComboEditor(String name, String label,
-			List values, Object defaultValue, boolean flat) {
-		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,flat);
+			List values, Object defaultValue, boolean editable) {
+		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,editable);
 		return editor;
 	}
 	

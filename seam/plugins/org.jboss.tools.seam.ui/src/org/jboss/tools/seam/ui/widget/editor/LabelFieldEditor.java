@@ -53,6 +53,7 @@ public class LabelFieldEditor extends BaseFieldEditor {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditor#isEditable()
 	 */
+	@Override
 	public boolean isEditable() {
 		// TODO Auto-generated method stub
 		return false;
@@ -69,11 +70,13 @@ public class LabelFieldEditor extends BaseFieldEditor {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditor#setEditable(boolean)
 	 */
+	@Override
 	public void setEditable(boolean ediatble) {
 		// TODO Auto-generated method stub
 
 	}
 	
+	@Override
 	public void setValue(Object value) {
 	}
 

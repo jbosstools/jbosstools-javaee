@@ -26,8 +26,8 @@ import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
@@ -51,7 +51,7 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 				ArrayList<IProject> seamProjects = new ArrayList<IProject>();
 				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 					try {
-						if(project.hasNature(SeamProject.NATURE_ID) 
+						if(project.hasNature(ISeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
 								&& project.getAdapter(IFacetedProject.class)!=null
 								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) { //$NON-NLS-1$

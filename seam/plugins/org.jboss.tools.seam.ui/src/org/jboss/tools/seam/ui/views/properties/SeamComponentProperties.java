@@ -54,11 +54,13 @@ public class SeamComponentProperties extends SeamElementProperties {
 		this.element = element;
 	}
 
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		if(element != null && element.isEntity()) return ENTITY_DESCRIPTORS;
 		return DESCRIPTORS;
 	}
 
+	@Override
 	public Object getPropertyValue(Object id) {
 		if(NAME.equals(id)) {
 			return element.getName();

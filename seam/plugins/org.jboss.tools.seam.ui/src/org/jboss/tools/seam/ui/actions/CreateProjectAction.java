@@ -51,6 +51,7 @@ public class CreateProjectAction extends Action implements
 				.getImageDescriptor(SeamUiImages.SEAM_CREATE_PROJECT_ACTION));
 	}
 
+	@Override
 	public void run() {
 		INewWizard wizard = ExtensionPointUtils.findNewWizardsItem(
 				SeamGuiPlugin.PLUGIN_ID, SEAM_CREATE_PROJECT_WIZARD_ID);

@@ -80,6 +80,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 
 	public ScopePresentationActionProvider() {}
 
+	@Override
 	public void init(ICommonActionExtensionSite site) {
 		super.init(site);
 		fExtensionSite = site;
@@ -101,12 +102,14 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		p.put(SCOPE_PRESENTATION, s ?  SCOPE_AS_LABEL : SCOPE_AS_NODE);
 	}
 	
-    public void fillActionBars(IActionBars actionBars) {
+    @Override
+	public void fillActionBars(IActionBars actionBars) {
     	fActionBars = actionBars;
 		actionGroup.fillActionBars(actionBars);
     }
 
-    public void dispose() {
+    @Override
+	public void dispose() {
     	super.dispose();
 		fExtensionSite.getContentService().getActivationService().removeExtensionActivationListener(fMenuUpdater);
     }
@@ -127,6 +130,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		);
 	}
 
+	@Override
 	public void restoreState(IMemento memento) {
 		boolean isCurrentLayoutFlat = true;
 		String state = null;
@@ -156,6 +160,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		
 	}
 
+	@Override
 	public void saveState(IMemento aMemento) {
 		super.saveState(aMemento);
 		

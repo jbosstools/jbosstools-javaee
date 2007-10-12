@@ -11,8 +11,6 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
-import org.jboss.tools.seam.ui.SeamUIMessages;
-
 /**
  * @author eskimo
  *

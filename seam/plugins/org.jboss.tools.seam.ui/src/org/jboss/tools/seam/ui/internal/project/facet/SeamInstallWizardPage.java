@@ -346,7 +346,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate = new DataModelValidatorDelegate(this.model, this);
 			validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor
 					.getName(),
-					ValidatorFactory.JBOSS_SEAM_HOME_IS_NOT_SELECTED);
+					ValidatorFactory.SEAM_RUNTIME_NAME_VALIDATOR);
 			validatorDelegate.addValidatorForProperty(connProfileSelEditor
 					.getName(),
 					ValidatorFactory.CONNECTION_PROFILE_VALIDATOR);

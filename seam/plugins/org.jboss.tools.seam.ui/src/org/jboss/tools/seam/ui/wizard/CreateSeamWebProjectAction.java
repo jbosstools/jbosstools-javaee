@@ -30,6 +30,7 @@ public class CreateSeamWebProjectAction extends Action implements IWorkbenchWind
 		ModelUIImages.setImageDescriptors(this, ModelUIImages.ACT_CREATE_PROJECT);
 	}
 
+	@Override
 	public void run() {
 		INewWizard wizard = ExtensionPointUtils.findNewWizardsItem(
 			SeamGuiPlugin.PLUGIN_ID,

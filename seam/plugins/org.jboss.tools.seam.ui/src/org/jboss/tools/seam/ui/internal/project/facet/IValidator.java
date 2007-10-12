@@ -12,8 +12,6 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.util.Map;
 
-import org.eclipse.core.runtime.IAdaptable;
-
 /**
  * Simple validator interface
  * @author eskimo

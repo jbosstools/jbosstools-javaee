@@ -15,7 +15,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.widget.field.CheckBoxField;
@@ -76,6 +75,7 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.internal.project.facet.IFieldEditor#isEditable()
 	 */
+	@Override
 	public boolean isEditable() {
 		// TODO Auto-generated method stub
 		return false;
@@ -92,6 +92,7 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.internal.project.facet.IFieldEditor#setEditable(boolean)
 	 */
+	@Override
 	public void setEditable(boolean ediatble) {
 		// TODO Auto-generated method stub
 

@@ -28,7 +28,8 @@ public class SeamActionProvider extends CommonActionProvider {
 	
 	public SeamActionProvider() {}
 
-    public void fillContextMenu(IMenuManager menu) {
+    @Override
+	public void fillContextMenu(IMenuManager menu) {
 		ActionContext c = getContext();
 		ISelection s = c.getSelection();
 		if(s == null || s.isEmpty() || !(s instanceof IStructuredSelection)) return;
@@ -44,7 +45,8 @@ public class SeamActionProvider extends CommonActionProvider {
 		}
     }
 
-    public void fillActionBars(IActionBars actionBars) {
+    @Override
+	public void fillActionBars(IActionBars actionBars) {
 		ActionContext c = getContext();
 		ISelection s = c.getSelection();
 		if(s == null || s.isEmpty() || !(s instanceof IStructuredSelection)) return;

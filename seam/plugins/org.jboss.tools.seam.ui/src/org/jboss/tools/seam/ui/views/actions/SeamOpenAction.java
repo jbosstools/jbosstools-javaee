@@ -25,6 +25,7 @@ public class SeamOpenAction extends Action {
 		this.element = element;
 	}
 	
+	@Override
 	public void run() {
 		if(element != null) {
 			element.open();

@@ -11,16 +11,12 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
-import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
-import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage.GridLayoutComposite;
 
 /**
  * @author eskimo
@@ -30,13 +26,13 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
 	public SeamConversationWizardPage1() {
 		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null); //$NON-NLS-1$
-		setMessage(SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SELECT_THE_NAME_OF_THE_NEW_SEAM_CONVERSATION +
-				SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_MANAGING_A_CONVERSATION_WILL_BE_CREATED);
+		setMessage(getDefaultMessageText());
 	}
 	
 	/**
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 
@@ -50,5 +46,14 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 			}
 		}
 		setPageComplete(false);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()
+	 */
+	@Override
+	public String getDefaultMessageText() {
+		// TODO Auto-generated method stub
+		return "Create a new Seam conversation";
 	}
 }

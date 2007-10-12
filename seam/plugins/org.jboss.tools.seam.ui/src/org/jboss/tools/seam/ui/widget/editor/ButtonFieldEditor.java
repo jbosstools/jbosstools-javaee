@@ -10,16 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.widget.editor;
 
-import java.beans.PropertyChangeListener;
-
 import org.eclipse.jface.action.Action;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.field.PushButtonField;
 
@@ -57,6 +52,7 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 		return null;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return false;
 	}
@@ -64,9 +60,11 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 	public void save(Object object) {
 	}
 
+	@Override
 	public void setEditable(boolean ediatble) {
 	}
 	
+	@Override
 	public Object[] getEditorControls(Object composite) {
 		if(button==null && composite!=null) {
 			button = new PushButtonField((Composite)composite,buttonAction);

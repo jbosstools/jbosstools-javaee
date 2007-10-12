@@ -10,10 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
-import java.beans.PropertyChangeEvent;
-
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
 
 /**
@@ -27,11 +24,22 @@ public class SeamFormWizardPage1 extends SeamBaseWizardPage {
 	 */
 	public SeamFormWizardPage1() {
 		super("seam.new.form.page1",SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_SEAM_FORM,null); //$NON-NLS-1$
-		setMessage(SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_SELECT_THE_NAME_OF_THE_NEW_SEAM_FORM +
-				SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_JAVA_INTERFACE_SLSB_AND_KEY_SEAMEJB3_ANNOTATIONS_WILL_BE_CREATED);
+		setMessage(getDefaultMessageText());
 	}
 	
+	@Override
 	protected void createEditors() {
 		addEditors(SeamWizardFactory.createBaseFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()
+	 */
+	@Override
+	public String getDefaultMessageText() {
+		// TODO Auto-generated method stub
+		return "Create a new Seam form";
+	}
+	
+	
 }
