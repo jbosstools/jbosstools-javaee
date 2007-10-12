@@ -46,34 +46,46 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 	private static final String EMPTY_DIV_STYLE = "display: none;";
 
+	private static final String DISABLED_STYLE = "color:#B1ADA7;";
+
+	private static final String DISABLED_CLASS = "dr-pmenu-item-disabled";
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			Document visualDocument) {
 		Element div = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
-		
+
 		return new VpeCreationData(div);
 	}
-	
-	public static VpeCreationData encode(VpePageContext pageContext,VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active){
-		
+
+	public static VpeCreationData encode(VpePageContext pageContext,
+			VpeCreationData creationData, Element sourceElement,
+			Document visualDocument, Element parentVisualElement, boolean active) {
+
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
-		
+
 		Element div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		parentVisualElement.appendChild(div);
-		div.setAttribute("vpeSupport", PANEL_MENU_ITEM);
+		
 		if (sourceElement.getParentNode().getNodeName().endsWith(
 				":panelMenuGroup")
 				|| (sourceElement.getParentNode().getNodeName()
 						.endsWith(":panelMenu"))) {
+			div.setAttribute("vpeSupport", PANEL_MENU_ITEM);
+			
 			Element table = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 			div.appendChild(table);
-			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, PANEL_MENU_ITEM_CLASS);
-			table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, NO_SIZE_VALUE);
-			table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, NO_SIZE_VALUE);
-			table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, NO_SIZE_VALUE);
+			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+					PANEL_MENU_ITEM_CLASS);
+			table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR,
+					NO_SIZE_VALUE);
+			table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR,
+					NO_SIZE_VALUE);
+			table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,
+					NO_SIZE_VALUE);
 
 			Element tr = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TR);
@@ -82,31 +94,50 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			Element tdNowrap = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdNowrap);
-			tdNowrap.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, PANEL_MENU_NOWARP_CLASS);
+			tdNowrap.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+					PANEL_MENU_NOWARP_CLASS);
 
 			Element imgSpacer1 = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 			tdNowrap.appendChild(imgSpacer1);
-			imgSpacer1.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, DEFAULT_SIZE_VALUE);
-			imgSpacer1.setAttribute("vspace", NO_SIZE_VALUE);
-			imgSpacer1.setAttribute("hspace", NO_SIZE_VALUE);
-			imgSpacer1.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT, DEFAULT_SIZE_VALUE);
+			setDefaultImgAttributes(imgSpacer1);
 			ComponentUtil.setImg(imgSpacer1, IMG_SPACER_SRC);
 
 			Element imgPoints = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 			tdNowrap.appendChild(imgPoints);
-			imgPoints.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, DEFAULT_SIZE_VALUE);
-			imgPoints.setAttribute("vspace", NO_SIZE_VALUE);
-			imgPoints.setAttribute("hspace", NO_SIZE_VALUE);
-			imgPoints.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT, DEFAULT_SIZE_VALUE);
-			ComponentUtil.setImg(imgPoints, IMG_POINTS_SRC);
+			
+			String icon = sourceElement.getAttribute("icon");
+			//String iconStyle = sourceElement.getAttribute("iconStyle");
+			//String iconClass = sourceElement.getAttribute("iconClass");
+
+			if (icon == null || icon.length() == 0) {
+				ComponentUtil.setImg(imgPoints, IMG_POINTS_SRC);
+			} else {
+				ComponentUtil.setImgFromResources(pageContext, imgPoints, icon,
+						IMG_POINTS_SRC);
+			}
+			
+			/*if ((iconStyle == null) || (iconStyle.length() == 0)) {
+				setDefaultImgAttributes(imgPoints);
+			} else {
+				imgPoints.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+						iconStyle);
+			}
+			
+			if ((iconClass == null) || (iconClass.length() == 0)) {
+				setDefaultImgAttributes(imgPoints);
+			} else {
+				imgPoints.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+						iconClass);
+			}*/
 
 			Element tdLable = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdLable);
 			tdLable.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, PANEL_MENU_LABLE_CLASS);
-			tdLable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "element.style");
+			tdLable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+					"element.style");
 			String value = sourceElement.getAttribute("label");
 			Text text = visualDocument.createTextNode(value == null ? ""
 					: value);
@@ -119,10 +150,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			Element imgSpacer2 = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 			td.appendChild(imgSpacer2);
-			imgSpacer2.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, DEFAULT_SIZE_VALUE);
-			imgSpacer2.setAttribute("vspace", NO_SIZE_VALUE);
-			imgSpacer2.setAttribute("hspace", NO_SIZE_VALUE);
-			imgSpacer2.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT, DEFAULT_SIZE_VALUE);
+			setDefaultImgAttributes(imgSpacer2);
 			ComponentUtil.setImg(imgSpacer2, IMG_SPACER_SRC);
 
 			List<Node> children = ComponentUtil.getChildren(sourceElement);
@@ -137,7 +165,57 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					}
 				}
 			}
+			
+			String styleClass = sourceElement.getAttribute("styleClass");
+			if (!(styleClass == null || styleClass.length() == 0)) {
+				div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+			}
+			else {
+				styleClass="";
+			}
+
+			if ("true".equals(sourceElement.getAttribute("disabled"))) {
+				String disabledStyle = sourceElement
+						.getAttribute("disabledStyle");
+				String disabledClass = sourceElement
+						.getAttribute("disabledClass");
+				String iconDisabled = sourceElement
+						.getAttribute("iconDisabled");
+				if (iconDisabled == null || iconDisabled.length() == 0) {
+					ComponentUtil.setImg(imgPoints, IMG_POINTS_SRC);
+				} else {
+					ComponentUtil.setImgFromResources(pageContext, imgPoints,
+							iconDisabled, IMG_SPACER_SRC);
+				}
+
+				if ((disabledStyle == null) || (disabledStyle.length() == 0)) {
+					table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+							DISABLED_STYLE);
+				} else {
+					table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+							disabledStyle);
+				}
+				if ((disabledClass == null) || (disabledClass.length() == 0)) {
+					div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,styleClass+" "+ DISABLED_CLASS);
+				} else {
+					div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+							styleClass + " " + disabledClass);
+				}
+			}
 		}
 		return creationData;
+	}
+	
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
+		return true;
+	}
+
+	private static void setDefaultImgAttributes(Element element) {
+		element.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
+				DEFAULT_SIZE_VALUE);
+		element.setAttribute("vspace", NO_SIZE_VALUE);
+		element.setAttribute("hspace", NO_SIZE_VALUE);
+		element.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
+				DEFAULT_SIZE_VALUE);
 	}
 }

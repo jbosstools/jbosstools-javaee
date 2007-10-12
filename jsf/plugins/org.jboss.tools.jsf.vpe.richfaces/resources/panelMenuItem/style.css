@@ -45,9 +45,10 @@ element.style {
 	width:100%;
 }
 
-
-
-
+.dr-pmenu-item-disabled {
+	font-color:#B1ADA7;
+	color:#B1ADA7;
+}
 
 .dr-pmenu-item {
 	border-top:1px solid;
