@@ -37,6 +37,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 	private static final String WIDTH_ATTR_PANELMENU = "width";
 	private static final String STYLE_ATTR_PANELMENU = "style";
+
 	// private static final String DISABLED_ATTR_PANELMENU = "disabled";
 	// private static final String EXPANDSINGLE_ATTR_PANELMENU = "expandSingle";
 	private static final String STYLECLASS_ATTR_PANELMENU = "styleClass";
@@ -88,17 +89,17 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		for (Node child : children) {
 
-			boolean expanded = true; // (i == activeId);
+			boolean expanded = (i == activeId);
 
 			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
 				RichFacesPanelMenuGroupTemplate.encode(pageContext,
-						vpeCreationData, (Element) child, visualDocument, div,
-						expanded, i);
+						vpeCreationData, sourceElement, (Element) child,
+						visualDocument, div, expanded, i);
 				i++;
 			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
 				RichFacesPanelMenuItemTemplate.encode(pageContext,
-						vpeCreationData, (Element) child, visualDocument, div,
-						expanded);
+						vpeCreationData, sourceElement, (Element) child,
+						visualDocument, div, expanded);
 			} else {
 				Element childDiv = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -125,9 +126,6 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 		} catch (NumberFormatException nfe) {
 			activeId = -1;
 		}
-
-		if (activeId == -1)
-			activeId = 0;
 
 		int count = getChildrenCount(children);
 		if (count - 1 < activeId) {
