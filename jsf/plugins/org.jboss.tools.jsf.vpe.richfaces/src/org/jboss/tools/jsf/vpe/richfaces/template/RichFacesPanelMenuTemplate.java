@@ -47,7 +47,6 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	// private static final String PATH_TO_COLLAPSED_GROUP =
 	// "/panelMenuGroup/collapsed.gif";
 
-	@SuppressWarnings("unchecked")
 	private static Map toggleMap = new HashMap();
 
 	// private boolean collapsedFalg = false;
@@ -83,8 +82,6 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 		}
 
-		//VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
-	//	vpeCreationData.addChildrenInfo(childrenInfo);
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int activeId = getActiveId(sourceElement, children);
 		int i = 0;
@@ -97,19 +94,20 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 				RichFacesPanelMenuGroupTemplate.encode(pageContext,
 						vpeCreationData, (Element) child, visualDocument, div,
 						active);
+				i++;
 			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
 				RichFacesPanelMenuItemTemplate.encode(pageContext,
 						vpeCreationData, (Element) child, visualDocument, div,
 						active);
 			} else {
-				Element childDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				Element childDiv = visualDocument
+						.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 				VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childDiv);
 				div.appendChild(childDiv);
 				childrenInfo.addSourceChild(child);
 				vpeCreationData.addChildrenInfo(childrenInfo);
 			}
-			i++;
-		}		
+		}
 
 		return vpeCreationData;
 	}
