@@ -74,7 +74,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	boolean useDefaultRuntime = false;
 	
 	String runtimeName = null;
-	SeamRuntime runtime = null;
 	
 	Set<IPath> sourcePaths = new HashSet<IPath>();
 	
@@ -167,7 +166,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(useDefaultRuntime) {
 			return SeamRuntimeManager.getInstance().getDefaultRuntime();
 		}
-		return runtime;
+		return runtimeName == null ? null : SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 	}
 	
 	public String getParentProjectName() {
@@ -175,15 +174,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return p == null ? null : p.get("seam.parent.project", null);
 	}
 	
-	public void setRuntime(SeamRuntime runtime) {
-		if(this.runtime == runtime) return;
-		useDefaultRuntime = runtime == SeamRuntimeManager.getInstance().getDefaultRuntime();
+	public void setRuntimeName(String runtimeName) {
+		if(this.runtimeName == runtimeName) return;
+		if(this.runtimeName != null && this.runtimeName.equals(runtimeName)) return;
+		SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
+		
+		useDefaultRuntime = d != null && d.getName().equals(runtimeName);
 		if(useDefaultRuntime) {
-			this.runtime = null;
 			this.runtimeName = null;
-		} else {
-			this.runtime = runtime;
-			this.runtimeName = runtime == null ? null : runtime.getName();
 		}
 		storeRuntime();
 	}
@@ -256,19 +254,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(prefs == null) return;
 		runtimeName = prefs.get(RUNTIME_NAME, null);
 		if(runtimeName != null) {
-			runtime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 		} else {
 			useDefaultRuntime = true;
-			runtime = null;
 			storeRuntime();
 		}
 		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
 			public void propertyChange(Preferences.PropertyChangeEvent event) {
-				if(SeamFacetPreference.RUNTIME_LIST.equals(event.getProperty()) && runtime != null && runtime.isDefault()) {
-					runtime = null;
-					runtimeName = null;
-					useDefaultRuntime = true;
-					storeRuntime();
+				if(SeamFacetPreference.RUNTIME_LIST.equals(event.getProperty())) {
+					SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
+					if(d != null && d.getName().equals(runtimeName)) {
+						runtimeName = null;
+						useDefaultRuntime = true;
+						storeRuntime();
+					}
 				}
 			}
 		});

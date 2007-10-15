@@ -53,7 +53,7 @@ public interface ISeamProject extends ISeamElement {
 	 * @param runtime
 	 * @return
 	 */
-	public void setRuntime(SeamRuntime runtime);
+	public void setRuntimeName(String runtimeName);
 
 	/**
 	 * Returns list of scope objects for all scope types.
