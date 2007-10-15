@@ -49,6 +49,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
@@ -72,6 +73,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	boolean useDefaultRuntime = false;
 	
+	String runtimeName = null;
 	SeamRuntime runtime = null;
 	
 	Set<IPath> sourcePaths = new HashSet<IPath>();
@@ -137,11 +139,40 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	/**
 	 * 
 	 */
+	public String getRuntimeName() {
+		String parent = getParentProjectName();
+		if(parent != null) {
+			IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(parent);
+			if(p == null || !p.isAccessible()) return null;
+			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
+			return sp == null ? null : sp.getRuntimeName();
+		}
+		if(useDefaultRuntime) {
+			SeamRuntime runtime = SeamRuntimeManager.getInstance().getDefaultRuntime();
+			return runtime != null ? runtime.getName() : null;
+		}
+		return runtimeName;
+	}
+	/**
+	 * 
+	 */
 	public SeamRuntime getRuntime() {
+		String parent = getParentProjectName();
+		if(parent != null) {
+			IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(parent);
+			if(p == null || !p.isAccessible()) return null;
+			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
+			return sp == null ? null : sp.getRuntime();
+		}
 		if(useDefaultRuntime) {
 			return SeamRuntimeManager.getInstance().getDefaultRuntime();
 		}
 		return runtime;
+	}
+	
+	public String getParentProjectName() {
+		IEclipsePreferences p = getSeamPreferences();
+		return p == null ? null : p.get("seam.parent.project", null);
 	}
 	
 	public void setRuntime(SeamRuntime runtime) {
@@ -149,8 +180,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		useDefaultRuntime = runtime == SeamRuntimeManager.getInstance().getDefaultRuntime();
 		if(useDefaultRuntime) {
 			this.runtime = null;
+			this.runtimeName = null;
 		} else {
 			this.runtime = runtime;
+			this.runtimeName = runtime == null ? null : runtime.getName();
 		}
 		storeRuntime();
 	}
@@ -221,7 +254,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	void loadRuntime() {
 		IEclipsePreferences prefs = getSeamPreferences();
 		if(prefs == null) return;
-		String runtimeName = prefs.get(RUNTIME_NAME, null);
+		runtimeName = prefs.get(RUNTIME_NAME, null);
 		if(runtimeName != null) {
 			runtime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 		} else {
@@ -233,6 +266,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			public void propertyChange(Preferences.PropertyChangeEvent event) {
 				if(SeamFacetPreference.RUNTIME_LIST.equals(event.getProperty()) && runtime != null && runtime.isDefault()) {
 					runtime = null;
+					runtimeName = null;
 					useDefaultRuntime = true;
 					storeRuntime();
 				}
@@ -383,21 +417,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	void storeRuntime() {
 		IEclipsePreferences prefs = getSeamPreferences();
 		String runtimeName = prefs.get(RUNTIME_NAME, null);
-		if((runtime == null || runtime.isDefault()) && runtimeName != null) {
+		boolean changed = (this.runtimeName == null) ? runtimeName != null : !this.runtimeName.equals(runtimeName);
+		if(!changed) return;
+		
+		if(this.runtimeName == null) {
 			prefs.remove(RUNTIME_NAME);
-			try {
-				prefs.flush();
-			} catch (BackingStoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
-		} else if(runtime != null && !runtime.isDefault() && !runtime.getName().equals(runtimeName)) {
-			prefs.put(RUNTIME_NAME, runtime.getName());
-			try {
-				prefs.flush();
-			} catch (BackingStoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+		} else {
+			prefs.put(RUNTIME_NAME, this.runtimeName);
 		}		
+		try {
+			prefs.flush();
+		} catch (BackingStoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
 	}
 	
 	/*

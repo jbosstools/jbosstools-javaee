@@ -30,6 +30,19 @@ public interface ISeamProject extends ISeamElement {
 	public IProject getProject();
 	
 	/**
+	 * Test or EJB project have WAR project as the parent.
+	 * The method returns the parent project name, 
+	 * or null if project has no parent project.
+	 */
+	public String getParentProjectName();
+
+	/**
+	 * Returns Seam runtime name.
+	 * @return
+	 */
+	public String getRuntimeName();
+
+	/**
 	 * Returns Seam runtime object.
 	 * @return
 	 */

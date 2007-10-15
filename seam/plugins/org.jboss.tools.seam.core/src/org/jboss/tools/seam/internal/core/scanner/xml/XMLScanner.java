@@ -107,7 +107,17 @@ public class XMLScanner implements IFileScanner {
 		
 		if(o.getParent() instanceof FolderImpl) {
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
-			if(f != null && f.exists()) ((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+			if(f != null && f.exists()) {
+				((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+				if(o.getParent() == null) {
+					boolean b = isLikelyComponentSource(f);
+					System.out.println("--1 " + b);
+					if(!b) return null;
+					o = EclipseResourceUtil.getObjectByResource(o.getModel(), f);
+					System.out.println("--2 " + o);
+					if(o == null) return null;
+				}
+			}
 		}
 		
 		LoadedDeclarations ds = new LoadedDeclarations();
