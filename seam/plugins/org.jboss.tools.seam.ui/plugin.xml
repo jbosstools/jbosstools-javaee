@@ -333,13 +333,13 @@
           id="org.jboss.tools.seam.ui.enableSeamAction"
           nameFilter="*"
           objectClass="org.eclipse.core.resources.IProject">
-       <action
+       <!--action
              class="org.jboss.tools.seam.ui.builder.ToggleSeamNatureAction"
              enablesFor="+"
              id="org.jboss.tools.seam.ui.addRemoveSeamNatureAction"
              label="Add/Remove Seam support"
              menubarPath="additions">
-       </action>
+       </action-->
     </objectContribution>
  </extension>
   
