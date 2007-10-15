@@ -126,20 +126,6 @@
                label="%popupMenus.action.addCustomCapabilities" 
                menubarPath="RedHat4Web/d">
          </action>
-         <!--action 
-               class="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
-               label="%popupMenus.action.unregisterFromServerXml" 
-               menubarPath="RedHat4Web/c">
-         </action-->
-         <!--action 
-               class="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
-               label="%popupMenus.action.registerInServerXml" 
-               menubarPath="RedHat4Web/c">
-         </action-->
       </objectContribution>
 <!-- IJavaProject -->
       <objectContribution id="JSF_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
@@ -180,20 +166,6 @@
                label="%popupMenus.action.addCustomCapabilities" 
                menubarPath="RedHat4Web/d">
          </action>
-         <!--action 
-               class="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.UnregisterFromServerXmlActionDelegate" 
-               label="%popupMenus.action.unregisterFromServerXml" 
-               menubarPath="RedHat4Web/c">
-         </action-->
-         <!--action 
-               class="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.RegisterInServerXmlActionDelegate" 
-               label="%popupMenus.action.registerInServerXml" 
-               menubarPath="RedHat4Web/c">
-         </action-->
       </objectContribution>
 <!-- IFile -->
       <!--objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
