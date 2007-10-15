@@ -225,9 +225,9 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	
 	if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
 	    if(styleClass != null && sourceParentElement.getAttribute(PANEL_MENU_ATTR_TOP_GROUP_CLASS) != null) {
-		styleClass = "dr-pmenu-group-self-label dr-pmenu-selected-item dr-pmenu-top-group" + " " + sourceParentElement.getAttribute(PANEL_MENU_ATTR_TOP_GROUP_CLASS);
+		styleClass = "dr-pmenu-group-self-label dr-pmenu-top-group" + " " + sourceParentElement.getAttribute(PANEL_MENU_ATTR_TOP_GROUP_CLASS);
 	    }else {
-		styleClass = "dr-pmenu-group-self-label dr-pmenu-selected-item dr-pmenu-top-group";
+		styleClass = "dr-pmenu-group-self-label dr-pmenu-top-group";
 	    }
 	    if(style != null && sourceParentElement.getAttribute(PANEL_MENU_ATTR_TOP_GROUP_STYLE) != null) {
 		style = sourceParentElement.getAttribute(PANEL_MENU_ATTR_TOP_GROUP_STYLE);
@@ -325,7 +325,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	    if (expanded) {
 		ComponentUtil.setImgFromResources(pageContext, img1, pathIconExpanded, DEFAULT_PANEL_MENU_GROUP_SPACER);
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, img2, pathIconCollapsed, DEFAULT_PANEL_MENU_GROUP_SPACER);
+		ComponentUtil.setImgFromResources(pageContext, img1, pathIconCollapsed, DEFAULT_PANEL_MENU_GROUP_SPACER);
 	    }
 	}
     }
