@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.util.ArrayList;
@@ -42,10 +53,6 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		seamFacet.addListener(new IDataModelListener() {
 			public void propertyChanged(DataModelEvent event) {
 				if (ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME.equals(event.getPropertyName())) {
-//					if (isPropertySet(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME))
-//						setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, event.getProperty());
-//					else
-//
 					setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, event.getProperty());
 					model.notifyPropertyChange(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, IDataModel.DEFAULT_CHG);
 					model.notifyPropertyChange(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, IDataModel.VALID_VALUES_CHG);
@@ -53,29 +60,6 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			}
 		});	
 
-/*		
-		IDataModel webFacet = DataModelFactory.createDataModel(new WebFacetInstallDataModelProvider());
-		map.add(webFacet);
-
-		String webRoot = webFacet.getStringProperty(IWebFacetInstallDataModelProperties.CONFIG_FOLDER);
-		String webSrc = webFacet.getStringProperty(IWebFacetInstallDataModelProperties.SOURCE_FOLDER);
-		javaFacet.setProperty(IJavaFacetInstallDataModelProperties.SOURCE_FOLDER_NAME, webSrc);
-		// If using optimized single root structure, set the output folder to "<content folder>/WEB-INF/classes"
-		if (ProductManager.shouldUseSingleRootStructure())
-			javaFacet.setProperty(IJavaFacetInstallDataModelProperties.DEFAULT_OUTPUT_FOLDER_NAME, webRoot+"/"+J2EEConstants.WEB_INF_CLASSES); //$NON-NLS-1$
-		webFacet.addListener(new IDataModelListener() {
-			public void propertyChanged(DataModelEvent event) {
-				if (IJ2EEModuleFacetInstallDataModelProperties.EAR_PROJECT_NAME.equals(event.getPropertyName())) {
-					if (isPropertySet(EAR_PROJECT_NAME))
-						setProperty(EAR_PROJECT_NAME, event.getProperty());
-					else
-						model.notifyPropertyChange(EAR_PROJECT_NAME, IDataModel.DEFAULT_CHG);
-				}else if (IJ2EEModuleFacetInstallDataModelProperties.ADD_TO_EAR.equals(event.getPropertyName())) {
-					setProperty(ADD_TO_EAR, event.getProperty());
-				}
-			}
-		});	
-*/		
 		Collection requiredFacets = (Collection)getProperty(REQUIRED_FACETS_COLLECTION);
 		requiredFacets.add(ProjectFacetsManager.getProjectFacet(seamFacet.getStringProperty(IFacetDataModelProperties.FACET_ID)));
 		setProperty(REQUIRED_FACETS_COLLECTION, requiredFacets);
@@ -147,6 +131,12 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		}
 		return list;
 	}
+	
+	/**
+	 * Performs the property validation 
+	 * 
+	 * returns IStatus status of validation
+	 */
 	public IStatus validate(String propertyName) {
 		IStatus status = super.validate(propertyName);
 		if (status != null && !status.isOK())
@@ -168,7 +158,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		return OK_STATUS;
 	}
 
-	 IStatus validateServer(Object serverObject) {
+	private IStatus validateServer(Object serverObject) {
 		if (serverObject == null) {
 			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_SERVER_IS_EMPTY"), null);
 		}
@@ -217,6 +207,14 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		return OK_STATUS;
 	}
 	
+	/**
+	 * Returns The server name stored in the 
+	 * 	ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER property value 
+	 * 	of the model specified
+	 *  
+	 * @param model
+	 * @return String Server name 
+	 */
 	public static String getServerName(IDataModel model) {
 		Object serverObject = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 		if (!(serverObject instanceof IServer))
@@ -226,6 +224,14 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		return (server.getName() == null ? "" : server.getName());
 	}
 	
+	/**
+	 * Sets the server by its name as 
+	 * 	ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER property value 
+	 * 	of the model specified
+	 * 
+	 * @param model
+	 * @param serverName
+	 */
 	public static void setServerName(IDataModel model, String serverName) {
 		if (serverName == null)
 			return;
