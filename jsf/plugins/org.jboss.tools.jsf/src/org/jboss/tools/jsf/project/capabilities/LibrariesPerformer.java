@@ -105,11 +105,12 @@ public class LibrariesPerformer extends PerformerItem {
 			String message = NLS.bind(JSFUIMessages.PROJECT_HAS_COFLICTING_LIBRARIES, conflictingFiles[0].getName() );
 			int q = d.showDialog(JSFUIMessages.WARNING, message, new String[]{JSFUIMessages.YES, JSFUIMessages.NO, JSFUIMessages.CANCEL}, null, ServiceDialog.WARNING);
 			if(q == 2) {
-				context.monitor.setCanceled(true);
 				return false;
 			}
 			if(q == 1) {
-				return false;
+				conflictingFiles = null;
+				if(jarPerformers != null) for (int i = 0; i < jarPerformers.length; i++) jarPerformers[i].setSelected(false);
+				return true;
 			}
 		}
 		
