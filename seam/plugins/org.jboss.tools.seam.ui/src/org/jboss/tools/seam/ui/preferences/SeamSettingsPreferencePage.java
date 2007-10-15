@@ -17,8 +17,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -66,6 +69,16 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		ISeamProject seamProject = SeamCorePlugin
 				.getSeamProject(project, false);
 		boolean hasSeamSupport = seamProject != null;
+		
+		boolean cannotBeModified = false;
+
+		if(seamProject != null) {
+			cannotBeModified = seamProject.getParentProjectName() != null;
+		}
+		if(!cannotBeModified) {
+			cannotBeModified = isEarPartInEarSeamProject(project);
+		}
+		
 		seamEnablement = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
 		seamEnablement.setValue(hasSeamSupport);
@@ -82,8 +95,13 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 
 		if (hasSeamSupport) {
 			SeamRuntime current = seamProject.getRuntime();
-			if (current != null)
+			if (current != null) {
 				runtime.setValue(current.getName());
+			} else {
+				runtime.setValue("");
+			}
+		} else if(isEarPartInEarSeamProject(project)) {
+			runtime.setValue("");
 		}
 		
 		seamEnablement.addPropertyChangeListener(new PropertyChangeListener() {
@@ -123,8 +141,24 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		if (!hasSeamSupport) {
 			updateRuntimeEnablement(false);
 		}
+		
+		if(cannotBeModified) {
+			setEnablement(seamEnablement, false);
+			setEnablement(runtime, false);
+		}
 
 		return composite;
+	}
+	
+	private boolean isEarPartInEarSeamProject(IProject p) {
+		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (int i = 0; i < ps.length; i++) {
+			IEclipsePreferences ep = new ProjectScope(ps[i]).getNode(SeamCorePlugin.PLUGIN_ID);
+			if(ep == null) continue;
+			String ear = ep.get("seam.ear.project", null);
+			if(ear != null && ear.equals(p.getName())) return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -139,7 +173,11 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 	}
 
 	private void updateRuntimeEnablement(boolean enabled) {
-		Object[] cs = runtime.getEditorControls();
+		setEnablement(runtime, enabled);
+	}
+	
+	void setEnablement(IFieldEditor editor, boolean enabled) {
+		Object[] cs = editor.getEditorControls();
 		for (int i = 0; i < cs.length; i++) {
 			if (cs[i] instanceof Control) {
 				((Control) cs[i]).setEnabled(enabled);
