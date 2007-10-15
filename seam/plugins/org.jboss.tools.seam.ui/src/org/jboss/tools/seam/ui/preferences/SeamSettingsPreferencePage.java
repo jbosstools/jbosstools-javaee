@@ -43,7 +43,6 @@ import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**
@@ -211,7 +210,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 			return;
 		ISeamProject seamProject = SeamCorePlugin
 				.getSeamProject(project, false);
-		seamProject.setRuntime(r);
+		seamProject.setRuntimeName(name);
 	}
 
 	private boolean getSeamSupport() {
