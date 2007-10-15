@@ -48,7 +48,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.datatools.connectivity.db.generic.ui,
  org.eclipse.datatools.connectivity.db.generic,
  org.jboss.tools.common.model.ui,
- org.hibernate.eclipse
+ org.hibernate.eclipse,
+ org.eclipse.wst.server.core,
+ org.eclipse.wst.server.ui
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.actions,

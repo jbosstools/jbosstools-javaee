@@ -343,6 +343,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String VALIDATOR_FACTORY_SELECTED_PROJECT;
 
+	public static String SEAM_TARGET_RUNTIME;
+
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		
