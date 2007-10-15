@@ -76,6 +76,7 @@ public class JSFUIMessages extends NLS {
 	public static String CLOSE;
 	public static String PROJECT_ALREADY_HAS_SOME_OF_LIBRARIES_INCLUDED;
 	public static String PROJECT_ALREADY_HAS_SOME_OF_LIBRARIES_INCLUDED_2;
+	public static String PROJECT_HAS_COFLICTING_LIBRARIES;
 	public static String CONTINUE;
 	public static String OVERWRITE;
 	public static String CANNOT_LOAD_JSF_CAPABILITIES;

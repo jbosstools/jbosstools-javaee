@@ -35,7 +35,7 @@ public class CapabilityPerformer extends PerformerItem {
 	public void init(XModel model, XModelObject capability) {
 		this.model = model;
 		this.capability = capability;
-		librariesPerformer.init(model, capability.getChildren("JSFLibraryReference"));
+		librariesPerformer.init(model, capability.getChildren("JSFLibraryReference"), capability.getChildren("JSFConflictingLibraryReference"));
 		fileAdditionsPerformer.init(model, capability);
 	}
 	
@@ -43,7 +43,7 @@ public class CapabilityPerformer extends PerformerItem {
 		if(!isSelected()) return true;
 		context.monitor.worked(1);
 		context.monitor.subTask(getDisplayName());
-		if(!librariesPerformer.check()) return false;
+		if(!librariesPerformer.check(context)) return false;
 		if(!fileAdditionsPerformer.check()) return false;		
 		if(!fileAdditionsPerformer.execute(context)) return true;
 		librariesPerformer.execute(context);

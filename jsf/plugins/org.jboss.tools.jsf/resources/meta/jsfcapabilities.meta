@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
  <MAPPINGS/>
@@ -19,11 +20,9 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="capabilities list" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="Capabilities" name="name">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -59,6 +58,7 @@
  <XModelEntity ImplementingClass="%Custom%" XMLSUBPATH="capability" name="JSFCapability">
   <XChildrenEntities>
    <XChildEntity name="JSFLibraryReference"/>
+   <XChildEntity name="JSFConflictingLibraryReference"/>
    <XChildEntity name="JSFFileAddition"/>
   </XChildrenEntities>
   <XEntityRenderer>
@@ -68,12 +68,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="jsf capability" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" name="name" xmlname="name">
     <Constraint loader="Text"/>
-    <Editor/>
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
@@ -123,6 +121,52 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  XMLSUBPATH="conflicting-library" name="JSFConflictingLibraryReference">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.application" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="library" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" name="name" xmlname="name">
+    <Constraint loader="ListString"/>
+    <Editor name="LibrarySetList"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HandlerClassName="%Edit%" ICON="action.empty"
+     PROPERTIES="validator.edit=true" WizardClassName="%Default%"
+     displayName="Edit" kind="action" name="Edit">
+     <EntityData EntityName="JSFLibraryReference">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%" XMLSUBPATH="file-addition" name="JSFFileAddition">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -132,27 +176,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="config file addition" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true" name="label" xmlname="label">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="file name" xmlname="file-name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="x-path" xmlname="x-path">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="preferred position" visibility="false" xmlname="preferred-position">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" name="label" xmlname="label"/>
+   <XModelAttribute name="file name" xmlname="file-name"/>
+   <XModelAttribute name="x-path" xmlname="x-path"/>
+   <XModelAttribute name="preferred position" visibility="false" xmlname="preferred-position"/>
    <XModelAttribute PROPERTIES="greedy=always" name="text" xmlname="CDATA">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -197,7 +227,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="library" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" name="name" xmlname="name">

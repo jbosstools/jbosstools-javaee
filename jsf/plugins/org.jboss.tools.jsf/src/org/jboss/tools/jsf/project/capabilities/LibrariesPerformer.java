@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.*;
 
 import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
@@ -22,6 +24,7 @@ import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.helpers.*;
@@ -32,6 +35,7 @@ public class LibrariesPerformer extends PerformerItem {
 	IContainer libResource;
 	
 	JarPerformer[] jarPerformers;
+	IFile[] conflictingFiles;
 	
 	public LibrariesPerformer() {}
 	
@@ -43,7 +47,7 @@ public class LibrariesPerformer extends PerformerItem {
 		return jarPerformers;
 	}
 
-	public void init(XModel model, XModelObject[] libraryReferences) {
+	public void init(XModel model, XModelObject[] libraryReferences, XModelObject[] conflictingLibraryReferences) {
 		this.model = model;
 		lib = model.getByPath("FileSystems/lib");
 		if(lib == null) {
@@ -78,14 +82,39 @@ public class LibrariesPerformer extends PerformerItem {
 			}			
 		}
 		jarPerformers = l2.toArray(new JarPerformer[0]);
+		
+		conflictingFiles = null;
+		IContainer r = (IContainer)lib.getAdapter(IResource.class);
+		if(conflictingLibraryReferences != null && lib != null && r != null) {
+			ArrayList<IFile> cfjs = new ArrayList<IFile>();
+			for (int i = 0; i < conflictingLibraryReferences.length; i++) {
+				String name = conflictingLibraryReferences[i].getAttributeValue("name");
+				IFile f = r.getFile(new Path(name));
+				if(f.exists()) cfjs.add(f);
+			}
+			conflictingFiles = cfjs.toArray(new IFile[0]);
+		}
 	}
 	
-	public boolean check() {
+	public boolean check(PerformerContext context) {
 		if(!isSelected()) return true;
 		if(libResource == null) return false;
+		ServiceDialog d =  model.getService();
+
+		if(conflictingFiles != null && conflictingFiles.length > 0) {
+			String message = NLS.bind(JSFUIMessages.PROJECT_HAS_COFLICTING_LIBRARIES, conflictingFiles[0].getName() );
+			int q = d.showDialog(JSFUIMessages.WARNING, message, new String[]{JSFUIMessages.YES, JSFUIMessages.NO, JSFUIMessages.CANCEL}, null, ServiceDialog.WARNING);
+			if(q == 2) {
+				context.monitor.setCanceled(true);
+				return false;
+			}
+			if(q == 1) {
+				return false;
+			}
+		}
+		
 		String[] existing = getExistingJars();
 		if(existing.length == 0) return true;
-		ServiceDialog d =  model.getService();
 		String message;
 		if(existing.length > 1) 
 			message = NLS.bind(JSFUIMessages.PROJECT_ALREADY_HAS_SOME_OF_LIBRARIES_INCLUDED_2, existing[0], "" + (existing.length-1) );
@@ -177,6 +206,18 @@ public class LibrariesPerformer extends PerformerItem {
 				//ignore
 			}
 		}
+		
+		if(conflictingFiles != null) {
+			for (int i = 0; i < conflictingFiles.length; i++) {
+				try {
+					conflictingFiles[i].delete(true, context.monitor);
+					context.changeList.add(capability + ": Removed " + conflictingFiles[i].getName() + " from WEB-INF/lib");
+				} catch (CoreException ce) {
+					JSFModelPlugin.getPluginLog().logError(ce);
+				}
+			}
+		}
+
 		context.monitor.worked(1);
 		return true;
 	}
