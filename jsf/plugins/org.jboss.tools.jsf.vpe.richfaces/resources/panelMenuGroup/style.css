@@ -1,9 +1,28 @@
+.rich-pmenu-group-icon {
+	width: 16;
+	height: 16;
+	vspace: 0;
+	hspace: 0;
+	vertical-align: middle;
+}
+
+.rich-pmenu-group-disabled {
+	color: #B1ADA7;
+}
+
 .dr-pmenu-top-group-div {
 	border-color: #C4C0B9;
 }
 
 .dr-pmenu-top-group-div {
 	border: 1px solid;
+	margin-bottom: 3px;
+	padding: 1px;
+	border-color: #C4C0B9;
+}
+
+.dr-pmenu-top-self-div {
+	border-top: 1px solid;
 	margin-bottom: 3px;
 	padding: 1px;
 	border-color: #C4C0B9;
