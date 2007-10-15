@@ -53,6 +53,8 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_HOME);
 		names.add(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME);
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
+		names.add(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+		names.add(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
 		
 		// Database group
 		names.add(ISeamFacetDataModelProperties.DB_TYPE);

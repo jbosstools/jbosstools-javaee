@@ -13,6 +13,8 @@ package org.jboss.tools.seam.core;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -122,4 +124,13 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		IScopeContext projectScope = new ProjectScope(project);
 		return projectScope.getNode(PLUGIN_ID);
 	}
+	
+	/**
+	 * @param string
+	 * @return
+	 */
+	public static IStatus createErrorStatus(String message, Throwable exception) {
+		return new Status(IStatus.ERROR, PLUGIN_ID, -1, message, exception);
+	}
+
 }

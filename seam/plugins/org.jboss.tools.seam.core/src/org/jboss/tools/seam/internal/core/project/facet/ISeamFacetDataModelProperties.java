@@ -81,4 +81,7 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	public static final String DEPLOY_AS_WAR = "war"; //$NON-NLS-1$
 	
 	public static final String DEPLOY_AS_EAR = "ear";	 //$NON-NLS-1$
+	
+	public static final String JBOSS_AS_TARGET_SERVER = "seam.project.deployment.target"; //$NON-NLS-1$
+	public static final String JBOSS_AS_TARGET_RUNTIME = "seam.project.deployment.runtime"; //$NON-NLS-1$
 }

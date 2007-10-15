@@ -32,6 +32,8 @@ public class SeamFacetPreference {
 		= SeamCorePlugin.PLUGIN_ID + ".project.default.deployment.type"; //$NON-NLS-1$
 	public static final String HIBERNATE_DEFAULT_DB_TYPE 
 		= SeamCorePlugin.PLUGIN_ID + ".hibernate.default.db.type"; //$NON-NLS-1$
+	public static final String SEAM_LAST_SERVER_NAME 
+	= SeamCorePlugin.PLUGIN_ID + ".project.facet.last.server.name"; //$NON-NLS-1$
 	
 	public static String getStringPreference(final String name) {
 		return SeamCorePlugin.getDefault().getPreferenceStore().getString(name);
