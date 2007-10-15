@@ -307,12 +307,12 @@
    <XActionItem ICON="action.empty" displayName="Red Hat Developer Studio JSF"
     group="1" kind="list" name="JSFStudio">
     <XActionItem kind="list" name="Registration">
-     <XActionItem
+     <XActionItem HIDE="always"
       HandlerClassName="org.jboss.tools.jst.web.model.handlers.ServerXmlRedirectHandler"
       ICON="action.empty"
       PROPERTIES="actionpath=Registration/RegisterInServerXML"
       displayName="Register Web Context in server.xml" kind="action" name="RegisterInServerXML"/>
-     <XActionItem
+     <XActionItem HIDE="always"
       HandlerClassName="org.jboss.tools.jst.web.model.handlers.ServerXmlRedirectHandler"
       ICON="action.empty"
       PROPERTIES="actionpath=Registration/UnregisterInServerXML"
