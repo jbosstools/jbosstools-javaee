@@ -38,6 +38,16 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 
 public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCreationDataModelProvider  {
 	
+	@Override
+	public Object getDefaultProperty(String propertyName) {
+		if(IFacetProjectCreationDataModelProperties.FACET_PROJECT_NAME.equals(propertyName)) {
+			// Any not empty string should be returned by default
+			// to workaround https://bugs.eclipse.org/bugs/show_bug.cgi?id=206541
+			return "dummy";
+		}
+		return super.getDefaultProperty(propertyName);
+	}
+
 	public static IStatus OK_STATUS = new Status(IStatus.OK, SeamCorePlugin.PLUGIN_ID, 0, "OK", null); //$NON-NLS-1$ //$NON-NLS-2$
 
 	public SeamFacetProjectCreationDataModelProvider() {
