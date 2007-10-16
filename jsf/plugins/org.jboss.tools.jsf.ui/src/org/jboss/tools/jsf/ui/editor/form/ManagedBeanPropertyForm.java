@@ -22,11 +22,11 @@ import org.jboss.tools.common.model.ui.attribute.editor.IPropertyFieldEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.PropertyEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.StringButtonFieldEditorEx;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -268,7 +268,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 	
 	class ComboField {
 		private Label vklabel;
-		private CCombo combo;
+		private Combo combo;
 		
 		public void createControls(Composite composite) { 
 			vklabel = new Label(composite, SWT.NONE);
@@ -277,7 +277,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 			settings.setupControl(vklabel);
 
 			BorderedControl border = new BorderedControl(composite, SWT.NONE, settings.getBorder("Combo.Border")); 
-			combo = new CCombo(border, SWT.FLAT | SWT.READ_ONLY);
+			combo = new Combo(border, SWT.FLAT | SWT.READ_ONLY);
 			combo.setItems(TAGS);
 			combo.setText(getSelectedValueKind());
 			combo.setBackground(settings.getColor("Combo.Background"));
