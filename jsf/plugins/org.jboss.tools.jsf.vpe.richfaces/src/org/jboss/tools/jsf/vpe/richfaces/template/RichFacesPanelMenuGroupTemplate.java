@@ -11,7 +11,9 @@
 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -81,18 +83,29 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
     private static final String PANEL_MENU_GROUP_ATTR_ICON_DISABLED = "iconDisabled";
 
     private static final String PANEL_MENU_GROUP_ATTR_ICON_LABEL = "label";
-
-    // private static final String PANEL_MENU_GROUP_ATTR_EXPANDED = "expanded";
-
+    
     private static final String COMPONENT_ATTR_VPE_SUPPORT = "vpeSupport";
 
     private static final String COMPONENT_ATTR_VPE_USER_TOGGLE_ID = "vpe-user-toggle-id";
 
-    private static final String DEFAULT_PANEL_MENU_GROUP_SPACER = "/panelMenuGroup/spacer.gif";
-
+    private static final String PANEL_MENU_GROUP_ICON_SPACER_PATH = "/panelMenuGroup/spacer.gif";
+    
     private static final String STYLE_PATH = "/panelMenuGroup/style.css";
 
     private static final String EMPTY_DIV_STYLE = "display: none;";
+    
+    private static final Map<String, String> DEFAULT_ICON_MAP = new HashMap<String, String>();
+    
+    static {
+	DEFAULT_ICON_MAP.put("chevron", "/panelMenuGroup/chevron.gif");
+	DEFAULT_ICON_MAP.put("chevronUp", "/panelMenuGroup/chevronUp.gif");
+	DEFAULT_ICON_MAP.put("chevronDown", "/panelMenuGroup/chevronDown.gif");
+	DEFAULT_ICON_MAP.put("triangle", "/panelMenuGroup/triangle.gif");
+	DEFAULT_ICON_MAP.put("triangleUp", "/panelMenuGroup/triangleUp.gif");
+	DEFAULT_ICON_MAP.put("triangleDown", "/panelMenuGroup/triangleDown.gif");
+	DEFAULT_ICON_MAP.put("disc", "/panelMenuGroup/disc.gif");
+	DEFAULT_ICON_MAP.put("grid", "/panelMenuGroup/grid.gif");
+    }
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
 	Element div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -168,7 +181,6 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
     private static final void buildTable(VpePageContext pageContext, Element sourceParentElement, Element parent, Element sourceElement, Document visualDocument, Element div, boolean expanded,
 	    boolean disabled, int activeChildId) {
-	
 	String disabledStyle = sourceElement.getAttribute(PANEL_MENU_GROUP_ATTR_DISABLED_STYLE);
 	String disableClass = null;
 	String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
@@ -201,8 +213,8 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	Element img1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 	column1.appendChild(img1);
+	ComponentUtil.setImg(img1, PANEL_MENU_GROUP_ICON_SPACER_PATH);
 	img1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-pmenu-group-icon");
-	ComponentUtil.setImg(img1, DEFAULT_PANEL_MENU_GROUP_SPACER);
 
 	Element column2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	tableBody.appendChild(column2);
@@ -219,7 +231,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	Element img2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 	column3.appendChild(img2);
 	img2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-pmenu-group-icon");
-	ComponentUtil.setImg(img2, DEFAULT_PANEL_MENU_GROUP_SPACER);
+	ComponentUtil.setImg(img2, PANEL_MENU_GROUP_ICON_SPACER_PATH);
 
 	setIcon(pageContext, parent, sourceParentElement, sourceElement, img1, img2, expanded, disabled);
 	
@@ -257,7 +269,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	    }
 	}
 	
-	if(!"".equals(style)) {
+	if(!"".equals(style.trim())) {
 	    table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 	}
 	table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
@@ -312,7 +324,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		needChangePosition = true;
 	    }
 	}
-
+	
 	if (needChangePosition) {
 	    Element temp = img2;
 	    img2 = img1;
@@ -320,12 +332,27 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	}
 
 	if (disabled) {
-	    ComponentUtil.setImgFromResources(pageContext, img1, pathIconDisabled, DEFAULT_PANEL_MENU_GROUP_SPACER);
+	    if (pathIconDisabled != null && DEFAULT_ICON_MAP.containsKey(pathIconDisabled.toLowerCase())) {
+		pathIconDisabled = DEFAULT_ICON_MAP.get(pathIconDisabled.toLowerCase());
+		ComponentUtil.setImg(img1, pathIconDisabled);
+	    } else {
+		ComponentUtil.setImgFromResources(pageContext, img1, pathIconDisabled, PANEL_MENU_GROUP_ICON_SPACER_PATH);
+	    }
 	} else {
 	    if (expanded) {
-		ComponentUtil.setImgFromResources(pageContext, img1, pathIconExpanded, DEFAULT_PANEL_MENU_GROUP_SPACER);
+		if (pathIconExpanded != null && DEFAULT_ICON_MAP.containsKey(pathIconExpanded.toLowerCase())) {
+		    pathIconExpanded = DEFAULT_ICON_MAP.get(pathIconExpanded.toLowerCase());
+		    ComponentUtil.setImg(img1, pathIconExpanded);
+		} else {
+		    ComponentUtil.setImgFromResources(pageContext, img1, pathIconExpanded, PANEL_MENU_GROUP_ICON_SPACER_PATH);
+		}
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, img1, pathIconCollapsed, DEFAULT_PANEL_MENU_GROUP_SPACER);
+		if (pathIconCollapsed != null && DEFAULT_ICON_MAP.containsKey(pathIconCollapsed.toLowerCase())) {
+		    pathIconCollapsed = DEFAULT_ICON_MAP.get(pathIconCollapsed.toLowerCase());
+		    ComponentUtil.setImg(img1, pathIconCollapsed);
+		} else {
+		    ComponentUtil.setImgFromResources(pageContext, img1, pathIconCollapsed, PANEL_MENU_GROUP_ICON_SPACER_PATH);   
+		}
 	    }
 	}
     }
