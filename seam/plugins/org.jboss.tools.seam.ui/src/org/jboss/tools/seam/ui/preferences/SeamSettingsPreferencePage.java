@@ -34,6 +34,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -144,6 +145,8 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		if(cannotBeModified) {
 			setEnablement(seamEnablement, false);
 			setEnablement(runtime, false);
+		} else if(hasDependents(project)) {
+			setEnablement(seamEnablement, false);
 		}
 
 		return composite;
@@ -157,6 +160,27 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 			String ear = ep.get("seam.ear.project", null);
 			if(ear != null && ear.equals(p.getName())) return true;
 		}
+		return false;
+	}
+	
+	private boolean hasDependents(IProject p) {
+		ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
+		if(sp == null) return false;
+		IEclipsePreferences ep = SeamPreferences.getProjectPreferences(sp);
+		if(ep == null) return false;
+		String ear = ep.get("seam.ear.project", null);
+		if(projectExists(ear)) return true;
+		String ejb = ep.get("seam.ejb.project", null);
+		if(projectExists(ejb)) return true;
+		String test = ep.get("seam.test.project", null);
+		if(projectExists(test)) return true;
+		return false;
+	}
+	
+	private boolean projectExists(String name) {
+		if(name == null) return false;
+		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
+		if(p != null && p.exists() && p.isAccessible()) return true;
 		return false;
 	}
 
