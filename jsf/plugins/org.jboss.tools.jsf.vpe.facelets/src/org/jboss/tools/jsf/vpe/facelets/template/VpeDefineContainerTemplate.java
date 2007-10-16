@@ -12,14 +12,12 @@ package org.jboss.tools.jsf.vpe.facelets.template;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import org.jboss.tools.vpe.editor.VpeIncludeInfo;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -30,11 +28,15 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeCreatorUtil;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 
 public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 	private static final String ATTR_TEMPLATE = "template";
-	private static Set defineContainer = new HashSet();
+	private static Set<Node> defineContainer = new HashSet<Node>();
 	
+	@Override
 	protected void init(Element templateElement) {
 		children = true;
 		modify = false;
@@ -42,7 +44,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 	}
 
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		String fileName = null;
 		Attr attr = ((Element)sourceNode).getAttributeNode(ATTR_TEMPLATE);
 		if (attr != null && attr.getNodeValue().trim().length() > 0) {
@@ -64,8 +66,8 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		creationData.setData(null);
 		return creationData;
 	}
-
-	public void validate(VpePageContext pageContext, Node sourceNode, Document visualDocument, VpeCreationData creationData) {
+	@Override
+	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData creationData) {
 		TemplateFileInfo templateFileInfo = (TemplateFileInfo)creationData.getData();
 		if (templateFileInfo != null) {
 			VpeIncludeInfo includeInfo = pageContext.getVisualBuilder().popIncludeStack();
@@ -82,8 +84,9 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 			pageContext.getEditPart().getController().getIncludeList().removeIncludeModel(templateFileInfo.templateFile);
 		}
 	}
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement visualNode, Object data, String name, String value) {	
 
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
 		return true;
 	}
 	
@@ -106,8 +109,8 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		}
 	}
 	
-	private VpeCreationData createInclude(Document sourceDocument, Document visualDocument) {
-		Element visualNewElement = visualDocument.createElement("div");
+	private VpeCreationData createInclude(Document sourceDocument, nsIDOMDocument visualDocument) {
+		nsIDOMElement visualNewElement = visualDocument.createElement(HTML.TAG_DIV);
 		VpeVisualDomBuilder.markIncludeElement(visualNewElement);
 		VpeCreationData creationData = new VpeCreationData(visualNewElement);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(visualNewElement);
@@ -119,7 +122,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		creationData.addChildrenInfo(childrenInfo);
 		return creationData;
 	}
-
+	@Override
 	public boolean containsText() {
 		return false;
 	}
@@ -129,7 +132,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		
 	}
 	
-	protected abstract VpeCreationData createStub(String fileName, Node sourceElement, Document visualDocument);
+	protected abstract VpeCreationData createStub(String fileName, Node sourceElement, nsIDOMDocument visualDocument);
 
 	static class TemplateFileInfo {
 		IFile templateFile;

@@ -10,15 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
-import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
-import org.jboss.tools.vpe.editor.template.VpeCreationData;
 
 public class VpeDefineTemplate extends VpeAbstractTemplate {
 	
@@ -28,9 +28,9 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 		initTemplateSections(templateElement, true, true, true, true, true);
 	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		if (VpeDefineContainerTemplate.isDefineContainer(sourceNode.getParentNode())) {
-			Element visualNewElement = visualDocument.createElement("div");
+			nsIDOMElement visualNewElement = visualDocument.createElement(HTML.TAG_DIV);
 			return new VpeCreationData(visualNewElement);
 		}
 		return createStub((Element)sourceNode, visualDocument);
@@ -44,12 +44,12 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 		return true;
 	}
 	
-	private VpeCreationData createStub(Element sourceElement, Document visualDocument) {
-		Element container = visualDocument.createElement("div");
+	private VpeCreationData createStub(Element sourceElement, nsIDOMDocument visualDocument) {
+		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);
 		container.setAttribute("style", "border: 1px solid gray");
 
-		Element title = visualDocument.createElement("div");
-		Element tag = visualDocument.createElement("span");
+		nsIDOMElement title = visualDocument.createElement(HTML.TAG_DIV);
+		nsIDOMElement tag = visualDocument.createElement(HTML.TAG_SPAN);
 		tag.setAttribute("class", "__any__tag__caption");
 		tag.appendChild(visualDocument.createTextNode(sourceElement.getNodeName()));
 		title.appendChild(tag);

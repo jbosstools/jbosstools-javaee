@@ -10,17 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import org.jboss.tools.vpe.editor.VpeIncludeInfo;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class VpeInsertTemplate extends VpeAbstractTemplate {
 	
@@ -30,7 +32,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		initTemplateSections(templateElement, false, true, false, false, false);
 	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		VpeVisualDomBuilder visualBuilder = pageContext.getVisualBuilder();
 		VpeIncludeInfo includeInfo = visualBuilder.getCurrentIncludeInfo();
 		if (includeInfo != null && includeInfo.getElement() != null) {
@@ -53,7 +55,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
-	public void validate(VpePageContext pageContext, Node sourceNode, Document visualDocument, VpeCreationData creationData) {
+	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData creationData) {
 		VpeIncludeInfo includeInfo = (VpeIncludeInfo)creationData.getData();
 		if (includeInfo != null) {
 			pageContext.getVisualBuilder().pushIncludeStack((VpeIncludeInfo)includeInfo);
@@ -79,7 +81,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		return defineElement;
 	}
 	
-	private VpeCreationData createInsert(Element defineElement, Document visualDocument) {
+	private VpeCreationData createInsert(Element defineElement, nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = new VpeCreationData(null);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(null);
 		childrenInfo.addSourceChild(defineElement);
@@ -87,8 +89,8 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 	
-	private VpeCreationData createStub(Element element, Document visualDocument) {
-		Element visualNewElement = visualDocument.createElement("div");
+	private VpeCreationData createStub(Element element, nsIDOMDocument visualDocument) {
+		nsIDOMElement visualNewElement = visualDocument.createElement(HTML.TAG_DIV);
 		return new VpeCreationData(visualNewElement);
 	}
 }
