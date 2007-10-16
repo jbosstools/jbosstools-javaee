@@ -605,7 +605,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				status = ProjectCreationDataModelProviderNew.validateName(earProjectName);
 				if (!status.isOK())
 					return ValidatorFactory.createErrormessage(propertyName,
-							SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+							SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT +
 							earProjectName +
 							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
 	
@@ -613,7 +613,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				status = ProjectCreationDataModelProviderNew.validateName(ejbProjectName);
 				if (!status.isOK())
 					return ValidatorFactory.createErrormessage(propertyName,
-							SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+							SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT +
 							ejbProjectName +
 							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
 			}
