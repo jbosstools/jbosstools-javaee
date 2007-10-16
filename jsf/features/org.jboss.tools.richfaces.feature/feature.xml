@@ -413,30 +413,6 @@ litigation.
          version="0.0.0"/>
 
    <plugin
-         id="org.jboss.tools.vpe.mozilla"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.vpe.mozilla.gtk"
-         os="linux"
-         ws="gtk"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
-
-   <plugin
-         id="org.jboss.tools.vpe.mozilla.win32"
-         os="win32"
-         ws="win32"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
-
-   <plugin
          id="org.jboss.tools.vpe.ui.palette"
          download-size="0"
          install-size="0"
@@ -447,5 +423,12 @@ litigation.
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="org.jboss.tools.vpe.xulrunner"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
