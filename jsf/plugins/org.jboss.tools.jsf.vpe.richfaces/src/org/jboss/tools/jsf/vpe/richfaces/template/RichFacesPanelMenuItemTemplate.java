@@ -37,6 +37,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String PANEL_MENU_NOWARP_CLASS = "dr-pmenu-nowrap";
 
 	private static final String PANEL_MENU_LABLE_CLASS = "dr-pmenu-group-self-label";
+	
+	private static final String PANEL_MENU_DIV = "dr-pmenu-top-self-div";
 
 	private static final String PANEL_MENU_ITEM = "panelMenuItem";
 
@@ -89,7 +91,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
 
 		Element parentDiv = visualDocument.createElement("div");
-
+		parentDiv.setAttribute("CLASS", PANEL_MENU_DIV);
 		parentVisualElement.appendChild(parentDiv);
 		Element div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
