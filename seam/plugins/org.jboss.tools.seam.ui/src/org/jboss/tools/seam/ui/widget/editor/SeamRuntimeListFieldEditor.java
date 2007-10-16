@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -30,11 +31,13 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -70,6 +73,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	Composite root  = null;
 	Button rmBtn = null;
 	Button addBtn = null;
+	Button removeBtn = null;
 	/**
 	 * @param name
 	 * @param label
@@ -158,7 +162,18 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
         
 		addBtn.setLayoutData(gd);
 		addBtn.addSelectionListener(this);
-		
+
+		removeBtn = new Button(buttons,SWT.PUSH);
+		removeBtn.setEnabled(false);
+		removeBtn.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_REMOVE);
+		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
+        gd.horizontalAlignment = GridData.FILL;
+        gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
+        gd.widthHint = 50;
+        
+        removeBtn.setLayoutData(gd);
+        removeBtn.addSelectionListener(this);
+
 		/*rmBtn = new Button(buttons,SWT.PUSH);
 		rmBtn.setText("Remove");
 		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
@@ -478,6 +493,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	 * @param firstElement
 	 */
 	public void selectionChanged(SeamRuntime selection) {
+		if(selection == null) {
+			removeBtn.setEnabled(false);
+		} else {
+			removeBtn.setEnabled(true);
+		}
 		if(selection==null 
 				|| selection == SeamRuntimeManager.getInstance().getDefaultRuntime()) {
 		} else {
@@ -497,6 +517,22 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)getValue(), added);
 			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 			dialog.open();
+			tableView.refresh();
+		} else if(e.widget == removeBtn) {
+			ISelection s = tableView.getSelection();
+			if(s == null || s.isEmpty() || !(s instanceof IStructuredSelection)) return;
+			IStructuredSelection ss = (IStructuredSelection)s;
+			Iterator<?> i = ss.iterator();
+			while(i.hasNext()) {
+				Object o = i.next();
+				if(o instanceof SeamRuntime) {
+					removed.add((SeamRuntime)o);
+					if(added.contains(o)) {
+						added.remove(o);
+					}
+					((List)getValue()).remove(o);
+				}
+			}
 			tableView.refresh();
 		}
 	}

@@ -98,6 +98,9 @@ public class SeamPreferencePage extends PreferencePage implements
 		for (SeamRuntime rt : seamRuntimes.getAddedSeamRuntimes()) {
 			SeamRuntimeManager.getInstance().addRuntime(rt);
 		}
+		for (SeamRuntime rt : seamRuntimes.getRemoved()) {
+			SeamRuntimeManager.getInstance().removeRuntime(rt);
+		}
 		if(initialDefault != null && seamRuntimes.getDefaultSeamRuntime() != initialDefault) {
 			initialDefault.setDefault(false);
 		}

@@ -203,6 +203,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String SEAM_RUNTIME_LIST_FIELD_EDITOR_ADD;
 
+	public static String SEAM_RUNTIME_LIST_FIELD_EDITOR_REMOVE;
+
 	public static String SEAM_RUNTIME_LIST_FIELD_EDITOR_ALREADY_EXISTS;
 
 	public static String SEAM_RUNTIME_LIST_FIELD_EDITOR_AN_INSTANCEOF_OF_LIST;
