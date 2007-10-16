@@ -30,7 +30,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.ui.INewWizard;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
-import org.jboss.tools.seam.core.J2EEProjects;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -71,7 +71,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
 					params.get(IParameter.HIBERNATE_CONFIGURATION_NAME));
 
-				J2EEProjects seamProjectsSet = J2EEProjects.create(project);
+				SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
 
 				wc.setAttribute(HibernateLaunchConstants.ATTR_OUTPUT_DIR, 
 						seamProjectsSet.getBeansFolder()==null?

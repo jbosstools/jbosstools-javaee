@@ -32,7 +32,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	 * 
 	 */
 	public SeamEntityWizardPage1() {
-		super("seam.new.entity.page1",SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_SEAM_ENTITY, null); //$NON-NLS-1$
+		super("seam.new.entity.page1","Seam Entity", null); 
 		setMessage(getDefaultMessageText());
 	}
 	
@@ -56,15 +56,15 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	@Override
 	public void doFillDefaults(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals(IParameter.SEAM_ENTITY_CLASS_NAME)) {
-			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) { //$NON-NLS-1$
-				setDefaultValue(IParameter.SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
-				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, ""); //$NON-NLS-1$
+			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) { 
+				setDefaultValue(IParameter.SEAM_ENTITY_CLASS_NAME, ""); 
+				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, ""); 
+				setDefaultValue(IParameter.SEAM_PAGE_NAME, ""); 
 			} else {
 				String value = event.getNewValue().toString();
 				String valueU = value.substring(0,1).toUpperCase() + value.substring(1);
 				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_LIST);
+				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
@@ -95,7 +95,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 		
 		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project});
+				editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project,project});
 		
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());

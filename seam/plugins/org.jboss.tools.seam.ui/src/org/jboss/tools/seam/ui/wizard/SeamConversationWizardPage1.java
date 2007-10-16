@@ -25,7 +25,7 @@ import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
 	public SeamConversationWizardPage1() {
-		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null); //$NON-NLS-1$
+		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null); 
 		setMessage(getDefaultMessageText());
 	}
 	
@@ -36,7 +36,7 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 
-		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
+		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ 
 			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 			

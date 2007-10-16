@@ -12,12 +12,14 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.tools.ant.types.FilterSetCollection;
+import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IContainer;
@@ -38,6 +40,7 @@ import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -60,18 +63,20 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.operations.AbstractOperation#execute(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
+	/**
+	 * @see AbstractOperation#execute(IProgressMonitor, IAdaptable)
 	 */
 	@Override
 	public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 			throws ExecutionException {
+		IStatus result = Status.OK_STATUS;
 		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
+		SeamProjectsSet seamPrjSet = new SeamProjectsSet(project);
 		
 		try {
 			
@@ -98,8 +103,9 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-ejb").toFile().toString()); //$NON-NLS-1$
-			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,project.getLocation().removeLastSegments(1).append(project.getName()+"-test").toFile().toString()); //$NON-NLS-1$
+			
+			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject().getLocation().toFile().toString());
+			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
@@ -114,13 +120,11 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			int index=0;
 			for (String[] mapping : fileMappingCopy) {
 				file[index] = new File(mapping[1]);
-				AntCopyUtils.copyFileToFile(new File(mapping[0]),file[index],filters,true);
+				FileUtils.getFileUtils().copyFile(new File(mapping[0]), file[index],filters,true);
 				index++;
 			}
 			
-			project.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+			seamPrjSet.refreshLocal(monitor);
 			
 			if(file.length > 0){
 				IFile iFile = project.getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
@@ -128,11 +132,13 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			}
 			
 		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} catch (BackingStoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
-		return Status.OK_STATUS;
+			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+		} catch (IOException e) {
+			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+		} 
+		return result;
 	}
 
 	/**

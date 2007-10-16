@@ -20,13 +20,18 @@ import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -60,15 +65,17 @@ public abstract class SeamBaseWizard extends Wizard {
 					protected void execute(IProgressMonitor monitor)
 							throws CoreException, InvocationTargetException,
 							InterruptedException {
+						IStatus result;
 						IUndoableOperation operation = getOperation();
 						IOperationHistory operationHistory = workbench.getOperationSupport().getOperationHistory();
 						IUndoContext undoContext = workbench.getOperationSupport().getUndoContext();
 						operation.addContext(undoContext);
 						try {
-							operationHistory.execute(operation, monitor, (IAdaptable)getPages()[0]);
+							result = operationHistory.execute(operation, monitor, (IAdaptable)getPages()[0]);
 						} catch (ExecutionException e) {
-							SeamCorePlugin.getPluginLog().logError(e);
+							result = new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 						}
+//						ErrorDialog.openError(Display.getCurrent().getActiveShell(), SeamUIMessages.SeamBaseWizard_0, result.getMessage(), result);
 					}
 				});
 			} catch (InvocationTargetException e) {
