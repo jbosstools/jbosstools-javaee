@@ -342,6 +342,14 @@ public class SeamUIMessages extends NLS {
 	public static String VALIDATOR_FACTORY_SEAM_RUNTIME_IS_NOT_SELECTED;
 
 	public static String VALIDATOR_FACTORY_SELECTED_PROJECT;
+	
+	public static String VALIDATOR_FACTORY_TEST_PROJECT;
+	
+	public static String VALIDATOR_FACTORY_EAR_PROJECT;
+	
+	public static String VALIDATOR_FACTORY_EJB_PROJECT;
+	
+	public static String VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS;
 
 	public static String SEAM_TARGET_RUNTIME;
 

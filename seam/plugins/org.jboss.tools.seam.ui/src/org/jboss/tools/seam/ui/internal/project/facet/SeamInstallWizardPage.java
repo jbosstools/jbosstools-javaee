@@ -48,6 +48,7 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
+import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -372,6 +373,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate.addValidatorForProperty(sessionBeanPkgNameditor
 					.getName(), new PackageNameValidator(
 					sessionBeanPkgNameditor.getName(), "session beans")); //$NON-NLS-1$
+			validatorDelegate.addValidatorForProperty(
+					IFacetDataModelProperties.FACET_PROJECT_NAME, 
+					new ProjectNamesDuplicationValidator(
+							IFacetDataModelProperties.FACET_PROJECT_NAME));
 		}
 
 		jBossHibernateDbTypeEditor
@@ -563,6 +568,54 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			if (!status.isOK()) {
 				return ValidatorFactory.createErrormessage(fieldName,
 						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_FOR + targetName + SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_IS_NOT_VALID);
+			}
+			return ValidatorFactory.NO_ERRORS;
+		}
+	}
+	
+	class ProjectNamesDuplicationValidator implements IValidator {
+		String propertyName;
+
+		/**
+		 */
+		public ProjectNamesDuplicationValidator (String propertyName) {
+			this.propertyName = propertyName;
+		}
+
+		/**
+		 * @see IValidator#validate(Object, Object)
+		 */
+		public Map<String, String> validate(Object value, Object context) {
+			final String projectName = (String)value;
+			
+			IDataModel model = (IDataModel)context;
+			final String deployAs = model.getStringProperty(
+					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
+			
+			final String testProjectName = projectName + "-test";
+			IStatus status = ProjectCreationDataModelProviderNew.validateName(testProjectName);
+			if (!status.isOK())
+				return ValidatorFactory.createErrormessage(propertyName,
+						SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+							testProjectName +
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
+
+			if (ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(deployAs)) {
+				final String earProjectName = projectName + "-ear";
+				status = ProjectCreationDataModelProviderNew.validateName(earProjectName);
+				if (!status.isOK())
+					return ValidatorFactory.createErrormessage(propertyName,
+							SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+							earProjectName +
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
+	
+				final String ejbProjectName = projectName + "-ejb";
+				status = ProjectCreationDataModelProviderNew.validateName(ejbProjectName);
+				if (!status.isOK())
+					return ValidatorFactory.createErrormessage(propertyName,
+							SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+							ejbProjectName +
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
 			}
 			return ValidatorFactory.NO_ERRORS;
 		}
