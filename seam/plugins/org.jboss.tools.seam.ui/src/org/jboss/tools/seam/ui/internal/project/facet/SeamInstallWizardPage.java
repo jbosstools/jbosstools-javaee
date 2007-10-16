@@ -77,7 +77,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	/**
 	 * 
 	 */
-	private DriverClassHelpers HIBERNATE_HELPER = new DriverClassHelpers();
+	private static final DriverClassHelpers HIBERNATE_HELPER = new DriverClassHelpers();
+	
+	private static final List<String> DIALECT_CLASSES = getDialectClasses();
 
 	/**
 	 * 
@@ -120,10 +122,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 							.getDialectNames()), getDefaultDbType(), false);
 	
 	private IFieldEditor jBossHibernateDialectEditor = IFieldEditorFactory.INSTANCE
-			.createUneditableTextEditor(
+			.createComboEditor(
 					ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_HIBERNATE_DIALECT, HIBERNATE_HELPER
-							.getDialectClass(getDefaultDbType()));
+					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_HIBERNATE_DIALECT,DIALECT_CLASSES, HIBERNATE_HELPER
+							.getDialectClass(getDefaultDbType()),true);
 
 	private IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_SCHEMA_NAME,
@@ -168,6 +170,17 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class,
 				"SeamWebProjectWizBan.png")); //$NON-NLS-1$
 		setDescription(PAGE_DESCRIPTION);
+	}
+
+	/**
+	 * @return
+	 */
+	private static List getDialectClasses() {
+		List<String> dialects = new ArrayList<String>();
+		for (String dialectName : HIBERNATE_HELPER.getDialectNames()) {
+			dialects.add(HIBERNATE_HELPER.getDialectClass(dialectName));
+		}
+		return dialects;
 	}
 
 	/**

@@ -100,4 +100,14 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 		super.setEditable(ediatble);
 		comboField.setEditable(ediatble);
 	}
+	
+	public void setValue(Object newValue) {
+		super.setValue(newValue);
+		if(comboField!=null) {
+			comboField.removePropertyChangeListener(this);
+			comboField.setValue(newValue.toString());
+			comboField.addPropertyChangeListener(this);
+		}
+
+	}
 }
