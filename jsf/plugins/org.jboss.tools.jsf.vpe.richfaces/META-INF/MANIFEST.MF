@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.model,
  org.eclipse.wst.sse.ui,
  org.eclipse.ui.workbench.texteditor,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.mozilla.xpcom
 Eclipse-LazyStart: true
 Bundle-Vendor: Red Hat, Inc.
 Bundle-ClassPath: lib/jhighlight-1.0.jar,

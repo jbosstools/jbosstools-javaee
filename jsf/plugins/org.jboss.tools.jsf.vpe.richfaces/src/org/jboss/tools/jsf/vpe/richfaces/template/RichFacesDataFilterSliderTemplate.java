@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -14,10 +14,12 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Template for Rich Faces DataTableFilterSlider
@@ -81,16 +83,12 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		int numWidth = 0;
-		ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
-				"richFacesDataFilterSlider");
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesDataFilterSlider");
 		Element sourceElement = (Element) sourceNode;
-		String style = ComponentUtil.getAttribute(sourceElement,
-				HtmlComponentUtil.HTML_STYLE_ATTR);
-		String width = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+		String style = ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR);
+		String width = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
 		if (width != null) {
 			numWidth = getSize(width);
 			if (numWidth < DEFAULT_WIDTH) {
@@ -99,43 +97,33 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		} else {
 			numWidth = DEFAULT_WIDTH;
 		}
-		String defaultStyle = style + ";" + HtmlComponentUtil.HTML_ATR_WIDTH
-				+ " : " + numWidth + "px ; ";
-		Element parentDiv = createDIV(visualDocument, "slider-container",
-				defaultStyle);
-		String rangeStyleClass = ComponentUtil.getAttribute(sourceElement,
-				RANGE_STYLE_CLASS_ATR);
-		Element rangeDiv = createDIV(visualDocument,
-				"range " + rangeStyleClass, HtmlComponentUtil.HTML_ATR_WIDTH
-						+ " : " + (numWidth - DEFAULT_PARAGRAPH) + "px;");
-		Element rangeDecorDiv = createDIV(visualDocument, "range-decor", null);
+		String defaultStyle = style + ";" + HtmlComponentUtil.HTML_ATR_WIDTH + " : " + numWidth + "px ; ";
+		nsIDOMElement parentDiv = createDIV(visualDocument, "slider-container",	defaultStyle);
+		String rangeStyleClass = ComponentUtil.getAttribute(sourceElement,	RANGE_STYLE_CLASS_ATR);
+		nsIDOMElement rangeDiv = createDIV(visualDocument, "range " + rangeStyleClass, 
+				HtmlComponentUtil.HTML_ATR_WIDTH	+ " : " + (numWidth - DEFAULT_PARAGRAPH) + "px;");
+		nsIDOMElement rangeDecorDiv = createDIV(visualDocument, "range-decor", null);
 		String trailerStyleClass = ComponentUtil.getAttribute(sourceElement,
 				TRAILER_STYLE_CLASS_ATR);
-		Element trailerDiv = createDIV(visualDocument, "trailer "
+		nsIDOMElement trailerDiv = createDIV(visualDocument, "trailer "
 				+ trailerStyleClass, DEFAULT_SLIDER_POSITION);
 		String trackStyleClass = ComponentUtil.getAttribute(sourceElement,
 				TRACK_STYLE_CLASS_ATR);
-		Element trackDiv = createDIV(visualDocument,
+		nsIDOMElement trackDiv = createDIV(visualDocument,
 				"track " + trackStyleClass, HtmlComponentUtil.HTML_ATR_WIDTH
 						+ " : " + (numWidth - DEFAULT_PARAGRAPH) + "px;");
 
 		String handleStyleClass = ComponentUtil.getAttribute(sourceElement,HANDLE_STYLE_CLASS_ATR);
-		Element handleDiv = createDIV(visualDocument, "handle " + handleStyleClass, null);
+		nsIDOMElement handleDiv = createDIV(visualDocument, "handle " + handleStyleClass, null);
 
-		Element img = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		ComponentUtil.setImg(img, CENTER_SLIDER);
-		img
-				.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
-						DEFAULT_SLIDER_WIDTH);
-		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,
-				DEFAULT_SLIDER_BORDER);
-		img.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
-				DEFAULT_SLIDER_HEIGHT);
+		img.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,	DEFAULT_SLIDER_WIDTH);
+		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,DEFAULT_SLIDER_BORDER);
+		img.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,	DEFAULT_SLIDER_HEIGHT);
 
 		/* Set input component */
-		Element input = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+		nsIDOMElement input = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
 		input.setAttribute(HtmlComponentUtil.HTML_TYPE_ATTR, "text");
 		
 		setAttributesToInputElement(input, sourceElement);
@@ -148,21 +136,21 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		trackDiv.appendChild(handleDiv);
 		handleDiv.appendChild(img);
 		
-		Element tableSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement tableSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0px");
 		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0px");
 		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0px");		
 		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%" );
 		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%" );
 		
-		Element trSpacer2 =  visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement trSpacer2 =  visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		
-		Element tdSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement tdSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tdSpacer2.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "right");
 		tdSpacer2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,"font-family: Arial, Verdana, sans-serif; font-size: 5px; color: white;");
 		trSpacer2.appendChild(tdSpacer2);
 
-		Element imageSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		nsIDOMElement imageSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		ComponentUtil.setImg(imageSpacer2, IMAGE_SPACER);
 		imageSpacer2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
 		imageSpacer2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
@@ -185,38 +173,38 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *      java.lang.Object, java.lang.String)
 	 */
 	@Override
-	public void removeAttribute(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
+	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode,
 			Object data, String name) {
 		int numWidth = 0;
 		super.removeAttribute(pageContext, sourceElement, visualDocument,
 				visualNode, data, name);
-		Element element = (Element) visualNode;
 		
-		Element input = getInputElement(element);
+		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		nsIDOMElement input = getInputElement(element);
 		setAttributesToInputElement(input, sourceElement);
 
 		if (name.equalsIgnoreCase(RANGE_STYLE_CLASS_ATR)) {
-			Element range = getRangeElement(element);
+			nsIDOMElement range = getRangeElement(element);
 			range.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
 			range.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "range");
 		} else if (name.equalsIgnoreCase(TRAILER_STYLE_CLASS_ATR)) {
-			Element trailer = getTrailerElement(element);
+			nsIDOMElement trailer = getTrailerElement(element);
 			trailer.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
 			trailer.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "trailer");
 		} else if (name.equalsIgnoreCase(TRACK_STYLE_CLASS_ATR)) {
-			Element track = getTrackElement(element);
+			nsIDOMElement track = getTrackElement(element);
 			track.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
 			track.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "track");
 		} else if (name.equalsIgnoreCase(HANDLE_STYLE_CLASS_ATR)) {
-			Element handle = getHandleElement(element);
+			nsIDOMElement handle = getHandleElement(element);
 			handle.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
 			handle.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "handle");
 		} else if (name.equalsIgnoreCase(FIELD_STYLE_CLASS_ATR)) {
-			Element field = getInputElement(element);
+			nsIDOMElement field = getInputElement(element);
 			setAttributesToInputElement( field, sourceElement );
 		} else if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_ATR_WIDTH)) {
-			Element range = getRangeElement(element);
+			nsIDOMElement range = getRangeElement(element);
 			String style = ComponentUtil.getAttribute(sourceElement,
 					HtmlComponentUtil.HTML_STYLE_ATTR);
 			element.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style + ";"
@@ -246,6 +234,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		}
 	}
 
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -254,14 +243,13 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			Document visualDocument, Node visualNode, Object data, String name,
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name,
 			String value) {
-		super.setAttribute(pageContext, sourceElement, visualDocument,
-				visualNode, data, name, value);
-		Element parentDiv = (Element) visualNode;
+		super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
 
-		Element input = getInputElement(parentDiv);
+		nsIDOMElement parentDiv = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+		nsIDOMElement input = getInputElement(parentDiv);
 		setAttributesToInputElement(input, sourceElement);
 
 		
@@ -271,8 +259,8 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 			if (size < DEFAULT_WIDTH) {
 				size = DEFAULT_WIDTH;
 			}
-			Element rangeDiv = getRangeElement(parentDiv);
-			Element trackDiv = getTrackElement(parentDiv);
+			nsIDOMElement rangeDiv = getRangeElement(parentDiv);
+			nsIDOMElement trackDiv = getTrackElement(parentDiv);
 
 			String style = ComponentUtil.getAttribute(parentDiv,
 					HtmlComponentUtil.HTML_STYLE_ATTR);
@@ -291,19 +279,19 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 					+ (size - DEFAULT_PARAGRAPH) + "px;");
 
 		} else if (name.equalsIgnoreCase(RANGE_STYLE_CLASS_ATR)) {
-			Element range = getRangeElement(parentDiv);
+			nsIDOMElement range = getRangeElement(parentDiv);
 			range.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "range "
 					+ value);
 		} else if (name.equalsIgnoreCase(TRACK_STYLE_CLASS_ATR)) {
-			Element track = getTrackElement(parentDiv);
+			nsIDOMElement track = getTrackElement(parentDiv);
 			track.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "track "
 					+ value);
 		} else if (name.equalsIgnoreCase(TRAILER_STYLE_CLASS_ATR)) {
-			Element trailer = getTrailerElement(parentDiv);
+			nsIDOMElement trailer = getTrailerElement(parentDiv);
 			trailer.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "trailer "
 					+ value);
 		} else if (name.equalsIgnoreCase(HANDLE_STYLE_CLASS_ATR)) {
-			Element handle = getHandleElement(parentDiv);
+			nsIDOMElement handle = getHandleElement(parentDiv);
 			handle.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "handle "
 					+ value);
 		} else if (name.equalsIgnoreCase(FIELD_STYLE_CLASS_ATR)) {
@@ -333,10 +321,8 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 * @param styleClass
 	 * @param style
 	 */
-	private Element createDIV(Document visualDocument, String styleClass,
-			String style) {
-		Element div = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	private nsIDOMElement createDIV(nsIDOMDocument visualDocument, String styleClass, String style) {
+		nsIDOMElement div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		if (styleClass != null) {
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 		}
@@ -379,25 +365,35 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *            element
 	 * @return range element
 	 */
-	private Element getRangeElement(Element parent) {
-		NodeList list = parent.getChildNodes();
-		return (Element) list.item(0);
+	private nsIDOMElement getRangeElement(nsIDOMElement parent) {
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode tempNode = list.item(0);
+		nsIDOMElement returnElement = (nsIDOMElement)tempNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		return returnElement;
 	}
 
 	/**
 	 * Get Trailer element from parent element.
 	 * 
-	 * @param parent
-	 *            element
+	 * @param parent element
 	 * @return trailer element
 	 */
-	private Element getTrailerElement(Element parent) {
-		NodeList list = parent.getChildNodes();
-		Element slider = (Element) list.item(0);
-		NodeList sliderList = slider.getChildNodes();
-		Element trailer = (Element) sliderList.item(0);
-		NodeList trailerList = trailer.getChildNodes();
-		return (Element) trailerList.item(0);
+	private nsIDOMElement getTrailerElement(nsIDOMElement parent) {
+		// get a slider element
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode tempNode = list.item(0);
+		nsIDOMElement slider = (nsIDOMElement)tempNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		// get a trailer element
+		nsIDOMNodeList sliderList = slider.getChildNodes();
+		nsIDOMNode tempTrailerNode = sliderList.item(0);
+		nsIDOMElement trailer = (nsIDOMElement)tempTrailerNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		// get a element
+		nsIDOMNodeList trailerList = trailer.getChildNodes();
+		nsIDOMNode temp2 = trailerList.item(0);
+		nsIDOMElement returnElement = (nsIDOMElement)temp2.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return returnElement;
 	}
 
 	/**
@@ -407,15 +403,28 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *            element
 	 * @return track element
 	 */
-	private Element getTrackElement(Element parent) {
-		NodeList list = parent.getChildNodes();
-		Element range = (Element) list.item(0);
-		NodeList rangeList = range.getChildNodes();
-		Element rangeDecor = (Element) rangeList.item(0);
-		NodeList rangeDecorList = rangeDecor.getChildNodes();
-		Element trailer = (Element) rangeDecorList.item(0);
-		NodeList trailerList = trailer.getChildNodes();
-		return (Element) trailerList.item(0);
+	private nsIDOMElement getTrackElement(nsIDOMElement parent) {
+		
+		// get a range element
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode tempRangeNode = list.item(0);
+		nsIDOMElement range = (nsIDOMElement)tempRangeNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		// get a range decoder element
+		nsIDOMNodeList rangeList = range.getChildNodes();
+		nsIDOMNode tempRangeDecorNode = rangeList.item(0);
+		nsIDOMElement rangeDecor = (nsIDOMElement)tempRangeDecorNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		// get a trailer
+		nsIDOMNodeList rangeDecorList = rangeDecor.getChildNodes();
+		nsIDOMNode tempTrailerNode = rangeDecorList.item(0);
+		nsIDOMElement trailer = (nsIDOMElement)tempTrailerNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+		// get a element
+		nsIDOMNodeList trailerList = trailer.getChildNodes();
+		nsIDOMNode temp = trailerList.item(0);
+		nsIDOMElement returnElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return returnElement;
 	}
 
 	/**
@@ -425,17 +434,32 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *            element
 	 * @return handle element
 	 */
-	private Element getHandleElement(Element parent) {
-		NodeList list = parent.getChildNodes();
-		Element range = (Element) list.item(0);
-		NodeList rangeList = range.getChildNodes();
-		Element rangeDecor = (Element) rangeList.item(0);
-		NodeList rangeDecorList = rangeDecor.getChildNodes();
-		Element trailer = (Element) rangeDecorList.item(0);
-		NodeList trailerList = trailer.getChildNodes();
-		Element track = (Element) trailerList.item(0);
-		NodeList trackList = track.getChildNodes();
-		return (Element) trackList.item(0);
+	private nsIDOMElement getHandleElement(nsIDOMElement parent) {
+		// get a range element
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode tempRangeNode = list.item(0);
+		nsIDOMElement range = (nsIDOMElement)tempRangeNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		// get a range decoder element
+		nsIDOMNodeList rangeList = range.getChildNodes();
+		nsIDOMNode tempRangeDecorNode = rangeList.item(0);
+		nsIDOMElement rangeDecor = (nsIDOMElement)tempRangeDecorNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		// get a trailer
+		nsIDOMNodeList rangeDecorList = rangeDecor.getChildNodes();
+		nsIDOMNode tempTrailerNode = rangeDecorList.item(0);
+		nsIDOMElement trailer = (nsIDOMElement)tempTrailerNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+		// get a track
+		nsIDOMNodeList trailerList = trailer.getChildNodes();
+		nsIDOMNode tempTrackNode = trailerList.item(0);
+		nsIDOMElement track = (nsIDOMElement)tempTrackNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+		// get a element
+		nsIDOMNodeList trackList = track.getChildNodes();
+		nsIDOMNode temp = trackList.item(0);
+		nsIDOMElement returnElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return returnElement;
 	}
 
 	/**
@@ -445,13 +469,15 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 *            element
 	 * @return input element
 	 */
-	private Element getInputElement(Element parent) {
-		NodeList list = parent.getChildNodes();
-		return (Element) list.item(1);
+	private nsIDOMElement getInputElement(nsIDOMElement parent) {
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode tempNode = list.item(1);
+		nsIDOMElement returnElement = (nsIDOMElement)tempNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		return returnElement;
 	}
 	
 	
-	private void setAttributesToInputElement( Element inputElement, Element sourceElement) {
+	private void setAttributesToInputElement( nsIDOMElement inputElement, Element sourceElement) {
 		String styleClass = getAttribute(FIELD_STYLE_CLASS_ATR, sourceElement);
 		String value = getAttribute("handleValue", sourceElement);
 		

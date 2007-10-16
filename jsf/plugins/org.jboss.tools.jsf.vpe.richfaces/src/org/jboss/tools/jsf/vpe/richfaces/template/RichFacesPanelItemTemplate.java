@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -17,24 +17,22 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
 
-	public static VpeCreationData encode(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active,
+	public static VpeCreationData encode(VpeCreationData creationData, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentVisualElement, boolean active,
 			String barStyleClass, String barStyle,
 			String barHeaderStyleClass, String barHeaderStyle,
 			String barHeaderActiveStyleClass, String barHeaderActiveStyle,
 			String barContentStyleClass,
 			String barContentStyle,
 			String toggleId) {
-		Element div = visualDocument.createElement("div");
+	    
+		nsIDOMElement div = visualDocument.createElement("div");
 
 		if(creationData==null) {
 			creationData = new VpeCreationData(div);
@@ -59,23 +57,23 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 
 		// Encode Body
 		if(active) {
-			Element bodyDiv = visualDocument.createElement("div");
+			nsIDOMElement bodyDiv = visualDocument.createElement("div");
 			div.appendChild(bodyDiv);
 			bodyDiv.setAttribute("style", "width: 100%;");
 
-			Element table = visualDocument.createElement("table");
+			nsIDOMElement table = visualDocument.createElement("table");
 			bodyDiv.appendChild(table);
 			table.setAttribute("cellpadding", "0");
 			table.setAttribute("width", "100%");
 			table.setAttribute("style", "height: 100%;");
 
-			Element tbody = visualDocument.createElement("tbody");
+			nsIDOMElement tbody = visualDocument.createElement("tbody");
 			table.appendChild(tbody);
 			
-			Element tr = visualDocument.createElement("tr");
+			nsIDOMElement tr = visualDocument.createElement("tr");
 			tbody.appendChild(tr);
 			
-			Element td = visualDocument.createElement("td");
+			nsIDOMElement td = visualDocument.createElement("td");
 			tr.appendChild(td);
 
 			String tdClass = "dr-pnlbar-c rich-panelbar-content " + barContentStyleClass + " " + ComponentUtil.getAttribute(sourceElement, "contentClass");
@@ -91,16 +89,16 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 			}
 			creationData.addChildrenInfo(bodyInfo);
 		}
-
 		return creationData;
 	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		return encode(null, (Element)sourceNode, visualDocument, null, false, "", "", "", "", "", "", "", "", "0");
 	}
 
-	private static void encodeHeader(Element sourceElement, Document visualDocument, Element parentDiv, String styleClass, String style, String toggleId) {
-		Element div = visualDocument.createElement("div");
+	private static void encodeHeader(Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentDiv, String styleClass, String style, String toggleId) {
+	    try {
+	    	nsIDOMElement div = visualDocument.createElement("div");
 		parentDiv.appendChild(div);
 		div.setAttribute("class", styleClass);
 		div.setAttribute("style", style);
@@ -109,6 +107,9 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 		String label = sourceElement.getAttribute("label");
 		if(label!=null) {
 			div.appendChild(visualDocument.createTextNode(label));
+		}
+	    }catch(Throwable t) {
+		    t.printStackTrace();
 		}
 	}
 }

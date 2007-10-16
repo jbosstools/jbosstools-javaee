@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -21,25 +21,23 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
 	private static Map toggleMap = new HashMap();
-	private Element storedSwitchDiv = null;
+	private nsIDOMElement storedSwitchDiv = null;
 	
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element)sourceNode;
 
-		Element div = visualDocument.createElement("div");
+		nsIDOMElement div = visualDocument.createElement("div");
 
 		VpeCreationData creationData = new VpeCreationData(div);
 
@@ -48,7 +46,7 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		div.setAttribute("style", "width: " + ComponentUtil.getAttribute(sourceElement, "width") + ";" + ComponentUtil.getAttribute(sourceElement, "style"));
 
 		// Encode Header
-		Element headerDiv = visualDocument.createElement("div");
+		nsIDOMElement headerDiv = visualDocument.createElement("div");
 		div.appendChild(headerDiv);
 		headerDiv.setAttribute("class", "dr-stglpnl-h rich-stglpanel-header " + ComponentUtil.getAttribute(sourceElement, "headerClass"));
 		headerDiv.setAttribute("style", "position : relative; " + ComponentUtil.getHeaderBackgoundImgStyle());
@@ -56,7 +54,7 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		String label = ComponentUtil.getAttribute(sourceElement, "label");
 		headerDiv.appendChild(visualDocument.createTextNode(label));
 
-		Element switchDiv = visualDocument.createElement("div");
+		nsIDOMElement switchDiv = visualDocument.createElement("div");
 		headerDiv.appendChild(switchDiv);
 		switchDiv.setAttribute("style", "position : absolute; top: 0px; right: 5px;");
 
@@ -81,17 +79,17 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 
 		// Encode Body
 		if(opened) {
-			Element bodyDiv = visualDocument.createElement("div");
+		    nsIDOMElement bodyDiv = visualDocument.createElement("div");
 			div.appendChild(bodyDiv);
 			bodyDiv.setAttribute("style", "overflow: auto; height: " + ComponentUtil.getAttribute(sourceElement, "height") + "; width: 100%;");
 
-			Element table = visualDocument.createElement("table");
+			nsIDOMElement table = visualDocument.createElement("table");
 			bodyDiv.appendChild(table);
 			table.setAttribute("cellpadding", "0");
 			table.setAttribute("style", "width: 100%");
-			Element tr = visualDocument.createElement("tr");
+			nsIDOMElement tr = visualDocument.createElement("tr");
 			table.appendChild(tr);
-			Element td = visualDocument.createElement("td");
+			nsIDOMElement td = visualDocument.createElement("td");
 			tr.appendChild(td);
 			td.setAttribute("class", "dr-stglpnl-b rich-stglpanel-body " + ComponentUtil.getAttribute(sourceElement, "bodyClass"));
 
@@ -102,7 +100,6 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 			}
 			creationData.addChildrenInfo(bodyInfo);
 		}
-
 		return creationData;
 	}
 
@@ -113,7 +110,7 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 	 * @param visualDocument The document of the visual tree.
 	 * @param data Object <code>VpeCreationData</code>, built by a method <code>create</code>
 	 */
-	public void validate(VpePageContext pageContext, Node sourceNode, Document visualDocument, VpeCreationData data) {
+	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData data) {
 		super.validate(pageContext, sourceNode, visualDocument, data);
 		if (storedSwitchDiv == null) return;
 		String value = storedSwitchDiv.getAttribute("vpe-user-toggle-id");
@@ -123,12 +120,12 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		}
 	}
 
-	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<Node> children) {
+	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMNode> children) {
 		if (children == null || attrName == null || attrValue == null) return;
 		
-		for (Node child : children) {
-			if (child instanceof Element) {
-				Element childElement = (Element)child;
+		for (nsIDOMNode child : children) {
+			if (child instanceof nsIDOMElement) {
+			    	nsIDOMElement childElement = (nsIDOMElement)child.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 				childElement.setAttribute(attrName, attrValue);
 				applyAttributeValueOnChildren(attrName, attrValue, ComponentUtil.getChildren(childElement));
 			}

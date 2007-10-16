@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -18,9 +18,11 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.MozillaSupports;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -31,15 +33,14 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	private static final String STYLE_ATTR_NAME = "style";
 	private static final String ITEMCLASS_ATTR_NAME = "itemClass";
 	private static final String ITEMSTYLE_ATTR_NAME = "itemStyle";
+	private static final String LABEL_FACET_NAME = "label";
 	
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
-		Element sourceElement = (Element)sourceNode;
-		Element visualMenu = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+	    VpeCreationData creatorInfo = null;
+
+	    Element sourceElement = (Element)sourceNode;
+		nsIDOMElement visualMenu = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
  		
 		ComponentUtil.setCSSLink(pageContext, "dropDownMenu/dropDownMenu.css", "richFacesDropDownMenu");
 
@@ -52,7 +53,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 				STYLE_ATTR_NAME,
 				HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
 
-		Element visualMenuLabel = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		nsIDOMElement visualMenuLabel = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		visualMenuLabel.setAttribute("class", "dr-label-text-decor rich-label-text-decor");
 		correctAttribute(sourceElement, visualMenuLabel,
 				ITEMCLASS_ATTR_NAME,
@@ -66,28 +67,28 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 
 		visualMenu.appendChild(visualMenuLabel);
 		
-		VpeCreationData creatorInfo = new VpeCreationData(visualMenu);
+		creatorInfo = new VpeCreationData(visualMenu);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(visualMenuLabel);
-		Element facetElement = getLabelFacet(sourceElement); 
-		if ( facetElement != null) {
+		Element facetElement = getLabelFacet(sourceElement);
+
+		if (facetElement != null) {
 			childrenInfo.addSourceChild(facetElement);
 		} else {
 			Attr ddmLabelFromAttribute = sourceElement.getAttributeNode("value");
-			String textLabel = ddmLabelFromAttribute != null && ddmLabelFromAttribute.getValue() != null
-								? ddmLabelFromAttribute.getValue()
-								: "";
-			Node textLabelNode = visualDocument.createTextNode(textLabel);
-			visualMenuLabel.appendChild(textLabelNode);
+	    	String valueForLabel = ddmLabelFromAttribute != null && ddmLabelFromAttribute.getValue() != null
+		    			? ddmLabelFromAttribute.getValue()
+		    			: "";
+		    nsIDOMNode textLabel = visualDocument.createTextNode(valueForLabel);
+			visualMenuLabel.appendChild(textLabel);
 		}
 
 		creatorInfo.addChildrenInfo(childrenInfo);
 		visualMenu.appendChild(visualMenuLabel);
-		MozillaSupports.release(visualMenuLabel);
 		
 		return creatorInfo;
 	}
+	
 
-	private static final String LABEL_FACET_NAME = "label";
 	
 	private Element getLabelFacet(Element sourceElement) {
 		if (sourceElement == null) {
@@ -137,12 +138,12 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	}
 	
 	@Override
-	public void removeAttribute(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name) {
+	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
 		processAttributeChanges(pageContext, sourceElement, visualDocument, visualNode, data, name);
 	}
 
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
 		processAttributeChanges(pageContext, sourceElement, visualDocument, visualNode, data, name);
 	}
 
@@ -158,9 +159,9 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	 */
 
 	private void processAttributeChanges(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
+			Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode,
 			Object data, String name) {
-		Element el = (Element) visualNode;
+		nsIDOMElement el = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		
 		if (STYLECLASS_ATTR_NAME.equals(name)) {
 			if (el.getNodeName()
@@ -179,14 +180,14 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 						HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
 			}
 		} else if (ITEMCLASS_ATTR_NAME.equals(name)) {
-			NodeList nodeList = el.getChildNodes();
-			Node temp = null;
+			nsIDOMNodeList nodeList = el.getChildNodes();
+			nsIDOMNode temp = null;
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				temp = nodeList.item(i);
 				if ((temp instanceof Element)
 						&& (temp.getNodeName()
 								.equalsIgnoreCase(HtmlComponentUtil.HTML_TAG_DIV))) {
-					correctAttribute(sourceElement, (Element) temp,
+					correctAttribute(sourceElement, (nsIDOMElement) temp.queryInterface(nsIDOMNode.NS_IDOMNODE_IID),
 							ITEMCLASS_ATTR_NAME,
 							HtmlComponentUtil.HTML_CLASS_ATTR, 
 							"dr-label-text-decor rich-label-text-decor",
@@ -194,14 +195,14 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 				}
 			}
 		} else if (ITEMSTYLE_ATTR_NAME.equals(name)) {
-			NodeList nodeList = el.getChildNodes();
-			Node temp = null;
+		    	nsIDOMNodeList nodeList = el.getChildNodes();
+		    	nsIDOMNode temp = null;
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				temp = nodeList.item(i);
 				if ((temp instanceof Element)
 						&& (temp.getNodeName()
 								.equalsIgnoreCase(HtmlComponentUtil.HTML_TAG_DIV))) {
-					correctAttribute(sourceElement, (Element) temp,
+					correctAttribute(sourceElement, (nsIDOMElement) temp.queryInterface(nsIDOMNode.NS_IDOMNODE_IID),
 							ITEMSTYLE_ATTR_NAME,
 							HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
 				}
@@ -213,24 +214,23 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	 * Move attributes from sourceNode to html
 	 * 
 	 * @param sourceNode
-	 * @param visualNode
+	 * @param visualElement
 	 * @param attrName
 	 * @param htmlAttrName
 	 * @param prefValue
 	 * @param defValue
 	 */
-	private void correctAttribute(Element sourceNode, Element visualNode,
+	private void correctAttribute(Element sourceNode, nsIDOMElement visualElement,
 			String attrName, String htmlAttrName, String prefValue, String defValue) {
 		String attrValue = ((Element) sourceNode).getAttribute(attrName);
 		if (prefValue != null && prefValue.trim().length() > 0 && attrValue != null) {
 			attrValue = prefValue.trim() + " " + attrValue;
 		}
 		if (attrValue != null) {
-			visualNode.setAttribute(htmlAttrName, attrValue);
+			visualElement.setAttribute(htmlAttrName, attrValue);
 		} else if (defValue != null) {
-			visualNode.setAttribute(htmlAttrName, defValue);
+			visualElement.setAttribute(htmlAttrName, defValue);
 		} else
-			visualNode.removeAttribute(attrName);
+			visualElement.removeAttribute(attrName);
 	}
-
 }

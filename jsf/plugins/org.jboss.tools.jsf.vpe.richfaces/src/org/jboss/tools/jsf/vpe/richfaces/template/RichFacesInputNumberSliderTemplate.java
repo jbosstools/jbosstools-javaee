@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -20,11 +20,13 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 /**
  * Template for input number slider control
@@ -76,10 +78,10 @@ public class RichFacesInputNumberSliderTemplate extends
 	/** */
 	final private Map<String, Method> mapAttributeToMethod;
 
-	final private static Class[] defaultArgsMappedMethods = new Class[2];
+	final private static Class<?>[] defaultArgsMappedMethods = new Class<?>[2];
 
 	static {
-		defaultArgsMappedMethods[0] = Element.class;
+		defaultArgsMappedMethods[0] = nsIDOMElement.class;
 		defaultArgsMappedMethods[1] = Element.class;
 	}
 
@@ -109,7 +111,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @return
 	 */
 	private Method getMethodByName(String methodName) {
-		Class clazz = this.getClass();
+		Class<?> clazz = this.getClass();
 		Method m1 = null;
 		try {
 			m1 = clazz.getMethod(methodName, defaultArgsMappedMethods);
@@ -148,25 +150,24 @@ public class RichFacesInputNumberSliderTemplate extends
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 
-		Element table1 = null;
-		Element table1Tr1 = null;
-		Element table1Tr1Td1 = null;
-		Text table1Tr1Td1Text = null;
-		Element table1Tr1Td2 = null;
-		Text table1Tr1Td2Text = null;
-		Element table1Tr1Td3 = null;
-		Element table1Tr1Td3input = null;
-		Element table1Tr2 = null;
-		Element table1Tr2Td1 = null;
-		Element table1Tr2Td1Table2 = null;
-		Element table1Tr2Td1Table2Tr1 = null;
-		Element table1Tr2Td1Table2Tr1Td1 = null;
-		Element table1Tr2Td1Table2Tr1Td2 = null;
-		Element table1Tr2Td1Table2Tr1Td2Img = null;
-		Element table1Tr2Td1Table2Tr1Td3 = null;
+		nsIDOMElement table1 = null;
+		nsIDOMElement table1Tr1 = null;
+		nsIDOMElement table1Tr1Td1 = null;
+		nsIDOMText table1Tr1Td1Text = null;
+		nsIDOMElement table1Tr1Td2 = null;
+		nsIDOMText table1Tr1Td2Text = null;
+		nsIDOMElement table1Tr1Td3 = null;
+		nsIDOMElement table1Tr1Td3input = null;
+		nsIDOMElement table1Tr2 = null;
+		nsIDOMElement table1Tr2Td1 = null;
+		nsIDOMElement table1Tr2Td1Table2 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1Td1 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1Td2 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1Td2Img = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1Td3 = null;
 
 		// sets css link
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE, "inputNumberSlider");
@@ -262,8 +263,8 @@ public class RichFacesInputNumberSliderTemplate extends
 		// set a default values
 		//
 
-		Object[] inPatams = new Element[2];
-		inPatams[0] = (Element) table1;
+		Object[] inPatams = new Object[2];
+		inPatams[0] = table1;
 		inPatams[1] = sourceNode;
 
 		for (Map.Entry<String, Method> e : mapAttributeToMethod.entrySet()) {
@@ -281,6 +282,7 @@ public class RichFacesInputNumberSliderTemplate extends
 			}
 		}
 
+
 		VpeCreationData creationData = new VpeCreationData(table1);
 		return creationData;
 	}
@@ -292,14 +294,12 @@ public class RichFacesInputNumberSliderTemplate extends
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			Document visualDocument, Node visualNode, Object data, String name,
-			String value) {
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name,	String value) {
 
 		Method function = mapAttributeToMethod.get(name);
 		if (function != null) {
-			Object[] inPatams = new Element[2];
-			inPatams[0] = (Element) visualNode;
+			Object[] inPatams = new Object[2];
+			inPatams[0] = visualNode;
 			inPatams[1] = sourceElement;
 			try {
 				function.invoke(this, inPatams);
@@ -311,7 +311,10 @@ public class RichFacesInputNumberSliderTemplate extends
 				RichFacesTemplatesActivator.getPluginLog().logWarning("InvocationTargetException: "  + name + ":"+  e3.getMessage() );
 			}
 		}
-		correctArrowPosition(sourceElement, visualNode);
+		
+		nsIDOMElement visualtElement = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		
+		correctArrowPosition(sourceElement, visualtElement);
 	}
 
 	/**
@@ -333,7 +336,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * 
 	 * @param tree
 	 */
-	private void addBasicTableAttributes(Element table) {
+	private void addBasicTableAttributes(nsIDOMElement table) {
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
@@ -344,15 +347,16 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @return
 	 */
-	private Element getInputElement(Element visualNode) {
-		Element table = (Element) visualNode;
-		NodeList tableList = table.getChildNodes();
-		Node tr = tableList.item(0);
-		NodeList trList = tr.getChildNodes();
-		Node td1 = trList.item(2);
-		NodeList td1List = td1.getChildNodes();
-		Element input = (Element) td1List.item(0);
-		return input;
+	private nsIDOMElement getInputElement(nsIDOMElement visualNode) {
+		nsIDOMElement table = visualNode;
+		nsIDOMNodeList tableList = table.getChildNodes();
+		nsIDOMNode tr = tableList.item(0);
+		nsIDOMNodeList trList = tr.getChildNodes();
+		nsIDOMNode td1 = trList.item(2);
+		nsIDOMNodeList td1List = td1.getChildNodes();
+		nsIDOMNode input =  td1List.item(0);
+		nsIDOMElement inputElement = (nsIDOMElement) input.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return inputElement;
 	}
 
 	/**
@@ -360,15 +364,16 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @return
 	 */
-	private Node getMaxValueElement(Element visualNode) {
-		Element table = (Element) visualNode;
-		NodeList tableList = table.getChildNodes();
-		Node tr = tableList.item(0);
-		NodeList trList = tr.getChildNodes();
-		Node td1 = trList.item(1);
-		NodeList td1List = td1.getChildNodes();
-		Node maxValue = td1List.item(0);
-		return maxValue;
+	private nsIDOMElement getMaxValueElement(nsIDOMElement visualNode) {
+		nsIDOMElement table = visualNode;
+		nsIDOMNodeList tableList = table.getChildNodes();
+		nsIDOMNode tr = tableList.item(0);
+		nsIDOMNodeList trList = tr.getChildNodes();
+		nsIDOMNode td1 = trList.item(1);
+		nsIDOMNodeList td1List = td1.getChildNodes();
+		nsIDOMNode maxValue = td1List.item(0);
+		nsIDOMElement maxValueElement = (nsIDOMElement) maxValue.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return maxValueElement;
 	}
 
 	/**
@@ -376,15 +381,16 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @return
 	 */
-	private Node getMinValueElement(Element visualNode) {
-		Element table = (Element) visualNode;
-		NodeList tableList = table.getChildNodes();
-		Node tr = tableList.item(0);
-		NodeList trList = tr.getChildNodes();
-		Node td1 = trList.item(0);
-		NodeList td1List = td1.getChildNodes();
-		Node minValue = td1List.item(0);
-		return minValue;
+	private nsIDOMElement getMinValueElement(nsIDOMElement visualNode) {
+		nsIDOMElement table = visualNode;
+		nsIDOMNodeList tableList = table.getChildNodes();
+		nsIDOMNode tr = tableList.item(0);
+		nsIDOMNodeList trList = tr.getChildNodes();
+		nsIDOMNode td1 = trList.item(0);
+		nsIDOMNodeList td1List = td1.getChildNodes();
+		nsIDOMNode minValue = td1List.item(0);
+		nsIDOMElement minValueElement = (nsIDOMElement) minValue.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return minValueElement;
 	}
 
 	/**
@@ -392,8 +398,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void showInput(Element visualNode, Element sourceNode) {
-		Element input = getInputElement(visualNode);
+	public void showInput(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement input = getInputElement(visualNode);
 		if (getAttribute(SLIDER_SHOWINPUT_ATTR, sourceNode).equalsIgnoreCase(
 				"false")) {
 			input.setAttribute(HtmlComponentUtil.HTML_TYPE_ATTR,
@@ -409,7 +415,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void showBoundaryValues(Element visualNode, Element sourceNode) {
+	public void showBoundaryValues(nsIDOMElement visualNode, Element sourceNode) {
 		setMaxValue(visualNode, sourceNode);
 		setMinValue(visualNode, sourceNode);
 	}
@@ -419,8 +425,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setInputSize(Element visualNode, Element sourceNode) {
-		Element input = getInputElement(visualNode);
+	public void setInputSize(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement input = getInputElement(visualNode);
 		if (input != null) {
 			input.setAttribute("size", getInputSize(sourceNode));
 		}
@@ -431,8 +437,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setInputClass(Element visualNode, Element sourceNode) {
-		Element input = getInputElement(visualNode);
+	public void setInputClass(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement input = getInputElement(visualNode);
 		if (input != null) {
 			String tmp = getInputClass(sourceNode);
 			input.setAttribute("class", tmp);
@@ -444,8 +450,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setMaxValue(Element visualNode, Element sourceNode) {
-		Node maxValue = getMaxValueElement(visualNode);
+	public void setMaxValue(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement maxValue = getMaxValueElement(visualNode);
 		if (maxValue != null) {
 			if (getAttribute(SLIDER_SHOWBOUNDARY_ATTR, sourceNode)
 					.equalsIgnoreCase("false")) {
@@ -468,8 +474,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setMinValue(Element visualNode, Element sourceNode) {
-		Node minValue = getMinValueElement(visualNode);
+	public void setMinValue(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement minValue = getMinValueElement(visualNode);
 		if (minValue != null) {
 			if (getAttribute(SLIDER_SHOWBOUNDARY_ATTR, sourceNode)
 					.equalsIgnoreCase("false")) {
@@ -491,18 +497,17 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setWidth(Element visualNode, Element sourceNode) {
-		Element table = visualNode;
-		String tmp = getAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, sourceNode);
-		if (tmp.length() == 0) {
-			tmp = parseStyleWidth(sourceNode);
-		}
-		if (tmp.length() == 0) {
-			table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "200px;");
-		} else {
-			table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, tmp);
-		}
-
+	public void setWidth(nsIDOMElement visualNode, Element sourceNode) {
+	    nsIDOMElement table = visualNode;
+	    String tmp = getAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, sourceNode);
+	    if (tmp.length() == 0) {
+		tmp = parseStyleWidth(sourceNode);
+	    }
+	    if (tmp.length() == 0) {
+		table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "200px;");
+	    } else {
+		table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, tmp);
+	    }
 	}
 
 	/**
@@ -510,7 +515,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setStyle(Element visualNode, Element sourceNode) {
+	public void setStyle(nsIDOMElement visualNode, Element sourceNode) {
 		/*
 		 * Element table= visualNode; String tmp =
 		 * getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,sourceNode);
@@ -522,9 +527,9 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * Corrects arrow position accordinlye max, min and inputValues
 	 * 
 	 * @param sourceNode
-	 * @param visulaNode
+	 * @param visualElement
 	 */
-	private void correctArrowPosition(Element sourceNode, Node visulaNode) {
+	private void correctArrowPosition(Element sourceNode, nsIDOMElement visualElement) {
 
 		String minValue = sourceNode.getAttribute(SLIDER_MINVALUE_ATTR);
 		String maxValue = sourceNode.getAttribute(SLIDER_MAXVALUE_ATTR);
@@ -560,14 +565,27 @@ public class RichFacesInputNumberSliderTemplate extends
 		}
 		double h1 = ((roundForStep(step, value) - min) / (max - min)) * 100;
 		double h2 = 100 - h1;
-		Element table1Tr2Td1Table2Tr1Td1 = (Element) visulaNode.getChildNodes()
-				.item(1).getChildNodes().item(0).getChildNodes().item(0)
-				.getChildNodes().item(0).getChildNodes().item(0);
+		
+		
+		nsIDOMNodeList nodeList = visualElement.getChildNodes();
+		nsIDOMNode node_01 = nodeList.item(1); 
+		nsIDOMNodeList nodeList_01 = node_01.getChildNodes();
+		nsIDOMNode node_01_00 = nodeList_01.item(0);
+		nsIDOMNodeList nodeList_01_00 = node_01_00.getChildNodes();
+		nsIDOMNode node_01_00_00 = nodeList_01_00.item(0);
+		nsIDOMNodeList nodeList_01_00_00 = node_01_00_00.getChildNodes();
+		nsIDOMNode node_01_00_00_00 = nodeList_01_00_00.item(0);
+		nsIDOMNodeList nodeList_01_00_00_00 = node_01_00_00_00.getChildNodes();
+		nsIDOMNode node_01_00_00_00_00 = nodeList_01_00_00_00.item(0);
+		nsIDOMNode node_01_00_00_00_02 = nodeList_01_00_00_00.item(2);
+		
+		nsIDOMElement table1Tr2Td1Table2Tr1Td1 = (nsIDOMElement)node_01_00_00_00_00.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
 		table1Tr2Td1Table2Tr1Td1.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, (int) h1 + "%");
-		Element table1Tr2Td1Table2Tr1Td2 = (Element) visulaNode.getChildNodes()
-				.item(1).getChildNodes().item(0).getChildNodes().item(0)
-				.getChildNodes().item(0).getChildNodes().item(2);
+		
+		nsIDOMElement table1Tr2Td1Table2Tr1Td2 = (nsIDOMElement)node_01_00_00_00_02.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
 		table1Tr2Td1Table2Tr1Td2.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, (int) h2 + "%");
 	}
@@ -588,10 +606,10 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setClass(Element visualNode, Element sourceNode) {
-		Element table = visualNode;
-		String tmp = getAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, sourceNode);
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+	public void setClass(nsIDOMElement visualNode, Element sourceNode) {
+	    nsIDOMElement table = visualNode;
+	    String tmp = getAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, sourceNode);
+	    table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				new StringBuffer().append(tmp).toString());
 	}
 
@@ -600,8 +618,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setInputValue(Element visualNode, Element sourceNode) {
-		Element input = getInputElement(visualNode);
+	public void setInputValue(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement input = getInputElement(visualNode);
 		if (input != null) {
 			String tmp = getAttribute("value", sourceNode);
 			if (tmp.length() == 0) {
@@ -618,8 +636,8 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setInputStyle(Element visualNode, Element sourceNode) {
-		Element input = getInputElement(visualNode);
+	public void setInputStyle(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement input = getInputElement(visualNode);
 		if (input != null) {
 			String tmp = getAttribute("inputStyle", sourceNode);
 			input.setAttribute("style", tmp);
@@ -631,12 +649,11 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @param sourceNode
 	 */
-	public void setMaxlength(Element visualNode, Element sourceNode) {
-		Element input = getInputElement(visualNode);
+	public void setMaxlength(nsIDOMElement visualNode, Element sourceNode) {
+		nsIDOMElement input = getInputElement(visualNode);
 		if (input != null) {
 			String tmp = getAttribute("maxlength", sourceNode);
 			input.setAttribute("maxlength", tmp);
 		}
-	}
-
+	}	
 }

@@ -17,7 +17,8 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -48,10 +49,10 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
     public static final String ID_ATTR_NAME = "ID";
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-	    Document visualDocument) {
+	    nsIDOMDocument visualDocument) {
 	ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
 		"recursiveTreeNodesAdaptor");
-	Element visualElement = visualDocument
+	nsIDOMElement visualElement = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 	visualElement.setAttribute(ID_ATTR_NAME,
 		RECURSIVE_TREE_NODES_ADAPTOR_NAME);
@@ -84,8 +85,8 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
      * @return
      */
     public void parseTree(VpePageContext pageContext, Node sourceNode,
-	    Document visualDocument, VpeCreationData vpeCreationData,
-	    Element parentElement) {
+	    nsIDOMDocument visualDocument, VpeCreationData vpeCreationData,
+	    nsIDOMElement parentElement) {
 	NodeList nodeList = sourceNode.getChildNodes();
 	Element element = null;
 	int lenght = nodeList.getLength();

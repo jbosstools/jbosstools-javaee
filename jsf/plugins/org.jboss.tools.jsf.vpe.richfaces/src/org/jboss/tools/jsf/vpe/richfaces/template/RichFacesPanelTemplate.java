@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -17,24 +17,24 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 
+	   
 		Element sourceElement = (Element)sourceNode;
 
-		Element div = visualDocument.createElement("div");
+		nsIDOMElement div = visualDocument.createElement("div");
 
+		
 		VpeCreationData creationData = new VpeCreationData(div);
+		
 
 		ComponentUtil.setCSSLink(pageContext, "panel/panel.css", "richFacesPanel");
 		String styleClass = sourceElement.getAttribute("styleClass");
@@ -47,7 +47,7 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		// Encode Header
 		Node header = ComponentUtil.getFacet(sourceElement, "header", true);
 		if(header!=null) {
-			Element headerDiv = visualDocument.createElement("div");
+		    	nsIDOMElement headerDiv = visualDocument.createElement("div");
 			div.appendChild(headerDiv);
 			String headerClass = sourceElement.getAttribute("headerClass");
 			headerDiv.setAttribute("class", "dr-pnl-h rich-panel-header " + (headerClass==null?"":headerClass));
@@ -59,7 +59,7 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		}
 
 		// Encode Body
-		Element bodyDiv = visualDocument.createElement("div");
+		nsIDOMElement bodyDiv = visualDocument.createElement("div");
 		div.appendChild(bodyDiv);
 		String bodyClass = sourceElement.getAttribute("bodyClass");
 		bodyDiv.setAttribute("class", "dr-pnl-b rich-panel-body " + (bodyClass==null?"":bodyClass));

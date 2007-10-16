@@ -19,7 +19,10 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -104,16 +107,16 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * @return The information on the created node of the visual tree.
      */
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-	    Document visualDocument) {
+	    nsIDOMDocument visualDocument) {
 
-	Element visualElement = visualDocument
+	nsIDOMElement visualElement = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 	addBasicTreeNodeAttributes(visualElement);
 
-	Element tbody = visualDocument
+	nsIDOMElement tbody = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 
-	Element tableRow = visualDocument
+	nsIDOMElement tableRow = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TR);
 	addAttributeToTableNode((Element) sourceNode, tableRow);
 	visualElement.appendChild(tbody);
@@ -132,7 +135,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * @param sourceNode
      * @param tableRow
      */
-    private void addAttributeToTableNode(Element sourceNode, Element tableRow) {
+    private void addAttributeToTableNode(Element sourceNode,
+	    nsIDOMElement tableRow) {
 
 	String attrValue = sourceNode
 		.getAttribute(NODE_TITLE_STYLE_CLASS_ATTR_NAME);
@@ -158,12 +162,12 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      *                (image by default)
      */
     private void setAttributeForPictureNode(VpePageContext pageContext,
-	    Document visualDocument, Element sourceNode, Element iconCell,
-	    String nodeAttrName, String defaultImage) {
+	    nsIDOMDocument visualDocument, Element sourceNode,
+	    nsIDOMElement iconCell, String nodeAttrName, String defaultImage) {
 	if (RichFacesTemplatesActivator.getDefault().isDebugging()) {
 	    System.out.println("call setAttributeForPictureNode");
 	}
-	Element img = visualDocument
+	nsIDOMElement img = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 	addBasicAttributesToPicture(img);
 	iconCell.appendChild(img);
@@ -206,8 +210,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * @return tree
      */
     private void createBasicTree(VpePageContext pageContext,
-	    Document visualDocument, Element treeRow, Node sourceNode,
-	    VpeCreationData vpeCreationData) {
+	    nsIDOMDocument visualDocument, nsIDOMElement treeRow,
+	    Node sourceNode, VpeCreationData vpeCreationData) {
 	// creates icon node
 	String backgroundLinePath = null;
 	if (RichFacesTemplatesActivator.getDefault().isDebugging()) {
@@ -215,10 +219,10 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	}
 	boolean showLinesValue = getShowLinesAttr((Element) sourceNode);
 
-	Element iconNode = visualDocument
+	nsIDOMElement iconNode = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	// creates icon with status of node(collapsed or not) node
-	Element td1 = visualDocument
+	nsIDOMElement td1 = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	// sets icon node
 	if (!isLastElement(sourceNode) && isAdaptorChild(sourceNode)
@@ -255,7 +259,11 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 			"background-image: url(file://" + path + "); "
 				+ NODE_LINES_STYLE);
 	    }
-	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && (isLastElementAfterAdaptor(sourceNode) == isAdaptorInTree(sourceNode)) /*&& (isAdaptorInTree(sourceNode) == isLastElementAfterAdaptor(sourceNode))*/)
+	} else if ((isAdaptorChild(sourceNode) && isLastElement(sourceNode) && (isLastElementAfterAdaptor(sourceNode) == isAdaptorInTree(sourceNode)) /*
+																			 * &&
+																			 * (isAdaptorInTree(sourceNode) ==
+																			 * isLastElementAfterAdaptor(sourceNode))
+																			 */)
 		|| (!isAdaptorChild(sourceNode) && isLastElement(sourceNode))) {
 	    backgroundLinePath = RichFacesTemplatesActivator
 		    .getPluginResourcePath()
@@ -300,7 +308,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	treeRow.appendChild(td1);
 	treeRow.appendChild(iconNode);
 	// creates Tree Node Name Message
-	Element nodeTitle = visualDocument
+	nsIDOMElement nodeTitle = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	addBasicNodeTitleAttributes(nodeTitle);
 	// Create mapping to Encode body
@@ -322,38 +330,45 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * 
      * @param nodeTitle
      */
-    private void addBasicNodeTitleAttributes(Element nodeTitle) {
+    private void addBasicNodeTitleAttributes(nsIDOMElement nodeTitle) {
 	nodeTitle.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		STYLE_CLASS_FOR_NODE_TITLE);
     }
 
     @Override
     public void setAttribute(VpePageContext pageContext, Element sourceElement,
-	    Document visualDocument, Node visualNode, Object data, String name,
-	    String value) {
+	    nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
+	    String name, String value) {
 	/*
 	 * processed only next attributes iconExpanded and icon, because tree
 	 * always shows as expanded and information is it leaf or not contains
 	 * in model
 	 */
 	if (NODE_ICON_EXPANDED_ATTR_NAME.equalsIgnoreCase(name)) {
-	    Element expandedIconCell = (Element) visualNode.getChildNodes()
-		    .item(0);
-	    Element img = (Element) expandedIconCell.getChildNodes().item(0);
+	    nsIDOMElement expandedIconCell = (nsIDOMElement) visualNode
+		    .getChildNodes().item(0).queryInterface(
+			    nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement img = (nsIDOMElement) expandedIconCell
+		    .getChildNodes().item(0).queryInterface(
+			    nsIDOMElement.NS_IDOMELEMENT_IID);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, "");
 	} else if (NODE_ICON_ATTR_NAME.equals(name)
 		&& !isLastElement(visualNode)) {
-	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
-	    Element img = (Element) iconCell.getChildNodes().item(0);
+	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
+		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
+		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, "");
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equals(name)
 		&& isLastElement(sourceElement)) {
-	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
-	    Element img = (Element) iconCell.getChildNodes().item(0);
+	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
+		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
+		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, "");
@@ -362,8 +377,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 
     @Override
     public void removeAttribute(VpePageContext pageContext,
-	    Element sourceElement, Document visualDocument, Node visualNode,
-	    Object data, String name) {
+	    Element sourceElement, nsIDOMDocument visualDocument,
+	    nsIDOMNode visualNode, Object data, String name) {
 	/*
 	 * processed only next attributes iconExpanded and icon, because tree
 	 * always shows as expanded and information is it leaf or not contains
@@ -372,9 +387,12 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 
 	boolean showLinesValue = getShowLinesAttr(sourceElement);
 	if (NODE_ICON_EXPANDED_ATTR_NAME.equalsIgnoreCase(name)) {
-	    Element expandedIconCell = (Element) visualNode.getChildNodes()
-		    .item(0);
-	    Element img = (Element) expandedIconCell.getChildNodes().item(0);
+	    nsIDOMElement expandedIconCell = (nsIDOMElement) visualNode
+		    .getChildNodes().item(0).queryInterface(
+			    nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement img = (nsIDOMElement) expandedIconCell
+		    .getChildNodes().item(0).queryInterface(
+			    nsIDOMElement.NS_IDOMELEMENT_IID);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
 		    .getAttribute(NODE_ICON_EXPANDED_ATTR_NAME);
 	    if (parentAttrName == null || parentAttrName.length() == 0) {
@@ -390,8 +408,11 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 			    DEFAULT_ICON_EXPANDED_PARAM_VALUE);
 	} else if (NODE_ICON_ATTR_NAME.equalsIgnoreCase(name)
 		&& !isLastElement(sourceElement)) {
-	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
-	    Element img = (Element) iconCell.getChildNodes().item(0);
+	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
+		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
+		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
 		    .getAttribute(NODE_ICON_ATTR_NAME);
 	    if (parentAttrName == null || parentAttrName.length() == 0) {
@@ -406,8 +427,10 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equalsIgnoreCase(name)
 		&& isLastElement(sourceElement)) {
-	    Element iconCell = (Element) visualNode.getChildNodes().item(1);
-	    Element img = (Element) iconCell.getChildNodes().item(0);
+	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
+		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
+		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
 		    .getAttribute(NODE_ICON_LEAF_ATTR_NAME);
 	    if (parentAttrName == null || parentAttrName.length() == 0) {
@@ -420,6 +443,37 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    }
 	    img.setAttribute(ICON_PARAM_NAME, NODE_ICON_LEAF_ATTR_NAME);
 	}
+    }
+
+    /**
+     * 
+     * @param parentTree
+     * @param sourceNode
+     * @return
+     */
+    private boolean isLastElement(nsIDOMNode sourceNode) {
+	nsIDOMNode parentTree = sourceNode.getParentNode();
+	if (!(parentTree instanceof Element)) {
+	    return true;
+	}
+	nsIDOMNodeList childs = parentTree.getChildNodes();
+	String treeNodeName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODE_NAME;
+	String treeNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
+	String treeRecursiveNodesAdaptorName = parentTree.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
+	nsIDOMNode lastElement = null;
+	nsIDOMNode el = null;
+	for (int i = 0; i < childs.getLength(); i++) {
+	    el = childs.item(i);
+	    if (el.getNodeName().equals(treeNodeName)
+		    || el.getNodeName().equals(treeNodesAdaptorName)
+		    || el.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
+		lastElement = el;
+	    }
+	}
+	return sourceNode.equals(lastElement);
     }
 
     /**
@@ -523,7 +577,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * @param img
      */
 
-    private void addBasicAttributesToPicture(Element img) {
+    private void addBasicAttributesToPicture(nsIDOMElement img) {
 	img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		TREE_TABLE_PICTURE_STYLE_CLASS_NAME);
     }
@@ -533,7 +587,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
      * 
      * @param table
      */
-    private void addBasicTreeNodeAttributes(Element table) {
+    private void addBasicTreeNodeAttributes(nsIDOMElement table) {
 	if (table == null) {
 	    return;
 	}

@@ -1,32 +1,29 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
-import org.jboss.tools.vpe.VpePlugin;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.MozillaSupports;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -39,11 +36,6 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 	
 	public static final String ATTR_LOCATION_RIGHT_VALUE = "right";
 	
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
-
 	private class SourceToolBarGroupItem {
 		private Node toolBarGroupItem;
 		private String itemSeparator;
@@ -139,9 +131,8 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 	}
 	
 	
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
-		Element visualNode = null;
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+		nsIDOMElement visualNode = null;
 		VpeCreationData creationData = null;
 		
 		Element sourceElement = (Element)sourceNode;
@@ -149,7 +140,6 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 		
 		if (!sourceNode.getParentNode().getNodeName().endsWith(":" + RichFacesToolBarTemplate.TAG_NAME)) {
 			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument, "Parent should be toolBar");
-			
 			creationData = new VpeCreationData(visualNode);
 		} else if (!RichFacesToolBarTemplate.isValidItemSeparatorName(itemSeparator)) {
 			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument,
@@ -165,8 +155,8 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 			
 			visualNode = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 			visualNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "border: 0px none; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;");
-			Element body = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-			Element row = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+			nsIDOMElement body = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+			nsIDOMElement row = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 			row.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, HtmlComponentUtil.HTML_ATTR_VALIGN_MIDDLE_VALUE);
 			
 			creationData = new VpeCreationData(visualNode);
@@ -175,7 +165,7 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 			while(iterator.hasNext()) {
 				SourceToolBarGroupItem toolBarGroupItem = iterator.next();
 				
-				Element cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				nsIDOMElement cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 				if (toolBarGroupItem.isItem()) {
 					ComponentUtil.correctAttribute(sourceElement, cell,
 							RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME,
@@ -194,20 +184,16 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 							HtmlComponentUtil.HTML_CLASS_ATTR, null, null);
 					String separatorImageUrl = RichFacesToolBarTemplate
 							.getSeparatorImageUrlString(toolBarGroupItem.getItemSeparator());
-					Element separatorImage = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					nsIDOMElement separatorImage = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 					ComponentUtil.setImg(separatorImage, separatorImageUrl);
 					cell.appendChild(separatorImage);
-					MozillaSupports.release(separatorImage);
 				}
 				
 				row.appendChild(cell);
-				MozillaSupports.release(cell);
 			}
 			
 			body.appendChild(row);
-			MozillaSupports.release(row);
 			visualNode.appendChild(body);
-			MozillaSupports.release(body);
 		}
 		
 		return creationData;
@@ -215,8 +201,7 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 	
 
 	@Override
-	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
-			Node visualNode, Object data) {
+	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode, nsIDOMNode visualNode, Object data) {
 		String prefix = sourceNode.getPrefix();
 		if (prefix == null) {
 			return null;

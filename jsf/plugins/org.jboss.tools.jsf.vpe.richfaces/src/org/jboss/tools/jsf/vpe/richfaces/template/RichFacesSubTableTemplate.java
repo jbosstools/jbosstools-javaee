@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -18,7 +18,9 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -30,10 +32,6 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		super();
 	}
 
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
 
 	/**
 	 * Encode columnGroup
@@ -43,13 +41,13 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	 * @param parentVisualNode
 	 * @return
 	 */
-	public VpeCreationData encode(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualNode) {
+	public VpeCreationData encode(VpeCreationData creationData, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {
 		if(creationData!=null) {
 			// Encode header
 			encodeHeader(creationData, sourceElement, visualDocument, parentVisualNode);
 		}
 
-		Element tr = visualDocument.createElement("tr");
+		nsIDOMElement tr = visualDocument.createElement("tr");
 		ComponentUtil.copyAttributes(sourceElement, tr);
 
 		boolean header = false;
@@ -112,26 +110,26 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element)sourceNode;
 
 		VpeCreationData creationData = encode(null, sourceElement, visualDocument, null);
 		return creationData;
 	}
 
-	protected void encodeHeader(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualNode) {
+	protected void encodeHeader(VpeCreationData creationData, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {
 		encodeHeaderOrFooter(creationData, sourceElement, visualDocument, parentVisualNode, "header", "dr-subtable-header rich-subtable-header", "dr-subtable-headercell rich-subtable-headercell");
 	}
 
-	protected void encodeFooter(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualNode) {
+	protected void encodeFooter(VpeCreationData creationData, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {
 		encodeHeaderOrFooter(creationData, sourceElement, visualDocument, parentVisualNode, "footer", "dr-subtable-footer rich-subtable-footer", "dr-subtable-footercell rich-subtable-footercell");
 	}
 
-	protected void encodeHeaderOrFooter(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualNode, String facetName, String trClass, String tdClass) {
+	protected void encodeHeaderOrFooter(VpeCreationData creationData, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode, String facetName, String trClass, String tdClass) {
 		ArrayList<Element> columns = RichFacesDataTableTemplate.getColumns(sourceElement);
 		ArrayList<Element> columnsHeaders = RichFacesDataTableTemplate.getColumnsWithFacet(columns, facetName);
 		if(!columnsHeaders.isEmpty()) {
-			Element tr = visualDocument.createElement("tr");
+			nsIDOMElement tr = visualDocument.createElement("tr");
 			parentVisualNode.appendChild(tr);
 			String styleClass = trClass;
 			if(styleClass!=null) {
@@ -182,12 +180,14 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	@Override
-	public void removeAttribute(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name) {
-		((Element)visualNode).removeAttribute(name);
+	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
+		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		visualElement.removeAttribute(name);
 	}
 
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		((Element)visualNode).setAttribute(name, value);
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
+		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		visualElement.setAttribute(name, value);
 	}
 }

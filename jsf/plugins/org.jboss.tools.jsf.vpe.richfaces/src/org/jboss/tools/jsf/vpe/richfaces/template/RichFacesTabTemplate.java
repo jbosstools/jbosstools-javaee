@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -17,16 +17,12 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesTabTemplate extends VpeAbstractTemplate {
-
-	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
-		return true;
-	}
 
 	/**
 	 * Encode body of tab
@@ -43,17 +39,18 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	 * @param contentStyle
 	 * @return
 	 */
-	public static VpeCreationData encodeBody(VpeCreationData creationData, Element sourceElement, Document visualDocument, Element parentVisualElement, boolean active,
+	public static VpeCreationData encodeBody(VpeCreationData creationData, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentVisualElement, boolean active,
 			String tabClass,
 			String activeTabClass,
 			String inactiveTabClass,
 			String disabledTabClass,
 			String contentClass,
 			String contentStyle) {
-
-		Element td = visualDocument.createElement("td");
+	    
+	    	nsIDOMElement td = visualDocument.createElement("td");
 
 		if(creationData==null) {
+			
 			creationData = new VpeCreationData(td);
 		} else {
 			parentVisualElement.appendChild(td);
@@ -63,8 +60,9 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		}
 //		td.setAttribute("style", "position: relative;");
 		td.setAttribute("height", "100%");
+		
 
-		Element table = visualDocument.createElement("table");
+		nsIDOMElement table = visualDocument.createElement("table");
 		td.appendChild(table);
 		table.setAttribute("border", "0");
 		table.setAttribute("cellpadding", "10");
@@ -73,7 +71,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		table.setAttribute("class", "dr-tbpnl-cntnt-pstn rich-tabpanel-content-position");
 		table.setAttribute("style", "position: relative; z-index: 1;");
 
-		Element tr = visualDocument.createElement("tr");
+		nsIDOMElement tr = visualDocument.createElement("tr");
 		table.appendChild(tr);
 		td = visualDocument.createElement("td");
 		tr.appendChild(td);
@@ -90,7 +88,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		return encodeBody(null, (Element)sourceNode, visualDocument, null, true, "", "", "", "", "", "");
 	}
 
@@ -104,11 +102,12 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	 * @param inactiveTabClass
 	 * @param disabledTabClass
 	 */
-	public static void encodeHeader(Element sourceElement, Document visualDocument, Element parentDiv, boolean active,
+	public static void encodeHeader(Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement parentDiv, boolean active,
 			String activeTabClass,
 			String inactiveTabClass,
 			String disabledTabClass, String toggleId) {
-		Element td = visualDocument.createElement("td");
+	    
+		nsIDOMElement td = visualDocument.createElement("td");
 		parentDiv.appendChild(td);
 		td.setAttribute("style", "height: 100%; vertical-align: bottom;");
 		String styleClass = "dr-tbpnl-tbcell-dsbl rich-tabhdr-cell-dsbl";
@@ -122,7 +121,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		td.setAttribute("class", styleClass);
 		td.setAttribute("vpe-user-toggle-id", toggleId);
 
-		Element table = visualDocument.createElement("table");
+		nsIDOMElement table = visualDocument.createElement("table");
 		td.appendChild(table);
 		table.setAttribute("border", "0");
 		table.setAttribute("cellpadding", "0");
@@ -130,7 +129,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		table.setAttribute("style", "height : 100%; position : relative; z-index : 2;");
 		table.setAttribute("vpe-user-toggle-id", toggleId);
 
-		Element mainTr = visualDocument.createElement("tr");
+		nsIDOMElement mainTr = visualDocument.createElement("tr");
 		table.appendChild(mainTr);
 		encodeSpacer(mainTr, visualDocument);
 
@@ -148,7 +147,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		table.setAttribute("cellspacing", "0");
 		table.setAttribute("vpe-user-toggle-id", toggleId);
 
-		Element tr = visualDocument.createElement("tr");
+		nsIDOMElement tr = visualDocument.createElement("tr");
 		table.appendChild(tr);
 		td = visualDocument.createElement("td");
 		tr.appendChild(td);
@@ -181,14 +180,14 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	/*
 	 * Add <td class="dr-tbpnl-tbbrdr rich-tabhdr-side-border"><img src="#{spacer}" width="1" height="1" alt="" border="0" /></td>
 	 */
-	private static void encodeSpacer(Element parentTr, Document visualDocument) {
-		Element td = visualDocument.createElement("td");
+	private static void encodeSpacer(nsIDOMElement parentTr, nsIDOMDocument visualDocument) {
+	    	nsIDOMElement td = visualDocument.createElement("td");
 		parentTr.appendChild(td);
 		td.setAttribute("class", "dr-tbpnl-tbbrdr rich-tabhdr-side-border");
 		String borderImgPath = ComponentUtil.getAbsoluteResourcePath("tabPanel/border.gif");
 		String style = "background-image: url(file:///" + borderImgPath.replace('\\', '/') + ");";
 		td.setAttribute("style", style);
-		Element img = visualDocument.createElement("img");
+		nsIDOMElement img = visualDocument.createElement("img");
 		td.appendChild(img);
 		ComponentUtil.setImg(img, "common/spacer.gif");
 		img.setAttribute("width", "1");

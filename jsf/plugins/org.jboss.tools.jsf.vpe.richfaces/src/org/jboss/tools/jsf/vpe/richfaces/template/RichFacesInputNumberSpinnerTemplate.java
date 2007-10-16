@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -14,10 +14,12 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Template for input number spinner control
@@ -60,22 +62,21 @@ public class RichFacesInputNumberSpinnerTemplate extends AbstractRichFacesInputN
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 
 		// Set a css for this element
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME,
 				"richFacesInputNumberSpinner");
 
-		Element table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0px");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
 		
-		Element row = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement row = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
 		// create input element		
-		Element cellInput = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);		
+		nsIDOMElement cellInput = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);		
 		cellInput.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "ins-dr-spnr-e");
 		cellInput.setAttribute("valign", "top");
 		cellInput.appendChild(createInputElement(visualDocument, sourceNode));
@@ -83,7 +84,7 @@ public class RichFacesInputNumberSpinnerTemplate extends AbstractRichFacesInputN
 		
 
 		// create arrows cell 
-		Element cellArrows = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement cellArrows = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		cellArrows.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-spnr-b");
 		cellArrows.setAttribute("valign", "middle");
 		cellArrows.appendChild(createArrowsElement(visualDocument, sourceNode));
@@ -106,17 +107,17 @@ public class RichFacesInputNumberSpinnerTemplate extends AbstractRichFacesInputN
 	 * @param sourceNode The document of the visual tree.
 	 * @return a HTML-part containg arrows elements
 	 */
-	private Element createArrowsElement(Document visualDocument, Node sourceNode) {
-		Element table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+	private nsIDOMElement createArrowsElement(nsIDOMDocument visualDocument, Node sourceNode) {
+		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
 		
-		Element rowUp = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
-		Element cellUp = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement rowUp = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement cellUp = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		
-		Element imageUpElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+		nsIDOMElement imageUpElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
 		
 		ComponentUtil.setImg(imageUpElement, IMAGE_NAME_UP);
 
@@ -128,10 +129,10 @@ public class RichFacesInputNumberSpinnerTemplate extends AbstractRichFacesInputN
 		rowUp.appendChild(cellUp);
 		table.appendChild(rowUp);		
 
-		Element rowDown = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
-		Element cellDown = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement rowDown = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement cellDown = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
-		Element imageDownElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+		nsIDOMElement imageDownElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
 
 		ComponentUtil.setImg(imageDownElement, IMAGE_NAME_DOWN);
 
@@ -152,8 +153,8 @@ public class RichFacesInputNumberSpinnerTemplate extends AbstractRichFacesInputN
 	 * @param sourceNode The document of the visual tree.
 	 * @return a HTML-part containg input element
 	 */
-	private Element createInputElement(Document visualDocument, Node sourceNode) {
-		Element inputElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+	private nsIDOMElement createInputElement(nsIDOMDocument visualDocument, Node sourceNode) {
+		nsIDOMElement inputElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
 
 		inputElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				getInputClass(sourceNode));
@@ -197,28 +198,24 @@ public class RichFacesInputNumberSpinnerTemplate extends AbstractRichFacesInputN
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			Document visualDocument, Node visualNode, Object data, String name,
-			String value) {
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
 		// 1. Call super method
-		super.setAttribute(pageContext, sourceElement, visualDocument,
-				visualNode, data, name, value);
+		super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
 
-		Element table = (Element) visualNode;
-		NodeList listTable = table.getChildNodes();
-		Node nodeTr = listTable.item(0);
-		NodeList listTr = nodeTr.getChildNodes();
-		Node nodeTd = listTr.item(0);
+		nsIDOMElement table = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMNodeList listTable = table.getChildNodes();
+		nsIDOMNode nodeTr = listTable.item(0);
+		nsIDOMNodeList listTr = nodeTr.getChildNodes();
+		nsIDOMNode nodeTd = listTr.item(0);
 		
-		NodeList listTd = nodeTd.getChildNodes();
+		nsIDOMNodeList listTd = nodeTd.getChildNodes();		
+		nsIDOMNode entry0 = listTd.item(0);
 	
-		Element inputElement = (Element) listTd.item(0);
+		nsIDOMElement inputElement = (nsIDOMElement) entry0.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
-		inputElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				getInputClass(sourceElement));
+		inputElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, getInputClass(sourceElement));
 
-		inputElement.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-				getInputStyle(sourceElement));
+		inputElement.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, getInputStyle(sourceElement));
 		
 		inputElement.setAttribute(HtmlComponentUtil.HTML_SIZE_ATTR, getInputSize(sourceElement));
 		inputElement.setAttribute("value", getInputValue(sourceElement));

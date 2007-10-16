@@ -23,6 +23,8 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,19 +49,20 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	// private static final String DISABLED_STYLE_FOR_TABLE = "color:#B1ADA7";
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+			nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element) sourceNode;
 
 		String width = sourceElement.getAttribute(WIDTH_ATTR_PANELMENU);
 		String style = sourceElement.getAttribute(STYLE_ATTR_PANELMENU);
-		String styleClass = sourceElement.getAttribute(STYLECLASS_ATTR_PANELMENU);
-		
-		if(width != null) {
+		String styleClass = sourceElement
+				.getAttribute(STYLECLASS_ATTR_PANELMENU);
+
+		if (width != null) {
 			style += "" + "; width:" + width;
 		}
 
-		Element div = visualDocument.createElement(HTML.TAG_DIV);
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		VpeCreationData vpeCreationData = new VpeCreationData(div);
 
 		if (style != null) {
@@ -88,7 +91,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 						vpeCreationData, sourceElement, (Element) child,
 						visualDocument, div, expanded);
 			} else {
-				Element childDiv = visualDocument
+				nsIDOMElement childDiv = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 				VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childDiv);
 				div.appendChild(childDiv);
@@ -147,8 +150,8 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	}
 
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
-			Object data, String name, String value) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 }

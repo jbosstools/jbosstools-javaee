@@ -19,10 +19,12 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
@@ -37,7 +39,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String PANEL_MENU_NOWARP_CLASS = "dr-pmenu-nowrap";
 
 	private static final String PANEL_MENU_LABLE_CLASS = "dr-pmenu-group-self-label";
-	
+
 	private static final String PANEL_MENU_DIV = "dr-pmenu-top-self-div";
 
 	private static final String PANEL_MENU_ITEM = "panelMenuItem";
@@ -75,8 +77,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String ITEM_STYLE = "itemStyle";
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
-		Element div = visualDocument
+			nsIDOMDocument visualDocument) {
+		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
 
@@ -85,15 +87,15 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 	public static VpeCreationData encode(VpePageContext pageContext,
 			VpeCreationData creationData, Element sourceParentElement,
-			Element sourceElement, Document visualDocument,
-			Element parentVisualElement, boolean active) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement parentVisualElement, boolean active) {
 
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
 
-		Element parentDiv = visualDocument.createElement("div");
+		nsIDOMElement parentDiv = visualDocument.createElement("div");
 		parentDiv.setAttribute("CLASS", PANEL_MENU_DIV);
 		parentVisualElement.appendChild(parentDiv);
-		Element div = visualDocument
+		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
 		parentDiv.appendChild(div);
@@ -103,7 +105,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				|| (sourceElement.getParentNode().getNodeName()
 						.endsWith(":panelMenu"))) {
 			div.setAttribute("vpeSupport", PANEL_MENU_ITEM);
-			Element table = visualDocument
+			nsIDOMElement table = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 			div.appendChild(table);
 
@@ -116,17 +118,17 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,
 					NO_SIZE_VALUE);
 
-			Element tr = visualDocument
+			nsIDOMElement tr = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TR);
 			table.appendChild(tr);
 
-			Element tdNowrap = visualDocument
+			nsIDOMElement tdNowrap = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdNowrap);
 			tdNowrap.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					PANEL_MENU_NOWARP_CLASS);
 
-			Element tdLable = visualDocument
+			nsIDOMElement tdLable = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdLable);
 			tdLable.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
@@ -134,26 +136,26 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			tdLable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 					"element.style");
 			String value = sourceElement.getAttribute("label");
-			Text text = visualDocument.createTextNode(value == null ? ""
+			nsIDOMText text = visualDocument.createTextNode(value == null ? ""
 					: value);
 
 			tdLable.appendChild(text);
 
-			Element td = visualDocument
+			nsIDOMElement td = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(td);
 
-			Element imgPoints = visualDocument
+			nsIDOMElement imgPoints = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 
-			Element imgSpacer1 = visualDocument
+			nsIDOMElement imgSpacer1 = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 
 			tdNowrap.appendChild(imgSpacer1);
 			setDefaultImgAttributes(imgSpacer1);
 			ComponentUtil.setImg(imgSpacer1, IMG_SPACER_SRC);
 
-			Element imgSpacer2 = visualDocument
+			nsIDOMElement imgSpacer2 = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 
 			if (sourceElement.getParentNode().getNodeName().endsWith(
@@ -224,7 +226,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		return true;
 	}
 
-	private static void setDefaultImgAttributes(Element element) {
+	private static void setDefaultImgAttributes(nsIDOMElement element) {
 		element.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
 				DEFAULT_SIZE_VALUE);
 		element.setAttribute("vspace", NO_SIZE_VALUE);
@@ -233,8 +235,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				DEFAULT_SIZE_VALUE);
 	}
 
-	private static void setImagePosition(Element place, Element image,
-			VpePageContext pageContext, String icon) {
+	private static void setImagePosition(nsIDOMElement place,
+			nsIDOMElement image, VpePageContext pageContext, String icon) {
 		place.appendChild(image);
 		setDefaultImgAttributes(image);
 		if (icon == null || icon.length() == 0) {
@@ -246,10 +248,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	}
 
 	private static void setItemImage(Element sourceElement,
-			Element sourceParentElement, Element td, Element tdNowrap,
-			String attribute, VpePageContext pageContext,
-			Document visualDocument, String image, Element imgPoints,
-			Element imgSpacer2) {
+			Element sourceParentElement, nsIDOMElement td,
+			nsIDOMElement tdNowrap, String attribute,
+			VpePageContext pageContext, nsIDOMDocument visualDocument,
+			String image, nsIDOMElement imgPoints, nsIDOMElement imgSpacer2) {
 		String iconPosition = sourceParentElement.getAttribute(attribute);
 		if (!(iconPosition == null)) {
 			if (iconPosition.equals("right")) {
@@ -273,8 +275,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	}
 
 	private static void setItemClassAndStyle(Element sourceElement,
-			Element sourceParentElement, Element imgPoints,
-			VpePageContext pageContext, Element table,
+			Element sourceParentElement, nsIDOMElement imgPoints,
+			VpePageContext pageContext, nsIDOMElement table,
 			String parentClass, String parentStyle, String icon) {
 
 		if ("true".equals(sourceElement.getAttribute("disabled"))) {

@@ -3,11 +3,12 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 
@@ -17,7 +18,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	private String layoutValue;
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+			nsIDOMDocument visualDocument) {
 
 		passedLabelValue = ((Element) sourceNode)
 				.getAttribute(PASSED_LABEL_ATTRIBUTE_NAME);
@@ -77,7 +78,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	/**
 	 * Create <rich:messages> with layout="table"
 	 */
-	public void createTableLayout(Document visualDocument, Node sourceNode) {
+	public void createTableLayout(nsIDOMDocument visualDocument, Node sourceNode) {
 
 		createRichMessage(visualDocument, sourceNode);
 
@@ -86,9 +87,9 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	/**
 	 * Create <rich:messages> with layout="list"
 	 */
-	public void createListLayout(Document visualDocument, Node sourceNode) {
+	public void createListLayout(nsIDOMDocument visualDocument, Node sourceNode) {
 
-		Element table = visualDocument
+		nsIDOMElement table = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
 		if (styleValue != null && !styleValue.trim().equals(""))
@@ -99,17 +100,17 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 
 		creationData = new VpeCreationData(table);
 
-		Element tr = visualDocument
+		nsIDOMElement tr = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
-		Element td = visualDocument
+		nsIDOMElement td = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 		// create first td for PASSED
-		Element td1 = visualDocument
+		nsIDOMElement td1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
-		Element span1 = visualDocument
+		nsIDOMElement span1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set markerClass
@@ -122,20 +123,20 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 					markerStyleValue);
 
-		Element span2 = visualDocument
+		nsIDOMElement span2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		if (labelClassValue != null && !labelClassValue.trim().equals(""))
 			span2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					labelClassValue);
 
-		Text passedText = visualDocument
+		nsIDOMText passedText = visualDocument
 				.createTextNode(passedLabelValue == null ? ""
 						: passedLabelValue);
 		// -----------------------------------------------------------
 
 		// Create second td for ERROR
-		Element td2 = visualDocument
+		nsIDOMElement td2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		// set errorClass
 		if (errorClassValue != null && !errorClassValue.trim().equals(""))
@@ -143,7 +144,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 					.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 							errorClassValue);
 
-		Element span3 = visualDocument
+		nsIDOMElement span3 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set errorMarkerClass
@@ -152,7 +153,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span3.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					errorMarkerClassValue);
 
-		Element span4 = visualDocument
+		nsIDOMElement span4 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set errorLabelClass
@@ -161,11 +162,11 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span4.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					errorLabelClassValue);
 
-		Text errorText = visualDocument.createTextNode(ERROR_MESSAGE);
+		nsIDOMText errorText = visualDocument.createTextNode(ERROR_MESSAGE);
 		// -------------------------------------------------------------
 
 		// Create third td for FATAL
-		Element td3 = visualDocument
+		nsIDOMElement td3 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 		// set fatalClass
@@ -174,7 +175,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 					.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 							fatalClassValue);
 
-		Element span5 = visualDocument
+		nsIDOMElement span5 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set fatalMarkerClass
@@ -183,7 +184,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span5.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					fatalMarkerClassValue);
 
-		Element span6 = visualDocument
+		nsIDOMElement span6 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set fatalLabelClass
@@ -192,19 +193,19 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span6.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					fatalLabelClassValue);
 
-		Text fatalText = visualDocument.createTextNode(FATAL_MESSAGE);
+		nsIDOMText fatalText = visualDocument.createTextNode(FATAL_MESSAGE);
 		// ---------------------------------------------------------------------------
 
 		// Create four td for INFO
 
-		Element td4 = visualDocument
+		nsIDOMElement td4 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 		// set infoClass
 		if (infoClassValue != null && !infoClassValue.trim().equals(""))
 			td4.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, infoClassValue);
 
-		Element span7 = visualDocument
+		nsIDOMElement span7 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set infoMarkerClass
@@ -213,7 +214,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span7.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					infoMarkerClassValue);
 
-		Element span8 = visualDocument
+		nsIDOMElement span8 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set infoLabelClass
@@ -222,19 +223,19 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span8.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					infoLabelClassValue);
 
-		Text infoText = visualDocument.createTextNode(INFO_MESSAGE);
+		nsIDOMText infoText = visualDocument.createTextNode(INFO_MESSAGE);
 		// --------------------------------------------------------------------
 
 		// Create fifth for WARN
 
-		Element td5 = visualDocument
+		nsIDOMElement td5 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 		// set warnClass
 		if (warnClassValue != null && !warnClassValue.trim().equals(""))
 			td5.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, warnClassValue);
 
-		Element span9 = visualDocument
+		nsIDOMElement span9 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set warnMarkerClass
@@ -243,7 +244,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span9.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					warnMarkerClassValue);
 
-		Element span10 = visualDocument
+		nsIDOMElement span10 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
 		// set warnLabelClass
@@ -252,7 +253,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 			span10.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					warnLabelClassValue);
 
-		Text warnText = visualDocument.createTextNode(WARNING_MESSAGE);
+		nsIDOMText warnText = visualDocument.createTextNode(WARNING_MESSAGE);
 		// ---------------------------------------------------------------------
 
 		NodeList nodeList = sourceNode.getChildNodes();

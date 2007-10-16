@@ -15,7 +15,9 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -27,9 +29,9 @@ import org.w3c.dom.Node;
  */
 public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 
-	private static String EARTH_AERIAL = "/virtualEarth/earth_aerial.png";
-	private static String EARTH_HYBRID = "/virtualEarth/earth_hybrid.png";
-	private static String EARTH_ROAD = "/virtualEarth/earth_road.png";
+	private static String EARTH_AERIAL = "/virtualearth/earth_aerial.png";
+	private static String EARTH_HYBRID = "/virtualearth/earth_hybrid.png";
+	private static String EARTH_ROAD = "/virtualearth/earth_road.png";
 
 	private static String MAP_STYLE_ATTRIBUTE_NAME = "mapStyle";
 
@@ -38,9 +40,9 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 	private static String STYLE_CLASS_ATTR_NAME = "styleClass";
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+			nsIDOMDocument visualDocument) {
 
-		Element img = visualDocument
+		nsIDOMElement img = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 
 		String mapStyleValue = ((Element) sourceNode)
@@ -73,10 +75,11 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			Document visualDocument, Node visualNode, Object data, String name,
-			String value) {
+			nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
+			String name, String value) {
 
-		Element img = (Element) visualNode;
+		nsIDOMElement img = (nsIDOMElement) visualNode
+				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		if (name.equalsIgnoreCase(MAP_STYLE_ATTRIBUTE_NAME)) {
 			if (value.trim().equalsIgnoreCase("")
@@ -108,10 +111,11 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 	 *      java.lang.Object, java.lang.String)
 	 */
 	public void removeAttribute(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
-			Object data, String name) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMNode visualNode, Object data, String name) {
 
-		Element img = (Element) visualNode;
+		nsIDOMElement img = (nsIDOMElement) visualNode
+				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		if (name.equalsIgnoreCase(MAP_STYLE_ATTRIBUTE_NAME)) {
 			ComponentUtil.setImg(img, EARTH_ROAD);
@@ -144,7 +148,7 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 	 * @param sourceNode
 	 *            The current node of the source tree.
 	 */
-	private void copyStyleAttribute(Element img, Node sourceNode) {
+	private void copyStyleAttribute(nsIDOMElement img, Node sourceNode) {
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
 		for (int i = 0; i < namedNodeMap.getLength(); i++) {
 			Node attribute = namedNodeMap.item(i);

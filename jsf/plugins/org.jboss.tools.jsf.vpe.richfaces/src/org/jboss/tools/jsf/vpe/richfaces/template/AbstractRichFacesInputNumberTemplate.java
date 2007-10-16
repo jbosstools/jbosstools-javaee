@@ -1,17 +1,18 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -30,14 +31,14 @@ public abstract class  AbstractRichFacesInputNumberTemplate extends AbstractRich
 	 */
 	@Override
 	public void removeAttribute(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
+			Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode,
 			Object data, String name) {
+		
 		super.removeAttribute(pageContext, sourceElement, visualDocument,
 				visualNode, data, name);
 
 		setAttribute(pageContext, sourceElement, visualDocument, visualNode,
 				data, name, "");
-
 	}
 	
 	/** 

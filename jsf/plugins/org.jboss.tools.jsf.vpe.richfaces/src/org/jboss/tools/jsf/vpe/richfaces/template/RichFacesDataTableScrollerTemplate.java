@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -15,10 +15,13 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Template for Rich Faces DataTableScroller
@@ -81,40 +84,34 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		Element source = (Element) sourceNode;
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
 				"richFacesDataScrollerTable");
-		Element div = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		nsIDOMElement div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		String style = source.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
 		div.setAttribute("class", "dr-div-heigth");
 		if (style == null) {
 			style = DEFAULT_STYLE_WIDTH;
 		}
 
-		Element table = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				"dr-dscr-t dr-tbpnl-cntnt");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "1");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
-		Element tbody = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-		Element tr = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement tbody = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		tbody.appendChild(tr);
 		table.appendChild(tbody);
+		
 		VpeCreationData creationData = new VpeCreationData(div);
 		/* Add scroll cells */
-		Element child1 = createCell(visualDocument, false,
-				LEFT_DOUBLE_SCROLL_SYMBOL, SCROLL_CELL);
-		Element child2 = createCell(visualDocument, false,
-				LEFT_SINGLE_SCROLL_SYMBOL, SCROLL_CELL);
+		nsIDOMElement child1 = createCell(visualDocument, false, LEFT_DOUBLE_SCROLL_SYMBOL, SCROLL_CELL);
+		nsIDOMElement child2 = createCell(visualDocument, false, LEFT_SINGLE_SCROLL_SYMBOL, SCROLL_CELL);
 		/* Add empty cells */
-		Element child3 = createCell(visualDocument, false, "", EMPTY_CELL);
+		nsIDOMElement child3 = createCell(visualDocument, false, "", EMPTY_CELL);
 		tr.appendChild(child1);
 		tr.appendChild(child2);
 		tr.appendChild(child3);
@@ -130,8 +127,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		size /= (minSize / MIN_NUM_CELLS);
 		/* Add number cells in datascroller */
 		for (int i = 0; i < (size - 6); i++) {
-			Element child = createCell(visualDocument, (i == 0 ? true : false),
-					"" + (i + 1), NUM_CELL);
+			nsIDOMElement child = createCell(visualDocument, (i == 0 ? true : false), "" + (i + 1), NUM_CELL);
 			tr.appendChild(child);
 		}
 		/* Add empty cell */
@@ -161,12 +157,10 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 *            text in cell
 	 * @return Element
 	 */
-	private Element createCell(Document visualDocument, boolean active,
-			String text, int sellType) {
-		Element td = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+	private nsIDOMElement createCell(nsIDOMDocument visualDocument, boolean active, String text, int sellType) {
+		nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		td.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center");
-		Node d = visualDocument.createTextNode(text);
+		nsIDOMText d = visualDocument.createTextNode(text);
 		if (sellType == NUM_CELL) {
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					(active ? "dr-dscr-act" : "dr-dscr-inact"));
@@ -188,15 +182,12 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 * Method for remove attributes .
 	 */
 	@Override
-	public void removeAttribute(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
-			Object data, String name) {
-		super.removeAttribute(pageContext, sourceElement, visualDocument,
-				visualNode, data, name);
-		Element element = (Element) visualNode;
+	public void removeAttribute(VpePageContext pageContext,		Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode,Object data, String name) {
+		super.removeAttribute(pageContext, sourceElement, visualDocument,	visualNode, data, name);
+		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		element.removeAttribute(name);
-
 	}
+	
 
 	/*
 	 * @see com.exadel.vpe.editor.template.VpeAbstractTemplate#setAttribute(com.exadel.vpe.editor.context.VpePageContext,
@@ -204,12 +195,11 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			Document visualDocument, Node visualNode, Object data, String name,
-			String value) {
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name,	String value) {
 		super.setAttribute(pageContext, sourceElement, visualDocument,
 				visualNode, data, name, value);
-		Element element = (Element) visualNode;
+		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
 		int size = 45;
 		if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_STYLE_ATTR)) {
 			String str = getWidth(value);
@@ -220,32 +210,28 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 				value = MIN_STYLE_WIDTH;
 			}
 			size /= (minSize / MIN_NUM_CELLS);
-			Element tr = getTR(element);
-			NodeList nodes = tr.getChildNodes();
-			int nodesLength = nodes.getLength();
+			nsIDOMElement tr = getTR(element);
+			nsIDOMNodeList nodes = tr.getChildNodes();
+			long nodesLength = nodes.getLength();
 			if (nodesLength != size) {
 				if (size < nodesLength) {
-					/* Remove cells in datascroller */
+					// Remove cells in datascroller
 					for (int i = size; i < nodesLength; i++) {
 						tr.removeChild(nodes.item(size - 3));
 					}
 				} else {
-					/* Remove cells in datascroller */
+					// Remove cells in datascroller 
 					for (int i = 0; i < 3; i++) {
 						tr.removeChild(nodes.item(nodesLength - 3));
 					}
-					/* Add cells in datascroller */
+					// Add cells in datascroller 
 					for (int i = 0; i < (size - nodesLength); i++) {
-						Element cell = createCell(visualDocument, false, ""
-								+ (nodesLength - 5 + i), NUM_CELL);
+						nsIDOMElement cell = createCell(visualDocument, false, "" + (nodesLength - 5 + i), NUM_CELL);
 						tr.appendChild(cell);
 					}
-					Element child1 = createCell(visualDocument, false, "",
-							EMPTY_CELL);
-					Element child2 = createCell(visualDocument, false,
-							RIGHT_SINGLE_SCROLL_SYMBOL, SCROLL_CELL);
-					Element child3 = createCell(visualDocument, false,
-							RIGHT_DOUBLE_SCROLL_SYMBOL, SCROLL_CELL);
+					nsIDOMElement child1 = createCell(visualDocument, false, "", EMPTY_CELL);
+					nsIDOMElement child2 = createCell(visualDocument, false,RIGHT_SINGLE_SCROLL_SYMBOL, SCROLL_CELL);
+					nsIDOMElement child3 = createCell(visualDocument, false, RIGHT_DOUBLE_SCROLL_SYMBOL, SCROLL_CELL);
 					tr.appendChild(child1);
 					tr.appendChild(child2);
 					tr.appendChild(child3);
@@ -255,7 +241,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		element.setAttribute(name, value);
 
 	}
-
+	
 	/**
 	 * Method for parse style and get width.
 	 * 
@@ -310,12 +296,19 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 *            Element
 	 * @return Element Tag TR
 	 */
-	private Element getTR(Element parent) {
-		NodeList list = parent.getChildNodes();
-		Element table = (Element) list.item(0);
-		NodeList tableList = table.getChildNodes();
-		Element tbody = (Element) tableList.item(0);
-		NodeList tbodyList = tbody.getChildNodes();
-		return (Element) tbodyList.item(0);
+	private nsIDOMElement getTR(nsIDOMElement parent) {
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode tableNode = list.item(0);
+		nsIDOMElement table = (nsIDOMElement) tableNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		nsIDOMNodeList tableList = table.getChildNodes();
+		nsIDOMNode tbodyNode = tableList.item(0);
+		nsIDOMElement tbody = (nsIDOMElement) tbodyNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+		nsIDOMNodeList tbodyList = tbody.getChildNodes();
+		nsIDOMNode tempNode = tbodyList.item(0);
+		nsIDOMElement returnElement = (nsIDOMElement) tempNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			
+		return returnElement;
 	}
 }

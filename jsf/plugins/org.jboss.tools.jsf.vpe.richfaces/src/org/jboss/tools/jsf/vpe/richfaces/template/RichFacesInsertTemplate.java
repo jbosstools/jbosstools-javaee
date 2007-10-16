@@ -27,6 +27,9 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -68,14 +71,14 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	private static String GROOVY = "groovy";
 	private static String LZX = "lzx";
 
-	private Document visualDocument;
+	private nsIDOMDocument visualDocument;
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+			nsIDOMDocument visualDocument) {
 
 		this.visualDocument = visualDocument;
 
-		Element div = visualDocument
+		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
 		String srcValue = ((Element) sourceNode).getAttribute(SRC_ATTR_NAME);
@@ -88,9 +91,6 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		String finalStr = "";
 		String buf = "";
 
-		if (srcValue == null)
-			return vpeCreationData;
-
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					new FileInputStream(file)));
@@ -102,7 +102,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 			finalStr = "Resources " + srcValue + " not found.";
 			div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "color: red; "
 					+ "font-weight: bold;");
-			Text text = visualDocument.createTextNode(finalStr);
+			nsIDOMText text = visualDocument.createTextNode(finalStr);
 			div.appendChild(text);
 			return vpeCreationData;
 		}
@@ -112,7 +112,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 
 		if (highlightValue == null) {
 			finalStr = finalStr.replace('\n', ' ');
-			Text text = visualDocument.createTextNode(finalStr);
+			nsIDOMText text = visualDocument.createTextNode(finalStr);
 			div.appendChild(text);
 			return vpeCreationData;
 		}
@@ -231,14 +231,16 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	 * @param el
 	 * @return
 	 */
-	private void buildVisualNode(Node node, Element el) {
+	private void buildVisualNode(Node node, nsIDOMElement el) {
 
 		if (node instanceof Text) {
-			Text text = visualDocument.createTextNode(node.getTextContent());
+			nsIDOMText text = visualDocument.createTextNode(node
+					.getTextContent());
 			el.appendChild(text);
 
 		} else {
-			Element elem = visualDocument.createElement(node.getNodeName());
+			nsIDOMElement elem = visualDocument.createElement(node
+					.getNodeName());
 			el.appendChild(elem);
 
 			for (int i = 0; i < node.getAttributes().getLength(); i++)
@@ -272,8 +274,8 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	 *         a modification of attribute, <code>false</code> otherwise.
 	 */
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Element visualNode,
-			Object data, String name, String value) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 }

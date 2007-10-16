@@ -19,7 +19,8 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -61,7 +62,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+			nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element) sourceNode;
 
@@ -71,26 +72,26 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				.getAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR);
 
 		// -----------CommonTable
-		Element tableCommon = visualDocument
+		nsIDOMElement tableCommon = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
 		VpeCreationData creationData = new VpeCreationData(tableCommon);
 
-		Element tr1 = visualDocument
+		nsIDOMElement tr1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
-		Element tr2 = visualDocument
+		nsIDOMElement tr2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
 		tableCommon.appendChild(tr1);
 		tableCommon.appendChild(tr2);
 
 		// ---------tr2
-		Element tr2_TD = visualDocument
+		nsIDOMElement tr2_TD = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tr2.appendChild(tr2_TD);
 
-		Element tr2_td_DIV = visualDocument
+		nsIDOMElement tr2_td_DIV = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		tr2_td_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 				STYLE_FOR_LOW_SCROLL);
@@ -99,22 +100,22 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		// --------------------------------------------
 
 		// ---------------------tr1------------------------
-		Element tr1_TD1 = visualDocument
+		nsIDOMElement tr1_TD1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tr1.appendChild(tr1_TD1);
 
-		Element tr1_TD2 = visualDocument
+		nsIDOMElement tr1_TD2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tr1.appendChild(tr1_TD2);
 
-		Element tr1_td2_DIV = visualDocument
+		nsIDOMElement tr1_td2_DIV = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		tr1_td2_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 				STYLE_FOR_RIGHT_SCROLL);
 		tr1_TD2.appendChild(tr1_td2_DIV);
 
 		// -------------------------------------------------------
-		Element div = visualDocument
+		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		tr1_TD1.appendChild(div);
 		div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-table-hidden");
@@ -126,7 +127,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
 
-		Element table = visualDocument
+		nsIDOMElement table = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		ComponentUtil.copyAttributes(sourceNode, table);
 		table.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
@@ -145,7 +146,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		// Encode colgroup definition.
 		ArrayList<Element> columns = getColumns(sourceElement);
 		int columnsLength = getColumnsCount(sourceElement, columns);
-		Element colgroup = visualDocument
+		nsIDOMElement colgroup = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_COLGROUP);
 		colgroup.setAttribute(HtmlComponentUtil.HTML_TAG_SPAN, String
 				.valueOf(columnsLength));
@@ -158,7 +159,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		Element header = ComponentUtil.getFacet(sourceElement, HEADER);
 		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, HEADER);
 		if (header != null || !columnsHeaders.isEmpty()) {
-			Element thead = visualDocument
+			nsIDOMElement thead = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_THEAD);
 			table.appendChild(thead);
 			String headerClass = (String) sourceElement
@@ -172,7 +173,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						headerClass, HtmlComponentUtil.HTML_TAG_TD);
 			}
 			if (!columnsHeaders.isEmpty()) {
-				Element tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 				thead.appendChild(tr);
 				String styleClass = encodeStyleClass(null,
 						"dr-table-subheader rich-table-subheader", null,
@@ -192,13 +193,13 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		Element footer = ComponentUtil.getFacet(sourceElement, FOOTER);
 		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, FOOTER);
 		if (footer != null || !columnsFooters.isEmpty()) {
-			Element tfoot = visualDocument
+			nsIDOMElement tfoot = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TFOOT);
 			table.appendChild(tfoot);
 			String footerClass = (String) sourceElement
 					.getAttribute(FOOTER_CLASS);
 			if (!columnsFooters.isEmpty()) {
-				Element tr = visualDocument
+				nsIDOMElement tr = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_TR);
 				tfoot.appendChild(tr);
 				String styleClass = encodeStyleClass(null,
@@ -223,7 +224,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			}
 		}
 
-		Element tbody = visualDocument
+		nsIDOMElement tbody = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 		table.appendChild(tbody);
 
@@ -231,7 +232,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		for (int i = 0; i < NUM_ROW; i++) {
 			List<Node> children = ComponentUtil.getChildren(sourceElement);
 			boolean firstRow = true;
-			Element tr = null;
+			nsIDOMElement tr = null;
 			VpeChildrenInfo trInfo = null;
 			for (Node child : children) {
 				if (child.getNodeName().endsWith(":column")) {
@@ -287,8 +288,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	 * @param table
 	 */
 	protected void encodeCaption(VpeCreationData creationData,
-			Element sourceElement, Document visualDocument,
-			Element table) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement table) {
 		// Encode caption
 		Element captionFromFacet = ComponentUtil.getFacet(sourceElement,
 				HtmlComponentUtil.HTML_TAG_CAPTION);
@@ -296,7 +297,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			String captionClass = (String) table.getAttribute(CAPTION_CLASS);
 			String captionStyle = (String) table.getAttribute(CAPTION_STYLE);
 
-			Element caption = visualDocument
+			nsIDOMElement caption = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_CAPTION);
 			table.appendChild(caption);
 			if (captionClass != null && captionClass.length() > 0) {
@@ -331,13 +332,13 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	 * @param element
 	 */
 	public static void encodeHeaderOrFooterFacets(VpeCreationData creationData,
-			Element parentTr, Document visualDocument,
+			nsIDOMElement parentTr, nsIDOMDocument visualDocument,
 			ArrayList<Element> headersOrFooters, String skinCellClass,
 			String headerClass, String facetName, String element) {
 		for (Element column : headersOrFooters) {
 			String classAttribute = facetName + "Class";
 			String columnHeaderClass = column.getAttribute(classAttribute);
-			Element td = visualDocument.createElement(element);
+			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
 			String styleClass = encodeStyleClass(null, skinCellClass,
 					headerClass, columnHeaderClass);
@@ -370,8 +371,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	 * @param element
 	 */
 	protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData,
-			Element parentTheadOrTfood, int columns,
-			Document visualDocument, Element facetBody,
+			nsIDOMElement parentTheadOrTfood, int columns,
+			nsIDOMDocument visualDocument, Element facetBody,
 			String skinFirstRowClass, String skinRowClass,
 			String skinCellClass, String facetBodyClass, String element) {
 		boolean isColumnGroup = facetBody.getNodeName()
@@ -384,7 +385,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else {
-			Element tr = visualDocument
+			nsIDOMElement tr = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TR);
 			parentTheadOrTfood.appendChild(tr);
 
@@ -396,7 +397,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			String style = ComponentUtil.getHeaderBackgoundImgStyle();
 			tr.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 
-			Element td = visualDocument.createElement(element);
+			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);
 
 			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass,
@@ -600,8 +601,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	 *         a modification of attribute, <code>false</code> otherwise.
 	 */
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument,
-			Element visualNode, Object data, String name, String value) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 

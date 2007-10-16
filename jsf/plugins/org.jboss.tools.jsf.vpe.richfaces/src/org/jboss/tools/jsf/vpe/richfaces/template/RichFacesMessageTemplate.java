@@ -15,11 +15,12 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 /**
  * 
@@ -80,29 +81,29 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
 	protected static String NAME_ATTRIBUTE_NAME = "name";
 
-	private Element td1; // passed marker
-	private Element td2; // passed label
+	private nsIDOMElement td1; // passed marker
+	private nsIDOMElement td2; // passed label
 
-	private Element tr2; // error message
-	private Element td3; // error marker
-	private Element td4; // error label
+	private nsIDOMElement tr2; // error message
+	private nsIDOMElement td3; // error marker
+	private nsIDOMElement td4; // error label
 
-	private Element tr3; // fatal message
-	private Element td5; // fatal marker
-	private Element td6; // fatal label
+	private nsIDOMElement tr3; // fatal message
+	private nsIDOMElement td5; // fatal marker
+	private nsIDOMElement td6; // fatal label
 
-	private Element tr4; // info message
-	private Element td7; // info marker
-	private Element td8; // info label
+	private nsIDOMElement tr4; // info message
+	private nsIDOMElement td7; // info marker
+	private nsIDOMElement td8; // info label
 
-	private Element tr5; // warn message
-	private Element td9; // warn marker
-	private Element td10; // warn label
+	private nsIDOMElement tr5; // warn message
+	private nsIDOMElement td9; // warn marker
+	private nsIDOMElement td10; // warn label
 
 	protected VpeCreationData creationData;
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+			nsIDOMDocument visualDocument) {
 
 		passedLabelValue = ((Element) sourceNode)
 				.getAttribute(PASSED_LABEL_ATTRIBUTE_NAME);
@@ -151,26 +152,27 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
-	protected void createRichMessage(Document visualDocument, Node sourceNode) {
+	protected void createRichMessage(nsIDOMDocument visualDocument,
+			Node sourceNode) {
 
 		// -------------------create common table
-		Element tableHeader = visualDocument
+		nsIDOMElement tableHeader = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
 		creationData = new VpeCreationData(tableHeader);
 
-		Element tr = visualDocument
+		nsIDOMElement tr = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
 		// in this td append not f:facet
-		Element td01 = visualDocument
+		nsIDOMElement td01 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
-		Element td02 = visualDocument
+		nsIDOMElement td02 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 		// ----------------create second table
-		Element table = visualDocument
+		nsIDOMElement table = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
 		if (styleValue != null && !styleValue.trim().equals(""))
@@ -180,7 +182,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 					styleClassValue);
 
 		// Create first row PASSED
-		Element tr1 = visualDocument
+		nsIDOMElement tr1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
 		td1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
@@ -206,7 +208,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 					.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 							labelClassValue);
 
-		Text passedText = visualDocument
+		nsIDOMText passedText = visualDocument
 				.createTextNode(passedLabelValue == null ? ""
 						: passedLabelValue);
 		// ---------------------------------------------------------------------
@@ -238,7 +240,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 			td4.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					errorLabelClassValue);
 
-		Text errorText = visualDocument.createTextNode(ERROR_MESSAGE);
+		nsIDOMText errorText = visualDocument.createTextNode(ERROR_MESSAGE);
 		// ---------------------------------------------------------------------
 
 		// Create third row FATAL
@@ -268,7 +270,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 			td6.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					fatalLabelClassValue);
 
-		Text fatalText = visualDocument.createTextNode(FATAL_MESSAGE);
+		nsIDOMText fatalText = visualDocument.createTextNode(FATAL_MESSAGE);
 		// ---------------------------------------------------------------------
 
 		// Create four row INFO
@@ -296,7 +298,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 			td8.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					infoLabelClassValue);
 
-		Text infoText = visualDocument.createTextNode(INFO_MESSAGE);
+		nsIDOMText infoText = visualDocument.createTextNode(INFO_MESSAGE);
 		// ---------------------------------------------------------------------
 
 		// Create fifth row WARNING
@@ -324,7 +326,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 			td10.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					warnLabelClassValue);
 
-		Text warnText = visualDocument.createTextNode(WARNING_MESSAGE);
+		nsIDOMText warnText = visualDocument.createTextNode(WARNING_MESSAGE);
 
 		NodeList nodeList = sourceNode.getChildNodes();
 
@@ -411,8 +413,8 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	 *         a modification of attribute, <code>false</code> otherwise.
 	 */
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Element visualNode,
-			Object data, String name, String value) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 
@@ -420,7 +422,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	 * 
 	 * @param td01
 	 */
-	protected void addNotFacetComponent(Element td01, Node sourceNode) {
+	protected void addNotFacetComponent(nsIDOMElement td01, Node sourceNode) {
 
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td01);
 		creationData.addChildrenInfo(childrenInfo);
@@ -455,7 +457,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	 * @param td
 	 * @param elemFacet
 	 */
-	protected void createVisualFacet(Element td, Element elemFacet) {
+	protected void createVisualFacet(nsIDOMElement td, Element elemFacet) {
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td);
 		creationData.addChildrenInfo(childrenInfo);
 

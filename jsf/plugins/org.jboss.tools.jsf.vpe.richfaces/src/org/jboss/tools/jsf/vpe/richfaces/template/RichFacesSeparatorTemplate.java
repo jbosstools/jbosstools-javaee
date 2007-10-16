@@ -1,12 +1,12 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
@@ -15,10 +15,12 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.w3c.dom.Document;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Template for Rich Faces separator
@@ -53,13 +55,6 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	final static String DEFAULT_WIDTH = "100%";
 
 	/**
-	 * Constructor
-	 */
-	public RichFacesSeparatorTemplate() {
-		super();
-	}
-
-	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
 	 * visual node should not have the parent node This visual node can have
 	 * child nodes.
@@ -72,14 +67,13 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			Document visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesSeparator");
 		Element sourceElement = (Element) sourceNode;
 		/* Create new html element table */
-		Element separator = visualDocument
+		nsIDOMElement separator = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		Element line = visualDocument
+		nsIDOMElement line = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(separator);
 		String width = sourceElement
@@ -120,20 +114,14 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 * Method for remove attributes in separator
 	 */
 	@Override
-	public void removeAttribute(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
-			Object data, String name) {
-		super.removeAttribute(pageContext, sourceElement, visualDocument,
-				visualNode, data, name);
-		Element element = (Element) visualNode;
-		Element line = getLineElement(element);
-		String style = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-		String width = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+	public void removeAttribute(VpePageContext pageContext,  Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
+		super.removeAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name);
+		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement line = getLineElement(element);
+		String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+		String width = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
 		String newStyle;
-		String height = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
+		String height = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
 
 		String lineType = sourceElement.getAttribute(LINE_TYPE_ATTR);
 		if (lineType == null) {
@@ -177,14 +165,12 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			Document visualDocument, Node visualNode, Object data, String name,
-			String value) {
+	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name,	String value) {
 		String newStyle;
 		super.setAttribute(pageContext, sourceElement, visualDocument,
 				visualNode, data, name, value);
-		Element element = (Element) visualNode;
-		Element line = getLineElement(element);
+		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement line = getLineElement(element);
 		String style = sourceElement
 				.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
 		String width = sourceElement
@@ -320,9 +306,11 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		return false;
 	}
 
-	private Element getLineElement(Element parent) {
-		NodeList list = parent.getChildNodes();
-		return (Element) list.item(0);
+	private nsIDOMElement getLineElement(nsIDOMElement parent) {
+		nsIDOMNodeList list = parent.getChildNodes();
+		nsIDOMNode node = list.item(0);
+		nsIDOMElement element = (nsIDOMElement) node.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		return element;
 	}
 
 	/**
@@ -337,12 +325,9 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	private String setStyle(String lineType, String width, String height,
 			String style) {
 		StringBuffer newStyle = new StringBuffer();
-		newStyle.append(HtmlComponentUtil.CSS_BORDER_STYLE + ":"
-				+ (lineType == null ? LINE_SOLID : lineType) + ";");
-		newStyle.append(HtmlComponentUtil.CSS_BORDER_WIDTH + ":"
-				+ (height == null ? DEFAULT_HEIGHT : height) + " 0px 0px;");
-		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":"
-				+ (width == null ? DEFAULT_WIDTH : width) + ";");
+		newStyle.append(HtmlComponentUtil.CSS_BORDER_STYLE + ":"  + (lineType == null ? LINE_SOLID : lineType) + ";");
+		newStyle.append(HtmlComponentUtil.CSS_BORDER_WIDTH + ":" + (height == null ? DEFAULT_HEIGHT : height) + " 0px 0px;");
+		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":"  + (width == null ? DEFAULT_WIDTH : width) + ";");
 		newStyle.append((style == null ? "" : style));
 		return newStyle.toString();
 	}
@@ -357,11 +342,10 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 */
 	private String setBeveledStyle(String width, String height, String style) {
 		StringBuffer newStyle = new StringBuffer();
-		newStyle.append(HtmlComponentUtil.HTML_ATR_HEIGHT + ":"
-				+ (height == null ? DEFAULT_HEIGHT : height) + ";");
-		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":"
-				+ (width == null ? DEFAULT_WIDTH : width) + ";");
+		newStyle.append(HtmlComponentUtil.HTML_ATR_HEIGHT + ":" + (height == null ? DEFAULT_HEIGHT : height) + ";");
+		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":" + (width == null ? DEFAULT_WIDTH : width) + ";");
 		newStyle.append((style == null ? "" : style));
 		return newStyle.toString();
 	}
+
 }
