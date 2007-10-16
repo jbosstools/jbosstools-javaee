@@ -306,7 +306,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		pathIconDisabled = sourceParentElement.getAttribute(PANEL_MENU_ATTR_ICON_TOP_DISABLE_GROUP);
 	    }
 
-	    if ("right".equalsIgnoreCase(sourceParentElement.getAttribute(PANEL_MENU_ATTR_ICON_TOP_GROUP_POSITION))) {
+	    if ("right".equals(sourceParentElement.getAttribute(PANEL_MENU_ATTR_ICON_TOP_GROUP_POSITION))) {
 		needChangePosition = true;
 	    }
 	} else {
@@ -320,7 +320,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		pathIconDisabled = sourceParentElement.getAttribute(PANEL_MENU_ATTR_ICON_DISABLE_GROUP);
 	    }
 
-	    if ("right".equalsIgnoreCase(sourceParentElement.getAttribute(PANEL_MENU_ATTR_ICON_GROUP_POSITION))) {
+	    if ("right".equals(sourceParentElement.getAttribute(PANEL_MENU_ATTR_ICON_GROUP_POSITION))) {
 		needChangePosition = true;
 	    }
 	}
@@ -332,23 +332,23 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	}
 
 	if (disabled) {
-	    if (pathIconDisabled != null && DEFAULT_ICON_MAP.containsKey(pathIconDisabled.toLowerCase())) {
-		pathIconDisabled = DEFAULT_ICON_MAP.get(pathIconDisabled.toLowerCase());
+	    if (pathIconDisabled != null && DEFAULT_ICON_MAP.containsKey(pathIconDisabled)) {
+		pathIconDisabled = DEFAULT_ICON_MAP.get(pathIconDisabled);
 		ComponentUtil.setImg(img1, pathIconDisabled);
 	    } else {
 		ComponentUtil.setImgFromResources(pageContext, img1, pathIconDisabled, PANEL_MENU_GROUP_ICON_SPACER_PATH);
 	    }
 	} else {
 	    if (expanded) {
-		if (pathIconExpanded != null && DEFAULT_ICON_MAP.containsKey(pathIconExpanded.toLowerCase())) {
-		    pathIconExpanded = DEFAULT_ICON_MAP.get(pathIconExpanded.toLowerCase());
+		if (pathIconExpanded != null && DEFAULT_ICON_MAP.containsKey(pathIconExpanded)) {
+		    pathIconExpanded = DEFAULT_ICON_MAP.get(pathIconExpanded);
 		    ComponentUtil.setImg(img1, pathIconExpanded);
 		} else {
 		    ComponentUtil.setImgFromResources(pageContext, img1, pathIconExpanded, PANEL_MENU_GROUP_ICON_SPACER_PATH);
 		}
 	    } else {
-		if (pathIconCollapsed != null && DEFAULT_ICON_MAP.containsKey(pathIconCollapsed.toLowerCase())) {
-		    pathIconCollapsed = DEFAULT_ICON_MAP.get(pathIconCollapsed.toLowerCase());
+		if (pathIconCollapsed != null && DEFAULT_ICON_MAP.containsKey(pathIconCollapsed)) {
+		    pathIconCollapsed = DEFAULT_ICON_MAP.get(pathIconCollapsed);
 		    ComponentUtil.setImg(img1, pathIconCollapsed);
 		} else {
 		    ComponentUtil.setImgFromResources(pageContext, img1, pathIconCollapsed, PANEL_MENU_GROUP_ICON_SPACER_PATH);   
