@@ -28,6 +28,7 @@ import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter1;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * @author eskimo
@@ -52,6 +53,11 @@ public class SeamFacetPreferenceInitializer extends
 		node.put(SeamFacetPreference.JBOSS_AS_DEFAULT_DEPLOY_AS, "war"); //$NON-NLS-1$
 		node.put(SeamFacetPreference.HIBERNATE_DEFAULT_DB_TYPE, "HSQL"); //$NON-NLS-1$
 		initializeDefault(node,getSeamGenBuildPath());
+		try {
+			node.flush();
+		} catch (BackingStoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
 	}
 
 	public static final String SEAM_GEN_HOME = "../../../../jboss-eap/seam";  //$NON-NLS-1$

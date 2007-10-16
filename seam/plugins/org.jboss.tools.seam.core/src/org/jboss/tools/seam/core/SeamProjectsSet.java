@@ -18,7 +18,9 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
@@ -50,7 +52,7 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
  * 
  * @author Viacheslav Kabanovich
  */
-public class J2EEProjects {
+public class SeamProjectsSet {
 	IProject ear;
 	IProject war;
 	IProject ejb;
@@ -61,11 +63,11 @@ public class J2EEProjects {
 	 * @param project
 	 * @return
 	 */
-	public static J2EEProjects create(IProject project) {
-		return new J2EEProjects(project);
+	public static SeamProjectsSet create(IProject project) {
+		return new SeamProjectsSet(project);
 	}
 
-	private J2EEProjects(IProject project) {
+	public SeamProjectsSet(IProject project) {
 		
 		IScopeContext projectScope = new ProjectScope(project);
 		prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
@@ -116,7 +118,7 @@ public class J2EEProjects {
 	 * Returns list of EJB projects.
 	 * @return
 	 */
-	public IProject getEJBProject() {
+	public IProject getEjbProject() {
 		return ejb;
 	}
 	
@@ -215,4 +217,15 @@ public class J2EEProjects {
 		return prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "entity"); //$NON-NLS-1$
 	}
 	
+	public void refreshLocal(IProgressMonitor monitor) throws CoreException {
+		if(ejb!=null) { 
+			ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		}
+		if(test!=null) {
+			test.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		}
+		if(war!=null) {
+			war.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		}
+	}
 }

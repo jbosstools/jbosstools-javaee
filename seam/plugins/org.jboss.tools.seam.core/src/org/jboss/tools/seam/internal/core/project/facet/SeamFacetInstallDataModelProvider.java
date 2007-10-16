@@ -94,10 +94,16 @@ public class SeamFacetInstallDataModelProvider extends
 	public Object getDefaultProperty(String propertyName) {
 		if(JBOSS_AS_HOME.equals(propertyName)) {
 			return "Jboss_AS_HOME"; //$NON-NLS-1$
-		}else if(JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
+		} else if(JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
 			return "Jboos_DEPLOY_AS"; //$NON-NLS-1$
-		}else if (propertyName.equals(FACET_ID)) {
+		} else if (propertyName.equals(FACET_ID)) {
 				return ISeamCoreConstants.SEAM_CORE_FACET_ID;
+		} else if(SEAM_TEST_PROJECT.equals(propertyName)) {
+				return "";
+		} else if(SEAM_EJB_PROJECT.equals(propertyName)) {
+			return "";
+		} else if(SEAM_EAR_PROJECT.equals(propertyName)) {
+			return "";
 		}
 		return super.getDefaultProperty(propertyName);
 	}
