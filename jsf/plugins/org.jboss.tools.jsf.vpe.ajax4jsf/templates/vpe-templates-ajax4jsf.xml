@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vpe:templates>
-	<vpe:template-taglib uri="http://richfaces.org/a4j" prefix="a4j" />
 	<vpe:template-taglib uri="https://ajax4jsf.dev.java.net/ajax" prefix="a4j" />
+	<vpe:template-taglib uri="http://richfaces.org/a4j" prefix="a4j" />
 
     <vpe:tag name="a4j:page" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
@@ -317,12 +317,16 @@
     
     <vpe:tag name="a4j:portlet" case-sensitive="yes">
 	    <vpe:template children="yes" modify="no">
+	    	<span style="display:none">
+			</span>
 	    </vpe:template>
     </vpe:tag>
     
     <vpe:tag name="a4j:push" case-sensitive="yes">
 	    <vpe:template children="yes" modify="no">
+	    	<span style="display:none">
+			</span>
 	    </vpe:template>
-    </vpe:tag>    
+    </vpe:tag>
 
 </vpe:templates>
