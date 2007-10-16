@@ -26,14 +26,16 @@ public class SeamELTokenizer {
 	private static final int STATE_OPERATOR = 2;
 	private static final int STATE_RESERVED_WORD = 3;
 	private static final int STATE_SEPARATOR = 4;
+	private static final int STATE_STRING = 5;
 
 	private String expression;
 	private List<ELToken> fTokens;
 	private int index;
 
 	private int fState;
-	private static final String OPERATOR_SYMBOLS = "!=&(){}[]:+-*%?',|/%<>";
-	private static final String RESERVED_WORDS = " null empty div and or not mod eq ne lt gt le ge true false instanceof ";
+	private static final String OPERATOR_SYMBOLS = "!=&(){}[]:+-*%?,|/%<>";
+	private static final int STRING_SYMBOL = '\'';
+	private static final String RESERVED_WORDS = " null empty div and or not mod eq ne lt gt le ge true false instanceof invalid required ";
 
 	/**
 	 * Constructs SeamELTokenizer object.
@@ -78,13 +80,14 @@ public class SeamELTokenizer {
 	}
 
 	/*
-	 * Calculates and returns next token for expression
+	 * Calculates and returns next token of expression
 	 * 
 	 * @return
 	 */
 	private ELToken getNextToken() {
 		switch (fState) {
-			case STATE_INITIAL: { // Just started
+			case STATE_INITIAL: // Just started
+			case STATE_STRING: { // String is read
 				int ch = readNextChar();
 				if (ch == -1) {
 					return ELToken.EOF;
@@ -96,13 +99,16 @@ public class SeamELTokenizer {
 				if (OPERATOR_SYMBOLS.indexOf(ch)>-1) {
 					return readOperatorToken();
 				}
+				if (ch == STRING_SYMBOL) {
+					return readStringToken();
+				}
 				if (ch == ' ') {
 					return readSeparatorToken();
 				}
 				return ELToken.EOF;
 			}
-			case STATE_RESERVED_WORD: // Reserved word is read - expecting a separator or operator
-			case STATE_OPERAND: { // Operand is read - expecting a separator or operator 
+			case STATE_RESERVED_WORD: // Reserved word is read - expecting a separator or operator or string
+			case STATE_OPERAND: { // Operand is read - expecting a separator or operator or string 
 				int ch = readNextChar();
 				if (ch == -1) {
 					return ELToken.EOF;
@@ -111,12 +117,15 @@ public class SeamELTokenizer {
 				if (OPERATOR_SYMBOLS.indexOf(ch)>-1) {
 					return readOperatorToken();
 				}
+				if (ch == STRING_SYMBOL) {
+					return readStringToken();
+				}
 				if (ch == ' ') {
 					return readSeparatorToken();
 				}
 				return ELToken.EOF;
 			}
-			case STATE_OPERATOR: { // Operator is read - expecting a separator or operand
+			case STATE_OPERATOR: { // Operator is read - expecting a separator or operand or string
 				int ch = readNextChar();
 				if (ch == -1) {
 					return ELToken.EOF;
@@ -125,12 +134,15 @@ public class SeamELTokenizer {
 				if (Character.isJavaIdentifierPart((char)ch)) {
 					return readOperandOrReservedWordToken();
 				}
+				if (ch == STRING_SYMBOL) {
+					return readStringToken();
+				}
 				if (ch == ' ') {
 					return readSeparatorToken();
 				}
 				return ELToken.EOF;
 			}
-			case STATE_SEPARATOR: { // Separator is read - expecting a operand or operator
+			case STATE_SEPARATOR: { // Separator is read - expecting a operand or operator or string
 				int ch = readNextChar();
 				if (ch == -1) {
 					return ELToken.EOF;
@@ -141,6 +153,9 @@ public class SeamELTokenizer {
 				}
 				if (OPERATOR_SYMBOLS.indexOf(ch)>-1) {
 					return readOperatorToken();
+				}
+				if (ch == STRING_SYMBOL) {
+					return readStringToken();
 				}
 				releaseChar();
 				return ELToken.EOF;
@@ -201,6 +216,25 @@ public class SeamELTokenizer {
 		releaseChar();
 		int length = index - startOfToken;
 		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_SEPARATOR_TOKEN) : ELToken.EOF);
+	}
+
+	/*
+	 * Reads and returns the string token from the expression
+	 * @return
+	 */
+	private ELToken readStringToken() {
+		fState = STATE_STRING;
+		int startOfToken = index;
+		int ch;
+		while((ch = readNextChar()) != -1) {
+			if (ch==STRING_SYMBOL) {
+				break;
+			}
+		}
+		releaseChar();
+		int length = index - startOfToken;
+
+		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_STRING_TOKEN) : ELToken.EOF);
 	}
 
 	/*

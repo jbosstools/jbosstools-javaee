@@ -22,6 +22,7 @@ public class ELToken implements IToken {
 	public static final int EL_OPERATOR_TOKEN = 2;
 	public static final int EL_RESERVED_WORD_TOKEN = 3;
 	public static final int EL_SEPARATOR_TOKEN = 4;
+	public static final int EL_STRING_TOKEN = 5;
 
 	private int start;
 	private int length;
