@@ -36,29 +36,26 @@ element.style {
 	width:100%;
 }
 
-.dr-pmenu-selected-item {
-	font-style:italic;
-}
 
 .dr-pmenu-group-self-label {
 	padding-left:5px;
-	width:100%;
 }
 
 .dr-pmenu-item-disabled {
-	font-color:#B1ADA7;
 	color:#B1ADA7;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	margin-top:1px;
+	padding:2px 1px 1px;
 }
 
-.dr-pmenu-item {
-	border-top:1px solid;
+.dr-pmenu-item {	
 	cursor:pointer;
 	margin-top:1px;
 	padding:2px 1px 1px;
 }
 
 .dr-pmenu-item {
-	border-top-color: #C4C0B9;
 	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
@@ -66,4 +63,9 @@ element.style {
 
 .dr-pmenu-nowrap {
 	white-space:nowrap;
+}
+
+.dr-pmenu-top-self-div {
+	border-top: 1px solid;
+	border-color: #C4C0B9;
 }
