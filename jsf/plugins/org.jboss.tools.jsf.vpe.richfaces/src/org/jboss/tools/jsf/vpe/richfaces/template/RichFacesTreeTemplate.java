@@ -162,6 +162,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
      *                Object <code>VpeCreationData</code>, built by a method
      *                <code>create</code>
      */
+    @Override
     public void validate(VpePageContext pageContext, Node sourceNode,
 	    Document visualDocument, VpeCreationData data) {
 	super.validate(pageContext, sourceNode, visualDocument, data);
