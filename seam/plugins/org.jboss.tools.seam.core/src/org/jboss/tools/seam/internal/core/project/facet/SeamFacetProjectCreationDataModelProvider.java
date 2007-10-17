@@ -80,6 +80,10 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
 			IDataModel seamFacet = map.getFacetDataModel( ISeamCoreConstants.SEAM_CORE_FACET_ID );	
 			seamFacet.setProperty( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, propertyValue );
+		} else if (propertyName.equals(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER)) {
+			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
+			IDataModel seamFacet = map.getFacetDataModel( ISeamCoreConstants.SEAM_CORE_FACET_ID );	
+			seamFacet.setProperty( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, propertyValue );
 		}
 
 		return super.propertySet(propertyName, propertyValue);

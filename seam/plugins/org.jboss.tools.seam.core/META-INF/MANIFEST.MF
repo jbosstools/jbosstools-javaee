@@ -37,7 +37,8 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.ide.eclipse.as.core,
  org.eclipse.wst.server.core,
  org.eclipse.core.filesystem,
- org.eclipse.jst.j2ee.ejb
+ org.eclipse.jst.j2ee.ejb,
+ org.jboss.tools.jst.web
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner,

@@ -32,6 +32,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.server.core.IServer;
+import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -80,6 +82,11 @@ public class SeamFacetPostInstallDelegate implements
 			prefs.flush();
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		
+		IServer server = (IServer)model.getProperty(JBOSS_AS_TARGET_SERVER);
+		if (server != null) {
+			RegistrationHelper.runRegisterInServerJob(project, server);
 		}
 	}
 
