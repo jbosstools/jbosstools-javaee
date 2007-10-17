@@ -103,7 +103,7 @@
    </extension-->
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution id="RedHatStrutsStudio_IProject" objectClass="org.eclipse.core.resources.IProject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="b">
@@ -121,7 +121,7 @@
          </action>
       </objectContribution>
       <objectContribution id="RedHatStrutsStudio_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="b">
@@ -139,7 +139,7 @@
          </action>
       </objectContribution>
       <!--objectContribution id="RedHatStrutsStudio_IFile" objectClass="org.eclipse.core.resources.IFile">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="generate">
@@ -153,7 +153,7 @@
          </action>
       </objectContribution-->
       <objectContribution id="RedHatStrutsStudio_XModelObject" objectClass="org.jboss.tools.common.model.XModelObject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="generate">
@@ -180,10 +180,10 @@
       </objectContribution>
    </extension>
    <extension point="org.eclipse.ui.actionSets">
-      <!-- actionSet description="Red Hat Struts Modules Configuration" id="org.jboss.tools.struts.modules" label="Red Hat Struts Modules Configuration" visible="true">
-         <action class="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" enablesFor="1" id="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" label="Red Hat Struts Modules Configuration" menubarPath="org.jboss.tools.common.model.ui.redhat/c">
+      <!-- actionSet description="JBoss Tools Struts Modules Configuration" id="org.jboss.tools.struts.modules" label="JBoss Tools Struts Modules Configuration" visible="true">
+         <action class="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" enablesFor="1" id="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" label="JBoss Tools Struts Modules Configuration" menubarPath="org.jboss.tools.common.model.ui.redhat/c">
          </action>
-         <menu id="org.jboss.tools.common.model.ui.redhat" label="Red Hat">
+         <menu id="org.jboss.tools.common.model.ui.jboss" label="JBoss Tools">
             <separator name="c"/>
             <separator name="a"/>
             <separator name="d"/>
@@ -232,7 +232,7 @@
 
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution id="RedHatEclipse4Web_IProject" objectClass="org.eclipse.core.resources.IProject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="b">
@@ -251,7 +251,7 @@
          </action>
       </objectContribution>
       <objectContribution id="RedHatEclipse4Web_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="b">
@@ -270,7 +270,7 @@
          </action>
       </objectContribution>
       <!--objectContribution id="RedHatEclipse4Web_IFile" objectClass="org.eclipse.core.resources.IFile">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="generate">
@@ -282,7 +282,7 @@
          </action>
       </objectContribution-->
       <!--objectContribution id="RedHatEclipse4Web_IFolder" objectClass="org.eclipse.core.resources.IFolder">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
          </menu>

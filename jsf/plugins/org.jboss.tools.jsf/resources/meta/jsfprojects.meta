@@ -304,7 +304,7 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="Red Hat Developer Studio JSF"
+   <XActionItem ICON="action.empty" displayName="JBoss Tools JSF"
     group="1" kind="list" name="JSFStudio">
     <XActionItem kind="list" name="Registration">
      <XActionItem HIDE="always"

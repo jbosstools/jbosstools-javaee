@@ -97,7 +97,7 @@
    <extension point="org.eclipse.ui.popupMenus">
 <!-- IProject -->
       <objectContribution id="JSF_IProject" objectClass="org.eclipse.core.resources.IProject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="c">
@@ -129,7 +129,7 @@
       </objectContribution>
 <!-- IJavaProject -->
       <objectContribution id="JSF_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="c">
@@ -169,7 +169,7 @@
       </objectContribution>
 <!-- IFile -->
       <!--objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
-         <menu id="RedHat4Web" label="Red Hat Developer Studio" path="additions">
+         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
             <separator name="d">
