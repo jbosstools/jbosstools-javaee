@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.internal.corext.util.Messages;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -135,7 +137,7 @@ public class ValidatorFactory {
 	/**
 	 * 
 	 */
-	public static IValidator JBOSS_SEAM_HOME_FOLDER_VALIDATOR = new IValidator() {
+	public static final IValidator JBOSS_SEAM_HOME_FOLDER_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			Map<String, String> errors = FILE_SYSTEM_FOLDER_EXISTS.validate(
 					value, context);
@@ -159,7 +161,7 @@ public class ValidatorFactory {
 	/**
 	 * 
 	 */
-	public static IValidator JBOSS_AS_HOME_FOLDER_VALIDATOR = new IValidator() {
+	public static final IValidator JBOSS_AS_HOME_FOLDER_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			Map<String, String> errors = FILE_SYSTEM_FOLDER_EXISTS.validate(
 					value, context);
@@ -182,7 +184,7 @@ public class ValidatorFactory {
 	/**
 	 * 
 	 */
-	public static IValidator CLASS_QNAME_VALIDATOR = new IValidator() {
+	public static final IValidator CLASS_QNAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			String classDecl = "class " + value.toString() + " {}"; //$NON-NLS-1$ //$NON-NLS-2$
 			ASTParser parser = ASTParser.newParser(AST.JLS3);
@@ -203,7 +205,7 @@ public class ValidatorFactory {
 	/**
 	 * 
 	 */
-	public static IValidator FILESYSTEM_FILE_EXISTS_VALIDATOR = new IValidator() {
+	public static final IValidator FILESYSTEM_FILE_EXISTS_VALIDATOR = new IValidator() {
 		public java.util.Map<String, String> validate(Object value,
 				Object context) {
 			return ValidatorFactory.NO_ERRORS;
@@ -215,7 +217,7 @@ public class ValidatorFactory {
 	 * @author eskimo
 	 * 
 	 */
-	public static IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
+	public static final IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
 			IStatus status = JavaConventions.validateClassFileName(
@@ -234,12 +236,12 @@ public class ValidatorFactory {
 	 * @author eskimo
 	 * 
 	 */
-	public static IValidator SEAM_JAVA_INTEFACE_NAME_CONVENTION_VALIDATOR = new IValidator() {
+	public static final IValidator SEAM_JAVA_INTEFACE_NAME_CONVENTION_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
 			if(!(context instanceof Object[])) {
 				throw new IllegalArgumentException(
-						"Context parameter should be instance of Object[]");
+						"Context parameter should be instance of Object[]"); //$NON-NLS-1$
 			}
 		
 			Object[] contextArray = ((Object[]) context);
@@ -261,12 +263,12 @@ public class ValidatorFactory {
 		}
 	};
 
-	public static IValidator SEAM_METHOD_NAME_VALIDATOR = new IValidator() {
+	public static final IValidator SEAM_METHOD_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
 			if(!(context instanceof Object[])) {
 				throw new IllegalArgumentException(
-						"Context parameter should be instance of Object[]");
+						"Context parameter should be instance of Object[]"); //$NON-NLS-1$
 			}
 
 			Object[] contextArray = ((Object[]) context);
@@ -287,12 +289,12 @@ public class ValidatorFactory {
 		}
 	};
 
-	public static IValidator FILE_NAME_VALIDATOR = new IValidator() {
+	public static final IValidator FILE_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, String> validate(Object value, Object context) {
 			if(!(context instanceof Object[])) {
 				throw new IllegalArgumentException(
-						"Context parameter should be instance of Object[]");
+						"Context parameter should be instance of Object[]"); //$NON-NLS-1$
 			}
 
 			Object[] contextArray = ((Object[]) context);
@@ -307,9 +309,12 @@ public class ValidatorFactory {
 		}
 	};
 
-	public static IValidator SEAM_PROJECT_NAME_VALIDATOR = new IValidator() {
+	public static final IValidator SEAM_PROJECT_NAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 
+			if(value==null || "".equals(value)) { //$NON-NLS-1$
+				return createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_PRJ_NOT_SELECTED);
+			}
 			IResource project = ResourcesPlugin.getWorkspace().getRoot()
 					.findMember(value.toString());
 
@@ -335,7 +340,7 @@ public class ValidatorFactory {
 		}
 	};
 
-	public static IValidator CONNECTION_PROFILE_VALIDATOR = 
+	public static final IValidator CONNECTION_PROFILE_VALIDATOR = 
 															new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 			if (value == null || "".equals(value.toString().trim())) { //$NON-NLS-1$
@@ -360,46 +365,74 @@ public class ValidatorFactory {
 		}
 	};
 	
-	public static IValidator SEAM_RUNTIME_NAME_VALIDATOR = new IValidator() {
+	public static final IValidator SEAM_RUNTIME_NAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
+
+			Map<String,String> errors = NO_ERRORS;
 			if (value == null || "".equals(value.toString().trim())) { //$NON-NLS-1$
-				return createErrormessage(
+				errors = createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 						SeamUIMessages.VALIDATOR_FACTORY_SEAM_RUNTIME_IS_NOT_SELECTED);
+			}  else {
+				SeamRuntime rt = SeamRuntimeManager.getInstance()
+				.findRuntimeByName(value.toString());
+				if (rt == null) {
+					errors = createErrormessage(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_CANNOT_FIND_SEAM_RUNTIME, value));
+				} else if (!new File(rt.getHomeDir()).exists()) {
+					errors = createErrormessage(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+							NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_IS_MISSING,value));
+				} else if (!new File(rt.getSeamGenDir()).exists()) {
+					errors = createErrormessage(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+							NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_IS_MISSING,value));
+				} else if (!new File(rt.getSrcTemplatesDir()).exists()) {
+					errors = createErrormessage(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+							NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_SRC_DIR_IS_MISSING,value));
+				} else if (!new File(rt.getViewTemplatesDir()).exists()) {
+					errors = createErrormessage(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+							NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_VIEW_DIR_IS_MISSING,value));
+				} else if(!new File(rt.getResourceTemplatesDir()).exists()) {
+					errors = createErrormessage(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+							NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_RESOURCES_DIR_IS_MISSING,value));
+				}
 			}
-			return NO_ERRORS;
+			return errors;
 		}
 	};
 	
-	public static IValidator SEAM_RUNTIME_VALIDATOR = new IValidator() {
+	public static final IValidator SEAM_RUNTIME_VALIDATOR = new IValidator() {
 		public java.util.Map<String, String> validate(Object value,
 				Object context) {
 			Map<String,String> errors = NO_ERRORS;
 			String rtName = value.toString();
 			
-			if(value==null || "".equals(value)) {
-				errors = createErrormessage("Seam Runtime is not configured for selected Seam Web Project");
+			if(value==null || "".equals(value)) { //$NON-NLS-1$
+				errors = createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_NOT_CONFIGURED);
 			} else {
 				SeamRuntime rt = SeamRuntimeManager.getInstance()
 						.findRuntimeByName(value.toString());
 				if (rt == null) {
-					errors = createErrormessage("Cannot find '" + value
-							+ "' Seam Runtime for selected Seam Web Project");
+					errors = createErrormessage(NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_CANNOT_BE_FOUND, value));
 				} else if (!new File(rt.getHomeDir()).exists()) {
-					errors = createErrormessage(
-							"Seam Runtime '" + value + "' home directory doesn't exist for selected Seam Web Project");
+					errors = createErrormessage(NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_DOES_NOT_EXIST,value));
 				} else if (!new File(rt.getSeamGenDir()).exists()) {
-					errors = createErrormessage(
-							"Seam Runtime '" + value + "' templates directory doesn't exist for selected Seam Web Project");
+					errors = createErrormessage(NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_DOES_NOT_EXIST,value));
 				} else if (!new File(rt.getSrcTemplatesDir()).exists()) {
-					errors = createErrormessage(
-							"Seam Runtime '" + value + "' source templates directory doesn't exist for selected Seam Web Project");
+					errors = createErrormessage(NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_SOURCE_TEMPLATES_DIR_DOES_NOT_EXIST,value));
 				} else if (!new File(rt.getViewTemplatesDir()).exists()) {
-					errors = createErrormessage(
-							"Seam Runtime '" + value + "' view templates directory doesn't exist for selected Seam Web Project");
-				} else if(!new File(rt.getResourceTemplatesDir()).exists()) {
-					errors = createErrormessage(
-							"Seam Runtime '" + value + "' resources templates directory doesn't exist for selected Seam Web Project");
+					errors = createErrormessage(NLS.bind(
+							SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_VIE_TEMPLATE_DIR_DOES_NOT_EXIST,value));
+//				} else if(!new File(rt.getResourceTemplatesDir()).exists()) {
+//					errors = createErrormessage(NLS.bind(
+//							"Seam Runtime '{0)' resource templates directory doesn't exist for selected Seam Web Project",value));
 				}
 			}
 			return errors;
