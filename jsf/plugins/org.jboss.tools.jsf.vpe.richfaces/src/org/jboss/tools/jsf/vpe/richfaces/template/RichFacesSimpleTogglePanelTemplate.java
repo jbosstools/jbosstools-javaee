@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -31,6 +32,9 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 
 	private static Map toggleMap = new HashMap();
 	private nsIDOMElement storedSwitchDiv = null;
+	
+	private static final String COLLAPSED_STYLE ="; display: none;";
+	private static final String HEADER_NAME_FACET = "header";
 	
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
@@ -51,8 +55,17 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		headerDiv.setAttribute("class", "dr-stglpnl-h rich-stglpanel-header " + ComponentUtil.getAttribute(sourceElement, "headerClass"));
 		headerDiv.setAttribute("style", "position : relative; " + ComponentUtil.getHeaderBackgoundImgStyle());
 
-		String label = ComponentUtil.getAttribute(sourceElement, "label");
-		headerDiv.appendChild(visualDocument.createTextNode(label));
+		//http://jira.jboss.com/jira/browse/JBIDE-791
+		Element firstElementOfHeaderFacet = ComponentUtil.getFacet(sourceElement, HEADER_NAME_FACET);
+		if(firstElementOfHeaderFacet != null) {
+			VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
+			headerInfo.addSourceChild(firstElementOfHeaderFacet);
+			creationData.addChildrenInfo(headerInfo);
+		} else {
+			String label = ComponentUtil.getAttribute(sourceElement, "label");
+			headerDiv.appendChild(visualDocument.createTextNode(label));
+		}
+		/////
 
 		nsIDOMElement switchDiv = visualDocument.createElement("div");
 		headerDiv.appendChild(switchDiv);
@@ -62,6 +75,8 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		char defaultMarkerCode = 187;
 		boolean opened = getActiveState(sourceElement);
 		switchDiv.setAttribute("vpe-user-toggle-id", (opened ? "false" : "true"));
+		
+		headerDiv.setAttribute("vpe-user-toggle-id", (opened ? "false" : "true"));
 		storedSwitchDiv = switchDiv;
 		
 		if(opened) {
@@ -78,7 +93,7 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		}
 
 		// Encode Body
-		if(opened) {
+		//if(opened) {
 		    nsIDOMElement bodyDiv = visualDocument.createElement("div");
 			div.appendChild(bodyDiv);
 			bodyDiv.setAttribute("style", "overflow: auto; height: " + ComponentUtil.getAttribute(sourceElement, "height") + "; width: 100%;");
@@ -99,7 +114,15 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 				bodyInfo.addSourceChild(child);
 			}
 			creationData.addChildrenInfo(bodyInfo);
-		}
+			
+			//http://jira.jboss.com/jira/browse/JBIDE-791
+			if(!opened) {
+				String newStyle = bodyDiv.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+				newStyle += COLLAPSED_STYLE;
+				bodyDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, newStyle);
+			}
+			//-------------------------
+		//}
 		return creationData;
 	}
 
@@ -141,7 +164,7 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 			opennedStr = ComponentUtil.getAttribute(sourceElement, "opened");
 		}
 		
-		if (opennedStr == null) {
+		if (opennedStr == null || "".equals(opennedStr)) {
 			opennedStr = "true";
 		}
 
@@ -154,5 +177,12 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 
 	public void stopToggling(Node sourceNode) {
 		toggleMap.remove(sourceNode);
+	}
+	
+
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
 	}
 }
