@@ -146,6 +146,13 @@ public interface ISeamProject extends ISeamElement {
 	public Set<ISeamContextVariable> getVariables();
 
 	/**
+	 * Adds references to variables that provide short name if
+	 * seam package including the original variable is imported.
+	 * @return all seam context variables of project
+	 */
+	public Set<ISeamContextVariable> getVariables(boolean includeShortNames);
+
+	/**
 	 * @param name
 	 * @return all seam variables by name from all contexts
 	 */

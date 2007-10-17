@@ -971,6 +971,32 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 
 	/**
+	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
+	 */
+	public Set<ISeamContextVariable> getVariables(boolean includeShortNames) {
+		if(!includeShortNames) {
+			return allVariables;
+		}
+		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
+		result.addAll(allVariables);
+		for (ISeamContextVariable v: allVariables) {
+			String n = v.getName();
+			int i = n.lastIndexOf('.');
+			if(i < 0) continue;
+			String packageName = n.substring(0, i);
+			if(isImportedPackage(packageName)) {
+				result.add(new SeamContextShortVariable(v));
+			}
+		}
+		return result;
+	}
+	
+	public boolean isImportedPackage(String packageName) {
+		//TODO implement processing imported packages
+		return false;
+	}
+
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByName(java.lang.String)
 	 */
 	public Set<ISeamContextVariable> getVariablesByName(String name) {

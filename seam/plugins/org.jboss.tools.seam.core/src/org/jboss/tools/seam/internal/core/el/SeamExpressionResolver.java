@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
@@ -71,20 +72,8 @@ public class SeamExpressionResolver {
 	 * @return
 	 */
 	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames) {
-		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
-		Set<ISeamContextVariable> variables = project.getVariables();
-		for (ISeamContextVariable variable : variables) {
-			if(onlyEqualNames) {
-				if (variable.getName().equals(name)) {
-					resolvedVariables.add(variable);
-				}
-			} else {
-				if (variable.getName().startsWith(name)) {
-					resolvedVariables.add(variable);
-				}
-			}
-		}
-		return resolvedVariables;
+		Set<ISeamContextVariable> variables = project.getVariables(true);
+		return internalResolveVariables(project, name, onlyEqualNames, variables);
 	}
 
 	/**
@@ -97,15 +86,20 @@ public class SeamExpressionResolver {
 	 * @return
 	 */
 	private static List<ISeamContextVariable> internalResolveVariablesByScope(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
-		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		Set<ISeamContextVariable> variables = project.getVariablesByScope(scope, true);
+		return internalResolveVariables(project, name, onlyEqualNames, variables);
+	}
+	
+	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames, Set<ISeamContextVariable> variables) {
+		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		for (ISeamContextVariable variable : variables) {
+			String n = variable.getName();
 			if(onlyEqualNames) {
-				if (variable.getName().equals(name)) {
+				if (n.equals(name)) {
 					resolvedVariables.add(variable);
 				}
 			} else {
-				if (variable.getName().startsWith(name)) {
+				if (n.startsWith(name)) {
 					resolvedVariables.add(variable);
 				}
 			}
@@ -121,6 +115,9 @@ public class SeamExpressionResolver {
 	 */
 	public static IMember getMemberByVariable(ISeamContextVariable variable, boolean onlyEqualNames) {
 		IMember member = null;
+		if(variable instanceof ISeamContextShortVariable) {
+			return getMemberByVariable(((ISeamContextShortVariable)variable).getOriginal(), onlyEqualNames);
+		}
 		if (variable instanceof ISeamComponent) {
 			ISeamComponent component = (ISeamComponent)variable;
 			ISeamJavaComponentDeclaration decl = component.getJavaDeclaration();
