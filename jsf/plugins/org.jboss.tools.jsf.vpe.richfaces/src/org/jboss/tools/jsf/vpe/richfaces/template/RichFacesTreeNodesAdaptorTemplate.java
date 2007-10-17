@@ -57,7 +57,7 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 	    visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		    "dr-tree-h-ic-div");
 	    if (getShowLinesAttr(sourceNode)
-		    && isHasNextParentAdaptorElement(sourceNode)) {
+		    && (isAdapterBetweenNodes(sourceNode) || isHasNextParentAdaptorElement(sourceNode))) {
 		String path = RichFacesTemplatesActivator
 			.getPluginResourcePath()
 			+ ICON_DIV_LINE;
@@ -162,7 +162,11 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
      * @return
      */
     private boolean isHasNextParentAdaptorElement(Node sourceNode) {
-	Node parentTree = sourceNode.getParentNode();
+	Node tree = sourceNode.getParentNode();
+	if (!(tree instanceof Element)) {
+	    return true;
+	}
+	Node parentTree = tree.getParentNode();
 	if (!(parentTree instanceof Element)) {
 	    return true;
 	}
@@ -185,10 +189,11 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 	    if (lastElement != null) {
 		break;
 	    }
-	    if (el.equals(sourceNode)) {
+	    if (el.equals(tree)) {
 		lastElement = el;
 	    }
 	}
+
 	if (el.getNodeName().equals(treeNodeName)
 		|| el.getNodeName().equals(treeNodesAdaptorName)
 		|| el.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
@@ -196,4 +201,44 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 	}
 	return false;
     }
+
+    /**
+     * Is adapter between treeNodes
+     * @param sourceNode
+     * @return
+     */
+    private boolean isAdapterBetweenNodes(Node sourceNode) {
+	Node parentNode = sourceNode.getParentNode();
+	NodeList childs = parentNode.getChildNodes();
+	Node beforeAdapterNode = null;
+	Node afterAdapterNode = null;
+	Node adapterNode = null;
+	String treeNodeName = sourceNode.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_NODE_NAME;
+	for (int i = 0; i < childs.getLength(); i++) {
+	    Node el = childs.item(i);
+	    if (!(el instanceof Element)) {
+		continue;
+	    }
+	    if (el.equals(sourceNode)) {
+		adapterNode = el;
+	    } else {
+		if (el.getNodeName().equals(treeNodeName)) {
+		    if (adapterNode == null) {
+			beforeAdapterNode = el;
+		    } else {
+			afterAdapterNode = el;
+		    }
+		}
+
+	    }
+
+	}
+	
+	if (beforeAdapterNode != null && afterAdapterNode != null) {
+	    return true;
+	}
+	return false;
+    }
+
 }

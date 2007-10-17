@@ -224,6 +224,9 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	// creates icon with status of node(collapsed or not) node
 	nsIDOMElement td1 = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
+	
+	Element element = (Element) sourceNode;
+	String id = element.getAttribute("id");
 	// sets icon node
 	if (!isLastElement(sourceNode) && isAdaptorChild(sourceNode)
 		&& !isHasNextAdaptorElement(sourceNode)) {
