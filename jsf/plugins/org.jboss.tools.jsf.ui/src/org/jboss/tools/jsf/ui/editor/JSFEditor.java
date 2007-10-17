@@ -370,7 +370,8 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 		if (type == CommandStackInspectorPage.class)
 			return new CommandStackInspectorPage(getCommandStack());
 		if (type == IContentOutlinePage.class) {
-			DiagramContentOutlinePage outline = new DiagramContentOutlinePage(
+			if(outline != null) return outline;
+			outline = new DiagramContentOutlinePage(
 					new TreeViewer());
 			outline.setGraphicalViewer(getGraphicalViewer());
 			outline.setSelectionSynchronizer(getSelectionSynchronizer());

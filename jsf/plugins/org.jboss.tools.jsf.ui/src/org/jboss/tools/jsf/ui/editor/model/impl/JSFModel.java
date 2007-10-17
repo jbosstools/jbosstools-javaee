@@ -280,7 +280,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	}
 
 	public void removeJSFModelListener(IJSFModelListener listener) {
-		strutsModelListeners.remove(listener);
+		if(strutsModelListeners != null) strutsModelListeners.remove(listener);
 	}
 
 	public void remove() {

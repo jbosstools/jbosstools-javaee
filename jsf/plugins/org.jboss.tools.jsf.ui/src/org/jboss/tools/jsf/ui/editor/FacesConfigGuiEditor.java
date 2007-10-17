@@ -34,6 +34,7 @@ public class FacesConfigGuiEditor extends AbstractSectionEditor {
 		if(model == null) return; 
 		model.dispose();
 		model = null;
+		gui.dispose();
 		disposeGui();
 		gui = null;
 		input = null;
