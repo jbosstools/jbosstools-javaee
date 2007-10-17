@@ -95,7 +95,13 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		} else {
 			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);	
 		}
-		setPageComplete(false);
+		String selectdProject = getEditor(IParameter.SEAM_PROJECT_NAME).getValueAsString();
+
+		if(selectdProject!=null && !"".equals(selectdProject) && isValidProjectSelected()) {
+			isValidRuntimeConfigured(getSelectedProject());
+		} else {
+			setPageComplete(false);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -187,15 +193,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * 
 	 */
 	protected void doValidate(PropertyChangeEvent event) {
-		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
-		
-		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
-			setPageComplete(false);
-			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
-			return;
-		}
+		if(!isValidProjectSelected()) return;
 		
 		IProject project = getSelectedProject();
 		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!isWar());
@@ -205,7 +203,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(IParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
 		label.getLabelControl().setText(isWar()?SeamUIMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME: SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_CLASS_NAME);
 		
-		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+		Map errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), null);
 		
 		if(errors.size()>0) {
@@ -274,7 +272,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 */
 	protected boolean isValidRuntimeConfigured(IProject project) {
 		Map errors;
-		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,"war"); //$NON-NLS-1$
+		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
 		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
@@ -284,6 +282,19 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		return true;
 	}
 
+	protected boolean isValidProjectSelected() {
+		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
+		
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
+			return false;
+		}		
+		return true;
+	}
+	
 	/**
 	 * 
 	 */

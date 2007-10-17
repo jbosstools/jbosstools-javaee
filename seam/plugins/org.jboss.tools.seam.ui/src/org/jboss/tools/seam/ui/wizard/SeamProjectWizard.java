@@ -157,7 +157,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		protected void createSeamServerTargetComposite(Composite parent) {
 //				super.createServerTargetComposite(parent);
 	        Group group = new Group(parent, SWT.NONE);
-	        group.setText(SeamUIMessages.SEAM_TARGET_RUNTIME);
+	        group.setText(SeamUIMessages.SEAM_TARGET_SERVER);
 	        group.setLayoutData(gdhfill());
 	        group.setLayout(new GridLayout(2, false));
 

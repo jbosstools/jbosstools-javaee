@@ -299,6 +299,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String TEXT_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE;
 
+	public static String VALIDATOR_FACTORY_CANNOT_FIND_SEAM_RUNTIME;
+
 	public static String VALIDATOR_FACTORY_COMPONENT_NAME_IS_NOT_VALID;
 
 	public static String VALIDATOR_FACTORY_CONNECTION_PROFILE;
@@ -337,9 +339,33 @@ public class SeamUIMessages extends NLS {
 
 	public static String VALIDATOR_FACTORY_POINTS_TO_FILE;
 
+	public static String VALIDATOR_FACTORY_PRJ_NOT_SELECTED;
+
 	public static String VALIDATOR_FACTORY_PROJECT;
 
 	public static String VALIDATOR_FACTORY_SEAM_HOME_FOLDER_DOES_NOT_EXISTS;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_CANNOT_BE_FOUND;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_DOES_NOT_EXIST;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_IS_MISSING;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_NOT_CONFIGURED;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_RESOURCES_DIR_IS_MISSING;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_SOURCE_TEMPLATES_DIR_DOES_NOT_EXIST;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_SRC_DIR_IS_MISSING;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_DOES_NOT_EXIST;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_IS_MISSING;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_VIE_TEMPLATE_DIR_DOES_NOT_EXIST;
+
+	public static String VALIDATOR_FACTORY_SEAM_RT_VIEW_DIR_IS_MISSING;
 
 	public static String VALIDATOR_FACTORY_SEAM_RUNTIME_IS_NOT_SELECTED;
 
@@ -353,7 +379,7 @@ public class SeamUIMessages extends NLS {
 	
 	public static String VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS;
 
-	public static String SEAM_TARGET_RUNTIME;
+	public static String SEAM_TARGET_SERVER;
 
 	static {
 		// load message values from bundle file

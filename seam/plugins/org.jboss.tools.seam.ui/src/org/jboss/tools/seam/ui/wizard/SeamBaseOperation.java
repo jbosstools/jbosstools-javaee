@@ -11,8 +11,10 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +32,14 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -71,7 +76,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			throws ExecutionException {
 		IStatus result = Status.OK_STATUS;
 		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
@@ -104,7 +109,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
 			
-			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject().getLocation().toFile().toString());
+			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject()!=null?seamPrjSet.getEjbProject().getLocation().toFile().toString():"");
 			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
@@ -116,21 +121,31 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			List<String[]> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
-			File[] file = new File[fileMappingCopy.size()];
+			final File[] file = new File[fileMappingCopy.size()];
 			int index=0;
 			for (String[] mapping : fileMappingCopy) {
 				file[index] = new File(mapping[1]);
 				FileUtils.getFileUtils().copyFile(new File(mapping[0]), file[index],filters,true);
 				index++;
 			}
-			
 			seamPrjSet.refreshLocal(monitor);
-			
-			if(file.length > 0){
-				IFile iFile = project.getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
-				IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
-			}
-			
+			Display.getCurrent().asyncExec(new Runnable() {
+				/* (non-Javadoc)
+				 * @see java.lang.Runnable#run()
+				 */
+				public void run() {
+					// TODO Auto-generated method stub
+					if(file.length > 0){
+						IFile iFile = project.getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
+						try {
+							IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
+						} catch (PartInitException e) {
+							SeamGuiPlugin.getPluginLog().logError(e);
+						}
+					}					
+				}
+			});
+
 		} catch (CoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} catch (BackingStoreException e) {
