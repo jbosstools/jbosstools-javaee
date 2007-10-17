@@ -43,7 +43,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		if(IFacetProjectCreationDataModelProperties.FACET_PROJECT_NAME.equals(propertyName)) {
 			// Any not empty string should be returned by default
 			// to workaround https://bugs.eclipse.org/bugs/show_bug.cgi?id=206541
-			return "dummy";
+			return "__d_u_m_m_y__for__bug206541__";
 		}
 		return super.getDefaultProperty(propertyName);
 	}
