@@ -68,37 +68,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 	public static String TEST_WAR_PROFILE = "test-war"; //$NON-NLS-1$
 	public static String TEST_EAR_PROFILE = "test"; //$NON-NLS-1$
 	
-	public static AntCopyUtils.FileSet TOMCAT_WAR_LIB_FILESET = new AntCopyUtils.FileSet()
-		.include("activation\\.jar") //$NON-NLS-1$
-		.include("ajax4jsf*.\\.jar") //$NON-NLS-1$
-		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
-		.include("commons-codec.*\\.jar") //$NON-NLS-1$
-		.include("commons-collections.*\\.jar") //$NON-NLS-1$
-		.include("commons-digester.*\\.jar") //$NON-NLS-1$
-		.include("commons-el.*\\.jar") //$NON-NLS-1$
-		.include("commons-lang.*\\.jar") //$NON-NLS-1$
-		.include("hibernate-all\\.jar") //$NON-NLS-1$
-		.include("itext.*\\.jar") //$NON-NLS-1$
-		.include("jboss-aop-jdk50\\.jar") //$NON-NLS-1$
-		.include("jboss-cache-jdk50\\.jar") //$NON-NLS-1$
-		.include("jboss-ejb3-all\\.jar") //$NON-NLS-1$
-		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
-		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
-		.include("jboss-seam\\.jar") //$NON-NLS-1$
-		.include("jcaptcha-all.*\\.jar") //$NON-NLS-1$
-		.include("jgroups\\.jar") //$NON-NLS-1$
-		.include("jsf-facelets\\.jar") //$NON-NLS-1$
-		.include("jstl.*\\.jar") //$NON-NLS-1$
-		.include("mail-ra\\.jar") //$NON-NLS-1$
-		.include("mail\\.jar") //$NON-NLS-1$
-		.include("mc-conf\\.jar") //$NON-NLS-1$
-		.include("myfaces-api.*\\.jar") //$NON-NLS-1$
-		.include("myfaces-impl.*\\.jar") //$NON-NLS-1$
-		.include("oscache.*\\.jar") //$NON-NLS-1$
-		.include("portlet-api-lib\\.jar") //$NON-NLS-1$
-		.include("richfaces.*\\.jar") //$NON-NLS-1$
-		.include("spring\\.jar") //$NON-NLS-1$
-		.include("thirdparty-all\\.jar"); //$NON-NLS-1$
 	
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
