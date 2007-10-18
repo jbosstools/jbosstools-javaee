@@ -10,10 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.navigator;
 
-import org.jboss.tools.common.model.ui.navigator.TreeViewerModelListenerImpl;
-import org.jboss.tools.common.model.*;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.impl.XModelImpl;
+import org.jboss.tools.common.model.ui.navigator.TreeViewerModelListenerImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectTagLibs;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
@@ -67,8 +68,6 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 			} else if(JSFProjectTagLibs.isTLDFile(c) || 
                       "FileSystemJar".equals(entity)) {
 				invalidateTagLibs(source.getModel());
-			} else if(entity.startsWith("FileShaleDialog")) {
-				invalidateConfig(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
 			} else if("JSFManagedBean".equals(entity)) {
@@ -77,8 +76,6 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 				invalidateFolder(source.getModel(), "Beans");
 			} else if("FileTiles".equals(entity)) {
 				invalidateFolder(source.getModel(), "Tiles");
-			} else if(isShaleAdded(c)) {
-				invalidateConfig(source.getModel());
 			} else if("FileFolder".equals(entity)) {
 				WebProjectNode n = getProjectRoot(source.getModel());
 				if(n != null) n.invalidate();
@@ -124,11 +121,4 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 		WebProjectNode b = (WebProjectNode)n.getChildByPath(name);
 		b.invalidate();
 	}
-	
-	private boolean isShaleAdded(XModelObject c) {
-		if(!"FileSystemJar".equals(c.getModelEntity().getName())) return false;
-		if(!"lib-shale-core.jar".equals(c.getAttributeValue("name"))) return false;
-		return true;
-	}
-
 }
