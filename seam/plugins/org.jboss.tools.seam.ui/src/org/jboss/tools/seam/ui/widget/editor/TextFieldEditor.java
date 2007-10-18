@@ -79,9 +79,9 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
 		return new Control[] {getTextControl()};
 	}
 
-	
-	/**
-	 * @see com.kabira.ide.ex.workbench.ui.feature.IFeatureFieldEditor#doFillIntoGrid(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.BaseFieldEditor#doFillIntoGrid(java.lang.Object)
 	 */
 	@Override
 	public void doFillIntoGrid(Object aParent) {
@@ -189,8 +189,9 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
         return fTextField!=null?fTextField.getTextControl():null;
     }
 
-    /**
-     * @see com.kabira.ide.ex.workbench.ui.feature.eitors.BaseFeatureFieldEditor#setFocus()
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.tools.seam.ui.widget.editor.BaseFieldEditor#setFocus()
      */
     @Override
 	public boolean setFocus() {
