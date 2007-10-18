@@ -14,7 +14,6 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IRegion;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
@@ -40,11 +39,7 @@ public class NavigationCaseHyperlink extends AbstractHyperlink {
 			String beanName = getDocument().get(region.getOffset(), region.getLength());
 			Properties p = new Properties();
 			p.put(WebPromptingProvider.FILE, file);
-			if(beanName != null && beanName.startsWith("dialog:")) {
-				provider.getList(xModel, WebPromptingProvider.SHALE_OPEN_DIALOG, beanName, p);
-			} else {
-				provider.getList(xModel, WebPromptingProvider.JSF_OPEN_ACTION, beanName, p);
-			}			
+			provider.getList(xModel, WebPromptingProvider.JSF_OPEN_ACTION, beanName, p);
 		} catch (Exception x) {
 			JSFExtensionsPlugin.log("", x);
 		}

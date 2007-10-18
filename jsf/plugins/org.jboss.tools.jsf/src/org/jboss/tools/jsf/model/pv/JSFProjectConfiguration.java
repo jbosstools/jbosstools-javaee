@@ -10,9 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.pv;
 
-import java.util.*;
-import org.eclipse.core.resources.IResource;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
@@ -55,13 +57,8 @@ public class JSFProjectConfiguration extends JSFProjectFolder {
 		}
 		return treeChildren;
 	}
-	
+
 	private boolean acceptChild(XModelObject object) {
-		String entity = object.getModelEntity().getName();
-		if(entity.equals("JSFProjectShaleConfiguration")) {
-			XModelObject jar = object.getModel().getByPath("FileSystems/lib-shale-clay.jar");
-			return jar != null;
-		}
 		return true;
 	}
 	
