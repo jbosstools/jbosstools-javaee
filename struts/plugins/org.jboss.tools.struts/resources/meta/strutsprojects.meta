@@ -43,7 +43,7 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="Red Hat Developer Studio Struts"
+   <XActionItem ICON="action.empty" displayName="JBoss Tools Struts"
     kind="list" name="StrutsStudio">
     <XActionItem
      HandlerClassName="org.jboss.tools.struts.model.pv.handler.StrutsProjectsRootRedirectHandler"

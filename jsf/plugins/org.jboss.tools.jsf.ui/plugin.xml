@@ -61,6 +61,10 @@
 
    </extension>
    <extension point="org.eclipse.ui.newWizards">
+      <category
+            name="JBoss Tools"
+            id="org.jboss.ide.eclipse.ui.wizards">
+      </category>
       <category id="org.jboss.tools.jsf" name="JSF" parentCategory="org.jboss.tools.jst.web">
       </category>
       <wizard category="org.jboss.tools.jst.web/org.jboss.tools.jsf" class="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard" icon="images/xstudio/wizards/jsf-config.gif" id="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard" name="Faces Config" project="false">
