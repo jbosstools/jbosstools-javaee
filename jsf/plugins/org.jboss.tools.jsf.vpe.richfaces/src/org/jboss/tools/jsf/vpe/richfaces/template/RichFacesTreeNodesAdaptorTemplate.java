@@ -204,6 +204,7 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 
     /**
      * Is adapter between treeNodes
+     * 
      * @param sourceNode
      * @return
      */
@@ -234,7 +235,7 @@ public class RichFacesTreeNodesAdaptorTemplate extends VpeAbstractTemplate {
 	    }
 
 	}
-	
+
 	if (beforeAdapterNode != null && afterAdapterNode != null) {
 	    return true;
 	}

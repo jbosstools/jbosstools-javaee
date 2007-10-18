@@ -50,12 +50,10 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-	ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
-		"recursiveTreeNodesAdaptor");
+	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "treeNodesAdaptor");
 	nsIDOMElement visualElement = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-	visualElement.setAttribute(ID_ATTR_NAME,
-		RECURSIVE_TREE_NODES_ADAPTOR_NAME);
+	visualElement.setAttribute(ID_ATTR_NAME, TREE_NODES_ADAPTOR_NAME);
 	if (isHasParentAdapter(sourceNode)) {
 	    visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		    "dr-tree-h-ic-div");
@@ -165,7 +163,11 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
      * @return
      */
     private boolean isHasNextParentAdaptorElement(Node sourceNode) {
-	Node parentTree = sourceNode.getParentNode();
+	Node tree = sourceNode.getParentNode();
+	if (!(tree instanceof Element)) {
+	    return true;
+	}
+	Node parentTree = tree.getParentNode();
 	if (!(parentTree instanceof Element)) {
 	    return true;
 	}
@@ -188,10 +190,11 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	    if (lastElement != null) {
 		break;
 	    }
-	    if (el.equals(sourceNode)) {
+	    if (el.equals(tree)) {
 		lastElement = el;
 	    }
 	}
+
 	if (el.getNodeName().equals(treeNodeName)
 		|| el.getNodeName().equals(treeNodesAdaptorName)
 		|| el.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
@@ -239,4 +242,5 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	}
 	return false;
     }
+
 }

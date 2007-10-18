@@ -178,35 +178,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 	super.validate(pageContext, sourceNode, visualDocument, data);
 	revertTableRows(data.getNode());
     }
-    
-    public void checkConnectingLines(nsIDOMNode node) {
 
-	try {
-	    nsIDOMNodeList list = node.getChildNodes();
-	    nsIDOMElement element = (nsIDOMElement) node
-		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	    String id = element
-		    .getAttribute(RichFacesTreeNodesAdaptorTemplate.ID_ATTR_NAME);
-	    if (id == null)
-		id = "";
-	    if (node.getNodeName().equalsIgnoreCase(
-		    HtmlComponentUtil.HTML_TAG_DIV)) {
-		
-	    }
-	    nsIDOMNodeList list2 = node.getChildNodes();
-	    for (int i = 0; i < list2.getLength(); i++) {
-		revertTableRows(list2.item(i));
-	    }
-	} catch (XPCOMException e) {
-	    return;
-	}
-    }
-
-    /**
-     * Revert tree elements in right order.
-     * 
-     * @param node
-     */
     /**
      * Revert tree elements in right order.
      * 
