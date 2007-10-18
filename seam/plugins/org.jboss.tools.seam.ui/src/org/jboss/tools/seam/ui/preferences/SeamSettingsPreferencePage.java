@@ -15,6 +15,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
@@ -84,9 +86,18 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		seamEnablement.setValue(hasSeamSupport);
 
 		SeamRuntime rs = SeamRuntimeManager.getInstance().getDefaultRuntime();
+		
+		Set<String> names = new TreeSet<String>();
+		names.addAll(SeamRuntimeManager.getInstance().getRuntimeNames());
+		if(hasSeamSupport) {
+			String currentName = seamProject.getRuntimeName();
+			if(currentName != null) names.add(currentName);
+		}
+		List<String> namesAsList = new ArrayList<String>();
+		namesAsList.addAll(names);
 
 		runtime = IFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
-				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME, SeamRuntimeManager.getInstance().getRuntimeNames(), 
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME, namesAsList, 
 				rs==null?"":rs.getName(),true,new NewSeamRuntimeAction(),(IValidator)null); //$NON-NLS-1$
 
 		List<IFieldEditor> editorOrder = new ArrayList<IFieldEditor>();
@@ -94,9 +105,9 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		editorOrder.add(runtime);
 
 		if (hasSeamSupport) {
-			SeamRuntime current = seamProject.getRuntime();
-			if (current != null) {
-				runtime.setValue(current.getName());
+			String currentName = seamProject.getRuntimeName();
+			if (currentName != null) {
+				runtime.setValue(currentName);
 			} else {
 				runtime.setValue("");
 			}
@@ -148,6 +159,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		} else if(hasDependents(project)) {
 			setEnablement(seamEnablement, false);
 		}
+		validate();
 
 		return composite;
 	}
@@ -253,8 +265,13 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 //			setErrorMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED);
 		} else {
 			setValid(true);
-			setErrorMessage(null);
-			setMessage(null, IMessageProvider.WARNING);
+			String value = runtime.getValueAsString();
+			if(Boolean.TRUE.equals(seamEnablement.getValue()) && SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
+				setErrorMessage("Runtime " + value + " does not exist.");
+			} else {
+				setErrorMessage(null);
+				setMessage(null, IMessageProvider.WARNING);
+			}
 		}
 	}
 
