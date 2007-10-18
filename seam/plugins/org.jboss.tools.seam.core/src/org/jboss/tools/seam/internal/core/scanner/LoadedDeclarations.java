@@ -24,6 +24,7 @@ import org.jboss.tools.seam.core.ISeamFactory;
 public class LoadedDeclarations {
 	List<ISeamComponentDeclaration> components = new ArrayList<ISeamComponentDeclaration>();
 	List<ISeamFactory> factories = new ArrayList<ISeamFactory>();
+	List<String> imports = new ArrayList<String>();
 	
 	public List<ISeamComponentDeclaration> getComponents() {
 		return components;
@@ -31,6 +32,10 @@ public class LoadedDeclarations {
 	
 	public List<ISeamFactory> getFactories() {
 		return factories;
+	}
+	
+	public List<String> getImports() {
+		return imports;
 	}
 	
 	public void add(LoadedDeclarations ds) {

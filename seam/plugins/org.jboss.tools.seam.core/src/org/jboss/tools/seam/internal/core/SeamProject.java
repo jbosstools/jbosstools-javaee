@@ -71,7 +71,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	ClassPath classPath = new ClassPath(this);
 	
-	boolean useDefaultRuntime = false;
+//	boolean useDefaultRuntime = false;
 	
 	String runtimeName = null;
 	
@@ -86,6 +86,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	Set<SeamProject> dependsOn = new HashSet<SeamProject>();
 	
 	Set<SeamProject> usedBy = new HashSet<SeamProject>();
+	
+	Map<String,List<String>> imports = new HashMap<String, List<String>>();
 	
 	{
 		ScopeType[] types = ScopeType.values();
@@ -146,7 +148,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
 			return sp == null ? null : sp.getRuntimeName();
 		}
-		if(useDefaultRuntime) {
+		if(runtimeName == null) {
 			SeamRuntime runtime = SeamRuntimeManager.getInstance().getDefaultRuntime();
 			return runtime != null ? runtime.getName() : null;
 		}
@@ -163,7 +165,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
 			return sp == null ? null : sp.getRuntime();
 		}
-		if(useDefaultRuntime) {
+		if(runtimeName == null) {
 			return SeamRuntimeManager.getInstance().getDefaultRuntime();
 		}
 		return runtimeName == null ? null : SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
@@ -179,7 +181,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(this.runtimeName != null && this.runtimeName.equals(runtimeName)) return;
 		SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
 		
-		useDefaultRuntime = d != null && d.getName().equals(runtimeName);
+		boolean useDefaultRuntime = d != null && d.getName().equals(runtimeName);
 		if(useDefaultRuntime) {
 			this.runtimeName = null;
 		}
@@ -255,7 +257,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		runtimeName = prefs.get(RUNTIME_NAME, null);
 		if(runtimeName != null) {
 		} else {
-			useDefaultRuntime = true;
 			storeRuntime();
 		}
 		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
@@ -263,9 +264,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				if(SeamFacetPreference.RUNTIME_LIST.equals(event.getProperty())) {
 					SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
 					if(d != null && d.getName().equals(runtimeName)) {
-						runtimeName = null;
-						useDefaultRuntime = true;
-						storeRuntime();
+//						runtimeName = null;
+//						storeRuntime();
 					}
 				}
 			}
@@ -561,13 +561,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		ISeamComponentDeclaration[] components = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 		ISeamFactory[] factories = ds.getFactories().toArray(new ISeamFactory[0]);
 		
-		if(components.length == 0 && factories.length == 0) {
+		if(components.length == 0 && factories.length == 0 && ds.getImports().size() == 0) {
 			pathRemoved(source);
 			return;
 		}
 		if(!sourcePaths.contains(source)) sourcePaths.add(source);
 		
 		revalidateLock++;
+		
+		if(ds.getImports().size() > 0) {
+			imports.put(source.toString(), ds.getImports());
+		} else if(imports.containsKey(source.toString())) {
+			imports.remove(source.toString());
+		}
 
 		Map<Object,ISeamComponentDeclaration> currentComponents = findComponentDeclarations(source);
 
@@ -696,6 +702,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			for (ISeamFactory f : ds.getFactories()) {
 				ds1.getFactories().add(f.clone());
 			}
+			ds1.getImports().addAll(ds.getImports());
 			p.registerComponents(ds1, source);
 		}
 	}
@@ -753,6 +760,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void pathRemoved(IPath source) {
 		if(!sourcePaths.contains(source)) return;
 		sourcePaths.remove(source);
+		imports.remove(source.toString());
 		revalidateLock++;
 		Iterator<SeamComponent> iterator = allComponents.values().iterator();
 		while(iterator.hasNext()) {
@@ -992,7 +1000,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	public boolean isImportedPackage(String packageName) {
-		//TODO implement processing imported packages
+		for (String s: imports.keySet()) {
+			List<String> list = imports.get(s);
+			if(list.contains(packageName)) return true;
+		}
 		return false;
 	}
 
@@ -1320,6 +1331,16 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				map.put(p, ds);
 			}
 			ds.getFactories().add(f.clone());
+		}
+		for (String s: imports.keySet()) {
+			IPath p = new Path(s);
+			if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
+			LoadedDeclarations ds = map.get(p);
+			if(ds == null) {
+				ds = new LoadedDeclarations();
+				map.put(p, ds);
+			}
+			ds.getImports().addAll(imports.get(s));
 		}
 		return map;
 	}
