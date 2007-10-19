@@ -14,14 +14,15 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
+import org.jboss.tools.common.log.IPluginLog;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends BaseUIPlugin {
 
     // The plug-in ID
     public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces.test";
@@ -41,8 +42,8 @@ public class Activator extends AbstractUIPlugin {
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
      */
     public void start(BundleContext context) throws Exception {
-	super.start(context);
-	plugin = this;
+		super.start(context);
+		plugin = this;
     }
 
     /*
@@ -51,8 +52,8 @@ public class Activator extends AbstractUIPlugin {
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
      */
     public void stop(BundleContext context) throws Exception {
-	plugin = null;
-	super.stop(context);
+		plugin = null;
+		super.stop(context);
     }
 
     /**
@@ -61,18 +62,22 @@ public class Activator extends AbstractUIPlugin {
      * @return the shared instance
      */
     public static Activator getDefault() {
-	return plugin;
+    	return plugin;
     }
 
-    public static String getPluginResourcePath() {
-	Bundle bundle = Platform.getBundle(PLUGIN_ID);
-	URL url = null;
-	try {
-	    url = bundle == null ? null : FileLocator.resolve(bundle
-		    .getEntry("/resources"));
-	} catch (Exception e) {
-	    url = bundle.getEntry("/resources");
-	}
-	return (url == null) ? null : url.getPath();
+    public static IPluginLog getPluginLog() {
+    	return getDefault();
     }
+    
+    public static String getPluginResourcePath() {
+		Bundle bundle = Platform.getBundle(PLUGIN_ID);
+		URL url = null;
+		try {
+			url = bundle == null ? null : FileLocator.resolve(bundle
+					.getEntry("/resources"));
+		} catch (Exception e) {
+			url = bundle.getEntry("/resources");
+		}
+		return (url == null) ? null : url.getPath();
+	}
 }

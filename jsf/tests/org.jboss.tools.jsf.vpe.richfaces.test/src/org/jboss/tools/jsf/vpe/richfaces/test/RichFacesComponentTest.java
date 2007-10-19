@@ -34,118 +34,114 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public class RichFacesComponentTest extends TestCase implements ILogListener {
 
-    private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor";
-    private final static String TEST_PROJECT_JAR_PATH = "/richFacesTest.jar"; 
-    
-    // check warning log
-    private final static boolean checkWarning = false;
-    private boolean failureLog;
-    private Collection<IPath> components = null;
+	private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; // $NON-NLS-1$
+	private final static String TEST_PROJECT_JAR_PATH = "/richFacesTest.jar"; // $NON-NLS-1$
 
-    public RichFacesComponentTest(String name) {
-	super(name);
-    }
+	// check warning log
+	private final static boolean checkWarning = false;
+	private boolean failureLog;
+	private Collection<IPath> components = null;
 
-    /**
-     * Perform pre-test initialization.
-     * 
-     * @throws Exception
-     * 
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-	super.setUp();
-	if (ImportRichFacesComponents.importRichFacesPages(Activator
-		.getPluginResourcePath()
-		+ TEST_PROJECT_JAR_PATH)) {
-	    components = ImportRichFacesComponents.getComponentsPaths();
-	}
-	failureLog = false;
-	waitForJobs();
-	Platform.addLogListener(this);
-	waitForJobs();
-	delay(5000);
-    }
-
-    /**
-     * Perform post-test cleanup.
-     * 
-     * @throws Exception
-     * 
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-	super.tearDown();
-	ImportRichFacesComponents.removeProject();
-	waitForJobs();
-	Platform.removeLogListener(this);
-    }
-
-    /**
-     * Process UI input but do not return for the specified time interval.
-     * 
-     * @param waitTimeMillis
-     *                the number of milliseconds
-     */
-    private void delay(long waitTimeMillis) {
-	Display display = Display.getCurrent();
-	if (display != null) {
-	    long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-	    while (System.currentTimeMillis() < endTimeMillis) {
-		if (!display.readAndDispatch())
-		    display.sleep();
-	    }
-	    display.update();
-	}
-	// Otherwise, perform a simple sleep.
-	else {
-	    try {
-		Thread.sleep(waitTimeMillis);
-	    } catch (InterruptedException e) {
-		// Ignored.
-	    }
-	}
-    }
-
-    /**
-     * Wait until all background tasks are complete.
-     */
-    public void waitForJobs() {
-	while (Platform.getJobManager().currentJob() != null)
-	    delay(5000);
-    }
-
-    public void testRichFacesComponent() throws PartInitException {
-	waitForJobs();
-	
-	for (IPath componentPath : components) {
-	    IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
-		    componentPath);
-	    IEditorInput input = new FileEditorInput(file);
-	    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-		    .getActivePage().openEditor(input, EDITOR_ID, true);
-
-	    waitForJobs();
-	    delay(3000);
-	    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-		    .getActivePage().closeAllEditors(true);
-	}
-	assertEquals(failureLog, false);
-    }
-
-    public void logging(IStatus status, String plugin) {
-	switch (status.getSeverity()) {
-	case IStatus.ERROR:
-	    failureLog = true;
-	    break;
-	case IStatus.WARNING:
-	    if (checkWarning)
-		failureLog = true;
-	    break;
-	default:
-	    break;
+	public RichFacesComponentTest(String name) {
+		super(name);
 	}
 
-    }
+	/**
+	 * Perform pre-test initialization.
+	 * 
+	 * @throws Exception
+	 * 
+	 * @see TestCase#setUp()
+	 */
+	protected void setUp() throws Exception {
+		super.setUp();
+		if (ImportRichFacesComponents.importRichFacesPages(Activator
+				.getPluginResourcePath() + TEST_PROJECT_JAR_PATH)) {
+			components = ImportRichFacesComponents.getComponentsPaths();
+		}
+		failureLog = false;
+		waitForJobs();
+		Platform.addLogListener(this);
+		waitForJobs();
+		delay(5000);
+	}
+
+	/**
+	 * Perform post-test cleanup.
+	 * 
+	 * @throws Exception
+	 * 
+	 * @see TestCase#tearDown()
+	 */
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		ImportRichFacesComponents.removeProject();
+		waitForJobs();
+		Platform.removeLogListener(this);
+	}
+
+	/**
+	 * Process UI input but do not return for the specified time interval.
+	 * 
+	 * @param waitTimeMillis
+	 *                the number of milliseconds
+	 */
+	private void delay(long waitTimeMillis) {
+		Display display = Display.getCurrent();
+		if (display != null) {
+			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
+			while (System.currentTimeMillis() < endTimeMillis) {
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
+			display.update();
+		}
+		// Otherwise, perform a simple sleep.
+		else {
+			try {
+				Thread.sleep(waitTimeMillis);
+			} catch (InterruptedException e) {
+				// Ignored.
+			}
+		}
+	}
+
+	/**
+	 * Wait until all background tasks are complete.
+	 */
+	public void waitForJobs() {
+		while (Platform.getJobManager().currentJob() != null)
+			delay(5000);
+	}
+
+	public void testRichFacesComponent() throws PartInitException {
+		waitForJobs();
+
+		for (IPath componentPath : components) {
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(componentPath);
+			IEditorInput input = new FileEditorInput(file);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, EDITOR_ID, true);
+
+			waitForJobs();
+			delay(3000);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(true);
+		}
+		assertEquals(failureLog, false);
+	}
+
+	public void logging(IStatus status, String plugin) {
+		switch (status.getSeverity()) {
+		case IStatus.ERROR:
+			failureLog = true;
+			break;
+		case IStatus.WARNING:
+			if (checkWarning)
+				failureLog = true;
+			break;
+		default:
+			break;
+		}
+
+	}
 
 }
