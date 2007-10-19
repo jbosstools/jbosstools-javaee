@@ -61,7 +61,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.osgi.service.prefs.BackingStoreException;
 
-public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamFacetDataModelProperties {
+public class SeamFacetInstallDelegate extends Object implements IDelegate,ISeamFacetDataModelProperties {
 
 	public static String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$

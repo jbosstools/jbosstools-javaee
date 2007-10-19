@@ -42,8 +42,7 @@
             Seam
          </label>
          <description>
-            Enables the project to work with JBoss Seam
-            
+            Enables the project to work with JBoss Seam           
          </description>
       </project-facet>
       <project-facet-version
@@ -66,18 +65,51 @@
             </and>
          </constraint>
       </project-facet-version>
+      <!--<project-facet-version
+            facet="jst.seam"
+            version="2.0">
+         <constraint>
+            <and>
+               <requires
+                     facet="jst.web"
+                     version="[2.4">
+               </requires>
+               <requires
+                     facet="jst.jsf"
+                     version="[1.2">
+               </requires>
+               <requires
+                     facet="jst.java"
+                     version="[5.0">
+               </requires>
+            </and>
+         </constraint>
+      </project-facet-version>-->
       <action
             facet="jst.seam"
             id="jst.seam.1.2.install"
             type="install"
             version="1.2">
          <delegate
-               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegete">
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegate">
          </delegate>
          <config-factory
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
          </config-factory>
       </action>
+      <!--
+      <action
+            facet="jst.seam"
+            id="jst.seam.2.0.install"
+            type="install"
+            version="2.0">
+         <delegate
+               class="org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate">
+         </delegate>
+         <config-factory
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
+         </config-factory>
+      </action> -->
       <action
             facet="jst.seam"
             id="jst.seam.1.2.uninstall"
