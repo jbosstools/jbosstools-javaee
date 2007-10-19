@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -24,6 +25,7 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 	public SeamConversationWizard() {
 		super(CREATE_SEAM_CONVERSATION);
 		setWindowTitle(SeamUIMessages.SEAM_CONVERSATION_WIZARD_CREATE_NEW_CONVERSATION);
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamConversationWizard.class, "SeamWebProjectWizBan.png"));
 		addPage(new SeamConversationWizardPage1());
 	}
 

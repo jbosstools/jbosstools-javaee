@@ -28,6 +28,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.jboss.tools.seam.core.SeamProjectsSet;
@@ -46,6 +47,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 	public SeamGenerateEnitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
 		setWindowTitle(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEnitiesWizard.class, "SeamWebProjectWizBan.png"));
 		addPage(new SeamGenerateEnitiesWizardPage());
 	}
 
