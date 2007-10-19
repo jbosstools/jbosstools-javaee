@@ -341,10 +341,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 					project.getLocation().toFile(),
 					hibernateDialectFilterSet, true);
 			
-			// Copy JDBC driver if there is any
-			if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
-				AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), webLibFolder);
-
 			WtpUtils.setClasspathEntryAsExported(project, new Path("org.eclipse.jst.j2ee.internal.web.container"), monitor); //$NON-NLS-1$
 
 			Job create = new DataSourceXmlDeployer(project);
@@ -459,11 +455,6 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 				AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
 				AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
 				
-
-				
-				if(model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH)!=null)
-					AntCopyUtils.copyFiles((String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH), earContentsFolder);
-
 				try {
 					
 					File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
@@ -500,41 +491,26 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		
 		createSeamProjectPreferenes(project, model);
 		
-//		try {
-			EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			String wsPath = project.getLocation().removeLastSegments(1)
-			                             .toFile().getAbsoluteFile().getPath();
 
-			IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		String wsPath = project.getLocation().removeLastSegments(1)
+		                             .toFile().getAbsoluteFile().getPath();
 
-			if(!isWarConfiguration(model)) {
-//				ResourcesUtils.importProject(
-//						wsPath+"/"+project.getName()+"-ejb", monitor); //$NON-NLS-1$ //$NON-NLS-2$
-				
-				IProject ejbProjectToBeImported = wsRoot.getProject(project.getName()+"-ejb");
-				ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath+"/"+project.getName()+"-ejb", project.getName()+"-ejb");
-				
-//				ResourcesUtils.importProject(
-//						wsPath+"/"+project.getName()+"-ear", monitor); //$NON-NLS-1$ //$NON-NLS-2$
+		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
 
-				IProject earProjectToBeImported = wsRoot.getProject(project.getName()+"-ear");
-				ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath+"/"+project.getName()+"-ear", project.getName()+"-ear");
-			}
+		if(!isWarConfiguration(model)) {
 			
-//			ResourcesUtils.importProject(
-//					wsPath+"/"+project.getName()+"-test", monitor); //$NON-NLS-1$ //$NON-NLS-2$
-
-			IProject testProjectToBeImported = wsRoot.getProject(project.getName()+"-test");
-			ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath+"/"+project.getName()+"-test", project.getName()+"-test");
+			IProject ejbProjectToBeImported = wsRoot.getProject(project.getName()+"-ejb");
+			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath+"/"+project.getName()+"-ejb", project.getName()+"-ejb");
 			
-//		} catch (IOException e) {
-//			SeamCorePlugin.getPluginLog().logError(e);
-//		} catch (InvocationTargetException e) {
-//			SeamCorePlugin.getPluginLog().logError(e);
-//		} catch (InterruptedException e) {
-//			SeamCorePlugin.getPluginLog().logError(e);
-//		}
+			IProject earProjectToBeImported = wsRoot.getProject(project.getName()+"-ear");
+			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath+"/"+project.getName()+"-ear", project.getName()+"-ear");
+		}
+		
+		IProject testProjectToBeImported = wsRoot.getProject(project.getName()+"-test");
+		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath+"/"+project.getName()+"-test", project.getName()+"-test");
+
 	}
 
 
