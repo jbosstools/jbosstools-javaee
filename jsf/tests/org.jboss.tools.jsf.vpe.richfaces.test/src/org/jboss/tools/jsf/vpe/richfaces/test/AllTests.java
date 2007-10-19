@@ -20,7 +20,7 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class RichFacesAllTest {
+public class AllTests {
 
     public static Test suite() {
 	TestSuite suite = new TestSuite("Tests for Vpe RichFaces components");
