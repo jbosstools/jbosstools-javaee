@@ -39,10 +39,11 @@
       <project-facet
             id="jst.seam">
          <label>
-            Seam Facet
+            Seam
          </label>
          <description>
-            Seam facet description
+            Enables the project to work with JBoss Seam
+            
          </description>
       </project-facet>
       <project-facet-version
