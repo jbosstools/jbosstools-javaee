@@ -22,7 +22,6 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -75,6 +74,18 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String TOP_ITEM_CLASS = "topItemClass";
 
 	private static final String ITEM_STYLE = "itemStyle";
+
+	private static final String ICON_DISABLED = "iconDisabled";
+
+	private static final String ICON = "icon";
+
+	private static final String STYLE_CLASS = "styleClass";
+
+	private static final String STYLE = "style";
+
+	private static final String DISABLED = "disabledClass";
+
+	private static final String DISABLED_STYLE = "disabledStyle";
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -135,6 +146,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					PANEL_MENU_LABLE_CLASS);
 			tdLable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 					"element.style");
+
 			String value = sourceElement.getAttribute("label");
 			nsIDOMText text = visualDocument.createTextNode(value == null ? ""
 					: value);
@@ -160,48 +172,53 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 			if (sourceElement.getParentNode().getNodeName().endsWith(
 					":panelMenu")) {
-				String icon = sourceElement.getAttribute("icon");
-				if (icon == null || icon.length() == 0) {
-					setItemImage(sourceElement, sourceParentElement, td,
-							tdNowrap, ICON_ITEM_TOP_POSITION, pageContext,
-							visualDocument, sourceParentElement
-									.getAttribute(ICON_TOP_ITEM), imgPoints,
-							imgSpacer2);
-				} else {
-					setItemImage(sourceElement, sourceParentElement, td,
-							tdNowrap, ICON_ITEM_TOP_POSITION, pageContext,
-							visualDocument, icon, imgPoints, imgSpacer2);
-				}
 
-				setItemClassAndStyle(sourceElement, sourceParentElement,
-						imgPoints, pageContext, table, sourceParentElement
-								.getAttribute(TOP_ITEM_CLASS),
-						sourceParentElement.getAttribute(TOP_ITEM_STYLE),
-						sourceParentElement
-								.getAttribute(ICON_TOP_DISABLED_ITEM));
+				if (isDisabledItem(sourceElement.getAttribute("disabled"))) {
+					setIcon(pageContext, imgPoints, sourceElement,
+							sourceParentElement, ICON_TOP_DISABLED_ITEM,
+							ICON_DISABLED);
+					setItemClassAndStyle(table, sourceParentElement
+							.getAttribute(DISABLE_ITEM_CLASS), sourceElement
+							.getAttribute(DISABLED), DISABLED_CLASS,
+							sourceParentElement
+									.getAttribute(DISABLED_ITEM_STYLE),
+							sourceElement.getAttribute(DISABLED_STYLE));
+				} else {
+					setIcon(pageContext, imgPoints, sourceElement,
+							sourceParentElement, ICON_TOP_ITEM, ICON);
+					setItemClassAndStyle(table, sourceParentElement
+							.getAttribute(TOP_ITEM_CLASS), sourceElement
+							.getAttribute(STYLE_CLASS), PANEL_MENU_ITEM_CLASS,
+							sourceParentElement.getAttribute(TOP_ITEM_STYLE),
+							sourceElement.getAttribute(STYLE));
+				}
+				setIconPosition(sourceParentElement
+						.getAttribute(ICON_ITEM_TOP_POSITION), td, tdNowrap,
+						imgPoints, imgSpacer2);
 
 			} else {
-				if (sourceElement.getParentNode().getNodeName().endsWith(
-						":panelMenuGroup")) {
-					String icon = sourceElement.getAttribute("icon");
-					if (icon == null || icon.length() == 0) {
-						setItemImage(sourceElement, sourceParentElement, td,
-								tdNowrap, ICON_ITEM_POSITION, pageContext,
-								visualDocument, sourceParentElement
-										.getAttribute(ICON_ITEM), imgPoints,
-								imgSpacer2);
-					} else {
-						setItemImage(sourceElement, sourceParentElement, td,
-								tdNowrap, ICON_ITEM_POSITION, pageContext,
-								visualDocument, icon, imgPoints, imgSpacer2);
-					}
+				if (isDisabledItem(sourceElement.getAttribute("disabled"))) {
+					setIcon(pageContext, imgPoints, sourceElement,
+							sourceParentElement, ICON_DISABLED_ITEM,
+							ICON_DISABLED);
+					setItemClassAndStyle(table, sourceParentElement
+							.getAttribute(DISABLE_ITEM_CLASS), sourceElement
+							.getAttribute(DISABLED), DISABLED_CLASS,
+							sourceParentElement
+									.getAttribute(DISABLED_ITEM_STYLE),
+							sourceElement.getAttribute(DISABLED_STYLE));
+				} else {
+					setIcon(pageContext, imgPoints, sourceElement,
+							sourceParentElement, ICON_ITEM, ICON);
+					setItemClassAndStyle(table, sourceParentElement
+							.getAttribute(ITEM_CLASS), sourceElement
+							.getAttribute(STYLE_CLASS), PANEL_MENU_ITEM_CLASS,
+							sourceParentElement.getAttribute(ITEM_STYLE),
+							sourceElement.getAttribute(STYLE));
 				}
-
-				setItemClassAndStyle(sourceElement, sourceParentElement,
-						imgPoints, pageContext, table, sourceParentElement
-								.getAttribute(ITEM_CLASS), sourceParentElement
-								.getAttribute(ITEM_STYLE), sourceParentElement
-								.getAttribute(ICON_DISABLED_ITEM));
+				setIconPosition(sourceParentElement
+						.getAttribute(ICON_ITEM_POSITION), td, tdNowrap,
+						imgPoints, imgSpacer2);
 			}
 
 			List<Node> children = ComponentUtil.getChildren(sourceElement);
@@ -221,8 +238,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	}
 
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, Document visualDocument, Node visualNode,
-			Object data, String name, String value) {
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 
@@ -235,114 +252,77 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				DEFAULT_SIZE_VALUE);
 	}
 
-	private static void setImagePosition(nsIDOMElement place,
-			nsIDOMElement image, VpePageContext pageContext, String icon) {
+	private static void setItemImage(nsIDOMElement place, nsIDOMElement image) {
 		place.appendChild(image);
 		setDefaultImgAttributes(image);
+	}
+
+	private static boolean isDisabledItem(String disabled) {
+		if ("true".equals(disabled)) {
+			return true;
+		}
+		return false;
+	}
+
+	private static void setIcon(VpePageContext pageContext,
+			nsIDOMElement imgPoints, Element sourceElement,
+			Element parentElement, String parentIconAttribute,
+			String iconAttribute) {
+		String icon = sourceElement.getAttribute(iconAttribute);
+		String parentIcon = parentElement.getAttribute(parentIconAttribute);
 		if (icon == null || icon.length() == 0) {
-			ComponentUtil.setImg(image, IMG_POINTS_SRC);
+			if (!(parentIcon == null || parentIcon.length() == 0)) {
+				ComponentUtil.setImgFromResources(pageContext, imgPoints,
+						parentIcon, IMG_SPACER_SRC);
+			} else {
+				ComponentUtil.setImg(imgPoints, IMG_POINTS_SRC);
+			}
 		} else {
-			ComponentUtil.setImgFromResources(pageContext, image, icon,
+			ComponentUtil.setImgFromResources(pageContext, imgPoints, icon,
 					IMG_SPACER_SRC);
 		}
 	}
 
-	private static void setItemImage(Element sourceElement,
-			Element sourceParentElement, nsIDOMElement td,
-			nsIDOMElement tdNowrap, String attribute,
-			VpePageContext pageContext, nsIDOMDocument visualDocument,
-			String image, nsIDOMElement imgPoints, nsIDOMElement imgSpacer2) {
-		String iconPosition = sourceParentElement.getAttribute(attribute);
+	private static void setIconPosition(String iconPosition,
+			nsIDOMElement right, nsIDOMElement left, nsIDOMElement imgPoints,
+			nsIDOMElement imgSpacer2) {
 		if (!(iconPosition == null)) {
 			if (iconPosition.equals("right")) {
-
-				setImagePosition(td, imgPoints, pageContext, image);
-
+				setItemImage(right, imgPoints);
 			} else {
-				td.appendChild(imgSpacer2);
-				setDefaultImgAttributes(imgSpacer2);
+				setItemImage(right, imgSpacer2);
 				ComponentUtil.setImg(imgSpacer2, IMG_SPACER_SRC);
 				if (iconPosition.equals("left")) {
-					setImagePosition(tdNowrap, imgPoints, pageContext, image);
+					setItemImage(left, imgPoints);
 				}
 			}
 		} else {
-			setImagePosition(tdNowrap, imgPoints, pageContext, image);
-			td.appendChild(imgSpacer2);
-			setDefaultImgAttributes(imgSpacer2);
+			setItemImage(left, imgPoints);
+			setItemImage(right, imgSpacer2);
 			ComponentUtil.setImg(imgSpacer2, IMG_SPACER_SRC);
 		}
 	}
 
-	private static void setItemClassAndStyle(Element sourceElement,
-			Element sourceParentElement, nsIDOMElement imgPoints,
-			VpePageContext pageContext, nsIDOMElement table,
-			String parentClass, String parentStyle, String icon) {
-
-		if ("true".equals(sourceElement.getAttribute("disabled"))) {
-
-			String iconDisabled = sourceElement.getAttribute("iconDisabled");
-			if (iconDisabled == null || iconDisabled.length() == 0) {
-				if (!(icon == null || icon.length() == 0)) {
-					ComponentUtil.setImgFromResources(pageContext, imgPoints,
-							icon, IMG_POINTS_SRC);
-				} else {
-					ComponentUtil.setImg(imgPoints, IMG_POINTS_SRC);
-				}
-			} else {
-				ComponentUtil.setImgFromResources(pageContext, imgPoints,
-						iconDisabled, IMG_SPACER_SRC);
-			}
-
-			String resultDisabledClass = "";
-			String disabledItemClass = sourceParentElement
-					.getAttribute(DISABLE_ITEM_CLASS);
-			if (!(disabledItemClass == null || disabledItemClass.length() == 0)) {
-				resultDisabledClass += disabledItemClass;
-			}
-			String disabledClass = sourceElement.getAttribute("disabledClass");
-			if (!(disabledClass == null || disabledClass.length() == 0)) {
-				resultDisabledClass += disabledClass;
-			}
-			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					DISABLED_CLASS + " " + resultDisabledClass);
-
-			String resultDisabledStyle = "";
-			String disabledItemStyle = sourceParentElement
-					.getAttribute(DISABLED_ITEM_STYLE);
-			if (!(disabledItemStyle == null || disabledItemStyle.length() == 0)) {
-				resultDisabledStyle += disabledItemStyle;
-			}
-			String disabledStyle = sourceElement.getAttribute("disabledStyle");
-			if (!(disabledStyle == null || disabledStyle.length() == 0)) {
-				resultDisabledStyle += disabledStyle;
-			}
-			table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-					resultDisabledStyle);
-
-		} else {
-			String resultClass = "";
-			String itemClass = parentClass;
-			if (!(itemClass == null || itemClass.length() == 0)) {
-				resultClass += itemClass;
-			}
-			String styleClass = sourceElement.getAttribute("styleClass");
-			if (!(styleClass == null || styleClass.length() == 0)) {
-				resultClass += styleClass;
-			}
-			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					PANEL_MENU_ITEM_CLASS + " " + resultClass);
-
-			String resultStyle = "";
-			String itemStyle = parentStyle;
-			if (!(itemStyle == null || itemStyle.length() == 0)) {
-				resultStyle += itemStyle;
-			}
-			String style = sourceElement.getAttribute("style");
-			if (!(style == null || style.length() == 0)) {
-				resultStyle += style;
-			}
-			table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, resultStyle);
+	private static void setItemClassAndStyle(nsIDOMElement table,
+			String parentClass, String itemClass, String defaultClass,
+			String parentStyle, String itemStyle) {
+		String resultClass = "";
+		if (!(parentClass == null || parentClass.length() == 0)) {
+			resultClass += parentClass;
 		}
+		if (!(itemClass == null || itemClass.length() == 0)) {
+			resultClass += itemClass;
+		}
+		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, defaultClass
+				+ " " + resultClass);
+
+		String resultStyle = "";
+		if (!(parentStyle == null || parentStyle.length() == 0)) {
+			resultStyle += parentStyle;
+		}
+		if (!(itemStyle == null || itemStyle.length() == 0)) {
+			resultStyle += itemStyle;
+		}
+		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, resultStyle);
 	}
 }
