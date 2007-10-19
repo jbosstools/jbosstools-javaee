@@ -21,7 +21,6 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.seam.ui.widget.editor.SwtFieldEditorFactory;
 
 /**
  * @author eskimo
@@ -39,7 +38,6 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamLocalInterfaceNameFieldEditor() {
-		// TODO Auto-generated method stub
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_LOCAL_INTERFACE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
 	}
@@ -50,7 +48,6 @@ public class SeamWizardFactory {
 	public static IFieldEditor createSeamBeanNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_BEAN_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
-	
 	}
 
 	/**
@@ -59,7 +56,6 @@ public class SeamWizardFactory {
 	public static IFieldEditor createSeamMethodNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_METHOD_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
-	
 	}
 
 	/**
@@ -92,8 +88,16 @@ public class SeamWizardFactory {
 	/**
 	 * @return
 	 */
+	public static IFieldEditor createSeamJavaPackageSelectionFieldEditor(String defaultSelection) {
+		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+				IParameter.SEAM_PACKAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PACKAGE_NAME, defaultSelection, 
+				 new SelectJavaPackageAction(), ValidatorFactory.NO_ERRORS_VALIDATOR);
+	}
+
+	/**
+	 * @return
+	 */
 	public static IFieldEditor createSeamComponentNameFieldEditor() {
-		// TODO Auto-generated method stub
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_COMPONENT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
 	}

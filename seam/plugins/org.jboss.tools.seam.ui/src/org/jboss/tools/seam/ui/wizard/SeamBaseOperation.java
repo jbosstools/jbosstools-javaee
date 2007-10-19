@@ -78,37 +78,36 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
 		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
-		
+
 		Map<String, Object> vars = new HashMap<String, Object>();
 		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
 		SeamProjectsSet seamPrjSet = new SeamProjectsSet(project);
-		
+
 		try {
-			
 			for (String key : seamFacetPrefs.keys()) {
 				vars.put(key, seamFacetPrefs.get(key, "")); //$NON-NLS-1$
 			}
-			
+
 			for (Object valueHolder : params.values()) {
 				INamedElement elem  = (INamedElement)valueHolder;
 				vars.put(elem.getName(),elem.getValue().toString());
 			}
-			
+
 			loadCustomVariables(vars);
-			
+
 			String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
 			String entityFolder = vars.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).toString();
 			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
-			
+
 			IVirtualComponent com = ComponentCore.createComponent(project);
 			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 			IContainer webRootContainer = webRootFolder.getUnderlyingFolder();
-			
+
 			vars.put(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE,project);
 			vars.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
-			
+
 			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject()!=null?seamPrjSet.getEjbProject().getLocation().toFile().toString():"");
 			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
 			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
@@ -117,7 +116,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, testFolder);
 			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
 			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
-			
+
 			List<String[]> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
@@ -145,7 +144,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 					}					
 				}
 			});
-
 		} catch (CoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} catch (BackingStoreException e) {

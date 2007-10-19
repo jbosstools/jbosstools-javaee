@@ -59,11 +59,11 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 			else
 				return ACTION_EAR_MAPPING;
 		}
-		
+
 		public static final List<String[]> ACTION_WAR_MAPPING = new ArrayList<String[]>();
-		
+
 		public static final List<String[]> ACTION_EAR_MAPPING = new ArrayList<String[]>();
-		
+
 		static {
 			// initialize war files mapping
 			ACTION_WAR_MAPPING.add(new String[]{
@@ -78,7 +78,7 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 			ACTION_WAR_MAPPING.add(new String[]{
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/action.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
 					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"});	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			
+
 			// initialize ear files mapping
 			ACTION_EAR_MAPPING.add(new String[]{
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ActionBean.java", //$NON-NLS-1$ //$NON-NLS-2$

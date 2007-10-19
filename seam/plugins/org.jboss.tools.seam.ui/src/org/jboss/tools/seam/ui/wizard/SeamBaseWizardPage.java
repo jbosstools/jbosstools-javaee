@@ -316,6 +316,12 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
+		if(event.getPropertyName().equals(IParameter.SEAM_PROJECT_NAME)) {
+			IFieldEditor editor = getEditor(IParameter.SEAM_PACKAGE_NAME);
+			if(editor!=null) {
+				editor.setData(IParameter.SEAM_PROJECT_NAME, event.getNewValue());
+			}
+		}
 	}
 
 	/**

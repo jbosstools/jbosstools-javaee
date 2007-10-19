@@ -26,7 +26,6 @@ public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedActi
 	 */
 	public SelectSeamProjectAction() {
 		super(SeamUIMessages.SELECT_SEAM_PROJECT_ACTION_BROWSE);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -38,9 +38,6 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return editor;
 	}
 
-	/**
-	 * 
-	 */
 	/*
 	 * Starting from 4022 revision it creates standart combo box, if it be necessary
 	 * to use custom combo box, use another implementation of this method.
@@ -60,7 +57,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		TaggedComboFieldEditor editor = new TaggedComboFieldEditor(name,label,values, defaultValue,editable);
 		return editor;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -70,7 +67,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				new TextFieldEditor(name,label, defaultValue)});
 		return editor;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -80,7 +77,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				new TextFieldEditor(name,label, defaultValue,false)});
 		return editor;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -91,8 +88,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				new ButtonFieldEditor(name,createSelectFolderAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS),defaultValue)});
 		return editor;
 	}
-	
-	
+
 	/**
 	 * 
 	 */
@@ -103,8 +99,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				new ButtonFieldEditor(name,createSelectFileAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS),defaultValue)});
 		return editor;
 	}
-	
-	
+
 	public IFieldEditor createButtonFieldEditor(String name, String label, String defaultValue, ButtonFieldEditor.ButtonPressedAction action, IValidator validator ) {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
@@ -112,8 +107,8 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				new ButtonFieldEditor(name,action,defaultValue)});
 		return editor;
 	}
+
 	/**
-	 * 
 	 * @param buttonName
 	 * @return
 	 */
@@ -132,7 +127,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			}
 		};
 	}
-	
+
 	/**
 	 * 
 	 * @param buttonName
@@ -167,7 +162,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 			}
 		};
 	}
-		
+
 	/**
 	 * 
 	 */
@@ -184,8 +179,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		});
 		return editor;
 	}
-	
-	
+
 	/**
 	 * 
 	 */

@@ -84,6 +84,19 @@ public interface IFieldEditor extends INamedElement {
 	 * 
 	 */
 	public void dispose();
-	
 
+
+	/**
+	 * Sets the application defined property of this editor
+	 * @param data
+	 * @param key
+	 */
+	public void setData(Object data, Object key);
+
+	/**
+	 * Gets the application defined property of this editor
+	 * @param key
+	 * @return
+	 */
+	public Object getData(Object key);
 }

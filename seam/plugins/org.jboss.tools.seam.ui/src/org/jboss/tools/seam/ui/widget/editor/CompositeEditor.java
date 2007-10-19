@@ -15,6 +15,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
@@ -32,9 +33,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 
 	public CompositeEditor(String name, String label, Object defaultValue) {
 		super(name, label, defaultValue);
-		// TODO Auto-generated constructor stub
 	}
-
 
 	@Override
 	public void doFillIntoGrid(Object parent) {
@@ -54,14 +53,13 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	}
 
 	List<Control> controls = new ArrayList<Control>();
-	
+
 	@Override
 	public Object[] getEditorControls() {
 			if(controls.size()>0) return controls.toArray();
 			else throw new IllegalStateException(SeamUIMessages.COMPOSITE_EDITOR_THIS_METOD_CAN_BE_INVOKED);
 	}
-	
-	
+
 	@Override
 	public Object[] getEditorControls(Object parent) {
 		for (IFieldEditor editor : editors) {
@@ -74,7 +72,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	public int getNumberOfControls() {
 		return editors.size();
 	}
-	
+
 	@Override
 	public boolean isEditable() {
 		return true;
@@ -88,7 +86,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 	}
 
 	List<IFieldEditor> editors = new ArrayList<IFieldEditor>();
-	
+
 	public CompositeEditor addFieldEditors(IFieldEditor[] editors) {
 		this.editors.addAll( Arrays.asList(editors));
 		for (IFieldEditor editor : Arrays.asList(editors)) {
@@ -96,7 +94,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		}
 		return this;
 	}
-	
+
 	@Override
 	public void setValue(Object newValue) {
 		for (IFieldEditor editor : editors) {
@@ -117,15 +115,31 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 		}
 		super.setValue(event.getNewValue());
 	}
-	
+
 	@Override
 	public void setEnabled(boolean set) {
 		for (IFieldEditor editor : editors) {
 			editor.setEnabled(set);
 		}
 	}
-	
+
 	public List<IFieldEditor> getEditors() {
 		return Collections.unmodifiableList(editors);
+	}
+
+	public IFieldEditor getEditorByName(String name) {
+		for (IFieldEditor editor : editors) {
+			if(name.equals(editor.getName())) {
+				return editor;
+			}
+		}
+		return null;
+	}
+
+	public void setData(Object key, Object value) {
+		super.setData(key, value);
+		for (IFieldEditor editor : editors) {
+			editor.setData(key, value);
+		}
 	}
 }

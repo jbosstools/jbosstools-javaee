@@ -279,6 +279,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME;
 
+	public static String SEAM_WIZARD_FACTORY_PACKAGE_NAME;
+
 	public static String SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME;
 
 	public static String SEAM_WIZARD_FACTORY_SEAM_PROJECT;

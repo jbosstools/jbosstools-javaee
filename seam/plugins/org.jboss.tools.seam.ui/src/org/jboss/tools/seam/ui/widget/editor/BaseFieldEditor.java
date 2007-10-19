@@ -12,6 +12,8 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
@@ -37,7 +39,9 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	private String nameText = null;
 
 	Label labelControl = null;
-	
+
+	protected Map<Object, Object> data = null;
+
 	/**
 	 * 
 	 * @param name
@@ -49,7 +53,7 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 		this.labelText = label;
 		this.nameText = name;
 	}
-	
+
 	/**
 	 * 
 	 * @param parent
@@ -58,12 +62,12 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 		Assert.isTrue(parent instanceof Composite, SeamUIMessages.BASE_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
 		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,SeamUIMessages.BASE_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) parent;
-		Control[] controls = (Control[])getEditorControls(aComposite);
+		getEditorControls(aComposite);
 		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
-		
+
 		doFillIntoGrid(aComposite,gl.numColumns);
 	}
-	
+
 	/**
 	 * @param composite
 	 * @param numColumns
@@ -244,5 +248,19 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	 */
 	public void setEditable(boolean aEditable) {
 		this.editable = aEditable;
+	}
+
+	public Object getData(Object key) {
+		if(data==null) {
+			return null;
+		}
+		return data.get(key);
+	}
+
+	public void setData(Object key, Object value) {
+		if(data==null) {
+			data = new HashMap<Object, Object>();
+		}
+		data.put(key, value);
 	}
 }

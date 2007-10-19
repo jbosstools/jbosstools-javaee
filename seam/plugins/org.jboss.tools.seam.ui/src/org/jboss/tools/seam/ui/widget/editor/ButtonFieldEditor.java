@@ -105,7 +105,6 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 	 */
 	@Override
 	public int getNumberOfControls() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 }
