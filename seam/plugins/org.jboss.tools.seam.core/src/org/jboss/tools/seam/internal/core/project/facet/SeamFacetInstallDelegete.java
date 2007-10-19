@@ -69,8 +69,9 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 	public static String TEST_EAR_PROFILE = "test"; //$NON-NLS-1$
 	
 	
-	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet() 
+	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
+		.include("richfaces.*\\.jar")
 		.include("antlr.*\\.jar") //$NON-NLS-1$
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("commons-collections.*\\.jar") //$NON-NLS-1$
@@ -79,7 +80,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
-		.include("janino.*\\.jar") //$NON-NLS-1$
+		.include("janino.*\\.jar") //$NON-NLS-1$		
 		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-mail\\.jar") //$NON-NLS-1$
@@ -107,6 +108,7 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 	
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
+		.include("richfaces.*\\.jar") //$NON-NLS-1$
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("commons-digester.*\\.jar") //$NON-NLS-1$
 		.include("commons-collections.*\\.jar") //$NON-NLS-1$
