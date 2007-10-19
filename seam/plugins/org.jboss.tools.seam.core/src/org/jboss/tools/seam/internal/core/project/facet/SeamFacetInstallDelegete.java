@@ -174,7 +174,8 @@ public class SeamFacetInstallDelegete extends Object implements IDelegate,ISeamF
 	
 	public static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql") //$NON-NLS-1$
-		.include("seam\\.properties"); //$NON-NLS-1$
+		.include("seam\\.properties")
+		.exclude(".*/WEB-INF"); //$NON-NLS-1$
 	
 	public static AntCopyUtils.FileSet JBOSS_EAR_META_INF_SET = new AntCopyUtils.FileSet()
 		.include("META-INF/jboss-app\\.xml"); //$NON-NLS-1$
