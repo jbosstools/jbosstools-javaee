@@ -110,8 +110,26 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		assertNotNull(testProject.findMember("bootstrap"));
 		assertNotNull(testProject.findMember("bootstrap/data"));
 		
+		assertNull("embedded-ejb should not be installed for seam2", testProject.findMember("embedded-ejb"));
+		
 	}
 
+	public void testTestLibs() throws CoreException, IOException {
+		
+		SeamProjectsSet warPs = new SeamProjectsSet(warProject.getProject());
+		
+		IProject testProject = warPs.getTestProject();
+		assertTrue(testProject.exists());
+		
+		assertNotNull(testProject.findMember("lib/testng.jar"));
+		assertNotNull(testProject.findMember("lib/hibernate-all.jar"));
+		assertNotNull(testProject.findMember("lib/jboss-deployers.jar"));
+		assertNotNull(testProject.findMember("lib/jboss-embedded-all.jar"));
+		assertNotNull(testProject.findMember("lib/thirdparty-all.jar"));
+		
+		
+		
+	}
 	public void testJbpmPresent() throws CoreException, IOException {
 		
 		SeamProjectsSet earPs = new SeamProjectsSet(earProject.getProject());

@@ -97,15 +97,16 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 	    .include("jboss-el.jar"); //$NON-NLS-1$
 	
 	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
-		.include("testng-.*-jdk15\\.jar") //$NON-NLS-1$
+		.include("testng\\.jar") //$NON-NLS-1$
+		.include("test/jboss-deployers.jar") //$NON-NLS-1$		
+		.include("test/jboss-embedded-all.jar") //$NON-NLS-1$
 		.include("myfaces-api-.*\\.jar") //$NON-NLS-1$
 		.include("myfaces-impl-.*\\.jar") //$NON-NLS-1$
 		.include("servlet-api\\.jar") //$NON-NLS-1$
-		.include("hibernate-all\\.jar") //$NON-NLS-1$
-		.include("jboss-ejb3-all\\.jar") //$NON-NLS-1$
-		.include("thirdparty-all\\.jar") //$NON-NLS-1$
-		.include("el-api\\.jar") //$NON-NLS-1$
-		.include("el-ri\\.jar") //$NON-NLS-1$
+		.include("test/hibernate-all\\.jar") //$NON-NLS-1$
+		.include("test/thirdparty-all\\.jar") //$NON-NLS-1$
+		//.include("el-api\\.jar") //$NON-NLS-1$
+		//.include("el-ri\\.jar") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 	
@@ -136,8 +137,8 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 	    .include("security\\.drl"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
-		.include("META-INF/application\\.xml") //$NON-NLS-1$
-		.include("META-INF/jboss-app\\.xml"); //$NON-NLS-1$
+		.include("META-INF/application\\.xml"); //$NON-NLS-1$
+		//.include("META-INF/jboss-app\\.xml"); //$NON-NLS-1$
 	
 	public static AntCopyUtils.FileSet VIEW_FILESET = new AntCopyUtils.FileSet()
 		.include("home\\.xhtml") //$NON-NLS-1$
@@ -180,10 +181,7 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 		.include("import\\.sql") //$NON-NLS-1$
 		.include("seam\\.properties")
 		.exclude(".*/WEB-INF"); //$NON-NLS-1$
-	
-	public static AntCopyUtils.FileSet JBOSS_EAR_META_INF_SET = new AntCopyUtils.FileSet()
-		.include("META-INF/jboss-app\\.xml"); //$NON-NLS-1$
-	
+		
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "lib"; //$NON-NLS-1$
 	
 	public static String SEAM_LIB_RELATED_PATH = "lib"; //$NON-NLS-1$
@@ -581,22 +579,33 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 			File testSrcDir = new File(testProjectDir,"test-src"); //$NON-NLS-1$
 			String seamGenResFolder = seamRuntime.getResourceTemplatesDir();
 			File persistenceFile = new File(seamGenResFolder ,"META-INF/persistence-" + (isWarConfiguration(model)?TEST_WAR_PROFILE:TEST_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
-			File jbossBeansFile = new File(seamGenResFolder ,"META-INF/jboss-beans.xml"); //$NON-NLS-1$
+			//File jbossBeansFile = new File(seamGenResFolder ,"META-INF/jboss-beans.xml"); //$NON-NLS-1$
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName); //$NON-NLS-1$
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
 			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getLocation().lastSegment()); //$NON-NLS-1$
-	
+			// TODO: why are these filters not shared!?
+			filterSet.addConfiguredFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+			
 			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 			final String seamHomePath = selectedRuntime.getHomeDir();
 			
 			AntCopyUtils.FileSet includeLibs 
 				= new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET)
 												.dir(new File(seamRuntime.getHomeDir(),"lib")); //$NON-NLS-1$
-			File[] libs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
+			AntCopyUtils.FileSet secondSetincludeLibs 
+			= new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET)
+											.dir(new File(seamRuntime.getHomeDir(),"lib/test")); //$NON-NLS-1$
+		
+			File[] firstlibs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
+			File[] secondLibs = secondSetincludeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(secondSetincludeLibs));
+			
 			StringBuffer testLibraries = new StringBuffer();
 			
-			for (File file : libs) {
+			for (File file : firstlibs) {
+				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			for (File file : secondLibs) {
 				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			
@@ -611,7 +620,7 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 			filterSet.addFilter("requiredProjects",requiredProjects.toString()); //$NON-NLS-1$
 			File testTemplateDir = null;
 			try {
-				testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"test"); //$NON-NLS-1$
+				testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"test-seam2"); //$NON-NLS-1$
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 				return;
@@ -636,27 +645,32 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 					new File(testProjectDir,"test-src/META-INF/persistence.xml"), //$NON-NLS-1$
 					new FilterSetCollection(filterSet), true);
 
-			AntCopyUtils.copyFileToFolder(
+			/*AntCopyUtils.copyFileToFolder(
 					jbossBeansFile,
 					new File(testProjectDir,"test-src/META-INF"), //$NON-NLS-1$
-					new FilterSetCollection(filterSet), true);
+					new FilterSetCollection(filterSet), true);*/
 			
 			AntCopyUtils.copyFiles(
 					new File(seamRuntime.getHomeDir(),"lib"), //$NON-NLS-1$
 					testLibDir,
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
+			//seam2 has a lib/test
+			AntCopyUtils.copyFiles(
+					new File(seamRuntime.getHomeDir(),"lib/test"), //$NON-NLS-1$
+					testLibDir,
+					new AntCopyUtils.FileSetFileFilter(includeLibs));
 			
-			createComponentsProperties(testSrcDir, "", Boolean.TRUE); //$NON-NLS-1$
+			createComponentsProperties(testSrcDir, "", true); //$NON-NLS-1$
 		}
 
 	/**
 	 * @param seamGenResFolder
 	 */
-	private void createComponentsProperties(final File seamGenResFolder, String projectName, Boolean embedded) {
+	private void createComponentsProperties(final File seamGenResFolder, String projectName, boolean embedded) {
 		Properties components = new Properties();
 		String prefix = "".equals(projectName)?"":projectName+"/"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		components.put("embeddedEjb", embedded.toString()); //$NON-NLS-1$
-		components.put("jndiPattern", prefix+"#{ejbName}/local"); //$NON-NLS-1$ //$NON-NLS-2$
+		components.setProperty("embeddedEjb", ""+embedded); //$NON-NLS-1$
+		components.setProperty("jndiPattern", prefix+"#{ejbName}/local"); //$NON-NLS-1$ //$NON-NLS-2$
 		File componentsProps = new File(seamGenResFolder,"components.properties"); //$NON-NLS-1$
 		try {
 			componentsProps.createNewFile();

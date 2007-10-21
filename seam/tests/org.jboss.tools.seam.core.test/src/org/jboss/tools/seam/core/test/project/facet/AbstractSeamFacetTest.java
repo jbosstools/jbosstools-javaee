@@ -79,8 +79,10 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		Exception last = null;
 		for (IResource r : this.resourcesToCleanup) {
 			try {
+				System.out.println("Deleting " + r);
 				r.delete(true, null);
 			} catch(Exception e) {
+				System.out.println("Error deleting " + r);
 				e.printStackTrace();
 				last = e;
 			}
@@ -154,10 +156,10 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		assertNotNull(proj);
 		assertTrue(proj.exists());
 
-		/*assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
+		assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
 		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
-		this.resourcesToCleanup.add(testProject);*/
-		this.resourcesToCleanup.add(proj);		
+		this.addResourceToCleanup(testProject);
+		this.addResourceToCleanup(proj);		
 
 		return fproj;
 	}
@@ -168,17 +170,17 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		final IProject proj = fproj.getProject();
 		assertNotNull(proj);
 		
-		//IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
 		IProject ejbProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ejb");
 		IProject earProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ear");
 		
 		this.resourcesToCleanup.add(proj);
-		//this.resourcesToCleanup.add(testProject);
+		this.resourcesToCleanup.add(testProject);
 		this.resourcesToCleanup.add(ejbProject);
 		this.resourcesToCleanup.add(earProject);
 
 		assertTrue(proj.exists());
-		//assertTrue(testProject.exists());
+		assertTrue(testProject.exists());
 		assertTrue(ejbProject.exists());
 		assertTrue(earProject.exists());
 
