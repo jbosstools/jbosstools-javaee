@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.wizard;
 
 import java.util.Map;
 
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
@@ -24,8 +25,11 @@ import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
  */
 public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
-	public SeamConversationWizardPage1() {
-		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null); 
+	private final IStructuredSelection initialSelection;
+
+	public SeamConversationWizardPage1(IStructuredSelection initialSelection) {
+		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null, initialSelection);
+		this.initialSelection = initialSelection; 
 		setMessage(getDefaultMessageText());
 	}
 	

@@ -76,7 +76,7 @@ public class SeamWizardFactory {
 	
 	public static final IFieldEditor[] createBaseFormFieldEditors(String defaultSelection) {
 		return new IFieldEditor[]{
-			SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()),
+			SeamWizardFactory.createSeamProjectSelectionFieldEditor(defaultSelection),
 			SeamWizardFactory.createSeamComponentNameFieldEditor(),
 			SeamWizardFactory.createSeamLocalInterfaceNameFieldEditor(),
 			SeamWizardFactory.createSeamBeanNameFieldEditor(),

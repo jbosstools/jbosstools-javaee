@@ -24,6 +24,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -44,6 +45,8 @@ import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
  */
 public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptable, PropertyChangeListener {
 
+	private final IStructuredSelection initialSelection;
+
 	/**
 	 * 
 	 * @param pageName
@@ -51,21 +54,23 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * @param titleImage
 	 */
 	public SeamBaseWizardPage(String pageName, String title,
-			ImageDescriptor titleImage) {
+			ImageDescriptor titleImage, IStructuredSelection initialSelection) {
 		super(pageName, title, titleImage);
+		this.initialSelection = initialSelection;
 		createEditors();
 	}
 
 	/**
 	 * @param pageName
 	 */
-	protected SeamBaseWizardPage(String pageName) {
+	protected SeamBaseWizardPage(String pageName, IStructuredSelection initSelection) {
 		super(pageName);
+		this.initialSelection = initSelection;
 		createEditors();
 	}
 
 	protected void createEditors() {
-		addEditors(SeamWizardFactory.createBaseFormFieldEditors(SeamWizardUtils.getSelectedProjectName()));
+		addEditors(SeamWizardFactory.createBaseFormFieldEditors(SeamWizardUtils.getRootSeamProjectName(initialSelection)));
 	}
 	
 	Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();

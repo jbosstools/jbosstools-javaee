@@ -49,7 +49,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	 */
 	public void createControl(Composite parent) {
 		setPageComplete(true);
-		String projectName = SeamWizardUtils.getSelectedProjectName();
+		String projectName = SeamWizardUtils.getCurrentSelectedRootSeamProjectName();
 		projectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(projectName);
 		projectEditor.addPropertyChangeListener(this);
 		if(projectName!=null && projectName.length()>0) {

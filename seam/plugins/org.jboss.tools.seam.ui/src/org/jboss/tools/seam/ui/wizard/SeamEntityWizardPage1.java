@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -29,10 +30,11 @@ import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 
 	/**
+	 * @param is 
 	 * 
 	 */
-	public SeamEntityWizardPage1() {
-		super("seam.new.entity.page1","Seam Entity", null); 
+	public SeamEntityWizardPage1(IStructuredSelection is) {
+		super("seam.new.entity.page1","Seam Entity", null, is); 
 		setMessage(getDefaultMessageText());
 	}
 	
@@ -41,7 +43,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	 */
 	@Override
 	protected void createEditors() {
-		addEditor(SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getSelectedProjectName()));
+		super.createEditors();
 		addEditor(SeamWizardFactory.createSeamEntityClasNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamMasterPageNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamPageNameFieldEditor());

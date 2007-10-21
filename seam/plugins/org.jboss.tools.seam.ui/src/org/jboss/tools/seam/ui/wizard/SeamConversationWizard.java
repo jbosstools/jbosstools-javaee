@@ -16,19 +16,27 @@ import java.util.Map;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 public class SeamConversationWizard extends SeamBaseWizard implements INewWizard {
 
+	
+
 	public SeamConversationWizard() {
 		super(CREATE_SEAM_CONVERSATION);
 		setWindowTitle(SeamUIMessages.SEAM_CONVERSATION_WIZARD_CREATE_NEW_CONVERSATION);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamConversationWizard.class, "SeamWebProjectWizBan.png"));
-		addPage(new SeamConversationWizardPage1());
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamConversationWizard.class, "SeamWebProjectWizBan.png"));		
 	}
 
+	@Override
+	public void addPages() {
+		super.addPages();
+		addPage(new SeamConversationWizardPage1(getInitialSelection()));
+	}
 	public static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamConversationCreateOperation();
 	/**
 	 * 
@@ -77,5 +85,5 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 			ACTION_EAR_MAPPING.add(ACTION_WAR_MAPPING.get(2));
 		}
 	};
-
+	
 }

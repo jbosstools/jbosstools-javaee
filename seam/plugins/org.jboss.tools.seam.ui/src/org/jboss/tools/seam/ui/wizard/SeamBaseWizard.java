@@ -43,6 +43,8 @@ public abstract class SeamBaseWizard extends Wizard {
 	private IUndoableOperation operation;
 	
 	private IWorkbench workbench;
+
+	private IStructuredSelection selection;
 	
 	/**
 	 * 
@@ -105,9 +107,18 @@ public abstract class SeamBaseWizard extends Wizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
+		this.setSelection(selection);
 	}
 	
 	protected IFacetedProjectTemplate getTemplate() {
 		return ProjectFacetsManager.getTemplate("template.jst.seam"); //$NON-NLS-1$
+	}
+
+	public void setSelection(IStructuredSelection selection) {
+		this.selection = selection;
+	}
+
+	protected IStructuredSelection getInitialSelection() {
+		return selection;
 	}
 }
