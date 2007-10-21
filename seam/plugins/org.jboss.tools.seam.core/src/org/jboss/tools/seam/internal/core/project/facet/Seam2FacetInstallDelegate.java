@@ -16,8 +16,12 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -96,15 +100,24 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 	    .include("mvel14.jar") //$NON-NLS-1$
 	    .include("jboss-el.jar"); //$NON-NLS-1$
 	
-	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
+	// test/*.jar are duplicated here since the filtering seem to be assymetric when matching 
+	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
+	    .exclude("jboss-seam.*")
+	    .exclude("jboss-aop\\.jar")
+	    .exclude("jboss-container\\.jar")
+	    .include(".*\\.jar") //$NON-NLS-1$  // TODO: fix this, since test shouldn't need them all ;(
 		.include("testng\\.jar") //$NON-NLS-1$
 		.include("test/jboss-deployers.jar") //$NON-NLS-1$		
+		.include("jboss-deployers.jar") //$NON-NLS-1$
 		.include("test/jboss-embedded-all.jar") //$NON-NLS-1$
+		.include("jboss-embedded-all.jar") //$NON-NLS-1$
 		.include("myfaces-api-.*\\.jar") //$NON-NLS-1$
 		.include("myfaces-impl-.*\\.jar") //$NON-NLS-1$
 		.include("servlet-api\\.jar") //$NON-NLS-1$
 		.include("test/hibernate-all\\.jar") //$NON-NLS-1$
+		.include("hibernate-all\\.jar") //$NON-NLS-1$
 		.include("test/thirdparty-all\\.jar") //$NON-NLS-1$
+		.include("thirdparty-all\\.jar") //$NON-NLS-1$
 		//.include("el-api\\.jar") //$NON-NLS-1$
 		//.include("el-ri\\.jar") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
@@ -325,6 +338,9 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					new FilterSetCollection(filtersFilterSet), true);
 
+			// Needed to make sure /dev is picked up by test, so need seam.properties.
+			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/action"), true); //$NON-NLS-1$
+			
 			AntCopyUtils.copyFileToFile(
 					persistenceFile,
 					new File(srcFolder,"META-INF/persistence.xml"), //$NON-NLS-1$
@@ -599,15 +615,19 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 		
 			File[] firstlibs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
 			File[] secondLibs = secondSetincludeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(secondSetincludeLibs));
-			
+			Set<String> allLibs = new HashSet<String>(); // HACK: needed to be unique because some jboss-*.jars are duplicated
+			for(File f : firstlibs) {
+				allLibs.add(f.getName());
+			}
+			for(File f : secondLibs) {
+				allLibs.add(f.getName());
+			}
+						
 			StringBuffer testLibraries = new StringBuffer();
 			
-			for (File file : firstlibs) {
-				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			for (File file : secondLibs) {
-				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
+			for (String file : allLibs) {
+				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			}			
 			
 			StringBuffer requiredProjects = new StringBuffer();
 			requiredProjects.append(

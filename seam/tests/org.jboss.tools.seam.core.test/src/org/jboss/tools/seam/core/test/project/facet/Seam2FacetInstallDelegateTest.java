@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core.test.project.facet;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -130,6 +131,20 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		
 	}
+	
+	public void testSeamProperties() {
+	SeamProjectsSet warPs = new SeamProjectsSet(warProject.getProject());
+		
+		IProject warProject = warPs.getWarProject();
+		assertTrue(warProject.exists());
+		
+		assertNotNull(warProject.findMember("src/model/seam.properties"));
+		IResource findMember = warProject.findMember("src/action/seam.properties");
+		assertNotNull(findMember);
+		assertTrue(findMember instanceof IFile);
+		
+	}
+	
 	public void testJbpmPresent() throws CoreException, IOException {
 		
 		SeamProjectsSet earPs = new SeamProjectsSet(earProject.getProject());
