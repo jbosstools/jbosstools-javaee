@@ -74,8 +74,10 @@ public abstract class SeamBaseWizard extends Wizard {
 							result = operationHistory.execute(operation, monitor, (IAdaptable)getPages()[0]);
 						} catch (ExecutionException e) {
 							result = new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+							SeamCorePlugin.getPluginLog().logError(e);
+							ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Seam wizard error", result.getMessage(), result);
 						}
-//						ErrorDialog.openError(Display.getCurrent().getActiveShell(), SeamUIMessages.SeamBaseWizard_0, result.getMessage(), result);
+						//ErrorDialog.openError(Display.getCurrent().getActiveShell(), SeamUIMessages.SeamBaseWizard_0, result.getMessage(), result);
 					}
 				});
 			} catch (InvocationTargetException e) {

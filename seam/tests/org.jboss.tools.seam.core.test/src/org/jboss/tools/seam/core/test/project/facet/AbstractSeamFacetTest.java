@@ -73,16 +73,24 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	}
 	protected void tearDown()
 
-	throws CoreException
+	throws Exception
 
 	{
+		Exception last = null;
 		for (IResource r : this.resourcesToCleanup) {
-			r.delete(true, null);
+			try {
+				r.delete(true, null);
+			} catch(Exception e) {
+				e.printStackTrace();
+				last = e;
+			}
 		}
 
 		for (Runnable runnable : this.tearDownOperations) {
 			runnable.run();
 		}
+		
+		if(last!=null) throw last;
 	}
 
 	protected final void addResourceToCleanup(final IResource resource) {
@@ -106,28 +114,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		return fpj;
 	}
 
-	protected IFacetedProject createSeamWarProject() throws CoreException {
-		final IFacetedProject fproj = ProjectFacetsManager.create("seam12Project", null,
-				null);
 	
-		installDependentFacets(fproj);
-		
-		IDataModel config = createSeamDataModel("war");
-		
-		fproj.installProjectFacet(seamFacetVersion, config, null);
-		
-		final IProject proj = fproj.getProject();
-
-		assertNotNull(proj);
-		assertTrue(proj.exists());
-
-		assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
-	
-		this.resourcesToCleanup.add(proj);		
-
-		return fproj;
-	}
-
 	protected IDataModel createSeamDataModel(String deployType) {
 		IDataModel config = (IDataModel) new SeamFacetInstallDataModelProvider().create();
 		config.setStringProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_1_2_0);
@@ -148,34 +135,58 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		fproj.installProjectFacet(javaFacesVersion, null, null);
 	}
 
-	protected IFacetedProject createSeamEarProject() throws CoreException {
-		final IFacetedProject fproj = ProjectFacetsManager.create("seamear12Project", null,
+	protected IFacetedProject createSeamProject(String baseProjectName, IDataModel config) throws CoreException {
+		final IFacetedProject fproj = ProjectFacetsManager.create(baseProjectName, null,
 				null);
 	
 		installDependentFacets(fproj);
 		
-		IDataModel config = createSeamDataModel("ear");
+		fproj.installProjectFacet(getSeamFacetVersion(), config, null);
 		
-		fproj.installProjectFacet(seamFacetVersion, config, null);
+		return fproj;
+	}
+
+	protected IFacetedProject createSeamWarProject(String name) throws CoreException {
+		final IFacetedProject fproj = createSeamProject(name, createSeamDataModel("war"));
+		
+		final IProject proj = fproj.getProject();
+
+		assertNotNull(proj);
+		assertTrue(proj.exists());
+
+		/*assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
+		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+		this.resourcesToCleanup.add(testProject);*/
+		this.resourcesToCleanup.add(proj);		
+
+		return fproj;
+	}
+
+	protected IFacetedProject createSeamEarProject(String name) throws CoreException {
+		final IFacetedProject fproj = createSeamProject(name, createSeamDataModel("ear"));
 		
 		final IProject proj = fproj.getProject();
 		assertNotNull(proj);
 		
-		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+		//IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
 		IProject ejbProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ejb");
 		IProject earProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ear");
 		
 		this.resourcesToCleanup.add(proj);
-		this.resourcesToCleanup.add(testProject);
+		//this.resourcesToCleanup.add(testProject);
 		this.resourcesToCleanup.add(ejbProject);
 		this.resourcesToCleanup.add(earProject);
 
 		assertTrue(proj.exists());
-		assertTrue(testProject.exists());
+		//assertTrue(testProject.exists());
 		assertTrue(ejbProject.exists());
 		assertTrue(earProject.exists());
 
 		return fproj;
+	}
+	
+	protected IProjectFacetVersion getSeamFacetVersion() {
+		return seamFacetVersion;
 	}
 
 }

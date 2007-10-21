@@ -42,7 +42,9 @@ public class SeamFacetFilterSetFactory {
 		PROJECT_TEMPLATE.addFilter("hbm2ddl","${hibernate.hbm2ddl.auto}"); //$NON-NLS-1$ //$NON-NLS-2$
 		PROJECT_TEMPLATE.addFilter("driverJar","${driver.file}"); //$NON-NLS-1$ //$NON-NLS-2$
 		PROJECT_TEMPLATE.addFilter("debug","true");		 //$NON-NLS-1$ //$NON-NLS-2$
-
+		//todo: keep this local for seam2 ?
+		PROJECT_TEMPLATE.addFilter("skin","blueSky"); //$NON-NLS-1$ //$NON-NLS-2$
+		
 		FILTERS_TEMPLATE = new FilterSet();
 		FILTERS_TEMPLATE.addFilter("interfaceName","${interface.name}"); //$NON-NLS-1$ //$NON-NLS-2$
 		FILTERS_TEMPLATE.addFilter("beanName","${bean.name}"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -57,31 +59,32 @@ public class SeamFacetFilterSetFactory {
 		FILTERS_TEMPLATE.addFilter("listName","${component.name}List"); //$NON-NLS-1$ //$NON-NLS-2$
 		FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home"); //$NON-NLS-1$ //$NON-NLS-2$
 		FILTERS_TEMPLATE.addFilter("query","${query.text}"); //$NON-NLS-1$ //$NON-NLS-2$
+
 		
 		HIBERNATE_DIALECT_TEMPLATE = new FilterSet();
 		HIBERNATE_DIALECT_TEMPLATE.addFilter("hibernate.dialect","${hibernate.dialect}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public static FilterSet createJdbcFilterSet(IDataModel values) {
-		return aplayProperties((FilterSet)JDBC_TEMPLATE.clone(), values);
+		return applyProperties((FilterSet)JDBC_TEMPLATE.clone(), values);
 	}
 	public static FilterSet createProjectFilterSet(IDataModel values){
-		return aplayProperties((FilterSet)PROJECT_TEMPLATE.clone(), values);
+		return applyProperties((FilterSet)PROJECT_TEMPLATE.clone(), values);
 	}
 	
 	public static FilterSet createFiltersFilterSet(IDataModel values) {
-		return aplayProperties((FilterSet)FILTERS_TEMPLATE.clone(), values);
+		return applyProperties((FilterSet)FILTERS_TEMPLATE.clone(), values);
 	}
 	
 	public static FilterSet createHibernateDialectFilterSet(IDataModel values) {
-		return aplayProperties((FilterSet)HIBERNATE_DIALECT_TEMPLATE.clone(), values);
+		return applyProperties((FilterSet)HIBERNATE_DIALECT_TEMPLATE.clone(), values);
 	}
 	
 	public static FilterSet createFiltersFilterSet(Map values) {
-		return aplayProperties((FilterSet)FILTERS_TEMPLATE.clone(), values);
+		return applyProperties((FilterSet)FILTERS_TEMPLATE.clone(), values);
 	}
 	
-	private static FilterSet aplayProperties(FilterSet template,IDataModel values) {
+	private static FilterSet applyProperties(FilterSet template,IDataModel values) {
 		FilterSet result = new FilterSet();
 		for (Object filter : template.getFilterHash().keySet()) {
 			String value = template.getFilterHash().get(filter).toString();
@@ -96,7 +99,7 @@ public class SeamFacetFilterSetFactory {
 		return result;
 	}
 	
-	private static FilterSet aplayProperties(FilterSet template,Map values) {
+	private static FilterSet applyProperties(FilterSet template,Map values) {
 		FilterSet result = new FilterSet();
 		for (Object filter : template.getFilterHash().keySet()) {
 			String value = template.getFilterHash().get(filter).toString();

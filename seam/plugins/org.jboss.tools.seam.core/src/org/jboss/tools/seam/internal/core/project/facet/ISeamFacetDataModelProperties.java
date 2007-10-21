@@ -58,14 +58,17 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
 	
+	// why is this a property when it is always derivable from sesion_bean_package_name ?
 	public static final String SESION_BEAN_PACKAGE_PATH = "action.package.path"; //$NON-NLS-1$
 	
 	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
-	
+
+	// why is this a property when it is always derivable from entity_bean_package_name ?
 	public static final String ENTITY_BEAN_PACKAGE_PATH = "model.package.path"; //$NON-NLS-1$
 	
 	public static final String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
 	
+	// why is this a property when it is always derivable from test_package_path ?
 	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path"; //$NON-NLS-1$
 
 	public static final String JBOSS_SEAM_HOME = "seam.home.folder"; //$NON-NLS-1$

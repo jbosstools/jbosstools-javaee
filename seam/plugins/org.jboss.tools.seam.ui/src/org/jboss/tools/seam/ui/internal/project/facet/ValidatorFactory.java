@@ -38,6 +38,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -147,13 +148,26 @@ public class ValidatorFactory {
 						SeamUIMessages.VALIDATOR_FACTORY_SEAM_HOME_FOLDER_DOES_NOT_EXISTS);
 				return errors;
 			}
-			File seamJarFile = new File(value.toString(), "jboss-seam.jar"); //$NON-NLS-1$
-			if (!seamJarFile.isFile()) {
-				errors = createErrorMap();
-				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
-					SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO +
-						SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER);
-			}
+			String version = (String) context;
+			
+			if(version.startsWith("2.0")) {
+				File seamJarFile = new File(value.toString(), "lib/jboss-seam.jar"); //$NON-NLS-1$
+				if (!seamJarFile.isFile()) {
+					errors = createErrorMap();
+					errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+						SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO +
+							SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER);
+				}					
+			} else {
+				File seamJarFile = new File(value.toString(), "jboss-seam.jar"); //$NON-NLS-1$
+				if (!seamJarFile.isFile()) {
+					errors = createErrorMap();
+					errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
+						SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO +
+							SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER);
+				}					
+			}  
+			
 			return errors;
 		}
 	};

@@ -10,12 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.jboss.tools.seam.core.test.project.facet.Seam2FacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamFacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 /**
  * @author V.Kabanovich
  *
@@ -32,6 +33,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
 		
 		suite.addTestSuite(SeamFacetInstallDelegateTest.class);
+		suite.addTestSuite(Seam2FacetInstallDelegateTest.class);
 		
 		return suite;
 	}

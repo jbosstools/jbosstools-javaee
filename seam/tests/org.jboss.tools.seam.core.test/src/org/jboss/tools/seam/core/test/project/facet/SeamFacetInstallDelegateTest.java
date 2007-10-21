@@ -13,7 +13,9 @@ package org.jboss.tools.seam.core.test.project.facet;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 
@@ -21,18 +23,26 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		super(name);
 	}
 
-	public void testCreateWarFromScratch() throws CoreException, IOException {
+	public void testCreateWar() throws CoreException, IOException {
 		
-		final IFacetedProject fproj = createSeamWarProject();
+		final IFacetedProject fproj = createSeamWarProject("seamwar");
 		
 	}
 
 
-	public void testCreateEarFromScratch() throws CoreException, IOException {
+	public void testCreateEar() throws CoreException, IOException {
 		
-		final IFacetedProject fproj = createSeamEarProject();
-		
-				
+		final IFacetedProject fproj = createSeamEarProject("seamear");
 	}
+	
+	public void testCreateCustomProject() throws CoreException, IOException {
 
+		IDataModel createSeamDataModel = createSeamDataModel("war");
+		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "x.y.z");
+		
+		final IFacetedProject fproj = createSeamProject("customProject",createSeamDataModel);
+		
+		assertTrue(fproj.getProject().findMember("src/action/x/y/z").exists());
+
+	}
 }

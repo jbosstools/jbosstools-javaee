@@ -319,7 +319,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		
 		IFieldEditor version = IFieldEditorFactory.INSTANCE.createComboEditor(
 				"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
-						new Object[]{SeamVersion.SEAM_1_2.toString()}), 
+						new String[]{SeamVersion.SEAM_1_2.toString(), SeamVersion.SEAM_2_0.toString()}), 
 						                SeamVersion.SEAM_1_2.toString(), false);
 		
 		IFieldEditor homeDir = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
@@ -393,13 +393,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					return;
 				}			
 				
-				Map errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR.validate(
-						homeDir.getValueAsString(), null);
-				if( errors != ValidatorFactory.NO_ERRORS) {
-					setErrorMessage(errors.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString());
-					setPageComplete(false);
-					return;
-				}
 				String seamVersion = getSeamVersion(homeDir.getValueAsString());
 				if("".equals(seamVersion)) { //$NON-NLS-1$
 					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER);
@@ -411,12 +404,24 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					return;
 				}
 				
+				Map errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR.validate(
+						homeDir.getValueAsString(), seamVersion);
+				if( errors != ValidatorFactory.NO_ERRORS) {
+					setErrorMessage(errors.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString());
+					setPageComplete(false);
+					return;
+				}
+				
+				
 			setErrorMessage(null);
 			setPageComplete(true);
 		}
 		
 		public static String getSeamVersion(String path) {
 			File seamJarFile = new File(path, "jboss-seam.jar"); //$NON-NLS-1$
+			if(!seamJarFile.exists()) {
+				seamJarFile = new File(path, "lib/jboss-seam.jar"); // hack to make it work for seam2
+			}
 			InputStream str=null;
 			ZipFile seamJar;
 			try {

@@ -65,7 +65,7 @@
             </and>
          </constraint>
       </project-facet-version>
-      <!--<project-facet-version
+      <project-facet-version
             facet="jst.seam"
             version="2.0">
          <constraint>
@@ -84,7 +84,7 @@
                </requires>
             </and>
          </constraint>
-      </project-facet-version>-->
+      </project-facet-version>
       <action
             facet="jst.seam"
             id="jst.seam.1.2.install"
@@ -97,7 +97,6 @@
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
          </config-factory>
       </action>
-      <!--
       <action
             facet="jst.seam"
             id="jst.seam.2.0.install"
@@ -109,7 +108,7 @@
          <config-factory
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
          </config-factory>
-      </action> -->
+      </action> 
       <action
             facet="jst.seam"
             id="jst.seam.1.2.uninstall"
@@ -170,6 +169,41 @@
                id="jst.seam"
                version="1.2"/>               
       </preset>
+      <template
+            id="template.jst.seam2">
+         <label>
+            Seam 2 Web Project
+         </label>
+         <fixed
+               facet="jst.java"/>
+         <fixed
+               facet="jst.web"/>
+         <fixed
+               facet="jst.seam"/>
+         <fixed
+               facet="jst.jsf"/>
+         <preset
+               id="jst.seam2.preset">
+         </preset>
+      </template>
+      <preset
+            id="jst.seam2.preset">
+         <label>
+            Dynamic Web Project with Seam 2.0 (technology preview)
+         </label>
+         <facet
+               id="jst.java"
+               version="5.0"/>
+         <facet
+               id="jst.web"
+               version="2.5"/>
+         <facet
+               id="jst.jsf"
+               version="1.2"/>
+         <facet
+               id="jst.seam"
+               version="2.0"/>               
+      </preset>
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.core.runtimes">
@@ -184,7 +218,7 @@
          </runtime-component>
          <facet
                id="jst.seam"
-               version="1.2">
+               version="[1.2">
          </facet>
       </supported>
    </extension>

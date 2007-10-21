@@ -34,6 +34,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jst.j2ee.internal.ejb.provider.HomeInterfaceProviderHelper;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -283,7 +284,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	}
 
 	public List<String> getRuntimeNames() {
-		SeamRuntime[] rts = SeamRuntimeManager.getInstance().getRuntimes(SeamVersion.SEAM_1_2);
+		SeamRuntime[] rts = SeamRuntimeManager.getInstance().getRuntimes(/*SeamVersion.SEAM_1_2*/);
 		List<String> result = new ArrayList<String>();
 		for(SeamRuntime seamRuntime : rts) {
 			result.add(seamRuntime.getName());

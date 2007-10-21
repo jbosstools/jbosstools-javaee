@@ -118,7 +118,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
 
 			List<String[]> fileMapping = getFileMappings(vars);	
-			List<String[]> fileMappingCopy = applayVariables(fileMapping,vars);
+			List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
 			final File[] file = new File[fileMappingCopy.size()];
 			int index=0;
@@ -159,7 +159,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	 * @param vars
 	 * @return
 	 */
-	public static List<String[]> applayVariables(List<String[]> fileMapping,
+	public static List<String[]> applyVariables(List<String[]> fileMapping,
 			Map<String, Object> vars) {
 		List<String[]> result = new ArrayList<String[]>();
 		for (String[] filter : fileMapping) {
