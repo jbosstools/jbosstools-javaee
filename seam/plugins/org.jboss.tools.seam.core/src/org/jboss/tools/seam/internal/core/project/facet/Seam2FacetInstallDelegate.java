@@ -85,6 +85,7 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("core.jar") //$NON-NLS-1$
 		.include("janino.*\\.jar") //$NON-NLS-1$		
 		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
@@ -102,44 +103,36 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 	
 	// test/*.jar are duplicated here since the filtering seem to be assymetric when matching 
 	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
-	    .exclude("jboss-seam.*")
-	    .exclude("jboss-aop\\.jar")
-	    .exclude("jboss-container\\.jar")
-	    .include(".*\\.jar") //$NON-NLS-1$  // TODO: fix this, since test shouldn't need them all ;(
-		.include("testng\\.jar") //$NON-NLS-1$
-		.include("test/jboss-deployers.jar") //$NON-NLS-1$		
-		.include("jboss-deployers.jar") //$NON-NLS-1$
-		.include("test/jboss-embedded-all.jar") //$NON-NLS-1$
-		.include("jboss-embedded-all.jar") //$NON-NLS-1$
-		.include("myfaces-api-.*\\.jar") //$NON-NLS-1$
-		.include("myfaces-impl-.*\\.jar") //$NON-NLS-1$
-		.include("servlet-api\\.jar") //$NON-NLS-1$
+	    .include("testng\\.jar") //$NON-NLS-1$
 		.include("test/hibernate-all\\.jar") //$NON-NLS-1$
 		.include("hibernate-all\\.jar") //$NON-NLS-1$
+		.include("test/jboss-embedded-all.jar") //$NON-NLS-1$
+		.include("jboss-embedded-all.jar") //$NON-NLS-1$
+		.include("test/jboss-embedded-api.jar") //$NON-NLS-1$
+		.include("jboss-embedded-api.jar") //$NON-NLS-1$
+		.include("test/jboss-deployers.jar") //$NON-NLS-1$		
+		.include("jboss-deployers.jar") //$NON-NLS-1$
 		.include("test/thirdparty-all\\.jar") //$NON-NLS-1$
 		.include("thirdparty-all\\.jar") //$NON-NLS-1$
-		//.include("el-api\\.jar") //$NON-NLS-1$
-		//.include("el-ri\\.jar") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 	
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
-		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
-		.include("richfaces.*\\.jar") //$NON-NLS-1$
-		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
-		.include("commons-digester.*\\.jar") //$NON-NLS-1$
-		.include("commons-collections.*\\.jar") //$NON-NLS-1$
+		.include("richfaces-impl\\.jar") //$NON-NLS-1$
+		.include("richfaces-ui\\.jar") //$NON-NLS-1$
+		.include("commons-beanutils\\.jar") //$NON-NLS-1$
+		.include("commons-digester\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-mail\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-pdf\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-remoting\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
-		.include("jsf-facelets\\.jar") //$NON-NLS-1$
-		.include("oscache.*\\.jar"); //$NON-NLS-1$
+		.include("jsf-facelets\\.jar"); //$NON-NLS-1$
+		
 	
 	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
-		.include("antlr.*\\.jar") //$NON-NLS-1$
+		.include("antlr-runtime.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
 		.include("jboss-seam.jar") //$NON-NLS-1$

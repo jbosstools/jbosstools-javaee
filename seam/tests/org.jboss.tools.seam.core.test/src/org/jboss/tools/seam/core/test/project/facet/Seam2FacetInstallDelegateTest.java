@@ -12,12 +12,16 @@ package org.jboss.tools.seam.core.test.project.facet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceProxy;
+import org.eclipse.core.resources.IResourceProxyVisitor;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
@@ -26,7 +30,6 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
-import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
@@ -76,31 +79,116 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	}
 	
 	
-	public void testWarLibs() {
+	public void testWarLibs() throws CoreException {
 		
-		
-		assertNotNull("could not find antlr-runtime.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/antlr-runtime.jar"));
-			assertNotNull("could not find commons-beanutils.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/commons-beanutils.jar"));
-			assertNotNull("could not find commons-digester.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/commons-digester.jar"));
-			assertNotNull("could not find drools-compiler.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/drools-compiler.jar"));
-			assertNotNull("could not find drools-core.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/drools-core.jar"));
-			assertNotNull("could not find jboss-el.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-el.jar"));
-			assertNotNull("could not find jboss-seam-debug.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam-debug.jar"));
-			assertNotNull("could not find jboss-seam-ioc.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam-ioc.jar"));
-			assertNotNull("could not find jboss-seam.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam.jar"));
-			assertNotNull("could not find jboss-seam-mail.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam-mail.jar"));
-			assertNotNull("could not find jboss-seam-pdf.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam-pdf.jar"));
-			assertNotNull("could not find jboss-seam-remoting.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam-remoting.jar"));
-			assertNotNull("could not find jboss-seam-ui.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jboss-seam-ui.jar"));
-			assertNotNull("could not find jbpm-jpdl.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jbpm-jpdl.jar"));
-			assertNotNull("could not find jsf-facelets.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/jsf-facelets.jar"));
-			assertNotNull("could not find mvel14.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/mvel14.jar"));
-			assertNotNull("could not find richfaces-api.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/richfaces-api.jar"));
-			assertNotNull("could not find richfaces-impl.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/richfaces-impl.jar"));
-			assertNotNull("could not find richfaces-ui.jar",warProject.getProject().findMember("WebContent/WEB-INF/lib/richfaces-ui.jar"));
+		Set<String> warlibs = new HashSet<String>();
+
+		warlibs.add("core.jar");
+		warlibs.add("antlr-runtime.jar");
+		warlibs.add("commons-beanutils.jar");
+		warlibs.add("commons-digester.jar");
+		warlibs.add("drools-compiler.jar");
+		warlibs.add("drools-core.jar");
+		warlibs.add("core.jar");
+		warlibs.add("jboss-el.jar");
+		warlibs.add("jboss-seam-debug.jar");
+		warlibs.add("jboss-seam-ioc.jar");
+		warlibs.add("jboss-seam.jar");
+		warlibs.add("jboss-seam-mail.jar");
+		warlibs.add("jboss-seam-pdf.jar");
+		warlibs.add("jboss-seam-remoting.jar");
+		warlibs.add("jboss-seam-ui.jar");
+		warlibs.add("jbpm-jpdl.jar");
+		warlibs.add("jsf-facelets.jar");
+		warlibs.add("mvel14.jar");
+		warlibs.add("richfaces-api.jar");
+		warlibs.add("richfaces-impl.jar");
+		warlibs.add("richfaces-ui.jar");
+
+		final IContainer warLibs = (IContainer) warProject.getProject().findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class);
+		assertOnlyContainsTheseFiles(warlibs, warLibs);
+	
 
 	}
-	
+
+	public void testEarLibs() throws CoreException {
+		
+		IProject war = earProject.getProject();
+		
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earProject.getProject());
+		
+		IProject ear = seamProjectsSet.getEarProject();
+		
+		Set<String> onlyInWar = new HashSet<String>();
+		Set<String> onlyInEar = new HashSet<String>();
+		
+		onlyInEar.add("jboss-seam.jar");
+		onlyInEar.add("antlr-runtime.jar");
+		onlyInEar.add("drools-compiler.jar");
+		onlyInEar.add("drools-core.jar");
+		onlyInEar.add("jboss-el.jar");
+		onlyInEar.add("mvel14.jar");
+		onlyInEar.add("richfaces-api.jar");
+		onlyInEar.add("richfaces-api.jar");
+		onlyInEar.add("jbpm-jpdl.jar");
+		onlyInEar.add("META-INF");
+		onlyInEar.add("security.drl");
+		
+		onlyInWar.add("commons-beanutils.jar");
+		onlyInWar.add("commons-digester.jar");
+		onlyInWar.add("jboss-seam-debug.jar");
+		onlyInWar.add("jboss-seam-ioc.jar");
+		onlyInWar.add("jboss-seam-mail.jar");
+		onlyInWar.add("jboss-seam-pdf.jar");
+		onlyInWar.add("jboss-seam-remoting.jar");
+		onlyInWar.add("jboss-seam-ui.jar");
+		onlyInWar.add("jsf-facelets.jar");
+		onlyInWar.add("richfaces-impl.jar");
+		onlyInWar.add("richfaces-ui.jar");
+				
+		final IContainer earLibs = (IContainer) ear.findMember("EarContent").getAdapter(IContainer.class);
+		
+		assertOnlyContainsTheseFiles(onlyInEar, earLibs);
+		
+		//earLibs.findMember(path)
+		
+		
+		assertOnlyContainsTheseFiles(onlyInWar, (IContainer)war.findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class));
+		
+
+	}
+
+
+	/**
+	 * Fails if set of fileNames is not found in dir or some other filename is found in dir.
+	 * @param fileNames set of strings
+	 * @param dir directory to scan
+	 * @throws CoreException 
+	 */
+	protected void assertOnlyContainsTheseFiles(Set<String> fileNames,
+			final IResource dir) throws CoreException {
+		
+		final Set<String> foundFiles = new HashSet<String>();
+		dir.accept(new IResourceProxyVisitor() {
+		    
+			public boolean visit(IResourceProxy proxy) throws CoreException {
+				if(dir.getName().equals(proxy.getName())) return true;
+				foundFiles.add(proxy.getName());				
+				return false;
+			}
+		
+		}, IResource.DEPTH_ZERO);
+		
+		if(!foundFiles.containsAll(fileNames)) {
+			fileNames.removeAll(foundFiles);
+			fail("Did not find " + fileNames + " in " + dir);
+		}
+		
+		foundFiles.removeAll(fileNames);
+		
+		assertTrue("Found additional files (" + foundFiles + " in " + dir, foundFiles.isEmpty());		
+	}
+
 	public void testBootstrapDirPresent() throws CoreException, IOException {
 		
 		SeamProjectsSet warPs = new SeamProjectsSet(warProject.getProject());
@@ -122,6 +210,15 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		IProject testProject = warPs.getTestProject();
 		assertTrue(testProject.exists());
 		
+		Set<String> libs = new HashSet<String>();
+		libs.add("testng.jar");
+		libs.add("hibernate-all.jar");
+		libs.add("jboss-deployers.jar");
+		libs.add("jboss-embedded-all.jar");
+		libs.add("thirdparty-all.jar");
+		libs.add("jboss-embedded-api.jar");
+		
+		assertOnlyContainsTheseFiles(libs, testProject.findMember("lib"));
 		assertNotNull(testProject.findMember("lib/testng.jar"));
 		assertNotNull(testProject.findMember("lib/hibernate-all.jar"));
 		assertNotNull(testProject.findMember("lib/jboss-deployers.jar"));
