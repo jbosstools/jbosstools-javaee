@@ -26,6 +26,10 @@ public class CheckInitParam extends WebDefaultCheck {
 		XModelObject o = ((VObjectImpl)object).getModelObject();
 		String paramName = o.getAttributeValue("param-name");
 		if(paramName == null) return null;
+		XModelObject parent = o.getParent();
+		if(parent == null || !"WebAppServlet".equals(parent.getModelEntity().getName())) {
+			return null;
+		}
 		if(!paramName.equals("config") && !paramName.startsWith("config/")) return null;
 
 		String value = o.getAttributeValue("param-value");
