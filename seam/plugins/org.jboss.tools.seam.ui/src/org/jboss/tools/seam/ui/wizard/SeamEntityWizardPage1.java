@@ -47,11 +47,6 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	protected void createEditors() {
 		super.createEditors();
 
-		String selectedProject = SeamWizardUtils.getRootSeamProjectName(initialSelection);
-		String packageName = getDefaultPackageName(selectedProject);
-		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
-		setSeamProjectNameData(selectedProject);
-
 		addEditor(SeamWizardFactory.createSeamEntityClasNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamMasterPageNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamPageNameFieldEditor());
@@ -61,6 +56,11 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 		setPageComplete(false);
+		if ("".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())) { //$NON-NLS-1$
+			if(getEditor(IParameter.SEAM_PACKAGE_NAME)!=null) {
+				getEditor(IParameter.SEAM_PACKAGE_NAME).setEnabled(false);
+			}
+		}
 	}
 
 	@Override

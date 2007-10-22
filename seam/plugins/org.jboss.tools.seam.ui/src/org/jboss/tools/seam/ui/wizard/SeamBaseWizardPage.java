@@ -72,6 +72,10 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 
 	protected void createEditors() {
 		addEditors(SeamWizardFactory.createBaseFormFieldEditors(SeamWizardUtils.getRootSeamProjectName(initialSelection)));
+		String selectedProject = SeamWizardUtils.getRootSeamProjectName(initialSelection);
+		String packageName = getDefaultPackageName(selectedProject);
+		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
+		setSeamProjectNameData(selectedProject);
 	}
 
 	Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
@@ -99,7 +103,10 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(true);
 			}
 		} else {
-			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);	
+			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
+			if(getEditor(IParameter.SEAM_PACKAGE_NAME)!=null) {
+				getEditor(IParameter.SEAM_PACKAGE_NAME).setEnabled(false);
+			}
 		}
 		String selectdProject = getEditor(IParameter.SEAM_PROJECT_NAME).getValueAsString();
 

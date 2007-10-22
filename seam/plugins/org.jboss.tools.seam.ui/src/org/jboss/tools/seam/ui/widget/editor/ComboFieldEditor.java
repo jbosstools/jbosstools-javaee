@@ -23,9 +23,9 @@ import org.jboss.tools.seam.ui.widget.field.ComboBoxField;
 public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEditor,PropertyChangeListener{
 
 	List values = null;
-	
+
 	boolean editable = false;
-	
+
 	public ComboFieldEditor(String name, String label, List values,Object defaultValue,boolean editableSelection) {
 		super(name, label, defaultValue);
 		this.values = Collections.unmodifiableList(values);
@@ -36,7 +36,6 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 
 	@Override
 	public Object[] getEditorControls(Object composite) {
-		// TODO Auto-generated method stub
 		return new Control[] {getComboControl((Composite)composite)};
 	}
 
@@ -45,7 +44,6 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 	}
 
 	public Control getComboControl(Composite composite) {
-		// TODO Auto-generated method stub
 		if(comboField == null) {
 			comboField = new ComboBoxField(composite,values,getValue(),editable);
 			comboField.addPropertyChangeListener(this);
@@ -57,7 +55,6 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 
 	@Override
 	public Object[] getEditorControls() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -87,7 +84,6 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 	 */
 	@Override
 	public int getNumberOfControls() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
@@ -100,7 +96,7 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 		super.setEditable(ediatble);
 		comboField.setEditable(ediatble);
 	}
-	
+
 	public void setValue(Object newValue) {
 		super.setValue(newValue);
 		if(comboField!=null) {
@@ -108,6 +104,5 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 			comboField.setValue(newValue.toString());
 			comboField.addPropertyChangeListener(this);
 		}
-
 	}
 }

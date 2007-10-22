@@ -29,15 +29,6 @@ public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 		setMessage(getDefaultMessageText());
 	}
 
-	@Override
-	protected void createEditors() {
-		super.createEditors();
-		String selectedProject = SeamWizardUtils.getRootSeamProjectName(initialSelection);
-		String packageName = getDefaultPackageName(selectedProject);
-		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
-		setSeamProjectNameData(selectedProject);
-	}
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()
 	 */

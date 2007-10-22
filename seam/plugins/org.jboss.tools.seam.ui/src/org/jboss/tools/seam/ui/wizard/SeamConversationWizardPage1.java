@@ -25,14 +25,11 @@ import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
  */
 public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
-	private final IStructuredSelection initialSelection;
-
 	public SeamConversationWizardPage1(IStructuredSelection initialSelection) {
 		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null, initialSelection);
-		this.initialSelection = initialSelection; 
 		setMessage(getDefaultMessageText());
 	}
-	
+
 	/**
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -43,10 +40,14 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ 
 			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
-			
+
 			if(errors.size()>0) {
 				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
 				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
+			}
+		} else {
+			if(getEditor(IParameter.SEAM_PACKAGE_NAME)!=null) {
+				getEditor(IParameter.SEAM_PACKAGE_NAME).setEnabled(false);
 			}
 		}
 		setPageComplete(false);
@@ -57,7 +58,6 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 	 */
 	@Override
 	public String getDefaultMessageText() {
-		// TODO Auto-generated method stub
 		return "Create a new Seam conversation";
 	}
 }
