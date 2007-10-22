@@ -184,6 +184,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		boolean useDefaultRuntime = d != null && d.getName().equals(runtimeName);
 		if(useDefaultRuntime) {
 			this.runtimeName = null;
+		} else {
+			this.runtimeName = runtimeName;
 		}
 		storeRuntime();
 	}
