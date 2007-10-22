@@ -39,7 +39,7 @@ import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.progress.UIJob;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
-import org.jboss.tools.jst.web.ui.RedHat4WebPerspectiveFactory;
+import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -65,7 +65,7 @@ public class SeamComponentsViewTest extends TestCase {
 		super.setUp();
 		//ScopePresentationActionProvider.setPackageStructureFlat(false);
 		WorkbenchUtils.getWorkbench().showPerspective(
-				RedHat4WebPerspectiveFactory.PERSPECTIVE_ID,
+				WebDevelopmentPerspectiveFactory.PERSPECTIVE_ID,
 				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
 		TestProjectProvider provider=null;
 		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
@@ -380,9 +380,13 @@ public class SeamComponentsViewTest extends TestCase {
 		item2.getAction().run();
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh();
 		navigator.getCommonViewer().expandAll();
-		
+		Object[] expanded = navigator.getCommonViewer().getExpandedElements();
+		for (Object object : expanded) {
+			System.out.println(object.getClass().getName());
+			System.out.println(object);
+		}
 		Tree tree = navigator.getCommonViewer().getTree();
 		
 		updateTree(tree);
@@ -412,9 +416,10 @@ public class SeamComponentsViewTest extends TestCase {
 		item2.getAction().run();
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh();
 		navigator.getCommonViewer().expandAll();
-		
+		Object[] expanded = navigator.getCommonViewer().getExpandedElements();
+	
 		Tree tree = navigator.getCommonViewer().getTree();
 		
 		updateTree(tree);
