@@ -49,7 +49,7 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 
 	@Override
 	public Object[] getEditorControls() {
-		return null;
+		return new Control[]{button.getControl()};
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 	@Override
 	public void setEditable(boolean ediatble) {
 	}
-	
+
 	@Override
 	public Object[] getEditorControls(Object composite) {
 		if(button==null && composite!=null) {
@@ -75,11 +75,11 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 	public ButtonPressedAction getButtonaction() {
 		return buttonAction;
 	}
-	
+
 	public static class ButtonPressedAction extends Action implements SelectionListener{
-		
+
 		private IFieldEditor editor = null;
-		
+
 		public ButtonPressedAction(String label) {
 			super(label);
 		}

@@ -11,10 +11,8 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,12 +25,9 @@ import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -47,7 +42,6 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -65,7 +59,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	 */
 	public SeamBaseOperation(String label) {
 		super(label);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -95,9 +88,13 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 
 			loadCustomVariables(vars);
 
-			String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
-			String entityFolder = vars.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).toString();
-			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
+//			String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
+//			String entityFolder = vars.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).toString();
+//			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
+
+			String actionFolder = getSessionBeanPackageName(seamFacetPrefs, params);
+			String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
+			String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
 
 			IVirtualComponent com = ComponentCore.createComponent(project);
 			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
@@ -133,7 +130,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				 * @see java.lang.Runnable#run()
 				 */
 				public void run() {
-					// TODO Auto-generated method stub
 					if(file.length > 0){
 						IFile iFile = project.getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
 						try {
@@ -152,6 +148,18 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} 
 		return result;
+	}
+
+	protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
+		return seamFacetPrefs.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "");
+	}
+
+	protected String getEntityBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
+		return seamFacetPrefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "");
+	}
+
+	protected String getTestCasesPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
+		return seamFacetPrefs.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "");
 	}
 
 	/**
@@ -194,7 +202,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	public FilterSetCollection getFilterSetCollection(Map vars) {
 		return new FilterSetCollection(SeamFacetFilterSetFactory.createFiltersFilterSet(vars));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.core.commands.operations.AbstractOperation#redo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
 	 */
@@ -222,12 +230,11 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	public boolean canUndo() {
 		return false;
 	}
-	
+
 	public File getSeamFolder(Map<String, Object> vars) {
 		return new File(vars.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString(),"seam-gen");		 //$NON-NLS-1$
 	}
-	
+
 	protected void loadCustomVariables(Map<String, Object> vars) {
-		
 	}
 }

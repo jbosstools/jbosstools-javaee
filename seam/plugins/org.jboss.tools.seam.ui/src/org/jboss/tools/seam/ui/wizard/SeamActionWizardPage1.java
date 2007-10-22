@@ -28,7 +28,15 @@ public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 		super("seam.new.action.page1", SeamUIMessages.SEAM_ACTION_WIZARD_PAGE1_SEAM_ACTION, null, is); //$NON-NLS-1$
 		setMessage(getDefaultMessageText());
 	}
-		
+
+	@Override
+	protected void createEditors() {
+		super.createEditors();
+		String selectedProject = SeamWizardUtils.getRootSeamProjectName(initialSelection);
+		String packageName = getDefaultPackageName(selectedProject);
+		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
+		setSeamProjectNameData(selectedProject);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()

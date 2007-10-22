@@ -10,6 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import java.util.ArrayList;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IJavaElement;
@@ -40,6 +42,9 @@ public class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedActi
 	@Override
 	public void run() {
 		String projectName = (String)getFieldEditor().getData(IParameter.SEAM_PROJECT_NAME);
+		if(projectName == null) {
+			return;
+		}
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		if(project == null) {
 			SeamGuiPlugin.getPluginLog().logError("Can't find java project with name: " + projectName);
@@ -85,12 +90,29 @@ public class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedActi
 			packages = new IJavaElement[0];
 		}
 
+		String initialValue = getFieldEditor().getValue().toString();
+		IJavaElement initialElement = null;
+		ArrayList packagesWithouDefaultPackage = new ArrayList();
+		for (IJavaElement packageElement : packages) {
+			String packageName = packageElement.getElementName();
+			if(packageName.length()>0) {
+				packagesWithouDefaultPackage.add(packageElement);
+				if(packageName.equals(initialValue)) {
+					initialElement = packageElement;
+				}
+			}
+		}
+
+		packages = (IJavaElement[])packagesWithouDefaultPackage.toArray(new IJavaElement[packagesWithouDefaultPackage.size()]);
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(), new JavaElementLabelProvider(
 				JavaElementLabelProvider.SHOW_DEFAULT));
 		dialog.setTitle(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_TITLE);
 		dialog.setMessage(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_DESC);
 		dialog.setEmptyListMessage(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_MSG_NONE);
 		dialog.setElements(packages);
+		if(initialElement!=null) {
+			dialog.setInitialSelections(new Object[]{initialElement});
+		}
 		if (dialog.open() == Window.OK) {
 			IPackageFragment fragment = (IPackageFragment) dialog.getFirstResult();
 			if (fragment != null) {

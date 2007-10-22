@@ -15,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 
 /**
  * 
@@ -98,6 +100,15 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/test/testng.xml", //$NON-NLS-1$ //$NON-NLS-2$
 					"${" + IParameter.SEAM_TEST_PROJECT_LOCATION_PATH + "}/test-src/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			ACTION_EAR_MAPPING.add(ACTION_WAR_MAPPING.get(3));
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#getSessionBeanPackageName(org.eclipse.core.runtime.preferences.IEclipsePreferences, java.util.Map)
+		 */
+		@Override
+		protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
+			return wizardParams.get(IParameter.SEAM_PACKAGE_NAME).getValue().toString();
 		}
 	};
 }

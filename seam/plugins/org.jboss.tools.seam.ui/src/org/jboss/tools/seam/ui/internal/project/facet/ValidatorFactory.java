@@ -11,11 +11,11 @@
 package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.io.File;
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,7 +30,9 @@ import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jdt.internal.corext.util.Messages;
+import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -38,8 +40,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.core.project.facet.SeamVersion;
-import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
@@ -67,7 +67,6 @@ public class ValidatorFactory {
 	 */
 	static public IValidator NO_ERRORS_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
-			// TODO Auto-generated method stub
 			return NO_ERRORS;
 		}
 	};
@@ -112,7 +111,7 @@ public class ValidatorFactory {
 		map.put(propertyName, text);
 		return map;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -149,7 +148,7 @@ public class ValidatorFactory {
 				return errors;
 			}
 			String version = (String) context;
-			
+
 			if(version.startsWith("2.0")) {
 				File seamJarFile = new File(value.toString(), "lib/jboss-seam.jar"); //$NON-NLS-1$
 				if (!seamJarFile.isFile()) {
@@ -167,7 +166,7 @@ public class ValidatorFactory {
 							SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER);
 				}					
 			}  
-			
+
 			return errors;
 		}
 	};
@@ -216,6 +215,19 @@ public class ValidatorFactory {
 		}
 	};
 
+	public static final IValidator PACKAGE_NAME_VALIDATOR = new IValidator() {
+		public Map<String, String> validate(Object value, Object context) {
+			IStatus status = JavaConventions.validatePackageName(value
+					.toString(), CompilerOptions.VERSION_1_5,
+					CompilerOptions.VERSION_1_5);
+			if (status.getSeverity() == IStatus.ERROR) {
+				return createErrormessage((Messages.format(NewWizardMessages.NewTypeWizardPage_error_InvalidPackageName, status.getMessage()))); 
+			}
+
+			return ValidatorFactory.NO_ERRORS;
+		}
+	};
+
 	/**
 	 * 
 	 */
@@ -225,7 +237,7 @@ public class ValidatorFactory {
 			return ValidatorFactory.NO_ERRORS;
 		};
 	};
-	
+
 	/**
 	 * 
 	 * @author eskimo
@@ -257,7 +269,7 @@ public class ValidatorFactory {
 				throw new IllegalArgumentException(
 						"Context parameter should be instance of Object[]"); //$NON-NLS-1$
 			}
-		
+
 			Object[] contextArray = ((Object[]) context);
 			IProject project = (IProject) contextArray[1];
 
@@ -292,7 +304,7 @@ public class ValidatorFactory {
 			CompilationUnit compilationUnit = createCompilationUnit(
 					"class ClassName {public void " //$NON-NLS-1$
 					+ value.toString() + "() {}}",project); //$NON-NLS-1$
-			
+
 			IProblem[] problems = compilationUnit.getProblems();
 
 			if (problems.length > 0) {
@@ -378,7 +390,7 @@ public class ValidatorFactory {
 			return NO_ERRORS;
 		}
 	};
-	
+
 	public static final IValidator SEAM_RUNTIME_NAME_VALIDATOR = new IValidator() {
 		public Map<String, String> validate(Object value, Object context) {
 
@@ -418,13 +430,13 @@ public class ValidatorFactory {
 			return errors;
 		}
 	};
-	
+
 	public static final IValidator SEAM_RUNTIME_VALIDATOR = new IValidator() {
 		public java.util.Map<String, String> validate(Object value,
 				Object context) {
 			Map<String,String> errors = NO_ERRORS;
 			String rtName = value.toString();
-			
+
 			if(value==null || "".equals(value)) { //$NON-NLS-1$
 				errors = createErrormessage(SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_NOT_CONFIGURED);
 			} else {
