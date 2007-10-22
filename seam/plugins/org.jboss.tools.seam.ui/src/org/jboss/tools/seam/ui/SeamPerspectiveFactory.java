@@ -1,5 +1,6 @@
 package org.jboss.tools.seam.ui;
 
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -40,6 +41,7 @@ public class SeamPerspectiveFactory implements IPerspectiveFactory {
 		IFolderLayout rightBottom = layout.createFolder("rightBottom", IPageLayout.BOTTOM, (float)0.64, "right"); //$NON-NLS-1$ //$NON-NLS-2$
 		rightBottom.addView(IPageLayout.ID_OUTLINE);
 
+		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		layout.addActionSet(JavaUI.ID_ACTION_SET);
 		layout.addActionSet(JavaUI.ID_ELEMENT_CREATION_ACTION_SET);
 		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
