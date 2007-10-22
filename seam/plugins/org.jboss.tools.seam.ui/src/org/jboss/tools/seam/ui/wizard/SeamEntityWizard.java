@@ -15,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 
 /**
  * @author eskimo
@@ -40,7 +42,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 	public void addPages() {
 		addPage(new SeamEntityWizardPage1(getInitialSelection()));
 	}
-	
+
 	// TODO move operations to core plugin
 	public static final IUndoableOperation CREATE_SEAM_ENTITY = new SeamEntityCreateOperation();
 		/**
@@ -48,7 +50,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 		 * TODO move operations to core plugin
 		 */
 		public static class SeamEntityCreateOperation extends SeamBaseOperation{
-			
+
 			@Override
 			protected void loadCustomVariables(Map<String, Object> vars) {
 				String entityClassname = vars.get(IParameter.SEAM_ENTITY_CLASS_NAME).toString();
@@ -70,11 +72,11 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 				else
 					return ACTION_EAR_MAPPING;
 			}
-			
+
 			public static final List<String[]> ACTION_WAR_MAPPING = new ArrayList<String[]>();
-			
+
 			public static final List<String[]> ACTION_EAR_MAPPING = new ArrayList<String[]>();
-			
+
 			static {
 				// initialize war files mapping
 				ACTION_WAR_MAPPING.add(new String[]{
@@ -93,8 +95,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 				ACTION_WAR_MAPPING.add(new String[]{
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/list.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
 						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml"});	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				
-		
+
 				ACTION_EAR_MAPPING.add(new String[]{
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Entity.java", //$NON-NLS-1$ //$NON-NLS-2$
 						"${" + IParameter.SEAM_EJB_PROJECT_LOCATION_PATH + "}/ejbModule/${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -108,6 +109,14 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 				ACTION_EAR_MAPPING.add(ACTION_WAR_MAPPING.get(3));
 				ACTION_EAR_MAPPING.add(ACTION_WAR_MAPPING.get(4));
 			}
-		};
 
+			/*
+			 * (non-Javadoc)
+			 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#getEntityBeanPackageName(org.eclipse.core.runtime.preferences.IEclipsePreferences, java.util.Map)
+			 */
+			@Override
+			protected String getEntityBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
+				return wizardParams.get(IParameter.SEAM_PACKAGE_NAME).getValue().toString();
+			}
+		};
 }

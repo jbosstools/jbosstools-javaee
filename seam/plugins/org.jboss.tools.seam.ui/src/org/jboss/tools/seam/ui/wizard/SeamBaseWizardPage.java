@@ -244,7 +244,6 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		IFieldEditor editor = editorRegistry.get(IParameter.SEAM_PACKAGE_NAME);
 		if(editor!=null) {
 			errors = ValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(editor.getValue(), null);
-
 			if(errors.size()>0) {
 				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString()); //$NON-NLS-1$
 				setPageComplete(false);
@@ -338,7 +337,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
-		if(event.getPropertyName().equals(IParameter.SEAM_PROJECT_NAME)) {
+		if(event.getPropertyName().equals(IParameter.SEAM_PROJECT_NAME)&& getEditor(IParameter.SEAM_PACKAGE_NAME)!=null) {
 			String selectedProject = event.getNewValue().toString();
 			setSeamProjectNameData(selectedProject);
 			setDefaultValue(IParameter.SEAM_PACKAGE_NAME, getDefaultPackageName(selectedProject));
