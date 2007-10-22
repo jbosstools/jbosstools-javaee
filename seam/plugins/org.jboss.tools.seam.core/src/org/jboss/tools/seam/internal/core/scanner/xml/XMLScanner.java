@@ -139,6 +139,11 @@ public class XMLScanner implements IFileScanner {
 				factory.setValue(new XMLValueInfo(os[i], "value")); //$NON-NLS-1$
 				factory.setMethod(new XMLValueInfo(os[i], "method")); //$NON-NLS-1$
 				ds.getFactories().add(factory);
+			} else if(os[i].getModelEntity().getName().startsWith("SeamImport")) { //$NON-NLS-1$
+				String v = os[i].getAttributeValue("import");
+				if(v != null && v.length() > 0 && !ds.getImports().contains(v)) {
+					ds.getImports().add(v);
+				}
 			}
 		}
 		return ds;

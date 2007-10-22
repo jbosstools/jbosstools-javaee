@@ -283,6 +283,7 @@
          name="Seam Problem"
          point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.wst.validation.problemmarker"/>
+		<attribute name="kind"/>
       	<persistent
             value="true">
       	</persistent>

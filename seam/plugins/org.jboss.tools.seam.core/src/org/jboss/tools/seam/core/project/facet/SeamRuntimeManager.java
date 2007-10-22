@@ -18,11 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
+import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
 
 /**
  * @author eskimo
@@ -35,6 +38,8 @@ public class SeamRuntimeManager {
 	private Map<String, SeamRuntime> runtimes = new HashMap<String, SeamRuntime>();
 
 	private SeamRuntime defaultRt = null;
+	
+	private SeamRuntimeValidation validator = new SeamRuntimeValidation();
 	
 	/**
 	 * 
@@ -100,6 +105,7 @@ public class SeamRuntimeManager {
 		}
 		runtimes.put(runtime.getName(),runtime);	
 		save();
+		validateProjects();
 	}
 	
 	/**
@@ -136,6 +142,7 @@ public class SeamRuntimeManager {
 	 */
 	public void removeRuntime(SeamRuntime rt) {
 		runtimes.remove(rt.getName());
+		validateProjects();
 	}
 	
 	/**
@@ -193,4 +200,18 @@ public class SeamRuntimeManager {
 		}
 		return result;
 	}
+
+	private void validateProjects() {
+		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (int i = 0; i < ps.length; i++) {
+			ISeamProject sp = SeamCorePlugin.getSeamProject(ps[i], false);
+			if(sp == null) continue;
+			try {
+				validator.validate(sp);
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
+	}
+
 }
