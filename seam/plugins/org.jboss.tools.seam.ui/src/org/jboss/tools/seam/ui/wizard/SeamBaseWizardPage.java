@@ -211,7 +211,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(!isWar);
 		IFieldEditor packageEditor = getEditor(IParameter.SEAM_PACKAGE_NAME);
 		if(packageEditor!=null) {
-			packageEditor.setEnabled(!isWar);
+			packageEditor.setEnabled(true);
 		}
 
 		if(!isValidRuntimeConfigured(project)) return;
