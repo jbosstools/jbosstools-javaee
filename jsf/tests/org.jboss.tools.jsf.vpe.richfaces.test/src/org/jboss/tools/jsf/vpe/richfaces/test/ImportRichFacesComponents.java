@@ -12,11 +12,8 @@ package org.jboss.tools.jsf.vpe.richfaces.test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.zip.ZipFile;
 
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -40,10 +37,8 @@ public class ImportRichFacesComponents {
     private static final String COMPONENTS_PATH = "WebContent/pages"; // $NON-NLS-1$
 
     @SuppressWarnings("restriction")
-	public static boolean importRichFacesPages(String path) {
-		boolean result = false;
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IProject project = workspace.getRoot().getProject(PROJECT_NAME);
+	static void importRichFacesPages(String path) {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 		ZipLeveledStructureProvider zipStructureProvider;
 		try {
 			zipStructureProvider = 
@@ -64,16 +59,13 @@ public class ImportRichFacesComponents {
 			importOp.setContext(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
 			importOp.run(new NullProgressMonitor());
-			result = true;
-
 		} catch (InvocationTargetException ite) {
-			Activator.getPluginLog().logError(ite.getCause());
+			RichFacesTestPlugin.getPluginLog().logError(ite.getCause());
 		} catch (InterruptedException ie) {
-			Activator.getPluginLog().logError(ie);
+			RichFacesTestPlugin.getPluginLog().logError(ie);
 		} catch (IOException e) {
-			Activator.getPluginLog().logError(e);
+			RichFacesTestPlugin.getPluginLog().logError(e);
 		}
-		return result;
 	}
 
     /**
@@ -81,31 +73,34 @@ public class ImportRichFacesComponents {
 	 * @return
 	 * @throws CoreException
 	 */
-    public static Collection<IPath> getComponentsPaths() throws CoreException {
-		Collection<IPath> result = null;
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IProject project = workspace.getRoot().getProject(PROJECT_NAME);
+    static IPath getComponentPath(String componentPage) throws CoreException {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 		if (project != null) {
-			IFolder folder = project.getFolder(COMPONENTS_PATH);
-			IResource[] resources = folder.members();
-			if (resources != null && resources.length > 0) {
-				result = new ArrayList<IPath>(resources.length);
-				for (IResource res : resources) {
-					result.add(res.getFullPath());
-				}
+			IResource resource = project.getFolder(COMPONENTS_PATH).findMember(componentPage);
+			if (resource != null) {
+				return resource.getFullPath();
 			}
+//			IResource[] resources = folder.members();
+//			if (resources != null && resources.length > 0) {
+//				result = new ArrayList<IPath>(resources.length);
+//				for (IResource res : resources) {
+//					result.add(res.getFullPath());
+//				}
+//			}
 		}
-		return result;
+		
+		return null;
 	}
 
     /**
      * 
      * @throws CoreException
      */
-    public static void removeProject() throws CoreException {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IProject project = workspace.getRoot().getProject(PROJECT_NAME);
-		project.delete(IResource.ALWAYS_DELETE_PROJECT_CONTENT,
-				new NullProgressMonitor());
+    static void removeProject() throws CoreException {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		if (project != null) {
+			project.delete(IResource.ALWAYS_DELETE_PROJECT_CONTENT,
+					new NullProgressMonitor());
+		}
 	}
 }

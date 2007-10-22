@@ -22,18 +22,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends BaseUIPlugin {
+public class RichFacesTestPlugin extends BaseUIPlugin {
 
     // The plug-in ID
-    public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces.test";
+    public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces.test"; // $NON-NLS-1$
 
     // The shared instance
-    private static Activator plugin;
+    private static RichFacesTestPlugin plugin;
 
     /**
      * The constructor
      */
-    public Activator() {
+    public RichFacesTestPlugin() {
     }
 
     /*
@@ -61,7 +61,7 @@ public class Activator extends BaseUIPlugin {
      * 
      * @return the shared instance
      */
-    public static Activator getDefault() {
+    public static RichFacesTestPlugin getDefault() {
     	return plugin;
     }
 
@@ -74,9 +74,9 @@ public class Activator extends BaseUIPlugin {
 		URL url = null;
 		try {
 			url = bundle == null ? null : FileLocator.resolve(bundle
-					.getEntry("/resources"));
+					.getEntry("/resources")); // $NON-NLS-1$
 		} catch (Exception e) {
-			url = bundle.getEntry("/resources");
+			url = bundle.getEntry("/resources"); // $NON-NLS-1$
 		}
 		return (url == null) ? null : url.getPath();
 	}

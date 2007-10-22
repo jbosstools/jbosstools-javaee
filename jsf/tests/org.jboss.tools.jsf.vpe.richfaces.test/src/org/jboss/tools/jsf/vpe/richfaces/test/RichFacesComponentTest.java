@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
-import java.util.Collection;
-
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
@@ -20,6 +18,7 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
@@ -39,8 +38,7 @@ public class RichFacesComponentTest extends TestCase implements ILogListener {
 
 	// check warning log
 	private final static boolean checkWarning = false;
-	private boolean failureLog;
-	private Collection<IPath> components = null;
+	private Throwable exception;
 
 	public RichFacesComponentTest(String name) {
 		super(name);
@@ -55,11 +53,10 @@ public class RichFacesComponentTest extends TestCase implements ILogListener {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-		if (ImportRichFacesComponents.importRichFacesPages(Activator
-				.getPluginResourcePath() + TEST_PROJECT_JAR_PATH)) {
-			components = ImportRichFacesComponents.getComponentsPaths();
-		}
-		failureLog = false;
+		
+		ImportRichFacesComponents.importRichFacesPages(RichFacesTestPlugin
+				.getPluginResourcePath() + TEST_PROJECT_JAR_PATH);
+		
 		waitForJobs();
 		Platform.addLogListener(this);
 		waitForJobs();
@@ -110,33 +107,171 @@ public class RichFacesComponentTest extends TestCase implements ILogListener {
 	 * Wait until all background tasks are complete.
 	 */
 	public void waitForJobs() {
-		while (Platform.getJobManager().currentJob() != null)
+		while (Job.getJobManager().currentJob() != null)
 			delay(5000);
 	}
 
-	public void testRichFacesComponent() throws PartInitException {
+	public void testAllComponentsOnSinglePage() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("richFacesTest.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testCalendar() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("calendar.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataDefinitionList() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataDefinitionList.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataFilterSlider() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataFilterSlider.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataGrid() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataGrid.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataList() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataList.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataOrderedList() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataOrderedList.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataScroller() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataScroller.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDataTable() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dataTable.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDragAndDrop() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dragAndDrop.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDropDawnMenu() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("dropDawnMenu.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testEffect() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("effect.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testGoogleMap() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("googleMap.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testInputNumberSlider() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("inputNumberSlider.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testInputNumberSpinner() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("inputNumberSpinner.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testInsert() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("insert.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testMessage() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("message.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testMessages() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("messages.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testModalPanel() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("modalPanel.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testPaint2D() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("paint2D.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testPanel() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("panel.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testPanelBar() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("panelBar.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testPanelMenu() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("panelMenu.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testScrollableDataTable() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("scrollableDataTable.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testSeparator() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("separator.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testSimpleTogglePanel() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("simpleTogglePanel.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testSpacer() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("spacer.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testSuggestionBox() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("suggestionbox.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testTabPanel() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("tabPanel.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testTogglePanel() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("togglePanel.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testToolBar() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("toolBar.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testTree() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("tree.xhtml"); // $NON-NLS-1$
+	}
+
+	public void testVirtualEarth() throws PartInitException, Throwable {
+		performTestForRichFacesComponent("virtualEarth.xhtml"); // $NON-NLS-1$
+	}
+	
+	
+	private void performTestForRichFacesComponent(String componentPage) throws PartInitException, Throwable {
 		waitForJobs();
 
-		for (IPath componentPath : components) {
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(componentPath);
-			IEditorInput input = new FileEditorInput(file);
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, EDITOR_ID, true);
+		exception = null;
+		IPath componentPath = ImportRichFacesComponents.getComponentPath(componentPage);
+		
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(componentPath);
+		IEditorInput input = new FileEditorInput(file);
+		
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, EDITOR_ID, true);
 
-			waitForJobs();
-			delay(3000);
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(true);
+		waitForJobs();
+		delay(3000);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(true);
+
+		if (exception != null) {
+			throw exception;
 		}
-		assertEquals(failureLog, false);
 	}
 
 	public void logging(IStatus status, String plugin) {
 		switch (status.getSeverity()) {
 		case IStatus.ERROR:
-			failureLog = true;
+			exception = status.getException();
 			break;
 		case IStatus.WARNING:
 			if (checkWarning)
-				failureLog = true;
+				exception = status.getException();
 			break;
 		default:
 			break;

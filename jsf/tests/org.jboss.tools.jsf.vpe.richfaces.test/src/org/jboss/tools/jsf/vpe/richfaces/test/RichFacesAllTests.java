@@ -20,10 +20,10 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class AllTests {
+public class RichFacesAllTests {
 
     public static Test suite() {
-	TestSuite suite = new TestSuite("Tests for Vpe RichFaces components");
+	TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON-NLS-1$
 	// $JUnit-BEGIN$
 	suite.addTestSuite(RichFacesComponentTest.class);
 	// $JUnit-END$
