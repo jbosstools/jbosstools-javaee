@@ -88,7 +88,6 @@ public class AntCopyUtils {
 		public boolean isIncluded(String file) { 
 			int i = dir.getAbsolutePath().length()+1;
 			String relatedPath = file.substring(i);
-			//if(new File(file).isDirectory())return true;
 			for (Pattern pattern : include) {			
 				if(pattern.matcher(relatedPath.replace('\\', '/')).matches() ) {
 					return !isExcluded(relatedPath);
@@ -221,10 +220,14 @@ public class AntCopyUtils {
 	}
 	
 	public static void copyFiles(String[] files, File dest) {
+		copyFiles(files,dest, true);
+	}
+	
+	public static void copyFiles(String[] files, File dest,boolean override) {
 		for (String fileName : files) {
 			File file = new File(fileName);
 			if(file.exists() && file.isFile()) {
-				copyFileToFolder(file, dest, null, true);
+				copyFileToFolder(file, dest, null, override);
 			} else {
 				try {
 					SeamCorePlugin.getPluginLog().logError(SeamCoreMessages.getString("ANT_COPY_UTILS_CANNOT_COPY_JDBC_DRIVER_JAR") + file.getCanonicalPath() + "'"); //$NON-NLS-1$ //$NON-NLS-2$

@@ -71,7 +71,7 @@ public class SeamFacetInstallDelegate extends Object implements IDelegate,ISeamF
 	
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
-		.include("richfaces.*\\.jar")
+		.include("richfaces.*\\.jar") //$NON-NLS-1$
 		.include("antlr.*\\.jar") //$NON-NLS-1$
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("commons-collections.*\\.jar") //$NON-NLS-1$
