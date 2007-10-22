@@ -13,7 +13,6 @@ package org.jboss.tools.seam.ui.wizard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
-
 /**
  * @author eskimo
  *
@@ -28,16 +27,12 @@ public class SeamFormWizardPage1 extends SeamBaseWizardPage {
 		super("seam.new.form.page1",SeamUIMessages.SEAM_FORM_WIZARD_PAGE1_SEAM_FORM,null, is); //$NON-NLS-1$
 		setMessage(getDefaultMessageText());
 	}
-		
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()
 	 */
 	@Override
 	public String getDefaultMessageText() {
-		// TODO Auto-generated method stub
 		return "Create a new Seam form";
 	}
-	
-	
 }
