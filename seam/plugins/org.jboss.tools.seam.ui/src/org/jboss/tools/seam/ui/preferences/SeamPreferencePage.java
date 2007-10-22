@@ -119,4 +119,10 @@ public class SeamPreferencePage extends PreferencePage implements
 		setMessage(null);
 		performApply();
 	}
+
+	@Override
+	public boolean performOk() {
+		performApply();
+		return super.performOk();
+	}
 }
