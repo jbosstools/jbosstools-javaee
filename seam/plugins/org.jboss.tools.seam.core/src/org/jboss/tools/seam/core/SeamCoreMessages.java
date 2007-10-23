@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import org.eclipse.osgi.util.NLS;
 
 public class SeamCoreMessages {
-	private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.jboss.tools.seam.core.messages"; //$NON-NLS-1$
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamCoreMessages.class);
 	}
