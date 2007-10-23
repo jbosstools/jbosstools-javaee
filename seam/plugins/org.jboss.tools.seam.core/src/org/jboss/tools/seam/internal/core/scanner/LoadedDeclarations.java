@@ -42,6 +42,7 @@ public class LoadedDeclarations {
 		if(ds == null) return;
 		components.addAll(ds.components);
 		factories.addAll(ds.factories);
+		imports.addAll(ds.imports);
 	}
 
 }
