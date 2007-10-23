@@ -1014,7 +1014,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public Set<ISeamContextVariable> getVariablesByName(String name) {
 		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
-		for (ISeamContextVariable v: allVariables) {
+		for (ISeamContextVariable v: getVariables(true)) {
 			if(name.equals(v.getName())) {
 				result.add(v);
 			}
@@ -1034,7 +1034,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public Set<ISeamContextVariable> getVariablesByScope(ScopeType scope, boolean addVisibleScopes) {
 		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
-		for (ISeamContextVariable v: allVariables) {
+		for (ISeamContextVariable v: getVariables(true)) {
 			if(isVisibleInScope(v, scope, addVisibleScopes)) {
 				result.add(v);
 			}
@@ -1239,7 +1239,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public Set<ISeamContextVariable> getVariablesByPath(IPath path) {
 		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
-		for (ISeamContextVariable variable : allVariables) {
+		for (ISeamContextVariable variable : getVariables(true)) {
 			if(variable instanceof ISeamComponent) {
 				ISeamComponent c = (ISeamComponent)variable;
 				for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
