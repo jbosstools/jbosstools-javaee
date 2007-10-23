@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
@@ -235,7 +236,7 @@ public class SeamCoreValidator extends SeamValidator {
 	private void validateXmlFactory(ISeamXmlFactory factory, Set<String> markedDuplicateFactoryNames) {
 		String name = factory.getName();
 		if(name==null) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME") + factory.getResource()); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(NLS.bind(SeamCoreMessages.SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME,factory.getResource()));
 			return;
 		}
 		validateFactoryName(factory, name, markedDuplicateFactoryNames, false);
@@ -257,7 +258,7 @@ public class SeamCoreValidator extends SeamValidator {
 							factoryName = methodName.substring(3);
 						} else {
 							// Unknown factory name
-							SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME") + factory.getResource()); //$NON-NLS-1$
+							SeamCorePlugin.getDefault().logError(NLS.bind(SeamCoreMessages.SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME,factory.getResource()));
 							//factoryName = methodName;
 							return;
 						}
@@ -265,7 +266,7 @@ public class SeamCoreValidator extends SeamValidator {
 					validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
 				}
 			} catch (JavaModelException e) {
-				SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE"), e); //$NON-NLS-1$
+				SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 			}
 		} else {
 			// factory must be java method!
@@ -433,7 +434,7 @@ public class SeamCoreValidator extends SeamValidator {
 							validationContext.addLinkedCoreResource(componentName, type.getResource().getFullPath());
 						}
 					} catch (JavaModelException e) {
-						SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE"), e); //$NON-NLS-1$
+						SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 					}
 					// validate properties
 					Collection<ISeamProperty> properties = declaration.getProperties();
@@ -482,7 +483,7 @@ public class SeamCoreValidator extends SeamValidator {
 			length = declaration.getSourceMember().getNameRange().getLength();
 			offset = declaration.getSourceMember().getNameRange().getOffset();
 		} catch (JavaModelException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 		}
 		return new SeamTextSourceReference(length, offset);
 	}

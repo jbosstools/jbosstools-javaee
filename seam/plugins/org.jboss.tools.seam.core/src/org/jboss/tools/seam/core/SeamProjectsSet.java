@@ -31,7 +31,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.componentcore.resources.IVirtualReference;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
+import org.jboss.tools.seam.core.project.facet.SeampProjectPreferences;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**

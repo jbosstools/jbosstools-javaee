@@ -126,7 +126,7 @@ public class SeamELValidator extends SeamValidator {
 		try {
 			content = FileUtil.readStream(file.getContents());
 		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
 			return;
 		}
 		if(ext.equalsIgnoreCase("java")) { //$NON-NLS-1$
@@ -154,7 +154,7 @@ public class SeamELValidator extends SeamValidator {
 				token = scaner.nextToken();
 			}
 		} catch (BadLocationException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
 		}
 	}
 
@@ -184,9 +184,9 @@ public class SeamELValidator extends SeamValidator {
     			}
 			}
 		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
         } catch (IOException e) {
-        	SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
+        	SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
 		} finally {
 			if (model != null) {
 				model.releaseFromRead();
@@ -290,11 +290,11 @@ public class SeamELValidator extends SeamValidator {
 						IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
 						String methodName = unpairedMethod.getElementName();
 						String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
-						String missingMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_SETTER"); //$NON-NLS-1$
-						String existedMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_GETTER"); //$NON-NLS-1$
+						String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
+						String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
 						if(methodName.startsWith("s")) { //$NON-NLS-1$
 							missingMethodName = existedMethodName;
-							existedMethodName = SeamCoreMessages.getString("SEAM_EL_VALIDATOR_SETTER"); //$NON-NLS-1$
+							existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
 						}
 						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, operand.length(), documnetOffset, file);
 					}
@@ -319,9 +319,9 @@ public class SeamELValidator extends SeamValidator {
 				}
 			}
 		} catch (BadLocationException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
 		} catch (StringIndexOutOfBoundsException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
 		}
 		// Mark invalid EL
 		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);

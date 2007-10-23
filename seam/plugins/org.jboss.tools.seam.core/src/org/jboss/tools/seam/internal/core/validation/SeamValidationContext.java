@@ -260,10 +260,10 @@ public class SeamValidationContext {
 		 */
 		public void addLinkedResource(String variableName, IPath linkedResourcePath) {
 			if(linkedResourcePath==null) {
-				throw new RuntimeException(SeamCoreMessages.getString("SEAM_VALIDATION_CONTEXT_LINKED_RESOURCE_PATH_MUST_NOT_BE_NULL")); //$NON-NLS-1$
+				throw new RuntimeException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_LINKED_RESOURCE_PATH_MUST_NOT_BE_NULL);
 			}
 			if(variableName==null) {
-				throw new RuntimeException(SeamCoreMessages.getString("SEAM_VALIDATION_CONTEXT_VARIABLE_NAME_MUST_NOT_BE_NULL")); //$NON-NLS-1$
+				throw new RuntimeException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_VARIABLE_NAME_MUST_NOT_BE_NULL);
 			}
 			Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
 			if(linkedResources==null) {

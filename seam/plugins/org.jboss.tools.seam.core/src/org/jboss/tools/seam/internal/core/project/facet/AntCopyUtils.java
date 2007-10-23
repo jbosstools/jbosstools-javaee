@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.apache.tools.ant.util.FileUtils;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -129,11 +130,6 @@ public class AntCopyUtils {
 		public boolean accept(File pathname){
 			return set.isIncluded(pathname.getAbsolutePath());
 		}
-		
-		@Override
-		public String toString() {
-			return SeamCoreMessages.getString("ANT_COPY_UTILS_INCLUDED") + set.getIncluded() + SeamCoreMessages.getString("ANT_COPY_UTILS_EXCLUDED") + set.getExcluded();  //$NON-NLS-1$ //$NON-NLS-2$
-		}
 	}
 
 	public static void copyFilesAndFolders(File sourceFolder, File destinationFolder, FilterSetCollection set, boolean override) {
@@ -144,15 +140,13 @@ public class AntCopyUtils {
 			AntCopyUtils.FileSetFileFilter fileSetFilter,
 			FilterSetCollection filterSetCollection, boolean override) {
 		if(!sourceFolder.exists()) {
-			throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COPY_FAILED") + sourceFolder + SeamCoreMessages.getString("ANT_COPY_UTILS_DOES_NOT_EXIST")); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException(NLS.bind(SeamCoreMessages.ANT_COPY_UTILS_COPY_FAILED,sourceFolder));
 		}
 		File[] files = fileSetFilter==null?sourceFolder.listFiles():sourceFolder.listFiles(fileSetFilter);
 		
 		if(files==null) {
 			if(fileSetFilter==null) {
-				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + sourceFolder); //$NON-NLS-1$
-			} else {
-				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + fileSetFilter + SeamCoreMessages.getString("ANT_COPY_UTILS_IN")+ sourceFolder); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new IllegalArgumentException(NLS.bind(SeamCoreMessages.ANT_COPY_UTILS_COULD_NOT_FIND_FOLDER,sourceFolder));
 			}
 		}
 		for (File file : files) {
@@ -179,7 +173,10 @@ public class AntCopyUtils {
 	
 	public static void copyFileToFolder(File source, File dest, FilterSetCollection filterSetCollection, boolean override ) {
 		try {
-			FileUtils.getFileUtils().copyFile(source, new File(dest,source.getName()),filterSetCollection,override);
+			File destFile = new File(dest,source.getName());
+			if(!source.equals(destFile)) {
+				FileUtils.getFileUtils().copyFile(source, destFile ,filterSetCollection,override);
+			}
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}		
@@ -194,20 +191,11 @@ public class AntCopyUtils {
 	}
 
 	public static void copyFiles(File source, File dest, FileFilter filter) {
-		
 		dest.mkdir();
-		
-		if(!source.exists()) {
-			throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COPY_FAILED") + source + SeamCoreMessages.getString("ANT_COPY_UTILS_DOES_NOT_EXIST")); //$NON-NLS-1$ //$NON-NLS-2$
-		}
 		
 		File[] listFiles = source.listFiles(filter);
 		if(listFiles==null) {
-			if(filter==null) {
-				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + source); //$NON-NLS-1$
-			} else {
-				throw new IllegalArgumentException(SeamCoreMessages.getString("ANT_COPY_UTILS_COULD_NOT_FIND") + filter + SeamCoreMessages.getString("ANT_COPY_UTILS_IN")+ source); //$NON-NLS-1$ //$NON-NLS-2$
-			}
+				throw new IllegalArgumentException(NLS.bind(SeamCoreMessages.ANT_COPY_UTILS_COULD_NOT_FIND_FOLDER,source));
 		}
 		for (File file:listFiles) {
 			if(file.isDirectory())continue;
@@ -230,7 +218,7 @@ public class AntCopyUtils {
 				copyFileToFolder(file, dest, null, override);
 			} else {
 				try {
-					SeamCorePlugin.getPluginLog().logError(SeamCoreMessages.getString("ANT_COPY_UTILS_CANNOT_COPY_JDBC_DRIVER_JAR") + file.getCanonicalPath() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+					SeamCorePlugin.getPluginLog().logError(NLS.bind(SeamCoreMessages.ANT_COPY_UTILS_CANNOT_COPY_JDBC_DRIVER_JAR,file.getCanonicalPath()));
 				} catch (IOException e) {
 					SeamCorePlugin.getPluginLog().logError(e);
 				}

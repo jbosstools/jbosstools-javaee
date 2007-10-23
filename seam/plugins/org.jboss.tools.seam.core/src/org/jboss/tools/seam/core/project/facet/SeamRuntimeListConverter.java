@@ -18,7 +18,7 @@ import java.util.StringTokenizer;
  * @author eskimo
  *
  */
-public class SeamRuntimeListConverter1 {
+public class SeamRuntimeListConverter {
 	
 	public Map<String,SeamRuntime> getMap(String input) {
 		

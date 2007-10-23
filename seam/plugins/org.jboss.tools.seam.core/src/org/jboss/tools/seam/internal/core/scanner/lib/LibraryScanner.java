@@ -107,7 +107,7 @@ public class LibraryScanner implements IFileScanner {
 		try {
 			processJavaClasses(o, ds);
 		} catch (JavaModelException e) {
-			throw new ScannerException(SeamCoreMessages.getString("LIBRARY_SCANNER_CANNOT_PROCESS_JAVA_CLASSES"), e); //$NON-NLS-1$
+			throw new ScannerException(SeamCoreMessages.LIBRARY_SCANNER_CANNOT_PROCESS_JAVA_CLASSES, e);
 		}
 		
 		if(componentsXML != null) {

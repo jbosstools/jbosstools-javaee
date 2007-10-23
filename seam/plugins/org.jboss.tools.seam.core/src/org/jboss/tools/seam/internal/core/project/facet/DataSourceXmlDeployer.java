@@ -45,7 +45,7 @@ public class DataSourceXmlDeployer extends Job {
 	IProject project = null;
 
 	public DataSourceXmlDeployer(IProject project) {
-		super(SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER")); //$NON-NLS-1$
+		super(SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER);
 		this.project = project;
 	}
 
@@ -57,7 +57,7 @@ public class DataSourceXmlDeployer extends Job {
 			facetedProject = ProjectFacetsManager.create(project);
 		} catch (CoreException e) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO")); //$NON-NLS-1$
+					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO); 
 		}
 		org.eclipse.wst.common.project.facet.core.runtime.IRuntime primaryRuntime = facetedProject
 				.getPrimaryRuntime();
@@ -76,9 +76,8 @@ public class DataSourceXmlDeployer extends Job {
 
 		if (s == null) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO")); //$NON-NLS-1$
+					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO);
 		}
-
 		// convert it to a DeployableServer instance
 		DeployableServerBehavior deployer = (DeployableServerBehavior) s
 				.loadAdapter(DeployableServerBehavior.class, null);
@@ -86,7 +85,7 @@ public class DataSourceXmlDeployer extends Job {
 		// if its not null, the adaptation worked.
 		if (deployer == null) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_SERVER_DID_NOT_SUPPORT_DEPLOY_OF_DATASOURCE")); //$NON-NLS-1$
+					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_SERVER_DID_NOT_SUPPORT_DEPLOY_OF_DATASOURCE);
 		}
 
 		IVirtualComponent com = ComponentCore.createComponent(project);
@@ -112,7 +111,7 @@ public class DataSourceXmlDeployer extends Job {
 			return t;
 		} else {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					SeamCoreMessages.getString("DATA_SOURCE_XML_DEPLOYER_COULD_NOT_DEPLOY_DATASOURCE") + append); //$NON-NLS-1$
+					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_COULD_NOT_DEPLOY_DATASOURCE + append); //$NON-NLS-1$
 		}
 	}
 }

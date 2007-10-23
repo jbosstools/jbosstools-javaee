@@ -174,13 +174,13 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 
 	private IStatus validateServer(Object serverObject) {
 		if (serverObject == null) {
-			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_SERVER_IS_EMPTY"), null);
+			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_SERVER_IS_EMPTY, null);
 		}
 
 		IServer s = (serverObject instanceof IServer ? (IServer)serverObject : null);
 
 		if (s == null) {
-			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_SERVER_UNKNOWN"), null);
+			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_SERVER_UNKNOWN, null);
 		}
 
 		Object rt = getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
@@ -188,7 +188,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 
 		List<IServer> servers = getServers(primaryRuntimeName);
 		if (servers.isEmpty()) {
-			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_SERVER_NO_SERVERS_DEFINED"), null);
+			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_SERVER_NO_SERVERS_DEFINED, null);
 		}
 
 		for (IServer server : servers) {
@@ -197,7 +197,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			}
 		}
 		
-		return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_SERVER_INCOMPATIBLE"), null);
+		return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_SERVER_INCOMPATIBLE, null);
 	}
 	
 	private String getRuntimeName(Object rt) {
@@ -212,10 +212,10 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 
 	IStatus validateRuntime(Object runtimeObject) {
 		if (runtimeObject == null) {
-			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_RUNTIME_IS_EMPTY"), null);
+			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_RUNTIME_IS_EMPTY, null);
 		}
 		if (getRuntimeName(runtimeObject) == null) {
-			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.getString("ERROR_JBOSS_AS_TARGET_RUNTIME_UNKNOWN"), null);
+			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_RUNTIME_UNKNOWN, null);
 		}
 		
 		return OK_STATUS;

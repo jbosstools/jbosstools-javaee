@@ -33,7 +33,7 @@ import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
  */
 public class SeamRuntimeManager {
 	
-	private static SeamRuntimeListConverter1 converter = new SeamRuntimeListConverter1();
+	private static SeamRuntimeListConverter converter = new SeamRuntimeListConverter();
 	
 	private Map<String, SeamRuntime> runtimes = new HashMap<String, SeamRuntime>();
 
@@ -60,10 +60,10 @@ public class SeamRuntimeManager {
 	 * 
 	 */
 	private SeamRuntimeManager() {
-		String configVersion = SeamFacetPreference.getStringPreference(
-				            SeamFacetPreference.RUNTIME_CONFIG_FORMAT_VERSION);
-		String runtimeListString = SeamFacetPreference.getStringPreference(
-	            SeamFacetPreference.RUNTIME_LIST);
+		String configVersion = SeampProjectPreferences.getStringPreference(
+				            SeampProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION);
+		String runtimeListString = SeampProjectPreferences.getStringPreference(
+	            SeampProjectPreferences.RUNTIME_LIST);
 		
 		runtimes = converter.getMap(runtimeListString);
 	}
@@ -160,7 +160,7 @@ public class SeamRuntimeManager {
 	 */
 	public void save() {
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-				SeamFacetPreference.RUNTIME_LIST, converter.getString(runtimes));
+				SeampProjectPreferences.RUNTIME_LIST, converter.getString(runtimes));
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 		if(store instanceof IPersistentPreferenceStore) {
 			try {

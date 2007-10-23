@@ -53,7 +53,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 		try {
 			project = SeamCorePlugin.getSeamProject(getProject(), true);
 		} catch (Exception e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.getString("SEAM_VALIDATION_HELPER_CANNOT_GET_SEAM_PROJECT"), e); //$NON-NLS-1$
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_VALIDATION_HELPER_CANNOT_GET_SEAM_PROJECT, e);
 		}
 		return project;
 	}
@@ -121,7 +121,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 */
 	public boolean isJar(IPath path) {
 		if(path == null) {
-			throw new IllegalArgumentException(SeamCoreMessages.getString("SEAM_VALIDATION_HELPER_RESOURCE_MUST_NOT_BE_NULL")); //$NON-NLS-1$
+			throw new IllegalArgumentException(SeamCoreMessages.SEAM_VALIDATION_HELPER_RESOURCE_MUST_NOT_BE_NULL);
 		}
 		String ext = path.getFileExtension();
 		return ext != null && ext.equalsIgnoreCase("jar"); //$NON-NLS-1$

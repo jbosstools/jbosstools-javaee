@@ -17,7 +17,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author eskimo
  *
  */
-public class SeamFacetPreference {
+public class SeampProjectPreferences {
 	public static final String SEAM_DEFAULT_RUNTIME_NAME 
 		= SeamCorePlugin.PLUGIN_ID + ".project.facet.default.runtime.name"; //$NON-NLS-1$
 	public static final String SEAM_DEFAULT_CONNECTION_PROFILE 

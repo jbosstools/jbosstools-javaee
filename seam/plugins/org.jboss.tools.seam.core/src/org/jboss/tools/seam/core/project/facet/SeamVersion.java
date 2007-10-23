@@ -10,11 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.project.facet;
 
+import org.eclipse.osgi.util.NLS;
+
 /**
  * @author eskimo
  *
  */
-public enum SeamVersion {
+public enum SeamVersion{
 	SEAM_1_2("1.2"), SEAM_2_0("2.0"); //$NON-NLS-1$ //$NON-NLS-2$
 	
 	String version = ""; //$NON-NLS-1$
@@ -37,6 +39,7 @@ public enum SeamVersion {
 		} else if(V_2_0.equals(version)) {
 			return SEAM_2_0;
 		}
-		throw new IllegalArgumentException(Messages.getString("SeamVersion.5") + version + Messages.getString("SeamVersion.6")); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException(NLS.bind("Seam version ''{0}'' is not supported",version)); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
 }

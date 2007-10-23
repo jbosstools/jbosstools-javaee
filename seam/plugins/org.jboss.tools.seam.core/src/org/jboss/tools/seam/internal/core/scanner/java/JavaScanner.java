@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -80,7 +81,8 @@ public class JavaScanner implements IFileScanner {
 		try {
 			u = getCompilationUnit(f);
 		} catch (CoreException e) {
-			throw new ScannerException(SeamCoreMessages.getString("JAVA_SCANNER_CANNOT_GET_COMPILATION_UNIT_FOR") + f, e); //$NON-NLS-1$
+			throw new ScannerException(
+					NLS.bind(SeamCoreMessages.JAVA_SCANNER_CANNOT_GET_COMPILATION_UNIT_FOR,f), e);
 		}
 		if(u == null) return null;
 		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
