@@ -120,6 +120,24 @@ public final class SeamELCompletionEngine {
 		if(resolvedVariables!=null && resolvedVariables.size()>0 && usedVariables!=null) {
 			usedVariables.addAll(resolvedVariables);
 		}
+		
+		if ((resolvedExpressionPart == null || resolvedExpressionPart.isEmpty()) && 
+				!returnEqualedVariablesOnly && 
+				tokens != null && tokens.size() > 0 && 
+				tokens.get(tokens.size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+			// no vars are resolved 
+			// the tokens are the part of var name ended with a separator (.)
+			resolvedVariables = resolveVariables(project, scope, tokens, tokens, returnEqualedVariablesOnly);			
+			String prefixString = prefix.toString();
+			for (ISeamContextVariable var : resolvedVariables) {
+				String varName = var.getName();
+				if(varName.startsWith(prefixString)) {
+					res.add(varName.substring(prefixString.length()));
+				}
+			}
+			return res;
+		}
+		
 
 		// Here we have a list of vars for some part of expression
 		// OK. we'll proceed with members of these vars
