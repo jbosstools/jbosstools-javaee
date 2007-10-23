@@ -17,7 +17,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
-import org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter1;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 
 /**
@@ -27,7 +27,7 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 public class SeamRuntimeListConverterTest extends TestCase {
 
 	/**
-	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter1#getMap(java.lang.String)}.
+	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter#getMap(java.lang.String)}.
 	 */
 	public void testSerializeSeamRuntimeListToString() {
 		Map<String,SeamRuntime> runtimes = new HashMap<String,SeamRuntime>();
@@ -41,7 +41,7 @@ public class SeamRuntimeListConverterTest extends TestCase {
 		rt2.setHomeDir("homeDir");
 		rt2.setVersion(SeamVersion.parseFromString("1.2"));
 		runtimes.put(rt2.getName(),rt2);
-		SeamRuntimeListConverter1 converter = new SeamRuntimeListConverter1();
+		SeamRuntimeListConverter converter = new SeamRuntimeListConverter();
 		String config = converter.getString(runtimes);
 		assertNotNull("Saved runtime list cannot be null", config);
 		assertTrue("Saved list of runtimes cannot be empty.", !"".equals(config.trim()));
@@ -55,10 +55,10 @@ public class SeamRuntimeListConverterTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter1#getString(java.util.List)}.
+	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter#getString(java.util.List)}.
 	 */
 	public void testLoadingSeamRuntimeListFromString() {
-		SeamRuntimeListConverter1 converter = new SeamRuntimeListConverter1();
+		SeamRuntimeListConverter converter = new SeamRuntimeListConverter();
 		Map<String,SeamRuntime> runtimes = 
 			converter.getMap("name|rt1|homeDir|homeDirPath1|version|1.2|default|true," +
 					"name|rt2|homeDir|homeDirPath2|version|1.2|default|false");
