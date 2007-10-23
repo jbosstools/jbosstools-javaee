@@ -53,7 +53,7 @@ import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationData
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
+import org.jboss.tools.seam.core.project.facet.SeampProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -190,24 +190,24 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 */
 	private String getDefaultDbType() {
 		// TODO Auto-generated method stub
-		return SeamFacetPreference.getStringPreference(
-				SeamFacetPreference.HIBERNATE_DEFAULT_DB_TYPE);
+		return SeampProjectPreferences.getStringPreference(
+				SeampProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE);
 	}
 
 	/**
 	 * @return
 	 */
 	private Object getDeployAsDefaultValue() {
-		return SeamFacetPreference.getStringPreference(
-				SeamFacetPreference.JBOSS_AS_DEFAULT_DEPLOY_AS);
+		return SeampProjectPreferences.getStringPreference(
+				SeampProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS);
 	}
 
 	/**
 	 * @return
 	 */
 	private Object getConnectionProfileDefaultValue() {
-		String defaultDs = SeamFacetPreference.getStringPreference(
-				SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE);
+		String defaultDs = SeampProjectPreferences.getStringPreference(
+				SeampProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
 		return getProfileNameList().contains(defaultDs)?defaultDs:""; //$NON-NLS-1$
 	}
 
@@ -216,12 +216,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * @return
 	 */
 	private Object getSeamRuntimeDefaultValue() {
-		return ("".equals(SeamFacetPreference //$NON-NLS-1$
-				.getStringPreference(SeamFacetPreference.SEAM_DEFAULT_RUNTIME_NAME)) ?
+		return ("".equals(SeampProjectPreferences //$NON-NLS-1$
+				.getStringPreference(SeampProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME)) ?
 						(SeamRuntimeManager.getInstance().getDefaultRuntime()==null?
 								"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName()) : //$NON-NLS-1$
-									SeamFacetPreference
-									.getStringPreference(SeamFacetPreference.SEAM_DEFAULT_RUNTIME_NAME));
+									SeampProjectPreferences
+									.getStringPreference(SeampProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME));
 	}
 
 	/**
@@ -252,19 +252,19 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	public void transferStateToConfig() {
 		
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-					SeamFacetPreference.SEAM_DEFAULT_RUNTIME_NAME,
+					SeampProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME,
 					jBossSeamHomeEditor.getValueAsString());
 
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-					SeamFacetPreference.SEAM_DEFAULT_CONNECTION_PROFILE,
+					SeampProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE,
 					connProfileSelEditor.getValueAsString());
 			
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-					SeamFacetPreference.JBOSS_AS_DEFAULT_DEPLOY_AS,
+					SeampProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
 					this.jBossAsDeployAsEditor.getValueAsString());
 			
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-					SeamFacetPreference.HIBERNATE_DEFAULT_DB_TYPE,
+					SeampProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE,
 					this.jBossHibernateDbTypeEditor.getValueAsString());
 			
 	}

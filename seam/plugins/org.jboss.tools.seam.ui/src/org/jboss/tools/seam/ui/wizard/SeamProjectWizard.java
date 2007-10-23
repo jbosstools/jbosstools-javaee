@@ -38,7 +38,7 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamFacetPreference;
+import org.jboss.tools.seam.core.project.facet.SeampProjectPreferences;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -245,8 +245,8 @@ public class SeamProjectWizard extends WebProjectWizard {
 	    public void restoreDefaultSettings() {
 	    	super.restoreDefaultSettings();
 
-	    	String lastServerName = SeamFacetPreference
-			.getStringPreference(SeamFacetPreference.SEAM_LAST_SERVER_NAME);
+	    	String lastServerName = SeampProjectPreferences
+			.getStringPreference(SeampProjectPreferences.SEAM_LAST_SERVER_NAME);
 	    	
 	    	if (lastServerName != null && lastServerName.length() > 0) {
 		    	SeamFacetProjectCreationDataModelProvider.setServerName(model,lastServerName);
@@ -258,7 +258,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	    	String serverName = SeamFacetProjectCreationDataModelProvider.getServerName(model);
 	    	if (serverName != null && serverName.length() > 0) {
 				SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-						SeamFacetPreference.SEAM_LAST_SERVER_NAME,
+						SeampProjectPreferences.SEAM_LAST_SERVER_NAME,
 						serverName);
 	    	}
 	    }
