@@ -170,7 +170,7 @@ public class SeamValidatorsTest extends TestCase {
 		refreshProject(project);
 		
 		message = getMarkersMessage(componentsFile);
-		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebWarTestProject.session.StateComponent\" cannot be resolved to a type".equals(message));
+		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(message));
 
 		// Component class does not contain setter for property
 		System.out.println("Test - Component class does not contain setter for property");
@@ -258,6 +258,9 @@ public class SeamValidatorsTest extends TestCase {
 	private int getMarkersNumber(IFile file){
 		try{
 			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
+			for(int i=0;i<markers.length;i++){
+				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
+			}
 			return markers.length;
 			
 		}catch(CoreException ex){
