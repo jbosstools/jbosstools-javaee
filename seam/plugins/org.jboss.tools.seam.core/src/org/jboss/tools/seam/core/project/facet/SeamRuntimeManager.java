@@ -60,10 +60,10 @@ public class SeamRuntimeManager {
 	 * 
 	 */
 	private SeamRuntimeManager() {
-		String configVersion = SeampProjectPreferences.getStringPreference(
-				            SeampProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION);
-		String runtimeListString = SeampProjectPreferences.getStringPreference(
-	            SeampProjectPreferences.RUNTIME_LIST);
+		String configVersion = SeamProjectPreferences.getStringPreference(
+				            SeamProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION);
+		String runtimeListString = SeamProjectPreferences.getStringPreference(
+	            SeamProjectPreferences.RUNTIME_LIST);
 		
 		runtimes = converter.getMap(runtimeListString);
 	}
@@ -160,7 +160,7 @@ public class SeamRuntimeManager {
 	 */
 	public void save() {
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-				SeampProjectPreferences.RUNTIME_LIST, converter.getString(runtimes));
+				SeamProjectPreferences.RUNTIME_LIST, converter.getString(runtimes));
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 		if(store instanceof IPersistentPreferenceStore) {
 			try {

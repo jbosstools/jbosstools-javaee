@@ -26,7 +26,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
-import org.jboss.tools.seam.core.project.facet.SeampProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeListConverter;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -54,10 +54,10 @@ public class SeamFacetPreferenceInitializer extends
 				.node(DefaultScope.SCOPE)
 				.node(SeamCorePlugin.PLUGIN_ID);
 
-		node.put(SeampProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION, RUNTIME_CONFIG_FORMAT_VERSION);
-		node.put(SeampProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS"); //$NON-NLS-1$
-		node.put(SeampProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS, "war"); //$NON-NLS-1$
-		node.put(SeampProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE, "HSQL"); //$NON-NLS-1$
+		node.put(SeamProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION, RUNTIME_CONFIG_FORMAT_VERSION);
+		node.put(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS"); //$NON-NLS-1$
+		node.put(SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS, "war"); //$NON-NLS-1$
+		node.put(SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE, "HSQL"); //$NON-NLS-1$
 		initializeDefault(node,getSeamGenBuildPath());
 		try {
 			node.flush();
@@ -101,6 +101,6 @@ public class SeamFacetPreferenceInitializer extends
 			rt.setVersion(SeamVersion.SEAM_1_2);
 			map.put(rt.getName(), rt);
 		}
-		node.put(SeampProjectPreferences.RUNTIME_LIST, new SeamRuntimeListConverter().getString(map));
+		node.put(SeamProjectPreferences.RUNTIME_LIST, new SeamRuntimeListConverter().getString(map));
 	}
 }

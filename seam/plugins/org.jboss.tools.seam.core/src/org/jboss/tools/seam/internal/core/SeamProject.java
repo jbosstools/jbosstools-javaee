@@ -53,7 +53,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
-import org.jboss.tools.seam.core.project.facet.SeampProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -263,7 +263,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
 			public void propertyChange(Preferences.PropertyChangeEvent event) {
-				if(SeampProjectPreferences.RUNTIME_LIST.equals(event.getProperty())) {
+				if(SeamProjectPreferences.RUNTIME_LIST.equals(event.getProperty())) {
 					SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
 					if(d != null && d.getName().equals(runtimeName)) {
 //						runtimeName = null;
