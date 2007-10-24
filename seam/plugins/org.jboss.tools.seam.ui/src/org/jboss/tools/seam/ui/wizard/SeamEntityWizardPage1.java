@@ -45,9 +45,10 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	 */
 	@Override
 	protected void createEditors() {
-		super.createEditors();
-
+		addEditor(SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getRootSeamProjectName(initialSelection)));
 		addEditor(SeamWizardFactory.createSeamEntityClasNameFieldEditor());
+		String packageName = getDefaultPackageName(SeamWizardUtils.getRootSeamProjectName(initialSelection));
+		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
 		addEditor(SeamWizardFactory.createSeamMasterPageNameFieldEditor());
 		addEditor(SeamWizardFactory.createSeamPageNameFieldEditor());
 	}
@@ -97,15 +98,6 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	protected void doValidate(PropertyChangeEvent event) {
 		if(!isValidProjectSelected()) return;
 
-		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
-
-		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
-			setPageComplete(false);
-			return;
-		}
-		getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(true);
 		IFieldEditor packageEditor = getEditor(IParameter.SEAM_PACKAGE_NAME);
 		if(packageEditor!=null) {
 			packageEditor.setEnabled(true);
@@ -115,7 +107,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 
 		if(!isValidRuntimeConfigured(project)) return;
 
-		errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+		Map errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_ENTITY_CLASS_NAME).getValue(), null);
 
 		if(errors.size()>0) {

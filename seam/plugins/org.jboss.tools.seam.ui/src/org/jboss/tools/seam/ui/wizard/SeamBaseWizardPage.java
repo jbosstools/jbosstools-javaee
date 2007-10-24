@@ -112,9 +112,8 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 
 		if(selectdProject!=null && !"".equals(selectdProject) && isValidProjectSelected()) {
 			isValidRuntimeConfigured(getSelectedProject());
-		} else {
-			setPageComplete(false);
 		}
+		setPageComplete(false);
 	}
 
 	/* (non-Javadoc)
@@ -313,12 +312,17 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		if(errors.size()>0) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
 			setPageComplete(false);
-			getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
+			IFieldEditor beanEditor = getEditor(IParameter.SEAM_BEAN_NAME);
+			if(beanEditor!=null) {
+				beanEditor.setEnabled(false);
+			}
 			IFieldEditor packageEditor = getEditor(IParameter.SEAM_PACKAGE_NAME);
 			if(packageEditor!=null) {
 				packageEditor.setEnabled(false);
 			}
 			return false;
+		} else {
+			
 		}
 		return true;
 	}

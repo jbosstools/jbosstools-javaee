@@ -88,10 +88,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 
 			loadCustomVariables(vars);
 
-//			String actionFolder = vars.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString();
-//			String entityFolder = vars.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).toString();
-//			String testFolder = vars.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).toString();
-
 			String actionFolder = getSessionBeanPackageName(seamFacetPrefs, params);
 			String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
 			String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
@@ -124,7 +120,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				FileUtils.getFileUtils().copyFile(new File(mapping[0]), file[index],filters,true);
 				index++;
 			}
-			seamPrjSet.refreshLocal(monitor);
+
 			Display.getCurrent().asyncExec(new Runnable() {
 				/* (non-Javadoc)
 				 * @see java.lang.Runnable#run()
@@ -140,13 +136,21 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 					}					
 				}
 			});
-		} catch (CoreException e) {
-			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+			
 		} catch (BackingStoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} catch (IOException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
-		} 
+		} finally {
+			try {	
+				seamPrjSet.refreshLocal(monitor);
+			} catch (CoreException e) {
+				result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+			}
+		}
+		if (result.getSeverity()==IStatus.ERROR) {
+			SeamGuiPlugin.getDefault().getLog().log(result);
+		}
 		return result;
 	}
 

@@ -12,6 +12,7 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.IOperationHistory;
@@ -77,9 +78,10 @@ public abstract class SeamBaseWizard extends Wizard {
 						} catch (ExecutionException e) {
 							result = new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 							SeamCorePlugin.getPluginLog().logError(e);
-							ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Seam wizard error", result.getMessage(), result);
 						}
-						//ErrorDialog.openError(Display.getCurrent().getActiveShell(), SeamUIMessages.SeamBaseWizard_0, result.getMessage(), result);
+						if(result.getSeverity()==IStatus.ERROR) {
+							ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Error", MessageFormat.format("Error occur during creating {0}. Please, check Error Log View for details." , SeamBaseWizard.this.getWindowTitle()),result);
+						}
 					}
 				});
 			} catch (InvocationTargetException e) {
