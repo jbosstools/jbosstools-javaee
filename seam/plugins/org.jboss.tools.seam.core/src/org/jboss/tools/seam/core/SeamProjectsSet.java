@@ -10,28 +10,18 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.jst.j2ee.ejb.componentcore.util.EJBArtifactEdit;
-import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
-import org.eclipse.wst.common.componentcore.resources.IVirtualReference;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**
@@ -123,7 +113,7 @@ public class SeamProjectsSet {
 	}
 	
 	/**
-	 * Returns list of EJB projects.
+	 * 
 	 * @return
 	 */
 	public IProject getTestProject() {
@@ -131,63 +121,28 @@ public class SeamProjectsSet {
 	}
 	
 	/**
-	 * Returns Content folder of EAR project or null 
-	 * if EAR is not available.
-	 * @return
+	 * 
+	 * @return the action folder (this folder is not guaranteed to exist!)
 	 */	
-	public IFolder getActionsFolder() {
-		IFolder actionsFolder = null;
+	public IFolder getActionFolder() {
 		if(isWarConfiguration()) {
-			IVirtualComponent com = ComponentCore.createComponent(war);
-			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-			final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
-			IContainer[] folder = webRootFolder.getUnderlyingFolders();
-			if(folder.length==1) {
-				actionsFolder = (IFolder)folder[0];
-			} else if(folder.length>1) {
-				IContainer parent = folder[0].getParent();
-				IResource actions = parent.findMember("actions"); //$NON-NLS-1$
-				if(actions!=null && actions instanceof IFolder) {
-					actionsFolder = (IFolder)actions;
-				} else {
-					actionsFolder = (IFolder)folder[0];
-				}
-			}
+			return war.getFolder("src/action");			
 		} else {
-			IVirtualComponent com = ComponentCore.createComponent(ejb);
-			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-			actionsFolder = (IFolder)ejbRootFolder.getUnderlyingFolder();
+			return getEjbProject().getFolder("ejbModule");					
 		}
-		return actionsFolder; 
+		 
 	}
 	
 	/**
-	 * Returns Content folder for first found WAR project. 
-	 * @return
+	 *  
+	 * @return the model folder if exists, otherwise null
 	 */
-	public IFolder getBeansFolder() {
-		IFolder actionsFolder = null;
+	public IFolder getModelFolder() {		
 		if(isWarConfiguration()) {
-			IVirtualComponent com = ComponentCore.createComponent(war);
-			final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
-			IContainer[] folder = srcRootFolder.getUnderlyingFolders();
-			if(folder.length==1) {
-				actionsFolder = (IFolder)folder[0];
-			} else if(folder.length>1) {
-				IContainer parent = folder[0].getParent();
-				IResource actions = parent.findMember("model"); //$NON-NLS-1$
-				if(actions!=null && actions instanceof IFolder) {
-					actionsFolder = (IFolder)actions;
-				} else {
-					actionsFolder = (IFolder)folder[0];
-				}
-			}
+			return war.getFolder("src/model");			 		
 		} else {
-			IVirtualComponent com = ComponentCore.createComponent(ejb);
-			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-			actionsFolder = (IFolder)ejbRootFolder.getUnderlyingFolder();
-		}
-		return actionsFolder; 
+			return getEjbProject().getFolder("ejbModule");					
+		}		
 	}
 	
 	/**

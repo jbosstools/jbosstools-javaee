@@ -18,6 +18,7 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -145,6 +146,10 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		
 		fproj.installProjectFacet(getSeamFacetVersion(), config, null);
 		
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(fproj.getProject());
+		assertTrue(seamProjectsSet.getActionFolder().exists());
+		assertTrue(seamProjectsSet.getModelFolder().exists());
+		
 		return fproj;
 	}
 
@@ -183,7 +188,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		assertTrue(testProject.exists());
 		assertTrue(ejbProject.exists());
 		assertTrue(earProject.exists());
-
+		
 		return fproj;
 	}
 	

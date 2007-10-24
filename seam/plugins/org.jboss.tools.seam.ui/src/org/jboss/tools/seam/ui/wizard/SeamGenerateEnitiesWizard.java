@@ -79,8 +79,8 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
 
 				wc.setAttribute(HibernateLaunchConstants.ATTR_OUTPUT_DIR, 
-						seamProjectsSet.getBeansFolder()==null?
-								"":seamProjectsSet.getBeansFolder().getFullPath().toString()); //$NON-NLS-1$
+						seamProjectsSet.getModelFolder()==null?
+								"":seamProjectsSet.getModelFolder().getFullPath().toString()); //$NON-NLS-1$
 
 				boolean isReverseEngineer = "true".equals(params.get(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER)); //$NON-NLS-1$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, isReverseEngineer);
@@ -234,7 +234,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					hbmtemplateAttributes.put("file_pattern", "{package-name}/{class-name}List.java"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				hbmtemplateAttributes.put("template_name", "src/EntityList.java.ftl"); //$NON-NLS-1$ //$NON-NLS-2$
-				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getActionsFolder().getFullPath().toString()); //$NON-NLS-1$
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getActionFolder().getFullPath().toString()); //$NON-NLS-1$
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
 				
@@ -269,7 +269,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				}
 				
 				hbmtemplateAttributes.put("template_name", "src/EntityHome.java.ftl"); //$NON-NLS-1$ //$NON-NLS-2$
-				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getActionsFolder().getFullPath().toString()); //$NON-NLS-1$
+				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getActionFolder().getFullPath().toString()); //$NON-NLS-1$
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate8.properties", hbmtemplateAttributes); //$NON-NLS-1$

@@ -45,4 +45,5 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		assertTrue(fproj.getProject().findMember("src/action/x/y/z").exists());
 
 	}
+	
 }
