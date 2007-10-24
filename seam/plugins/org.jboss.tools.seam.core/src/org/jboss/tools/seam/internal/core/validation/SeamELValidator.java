@@ -126,7 +126,8 @@ public class SeamELValidator extends SeamValidator {
 		try {
 			content = FileUtil.readStream(file.getContents());
 		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+			// It could be because of resource is out of sync with the file system
+			// Just ignore this.
 			return;
 		}
 		if(ext.equalsIgnoreCase("java")) { //$NON-NLS-1$
