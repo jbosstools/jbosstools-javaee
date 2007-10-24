@@ -1,9 +1,0 @@
-#Thu Oct 11 13:48:02 MSD 2007
-action.package=org.domain.SeamWebWarTestProject.session
-eclipse.preferences.version=1
-model.package=org.domain.SeamWebWarTestProject.entity
-seam.project.connection.profile=aa
-seam.project.deployment.type=war
-seam.runtime.name=NewSeamRuntime1.2.1_GA
-seam.test.project=SeamWebWarTestProject-test
-test.package=org.domain.SeamWebWarTestProject.test
