@@ -23,6 +23,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiImages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard;
 import org.jboss.tools.common.model.ui.*;
 
 public class ImportProjectAction extends Action implements IWorkbenchWindowActionDelegate {
@@ -38,8 +39,11 @@ public class ImportProjectAction extends Action implements IWorkbenchWindowActio
 			"org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard"
 		);
 		if (wizard != null) {
+			((ImportProjectWizard)wizard).setHelpAvailable(false);
 			wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
+			dialog.create();
+			JsfUiPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.import_wizard_context");
 			dialog.open();  
 		} else {
 			JsfUiPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard'.");
