@@ -20,6 +20,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.jboss.tools.common.model.ui.*;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
+import org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 
 public class ImportProjectAction extends Action implements IWorkbenchWindowActionDelegate {
@@ -35,8 +36,11 @@ public class ImportProjectAction extends Action implements IWorkbenchWindowActio
 			"org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard"
 		);
 		if (wizard != null) {
+			((ImportProjectWizard)wizard).setHelpAvailable(false);
 			wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
+			dialog.create();
+			StrutsUIPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.import_wizard_context");
 			dialog.open();  
 		} else {
 			StrutsUIPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard'.");
