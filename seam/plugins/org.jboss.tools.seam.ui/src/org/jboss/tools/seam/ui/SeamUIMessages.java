@@ -383,6 +383,12 @@ public class SeamUIMessages extends NLS {
 
 	public static String SEAM_TARGET_SERVER;
 
+	public static String RUNTIME_DELETE_CONFIRM_TITLE;
+
+	public static String RUNTIME_DELETE_NOT_USED_CONFIRM;
+
+	public static String RUNTIME_DELETE_USED_CONFIRM;
+
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		

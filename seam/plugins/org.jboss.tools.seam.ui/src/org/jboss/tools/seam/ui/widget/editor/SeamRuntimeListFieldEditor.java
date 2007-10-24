@@ -25,7 +25,10 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -42,6 +45,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -54,6 +58,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -531,14 +536,34 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 			while(i.hasNext()) {
 				Object o = i.next();
 				if(o instanceof SeamRuntime) {
-					removed.add((SeamRuntime)o);
-					if(added.contains(o)) {
-						added.remove(o);
-					}
-					((List)getValue()).remove(o);
+					removeRuntime((SeamRuntime)o);
 				}
 			}
 			tableView.refresh();
 		}
+	}
+	
+	private void removeRuntime(SeamRuntime r) {
+		boolean used = isRuntimeUsed(r.getName());
+		String title = SeamUIMessages.RUNTIME_DELETE_CONFIRM_TITLE;
+		String message = (used)
+			? NLS.bind(SeamUIMessages.RUNTIME_DELETE_USED_CONFIRM, r.getName())
+			: NLS.bind(SeamUIMessages.RUNTIME_DELETE_NOT_USED_CONFIRM, r.getName());
+		boolean b = MessageDialog.openConfirm(removeBtn.getShell(), title, message);
+		if(!b) return;
+		removed.add(r);
+		if(added.contains(r)) {
+			added.remove(r);
+		}
+		((List)getValue()).remove(r);
+	}
+	
+	private boolean isRuntimeUsed(String runtimeName) {
+		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (int i = 0; i < ps.length; i++) {
+			ISeamProject sp = SeamCorePlugin.getSeamProject(ps[i], false);
+			if(sp != null && runtimeName.equals(sp.getRuntimeName())) return true;
+		}
+		return false;
 	}
 }
