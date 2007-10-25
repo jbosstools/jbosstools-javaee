@@ -578,7 +578,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 		public int getVisualGridStep() {
 			String str = optionsObject.getAttributeValue("Grid Step");
-			return new Integer(str).intValue();
+			return Integer.parseInt(str);
 		}
 
 		public Font getLinkPathFont() {
@@ -595,21 +595,19 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 				if (pos2 >= 0) {
 					pos3 = str.indexOf(",", pos2);
 					if (pos3 < 0)
-						size = new Integer(str
-								.substring(pos2 + 5, str.length())).intValue();
+						size = Integer.parseInt(str
+								.substring(pos2 + 5, str.length()));
 					else
-						size = new Integer(str.substring(pos2 + 5, pos3))
-								.intValue();
+						size = Integer.parseInt(str.substring(pos2 + 5, pos3));
 				}
 				pos2 = str.indexOf("style=");
 				if (pos2 >= 0) {
 					pos3 = str.indexOf(",", pos2);
 					if (pos3 < 0)
-						style = new Integer(str.substring(pos2 + 6, str
-								.length())).intValue();
+						style = Integer.parseInt(str.substring(pos2 + 6, str
+								.length()));
 					else
-						style = new Integer(str.substring(pos2 + 6, pos3))
-								.intValue();
+						style = Integer.parseInt(str.substring(pos2 + 6, pos3));
 				}
 
 			}
@@ -640,21 +638,19 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 				if (pos2 >= 0) {
 					pos3 = str.indexOf(",", pos2);
 					if (pos3 < 0)
-						size = new Integer(str
-								.substring(pos2 + 5, str.length())).intValue();
+						size = Integer.parseInt(str
+								.substring(pos2 + 5, str.length()));
 					else
-						size = new Integer(str.substring(pos2 + 5, pos3))
-								.intValue();
+						size = Integer.parseInt(str.substring(pos2 + 5, pos3));
 				}
 				pos2 = str.indexOf("style=");
 				if (pos2 >= 0) {
 					pos3 = str.indexOf(",", pos2);
 					if (pos3 < 0)
-						style = new Integer(str.substring(pos2 + 6, str
-								.length())).intValue();
+						style = Integer.parseInt(str.substring(pos2 + 6, str
+								.length()));
 					else
-						style = new Integer(str.substring(pos2 + 6, pos3))
-								.intValue();
+						style = Integer.parseInt(str.substring(pos2 + 6, pos3));
 				}
 
 			}

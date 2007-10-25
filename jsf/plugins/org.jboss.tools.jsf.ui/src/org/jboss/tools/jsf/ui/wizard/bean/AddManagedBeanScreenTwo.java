@@ -171,7 +171,7 @@ class TableProviderImpl implements XTableProvider, XTableImageProvider {
 	}
 
 	public Object getDataAt(int r) {
-		return new Integer(r);
+		return Integer.valueOf(r);
 	}
 
 	public Color getColor(int r) {

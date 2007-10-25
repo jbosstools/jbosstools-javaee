@@ -90,7 +90,7 @@ private int getColumnNear(Connection conn, int r, int n, int x, boolean flag){
 		r--;
 	Integer i;
 	while (proximity < r){
-		i = new Integer(r + proximity*direction);
+		i = Integer.valueOf(r + proximity*direction);
 		if (!colsUsed.contains(i)){
 			colsUsed.add(i);
 			reserveColumn(conn, i);
@@ -160,7 +160,7 @@ protected int getRowNear(Connection connection, int r, int n, int x){
 		r--;
 	Integer i;
 	while (proximity < r){
-		i = new Integer(r + proximity*direction);
+		i = Integer.valueOf(r + proximity*direction);
 		if (!rowsUsed.contains(i)){
 			rowsUsed.add(i);
 			reserveRow(connection, i);
@@ -297,7 +297,7 @@ public void route(Connection conn) {
 		conn.translateToRelative(startPoint);
 		List<Integer> positions = new ArrayList<Integer>(5);
 		Ray start = new Ray(startPoint);
-		positions.add(new Integer(start.y));
+		positions.add(Integer.valueOf(start.y));
 		
 		Point endPoint = new Point(startPoint.x+18, startPoint.y);
 		Ray end = new Ray(endPoint);
@@ -335,12 +335,12 @@ public void route(Connection conn) {
 	List<Integer> positions = new ArrayList<Integer>(5);
 	boolean horizontal = true;
 	// start horizontal segment
-	positions.add(new Integer(start.y));
+	positions.add(Integer.valueOf(start.y));
 	horizontal = !horizontal;
 
 	if((start.x > (end.x+20)) && (Math.abs(end.y-start.y) < 100)){
 		i = startNormal.similarity(start.getAdded(startNormal.getScaled(10)));
-		positions.add(new Integer(i));
+		positions.add(Integer.valueOf(i));
 		horizontal = !horizontal;
 
 		if(conn.getSourceAnchor().getOwner() == null){
@@ -351,19 +351,19 @@ public void route(Connection conn) {
 			i = rec.y+rec.height+8;
 		}
 		i -= i%STEP;
-		positions.add(new Integer(i));
+		positions.add(Integer.valueOf(i));
 		horizontal = !horizontal;
 
 		i = endNormal.similarity(end.getAdded(endNormal.getScaled(10)));
 		i -= i%STEP;
-		positions.add(new Integer(i));
+		positions.add(Integer.valueOf(i));
 		horizontal = !horizontal;
 	}else{
 		// vertical segment
 		if (startNormal.dotProduct(direction) < STEP*2){
 			i = startNormal.similarity(start.getAdded(startNormal.getScaled(10)));
 			i -= i%STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 		}
 
@@ -371,19 +371,19 @@ public void route(Connection conn) {
 		if (horizontal) i = average.y;
 		else i = average.x;
 		i -= i%STEP;
-		positions.add(new Integer(i));
+		positions.add(Integer.valueOf(i));
 		horizontal = !horizontal;
 
 		//	vertical segment
 		if (startNormal.dotProduct(direction) < STEP*2){
 			i = endNormal.similarity(end.getAdded(endNormal.getScaled(10)));
 			i -= i%STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 		}
 	}
 	// end horizontal segment
-	positions.add(new Integer(end.y)); 
+	positions.add(Integer.valueOf(end.y)); 
 	
 	processPositions(start, end, positions,true, conn);
 	((ConnectionFigure)conn).setOldPoints(startPoint, endPoint);
