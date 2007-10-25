@@ -31,6 +31,7 @@ import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 
 public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 	private static final String ATTR_TEMPLATE = "template";
@@ -77,8 +78,8 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		}
 		defineContainer.remove(sourceNode);
 	}
-
-	public void beforeRemove(VpePageContext pageContext, Node sourceNode, Node visualNode, Object data) {
+	@Override
+	public void beforeRemove(VpePageContext pageContext, Node sourceNode, nsIDOMNode visualNode, Object data) {
 		TemplateFileInfo templateFileInfo = (TemplateFileInfo)data;
 		if (templateFileInfo != null && templateFileInfo.templateFile != null) {
 			pageContext.getEditPart().getController().getIncludeList().removeIncludeModel(templateFileInfo.templateFile);
