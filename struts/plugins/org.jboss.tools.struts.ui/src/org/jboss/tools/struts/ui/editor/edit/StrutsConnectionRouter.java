@@ -55,7 +55,7 @@ final public class StrutsConnectionRouter extends DefaultRouter {
 			conn.translateToRelative(startPoint);
 			Vector positions = new Vector(5);
 			Ray start = new Ray(startPoint);
-			positions.add(new Integer(start.y));
+			positions.add(Integer.valueOf(start.y));
 
 			Point endPoint = new Point(startPoint.x + 18, startPoint.y);
 			Ray end = new Ray(endPoint);

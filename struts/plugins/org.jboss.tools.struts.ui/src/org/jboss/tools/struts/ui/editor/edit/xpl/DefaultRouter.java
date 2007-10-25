@@ -93,7 +93,7 @@ public class DefaultRouter extends AbstractRouter {
 			r--;
 		Integer i;
 		while (proximity < r){
-			i = new Integer(r + proximity*direction);
+			i = Integer.valueOf(r + proximity*direction);
 			if (!colsUsed.containsKey(i)){
 				colsUsed.put(i,i);
 				reserveColumn(conn, i);
@@ -144,12 +144,12 @@ public class DefaultRouter extends AbstractRouter {
 		Vector positions = new Vector(5);
 		boolean horizontal = true;//startNormal.isHorizontal();
 		// start horizontal segment
-		positions.add(new Integer(start.y));
+		positions.add(Integer.valueOf(start.y));
 		horizontal = !horizontal;
 
 		if((start.x > (end.x+20)) && (Math.abs(end.y-start.y) < 100)){
 			i = startNormal.similarity(start.getAdded(startNormal.getScaled(INTEGER)));
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 
 			if(conn.getSourceAnchor().getOwner() == null){
@@ -160,19 +160,19 @@ public class DefaultRouter extends AbstractRouter {
 				i = rec.y+rec.height+8;
 			}
 			i -= i%STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 
 			i = endNormal.similarity(end.getAdded(endNormal.getScaled(INTEGER)));
 			i -= i%STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 		}else{
 			// vertical segment
 			if (startNormal.dotProduct(direction) < STEP*2){
 				i = startNormal.similarity(start.getAdded(startNormal.getScaled(INTEGER)));
 				i -= i%STEP;
-				positions.add(new Integer(i));
+				positions.add(Integer.valueOf(i));
 				horizontal = !horizontal;
 			}
 
@@ -180,19 +180,19 @@ public class DefaultRouter extends AbstractRouter {
 			if (horizontal) i = average.y;
 			else i = average.x;
 			i -= i%STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 
 			//	vertical segment
 			if (startNormal.dotProduct(direction) < STEP*2){
 				i = endNormal.similarity(end.getAdded(endNormal.getScaled(INTEGER)));
 				i -= i%STEP;
-				positions.add(new Integer(i));
+				positions.add(Integer.valueOf(i));
 				horizontal = !horizontal;
 			}
 		}
 		// end horizontal segment
-		positions.add(new Integer(end.y)); 
+		positions.add(Integer.valueOf(end.y)); 
 		
 		postRoute(conn, start, end, startPoint, endPoint, positions);
 	}
@@ -225,13 +225,13 @@ public class DefaultRouter extends AbstractRouter {
 
 		boolean horizontal = true;// startNormal.isHorizontal();
 		// start horizontal segment
-		positions.add(new Integer(start.y));
+		positions.add(Integer.valueOf(start.y));
 		horizontal = !horizontal;
 
 		if ((start.x > (end.x + 20)) && (Math.abs(end.y - start.y) < 100)) {
 			i = startNormal.similarity(start.getAdded(startNormal
 					.getScaled(INTEGER)));
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 
 			if (conn.getSourceAnchor().getOwner() == null) {
@@ -242,13 +242,13 @@ public class DefaultRouter extends AbstractRouter {
 				i = rec.y + rec.height + 8;
 			}
 			i -= i % STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 
 			i = endNormal
 					.similarity(end.getAdded(endNormal.getScaled(INTEGER)));
 			i -= i % STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 		} else {
 			// vertical segment
@@ -256,7 +256,7 @@ public class DefaultRouter extends AbstractRouter {
 				i = startNormal.similarity(start.getAdded(startNormal
 						.getScaled(INTEGER)));
 				i -= i % STEP;
-				positions.add(new Integer(i));
+				positions.add(Integer.valueOf(i));
 				horizontal = !horizontal;
 			}
 
@@ -266,7 +266,7 @@ public class DefaultRouter extends AbstractRouter {
 			else
 				i = average.x;
 			i -= i % STEP;
-			positions.add(new Integer(i));
+			positions.add(Integer.valueOf(i));
 			horizontal = !horizontal;
 
 			// vertical segment
@@ -274,12 +274,12 @@ public class DefaultRouter extends AbstractRouter {
 				i = endNormal.similarity(end.getAdded(endNormal
 						.getScaled(INTEGER)));
 				i -= i % STEP;
-				positions.add(new Integer(i));
+				positions.add(Integer.valueOf(i));
 				horizontal = !horizontal;
 			}
 		}
 		// end horizontal segment
-		positions.add(new Integer(end.y));
+		positions.add(Integer.valueOf(end.y));
 	}
 
 	protected Ray getStartDirection(Connection conn) {
@@ -307,7 +307,7 @@ public class DefaultRouter extends AbstractRouter {
 			r--;
 		Integer i;
 		while (proximity < r) {
-			i = new Integer(r + proximity * direction);
+			i = Integer.valueOf(r + proximity * direction);
 			if (!rowsUsed.containsKey(i)) {
 				rowsUsed.put(i, i);
 				reserveRow(connection, i);

@@ -313,7 +313,7 @@ public class PagesView extends Composite implements MouseListener,PaintListener{
 	while(tmp>0){
 		g2.drawLine(zeroX,tmp - pH+zeroY,xmax+zeroX,tmp - pH+zeroY);
 		tmp = tmp - pH;
-		yy.add(new Integer(tmp));
+		yy.add(Integer.valueOf(tmp));
 	}
 	
 	tmp = xmax;
@@ -321,7 +321,7 @@ public class PagesView extends Composite implements MouseListener,PaintListener{
 	while(tmp>0){
 		g2.drawLine(tmp - pW+zeroX,zeroY,tmp - pW+zeroX,ymax+zeroY);
 		tmp = tmp - pW;
-		xx.add(new Integer(tmp));
+		xx.add(Integer.valueOf(tmp));
 	}
 	
 	Vector rec = new Vector();
