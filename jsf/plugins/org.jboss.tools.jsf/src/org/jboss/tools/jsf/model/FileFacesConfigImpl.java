@@ -43,7 +43,7 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 			String path = rs[i].getAttributeValue(ATT_FROM_VIEW_ID);
 			Integer v = paths.get(path);
 			is[i] = (v == null) ? 0 : v.intValue() + 1;
-			paths.put(path, new Integer(is[i]));
+			paths.put(path, Integer.valueOf(is[i]));
 			pps.put(rs[i].getPathPart(), rs[i]);
 		}
 		boolean success = true;
