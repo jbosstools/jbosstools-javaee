@@ -207,6 +207,7 @@ public class SeamValidatorsTest extends TestCase {
 
 	public void testComponentLifeCycleMethodsValidator() {
 		ISeamProject seamProject = getSeamProject(project);
+		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 		
 		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
 		
@@ -227,8 +228,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		String[] message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Destroy method' not found", message[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
+		String[] messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Destroy method' not found", messages[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
 
 		// Duplicate @Create method
 		System.out.println("Test - Duplicate @Create method");
@@ -244,8 +245,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Create method' not found", message[0].startsWith("Duplicate @Create method \"createMethod"));
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Create method' not found", messages[0].startsWith("Duplicate @Create method \"createMethod"));
 		
 		// Duplicate @Unwrap method
 		System.out.println("Test - Duplicate @Unwrap method");
@@ -261,14 +262,85 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Unwrap method' not found", message[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Unwrap method' not found", messages[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
 
 		// Only component class can have @Destroy method
+		System.out.println("Test - Only component class can have @Destroy method");
+		
+		IFile componentsFile4 = project.getFile("WebContent/WEB-INF/components.4");
+		
+		try{
+			componentsFile.setContents(componentsFile4.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'components.xml' content to " +
+					"'components.4'", ex);
+		}
+		IFile statefulComponentFile9 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.9");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile9.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.9'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Only component class can have @Destroy method' not found", "Only component class can have @Destroy method \"destroyMethod\"".equals(messages[0]));
+		
 		// Only component class can have @Create method
+		System.out.println("Test - Only component class can have @Create method");
+		
+		IFile statefulComponentFile10 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.10");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile10.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.10'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Only component class can have @Create method' not found", "Only component class can have @Create method \"createMethod\"".equals(messages[0]));
+		
 		// Only component class can have @Unwrap method
-		// Only component class can have @Observer method
+		System.out.println("Test - Only component class can have @Unwrap method");
+		
+		IFile statefulComponentFile11 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.11");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile11.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.11'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Only component class can have @Unwrap method' not found", "Only component class can have @Unwrap method \"unwrapMethod\"".equals(messages[0]));
 
+		// Only component class can have @Observer method
+		System.out.println("Test - Only component class can have @Observer method");
+		
+		IFile statefulComponentFile12 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.12");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile12.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.12'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Only component class can have @Observer method' not found", "Only component class can have @Observer method \"observerMethod\"".equals(messages[0]));
 	}
 	
 	public void testFactoriesValidator() {
