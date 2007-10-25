@@ -156,7 +156,7 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 			}
 
 			if (diagramObject != null) {
-				new DiagramChangeHandler(diagramObject, new Integer(newStatus)).start();
+				new DiagramChangeHandler(diagramObject, Integer.valueOf(newStatus)).start();
 			}
 		}
 	}
@@ -463,7 +463,7 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 		public void setStatusAsInt(String markerType, int status, boolean mergeStatuses) {
 			Integer oldStatus = (Integer)markersStatuses.get(markerType);
 			if(oldStatus==null || oldStatus.intValue() != status) {
-		        markersStatuses.put(markerType, mergeStatuses? new Integer(status&oldStatus.intValue()):new Integer(status));
+		        markersStatuses.put(markerType, mergeStatuses? Integer.valueOf(status&oldStatus.intValue()):Integer.valueOf(status));
 //				markersStatuses.put(markerType, new Integer(status));
 			}
 		}
@@ -477,7 +477,7 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 			while(keys.hasNext()) {
 				String key = (String)keys.next();
 				int oldStatus = getStatus(key);
-		        markersStatuses.put(key, mergeStatuses? new Integer(status&oldStatus):new Integer(status));
+		        markersStatuses.put(key, mergeStatuses? Integer.valueOf(status&oldStatus):Integer.valueOf(status));
 //				markersStatuses.put(key, new Integer(status));
 			}
 		}
