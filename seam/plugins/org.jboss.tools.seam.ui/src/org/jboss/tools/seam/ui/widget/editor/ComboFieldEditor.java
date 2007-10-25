@@ -98,6 +98,9 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 	}
 
 	public void setValue(Object newValue) {
+		if(newValue==null) {
+			return;
+		}
 		super.setValue(newValue);
 		if(comboField!=null) {
 			comboField.removePropertyChangeListener(this);
