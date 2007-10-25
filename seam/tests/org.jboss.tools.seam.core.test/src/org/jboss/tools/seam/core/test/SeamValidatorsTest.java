@@ -231,7 +231,39 @@ public class SeamValidatorsTest extends TestCase {
 		assertTrue("Problem marker 'Duplicate @Destroy method' not found", message[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
 
 		// Duplicate @Create method
+		System.out.println("Test - Duplicate @Create method");
+		
+		IFile statefulComponentFile7 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.7");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile7.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.7'", ex);
+		}
+		
+		refreshProject(project);
+		
+		message = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Create method' not found", message[0].startsWith("Duplicate @Create method \"createMethod"));
+		
 		// Duplicate @Unwrap method
+		System.out.println("Test - Duplicate @Unwrap method");
+		
+		IFile statefulComponentFile8 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.8");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile8.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.8'", ex);
+		}
+		
+		refreshProject(project);
+		
+		message = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Unwrap method' not found", message[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
+
 		// Only component class can have @Destroy method
 		// Only component class can have @Create method
 		// Only component class can have @Unwrap method
