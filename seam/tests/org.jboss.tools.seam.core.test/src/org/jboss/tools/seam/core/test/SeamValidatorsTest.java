@@ -99,9 +99,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		String message = getMarkersMessage(bbcComponentFile);
+		String[] messages = getMarkersMessage(bbcComponentFile);
 		
-		assertTrue("Problem marker 'Duplicate component name' not found","Duplicate component name: abcComponent".equals(message));
+		assertTrue("Problem marker 'Duplicate component name' not found","Duplicate component name: abcComponent".equals(messages[0]));
 		
 		// Stateful component does not contain @Remove method
 		System.out.println("Test - Stateful component does not contain @Remove method");
@@ -117,8 +117,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Stateful component does not contain @Remove method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove".equals(message));
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Stateful component does not contain @Remove method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove".equals(messages[0]));
 		
 		// Stateful component does not contain @Destroy method
 		System.out.println("Test - Stateful component does not contain @Destroy method");
@@ -134,8 +134,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Stateful component does not contain @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Destroy".equals(message));
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Stateful component does not contain @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Destroy".equals(messages[0]));
 		
 		// Stateful component has wrong scope
 		System.out.println("Test - Stateful component has wrong scope");
@@ -151,8 +151,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Stateful component has wrong scope' not found", "Stateful component \"statefulComponent\" should not have org.jboss.seam.ScopeType.PAGE, nor org.jboss.seam.ScopeType.STATELESS".equals(message));
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Stateful component has wrong scope' not found", "Stateful component \"statefulComponent\" should not have org.jboss.seam.ScopeType.PAGE, nor org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
 		
 		// Component class name cannot be resolved to a type
 		System.out.println("Test - Component class name cannot be resolved to a type");
@@ -169,8 +169,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(componentsFile);
-		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(message));
+		messages = getMarkersMessage(componentsFile);
+		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(messages[0]));
 
 		// Component class does not contain setter for property
 		System.out.println("Test - Component class does not contain setter for property");
@@ -197,8 +197,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		message = getMarkersMessage(componentsFile);
-		assertTrue("Problem marker 'Component class does not contain setter for property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not contain setter for property \"abc\"".equals(message));
+		messages = getMarkersMessage(componentsFile);
+		assertTrue("Problem marker 'Component class does not contain setter for property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not contain setter for property \"abc\"".equals(messages[0]));
 	}
 	
 	public void testEntitiesValidator() {
@@ -227,8 +227,8 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
-		String message = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove".equals(message));
+		String[] message = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Destroy method' not found", message[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
 
 		// Duplicate @Create method
 		// Duplicate @Unwrap method
@@ -269,19 +269,21 @@ public class SeamValidatorsTest extends TestCase {
 		return -1;
 	}
 
-	private String getMarkersMessage(IFile file){
-		String message="";
+	private String[] getMarkersMessage(IFile file){
+		String[] messages = new String[1];
+		messages[0]="";
 		try{
 			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
+			messages = new String[markers.length];
 			
 			for(int i=0;i<markers.length;i++){
 				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
-				message = markers[i].getAttribute(IMarker.MESSAGE, "");
+				messages[i] = markers[i].getAttribute(IMarker.MESSAGE, "");
 			}
 		}catch(CoreException ex){
 			JUnitUtils.fail("Error in getting problem markers", ex);
 		}
-		return message;
+		return messages;
 	}
 	
 	private void refreshProject(IProject project){
