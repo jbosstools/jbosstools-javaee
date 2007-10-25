@@ -61,7 +61,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.osgi.service.prefs.BackingStoreException;
 
-public class SeamFacetInstallDelegate extends Object implements IDelegate,ISeamFacetDataModelProperties {
+public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
 	public static String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
@@ -188,7 +188,7 @@ public class SeamFacetInstallDelegate extends Object implements IDelegate,ISeamF
 	
 	public static String WEB_LIBRARIES_RELATED_PATH = "WEB-INF/lib"; //$NON-NLS-1$
 	
-	public void execute(final IProject project, IProjectFacetVersion fv,
+	public void doExecute(final IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		final IDataModel model = (IDataModel)config;
 
@@ -661,13 +661,5 @@ public class SeamFacetInstallDelegate extends Object implements IDelegate,ISeamF
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.wst.common.project.facet.core.IActionConfigFactory#create()
-	 */
-	public Object create() throws CoreException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

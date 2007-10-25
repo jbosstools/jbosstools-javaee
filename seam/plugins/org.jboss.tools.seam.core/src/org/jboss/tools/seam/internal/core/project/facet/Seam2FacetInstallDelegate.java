@@ -66,7 +66,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.osgi.service.prefs.BackingStoreException;
 
 // TODO: why not just *one* global filter set to avoid any missing names ? (assert for it in our unittests!
-public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeamFacetDataModelProperties {
+public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
 	public static String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
@@ -194,7 +194,7 @@ public class Seam2FacetInstallDelegate extends Object implements IDelegate,ISeam
 	
 	public static String WEB_LIBRARIES_RELATED_PATH = "WEB-INF/lib"; //$NON-NLS-1$
 	
-	public void execute(final IProject project, IProjectFacetVersion fv,
+	public void doExecute(final IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		final IDataModel model = (IDataModel)config;
 
