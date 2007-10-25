@@ -350,7 +350,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		}
 		try {
 			num = num.trim();
-			Integer i = new Integer(num);
+			Integer i = Integer.valueOf(num);
 			return i.intValue();
 		} catch (NumberFormatException e) {
 			return 0;

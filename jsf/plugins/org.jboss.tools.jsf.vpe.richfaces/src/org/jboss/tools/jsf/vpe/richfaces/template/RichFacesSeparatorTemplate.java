@@ -269,7 +269,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 */
 	private boolean isNumber(String num) {
 		try {
-			new Integer(num);
+			Integer.valueOf(num);
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
