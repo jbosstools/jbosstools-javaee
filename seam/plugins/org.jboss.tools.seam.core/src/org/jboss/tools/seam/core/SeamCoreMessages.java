@@ -7,6 +7,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class SeamCoreMessages {
 	private static final String BUNDLE_NAME = "org.jboss.tools.seam.core.messages"; //$NON-NLS-1$
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamCoreMessages.class);
 	}
@@ -37,5 +38,8 @@ public class SeamCoreMessages {
 	public static String ERROR_JBOSS_AS_TARGET_SERVER_INCOMPATIBLE;
 	public static String ERROR_JBOSS_AS_TARGET_RUNTIME_IS_EMPTY;
 	public static String ERROR_JBOSS_AS_TARGET_RUNTIME_UNKNOWN;
+	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERRORS_OCCURED = null;
+	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_CHECK_ERROR_LOG_VIEW;
+	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERROR;
 
 }
