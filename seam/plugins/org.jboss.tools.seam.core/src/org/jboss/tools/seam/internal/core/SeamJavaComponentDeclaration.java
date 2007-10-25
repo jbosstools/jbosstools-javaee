@@ -350,11 +350,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	static final Map<String, Integer> NAMED_PRECEDENCES = new HashMap<String, Integer>();
 	
 	static {
-		NAMED_PRECEDENCES.put("Install.BUILT_IN", new Integer(0)); //$NON-NLS-1$
-		NAMED_PRECEDENCES.put("Install.FRAMEWORK", new Integer(10)); //$NON-NLS-1$
-		NAMED_PRECEDENCES.put("Install.APPLICATION", new Integer(20)); //$NON-NLS-1$
-		NAMED_PRECEDENCES.put("Install.DEPLOYMENT", new Integer(30)); //$NON-NLS-1$
-		NAMED_PRECEDENCES.put("Install.MOCK", new Integer(40)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.BUILT_IN", Integer.valueOf(0)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.FRAMEWORK", Integer.valueOf(10)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.APPLICATION", Integer.valueOf(20)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.DEPLOYMENT", Integer.valueOf(30)); //$NON-NLS-1$
+		NAMED_PRECEDENCES.put("Install.MOCK", Integer.valueOf(40)); //$NON-NLS-1$
 	}
 
 	public void setPrecedence(IValueInfo value) {
