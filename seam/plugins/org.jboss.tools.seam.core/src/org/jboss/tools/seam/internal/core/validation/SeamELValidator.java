@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -124,10 +125,14 @@ public class SeamELValidator extends SeamValidator {
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
+			if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
+				// The resource is out of sync with the file system
+				// Just ignore this resource.
+				return;
+			}
 			content = FileUtil.readStream(file.getContents());
 		} catch (CoreException e) {
-			// It could be because of resource is out of sync with the file system
-			// Just ignore this.
+			SeamCorePlugin.getPluginLog().logError(e);
 			return;
 		}
 		if(ext.equalsIgnoreCase("java")) { //$NON-NLS-1$
