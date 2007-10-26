@@ -91,7 +91,9 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("jbpm.*\\.jar") //$NON-NLS-1$
 		.include("jsf-facelets\\.jar") //$NON-NLS-1$
 		.include("oscache.*\\.jar") //$NON-NLS-1$
-		.include("stringtemplate.*\\.jar"); //$NON-NLS-1$
+		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
+	    // el-ri needed for JBIDE-939
+	    .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
 	
 	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
 		.include("testng-.*-jdk15\\.jar") //$NON-NLS-1$
@@ -101,8 +103,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("hibernate-all\\.jar") //$NON-NLS-1$
 		.include("jboss-ejb3-all\\.jar") //$NON-NLS-1$
 		.include("thirdparty-all\\.jar") //$NON-NLS-1$
-		.include("el-api\\.jar") //$NON-NLS-1$
-		.include("el-ri\\.jar") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 	
@@ -120,6 +120,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
 		.include("jsf-facelets\\.jar") //$NON-NLS-1$
 		.include("oscache.*\\.jar"); //$NON-NLS-1$
+
 	
 	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
 		.include("antlr.*\\.jar") //$NON-NLS-1$
@@ -131,7 +132,9 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("jboss-seam.jar") //$NON-NLS-1$
 		.include("jbpm.*\\.jar") //$NON-NLS-1$
 		.include("security\\.drl") //$NON-NLS-1$
-		.include("stringtemplate.*\\.jar"); //$NON-NLS-1$
+		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
+        // el-ri needed for JBIDE-939
+        .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
 
 	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
 		.include("META-INF/application\\.xml") //$NON-NLS-1$
