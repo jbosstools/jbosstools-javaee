@@ -30,29 +30,6 @@ public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 		setMessage(getDefaultMessageText());
 	}
 
-	/**
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
-	@Override
-	public void createControl(Composite parent) {
-		setControl(new GridLayoutComposite(parent));
-
-		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ 
-			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
-					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
-
-			if(errors.size()>0) {
-				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
-				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
-			}
-		} else {
-			if(getEditor(IParameter.SEAM_PACKAGE_NAME)!=null) {
-				getEditor(IParameter.SEAM_PACKAGE_NAME).setEnabled(false);
-			}
-		}
-		setPageComplete(false);
-	}
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#getDefaultMessageText()
 	 */

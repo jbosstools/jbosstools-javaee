@@ -53,22 +53,6 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 			super(SeamUIMessages.SEAM_FORM_WIZARD_FORM_CREATING_OPERATION);
 		}
 
-		public File getBeanFile(Map<String, Object> vars)  {
-			return new File(getSeamFolder(vars),"src/FormActionJavaBean.java"); //$NON-NLS-1$
-		}
-
-		public File getTestClassFile(Map<String, Object> vars) {
-			return new File(getSeamFolder(vars),"test/FormTest.java"); //$NON-NLS-1$
-		}
-
-		public File getTestngXmlFile(Map<String, Object> vars) {
-			return new File(getSeamFolder(vars),"test/testng.xml"); //$NON-NLS-1$
-		}
-
-		public File getPageXhtml(Map<String, Object> vars) {
-			return new File(getSeamFolder(vars),"view/form.xhtml"); //$NON-NLS-1$
-		}
-
 		/* (non-Javadoc)
 		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#getFileMappings(java.util.Map)
 		 */
