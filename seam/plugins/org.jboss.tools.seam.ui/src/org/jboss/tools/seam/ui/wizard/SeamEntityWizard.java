@@ -18,6 +18,7 @@ import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
@@ -50,6 +51,11 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 		 * TODO move operations to core plugin
 		 */
 		public static class SeamEntityCreateOperation extends SeamBaseOperation{
+
+			@Override
+			protected boolean shouldTouchServer(SeamProjectsSet seamPrjSet) {
+				return true;
+			}
 
 			@Override
 			protected void loadCustomVariables(Map<String, Object> vars) {

@@ -25,7 +25,6 @@ import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -41,10 +40,10 @@ import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
@@ -138,10 +137,14 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 					}					
 				}
 			});
-			
+			if(shouldTouchServer(seamPrjSet)) {
+				WebUtils.changeTimeStamp(project);
+			}
 		} catch (BackingStoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} catch (IOException e) {
+			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+		} catch (CoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} finally {
 			try {
@@ -165,6 +168,10 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			SeamGuiPlugin.getDefault().getLog().log(result);
 		}
 		return result;
+	}
+
+	protected boolean shouldTouchServer(SeamProjectsSet seamPrjSet) {
+		return !seamPrjSet.isWarConfiguration();
 	}
 
 	protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {

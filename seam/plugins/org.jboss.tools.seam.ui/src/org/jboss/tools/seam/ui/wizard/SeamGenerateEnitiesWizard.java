@@ -32,9 +32,10 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
+import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -70,7 +71,6 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				ILaunchConfigurationWorkingCopy wc = 
 					launchConfigurationType.newInstance(null, project.getName() + "-generate-entities"); //$NON-NLS-1$
 
-				
 				//Main
 				wc.setAttribute(
 					HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
@@ -92,8 +92,6 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_VERSIONING, true);
 				}
 
-				
-				
 				SeamRuntime seamRt = getRuntime(project);
 				if(seamRt==null) {
 					seamRt = getRuntime(project);
@@ -102,17 +100,17 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_FIND_SEAM_RUNTIME + project.getName()));
 				}
 				String seamTemplatesRoot = seamRt.getTemplatesDir();
-				
+
 				wc.setAttribute(HibernateLaunchConstants.ATTR_TEMPLATE_DIR, seamTemplatesRoot);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_USE_OWN_TEMPLATES, true);
-								
+
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_JDK5, true);
 				wc.setAttribute(HibernateLaunchConstants.ATTR_ENABLE_EJB3_ANNOTATIONS, true);
 
 				// Create exporters
 				// TODO Add others exporters
 				List<String> exporters = new ArrayList<String>();
-				
+
 				exporters.add("hbmtemplate0"); //$NON-NLS-1$
 				exporters.add("hbmtemplate1"); //$NON-NLS-1$
 				exporters.add("hbmtemplate2"); //$NON-NLS-1$
@@ -144,7 +142,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate8.extension_id", "org.hibernate.tools.hbmtemplate"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9", true); //$NON-NLS-1$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9.extension_id", "org.hibernate.tools.hbmtemplate"); //$NON-NLS-1$ //$NON-NLS-2$
-				
+
 				Map<String, String> hbmtemplateAttributes = new HashMap<String, String>();
 
 //	        	<hbmtemplate filepattern="{class-name}List.xhtml"
@@ -184,7 +182,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate3.properties", hbmtemplateAttributes); //$NON-NLS-1$
-				
+
 //				<hbmtemplate filepattern="{class-name}Edit.xhtml"
 //	                template="view/edit.xhtml.ftl" 
 //		             destdir="${project.home}/view"
@@ -202,8 +200,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 //	                template="view/edit.page.xml.ftl" 
 //		             destdir="${project.home}/view"
 //                     foreach="entity"/>
-				
-				
+
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}Edit.page.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("template_name", "view/edit.page.xml.ftl"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -220,12 +217,12 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
 				final String actionpackage = seamFacetPrefs.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "");
 				final String actionDir = actionpackage.replace('.','/');
-				
+
 				ISeamProject sprj = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
 				boolean seam2 = sprj.getRuntime().getVersion().equals(SeamVersion.SEAM_2_0);
-				
+
 				hbmtemplateAttributes = new HashMap<String, String>();
-				
+
 				if(seam2) {
 					//Seam2: <property key="actionPackage" value="${action.package}" />					
 					hbmtemplateAttributes.put("actionPackage",actionpackage); //$NON-NLS-1$ //$NON-NLS-2$
@@ -237,7 +234,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getActionFolder().getFullPath().toString()); //$NON-NLS-1$
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
-				
+
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate6.properties", hbmtemplateAttributes); //$NON-NLS-1$
 
 //				<hbmtemplate filepattern="{class-name}List.page.xml"
@@ -245,7 +242,6 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 //		             destdir="${project.home}/view"
 //                     foreach="entity"/>
 
-				
 				hbmtemplateAttributes = new HashMap<String, String>();
 				hbmtemplateAttributes.put("file_pattern", "{class-name}List.page.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("template_name", "view/list.page.xml.ftl"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -253,7 +249,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate7.properties", hbmtemplateAttributes); //$NON-NLS-1$
-				
+
 //				<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
 //	                template="src/EntityHome.java.ftl" 
 //		             destdir="${project.home}/src"
@@ -267,13 +263,13 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				} else {
 					hbmtemplateAttributes.put("file_pattern", "{package-name}/{class-name}Home.java"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				
+
 				hbmtemplateAttributes.put("template_name", "src/EntityHome.java.ftl"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("outputdir",seamProjectsSet.getActionFolder().getFullPath().toString()); //$NON-NLS-1$
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate8.properties", hbmtemplateAttributes); //$NON-NLS-1$
-				
+
 //				<hbmtemplate filepattern="menu.xhtml"
 //	                template="view/layout/menu.xhtml.ftl" 
 //		             destdir="${project.home}/view/layout"
@@ -288,6 +284,8 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9.properties", hbmtemplateAttributes); //$NON-NLS-1$
 				wc.doSave();
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
+
+				WebUtils.changeTimeStamp(project);
 			} catch (CoreException e) {
 				SeamCorePlugin.getDefault().showError(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_GENERATE_SEAM_ENTITIES, e);
 			}
