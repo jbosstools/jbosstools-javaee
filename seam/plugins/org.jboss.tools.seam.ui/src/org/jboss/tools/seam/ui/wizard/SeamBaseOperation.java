@@ -25,6 +25,7 @@ import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -38,6 +39,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
@@ -96,19 +98,19 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 			IContainer webRootContainer = webRootFolder.getUnderlyingFolder();
 
-			vars.put(ISeamFacetDataModelProperties.SEAM_PROJECT_INSTANCE,project);
-			vars.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
+			vars.put(IParameter.SEAM_PROJECT_INSTANCE,project);
+			vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
 			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
 
 			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject()!=null?seamPrjSet.getEjbProject().getLocation().toFile().toString():"");
 			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
-			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
-			vars.put(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, actionFolder);
-			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
-			vars.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, testFolder);
-			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
-			vars.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+			vars.put(IParameter.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
+			vars.put(IParameter.SESION_BEAN_PACKAGE_NAME, actionFolder);
+			vars.put(IParameter.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
+			vars.put(IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
+			vars.put(IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
+			vars.put(IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
 
 			List<String[]> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
@@ -142,8 +144,19 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		} catch (IOException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} finally {
-			try {	
+			try {
+				// ComponentCore is used to handle case when user changes
+				// default WebContent folder to another one in
+				// Web Facet configuration page
+				IProject prj = seamPrjSet.getWarProject();
+				IVirtualComponent webComp = ComponentCore.createComponent(prj);
+				IVirtualFile manifest = webComp.getRootFolder().getFile("/META-INF/MANIFEST.MF");
+				manifest.getUnderlyingFile().getParent().touch(monitor);
+				manifest.getUnderlyingFile().touch(monitor);
+				
+				// to keep workspace in sync				
 				seamPrjSet.refreshLocal(monitor);
+				
 			} catch (CoreException e) {
 				result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 			}
@@ -155,15 +168,15 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(IParameter.SESION_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getEntityBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(IParameter.ENTITY_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getTestCasesPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(IParameter.TEST_CASES_PACKAGE_NAME, "");
 	}
 
 	/**
@@ -236,7 +249,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	public File getSeamFolder(Map<String, Object> vars) {
-		return new File(vars.get(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME).toString(),"seam-gen");		 //$NON-NLS-1$
+		return new File(vars.get(IParameter.JBOSS_SEAM_HOME).toString(),"seam-gen");		 //$NON-NLS-1$
 	}
 
 	protected void loadCustomVariables(Map<String, Object> vars) {

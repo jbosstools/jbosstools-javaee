@@ -11,11 +11,13 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+
 /**
  * @author eskimo
  *
  */
-public interface IParameter {
+public interface IParameter extends ISeamFacetDataModelProperties{
 
 	public static String SEAM_PROJECT_NAME = "seam.project.name"; //$NON-NLS-1$
 	public static String SEAM_COMPONENT_NAME = "component.name"; //$NON-NLS-1$
