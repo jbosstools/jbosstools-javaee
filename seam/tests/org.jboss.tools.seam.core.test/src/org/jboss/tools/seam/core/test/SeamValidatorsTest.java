@@ -202,7 +202,12 @@ public class SeamValidatorsTest extends TestCase {
 	}
 	
 	public void testEntitiesValidator() {
+		ISeamProject seamProject = getSeamProject(project);
 		
+		IFile abcEntityFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.java");
+		
+		int number = getMarkersNumber(abcEntityFile);
+		assertTrue("Problem marker was found in abcEntity.java", number == 0);
 	}
 
 	public void testComponentLifeCycleMethodsValidator() {
