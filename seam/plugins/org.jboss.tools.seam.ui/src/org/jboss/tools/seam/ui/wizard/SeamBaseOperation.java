@@ -33,6 +33,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
@@ -156,10 +158,18 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				IVirtualFile manifest = webComp.getRootFolder().getFile("/META-INF/MANIFEST.MF");
 				manifest.getUnderlyingFile().getParent().touch(monitor);
 				manifest.getUnderlyingFile().touch(monitor);
-				
+
 				// to keep workspace in sync				
 				seamPrjSet.refreshLocal(monitor);
-				
+
+				// We need refresh PackageExplorer because of bug of Eclipse. See http://jira.jboss.com/jira/browse/JBIDE-1057
+				PackageExplorerPart p = PackageExplorerPart.getFromActivePerspective();
+				if(p!=null) {
+					TreeViewer tv = p.getTreeViewer();
+					if(tv!=null) {
+						tv.refresh();
+					}
+				}
 			} catch (CoreException e) {
 				result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 			}
