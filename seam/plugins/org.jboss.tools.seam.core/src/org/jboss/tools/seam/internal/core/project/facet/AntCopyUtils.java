@@ -174,7 +174,7 @@ public class AntCopyUtils {
 	public static void copyFileToFolder(File source, File dest, FilterSetCollection filterSetCollection, boolean override ) {
 		try {
 			File destFile = new File(dest,source.getName());
-			if(!source.equals(destFile)) {
+			if(!source.getCanonicalPath().equals(destFile.getCanonicalPath())) {
 				FileUtils.getFileUtils().copyFile(source, destFile ,filterSetCollection,override);
 			}
 		} catch (IOException e) {
