@@ -29,7 +29,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
-import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -52,6 +51,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
@@ -592,7 +592,7 @@ public class SeamCoreValidator extends SeamValidator {
 					return;
 				}
 			}
-			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, SeamPreferences.UNKNOWN_DATA_MODEL, new String[]{selectionName}, coreHelper.getLocationOfName(bijection), declaration.getResource());
+			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, SeamPreferences.UNKNOWN_DATA_MODEL, new String[]{dataModelName}, coreHelper.getLocationOfAttribute(bijection, DataModelSelectionAttribute.VALUE), declaration.getResource());
 		}
 	}
 
