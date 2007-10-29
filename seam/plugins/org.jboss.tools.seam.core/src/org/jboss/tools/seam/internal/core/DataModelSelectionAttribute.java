@@ -40,7 +40,7 @@ public class DataModelSelectionAttribute extends BijectedAttribute {
 		List<Change> changes = super.merge(s);
 		if(s instanceof DataModelSelectionAttribute) {
 			DataModelSelectionAttribute sf = (DataModelSelectionAttribute)s;
-			if(stringsEqual(this.value, sf.value)) {
+			if(!stringsEqual(this.value, sf.value)) {
 				changes = Change.addChange(changes, new Change(this, VALUE, this.value, sf.value));
 				this.value = sf.value;
 			}
