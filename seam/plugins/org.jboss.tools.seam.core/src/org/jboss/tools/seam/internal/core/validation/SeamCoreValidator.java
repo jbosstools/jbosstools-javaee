@@ -586,10 +586,12 @@ public class SeamCoreValidator extends SeamValidator {
 		} else {
 			// save link between java source and Data Model name
 			validationContext.addLinkedCoreResource(dataModelName, declaration.getSourcePath());
-			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(selectionName);
-			for (IBijectedAttribute dataBinder : dataBinders) {
-				if(dataBinder.isOfType(BijectedAttributeType.DATA_BINDER) || dataBinder.isOfType(BijectedAttributeType.OUT)) {
-					return;
+			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(dataModelName);
+			if(dataBinders!=null) {
+				for (IBijectedAttribute dataBinder : dataBinders) {
+					if(dataBinder.isOfType(BijectedAttributeType.DATA_BINDER) || dataBinder.isOfType(BijectedAttributeType.OUT)) {
+						return;
+					}
 				}
 			}
 			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, SeamPreferences.UNKNOWN_DATA_MODEL, new String[]{dataModelName}, coreHelper.getLocationOfAttribute(bijection, DataModelSelectionAttribute.VALUE), declaration.getResource());
