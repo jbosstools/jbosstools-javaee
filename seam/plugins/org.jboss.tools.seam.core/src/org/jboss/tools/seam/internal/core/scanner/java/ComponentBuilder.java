@@ -164,6 +164,8 @@ public class ComponentBuilder implements SeamAnnotations {
 			att.setValue(name);
 			if(name == null || isDataModelSelectionType) {
 				name = new ValueInfo();
+				name.valueStartPosition = m.getStartPosition();
+				name.valueLength = m.getLength();
 				name.value = m.getName().getIdentifier();
 			}
 			
@@ -191,6 +193,8 @@ public class ComponentBuilder implements SeamAnnotations {
 			att.setValue(name);
 			if(name == null || isDataModelSelectionType) {
 				name = new ValueInfo();
+				name.valueStartPosition = m.getStartPosition();
+				name.valueLength = m.getLength();
 				name.value = getFieldName(m);
 			}
 			
