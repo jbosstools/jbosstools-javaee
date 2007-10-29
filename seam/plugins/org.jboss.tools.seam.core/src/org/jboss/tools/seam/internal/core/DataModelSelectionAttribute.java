@@ -42,7 +42,7 @@ public class DataModelSelectionAttribute extends BijectedAttribute {
 			DataModelSelectionAttribute sf = (DataModelSelectionAttribute)s;
 			if(stringsEqual(this.value, sf.value)) {
 				changes = Change.addChange(changes, new Change(this, VALUE, this.value, sf.value));
-				this.types = sf.types;
+				this.value = sf.value;
 			}
 		}
 		return changes;
