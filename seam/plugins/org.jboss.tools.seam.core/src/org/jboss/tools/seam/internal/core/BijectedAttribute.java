@@ -14,13 +14,14 @@ import java.util.List;
 
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
+import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class BijectedAttribute extends SeamJavaContextVariable implements IBijectedAttribute {
-	BijectedAttributeType[] types = null;
+	protected BijectedAttributeType[] types = null;
 	
 	public BijectedAttribute() {		
 	}
@@ -46,6 +47,14 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 	public void setTypes(BijectedAttributeType[] types) {
 		this.types = types;
 	}
+	
+	public String getValue() {
+		return getName();
+	}
+	
+	public void setValue(String value) {}
+	
+	public void setValue(IValueInfo value) {}
 
 	public List<Change> merge(SeamObject s) {
 		List<Change> changes = super.merge(s);

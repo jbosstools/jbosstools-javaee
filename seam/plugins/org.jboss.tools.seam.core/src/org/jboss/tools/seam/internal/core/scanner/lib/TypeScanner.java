@@ -42,6 +42,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
+import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamComponentMethod;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
@@ -240,14 +241,18 @@ public class TypeScanner implements SeamAnnotations {
 			}
 		}
 		if(as.size() == 0) return;
+		
+		boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
 
-		BijectedAttribute att = new BijectedAttribute();
+		BijectedAttribute att = (!isDataModelSelectionType)
+			? new BijectedAttribute() : new DataModelSelectionAttribute();
 		component.addBijectedAttribute(att);
 
 		att.setTypes(types.toArray(new BijectedAttributeType[0]));
 
 		String name = (String)getValue(main, "value"); //$NON-NLS-1$
-		if(name == null || name.length() == 0) {
+		att.setValue(name);
+		if(name == null || name.length() == 0 || isDataModelSelectionType) {
 			name = new String(m.getSelector());
 		}
 		att.setName(name);

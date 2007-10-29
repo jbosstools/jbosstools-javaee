@@ -35,6 +35,13 @@ public interface IBijectedAttribute extends ISeamContextVariable, ISeamJavaSourc
 	 */
 	public boolean isContextVariable();
 	
+	/**
+	 * Returns value of annotation attribute 'value'.
+	 * If value is not set but bijection type defaults value to field name, returns it.
+	 * @return
+	 */
+	public String getValue();
+	
 	public IBijectedAttribute clone() throws CloneNotSupportedException;
 
 }

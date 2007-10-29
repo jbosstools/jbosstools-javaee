@@ -35,6 +35,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
+import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.Role;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamComponentMethod;
@@ -146,29 +147,22 @@ public class ComponentBuilder implements SeamAnnotations {
 	}
 	
 	void processBijections() {
+		Map<BijectedAttributeType, Annotation> as = new HashMap<BijectedAttributeType, Annotation>();
+		List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
+
 		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
-			Map<BijectedAttributeType, Annotation> as = new HashMap<BijectedAttributeType, Annotation>();
-			List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
-			Annotation main = null;
-			for (int i = 0; i < BijectedAttributeType.values().length; i++) {
-				Annotation a = findAnnotation(n, BijectedAttributeType.values()[i].getAnnotationType());
-				if(a != null) {
-					as.put(BijectedAttributeType.values()[i], a);
-					if(main == null) main = a;
-					types.add(BijectedAttributeType.values()[i]);
-				}
-			}
+			Annotation main = getBijectedType(n, as, types);
+
 			if(as.size() == 0) continue;
+			boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
 			
 			MethodDeclaration m = n.getNode();
 
-			BijectedAttribute att = new BijectedAttribute();
-			component.addBijectedAttribute(att);
-
-			att.setTypes(types.toArray(new BijectedAttributeType[0]));
+			BijectedAttribute att = createBijectedAttribute(types);
 			
 			ValueInfo name = ValueInfo.getValueInfo(main, null);
-			if(name == null && types.size() > 0 && types.get(0).isUsingMemberName()) {
+			att.setValue(name);
+			if(name == null || isDataModelSelectionType) {
 				name = new ValueInfo();
 				name.value = m.getName().getIdentifier();
 			}
@@ -184,28 +178,18 @@ public class ComponentBuilder implements SeamAnnotations {
 		}
 
 		for (AnnotatedASTNode<FieldDeclaration> n: annotatedFields) {
-			Map<BijectedAttributeType, Annotation> as = new HashMap<BijectedAttributeType, Annotation>();
-			List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
-			Annotation main = null;
-			for (int i = 0; i < BijectedAttributeType.values().length; i++) {
-				Annotation a = findAnnotation(n, BijectedAttributeType.values()[i].getAnnotationType());
-				if(a != null) {
-					as.put(BijectedAttributeType.values()[i], a);
-					if(main == null) main = a;
-					types.add(BijectedAttributeType.values()[i]);
-				}
-			}
+			Annotation main = getBijectedType(n, as, types);
+
 			if(as.size() == 0) continue;
+			boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
 			
 			FieldDeclaration m = n.getNode();
 
-			BijectedAttribute att = new BijectedAttribute();
-			component.addBijectedAttribute(att);
-
-			att.setTypes(types.toArray(new BijectedAttributeType[0]));
+			BijectedAttribute att = createBijectedAttribute(types);
 			
 			ValueInfo name = ValueInfo.getValueInfo(main, null);
-			if(name == null) {
+			att.setValue(name);
+			if(name == null || isDataModelSelectionType) {
 				name = new ValueInfo();
 				name.value = getFieldName(m);
 			}
@@ -219,6 +203,30 @@ public class ComponentBuilder implements SeamAnnotations {
 			att.setSourceMember(f);
 			att.setId(f);
 		}
+	}
+	private Annotation getBijectedType(AnnotatedASTNode<?> n,
+				Map<BijectedAttributeType, Annotation> as, List<BijectedAttributeType> types) {
+		as.clear();
+		types.clear();
+		Annotation main = null;
+		for (int i = 0; i < BijectedAttributeType.values().length; i++) {
+			Annotation a = findAnnotation(n, BijectedAttributeType.values()[i].getAnnotationType());
+			if(a != null) {
+				as.put(BijectedAttributeType.values()[i], a);
+				if(main == null) main = a;
+				types.add(BijectedAttributeType.values()[i]);
+			}
+		}
+		return main;
+	}
+	private BijectedAttribute createBijectedAttribute(List<BijectedAttributeType> types) {
+		boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
+		BijectedAttribute att = (!isDataModelSelectionType)
+				? new BijectedAttribute() : new DataModelSelectionAttribute();
+		component.addBijectedAttribute(att);
+		att.setTypes(types.toArray(new BijectedAttributeType[0]));
+
+		return att;
 	}
 	
 	void processComponentMethods() {
