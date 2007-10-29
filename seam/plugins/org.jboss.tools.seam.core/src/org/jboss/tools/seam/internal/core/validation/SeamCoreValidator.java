@@ -571,25 +571,28 @@ public class SeamCoreValidator extends SeamValidator {
 	}
 
 	private void validateDataModelSelection(ISeamJavaComponentDeclaration declaration, IBijectedAttribute bijection) {
-		String name = bijection.getName();
-		if(name==null) {
+		String dataModelName = bijection.getValue();
+		String selectionName = bijection.getName();
+		// save link between java source and variable name
+		validationContext.addLinkedCoreResource(selectionName, declaration.getSourcePath());
+		if(dataModelName==null) {
 			// here must be the only one @DataModel in the component
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
-			if(dataBinders.size()>0) {
+			if(dataBinders.size()>1) {
 				for (IBijectedAttribute dataBinder : dataBinders) {
 					addError(MULTIPLE_DATA_BINDER_MESSAGE_ID, SeamPreferences.MULTIPLE_DATA_BINDER, dataBinder, declaration.getResource());
 				}
 			}
 		} else {
-			// save link between java source and variable name
-			validationContext.addLinkedCoreResource(name, declaration.getSourcePath());
-			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(name);
+			// save link between java source and Data Model name
+			validationContext.addLinkedCoreResource(dataModelName, declaration.getSourcePath());
+			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(selectionName);
 			for (IBijectedAttribute dataBinder : dataBinders) {
 				if(dataBinder.isOfType(BijectedAttributeType.DATA_BINDER) || dataBinder.isOfType(BijectedAttributeType.OUT)) {
 					return;
 				}
 			}
-			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, SeamPreferences.UNKNOWN_DATA_MODEL, new String[]{name}, coreHelper.getLocationOfName(bijection), declaration.getResource());
+			addError(UNKNOWN_DATA_MODEL_MESSAGE_ID, SeamPreferences.UNKNOWN_DATA_MODEL, new String[]{selectionName}, coreHelper.getLocationOfName(bijection), declaration.getResource());
 		}
 	}
 
