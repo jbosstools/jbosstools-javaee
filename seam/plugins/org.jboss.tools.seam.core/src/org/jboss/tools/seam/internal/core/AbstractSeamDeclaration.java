@@ -11,12 +11,14 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
+import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
@@ -84,6 +86,16 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		c.attributes = new HashMap<String, IValueInfo>();
 		c.attributes.putAll(attributes);
 		return c;
+	}
+
+	public List<Change> merge(SeamObject s) {
+		List<Change> changes = super.merge(s);
+		if(s instanceof AbstractSeamDeclaration) {
+			AbstractSeamDeclaration d = (AbstractSeamDeclaration)s;
+			attributes.clear();
+			attributes.putAll(d.attributes);
+		}
+		return changes;
 	}
 
 }
