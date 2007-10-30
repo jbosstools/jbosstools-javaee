@@ -399,7 +399,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 				}			
 				
 				String seamVersion = getSeamVersion(homeDir.getValueAsString());
-				if("".equals(seamVersion)) { //$NON-NLS-1$
+				if(seamVersion == null){
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
+					setPageComplete(false);
+					return;
+				}else if("".equals(seamVersion)) { //$NON-NLS-1$
 					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER);
 					setPageComplete(false);
 					return;
@@ -426,6 +430,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 			File seamJarFile = new File(path, "jboss-seam.jar"); //$NON-NLS-1$
 			if(!seamJarFile.exists()) {
 				seamJarFile = new File(path, "lib/jboss-seam.jar"); // hack to make it work for seam2
+				if(!seamJarFile.exists()) return null;
 			}
 			InputStream str=null;
 			ZipFile seamJar;
