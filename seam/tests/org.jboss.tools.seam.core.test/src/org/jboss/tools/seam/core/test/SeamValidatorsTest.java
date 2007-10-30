@@ -208,6 +208,42 @@ public class SeamValidatorsTest extends TestCase {
 		
 		int number = getMarkersNumber(abcEntityFile);
 		assertTrue("Problem marker was found in abcEntity.java", number == 0);
+		
+		// Entity component has wrong scope
+		System.out.println("Test - Entity component has wrong scope");
+		
+		IFile abcEntityFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.2");
+		try{
+			abcEntityFile.setContents(abcEntityFile2.getContents(), true, false, new NullProgressMonitor());
+			abcEntityFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
+					"'abcEntity.2'", ex);
+		}
+		
+		refreshProject(project);
+		
+		String[] messages = getMarkersMessage(abcEntityFile);
+		assertTrue("Problem marker 'Entity component has wrong scope' not found", "Entity component \"abcEntity\" should not have org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
+
+		
+		// Duplicate @Remove method
+		System.out.println("Test - Duplicate @Remove method");
+		
+		IFile abcEntityFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.3");
+		try{
+			abcEntityFile.setContents(abcEntityFile3.getContents(), true, false, new NullProgressMonitor());
+			abcEntityFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
+					"'abcEntity.3'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(abcEntityFile);
+		assertTrue("Problem marker 'Duplicate @Remove method' not found", messages[0].startsWith("Duplicate @Remove method \"removeMethod"));
+
 	}
 
 	public void testComponentLifeCycleMethodsValidator() {
