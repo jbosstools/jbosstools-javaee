@@ -161,15 +161,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 
 				// to keep workspace in sync				
 				seamPrjSet.refreshLocal(monitor);
-
-				// We need refresh PackageExplorer because of bug of Eclipse. See http://jira.jboss.com/jira/browse/JBIDE-1057
-				PackageExplorerPart p = PackageExplorerPart.getFromActivePerspective();
-				if(p!=null) {
-					TreeViewer tv = p.getTreeViewer();
-					if(tv!=null) {
-						tv.refresh();
-					}
-				}
 			} catch (CoreException e) {
 				result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 			}

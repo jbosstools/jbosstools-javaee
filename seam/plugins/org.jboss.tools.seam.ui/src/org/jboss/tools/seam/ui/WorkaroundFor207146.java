@@ -10,10 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui;
 
-import java.util.ArrayList;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
@@ -24,11 +21,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
-import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=207146
@@ -43,20 +43,19 @@ public class WorkaroundFor207146 implements IStartup{
 	public void earlyStartup() {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(new WebContentUpdater());
 	}
-	
+
 	public static class WebContentUpdater implements IResourceChangeListener {
 		public void resourceChanged(IResourceChangeEvent event) {
 			ManifestChangeDetector visitor = new ManifestChangeDetector();
 			try {
-				event.getDelta().accept(visitor );
+				event.getDelta().accept(visitor);
 			} catch (CoreException e) {
-				e.printStackTrace();
+				SeamCorePlugin.getPluginLog().logError(e);
 			}
-			if(visitor.skip)return; // skip listener if MANIFEST.MF and WEB-INF were changed
+			if(visitor.skip) return; // skip listener if MANIFEST.MF and WEB-INF were changed
 
 			IResourceDelta[] delta = event.getDelta().getAffectedChildren();
-			final ArrayList<IResource> resourcesToTouch = new ArrayList<IResource>();
-			
+
 			// go trough changed resources
 			for (IResourceDelta resourceDelta : delta) {
 				IProject prj = resourceDelta.getResource().getProject();
@@ -64,35 +63,31 @@ public class WorkaroundFor207146 implements IStartup{
 				if(comp==null) continue;
 				final IVirtualFolder root = comp.getRootFolder();
 				// check that changes in WebContent folder
-				if(event.getDelta().findMember(root.getUnderlyingFolder().getFullPath())==null) return;
-				final IVirtualFile manifest = comp.getRootFolder().getFile("/META-INF/MANIFEST.MF");
-				// save resources for touch
-				if(manifest!=null && manifest.getUnderlyingResource().isAccessible()) {
-					resourcesToTouch.add(manifest.getUnderlyingResource().getParent());
-					resourcesToTouch.add(manifest.getUnderlyingResource());
-				}		
-			}
-	
-			// schedule touch in separate job because touch cannot be called 
-			// from resource change thread 
-			Job updateRsc = new Job("Update resources") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					for (IResource resource : resourcesToTouch) {
-						try {
-							resource.touch(null);
-							System.out.println(resource.getLocation());
-						} catch (CoreException e) {
-							e.printStackTrace();
+				if(event.getDelta().findMember(root.getUnderlyingFolder().getFullPath())==null) {
+					return;
+				}
+				// Refresh Package Explorer
+				Display display = Display.getDefault();
+				if(display==null) {
+					return;
+				}
+				display.asyncExec(new Runnable() {
+					public void run() {
+						PackageExplorerPart p = PackageExplorerPart.getFromActivePerspective();
+						if(p!=null) {
+							TreeViewer tv = p.getTreeViewer();
+							if(tv!=null) {
+								tv.refresh();
+							}
 						}
 					}
-					return Status.OK_STATUS;
-				}
-			};
-			updateRsc.schedule();
+				});
+
+				return;
+			}
 		}
 	}
-	
+
 	/**
 	 * Find if there is MANIFEST.MF or WEB-INF resources in IResourceDelta
 	 * @author eskimo
@@ -104,8 +99,7 @@ public class WorkaroundFor207146 implements IStartup{
 		 * TODO handle case when something is changed in WEB-INF folder 
 		 */
 		public boolean visit(IResourceDelta delta) throws CoreException {
-			
-			if(skip)return false; // skip everything if MANIFEST.MF || WEB-INF are found already
+			if(skip) return false; // skip everything if MANIFEST.MF || WEB-INF are found already
 			if("MANIFEST.MF".equals(delta.getResource().getLocation().lastSegment()) 
 					|| "META-INF".equals(delta.getResource().getLocation().lastSegment())){
 				skip = true;
@@ -113,8 +107,7 @@ public class WorkaroundFor207146 implements IStartup{
 			}
 			return true;
 		}
-		
+
 		boolean skip = false;
-		
 	}
 }
