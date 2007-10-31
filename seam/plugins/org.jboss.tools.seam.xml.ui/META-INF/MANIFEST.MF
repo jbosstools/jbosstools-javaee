@@ -27,13 +27,12 @@ Require-Bundle: org.eclipse.jface.text,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.core.expressions,
- org.eclipse.ui.views, 
+ org.eclipse.ui.views,
  org.jboss.tools.common.model,
  org.jboss.tools.common.model.ui,
  org.jboss.tools.common.text.xml,
  org.jboss.tools.jst.web,
  org.jboss.tools.jst.web.ui,
- org.jboss.tools.vpe,
  org.jboss.tools.seam.xml
 Bundle-Version: 2.0.0
 
