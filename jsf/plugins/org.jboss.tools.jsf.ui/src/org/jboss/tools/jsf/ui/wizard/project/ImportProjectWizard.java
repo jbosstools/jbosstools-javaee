@@ -41,7 +41,7 @@ public class ImportProjectWizard extends ImportWebProjectWizard {
 	}
 
 	protected String getFinalPerspective() {
-		return "org.jboss.tools.jst.web.ui.RedHat4WebPerspective";
+		return "org.jboss.tools.jst.web.ui.WebDevelopmentPerspective";
 	}
 
 	protected boolean checkOldVersion() {
