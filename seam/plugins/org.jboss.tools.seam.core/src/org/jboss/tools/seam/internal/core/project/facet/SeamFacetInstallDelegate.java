@@ -332,9 +332,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 					new File(srcFolder,"META-INF/persistence.xml"), //$NON-NLS-1$
 					viewFilterSetCollection, true);
 
+			File resources = new File(project.getLocation().toFile(),"resources");
 			AntCopyUtils.copyFileToFile(
 					dataSourceDsFile, 
-					new File(srcFolder,project.getName()+"-ds.xml"),  //$NON-NLS-1$
+					new File(resources,project.getName()+"-ds.xml"),  //$NON-NLS-1$
 					viewFilterSetCollection, true);
 			
 			AntCopyUtils.copyFileToFile(
@@ -349,11 +350,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			
 			WtpUtils.setClasspathEntryAsExported(project, new Path("org.eclipse.jst.j2ee.internal.web.container"), monitor); //$NON-NLS-1$
 
-			Job create = new DataSourceXmlDeployer(project);
-			create.setUser(true);
-			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
-			create.schedule();
-			
 		} else {
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, project.getName()+"-ejb"); //$NON-NLS-1$
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, project.getName()+"-ear"); //$NON-NLS-1$
@@ -410,10 +406,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 				// ********************************************************************************************
 				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb,"ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
 				
-				AntCopyUtils.copyFileToFile(
-						dataSourceDsFile, 
-						new File(ejb,"ejbModule/"+project.getName()+"-ds.xml"),  //$NON-NLS-1$ //$NON-NLS-2$
-						viewFilterSetCollection, true);
+
 				
 				AntCopyUtils.copyFileToFolder(
 						new File(seamGenResFolder,"META-INF/ejb-jar.xml"),  //$NON-NLS-1$
@@ -460,6 +453,13 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 				AntCopyUtils.copyFiles(droolsLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)));
 				AntCopyUtils.copyFiles(seamLibFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)));
 				AntCopyUtils.copyFiles(seamGenResFolder,earContentsFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)));						
+				
+				
+				File resources = new File(ear,"resources");
+				AntCopyUtils.copyFileToFile(
+						dataSourceDsFile, 
+						new File(resources,project.getName()+"-ds.xml"),  //$NON-NLS-1$ //$NON-NLS-2$
+						viewFilterSetCollection, true);
 				
 				try {
 					

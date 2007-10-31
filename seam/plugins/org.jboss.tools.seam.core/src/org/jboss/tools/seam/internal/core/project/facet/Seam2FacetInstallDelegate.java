@@ -339,9 +339,10 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 					new File(srcFolder,"META-INF/persistence.xml"), //$NON-NLS-1$
 					viewFilterSetCollection, true);
 
+			File resources = new File(project.getLocation().toFile(),"resources");
 			AntCopyUtils.copyFileToFile(
 					dataSourceDsFile, 
-					new File(srcFolder,project.getName()+"-ds.xml"),  //$NON-NLS-1$
+					new File(resources,project.getName()+"-ds.xml"),  //$NON-NLS-1$
 					viewFilterSetCollection, true);
 			
 			AntCopyUtils.copyFileToFile(
@@ -356,11 +357,6 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			
 			WtpUtils.setClasspathEntryAsExported(project, new Path("org.eclipse.jst.j2ee.internal.web.container"), monitor); //$NON-NLS-1$
 
-			Job create = new DataSourceXmlDeployer(project);
-			create.setUser(true);
-			create.setRule(ResourcesPlugin.getWorkspace().getRoot());
-			create.schedule();
-			
 		} else {
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, project.getName()+"-ejb"); //$NON-NLS-1$
 			model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, project.getName()+"-ear"); //$NON-NLS-1$
@@ -417,9 +413,10 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 				// ********************************************************************************************
 				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb,"ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
 				
+				File resources = new File(ear,"resources");
 				AntCopyUtils.copyFileToFile(
 						dataSourceDsFile, 
-						new File(ejb,"ejbModule/"+project.getName()+"-ds.xml"),  //$NON-NLS-1$ //$NON-NLS-2$
+						new File(resources,project.getName()+"-ds.xml"),  //$NON-NLS-1$ //$NON-NLS-2$
 						viewFilterSetCollection, true);
 				
 				AntCopyUtils.copyFileToFolder(

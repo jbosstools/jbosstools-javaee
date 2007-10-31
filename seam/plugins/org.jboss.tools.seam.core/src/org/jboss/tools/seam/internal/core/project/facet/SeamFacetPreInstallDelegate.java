@@ -31,30 +31,31 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		IDataModel model = (IDataModel)config;
-		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE)==null) return;
-		IConnectionProfile connProfile = ProfileManager.getInstance().getProfileByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).toString());
-		Properties props = connProfile.getBaseProperties(); //Properties("org.eclipse.datatools.connectivity.db.generic.connectionProfile");
 
-		// Collect properties name from DTP Connection Profile
-		model.setProperty(ISeamFacetDataModelProperties.DB_USER_NAME,
-				props.get("org.eclipse.datatools.connectivity.db.username")==null //$NON-NLS-1$
-				?"":props.get("org.eclipse.datatools.connectivity.db.username").toString()); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_CLASS_NAME,
-				props.get("org.eclipse.datatools.connectivity.db.driverClass")==null //$NON-NLS-1$
-				?"":props.get("org.eclipse.datatools.connectivity.db.driverClass").toString()); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		model.setProperty(ISeamFacetDataModelProperties.DB_USER_PASSWORD,
-				props.get("org.eclipse.datatools.connectivity.db.password")==null //$NON-NLS-1$
-				?"":props.get("org.eclipse.datatools.connectivity.db.password").toString()); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		model.setProperty(ISeamFacetDataModelProperties.JDBC_URL_FOR_DB,
-				props.get("org.eclipse.datatools.connectivity.db.URL")==null //$NON-NLS-1$
-				?"":props.get("org.eclipse.datatools.connectivity.db.URL").toString()); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
-				DriverManager.getInstance().getDriverInstanceByID(
-							props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());		 //$NON-NLS-1$
-		
+		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE)!=null) {
+			IConnectionProfile connProfile = ProfileManager.getInstance().getProfileByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).toString());
+			Properties props = connProfile.getBaseProperties(); //Properties("org.eclipse.datatools.connectivity.db.generic.connectionProfile");
+	
+			// Collect properties name from DTP Connection Profile
+			model.setProperty(ISeamFacetDataModelProperties.DB_USER_NAME,
+					props.get("org.eclipse.datatools.connectivity.db.username")==null //$NON-NLS-1$
+					?"":props.get("org.eclipse.datatools.connectivity.db.username").toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			
+			model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_CLASS_NAME,
+					props.get("org.eclipse.datatools.connectivity.db.driverClass")==null //$NON-NLS-1$
+					?"":props.get("org.eclipse.datatools.connectivity.db.driverClass").toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			
+			model.setProperty(ISeamFacetDataModelProperties.DB_USER_PASSWORD,
+					props.get("org.eclipse.datatools.connectivity.db.password")==null //$NON-NLS-1$
+					?"":props.get("org.eclipse.datatools.connectivity.db.password").toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			
+			model.setProperty(ISeamFacetDataModelProperties.JDBC_URL_FOR_DB,
+					props.get("org.eclipse.datatools.connectivity.db.URL")==null //$NON-NLS-1$
+					?"":props.get("org.eclipse.datatools.connectivity.db.URL").toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			
+			model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
+					DriverManager.getInstance().getDriverInstanceByID(
+								props.get("org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray());		 //$NON-NLS-1$
+		}
 	}
 }

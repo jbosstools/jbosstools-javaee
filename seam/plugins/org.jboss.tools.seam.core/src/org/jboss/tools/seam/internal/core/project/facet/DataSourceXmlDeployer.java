@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.server.core.IModule;
@@ -36,43 +37,29 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * This class is provided to deploy data source descriptor to JBoss AS for Seam
- * Web Project in WAR deployment configuration.
+ * Web Project in WAR and EAR deployment configurations.
  * 
  * @author eskimo
  * 
  */
 public class DataSourceXmlDeployer extends Job {
 	IProject project = null;
-
-	public DataSourceXmlDeployer(IProject project) {
+	IServer s = null;
+	IPath deploy = null;
+	public DataSourceXmlDeployer(IProject project, IServer s, IPath deploy) {
 		super(SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER);
 		this.project = project;
+		// is must be user since ds.xml has the same behaviour for EAR
+		// deployment. It should run after ear project created and imported into 
+		// workspace
+		setUser(true);
+		setRule(project);
+		this.s = s; 
+		this.deploy = deploy;
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-
-		IFacetedProject facetedProject;
-		try {
-			facetedProject = ProjectFacetsManager.create(project);
-		} catch (CoreException e) {
-			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
-					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO); 
-		}
-		org.eclipse.wst.common.project.facet.core.runtime.IRuntime primaryRuntime = facetedProject
-				.getPrimaryRuntime();
-		IServer s = null;
-		IServer[] servers = ServerCore.getServers();
-		for (IServer server : servers) {
-			String primaryName = primaryRuntime.getName();
-			IRuntime runtime = server.getRuntime();
-			if (runtime != null) {
-				String serverName = runtime.getName();
-				if (primaryName.equals(serverName)) {
-					s = server;
-				}
-			}
-		}
 
 		if (s == null) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
@@ -88,17 +75,9 @@ public class DataSourceXmlDeployer extends Job {
 					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_SERVER_DID_NOT_SUPPORT_DEPLOY_OF_DATASOURCE);
 		}
 
-		IVirtualComponent com = ComponentCore.createComponent(project);
-		final IVirtualFolder srcRootFolder = com.getRootFolder().getFolder(
-				new Path("/WEB-INF/classes")); //$NON-NLS-1$
-		IContainer underlyingFolder = srcRootFolder.getUnderlyingFolder();
-
 		IPath projectPath = new Path("/" //$NON-NLS-1$
-				+ underlyingFolder.getProject().getName());
-		IPath projectRelativePath = new Path("src/model"); //$NON-NLS-1$
-
-		IPath append = projectPath.append(projectRelativePath).append(
-				project.getName() + "-ds.xml"); //$NON-NLS-1$
+				+ project.getName());
+		IPath append = projectPath.append(deploy); //$NON-NLS-1$
 
 		if (SingleDeployableFactory.makeDeployable(append)) {
 
