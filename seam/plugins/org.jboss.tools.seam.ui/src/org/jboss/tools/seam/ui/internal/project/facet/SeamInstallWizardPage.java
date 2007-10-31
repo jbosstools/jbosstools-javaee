@@ -103,7 +103,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			.createComboEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, Arrays.asList(new String[] { SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_WAR, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR }),
-					getDeployAsDefaultValue(), true);
+					getDeployAsDefaultValue(), false);
 
 	String lastCreatedCPName = ""; //$NON-NLS-1$
 
@@ -123,12 +123,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE, Arrays.asList(HIBERNATE_HELPER
 							.getDialectNames()), getDefaultDbType(), false);
 	
-	private IFieldEditor jBossHibernateDialectEditor = IFieldEditorFactory.INSTANCE
-			.createComboEditor(
-					ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_HIBERNATE_DIALECT,DIALECT_CLASSES, HIBERNATE_HELPER
-							.getDialectClass(getDefaultDbType()),true);
-
 	private IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextEditor(
 			ISeamFacetDataModelProperties.DB_SCHEMA_NAME,
 			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_SCHEMA_NAME, ""); //$NON-NLS-1$
@@ -338,7 +332,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		gridLayout = new GridLayout(4, false);
 		databaseGroup.setLayout(gridLayout);
 		registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);
-		registerEditor(jBossHibernateDialectEditor, databaseGroup, 4);
 		registerEditor(connProfileSelEditor, databaseGroup, 4);
 		registerEditor(dbSchemaName, databaseGroup, 4);
 		registerEditor(dbCatalogName, databaseGroup, 4);
@@ -392,8 +385,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		jBossHibernateDbTypeEditor
 				.addPropertyChangeListener(new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent evt) {
-						jBossHibernateDialectEditor.setValue(HIBERNATE_HELPER
-								.getDialectClass(evt.getNewValue().toString()));
+						SeamInstallWizardPage.this.model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
+						HIBERNATE_HELPER.getDialectClass(evt.getNewValue().toString()));
 					}
 				}
 			);
@@ -658,18 +651,16 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		public void run() {
 			List<SeamRuntime> added = new ArrayList<SeamRuntime>();
-			String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
-			List<SeamVersion> versians = new ArrayList<SeamVersion>(1);
-			versians.add(SeamVersion.parseFromString(seamVersion));
 			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)
 					new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))
-					, added, versians);
+					,added);
 			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 			dialog.open();
 
 			if (added.size()>0) {
 				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
 
+				String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
 				List<String> runtimes = getRuntimeNames(seamVersion);
 				SeamRuntime newRuntime = added.get(0);
 				if(seamVersion.equals(newRuntime.getVersion().toString())) {
@@ -679,7 +670,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			}
 		}
 	}
-
+	
 	public class ConnectionProfileChangeListener implements IProfileListener {
 		/* (non-Javadoc)
 		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileAdded(org.eclipse.datatools.connectivity.IConnectionProfile)
