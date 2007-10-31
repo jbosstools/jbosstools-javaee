@@ -46,6 +46,10 @@ public class WorkaroundFor207146 implements IStartup{
 
 	public static class WebContentUpdater implements IResourceChangeListener {
 		public void resourceChanged(IResourceChangeEvent event) {
+			if (event.getType() != IResourceChangeEvent.POST_CHANGE) {
+				//SeamGuiPlugin.getDefault().logInfo("No reason to run");
+	            return;
+			}
 			ManifestChangeDetector visitor = new ManifestChangeDetector();
 			try {
 				event.getDelta().accept(visitor);
@@ -55,7 +59,7 @@ public class WorkaroundFor207146 implements IStartup{
 			if(visitor.skip) return; // skip listener if MANIFEST.MF and WEB-INF were changed
 
 			IResourceDelta[] delta = event.getDelta().getAffectedChildren();
-
+			
 			// go trough changed resources
 			for (IResourceDelta resourceDelta : delta) {
 				IProject prj = resourceDelta.getResource().getProject();
@@ -63,28 +67,33 @@ public class WorkaroundFor207146 implements IStartup{
 				if(comp==null) continue;
 				final IVirtualFolder root = comp.getRootFolder();
 				// check that changes in WebContent folder
-				if(event.getDelta().findMember(root.getUnderlyingFolder().getFullPath())==null) {
-					return;
+				IResourceDelta foundMember = event.getDelta().findMember(root.getUnderlyingFolder().getFullPath());
+				if(foundMember!=null) {
+					//SeamGuiPlugin.getDefault().logInfo("Refreshing package explorer to workaround Eclipse bug 207146: " + findMember.getFullPath());
+					refreshPackageExplorer();
+					return; // only required to refresh once.
 				}
-				// Refresh Package Explorer
-				Display display = Display.getDefault();
-				if(display==null) {
-					return;
-				}
-				display.asyncExec(new Runnable() {
-					public void run() {
-						PackageExplorerPart p = PackageExplorerPart.getFromActivePerspective();
-						if(p!=null) {
-							TreeViewer tv = p.getTreeViewer();
-							if(tv!=null) {
-								tv.refresh();
-							}
-						}
-					}
-				});
+			}
+		}
 
+		private void refreshPackageExplorer() {
+			// Refresh Package Explorer
+			Display display = Display.getDefault();
+			if(display==null) {
 				return;
 			}
+			display.asyncExec(new Runnable() {
+				public void run() {
+					PackageExplorerPart p = PackageExplorerPart.getFromActivePerspective();
+					if(p!=null) {
+						TreeViewer tv = p.getTreeViewer();
+						if(tv!=null) {
+							
+							tv.refresh();
+						}
+					}
+				}
+			});	
 		}
 	}
 
