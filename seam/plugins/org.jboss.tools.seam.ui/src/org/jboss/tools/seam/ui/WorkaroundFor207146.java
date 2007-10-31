@@ -17,10 +17,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
@@ -109,8 +106,12 @@ public class WorkaroundFor207146 implements IStartup{
 		 */
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			if(skip) return false; // skip everything if MANIFEST.MF || WEB-INF are found already
-			if("MANIFEST.MF".equals(delta.getResource().getLocation().lastSegment()) 
-					|| "META-INF".equals(delta.getResource().getLocation().lastSegment())){
+			IPath location = delta.getResource().getLocation();
+			if(location==null) {
+				return false;
+			}
+			if("MANIFEST.MF".equals(location.lastSegment()) 
+					|| "META-INF".equals(location.lastSegment())){
 				skip = true;
 				return false;
 			}
