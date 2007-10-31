@@ -41,7 +41,7 @@ public class WorkaroundFor207146 implements IStartup{
 	 * @see org.eclipse.ui.IStartup#earlyStartup()
 	 */
 	public void earlyStartup() {
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(new WebContentUpdater());
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(new WebContentUpdater(), IResourceChangeEvent.POST_CHANGE);
 	}
 
 	public static class WebContentUpdater implements IResourceChangeListener {
