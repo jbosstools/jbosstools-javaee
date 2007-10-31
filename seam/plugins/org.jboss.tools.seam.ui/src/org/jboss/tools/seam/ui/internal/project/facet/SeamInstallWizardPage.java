@@ -658,16 +658,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		public void run() {
 			List<SeamRuntime> added = new ArrayList<SeamRuntime>();
+			String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+			List<SeamVersion> versians = new ArrayList<SeamVersion>(1);
+			versians.add(SeamVersion.parseFromString(seamVersion));
 			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)
 					new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))
-					,added);
+					, added, versians);
 			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 			dialog.open();
 
 			if (added.size()>0) {
 				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
 
-				String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
 				List<String> runtimes = getRuntimeNames(seamVersion);
 				SeamRuntime newRuntime = added.get(0);
 				if(seamVersion.equals(newRuntime.getVersion().toString())) {
@@ -677,7 +679,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			}
 		}
 	}
-	
+
 	public class ConnectionProfileChangeListener implements IProfileListener {
 		/* (non-Javadoc)
 		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileAdded(org.eclipse.datatools.connectivity.IConnectionProfile)

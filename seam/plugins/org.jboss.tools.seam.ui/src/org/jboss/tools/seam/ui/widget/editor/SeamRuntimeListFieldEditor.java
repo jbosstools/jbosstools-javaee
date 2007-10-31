@@ -322,10 +322,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		IFieldEditor name = IFieldEditorFactory.INSTANCE.createTextEditor(
 				"name", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME2, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		IFieldEditor version = IFieldEditorFactory.INSTANCE.createComboEditor(
-				"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
-						new String[]{SeamVersion.SEAM_1_2.toString(), SeamVersion.SEAM_2_0.toString()}), 
-						                SeamVersion.SEAM_1_2.toString(), false);
+		IFieldEditor version = null;
 		
 		IFieldEditor homeDir = IFieldEditorFactory.INSTANCE.createBrowseFolderEditor(
 				"homeDir", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_HOME_FOLDER, ""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -338,13 +335,33 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		 * @param style
 		 */
 		public SeamRuntimeWizardPage(List<SeamRuntime> editedList) {
+			this(editedList, null);
+		}
+
+		/**
+		 * @param parent
+		 * @param style
+		 */
+		public SeamRuntimeWizardPage(List<SeamRuntime> editedList, List<SeamVersion> validSeamVersions) {
 			super(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
+			if(validSeamVersions==null) {
+				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
+					"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
+							new String[]{SeamVersion.SEAM_1_2.toString(), SeamVersion.SEAM_2_0.toString()}), 
+							                SeamVersion.SEAM_1_2.toString(), false);
+			} else {
+				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
+						"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, validSeamVersions, 
+								                SeamVersion.SEAM_1_2.toString(), false);
+			}
+
 			setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CREATE_A_SEAM_RUNTIME);
 			setTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_SEAM_RUNTIME);
 			setImageDescriptor(ImageDescriptor.createFromFile(
 					SeamFormWizard.class, "SeamWebProjectWizBan.png")); //$NON-NLS-1$
 			value = editedList;
 		}
+
 		/**
 		 * 
 		 */
@@ -478,13 +495,18 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		SeamRuntimeWizardPage page1 = null;
 		List<SeamRuntime> added = null;
 		List<SeamRuntime> value = null;
-		public SeamRuntimeNewWizard(List<SeamRuntime> value, List<SeamRuntime> added) {
+
+		public SeamRuntimeNewWizard(List<SeamRuntime> value, List<SeamRuntime> added, List<SeamVersion> validSeamVersions) {
 			super();
 			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
-			page1 = new SeamRuntimeWizardPage(value);
+			page1 = new SeamRuntimeWizardPage(value, validSeamVersions);
 			addPage(page1);
 			this.value = value;
 			this.added = added;
+		}
+
+		public SeamRuntimeNewWizard(List<SeamRuntime> value, List<SeamRuntime> added) {
+			this(value, added, null);
 		}
 		
 		@Override
