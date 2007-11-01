@@ -43,7 +43,7 @@ public class WorkaroundFor207146 implements IStartup{
 
 	public static class WebContentUpdater implements IResourceChangeListener {
 		public void resourceChanged(IResourceChangeEvent event) {
-			if (event.getType() != IResourceChangeEvent.POST_CHANGE) {
+			if (event.getType() != IResourceChangeEvent.POST_CHANGE || event.getDelta()==null) {
 				//SeamGuiPlugin.getDefault().logInfo("No reason to run");
 	            return;
 			}
