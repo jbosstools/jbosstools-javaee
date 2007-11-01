@@ -22,9 +22,7 @@ import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.IProfileListener;
 import org.eclipse.datatools.connectivity.ProfileManager;
-import org.eclipse.datatools.connectivity.db.generic.IDBConnectionProfileConstants;
 import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
-import org.eclipse.datatools.connectivity.internal.ConnectionProfileManager;
 import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizard;
 import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizardCategoryFilter;
 import org.eclipse.jdt.core.JavaConventions;
@@ -34,7 +32,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.jst.j2ee.internal.ejb.provider.HomeInterfaceProviderHelper;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -47,9 +44,9 @@ import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModel
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
+import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
-import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -651,16 +648,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		public void run() {
 			List<SeamRuntime> added = new ArrayList<SeamRuntime>();
+			String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+			List<SeamVersion> versians = new ArrayList<SeamVersion>(1);
+			versians.add(SeamVersion.parseFromString(seamVersion));
 			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)
 					new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))
-					,added);
+					, added, versians);
 			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 			dialog.open();
 
 			if (added.size()>0) {
 				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
 
-				String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
 				List<String> runtimes = getRuntimeNames(seamVersion);
 				SeamRuntime newRuntime = added.get(0);
 				if(seamVersion.equals(newRuntime.getVersion().toString())) {
