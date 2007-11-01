@@ -15,6 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -23,6 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
@@ -106,6 +112,18 @@ public class SeamPreferencePage extends PreferencePage implements
 		if(initialDefault != null && seamRuntimes.getDefaultSeamRuntime() != initialDefault) {
 			initialDefault.setDefault(false);
 		}
+		Map<SeamRuntime,SeamRuntime> changed = seamRuntimes.getChangedSeamRuntimes();
+		for (SeamRuntime c: changed.keySet()) {
+			SeamRuntime o = changed.get(c);
+			o.setHomeDir(c.getHomeDir());
+			o.setVersion(c.getVersion());
+			String oldName = o.getName();
+			String newName = c.getName();
+			if(!oldName.equals(newName)) {
+				SeamRuntimeManager.getInstance().changeRuntimeName(oldName, newName);
+			}
+		}
+		seamRuntimes.getChangedSeamRuntimes().clear();
 		seamRuntimes.getDefaultSeamRuntime().setDefault(true);
 		SeamRuntimeManager.getInstance().save();
 	}
@@ -125,4 +143,5 @@ public class SeamPreferencePage extends PreferencePage implements
 		performApply();
 		return super.performOk();
 	}
+
 }

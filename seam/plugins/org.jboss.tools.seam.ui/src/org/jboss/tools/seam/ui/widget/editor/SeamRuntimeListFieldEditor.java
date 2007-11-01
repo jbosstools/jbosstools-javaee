@@ -28,6 +28,7 @@ import java.util.zip.ZipFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -40,7 +41,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -49,15 +49,18 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
+import org.jboss.tools.common.model.ui.action.CommandBar;
+import org.jboss.tools.common.model.ui.action.CommandBarListener;
+import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -72,13 +75,11 @@ import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
  * @author eskimo
  *
  */
-public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISelectionChangedListener, SelectionListener {
-
+public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISelectionChangedListener, SelectionListener, CommandBarListener {
+	static String REMOVE = "&Remove";
 	CheckboxTableViewer tableView = null;
 	Composite root  = null;
-	Button rmBtn = null;
-	Button addBtn = null;
-	Button removeBtn = null;
+	protected CommandBar bar = new CommandBar();
 	/**
 	 * @param name
 	 * @param label
@@ -86,7 +87,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	 */
 	public SeamRuntimeListFieldEditor(String name, String label, Object defaultValue) {
 		super(name, label, defaultValue);
-		
+		bar.addCommandBarListener(this);		
 	}
 
 	private SeamRuntime checkedElement = null;
@@ -150,49 +151,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		tableView.getControl().setLayoutData(gd);
 		tableView.addSelectionChangedListener(this);	
 		
-		Composite buttons = new Composite(root,SWT.NONE);	
-		buttons.setLayout(new GridLayout(1,false));
-		gd = new GridData();
-        gd.horizontalAlignment = GridData.FILL;
-        gd.verticalAlignment = GridData.FILL;
-        gd.grabExcessVerticalSpace = true;
-		buttons.setLayoutData(gd);
-		
-		addBtn = new Button(buttons,SWT.PUSH);
-		addBtn.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_ADD);
-		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
-        gd.horizontalAlignment = GridData.FILL;
-        gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-        gd.widthHint = 50;
-        
-		addBtn.setLayoutData(gd);
-		addBtn.addSelectionListener(this);
-
-		removeBtn = new Button(buttons,SWT.PUSH);
-		removeBtn.setEnabled(false);
-		removeBtn.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_REMOVE);
-		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
-        gd.horizontalAlignment = GridData.FILL;
-        gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-        gd.widthHint = 50;
-        
-        removeBtn.setLayoutData(gd);
-        removeBtn.addSelectionListener(this);
-
-		/*rmBtn = new Button(buttons,SWT.PUSH);
-		rmBtn.setText("Remove");
-		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
-        gd.horizontalAlignment = GridData.FILL;
-        gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-		rmBtn.setLayoutData(gd);
-		rmBtn.addSelectionListener(this);
-		
-		final Button editBtn = new Button(buttons,SWT.PUSH);
-		editBtn.setText("Edit");
-		gd = new GridData(GridData.FILL_HORIZONTAL,GridData.CENTER,false,false);
-        gd.horizontalAlignment = GridData.FILL;
-        gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-		editBtn.setLayoutData(gd);*/
+		createCommandBar(root);
+		bar.setEnabled(REMOVE, false);
 		
 		TableColumn tc1 = new TableColumn(tableView.getTable(),SWT.CENTER);
 		tc1.setWidth(21);
@@ -330,6 +290,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		IFieldEditor dflt = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 				                           "default", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_USE_AS_DEFAULT, false); //$NON-NLS-1$
 		
+		SeamRuntime current = null;
+		
 		/**
 		 * @param parent
 		 * @param style
@@ -402,12 +364,22 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					return;
 				}
 				for (SeamRuntime rt : value) {
+					if(current != null && current.getName().equals(rt.getName())) continue;
 					if(rt.getName().equals(name.getValueAsString())) {
 						setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME+name.getValueAsString()+ SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_ALREADY_EXISTS);
 						setPageComplete(false);
 						return;	
 					}
-				}				
+				}
+				
+				if(current != null && current.getName().equals(name.getValueAsString())
+					&& current.getVersion().toString().equals(version.getValueAsString())
+					&& current.getHomeDir().equals(homeDir.getValueAsString())
+						) {
+					setErrorMessage(null);
+					setPageComplete(false);
+					return;
+				}
 
 				if(homeDir.getValueAsString()==null || "".equals(homeDir.getValueAsString().trim())) { //$NON-NLS-1$
 					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH_TO_SEAM_HOME_DIRECTORY_CANNOT_BE_EMPTY);
@@ -518,6 +490,49 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		}
 	}
 
+	public static class SeamRuntimeEditWizard extends Wizard {
+		SeamRuntimeWizardPage page1 = null;
+		List<SeamRuntime> added = null;
+		Map<SeamRuntime, SeamRuntime> changed = null;
+		List<SeamRuntime> value = null;
+		SeamRuntime source = null;
+		public SeamRuntimeEditWizard(List<SeamRuntime> value, SeamRuntime source, List<SeamRuntime> added, Map<SeamRuntime, SeamRuntime> changed) {
+			super();
+			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
+			page1 = new SeamRuntimeWizardPage(value);
+			addPage(page1);
+			this.value = value;
+			this.added = added;
+			this.changed = changed;
+			this.source = source;
+			page1.name.setValue(source.getName());
+			page1.homeDir.setValue(source.getHomeDir());
+			page1.version.setValue(source.getVersion().toString());
+			page1.current = source;
+		}
+		
+		@Override
+		public boolean performFinish() {
+			SeamRuntime rt = page1.getRuntime();
+			if(rt.getName().equals(source.getName()) 
+				&& rt.getVersion().toString().equals(source.getVersion().toString())
+				&& rt.getHomeDir().equals(source.getHomeDir())
+				) {
+				return true;
+			}
+			if(added.contains(source) || changed.containsKey(source)) {
+				source.setName(rt.getName());
+				source.setHomeDir(rt.getName());
+				source.setVersion(rt.getVersion());
+			} else {
+				changed.put(rt, source);
+				value.remove(source);
+				value.add(rt);
+			}
+			return true;
+		}
+	}
+
 	/**
 	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
@@ -531,9 +546,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	 */
 	public void selectionChanged(SeamRuntime selection) {
 		if(selection == null) {
-			removeBtn.setEnabled(false);
+			bar.setEnabled(REMOVE, false);
 		} else {
-			removeBtn.setEnabled(true);
+			bar.setEnabled(REMOVE, true);
 		}
 		if(selection==null 
 				|| selection == SeamRuntimeManager.getInstance().getDefaultRuntime()) {
@@ -550,24 +565,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 	 */
 	public void widgetSelected(SelectionEvent e) {
-		if(e.widget==addBtn) {
-			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)getValue(), added);
-			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
-			dialog.open();
-			tableView.refresh();
-		} else if(e.widget == removeBtn) {
-			ISelection s = tableView.getSelection();
-			if(s == null || s.isEmpty() || !(s instanceof IStructuredSelection)) return;
-			IStructuredSelection ss = (IStructuredSelection)s;
-			Iterator<?> i = ss.iterator();
-			while(i.hasNext()) {
-				Object o = i.next();
-				if(o instanceof SeamRuntime) {
-					removeRuntime((SeamRuntime)o);
-				}
-			}
-			tableView.refresh();
-		}
 	}
 	
 	private void removeRuntime(SeamRuntime r) {
@@ -576,8 +573,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		String message = (used)
 			? NLS.bind(SeamUIMessages.RUNTIME_DELETE_USED_CONFIRM, r.getName())
 			: NLS.bind(SeamUIMessages.RUNTIME_DELETE_NOT_USED_CONFIRM, r.getName());
-		boolean b = MessageDialog.openConfirm(removeBtn.getShell(), title, message);
+		boolean b = MessageDialog.openConfirm(bar.getControl().getShell(), title, message);
 		if(!b) return;
+		if(changed.containsKey(r)) {
+			r = changed.remove(r);
+		}
 		removed.add(r);
 		if(added.contains(r)) {
 			added.remove(r);
@@ -593,4 +593,71 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		}
 		return false;
 	}
+
+	public void action(String command) {
+		if(XChildrenEditor.ADD.equals(command)) {
+			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)getValue(), added);
+			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
+			dialog.open();
+			tableView.refresh();
+		} else if(REMOVE.equals(command)) {
+			ISelection s = tableView.getSelection();
+			if(s == null || s.isEmpty() || !(s instanceof IStructuredSelection)) return;
+			IStructuredSelection ss = (IStructuredSelection)s;
+			Iterator<?> i = ss.iterator();
+			while(i.hasNext()) {
+				Object o = i.next();
+				if(o instanceof SeamRuntime) {
+					removeRuntime((SeamRuntime)o);
+				}
+			}
+			tableView.refresh();
+		} else if(XChildrenEditor.EDIT.equals(command)) {
+			ISelection s = tableView.getSelection();
+			if(s == null || s.isEmpty() || !(s instanceof IStructuredSelection)) return;
+			IStructuredSelection ss = (IStructuredSelection)s;
+			Iterator<?> i = ss.iterator();
+			while(i.hasNext()) {
+				Object o = i.next();
+				if(o instanceof SeamRuntime) {
+					Wizard wiz = new SeamRuntimeEditWizard((List<SeamRuntime>)getValue(), (SeamRuntime)o, added, changed);
+					WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
+					dialog.open();
+				}
+			}
+			tableView.refresh();
+		}
+	}
+	
+	public void dispose() {
+		bar.dispose();
+		super.dispose();
+	}
+
+	protected void createCommandBar(Composite control) {
+		//TODO insert EDIT command
+		String[] commands = new String[]{XChildrenEditor.ADD, XChildrenEditor.EDIT, REMOVE};
+		bar.setCommands(commands);
+		bar.getLayout().direction = SWT.VERTICAL;
+		bar.getLayout().buttonWidth = convertHorizontalDLUsToPixels(control, IDialogConstants.BUTTON_WIDTH);
+		setMargins(bar);
+		bar.createControl(control);
+		bar.getControl().setLayoutData(new GridData(GridData.FILL_VERTICAL));
+	}
+	
+	protected void setMargins(CommandBar bar) {
+		bar.getLayout().setMargins(0,10,0,0);
+	}
+
+	protected int convertHorizontalDLUsToPixels(Control control, int dlus) {
+		GC gc= new GC(control);
+		gc.setFont(control.getFont());
+		int averageWidth= gc.getFontMetrics().getAverageCharWidth();
+		gc.dispose();
+	
+		double horizontalDialogUnitSize = averageWidth * 0.25;
+	
+		return (int)Math.round(dlus * horizontalDialogUnitSize);
+	}
+	
 }
