@@ -40,6 +40,8 @@ import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
 public class SeamPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage, PropertyChangeListener {
 	
+	public static String SEAM_PREFERENCES_ID = "org.jboss.tools.common.model.ui.seam";
+	
 	/**
 	 * 
 	 */

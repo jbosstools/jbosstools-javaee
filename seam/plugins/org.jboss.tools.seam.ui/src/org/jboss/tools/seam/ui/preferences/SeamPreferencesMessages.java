@@ -23,6 +23,8 @@ public class SeamPreferencesMessages extends NLS {
 
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_ADD;
 
+	public static String SEAM_SETTINGS_PREFERENCE_PAGE_INSTALLED_RUNTIMES;
+
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME;
 
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED;
@@ -38,7 +40,7 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SEAM_VALIDATOR_CONFIGURATION_BLOCK_WARNING;
 
 	public static String SEAM_VALIDATOR_PREFERENCE_PAGE_SEAM_VALIDATOR;
-
+	
 	//Validator Preference page
 	public static String SeamValidatorConfigurationBlock_common_description;
 	

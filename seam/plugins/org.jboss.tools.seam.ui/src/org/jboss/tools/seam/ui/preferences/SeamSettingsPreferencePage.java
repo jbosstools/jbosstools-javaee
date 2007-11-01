@@ -25,13 +25,19 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.dialogs.PropertyPage;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -46,6 +52,8 @@ import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**
@@ -56,6 +64,9 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 
 	IFieldEditor seamEnablement;
 	IFieldEditor runtime;
+	IFieldEditor installedRuntimes;
+	
+	ISeamProject seamProject;
 
 	public SeamSettingsPreferencePage() {
 	}
@@ -65,12 +76,14 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		super.setElement(element);
 		project = (IProject) getElement().getAdapter(IProject.class);
 	}
+	
+	boolean hasSeamSupport() {
+		return seamProject != null;
+	}
 
 	@Override
 	protected Control createContents(Composite parent) {
-		ISeamProject seamProject = SeamCorePlugin
-				.getSeamProject(project, false);
-		boolean hasSeamSupport = seamProject != null;
+		seamProject = SeamCorePlugin.getSeamProject(project, false);
 		
 		boolean cannotBeModified = false;
 
@@ -83,37 +96,46 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		
 		seamEnablement = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
-		seamEnablement.setValue(hasSeamSupport);
+		seamEnablement.setValue(hasSeamSupport());
 
 		SeamRuntime rs = SeamRuntimeManager.getInstance().getDefaultRuntime();
 		
-		Set<String> names = new TreeSet<String>();
-		names.addAll(SeamRuntimeManager.getInstance().getRuntimeNames());
-		if(hasSeamSupport) {
-			String currentName = seamProject.getRuntimeName();
-			if(currentName != null) names.add(currentName);
-		}
-		List<String> namesAsList = new ArrayList<String>();
-		namesAsList.addAll(names);
+		List<String> namesAsList = getNameList();
 
 		runtime = IFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME, namesAsList, 
 				rs==null?"":rs.getName(),true,new NewSeamRuntimeAction(),(IValidator)null); //$NON-NLS-1$
 
+		ButtonPressedAction action = new ButtonPressedAction(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_INSTALLED_RUNTIMES) {
+			public void run() {
+				PreferenceDialog prefsdlg = PreferencesUtil.createPreferenceDialogOn(
+					PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					SeamPreferencePage.SEAM_PREFERENCES_ID, 
+					new String[] {SeamPreferencePage.SEAM_PREFERENCES_ID}, null
+				);
+				
+				prefsdlg.open();
+
+				String v = runtime.getValueAsString();
+				List<String> list = getNameList();
+				((ITaggedFieldEditor) ((CompositeEditor) runtime)
+						.getEditors().get(1)).setTags(list.toArray(new String[0]));
+				if(v != null && list.contains(v)) {
+					runtime.setValue(v);
+				} else {
+					setCurrentValue();
+				}
+			}
+		};
+		
+		installedRuntimes = new ButtonFieldEditor(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_INSTALLED_RUNTIMES, action, null);
+
 		List<IFieldEditor> editorOrder = new ArrayList<IFieldEditor>();
 		editorOrder.add(seamEnablement);
 		editorOrder.add(runtime);
+//		editorOrder.add(installedRuntimes);
 
-		if (hasSeamSupport) {
-			String currentName = seamProject.getRuntimeName();
-			if (currentName != null) {
-				runtime.setValue(currentName);
-			} else {
-				runtime.setValue("");
-			}
-		} else if(isEarPartInEarSeamProject(project)) {
-			runtime.setValue("");
-		}
+		setCurrentValue();
 		
 		seamEnablement.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -125,7 +147,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 				}
 			}
 		});
-
+		
 		runtime.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				validate();
@@ -147,9 +169,26 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		for (IFieldEditor fieldEditor2 : editorOrder) {
 			fieldEditor2.doFillIntoGrid(composite);
 		}
+		
+		LabelFieldEditor filler = new LabelFieldEditor("filler", "");
+		Object[] fs = filler.getEditorControls(composite);
+		if(fs != null && fs.length > 0 && fs[0] instanceof Label) {
+			Label l = (Label)fs[0];
+			GridData d = new GridData();
+			d.horizontalSpan = columnNumber - 1;
+			l.setLayoutData(d);
+		}
+		
+		Object[] cs = installedRuntimes.getEditorControls(composite);
+		if(cs != null && cs.length > 0 && cs[0] instanceof Button) {
+			Button b = (Button)cs[0];
+			GridData d = new GridData();
+			d.horizontalAlignment = SWT.END;
+			b.setLayoutData(d);
+		}
 
 		runtime.setEditable(false);
-		if (!hasSeamSupport) {
+		if (!hasSeamSupport()) {
 			updateRuntimeEnablement(false);
 		}
 		
@@ -162,6 +201,31 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		validate();
 
 		return composite;
+	}
+	
+	private List<String> getNameList() {
+		Set<String> names = new TreeSet<String>();
+		names.addAll(SeamRuntimeManager.getInstance().getRuntimeNames());
+		if(hasSeamSupport()) {
+			String currentName = seamProject.getRuntimeName();
+			if(currentName != null) names.add(currentName);
+		}
+		List<String> namesAsList = new ArrayList<String>();
+		namesAsList.addAll(names);
+		return namesAsList;
+	}
+	
+	private void setCurrentValue() {
+		if (hasSeamSupport()) {
+			String currentName = seamProject.getRuntimeName();
+			if (currentName != null) {
+				runtime.setValue(currentName);
+			} else {
+				runtime.setValue("");
+			}
+		} else if(isEarPartInEarSeamProject(project)) {
+			runtime.setValue("");
+		}
 	}
 	
 	private boolean isEarPartInEarSeamProject(IProject p) {

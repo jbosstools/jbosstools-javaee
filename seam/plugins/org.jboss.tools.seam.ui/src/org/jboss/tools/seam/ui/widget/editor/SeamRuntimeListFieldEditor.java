@@ -41,6 +41,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -153,6 +154,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		
 		createCommandBar(root);
 		bar.setEnabled(REMOVE, false);
+		bar.setEnabled(XChildrenEditor.EDIT, false);
 		
 		TableColumn tc1 = new TableColumn(tableView.getTable(),SWT.CENTER);
 		tc1.setWidth(21);
@@ -498,8 +500,10 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		SeamRuntime source = null;
 		public SeamRuntimeEditWizard(List<SeamRuntime> value, SeamRuntime source, List<SeamRuntime> added, Map<SeamRuntime, SeamRuntime> changed) {
 			super();
-			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
+			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDIT_SEAM_RUNTIME);
 			page1 = new SeamRuntimeWizardPage(value);
+			page1.setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_MODIFY_SEAM_RUNTIME);
+			page1.setTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDIT_SEAM_RUNTIME);
 			addPage(page1);
 			this.value = value;
 			this.added = added;
@@ -526,8 +530,13 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 				source.setVersion(rt.getVersion());
 			} else {
 				changed.put(rt, source);
-				value.remove(source);
-				value.add(rt);
+				int i = value.indexOf(source);
+				if(i >= 0) {
+					value.set(i, rt);
+				} else {
+					value.remove(source);
+					value.add(rt);
+				}
 			}
 			return true;
 		}
@@ -547,8 +556,10 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 	public void selectionChanged(SeamRuntime selection) {
 		if(selection == null) {
 			bar.setEnabled(REMOVE, false);
+			bar.setEnabled(XChildrenEditor.EDIT, false);
 		} else {
 			bar.setEnabled(REMOVE, true);
+			bar.setEnabled(XChildrenEditor.EDIT, true);
 		}
 		if(selection==null 
 				|| selection == SeamRuntimeManager.getInstance().getDefaultRuntime()) {
@@ -623,10 +634,23 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					Wizard wiz = new SeamRuntimeEditWizard((List<SeamRuntime>)getValue(), (SeamRuntime)o, added, changed);
 					WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
 					dialog.open();
+					tableView.refresh();
+					if(changed.containsValue(o)) {
+						SeamRuntime c = findChangedRuntime((SeamRuntime)o);
+						if(c != null) {
+							tableView.setSelection(new StructuredSelection(c));
+						}
+					}
 				}
 			}
-			tableView.refresh();
 		}
+	}
+	
+	private SeamRuntime findChangedRuntime(SeamRuntime source) {
+		for(SeamRuntime r: changed.keySet()) {
+			if(source == changed.get(r)) return r;
+		}
+		return null;
 	}
 	
 	public void dispose() {
