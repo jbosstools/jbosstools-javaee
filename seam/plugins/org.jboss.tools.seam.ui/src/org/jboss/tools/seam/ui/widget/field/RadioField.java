@@ -44,9 +44,10 @@ public class RadioField extends BaseField implements SelectionListener {
 			radios[i] = new Button(topComposite, SWT.RADIO);
 			radios[i].setText(labels.get(i));
 			radios[i].addSelectionListener(this);
+			radios[i].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			Object value = values.get(i);
 			radios[i].setData(value);
-			if(value==defaultValue) {
+			if(value != null && value.equals(defaultValue)) {
 				radios[i].setSelection(true);
 				this.value = value;
 			}
@@ -81,4 +82,16 @@ public class RadioField extends BaseField implements SelectionListener {
 	public Object getValue() {
 		return value;
 	}
+	
+	public void setValue(String value) {
+		this.value = value;
+		for (int i = 0; i < radios.length; i++) {
+			if(value.equals(radios[i].getData())) {
+				radios[i].setSelection(true);
+			} else {
+				radios[i].setSelection(false);
+			}
+		}
+	}
+
 }

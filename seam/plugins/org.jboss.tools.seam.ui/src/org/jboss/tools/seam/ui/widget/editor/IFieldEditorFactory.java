@@ -52,6 +52,18 @@ public interface IFieldEditorFactory {
 	 */
 	ITaggedFieldEditor createComboEditor(String name, String label,
 			List values, Object defaultValue, boolean flat);
+	
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param labels
+	 * @param values
+	 * @param defaultValue
+	 * @return
+	 */
+	public ITaggedFieldEditor createRadioEditor(String name, String label,
+			List<String> labels, List values, Object defaultValue);
 
 	/**
 	 * 

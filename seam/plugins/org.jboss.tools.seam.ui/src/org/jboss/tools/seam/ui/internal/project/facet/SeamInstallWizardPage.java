@@ -97,10 +97,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				true, new NewSeamRuntimeAction(), (IValidator)null);
 	
 	private IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE
-			.createComboEditor(
+			.createRadioEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, Arrays.asList(new String[] { SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_WAR, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR }),
-					getDeployAsDefaultValue(), false);
+					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, 
+					Arrays.asList(new String[] { SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_WAR, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR }),
+					Arrays.asList(new Object[] { SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_WAR, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR }),
+					getDeployAsDefaultValue());
 
 	String lastCreatedCPName = ""; //$NON-NLS-1$
 
