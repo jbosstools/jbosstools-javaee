@@ -235,6 +235,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		model = (IDataModel) config;
 		sync = new DataModelSynchronizer(model);
 		model.addListener(this);
+
+		model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
+				HIBERNATE_HELPER.getDialectClass(jBossHibernateDbTypeEditor.getValueAsString()));
 	}
 
 	/**
@@ -387,6 +390,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					}
 				}
 			);
+
+
+
         Dialog.applyDialogFont(parent);
 	}
 
