@@ -91,7 +91,7 @@ public final class SeamELCompletionEngine {
 	 *   Result is {'1','2'}
 	 */
 	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly, Set<ISeamContextVariable> usedVariables, Map<String, IMethod> unpairedGettersOrSetters) throws BadLocationException, StringIndexOutOfBoundsException {
+			int position, boolean returnEqualedVariablesOnly, Set<ISeamContextVariable> usedVariables, Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters) throws BadLocationException, StringIndexOutOfBoundsException {
 
 		List<String> res= new ArrayList<String>();
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
@@ -157,9 +157,9 @@ public final class SeamELCompletionEngine {
 
 		// First segment is found - proceed with next tokens 
 		int startTokenIndex = (resolvedExpressionPart == null ? 0 : resolvedExpressionPart.size());
-		Set<IMember> members = new HashSet<IMember>();
+		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
 		for (ISeamContextVariable var : resolvedVariables) {
-			IMember member = SeamExpressionResolver.getMemberByVariable(var, returnEqualedVariablesOnly);
+			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, returnEqualedVariablesOnly);
 			if (member != null && !members.contains(member)) 
 				members.add(member);
 		}
@@ -173,27 +173,23 @@ public final class SeamELCompletionEngine {
 				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 					// proceed with next token
 					continue;
-
+				
 				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
 					// Find properties for the token
 					String name = token.getText();
-					Set<IMember> newMembers = new HashSet<IMember>();
-					for (IMember mbr : members) {
-						try {
-							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
-							Set<IMember> properties = SeamExpressionResolver.getProperties(type);
-							for (IMember property : properties) {
-								StringBuffer propertyName = new StringBuffer(property.getElementName());
-								if (property instanceof IMethod) { // Setter or getter
-									propertyName.delete(0, 3);
-									propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
-								}
-								if (name.equals(propertyName.toString())) {
-									newMembers.add(property);
-								}
+					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
+						for (TypeInfoCollector.MemberInfo property : properties) {
+							StringBuffer propertyName = new StringBuffer(property.getName());
+							if (property instanceof TypeInfoCollector.MethodInfo) { // Setter or getter
+								propertyName.delete(0, (propertyName.charAt(0) == 'i' ? 2 : 3));
+								propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
 							}
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
+							if (name.equals(propertyName.toString())) {
+								newMembers.add(property);
+							}
 						}
 					}
 					members = newMembers;
@@ -204,18 +200,14 @@ public final class SeamELCompletionEngine {
 					if (name.indexOf('(') != -1) {
 						name = name.substring(0, name.indexOf('('));
 					}
-					Set<IMember> newMembers = new HashSet<IMember>();
-					for (IMember mbr : members) {
-						try {
-							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
-							Set<IMember> methods = SeamExpressionResolver.getMethods(type);
-							for (IMember method : methods) {
-								if (name.equals(method.getElementName())) {
-									newMembers.add(method);
-								}
+					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
+						for (TypeInfoCollector.MemberInfo method : methods) {
+							if (name.equals(method.getName())) {
+								newMembers.add(method);
 							}
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
 					members = newMembers;
@@ -224,32 +216,19 @@ public final class SeamELCompletionEngine {
 				Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
 					// return all the methods + properties
-					for (IMember mbr : members) {
-						try {
-							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
-							proposals.addAll(SeamExpressionResolver.getMethodPresentations(type));
-							proposals.addAll(SeamExpressionResolver.getPropertyPresentations(type, unpairedGettersOrSetters));
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
-						}
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						proposals.addAll(infos.getMethodPresentations());
+						proposals.addAll(infos.getPropertyPresentations(unpairedGettersOrSetters));
 					}
 				} else if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
 					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
-					for (IMember mbr : members) {
-						try {
-							IType type = null;
-							if(mbr instanceof IType) {
-								type = (IType)mbr;
-							} else {
-								type = EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr));
-							}
-							proposalsToFilter.addAll(SeamExpressionResolver.getMethodPresentations(type));
-							proposalsToFilter.addAll(SeamExpressionResolver.getPropertyPresentations(type, unpairedGettersOrSetters));
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
-						}
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						proposalsToFilter.addAll(infos.getMethodPresentations());
+						proposalsToFilter.addAll(infos.getPropertyPresentations(unpairedGettersOrSetters));
 					}
 					for (String proposal : proposalsToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
@@ -259,7 +238,7 @@ public final class SeamELCompletionEngine {
 							if (proposal.equals(filter)) {
 								proposals.add(proposal);
 								if(unpairedGettersOrSetters!=null) {
-									IMethod unpirMethod = unpairedGettersOrSetters.get(filter);
+									TypeInfoCollector.MethodInfo unpirMethod = unpairedGettersOrSetters.get(filter);
 									unpairedGettersOrSetters.clear();
 									if(unpirMethod!=null) {
 										unpairedGettersOrSetters.put(filter, unpirMethod);
@@ -492,10 +471,9 @@ public final class SeamELCompletionEngine {
 	 * @param prefix the prefix to search for
 	 * @param position Offset of the prefix 
 	 */
-	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression) throws BadLocationException, StringIndexOutOfBoundsException {
 
+	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<IJavaElement> res= new ArrayList<IJavaElement>();
-		
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(expression, expression.length());
 		List<ELOperandToken> tokens = tokenizer.getTokens();
 		
@@ -526,13 +504,12 @@ public final class SeamELCompletionEngine {
 		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
 			// First segment is the last one
 			for (ISeamContextVariable var : resolvedVariables) {
-/*				String varName = var.getName();
-				if(expression.length()<varName.length()) {
-					res.add(varName.substring(prefixString.length()));
-				} else if(returnEqualedVariablesOnly) {
-					res.add(varName);
-				}
-*/
+//				String varName = var.getName();
+//				if(expression.length()<varName.length()) {
+//					res.add(varName.substring(prefixString.length()));
+//				} else if(returnEqualedVariablesOnly) {
+//					res.add(varName);
+//				}
 				IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
 				if (member instanceof IJavaElement){
 					res.add((IJavaElement)member);
@@ -543,9 +520,9 @@ public final class SeamELCompletionEngine {
 
 		// First segment is found - proceed with next tokens 
 		int startTokenIndex = (resolvedExpressionPart == null ? 0 : resolvedExpressionPart.size());
-		Set<IMember> members = new HashSet<IMember>();
+		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
 		for (ISeamContextVariable var : resolvedVariables) {
-			IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
+			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, true);
 			if (member != null && !members.contains(member)) 
 				members.add(member);
 		}
@@ -563,23 +540,19 @@ public final class SeamELCompletionEngine {
 				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
 					// Find properties for the token
 					String name = token.getText();
-					Set<IMember> newMembers = new HashSet<IMember>();
-					for (IMember mbr : members) {
-						try {
-							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
-							Set<IMember> properties = SeamExpressionResolver.getProperties(type);
-							for (IMember property : properties) {
-								StringBuffer propertyName = new StringBuffer(property.getElementName());
-								if (property instanceof IMethod) { // Setter or getter
-									propertyName.delete(0, 3);
-									propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
-								}
-								if (name.equals(propertyName.toString())) {
-									newMembers.add(property);
-								}
+					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
+						for (TypeInfoCollector.MemberInfo property : properties) {
+							StringBuffer propertyName = new StringBuffer(property.getName());
+							if (property instanceof TypeInfoCollector.MethodInfo) { // Setter or getter
+								propertyName.delete(0, 3);
+								propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
 							}
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
+							if (name.equals(propertyName.toString())) {
+								newMembers.add(property);
+							}
 						}
 					}
 					members = newMembers;
@@ -590,18 +563,15 @@ public final class SeamELCompletionEngine {
 					if (name.indexOf('(') != -1) {
 						name = name.substring(0, name.indexOf('('));
 					}
-					Set<IMember> newMembers = new HashSet<IMember>();
-					for (IMember mbr : members) {
-						try {
-							IType type = (mbr instanceof IType ? (IType)mbr : EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr)));
-							Set<IMember> methods = SeamExpressionResolver.getMethods(type);
-							for (IMember method : methods) {
-								if (name.equals(method.getElementName())) {
-									newMembers.add(method);
-								}
+					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
+						for (TypeInfoCollector.MemberInfo method : methods) {
+							if (method instanceof TypeInfoCollector.MethodInfo 
+									&& name.equals(method.getName())) {
+								newMembers.add(method);
 							}
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
 						}
 					}
 					members = newMembers;
@@ -611,36 +581,25 @@ public final class SeamELCompletionEngine {
 				if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
 					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
-					Set<IJavaElement> javaElementsToFilter = new HashSet<IJavaElement>(); 
-					for (IMember mbr : members) {
-						try {
-							IType type = null;
-							if(mbr instanceof IType) {
-								type = (IType)mbr;
-							} else {
-								type = EclipseJavaUtil.findType(mbr.getJavaProject(), EclipseJavaUtil.getMemberTypeAsString(mbr));
-							}
-							javaElementsToFilter.addAll(SeamExpressionResolver.getMethods(type));
-							javaElementsToFilter.addAll(SeamExpressionResolver.getProperties(type));
-						} catch (JavaModelException ex) {
-							SeamCorePlugin.getPluginLog().logError(ex);
-						}
+					Set<TypeInfoCollector.MemberInfo> javaElementInfosToFilter = new HashSet<TypeInfoCollector.MemberInfo>(); 
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						javaElementInfosToFilter.addAll(infos.getMethods());
+						javaElementInfosToFilter.addAll(infos.getProperties());
 					}
-					for (IJavaElement javaElement : javaElementsToFilter) {
+					
+					for (TypeInfoCollector.MemberInfo info : javaElementInfosToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
 						String filter = token.getText();
-						String elementName = javaElement.getElementName();
 						// This is used for validation.
-						if (javaElement.getElementName().equals(filter)) {
-							javaElements.add(javaElement);
+						if (info.getName().equals(filter)) {
+							javaElements.add(info.getJavaElement());
 						} else {
-							if (javaElement instanceof IMethod) {
-								boolean getter = (elementName.startsWith("get") && !"get".equals(elementName)) || //$NON-NLS-1$ //$NON-NLS-2$
-								 (elementName.startsWith("is") && !"is".equals(elementName)); //$NON-NLS-1$ //$NON-NLS-2$
-								boolean setter = elementName.startsWith("set") && !"set".equals(elementName); //$NON-NLS-1$ //$NON-NLS-2$
-								if(getter || setter) {
-									StringBuffer name = new StringBuffer(elementName);
-									if(elementName.startsWith("i")) { //$NON-NLS-1$
+							if (info instanceof TypeInfoCollector.MethodInfo) {
+								TypeInfoCollector.MethodInfo methodInfo = (TypeInfoCollector.MethodInfo)info;
+								if(methodInfo.isGetter() || methodInfo.isSetter()) {
+									StringBuffer name = new StringBuffer(methodInfo.getName());
+									if(methodInfo.getName().startsWith("i")) { //$NON-NLS-1$
 										name.delete(0, 2);
 									} else {
 										name.delete(0, 3);
@@ -648,7 +607,7 @@ public final class SeamELCompletionEngine {
 									name.setCharAt(0, Character.toLowerCase(name.charAt(0)));
 									String propertyName = name.toString();
 									if (propertyName.equals(filter)) {
-										javaElements.add(javaElement);
+										javaElements.add(methodInfo.getJavaElement());
 									}
 								}
 							}
@@ -661,4 +620,5 @@ public final class SeamELCompletionEngine {
 
 		return res;
 	}
+
 }

@@ -54,6 +54,7 @@ import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
+import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
 /**
  * EL Validator
@@ -277,7 +278,7 @@ public class SeamELValidator extends SeamValidator {
 					}
 
 					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
-					Map<String, IMethod> unpairedGettersOrSetters = new HashMap<String, IMethod>();
+					Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters = new HashMap<String, TypeInfoCollector.MethodInfo>();
 
 					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, position, true, usedVariables, unpairedGettersOrSetters);
 
@@ -293,8 +294,8 @@ public class SeamELValidator extends SeamValidator {
 
 					// Check pair for getter/setter
 					if(unpairedGettersOrSetters.size()>0) {
-						IMethod unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
-						String methodName = unpairedMethod.getElementName();
+						TypeInfoCollector.MethodInfo unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
+						String methodName = unpairedMethod.getName();
 						String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
 						String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
 						String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
