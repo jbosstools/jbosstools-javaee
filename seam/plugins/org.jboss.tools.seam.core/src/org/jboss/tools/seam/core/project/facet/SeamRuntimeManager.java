@@ -213,5 +213,24 @@ public class SeamRuntimeManager {
 			}
 		}
 	}
+	
+	public void changeRuntimeName(String oldName, String newName) {
+		SeamRuntime o = findRuntimeByName(oldName);
+		if(o == null) {
+			return;
+		}
+		o.setName(newName);
+		onRuntimeNameChanged(oldName, newName);				
+	}
+
+	private void onRuntimeNameChanged(String oldName, String newName) {
+		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (int i = 0; i < ps.length; i++) {
+			ISeamProject sp = SeamCorePlugin.getSeamProject(ps[i], false);
+			if(sp != null && oldName.equals(sp.getRuntimeName())) {
+				sp.setRuntimeName(newName);
+			}
+		}
+	}
 
 }
