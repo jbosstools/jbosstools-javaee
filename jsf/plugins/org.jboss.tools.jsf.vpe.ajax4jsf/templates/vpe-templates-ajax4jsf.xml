@@ -64,7 +64,7 @@
 			</vpe:dnd>
 			<vpe:textFormating>
 				<vpe:format type="BlockFormat"
-							handler="com.exadel.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+							handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
 				<vpe:format type="UnderlineFormat" setDefault="true">
 					<vpe:formatAttribute type="style"/>
 				</vpe:format>
@@ -278,7 +278,7 @@
 			</vpe:dnd>
 			<vpe:textFormating>
 				<vpe:format type="BlockFormat"
-							handler="com.exadel.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+							handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
 				<vpe:format type="UnderlineFormat" setDefault="true">
 					<vpe:formatAttribute type="style"/>
 				</vpe:format>
