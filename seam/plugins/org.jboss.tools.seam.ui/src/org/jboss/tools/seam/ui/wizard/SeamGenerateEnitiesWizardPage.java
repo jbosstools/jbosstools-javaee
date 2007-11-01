@@ -16,14 +16,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.hibernate.console.ConsoleConfiguration;
+import org.hibernate.console.KnownConfigurations;
+import org.hibernate.eclipse.console.utils.ProjectUtils;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -70,13 +77,14 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 
 		projectEditor.doFillIntoGrid(projectComposite);
 
-		configEditor = SeamWizardFactory.createHibernateConsoleConfigurationSelectionFieldEditor(null);
+		configEditor = SeamWizardFactory.createHibernateConsoleConfigurationSelectionFieldEditor(getConsoleConfigurationName(projectName));
 		configEditor.addPropertyChangeListener(this);
 		configEditor.doFillIntoGrid(projectComposite);
 		configEditor.setEditable(false);
+		configEditor.addPropertyChangeListener(this);
 
 		String config = (String)configEditor.getValue();
-		if(config==null && config.length()==0) {
+		if(config==null || config.length()==0) {
 			setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_MESSAGE);
 			setPageComplete(false);
 		}
@@ -100,6 +108,33 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		setControl(top);
 	}
 
+	private static String getConsoleConfigurationName(String seamWebProjectName) {
+		if(seamWebProjectName==null || seamWebProjectName.trim().length()==0) {
+			return null;
+		}
+		String seamProjectName = seamWebProjectName;
+		IProject webProject = ResourcesPlugin.getWorkspace().getRoot().getProject(seamWebProjectName);
+		if(webProject==null) {
+			return null;
+		}
+		SeamProjectsSet projectSet = SeamProjectsSet.create(webProject);
+		if(!projectSet.isWarConfiguration()) {
+			IProject ejbProject = projectSet.getEjbProject();
+			if(ejbProject==null) {
+				return null;
+			}
+			seamProjectName = ejbProject.getName();
+		}
+		ConsoleConfiguration[] configs = KnownConfigurations.getInstance().getConfigurations();
+		for (int i = 0; i < configs.length; i++) {
+			IJavaProject javaProject = ProjectUtils.findJavaProject(configs[i]);
+			if(javaProject!=null && javaProject.getProject().getName().equals(seamProjectName)) {
+				return configs[i].getName();
+			}
+		}
+		return null;
+	}
+
 	public static class GridLayoutComposite extends Composite {
 
 		public GridLayoutComposite(Composite parent, int style, int columnNumber) {
@@ -118,6 +153,18 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
+		if(IParameter.SEAM_PROJECT_NAME.equals(event.getPropertyName()) &&
+				event.getNewValue()!=null &&
+				!event.getNewValue().equals(event.getOldValue())) {
+			String consoleConfigName = getConsoleConfigurationName(event.getNewValue().toString());
+			if(consoleConfigName!=null) {
+				configEditor.setValue(consoleConfigName);
+			}
+		}
+		validate();
+	}
+
+	private void validate() {
 		Map<String, String> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
 
 		if(errors.size()>0) {
@@ -126,7 +173,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 			return;
 		}
 		String config = (String)configEditor.getValue();
-		if(config==null && config.length()==0) {
+		if(config==null || config.length()==0) {
 			setErrorMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_ERROR);
 			setPageComplete(false);
 			return;
@@ -148,5 +195,4 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		}
 		return null;
 	}
-	
 }

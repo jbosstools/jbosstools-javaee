@@ -67,7 +67,8 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 				ILaunchConfigurationType launchConfigurationType = 
 					launchManager.getLaunchConfigurationType("org.hibernate.eclipse.launch.CodeGenerationLaunchConfigurationType"); //$NON-NLS-1$
-				// we put null in location to avoid it being inside the project by default since the launch config currenlty will be machine independent with respect to the paths. 
+				// we put null in location to avoid it being inside the project by default since the launch config currenlty will be machine independent with respect to the paths.
+				launchConfigurationType.getAttribute("");
 				ILaunchConfigurationWorkingCopy wc = 
 					launchConfigurationType.newInstance(null, project.getName() + "-generate-entities"); //$NON-NLS-1$
 
