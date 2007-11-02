@@ -21,7 +21,9 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jst.j2ee.internal.web.archive.operations.WebFacetProjectCreationDataModelProvider;
+import org.eclipse.jst.jsf.ui.internal.JSFUiPlugin;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
@@ -73,6 +75,17 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		Collection requiredFacets = (Collection)getProperty(REQUIRED_FACETS_COLLECTION);
 		requiredFacets.add(ProjectFacetsManager.getProjectFacet(seamFacet.getStringProperty(IFacetDataModelProperties.FACET_ID)));
 		setProperty(REQUIRED_FACETS_COLLECTION, requiredFacets);
+
+		IDialogSettings s = JSFUiPlugin.getDefault().getDialogSettings();
+		IDialogSettings r = s.getSection(JSFUiPlugin.PLUGIN_ID + ".jsfFacetInstall");
+		if(r == null) {
+			r = s.addNewSection(JSFUiPlugin.PLUGIN_ID + ".jsfFacetInstall");
+		}
+		IDialogSettings u = r.getSection("urlMappings");
+		if(u == null) {
+			u = r.addNewSection("urlMappings");
+		}
+		u.put("pattern", new String[]{"*.seam"});
 	}
 
 	public boolean propertySet(String propertyName, Object propertyValue) {
