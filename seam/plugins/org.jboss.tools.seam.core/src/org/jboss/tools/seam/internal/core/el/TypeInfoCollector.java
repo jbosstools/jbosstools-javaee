@@ -541,7 +541,8 @@ public class TypeInfoCollector {
 				properties.add(info);
 		}
 		for (FieldInfo info : fFields) {
-			if (info.isPublic())
+			if (info.isPublic() 
+					&& !info.isStatic() && !info.isJavaLangObject())
 				properties.add(info);
 		}
 		
