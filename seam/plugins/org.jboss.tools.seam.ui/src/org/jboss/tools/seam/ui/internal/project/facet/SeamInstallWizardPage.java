@@ -100,8 +100,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			.createRadioEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, 
-					Arrays.asList(new String[] { SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_WAR, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR }),
-					Arrays.asList(new Object[] { SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_WAR, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR }),
+					Arrays.asList(new String[] { ISeamFacetDataModelProperties.DEPLOY_AS_WAR.toUpperCase(), ISeamFacetDataModelProperties.DEPLOY_AS_EAR.toUpperCase() }),
+					Arrays.asList(new Object[] { ISeamFacetDataModelProperties.DEPLOY_AS_WAR, ISeamFacetDataModelProperties.DEPLOY_AS_EAR }),
 					getDeployAsDefaultValue());
 
 	String lastCreatedCPName = ""; //$NON-NLS-1$
