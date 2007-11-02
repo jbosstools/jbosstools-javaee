@@ -314,7 +314,6 @@ public class TypeInfoCollector {
 				char[][] parameterNames, char[] completionName,
 				int modifiers, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -322,12 +321,10 @@ public class TypeInfoCollector {
 				char[] className, char[] completionName,
 				int modifiers, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		public void acceptError(IProblem error) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -350,30 +347,23 @@ public class TypeInfoCollector {
 				char[] interfaceName, char[] completionName,
 				int modifiers, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		public void acceptKeyword(char[] keywordName,
 				int completionStart, int completionEnd,
 				int relevance) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		public void acceptLabel(char[] labelName,
 				int completionStart, int completionEnd,
 				int relevance) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		public void acceptLocalVariable(char[] name,
 				char[] typePackageName, char[] typeName,
 				int modifiers, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		public void acceptMethod(
@@ -406,21 +396,17 @@ public class TypeInfoCollector {
 				char[] returnTypeName, char[] completionName,
 				int modifiers, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		public void acceptModifier(char[] modifierName,
 				int completionStart, int completionEnd,
 				int relevance) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		public void acceptPackage(char[] packageName,
 				char[] completionName, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -428,7 +414,6 @@ public class TypeInfoCollector {
 				char[] typeName, char[] completionName,
 				int completionStart, int completionEnd,
 				int relevance) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -436,8 +421,6 @@ public class TypeInfoCollector {
 				char[] typeName, char[] name,
 				char[] completionName, int completionStart,
 				int completionEnd, int relevance) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	};
@@ -540,12 +523,19 @@ public class TypeInfoCollector {
 					&& (info.isGetter() || info.isSetter()))
 				properties.add(info);
 		}
+		
+		/*
+		 * The following code was excluded due to the following issue: 
+		 * 
+		 * http://jira.jboss.com/jira/browse/JBIDE-1203#action_12385823
+		 * 
+		 * 
 		for (FieldInfo info : fFields) {
 			if (info.isPublic() 
 					&& !info.isStatic() && !info.isJavaLangObject())
 				properties.add(info);
 		}
-		
+		*/
 		
 		return properties;
 	}
