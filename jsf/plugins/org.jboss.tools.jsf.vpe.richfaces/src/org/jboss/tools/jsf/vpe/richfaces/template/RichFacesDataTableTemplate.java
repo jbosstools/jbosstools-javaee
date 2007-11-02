@@ -62,7 +62,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		encodeCaption(creationData, sourceElement, visualDocument, table);
 
 		// Encode Header
-		Element header = ComponentUtil.getFacet(sourceElement, "header");
+		Node header = ComponentUtil.getFacet((Element)sourceElement, "header",true);
 		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, "header");
 		if(header!=null || !columnsHeaders.isEmpty()) {
 			nsIDOMElement thead = visualDocument.createElement("thead");
@@ -141,7 +141,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 					tbody.appendChild(tr);
 					creationData.addChildrenInfo(trInfo);
 				}
-				trInfo.addSourceChild(child);
+					trInfo.addSourceChild(child);
+
 			} else if(child.getNodeName().endsWith(":columnGroup")) {
 				RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)child, visualDocument, tbody);
 				tr = null;
@@ -198,7 +199,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			if(colspan!=null && colspan.length()>0) {
 				td.setAttribute("colspan", colspan);
 			}
-			Element facetBody = ComponentUtil.getFacet(column, facetName);
+			Node facetBody = ComponentUtil.getFacet(column, facetName,true);
 
 			VpeChildrenInfo child = new VpeChildrenInfo(td);
 			child.addSourceChild(facetBody);
@@ -206,13 +207,13 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		}
 	}
 
-	protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData, nsIDOMElement parentTheadOrTfood, int columns, nsIDOMDocument visualDocument, Element facetBody, String skinFirstRowClass, String skinRowClass, String skinCellClass, String facetBodyClass, String element) {
+	protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData, nsIDOMElement parentTheadOrTfood, int columns, nsIDOMDocument visualDocument, Node facetBody, String skinFirstRowClass, String skinRowClass, String skinCellClass, String facetBodyClass, String element) {
 		boolean isColumnGroup = facetBody.getNodeName().endsWith(":columnGroup");
 		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
 		if(isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData, facetBody, visualDocument, parentTheadOrTfood);
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else if(isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData, facetBody, visualDocument, parentTheadOrTfood);
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument.createElement("tr");
 			parentTheadOrTfood.appendChild(tr);
@@ -243,7 +244,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		}
 	}
 
-	public static ArrayList<Element> getColumns(Element parentSourceElement) {
+	public static ArrayList<Element> getColumns(Node parentSourceElement) {
 		ArrayList<Element> columns = new ArrayList<Element>();
 		NodeList children = parentSourceElement.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
@@ -258,7 +259,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 	public static ArrayList<Element> getColumnsWithFacet(ArrayList<Element> columns, String facetName) {
 		ArrayList<Element> columnsWithFacet = new ArrayList<Element>();
 		for (Element column : columns) {
-			Element body = ComponentUtil.getFacet(column, facetName);
+			Node body = ComponentUtil.getFacet(column, facetName,true);
 			if(body!=null) {
 				columnsWithFacet.add(column);
 			}

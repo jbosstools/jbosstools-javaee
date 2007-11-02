@@ -41,7 +41,7 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 
 		// Create mapping to Encode body
 		VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		List<Node> children = ComponentUtil.getChildren(sourceElement,true);
 		for (Node child : children) {
 			tdInfo.addSourceChild(child);
 		}

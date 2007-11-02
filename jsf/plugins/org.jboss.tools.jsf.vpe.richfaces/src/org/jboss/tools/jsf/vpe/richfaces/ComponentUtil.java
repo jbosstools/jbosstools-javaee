@@ -48,7 +48,7 @@ public class ComponentUtil {
 		NodeList children = sourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
-			if (node instanceof Element && "f:facet".equals(node.getNodeName())) {
+			if (node instanceof Element && node.getNodeName()!=null && node.getNodeName().indexOf(":facet")>0) {
 				Element element = (Element) node;
 				String name = element.getAttribute("name");
 				if (facetName.equals(name)) {
