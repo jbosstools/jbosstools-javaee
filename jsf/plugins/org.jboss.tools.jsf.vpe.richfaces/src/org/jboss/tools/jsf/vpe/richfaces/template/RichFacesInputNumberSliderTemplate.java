@@ -30,6 +30,7 @@ import org.w3c.dom.Node;
 
 /**
  * Template for input number slider control
+ *  // TODO We should refactor this class. There is a lot of reflection and a lot of direct work with mozzila.
  */
 public class RichFacesInputNumberSliderTemplate extends
 		AbstractRichFacesInputNumberTemplate {
@@ -199,6 +200,7 @@ public class RichFacesInputNumberSliderTemplate extends
 				INPUT_STYLE_CLASS);
 		table1Tr1Td3input.setAttribute(HtmlComponentUtil.HTML_SIZE_ATTR, "3");
 		table1Tr1Td3input.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, "50");
+		table1Tr1Td3input.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
 
 		table1Tr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		table1Tr2Td1 = visualDocument
@@ -224,6 +226,9 @@ public class RichFacesInputNumberSliderTemplate extends
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		table1Tr2Td1Table2Tr1Td1.setAttribute(
 				HtmlComponentUtil.HTML_CLASS_ATTR, "empty-cell-style");
+
+		table1Tr2Td1Table2Tr1Td1.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
+
 		table1Tr2Td1Table2Tr1Td1.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, "50%");
 
@@ -231,6 +236,8 @@ public class RichFacesInputNumberSliderTemplate extends
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		table1Tr2Td1Table2Tr1Td2.setAttribute(
 				HtmlComponentUtil.HTML_CLASS_ATTR, "cell-with-picture");
+
+		table1Tr2Td1Table2Tr1Td2.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
 
 		table1Tr2Td1Table2Tr1Td2Img = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
@@ -240,6 +247,9 @@ public class RichFacesInputNumberSliderTemplate extends
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		table1Tr2Td1Table2Tr1Td3.setAttribute(
 				HtmlComponentUtil.HTML_CLASS_ATTR, "empty-cell-style");
+
+		table1Tr2Td1Table2Tr1Td3.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
+
 		table1Tr2Td1Table2Tr1Td3.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, "50%");
 
@@ -273,11 +283,11 @@ public class RichFacesInputNumberSliderTemplate extends
 				try {
 					function.invoke(this, inPatams);
 				} catch (IllegalArgumentException e1) {
-					RichFacesTemplatesActivator.getPluginLog().logWarning("IllegalArgumentException: " + e.getKey() +  ":" + e1.getMessage() );
+					RichFacesTemplatesActivator.getPluginLog().logWarning("IllegalArgumentException: " + e.getKey() +  ":" + e1.getMessage(), e1);
 				} catch (IllegalAccessException e2) {
-					RichFacesTemplatesActivator.getPluginLog().logWarning("IllegalAccessException: " + e.getKey() +  ":" + e2.getMessage() );
+					RichFacesTemplatesActivator.getPluginLog().logWarning("IllegalAccessException: " + e.getKey() +  ":" + e2.getMessage(), e2);
 				} catch (InvocationTargetException e3) {
-					RichFacesTemplatesActivator.getPluginLog().logWarning("InvocationTargetException: " +  e3.getMessage() );
+//					RichFacesTemplatesActivator.getPluginLog().logWarning("InvocationTargetException: " +  e3.getMessage(), e3);
 				}
 			}
 		}
@@ -308,7 +318,7 @@ public class RichFacesInputNumberSliderTemplate extends
 			} catch (IllegalAccessException e2) {
 				RichFacesTemplatesActivator.getPluginLog().logWarning("IllegalAccessException: " + name +  ":" + e2.getMessage() );
 			} catch (InvocationTargetException e3) {
-				RichFacesTemplatesActivator.getPluginLog().logWarning("InvocationTargetException: "  + name + ":"+  e3.getMessage() );
+//				RichFacesTemplatesActivator.getPluginLog().logWarning("InvocationTargetException: "  + name + ":"+  e3.getMessage() );
 			}
 		}
 		
@@ -389,7 +399,12 @@ public class RichFacesInputNumberSliderTemplate extends
 		nsIDOMNode td1 = trList.item(0);
 		nsIDOMNodeList td1List = td1.getChildNodes();
 		nsIDOMNode minValue = td1List.item(0);
-		nsIDOMElement minValueElement = (nsIDOMElement) minValue.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement minValueElement = null;
+		try {
+			minValueElement = (nsIDOMElement) minValue.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		} catch (org.mozilla.xpcom.XPCOMException e) {
+			return null; // It could happen if source code doesn't have such element.
+		}
 		return minValueElement;
 	}
 

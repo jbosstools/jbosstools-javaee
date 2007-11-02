@@ -75,8 +75,8 @@ vertical-align : bottom;
 	width:100%;
 }
 .cell-with-picture {
-	border-color: #ffffff;
-	border: 1px solid white;
+	background-color : transparent;
+	border: 1px solid transparent;
 	align: left;
 	height: 4px;
 	width: 7px;
