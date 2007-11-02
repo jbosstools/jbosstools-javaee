@@ -31,10 +31,12 @@ public class RadioField extends BaseField implements SelectionListener {
 	private Button[] radios;
 	private Object value;
 
-	public RadioField(Composite parent,  List<String> labels, List<Object> values, Object defaultValue) {
+	public RadioField(Composite parent,  List<String> labels, List<Object> values, Object defaultValue, boolean verticalLayout) {
 		topComposite = new Composite(parent, SWT.NONE);
-		topComposite.setLayout(new GridLayout(values.size(), false));
-//		topComposite.setLayoutData(new GridData(SWT.BEGINNING));
+		topComposite.setLayout(new GridLayout(verticalLayout ? 1 : values.size(), false));
+		if(verticalLayout) {
+			topComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		}
 
 		radios = new Button[values.size()];
 		if(defaultValue==null && values.size()>0) {
@@ -44,7 +46,7 @@ public class RadioField extends BaseField implements SelectionListener {
 			radios[i] = new Button(topComposite, SWT.RADIO);
 			radios[i].setText(labels.get(i));
 			radios[i].addSelectionListener(this);
-			radios[i].setLayoutData(new GridData(GridData.BEGINNING));
+			radios[i].setLayoutData(new GridData(verticalLayout ? GridData.FILL_HORIZONTAL : GridData.BEGINNING));
 			Object value = values.get(i);
 			radios[i].setData(value);
 			if(value != null && value.equals(defaultValue)) {

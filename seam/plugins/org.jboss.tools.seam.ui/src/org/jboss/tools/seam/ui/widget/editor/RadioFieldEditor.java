@@ -47,7 +47,7 @@ public class RadioFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 
 	public Control getComboControl(Composite composite) {
 		if(radioField == null) {
-			radioField = new RadioField(composite,labels, values,getValue());
+			radioField = new RadioField(composite,labels, values,getValue(), false);
 			radioField.addPropertyChangeListener(this);
 		} else if(composite!=null) {
 			Assert.isTrue(radioField.getControl().getParent()==composite);

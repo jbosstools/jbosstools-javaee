@@ -102,7 +102,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		ArrayList<String> labels = new ArrayList<String>();
 		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_REVERSE_ENGINEER_LABEL);
 		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_EXISTING_ENTITIES_LABEL);
-		radios = new RadioField(radioComposite, labels, values, null);
+		radios = new RadioField(radioComposite, labels, values, null, true);
 		radios.addPropertyChangeListener(this);
 
 		setControl(top);
