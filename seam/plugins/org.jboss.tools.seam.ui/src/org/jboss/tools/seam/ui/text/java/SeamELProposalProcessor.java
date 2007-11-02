@@ -275,7 +275,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();
 			for (String string : uniqueSuggestions) {
-				if (string.length() > 0) {
+				if (string.length() >= 0) {
 					string = proposalPrefix + string + proposalSufix;
 					result.add(new Proposal(string, prefix, offset, offset + string.length() - proposalSufix.length()));
 				}
