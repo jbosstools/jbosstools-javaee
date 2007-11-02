@@ -81,6 +81,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		if(r == null) {
 			r = s.addNewSection(JSFUiPlugin.PLUGIN_ID + ".jsfFacetInstall");
 		}
+		r.put("deployImplType", "SERVER_SUPPLIED");
 		IDialogSettings u = r.getSection("urlMappings");
 		if(u == null) {
 			u = r.addNewSection("urlMappings");
