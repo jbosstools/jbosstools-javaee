@@ -11,7 +11,9 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -35,35 +37,52 @@ import org.w3c.dom.Node;
 public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 
     static String[] HEADER_CONTENT = { "<<", "<", "", ">", ">>" };
+    private List<String> holidays = new ArrayList<String>();
     private String[] weeks = new String[7];
-    private int[] monthDays = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
+    final static int MONTH_LENGTH[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
+			30, 31 };
+	final static int LEAP_MONTH_LENGTH[] = { 31, 29, 31, 30, 31, 30, 31, 31,
+			30, 31, 30, 31 }; 
     final static String STYLE_PATH = "calendar/calendar.css";
     final static String BUTTON_IMG = "calendar/calendar.gif";
     final static int COLUMN = 8;
     final static String FILL_WIDTH = "100%";
     final static int NUM_DAYS_IN_WEEK = 7;
+    final static int NUM_WEEK_ON_PAGE = 6;
     final static String TODAY = "Today";
     final static int CALENDAR_WIDTH = 200;
     final static int CALENDAR_IMAGE_WIDTH = 20;
     final static String ATTRIBUTE_POPUP = "popup";
     final static String ATTRIBUTE_TEXT = "text";
-
+    
+    final static String WEEK_DAY_HTML_CLASS_ATTR = "rich-calendar-days";
+    final static String HOL_WEEK_DAY_HTML_CLASS_ATTR = "rich-calendar-days rich-calendar-days-holly";
+    final static String TODAY_HTML_CLASS_ATTR = "rich-cell-size rich-calendar-cell rich-calendar-today ";
+	final static String CUR_MONTH_HTML_CLASS_ATTR = "rich-cell-size rich-calendar-cell";
+	final static String HOL_CUR_MONTH_HTML_CLASS_ATTR = "rich-cell-size rich-calendar-cell rich-calendar-holly "/* rich-right-cell " */;
+	final static String OTHER_MONTH_HTML_CLASS_ATTR = "rich-cell-size rich-calendar-cell rich-calendar-other-month ";
+	final static String HOL_OTHER_MONTH_HTML_CLASS_ATTR = "rich-cell-size rich-calendar-cell rich-calendar-holly rich-calendar-other-month" /* rich-right-cell " */;
+	
     public RichFacesCalendarTemplate() {
-	super();
-	Calendar cal = Calendar.getInstance();
-	int firstDayOfWeek = cal.getFirstDayOfWeek();
-	while (firstDayOfWeek != cal.get(Calendar.DAY_OF_WEEK)) {
-	    cal.add(Calendar.DAY_OF_MONTH, 1);
-	}
+		super();
+		Calendar cal = Calendar.getInstance();
+		int firstDayOfWeek = cal.getFirstDayOfWeek();
+		while (firstDayOfWeek != cal.get(Calendar.DAY_OF_WEEK)) {
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+		}
 
-	SimpleDateFormat sdf = new SimpleDateFormat("EE");
-	for (int i = 0; i < NUM_DAYS_IN_WEEK; i++) {
-	    weeks[i] = new String(sdf.format(cal.getTime()));
-	    cal.add(Calendar.DAY_OF_MONTH, 1);
-	}
+		SimpleDateFormat sdf = new SimpleDateFormat("EE");
+		String dayOfWeek = "";
+		for (int i = 0; i < NUM_DAYS_IN_WEEK; i++) {
+			dayOfWeek = sdf.format(cal.getTime());
+			weeks[i] = dayOfWeek;
+			if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+					|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+				holidays.add(dayOfWeek);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+		}
 
-    }
+	}
 
     /**
      * Creates a node of the visual tree on the node of the source tree. This
@@ -239,177 +258,181 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
     }
 
     /**
-     * 
-     * @param visualDocument
-     * @return Node of the visual tree.
-     */
-    private nsIDOMElement createCalendarBody(nsIDOMDocument visualDocument) {
-	nsIDOMElement tbody = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+	 * 
+	 * @param visualDocument
+	 * @return Node of the visual tree.
+	 */
+	private nsIDOMElement createCalendarBody(nsIDOMDocument visualDocument) {
 
-	nsIDOMElement bodyTR = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TR);
-	for (int i = 0; i < COLUMN; i++) {
-	    nsIDOMElement td = visualDocument
-		    .createElement(HtmlComponentUtil.HTML_TAG_TD);
-	    td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		    "rich-calendar-days");
-	    if (i == 0) {
-		nsIDOMElement br = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_BR);
-		td.appendChild(br);
-	    } else {
-		nsIDOMText text = visualDocument.createTextNode(i == 0 ? ""
-			: weeks[i - 1]);
-		td.appendChild(text);
-	    }
-	    bodyTR.appendChild(td);
-	}
+		nsIDOMElement tbody = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 
-	tbody.appendChild(bodyTR);
+		nsIDOMElement bodyTR = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
-	// // Calendar body
-	int jumped = 0;
-	int inserted = 1;
+		Calendar cal1 = Calendar.getInstance();
 
-	Calendar cal = Calendar.getInstance();
-	int month = cal.get(Calendar.MONTH);
-	int day = cal.get(Calendar.DAY_OF_WEEK);
-	int dayN = cal.get(Calendar.DAY_OF_MONTH);
-	int days = monthDays[month];
-	if (month == 1) {
-	    int year = cal.get(Calendar.YEAR);
-	    if (year % 4 == 0)
-		days = 29;
-	}
+		SimpleDateFormat wdf = new SimpleDateFormat("EE");
 
-	int start = day - (dayN % NUM_DAYS_IN_WEEK + cal.getFirstDayOfWeek() - 1);
-	if (start < 0)
-	    start += NUM_DAYS_IN_WEEK;
-	int weeks = (start + days) / NUM_DAYS_IN_WEEK;
-	if ((start + days) % NUM_DAYS_IN_WEEK != 0)
-	    weeks++;
-	for (int i = weeks; i > 0; i--) {
-	    nsIDOMElement tr = visualDocument
-		    .createElement(HtmlComponentUtil.HTML_TAG_TR);
-	    // Week in year
-	    nsIDOMElement weekTD = visualDocument
-		    .createElement(HtmlComponentUtil.HTML_TAG_TD);
-	    weekTD.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		    "rich-calendar-week");
-	    cal.set(Calendar.DAY_OF_MONTH, inserted);
-	    nsIDOMText weekText = visualDocument.createTextNode(""
-		    + cal.get(Calendar.WEEK_OF_YEAR));
-	    weekTD.appendChild(weekText);
-	    tr.appendChild(weekTD);
-	    for (int j = NUM_DAYS_IN_WEEK; j > 0; j--) {
-		nsIDOMElement td = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		if (jumped < start || inserted > days) {
-		    cal.set(Calendar.DAY_OF_MONTH, inserted);
-		    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		    td
-			    .setAttribute(
-				    HtmlComponentUtil.HTML_CLASS_ATTR,
-				    (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) ? "rich-cell-size rich-calendar-cell rich-calendar-holly rich-right-cell"
-					    : "rich-cell-size rich-calendar-cell rich-calendar-cell");
-		    nsIDOMElement br = visualDocument
-			    .createElement(HtmlComponentUtil.HTML_TAG_BR);
-		    td.appendChild(br);
-		    tr.appendChild(td);
-		    jumped++;
-		} else {
-		    if (inserted == dayN) {
+		cal1.set(Calendar.WEEK_OF_MONTH, Calendar.SATURDAY);
+		System.out.print(wdf.format(cal1.getTime()));
 
-			td
-				.setAttribute(
-					HtmlComponentUtil.HTML_CLASS_ATTR,
-					"rich-cell-size rich-calendar-cell rich-calendar-today ");
-			nsIDOMText text = visualDocument.createTextNode(""
-				+ inserted);
-			td.appendChild(text);
-			tr.appendChild(td);
-		    } else {
-			cal.set(Calendar.DAY_OF_MONTH, inserted);
-			int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-			td
-				.setAttribute(
-					HtmlComponentUtil.HTML_CLASS_ATTR,
-					(dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) ? "rich-cell-size rich-calendar-cell rich-calendar-holly rich-right-cell "
-						: "rich-cell-size rich-calendar-cell");
-			nsIDOMText text = visualDocument.createTextNode(""
-				+ inserted);
-			td.appendChild(text);
-			tr.appendChild(td);
-		    }
-		    inserted++;
+		for (int i = 0; i < COLUMN; i++) {
+			nsIDOMElement td = visualDocument
+					.createElement(HtmlComponentUtil.HTML_TAG_TD);
+
+			if (i == 0) {
+				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+						WEEK_DAY_HTML_CLASS_ATTR);
+				nsIDOMElement br = visualDocument
+						.createElement(HtmlComponentUtil.HTML_TAG_BR);
+				td.appendChild(br);
+			} else {
+				if (holidays.contains(weeks[i - 1])) {
+					td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+							HOL_WEEK_DAY_HTML_CLASS_ATTR);
+				} else {
+					td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+							WEEK_DAY_HTML_CLASS_ATTR);
+				}
+				nsIDOMText text = visualDocument.createTextNode(i == 0 ? ""
+						: weeks[i - 1]);
+				td.appendChild(text);
+			}
+			bodyTR.appendChild(td);
 		}
-	    }
-	    tbody.appendChild(tr);
+
+		tbody.appendChild(bodyTR);
+
+		// Calendar body
+
+		Calendar cal = Calendar.getInstance();
+
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_WEEK);
+		int dayN = cal.get(Calendar.DAY_OF_MONTH);
+		int start = day - (dayN % NUM_DAYS_IN_WEEK + cal.getFirstDayOfWeek());
+
+		cal.add(Calendar.DAY_OF_MONTH, -(start + dayN));
+
+		for (int i = NUM_WEEK_ON_PAGE; i > 0; i--) {
+
+			nsIDOMElement tr = visualDocument
+					.createElement(HtmlComponentUtil.HTML_TAG_TR);
+			// Week in year
+			nsIDOMElement weekTD = visualDocument
+					.createElement(HtmlComponentUtil.HTML_TAG_TD);
+			weekTD.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+					"rich-calendar-week");
+			nsIDOMText weekText = visualDocument.createTextNode(""
+					+ cal.get(Calendar.WEEK_OF_YEAR));
+			weekTD.appendChild(weekText);
+			tr.appendChild(weekTD);
+			for (int j = NUM_DAYS_IN_WEEK; j > 0; j--) {
+
+				nsIDOMElement td = visualDocument
+						.createElement(HtmlComponentUtil.HTML_TAG_TD);
+
+				String currentAttr = "";
+
+				int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+				if (cal.get(Calendar.MONTH) == month) {
+
+					// if this is current day
+					if (cal.get(Calendar.DAY_OF_MONTH) == dayN
+							&& cal.get(Calendar.MONTH) == month) {
+						currentAttr = TODAY_HTML_CLASS_ATTR;
+
+					} else if (dayOfWeek == Calendar.SATURDAY
+							|| dayOfWeek == Calendar.SUNDAY) {
+						currentAttr = HOL_CUR_MONTH_HTML_CLASS_ATTR;
+					} else {
+						currentAttr = CUR_MONTH_HTML_CLASS_ATTR;
+					}
+				} else {
+					if (dayOfWeek == Calendar.SATURDAY
+							|| dayOfWeek == Calendar.SUNDAY) {
+						currentAttr = HOL_OTHER_MONTH_HTML_CLASS_ATTR;
+					} else {
+						currentAttr = OTHER_MONTH_HTML_CLASS_ATTR;
+					}
+				}
+
+				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, currentAttr);
+				nsIDOMText text = visualDocument.createTextNode(""
+						+ cal.get(Calendar.DAY_OF_MONTH));
+				td.appendChild(text);
+				tr.appendChild(td);
+
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+
+			}
+			tbody.appendChild(tr);
+		}
+
+		// Footer for calendar
+
+		nsIDOMElement tr = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+
+		nsIDOMElement td = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN);
+
+		nsIDOMElement table = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
+		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
+		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
+		table.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
+
+		nsIDOMElement tr1 = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+
+		nsIDOMElement td1 = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		td1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				"rich-calendar-toolfooter");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		cal = Calendar.getInstance();
+
+		nsIDOMText text1 = visualDocument.createTextNode(sdf.format(cal
+				.getTime()));
+		td1.appendChild(text1);
+		tr1.appendChild(td1);
+
+		nsIDOMElement td2 = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		td2.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
+		td2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				"rich-calendar-toolfooter");
+		tr1.appendChild(td2);
+
+		nsIDOMElement td3 = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		td3.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
+		td3.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				"rich-calendar-toolfooter");
+		td3.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR,
+				HtmlComponentUtil.HTML_ALIGN_RIGHT_VALUE);
+		nsIDOMText text3 = visualDocument.createTextNode(TODAY);
+		td3.appendChild(text3);
+		tr1.appendChild(td3);
+
+		table.appendChild(tr1);
+		td.appendChild(table);
+		tr.appendChild(td);
+
+		tbody.appendChild(tr);
+
+		return tbody;
 	}
-
-	// Footer for calendar
-
-	nsIDOMElement tr = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TR);
-
-	nsIDOMElement td = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TD);
-	td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN);
-
-	nsIDOMElement table = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
-	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
-	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
-	table.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
-
-	nsIDOMElement tr1 = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TR);
-
-	nsIDOMElement td1 = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TD);
-	td1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		"rich-calendar-toolfooter");
-
-	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-	cal = Calendar.getInstance();
-
-	nsIDOMText text1 = visualDocument.createTextNode(sdf.format(cal
-		.getTime()));
-	td1.appendChild(text1);
-	tr1.appendChild(td1);
-
-	nsIDOMElement td2 = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TD);
-	td2.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
-	td2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		"rich-calendar-toolfooter");
-	tr1.appendChild(td2);
-
-	nsIDOMElement td3 = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TD);
-	td3.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
-	td3.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		"rich-calendar-toolfooter");
-	td3.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR,
-		HtmlComponentUtil.HTML_ALIGN_RIGHT_VALUE);
-	nsIDOMText text3 = visualDocument.createTextNode(TODAY);
-	td3.appendChild(text3);
-	tr1.appendChild(td3);
-
-	table.appendChild(tr1);
-	td.appendChild(table);
-	tr.appendChild(td);
-
-	tbody.appendChild(tr);
-
-	return tbody;
-    }
 
     /**
-     * 
-     */
+	 * 
+	 */
     public void setAttribute(VpePageContext pageContext, Element sourceElement,
 	    nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
 	    String name, String value) {

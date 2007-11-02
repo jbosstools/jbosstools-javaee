@@ -71,6 +71,10 @@
 	vertical-align: middle;
 }
 
+.rich-calendar-days-holly {
+	color: RED;
+}
+
 .rich-calendar-week {
 	border-bottom: 1px solid #c0c0c0; /*panelBorderColor*/
 	border-right: 1px solid #c0c0c0; /*panelBorderColor*/
@@ -83,7 +87,7 @@
 }
 
 .rich-calendar-holly {
-	background-color: # #FFEBDA; /*unknown parameter - need to add*/
+	background-color:  #FFEBDA; /*unknown parameter - need to add*/
 	color: #FF7800; /*unknown parameter - need to add*/
 }
 
@@ -134,4 +138,14 @@
 .rich-calendar-popupicon {
 	cursor: pointer;
 	vertical-align: middle;
+}
+
+.rich-calendar-today {
+	background-color: #ff7800; /*unknown parameter - need to add*/
+	color: #ffebda; /*unknown parameter - need to add*/
+	font-weight: bold;
+}
+
+.rich-calendar-other-month {
+	color: #C7D7EC
 }
