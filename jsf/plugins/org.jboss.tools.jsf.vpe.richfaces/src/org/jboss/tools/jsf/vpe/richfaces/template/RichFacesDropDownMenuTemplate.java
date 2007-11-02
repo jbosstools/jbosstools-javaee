@@ -22,6 +22,7 @@ import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -233,4 +234,51 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		} else
 			visualElement.removeAttribute(attrName);
 	}
+	
+	 /**
+	     * Is invoked after construction of all child nodes of the current visual
+	     * node.
+	     * 
+	     * @param pageContext
+	     *                Contains the information on edited page.
+	     * @param sourceNode
+	     *                The current node of the source tree.
+	     * @param visualDocument
+	     *                The document of the visual tree.
+	     * @param data
+	     *                Object <code>VpeCreationData</code>, built by a method
+	     *                <code>create</code>
+	     */
+
+	    @Override
+	    public void validate(VpePageContext pageContext, Node sourceNode,
+		    nsIDOMDocument visualDocument, VpeCreationData data) {
+		super.validate(pageContext, sourceNode, visualDocument, data);
+		correctLabelStyles(data.getNode());
+	    }
+	    
+	    /**
+	     * Correct font for label
+	     * 
+	     * @param node
+	     */
+	    private void correctLabelStyles(nsIDOMNode node) {
+
+		try {
+		    nsIDOMElement element = (nsIDOMElement) node
+			    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		    if (node.getNodeName().equalsIgnoreCase(
+			    HtmlComponentUtil.HTML_TAG_SPAN)) {
+			String styleClass = element.getAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
+			styleClass = (styleClass==null?"":styleClass) + " dr-label-text-decor dr-menu-label";
+			element.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+		    }
+		    nsIDOMNodeList list = node.getChildNodes();
+		    for (int i = 0; i < list.getLength(); i++) {
+			correctLabelStyles(list.item(i));
+		    }
+		} catch (XPCOMException e) {
+		    return;
+		}
+	    }
 }
