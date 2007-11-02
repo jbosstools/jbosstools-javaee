@@ -86,6 +86,8 @@ public class RichFacesInputNumberSliderTemplate extends
 		defaultArgsMappedMethods[1] = Element.class;
 	}
 
+	private boolean rightInputPosition = true;
+
 	/**
 	 * Default constructor
 	 */
@@ -96,6 +98,7 @@ public class RichFacesInputNumberSliderTemplate extends
 		addMapAttibuteToMethod("inputSize", "setInputSize");
 		addMapAttibuteToMethod("inputClass", "setInputClass");
 		addMapAttibuteToMethod("inputStyle", "setInputStyle");
+		addMapAttibuteToMethod("inputPosition", "setInputPosition");
 		addMapAttibuteToMethod("maxlength", "setMaxlength");
 		addMapAttibuteToMethod("showInput", "showInput");
 		addMapAttibuteToMethod("showBoundaryValues", "showBoundaryValues");
@@ -152,6 +155,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+		setInputPosition(sourceNode);
 
 		nsIDOMElement table1 = null;
 		nsIDOMElement table1Tr1 = null;
@@ -165,10 +169,14 @@ public class RichFacesInputNumberSliderTemplate extends
 		nsIDOMElement table1Tr2Td1 = null;
 		nsIDOMElement table1Tr2Td1Table2 = null;
 		nsIDOMElement table1Tr2Td1Table2Tr1 = null;
-		nsIDOMElement table1Tr2Td1Table2Tr1Td1 = null;
-		nsIDOMElement table1Tr2Td1Table2Tr1Td2 = null;
-		nsIDOMElement table1Tr2Td1Table2Tr1Td2Img = null;
-		nsIDOMElement table1Tr2Td1Table2Tr1Td3 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1Td = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1TdTable = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1TdTableTr = null;
+
+		nsIDOMElement table1Tr2Td1Table2Tr1TdTableTrTd1 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1TdTableTrTd2 = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1TdTableTrTd2Img = null;
+		nsIDOMElement table1Tr2Td1Table2Tr1TdTableTrTd3 = null;
 
 		// sets css link
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE, "inputNumberSlider");
@@ -200,7 +208,11 @@ public class RichFacesInputNumberSliderTemplate extends
 				INPUT_STYLE_CLASS);
 		table1Tr1Td3input.setAttribute(HtmlComponentUtil.HTML_SIZE_ATTR, "3");
 		table1Tr1Td3input.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, "50");
-		table1Tr1Td3input.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
+		String positionStyle = "margin-left: 10px;";
+		if(!rightInputPosition) {
+			positionStyle = "margin-right: 10px;";
+		}
+		table1Tr1Td3input.setAttribute("style", positionStyle + ComponentUtil.getBackgoundImgStyle("inputNumberSlider/inputbg.gif"));
 
 		table1Tr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		table1Tr2Td1 = visualDocument
@@ -215,59 +227,80 @@ public class RichFacesInputNumberSliderTemplate extends
 		table1Tr2Td1Table2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				INNER_TABLE_STYLE);
 		table1Tr2Td1Table2.setAttribute(
-				HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
+				HtmlComponentUtil.HTML_CELLPADDING_ATTR, "1");
 		table1Tr2Td1Table2.setAttribute(
 				HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
 
 		table1Tr2Td1Table2Tr1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
-		table1Tr2Td1Table2Tr1Td1 = visualDocument
+		table1Tr2Td1Table2Tr1Td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		table1Tr2Td1Table2Tr1TdTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		table1Tr2Td1Table2Tr1TdTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
+		table1Tr2Td1Table2Tr1TdTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
+		table1Tr2Td1Table2Tr1TdTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
+
+		table1Tr2Td1Table2Tr1TdTableTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+
+		table1Tr2Td1Table2Tr1TdTableTrTd1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		table1Tr2Td1Table2Tr1Td1.setAttribute(
+		table1Tr2Td1Table2Tr1TdTableTrTd1.setAttribute(
 				HtmlComponentUtil.HTML_CLASS_ATTR, "empty-cell-style");
 
-		table1Tr2Td1Table2Tr1Td1.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
+		table1Tr2Td1Table2Tr1TdTableTrTd1.setAttribute("style", ComponentUtil.getBackgoundImgStyle("inputNumberSlider/sliderbg.gif"));
 
-		table1Tr2Td1Table2Tr1Td1.setAttribute(
+		table1Tr2Td1Table2Tr1TdTableTrTd1.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, "50%");
 
-		table1Tr2Td1Table2Tr1Td2 = visualDocument
+		table1Tr2Td1Table2Tr1TdTableTrTd2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		table1Tr2Td1Table2Tr1Td2.setAttribute(
+		table1Tr2Td1Table2Tr1TdTableTrTd2.setAttribute(
 				HtmlComponentUtil.HTML_CLASS_ATTR, "cell-with-picture");
 
-		table1Tr2Td1Table2Tr1Td2.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
+		table1Tr2Td1Table2Tr1TdTableTrTd2.setAttribute("style", ComponentUtil.getBackgoundImgStyle("inputNumberSlider/inputbg.gif"));
 
-		table1Tr2Td1Table2Tr1Td2Img = visualDocument
+		table1Tr2Td1Table2Tr1TdTableTrTd2Img = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-		ComponentUtil.setImg(table1Tr2Td1Table2Tr1Td2Img, IMAGE_SLIDER);
+		ComponentUtil.setImg(table1Tr2Td1Table2Tr1TdTableTrTd2Img, IMAGE_SLIDER);
 
-		table1Tr2Td1Table2Tr1Td3 = visualDocument
+		table1Tr2Td1Table2Tr1TdTableTrTd3 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		table1Tr2Td1Table2Tr1Td3.setAttribute(
+		table1Tr2Td1Table2Tr1TdTableTrTd3.setAttribute(
 				HtmlComponentUtil.HTML_CLASS_ATTR, "empty-cell-style");
 
-		table1Tr2Td1Table2Tr1Td3.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle());
+		table1Tr2Td1Table2Tr1TdTableTrTd3.setAttribute("style", ComponentUtil.getBackgoundImgStyle("inputNumberSlider/sliderbg.gif"));
 
-		table1Tr2Td1Table2Tr1Td3.setAttribute(
+		table1Tr2Td1Table2Tr1TdTableTrTd3.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, "50%");
 
 		table1.appendChild(table1Tr1);
 		table1.appendChild(table1Tr2);
-		table1Tr1.appendChild(table1Tr1Td1);
-		table1Tr1.appendChild(table1Tr1Td2);
-		table1Tr1.appendChild(table1Tr1Td3);
+
+		if(rightInputPosition) {
+			table1Tr1.appendChild(table1Tr1Td1);
+			table1Tr1.appendChild(table1Tr1Td2);
+			table1Tr1.appendChild(table1Tr1Td3);
+		} else {
+			table1Tr1.appendChild(table1Tr1Td3);
+			table1Tr1.appendChild(table1Tr1Td1);
+			table1Tr1.appendChild(table1Tr1Td2);
+		}
+
 		table1Tr2.appendChild(table1Tr2Td1);
 		table1Tr1Td1.appendChild(table1Tr1Td1Text);
 		table1Tr1Td2.appendChild(table1Tr1Td2Text);
-		table1Tr1Td3.appendChild(table1Tr1Td3input);
+
+		table1Tr1Td3.appendChild(table1Tr1Td3input);			
+
 		table1Tr2Td1.appendChild(table1Tr2Td1Table2);
 		table1Tr2Td1Table2.appendChild(table1Tr2Td1Table2Tr1);
-		table1Tr2Td1Table2Tr1.appendChild(table1Tr2Td1Table2Tr1Td1);
-		table1Tr2Td1Table2Tr1.appendChild(table1Tr2Td1Table2Tr1Td2);
-		table1Tr2Td1Table2Tr1.appendChild(table1Tr2Td1Table2Tr1Td3);
-		table1Tr2Td1Table2Tr1Td2.appendChild(table1Tr2Td1Table2Tr1Td2Img);
+		table1Tr2Td1Table2Tr1.appendChild(table1Tr2Td1Table2Tr1Td);
+		table1Tr2Td1Table2Tr1Td.appendChild(table1Tr2Td1Table2Tr1TdTable);
+		table1Tr2Td1Table2Tr1TdTable.appendChild(table1Tr2Td1Table2Tr1TdTableTr);
+		table1Tr2Td1Table2Tr1TdTableTr.appendChild(table1Tr2Td1Table2Tr1TdTableTrTd1);
+		table1Tr2Td1Table2Tr1TdTableTr.appendChild(table1Tr2Td1Table2Tr1TdTableTrTd2);
+		table1Tr2Td1Table2Tr1TdTableTr.appendChild(table1Tr2Td1Table2Tr1TdTableTrTd3);
+		table1Tr2Td1Table2Tr1TdTableTrTd2.appendChild(table1Tr2Td1Table2Tr1TdTableTrTd2Img);
 
 		// 
 		// set a default values
@@ -295,6 +328,11 @@ public class RichFacesInputNumberSliderTemplate extends
 
 		VpeCreationData creationData = new VpeCreationData(table1);
 		return creationData;
+	}
+
+	private void setInputPosition(Node sourceNode) {
+		String position = getAttribute("inputPosition", sourceNode);
+		rightInputPosition = !"left".equalsIgnoreCase(position);
 	}
 
 	/**
@@ -362,7 +400,12 @@ public class RichFacesInputNumberSliderTemplate extends
 		nsIDOMNodeList tableList = table.getChildNodes();
 		nsIDOMNode tr = tableList.item(0);
 		nsIDOMNodeList trList = tr.getChildNodes();
-		nsIDOMNode td1 = trList.item(2);
+		nsIDOMNode td1 = null;
+		if(rightInputPosition) {
+			td1 = trList.item(2);
+		} else {
+			td1 = trList.item(0);
+		}
 		nsIDOMNodeList td1List = td1.getChildNodes();
 		nsIDOMNode input =  td1List.item(0);
 		nsIDOMElement inputElement = (nsIDOMElement) input.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
@@ -580,8 +623,7 @@ public class RichFacesInputNumberSliderTemplate extends
 		}
 		double h1 = ((roundForStep(step, value) - min) / (max - min)) * 100;
 		double h2 = 100 - h1;
-		
-		
+
 		nsIDOMNodeList nodeList = visualElement.getChildNodes();
 		nsIDOMNode node_01 = nodeList.item(1); 
 		nsIDOMNodeList nodeList_01 = node_01.getChildNodes();
@@ -598,11 +640,11 @@ public class RichFacesInputNumberSliderTemplate extends
 		
 		table1Tr2Td1Table2Tr1Td1.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, (int) h1 + "%");
-		
-		nsIDOMElement table1Tr2Td1Table2Tr1Td2 = (nsIDOMElement)node_01_00_00_00_02.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		
-		table1Tr2Td1Table2Tr1Td2.setAttribute(
+		if(node_01_00_00_00_02!=null) {
+			nsIDOMElement table1Tr2Td1Table2Tr1Td2 = (nsIDOMElement)node_01_00_00_00_02.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			table1Tr2Td1Table2Tr1Td2.setAttribute(
 				HtmlComponentUtil.HTML_WIDTH_ATTR, (int) h2 + "%");
+		}
 	}
 
 	/**
@@ -655,8 +697,21 @@ public class RichFacesInputNumberSliderTemplate extends
 		nsIDOMElement input = getInputElement(visualNode);
 		if (input != null) {
 			String tmp = getAttribute("inputStyle", sourceNode);
-			input.setAttribute("style", tmp);
+			String style = getAttribute("style", (Element)input);
+			if(style!=null) {
+				input.setAttribute("style", tmp + style);				
+			} else {
+				input.setAttribute("style", tmp);
+			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param visualNode
+	 * @param sourceNode
+	 */
+	public void setInputPosition(nsIDOMElement visualNode, Element sourceNode) {
 	}
 
 	/**
@@ -670,5 +725,12 @@ public class RichFacesInputNumberSliderTemplate extends
 			String tmp = getAttribute("maxlength", sourceNode);
 			input.setAttribute("maxlength", tmp);
 		}
+	}
+
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+			return true;
 	}	
 }

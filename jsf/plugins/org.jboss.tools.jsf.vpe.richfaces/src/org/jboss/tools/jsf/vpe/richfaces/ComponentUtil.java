@@ -272,13 +272,21 @@ public class ComponentUtil {
 	}
 
 	/**
-	 * Returns Style with background image for default RichFaces skin.
+	 * Returns Style with default background image for default RichFaces skin.
 	 * 
 	 * @return
 	 */
 	public static String getHeaderBackgoundImgStyle() {
-		String imgPath = ComponentUtil
-				.getAbsoluteResourcePath("common/background.gif");
+		return getBackgoundImgStyle("common/background.gif");
+	}
+
+	/**
+	 * Returns Style with background image for default RichFaces skin.
+	 * 
+	 * @return
+	 */
+	public static String getBackgoundImgStyle(String imagePath) {
+		String imgPath = ComponentUtil.getAbsoluteResourcePath(imagePath);
 		String style = "background-image: url(file:///"
 				+ imgPath.replace('\\', '/') + ");";
 		return style;
