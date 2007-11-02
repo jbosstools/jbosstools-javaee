@@ -220,6 +220,9 @@
     
     <vpe:tag name="a4j:status" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
+			<span class="{@styleClass};{@stopStyleClass}" style="{@style};{@stopStyle}" title="{tagstring()}">
+				<vpe:value expr=" {jsfvalue(@stopText)}"/>
+			</span>
 	    </vpe:template>
     </vpe:tag>
     
