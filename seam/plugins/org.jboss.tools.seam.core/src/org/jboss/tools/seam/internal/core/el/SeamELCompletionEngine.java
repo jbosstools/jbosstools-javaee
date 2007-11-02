@@ -146,7 +146,7 @@ public final class SeamELCompletionEngine {
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
 				String prefixString = prefix.toString();
-				if(prefixString.length()<varName.length()) {
+				if(prefixString.length()<=varName.length()) {
 					res.add(varName.substring(prefixString.length()));
 				} else if(returnEqualedVariablesOnly) {
 					res.add(varName);

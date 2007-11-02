@@ -72,7 +72,11 @@ public class TypeInfoCollector {
 		}
 		
 		public boolean isPublic() {
-			return Modifier.isPublic(fModifiers) && !isJavaLangObject();
+			return Modifier.isPublic(fModifiers);
+		}
+
+		public boolean isStatic() {
+			return Modifier.isStatic(fModifiers);
 		}
 		
 		public boolean isJavaLangObject() {
@@ -482,6 +486,7 @@ public class TypeInfoCollector {
 		List<MemberInfo> methods = new ArrayList<MemberInfo>();
 		for (MethodInfo info : fMethods) {
 			if (info.isPublic() && !info.isConstructor() 
+					&& !info.isStatic() && !info.isJavaLangObject()
 					&& !info.isGetter() && !info.isSetter())
 				methods.add(info);
 		}
@@ -496,7 +501,6 @@ public class TypeInfoCollector {
 	 */
 	public Set<String> getMethodPresentations() {
 		Set<String> methods = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-//				IMethod[] mthds = type.getMethods();
 		List<MemberInfo> mthds = getMethods();
 		for (MemberInfo info : mthds) {
 			if (!(info instanceof MethodInfo))
@@ -532,6 +536,7 @@ public class TypeInfoCollector {
 		List<MemberInfo> properties = new ArrayList<MemberInfo>();
 		for (MethodInfo info : fMethods) {
 			if (info.isPublic() && !info.isConstructor() 
+					&& !info.isStatic() && !info.isJavaLangObject()
 					&& (info.isGetter() || info.isSetter()))
 				properties.add(info);
 		}
