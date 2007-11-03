@@ -16,10 +16,22 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
+	
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument){
+
+		Attr attr = ((Element)sourceNode).getAttributeNode(VpeDefineContainerTemplate.ATTR_TEMPLATE);
+		if (attr != null) {
+			return super.create(pageContext, sourceNode, visualDocument);
+		} else  {
+			nsIDOMElement composition = visualDocument.createElement(HTML.TAG_DIV);
+			return new VpeCreationData(composition);
+		}
+	}
 	
 	protected VpeCreationData createStub(String fileName, Node sourceElement, nsIDOMDocument visualDocument) {
 		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);

@@ -34,7 +34,7 @@ import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
 public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
-	private static final String ATTR_TEMPLATE = "template";
+	protected static final String ATTR_TEMPLATE = "template";
 	private static Set<Node> defineContainer = new HashSet<Node>();
 	
 	@Override

@@ -19,10 +19,10 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 public class VpeInsertTemplate extends VpeAbstractTemplate {
 	
@@ -48,21 +48,27 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 					creationData.setData(pageContext.getVisualBuilder().popIncludeStack());
 					return creationData;
 				}
+			} else {
+				Node undefineElement = findUndefinedElement(includeInfo.getElement());
+				if (undefineElement != null) {
+					VpeCreationData creationData = createInsert(undefineElement, visualDocument);
+					creationData.setData(pageContext.getVisualBuilder().popIncludeStack());
+					return creationData;
+				}
 			}
 		}
 		VpeCreationData creationData = createStub((Element)sourceNode, visualDocument);
 		creationData.setData(null);
 		return creationData;
 	}
-
 	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData creationData) {
 		VpeIncludeInfo includeInfo = (VpeIncludeInfo)creationData.getData();
 		if (includeInfo != null) {
 			pageContext.getVisualBuilder().pushIncludeStack((VpeIncludeInfo)includeInfo);
 		}
 	}
-
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 	
@@ -81,7 +87,28 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		return defineElement;
 	}
 	
-	private VpeCreationData createInsert(Element defineElement, nsIDOMDocument visualDocument) {
+	private Node findUndefinedElement(Element defineContainer) {
+		Node defineElement = null; 
+		NodeList children = defineContainer.getChildNodes();
+		int len = children.getLength();
+		for (int i = 0; i < len; i++) {
+			Node child = children.item(i);
+			if ((child.getNodeType() == Node.ELEMENT_NODE||child.getNodeType() == Node.TEXT_NODE)) {
+				
+				if(child.getNodeType() == Node.ELEMENT_NODE&&!"define".equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) {
+					defineElement = child;
+					break;
+				} else if(child.getNodeType() == Node.TEXT_NODE&&((Text)child).getNodeValue()!=null&&
+						((Text)child).getNodeValue().trim().length()>0) {
+					defineElement = child;
+					break;
+				}
+			}
+		}
+		return defineElement;
+	}
+	
+	private VpeCreationData createInsert(Node defineElement, nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = new VpeCreationData(null);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(null);
 		childrenInfo.addSourceChild(defineElement);

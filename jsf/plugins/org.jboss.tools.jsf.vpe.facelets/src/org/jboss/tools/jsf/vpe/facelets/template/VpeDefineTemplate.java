@@ -10,13 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
-import java.util.Map;
-
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.template.VpeTemplate;
-import org.jboss.tools.vpe.editor.util.HTML;
+ import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
