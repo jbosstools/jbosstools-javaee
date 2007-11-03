@@ -8,17 +8,53 @@
 			<div style="border: 1px dashed #2A7F00" />
 		</vpe:template>
 	</vpe:tag>
-
+	
 	<vpe:tag name="s:decorate" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
 			<div style="border: 1px dashed #2A7F00" />
 		</vpe:template>
 	</vpe:tag>
+	
+	<vpe:tag name="s:label" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<label class="{@styleClass}" style="{@style}"/>
+		</vpe:template>
+	</vpe:tag>
 
 	<vpe:tag name="s:message" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<div style="border: 1px dashed #2A7F00" />
-		</vpe:template>
+	    <vpe:template children="no" modify="no">
+		    <span class="{@styleClass}" style="{@style}">
+				Error Messages
+		    </span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no"/>
+			</vpe:dnd>
+			<vpe:textFormating>
+				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler"/>
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+	    </vpe:template>
 	</vpe:tag>
 
 
@@ -34,13 +70,13 @@
 
 	<vpe:tag name="s:span" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<span />
+			<span style="{@style}" class="{@styleClass}" />
 		</vpe:template>
 	</vpe:tag>
 
 	<vpe:tag name="s:div" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<div />
+			<div style="{@style}" class="{@styleClass}" />
 		</vpe:template>
 	</vpe:tag>
 
