@@ -10,9 +10,8 @@
 	</vpe:tag>
 	
 	<vpe:tag name="s:decorate" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<div style="border: 1px dashed #2A7F00" />
-		</vpe:template>
+			<vpe:template children="yes" modify="yes" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets" class="org.jboss.tools.jsf.vpe.facelets.template.VpeDecorateTemplate">
+			</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="s:label" case-sensitive="yes">
