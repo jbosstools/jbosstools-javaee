@@ -446,18 +446,99 @@ public class TypeInfoCollector {
 			return;
 		try {
 			fType.codeComplete("".toCharArray(), -1, 0, new char[0][0], new char[0][0], new int[0], false, fRequestor);
+
+			IType binType = fType;
+			while (binType != null) {
+				IMethod[] binMethods = binType.getMethods();
+				for (int i = 0; binMethods != null && i < binMethods.length; i++) {
+					if (binMethods[i].isConstructor()) continue;
+					MethodInfo[] infos = findMethodInfos(binMethods[i]);
+					if (infos == null || infos.length == 0) {
+						fMethods.add(new MethodInfo(binMethods[i]));
+					}
+				}
+				binType = getSuperclass(binType);
+			}
+
+			// !!!!!!!
+			// This inserts here methods "public int size()" and "public boolean isEmpty()" for javax.faces.model.DataModel 
+			// as requested by Gavin in JBIDE-1256
+			// !!!!!!! 
+//			if (fType.)
+			
+
+			
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
 	
-	public MemberInfo[] getAllMethodInfos() {
-		List<MemberInfo> methods = new ArrayList<MemberInfo>(); 
-		for (MethodInfo info : fMethods) {
-			if (info.isPublic() && !info.isConstructor())
-				methods.add(info);
+	private static IType getSuperclass(IType type) throws JavaModelException {
+		String superclassName = type.getSuperclassName();
+		if(superclassName!=null) {
+			String fullySuperclassName = EclipseJavaUtil.resolveType(type, superclassName);
+			if(fullySuperclassName!=null&&!fullySuperclassName.equals("java.lang.Object")) { //$NON-NLS-1$
+				IType superType = type.getJavaProject().findType(fullySuperclassName);
+				return superType;
+			}
 		}
-		return methods.toArray(new MemberInfo[0]);
+		return null;
+	}
+
+	
+	public MethodInfo[] findMethodInfos(IMethod iMethod) {
+		List<MethodInfo> methods = new ArrayList<MethodInfo>();
+
+		// filter methods by name
+		for (MethodInfo info : fMethods) {
+			if (info.getName().equals(iMethod.getElementName())) {
+				methods.add(info);
+			}
+		}
+		if (methods.isEmpty())
+			return new MethodInfo[0];
+
+		if (methods.size() == 1)
+			return methods.toArray(new MethodInfo[0]);
+			
+		// filter methods by number of parameters
+		List<MethodInfo> filteredMethods = new ArrayList<MethodInfo>();
+		for (MethodInfo method : methods) {
+			if (method.getNumberOfParameters() == iMethod.getNumberOfParameters())
+				filteredMethods.add(method);
+		}
+		if (filteredMethods.isEmpty())
+			return new MethodInfo[0];
+		if (filteredMethods.size() == 1)
+			return filteredMethods.toArray(new MethodInfo[0]);
+			
+		methods = filteredMethods;
+			
+		// filter methods by parameter types
+		filteredMethods = new ArrayList<MethodInfo>(); 
+		for(MethodInfo method : methods) {
+			String[] methodParameterTypes = 
+				resolveSignatures(iMethod.getDeclaringType(), 
+						iMethod.getParameterTypes());
+			String[] parameterTypes = method.getParameterTypeQualifiedNames();
+
+			boolean equal = true;
+			for (int i = 0; parameterTypes != null && i < parameterTypes.length; i++) {
+				// simple types must be equal, but complex types may not 
+				if (!parameterTypes[i].equals(methodParameterTypes[i])) {
+					// sure - it's Complex Type
+					if (! (parameterTypes[i].indexOf('.') != -1) 
+							&& (methodParameterTypes[i].indexOf('.') == -1)) {
+						equal = false;
+						break;
+					}
+				}
+			}
+			if (equal) {
+				filteredMethods.add(method);
+			}
+		}
+		return filteredMethods.toArray(new MethodInfo[0]);
 	}
 	
 	/**
