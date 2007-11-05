@@ -79,24 +79,23 @@
 		</vpe:template>
 	</vpe:tag>
 
-	<vpe:tag name="s:button" case-sensitive="yes">
-		<vpe:if test="attrpresent('value')">
-			<vpe:template children="false" modify="yes">
-				<button type="{@type}" value="{jsfvalue(@value)}"
-					class="{@styleClass}" style="{@style}" title="{tagstring()}">
-					<vpe:value expr="{@value}" />
-				</button>
+    <vpe:tag name="s:button" case-sensitive="yes">
+		<vpe:if test="@type=''">
+			<vpe:template children="no" modify="no">
+				<input type="submit" value="{@value}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
 			</vpe:template>
 		</vpe:if>
-		<vpe:if test="not(attrpresent('value'))">
-			<vpe:template children="false" modify="yes">
-				<button type="{@type}" value="{jsfvalue(@value)}"
-					class="{@styleClass}" style="{@style}" title="{tagstring()}">
-					Submit Query
-				</button>
+		<vpe:if test="(@type='button')|(@type='reset')|(@type='submit')">
+			<vpe:template children="no" modify="no">
+				<input type="{@type}" value="{@value}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
 			</vpe:template>
 		</vpe:if>
-	</vpe:tag>
+		<vpe:if test="@type='image'">
+			<vpe:template children="no" modify="no">
+				<input type="{@type}" src="{src(@image)}" value="{@value}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
 
 	<vpe:tag name="s:link" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
