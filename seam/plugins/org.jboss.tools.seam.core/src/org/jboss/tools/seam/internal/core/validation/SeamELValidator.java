@@ -256,7 +256,7 @@ public class SeamELValidator extends SeamValidator {
 		SeamELTokenizer elTokenizer = new SeamELTokenizer(exp);
 		List<ELToken> tokens = elTokenizer.getTokens();
 		for (ELToken token : tokens) {
-			if(token.getType()==ELToken.EL_OPERAND_TOKEN) {
+			if(token.getType()==ELToken.EL_VARIABLE_TOKEN) {
 				validateElOperand(file, token, el.getOffset());
 			}
 		}
