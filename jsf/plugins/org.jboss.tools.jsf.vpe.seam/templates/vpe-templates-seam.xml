@@ -80,19 +80,108 @@
 	</vpe:tag>
 
     <vpe:tag name="s:button" case-sensitive="yes">
-		<vpe:if test="@type=''">
-			<vpe:template children="no" modify="no">
-				<input type="submit" value="{@value}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
-			</vpe:template>
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="@type=''">
+				<vpe:template children="no" modify="no">
+					<input type="submit" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes"/>
+					</vpe:dnd>
+					<vpe:textFormating>
+						<vpe:format type="UnderlineFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BoldFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ItalicFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontNameFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontSizeFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BackgroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ForegroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+					</vpe:textFormating>
+				</vpe:template>
+			</vpe:if>
+			<vpe:if test="(@type='button')|(@type='reset')|(@type='submit')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes"/>
+					</vpe:dnd>
+					<vpe:textFormating>
+						<vpe:format type="UnderlineFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BoldFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ItalicFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontNameFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="FontSizeFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="BackgroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+						<vpe:format type="ForegroundColorFormat">
+							<vpe:formatAttribute type="style"/>
+						</vpe:format>
+					</vpe:textFormating>
+				</vpe:template>
+			</vpe:if>
 		</vpe:if>
-		<vpe:if test="(@type='button')|(@type='reset')|(@type='submit')">
+		<vpe:if test="attrpresent('image')">
 			<vpe:template children="no" modify="no">
-				<input type="{@type}" value="{@value}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
-			</vpe:template>
-		</vpe:if>
-		<vpe:if test="@type='image'">
-			<vpe:template children="no" modify="no">
-				<input type="{@type}" src="{src(@image)}" value="{@value}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+				<input type="image" src="{src(@image)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormating>
+					<vpe:format type="UnderlineFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="BoldFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="ItalicFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="FontNameFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="FontSizeFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="BackgroundColorFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+					<vpe:format type="ForegroundColorFormat">
+						<vpe:formatAttribute type="style"/>
+					</vpe:format>
+				</vpe:textFormating>
 			</vpe:template>
 		</vpe:if>
     </vpe:tag>
