@@ -11,10 +11,8 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -25,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
@@ -52,7 +49,6 @@ import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
@@ -277,14 +273,9 @@ public class SeamELValidator extends SeamValidator {
 						position = 0;
 					}
 
-//					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
-//					Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters = new HashMap<String, TypeInfoCollector.MethodInfo>();
-
-//					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, position, true, usedVariables, unpairedGettersOrSetters);
-					
 					SeamELCompletionEngine.SeamELOperandResolveStatus status = 
 						engine.resolveSeamELOperand(project, file, operand, prefix, position, true);
-					
+
 					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names
 						validationContext.addUnnamedElResource(file.getFullPath());
@@ -314,18 +305,14 @@ public class SeamELValidator extends SeamValidator {
 						return;
 					}
 
-//					SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(operand, position + prefix.length());
-//					List<ELOperandToken> tokens = tokenizer.getTokens();
 					List<ELOperandToken> tokens = status.getUnresolvedTokens();
-					
+
 					for (ELOperandToken token : tokens) {
 						if((token.getType()==ELOperandToken.EL_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
-//							if(!isResolvedVar(token.getText(), usedVariables)) {
-								varName = token.getText();
-								offsetOfVarName = documnetOffset + operandToken.getStart() + token.getStart();
-								lengthOfVarName = varName.length();
-								break;
-//							}
+							varName = token.getText();
+							offsetOfVarName = documnetOffset + operandToken.getStart() + token.getStart();
+							lengthOfVarName = varName.length();
+							break;
 						}
 					}
 				}
@@ -337,15 +324,6 @@ public class SeamELValidator extends SeamValidator {
 		}
 		// Mark invalid EL
 		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-	}
-
-	private boolean isResolvedVar(String varName, Set<ISeamContextVariable> usedVariables) {
-		for (ISeamContextVariable seamContextVariable : usedVariables) {
-			if(varName.equals(seamContextVariable.getName())) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static class EL {
