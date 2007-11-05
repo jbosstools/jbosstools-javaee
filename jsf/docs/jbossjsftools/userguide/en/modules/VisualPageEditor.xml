@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="VisualPageEditor" xreflabel="VisualPageEditor">
+  <?dbhtml filename="VisualPageEditor.html"?>
+  <chapterinfo>
+        <keywordset>
+            <keyword>Red Hat Developer Studio</keyword>
+            <keyword>RHDS</keyword>
+            <keyword>Visual Page Editor</keyword>
+            </keywordset>
+    </chapterinfo>
+<title>Visual Page Editor</title>
+<para>Red Hat Developer Studio comes with a powerful and customizable <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
+<section id="VisualPageEditor174">
+<?dbhtml filename="VisualPageEditor.html"?>
+<title>Visual Page Editor</title>
+
+<para>Now VPE has four tabs: Visual/Source, Visual, Source and Preview.</para>
+<para>Split screen design with instant synchronization between source and visual views:</para>
+
+<figure>
+<title>Visual/Source View</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe1.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also switch to pure Visual design:</para>
+<figure>
+<title>Visual View</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe2.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>Or work just in Source view. Note that selection bar is now available not only in Visual mode but also in Source one:</para>
+<figure>
+<title>Source View</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe3.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+<para>No matter what view you select, you get full integration with Properties and Outline views:</para>
+<figure>
+<title>Properties And Outline Views</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe4.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Preview mode is read-only, it only shows how the page will look like in a browser.</para>
+<figure>
+<title>Preview Mode</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe51.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Use the graphical toolbar to add inline styling to any tag.</para>
+<figure>
+<title>Graphical Toolbar</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe5.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+<para>With just a click or drag-and-drop insert any tags from the palette on to the page you are editing.</para>
+<figure>
+<title>Inserting Tags From Palette</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/VisualPageEditor/vpe6.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+
+<section id="AdvancedSettings954">
+<?dbhtml filename="AdvancedSettings.html"?>
+<title>Advanced Settings</title>
+ 
+  <para>There are three buttons on the <property>Visual Page Editor</property> left side:</para>
+ 
+ <figure>
+  <title>Visual Page Editor Buttons</title>
+  <mediaobject> 
+   <imageobject>
+    <imagedata fileref="images/VisualPageEditor/vpe7.png" />
+   </imageobject>
+  </mediaobject>
+ </figure>
+ 
+ <itemizedlist>
+  <listitem><para>Preferences</para></listitem>
+ </itemizedlist>
+ <para>Provides quick access to Visual Page Editor preferences.</para>
+  <figure>
+  <title>Visual Page Editor Preferences Window</title>
+  <mediaobject> 
+   <imageobject>
+    <imagedata fileref="images/VisualPageEditor/vpe7_1.png" />
+   </imageobject>
+  </mediaobject>
+ </figure>
+ <itemizedlist>
+  <listitem><para>Refresh</para></listitem>
+ </itemizedlist>
+ <para>Refresh displaying information with this button.</para>
+ 
+ <itemizedlist>
+  <listitem><para>Page Design Options</para></listitem>
+ </itemizedlist>
+<para>This button leads to page design options.</para>
+  <figure>
+  <title>Page Design Options</title>
+  <mediaobject> 
+   <imageobject>
+    <imagedata fileref="images/VisualPageEditor/vpe8.png" />
+   </imageobject>
+  </mediaobject>
+ </figure>
+<para>This dialog let&apos;s you set resources which are usually only resolved in runtime. To set a stylesheet,
+ click <emphasis><property>Add</property></emphasis> (for CSS File Path section) and add your stylesheet. It works when CSS is defined on your page in the following way:</para>
+
+<para>Code:</para>
+<programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  href="{requestContextPath}/style.css"/>
+]]></programlisting>
+
+<para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t know what requestContextPath in design time is.</para>
+
+<para>The next section (URI), let&apos;s you add URI taglibs if you are using includes so that the editor knows
+ where to find the tag libraries.</para>
+
+<para>The first two sections let you define actual runtime folders. Here is an example.</para>
+
+<para>Let&apos;s say you have the following project structure:</para>
+
+<programlisting role="XML"><![CDATA[WebContent/
+  pages/
+    img/
+       a.gif
+    header.jsp
+  main.jsp
+]]></programlisting>
+<para>header.jsp content:</para>
+<programlisting role="XML"><![CDATA[My Header
+<img src="img/a.gif"/>
+]]></programlisting>
+<para>main.jsp:</para>
+<programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
+]]></programlisting>
+<para>
+ When you open <emphasis><property>main.jsp</property></emphasis> in Visual Page Editor, it will not be able to resolve the image from the header, 
+ however, it will work fine in runtime. To fix this in design time, click the <emphasis><property>Page Design Options</property></emphasis> button and 
+ set <emphasis><property>Actual Run-Time Relative</property></emphasis> Folder to <emphasis><property>&lt;project&gt;WebContent > pages</property></emphasis> and you will see the image appear.</para>
+<para></para> 
+ <itemizedlist>
+  <listitem><para>Hide Selection bar</para></listitem>
+ </itemizedlist>
+<para> By clicking on the component in Visual view or selecting a code snippet in Source mode you can see the tags tree. If you want to hide the selection bar, use the &quot;Hide Selection Bar&quot; button on the lower right side.</para>
+ 
+ <figure>
+  <title>Selection Bar</title>
+  <mediaobject> 
+   <imageobject>
+    <imagedata fileref="images/VisualPageEditor/vpe9.png"/>
+   </imageobject>
+  </mediaobject>
+ </figure>
+ 
+</section>
+</section>
+
+<section id="SetupnotesforLinu895x">
+<?dbhtml filename="SetupNotesforLinux.html"?>
+<title>Setup notes for Linux</title>
+<section id="HowToStartTheVisualPageEditorUnderLinux85">
+<?dbhtml filename="HowToStartTheVisualPageEditorUnderLinux.html"?>
+<title>How to Start the Visual Page Editor under Linux</title>
+
+<para>Linux users may need to do the following to get the Visual Editor to work correctly on their machines.</para>
+ <itemizedlist>
+<listitem><para>On Fedora or Red Hat Enterprise Linux distributions, install the compat-libstdc++-33.i386 and libXp packages:</para></listitem>
+</itemizedlist>
+<programlisting role="JAVA"><![CDATA[yum install compat-libstdc++-33 libXp
+]]></programlisting>
+
+<itemizedlist>
+<listitem><para>On other rpm-based distributions download libXp.i386 package from <ulink url="http://rpm.pbone.net/index.php3/stat/4/idpl/3418392/com/libXp-1.0.0-8.i386.rpm.html">here</ulink>
+</para></listitem>
+<listitem><para>And install it on your machine:</para></listitem>
+</itemizedlist>
+<programlisting role="JAVA"><![CDATA[rpm -U libXp-1.0.0-8.i386
+]]></programlisting>
+
+<itemizedlist>
+<listitem><para>Open the RHDS perspective. If you see the Help view open, close it and restart RHDS
+</para></listitem>
+</itemizedlist>
+</section>
+
+ <!-- <section id="JustInCase06">
+<?dbhtml filename="JustInCase.html"?>
+<title>Just in Case</title>
+
+<para>If you still experience problems, tell us about your system. Please do the following:</para>
+<itemizedlist>
+ <listitem><para>Clear the Eclipse log file, <emphasis>&lt;workspace&gt;\.metadata\.log</emphasis></para></listitem>
+
+<listitem><para>Start Eclipse with the -debug option:</para></listitem></itemizedlist>
+<programlisting role="JAVA"><![CDATA[eclipse -debug
+]]></programlisting>
+<itemizedlist>
+ <listitem><para>Send the Eclipse log file (<emphasis>&lt;workspace&gt;\.metadata\.log</emphasis>) to <ulink url="mailto:support@exadel.com">support@exadel.com</ulink></para></listitem>
+</itemizedlist>
+ </section>
+ -->
+</section>
+
+<section id="JSPsyntaxvalidation84">
+<?dbhtml filename="JSPsyntaxValidation.html"?>
+<title>JSP syntax validation</title>
+<para>When working in JBoss Tools JSP editor you are constantly provided with feedback and 
+contextual error checking as you type.</para>
+</section>
+
+ <!-- <section id="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents41">
+<?dbhtml filename="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents.html"?>
+<title>JSP Visual Page Editor - Design Time Look and Feel for Custom Components</title>
+
+<itemizedlist>
+<listitem><ulink url="http://www.jboss.org/404.html">Template definition for design-time representation of custom tags</ulink> (pdf)
+<para></para>
+          <note>
+    <title>Note:</title>
+    <para>The templates files are now saved in <emphasis>&lt;RedHatDeveloperStudio&gt;\eclipse\plugins\com.exadel.vpe_1.1.1\plugin.xml</emphasis>. The PDF files show the old location.</para>
+   </note>
+<para></para></listitem>
+ 
+<listitem><ulink url="http://www.jboss.org/404.html">Steps to Create Plug-in</ulink> (pdf)</listitem>
+<listitem><ulink url="index.html">How to use create(..) method</ulink> (pdf)</listitem>
+<listitem>API
+<itemizedlist>
+<listitem><ulink url="http://www.jboss.org/404.html">VpeAbstractTemplate</ulink></listitem>
+<listitem><ulink url="http://www.jboss.org/404.html">VpeTemplate</ulink></listitem></itemizedlist></listitem>
+<listitem><ulink url="http://www.jboss.org/404.html">Download</ulink> examples. The examples.zip file contains two
+ applications. The first application transforms the JSP source tag into visual tag (HTML). This application 
+ is an Eclipse plug-in. Import as an Eclipse project. The second application is a Web applications which 
+ uses the custom component (project with JSF Nature).</listitem>
+</itemizedlist>
+<para>Please send us an email to <ulink url="mailto:support@exadel.com">support@exadel.com</ulink> if you have
+ questions about this feature.</para>
+</section>
+-->
+
+<section id="HTML401Suppor421t">
+<?dbhtml filename="HTML4.01Support.html"?>
+<title>HTML 4.01 Support</title>
+</section>
+
+<section id="JSP2.0JSTL1.0And1.1Suppor52t">
+<?dbhtml filename="JSP2.0JSTL1.0And1.1Support.html"?>
+<title>JSP 2.0, JSTL 1.0/1.1 support</title>
+</section>
+
+<section id="PageEditorWithPreview53">
+<?dbhtml filename="PageEditorWithPreview.html"?>
+<title>JSP Page Preview</title>
+
+<para>Red Hat Developer Studio comes with JSP design-time preview features. When designing JSP pages you
+ can easily preview how they will look during runtime. You can even attach your stylesheet to the preview.</para>
+
+<para>JSP preview is available for:</para>
+
+<itemizedlist>
+<listitem><para>Struts Pages</para></listitem>
+<listitem><para>JSF Pages</para></listitem>
+</itemizedlist>
+
+<para>The preview features are available with <link linkend="VisualPageEditor">Visual Page Editor</link>.</para>
+</section>
+
+</chapter>

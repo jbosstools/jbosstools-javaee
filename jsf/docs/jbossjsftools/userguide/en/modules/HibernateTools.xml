@@ -1,0 +1,1394 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="HibernateTools" xreflabel="HibernateTools">
+  <?dbhtml filename="HibernateTools.html"?>
+<title>Hibernate Tools</title>
+
+<section id="AddingHibernateCapabilitiesToAProject">
+<?dbhtml filename="AddingHibernateCapabilitiesToAProject.html"?>
+<title>Adding Hibernate Capabilities to a Project</title>
+<para>Making a project Hibernate-enabled is very straight-forward in Red Hat Developer Studio. Adding Hibernate
+ capability to a project will add all the required libraries to the project.</para>
+
+<para>
+1. If you want to add a new Hibernate nature to a project, right-click the project and select 
+<emphasis>Red Hat Developer Studio/Add Hibernate Capabilities...</emphasis> from the context menu</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+	<para>2. On the next screen, you can select a name for the appropriate Hibernate dialect</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+	<para>3. Next, you can select a connection type</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you select the &quot;Configure Hibernate to run in non-managed environments&quot; option, you will need 
+to fill in connection URL details and user information.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Then, you will need to select the properties for JDBC connection pooling.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you select the &quot;Configure Hibernate to run in managed environments&quot; option, you can 
+then select properties.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you select the &quot;Specify a custom connection provider&quot; option, you can then specify a
+ custom connection provider class.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>4. After clicking the Finish button, you can select a mapping approach (Schema To Object or Object 
+To Schema) that you want to use.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>After that, you can should see the ORM Explorer view. The ORM Explorer view lists all 
+Hibernate-enabled projects. Most Hibernate features are available by right-clicking various nodes in the
+ project tree in this view.</para>
+
+</section>
+
+<section id="AutoMappingsGeneration">
+<?dbhtml filename="AutoMappingsGeneration.html"?>
+<title>Auto Mappings Generation</title>
+<section id="AutoMappingsForForwardReverseAndMeet-at-the-MiddleEngineeringApproaches">
+<title>Auto Mappings for Forward, Reverse, and Meet-at-the-Middle Engineering Approaches</title>
+
+<para>Red Hat Developer Studio allows you to automatically generate Hibernate mappings using the following
+ approaches:</para>
+
+<itemizedlist>
+<listitem><para>Forward Engineering (Object-to-Schema)</para></listitem>
+<listitem><para>Reverse Engineering (Schema-to-Object)</para></listitem>
+<listitem><para>Meet-at-the-Middle</para></listitem>
+</itemizedlist>
+<para>We will show you how to use each of the approaches.</para>
+</section>
+<section id="ForwardEngineering(Object-to-Schema)">
+<?dbhtml filename="ForwardEngineering(Object-to-Schema).html"?>
+<title>Forward Engineering (Object-to-Schema)</title>
+<para>In this approach, we are basing the database side on the application side's object model.</para>
+
+<para>1. To start mapping using a forward engineering approach, right-click the Hibernate configuration 
+file and select <emphasis>Add Persistent Classes...</emphasis> from the context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+
+<para>2. In the Add Persistent Classes Wizard, click on the Select classes... button and select the
+ classes you want to make persistent.</para>
+
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>After selecting the classes, click OK and then Next.</para>
+
+<para>3. In the last screen, you can click on the <emphasis>Auto Mapping Settings...</emphasis> button to change any 
+Auto Mapping settings for the given project. (These settings are explained in a separate Auto Mapping 
+Settings Reference.)</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>4. In this same last screen, you can choose to generate mappings for class attributes by checking 
+the Generate Mapping check box. You can also provide an optional database schema name for tables.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>5. To create mappings, click the Finish button. Once generation is finished, you can see the mappings
+ for your classes in the ORM Explorer view.</para>
+
+<para>If the Generate Mapping option was selected, then Red Hat Developer Studio will mark the selected classes as
+ persistent and will generate mappings for the selected class fields.</para>
+
+<para>For collections, the type of elements will be determined via a search. Then, either a collection of
+ components or a one-to-many association will be created depending on whether the elements are persistent
+  or not. The search begins within the current package, then the whole project is searched if necessary.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If &quot;Generate Mapping&quot; was not selected, then no field mappings will be generated, but the 
+selected classes will be marked as persistent and will be visible in the ORM Explorer view.</para>
+
+<para>To generate mappings later, on a class-by-class basis, right-click the class name in the ORM Explorer
+ view and select Auto Mapping from the context menu. Mappings will be generated for all relevant class 
+ fields (static and transient fields cannot be saved into a database and will be ignored).</para>
+
+<para>It is also possible to generate mappings for a particular field only. Right-click the field in the 
+ORM Explorer view and select <emphasis>Edit Mapping...</emphasis> from the context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="ReverseEngineering(Schema-to-Object)">
+<?dbhtml filename="ReverseEngineering(Schema-to-Object).html"?>
+<title>Reverse Engineering (Schema-to-Object)</title>
+
+<para>In this approach, we are deriving the application side's object model based on an existing database.</para>
+
+
+<para>1. To start Reverse Engineering, right-click the Hibernate configuration file and select <emphasis>Reverse
+ Engineer Database Schema...</emphasis> . Set all values for your specific database connection.</para>
+
+<para>You can test the connection by entering a user name and a password and then clicking the Test
+ Connection button.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. In the second screen, click on the <emphasis>Select tables...</emphasis> button to select which tables or views to
+ reverse engineer:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>After selecting the tables, click OK and then Next.</para>
+
+<para>3. In the next screen, you must provide a package name for where Java classes as well as Hibernate 
+configuration files will be generated. Also on this screen, you can invoke the Auto Mapping Settings wizard. 
+Finally, you can specify if mappings should be generated by checking the Generate Mapping check box.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>4. To create mappings, click the Finish button. If Generate Mapping is checked, then, inside the
+ package selected, new Java classes will be generated. If the package doesn&apos;t exist, it will
+  be created.</para>
+
+<para>The reverse engineering does not create persistent classes for the following categories of tables:</para>
+<itemizedlist>
+<listitem><para>link tables in many-to-many relationships</para></listitem>
+</itemizedlist>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>The generated Java classes fields are determined by the type of mapping with consideration to
+ Java reserved words. The following table summarizes the naming convention used:</para>
+<table>
+	  <title>Mapping Types and Names</title>
+      <tgroup cols="2">
+	  <thead>
+            <row>
+                  <entry>Mapping Type</entry>
+                  <entry>Field Name</entry>
+            </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>property/identifier</entry>
+            <entry>column name</entry>
+          </row>
+          <row>
+            <entry>composite identifier</entry>
+            <entry>compositeId</entry>
+          </row>
+          <row>
+            <entry>many-to-one</entry>
+            <entry>If the referenced class has a:
+            - simple id, then the column name is used
+            - composite id, then the referenced class name is used
+            </entry>
+          </row>
+          <row>
+            <entry>many-to-many</entry>
+            <entry>referenced class name + "Many"</entry>
+		  </row>
+		  <row>
+			<entry>one-to-many</entry>
+            <entry>referenced class name</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    </section>
+    <section id="Meet-at-the-Middle">
+    <?dbhtml filename="Meet-at-the-Middle.html"?>
+<title>Meet-at-the-Middle</title>
+
+<para>This approach can be applied if you already have your objects and schema and just want to create
+ mappings. To start the Meet-at-the-Middle engineering approach, you first need to complete the Reverse 
+ Engineering steps described above. When entering a package name, just provide a package that already 
+ contains object model Java classes and run the auto mapping generation.</para>
+
+<para>During mapping generation, a search will be done to locate an existing Java class with the same name
+ as the database table in the package specified. If such a Java class is found, then, if possible, its 
+ existing fields will be used for mapping (no new fields will be created in such a case). Fields will be
+matched according to the table above that describes the naming convention.</para>
+</section>
+
+<section id="AutoMappingSettingsReference">
+<?dbhtml filename="AutoMappingSettingsReference.html"?>
+<title>Auto Mapping Settings Reference</title>
+<table>
+	  <title>Auto Mapping Settings Reference</title>
+      <tgroup cols="2">
+	  <thead>
+            <row>
+                  <entry>Group</entry>
+                  <entry>Property</entry>
+                  <entry>Description</entry>
+            </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>Associations</entry>
+            <entry></entry>
+          </row>
+          <row>
+            <entry>Cascade on collections</entry>
+            <entry>Set a value for cascade attribute on collection mappings (map, set, bag, idbag, 
+            list, array)</entry>
+          </row>
+          <row>
+            <entry>Cascade on references</entry>
+            <entry>Set a value for cascade attribute on reference mappings (many-to-one, one-to-one)</entry>
+          </row>
+          <row>
+            <entry>Delete cascading</entry>
+            <entry>Set a value for on-delete attribute on a collection keys</entry>
+		  </row>
+		  <row>
+			<entry>Lazy collection initialization</entry>
+            <entry>Set a value for the lazy attribute on collection mappings</entry>
+          </row>
+          <row>
+          <entry>Lazy reference initialization</entry>
+          <entry>Set a value for the lazy attribute on reference mappings (many-to-one, one-to-one)</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    </section>
+    </section>
+
+
+<section id="VisualMapping">
+<?dbhtml filename="VisualMapping.html"?>
+<title>Visual Mapping</title>
+
+<para>1. To edit the Hibernate class mapping file, right-click any class and select Open Visual Mapping
+ from the context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. On the next screen, you can see your Mapping:</para>
+
+ <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>3. You can change location of figures:</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>Before:</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure> 
+    <para>After:</para>
+    <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>4. If you select any object, the objects which are connected with this object are also selected.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>5. If you double click on the title of a figure, the figure is minimized.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>6. If you double click on any object, the connected object is shown:</para>
+
+<para>Before:</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+    <para>After:</para>
+    <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+    
+<para>7. When close Visual Mapping window, objects arrangement is saved:</para>
+
+<para>8. On changing mapping, to edit the content of Visual Mapping window press Refresh button on toolbar.</para>
+
+</section>
+
+<section id="EditingClassMappings">
+<?dbhtml filename="EditingClassMappings.html"?>
+<title>Editing Class Mappings</title>
+
+<para>1. To edit the Hibernate class mapping file, right-click any class and select<emphasis> Edit Mapping...</emphasis> from 
+the context menu.</para>
+
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. On the next screen, select the inheritance tree mapping for the class. The user can set how the
+ class will be mapped in a database. This step will be displayed only for those classes that have a
+  persistent super class. For the topmost class this step will be skipped.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>3. After clicking Next, this screen will be displayed to allow the editing of mapping properties.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>4. After clicking Next, this screen will be displayed to allow editing the primary keys for the 
+database table and setup a generator. You can add an existing column as a primary key, create a new a column
+ in the table as a primary key, or remove a column as a primary key.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Clicking on the <emphasis>Generator...</emphasis> button while a column is selected brings up a dialog box for specifying 
+the generator based on that column. You can choose to use the built-in generator or another generator. In 
+this dialog box, you can also establish parameters for the generator.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>5. After clicking Next on the primary key page, you can edit identification properties on the next page.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para><emphasis>Pressing the Map PK...</emphasis> button, allows you to modify or remove identification.</para>
+
+   <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>6. After clicking Next on the identification properties page, you can create or remove discriminator
+ column mappings on the next page.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>7. After clicking Next on the discriminator column mappings page, you can create or remove version 
+property mapping on the next page.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+         <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>8. Finally, after clicking Next again, on the next page, you can set custom SQL queries to insert,
+ update and delete what the class is mapped to.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>9. Click Finish to save all of your changes.</para>
+</section>
+<section id="EditingTheFieldMappingsOfAPersistentClass">
+<?dbhtml filename="EditingTheFieldMappingsOfAPersistentClass.html"?>
+<title>Editing the Field Mappings of a Persistent Class</title>
+
+
+<para>1. If you want to edit mapping of a field of a persistent class, right-click any field and select
+<emphasis> Edit Mapping...</emphasis> from the context menu.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+ <para>2. Here you can select the mapping type for the field.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>3. This next page helps you to choose the necessary properties for mapping.</para>
+
+    <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+    
+    <para>You will see several tabs if you have collection mapping.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>4. Click Finish to save changes.</para>
+</section>
+<section id="SynchronizingMappingsWithTableSchemas">
+<?dbhtml filename="SynchronizingMappingsWithTableSchemas.html"?>
+<title>Synchronizing Mappings with Table Schemas</title>
+<para>Red Hat Developer Studio includes features that help you to keep your mappings synchronized with
+ changes made outside the Red Hat Developer Studio environment (for example, in database tables). Our synchronization
+  component will reanalyze database table structure changes you've made and update or create the appropriate
+   Hibernate mappings.</para>
+
+<para>If you want to synchronize your mappings with changes in a database, follow these steps:</para>
+
+<para>1. In the Relational Schema view, right-click on a configuration file, a schema name and select 
+<emphasis>Synchronize Schema Mapping...</emphasis> from the context menu. If you right-click a configuration file, it will 
+synchronize the Hibernate configuration with all schemas in the database.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you right-click a schema name, it will synchronize the Hibernate configuration with the selected 
+schema.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you right-click a specific table name, it will synchronize with that selected table.</para>
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. Next, you should enter the connection URL, details, and user information and then click Finish.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If there is no such table in the schema then the given table will not be refreshed.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="SynchronizingMappingWithTheSourceCode">
+<?dbhtml filename="SynchronizingMappingWithTheSourceCode.html"?>
+<title>Synchronizing Mapping with the Source Code</title>
+
+<para>Synchronization with changes in the source code is an easy-to-use feature of 
+Red Hat Developer Studio&apos;s ORM functionality. When invoked, this kind of synchronization cleans stale mappings that
+ don&apos;t exist in the source code but do exist in the mapping files. Also, it will run an automapping process 
+ that will create default mappings for your classes.</para>
+
+<para>If you want to synchronize your mappings with the source code, follow these steps:</para>
+
+
+<para>1. In ORM Explorer, right-click on the configuration file and select <emphasis>Synchronize Mapping...</emphasis> from 
+the context menu.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. If you press the OK button, you will automatically synchronize the mapping with the source code.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="TheHibernateCacheWizard">
+<?dbhtml filename="TheHibernateCacheWizard.html"?>
+<title>The Hibernate Cache Wizard</title>
+<section id="TheHibernateCacheWizard2">
+<?dbhtml filename="TheHibernateCacheWizard2.html"?>
+<title>The Hibernate Cache Wizard</title>
+
+<para>The Hibernate Cache Wizard simplifies the task of specifying cacheing options for persistent items 
+within your application. To start the Hibernate Cache Wizard, right-click a Hibernate configuration file 
+and select<emphasis> Hibernate Cache Wizard..</emphasis>. .</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>The Hibernate Cache Wizard consists of a sequence of 3 screens:</para>
+
+<itemizedlist>
+<listitem><para>1. Persistent Classes Caching</para></listitem>
+<listitem><para>2. Collections Caching</para></listitem>
+<listitem><para>3. Regions Caching.</para></listitem>
+</itemizedlist>
+</section>
+<section id="PersistentClassesCaching">
+<?dbhtml filename="PersistentClassesCaching.html"?>
+<para>Persistent Classes Caching</para>
+
+<para>The first screen allows you to designate persistent classes for caching. The screen displays two lists.
+ The left-hand list shows persistent classes from the selected configuration file that have not yet been 
+ designated for caching. The right-hand list shows the persistent classes you have already designated for
+  caching. Use the control buttons in the middle to designate classes for caching (select on the left to 
+  move to the right) or to undesignate classes for caching (select on the right to move to the left).</para>
+
+<para>In the right-hand list, the designated classes are displayed with the cacheing strategy for the class
+ at the end of its name. This can be changed by right-clicking the class in the right-hand list and 
+ selecting a different strategy from the context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+    </section>
+    <section id="CollectionsCaching">
+    <?dbhtml filename="CollectionsCaching.html"?>
+<title>Collections Caching</title>
+
+<para>The second screen works just like the first screen except that it deals with collections from the
+ selected configuration.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+    </section>
+    <section id="RegionsCaching">
+    
+<para>Regions Caching</para>
+<?dbhtml filename="CollectionsCaching.html"?>
+<title>Regions Caching</title>
+
+<para>The final screen allows you to group together classes and collections, designated for caching in 
+the previous screens, into caching regions. The screen displays two lists. The left-hand list shows the 
+classes and collections designated for caching. The right-hand list shows the same objects as a tree.</para>
+
+<para>At first the right-hand tree consists of the objects to cache with themselves as the only child
+ node to themselves. To group some objects together as a region, select the first-level node for one of 
+ the objects in the right-hand list, select, in the left-hand list, the other objects you want to group 
+ with this object, and then click the Move to region button. You can then add more objects to the region,
+  if you want.</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Here are two other points about this screen in the wizard. The region name can be changed by
+ directly editing the node name in the right-hand list. Also, to remove an object from a caching region,
+  select it in the left-hand list, select another region or a node with no children in the right-hand list,
+   and then click the Move to region button.</para>
+
+<para>Once your done, click on the Finish button to save or click on the Cancel button to discard the
+ settings.</para>
+
+</section>
+</section>
+<section id="FetchStrategyWizard">
+<?dbhtml filename="FetchStrategyWizard.html"?>
+<title>Fetch Strategy Wizard</title>
+
+<para>In this Wizard, you can specify the fetching associations strategy.</para>
+
+<para>1. In ORM Explorer, right-click on a Hibernate configuration file and select <emphasis>Fetch Strategy
+ Wizard...</emphasis> from the context menu.</para>
+     <figure>
+        <title>t</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+
+<para>2. On the next screen, you can select fetching associations and set a strategy using the buttons 
+to the right.</para>
+
+      <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>3. On the screen after this, you can select &quot;Lazy&quot; fetching associations and set a strategy using 
+the buttons to the right.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>4. On the final screen, you can select &quot;Batch&quot;fetching associations and set a batch size using 
+the button to the right.</para>
+
+     <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+
+<section id="TheHibernateConfigurationFileWizard">
+<?dbhtml filename="TheHibernateConfigurationFileWizard.html"?>
+<title>The Hibernate Configuration File Wizard</title>
+
+
+<para>1. If you want to edit the Hibernate configuration, right-click the configuration file node under 
+the project node in the ORM Explorer (typically, src/hibernate.cfg.xml) and select <emphasis>Edit Hibernate 
+Configuration...</emphasis> from the context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>2. On the next screen you can select the Hibernate dialect and some other properties.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>3. Click "Next". Here you can select the connection type.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>4. If you have selected &quot;Configure Hibernate to run in non-managed environments&quot;, on this screen you
+ can set parameters JDBC connection which will be kept in a file of a configuration.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>And select properties of JDBC connection pooling:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you have selected &quot;Configure Hibernate to run in managed environment&quot;, you can on 
+this screen select properties:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>If you have selected &quot;Specify a custom connection provider&quot;, you can on this screen
+ specify connection provider class:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>5. Click &quot;Finish&quot; to save changes.</para>
+
+</section>
+
+<section id="DDLGenerationForAllDatabasesSupportedByHibernate">
+<?dbhtml filename="DDLGenerationForAllDatabasesSupportedByHibernate.html"?>
+<title>DDL Generation for All Databases Supported by Hibernate</title>
+<para>Red Hat Developer Studio comes with a DDL (Data Definition Language) generation feature. It allows
+ you to easily generate table creation scripts based on your Hibernate mappings.</para>
+
+<para>You can take advantage of this facility in the Diagram viewer of the mappings file editor by following these steps:</para>
+
+
+<para>1. In ORM Explorer right-click on the cfg.xml- files and select <emphasis>Generate DDL Wizard... </emphasis>from the
+ context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. On the next screen, you can select your database Dialect, specify a delimiter .</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Here is the pop-up menu for selecting dialects.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>After selecting Finish, a script will automatically be generated.</para>
+</section>
+<section id="DAOClassGeneration"> 
+    <?dbhtml filename="DAOClassGeneration.html"?>
+<title>DAO Class Generation</title>
+
+
+<para>1. In ORM Explorer right-click on the cfg.xml- files and select <emphasis>Generate DAO Classes...</emphasis> from the
+ context menu.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2. On the next screen, you can select persistent classes.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>3. On the next screen, you can select DAO generation options.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>After selecting Finish, DAO classes will automatically be generated (in a source folder of the
+ current project).</para>
+
+</section>
+<section id="NamedQueriesWizard">
+<?dbhtml filename="NamedQueriesWizard.html"?>
+<title>Named Queries Wizard</title>
+
+
+<para>1. In ORM Explorer&apos;s toolbar, press the suitcase icon (Group by storage):</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+    <para>This will produce a list of (hbm.xml) mapping files for that configuration. Then, right-click on
+     an hbm.xml file and select <emphasis>Add Named Query...</emphasis> from the context menu.</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>2. In the next screen, set all values for your specific database connection. Then, use the Hibernate
+ Query Language to define a new query in the Query field.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>Press the Run Query button to see the result of your query:</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+</section>
+
+<section id="QueryTestWizard">
+<?dbhtml filename="QueryTestWizard.html"?>
+<title>Query Test Wizard</title>
+
+
+<para>This wizard is intended for fast testing named queries. The query is generated automatically, but
+ you can modify and execute it.</para>
+
+<para>For more detailed information address to <ulink url="index.html">Named Queries Wizard</ulink>.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+</section>
+<section id="SettingUpACustomPOJORenderer">
+<?dbhtml filename="SettingUpACustomPOJORenderer.html"?>
+<title>Setting Up a Custom POJO Renderer</title>
+
+<para>In order to set up a custom POJO renderer, we first need to create an extension point. An extension 
+point is the mechanism by which one plug-in can add to the functionality of another.</para>
+
+<para>1.  First you have to create a plug-in project.Open the plugin.xml manifest file and switch to the 
+Dependencies page. Here you have to add the dependencies next:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>2.  Switch to the Extensions page. The page lists all extension points used by this plug-in.</para>
+<para>Press the &quot;Add&quot; button and select the extension &quot;com.exadel.orm2.core.codeRenderers&quot;</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>3. You should now see the com.exadel.orm2.core.codeRenderers extension point listed in your Extensions
+ page.</para>
+<para>Right-click on it and select New>code_renderer</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>Doing so creates an object under the extension with a default name like 
+com.exadel.orm2.sample.code_renderer2</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Set the name and change the id in the properties for this object.</para>
+
+<para>4. Select the class property and click the Selection button to bring up the Java Class Selection
+ dialog. Click Finish, and then press Ctrl-S to save.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+
+<para>5. Switch to the Extensions page. You then need to select the package that contains this class.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>6. After that you have to deploy this plug-in. Select File> Export, and then select the 
+&quot;Deployable plug-ins and fragments&quot; item in the Export dialog. You can deploy plug-ins as either .jar or
+ .zip files. Here, we&apos;ll deploy both plug-ins in a .zip file. Enter the fully qualified name of the .zip
+  file and unzip that file in the Eclipse distribution directory.</para>
+
+<para>7. You don&apos;t have to implement all interface methods. You can use the default implementation 
+and override only certain methods. To do this just make the generated class a descendant of 
+com.exadel.orm2.core.CodeRendererService and change the generated import:</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>Now you can safely delete all methods, that you are not going to override, in fact, you must. 
+Imagine that you want to generate persistent classes to be instances of the Comparable interface. 
+No problem! Here is the code that&apos;ll do that task for you:</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>The createType method is overridden here to add Comparable to the array of interfaces to implement
+ (only for primary types, but not for inner ones), then the default implementation is invoked by 
+ super.createType call. Red Hat Developer Studio automatically generates all the necessary method stubs for 
+ implemented interfaces.</para>
+
+<para>8. After that you can use this created extension point for a custom POJO renderer. If you create a 
+new Java project and after that you add &quot;Hibernate Capabilities&quot;, you can then select your created class.</para>
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="HibernateFileContentAssist">
+<?dbhtml filename="HibernateFileContentAssist.html"?>
+<title>Hibernate File Content Assist</title>
+
+<para>With Red Hat Developer Studio, Code Assist is available in the editor for any XML file. The first
+ screen shot shows Code Assist being invoked for the Hibernate mapping file.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Here is Code Assist in the editor for the Hibernate configuration file.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Any other XML files in your project will also have the Code Assist feature available as in the web.xml file below.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="SupportedTechnologiesForORMHibernate">
+    <?dbhtml filename="SupportedTechnologiesForORMHibernate.html"?>
+<title>Supported Technologies for ORM Hibernate</title>
+
+<para>Red Hat Developer Studio supports Hibernate 3.0.</para>
+
+<para>Red Hat Developer Studio works with any database Hibernate supports. You can connect to these types
+ of databases:</para>
+<itemizedlist>
+<listitem><para>Cloudscape</para></listitem>
+<listitem><para>DB2</para></listitem>
+<listitem><para>Firebird</para></listitem>
+<listitem><para>Frontbase</para></listitem>
+<listitem><para>HSQL</para></listitem>
+<listitem><para>Ingres</para></listitem>
+<listitem><para>Informix</para></listitem>
+<listitem><para>InstantDB</para></listitem>
+<listitem><para>Interbase</para></listitem>
+<listitem><para>Mckoi</para></listitem>
+<listitem><para>MSSQL</para></listitem>
+<listitem><para>MySQL</para></listitem>
+<listitem><para>Oracle</para></listitem>
+<listitem><para>Pointbase</para></listitem>
+<listitem><para>Progress</para></listitem>
+<listitem><para>SAPDB</para></listitem>
+<listitem><para>Sybase</para></listitem>
+<listitem><para>SybaseAnywhere</para></listitem>
+</itemizedlist>
+
+</section>
+<section id="ORMPreferences">
+    <?dbhtml filename="ORMPreferences.html"?>
+<title>ORM Preferences</title>
+
+<para>Here you can set default auto mapping settings values for new ORM projects:</para>
+
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</chapter>
+
+

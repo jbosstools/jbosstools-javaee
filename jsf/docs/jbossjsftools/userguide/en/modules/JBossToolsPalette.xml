@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="JBossToolsPalette" xreflabel="JBossToolsPalette">
+    <?dbhtml filename="JBossToolsPalette.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>Jboss Tools palette</keyword>
+      <keyword>tags</keyword>
+      <keyword>JSP page</keyword>
+      </keywordset>
+  </chapterinfo>
+<title>JBoss Tools Palette</title>
+<para>The <property>JBoss Tools Palette</property> contains all your project tag libraries and allows you to:</para>
+
+<itemizedlist>
+<listitem><para>Insert tags into a JSP page with one click</para></listitem>
+<listitem><para>Add custom and 3rd party tags. <link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">How to add</link></para></listitem>
+</itemizedlist>
+
+<para>In this chapter we will also show you how to configure options for the palette.</para>
+<section id="UsingThePalette(IncludingOne-ClickTagInsertion)">
+<?dbhtml filename="UsingThePalette(IncludingOne-ClickTagInsertion).html"?>
+<title>Using the Palette (Including One-Click Tag Insertion)</title>
+<section id="RedHatPalette">
+    <?dbhtml filename="JBossToolsPalette.html"?>
+    <title>JBoss Tools Palette</title>
+
+    
+
+<para>The palette becomes active when you open any JSP page. If you can&apos;t see the palette, select <emphasis><property>Window &gt; Show View Other... &gt; JBoos Tools Web &gt; JBoss Tools Palette</property></emphasis> from the menu bar.</para>
+
+<para>The palette shown lists various tags organized by groups. You can see JSF, JSTL and Struts tag groups. By default there are four groups in the <property>Palette</property>.</para>
+<figure>
+<title>JBoss Tools Palette</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/RadHatPallete.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="InsertingTagsIntoAJSPFile">
+<?dbhtml filename="InsertingTagsIntoAJSPFile.html"?>
+<title>Inserting Tags into a JSP File</title>
+
+<para>To insert a new tag is very simple. Place the cursor in the JSP page where you want to add a tag and 
+then click the tag in the palette. In the example below, the commandButton tag has been inserted. Notice also that if you place the cursor over any tag, a balloon tip is shown with all the <emphasis role="italic"><property>&quot;tag&quot;</property></emphasis> attributes.</para>
+<figure>
+<title>Inserting Tag</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/InsertingTag.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+
+<section id="AddingCustomJSFTagsToTheRedHatPalette7433">
+<?dbhtml filename="AddingCustomJSFTagsToTheJBossToolsPalette.html"?>
+<title>Adding Custom JSF Tags to the JBoss Tools Palette</title>
+
+<para>There are two ways to add any custom or 3rd party tag library to the <property>JBoss Tools Palette</property>:</para>
+<itemizedlist>
+<listitem><para>Drag-and-drop from the Web Projects view</para></listitem>
+<listitem><para>The Import button on the JBoss Tools Palette</para></listitem>
+</itemizedlist>
+
+<para>Before you can add your custom component library, you need to make sure it is included in your project.
+ Either place the <emphasis role="italic"><property>&quot;.tld&quot;</property></emphasis> file or the <emphasis role="italic"><property>&quot;.jar&quot;</property></emphasis> that includes your tag library under the lib folder in your project.
+  Restart RHDS.</para>
+  <para>The best way to add any custom library is by using the <link linkend="AddingCustomCapabilityFeaturesTemplates">Custom Capability feature</link>. It is also possible  to just copy the Jar file directly under project <emphasis>WEB-INF/lib</emphasis> directory.</para>
+  </section>
+  <section id="Drag_and_Drop65332">
+<?dbhtml filename="DragAndDrop.html"?>
+<title>Drag-and-Drop</title>
+<para>Switch to the Web Projects view and expand the Tag Libraries folder. If the view not active, select
+ <emphasis><property>Window > Show View > Web Projects</property></emphasis> from the menu bar.</para>
+
+<figure>
+<title>Web Projects View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/TagLibraries.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Also make sure that the JBoss Tools Palette is open. Select the tag library that you want to add and simply drag-and-drop it on to the JBoss Tools Palette.</para>
+ <para>You will see the following dialog window. As you can see Red Hat Developer Studio takes care of all the details.
+  You just need to set the Group name to which to add this tag library. You can either add this tag library 
+  to an existing Group or just create a new one.</para>
+<figure>
+<title>Import Tags From TLD File Form</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/ImportTagsFromTLD.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Once you are finished, you will see the new tag library added to the JBoss Tools Palette.</para>
+
+<figure>
+<title>JBoss Tools Palette with New Tag Library</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/RHPaletteResult.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="ImportButton521">
+<?dbhtml filename="ImportButton.html"?>
+<title>Import Button</title>
+<para>The same you can do with <emphasis><property>Import</property></emphasis> button.</para>
+<figure>
+<title>Import Button</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/RHPalleteImport.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>On this screen you can select <emphasis><property>Browse</property></emphasis> to locate the tag library that you want to add.</para>
+<figure>
+<title>Import Tags From TLD File Form</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/ImportTagsFromTLDDialog.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Now select the TLD file you want to be edited:</para>
+<figure>
+<title>Select TLD File</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/ImportTagsFromTLDBrowse.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+
+<section id="PaletteOptions">
+<?dbhtml filename="PaletteOptions.html"?>
+<title>Palette Options</title>
+
+<para>There are a number of ways you can configure JBoss Tools Palette options. There are three buttons at the top right corner:</para>
+
+<itemizedlist>
+<listitem><para>Palette Editor</para></listitem>
+<listitem><para>Show/Hide</para></listitem>
+<listitem><para>Import</para></listitem>
+</itemizedlist>
+<figure>
+<title>Palette Buttons</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/PaletteButtons.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<section id="PaletteEditor">
+<?dbhtml filename="PaletteEditor.html"?>
+<title>Palette Editor</title>
+
+<para>This allows you to edit the tags on the palette.</para>
+<section id="Show/Hide">
+<?dbhtml filename="Show/Hide.html"?>
+<title>Show/Hide</title>
+
+<para><emphasis><property>Show/Hide</property></emphasis> is a very useful feature that allows you to control the number of tag groups that are shown on the palette.</para>
+<itemizedlist>
+<listitem><para>Click <emphasis><property>Show/Hide</property></emphasis> button</para></listitem>
+</itemizedlist>
+<figure>
+<title>Show/Hide Button</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/ShowHideDrawers2.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<itemizedlist>
+<listitem><para>In the dialog Show/Hide Drawers check the groups you want to be shown on the palette:</para></listitem>
+</itemizedlist>
+<figure>
+<title>Show/Hide Drawers</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/ShowHideDrawers.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist>
+<listitem><para>Click <emphasis><property>OK</property></emphasis>. The new groups will now be displayed on the palette:</para></listitem>
+</itemizedlist>
+<figure>
+<title>New Added Groups</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/ShowHideDrawers3.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="Import">
+<?dbhtml filename="Import.html"?>
+<title>Import</title>
+
+<para>The Import button lets you add a custom or 3rd party tag library to <property>JBoss Tools Palette</property>. See <link linkend="ImportButton521">here</link> how to add.
+<!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
+
+</section>
+</section>
+
+</section>
+<section id="RichFacesSupport">
+<?dbhtml filename="RichFacesSupport.html"?>
+<title>Rich Faces Support</title>
+<para>Red Hat Developer Studio comes with a tight integration with <emphasis><property>Rich Faces</property></emphasis> component framework. After installing RHDS Rich Faces components as well as <emphasis><property>Ajax4jsf</property></emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
+<figure>
+<title>Rich Faces Components</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/JBossToolsPalette/RichFacesComps.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+
+</chapter>

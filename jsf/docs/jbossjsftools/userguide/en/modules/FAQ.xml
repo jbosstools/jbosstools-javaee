@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="FAQ">
+ <?dbhtml filename="FAQ.html"?>
+    <title>FAQ</title>
+    <para>If something still remains unclear after studying this guide you can always post your question on our <ulink url="http://jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">forum</ulink>.</para>
+ <section id="faq_facelets">
+  <title>Facelets</title>
+  <para>Q: Could you give me more information on templates for the MyFaces JSF implementation?</para>
+    <para>A: Red Hat Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
+   yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
+   with MyFaces and Facelets and then save it as a template for future use.</para>
+  
+  <para>Q: How can I add Facelets support to an existing project?</para>
+    <para>A: Right-click on the folder of existing project and select <emphasis>JBoss Tools &gt; Add Custom Capabilities.. &gt; Facelets</emphasis>. </para>
+  </section>
+ </chapter>

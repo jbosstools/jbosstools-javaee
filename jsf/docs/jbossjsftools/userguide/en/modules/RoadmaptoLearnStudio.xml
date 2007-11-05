@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="RoadmaptoLearnStudio" xreflabel="RoadmaptoLearnStudio">
+	<?dbhtml filename="RoadmaptoLearnStudio.html"?>
+	<title>Roadmap to Learn Red Hat Developer Studio</title>
+      <para><property>Red Hat Developer Studio</property> is an advanced enterprise-level Web application development environment for
+ leveraging open source, J2EE and AJAX technologies within the Eclipse environment.</para>
+		<para>The extensive collection of specialized wizards,
+  editors and views in Red Hat Developer Studio is constantly
+  expanding to meet the needs of enterprise developers to keep pace
+  with rapidly changing business environments. Red Hat Developer
+  Studio is packed with powerful features, including a WYSIWYG Visual
+  Page Editor for JSP files and also comprehensive support for Hibernate Object/Relational Mapping covering
+  reverse-engineering and meet-in-the-middle approaches.</para>
+<para>One of the most essential elements of <property>Red Hat Developer Studio</property> is <property>Seam framework</property>.
+Seam provides a single programming model for developers to use underlying frameworks such as JSF, EJB3, JMS, Web Services, jBPM, JBoss Rules, Ajax4jsf, RichFaces, Facelets, Spring, iText, Quartz, TestNG, etc., via simple annotated POJOs (Plain Old Java Objects).</para>
+	<section id="RedHatDeveloperStudio">
+		<?dbhtml filename="GettingStartedwithRHDS.html"?>
+		<title>Red Hat Developer Studio</title>
+		
+		<para>Red Hat Developer Studio includes a versatile WYSIWYG Visual Page Editor for JSP files. You have a possibility to visually design HTML/XHTML/JSP/JSF pages with drag and drop or see visual changes as you edit markup:</para>
+		<figure>
+			<title>Red Hat Developer Studio Overview</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Roadmap/VPEGeneral.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+            <para>Here is the table of main features of <property>Red Hat Developer Studio</property>:</para>
+		<table>
+			<title>Key Functionality for Red Hat Developer Studio</title>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Feature</entry>
+						<entry>Benefit</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Project development support for JSF, Struts, Spring, Hibernate and with the first 
+            support in the industry for Facelets 1.0</entry>
+						<entry>Leverage multiple open source technologies within one application, allowing more
+             flexibility and greater success</entry>
+					</row>
+					<row>
+						<entry>WYSIWYG Visual Page Editor for JSF and Struts, and with additional configuration wizards for complex JSF components</entry>
+						<entry>Easily delegate presentation design within a project team, increasing productivity and
+             development speed (or ease of development)</entry>
+					</row>
+					<row>
+						<entry>Code assist and code folding for XML, JSP/XHTML files and with additional assist for Facelets</entry>
+						<entry>Edit source code more efficiently through code completion suggestions during typing and 
+          through zooming in and out of different parts of the source code easily</entry>
+					</row>
+					<row>
+						<entry>Full instant synchronization among editing modes. Interactive editors for standard descriptors (faces-config.xml, web.xml, etc.)</entry>
+						<entry>Avoid updating when working between various editing modes</entry>
+					</row>
+					<row>
+						<entry>Flexible and customizable project template management, including additional templates
+             for Facelets</entry>
+						<entry>Jump-start development with out-of-the-box templates or easily customized templates 
+            for re-use</entry>
+					</row>
+					<row>
+					<entry>Web Projects view</entry>
+					<entry>Easy navigation/editing the various components of your web project</entry>
+					</row>
+					<row>
+						<entry>Support of RichFaces framework</entry>
+						<entry>Tight integration between RHDS and RichFaces frameworks. Easy managing RichFaces components in any web application</entry>		
+					</row>
+					<row>
+						<entry>New Webtools 2.0 based JBossAS Tools</entry>
+						<entry>Tight integration with Webtools projects for deploying/running JBossAS in RHDS. JBossAS Perspective with deployed modules, event log, twiddle utility, common port configurations</entry>
+					</row>
+					<row>
+						<entry>New &quot;packaging&quot; implementation (renamed to &quot;Archives&quot;)</entry>
+						<entry>A completely dynamic way to describe the packaging process of your application. Incremental building of archives, incremental deployment of all resources in your application (CSS, JavaScript, JSP, images, etc.)</entry>
+					</row>
+					<row>
+						<entry>New SeamTools component</entry>
+						<entry>Integrated seamgen support. Seam/WTP Project wizard. Auto complete of seam components/properties in JSF editor</entry>
+					</row>
+					<row>
+						<entry>Features planned for future versions:</entry>
+					</row>
+					<row>
+						<entry>JBossPortal Tools</entry>
+						<entry>Possibility for hosting and serving a portal&apos;s Web interface, publishing and managing its content, and customizing its experience. JBoss Portal makes it easier for users to leverage existing IT applications, increasing the ROI on IT assets and reducing the need for new application and integration development</entry>
+					</row>
+					<row>
+						<entry>SOA Tools</entry>
+						<entry>Enables building frameworks and exemplary extensible tools that enable the design, configuration, assembly, deployment, monitoring, and management of software designed around a Service Oriented Architecture (SOA)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		
+		<para>Red Hat Developer Studio, through a steady schedule of updates, continues to build on and significantly improve its role as a unique environment that radically simplifies and accelerates application development cycles.</para>
+	</section>
+</chapter>
