@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -27,11 +28,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
-	VpeToggableTemplate {
+	VpeToggableTemplate, VpeTemplate {
 
     private static Map toggleMap = new HashMap();
 
-    @Override
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
 

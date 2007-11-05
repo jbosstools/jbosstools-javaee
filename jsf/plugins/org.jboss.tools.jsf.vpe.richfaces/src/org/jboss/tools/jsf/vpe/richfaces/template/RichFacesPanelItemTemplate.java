@@ -149,7 +149,6 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	return creationData;
     }
 
-    @Override
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
 	return encode(null, (Element) sourceNode, visualDocument, null, false,
