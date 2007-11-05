@@ -202,6 +202,8 @@ public class SeamExpressionResolver {
 	}
 
 	public static TypeInfoCollector collectTypeInfo(IType type) {
+		if (type == null) 
+			System.out.println("type is null");
 		TypeInfoCollector typeInfo = new TypeInfoCollector(type);
 		typeInfo.collectInfo();
 		return typeInfo;

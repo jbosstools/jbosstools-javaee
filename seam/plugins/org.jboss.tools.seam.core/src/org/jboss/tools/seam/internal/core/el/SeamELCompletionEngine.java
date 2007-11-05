@@ -282,14 +282,24 @@ public final class SeamELCompletionEngine {
 		Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters;
 		Set<String> proposals;
 		private ELOperandToken lastResolvedToken;
+		private boolean isMapOrBundleAmoungTheTokens;
 
 		public SeamELOperandResolveStatus(List<ELOperandToken> tokens) {
 			this.tokens = tokens;
 			this.lastResolvedToken = null;
+			this.isMapOrBundleAmoungTheTokens = false;
+		}
+		
+		public boolean isMapOrBundleAmoungTheTokens() {
+			return this.isMapOrBundleAmoungTheTokens;
+		}
+		
+		public void setMapOrBundleAmoungTheTokens() {
+			this.isMapOrBundleAmoungTheTokens = true;
 		}
 		
 		public boolean isOK() {
-			return !getProposals().isEmpty(); 
+			return !getProposals().isEmpty() || isMapOrBundleAmoungTheTokens(); 
 		}
 
 		public boolean isError() {
@@ -455,6 +465,9 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
 						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
+						if (TypeInfoCollector.isMap(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+							status.setMapOrBundleAmoungTheTokens();
+						}
 						for (TypeInfoCollector.MemberInfo property : properties) {
 							StringBuffer propertyName = new StringBuffer(property.getName());
 							if (property instanceof TypeInfoCollector.MethodInfo) { // Setter or getter

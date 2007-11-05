@@ -431,6 +431,10 @@ public class TypeInfoCollector {
 		this.fType = type;
 	}
 	
+	public IType getType() {
+		return this.fType;
+	}
+	
 	public void collectInfo() {
 		if (fMethods == null) {
 			fMethods = new ArrayList<MethodInfo>();
@@ -475,12 +479,33 @@ public class TypeInfoCollector {
 	}
 
 	boolean isDataModelObject(IType type) throws JavaModelException {
-		boolean isDataModelObject = "javax.faces.model.DataModel".equals(type.getFullyQualifiedName());
-		if (!isDataModelObject) {
+		return isInstanceofType(type, "javax.faces.model.DataModel");
+	}
+
+	public static boolean isResourceBundle(IType type) {
+		try {
+			return isInstanceofType(type, "java.util.ResourceBundle");
+		} catch (JavaModelException e) {
+			return false;
+		}
+	}
+
+	public static boolean isMap(IType type) {
+		try {
+			return isInstanceofType(type, "java.util.Map");
+		} catch (JavaModelException e) {
+			return false;
+		}
+	}
+
+	public static boolean isInstanceofType(IType type, String qualifiedTypeName) throws JavaModelException {
+		if (qualifiedTypeName == null || type == null) return false;
+		boolean isInstanceofType = qualifiedTypeName.equals(type.getFullyQualifiedName());
+		if (!isInstanceofType) {
 			ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
-			IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getSupertypes(fType);
-			for (int i = 0; !isDataModelObject && superTypes != null && i < superTypes.length; i++) {
-				if ("javax.faces.model.DataModel".equals(superTypes[i])) {
+			IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getSupertypes(type);
+			for (int i = 0; !isInstanceofType && superTypes != null && i < superTypes.length; i++) {
+				if (qualifiedTypeName.equals(superTypes[i])) {
 					return true;
 				}
 			}
