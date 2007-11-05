@@ -309,12 +309,15 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 		Calendar cal = Calendar.getInstance();
 
 		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_WEEK);
 		int dayN = cal.get(Calendar.DAY_OF_MONTH);
-		int start = day - (dayN % NUM_DAYS_IN_WEEK + cal.getFirstDayOfWeek());
 
-		cal.add(Calendar.DAY_OF_MONTH, -(start + dayN));
+		// shift 'cal' to month's start
+		cal.add(Calendar.DAY_OF_MONTH, -dayN);
+		// shift 'cal' to week's start
+		cal.add(Calendar.DAY_OF_MONTH, -(cal.get(Calendar.DAY_OF_WEEK) - cal
+				.getFirstDayOfWeek()));
 
+		//for number of week
 		for (int i = NUM_WEEK_ON_PAGE; i > 0; i--) {
 
 			nsIDOMElement tr = visualDocument
@@ -328,6 +331,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 					+ cal.get(Calendar.WEEK_OF_YEAR));
 			weekTD.appendChild(weekText);
 			tr.appendChild(weekTD);
+			
+			//for number of days in week
 			for (int j = NUM_DAYS_IN_WEEK; j > 0; j--) {
 
 				nsIDOMElement td = visualDocument
@@ -337,6 +342,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 
 				int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
+				// if 'cal' is a member of month
 				if (cal.get(Calendar.MONTH) == month) {
 
 					// if this is current day
@@ -344,13 +350,18 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 							&& cal.get(Calendar.MONTH) == month) {
 						currentAttr = TODAY_HTML_CLASS_ATTR;
 
-					} else if (dayOfWeek == Calendar.SATURDAY
+					}
+					// if this is holiday
+					else if (dayOfWeek == Calendar.SATURDAY
 							|| dayOfWeek == Calendar.SUNDAY) {
 						currentAttr = HOL_CUR_MONTH_HTML_CLASS_ATTR;
 					} else {
 						currentAttr = CUR_MONTH_HTML_CLASS_ATTR;
 					}
-				} else {
+				}
+				// if 'cal' isn't a member of month
+				else {
+					// if this is holiday
 					if (dayOfWeek == Calendar.SATURDAY
 							|| dayOfWeek == Calendar.SUNDAY) {
 						currentAttr = HOL_OTHER_MONTH_HTML_CLASS_ATTR;
