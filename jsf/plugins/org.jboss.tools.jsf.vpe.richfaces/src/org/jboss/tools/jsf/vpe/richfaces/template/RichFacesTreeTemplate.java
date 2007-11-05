@@ -153,6 +153,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 		setAttributeToTree(list2.item(i), attrName, attrValue);
 	    }
 	} catch (XPCOMException exception) {
+	    // Ignore 
 	    return;
 	}
     }
@@ -212,6 +213,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 		revertTableRows(list2.item(i));
 	    }
 	} catch (XPCOMException e) {
+	    //Ignore
 	    return;
 	}
     }
