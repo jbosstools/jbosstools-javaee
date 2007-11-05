@@ -133,6 +133,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 			+ (CALENDAR_WIDTH - CALENDAR_IMAGE_WIDTH) + "px;");
 	input.setAttribute(HtmlComponentUtil.HTML_TYPE_ATTR, ATTRIBUTE_TEXT);
 	input.setAttribute(HtmlComponentUtil.HTML_READONLY_ATTR, "true");
+	input.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-calendar-popupinput");
 	String value = source.getAttribute(HtmlComponentUtil.HTML_VALUE_ATTR);
 	if (value != null) {
 	    input.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, value);

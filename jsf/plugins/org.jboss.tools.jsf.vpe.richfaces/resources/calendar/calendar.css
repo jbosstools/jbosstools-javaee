@@ -140,6 +140,10 @@
 	vertical-align: middle;
 }
 
+.rich-calendar-popupinput {
+	vertical-align: middle;
+}
+
 .rich-calendar-today {
 	background-color: #ff7800; /*unknown parameter - need to add*/
 	color: #ffebda; /*unknown parameter - need to add*/
