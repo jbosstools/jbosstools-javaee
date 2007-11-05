@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
@@ -33,6 +36,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -66,7 +70,15 @@ public final class SeamELCompletionEngine {
 		if(document!=null) {
 			documentContent = document.get();
 		}
-		return getCompletions(project, file, documentContent, prefix, position, false, null, null);
+
+		List<String> completions = new ArrayList<String>();
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, false);
+		if (status.isOK()) {
+			completions.addAll(status.getProposals());
+		}
+		return completions;
+		
+//		return getCompletions(project, file, documentContent, prefix, position, false, null, null);
 	}
 
 	/**
@@ -121,9 +133,9 @@ public final class SeamELCompletionEngine {
 			usedVariables.addAll(resolvedVariables);
 		}
 		
-		if ((resolvedExpressionPart == null || resolvedExpressionPart.isEmpty()) && 
+		if (resolvedExpressionPart.isEmpty() && 
 				!returnEqualedVariablesOnly && 
-				tokens != null && tokens.size() > 0 && 
+				tokens.size() > 0 && 
 				tokens.get(tokens.size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
 			// no vars are resolved 
 			// the tokens are the part of var name ended with a separator (.)
@@ -262,6 +274,276 @@ public final class SeamELCompletionEngine {
 			unpairedGettersOrSetters.clear();
 		}
 		return res;
+	}
+	
+	public static class SeamELOperandResolveStatus {
+		private List<ELOperandToken> tokens;
+		public List<ISeamContextVariable> usedVariables;
+		Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters;
+		Set<String> proposals;
+		private ELOperandToken lastResolvedToken;
+
+		public SeamELOperandResolveStatus(List<ELOperandToken> tokens) {
+			this.tokens = tokens;
+			this.lastResolvedToken = null;
+		}
+		
+		public boolean isOK() {
+			return !getProposals().isEmpty(); 
+		}
+
+		public boolean isError() {
+			return !isOK();
+		}
+		
+		public List<ELOperandToken> getResolvedTokens() {
+			List<ELOperandToken> resolvedTokens = new ArrayList<ELOperandToken>();
+			int index = tokens.indexOf(lastResolvedToken); // index == -1 means that no tokens are resolved
+			for (int i = 0; i < tokens.size() && i <= index; i++) {
+				resolvedTokens.add(tokens.get(i));
+			}
+			return resolvedTokens;
+		}
+
+		public List<ELOperandToken> getUnresolvedTokens() {
+			List<ELOperandToken> unresolvedTokens = new ArrayList<ELOperandToken>();
+			int index = tokens.indexOf(lastResolvedToken); // index == -1 means that no tokens are resolved
+			for (int i = index + 1; i < tokens.size(); i++) {
+				unresolvedTokens.add(tokens.get(i));
+			}
+			return unresolvedTokens;
+		}
+
+		public ELOperandToken getLastResolvedToken() {
+			return lastResolvedToken;
+		}
+
+		public void setLastResolvedToken(ELOperandToken lastResolvedToken) {
+			this.lastResolvedToken = lastResolvedToken;
+		}
+
+		public List<ELOperandToken> getTokens() {
+			return tokens;
+		}
+
+		public void setTokens(List<ELOperandToken> tokens) {
+			this.tokens = tokens;
+		}
+
+		public Set<String> getProposals() {
+			return proposals == null ? new TreeSet<String>() : proposals;
+		}
+
+		public void setProposals(Set<String> proposals) {
+			this.proposals = proposals;
+		}
+
+		public List<ISeamContextVariable> getUsedVariables() {
+			return (usedVariables == null ? new ArrayList<ISeamContextVariable>() : usedVariables);
+		}
+
+		public void setUsedVariables(List<ISeamContextVariable> usedVariables) {
+			this.usedVariables = usedVariables;
+		}
+
+		public Map<String, TypeInfoCollector.MethodInfo> getUnpairedGettersOrSetters() {
+			if (unpairedGettersOrSetters == null) {
+				unpairedGettersOrSetters = new HashMap<String, TypeInfoCollector.MethodInfo>();
+			}
+			return unpairedGettersOrSetters;
+		}
+
+		public void clearUnpairedGettersOrSetters() {
+			getUnpairedGettersOrSetters().clear();
+		}
+		
+	}
+	
+	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
+			int position, boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
+
+		
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
+		SeamELOperandResolveStatus status= new SeamELOperandResolveStatus(tokenizer.getTokens());
+
+		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
+		ScopeType scope = getScope(project, file);
+		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(status.getTokens());
+		
+		if (variations.isEmpty()) {
+			resolvedVariables = resolveVariables(project, scope, 
+					status.getTokens(), status.getTokens(), 
+					returnEqualedVariablesOnly);
+		} else {
+			for (List<ELOperandToken> variation : variations) {
+				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
+				resolvedVars = resolveVariables(project, scope, 
+						variation, status.getTokens(), 
+						returnEqualedVariablesOnly);
+				if (resolvedVars != null && !resolvedVars.isEmpty()) {
+					resolvedVariables = resolvedVars;
+					status.setLastResolvedToken(variation.get(variation.size() - 1));
+					break;
+				}
+			}
+		}
+
+		// Save all resolved variables. It's useful for incremental validation.
+		if(resolvedVariables!=null && resolvedVariables.size()>0) {
+			status.setUsedVariables(resolvedVariables);
+		}
+		
+		if (status.getResolvedTokens().isEmpty() && 
+				!returnEqualedVariablesOnly && 
+				status.getTokens().size() > 0 && 
+				status.getTokens().get(status.getTokens().size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+			// no vars are resolved 
+			// the tokens are the part of var name ended with a separator (.)
+			resolvedVariables = resolveVariables(project, scope, status.getTokens(), status.getTokens(), returnEqualedVariablesOnly);			
+			String prefixString = prefix.toString();
+			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			for (ISeamContextVariable var : resolvedVariables) {
+				String varName = var.getName();
+				if(varName.startsWith(prefixString)) {
+					proposals.add(varName.substring(prefixString.length()));
+				}
+			}
+			status.setProposals(proposals);
+			return status;
+		}
+		
+
+		// Here we have a list of vars for some part of expression
+		// OK. we'll proceed with members of these vars
+		if (areEqualExpressions(status.getResolvedTokens(), status.getTokens())) {
+			// First segment is the last one
+			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			for (ISeamContextVariable var : resolvedVariables) {
+				String varName = var.getName();
+				String prefixString = prefix.toString();
+				if(prefixString.length()<=varName.length()) {
+					proposals.add(varName.substring(prefixString.length()));
+				} else if(returnEqualedVariablesOnly) {
+					proposals.add(varName);
+				}
+			}
+			status.setLastResolvedToken(status.getTokens().isEmpty() ? null : status.getTokens().get(status.getTokens().size() - 1));
+			status.setProposals(proposals);
+			return status;
+		}
+
+		// First segment is found - proceed with next tokens 
+		int startTokenIndex = status.getResolvedTokens().size();
+		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
+		for (ISeamContextVariable var : resolvedVariables) {
+			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, returnEqualedVariablesOnly);
+			if (member != null && !members.contains(member)) 
+				members.add(member);
+		}
+		for (int i = startTokenIndex; i < status.getTokens().size() && members.size() > 0; i++) {
+			ELOperandToken token = status.getTokens().get(i);
+			if (i < status.getTokens().size() - 1) { // inside expression
+				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+					// proceed with next token
+					status.setLastResolvedToken(token);
+					continue;
+				}
+				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
+					// Find properties for the token
+					String name = token.getText();
+					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
+						for (TypeInfoCollector.MemberInfo property : properties) {
+							StringBuffer propertyName = new StringBuffer(property.getName());
+							if (property instanceof TypeInfoCollector.MethodInfo) { // Setter or getter
+								propertyName.delete(0, (propertyName.charAt(0) == 'i' ? 2 : 3));
+								propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
+							}
+							if (name.equals(propertyName.toString())) {
+								newMembers.add(property);
+							}
+						}
+					}
+					members = newMembers;
+					if (members != null && members.size() > 0)
+						status.setLastResolvedToken(token);
+				}
+				if (token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
+					// Find methods for the token
+					String name = token.getText();
+					if (name.indexOf('(') != -1) {
+						name = name.substring(0, name.indexOf('('));
+					}
+					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
+						for (TypeInfoCollector.MemberInfo method : methods) {
+							if (name.equals(method.getName())) {
+								newMembers.add(method);
+							}
+						}
+					}
+					members = newMembers;
+					if (members != null && members.size() > 0)
+						status.setLastResolvedToken(token);
+				}
+			} else { // Last segment
+				Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+					// return all the methods + properties
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						proposals.addAll(infos.getMethodPresentations());
+						proposals.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
+					}
+				} else if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
+					// return filtered methods + properties 
+					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
+					for (TypeInfoCollector.MemberInfo mbr : members) {
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						proposalsToFilter.addAll(infos.getMethodPresentations());
+						proposalsToFilter.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
+					}
+					for (String proposal : proposalsToFilter) {
+						// We do expect nothing but name for method tokens (No round brackets)
+						String filter = token.getText();
+						if(returnEqualedVariablesOnly) {
+							// This is used for validation.
+							if (proposal.equals(filter)) {
+								proposals.add(proposal);
+								if(status.getUnpairedGettersOrSetters()!=null) {
+									TypeInfoCollector.MethodInfo unpirMethod = status.getUnpairedGettersOrSetters().get(filter);
+									status.clearUnpairedGettersOrSetters();
+									if(unpirMethod!=null) {
+										status.getUnpairedGettersOrSetters().put(filter, unpirMethod);
+									}
+								}
+								break;
+							}
+						} else {
+							// This is used for CA.
+							if (proposal.startsWith(filter)) {
+								proposals.add(proposal.substring(filter.length()));
+							}
+						}
+					}
+				}
+				status.setProposals(proposals);
+				if (status.isOK()){
+					status.setLastResolvedToken(token);
+				}
+			}
+		}
+
+		if(status.getProposals().isEmpty() && status.getUnpairedGettersOrSetters()!=null) {
+			status.clearUnpairedGettersOrSetters();
+		}
+		return status;
+		
 	}
 	
 	private String computeVariableName(List<ELOperandToken> tokens){

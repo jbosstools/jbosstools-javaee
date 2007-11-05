@@ -277,26 +277,29 @@ public class SeamELValidator extends SeamValidator {
 						position = 0;
 					}
 
-					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
-					Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters = new HashMap<String, TypeInfoCollector.MethodInfo>();
+//					Set<ISeamContextVariable> usedVariables = new HashSet<ISeamContextVariable>();
+//					Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters = new HashMap<String, TypeInfoCollector.MethodInfo>();
 
-					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, position, true, usedVariables, unpairedGettersOrSetters);
-
-					if(usedVariables.size()==0 && suggestions.size()==0) {
+//					List<String> suggestions = engine.getCompletions(project, file, operand, prefix, position, true, usedVariables, unpairedGettersOrSetters);
+					
+					SeamELCompletionEngine.SeamELOperandResolveStatus status = 
+						engine.resolveSeamELOperand(project, file, operand, prefix, position, true);
+					
+					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names
 						validationContext.addUnnamedElResource(file.getFullPath());
 					} else {
 						// Save links between resource and used variables names
-						for(ISeamContextVariable variable: usedVariables) {
+						for(ISeamContextVariable variable: status.getUsedVariables()) {
 							validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
 						}
 					}
 
 					// Check pair for getter/setter
-					if(unpairedGettersOrSetters.size()>0) {
-						TypeInfoCollector.MethodInfo unpairedMethod = unpairedGettersOrSetters.values().iterator().next();
+					if(status.getUnpairedGettersOrSetters().size()>0) {
+						TypeInfoCollector.MethodInfo unpairedMethod = status.getUnpairedGettersOrSetters().values().iterator().next();
 						String methodName = unpairedMethod.getName();
-						String propertyName = unpairedGettersOrSetters.keySet().iterator().next();
+						String propertyName = status.getUnpairedGettersOrSetters().keySet().iterator().next();
 						String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
 						String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
 						if(methodName.startsWith("s")) { //$NON-NLS-1$
@@ -306,21 +309,23 @@ public class SeamELValidator extends SeamValidator {
 						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, operand.length(), documnetOffset, file);
 					}
 
-					if (suggestions != null && suggestions.size() > 0) {
+					if (status.isOK()) {
 						// It's valid EL.
 						return;
 					}
 
-					SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(operand, position + prefix.length());
-					List<ELOperandToken> tokens = tokenizer.getTokens();
+//					SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(operand, position + prefix.length());
+//					List<ELOperandToken> tokens = tokenizer.getTokens();
+					List<ELOperandToken> tokens = status.getUnresolvedTokens();
+					
 					for (ELOperandToken token : tokens) {
 						if((token.getType()==ELOperandToken.EL_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
-							if(!isResolvedVar(token.getText(), usedVariables)) {
+//							if(!isResolvedVar(token.getText(), usedVariables)) {
 								varName = token.getText();
 								offsetOfVarName = documnetOffset + operandToken.getStart() + token.getStart();
 								lengthOfVarName = varName.length();
 								break;
-							}
+//							}
 						}
 					}
 				}
