@@ -69,10 +69,12 @@ public class SeamELTokenizer {
 		fState = STATE_INITIAL;
 		while ((token = getNextToken()) != ELToken.EOF) {
 
-			if (token.getType() == ELToken.EL_OPERAND_TOKEN ||
+			if (token.getType() == ELToken.EL_VARIABLE_TOKEN ||
 					token.getType() == ELToken.EL_OPERATOR_TOKEN ||
 					token.getType() == ELToken.EL_RESERVED_WORD_TOKEN ||
-					token.getType() == ELToken.EL_SEPARATOR_TOKEN) {
+					token.getType() == ELToken.EL_SEPARATOR_TOKEN || 
+					token.getType() == ELToken.EL_STRING_TOKEN ||
+					token.getType() == ELToken.EL_NUMBER_TOKEN) {
 
 				fTokens.add(token);
 			}
@@ -253,10 +255,12 @@ public class SeamELTokenizer {
 		releaseChar();
 		int length = index - startOfToken;
 		boolean reservedWord = isResorvedWord(startOfToken, length);
-		int tokenType = ELToken.EL_OPERAND_TOKEN;
+		int tokenType = ELToken.EL_VARIABLE_TOKEN;
 		if(reservedWord) {
 			tokenType = ELToken.EL_RESERVED_WORD_TOKEN;
 			fState = STATE_RESERVED_WORD;
+		} else if(isNumber(startOfToken, length)) {
+			tokenType = ELToken.EL_NUMBER_TOKEN;
 		}
 
 		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), tokenType) : ELToken.EOF);
@@ -266,9 +270,29 @@ public class SeamELTokenizer {
 		return RESERVED_WORDS.indexOf(" " + word.trim() + " ")>-1;
 	}
 
+	private boolean isNumber(String word) {
+		if(word.length()>0) {
+			char firstChar = word.charAt(0);
+			if(firstChar=='-' || (firstChar>='0' && firstChar<='9')) {
+				try {
+					Long.parseLong(word);
+					return true;
+				} catch (NumberFormatException e) {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
 	private boolean isResorvedWord(int beginIndex, int length) {
 		String word = expression.substring(beginIndex, beginIndex + length);
 		return isResorvedWord(word);
+	}
+
+	private boolean isNumber(int beginIndex, int length) {
+		String word = expression.substring(beginIndex, beginIndex + length);
+		return isNumber(word);
 	}
 
 	/* Reads the next character

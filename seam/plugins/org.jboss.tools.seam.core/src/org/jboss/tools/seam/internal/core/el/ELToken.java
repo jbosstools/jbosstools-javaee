@@ -18,11 +18,12 @@ import org.eclipse.jface.text.rules.IToken;
  */
 public class ELToken implements IToken {
 	public static final ELToken EOF = new ELToken(-1, -1, null, -1);
-	public static final int EL_OPERAND_TOKEN = 1;
+	public static final int EL_VARIABLE_TOKEN = 1;
 	public static final int EL_OPERATOR_TOKEN = 2;
 	public static final int EL_RESERVED_WORD_TOKEN = 3;
 	public static final int EL_SEPARATOR_TOKEN = 4;
 	public static final int EL_STRING_TOKEN = 5;
+	public static final int EL_NUMBER_TOKEN = 6;
 
 	private int start;
 	private int length;
