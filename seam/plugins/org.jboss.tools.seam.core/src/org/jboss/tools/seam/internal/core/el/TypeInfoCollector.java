@@ -8,12 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompletionRequestor;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -464,8 +466,30 @@ public class TypeInfoCollector {
 			// This inserts here methods "public int size()" and "public boolean isEmpty()" for javax.faces.model.DataModel 
 			// as requested by Gavin in JBIDE-1256
 			// !!!!!!! 
-//			if (fType.)
-			
+			boolean isDataModelObject = "javax.faces.model.DataModel".equals(fType.getFullyQualifiedName());
+			if (!isDataModelObject) {
+				ITypeHierarchy typeHierarchy = fType.newSupertypeHierarchy(new NullProgressMonitor());
+				IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getSupertypes(fType);
+				for (int i = 0; !isDataModelObject && superTypes != null && i < superTypes.length; i++) {
+					if ("javax.faces.model.DataModel".equals(superTypes[i])) {
+						isDataModelObject = true;
+					}
+				}
+			}
+			if (isDataModelObject) {
+				fMethods.add(new MethodInfo(fType,
+						fType.getFullyQualifiedName(),
+						"size", Modifier.PUBLIC, 
+						new String[0],
+						new String[0],
+						"int"));
+				fMethods.add(new MethodInfo(fType,
+						fType.getFullyQualifiedName(),
+						"isEmpty", Modifier.PUBLIC, 
+						new String[0],
+						new String[0],
+						"boolean"));
+			}
 
 			
 		} catch (JavaModelException e) {
