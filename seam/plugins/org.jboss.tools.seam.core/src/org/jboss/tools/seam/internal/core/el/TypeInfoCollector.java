@@ -443,7 +443,7 @@ public class TypeInfoCollector {
 		} else {
 			fFields.clear();
 		}
-		
+
 		if (fType == null) 
 			return;
 		try {
@@ -466,37 +466,44 @@ public class TypeInfoCollector {
 			// This inserts here methods "public int size()" and "public boolean isEmpty()" for javax.faces.model.DataModel 
 			// as requested by Gavin in JBIDE-1256
 			// !!!!!!! 
-			boolean isDataModelObject = "javax.faces.model.DataModel".equals(fType.getFullyQualifiedName());
-			if (!isDataModelObject) {
-				ITypeHierarchy typeHierarchy = fType.newSupertypeHierarchy(new NullProgressMonitor());
-				IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getSupertypes(fType);
-				for (int i = 0; !isDataModelObject && superTypes != null && i < superTypes.length; i++) {
-					if ("javax.faces.model.DataModel".equals(superTypes[i])) {
-						isDataModelObject = true;
-					}
-				}
+			if(isDataModelObject(fType)) {
+				addInfoForDataModelObject();				
 			}
-			if (isDataModelObject) {
-				fMethods.add(new MethodInfo(fType,
-						fType.getFullyQualifiedName(),
-						"size", Modifier.PUBLIC, 
-						new String[0],
-						new String[0],
-						"int"));
-				fMethods.add(new MethodInfo(fType,
-						fType.getFullyQualifiedName(),
-						"isEmpty", Modifier.PUBLIC, 
-						new String[0],
-						new String[0],
-						"boolean"));
-			}
-
-			
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
-	
+
+	boolean isDataModelObject(IType type) throws JavaModelException {
+		boolean isDataModelObject = "javax.faces.model.DataModel".equals(type.getFullyQualifiedName());
+		if (!isDataModelObject) {
+			ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
+			IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getSupertypes(fType);
+			for (int i = 0; !isDataModelObject && superTypes != null && i < superTypes.length; i++) {
+				if ("javax.faces.model.DataModel".equals(superTypes[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+
+	void addInfoForDataModelObject() {
+		fMethods.add(new MethodInfo(fType,
+				fType.getFullyQualifiedName(),
+				"size", Modifier.PUBLIC, 
+				new String[0],
+				new String[0],
+				"int"));
+		fMethods.add(new MethodInfo(fType,
+				fType.getFullyQualifiedName(),
+				"isEmpty", Modifier.PUBLIC, 
+				new String[0],
+				new String[0],
+				"boolean"));
+	}
+
 	private static IType getSuperclass(IType type) throws JavaModelException {
 		String superclassName = type.getSuperclassName();
 		if(superclassName!=null) {
