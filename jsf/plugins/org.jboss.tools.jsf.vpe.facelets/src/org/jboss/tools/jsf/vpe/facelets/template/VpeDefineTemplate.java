@@ -31,8 +31,9 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		if (VpeDefineContainerTemplate.isDefineContainer(sourceNode.getParentNode())) {
-			nsIDOMElement visualNewElement = visualDocument.createElement(HTML.TAG_DIV);
-			return new VpeCreationData(visualNewElement);
+			//FIX for JBIDE-1213, we shouldn't wrap ui:define content( Max Areshkau)
+			//nsIDOMElement visualNewElement = visualDocument.createElement(HTML.TAG_SPAN);
+			return new VpeCreationData(null);
 		}
 		return createStub((Element)sourceNode, visualDocument);
 	}

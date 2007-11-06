@@ -22,6 +22,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -126,5 +127,15 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 	private VpeCreationData createStub(Element element, nsIDOMDocument visualDocument) {
 		nsIDOMElement visualNewElement = visualDocument.createElement(HTML.TAG_DIV);
 		return new VpeCreationData(visualNewElement);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#setPseudoContent(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, org.mozilla.interfaces.nsIDOMDocument)
+	 */
+	@Override
+	public void setPseudoContent(VpePageContext pageContext,
+			Node sourceContainer, nsIDOMNode visualContainer,
+			nsIDOMDocument visualDocument) {
+		// TODO Fix  for JBIDE-1213
 	}
 }
