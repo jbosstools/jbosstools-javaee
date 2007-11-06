@@ -13,12 +13,16 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -73,4 +77,37 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 
 		return creationData;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#validate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument, org.jboss.tools.vpe.editor.template.VpeCreationData)
+	 */
+	@Override
+	public void validate(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument, VpeCreationData data) {
+		// FIX for JBIDE-1213 (Max Areshkau)
+		if(data.getNode()!=null) {
+			String bodyClass = ((Element)sourceNode).getAttribute("bodyClass");
+			applyStylesToTable(data.getNode(), bodyClass);
+		}
+	}
+	
+    private void applyStylesToTable(nsIDOMNode node,String sourceClass) {
+
+    	try {
+    	    nsIDOMNodeList list = node.getChildNodes();
+    	    nsIDOMElement element = (nsIDOMElement) node
+    		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+    	    if (node.getNodeName().equalsIgnoreCase(
+    		    HtmlComponentUtil.HTML_TAG_TABLE)){
+    	    	element.setAttribute("class", "dr-pnl-b rich-panel-body " + (sourceClass==null?"":sourceClass));
+    	    }
+    	    for (int i = 0; i < list.getLength(); i++) {
+    	    applyStylesToTable(list.item(i),sourceClass);
+    	    }
+    	} catch (XPCOMException e) {
+    	    //Ignore
+    	    return;
+    	}
+        }
 }
