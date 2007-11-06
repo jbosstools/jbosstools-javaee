@@ -68,7 +68,7 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 			IClasspathEntry[] es = javaProject.getRawClasspath();
 			for (int i = 0; i < es.length; i++) {
 				if(es[i].getEntryKind() != IClasspathEntry.CPE_SOURCE) continue;
-				IFile file = (IFile)project.getFile(es[i].getPath().lastSegment()+"/"+name);
+				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name);
 				if(file != null && file.exists()) return file;
 			}
 			return null;
