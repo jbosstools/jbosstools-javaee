@@ -503,9 +503,9 @@ public class TypeInfoCollector {
 		boolean isInstanceofType = qualifiedTypeName.equals(type.getFullyQualifiedName());
 		if (!isInstanceofType) {
 			ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
-			IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getSupertypes(type);
+			IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getAllSupertypes(type);
 			for (int i = 0; !isInstanceofType && superTypes != null && i < superTypes.length; i++) {
-				if (qualifiedTypeName.equals(superTypes[i])) {
+				if (qualifiedTypeName.equals(superTypes[i].getFullyQualifiedName())) {
 					return true;
 				}
 			}
