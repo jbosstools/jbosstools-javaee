@@ -357,10 +357,10 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
 Editor.</para>
 <section id="EditingInputjsp">
 <?dbhtml filename="EditingInputjsp.html"?>
-<title>Editing inputname.jsp page</title>
+<title>Editing inputnumber.jsp page</title>
 <para>On this page we will have an output text component displaying a message, a text field for user&apos;s number entering and a button for input submission.</para>
 <itemizedlist>
-<listitem><para>Open inputnumber.jsp by double-clicking on the <emphasis><property>/pages/inputnamber.
+<listitem><para>Open inputnumber.jsp by double-clicking on the <emphasis><property>/pages/inputnumber.
 jsp</property></emphasis> icon</para></listitem>
 </itemizedlist>
 <para>The Visual Page Editor will open in a screen split between source code along the top and
