@@ -18,6 +18,8 @@ import org.jboss.tools.common.meta.XChild;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.filesystems.impl.FileSystemsImpl;
+import org.jboss.tools.common.model.filesystems.impl.FileSystemsLoader;
 import org.jboss.tools.common.model.impl.*;
 
 public class JSFProjectResourceBundles extends JSFProjectFolder {
@@ -56,8 +58,13 @@ public class JSFProjectResourceBundles extends JSFProjectFolder {
 	
 	protected Iterator<XModelObject> getRoots() {
 		List<XModelObject> list = new ArrayList<XModelObject>();
-		XModelObject r = FileSystemsHelper.getFileSystem(getModel(), "src");
-		if(r != null) list.add(r);
+		FileSystemsImpl fs = (FileSystemsImpl)FileSystemsHelper.getFileSystems(getModel());
+		new FileSystemsLoader().updateSrcs(fs);
+		XModelObject[] cs = FileSystemsHelper.getFileSystems(getModel()).getChildren("FileSystemFolder");
+		for (int i = 0; i < cs.length; i++) {
+			String n = cs[i].getAttributeValue("name");
+			if(n.startsWith("src")) list.add(cs[i]);
+		}
 		XModelObject web = getModel().getByPath("Web");
 		XModelObject[] ms = (web == null) ? new XModelObject[0] : web.getChildren("WebJSFModule");
 		if(ms.length > 0) {
@@ -67,7 +74,7 @@ public class JSFProjectResourceBundles extends JSFProjectFolder {
 			while(st.hasMoreTokens()) {
 				String t = st.nextToken().trim();
 				if(t.length() == 0 || "src".equals(t)) continue;
-				r = FileSystemsHelper.getFileSystem(getModel(), t);
+				XModelObject r = FileSystemsHelper.getFileSystem(getModel(), t);
 				if(r != null) list.add(r);
 			}
 		}
