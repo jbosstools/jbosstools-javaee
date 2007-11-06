@@ -96,7 +96,7 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		//if(opened) {
 		    nsIDOMElement bodyDiv = visualDocument.createElement("div");
 			div.appendChild(bodyDiv);
-			bodyDiv.setAttribute("style", "overflow: auto; height: " + ComponentUtil.getAttribute(sourceElement, "height") + "; width: 100%;");
+			bodyDiv.setAttribute("style", "overflow: hidden; height: " + ComponentUtil.getAttribute(sourceElement, "height") + "; width: 100%;");
 
 			nsIDOMElement table = visualDocument.createElement("table");
 			bodyDiv.appendChild(table);
