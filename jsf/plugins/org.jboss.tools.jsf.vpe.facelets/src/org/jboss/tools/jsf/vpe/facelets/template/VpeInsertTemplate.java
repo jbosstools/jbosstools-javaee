@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.tools.vpe.editor.VpeIncludeInfo;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -49,12 +52,17 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 					return creationData;
 				}
 			} else {
-				Node undefineElement = findUndefinedElement(includeInfo.getElement());
-				if (undefineElement != null) {
-					VpeCreationData creationData = createInsert(undefineElement, visualDocument);
-					creationData.setData(pageContext.getVisualBuilder().popIncludeStack());
-					return creationData;
+				//if no name specified for insert Template, that expected that the all template body will be inserted
+				List<Node> elements = findUndefinedElement(includeInfo.getElement());
+				
+				VpeCreationData creationData= new VpeCreationData(null);
+				for (Node node : elements) {
+					VpeChildrenInfo childInfo =  new VpeChildrenInfo(null);
+					childInfo.addSourceChild(node);
+					creationData.addChildrenInfo(childInfo);
 				}
+				creationData.setData(pageContext.getVisualBuilder().popIncludeStack());
+				return creationData;
 			}
 		}
 		VpeCreationData creationData = createStub((Element)sourceNode, visualDocument);
@@ -87,8 +95,8 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		return defineElement;
 	}
 	
-	private Node findUndefinedElement(Element defineContainer) {
-		Node defineElement = null; 
+	private List<Node> findUndefinedElement(Element defineContainer) {
+		List<Node> result= new ArrayList<Node>();
 		NodeList children = defineContainer.getChildNodes();
 		int len = children.getLength();
 		for (int i = 0; i < len; i++) {
@@ -96,16 +104,15 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 			if ((child.getNodeType() == Node.ELEMENT_NODE||child.getNodeType() == Node.TEXT_NODE)) {
 				
 				if(child.getNodeType() == Node.ELEMENT_NODE&&!"define".equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) {
-					defineElement = child;
-					break;
+					result.add(child);
+					
 				} else if(child.getNodeType() == Node.TEXT_NODE&&((Text)child).getNodeValue()!=null&&
 						((Text)child).getNodeValue().trim().length()>0) {
-					defineElement = child;
-					break;
+					result.add(child);
 				}
 			}
 		}
-		return defineElement;
+		return result;
 	}
 	
 	private VpeCreationData createInsert(Node defineElement, nsIDOMDocument visualDocument) {
