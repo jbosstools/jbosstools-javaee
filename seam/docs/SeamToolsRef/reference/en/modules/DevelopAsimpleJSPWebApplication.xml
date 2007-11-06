@@ -72,7 +72,7 @@ the Select Perspective dialog box.)</para>
 <listitem><para>Insert this line inside the <emphasis role="bold"><property>&lt;body&gt;</property></emphasis><emphasis role="bold"><property>&lt;/body&gt;</property></emphasis> tag:
 </para></listitem>
 </itemizedlist>
-<programlisting role="XML"><![CDATA[<% out.println("Hello World!"); %>]]>
+<programlisting role="XML"><![CDATA[<% System.out.println("Hello World!"); %>]]>
 </programlisting>
 
 <para>Notice that content assist functionality is always available when you are typing:</para>
