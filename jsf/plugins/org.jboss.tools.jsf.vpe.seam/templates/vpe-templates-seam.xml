@@ -15,9 +15,41 @@
 	</vpe:tag>
 	
 	<vpe:tag name="s:label" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<label class="{@styleClass}" style="{@style}"/>
-		</vpe:template>
+	    <vpe:template children="yes" modify="yes">
+			<label style="{@style}" class="{@styleClass}" title="{tagstring()}" for="{@for}">
+				<vpe:value expr="{jsfvalue(@value)}"/>
+			</label>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="outputText"/>
+				</vpe:drop>
+			</vpe:dnd>
+		    <vpe:textFormating>
+				<vpe:format type="BlockFormat" addChildren="deny" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+				<vpe:format type="UnderlineFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style"/>
+					</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style"/>
+				</vpe:format>
+			</vpe:textFormating>
+	    </vpe:template>
 	</vpe:tag>
 
 	<vpe:tag name="s:message" case-sensitive="yes">
