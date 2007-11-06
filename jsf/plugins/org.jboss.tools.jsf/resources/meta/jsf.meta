@@ -2455,6 +2455,7 @@
     <Constraint loader="Tree">
      <value name="FileSystemResourceBundle"/>
      <value name="extensions=properties"/>
+     <value name="javaRootsOnly=true"/>
     </Constraint>
     <Editor name="TreeChooser"/>
    </XModelAttribute>
