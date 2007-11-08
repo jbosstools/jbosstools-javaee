@@ -25,6 +25,7 @@ public class AdoptProjectContext extends AdoptWebProjectContext {
         if(webxml == null) return new String[0][];
         ArrayList<String[]> l = new ArrayList<String[]>();
 		XModelObject servlet = WebAppHelper.findServlet(webxml, StrutsWebHelper.ACTION_SERVLET, "action");
+		if(servlet == null) return l.toArray(new String[0][]); 
         XModelObject[] init = servlet.getChildren("WebAppInitParam");
         for (int j = 0; j < init.length; j++) {
             String name = init[j].getAttributeValue("param-name");
