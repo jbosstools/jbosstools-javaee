@@ -49,6 +49,7 @@
        <section id="CodeAssist">
         <?dbhtml filename="CodeAssist.html"?>
            <title>CodeAssist</title>
+           <para>Select <emphasis><property>JBoss Tools > XDoclet > Code Assist</property></emphasis> to see Code Assist preference page.</para>
            <para>Here is what the Code Assist preference page looks like: </para>
            <figure>
                <title>CodeAssist</title>
@@ -78,6 +79,7 @@
         <section id="JBossServers">
             <?dbhtml filename="JBossServers.html"?>
             <title>JBoss Servers</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > JBoss Servers</property></emphasis> preference page.</para>
             <para>Here is what the JBoss Servers preference page looks like:</para>
             <figure>
                 <title>JBoss Servers</title>
@@ -92,7 +94,7 @@
         <section id="JSF">
             <?dbhtml filename="JSF.html"?>
             <title>JSF</title>
-            <para>Select <emphasis><property>JBoss Tools &gt; Web &gt; JSF</property></emphasis> to get to the JSF Project specific preferences</para>
+            <para>Select <emphasis><property>JBoss Tools &gt; Web &gt; JSF</property></emphasis> to get to the JSF Project specific preferences.</para>
             <figure>
                 <title>JSF</title>
                 <mediaobject> 
@@ -106,7 +108,7 @@
         <section id="JSFFlowDiagram">
             <?dbhtml filename="JSFFlowDiagram.html"?>
             <title>JSF Flow Diagram</title>
-            <para>Selecting this allows you to specify some aspects of the Diagram mode of the JSF configuration file editor.</para>
+            <para>Selecting <emphasis><property>JBoss Tools > Web > Editors > JSF Flow Diagram</property></emphasis> allows you to specify some aspects of the Diagram mode of the JSF configuration file editor.</para>
             <figure>
                 <title>JSF Flow Diagram</title>
                 <mediaobject> 
@@ -146,6 +148,7 @@
         <section id="JSFPropject">
             <?dbhtml filename="JSFPropject.html"?>
             <title>JSF Propject</title>
+            <para>Select <emphasis><property>JBoss Tools > Web > JSF > Project</property></emphasis> to see JSF Project preference page.</para>
             <para>On <emphasis><property>Project</property></emphasis> panel you define a template for a new created project: servlet version, page template and so on.</para>
             <figure>
                 <title>JSF Propject</title>
@@ -169,6 +172,7 @@
         <section id="PackagingArchives">
             <?dbhtml filename="PackagingArchives.html"?>
             <title>Packaging Archives</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > Packaging Archives</property></emphasis> page.</para>
             <para>On <emphasis><property>Packaging Archives</property></emphasis> panel you determine settings for Project Packages view and core preferences.</para>
             <figure>
                 <title>Packaging Archives</title>
@@ -206,6 +210,7 @@
         <section id="ResourceInsets">
             <?dbhtml filename="ResourceInsets.html"?>
             <title>Resource Insets</title>
+            <para>To see Resource Insets preference page select <emphasis><property>JBoss Tools > Web > Strats > Automation > Resource Insets</property></emphasis>.</para>
             <para>On <emphasis><property>Resource Insets</property></emphasis> panel you determine default error messages for error resource files.</para>
             <figure>
                 <title>Resource Insets</title>
@@ -220,7 +225,9 @@
         <section id="Seam">
             <?dbhtml filename="Seam.html"?>
             <title>Seam</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > Web > Seam</property></emphasis> page.</para>
             <para>On <emphasis><property>Seam</property></emphasis> screen you can add and remove Seam runtimes.</para>
+            <para>Here is what Seam preference page looks like:</para>
             <figure>
                 <title>Seam</title>
                 <mediaobject> 
@@ -234,6 +241,7 @@
         <section id="SeamValidator">
             <?dbhtml filename="SeamValidator.html"?>
             <title>Seam Validator</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > Web > Seam > Validator</property></emphasis> page.</para>
             <para>In <emphasis><property>Validator</property></emphasis> panel you configure seam problems that will be processed by validator.</para>
             <figure>
                 <title>Seam Validator</title>
@@ -276,6 +284,7 @@
         <section id="StrutsCustomization">
             <?dbhtml filename="StrutsCustomization"?>
             <title>Struts Customization</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > Web > Struts > Customization</property></emphasis> page.</para>
             <para>In the<emphasis><property>Customization</property></emphasis> screen you configure Link Recognizer for Struts tags.</para>
             <figure>
                 <title>Struts Customization</title>
@@ -290,7 +299,7 @@
         <section id="StrutsFlowDiagram">
             <?dbhtml filename="StrutsFlowDiagram.html"?>
             <title>Struts Flow Diagram</title>
-            <para>Similarly to the JSF Flow Diagram screen, selecting this allows you to specify aspects of the Diagram mode of the Struts configuration file editor. The Struts Flow Diagram screen adds an option to hide the Diagram tab and labeling settings for additional artifacts. </para>
+            <para>Similarly to the JSF Flow Diagram screen, selecting <emphasis><property>JBoss Tools > Web > Editor > Struts Flow Diagram</property></emphasis> page allows you to specify aspects of the Diagram mode of the Struts configuration file editor. The Struts Flow Diagram screen adds an option to hide the Diagram tab and labeling settings for additional artifacts. </para>
             <figure>
                 <title>Struts Flow Diagram</title>
                 <mediaobject> 
@@ -313,6 +322,7 @@
         <section id="StrutsPages">
             <?dbhtml filename="StrutsPages.html"?>
             <title>Struts Pages</title>
+            <para>You can change the following preferences on the JBoss Tools > Web > Struts > Struts Pages preference page.</para>
             <para>On <emphasis><property>Struts Pages</property></emphasis> panel you can add or remove Struts pages.</para>
             <figure>
                 <title>Struts Pages</title>
@@ -327,6 +337,7 @@
         <section id="StrutsProject">
             <?dbhtml filename="StrutsProject.html"?>
             <title>Struts Project</title>
+            <para>You can change the following preferences on the <emphasis><property>JBoss Tools > Web > Struts > Project</property></emphasis> preference page:</para>
             <para>On <emphasis><property>Project</property></emphasis> panel you define a template for a new Struts created project: servlet version, page template and so on.</para>
             <figure>
                 <title>Struts Project</title>
@@ -350,6 +361,7 @@
         <section id="StrutsSupport">
             <?dbhtml filename="StrutsSupport.html"?>
             <title>Struts Support</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > Web > Struts > Project > Struts Support</property></emphasis> page.</para>
             <para>Select <emphasis><property>Struts Support</property></emphasis> screen if you want to configure Struts versions support settings.</para>
             <figure>
                 <title>Struts Support</title>
@@ -364,7 +376,7 @@
         <section id="TitleDiagram">
             <?dbhtml filename="TitleDiagram.html"?>
             <title>Title Diagram</title>
-            <para>This screen allows you control some settings for the placement of Tiles definitions in the Diagram mode of the JBoss Tools  Tiles editor.</para>
+            <para><emphasis><property>JBoss Tools > Web > Editors > Title Diagram</property></emphasis> screen allows you control some settings for the placement of Tiles definitions in the Diagram mode of the JBoss Tools  Tiles editor.</para>
             <figure>
                 <title>Title Diagram</title>
                 <mediaobject> 
@@ -378,6 +390,7 @@
         <section id="Verification">
             <?dbhtml filename="Verification.html"?>
             <title>Verification</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > Web > Verification</property></emphasis> page.</para>
             <para>On Rules Configuration tab of <emphasis><property>Verifcation</property></emphasis> panel you can determine JSF and Struts rules.</para>
             <figure>
                 <title>Verification</title>
@@ -401,6 +414,7 @@
         <section id="View">
             <?dbhtml filename="View.html"?>
             <title>View</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > JBoss Servers > View</property></emphasis> page.</para>
             <para>The <emphasis><property>View</property></emphasis> shows you preferences for JBoss Servers view.</para>
             <figure>
                 <title>View</title>
@@ -415,7 +429,7 @@
         <section id="VisualPageEditor2">
             <?dbhtml filename="VisualPageEditor.html"?>
             <title>Visual Page Editor</title>
-            <para>This screen allows you to control some aspects of the behavior of the Visual Page Editor (VPE) for JSP files. Also you can define a default editor tab.</para>
+            <para><emphasis><property>JBoss Tools &gt; Web &gt; Editors &gt; Visual Page Editor</property></emphasis> screen allows you to control some aspects of the behavior of the Visual Page Editor (VPE) for JSP files. Also you can define a default editor tab.</para>
             <figure>
                 <title>Visual Page Editor</title>
                 <mediaobject> 
@@ -439,6 +453,7 @@
         <section id="XDoclet">
             <?dbhtml filename="XDoclet.html"?>
             <title>XDoclet</title>
+            <para>The following preferences can be changed on the <emphasis><property>JBoss Tools > XDoclet</property></emphasis> page.</para>
             <para>On <emphasis><property>XDoclet</property></emphasis> screen you determine XDoclet module versions.</para>
             <figure>
                 <title>XDoclet</title>
@@ -453,7 +468,7 @@
         <section id="XDocletTemplates">
             <?dbhtml filename="XDocletTemplates.html"?>
             <title>XDoclet Templates</title>
-            <para>On Templates tab you can determine XDoclet Tags templates available for completion.</para>
+            <para>To see what XDoclet tags templates available for completion select <emphasis><property>JBoss Tools > XDoclet > Code Assist > Templates</property></emphasis>.</para>
             <figure>
                 <title>XDoclet Templates</title>
                 <mediaobject> 
