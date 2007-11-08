@@ -345,6 +345,13 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 					new File(resources,project.getName()+"-ds.xml"),  //$NON-NLS-1$
 					viewFilterSetCollection, true);
 			
+			// to fix seam2 tests for war deployment 
+			File srcModelMetaInf = new File(project.getLocation().append(modelSrcPath).toFile(),"META-INF");
+			AntCopyUtils.copyFileToFile(
+					dataSourceDsFile, 
+					new File(srcModelMetaInf,project.getName()+"-ds.xml"),  //$NON-NLS-1$
+					viewFilterSetCollection, true);
+			
 			AntCopyUtils.copyFileToFile(
 					hibernateConsoleLaunchFile, 
 					new File(project.getLocation().toFile(),project.getName()+".launch"),  //$NON-NLS-1$
