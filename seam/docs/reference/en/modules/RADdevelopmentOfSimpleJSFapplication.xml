@@ -574,8 +574,17 @@ a WYSIWIG view along the bottom. You can see that some JSF code will be already 
 <listitem><para>Right click <emphasis><property>WebContent &gt; New &gt; JSP File</property></emphasis></para></listitem>
     <listitem><para>Type <emphasis><property>index</property></emphasis> for name field and choose <emphasis><property>JSPRedirect</property></emphasis> as a template</para></listitem>
 <listitem><para>Click <emphasis><property>Finish</property></emphasis></para></listitem>
-<listitem><para>The source for this page should be like the following:</para></listitem>
+<listitem><para>Select inputnumber.jsp file in Package Explorer, drag it to the source view of index.jsp file and drop inside quotes of <emphasis role="bold"><property>&lt;jsp:forward&gt;</property></emphasis> tag. While dragging you will be shown an icon indicating the <emphasis><property>inputnumber.jsp</property></emphasis> page.</para></listitem>
 </itemizedlist>
+<figure>
+<title>Making Forward</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata  fileref="images/RADdevelopment/forwardpage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>The final source for this page should be like the following:</para>
 <programlisting role="XML"><![CDATA[<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
 <html>
  <body>
