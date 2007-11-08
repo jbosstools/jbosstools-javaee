@@ -393,9 +393,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				}
 			);
 
-
-
         Dialog.applyDialogFont(parent);
+       setPageComplete(false);
 	}
 
 	/**
@@ -519,6 +518,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	/**
 	 * It is overridden to fill Code Generation group with the default package
 	 * names
+	 * TODO: should be changed to enable finish button on a first step,
+	 * right after project name is entered and valid
 	 */
 	@Override
 	public void setVisible(boolean visible) {
