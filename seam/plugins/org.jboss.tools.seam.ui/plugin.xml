@@ -168,6 +168,9 @@
          <perspectiveShortcut
                id="org.hibernate.eclipse.console.HibernateConsolePerspective">
          </perspectiveShortcut>
+         <actionSet
+               id="org.eclipse.debug.ui.breakpointActionSet">
+         </actionSet>
       </perspectiveExtension>
    </extension>
 
