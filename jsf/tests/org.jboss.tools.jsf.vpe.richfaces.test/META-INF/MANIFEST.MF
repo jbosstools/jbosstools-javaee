@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.jboss.tools.common
 Eclipse-LazyStart: true
+Bundle-ClassPath: vpe-rf-test.jar
