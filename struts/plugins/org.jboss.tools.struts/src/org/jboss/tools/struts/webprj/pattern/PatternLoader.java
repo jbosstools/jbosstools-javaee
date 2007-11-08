@@ -43,6 +43,7 @@ public class PatternLoader {
 		}
 		if(servletPatterns.size() == 0) return;
 		XModelObject servlet = WebAppHelper.findServlet(webxml, StrutsWebHelper.ACTION_SERVLET, "action");
+		if(servlet == null) return;
 		String servletName = servlet.getAttributeValue("servlet-name");
 		if(servletPatterns.containsKey(servletName)) {
 			UrlPattern up = (UrlPattern)servletPatterns.get(servletName);
