@@ -81,7 +81,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		for (IResource r : this.resourcesToCleanup) {
 			try {
 				System.out.println("Deleting " + r);
-				r.delete(true, null);
+				//r.delete(true, null);
 			} catch(Exception e) {
 				System.out.println("Error deleting " + r);
 				e.printStackTrace();

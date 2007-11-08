@@ -21,6 +21,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.resources.IResourceProxyVisitor;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -50,21 +52,28 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	
 	@Override
 	protected void setUp() throws Exception {
-	    
-		seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
-		seam2FacetVersion = seam2Facet.getVersion("2.0");
+		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IProject war = (IProject)wsRoot.findMember("warprj");
+		IProject ear = (IProject)wsRoot.findMember("earprj");
 		
-		File folder = new File(System.getProperty("jbosstools.test.seam.2.0.0.home", "/home/max/work/products/jboss-seam-2.0.0.CR2"));
+		if(war==null && ear==null) {
 		
-		SeamRuntimeManager.getInstance().addRuntime(SEAM_2_0_0, folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
-		SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_0_0);
-	
-		warProject = createSeamWarProject("warprj");
-		earProject = createSeamEarProject("earprj");
+			seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
+			seam2FacetVersion = seam2Facet.getVersion("2.0");
+			
+			File folder = new File(System.getProperty("jbosstools.test.seam.2.0.0.home", "c:/java/jboss-seam-2.0.0.CR3"));
+			
+			SeamRuntimeManager.getInstance().addRuntime(SEAM_2_0_0, folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
+			SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_0_0);
 		
-		warProject.getProject().getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-		
-		
+			warProject = createSeamWarProject("warprj");
+			earProject = createSeamEarProject("earprj");
+			
+			warProject.getProject().getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+		} else {
+			warProject = ProjectFacetsManager.create(war);
+			earProject = ProjectFacetsManager.create(ear);			
+		}
 		
 		super.setUp();
 	}
@@ -87,6 +96,9 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		warlibs.add("antlr-runtime.jar");
 		warlibs.add("commons-beanutils.jar");
 		warlibs.add("commons-digester.jar");
+		warlibs.add("commons-collections.jar");
+		warlibs.add("janino.jar");
+		warlibs.add("antlr.jar");
 		warlibs.add("drools-compiler.jar");
 		warlibs.add("drools-core.jar");
 		warlibs.add("core.jar");
