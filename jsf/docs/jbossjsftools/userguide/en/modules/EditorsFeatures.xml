@@ -433,58 +433,42 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <para>Here is what you need to do to add project based code assist to a custom component added in 
 Red Hat Developer Studio:</para>
 <orderedlist>
-<listitem><para>Create a new file in
-    <emphasis><property>RedHatDeveloperStudio > eclipse > plugins > com.exadel.prompting.knowledgebase_7.1.0 > schemas > tld</property></emphasis>. For example call it JeniaFaces.xml</para></listitem>
- </orderedlist>
-<para>Here is a sample code snipped that adds code assist to the component you mention above:</para>
-
-<programlisting role="Java"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<Schema location="" prefix="jdt" uri="http://www.jenia.org/jsf/dataTools">
-    <ElementType bodyContent="refused" content="mixed" endTag="required"
-        name="singleRowSelector" startTag="required">
-        <AttributeType name="selection" required="true">
-            <proposal type="jsfVariables"/>
-            <proposal type="beanProperty">
-            <param name="type" value="java.lang.String"/>
-            </proposal>
-        </AttributeType>
-        <attribute type="selection"/>
-    </ElementType>
-</Schema>
-]]></programlisting>
-<orderedlist continuation="continues">
-<listitem><para>Adds code assist for JSF pre-defined objects, such as value=<emphasis role="italic"><property>&quot;#{param}&quot;</property></emphasis>:</para></listitem>
+    <listitem><para>Create a new xml file in <emphasis><property>&lt;RHDS_home&gt;rhds/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property></emphasis>. For example call it JeniaFaces.xml. The file should be written according to <emphasis><property>&lt;RHDS_home&gt;/rhds/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property></emphasis></para></listitem>
 </orderedlist>
+        <para>Here is how you set what is available for code assist:</para>
+<itemizedlist>
+<listitem><para>Adds code assist for JSF pre-defined objects, such as value=<emphasis role="italic"><property>&quot;#{param}&quot;</property></emphasis>:</para></listitem>
+</itemizedlist>
 <programlisting role="XML"><![CDATA[<AttributeType ...>
        <proposal type="jsfVariables"/>
 </AttributeType>
 ]]></programlisting>
-<orderedlist continuation="continues">
+    <itemizedlist>
 <listitem><para>Adds bundle resource (property file) <property>code assist</property>:</para></listitem>
-</orderedlist>
+    </itemizedlist>
 <programlisting role="XML"><![CDATA[<AttributeType ...>
        <proposal type="bundleProperty"/>
 </AttributeType>
 ]]></programlisting>
-<orderedlist continuation="continues">
+    <itemizedlist>
 <listitem><para>Adds managed bean property <property>code assist</property>:</para></listitem>
-</orderedlist>
+    </itemizedlist>
 <programlisting role="XML"><![CDATA[<AttributeType ...>
        <proposal type="beanProperty"/>
 </AttributeType>
 ]]></programlisting>
-<orderedlist continuation="continues">
+    <itemizedlist>
 <listitem><para>Adds managed bean property but with a specified type:</para></listitem>
-</orderedlist>
+    </itemizedlist>
 <programlisting role="XML"><![CDATA[<AttributeType ...>
        <proposal type="beanProperty">
           <param name="type" value="java.lang.Boolean"/>
        </proposal>
 </AttributeType>
 ]]></programlisting>
-<orderedlist continuation="continues">
+    <itemizedlist>
 <listitem><para>Adds managed bean method with a signature:</para></listitem>
-</orderedlist>
+    </itemizedlist>
 <programlisting role="XML"><![CDATA[<AttributeType ...>
        <proposal type="beanMethodBySignature">
           <param name="paramType" value="javax.faces.context.FacesContext"/>
@@ -494,8 +478,18 @@ Red Hat Developer Studio:</para>
        </proposal>
 </AttributeType>
 ]]></programlisting>
+    <orderedlist continuation="continues">
+        <listitem><para>Add information on your xml file in <emphasis><property>&lt;RHDS_home&gt;/rhds/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property></emphasis></para></listitem>        
+    </orderedlist>
+    <programlisting role="XML"><![CDATA[
+         <tld
+            jsf="true"
+            name="Jenia Faces"
+            schema-location="schemas/tld/myJSF.xml"
+            uri="http://www.jenia.org/jsf/dataTools"/>]]>
+    </programlisting>
 <orderedlist continuation="continues">
-<listitem><para>Restart Eclipse. You should now have code assist for the component. The new XML file will be copied to the workspace.</para></listitem>
+<listitem><para>Restart Eclipse. You should now have code assist for the component.</para></listitem>
  </orderedlist>
 </section>
 </section>
