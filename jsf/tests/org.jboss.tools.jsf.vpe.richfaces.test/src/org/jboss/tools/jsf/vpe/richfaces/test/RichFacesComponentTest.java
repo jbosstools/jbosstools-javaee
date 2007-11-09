@@ -53,14 +53,19 @@ public class RichFacesComponentTest extends TestCase implements ILogListener {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		// TODO: Use TestSetup to create and remove project once for all tests 
+		// not for every one 
+		if(ResourcesPlugin.getWorkspace().getRoot().findMember("RichFacesTest")==null) {
 		
-		ImportRichFacesComponents.importRichFacesPages(RichFacesTestPlugin
-				.getPluginResourcePath() + TEST_PROJECT_JAR_PATH);
-		
-		waitForJobs();
+			ImportRichFacesComponents.importRichFacesPages(RichFacesTestPlugin
+					.getPluginResourcePath() + TEST_PROJECT_JAR_PATH);
+			
+			waitForJobs();
+			waitForJobs();
+			delay(5000);
+		}
 		Platform.addLogListener(this);
-		waitForJobs();
-		delay(5000);
 	}
 
 	/**
@@ -72,8 +77,8 @@ public class RichFacesComponentTest extends TestCase implements ILogListener {
 	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		ImportRichFacesComponents.removeProject();
-		waitForJobs();
+//		ImportRichFacesComponents.removeProject();
+//		waitForJobs();
 		Platform.removeLogListener(this);
 	}
 
