@@ -109,23 +109,46 @@ version 1.2 of the JSF Reference Implementation:</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>You also get code assist for <emphasis role="italic"><property>&quot;jsfc&quot;</property></emphasis> attribute in any HTML tag and then for JSF components:</para>
-<figure>
+        
+        <itemizedlist>
+                <listitem><para>In any HTML tag you also get the code assist for <emphasis role="italic"><property>&quot;jsfc&quot;</property></emphasis> attribute</para></listitem>
+        </itemizedlist>
+
+        <figure>
 <title>Code Assist for Jsfc Attribute</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JFSCCodeAssist.png"/>
+                <imagedata fileref="images/JSFSupport/JSFCCodeAssist.png"/>
         </imageobject>
 </mediaobject>
-</figure>
+        </figure>
+        
+        <itemizedlist>
+                <listitem><para>Then you get the code assist for JSF components are available on the page</para></listitem>
+        </itemizedlist>
+        
 <figure>
 <title>Code Assist for JSF Components</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JSFComponentCodeAssist.png"/>
+                <imagedata fileref="images/JSFSupport/CAJSFComp.png"/>
         </imageobject>
 </mediaobject>
 </figure>
+        
+        <itemizedlist>
+                <listitem><para>Then you will see all available attributes for the component.</para></listitem>
+        </itemizedlist>
+        
+        <figure>
+                <title></title>
+                <mediaobject> 
+                        <imageobject>
+                                <imagedata fileref="images/JSFSupport/CAJSFCompAttr.png"/>
+                        </imageobject>
+                </mediaobject>
+        </figure>
+        
 <para>Using Red Hat Developer Studio OpenOn feature, you can easily navigate between the <property>Facelets
         templates</property> and other parts of your projects. Just by holding down the Control key while hovering the 
  mouse cursor over a reference to a template, the reference becomes a hyperlink to open that template.</para>
