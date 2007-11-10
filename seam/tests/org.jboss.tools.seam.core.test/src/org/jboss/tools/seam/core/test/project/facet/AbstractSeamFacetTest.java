@@ -81,9 +81,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		for (IResource r : this.resourcesToCleanup) {
 			try {
 				System.out.println("Deleting " + r);
-				// TODO - need to figure out how to wait until all build/validation 
-				// are finished
-				//r.delete(true, null);
+				r.delete(true, null);
 			} catch(Exception e) {
 				System.out.println("Error deleting " + r);
 				e.printStackTrace();
