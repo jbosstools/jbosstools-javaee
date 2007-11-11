@@ -14,45 +14,31 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
-import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
 import org.eclipse.wst.common.componentcore.ComponentCore;
-import org.eclipse.wst.common.componentcore.ModuleCoreNature;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
-import org.eclipse.wst.common.componentcore.resources.IVirtualResource;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
-import org.eclipse.wst.common.uriresolver.internal.URI;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -60,6 +46,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 
 public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
@@ -214,6 +201,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO,"create-drop"); //$NON-NLS-1$
 		}
 		
+		
+		final String consoleName = isWarConfiguration(model)?project.getName():project.getName()+"-ejb";
+		
+		
 		final File webContentFolder = webRootFolder.getLocation().toFile();
 		final File webInfFolder = new File(webContentFolder,"WEB-INF"); //$NON-NLS-1$
 		final File webInfClasses = new File(webInfFolder,"classes"); //$NON-NLS-1$
@@ -239,7 +230,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		
 		final File hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
 		final File hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
-		final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
+		//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
 		final File persistenceFile = new File(seamGenResFolder,"META-INF/persistence-" + (isWarConfiguration(model)?DEV_WAR_PROFILE:DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		final File applicationFile = new File(seamGenResFolder,"META-INF/application.xml"); //$NON-NLS-1$
@@ -296,10 +287,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			
 			createComponentsProperties(srcFolder, isWarConfiguration(model)?"":project.getName()+"-ear", false); //$NON-NLS-1$ //$NON-NLS-2$
 			
-			AntCopyUtils.copyFileToFolder(
+			/*AntCopyUtils.copyFileToFolder(
 					hibernateConsolePref,
 					new File(project.getLocation().toFile(),".settings"),	 //$NON-NLS-1$
-					new FilterSetCollection(projectFilterSet), true);
+					new FilterSetCollection(projectFilterSet), true);*/
 			
 			// In case of WAR configuration
 			AntCopyUtils.copyFiles(seamHomeFolder,webLibFolder,new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamHomeFolder)));
@@ -413,10 +404,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 						new File(ejb,"ejbModule/META-INF/"),  //$NON-NLS-1$
 						viewFilterSetCollection, true);
 				
-				AntCopyUtils.copyFileToFolder(
+				/*AntCopyUtils.copyFileToFolder(
 						hibernateConsolePref,
 						new File(ejb,".settings"), //$NON-NLS-1$
-						new FilterSetCollection(projectFilterSet), true);
+						new FilterSetCollection(projectFilterSet), true);*/
 				
 				FilterSet ejbFilterSet =  new FilterSet();
 				ejbFilterSet.addFilter("projectName",ejb.getName()); //$NON-NLS-1$
@@ -499,6 +490,8 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		
 
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+		toggleHibernateOnProject(project, consoleName);
+		
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		String wsPath = project.getLocation().removeLastSegments(1)
 		                             .toFile().getAbsoluteFile().getPath();
@@ -509,6 +502,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			
 			IProject ejbProjectToBeImported = wsRoot.getProject(project.getName()+"-ejb");
 			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath+"/"+project.getName()+"-ejb", project.getName()+"-ejb");
+			toggleHibernateOnProject(ejbProjectToBeImported, consoleName);
 			
 			IProject earProjectToBeImported = wsRoot.getProject(project.getName()+"-ear");
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath+"/"+project.getName()+"-ear", project.getName()+"-ear");
@@ -516,6 +510,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		
 		IProject testProjectToBeImported = wsRoot.getProject(project.getName()+"-test");
 		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath+"/"+project.getName()+"-test", project.getName()+"-test");
+		toggleHibernateOnProject(testProjectToBeImported, consoleName);
 
 	}
 
@@ -665,4 +660,58 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
+	
+	public static boolean toggleHibernateOnProject(IProject project, String defaultConsoleName) {
+		IScopeContext scope = new ProjectScope(project);
+		
+		Preferences node = scope.getNode("org.hibernate.eclipse.console");
+		
+		if(node!=null) {
+			node.putBoolean("hibernate3.enabled", true );
+			node.put("default.configuration", defaultConsoleName );
+			try {
+				node.flush();
+			} catch (BackingStoreException e) {
+				SeamCorePlugin.getDefault().logError("Could not save changes to preferences", e);
+				return false;
+			}
+		} else {
+			return false;
+		}
+		
+		try {
+			addProjectNature(project, "org.hibernate.eclipse.console.hibernateNature", new NullProgressMonitor() );
+			return true;
+		} catch(CoreException ce) {
+			SeamCorePlugin.getDefault().logError("Could not activate Hibernate nature on project " + project.getName(), ce);			
+			return false;
+		}		
+		
+	}
+	
+	/**
+	 * Add the given project nature to the given project (if it isn't already added).
+	 * @return true if nature where added, false if not
+	 * @throws OperationCanceledException if job were cancelled or CoreException if something went wrong. 
+	 */
+	public static boolean addProjectNature(IProject project, String nature, IProgressMonitor monitor) throws CoreException {
+		if (monitor != null && monitor.isCanceled() ) {
+			throw new OperationCanceledException();
+		}
+		
+		if (!project.hasNature(nature) ) {
+			IProjectDescription description = project.getDescription();
+			String[] prevNatures= description.getNatureIds();
+			String[] newNatures= new String[prevNatures.length + 1];
+			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
+			newNatures[prevNatures.length]= nature;
+			description.setNatureIds(newNatures);
+			project.setDescription(description, monitor);
+			return true;
+		} else {
+			monitor.worked(1);
+			return false;
+		}
+	}
+
 }
