@@ -247,7 +247,7 @@ packaging even if a developer is writing the most trivial web applications. With
 			</mediaobject>
 		</figure>
 		<itemizedlist continuation="continues">
-<listitem><para>Click the Run icon or right click your project folder and select <emphasis><property>Run on Server</property></emphasis>. If you haven&apos;t made any changes in web.xml file or cleared it out you can launch the application by right clicking the hello.jsp page and selecting <emphasis><property>Run on the Server</property></emphasis>.</para></listitem>
+<listitem><para>Click the Run icon or right click your project folder and select <emphasis><property>Run As &gt; Run on Server</property></emphasis>. If you haven&apos;t made any changes in web.xml file or cleared it out you can launch the application by right clicking the hello.jsp page and selecting <emphasis><property>Run on the Server</property></emphasis>.</para></listitem>
 </itemizedlist>
 <figure>
 			<title>Run Project</title>
