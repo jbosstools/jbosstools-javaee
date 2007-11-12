@@ -97,6 +97,18 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
 			IDataModel seamFacet = map.getFacetDataModel( ISeamCoreConstants.SEAM_CORE_FACET_ID );	
 			seamFacet.setProperty( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, propertyValue );
+
+			if (propertyValue != null) {
+				// Fixes the empty/wrong server 
+				IServer server = (IServer)model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+				if (!validateServer(server).isOK()) {
+					List<IServer> servers = getServers(getRuntimeName(propertyValue));
+					if (servers != null && !servers.isEmpty()) {
+						setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, servers.get(0));
+					}
+				}
+			}
+
 		} else if (propertyName.equals(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER)) {
 			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
 			IDataModel seamFacet = map.getFacetDataModel( ISeamCoreConstants.SEAM_CORE_FACET_ID );	
