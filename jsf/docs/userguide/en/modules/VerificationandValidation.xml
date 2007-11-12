@@ -73,7 +73,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
         </imageobject>
 </mediaobject>
 </figure>
-<para>You can always call up verification explicitly by right-clicking and selecting Verify from the
+<para>You can always call up verification explicitly by right-clicking any element in the tree and selecting Verify from the
  context menu. This works from both the Tree and Diagram viewers for the JSF configuration file editor. 
  You can also invoke verification from the Web Projects view. Below we are checking all of the elements in the configuration file.</para>
 <figure>
