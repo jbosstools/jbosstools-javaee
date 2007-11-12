@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="curd_application_walkthrough" xreflabel="curd_application_walkthrough">
+ <?dbhtml filename="curd_application_walkthrough.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>Red Hat Developer Studio</keyword>
+      <keyword>Eclipse</keyword>
+      <keyword>Java</keyword>
+      <keyword>CURD</keyword>
+     <keyword>JBoss AS</keyword>
+    </keywordset>
+  </chapterinfo>
+ <title>The CURD Application Walkthrough</title>
+ 
+</chapter>
+
