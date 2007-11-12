@@ -3,12 +3,12 @@
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
 
-[<!ENTITY DevelopAsimpleJSPWebApplication  SYSTEM "modules/DevelopAsimpleJSPWebApplication.xml">
-<!ENTITY RADdevelopmentOfSimpleJSFapplication  SYSTEM "modules/RADdevelopmentOfSimpleJSFapplication.xml">
-<!ENTITY GenCURDDatabaseApp SYSTEM "modules/GenCURDDatabaseApp.xml">
-<!ENTITY CURDAppWalkthrough SYSTEM "modules/CURDAppWalkthrough.xml">
-<!ENTITY AddBusinessProcess SYSTEM "modules/AddBusinessProcess.xml">
-<!ENTITY testNG SYSTEM "modules/testNG.xml">
+[<!ENTITY jsp_application  SYSTEM "modules/jsp_application.xml">
+<!ENTITY rad_jsf_application  SYSTEM "modules/rad_jsf_application.xml">
+<!ENTITY curd_database_application SYSTEM "modules/curd_database_application.xml">
+<!ENTITY curd_application_walkthrough SYSTEM "modules/curd_application_walkthrough.xml">
+<!ENTITY business_application SYSTEM "modules/business_application.xml">
+<!ENTITY testng SYSTEM "modules/testng.xml">
 
 ]>
 <book>
@@ -27,12 +27,12 @@
     
     <toc/>  
 
-&DevelopAsimpleJSPWebApplication;
-&RADdevelopmentOfSimpleJSFapplication;
-&GenCURDDatabaseApp;
-&CURDAppWalkthrough;
-&testNG;
-    <!-- TODO: drools used in this section is not available for eclipse .3.3 &AddBusinessProcess; -->
+&jsp_application;
+&rad_jsf_application;
+&curd_database_application;
+&curd_application_walkthrough;
+&testng;
+    <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
 
 
 
