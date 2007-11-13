@@ -1,0 +1,734 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="struts1" xreflabel="struts">
+  <?dbhtml filename="struts.html"?>
+<title>Struts</title>
+<para>If you prefer develop web applications using <property>Struts</property> technology Red Hat Developer Studio also meets your needs.</para>
+       <para>RHDS supports the Struts 1.1, 1.2.x versions.</para>
+
+<section id="SupportForStruts1.2.x1.1">
+<?dbhtml filename="SupportForStruts1.1.1.2.x.html"?>
+<title>Support for Struts 1.1, 1.2.x</title>
+
+
+<para>When you create a brand new or import an existing project you can set which Struts version to use:</para>
+<figure>
+<title>Choosing Struts Environment</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_1.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="WorkingWithStrutsProjects866">
+<?dbhtml filename="WorkingWithStrutsProjects.html"?>
+<title>Working with Projects</title>
+<section id="CreatingANewStrutsProjec745t">
+<?dbhtml filename="CreatingANewStrutsProject.html"?>
+<title>Creating a New Struts Project</title>
+
+<para>Red Hat Developer Studio provides the following when working with Struts.</para>
+
+<itemizedlist>
+       <listitem><para>Create new <property>Struts projects</property></para></listitem>
+<listitem><para>Import (open) existing Struts projects</para>
+                  <para>You can import any project structure</para>
+</listitem>
+       <listitem><para>Add <property>Struts capabilities</property> to any existing Eclipse project</para></listitem>
+<listitem><para>Import and add Struts capabilities to any existing project created outside Eclipse</para></listitem>
+</itemizedlist>
+<para>Red Hat Developer Studio includes a New Struts Project Wizard that radically simplifies the process
+for getting started with a new Struts project. You just need to follow these 4 steps:</para>
+<orderedlist>
+       <listitem><para>Select<emphasis><property> File > New > Project...</property></emphasis> from the menu bar. Then, select <emphasis><property>JBoss Tools Web > Struts > Struts Project</property></emphasis> in this dialog box. Click <emphasis><property>Next</property></emphasis>:</para></listitem>
+</orderedlist>
+<figure>
+<title>Selecting Struts Wizard</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_2.png"/>
+        </imageobject>
+   </mediaobject>
+</figure>
+       <orderedlist continuation="continues">
+               <listitem><para>On this screen, provide the project name. You can leave all other values as they are:</para></listitem>
+</orderedlist>
+       
+<figure>
+<title>Creating Struts Project</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_3.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure> 	
+
+<tip><title>Tip:</title><para>Don&apos;t put spaces in project names.</para></tip>
+<note>
+    <title>Note:</title>
+    <para>If you select the KickStart template, then the project created will include a simple Hello 
+    World type application that is ready-to-run.</para>
+  </note>
+<orderedlist continuation="continues">
+<listitem><para>Next, you can register this application with the current servlet container defined for your 
+workspace (JBoss AS, by default) in order to allow you to test your application more easily while still
+ developing it. A new entry will be added in the servlet container configuration file to enable running 
+ the application in-place (called null deployment or link deployment). Uncheck the <emphasis role="italic"><property>&quot;Target Server&quot;</property></emphasis> 
+ check box if for some reason you don&apos;t want to register your application at this point.</para></listitem>
+</orderedlist>
+<figure><title>Registering The Project at Server</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_4.png"/>
+       </imageobject>
+    </mediaobject>
+</figure>
+<orderedlist continuation="continues">       
+<listitem><para>On the next screen, you can select the TLD files to include in this project:</para></listitem>
+</orderedlist>
+<figure><title>Selecting Tag Libraries</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_5.png"/>
+       </imageobject>
+    </mediaobject>
+</figure>
+
+<para>After the project is created, you should have the following project structure (if you used the
+KickStart template):</para>
+  
+<figure>
+<title>Project Structure</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_6.png"/>
+       </imageobject>
+    </mediaobject>
+   </figure> 	
+
+<tip><title>Tip:</title><para>If you want to hide the jar files from Web App Libraries in view, select the down-pointing 
+arrow in the upper right corner, select <emphasis>Filters...</emphasis>, check the box next to Name filter patterns (matching names will be hidden), and type *.jar into the field. Then, click OK. </para></tip>
+</section>
+<section id="ImportingAnExistingStrutsProjectWithAnyStructure9653">
+<?dbhtml filename="ImportingAnExistingStrutsProjectWithAnyStructure.html"?>
+<title>Importing an Existing Struts Project with Any Structure</title>
+
+       <para>For detailed information on migration projects to Red Hat Developer Studio see <ulink url="http://www.redhat.com/developers/rhds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
+       
+    </section>
+    <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
+    <?dbhtml filename="AddingStrutsCapabilityToAnExistingWebApplication.html"?>
+<title>Adding Struts Capability to an Existing Web Application</title>
+
+           <para>With Red Hat Developer Studio you can add <property>Struts capabilities</property> (including Struts libraries, tag libraries and a Struts configuration file) to any existing Web application project in your Eclipse workspace. By adding a
+ Struts Nature to your project, you can now edit files using Red Hat Developer Studio editors, such as the Struts 
+ configuration editor and the JBoss Tools JSP editor.</para>
+<para>Right-click the project and select <emphasis><property>JBoss Tools > Add Struts Capabilities</property></emphasis> from the context menu. This will start the process of adding all necessary libraries and files to make this a Web JSF project.</para>
+      
+<figure>
+<title>Adding Struts Capabilities</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_7.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The wizard will first show you the web.xml file location and the project name.</para>
+
+<figure>
+<title>Choosing Project Location</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_8.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+           <para>After hitting <emphasis><property>Next</property></emphasis>, you will see the following screen. This screen simply means that you need to add 
+at least one Struts module to your project to make this project a Struts project. Adding a Struts module 
+means that a new struts-config.xml will be added to your project and registered in the web.xml file. In 
+addition, all required Struts libraries will be added. To add a Struts module, select the <emphasis><property>Add Struts Support</property></emphasis> button.</para>
+<figure>
+<title>Project Modules</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_9.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+       
+<para>Here you can select what Struts version, Servlet class, URL pattern and TLDs to add to this project.</para>
+      
+<figure>
+<title>Selecting Struts Support Options</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_10.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+      
+<para>When done, you will see the default Struts module configuration information. See how to Edit 
+<link linkend="SupportForMultipleStrutsModules75">Struts modules</link>.</para>
+     
+<figure>
+<title>Project Configuration Information</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_11.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+           
+<para>On the last screen you can set the different folders for your project as well as register this 
+application with a servlet container.</para>
+   
+<figure>
+<title>Registering the Project at Server</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_12.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+                
+<para>When done, you can open the struts-config.xml file. (The Struts configuration is shown below in the
+Tree viewer).</para>
+   
+<figure>
+<title>Struts-config.xml File</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_13.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+<section id="GraphicalEditorForStrutsConfigurationFiles564">
+<?dbhtml filename="GraphicalEditorForStrutsConfigurationFiles.html"?>
+<title>Graphical Editor for Struts Configuration Files</title>
+
+<para><property>The Struts configuration file editor</property> has three main viewers (modes): Diagram (shown), Tree and Source. The modes can be selected via the tabs at the bottom of the editor. Any changes made in one mode are 
+ immediately visible when you switch to any other mode.</para>
+
+<para>When working in Source view, you always have all the following features available:</para>
+<itemizedlist>
+<listitem><para>Content Assist</para></listitem>
+<listitem><para>Open On Selection</para></listitem>
+<listitem><para>File Folding</para></listitem>
+</itemizedlist>
+<section id="StrutsDiagramMode453">
+<?dbhtml filename="DiagramMode.html"?>
+<title>Diagram Mode</title>
+
+<para>The Diagram mode graphically displays the Web flow of the application defined in the Struts 
+configuration file.</para>
+
+<figure>
+<title>Diagram Mode</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_14.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Just by right-clicking anywhere on the diagram, you can use a context menu to create the building
+ blocks of a Struts application:</para>
+<itemizedlist>
+<listitem><para>Actions</para></listitem>
+<listitem><para>Global forwards</para></listitem>
+<listitem><para>Global exceptions</para></listitem>
+<listitem><para>JSP Pages</para></listitem>
+</itemizedlist>
+
+<figure><title>Diagram Context Menu</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_15.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Along the upper-left side of the editor is a stack of seven icons for changing the behavior of the 
+cursor in the diagram. The first icon switches to the default regular selection cursor, the second to the
+ marquee selection cursor and the third to the new connection cursor. The last four icons switch the cursor 
+ to an insert cursor for each type of Struts build block listed above (and in the order listed).</para>
+
+<para>For instance, clicking on the first of these four icons (the one with the gears) will switch the 
+cursor to insert actions. Clicking anywhere in the diagram with this cursor has the same effect as 
+right-click and selecting <emphasis><property>Add > Action...</property></emphasis> from the context menu with the regular cursor active. It&apos;s just more efficient to use this cursor if you&apos;re adding more than one action at once.</para>
+
+<figure><title>Insert Actions Cursor</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_16.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+    </section>
+    <section id="StrutsTreeMode42">
+    <?dbhtml filename="TreeMode.html"?>
+<title>Tree Mode</title>
+
+<para>In the Tree mode, the different elements of the Struts application are organized into functional
+ categories on the left-hand side and a form for editing the properties of currently selected items on 
+ the right-hand side.</para>
+
+<figure><title>Tree Mode</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_17.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>You can also right-click on any node in the category tree and perform appropriate operations through
+ a context menu. For instance, by right-clicking on the action-mappings category node, you can add new
+  actions to the application.</para>
+
+<figure><title>Tree Context Menu</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_18.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+    </section>
+    <section id="StrutsSourceMode9655">
+    <?dbhtml filename="SourceMode.html"?>
+<title>Source Mode</title>
+
+<para>In the Source mode, you have complete editing control of the underlying XML coding:</para>
+
+<figure>
+<title>Source Mode</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_19.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>You can take advantage of code assist:</para>
+
+<figure><title>Code Assist</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_20.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>The editor will also immediately flag any errors:</para>
+
+<figure>
+<title>Errors in Source Mode</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_21.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Finally, you can use the Outline view with the editor to easily navigate through the file:</para>
+
+<figure><title>Outline View</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_22.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+</section>
+
+<section id="GraphicalEditorForTilesFiles132">
+<?dbhtml filename="GraphicalEditorForTilesFiles.html"?>
+<title>Graphical Editor for Tiles Files</title>
+
+<para><property>The Tiles configuration file editor</property> has three main viewers (modes): Tree (shown), Diagram and 
+Source. The modes can be selected via the tabs at the bottom of the editor. Any changes made in one mode
+ are immediately visible when you switch to any other mode.</para>
+
+<para>When working in Source view, you always have all following features available:</para>
+<itemizedlist>
+<listitem><para>Content Assist</para></listitem>
+<listitem><para>Open On Selection</para></listitem>
+</itemizedlist>
+<section id="CreateNewTilesFile1422">
+<?dbhtml filename="CreateNewTilesFile.html"?>
+<title>Create New Tiles File</title>
+
+<para>To create a new Tiles files, right click any folder and select <emphasis><property>New &gt; Tiles File</property></emphasis>.</para>
+<figure><title>Creating a New Tiles File</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_23.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+    </section>
+    <section id="StrutsTreeView896">
+<?dbhtml filename="TreeView.html"?>
+<title>Tree View</title>
+
+<para>In the Tree mode, the different elements of the Tiles file are organized into functional 
+categories on the left-hand side and a form for editing the properties of currently selected items on 
+the right-hand side.</para>
+<figure><title>Tree View</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_24.png" />
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>To edit the file, simply right click any node and select among the available actions:</para>
+<figure>
+<title>Editing in Tiles Editor</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_25.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="StrutsDiagramView4643">
+<?dbhtml filename="DigramView.html"?>
+<title>Diagram View</title>
+
+<para>The Diagram mode is shown below:</para>
+<figure>
+<title>Diagram Mode</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_26.png" />
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>To create new definitions, simply right click anywhere in the diagram:</para>
+<figure>
+<title>Creating New Definition</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_27.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>You can also use the Diagram toolbar to make editing easier:</para>
+<figure>
+<title>Diagram Toolbar</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_28.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="StrutsSource75">
+<?dbhtml filename="Source.html"?>
+<title>Source</title>
+
+<para><property>The Tiles</property> editor also comes with a Source view that gives you full control over the source. Any
+ changes here will immediately appear in other viewers when you switch to them.</para>
+<figure>
+<title>Source View</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_29.png" />
+       </imageobject>
+    </mediaobject>
+    </figure>
+<para>Content assist is available in the Source mode:</para>
+<figure>
+<title>Content Assist in Source Mode</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_30.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+<para>Any errors are immediately reported as shown below:</para>
+<figure>
+<title>Errors Reporting</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_31.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>You can also use the Outline view together with the editor&apos;s Source mode. Selecting any node in
+ the Outline view will jump to that place in the source.</para>
+<figure>
+<title>Outline View</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_32.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+</section>
+<section id="GraphicalEditorForStrutsValidationFiles86">
+<?dbhtml filename="GraphicalEditorForStrutsValidationFiles.html"?>
+<title>Graphical Editor for Struts Validation Files</title>
+
+<para>Red Hat Developer Studio comes with a <property>visual validation editor</property>. To create a new validation file,
+ right click any folder and select <emphasis><property>File > Validation File</property></emphasis> from the context menu.</para>
+<figure>
+<title>Creating New Validation File</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_33.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The validation editor works through a number of viewers.</para>
+<para>The Formsets viewer shows forms and their elements for which to define validation rules.</para>
+<figure>
+<title>Formsets Viewer</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_34.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The Constants viewer lets you set constant values for your validation rules.</para>
+<figure>
+<title>Constansts Viewer</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_35.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The validation file also can be viewed in a Tree viewer.</para>
+<figure>
+<title>Tree Viewer</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_36.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>At any point you have full control over the source by switching to the Source viewer. Any editing
+ in this viewer will immediately be available in other viewers of this editor.</para>
+<figure>
+<title>Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_37.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also open your own custom or Struts-standard validation-rules.xml file.</para>
+<para>The Validators viewer shows the validation rules for a selected validator. You can of course add 
+your own rules.</para>
+<figure>
+<title>Validators Viewer</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_38.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Here are the validation rules shown in the Source viewer.</para>
+<figure>
+<title>Validation Rules</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_39.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="SupportForMultipleStrutsModules75">
+<?dbhtml filename="SupportForMultipleStrutsModules.html"?>
+<title>Support for Multiple Struts Modules</title>
+<section id="StrutsModulesghf07">
+<?dbhtml filename="StrutsModules.html"?>
+<title>Struts Modules</title>
+<para>Red Hat Developer Studio supports working with Struts projects that have multiple <property>modules</property>. You can easily do the following:</para>
+<itemizedlist>
+<listitem><para>Add new modules</para></listitem>
+<listitem><para>Edit modules for an existing project or during Struts project import</para></listitem>
+</itemizedlist>
+</section>
+<section id="WhenImportingAStrutsProject432">
+<?dbhtml filename="WhenImportingAStrutsProject.html"?>
+<title>When Importing a Struts Project</title>
+
+<para>During Struts project import, if the project has multiple modules, you will see a screen with all
+ existing modules. You can select each module and edit its details.</para>
+
+<figure>
+<title>Configuring Project Modules</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_40.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="EditingModulesInAnExistingProject1">
+<?dbhtml filename="EditingModulesInAnExistingProject.html"?>
+<title>Editing Modules in an Existing Project</title>
+<para>To edit modules in an existing project, right click the project and select 
+<emphasis><property>JBoss Tools > Modules Configuration</property></emphasis>.</para>
+<figure>
+<title>Choosing Modules Configuration</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_41.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>You will see the same screen as above where you will be able to select a module and edit its details:</para>
+<figure>
+<title>Modules Configuration</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_42.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="AddingNewModules1">
+<?dbhtml filename="AddingMewModules.html"?>
+<title>Adding New Modules</title>
+
+<para>Adding a new module is very simple. First switch to Web Project view. Expand your project to
+ the Configuration folder. Under that folder you should see the current modules. Right click on Configuration
+  and select <emphasis><property>New > Struts Config</property></emphasis>.</para>
+       <figure>
+              <title>Adding New Modules</title>
+              <mediaobject> 
+                     <imageobject>
+                            <imagedata fileref="images/struts/struts_43.png"/>
+                     </imageobject>
+              </mediaobject>
+       </figure>
+  <para>You will see the screen below. You can specify a new module name and also 
+  add the new Struts configuration file to web.xml file.</para>
+<figure>
+<title>Adding New Modules</title>
+<mediaobject> 
+        <imageobject>
+               <imagedata fileref="images/struts/struts_44.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+<section id="CodeGenerationForActionFormBeanForwardAndExceptionClasses1">
+<?dbhtml filename="CodeGenerationForActionFormBeanForwardAndExceptionClasses.html"?>
+<title>Code Generation for Action, FormBean, Forward and Exception Classes</title>
+
+<para>Red Hat Developer Studio comes with a <property>code generation</property> feature. You can generate stub code for
+ Struts Actions, FormBeans, Forwards and Exceptions.</para>
+
+       <para>The code generation in Red Hat Developer Studio is based on Velocity templates which can be modified for your use. The templates are located at <emphasis><property> {RedHatDeveloperStudioHome} > templates > codegeneration</property> </emphasis>.</para>
+
+<para>There are a number of ways to invoke code generation. One is simply right-clicking the Struts
+       diagram and selecting <emphasis><property>Generate Java Code....</property></emphasis></para>
+
+<figure><title>Selecting Generate Java Code</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_45.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>On this screen you can select for which elements to generate code. If you select Next you will be
+ able to specify more options for each of the categories you selected.</para>
+
+<figure>
+<title>Generate - Step 1</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_46.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<tip><title>Tip:</title><para>please be careful not to override your existing files.</para></tip>
+
+<para>When generation is complete, a result window will appear letting you know how many classes were 
+generated:</para>
+
+<figure>
+<title>Generation Finished</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_47.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>You don&apos;t always have to generate code for all elements at once. You can invoke generation
+ for just an individual Struts artifact as well. Right-click an element on the diagram of the Struts 
+ configuration file and select <emphasis><property>Generate Java Code...</property></emphasis> from the context menu.</para>
+
+<figure>
+<title>Generation For Individual Struts Artifact</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_48.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>The same can be done from within the Tree viewer for the editor of the Struts configuration file.</para>
+
+<figure>
+<title>Generation in Struts Config Editor</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_49.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+<section id="StrutsConfigurationFileDebugger097">
+<?dbhtml filename="StrutsConfigurationFileDebugger.html"?>
+<title>Struts Configuration File Debugger</title>
+
+<para>Red Hat Developer Studio comes with <property>Struts configuration file debugger</property>. It allows you to set break points on Struts diagram and then simply launch the server in debug mode.</para>
+
+       <para>Simply right click an Action or a page and select Add <emphasis><property>Breakpoint</property></emphasis>. </para>
+<figure>
+<title>Adding Breakpoint</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_50.png"/>
+       </imageobject>
+    </mediaobject>
+    </figure>
+    </section>
+<section id="CustomizablePageLinksRecognizer1">
+ <?dbhtml filename="CustomizablePageLinksRecognizer.html"?>   
+<title>Customizable Page Links Recognizer</title>
+
+<para><property>Custom page links</property> allow you to define custom Struts page links that will be recognizable in the
+       Struts application diagram. You can define these links by selecting <emphasis><property>Window > Preferences</property></emphasis> from the menu bar and then selecting <emphasis><property>JBoss Tools > Web > Struts > Customization</property></emphasis> from the Preferences dialog box.</para>
+  <figure>
+<title>Customization Panel</title>
+<mediaobject>
+       <imageobject>
+              <imagedata fileref="images/struts/struts_51.png" />
+       </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+</chapter>
