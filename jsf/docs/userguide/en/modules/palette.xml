@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="JBossToolsPalette" xreflabel="JBossToolsPalette">
-    <?dbhtml filename="JBossToolsPalette.html"?>
+<chapter id="palette" xreflabel="palette">
+    <?dbhtml filename="palette.html"?>
   <chapterinfo>
     <keywordset>
       <keyword>Jboss Tools palette</keyword>
@@ -33,7 +33,7 @@
 <title>JBoss Tools Palette</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/RadHatPallete.png"/>
+            <imagedata fileref="images/palette/pallete_1.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -48,7 +48,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Inserting Tag</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/InsertingTag.png"/>
+            <imagedata fileref="images/palette/pallete_2.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -79,7 +79,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Web Projects View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/TagLibraries.png"/>
+            <imagedata fileref="images/palette/pallete_3.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -91,7 +91,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Import Tags From TLD File Form</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/ImportTagsFromTLD.png"/>
+            <imagedata fileref="images/palette/pallete_4.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -101,7 +101,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>JBoss Tools Palette with New Tag Library</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/RHPaletteResult.png"/>
+            <imagedata fileref="images/palette/pallete_5.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -114,7 +114,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Import Button</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/RHPalleteImport.png"/>
+            <imagedata fileref="images/palette/pallete_6.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -123,7 +123,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Import Tags From TLD File Form</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/ImportTagsFromTLDDialog.png"/>
+            <imagedata fileref="images/palette/pallete_7.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -132,7 +132,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Select TLD File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/ImportTagsFromTLDBrowse.png"/>
+            <imagedata fileref="images/palette/pallete_8.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -154,7 +154,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Palette Buttons</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/PaletteButtons.png"/>
+            <imagedata fileref="images/palette/pallete_9.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -175,7 +175,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Show/Hide Button</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/ShowHideDrawers2.png"/>
+            <imagedata fileref="images/palette/pallete_10.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -187,7 +187,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Show/Hide Drawers</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/ShowHideDrawers.png"/>
+            <imagedata fileref="images/palette/pallete_11.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -198,7 +198,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>New Added Groups</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/ShowHideDrawers3.png"/>
+            <imagedata fileref="images/palette/pallete_12.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -222,7 +222,7 @@ then click the tag in the palette. In the example below, the commandButton tag h
 <title>Rich Faces Components</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JBossToolsPalette/RichFacesComps.png"/>
+            <imagedata fileref="images/palette/pallete_13.png"/>
         </imageobject>
 </mediaobject>
 </figure>

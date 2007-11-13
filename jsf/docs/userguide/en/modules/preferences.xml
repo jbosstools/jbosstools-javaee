@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="JBossToolsPreferences" xreflabel="JBossToolsPreferences">
-    <?dbhtml filename="JBossToolsPreferences.html"?>
+<chapter id="preferences" xreflabel="preferences">
+    <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
     <para>Configuring the various Red Hat Developer Studio features is done via the <property>Preferences</property> screen
         by selecting <emphasis><property>Window &gt; Preferences &gt; JBoss Tools</property></emphasis> from the menu bar.</para>
@@ -8,7 +8,7 @@
         <title>Preferences are included in this dialog.</title>
         <mediaobject> 
             <imageobject>
-                <imagedata fileref="images/Preferences/preferences1.png" />
+                <imagedata fileref="images/preferences/preferences_1.png" />
             </imageobject>
         </mediaobject>
     </figure>
@@ -54,7 +54,7 @@
                <title>CodeAssist</title>
                <mediaobject> 
                    <imageobject>
-                       <imagedata fileref="images/Preferences/preferences2.png" />
+                       <imagedata fileref="images/preferences/preferences_2.png" />
                    </imageobject>
                </mediaobject>
            </figure>
@@ -68,7 +68,7 @@
                 <title>Editors</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences3.png" />
+                        <imagedata fileref="images/preferences/preferences_3.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -84,7 +84,7 @@
                 <title>JBoss Servers</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences4.png" />
+                        <imagedata fileref="images/preferences/preferences_4.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -98,7 +98,7 @@
                 <title>JSF</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences6.png" />
+                        <imagedata fileref="images/preferences/preferences_5.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -112,7 +112,7 @@
                 <title>JSF Flow Diagram</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences7.png" />
+                        <imagedata fileref="images/preferences/preferences_6.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -123,7 +123,7 @@
                 <title>Add View</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences30.png" />
+                        <imagedata fileref="images/preferences/preferences_7.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -138,7 +138,7 @@
                 <title>JSF Page</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences8.png" />
+                        <imagedata fileref="images/preferences/preferences_8.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -153,7 +153,7 @@
                 <title>JSF Propject</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences9.png" />
+                        <imagedata fileref="images/preferences/preferences_9.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -162,7 +162,7 @@
                 <title>Import JSF Propject</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences31.png" />
+                        <imagedata fileref="images/preferences/preferences_10.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -177,7 +177,7 @@
                 <title>Packaging Archives</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences10.png" />
+                        <imagedata fileref="images/preferences/preferences_11.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -191,7 +191,7 @@
                 <title>Plug-in Insets</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences11.png" />
+                        <imagedata fileref="images/preferences/preferences11.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -200,7 +200,7 @@
                 <title>Plug-in Insets of Validators</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences32.png" />
+                        <imagedata fileref="images/preferences/preferences_12.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -215,7 +215,7 @@
                 <title>Resource Insets</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences12.png" />
+                        <imagedata fileref="images/preferences/preferences_13.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -231,7 +231,7 @@
                 <title>Seam</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences13.png" />
+                        <imagedata fileref="images/preferences/preferences_14.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -246,7 +246,7 @@
                 <title>Seam Validator</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences14.png" />
+                        <imagedata fileref="images/preferences/preferences_15.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -260,7 +260,7 @@
                 <title>Struts</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences15.png" />
+                        <imagedata fileref="images/preferences/preferences_16.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -274,7 +274,7 @@
                 <title>Struts Automatic</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences16.png" />
+                        <imagedata fileref="images/preferences/preferences_17.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -289,7 +289,7 @@
                 <title>Struts Customization</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences17.png" />
+                        <imagedata fileref="images/preferences/preferences_18.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -303,7 +303,7 @@
                 <title>Struts Flow Diagram</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences18.png" />
+                        <imagedata fileref="images/preferences/preferences_19.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -312,7 +312,7 @@
                 <title>Adding Page</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences33.png" />
+                        <imagedata fileref="images/preferences/preferences_20.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -327,7 +327,7 @@
                 <title>Struts Pages</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences19.png" />
+                        <imagedata fileref="images/preferences/preferences_21.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -342,7 +342,7 @@
                 <title>Struts Project</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences20.png" />
+                        <imagedata fileref="images/preferences/preferences_22.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -351,7 +351,7 @@
                 <title>Import Struts Pages</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences34.png" />
+                        <imagedata fileref="images/preferences/preferences_23.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -366,7 +366,7 @@
                 <title>Struts Support</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences21.png" />
+                        <imagedata fileref="images/preferences/preferences_24.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -380,7 +380,7 @@
                 <title>Title Diagram</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences22.png" />
+                        <imagedata fileref="images/preferences/preferences_25.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -395,7 +395,7 @@
                 <title>Verification</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences23.png" />
+                        <imagedata fileref="images/preferences/preferences_26.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -404,7 +404,7 @@
                 <title>Options of Verification</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences35.png" />
+                        <imagedata fileref="images/preferences/preferences_27.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -419,7 +419,7 @@
                 <title>View</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences24.png" />
+                        <imagedata fileref="images/preferences/preferences_28.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -433,7 +433,7 @@
                 <title>Visual Page Editor</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences25.png" />
+                        <imagedata fileref="images/preferences/preferences_29.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -442,7 +442,7 @@
                 <title>Visual Page Editor Templates</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences36.png" />
+                        <imagedata fileref="images/preferences/preferences_30.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -458,7 +458,7 @@
                 <title>XDoclet</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences27.png" />
+                        <imagedata fileref="images/preferences/preferences_31.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -472,7 +472,7 @@
                 <title>XDoclet Templates</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences28.png" />
+                        <imagedata fileref="images/preferences/preferences_32.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -482,7 +482,7 @@
                 <title>Add New XDoclet Template</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences28templ.png" />
+                        <imagedata fileref="images/preferences/preferences_33.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -491,7 +491,7 @@
                 <title>Select New Element</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferencestempl.png" />
+                        <imagedata fileref="images/preferences/preferences_34.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -500,7 +500,7 @@
                 <title>Select New Element</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferencestempl2.png" />
+                        <imagedata fileref="images/preferences/preferences_35.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -509,7 +509,7 @@
                 <title>Select New Element</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferencestempl3.png" />
+                        <imagedata fileref="images/preferences/preferences_36.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -523,7 +523,7 @@
                 <title>XDoclets Variables</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/Preferences/preferences29.png" />
+                        <imagedata fileref="images/preferences/preferences_37.png" />
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -545,7 +545,7 @@
             <title>Changing Enviroment Template</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/Preferences/pref2.png" />
+                    <imagedata fileref="images/preferences/preferences_38.png" />
                 </imageobject>
             </mediaobject>
         </figure>
@@ -566,7 +566,7 @@
             <title>Changing Project Template</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/Preferences/pref3.png" />
+                    <imagedata fileref="images/preferences/preferences_39.png" />
                 </imageobject>
             </mediaobject>
         </figure>

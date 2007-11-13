@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="WebProjectsView" xreflabel="WebProjectsView">
-  <?dbhtml filename="WebProjectsView.html"?>
+<chapter id="web_projects" xreflabel="web_projects">
+    <?dbhtml filename="web_projects.html"?>
 <title>Web Projects View</title>
 <para><property>Web Projects</property> is a special view that comes with Red Hat Developer Studio.</para>
 <para>If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <emphasis><property>Window &gt; Show View &gt; Web Projects</property></emphasis> from the menu bar.</para>
@@ -39,7 +39,7 @@ locate what you are looking for and develop.</para>
         <title>Web Projects View</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/WebProjectsView1.png" />
+            <imagedata fileref="images/web_projects/web_projects_1.png" />
         </imageobject>
     </mediaobject>
     </figure>
@@ -56,7 +56,7 @@ locate what you are looking for and develop.</para>
 <title>OutputText Tag</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/OutputTextTag.png"/>
+            <imagedata fileref="images/web_projects/web_projects_2.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -65,7 +65,7 @@ locate what you are looking for and develop.</para>
 <title>Selecting Property</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/SelProperty.png"/>
+            <imagedata fileref="images/web_projects/web_projects_3.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -74,7 +74,7 @@ locate what you are looking for and develop.</para>
 <title>Inserted Property</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/InsertedProperty.png"/>
+            <imagedata fileref="images/web_projects/web_projects_4.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -90,7 +90,7 @@ locate what you are looking for and develop.</para>
 <title>Selecting Managed Bean Attrubute</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/SelManBeanAttr.png"/>
+            <imagedata fileref="images/web_projects/web_projects_5.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -99,7 +99,7 @@ locate what you are looking for and develop.</para>
 <title>Added Expression</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/AddedExpression.png"/>
+            <imagedata fileref="images/web_projects/web_projects_6.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -113,7 +113,7 @@ locate what you are looking for and develop.</para>
 <title>Selecting Navigation Rule</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/SelNavRule.png"/>
+            <imagedata fileref="images/web_projects/web_projects_7.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -122,7 +122,7 @@ locate what you are looking for and develop.</para>
 <title>Naviagation Rule in CommandButton Tag</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/NavRuleinComButTag.png"/>
+            <imagedata fileref="images/web_projects/web_projects_8.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -131,7 +131,7 @@ locate what you are looking for and develop.</para>
 <title>Navigation Rule in Action Method</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/NavRuleInActMeth.png"/>
+            <imagedata fileref="images/web_projects/web_projects_9.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -140,7 +140,7 @@ locate what you are looking for and develop.</para>
 <title>Inserted Navigation Rule</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/InsNavRule.png"/>
+            <imagedata fileref="images/web_projects/web_projects_10.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -154,7 +154,7 @@ locate what you are looking for and develop.</para>
 <title>Selecting TLD File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/SelTLDFile.png"/>
+            <imagedata fileref="images/web_projects/web_projects_11.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -163,7 +163,7 @@ locate what you are looking for and develop.</para>
 <title>Inserted TLD File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/InsTLDFile.png"/>
+            <imagedata fileref="images/web_projects/web_projects_12.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -177,7 +177,7 @@ locate what you are looking for and develop.</para>
 <title>Creating JSP Forward</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/CrJSPForward.png"/>
+            <imagedata fileref="images/web_projects/web_projects_13.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -193,7 +193,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 <title>Creating New Navigation Rule</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/CrNewNavRule.png"/>
+            <imagedata fileref="images/web_projects/web_projects_14.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -209,7 +209,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 <title>Expanding Tag Library File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/ExpTagLibraryFile.png"/>
+            <imagedata fileref="images/web_projects/web_projects_15.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -238,7 +238,7 @@ buttons below.</para>
 <title>Web Projects View Buttons</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/WebProjectsView/WebProjectsViewBut.png"/>
+            <imagedata fileref="images/web_projects/web_projects_16.png"/>
         </imageobject>
 </mediaobject>
 </figure>

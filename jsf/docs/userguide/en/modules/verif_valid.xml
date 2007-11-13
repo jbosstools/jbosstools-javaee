@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="VerificationandValidation" xreflabel="VerificationandValidation">
-  <?dbhtml filename="VerificationandValidation.html"?>
+<chapter id="verif_valid" xreflabel="verif_valid">
+    <?dbhtml filename="verif_valid.html"?>
 <title>Verification and Validation</title>
 
 <para>As you are developing your project, Red Hat Developer Studio Verification constantly provides 
@@ -22,7 +22,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>JSF Rules</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif1.png" />
+            <imagedata fileref="images/verif_valid/verif_valid_1.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -31,7 +31,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Faces-config.xml File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif2.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_2.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -41,7 +41,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error in Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif3.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_3.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -51,7 +51,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error Message</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif4.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_4.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -60,7 +60,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Checking Navigation Rules</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif5.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_5.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -69,7 +69,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Page Name Verification</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif6.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_6.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -80,7 +80,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Verify Command</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif7.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_7.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -95,7 +95,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Struts Rules</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif8.png" />
+            <imagedata fileref="images/verif_valid/verif_valid_8.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -104,7 +104,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Struts Configuration File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif9.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_9.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -114,7 +114,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error Reporting</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif10.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_10.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -124,7 +124,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error Message</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif11.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_11.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -133,7 +133,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>JSP Page Verification</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif12.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_12.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -142,7 +142,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error Message</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif13.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_13.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -152,7 +152,7 @@ selecting <emphasis><property>Verify</property></emphasis> from the context menu
 <title>Verify Command</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/VerificationValidation/verif14.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_14.png"/>
         </imageobject>
 </mediaobject>
 </figure>

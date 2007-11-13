@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="JavaServerFacesSupport" xreflabel="JavaServerFacesSupport">
-  <?dbhtml filename="JavaServerFacesSupport.html"?>
+<chapter id="jsf_support" xreflabel="jsf_support">
+        <?dbhtml filename="jsf_support.html"?>
   <chapterinfo>
     <keywordset>
       <keyword>Red Hat Developer Studio</keyword>
@@ -29,7 +29,7 @@
 <title>Choosing JSF Environment</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/NewJSFProject1.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_1.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -77,7 +77,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Choosing Facelets Environment</title>
 <mediaobject> 
         <imageobject>
-                <imagedata  fileref="images/JSFSupport/JSFProjectwithFacelets.png"/>
+                <imagedata  fileref="images/jsf_support/jsf_support_2.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -87,7 +87,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Choosing Facelets Template</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JSFProjectwithFaceletsTemplate.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_3.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -96,7 +96,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Facelets Components</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JSFProjectwithFaceletsPalette.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_4.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -105,7 +105,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>XHTML File Code Assist</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/XHTMLFileCodeAssist.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_5.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -118,7 +118,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Code Assist for Jsfc Attribute</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JSFCCodeAssist.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_6.png"/>
         </imageobject>
 </mediaobject>
         </figure>
@@ -131,7 +131,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Code Assist for JSF Components</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CAJSFComp.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_7.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -144,7 +144,7 @@ version 1.2 of the JSF Reference Implementation:</para>
                 <title></title>
                 <mediaobject> 
                         <imageobject>
-                                <imagedata fileref="images/JSFSupport/CAJSFCompAttr.png"/>
+                                <imagedata fileref="images/jsf_support/jsf_support_8.png"/>
                         </imageobject>
                 </mediaobject>
         </figure>
@@ -156,7 +156,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Template Hyperlink</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/TemplateHyperlink.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_9.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -166,7 +166,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <title>Pop-up Help Tip for Facelets Tag Attributes</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/defaultImage.png"/>
+                <imagedata fileref="images/jsf_support/defaultImage.png"/>
         </imageobject>
 </mediaobject>
  </figure>
@@ -200,7 +200,7 @@ customizable.</para>
 <title>Choosing a JSF Project</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CreateNewJSFProjectWizard.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_10.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -211,7 +211,7 @@ customizable.</para>
 <title>Creating a New JSF Project</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CreateNewJSFProjectForm1.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_11.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -221,7 +221,7 @@ customizable.</para>
 <title>JSF Templates</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ChoosingJSFTemplate33.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_12.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -235,7 +235,7 @@ customizable.</para>
 <title>Choosing JSF Template</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ChoosingJSFTemplate.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_13.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -255,7 +255,7 @@ customizable.</para>
 <title>Registering the Project on Server</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CreateNewJSFProjectForm2.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_14.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -265,7 +265,7 @@ customizable.</para>
 <title>A New Project in the Package Explorer</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CreateNewJSFProjectPackageExplorer.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_15.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -292,7 +292,7 @@ customizable.</para>
 <title>Adding JSF Capabilities</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/AddingJSFCapabilities.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_16.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -301,7 +301,7 @@ customizable.</para>
 <title>Project Location</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ProjectLocation.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_17.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -324,7 +324,7 @@ customizable.</para>
 <title>Project Folders</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ProjectFolders1.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_18.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -337,7 +337,7 @@ customizable.</para>
                         <title>Creating a New JSF Configuration File</title>
                         <mediaobject> 
                         <imageobject >
-                        <imagedata fileref="images/JSFSupport/NewJSFConf.png"/>
+                                <imagedata fileref="images/jsf_support/jsf_support_19.png"/>
                         </imageobject>
                         </mediaobject>
                         </figure>
@@ -361,7 +361,7 @@ customizable.</para>
                 <title>Saving Your Project as Template</title>
                 <mediaobject> 
                         <imageobject>
-                                <imagedata fileref="images/JSFSupport/saveasTemplate.png"/>
+                                <imagedata fileref="images/jsf_support/jsf_support_20.png"/>
                         </imageobject>
                 </mediaobject>
         </figure>        
@@ -400,7 +400,7 @@ customizable.</para>
 <title>Diagram View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/DiagramView1.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_21.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -425,7 +425,7 @@ customizable.</para>
 <title>Transition Between JSP Pages</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/TransbetwJSPpages.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_22.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -436,7 +436,7 @@ New View</property></emphasis>.</para>
 <title>Creating a New View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CrNewView.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_23.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -448,7 +448,7 @@ New View</property></emphasis>.</para>
 <title>Editing Transition Between Views</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/EdTransbetwViews.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_24.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -463,7 +463,7 @@ New View</property></emphasis>.</para>
 <title>Tree View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/TreeView2.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_25.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -474,7 +474,7 @@ New View</property></emphasis>.</para>
 <title>Editing in Tree View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/EdinTreeView.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_26.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -489,7 +489,7 @@ are always synchronized, so any changes made in one of the viewers will immediat
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/SourceView2.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_27.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -503,7 +503,7 @@ are always synchronized, so any changes made in one of the viewers will immediat
 <title>Content Assist in Source View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ConAssistinSourceView.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_28.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -517,7 +517,7 @@ are always synchronized, so any changes made in one of the viewers will immediat
 <title>Error Reporting in Source View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ErrorRepinSourceView.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_29.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -527,7 +527,7 @@ are always synchronized, so any changes made in one of the viewers will immediat
 <title>Others Errors Reporting</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/OthersErrorsReporting.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_30.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -539,7 +539,7 @@ jump to the same place in the Source viewer.</para>
 <title>Outline View</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/OutlineView1.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_31.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -551,7 +551,7 @@ jump to the same place in the Source viewer.</para>
 <title>Outline View for Diagram</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/DiagramOutline.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_32.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -561,7 +561,7 @@ jump to the same place in the Source viewer.</para>
 <title>Properties View </title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/TreeProp.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_33.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -587,7 +587,7 @@ jump to the same place in the Source viewer.</para>
 <title>Creation of New Managed Bean</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/CrManBean.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_34.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -597,7 +597,7 @@ jump to the same place in the Source viewer.</para>
         <title>New Managed Bean</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/NewManBean.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_35.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -612,7 +612,7 @@ jump to the same place in the Source viewer.</para>
 <title>Opening of Created Managed Bean</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/OpenManBean.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_36.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -623,7 +623,7 @@ jump to the same place in the Source viewer.</para>
 <title>Java Source Code</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JavaSourse.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_37.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -632,7 +632,7 @@ jump to the same place in the Source viewer.</para>
 <title>Generation of Source Code for Properties</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/BeanProp.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_38.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -647,7 +647,7 @@ jump to the same place in the Source viewer.</para>
 <title>&quot;Add Property&quot; Form</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/AddProp.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_39.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -656,7 +656,7 @@ jump to the same place in the Source viewer.</para>
 <title>Generated Java Source Code for Property</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/JavaPropSourse.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_40.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -671,7 +671,7 @@ jump to the same place in the Source viewer.</para>
 <title>Creation of New Managed Bean</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/CrManBean.png"/>
+            <imagedata fileref="images/jsf_support/CrManBean.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -684,7 +684,7 @@ jump to the same place in the Source viewer.</para>
 <title>New Managed Bean Form</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/NewManBeanDis.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_42.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -695,7 +695,7 @@ jump to the same place in the Source viewer.</para>
 <title>Selection of Bean&apos;s Properties.</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/ManBeanProp.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_43.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -714,7 +714,7 @@ jump to the same place in the Source viewer.</para>
 <title>Converters</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/converter.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_44.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -727,7 +727,7 @@ jump to the same place in the Source viewer.</para>
 <title>Add Converter Form</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/converter2.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_45.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -738,7 +738,7 @@ jump to the same place in the Source viewer.</para>
 <title>Generation of Source Code for Converter Class</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/converter3.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_46.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -750,7 +750,7 @@ jump to the same place in the Source viewer.</para>
 <title>New Java Class Form</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/converter44.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_47.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -762,7 +762,7 @@ jump to the same place in the Source viewer.</para>
         <title>Converter Class</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/converter45.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_48.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -779,7 +779,7 @@ jump to the same place in the Source viewer.</para>
 <title>Validator in Faces Config Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/validator11.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_49.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -792,7 +792,7 @@ jump to the same place in the Source viewer.</para>
 <title>Adding Validator</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/validator12.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_50.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -803,7 +803,7 @@ jump to the same place in the Source viewer.</para>
         <title>Creating Validator Class</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/validator13.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_51.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -814,7 +814,7 @@ jump to the same place in the Source viewer.</para>
 <title>New Java Class Form</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/validator14.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_52.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -826,7 +826,7 @@ jump to the same place in the Source viewer.</para>
          <title>Converter Class Editing</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/validator15.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_53.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -842,7 +842,7 @@ jump to the same place in the Source viewer.</para>
         <title>Validator in Faces Config Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/referencdebean1.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_54.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -855,7 +855,7 @@ using Browse button.</para></listitem>
 <title>Add Validator Form</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/referencdebean2.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_55.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -867,7 +867,7 @@ Referenced-Bean-Class. Click on the link to open the Java creation wizard.</para
         <title>Create Validator Class</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/referencdebean3.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_56.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -878,7 +878,7 @@ Referenced-Bean-Class. Click on the link to open the Java creation wizard.</para
 <title>New Java Class Form</title>
 <mediaobject> 
         <imageobject>
-                <imagedata fileref="images/JSFSupport/referencedbean3.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_57.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -889,7 +889,7 @@ Referenced-Bean-Class. Click on the link to open the Java creation wizard.</para
          <title>Referenced Bean Class Editing</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/JSFSupport/referencedbean4.png"/>
+                <imagedata fileref="images/jsf_support/jsf_support_58.png"/>
         </imageobject>
 </mediaobject>
 </figure>

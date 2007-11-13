@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="AbouttheRHDS" xreflabel="AbouttheRHDS">
-    <?dbhtml filename="AbouttheRHDS.html"?>
+<chapter id="rhds" xreflabel="rhds">
+ <?dbhtml filename="rhds.html"?>
     <chapterinfo>
         <keywordset>
             <keyword>Red Hat Developer Studio</keyword>

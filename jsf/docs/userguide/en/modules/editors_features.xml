@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="EditorsFeatures" xreflabel="EditorsFeatures">
-  <?dbhtml filename="EditorsFeatures.html"?>
+<chapter id="editors_features" xreflabel="editors_features">
+    <?dbhtml filename="editors_features.html"?>
 <title>Editors Features</title>
 <para>Red Hat Developer Studio has powerful editor features that help you easily navigate within your application and make use of content and code assist no matter what project file (jsp, xhtml, xml, css, etc.) you are working on.</para>
 <section id="OpenOnSelection4Hyperlinknavigation">
@@ -27,7 +27,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>NameBean Managed Bean</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/NameBeanManBean.png"/>
+            <imagedata fileref="images/editors_features/editors_features_1.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -36,7 +36,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>NameBean Java Class</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/NameBeanJavaClass.png"/>
+            <imagedata fileref="images/editors_features/editors_features_2.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -45,7 +45,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>OpenOn With Defined Attributes</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/OpenOnWithDefAttr.png"/>
+            <imagedata fileref="images/editors_features/editors_features_3.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -54,7 +54,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>JSP Page OpenOn</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/JSPPageOpenOn.png"/>
+            <imagedata fileref="images/editors_features/editors_features_4.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -71,7 +71,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>OpenOn With Imported Property Files</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/OpenOnWithImPropFiles.png"/>
+            <imagedata fileref="images/editors_features/editors_features_5.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -80,7 +80,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>OpenOn With CSS File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/OpenOnWithCSSFile.png"/>
+            <imagedata fileref="images/editors_features/editors_features_6.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -89,7 +89,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>OpenOn With Maneaged Beans</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/OpenOnWithManBeans.png"/>
+            <imagedata fileref="images/editors_features/editors_features_7.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -98,7 +98,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>OpenOn With JSF Tag</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/OpenOnWithJSFTag.png"/>
+            <imagedata fileref="images/editors_features/editors_features_8.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -144,7 +144,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Content Assist in JSF Configuration File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInJSFConfFile.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_9.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -153,7 +153,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Content Assist in JSP File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInJSPFile.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_10.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -162,7 +162,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Content Assist in web.xml File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/ConAssistInwebxmlfile.png"/>
+            <imagedata fileref="images/editors_features/editors_features_11.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -186,7 +186,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Inserting Message</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/InsMessage.png"/>
+            <imagedata fileref="images/editors_features/editors_features_12.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -197,7 +197,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Attributes List</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/AttrList.png"/>
+            <imagedata fileref="images/editors_features/editors_features_13.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -207,7 +207,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Code Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/CodeAssist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_14.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -222,7 +222,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Content Assist in Tree JSF Configuration Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInGraphicalJSFConfEd.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_15.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -231,7 +231,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>New Java Class</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInGraphicalJSFConfEd2.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_16.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -240,7 +240,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Error Markers</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInGraphicalJSFConfEd3.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_17.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -253,7 +253,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Create New Property</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInGraphicalJSFConfEd4.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_18.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -267,7 +267,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Add New Navigation Rule</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInGraphicalJSFConfEd5.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_19.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -284,7 +284,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Struts Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/StrutsContentAssist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_20.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -296,7 +296,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Struts JSP Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/StrutsJSPContentAssist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_21.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -314,7 +314,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>JSF Tags Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/JSFTagsContentAssist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_22.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -323,7 +323,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Attributes Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/JSFTagsContentAssist2.png"/>
+            <imagedata fileref="images/editors_features/editors_features_23.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -336,7 +336,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>JSTL Tags Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/JSTLTagsContentAssist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_24.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -349,7 +349,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>HTML Tags Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/HTMLTagsContentAssist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_25.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -358,7 +358,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>HTML Tags Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/HTMLTagsContentAssist2.png"/>
+            <imagedata fileref="images/editors_features/editors_features_26.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -370,7 +370,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>JavaScript Tags Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/JavaScriptTagsContent Assist.png"/>
+            <imagedata fileref="images/editors_features/editors_features_27.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -383,7 +383,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Content Assist in JSF Configuration Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistInJSFConfEd.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_28.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -397,7 +397,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Content Assist for Rich Faces Components</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/ConAssistForRFComponent.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_29.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -409,7 +409,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Insert Tag</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/InsertRFtag.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_30.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -420,7 +420,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Rich Faces Component</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/EditorsFeatures/InsertRFtag2.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_31.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -511,7 +511,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Diagram View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/DiagramView.png"/>
+            <imagedata fileref="images/editors_features/editors_features_32.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -519,7 +519,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Tree View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/TreeView.png"/>
+            <imagedata fileref="images/editors_features/editors_features_33.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -528,7 +528,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/SourceView.png"/>
+            <imagedata fileref="images/editors_features/editors_features_34.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -540,7 +540,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Tree View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/TreeView1.png"/>
+            <imagedata fileref="images/editors_features/editors_features_35.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -548,7 +548,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/SourceView1.png"/>
+            <imagedata fileref="images/editors_features/editors_features_36.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -558,7 +558,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Tree Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/TreeEditor.png"/>
+            <imagedata fileref="images/editors_features/editors_features_37.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -566,7 +566,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Source Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/SourceEditor.png"/>
+            <imagedata fileref="images/editors_features/editors_features_38.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -576,7 +576,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Struts Diagram View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/StrutsDiagramView.png"/>
+            <imagedata fileref="images/editors_features/editors_features_39.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -585,7 +585,7 @@ synchronized, you can edit the file in any view.</para>
 <title>Struts Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/EditorsFeatures/StrutsSourceView.png"/>
+            <imagedata fileref="images/editors_features/editors_features_40.png"/>
         </imageobject>
 </mediaobject>
 </figure>

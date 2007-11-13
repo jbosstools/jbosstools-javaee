@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="MoreEditors" xreflabel="MoreEditors">
-  <?dbhtml filename="MoreEditors.html"?>
+<chapter id="more_editors" xreflabel="more_editors">
+    <?dbhtml filename="more_editors.html"?>
 <title>More Editors</title>
 <para>Besides Visual Page Editor RHDS provides editors for editing project files of any types: properties, TLD, web.xml, tiles, and so on.</para>	
 <section id="GraphicalPropertiesEditor">
@@ -14,7 +14,7 @@
 <title>Selecting Properties File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/NewPropFile.png"/>
+            <imagedata fileref="images/more_editors/more_editors_1.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -25,7 +25,7 @@
 <title>&quot;Properties&quot; Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/EditProp.png"/>
+            <imagedata fileref="images/more_editors/more_editors_2.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -35,7 +35,7 @@
 <title>Source Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/EditPropSource.png"/>
+            <imagedata fileref="images/more_editors/more_editors_3.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -59,7 +59,7 @@
 <title>Tree View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/TLDEditor.png"/>
+            <imagedata fileref="images/more_editors/more_editors_4.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -74,7 +74,7 @@
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/TLDEditorSource.png"/>
+            <imagedata fileref="images/more_editors/more_editors_5.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -85,7 +85,7 @@
 <title>Adding a New Tag</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/AddNewTLDTag.png"/>
+            <imagedata fileref="images/more_editors/more_editors_6.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -95,7 +95,7 @@
 <title>Adding a New Attribute</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/AddNewTLDAttribute.png"/>
+            <imagedata fileref="images/more_editors/more_editors_7.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -105,7 +105,7 @@
 <title>Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/ContentAssistTLD.png"/>
+            <imagedata fileref="images/more_editors/more_editors_8.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -117,7 +117,7 @@ next to the line and also in the Problems view below.</para>
 <title>Error Reporting</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/TLDwithError.png"/>
+            <imagedata fileref="images/more_editors/more_editors_9.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -142,7 +142,7 @@ Red Hat Developer Studio editors:</para>
 <title>Tree View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/WebXMLEditor.png"/>
+            <imagedata fileref="images/more_editors/more_editors_10.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -153,7 +153,7 @@ Red Hat Developer Studio editors:</para>
 <title>Adding New Elements</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/WebXMLEditorNew.png"/>
+            <imagedata fileref="images/more_editors/more_editors_11.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -168,7 +168,7 @@ Red Hat Developer Studio editors:</para>
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/WebXMLEditorSource.png"/>
+            <imagedata fileref="images/more_editors/more_editors_12.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -183,7 +183,7 @@ Red Hat Developer Studio editors:</para>
 <title>Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/WebXMLEditorCA.png"/>
+            <imagedata fileref="images/more_editors/more_editors_13.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -199,7 +199,7 @@ Red Hat Developer Studio editors:</para>
 <title>Errors Reporting</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/WebXMLwithError.png"/>
+            <imagedata fileref="images/more_editors/more_editors_14.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -230,7 +230,7 @@ Red Hat Developer Studio editors:</para>
 <title>Creating New Tiles File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles1.png"/>
+            <imagedata fileref="images/more_editors/more_editors_15.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -247,7 +247,7 @@ on the left-hand side and a form for editing the properties of currently selecte
 <title>Tree View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles2.png"/>
+            <imagedata fileref="images/more_editors/more_editors_16.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -257,7 +257,7 @@ on the left-hand side and a form for editing the properties of currently selecte
 <title>Editing in Tiles Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles3.png"/>
+            <imagedata fileref="images/more_editors/more_editors_17.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -271,7 +271,7 @@ on the left-hand side and a form for editing the properties of currently selecte
 <title>Diagram View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles4.png"/>
+            <imagedata fileref="images/more_editorsmore_editors_18.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -281,7 +281,7 @@ on the left-hand side and a form for editing the properties of currently selecte
 <title>Creating New Definition</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles5.png"/>
+            <imagedata fileref="images/more_editors/more_editors_19.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -292,7 +292,7 @@ on the left-hand side and a form for editing the properties of currently selecte
 <title>Diagram Toolbar</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles6.png"/>
+            <imagedata fileref="images/more_editors/more_editors_20.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -307,7 +307,7 @@ Any changes here will immediately appear in when you switch to any of the other 
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles7.png"/>
+            <imagedata fileref="images/more_editors/more_editors_21.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -318,7 +318,7 @@ Any changes here will immediately appear in when you switch to any of the other 
 <title>Content Assist</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles8.png"/>
+            <imagedata fileref="images/more_editors/more_editors_22.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -328,7 +328,7 @@ Any changes here will immediately appear in when you switch to any of the other 
 <title>Error Reporting</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles9.png"/>
+            <imagedata fileref="images/more_editors/more_editors_23.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -339,7 +339,7 @@ Any changes here will immediately appear in when you switch to any of the other 
 <title>Outline View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/tiles10.png"/>
+            <imagedata fileref="images/more_editors/more_editors_24.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -356,7 +356,7 @@ right click any folder and select <emphasis><property>File > Validation File</pr
 <title>Creating Validation File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator1.png"/>
+            <imagedata fileref="images/more_editors/more_editors_25.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -369,7 +369,7 @@ right click any folder and select <emphasis><property>File > Validation File</pr
 <title>Formsets Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator2.png"/>
+            <imagedata fileref="images/more_editors/more_editors_26.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -380,7 +380,7 @@ right click any folder and select <emphasis><property>File > Validation File</pr
 <title>Constants viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator3.png"/>
+            <imagedata fileref="images/more_editors/more_editors_27.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -391,7 +391,7 @@ right click any folder and select <emphasis><property>File > Validation File</pr
 <title>Tree Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator4.png"/>
+            <imagedata fileref="images/more_editors/more_editors_28.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -403,7 +403,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <title>Source Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator5.png"/>
+            <imagedata fileref="images/more_editors/more_editors_29.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -417,7 +417,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <title>Validation Rules</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator6.png"/>
+            <imagedata fileref="images/more_editors/more_editors_30.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -428,7 +428,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <title>Validation Rules in Source Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/validator7.png"/>
+            <imagedata fileref="images/more_editors/more_editors_31.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -445,7 +445,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Adding Spring Project Nature</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/addspring.png"/>
+            <imagedata fileref="images/more_editors/more_editors_32.png"/>
         </imageobject>
     </mediaobject>
     </figure>
@@ -458,7 +458,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Project with Spring Nature</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/addedspring.png"/>
+            <imagedata fileref="images/more_editors/more_editors_33.png"/>
         </imageobject>
     </mediaobject>
     </figure>
@@ -469,7 +469,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Spring Configuration File</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_34.png"/>
         </imageobject>
     </mediaobject>
     </figure>
@@ -480,7 +480,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Spring Beans</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_35.png"/>
         </imageobject>
     </mediaobject>
     </figure>
@@ -491,7 +491,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Adding Configuration Files</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_36.png"/>
         </imageobject>
     </mediaobject>
 </figure>
@@ -502,7 +502,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Spring Bean File</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_37.png"/>
         </imageobject>
     </mediaobject>
 </figure>
@@ -514,7 +514,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Selecting Spring Beans View</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_38.png"/>
         </imageobject>
     </mediaobject>
     </figure>
@@ -525,7 +525,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Spring Beans View</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_39.png"/>
         </imageobject>
     </mediaobject>
 </figure>
@@ -537,7 +537,7 @@ in this viewer will immediately be available in the other viewers of this editor
         <title>Graph View</title>
       <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_40.png"/>
         </imageobject>
     </mediaobject>
 </figure>
@@ -560,7 +560,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <title>CSS Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/CSSCodePromting.png"/>
+            <imagedata fileref="images/more_editors/more_editors_41.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -571,7 +571,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <title>Outline View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/defaultImage.png"/>
+            <imagedata fileref="images/more_editors/more_editors_42.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -583,7 +583,7 @@ declaration properties:</para>
 <title>Properties View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/CSSPropView.png"/>
+            <imagedata fileref="images/more_editors/more_editors_43.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -599,7 +599,7 @@ declaration properties:</para>
 <title>JavaScript Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/JSCodeAssist.png"/>
+            <imagedata fileref="images/more_editors/more_editors_44.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -610,7 +610,7 @@ declaration properties:</para>
 <title>Source Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/jsoutline.png"/>
+            <imagedata fileref="images/more_editors/more_editors_45.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -625,7 +625,7 @@ declaration properties:</para>
 <title>Image Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/imageviewer.png"/>
+            <imagedata fileref="images/more_editors/more_editors_46.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -643,7 +643,7 @@ declaration properties:</para>
 <title>Creating New XSD file</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/CrNewXSDfile.png"/>
+            <imagedata fileref="images/more_editors/more_editors_47.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -654,7 +654,7 @@ declaration properties:</para>
 <title>Source Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/SourceViewer.png"/>
+            <imagedata fileref="images/more_editors/more_editors_48.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -665,7 +665,7 @@ declaration properties:</para>
     <title>Design Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/DesignViewer.png"/>
+            <imagedata fileref="images/more_editors/more_editors_49.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -676,7 +676,7 @@ declaration properties:</para>
 <title>Edit Options</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/EditOptions.png"/>
+            <imagedata fileref="images/more_editors/more_editors_50.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -687,7 +687,7 @@ declaration properties:</para>
 <title>Properties View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/PropView.png"/>
+            <imagedata fileref="images/more_editors/more_editors_51.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -699,7 +699,7 @@ declaration properties:</para>
 <title>Source Viewer</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/SourceViewer1.png"/>
+            <imagedata fileref="images/more_editors/more_editors_52.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -714,7 +714,7 @@ declaration properties:</para>
 <title>XML File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/MoreEditors/XMLFile.png"/>
+            <imagedata fileref="images/more_editors/more_editors_53.png"/>
         </imageobject>
 </mediaobject>
 </figure>

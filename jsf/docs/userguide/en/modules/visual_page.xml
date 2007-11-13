@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="VisualPageEditor" xreflabel="VisualPageEditor">
-  <?dbhtml filename="VisualPageEditor.html"?>
+<chapter id="visual_page" xreflabel="visual_page">
+ <?dbhtml filename="visual_page.html"?>
   <chapterinfo>
         <keywordset>
             <keyword>Red Hat Developer Studio</keyword>
@@ -21,7 +21,7 @@
 <title>Visual/Source View</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe1.png" />
+         <imagedata fileref="images/visual_page/visual_page_1.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -31,7 +31,7 @@
 <title>Visual View</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe2.png" />
+         <imagedata fileref="images/visual_page/visual_page_2.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -41,7 +41,7 @@
 <title>Source View</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe3.png" />
+         <imagedata fileref="images/visual_page/visual_page_3.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -50,7 +50,7 @@
 <title>Properties And Outline Views</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe4.png" />
+         <imagedata fileref="images/visual_page/visual_page_4.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -59,7 +59,7 @@
 <title>Preview Mode</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe51.png" />
+         <imagedata fileref="images/visual_page/visual_page_5.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -68,7 +68,7 @@
 <title>Graphical Toolbar</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe5.png" />
+         <imagedata fileref="images/visual_page/visual_page_6.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -77,7 +77,7 @@
 <title>Inserting Tags From Palette</title>
 <mediaobject> 
         <imageobject>
-         <imagedata fileref="images/VisualPageEditor/vpe6.png" />
+         <imagedata fileref="images/visual_page/visual_page_7.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -92,7 +92,7 @@
   <title>Visual Page Editor Buttons</title>
   <mediaobject> 
    <imageobject>
-    <imagedata fileref="images/VisualPageEditor/vpe7.png" />
+    <imagedata fileref="images/visual_page/visual_page_8.png" />
    </imageobject>
   </mediaobject>
  </figure>
@@ -105,7 +105,7 @@
   <title>Visual Page Editor Preferences Window</title>
   <mediaobject> 
    <imageobject>
-    <imagedata fileref="images/VisualPageEditor/vpe7_1.png" />
+    <imagedata fileref="images/visual_page/visual_page_9.png" />
    </imageobject>
   </mediaobject>
  </figure>
@@ -122,7 +122,7 @@
   <title>Page Design Options</title>
   <mediaobject> 
    <imageobject>
-    <imagedata fileref="images/VisualPageEditor/vpe8.png" />
+    <imagedata fileref="images/visual_page/visual_page_10.png" />
    </imageobject>
   </mediaobject>
  </figure>
@@ -170,7 +170,7 @@
   <title>Selection Bar</title>
   <mediaobject> 
    <imageobject>
-    <imagedata fileref="images/VisualPageEditor/vpe9.png"/>
+    <imagedata fileref="images/visual_page/visual_page_11.png"/>
    </imageobject>
   </mediaobject>
  </figure>

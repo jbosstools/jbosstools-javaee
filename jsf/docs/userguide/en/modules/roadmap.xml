@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="RoadmaptoLearnStudio" xreflabel="RoadmaptoLearnStudio">
-	<?dbhtml filename="RoadmaptoLearnStudio.html"?>
+<chapter id="roadmap" xreflabel="roadmap">
+	<?dbhtml filename="roadmap.html"?>
 	<title>Roadmap to Learn Red Hat Developer Studio</title>
       <para><property>Red Hat Developer Studio</property> is an advanced enterprise-level Web application development environment for
  leveraging open source, J2EE and AJAX technologies within the Eclipse environment.</para>
@@ -22,7 +22,7 @@ Seam provides a single programming model for developers to use underlying framew
 			<title>Red Hat Developer Studio Overview</title>
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="images/Roadmap/VPEGeneral.png"/>
+					<imagedata fileref="images/roadmap/roadmap_1.png"/>
 				</imageobject>
 			</mediaobject>
 		</figure>
