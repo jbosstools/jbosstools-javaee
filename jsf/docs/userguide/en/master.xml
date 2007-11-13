@@ -2,34 +2,34 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
-[<!ENTITY AbouttheRHDS  SYSTEM "modules/AbouttheRHDS.xml">
-<!ENTITY RoadmaptoLearnStudio  SYSTEM "modules/RoadmaptoLearnStudio.xml">
-<!ENTITY JavaServerFacesSupport  SYSTEM "modules/JavaServerFacesSupport.xml">
-<!ENTITY Struts  SYSTEM "modules/Struts.xml">
+[<!ENTITY rhds  SYSTEM "modules/rhds.xml">
+<!ENTITY roadmap  SYSTEM "modules/roadmap.xml">
+<!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
+<!ENTITY struts  SYSTEM "modules/struts.xml">
 <!-- <!ENTITY HibernateTools  SYSTEM "modules/HibernateTools.xml"> -->
 
 <!-- <!ENTITY DeploymentandRunning  SYSTEM "modules/DeploymentandRunning.xml"> -->
 
 <!--<!ENTITY AddingCustomCapabilityFeaturesTemplates SYSTEM "modules/AddingCustomCapabilityFeaturesTemplates.xml">-->
 
-<!ENTITY JBossToolsPalette SYSTEM "modules/JBossToolsPalette.xml">
+<!ENTITY palette SYSTEM "modules/palette.xml">
 
-<!ENTITY WebProjectsView SYSTEM "modules/WebProjectsView.xml">
+<!ENTITY web_projects SYSTEM "modules/web_projects.xml">
 
 
 <!-- <!ENTITY J2EEandOtherTools SYSTEM "modules/J2EEandOtherTools.xml"> -->
-<!ENTITY VisualPageEditor SYSTEM "modules/VisualPageEditor.xml">
-<!ENTITY VerificationandValidation SYSTEM "modules/VerificationandValidation.xml">
-<!ENTITY EditorsFeatures SYSTEM "modules/EditorsFeatures.xml">
+<!ENTITY visual_page SYSTEM "modules/visual_page.xml">
+<!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
+<!ENTITY editors_features SYSTEM "modules/editors_features.xml">
 <!-- <!ENTITY DatabaseTools SYSTEM "modules/DatabaseTools.xml"> -->
 
-<!ENTITY VerificationandValidation SYSTEM "modules/VerificationandValidation.xml">
+<!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
 
-<!ENTITY VisualPageEditor SYSTEM "modules/VisualPageEditor.xml">
+<!ENTITY visual_page SYSTEM "modules/visual_page.xml">
 
-<!ENTITY MoreEditors SYSTEM "modules/MoreEditors.xml">
-<!ENTITY StudioPreferences SYSTEM "modules/StudioPreferences.xml">
-<!ENTITY FAQ SYSTEM "modules/FAQ.xml">
+<!ENTITY more_editors SYSTEM "modules/more_editors.xml">
+<!ENTITY preferences SYSTEM "modules/preferences.xml">
+<!ENTITY faq SYSTEM "modules/faq.xml">
 ]>
 <book>
     <bookinfo>
@@ -46,29 +46,29 @@
     
     <toc/>  
     
-    &AbouttheRHDS;
-    &RoadmaptoLearnStudio;
-    &JavaServerFacesSupport;
-    &Struts;
+    &rhds;
+    &roadmap;
+    &jsf_support;
+    &struts;
     <!--      &HibernateTools; -->
     
     <!--&AddingCustomCapabilityFeaturesTemplates;      -->
     
     <!--    &DeploymentandRunning; -->
     
-    &JBossToolsPalette;
+    &palette;
     
-    &WebProjectsView;	
+    &web_projects;	
     
     
     <!--      &DatabaseTools;
         &J2EEandOtherTools; -->
     
-    &VerificationandValidation;
-    &EditorsFeatures;
-    &VisualPageEditor;
-    &MoreEditors;
-    &StudioPreferences;
-    &FAQ;
+    &verif_valid;
+    &editors_features;
+    &visual_page;
+    &more_editors;
+    &preferences;
+    &faq;
     
 </book>    
