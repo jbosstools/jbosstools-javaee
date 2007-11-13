@@ -3,9 +3,7 @@
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
 
-[<!ENTITY jsp_application  SYSTEM "modules/jsp_application.xml">
-<!ENTITY rad_jsf_application  SYSTEM "modules/rad_jsf_application.xml">
-<!ENTITY curd_database_application SYSTEM "modules/curd_database_application.xml">
+[<!ENTITY curd_database_application SYSTEM "modules/curd_database_application.xml">
 <!ENTITY curd_application_walkthrough SYSTEM "modules/curd_application_walkthrough.xml">
 <!ENTITY business_application SYSTEM "modules/business_application.xml">
 <!ENTITY testng SYSTEM "modules/testng.xml">
@@ -27,8 +25,7 @@
     
     <toc/>  
 
-&jsp_application;
-&rad_jsf_application;
+
 &curd_database_application;
 &curd_application_walkthrough;
 &testng;
