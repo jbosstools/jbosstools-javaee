@@ -31,7 +31,7 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 		for (String name : SeamPreferences.severityOptionNames) {
 			defaultPreferences.put(name, SeamPreferences.ERROR);
 		}
-		defaultPreferences.put(SeamPreferences.INVALID_EXPRESSION, SeamPreferences.WARNING);
+		defaultPreferences.put(SeamPreferences.INVALID_EXPRESSION, SeamPreferences.IGNORE);
 		defaultPreferences.put(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.IGNORE);
 	}
