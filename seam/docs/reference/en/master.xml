@@ -3,8 +3,8 @@
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
 
-[<!ENTITY curd_database_application SYSTEM "modules/curd_database_application.xml">
-<!ENTITY curd_application_walkthrough SYSTEM "modules/curd_application_walkthrough.xml">
+[<!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
+<!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
 <!ENTITY business_application SYSTEM "modules/business_application.xml">
 <!ENTITY testng SYSTEM "modules/testng.xml">
 
@@ -26,8 +26,8 @@
     <toc/>  
 
 
-&curd_database_application;
-&curd_application_walkthrough;
+&crud_database_application;
+&crud_application_walkthrough;
 &testng;
     <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
 

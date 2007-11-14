@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="curd_application_walkthrough" xreflabel="curd_application_walkthrough">
- <?dbhtml filename="curd_application_walkthrough.html"?>
+<chapter id="crud_application_walkthrough" xreflabel="crud_application_walkthrough">
+ <?dbhtml filename="crud_application_walkthrough.html"?>
   <chapterinfo>
     <keywordset>
       <keyword>Red Hat Developer Studio</keyword>
       <keyword>Eclipse</keyword>
       <keyword>Java</keyword>
-      <keyword>CURD</keyword>
+      <keyword>CRUD</keyword>
      <keyword>JBoss AS</keyword>
     </keywordset>
   </chapterinfo>
- <title>The CURD Application Walkthrough</title>
+ <title>The CRUD Application Walkthrough</title>
  
 </chapter>
 

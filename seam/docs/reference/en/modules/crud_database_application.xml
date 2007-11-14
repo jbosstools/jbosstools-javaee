@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="curd_database_application" xreflabel="curd_database_application">
- <?dbhtml filename="curd_database_application.html"?>
+<chapter id="crud_database_application" xreflabel="crud_database_application">
+ <?dbhtml filename="crud_database_application.html"?>
   <chapterinfo>
     <keywordset>
       <keyword>Red Hat Developer Studio</keyword>
       <keyword>Eclipse</keyword>
       <keyword>Java</keyword>
-     <keyword>CURD</keyword>
+     <keyword>CRUD</keyword>
      <keyword>Database Application</keyword>
     </keywordset>
   </chapterinfo>
- <title>Generate a CURD Database Application</title>
+ <title>Generate a CRUD Database Application</title>
 
 </chapter>
 
