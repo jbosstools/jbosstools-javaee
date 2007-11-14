@@ -63,7 +63,7 @@
             id="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
             name="Seam Conversation">
          <description>
-            description body text
+            Create a Seam Conversation
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -77,7 +77,7 @@
             id="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
             name="Seam Entity">
          <description>
-            description body text
+            Create a Seam Entity
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
