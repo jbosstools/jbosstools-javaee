@@ -13,7 +13,7 @@
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
          <description>
-            Create a Seam Components XM LFile
+            Create a Seam Components XML File
          </description>
       </wizard>
    </extension>
