@@ -23,6 +23,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -534,7 +535,6 @@ public class SeamCoreValidator extends SeamValidator {
 		validateStatefulComponent(component);
 		validateDuplicateComponentMethods(component);
 		validateEntityComponent(component);
-
 	}
 
 	private void validateBijections(ISeamJavaComponentDeclaration declaration) {
@@ -602,14 +602,20 @@ public class SeamCoreValidator extends SeamValidator {
 	 *  Validates methods of java classes. They must belong components.
 	 */
 	private void validateMethodsOfUnknownComponent(ISeamJavaComponentDeclaration declaration) {
-		if(project.getComponentsByPath(declaration.getSourcePath()).size()>0) {
-			validationContext.removeUnnamedCoreResource(declaration.getSourcePath());
-			return;
+		if(project.getComponentsByPath(declaration.getSourcePath()).isEmpty()) {
+			IMember member = declaration.getSourceMember();
+			try {
+				if(member!=null && !Flags.isAbstract(member.getFlags())) {
+					validateMethodOfUnknownComponent(SeamComponentMethodType.DESTROY, declaration, DESTROY_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DESTROY_DOESNT_BELONG_TO_COMPONENT);
+					validateMethodOfUnknownComponent(SeamComponentMethodType.CREATE, declaration, CREATE_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.CREATE_DOESNT_BELONG_TO_COMPONENT);
+					validateMethodOfUnknownComponent(SeamComponentMethodType.UNWRAP, declaration, UNWRAP_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.UNWRAP_DOESNT_BELONG_TO_COMPONENT);
+					validateMethodOfUnknownComponent(SeamComponentMethodType.OBSERVER, declaration, OBSERVER_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.OBSERVER_DOESNT_BELONG_TO_COMPONENT);
+				}
+			} catch (JavaModelException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
 		}
-		validateMethodOfUnknownComponent(SeamComponentMethodType.DESTROY, declaration, DESTROY_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DESTROY_DOESNT_BELONG_TO_COMPONENT);
-		validateMethodOfUnknownComponent(SeamComponentMethodType.CREATE, declaration, CREATE_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.CREATE_DOESNT_BELONG_TO_COMPONENT);
-		validateMethodOfUnknownComponent(SeamComponentMethodType.UNWRAP, declaration, UNWRAP_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.UNWRAP_DOESNT_BELONG_TO_COMPONENT);
-		validateMethodOfUnknownComponent(SeamComponentMethodType.OBSERVER, declaration, OBSERVER_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.OBSERVER_DOESNT_BELONG_TO_COMPONENT);
+		validationContext.removeUnnamedCoreResource(declaration.getSourcePath());
 	}
 
 	private void validateMethodOfUnknownComponent(SeamComponentMethodType methodType, ISeamJavaComponentDeclaration declaration, String sufixMessageId, String preferenceKey) {
