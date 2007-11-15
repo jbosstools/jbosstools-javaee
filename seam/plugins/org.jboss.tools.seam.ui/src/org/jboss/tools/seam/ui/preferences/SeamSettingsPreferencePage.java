@@ -205,7 +205,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 	
 	private List<String> getNameList() {
 		Set<String> names = new TreeSet<String>();
-		names.addAll(SeamRuntimeManager.getInstance().getRuntimeNames());
+		names.addAll(getAvailableRuntimeNames());
 		if(hasSeamSupport()) {
 			String currentName = seamProject.getRuntimeName();
 			if(currentName != null) names.add(currentName);
@@ -363,11 +363,26 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
 				getFieldEditor().setValue(added.get(0).getName());
 				((ITaggedFieldEditor) ((CompositeEditor) runtime)
-						.getEditors().get(1)).setTags(SeamRuntimeManager.getInstance().getRuntimeNames()
+						.getEditors().get(1)).setTags(getAvailableRuntimeNames()
 						.toArray(new String[0]));
 				runtime.setValue(added.get(0).getName());
 			}
 		}
 	}
 
+	private List<String> getAvailableRuntimeNames() {
+		if(hasNature("org.eclipse.jdt.core.javanature")
+				&& !hasNature("org.eclipse.wst.common.project.facet.core.nature")) {
+			return SeamRuntimeManager.getInstance().getAllRuntimeNames();
+		}
+		return SeamRuntimeManager.getInstance().getRuntimeNames();
+	}
+	
+	private boolean hasNature(String natureId) {
+		try {
+			return project != null && project.isAccessible() && project.hasNature(natureId);
+		} catch (CoreException e) {
+			return false;
+		}
+	}
 }
