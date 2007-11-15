@@ -201,6 +201,15 @@ public class SeamRuntimeManager {
 		return result;
 	}
 
+	public List<String> getAllRuntimeNames() {
+		SeamRuntime[] rts = getRuntimes();
+		List<String> result = new ArrayList<String>();
+		for(SeamRuntime seamRuntime : rts) {
+			result.add(seamRuntime.getName());
+		}
+		return result;
+	}
+
 	private void validateProjects() {
 		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (int i = 0; i < ps.length; i++) {
