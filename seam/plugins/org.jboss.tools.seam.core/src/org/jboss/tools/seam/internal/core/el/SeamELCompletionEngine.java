@@ -20,24 +20,16 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
-import org.jboss.tools.seam.core.SeamCoreMessages;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Utility class used to find Seam Project content assist proposals
@@ -185,8 +177,8 @@ public final class SeamELCompletionEngine {
 				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 					// proceed with next token
 					continue;
-				
-				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
+
+				if (token.isNameToken()) {
 					// Find properties for the token
 					String name = token.getText();
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
@@ -233,8 +225,9 @@ public final class SeamELCompletionEngine {
 						proposals.addAll(infos.getMethodPresentations());
 						proposals.addAll(infos.getPropertyPresentations(unpairedGettersOrSetters));
 					}
-				} else if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
-					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
+				} else if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+						token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
+						token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 					for (TypeInfoCollector.MemberInfo mbr : members) {
@@ -458,7 +451,7 @@ public final class SeamELCompletionEngine {
 					status.setLastResolvedToken(token);
 					continue;
 				}
-				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
+				if (token.isNameToken()) {
 					// Find properties for the token
 					String name = token.getText();
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
@@ -521,8 +514,9 @@ public final class SeamELCompletionEngine {
 						proposals.addAll(infos.getMethodPresentations());
 						proposals.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
 					}
-				} else if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
-					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
+				} else if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+						token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
+						token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 					for (TypeInfoCollector.MemberInfo mbr : members) {
@@ -577,7 +571,8 @@ public final class SeamELCompletionEngine {
 			tokens = new ArrayList<ELOperandToken>();
 		StringBuffer sb = new StringBuffer();
 		for (ELOperandToken token : tokens) {
-			if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
+			if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
 					token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
 					token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
 				sb.append(token.getText());
@@ -845,7 +840,7 @@ public final class SeamELCompletionEngine {
 					// proceed with next token
 					continue;
 
-				if (token.getType() == ELOperandToken.EL_NAME_TOKEN) {
+				if (token.isNameToken()) {
 					// Find properties for the token
 					String name = token.getText();
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
@@ -886,7 +881,8 @@ public final class SeamELCompletionEngine {
 				}
 			} else { // Last segment
 				Set<IJavaElement> javaElements = new HashSet<IJavaElement>();
-				if (token.getType() == ELOperandToken.EL_NAME_TOKEN ||
+				if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
 					token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
 					Set<TypeInfoCollector.MemberInfo> javaElementInfosToFilter = new HashSet<TypeInfoCollector.MemberInfo>(); 
@@ -925,8 +921,6 @@ public final class SeamELCompletionEngine {
 				res.addAll(javaElements);
 			}
 		}
-
 		return res;
 	}
-
 }

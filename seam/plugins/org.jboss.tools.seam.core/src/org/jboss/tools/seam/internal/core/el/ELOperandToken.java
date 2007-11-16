@@ -19,9 +19,10 @@ import org.eclipse.jface.text.rules.IToken;
  */
 public class ELOperandToken implements IToken {
 	public static final ELOperandToken EOF = new ELOperandToken(-1, -1, null, -1);
-	public static final int EL_NAME_TOKEN = 1;
-	public static final int EL_METHOD_TOKEN = 2;
-	public static final int EL_SEPARATOR_TOKEN = 3;
+	public static final int EL_VARIABLE_NAME_TOKEN = 1;
+	public static final int EL_PROPERTY_NAME_TOKEN = 2;
+	public static final int EL_METHOD_TOKEN = 3;
+	public static final int EL_SEPARATOR_TOKEN = 4;
 
 	int start;
 	int length;
@@ -90,6 +91,13 @@ public class ELOperandToken implements IToken {
 	 */
 	public int getType(){
 		return type;
+	}
+
+	/**
+	 * Returns the token type
+	 */
+	public boolean isNameToken(){
+		return EL_VARIABLE_NAME_TOKEN == type || EL_PROPERTY_NAME_TOKEN == type;
 	}
 
 	/**

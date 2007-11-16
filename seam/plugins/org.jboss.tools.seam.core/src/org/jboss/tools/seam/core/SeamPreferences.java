@@ -106,8 +106,10 @@ public class SeamPreferences {
 
 	// Seam Expression language
 
-	// Mark Expressions which we can't resolve.
-	public static final String INVALID_EXPRESSION = createSeverityOption("invalidExpression"); //$NON-NLS-1$
+	// Mark EL Variable name which we can't resolve.
+	public static final String UNKNOWN_EL_VARIABLE_NAME = createSeverityOption("unknownElVariableName"); //$NON-NLS-1$
+	// Mark EL Variable property name which we can't resolve.
+	public static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME = createSeverityOption("unknownElVariablePropertyName"); //$NON-NLS-1$
 	// If Expression use property of component and this property has only setter(getter) without getter(setter) then mark it.
 	public static final String UNPAIRED_GETTER_OR_SETTER = createSeverityOption("unpairedGetterOrSetter"); //$NON-NLS-1$
 
@@ -178,7 +180,8 @@ public class SeamPreferences {
 	}
 
 	public static boolean isValidateEL(ISeamProject project) {
-		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, INVALID_EXPRESSION)) &&
+		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_NAME)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_PROPERTY_NAME)) && 
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNPAIRED_GETTER_OR_SETTER)));
 	}
 }

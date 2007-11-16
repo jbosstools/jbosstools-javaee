@@ -31,9 +31,15 @@ public class SeamELTokenizer {
 	private String expression;
 	private List<ELToken> fTokens;
 	private int index;
+	private int offset = 0;
 
 	private int fState;
 	private static final String OPERATOR_SYMBOLS = "!=&(){}[]:+-*%?,|/%<>";
+//	private static final String OPERATOR_SYMBOLS = "!=&{}:+-*%?,|/%<>";
+	private static final int START_ROUND_BRACKET_SYMBOL = '(';
+	private static final int END_ROUND_BRACKET_SYMBOL = ')';
+	private static final int START_SQUARE_BRACKET_SYMBOL = '[';
+	private static final int END_SQUARE_BRACKET_SYMBOL = ']';
 	private static final int STRING_SYMBOL = '\'';
 	private static final String RESERVED_WORDS = " null empty div and or not mod eq ne lt gt le ge true false instanceof invalid required ";
 
@@ -45,11 +51,16 @@ public class SeamELTokenizer {
 	 *              then tokens are {"var1.pr"," ", "!=", " ", "var2",}
 	 * @param expression
 	 */
-	public SeamELTokenizer(String expression) {
+	public SeamELTokenizer(String expression, int offset) {
+		this.offset = offset;
 		this.expression = expression;
 		index = 0;
 		fTokens = new ArrayList<ELToken>();
 		parse();
+	}
+
+	public SeamELTokenizer(String expression) {
+		this(expression, 0);
 	}
 
 	/**
@@ -68,16 +79,7 @@ public class SeamELTokenizer {
 		ELToken token;
 		fState = STATE_INITIAL;
 		while ((token = getNextToken()) != ELToken.EOF) {
-
-			if (token.getType() == ELToken.EL_VARIABLE_TOKEN ||
-					token.getType() == ELToken.EL_OPERATOR_TOKEN ||
-					token.getType() == ELToken.EL_RESERVED_WORD_TOKEN ||
-					token.getType() == ELToken.EL_SEPARATOR_TOKEN || 
-					token.getType() == ELToken.EL_STRING_TOKEN ||
-					token.getType() == ELToken.EL_NUMBER_TOKEN) {
-
-				fTokens.add(token);
-			}
+			fTokens.add(token);
 		}
 	}
 
@@ -199,7 +201,7 @@ public class SeamELTokenizer {
 		}
 		releaseChar();
 		int length = index - startOfToken;
-		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_OPERATOR_TOKEN) : ELToken.EOF);
+		return (length > 0 ? new ELToken(offset + startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_OPERATOR_TOKEN) : ELToken.EOF);
 	}
 
 	/* 
@@ -217,7 +219,7 @@ public class SeamELTokenizer {
 		}
 		releaseChar();
 		int length = index - startOfToken;
-		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_SEPARATOR_TOKEN) : ELToken.EOF);
+		return (length > 0 ? new ELToken(offset + startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_SEPARATOR_TOKEN) : ELToken.EOF);
 	}
 
 	/*
@@ -236,7 +238,7 @@ public class SeamELTokenizer {
 		releaseChar();
 		int length = index - startOfToken;
 
-		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_STRING_TOKEN) : ELToken.EOF);
+		return (length > 0 ? new ELToken(offset + startOfToken, length, getCharSequence(startOfToken, length), ELToken.EL_STRING_TOKEN) : ELToken.EOF);
 	}
 
 	/*
@@ -248,6 +250,11 @@ public class SeamELTokenizer {
 		int startOfToken = index;
 		int ch;
 		while((ch = readNextChar()) != -1) {
+			if (ch == START_ROUND_BRACKET_SYMBOL) {
+				ch = readTokensWithinBrackets(END_ROUND_BRACKET_SYMBOL);
+			} else if (ch == START_SQUARE_BRACKET_SYMBOL) {
+				ch = readTokensWithinBrackets(END_SQUARE_BRACKET_SYMBOL);
+			}
 			if (!Character.isJavaIdentifierPart(ch) && ch!='.') {
 				break;
 			}
@@ -263,7 +270,21 @@ public class SeamELTokenizer {
 			tokenType = ELToken.EL_NUMBER_TOKEN;
 		}
 
-		return (length > 0 ? new ELToken(startOfToken, length, getCharSequence(startOfToken, length), tokenType) : ELToken.EOF);
+		return (length > 0 ? new ELToken(offset + startOfToken, length, getCharSequence(startOfToken, length), tokenType) : ELToken.EOF);
+	}
+
+	private int readTokensWithinBrackets(int expectedEndBracketSymbol) {
+		int start = index;
+		int ch;
+		while((ch = readNextChar()) != -1) {
+			if (ch == expectedEndBracketSymbol) {
+				CharSequence text = getCharSequence(start, index - 1 - start);
+				SeamELTokenizer tokenizer = new SeamELTokenizer(text.toString(), start);
+				fTokens.addAll(tokenizer.getTokens());
+				return readNextChar();
+			}
+		}
+		return ch;
 	}
 
 	private boolean isResorvedWord(String word) {
@@ -317,6 +338,16 @@ public class SeamELTokenizer {
 	private void releaseChar() {
 		if (index > 0) {
 			index--;
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		String test = "hotelBooking.bookHotel(hotel.id, user.username).test.rrr().asss not null av.test[] ! = var2 <> var3.test3";
+		System.out.println(test);
+		SeamELTokenizer elTokenizer = new SeamELTokenizer(test);
+		List<ELToken> tokens = elTokenizer.getTokens();
+		for (ELToken token : tokens) {
+			System.out.println(token);
 		}
 	}
 }

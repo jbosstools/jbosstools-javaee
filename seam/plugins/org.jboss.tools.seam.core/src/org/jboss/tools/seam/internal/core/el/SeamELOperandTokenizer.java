@@ -74,12 +74,20 @@ public class SeamELOperandTokenizer {
 		ELOperandToken token;
 		fState = STATE_INITIAL;
 		while ((token = getNextToken()) != ELOperandToken.EOF) {
-
-			if (token.type == ELOperandToken.EL_NAME_TOKEN ||
+			if (token.type == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+					token.type == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
 					token.type == ELOperandToken.EL_METHOD_TOKEN ||
 					token.type == ELOperandToken.EL_SEPARATOR_TOKEN) {
 
 				fTokens.add(0, token);
+			}
+		}
+		// set first token as variable
+		for (int i=0; i<fTokens.size(); i++) {
+			token = fTokens.get(i);
+			if(token.isNameToken()) {
+				token.type = ELOperandToken.EL_VARIABLE_NAME_TOKEN;
+				break;
 			}
 		}
 	}
@@ -311,16 +319,17 @@ public class SeamELOperandTokenizer {
 		fState = STATE_VAR;
 		int endOfToken = index;
 		int ch;
+		int type = ELOperandToken.EL_PROPERTY_NAME_TOKEN;
 		while((ch = readCharBackward()) != -1) {
 			if (!Character.isJavaIdentifierPart(ch)) {
 				releaseChar();
-				return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELOperandToken.EL_NAME_TOKEN) : ELOperandToken.EOF);
+				return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), type) : ELOperandToken.EOF);
 			}
 		}
 		releaseChar();
-		return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), ELOperandToken.EL_NAME_TOKEN) : ELOperandToken.EOF);
+		return (endOfToken - index > 0 ? new ELOperandToken(index, endOfToken - index, getCharSequence(index, endOfToken - index), type) : ELOperandToken.EOF);
 	}
-	
+
 	/* Reads the next character in the document
 	 * 
 	 * @return

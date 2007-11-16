@@ -58,7 +58,8 @@ import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
  */
 public class SeamELValidator extends SeamValidator {
 
-	protected static final String INVALID_EXPRESSION_MESSAGE_ID = "INVALID_EXPRESSION"; //$NON-NLS-1$
+	protected static final String UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_NAME"; //$NON-NLS-1$
+	protected static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_PROPERTY_NAME"; //$NON-NLS-1$
 	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
 
 	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
@@ -248,7 +249,6 @@ public class SeamELValidator extends SeamValidator {
 
 	private void validateEl(IFile file, EL el) {
 		String exp = el.value;
-//		String test = "hotelBooking.bookHotel(hotel.id, user.username) not null av.test[] ! = var2 <> var3.test3";
 		SeamELTokenizer elTokenizer = new SeamELTokenizer(exp);
 		List<ELToken> tokens = elTokenizer.getTokens();
 		for (ELToken token : tokens) {
@@ -263,6 +263,7 @@ public class SeamELValidator extends SeamValidator {
 		String varName = operand;
 		int offsetOfVarName = documnetOffset + operandToken.getStart();
 		int lengthOfVarName = varName.length();
+		boolean unresolvedTokenIsVariable = true;
 		try {
 			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
@@ -308,10 +309,11 @@ public class SeamELValidator extends SeamValidator {
 					List<ELOperandToken> tokens = status.getUnresolvedTokens();
 
 					for (ELOperandToken token : tokens) {
-						if((token.getType()==ELOperandToken.EL_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
+						if((token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_PROPERTY_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
 							varName = token.getText();
 							offsetOfVarName = documnetOffset + operandToken.getStart() + token.getStart();
 							lengthOfVarName = varName.length();
+							unresolvedTokenIsVariable = (token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN);
 							break;
 						}
 					}
@@ -323,7 +325,11 @@ public class SeamELValidator extends SeamValidator {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
 		}
 		// Mark invalid EL
-		addError(INVALID_EXPRESSION_MESSAGE_ID, SeamPreferences.INVALID_EXPRESSION, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+		if(unresolvedTokenIsVariable) {
+			addError(UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+		} else {
+			addError(UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+		}
 	}
 
 	public static class EL {
