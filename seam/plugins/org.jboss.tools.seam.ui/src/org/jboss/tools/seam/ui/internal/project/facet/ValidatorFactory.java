@@ -38,6 +38,8 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -149,7 +151,7 @@ public class ValidatorFactory {
 			}
 			String version = (String) context;
 
-			if(version.startsWith("2.0")) {
+			if(version.startsWith("2.0")) { //$NON-NLS-1$
 				File seamJarFile = new File(value.toString(), "lib/jboss-seam.jar"); //$NON-NLS-1$
 				if (!seamJarFile.isFile()) {
 					errors = createErrorMap();
@@ -354,12 +356,17 @@ public class ValidatorFactory {
 					if (!selection.hasNature(ISeamProject.NATURE_ID) 
 							|| SeamCorePlugin.getSeamPreferences(selection)==null
 							|| selection.getAdapter(IFacetedProject.class)==null
-							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) { //$NON-NLS-1$
+							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
+							|| "".equals(SeamCorePlugin.getSeamPreferences(selection).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) { //$NON-NLS-1$
 						return createErrormessage(
 								SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PROJECT + project.getName() + SeamUIMessages.VALIDATOR_FACTORY_IS_NOT_A_SEAM_WEB_PROJECT);
+					} else { 
+						//TODO validate project(s) structure 
 					}
 				} catch (CoreException e) {
-					SeamCorePlugin.getPluginLog().logError(e);
+					// it might happen only if project is closed and project 
+					// name typed by hand
+					return createErrormessage(NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PRJ_IS_CLOSED, project.getName()));
 				}
 			}
 			return NO_ERRORS;
