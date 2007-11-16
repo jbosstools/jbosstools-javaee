@@ -20,7 +20,7 @@
         </listitem>
     </itemizedlist>
 
-    <para>The <property>JBoss Tools Palette</property> also provides possibility to add any tag
+    <para>The <property>JBoss Tools Palette</property> provides possibility to add any tag
         libraries to it. Or you can choose a necessary one from the list of already existent tag
         libraries:</para>
     <itemizedlist>
@@ -38,7 +38,7 @@
         <title>Pallete Editor</title>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/palette/palette_editor.png"/>
+                <imagedata fileref="images/palette/palette_14.png"/>
             </imageobject>
         </mediaobject>
     </figure>
@@ -101,7 +101,7 @@
                 <title>Palette Editor</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/PaletteEditor2.png"/>
+                        <imagedata fileref="images/palette/palette_15.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -114,7 +114,7 @@
                 <title>Cursor position</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/Cursor_position.png"/>
+                        <imagedata fileref="images/palette/palette_16.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -263,7 +263,7 @@
                             <title>Creating a set of icons</title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor3.png"/>
+                                    <imagedata fileref="images/palette/palette_17.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -276,7 +276,7 @@
                             <title>Editing icons</title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor4.png"/>
+                                    <imagedata fileref="images/palette/palette_18.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -288,7 +288,7 @@
                             <title>Editing a group</title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor5.png"/>
+                                    <imagedata fileref="images/palette/palette_19.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -300,7 +300,7 @@
                             <title>Editing a subgroup</title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor6.png"/>
+                                    <imagedata fileref="images/palette/palette_20.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -312,19 +312,19 @@
                             <title>Editing a subgroup content</title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor7.png"/>
+                                    <imagedata fileref="images/palette/palette_21.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
                     </listitem>
                    
                     <listitem>
-                        <para>to edit a palette element or macro</para>
+                        <para>to edit the Palette element or macro</para>
                         <figure>
-                            <title>Editing a palette element </title>
+                            <title>Editing the Palette element </title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor8.png"/>
+                                    <imagedata fileref="images/palette/palette_22.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -336,7 +336,7 @@
                             <title>Parameters of the Palette element</title>
                             <mediaobject>
                                 <imageobject>
-                                    <imagedata fileref="images/palette/PaletteEditor9.png"/>
+                                    <imagedata fileref="images/palette/palette_23.png"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
