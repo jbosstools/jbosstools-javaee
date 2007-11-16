@@ -579,14 +579,13 @@ public class TypeInfoCollector {
 			String[] parameterTypes = method.getParameterTypeQualifiedNames();
 
 			boolean equal = true;
-			for (int i = 0; parameterTypes != null && i < parameterTypes.length; i++) {
+			for (int i = 0; equal && parameterTypes != null && i < parameterTypes.length; i++) {
 				// simple types must be equal, but complex types may not 
 				if (!parameterTypes[i].equals(methodParameterTypes[i])) {
 					// sure - it's Complex Type
-					if (! (parameterTypes[i].indexOf('.') != -1) 
+					if ((parameterTypes[i].indexOf('.') != -1) 
 							&& (methodParameterTypes[i].indexOf('.') == -1)) {
 						equal = false;
-						break;
 					}
 				}
 			}

@@ -531,6 +531,9 @@ public final class SeamELCompletionEngine {
 					for (String proposal : proposalsToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
 						String filter = token.getText();
+						if (filter.indexOf('(') != -1) {
+							filter = filter.substring(0, filter.indexOf('('));
+						}
 						if(returnEqualedVariablesOnly) {
 							// This is used for validation.
 							if (proposal.equals(filter)) {
