@@ -43,6 +43,14 @@ public class SeamELTokenizer {
 	private static final int STRING_SYMBOL = '\'';
 	private static final String RESERVED_WORDS = " null empty div and or not mod eq ne lt gt le ge true false instanceof invalid required ";
 
+	private SeamELTokenizer(String expression, int offset) {
+		this.offset = offset;
+		this.expression = expression;
+		index = 0;
+		fTokens = new ArrayList<ELToken>();
+		parse();
+	}
+
 	/**
 	 * Constructs SeamELTokenizer object.
 	 * Constructs SeamELTokenizer object
@@ -51,14 +59,6 @@ public class SeamELTokenizer {
 	 *              then tokens are {"var1.pr"," ", "!=", " ", "var2",}
 	 * @param expression
 	 */
-	public SeamELTokenizer(String expression, int offset) {
-		this.offset = offset;
-		this.expression = expression;
-		index = 0;
-		fTokens = new ArrayList<ELToken>();
-		parse();
-	}
-
 	public SeamELTokenizer(String expression) {
 		this(expression, 0);
 	}
@@ -338,16 +338,6 @@ public class SeamELTokenizer {
 	private void releaseChar() {
 		if (index > 0) {
 			index--;
-		}
-	}
-
-	public static void main(String[] args) throws Exception {
-		String test = "hotelBooking.bookHotel(hotel.id, user.username).test.rrr().asss not null av.test[] ! = var2 <> var3.test3";
-		System.out.println(test);
-		SeamELTokenizer elTokenizer = new SeamELTokenizer(test);
-		List<ELToken> tokens = elTokenizer.getTokens();
-		for (ELToken token : tokens) {
-			System.out.println(token);
 		}
 	}
 }

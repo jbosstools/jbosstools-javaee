@@ -24,10 +24,6 @@ public class ELToken implements IToken {
 	public static final int EL_SEPARATOR_TOKEN = 4;
 	public static final int EL_STRING_TOKEN = 5;
 	public static final int EL_NUMBER_TOKEN = 6;
-//	public static final int EL_START_ROUND_BRACKET_TOKEN = 7;
-//	public static final int EL_END_ROUND_BRACKET_TOKEN = 8;
-//	public static final int EL_START_SQUARE_BRACKET_TOKEN = 9;
-//	public static final int EL_END_SQUARE_BRACKET_TOKEN = 10;
 
 	private int start;
 	private int length;
