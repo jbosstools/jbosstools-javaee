@@ -3,7 +3,11 @@
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
 
-[<!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
+[<!ENTITY intro SYSTEM "modules/intro.xml">
+<!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
+<!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
+<!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
+<!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
 <!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
 <!ENTITY business_application SYSTEM "modules/business_application.xml">
 <!ENTITY testng SYSTEM "modules/testng.xml">
@@ -25,7 +29,10 @@
     
     <toc/>  
 
-
+&intro;
+&creating_new_seam;
+&seam_wizards;
+&generate_entities;
 &crud_database_application;
 &crud_application_walkthrough;
 &testng;

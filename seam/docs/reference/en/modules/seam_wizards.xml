@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="seam_wizards" xreflabel="seam_wizards">
+    <?dbhtml filename="seam_wizards.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>RHDS</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Seam Wizards</title>
+    
+    <section id="seam_action">
+        <title>New Seam Action</title>
+        
+    </section>
+    <section id="seam_form">
+        <title>New Seam Form</title>
+        
+    </section>
+    <section id="seam_entity">
+        <title>New Seam Entity</title>
+        
+    </section>
+    <section id="seam_conversation">
+        <title>New Seam Conversation</title>
+    </section>
+  </chapter>

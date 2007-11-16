@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="generate_entities" xreflabel="generate_entities">
+    <?dbhtml filename="generate_entities.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>RHDS</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Seam Generate Entities</title>
+    
+  </chapter>

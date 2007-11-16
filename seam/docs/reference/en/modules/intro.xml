@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="intro" xreflabel="intro">
+    <?dbhtml filename="intro.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>RHDS</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Introduction</title>
+    
+  </chapter>
