@@ -35,21 +35,12 @@ public class SeamELTokenizer {
 
 	private int fState;
 	private static final String OPERATOR_SYMBOLS = "!=&(){}[]:+-*%?,|/%<>";
-//	private static final String OPERATOR_SYMBOLS = "!=&{}:+-*%?,|/%<>";
 	private static final int START_ROUND_BRACKET_SYMBOL = '(';
 	private static final int END_ROUND_BRACKET_SYMBOL = ')';
 	private static final int START_SQUARE_BRACKET_SYMBOL = '[';
 	private static final int END_SQUARE_BRACKET_SYMBOL = ']';
 	private static final int STRING_SYMBOL = '\'';
 	private static final String RESERVED_WORDS = " null empty div and or not mod eq ne lt gt le ge true false instanceof invalid required ";
-
-	private SeamELTokenizer(String expression, int offset) {
-		this.offset = offset;
-		this.expression = expression;
-		index = 0;
-		fTokens = new ArrayList<ELToken>();
-		parse();
-	}
 
 	/**
 	 * Constructs SeamELTokenizer object.
@@ -61,6 +52,14 @@ public class SeamELTokenizer {
 	 */
 	public SeamELTokenizer(String expression) {
 		this(expression, 0);
+	}
+
+	private SeamELTokenizer(String expression, int offset) {
+		this.offset = offset;
+		this.expression = expression;
+		index = 0;
+		fTokens = new ArrayList<ELToken>();
+		parse();
 	}
 
 	/**
