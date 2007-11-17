@@ -40,7 +40,9 @@ import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -512,6 +514,9 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			IProject ejbProjectToBeImported = wsRoot.getProject(project.getName()+"-ejb");
 			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath+"/"+project.getName()+"-ejb", project.getName()+"-ejb");
 			toggleHibernateOnProject(ejbProjectToBeImported, consoleName);
+			IProjectFacet sf = ProjectFacetsManager.getProjectFacet("jst.ejb");  
+			IProjectFacetVersion pfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(sf);
+			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
 			
 			IProject earProjectToBeImported = wsRoot.getProject(project.getName()+"-ear");
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath+"/"+project.getName()+"-ear", project.getName()+"-ear");
