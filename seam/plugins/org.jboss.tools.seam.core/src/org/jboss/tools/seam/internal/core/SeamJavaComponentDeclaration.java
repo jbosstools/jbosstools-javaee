@@ -231,7 +231,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 				bijectedAttributes.add(loaded);
 				ISeamProject p = getSeamProject();
 				if(p != null && loaded.isContextVariable()) {
-					p.getVariables().add(loaded);
+					p.addVariable(loaded);
 				}
 				Change change = new Change(this, null, null, loaded);
 				children.addChildren(Change.addChange(null, change));
@@ -243,8 +243,8 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 				if(wasOut != isOut) {
 					ISeamProject p = getSeamProject();
 					if(p != null) {
-						if(wasOut) p.getVariables().remove(current);
-						if(isOut) p.getVariables().add(current);
+						if(wasOut) p.removeVariable(current);
+						if(isOut) p.addVariable(current);
 					}
 				}
 			}
@@ -253,7 +253,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		for (BijectedAttribute r: bijectedMap.values()) {
 			bijectedAttributes.remove(r);
 			ISeamProject p = getSeamProject();
-			if(p != null) p.getVariables().remove(r);
+			if(p != null) p.removeVariable(r);
 			Change change = new Change(this, null, r, null);
 			children.addChildren(Change.addChange(null, change));
 		}
@@ -272,7 +272,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 				adopt(loaded);
 				roles.add(loaded);
 				ISeamProject p = getSeamProject();
-				if(p != null) p.getVariables().add(loaded);
+				if(p != null) p.addVariable(loaded);
 				Change change = new Change(this, null, null, loaded);
 				children.addChildren(Change.addChange(null, change));
 			} else {
@@ -284,7 +284,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		for (Role r: roleMap.values()) {
 			roles.remove(r);
 			ISeamProject p = getSeamProject();
-			if(p != null) p.getVariables().remove(r);
+			if(p != null) p.removeVariable(r);
 			Change change = new Change(this, null, r, null);
 			children.addChildren(Change.addChange(null, change));
 		}

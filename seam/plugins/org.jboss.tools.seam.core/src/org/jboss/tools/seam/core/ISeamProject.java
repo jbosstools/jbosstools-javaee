@@ -152,6 +152,10 @@ public interface ISeamProject extends ISeamElement {
 	 */
 	public Set<ISeamContextVariable> getVariables(boolean includeShortNames);
 
+	public void addVariable(ISeamContextVariable v);
+
+	public void removeVariable(ISeamContextVariable v);
+
 	/**
 	 * @param name
 	 * @return all seam variables by name from all contexts

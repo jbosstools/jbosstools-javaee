@@ -49,7 +49,6 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
@@ -102,7 +101,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 	
 	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
-	
+
+	Set<ISeamContextVariable> allVariablesCopy = null;
+	Set<ISeamContextVariable> allVariablesPlusShort = null;
+
 	Map<String, SeamJavaComponentDeclaration> javaDeclarations = new HashMap<String, SeamJavaComponentDeclaration>();
 	
 	Map<String, ISeamPackage> packages = new HashMap<String, ISeamPackage>();
@@ -572,9 +574,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		revalidateLock++;
 		
 		if(ds.getImports().size() > 0) {
-			imports.put(source.toString(), ds.getImports());
-		} else if(imports.containsKey(source.toString())) {
-			imports.remove(source.toString());
+			setImports(source.toString(), ds.getImports());
+		} else {
+			removeImports(source.toString());
 		}
 
 		Map<Object,ISeamComponentDeclaration> currentComponents = findComponentDeclarations(source);
@@ -624,7 +626,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				ScopeType scopeType = loaded.getScope();
 				c = newComponent(name, scopeType);
 				allComponents.put(name, c);
-				allVariables.add(c);
+				addVariable(c);
 				c.addDeclaration(loaded);
 				addedComponents = Change.addChange(addedComponents, new Change(this, null, null, c));
 			} else if(c != null) {
@@ -636,7 +638,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)loaded;
 				javaDeclarations.put(jd.getClassName(), jd);
-				allVariables.addAll(jd.getDeclaredVariables());
+				for (ISeamContextVariable v: jd.getDeclaredVariables()) addVariable(v);
 				Set<ISeamComponent> cs = getComponentsByClass(jd.getClassName());
 				for (ISeamComponent ci: cs) {
 					if(ci == c) continue;
@@ -671,7 +673,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				adopt(factories[i]);
 			}
 			allFactories.add(factories[i]);
-			allVariables.add(factories[i]);
+			addVariable(factories[i]);
 			addedFactories = Change.addChange(addedFactories, new Change(this, null, null, loaded));
 		}
 		fireChanges(addedFactories); 
@@ -762,7 +764,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void pathRemoved(IPath source) {
 		if(!sourcePaths.contains(source)) return;
 		sourcePaths.remove(source);
-		imports.remove(source.toString());
+		removeImports(source.toString());
 		revalidateLock++;
 		Iterator<SeamComponent> iterator = allComponents.values().iterator();
 		while(iterator.hasNext()) {
@@ -776,7 +778,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 						SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)ds[i];
 						String className = jd.getClassName();
 						javaDeclarations.remove(className);
-						allVariables.removeAll(jd.getDeclaredVariables());
+						for (ISeamContextVariable v: jd.getDeclaredVariables()) removeVariable(v);
 					}
 					changes = Change.addChange(changes, new Change(c, null, ds[i], null));
 				}
@@ -796,9 +798,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(source.equals(f.getSourcePath())) {
 				List<Change> changes = Change.addChange(null, new Change(this, null, f, null));
 				factories.remove();
-				allVariables.remove(f);
+				removeVariable(f);
 				fireChanges(changes);
-//				System.out.println("Factory removed 1 " + f.getName());
 			}
 		}
 		
@@ -844,7 +845,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				if(javaDeclarations.get(className) == jd) {
 					javaDeclarations.remove(className);
 				}
-				allVariables.removeAll(jd.getDeclaredVariables());
+				for (ISeamContextVariable v: jd.getDeclaredVariables()) removeVariable(v);
 			}
 		}
 		
@@ -877,7 +878,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			((SeamScope)p).removeComponent(c);
 			changes = Change.addChange(null, new Change(p, null, c, null));
 		}
-		allVariables.remove(c);
+		removeVariable(c);
 		changes = Change.addChange(changes, new Change(this, null, c, null));
 		return changes;
 	}
@@ -918,8 +919,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			AbstractContextVariable c = (AbstractContextVariable)iterator.next();
 			if(removed.containsKey(c.getId())) {
 				iterator.remove();
-				allVariables.remove(c);
-//				System.out.println("Factory removed 2 " + c.getName());
+				removeVariable(c);
 				changes = Change.addChange(changes, new Change(this, null, c, null));
 			}
 		}
@@ -977,26 +977,73 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
 	 */
 	public Set<ISeamContextVariable> getVariables() {
-		return allVariables;
+		Set<ISeamContextVariable> vs = allVariablesCopy;
+		if(vs == null) {
+			synchronized(this) {
+				allVariablesCopy = new HashSet<ISeamContextVariable>();
+				allVariablesCopy.addAll(allVariables);
+				vs = allVariablesCopy;
+			}
+		}
+		return vs;
+	}
+	
+	public synchronized void addVariable(ISeamContextVariable v) {
+		allVariablesCopy = null;
+		allVariablesPlusShort = null;
+		allVariables.add(v);
+	}
+
+	public synchronized void removeVariable(ISeamContextVariable v) {
+		allVariablesCopy = null;
+		allVariablesPlusShort = null;
+		allVariables.remove(v);
+	}
+	
+	public synchronized void setImports(String source, List<String> paths) {
+		if(equalLists(imports.get(source), paths)) return;
+		allVariablesPlusShort = null;
+		imports.put(source, paths);
+	}
+	
+	private boolean equalLists(List<String> s1, List<String> s2) {
+		if(s1 == null || s2 == null) return s1 == s2;
+		if(s1.size() != s2.size()) return false;
+		for (int i = 0; i < s1.size(); i++) {
+			if(!s1.get(i).equals(s2.get(i))) return false;
+		}
+		return true;
+	}
+
+	public synchronized void removeImports(String source) {
+		if(!imports.containsKey(source)) return;
+		allVariablesPlusShort = null;
+		imports.remove(source);
 	}
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
 	 */
 	public Set<ISeamContextVariable> getVariables(boolean includeShortNames) {
+		Set<ISeamContextVariable> vs = getVariables();
 		if(!includeShortNames) {
-			return allVariables;
+			return vs;
 		}
-		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
-		result.addAll(allVariables);
-		for (ISeamContextVariable v: allVariables) {
-			String n = v.getName();
-			int i = n.lastIndexOf('.');
-			if(i < 0) continue;
-			String packageName = n.substring(0, i);
-			if(isImportedPackage(packageName)) {
-				result.add(new SeamContextShortVariable(v));
+		Set<ISeamContextVariable> result = allVariablesPlusShort;
+		if(result != null) return result;
+		synchronized (this) {
+			result = new HashSet<ISeamContextVariable>();
+			result.addAll(vs);
+			for (ISeamContextVariable v: vs) {
+				String n = v.getName();
+				int i = n.lastIndexOf('.');
+				if(i < 0) continue;
+				String packageName = n.substring(0, i);
+				if(isImportedPackage(packageName)) {
+					result.add(new SeamContextShortVariable(v));
+				}
 			}
+			allVariablesPlusShort = result;
 		}
 		return result;
 	}
@@ -1134,8 +1181,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void removeFactory(ISeamFactory factory) {
 		allFactories.remove(factory);
-//		System.out.println("Factory removed 3 " + factory.getName());
-		allVariables.remove(factory);
+		removeVariable(factory);
 	}
 	
 	/**
