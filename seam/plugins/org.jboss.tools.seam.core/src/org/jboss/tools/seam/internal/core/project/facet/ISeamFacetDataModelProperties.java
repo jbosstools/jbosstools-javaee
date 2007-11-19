@@ -33,51 +33,55 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	// Seam Preferences names constants
 	
 	/**
-	 * 
+	 * Package name used session objects: actions, forms, conversations, beans 
+	 * web pages backing beans
 	 */
 	public static final String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 * Package name for Entity Beans classes
 	 */
 	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
 	
 	/**
-	 * 
+	 * Connection profile name
 	 */
 	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 * Selected deployment type
 	 */
 	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 * Test project name that was created for Seam Web Project
 	 */
 	public static final String SEAM_TEST_PROJECT = "seam.test.project"; //$NON-NLS-1$	
 	
 	/**
-	 * 
+	 * Seam runtime name that should be used to create seam artifacts:
+	 * forms, actions, conversations and entities
 	 */
 	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 * Package where tests for seam artifacts should be placed inside the 
+	 * test project
 	 */
 	public static final String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
 	
 	/**
-	 * 
+	 * Ejb project name created fro Seam Web Project in EAR deployment configuration
 	 */
 	public static final String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
 	
 	/**
-	 * 
+	 * Ear project name created for Seam Web Project in EAR deployment configuration
 	 */
 	public static final String SEAM_EAR_PROJECT = "seam.ear.project"; //$NON-NLS-1$
 
-	// Seam Facest Wizard Page parameters constants
+
+	// Seam Facet Wizard Page parameters constants
 	
 	public static final String SEAM_PROJECT_NAME = "project.name"; //$NON-NLS-1$
 	
