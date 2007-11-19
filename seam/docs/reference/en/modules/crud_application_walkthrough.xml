@@ -35,7 +35,7 @@
         </itemizedlist>
         
         <para>To do this on <emphasis><property>Package Explorer View </property></emphasis> right click on the file <property>crudapp-ds.xml</property> and select
-            <emphasis><property> Deployy to Server </property></emphasis></para>
+            <emphasis><property> Deploy to Server </property></emphasis></para>
                 
         <figure>
             <title>Deploy Data Source descriptor to the Server</title>
@@ -94,9 +94,15 @@
                 </imageobject>
             </mediaobject>
         </figure>  
+        </section>
+        <section>
+ 			<title>Using of CRUD Application</title>
+ 			
+ 			<para>After the previous steps you can use CRUD application to select, delete or update date from <property>employee</property> database.</para>
+ 			
         
-        <para>Also you can use your external Web Browser with the same link as in internal Web Browser.</para>
-        <para>Click, for example, on the <emphasis><property>Employees List</property></emphasis> link and observe that data from DataBase <emphasis><property>employee</property></emphasis> selected.</para>
+        <para>You can use internal RHDS Web Browser or your external Web Browser with the same link. (<emphasis>http://localhost:8080/crudapp/home.seam</emphasis>)</para>
+        <para>Click on the <emphasis><property>Employees List</property></emphasis> link and observe that data from DataBase <emphasis><property>employee</property></emphasis> selected.</para>
         <figure>
             <title>Employees List</title>
             <mediaobject> 
@@ -105,7 +111,42 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para> Follow different links and observe how project works.</para>
+        
+        <para>Use <property>Employees search parameters</property> fields to filter selected list.</para>
+        
+        <para> Press <property>Select</property> opposite one of employees.</para>
+        <figure>
+            <title>Employee details</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_8.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        
+        <para> Press <property>Edit</property> to Edit employees fields.</para>
+        <para> Enter <emphasis>Login</emphasis> and <emphasis>Password</emphasis> to login. (Use <emphasis>&quot;Crudapp-user&quot;/&quot;secret&quot;</emphasis> for example)</para>
+        
+        <figure>
+            <title>Login page</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_9.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>Edit Employee</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_10.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para> Insert opposite <emphasis><property>firstname</property></emphasis> your name and press <property>Update</property>.</para>
+        <para> Record in DataBase will be updated.</para>
+        <para> See that field <emphasis><property>firstname</property></emphasis> also updated on the screen .</para>        
      </section>   
 </chapter>
 
