@@ -5,6 +5,7 @@
 
 [<!ENTITY intro SYSTEM "modules/intro.xml">
 <!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
+<!ENTITY directory_structure SYSTEM "modules/directory_structure.xml">
 <!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
 <!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
 <!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
@@ -31,6 +32,7 @@
 
 &intro;
 &creating_new_seam;
+&directory_structure;
 &seam_wizards;
 &generate_entities;
 &crud_database_application;

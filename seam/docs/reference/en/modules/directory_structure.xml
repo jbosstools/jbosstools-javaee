@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="directory_str" xreflabel="directory_str">
+    <?dbhtml filename="directory_structure.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>Eclispe</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Directory Structure of the Generated Project</title>
+    
+    <para>In this chapter we describe where the Seam wizard put the generated files for both EAR and WAR deployments.</para>
+    
+    <section id="EAR">
+        <title>EAR Deployment</title>
+    </section>
+    
+    <section id="WAR">
+        <title>WAR Deployment</title>
+    </section>
+    
+  </chapter>

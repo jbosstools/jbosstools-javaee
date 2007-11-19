@@ -8,10 +8,16 @@
             <keyword>RHDS</keyword>
             </keywordset>
     </chapterinfo>
-    <title>Creating a New Seam Project</title>
+    <title>Creating a New Seam Project via the New Seam Project wizard</title>
     <para>To start working with Seam select a Seam perspective via <emphasis><property>Window > Open Perspective > Other > Seam</property></emphasis>. 
         Select <emphasis><property>File > New > Seam Web Project</property></emphasis> to run the <property>New Seam Project</property> wizard.</para> 
        
+    <section id="standaloneSeam">
+           <title>Create standalone Seam Web Project</title>
+           
+        <para>You are able to enter a name and a location directory for your new project. Next wizard's sections allows you create runtime and server instances in order 
+            to get started creating, running, and debugging J2EE applications.</para>
+           
     <figure>
         <title>New Seam Project Wizard</title>
         <mediaobject> 
@@ -21,9 +27,9 @@
         </mediaobject>
     </figure>
     
-    <para>You are able to enter a name and a location directory for your new project. Next wizard's options allows you create runtime and server instances in order 
-    to get started creating, running, and debugging J2EE applications.</para>
-    <para>Click on <property>New...</property> button in the Target Runtime section.</para>
+  
+        <para>Click on <emphasis><property>New...</property></emphasis> button in the Target Runtime section.</para>
+        <para>From this dialog you can choose what type of runtime you want to create. Let's create a JBoss 4.2 Runtime. Click on next.</para>
     
     <figure>
         <title>New Server Runtime Dialog</title>
@@ -34,7 +40,7 @@
         </mediaobject>
     </figure>
     
-    <para>From this dialog you can choose what type of runtime you want to create. Let's create a JBoss 4.2 Runtime. Click on next.</para>
+        <para>All what you need here is to name runtime, browse to it's install directory, select a Java Runtime Environment, and select which configuration you want. Click on Finish.</para>
     
     <figure>
         <title>New Server Runtime Dialog</title>
@@ -44,9 +50,9 @@
             </imageobject>
         </mediaobject>
     </figure>
-    
-    <para>All what you need here is to name runtime, browse to it's install directory, select a Java Runtime Environment, and select which configuration you want. Click on Finish.</para>
-    <para>Now you should define an installed server by clicking on <property>New...</property> button in the Target section.</para>
+        
+        <para>Now you should define an installed server by clicking on <emphasis><property>New...</property></emphasis> button in the Target section.
+            You are able to select a server version and a server runtime. Use <emphasis><property>Installed Runtimes</property></emphasis> button to see or edit what runtimes are installed. Click on Next</para>
     
     <figure>
         <title>New Server Dialog</title>
@@ -56,8 +62,8 @@
             </imageobject>
         </mediaobject>
     </figure>
-    
-    <para>You are able to select a server version and a server runtime. Use <property>Installed Runtimes</property> button to see or edit what runtimes are installed. Click on Next</para>
+        
+        <para>Leave everything as is and click on next.</para>
     
     <figure>
         <title>New Server Dialog</title>
@@ -68,7 +74,7 @@
         </mediaobject>
     </figure>
     
-    <para>Leave everything as is and click on next.</para>
+        <para>On the last wizard's step you can modify your project to configure it on server.</para>
     
         <figure>
         <title>New Server Dialog</title>
@@ -79,7 +85,7 @@
         </mediaobject>
     </figure>
     
-    <para>On the last wizard's step you can modify your project to configure it on server.</para>
+    
     <para>After clicking on Finish button you shoud have the folowing wizard view:</para>
         
     <figure>
@@ -90,10 +96,16 @@
             </imageobject>
         </mediaobject>
     </figure>
-    
-    <para>In the <property>Configurations</property> section you can select a configuration for Seam. Click on Next.</para>
-    
-    <figure>
+        
+            <para>The last section on this wizard step is <property>Configurations</property>. You can select one of the pre-defined project configuration or create your own. Click on <emphasis><property>Next</property>.</emphasis></para>
+        
+       </section>
+    <section id="projectFacets">
+        <title>Select the Project Facets</title>
+        
+        <para>This page of the wizard allows you to enable or disable specific facets. You can save or delete your preset of selected facets clicking on <emphasis><property>Save</property></emphasis> button.</para>
+        
+        <figure>
         <title>Project Facets Selection</title>
         <mediaobject> 
             <imageobject>
@@ -102,46 +114,91 @@
         </mediaobject>
     </figure>
     
-    <para>This page of the wizard allows you to enable or disable specific facets.</para>
-    
-    <figure>
-        <title>Web Module Settings</title>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="images/create_new_seam/create_seam9.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <para>A dynamic web application contains both web pages and Java code. The wizard will ask you where you want to put those files. You can just leave the default values.</para>
+    <para>You can also see all available runtimes after clicking on <emphasis><property>Show Runtimes</property></emphasis> or create the new ones using the <emphasis><property>New</property></emphasis> button.</para>
     
         <figure>
-        <title>Adding JSF Capabilities to Web Project</title>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="images/create_new_seam/create_seam10.png"/>
-            </imageobject>
-        </mediaobject>
+            <title>Project Facets Selection</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam8_1.png"/>
+                </imageobject>
+            </mediaobject>
         </figure>
+        
+    </section>
     
-    <para>Check <emphasis><property>Server Supplied JSF Implementation</property>.</emphasis></para>
-    <para>The next wizard step is related to Seam facet.</para>
+    <section id="configureWebModule">
+        <title>Configure Web Module Settings</title>
+        
+        <para>A dynamic web application contains both web pages and Java code. The wizard will ask you where you want to put those files. You can just leave the default values.</para>
+        
+        <figure>
+            <title>Web Module Settings</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam9.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+              
+        
+    </section>
+    <section id="addJSFCapab">
+        <title>Adding JSF Capabilities</title>
+        
+        <figure>
+            <title>Adding JSF Capabilities to Web Project</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam10.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>Check <emphasis><property>Server Supplied JSF Implementation</property></emphasis> and click on <emphasis><property>Next</property>.</emphasis></para>
+        
+    </section>
     
-    <figure>
-        <title>Seam Facet</title>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="images/create_new_seam/create_seam11.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <para>In this wizard step you shoud do the folowing:</para>
-    <itemizedlist>
-        <listitem><para>Create Seam runtime and define Seam home folder</para></listitem>
-        <listitem><para>Select EAR or WAR deployment</para></listitem>
-        <listitem><para>Create your Connection profile</para></listitem>
-    </itemizedlist>
-    
-    
+    <section  id="seamFacet">
+    <title>Configure Seam Facet Settings</title>
+        
+              <figure>
+            <title>Seam Facet Settings</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam11.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>This wizard step is related to Seam facet and allows you to do the following:</para>
+        <itemizedlist>
+            <listitem><para>Create Seam runtime and define Seam home folder. Click on <emphasis><property>Add</property></emphasis> button in the <property>General</property> section.</para></listitem>
+        </itemizedlist>
+        
+        <figure>
+            <title>Seam Runtime Creation</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam12.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <itemizedlist>
+            <listitem><para>Select EAR or WAR deployment by checking the necessary combo box.</para></listitem>
+            <listitem><para>Select the <emphasis><property>Database Type</property></emphasis> and create a <emphasis><property>Connection profile</property>.</emphasis>
+                Click on <emphasis><property>New</property></emphasis> button and select the necessary connection profile.</para></listitem>
+        </itemizedlist>
+        
+        <figure>
+            <title>Connection Prodile Selecting</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam13.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+                
+</section>
   </chapter>
