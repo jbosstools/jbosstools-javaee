@@ -14,23 +14,76 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
 
 /**
- * Seam facet properties
+ * Seam facet properties collected in Seam Web Project Wizard.
+ * Only properties listed below are saved in Seam WebProject Preferences: 
+ * 		ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME,
+ * 		ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME
+ *  	ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE
+ * 		ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS
+ * 		ISeamFacetDataModelProperties.SEAM_TEST_PROJECT
+ * 		ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME
+ * 		ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME
+ * 		ISeamFacetDataModelProperties.SEAM_EJB_PROJECT
+ * 		ISeamFacetDataModelProperties.SEAM_EAR_PROJECT
  * @author eskimo
  *
  */
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
+	// Seam Preferences names constants
+	
+	/**
+	 * 
+	 */
+	public static final String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
+
+	/**
+	 * 
+	 */
+	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
+	
+	/**
+	 * 
+	 */
+	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile"; //$NON-NLS-1$
+
+	/**
+	 * 
+	 */
+	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type"; //$NON-NLS-1$
+
+	/**
+	 * 
+	 */
+	public static final String SEAM_TEST_PROJECT = "seam.test.project"; //$NON-NLS-1$	
+	
+	/**
+	 * 
+	 */
+	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
+
+	/**
+	 * 
+	 */
+	public static final String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
+	
+	/**
+	 * 
+	 */
+	public static final String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
+	
+	/**
+	 * 
+	 */
+	public static final String SEAM_EAR_PROJECT = "seam.ear.project"; //$NON-NLS-1$
+
+	// Seam Facest Wizard Page parameters constants
+	
 	public static final String SEAM_PROJECT_NAME = "project.name"; //$NON-NLS-1$
 	
 	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance"; //$NON-NLS-1$
 	
-	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile"; //$NON-NLS-1$
-	
-	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
-	
 	public static final String JBOSS_AS_HOME = "jboss.home"; //$NON-NLS-1$
-	
-	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type"; //$NON-NLS-1$
 	
 	public static final String DB_TYPE = "database.type"; //$NON-NLS-1$
 	
@@ -56,30 +109,21 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	
 	public static final String JDBC_DRIVER_JAR_PATH = "driver.file"; //$NON-NLS-1$
 	
-	public static final String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
-	
+	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from sesion_bean_package_name ?
 	public static final String SESION_BEAN_PACKAGE_PATH = "action.package.path"; //$NON-NLS-1$
-	
-	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
 
+	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from entity_bean_package_name ?
 	public static final String ENTITY_BEAN_PACKAGE_PATH = "model.package.path"; //$NON-NLS-1$
-	
-	public static final String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
-	
+
+	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from test_package_path ?
 	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path"; //$NON-NLS-1$
 
 	public static final String JBOSS_SEAM_HOME = "seam.home.folder"; //$NON-NLS-1$
 	
 	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder"; //$NON-NLS-1$
-	
-	public static final String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
-	
-	public static final String SEAM_TEST_PROJECT = "seam.test.project"; //$NON-NLS-1$
-	
-	public static final String SEAM_EAR_PROJECT = "seam.ear.project"; //$NON-NLS-1$
 	
 	public static final String DEPLOY_AS_WAR = "war"; //$NON-NLS-1$
 	
