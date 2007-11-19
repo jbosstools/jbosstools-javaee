@@ -48,6 +48,9 @@ public class SeamValidatorManager implements IValidatorJob {
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
 		SeamValidationHelper coreHelper = (SeamValidationHelper)helper;
 		ISeamProject project = coreHelper.getSeamProject();
+		if(project==null) {
+			return OK_STATUS;
+		}
 		SeamValidationContext validationContext = ((SeamProject)project).getValidationContext();
 		IStatus status = null;
 		try {
