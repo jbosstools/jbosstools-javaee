@@ -100,8 +100,9 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(IParameter.SEAM_PROJECT_INSTANCE,project);
 			vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
 			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,webRootContainer.getLocation().toFile().toString());
-
+			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,seamPrjSet.getViewsFolder().getLocation().toFile().toString());
+			vars.put(IParameter.SEAM_PROJECT_SRC_ACTION,seamPrjSet.getActionFolder().getLocation().toFile().toString());
+			vars.put(IParameter.SEAM_PROJECT_SRC_MODEL,seamPrjSet.getModelFolder().getLocation().toFile().toString());			
 			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject()!=null?seamPrjSet.getEjbProject().getLocation().toFile().toString():"");
 			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
 			vars.put(IParameter.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));

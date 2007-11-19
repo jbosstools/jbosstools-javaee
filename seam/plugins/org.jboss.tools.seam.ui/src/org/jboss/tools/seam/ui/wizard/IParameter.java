@@ -30,6 +30,8 @@ public interface IParameter extends ISeamFacetDataModelProperties{
 	public static String SEAM_ENTITY_CLASS_NAME = "entity.name"; //$NON-NLS-1$
 	public static String SEAM_PROJECT_LOCATION_PATH = "seam.project.location"; //$NON-NLS-1$
 	public static String SEAM_PROJECT_WEBCONTENT_PATH = "seam.project.webcontent"; //$NON-NLS-1$
+	public static String SEAM_PROJECT_SRC_ACTION = "seam.project.action"; //$NON-NLS-1$
+	public static String SEAM_PROJECT_SRC_MODEL = "seam.project.model"; //$NON-NLS-1$	
 	public static String HIBERNATE_CONFIGURATION_NAME = "hibernate.configuratrion.name"; //$NON-NLS-1$
 
 	public static String SEAM_EAR_PROJECT_LOCATION_PATH = "seam.ear.project.location"; //$NON-NLS-1$

@@ -28,7 +28,9 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -54,7 +56,8 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 						if(project.hasNature(ISeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
 								&& project.getAdapter(IFacetedProject.class)!=null
-								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))) { //$NON-NLS-1$
+								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
+								&& !"".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) { //$NON-NLS-1$
 							seamProjects.add(project);
 						}
 					} catch (CoreException e) {

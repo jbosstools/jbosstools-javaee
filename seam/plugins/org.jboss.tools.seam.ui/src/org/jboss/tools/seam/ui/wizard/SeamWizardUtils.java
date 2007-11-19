@@ -28,6 +28,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**
  * @author eskimo,max
@@ -53,7 +55,10 @@ public class SeamWizardUtils {
 			if (seamProject == null) {
 				return "";
 			}
-
+			if("".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) {
+				return "";
+			}
+			
 			String parentProjectName = seamProject.getParentProjectName();
 			if (parentProjectName == null) {
 				return project.getName();
