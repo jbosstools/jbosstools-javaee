@@ -271,7 +271,7 @@ on the left-hand side and a form for editing the properties of currently selecte
 <title>Diagram View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/more_editorsmore_editors_18.png"/>
+            <imagedata fileref="images/more_editors/more_editors_18.png"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -474,7 +474,7 @@ in this viewer will immediately be available in the other viewers of this editor
     </mediaobject>
     </figure>
 
-    <para>Select Spring Beans project with <emphasis><property>Project &gt; Properties &gt; Spring Beans</property></emphasis> from the menu bar:</para>
+    <para>Select Spring Beans project with <emphasis><property>Project &gt; Properties &gt; Spring &gt; Beans Support</property></emphasis> from the menu bar:</para>
 
 <figure>
         <title>Spring Beans</title>
@@ -485,7 +485,7 @@ in this viewer will immediately be available in the other viewers of this editor
     </mediaobject>
     </figure>
 
-<para>Add the Spring bean configuration files to your project:</para>
+<para> Now you can add the Spring bean configuration files to your project by clicking on <emphasis><property>Add</property></emphasis> button:</para>
 
 <figure>
         <title>Adding Configuration Files</title>
@@ -507,7 +507,7 @@ in this viewer will immediately be available in the other viewers of this editor
     </mediaobject>
 </figure>
 
-    <para>To activate the Spring Beans view, select <emphasis><property>Window &gt; Show View... &gt; Other &gt; Spring IDE &gt; Spring Beans</property></emphasis> from the
+    <para>To activate the Spring Beans view, select <emphasis><property>Window &gt; Show View... &gt; Other</property></emphasis> and then <emphasis><property>Spring Explorer&gt; Spring Beans</property></emphasis> from the
  menu bar:</para>
 
 <figure>
