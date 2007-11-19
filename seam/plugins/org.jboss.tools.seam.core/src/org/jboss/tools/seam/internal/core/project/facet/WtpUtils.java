@@ -129,7 +129,7 @@ public class WtpUtils {
 		return ""; //$NON-NLS-1$
 	}
 	
-	public static IResource createSourceFolder (IProject project, IPath path, IPath exclude, Path outputFolder) {
+	public static IResource createSourceFolder (IProject project, IPath path, IPath exclude, IPath outputFolder) {
 		IJavaProject javaProject;
 		IClasspathEntry[] javaProjectEntries;
 		IPath outputLocation;

@@ -305,19 +305,19 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true); //$NON-NLS-1$
 			final IContainer source = srcRootFolder.getUnderlyingFolder();
 			
-			IPath actionSrcPath = new Path(source.getFullPath().lastSegment()+"/action"); //$NON-NLS-1$
-			IPath modelSrcPath = new Path(source.getFullPath().lastSegment()+"/model"); //$NON-NLS-1$
+			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1)+"/action"); //$NON-NLS-1$
+			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1)+"/model"); //$NON-NLS-1$
 
 			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, actionSrcPath, new Path(source.getFullPath().lastSegment()), new Path(webRootFolder.getLocation().lastSegment()+"/WEB-INF/dev")); //$NON-NLS-1$
-			WtpUtils.createSourceFolder(project, modelSrcPath, new Path(source.getFullPath().lastSegment()), null);			
+			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
+			WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);			
 		
 			srcRootFolder.createLink(actionSrcPath, 0, null);
 			srcRootFolder.createLink(modelSrcPath, 0, null);					
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"), //$NON-NLS-1$
-					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					new File(project.getLocation().toFile(),source.getFullPath().removeFirstSegments(1)+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					new FilterSetCollection(filtersFilterSet), true);
 
 			AntCopyUtils.copyFileToFile(
@@ -586,7 +586,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName); //$NON-NLS-1$
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
-			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getLocation().lastSegment()); //$NON-NLS-1$
+			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
 	
 			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 			final String seamHomePath = selectedRuntime.getHomeDir();

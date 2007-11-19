@@ -307,19 +307,19 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true); //$NON-NLS-1$
 			final IContainer source = srcRootFolder.getUnderlyingFolder();
 			
-			IPath actionSrcPath = new Path(source.getFullPath().lastSegment()+"/action"); //$NON-NLS-1$
-			IPath modelSrcPath = new Path(source.getFullPath().lastSegment()+"/model"); //$NON-NLS-1$
+			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1)+"/action"); //$NON-NLS-1$
+			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1)+"/model"); //$NON-NLS-1$
 
 			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, actionSrcPath, new Path(source.getFullPath().lastSegment()), new Path(webRootFolder.getLocation().lastSegment()+"/WEB-INF/dev")); //$NON-NLS-1$
-			WtpUtils.createSourceFolder(project, modelSrcPath, new Path(source.getFullPath().lastSegment()), null);			
+			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), new Path(webRootFolder.getLocation().lastSegment()+"/WEB-INF/dev")); //$NON-NLS-1$
+			WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);			
 		
 			srcRootFolder.createLink(actionSrcPath, 0, null);
 			srcRootFolder.createLink(modelSrcPath, 0, null);					
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"), //$NON-NLS-1$
-					new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					new File(project.getLocation().toFile(),source.getFullPath().removeFirstSegments(1)+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					new FilterSetCollection(filtersFilterSet), true);
 
 			// Needed to make sure /dev is picked up by test, so need seam.properties.
@@ -594,7 +594,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName); //$NON-NLS-1$
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
-			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getLocation().lastSegment()); //$NON-NLS-1$
+			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
 			// TODO: why are these filters not shared!?
 			filterSet.addConfiguredFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 			

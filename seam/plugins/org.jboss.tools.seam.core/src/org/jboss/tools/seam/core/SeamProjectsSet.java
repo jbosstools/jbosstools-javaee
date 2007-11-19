@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -126,9 +127,11 @@ public class SeamProjectsSet {
 	 */	
 	public IFolder getActionFolder() {
 		if(isWarConfiguration()) {
-			return war.getFolder("src/action");			
+			return findWebSrcFolderByLastSegment("action",war);			
 		} else {
-			return getEjbProject().getFolder("ejbModule");					
+			IVirtualComponent com = ComponentCore.createComponent(ejb);
+			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+			return (IFolder)ejbRootFolder.getUnderlyingFolder();
 		}
 		 
 	}
@@ -139,9 +142,11 @@ public class SeamProjectsSet {
 	 */
 	public IFolder getModelFolder() {		
 		if(isWarConfiguration()) {
-			return war.getFolder("src/model");			 		
+			return findWebSrcFolderByLastSegment("model",war);			 		
 		} else {
-			return getEjbProject().getFolder("ejbModule");					
+			IVirtualComponent com = ComponentCore.createComponent(ejb);
+			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+			return (IFolder)ejbRootFolder.getUnderlyingFolder();
 		}		
 	}
 	
@@ -182,5 +187,19 @@ public class SeamProjectsSet {
 		if(war!=null) {
 			war.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		}
+	}
+	
+	private static final IFolder findWebSrcFolderByLastSegment(String lastSegment, IProject project) {
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		if(component!=null) {
+			IVirtualFolder vFolder = component.getRootFolder().getFolder("WEB-INF/classes");
+			IContainer[] folders = vFolder.getUnderlyingFolders();		
+			for (IContainer container : folders) {
+				if(lastSegment.equals(container.getFullPath().lastSegment())) {
+					return (IFolder)container;
+				}
+			}
+		}
+		return null;
 	}
 }
