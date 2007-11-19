@@ -44,7 +44,7 @@ public class PostInstallJsfFacetDelegate implements IDelegate  {
 		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/"));
 		IContainer folder = webRootFolder.getUnderlyingFolder();
 		
-		webContent = folder.getLocation().lastSegment();
+		webContent = folder.getFullPath().removeFirstSegments(1).toString();
 		
 		if(webContent == null) {
 			webContent = "WebContent";
