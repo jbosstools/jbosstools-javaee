@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.wizard;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
@@ -55,15 +56,23 @@ public class SeamWizardUtils {
 			if (seamProject == null) {
 				return "";
 			}
-			if("".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) {
-				return "";
-			}
+			
 			
 			String parentProjectName = seamProject.getParentProjectName();
+						
+			IProject targetProject = null;
 			if (parentProjectName == null) {
-				return project.getName();
+				targetProject = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getName());				
 			} else {
-				return parentProjectName;
+				targetProject = ResourcesPlugin.getWorkspace().getRoot().getProject(parentProjectName);
+			}
+			
+			if(targetProject.exists()) {
+				if("".equals(SeamCorePlugin.getSeamPreferences(targetProject).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) {
+					return "";
+				} else {
+					return targetProject.getName();
+				}
 			}
 		}
 		return "";
