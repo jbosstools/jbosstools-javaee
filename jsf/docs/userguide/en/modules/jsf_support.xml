@@ -92,6 +92,14 @@ version 1.2 of the JSF Reference Implementation:</para>
 </mediaobject>
 </figure>
 <para>The JBoss Tools Palette comes with the Facelets components ready to use. A useful tip appears when you hover the mouse cursor over the tag:</para>
+
+<!-- Red Hat Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
+   yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
+   with MyFaces and Facelets and then save it as a template for future use. 
+   
+    How can I add Facelets support to an existing project?</para>
+    <para>A: Right-click on the folder of existing project and select <emphasis>JBoss Tools &gt; Add Custom Capabilities.. &gt; Facelets</emphasis>. </para>
+	-->
 <figure>
 <title>Facelets Components</title>
 <mediaobject> 

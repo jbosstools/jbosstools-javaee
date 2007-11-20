@@ -2,39 +2,27 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
-[<!ENTITY rhds  SYSTEM "modules/rhds.xml">
+[
+<!ENTITY rhds  SYSTEM "modules/rhds.xml">
 <!ENTITY roadmap  SYSTEM "modules/roadmap.xml">
 <!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
 <!ENTITY struts  SYSTEM "modules/struts.xml">
-<!-- <!ENTITY HibernateTools  SYSTEM "modules/HibernateTools.xml"> -->
-
-<!-- <!ENTITY DeploymentandRunning  SYSTEM "modules/DeploymentandRunning.xml"> -->
-
-<!--<!ENTITY AddingCustomCapabilityFeaturesTemplates SYSTEM "modules/AddingCustomCapabilityFeaturesTemplates.xml">-->
-
 <!ENTITY palette SYSTEM "modules/palette.xml">
-
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
-
-
-<!-- <!ENTITY J2EEandOtherTools SYSTEM "modules/J2EEandOtherTools.xml"> -->
-<!ENTITY visual_page SYSTEM "modules/visual_page.xml">
+<!ENTITY editors SYSTEM "modules/editors.xml">
 <!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
-<!ENTITY editors_features SYSTEM "modules/editors_features.xml">
-<!-- <!ENTITY DatabaseTools SYSTEM "modules/DatabaseTools.xml"> -->
+
+<!--<!ENTITY editors_features SYSTEM "modules/editors_features.xml"> -->
 
 <!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
 
-<!ENTITY visual_page SYSTEM "modules/visual_page.xml">
-
-<!ENTITY more_editors SYSTEM "modules/more_editors.xml">
+<!-- <!ENTITY more_editors SYSTEM "modules/more_editors.xml"> -->
 <!ENTITY preferences SYSTEM "modules/preferences.xml">
-<!ENTITY faq SYSTEM "modules/faq.xml">
+
 ]>
 <book>
     <bookinfo>
-        <title>JBoss JSF and Struts Tools</title>
-        <!-- <subtitle>A JSF component library built on Ajax4jsf for incorporating rich UI widgets into Web applications</subtitle> -->
+        <title>RHDS Reference Guide</title>
         <copyright>
             <year>2007</year>
             <holder>Red Hat</holder>
@@ -45,30 +33,15 @@
     </bookinfo>
     
     <toc/>  
-    
-    &rhds;
-    &roadmap;
+	&rhds;
+	&roadmap;
     &jsf_support;
     &struts;
-    <!--      &HibernateTools; -->
-    
-    <!--&AddingCustomCapabilityFeaturesTemplates;      -->
-    
-    <!--    &DeploymentandRunning; -->
-    
     &palette;
-    
     &web_projects;	
-    
-    
-    <!--      &DatabaseTools;
-        &J2EEandOtherTools; -->
-    
     &verif_valid;
-    &editors_features;
-    &visual_page;
-    &more_editors;
+<!--    &editors_features; -->
+    &editors;
+<!--    &more_editors;    -->
     &preferences;
-    &faq;
-    
 </book>    
