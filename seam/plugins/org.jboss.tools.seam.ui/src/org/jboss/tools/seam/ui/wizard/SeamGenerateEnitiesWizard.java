@@ -111,8 +111,10 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				// Create exporters
 				// TODO Add others exporters
 				List<String> exporters = new ArrayList<String>();
-
-				exporters.add("hbmtemplate0"); //$NON-NLS-1$
+				
+				if(isReverseEngineer) { 
+					exporters.add("hbmtemplate0"); //$NON-NLS-1$
+				}
 				exporters.add("hbmtemplate1"); //$NON-NLS-1$
 				exporters.add("hbmtemplate2"); //$NON-NLS-1$
 				exporters.add("hbmtemplate3"); //$NON-NLS-1$
@@ -122,9 +124,14 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				exporters.add("hbmtemplate7"); //$NON-NLS-1$
 				exporters.add("hbmtemplate8"); //$NON-NLS-1$
 				exporters.add("hbmtemplate9"); //$NON-NLS-1$
+				
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS, exporters);
-				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0", true); //$NON-NLS-1$
-				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0.extension_id", "org.hibernate.tools.hbm2java"); //$NON-NLS-1$ //$NON-NLS-2$
+				
+				if(isReverseEngineer) {
+					wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0", true); //$NON-NLS-1$
+					wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0.extension_id", "org.hibernate.tools.hbm2java"); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1", true); //$NON-NLS-1$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.extension_id", "org.hibernate.tools.hbmtemplate"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate2", true); //$NON-NLS-1$
