@@ -16,7 +16,9 @@
            <title>Create standalone Seam Web Project</title>
            
         <para>You are able to enter a name and a location directory for your new project. Next wizard's sections allows you create runtime and server instances in order 
-            to get started creating, running, and debugging J2EE applications.</para>
+        to get started creating, running, and debugging J2EE applications.</para>
+        <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP runtime) that will be used for the project. This allow the wizard to correctly
+            identify where the needed datasource and driver libraries need to go.</para>
            
     <figure>
         <title>New Seam Project Wizard</title>

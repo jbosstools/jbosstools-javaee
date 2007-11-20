@@ -11,7 +11,20 @@
     
     <title>Seam Wizards</title>
     
+    <para>All the Seam component generations options known from Seam-gen are available as wizards (with sensible auto-defaulting)
+    for creating various common Seam components:</para>
+    
+    <itemizedlist>
+        <listitem><para>Seam Action</para></listitem>
+        <listitem><para>Seam Form</para></listitem>
+        <listitem><para>Seam Entity</para></listitem>
+        <listitem><para>Seam Conversation</para></listitem>
+    </itemizedlist>
+    
+    <para>The wizards creates multiple resources and placed in the apropriate folders dependent on your project structure (WAR or EAR)</para>
+   
     <section id="seam_action">
+        
         <title>New Seam Action</title>
         
     </section>
