@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="jboss_tools" xreflabel="jboss_tools">
+        <?dbhtml filename="jboss_tools.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Tools</keyword>
+      <keyword>Eclipse</keyword>
+      <keyword>Java</keyword>
+      <keyword>Tomcat</keyword>
+    </keywordset>
+  </chapterinfo>
+  <title>JBoss Tools</title>
+<para>JBoss Tools is an umbrella project for the JBoss developed plugins that will make it into Red Hat Developer Studio. It includes the following Eclipse modules:</para>
+<itemizedlist>
+        <listitem><para><emphasis><property>Seam Tools</property></emphasis> Will include support for seam-gen, RichFaces VE integration, Seam related code completion and refactoring and more.</para>
+		<para>To read more on Seam, see <ulink url="http://docs.jboss.com/seam/2.0.0.GA/reference/en/html/index.html">Seam Reference Guide </ulink> or <ulink url="http://www.redhat.com/developers/rhds/Getting_Started/GetStartSeamGen.html">Getting Started Guide</ulink></para></listitem>
+		<!--TODO link for Seam Guide -->
+		
+		<listitem><para><emphasis><property>RichFaces Support</property></emphasis>. <para>Rich Faces is an open source framework that adds Ajax capability into existing JSF applications without resorting to JavaScript.</para>
+		<para>To read more on RF, see<ulink url="http://labs.jboss.com/jbossrichfaces/docs/index.html"> RF Developer Guide</ulink></para></listitem>
+
+        <listitem><para><emphasis><property>Hibernate Tools</property></emphasis>Supporting mapping files, annotations and JPA with reverse engineering, code completion, project wizards, refactoring, interactive HQL/JPA-QL/Criteria execution and more.In short a merger of Hibernate Tools  and Exadel ORM features.</para>
+		<para>To read more on Hibernate Tools, see <ulink url="http://www.hibernate.org/hib_docs/tools/reference/en/html/">Hibernate Tools Reference Guide</ulink></para></listitem>
+
+		<listitem><para><emphasis><property>JBoss AS Tools</property></emphasis> Easy start, stop and debug of JBoss AS 4+ servers from within Eclipse. Will also include features for efficient packaging and deployment of any type of Eclipse project.</para></listitem>
+		<!-- TODO link for docs	<para>To read more on AS Tools, see <ulink url="AS Tools">Hibernate Tools Reference Guide</ulink></listitem>-->
+
+		<listitem><para><emphasis><property>Drools IDE</property></emphasis>Rules file editing, Rete View, working memory debugging/inspection and more.</para></listitem>
+		<!-- TODO link for docs	<para>To read more on AS Tools, see <ulink url="AS Tools">Hibernate Tools Reference Guide</ulink></listitem>-->
+		
+		<listitem><para><emphasis><property>JBPM Tools</property></emphasis>JBPM workflow editing, deployment and more.</para></listitem>
+		<!-- TODO link for docs	<para>To read more on AS Tools, see <ulink url="AS Tools">Hibernate Tools Reference Guide</ulink></listitem>-->
+		
+		</itemizedlist>
+
+</chapter>
