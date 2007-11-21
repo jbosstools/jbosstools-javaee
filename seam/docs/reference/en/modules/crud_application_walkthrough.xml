@@ -19,7 +19,7 @@
         </itemizedlist>
         
         <para>On<emphasis><property> JBossServer View </property></emphasis> right click on the <emphasis><property>JBoss Application Server</property></emphasis> and select
-            <emphasis><property> Run </property></emphasis></para>
+            <emphasis><property> Start </property></emphasis></para>
                 
         <figure>
             <title>Start the Server</title>
