@@ -66,6 +66,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
 		super.setUp();
+		assertSeamHomeAvailable();
 		File folder = getSeamHomeFolder();
 				
 		
@@ -204,7 +205,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		return seamFacetVersion;
 	}
 	
-	public void testSeamHomeAvailable() {
+	public void assertSeamHomeAvailable() {
 		File folder = getSeamHomeFolder();
 		
 		assertNotNull("seam home folder was null!", folder);
