@@ -38,7 +38,7 @@
         <para><ulink url="http://www-128.ibm.com/developerworks/java/library/j-cq08296/index.html">In pursuit of code quality: JUnit 4 vs. TestNG</ulink></para>
     </section>
     <section>
-        <title>How to use the generated Seam-test project to run Seam tests in Red Hat Developer Studio</title>
+        <title>How to use the generated Seam-test project to run Seam tests</title>
         
         <itemizedlist>
             <listitem><para>Create a new Seam Web Project using New Project wizard or main menu <emphasis><property>File > New > Seam Web Project</property>.</emphasis></para></listitem>

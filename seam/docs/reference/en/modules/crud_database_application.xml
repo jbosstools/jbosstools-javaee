@@ -45,7 +45,7 @@
 		<itemizedlist>
 	       <listitem>
 	       		<para>Name your project as <emphasis><property>crudapp</property></emphasis> and follow the next wizard steps keeping default settings.</para>
-	       		<para>Please have a look to previous chapters how to create <emphasis><property>Target Runtime</property></emphasis> and <emphasis><property>Seam Runtime</property></emphasis>.</para>
+	       		<para>Please have a look <link linkend="create_seam">here</link> how to create <emphasis><property>Target Runtime</property></emphasis> and <emphasis><property>Seam Runtime</property></emphasis>.</para>
 	       </listitem>
 	    </itemizedlist>
         <figure>
