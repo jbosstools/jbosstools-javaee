@@ -115,6 +115,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String SEAM_INSTALL_WIZARD_PAGE_ADD;
 
+	public static String SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6;
+
 	public static String SEAM_INSTALL_WIZARD_PAGE_CODE_GENERATION;
 
 	public static String SEAM_INSTALL_WIZARD_PAGE_CONFIGURE_SEAM_FACET_SETTINGS;

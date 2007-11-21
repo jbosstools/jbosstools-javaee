@@ -33,6 +33,7 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -41,10 +42,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.wst.common.componentcore.internal.util.IModuleConstants;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
+import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
@@ -382,6 +389,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					IFacetDataModelProperties.FACET_PROJECT_NAME, 
 					new ProjectNamesDuplicationValidator(
 							IFacetDataModelProperties.FACET_PROJECT_NAME));
+			validatorDelegate.addValidatorForProperty(
+					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
+					new DeploymentTypeValidator(
+							ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
+							((NewProjectDataModelFacetWizard)getWizard()).getDataModel()));
 		}
 
 		jBossHibernateDbTypeEditor
@@ -541,7 +553,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		if (visible) {
 			ITaggedFieldEditor runtimesField = (ITaggedFieldEditor)((CompositeEditor)jBossSeamHomeEditor).getEditors().get(1);
 			Object oldValue = runtimesField.getValue();
-			Object newValue = "";
+			Object newValue = ""; //$NON-NLS-1$
 			List<String> runtimes = getRuntimeNames(model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString());
 			if(oldValue==null || !runtimes.contains(oldValue)) {
 				Object defaultRnt = getSeamRuntimeDefaultValue();
@@ -612,12 +624,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		 */
 		public Map<String, String> validate(Object value, Object context) {
 			final String projectName = (String)value;
-
-			IDataModel model = (IDataModel)context;
 			final String deployAs = model.getStringProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
 
-			final String testProjectName = projectName + "-test";
+			final String testProjectName = projectName + "-test"; //$NON-NLS-1$
 			IStatus status = ProjectCreationDataModelProviderNew.validateName(testProjectName);
 			if (!status.isOK())
 				return ValidatorFactory.createErrormessage(propertyName,
@@ -626,7 +636,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
 
 			if (ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(deployAs)) {
-				final String earProjectName = projectName + "-ear";
+				final String earProjectName = projectName + "-ear"; //$NON-NLS-1$
 				status = ProjectCreationDataModelProviderNew.validateName(earProjectName);
 				if (!status.isOK())
 					return ValidatorFactory.createErrormessage(propertyName,
@@ -634,7 +644,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 							earProjectName +
 							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
 
-				final String ejbProjectName = projectName + "-ejb";
+				final String ejbProjectName = projectName + "-ejb"; //$NON-NLS-1$
 				status = ProjectCreationDataModelProviderNew.validateName(ejbProjectName);
 				if (!status.isOK())
 					return ValidatorFactory.createErrormessage(propertyName,
@@ -646,6 +656,46 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		}
 	}
 
+	static class DeploymentTypeValidator implements IValidator {
+		
+		String propertyName;
+		
+		IDataModel model;
+		
+		static final IProjectFacet EJB_FACET =  ProjectFacetsManager.getProjectFacet(IModuleConstants.JST_EJB_MODULE);
+		
+		static final IProjectFacetVersion EJB_30 = EJB_FACET.getVersion("3.0"); //$NON-NLS-1$
+
+		static final IProjectFacet EAR_FACET =  ProjectFacetsManager.getProjectFacet(IModuleConstants.JST_EAR_MODULE);
+		
+		static final IProjectFacetVersion EAR_50 = EAR_FACET.getVersion("5.0"); //$NON-NLS-1$
+
+		/**
+		 */
+		public DeploymentTypeValidator (String propertyName, IDataModel model) {
+			this.propertyName = propertyName;
+			this.model = model;
+		}
+
+		/**
+		 * @see IValidator#validate(Object, Object)
+		 */
+		public Map<String, String> validate(Object value, Object context) {
+			
+			final String deploymentType = value.toString();
+			if(!ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(deploymentType)) {
+				String runtimeName = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME).toString();
+				IRuntime rt = RuntimeManager.getRuntime(runtimeName);
+				if(!rt.supports(EJB_30) || !rt.supports(EAR_50)) {
+					return ValidatorFactory.createErrormessage(
+						propertyName,
+						NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6 , new String[]{deploymentType.toUpperCase(),runtimeName}));
+				}
+			} 
+				return ValidatorFactory.NO_ERRORS;
+		}
+	}	
+	
 	public class NewSeamRuntimeAction extends
 									ButtonFieldEditor.ButtonPressedAction {
 		/**
