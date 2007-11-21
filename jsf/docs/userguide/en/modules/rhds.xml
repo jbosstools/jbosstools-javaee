@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="rhds" xreflabel="rhds">
  <?dbhtml filename="rhds.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>Red Hat Developer Studio</keyword>
-            <keyword>RHDS</keyword>
-            <keyword>Java</keyword>
-            </keywordset>
-    </chapterinfo>
-    
-    <title>About the Red Hat Developer Studio</title>
- <para><property>Red Hat Developer Studio</property> is a result of strategic partnership of Exadel and Red Hat to open
-    sourcing the main Exadel&apos;s product.</para>
-    <para>Red Hat Developer Studio, earlier known as Exadel Studio Pro, now is completely available in open
-    source.</para>
-    <section id="TheLeadingOpenSourceIDEForBuildingRichApplications">
-    <?dbhtml filename="TheLeadingOpenSourceIDEForBuildingRichApplications.html"?>
-    <title>The Leading Open Source IDE for Building Rich Applications</title>
-     <para><property>Red Hat Developer Studio</property> is a set of plug-ins for the Eclipse IDE. It extends the Eclipse platform
-     to be an advanced enterprise-level Web application development environment for leveraging open source, 
-     JEE and AJAX technologies. By combining visual and source-oriented development approaches with support 
-     for multiple open source technologies, including JSF, Hibernate, Seam, MyFaces, Spring and others.</para> 
-     <para>Red Hat Developer Studio enables developers to work easily with many different technologies all within one
-      environment. Red Hat Developer Studio provides an extensive collection of specialized wizards, editors 
-      and views all of which have been constantly expanding to meet the needs of enterprise developers to keep
-       pace with rapidly changing business environments and technologies.</para>
-    </section>
- 
+ <chapterinfo>
+  <keywordset>
+   <keyword>Red Hat Developer Studio</keyword>
+   <keyword>RHDS</keyword>
+   <keyword>Java</keyword>
+  </keywordset>
+ </chapterinfo>
+
+ <title>About the Red Hat Developer Studio</title>
+ <para><property>Red Hat Developer Studio</property> is a result of strategic partnership of Exadel
+  and Red Hat to open sourcing the main Exadel&apos;s product.</para>
+ <para>Red Hat Developer Studio, earlier known as Exadel Studio Pro, now is completely available in
+  open source.</para>
+ <section id="TheLeadingOpenSourceIDEForBuildingRichApplications">
+  <?dbhtml filename="TheLeadingOpenSourceIDEForBuildingRichApplications.html"?>
+  <title>The Leading Open Source IDE for Building Rich Applications</title>
+  <para><property>Red Hat Developer Studio</property> is a set of plug-ins for the Eclipse IDE. It
+   extends the Eclipse platform to be an advanced enterprise-level Web application development
+   environment for leveraging open source, JEE and AJAX technologies. By combining visual and
+   source-oriented development approaches with support for multiple open source technologies,
+   including JSF, Hibernate, Seam, MyFaces, Spring and others.</para>
+  <para>Red Hat Developer Studio enables developers to work easily with many different technologies
+   all within one environment. Red Hat Developer Studio provides an extensive collection of
+   specialized wizards, editors and views all of which have been constantly expanding to meet the
+   needs of enterprise developers to keep pace with rapidly changing business environments and
+   technologies.</para>
+ </section>
+
  <!--  <section id="Feature_List">
   <title>Red Hat Developer Studio Feature List</title>
   <para>Based on Eclipse 3.2</para>
@@ -151,11 +153,37 @@
   <para>Add new tag libraries to the tag palette with a simple drag-and-drop from the Web Projects view <link  linkend="AddingTagLibraries">learn more</link></para>
   
   </section>-->
+ <section id="Subscription">
+
+  <title>Subscriptions</title>
+  <para>Purchasing a subscription to <ulink url="http://www.redhat.com/developers/rhds/index.html"
+    >Red Hat Developer Studio</ulink> provides you access to <ulink url="https://rhn.redhat.com">Red
+    Hat Network</ulink>, as well as access to and updates for Red Hat Enterprise Linux, JBoss
+   Enterprise Application Platform, and integrated Eclipse Tooling.</para>
+  <para>If you require developer support or additional <property>Red Hat/JBoss software</property>
+   for development purposes, you may additionally purchase Red Hat Developer subscriptions. There
+   are two developer support offerings: </para>
+  <itemizedlist>
+   <listitem><para><property>Red Hat Developer Professional</property> for corporate developers and individuals</para></listitem>
+   <listitem><para><property>Red Hat Developer Enterprise</property> for Independent Software Vendors</para></listitem>
+</itemizedlist>
+  
+  <para><ulink
+   url="http://www.redhat.com/developers/subscriptions.html">Here</ulink> you can get all required information about the Red Hat Developer subscriptions. </para>
+  <para>If you have questions <ulink
+    url="http://www.redhat.com/about/contact/dir/#custservice">contact us by web or phone</ulink>.
+  </para>
+ </section>
+
  <section id="OtherRelevantResourcesOnTheTopic38">
   <?dbhtml filename="OtherRelevantResourcesOnTheTopic38.html"?>
   <title>Other relevant resources on the topic</title>
-  <para>RHDS on JBoss: <ulink url="http://labs.jboss.com/rhdevstudio/">Red Hat Developer Studio</ulink></para>
-  <para>Forum: <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss Forum</ulink></para>
-  <para>Download: <ulink url="http://www.redhat.com/developers/rhds/index.html">RHDS Download</ulink></para>
+  <para>RHDS on JBoss: <ulink url="http://labs.jboss.com/rhdevstudio/">Red Hat Developer
+   Studio</ulink></para>
+  <para>Forum: <ulink
+    url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss
+   Forum</ulink></para>
+  <para>Download: <ulink url="http://www.redhat.com/developers/rhds/index.html">RHDS
+   Download</ulink></para>
  </section>
-  </chapter>
+</chapter>
