@@ -142,11 +142,14 @@
                 </imageobject>
             </mediaobject>
         </figure>
-              
-        
+                      
     </section>
     <section id="addJSFCapab">
         <title>Adding JSF Capabilities</title>
+        
+        <para>This wizard helps you to add JSF capabilities into your project. </para>
+        <para>Checking <emphasis><property>Server Supplied JSF Implementation</property></emphasis>
+            means that you will have a default JSF implementation deployed on server. </para>
         
         <figure>
             <title>Adding JSF Capabilities to Web Project</title>
@@ -157,13 +160,47 @@
             </mediaobject>
         </figure>
         
-        <para>Check <emphasis><property>Server Supplied JSF Implementation</property></emphasis> and click on <emphasis><property>Next</property>.</emphasis></para>
+        <para>In case when you want to create your custom JSF implementation check a lower radio button. You are able to create a library of jars by clicking on 
+        <emphasis><property>New</property></emphasis> button.</para>
+        <para>Type a <property>Library Name</property>, select a <property>Version Supported</property> and add <property>Library jars</property>. Click on <emphasis><property>Finish</property>.</emphasis></para>
+        <figure>
+            <title>Create JSF Implementation Library</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam10_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>You can also add a <property>Component Libraries</property> (e.g. Richfaces) clicking on <emphasis><property>New</property></emphasis> button in the Component LIbraries section.</para>
+        
+        <figure>
+            <title>Create JSF Implementation Library</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam10_2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>The last wizard options allows to edit a path for <property>JSF Configuration File</property>, a name for <property>JSF Servlet</property>, <property>JSF Servlet Classname</property>
+     and change an <property>URL Mapping Patterns</property>.</para>
+        
+        <figure>
+            <title>JSF Capabilities Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam10_3.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         
     </section>
     
     <section  id="seamFacet">
     <title>Configure Seam Facet Settings</title>
         
+     <para>The last wizard step is related to Seam facet and allows you to do the following:</para>
               <figure>
             <title>Seam Facet Settings</title>
             <mediaobject> 
@@ -172,8 +209,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
-        <para>This wizard step is related to Seam facet and allows you to do the following:</para>
+               
         <itemizedlist>
             <listitem><para>Create Seam runtime and define Seam home folder. Click on <emphasis><property>Add</property></emphasis> button in the <property>General</property> section.</para></listitem>
         </itemizedlist>
@@ -188,11 +224,23 @@
         </figure>
         
         <itemizedlist>
-            <listitem><para>Select EAR or WAR deployment by checking the necessary combo box.</para></listitem>
-            <listitem><para>Select the <emphasis><property>Database Type</property></emphasis> and create a <emphasis><property>Connection profile</property>.</emphasis>
-                Click on <emphasis><property>New</property></emphasis> button and select the necessary connection profile.</para></listitem>
+            <listitem><para>Select EAR or WAR deployment by checking a necessary radio button.</para></listitem>
+            <listitem><para>Select a <emphasis><property>Database Type</property></emphasis></para></listitem>
         </itemizedlist>
+                
+        <figure>
+            <title>Seam Runtime Creation</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam13_0.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         
+                <itemizedlist>
+                    <listitem><para>and create a <emphasis><property>Connection profile</property></emphasis> clicking on <emphasis><property>New</property></emphasis> button and select the necessary connection profile.</para></listitem>
+                </itemizedlist>
+                 
         <figure>
             <title>Connection Prodile Selecting</title>
             <mediaobject> 
@@ -201,6 +249,21 @@
                 </imageobject>
             </mediaobject>
         </figure>
+                
+        <para>Other Database fields are describing a Database and a connection to it.</para>        
+         <para>In the <property>Code Generation</property> section you can edit a package name for <property>Session Bean</property>, <property>Entity Bean</property> and <property>Test</property>.</para>   
+        
+        
+        <figure>
+            <title>Code Generation Section</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam14.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+                
+        <para>Click on <emphasis><property>Finish</property></emphasis> to generate a project.</para>
                 
 </section>
   </chapter>
