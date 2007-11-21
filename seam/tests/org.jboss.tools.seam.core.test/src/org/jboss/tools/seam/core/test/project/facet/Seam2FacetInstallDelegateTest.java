@@ -54,7 +54,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
 		seam2FacetVersion = seam2Facet.getVersion("2.0");
 		
-		File folder = new File(System.getProperty("jbosstools.test.seam.2.0.0.home", "/home/max/work/products/jboss-seam-2.0.0.CR2"));
+		
+		File folder = getSeamHomeFolder();
 		
 		SeamRuntimeManager.getInstance().addRuntime(SEAM_2_0_0, folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
 		SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_0_0);
@@ -67,6 +68,11 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		
 		super.setUp();
+	}
+	
+	@Override
+	protected File getSeamHomeFolder() {
+		return new File(System.getProperty("jbosstools.test.seam.2.0.0.home", "/home/max/work/products/jboss-seam-2.0.0.CR2"));
 	}
 	
 	@Override

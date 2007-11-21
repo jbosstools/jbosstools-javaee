@@ -66,12 +66,20 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
 		super.setUp();
-		File folder = new File(System.getProperty("jbosstools.test.seam.1.2.1.eap.home", "/home/max/rhdevstudio/jboss-eap/seam"));
+		File folder = getSeamHomeFolder();
+				
+		
 		
 		SeamRuntimeManager.getInstance().addRuntime(SEAM_1_2_0, folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
 		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_1_2_0);
 		
 	}
+
+	protected File getSeamHomeFolder() {
+		return new File(System.getProperty("jbosstools.test.seam.1.2.1.eap.home", "/home/max/rhdevstudio/jboss-eap/seam"));
+	}
+	
+	
 	protected void tearDown()
 
 	throws Exception
@@ -194,6 +202,32 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	
 	protected IProjectFacetVersion getSeamFacetVersion() {
 		return seamFacetVersion;
+	}
+	
+	public void testSeamHomeAvailable() {
+		File folder = getSeamHomeFolder();
+		
+		assertNotNull("seam home folder was null!", folder);
+		assertTrue(folder.getName() + " does not exist", folder.exists());
+		
+		System.out.println("Listing " + folder);
+		File[] list = folder.listFiles();
+		for (int i = 0; i < list.length; i++) {
+			File string = list[i];
+			System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
+		}
+		
+		File seamgen = new File(folder, "seam-gen");
+		assertNotNull("seam gen folder was null!", seamgen);
+		assertTrue(seamgen.getName() + " seamgen does not exist", seamgen.exists());
+		
+		System.out.println("Listing seamgen " + seamgen);
+		list = seamgen.listFiles();
+		for (int i = 0; i < list.length; i++) {
+			File string = list[i];
+			System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
+		}
+			
 	}
 
 }
