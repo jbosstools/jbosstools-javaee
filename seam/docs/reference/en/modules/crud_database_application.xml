@@ -28,7 +28,7 @@
 	</section>
 
     <section>
-        <title>How to create the CRUD Database Application in Red Hat Developer Studio</title>
+        <title>How to create the CRUD Database Application</title>
         
         <itemizedlist>
             <listitem><para>Create a new Seam Web Project using New Project wizard or main menu <emphasis><property>File > New > Seam Web Project</property>.</emphasis></para></listitem>
@@ -43,7 +43,10 @@
         </figure>
         
 		<itemizedlist>
-	       <listitem><para>Name your project as <emphasis><property>crudapp</property></emphasis> and follow the next wizard steps keeping default settings.</para></listitem>
+	       <listitem>
+	       		<para>Name your project as <emphasis><property>crudapp</property></emphasis> and follow the next wizard steps keeping default settings.</para>
+	       		<para>Please have a look to previous chapters how to create <emphasis><property>Target Runtime</property></emphasis> and <emphasis><property>Seam Runtime</property></emphasis>.</para>
+	       </listitem>
 	    </itemizedlist>
         <figure>
             <title>New Seam Project Wizard</title>
