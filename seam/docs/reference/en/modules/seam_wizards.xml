@@ -21,15 +21,51 @@
         <listitem><para>Seam Conversation</para></listitem>
     </itemizedlist>
     
-    <para>The wizards creates multiple resources and placed in the apropriate folders dependent on your project structure (WAR or EAR)</para>
+    <para>Go to <emphasis><property>File > New</property></emphasis> and select the component wizard.</para>
+    
+    <figure>
+        <title>Seam Component Wizards</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="images/seam_wizards/seam_wizards1.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+        <para>The wizards creates multiple resources and placed in the apropriate folders dependent on your project structure (WAR or EAR).</para>
    
     <section id="seam_action">
         
         <title>New Seam Action</title>
         
+        <para>WAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Action Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        
+        <para>EAR deployment:</para>
+                
+        <figure>
+            <title>New Seam Action Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards3.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
     </section>
     <section id="seam_form">
         <title>New Seam Form</title>
+        
+        
         
     </section>
     <section id="seam_entity">

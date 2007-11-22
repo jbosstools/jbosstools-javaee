@@ -29,6 +29,7 @@
                 </mediaobject>
             </figure>
            
+            <para>A WAR project can only use Seam JavaBean and JPA Entity bean components; it cannot use EJB3 Session beans etc.</para>
             <para>WAR projects are generated to enable Seam 1.2.1 war hotdeploy feature. Classes put into <emphasis><property>src/action</property></emphasis> will be
                 deployed to <emphasis><property>WEB-INF/dev</property></emphasis> from which Seam 1.2.1 automatically will perform hotdeploy of new components.</para>
      <note>
@@ -57,6 +58,7 @@
                     </mediaobject>
                 </figure>
                 
+                <para>An EAR project can use the whole range of Seam components, including EJB3 Session beans.</para>
                 
     </section>
  
