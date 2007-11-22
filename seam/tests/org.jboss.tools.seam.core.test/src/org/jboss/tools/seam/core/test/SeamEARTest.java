@@ -18,6 +18,7 @@ import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 
@@ -78,11 +79,20 @@ public class SeamEARTest extends TestCase {
 			JUnitUtils.fail("Cannot build", e);
 		}
 		ISeamProject seamProject = null;
-		try {
-			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot get seam nature.",e);
-		}
+		
+		/*
+		 * SeamCorePlugin.getSeamProject(IProject project, boolean resolve);
+		 * is used to load Seam Project properly. 
+		 * 
+		 * It's not enough to use the following code:
+		 * (ISeamProject)project.getNature(SeamProject.NATURE_ID);
+		 */
+		seamProject = SeamCorePlugin.getSeamProject(project, true);
+//		try {
+//			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
+//		} catch (Exception e) {
+//			JUnitUtils.fail("Cannot get seam nature.",e);
+//		}
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
