@@ -3,8 +3,7 @@
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
 [
-<!ENTITY rhds  SYSTEM "modules/rhds.xml">
-<!ENTITY roadmap  SYSTEM "modules/roadmap.xml">
+<!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
 <!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
 <!ENTITY struts  SYSTEM "modules/struts.xml">
 <!ENTITY palette SYSTEM "modules/palette.xml">
@@ -22,26 +21,23 @@
 ]>
 <book>
     <bookinfo>
-        <title>RHDS Reference Guide</title>
+        <title>Visual Web Tools Reference Guide</title>
         <copyright>
             <year>2007</year>
             <holder>Red Hat</holder>
         </copyright>
         <releaseinfo>
-            <para>Version: 1.0.0.beta2</para>
-            <para>Note: This document is a work in progress and hence some sections might be incomplete and screenshots not 100% accurate.</para></releaseinfo>
+            <para>Version: 1.0.0.GA</para>
+           </releaseinfo>
     </bookinfo>
     
     <toc/>  
-	&rhds;
-	&roadmap;
+	&Visual_Web_Tools;
     &jsf_support;
     &struts;
     &palette;
     &web_projects;	
     &verif_valid;
-<!--    &editors_features; -->
     &editors;
-<!--    &more_editors;    -->
     &preferences;
 </book>    
