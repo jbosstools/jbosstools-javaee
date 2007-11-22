@@ -64,16 +64,16 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
 		.include("richfaces.*\\.jar")
-		.include("antlr.*\\.jar") //$NON-NLS-1$		
+		.include("antlr-runtime.*\\.jar") //$NON-NLS-1$		
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
-		.include("commons-collections.*\\.jar") //$NON-NLS-1$
+		//.include("commons-collections.*\\.jar") //$NON-NLS-1$
 		.include("commons-digester.*\\.jar") //$NON-NLS-1$
 		.include("commons-jci-core.*\\.jar") //$NON-NLS-1$
 		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
 		.include("core.jar") //$NON-NLS-1$
-		.include("janino.*\\.jar") //$NON-NLS-1$		
+		//.include("janino.*\\.jar") //$NON-NLS-1$		
 		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-mail\\.jar") //$NON-NLS-1$
@@ -129,9 +129,10 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("richfaces-api.*\\.jar") //$NON-NLS-1$
 	    .include("security\\.drl"); //$NON-NLS-1$
 
-	public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
-		.include("META-INF/application\\.xml"); //$NON-NLS-1$
-		//.include("META-INF/jboss-app\\.xml"); //$NON-NLS-1$
+	/*public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
+		.include("META-INF/application\\.xml") //$NON-NLS-1$
+		.include("META-INF/jboss-app\\.xml"); //$NON-NLS-1$
+		*/
 	
 	public static AntCopyUtils.FileSet VIEW_FILESET = new AntCopyUtils.FileSet()
 		.include("home\\.xhtml") //$NON-NLS-1$
@@ -236,7 +237,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
 		final File persistenceFile = new File(seamGenResFolder,"META-INF/persistence-" + (isWarConfiguration(model)?DEV_WAR_PROFILE:DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		final File applicationFile = new File(seamGenResFolder,"META-INF/application.xml"); //$NON-NLS-1$
+		//final File applicationFile = new File(seamGenResFolder,"META-INF/application.xml"); //$NON-NLS-1$
 
 		final FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
 		final FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
@@ -445,10 +446,10 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 				FilterSet earFilterSet =  new FilterSet();
 				earFilterSet.addFilter("projectName",ear.getName()+".ear"); //$NON-NLS-1$ //$NON-NLS-2$
 				
-			/* jboss-app.xml not needed anymore AntCopyUtils.copyFileToFolder(
+			    AntCopyUtils.copyFileToFolder(
 						new File(seamGenResFolder,"META-INF/jboss-app.xml"), //$NON-NLS-1$
 						new File(earContentsFolder,"META-INF"), //$NON-NLS-1$
-						new FilterSetCollection(earFilterSet),true);*/
+						new FilterSetCollection(earFilterSet),true);
 
 				// Copy configuration files from template
 				AntCopyUtils.copyFilesAndFolders(

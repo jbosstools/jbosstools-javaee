@@ -88,32 +88,32 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	
 	public void testWarLibs() throws CoreException {
 		
-		Set<String> warlibs = new HashSet<String>();
+		Set<String> seamgenlibs = new HashSet<String>();
 
-		warlibs.add("core.jar");
-		warlibs.add("antlr-runtime.jar");
-		warlibs.add("commons-beanutils.jar");
-		warlibs.add("commons-digester.jar");
-		warlibs.add("drools-compiler.jar");
-		warlibs.add("drools-core.jar");
-		warlibs.add("core.jar");
-		warlibs.add("jboss-el.jar");
-		warlibs.add("jboss-seam-debug.jar");
-		warlibs.add("jboss-seam-ioc.jar");
-		warlibs.add("jboss-seam.jar");
-		warlibs.add("jboss-seam-mail.jar");
-		warlibs.add("jboss-seam-pdf.jar");
-		warlibs.add("jboss-seam-remoting.jar");
-		warlibs.add("jboss-seam-ui.jar");
-		warlibs.add("jbpm-jpdl.jar");
-		warlibs.add("jsf-facelets.jar");
-		warlibs.add("mvel14.jar");
-		warlibs.add("richfaces-api.jar");
-		warlibs.add("richfaces-impl.jar");
-		warlibs.add("richfaces-ui.jar");
+		
+		seamgenlibs.add("antlr-runtime.jar");
+		seamgenlibs.add("commons-beanutils.jar");
+		seamgenlibs.add("commons-digester.jar");
+		seamgenlibs.add("drools-compiler.jar");
+		seamgenlibs.add("drools-core.jar");
+		seamgenlibs.add("core.jar");
+		seamgenlibs.add("jboss-el.jar");
+		seamgenlibs.add("jboss-seam-debug.jar");
+		seamgenlibs.add("jboss-seam-ioc.jar");
+		seamgenlibs.add("jboss-seam.jar");
+		seamgenlibs.add("jboss-seam-mail.jar");
+		seamgenlibs.add("jboss-seam-pdf.jar");
+		seamgenlibs.add("jboss-seam-remoting.jar");
+		seamgenlibs.add("jboss-seam-ui.jar");
+		seamgenlibs.add("jbpm-jpdl.jar");
+		seamgenlibs.add("jsf-facelets.jar");
+		seamgenlibs.add("mvel14.jar");
+		seamgenlibs.add("richfaces-api.jar");
+		seamgenlibs.add("richfaces-impl.jar");
+		seamgenlibs.add("richfaces-ui.jar");
 
 		final IContainer warLibs = (IContainer) warProject.getProject().findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class);
-		assertOnlyContainsTheseFiles(warlibs, warLibs);
+		assertOnlyContainsTheseFiles(seamgenlibs, warLibs);
 	
 
 	}
@@ -135,8 +135,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInEar.add("drools-core.jar");
 		onlyInEar.add("jboss-el.jar");
 		onlyInEar.add("mvel14.jar");
-		onlyInEar.add("richfaces-api.jar");
-		onlyInEar.add("richfaces-api.jar");
+		onlyInEar.add("richfaces-api.jar");		
 		onlyInEar.add("jbpm-jpdl.jar");
 		onlyInEar.add("META-INF");
 		onlyInEar.add("security.drl");
@@ -157,7 +156,14 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		assertOnlyContainsTheseFiles(onlyInEar, earLibs);
 		
-		//earLibs.findMember(path)
+		final IContainer earMeta = (IContainer) ear.findMember("EarContent/META-INF").getAdapter(IContainer.class);
+		
+		Set onlyInEarMeta = new HashSet();
+		
+		onlyInEarMeta.add("jboss-app.xml");
+		onlyInEarMeta.add("application.xml");
+		
+		assertOnlyContainsTheseFiles(onlyInEarMeta, earMeta);
 		
 		
 		assertOnlyContainsTheseFiles(onlyInWar, (IContainer)war.findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class));
@@ -193,7 +199,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		foundFiles.removeAll(fileNames);
 		
-		assertTrue("Found additional files (" + foundFiles + " in " + dir, foundFiles.isEmpty());		
+		assertTrue("Found additional files (" + foundFiles + " in " + dir + " at " + dir.getLocation(), foundFiles.isEmpty());		
 	}
 
 	public void testBootstrapDirPresent() throws CoreException, IOException {
