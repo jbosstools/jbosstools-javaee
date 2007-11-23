@@ -149,7 +149,7 @@
         
         <para>This wizard helps you to add JSF capabilities into your project. </para>
         <para>Checking <emphasis><property>Server Supplied JSF Implementation</property></emphasis>
-            means that you will have a default JSF implementation deployed on server. </para>
+            means that you will have a default JSF implementation given by server.</para>
         
         <figure>
             <title>Adding JSF Capabilities to Web Project</title>
@@ -160,7 +160,7 @@
             </mediaobject>
         </figure>
         
-        <para>In case when you want to create your custom JSF implementation check a lower radio button. You are able to create a library of jars by clicking on 
+        <para>In case when you want to use your custom JSF implementation check a lower radio button. You are able to create a library of jars by clicking on 
         <emphasis><property>New</property></emphasis> button.</para>
         <para>Type a <property>Library Name</property>, select a <property>Version Supported</property> and add <property>Library jars</property>. Click on <emphasis><property>Finish</property>.</emphasis></para>
         <figure>
@@ -213,6 +213,7 @@
         <itemizedlist>
             <listitem><para>Create Seam runtime and define Seam home folder. Click on <emphasis><property>Add</property></emphasis> button in the <property>General</property> section.</para></listitem>
         </itemizedlist>
+        <para>Notice that in this wizard presented below you can create a Seam runtime only for that version which was selected in the <link linkend="projectFacets">Project Facets</link> wizard (version 1.2 in our case).</para>
         
         <figure>
             <title>Seam Runtime Creation</title>

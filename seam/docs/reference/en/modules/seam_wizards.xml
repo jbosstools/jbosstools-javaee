@@ -38,6 +38,9 @@
         
         <title>New Seam Action</title>
         
+        <para>To create a New Seam Action you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
+        <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
+        
         <para>WAR deployment:</para>
         
         <figure>
@@ -49,9 +52,10 @@
             </mediaobject>
         </figure>
         
+        <para>EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
         
         <para>EAR deployment:</para>
-                
+                 
         <figure>
             <title>New Seam Action Wizard</title>
             <mediaobject> 
@@ -65,14 +69,81 @@
     <section id="seam_form">
         <title>New Seam Form</title>
         
+        <para>To create a New Seam Form you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
+            <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
+        
+        
+        <para>WAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Form Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards4.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        
+        <para>EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>EAR deployment:</para>
+        
+             <figure>
+            <title>New Seam Form Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards4_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         
         
     </section>
     <section id="seam_entity">
         <title>New Seam Entity</title>
         
+        <para>To create New Seam Entity you should select a necessary project, type a name for <property>Entity class</property>, select a 
+            <property>Package</property> using <emphasis><property>Browse</property></emphasis> button, type a name for <property>Master Page</property> and <property>Page</property>.</para>
+        
+        <figure>
+            <title>New Seam Entity Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards5.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+               
+        
     </section>
     <section id="seam_conversation">
         <title>New Seam Conversation</title>
+        
+        <para>To create a New Seam Conversation you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
+            <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
+        
+        <para>WAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Conversation Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards6.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>EAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Conversation Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards6_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
     </section>
   </chapter>
