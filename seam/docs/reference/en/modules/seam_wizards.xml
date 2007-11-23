@@ -52,7 +52,7 @@
             </mediaobject>
         </figure>
         
-        <para>EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>The wizard for EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
         
         <para>EAR deployment:</para>
                  
@@ -85,7 +85,7 @@
         </figure>
         
         
-        <para>EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>The wizard for EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
         <para>EAR deployment:</para>
         
              <figure>
@@ -133,7 +133,7 @@
             </mediaobject>
         </figure>
         
-        <para>EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>The wizard for EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
         <para>EAR deployment:</para>
         
         <figure>
