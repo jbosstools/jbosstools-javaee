@@ -31,7 +31,7 @@
     <section id="OtherRelevantResourcesOnTheTopic5">
         <?dbhtml filename="OtherRelevantResourcesOnTheTopic5.html"?>
         <title>Other relevant resources on the topic</title>
-        <para><ulink url="http://www.artima.com/lejava/articles/testng.html">Next-Generation Testing with TestNG (An Interview with Cédric Beust)</ulink></para>
+        <para><ulink url="http://www.artima.com/lejava/articles/testng.html">Next-Generation Testing with TestNG (An Interview with Cedric Beust)</ulink></para>
         <para><ulink url="http://www.javaworld.com/javaworld/jw-04-2005/jw-0404-testng.html">TestNG: The next generation of unit testing</ulink></para>
         <para><ulink url="http://dev2dev.bea.com/pub/a/2006/09/testng-categorization.html">Test Categorization Techniques with TestNG</ulink></para>
         <para><ulink url="http://www-128.ibm.com/developerworks/java/library/j-testng/">TestNG makes Java unit testing a breeze</ulink></para>
@@ -119,7 +119,7 @@
         </figure>
         
         <itemizedlist>
-            <listitem><para>Fill out the wizard fields. New Seam Action wizard will create resources and place them in the apropriate folders dependent on EAR project structure.</para></listitem>
+            <listitem><para>Fill out the wizard fields. New Seam Action wizard will create resources and place them in the appropriate folders dependent on EAR project structure.</para></listitem>
         </itemizedlist>
         
         <figure>
@@ -158,7 +158,7 @@
             </mediaobject>
         </figure>
         
-        <para>The test process will start and its ouput will be written in Console View.</para>
+        <para>The test process will start and its output will be written in Console View.</para>
                 
         <figure>
             <title>Test is Finished</title>

@@ -226,11 +226,11 @@
 
         <itemizedlist>
             <listitem><para>Switch back to the <property>Seam</property> perspective. From the toolbar select <emphasis><property>New->Seam Generate Entities</property></emphasis> to create necessary entity classes and web pages.
-            In the <emphasis><property>Generete Seam Entities</property></emphasis> dialog keep everything by default and press <emphasis><property>Finish</property></emphasis>. 
+            In the <emphasis><property>Generate Seam Entities</property></emphasis> dialog keep everything by default and press <emphasis><property>Finish</property></emphasis>. 
             </para></listitem>
         </itemizedlist>
         <figure>
-            <title>Generete Seam Entities</title>
+            <title>Generate Seam Entities</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/crud_database_application/crud_database_application_18.png"/>

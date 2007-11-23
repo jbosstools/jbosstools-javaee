@@ -34,7 +34,7 @@
                 deployed to <emphasis><property>WEB-INF/dev</property></emphasis> from which Seam 1.2.1 automatically will perform hotdeploy of new components.</para>
      <note>
          <title>Note:</title>
-         <para>Because of Eclipse WTP limits the hot deployed classes also existen in <emphasis><property>WEB-INF/classes</property></emphasis>, 
+         <para>Because of Eclipse WTP limits the hot deployed classes also existed in <emphasis><property>WEB-INF/classes</property></emphasis>, 
              but since Seam gives <emphasis><property>WEB-INF/dev</property></emphasis> precedence it will work.</para>
      </note>
         

@@ -88,7 +88,7 @@
     </figure>
     
     
-    <para>After clicking on Finish button you shoud have the folowing wizard view:</para>
+    <para>After clicking on Finish button you should have the following wizard view:</para>
         
     <figure>
         <title>New Seam Project Creation</title>
@@ -243,7 +243,7 @@
                 </itemizedlist>
                  
         <figure>
-            <title>Connection Prodile Selecting</title>
+            <title>Connection Profile Selecting</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam13.png"/>
