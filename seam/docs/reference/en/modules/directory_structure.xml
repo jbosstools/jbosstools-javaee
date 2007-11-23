@@ -11,7 +11,7 @@
     
     <title>Directory Structure of the Generated Project</title>
     
-    <para>In this chapter we describe where the Seam wizard put the generated files for both EAR and WAR deployments.</para>
+    <para>In this chapter we describe where the Seam wizard puts the generated files for both EAR and WAR deployments.</para>
     <para>The Seam Project wizard generates projects like Eclipse WTP style in order to utilize Eclipse WTP features and to have a correct classpath. To be more precise it generates
     one project per artifact.</para>
         

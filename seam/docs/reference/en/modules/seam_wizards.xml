@@ -32,7 +32,7 @@
         </mediaobject>
     </figure>
     
-        <para>The wizards creates multiple resources and placed in the appropriate folders dependent on your project structure (WAR or EAR).</para>
+        <para>The wizards create multiple resources and place in the appropriate folders dependend on your project structure (WAR or EAR).</para>
    
     <section id="seam_action">
         
@@ -52,7 +52,7 @@
             </mediaobject>
         </figure>
         
-        <para>The wizard for EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>The wizard for EAR deployment differs from WAR in <property>Local interface</property> and <property>Bean</property> fields so you need to fill them in.</para>
         
         <para>EAR deployment:</para>
                  
@@ -85,8 +85,8 @@
         </figure>
         
         
-        <para>The wizard for EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
-        <para>EAR deployment:</para>
+        <para>The wizard for EAR deployment differs from WAR in <property>Local interface</property> and <property>Bean</property> fields so you need to fill them in.</para>
+        <para>EAR deployment is:</para>
         
              <figure>
             <title>New Seam Form Wizard</title>
@@ -133,7 +133,7 @@
             </mediaobject>
         </figure>
         
-        <para>The wizard for EAR deployment differs from WAR in that you need type a name for <property>Local interface</property> and <property>Bean</property>.</para>
+        <para>The wizard for EAR deployment differs from WAR in <property>Local interface</property> and <property>Bean</property> fields so you need to fill them in.</para>
         <para>EAR deployment:</para>
         
         <figure>

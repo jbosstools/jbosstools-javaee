@@ -17,7 +17,7 @@
            
         <para>You are able to enter a name and a location directory for your new project. Next wizard's sections allows you create runtime and server instances in order 
         to get started creating, running, and debugging J2EE applications.</para>
-        <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP runtime) that will be used for the project. This allow the wizard to correctly
+        <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP runtime) that will be used for the project. This allows the wizard to correctly
             identify where the needed datasource and driver libraries need to go.</para>
            
     <figure>
@@ -31,7 +31,7 @@
     
   
         <para>Click on <emphasis><property>New...</property></emphasis> button in the Target Runtime section.</para>
-        <para>From this dialog you can choose what type of runtime you want to create. Let's create a JBoss 4.2 Runtime. Click on next.</para>
+        <para>From this dialog you can choose what type of runtime you want to create. Let's create a JBoss 4.2 Runtime. Click on <emphasis><property>Next</property></emphasis>.</para>
     
     <figure>
         <title>New Server Runtime Dialog</title>
@@ -42,7 +42,7 @@
         </mediaobject>
     </figure>
     
-        <para>All what you need here is to name runtime, browse to it's install directory, select a Java Runtime Environment, and select which configuration you want. Click on Finish.</para>
+        <para>All what you need here is to name runtime, browse to it's install directory, select a Java Runtime Environment, and select which configuration you want. Click on <emphasis><property>Finish</property></emphasis>.</para>
     
     <figure>
         <title>New Server Runtime Dialog</title>
@@ -239,7 +239,7 @@
         </figure>
         
                 <itemizedlist>
-                    <listitem><para>and create a <emphasis><property>Connection profile</property></emphasis> clicking on <emphasis><property>New</property></emphasis> button and select the necessary connection profile.</para></listitem>
+                    <listitem><para>and create a <emphasis><property>Connection profile</property></emphasis> clicking on <emphasis><property>New</property></emphasis> button and selecting the necessary connection profile.</para></listitem>
                 </itemizedlist>
                  
         <figure>
