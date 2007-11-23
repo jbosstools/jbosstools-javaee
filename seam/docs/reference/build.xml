@@ -1,9 +1,12 @@
 <project name="Documentation" default="all.doc" basedir=".">
 
     <!-- Set the following property to generate the doco in the output folder -->
-    <property name="build.dir" value="${basedir}/../build/reference"/>
+	<property name="modulename" value="seam"></property>
+	<condition property="build.dir" value="${doc-root}/${modulename}" else="{basedir}/../build/reference">
+		<isset property="doc-root"/>
+	</condition>
 
-    <property name="pdf.name"              value="Seam_Dev_Tools_Reference_Guide.pdf" />
+    <property name="pdf.name"              value="Getting_Started_with_RHDS.pdf" />
     <import file="../resources/support.xml" />
 
     <target name="all.doc" depends="clean">
