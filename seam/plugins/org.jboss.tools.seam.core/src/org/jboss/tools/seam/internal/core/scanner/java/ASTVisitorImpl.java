@@ -104,13 +104,17 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 
 	public boolean visit(TypeDeclaration node) {
-		annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
-		currentAnnotatedNode = annotatedType; 
+		if(annotatedType == null) {
+			annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
+			currentAnnotatedNode = annotatedType;
+		}
 		return true;
 	}
 	
 	public void endVisit(TypeDeclaration node) {
-		currentAnnotatedNode = null;
+		if(currentAnnotatedNode != null && currentAnnotatedNode.node == node) {
+			currentAnnotatedNode = null;
+		}
 	}
 	
 	public boolean visit(FieldDeclaration node) {
