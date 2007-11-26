@@ -338,11 +338,11 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 					viewFilterSetCollection, true);
 			
 			// to fix seam2 tests for war deployment 
-			File srcModelMetaInf = new File(project.getLocation().append(modelSrcPath).toFile(),"META-INF");
-			AntCopyUtils.copyFileToFile(
-					dataSourceDsFile, 
-					new File(srcModelMetaInf,project.getName()+"-ds.xml"),  //$NON-NLS-1$
-					viewFilterSetCollection, true);
+//			File srcModelMetaInf = new File(project.getLocation().append(modelSrcPath).toFile(),"META-INF");
+//			AntCopyUtils.copyFileToFile(
+//					dataSourceDsFile, 
+//					new File(srcModelMetaInf,project.getName()+"-ds.xml"),  //$NON-NLS-1$
+//					viewFilterSetCollection, true);
 			
 			AntCopyUtils.copyFileToFile(
 					hibernateConsoleLaunchFile, 
@@ -591,11 +591,15 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			File testSrcDir = new File(testProjectDir,"test-src"); //$NON-NLS-1$
 			String seamGenResFolder = seamRuntime.getResourceTemplatesDir();
 			File persistenceFile = new File(seamGenResFolder ,"META-INF/persistence-" + (isWarConfiguration(model)?TEST_WAR_PROFILE:TEST_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
+			File dataSourceFile = new File(seamGenResFolder, "datasource-ds.xml");
+			File seamPropertiesFile = new File(seamGenResFolder, "seam.properties");
 			//File jbossBeansFile = new File(seamGenResFolder ,"META-INF/jboss-beans.xml"); //$NON-NLS-1$
 			FilterSet filterSet = new FilterSet();
 			filterSet.addFilter("projectName", projectName); //$NON-NLS-1$
 			filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
 			filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
+
+			FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);			
 			// TODO: why are these filters not shared!?
 			filterSet.addConfiguredFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 			
@@ -655,27 +659,37 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 					new File(seamRuntime.getHomeDir(),"bootstrap"), //$NON-NLS-1$
 					embededEjbDir,
 					new AntCopyUtils.FileSetFileFilter(excludeCvsSvn), new FilterSetCollection(), true);
+
+//			AntCopyUtils.copyFileToFile(
+//					persistenceFile,
+//					new File(testProjectDir,"test-src/META-INF/persistence.xml"), //$NON-NLS-1$
+//					new FilterSetCollection(filterSet), true);
+			
+			FilterSetCollection f = new FilterSetCollection();
+			f.addFilterSet(filterSet);
+			f.addFilterSet(jdbcFilterSet);
 			
 			AntCopyUtils.copyFileToFile(
-					persistenceFile,
-					new File(testProjectDir,"test-src/META-INF/persistence.xml"), //$NON-NLS-1$
+					dataSourceFile,
+					new File(testProjectDir,"test-src/META-INF/"+seamWebProject.getName()+"-ds.xml"), //$NON-NLS-1$
+					f, true);
+
+			AntCopyUtils.copyFileToFolder(
+					seamPropertiesFile,
+					testSrcDir, //$NON-NLS-1$
 					new FilterSetCollection(filterSet), true);
 
-			/*AntCopyUtils.copyFileToFolder(
-					jbossBeansFile,
-					new File(testProjectDir,"test-src/META-INF"), //$NON-NLS-1$
-					new FilterSetCollection(filterSet), true);*/
-			
 			AntCopyUtils.copyFiles(
 					new File(seamRuntime.getHomeDir(),"lib"), //$NON-NLS-1$
 					testLibDir,
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
+
 			//seam2 has a lib/test
 			AntCopyUtils.copyFiles(
 					new File(seamRuntime.getHomeDir(),"lib/test"), //$NON-NLS-1$
 					testLibDir,
 					new AntCopyUtils.FileSetFileFilter(includeLibs));
-			
+
 			createComponentsProperties(testSrcDir, "", true); //$NON-NLS-1$
 		}
 
