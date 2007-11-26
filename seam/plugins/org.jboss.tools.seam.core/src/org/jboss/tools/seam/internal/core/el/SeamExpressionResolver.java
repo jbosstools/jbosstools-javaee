@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
@@ -27,6 +28,7 @@ import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamComponentMethodType;
 
 /**
  * Utility class used to resolve Seam project variables and to get the methods/properties and their presentation strings from type
@@ -162,9 +164,22 @@ public class SeamExpressionResolver {
 		}
 		if (variable instanceof ISeamComponent) {
 			ISeamComponent component = (ISeamComponent)variable;
-			ISeamJavaComponentDeclaration decl = component.getJavaDeclaration();
-			if (decl != null) {
-				member = TypeInfoCollector.createMemberInfo(decl.getSourceMember());
+			
+			// Use UNWRAP method type instead of ISeamComponent type if it exists
+			IMember unwrapSourceMember = null;
+			for (ISeamComponentMethod method : component.getMethods()) {
+				if (method.getTypes()!= null && method.getTypes().contains(SeamComponentMethodType.UNWRAP) ) {
+					unwrapSourceMember = method.getSourceMember();
+					break;
+				}
+			}
+			if (unwrapSourceMember != null) {
+				member = TypeInfoCollector.createMemberInfo(unwrapSourceMember);
+			} else {
+				ISeamJavaComponentDeclaration decl = component.getJavaDeclaration();
+				if (decl != null) {
+					member = TypeInfoCollector.createMemberInfo(decl.getSourceMember());
+				}
 			}
 		}
 		if (member == null && variable instanceof IBijectedAttribute) {
