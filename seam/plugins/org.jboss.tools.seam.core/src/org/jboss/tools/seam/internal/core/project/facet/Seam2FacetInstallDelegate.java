@@ -671,7 +671,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			
 			AntCopyUtils.copyFileToFile(
 					dataSourceFile,
-					new File(testProjectDir,"test-src/META-INF/"+seamWebProject.getName()+"-ds.xml"), //$NON-NLS-1$
+					new File(testProjectDir,"test-src/META-INF/"+seamWebProject.getName()+"-test-ds.xml"), //$NON-NLS-1$
 					f, true);
 
 			AntCopyUtils.copyFileToFolder(
