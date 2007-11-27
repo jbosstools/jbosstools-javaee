@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="seam_editors" xreflabel="seam_editors">
+<chapter id="seam_editors" xreflabel="seam_editors">of various possible problematic definitions is i
     <?dbhtml filename="seam_editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -59,7 +59,7 @@
         <para>If an issue is found it will show up in the standard <property>Problems View</property>.</para>
         
         <figure>
-            <title>OpenOn</title>
+            <title>Seam Validation</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_editors/seam_editors2_1.png"/>
