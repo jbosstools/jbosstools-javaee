@@ -631,17 +631,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 					new File(seamRuntime.getHomeDir(),"embedded-ejb/conf"), //$NON-NLS-1$
 					embededEjbDir,
 					new AntCopyUtils.FileSetFileFilter(excludeCvsSvn));
-			
-			AntCopyUtils.copyFileToFile(
-					persistenceFile,
-					new File(testProjectDir,"test-src/META-INF/persistence.xml"), //$NON-NLS-1$
-					new FilterSetCollection(filterSet), true);
-
-			AntCopyUtils.copyFileToFolder(
-					jbossBeansFile,
-					new File(testProjectDir,"test-src/META-INF"), //$NON-NLS-1$
-					new FilterSetCollection(filterSet), true);
-			
+	
 			AntCopyUtils.copyFiles(
 					new File(seamRuntime.getHomeDir(),"lib"), //$NON-NLS-1$
 					testLibDir,
