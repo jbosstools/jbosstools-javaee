@@ -3,7 +3,7 @@
   <?dbhtml filename="AddingCustomCapabilityFeaturesTemplates.html"?>
   <chapterinfo>
     <keywordset>
-      <keyword>Red Hat Developer Studio</keyword>
+      <keyword>JBoss Developer Studio</keyword>
       <keyword>Eclipse</keyword>
       <keyword>Java</keyword>
       <keyword>JBoss</keyword>
@@ -39,7 +39,7 @@
 <para>To add a new library set, click <emphasis>Add</emphasis> for the top window.</para>
 <para>To add new Jar files (libraries) to a library set, first select a library set and click <emphasis>Add</emphasis> for the 
 lower window. Browse to the location of the Jar file you want to add. The file can be anywhere on your machine 
-and will be copied to your Eclipse workspace. If you upgrade to a new Red Hat Developer Studio version, you will not lose
+and will be copied to your Eclipse workspace. If you upgrade to a new JBoss Developer Studio version, you will not lose
  your library sets.</para>
  </section>
 </section>
@@ -76,8 +76,8 @@ and will be copied to your Eclipse workspace. If you upgrade to a new Red Hat De
  </orderedlist>
 <para>How to add <property>capability</property> to a project:</para>
 <itemizedlist>
-<listitem><para>From Package Explorer: right click a project and select <emphasis>Red Hat Developer Studio/Add Custom Capability...</emphasis> or</para></listitem>
-<listitem><para>From Web Projects: right click the project and select <emphasis>Red Hat Developer Studio/Add Custom Capability...</emphasis>.</para></listitem>
+<listitem><para>From Package Explorer: right click a project and select <emphasis>JBoss Developer Studio/Add Custom Capability...</emphasis> or</para></listitem>
+<listitem><para>From Web Projects: right click the project and select <emphasis>JBoss Developer Studio/Add Custom Capability...</emphasis>.</para></listitem>
 </itemizedlist>
 <orderedlist>
 <listitem><para>Use check boxes to select <property>Custom Capabilities</property></para></listitem>
@@ -274,13 +274,13 @@ Eclipse workspace is pretty easy.</para>
 <section id="AddingYourOwnProjectTemplates">
 <?dbhtml filename="AddingYourOwnProjectTemplates.html"?>
 <title>Adding Your Own Project Templates</title>
-<para>Red Hat Developer Studio has a powerful templating <property>capability</property> for creating new and importing existing Struts and JSF projects. This templating facility has a variety of aspects to consider. But, let&apos;s start 
+<para>JBoss Developer Studio has a powerful templating <property>capability</property> for creating new and importing existing Struts and JSF projects. This templating facility has a variety of aspects to consider. But, let&apos;s start 
 with the most straightforward case.</para>
 
 <para>Let&apos;s say you have a project that you want to use as the basis for a new template. Follow these steps to make a template out of it:</para>
 
 <orderedlist>
-<listitem><para>In the Project Explorer, right-click the project and select <emphasis>Red Hat Developer Studio/Save as Template</emphasis>.</para></listitem>
+<listitem><para>In the Project Explorer, right-click the project and select <emphasis>JBoss Developer Studio/Save as Template</emphasis>.</para></listitem>
 <listitem><para>In the first dialog box, you can choose a name for the template (defaults to the project name) and confirm what run-time implementation of the project&apos;s technology will be used.</para></listitem>
 <listitem><para>Select Next and you will be sent to a dialog box with your project structure displayed with check boxes. Here you can check only those parts and files in your project directory that should be part of the template.</para></listitem>
 <listitem><para>At this point, unless you want to designate some extra files as having Velocity template coding inside them, you should select Finish.</para></listitem>
@@ -317,7 +317,7 @@ environments which consists of any number of Jar files.</para>
 <listitem><para>When you click Add, enter the following information:</para>
 <itemizedlist>
 <listitem><para>Name - enter the name of the new environment</para></listitem>
-<listitem><para>Template Location - leave the default value. This environment will be saved under your workspace. If you upgrade Red Hat Developer Studio plug-in, you will keep all custom settings</para></listitem>
+<listitem><para>Template Location - leave the default value. This environment will be saved under your workspace. If you upgrade JBoss Developer Studio plug-in, you will keep all custom settings</para></listitem>
 <listitem><para>Core Library - Select one core library (See <link linkend="CreatingandUsingWithLibrarySets">Library Sets</link> for more information)</para></listitem>
 </itemizedlist></listitem>
 </orderedlist>

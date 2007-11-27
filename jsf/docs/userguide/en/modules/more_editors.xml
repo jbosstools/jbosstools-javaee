@@ -2,7 +2,7 @@
 <chapter id="more_editors" xreflabel="more_editors">
     <?dbhtml filename="more_editors.html"?>
 <title>More Editors</title>
-<para>Besides Visual Page Editor RHDS provides editors for editing project files of any types: properties, TLD, web.xml, tiles, and so on.</para>	
+<para>Besides Visual Page Editor JBDS provides editors for editing project files of any types: properties, TLD, web.xml, tiles, and so on.</para>	
 <section id="GraphicalPropertiesEditor">
 <?dbhtml filename="GraphicalPropertiesEditor.html"?>
 <title>Graphical Properties Editor</title>
@@ -45,7 +45,7 @@
 <?dbhtml filename="GraphicalTLDEditor.html"?>
 <title>Graphical TLD Editor</title>
 
-    <para><property>The TLD editor</property> comes with same features you will find in all other Red Hat Developer Studio editors:</para>
+    <para><property>The TLD editor</property> comes with same features you will find in all other JBoss Developer Studio editors:</para>
 
 <itemizedlist>
 <listitem><para>Graphical and source edit modes</para></listitem>
@@ -129,7 +129,7 @@ next to the line and also in the Problems view below.</para>
 <title>Graphical Web Application File (web.xml) Editor</title>
 
 <para>The Web Application File editor comes with the same features you will find in all other 
-Red Hat Developer Studio editors:</para>
+JBoss Developer Studio editors:</para>
 
 <itemizedlist>
 <listitem><para>Graphical and source edit modes</para></listitem>
@@ -349,7 +349,7 @@ Any changes here will immediately appear in when you switch to any of the other 
 <section id="GraphicalEditorForStrutsValidationFiles">
 <?dbhtml filename="GraphicalStrutsValidationFilesEditor.html"?>
 <title>Graphical Editor for Struts Validation Files</title>
-<para>Red Hat Developer Studio comes with a visual validation editor. To create a new validation file, 
+<para>JBoss Developer Studio comes with a visual validation editor. To create a new validation file, 
 right click any folder and select <emphasis><property>File > Validation File</property></emphasis> from the context menu.</para>
 
 <figure>
@@ -436,7 +436,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <section id="SpringIDE">
 <?dbhtml filename="SpringIDE.html"?>
 <title>Spring IDE</title>
-    <para>Red Hat Developer Studio bundles a <property>Spring Framework editor</property> from <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit this site for the latest versions and documentation.</para>
+    <para>JBoss Developer Studio bundles a <property>Spring Framework editor</property> from <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit this site for the latest versions and documentation.</para>
 
     <para>You can add a <property>Spring Project nature</property> to an existing project by right-clicking on the project and
  selecting from the context menu:</para>
@@ -547,7 +547,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <?dbhtml filename="CSSEditor.html"?>
 <title>CSS Editor</title>
 
-    <para>The <property>CSS editor</property> comes with the same features you will find in all other Red Hat Developer Studio editors.</para>
+    <para>The <property>CSS editor</property> comes with the same features you will find in all other JBoss Developer Studio editors.</para>
 
 <itemizedlist>
 <listitem><para>Content assist</para></listitem>
@@ -635,7 +635,7 @@ declaration properties:</para>
 <?dbhtml filename="XSDEditor.html"?>
 <title>XSD Editor</title>
 
-    <para>Red Hat Developer Studio comes with an <property>XSD Editor</property> for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).</para>
+    <para>JBoss Developer Studio comes with an <property>XSD Editor</property> for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).</para>
 
     <para>To create a new XSD file, right-click a folder in the Package Explorer view, select <emphasis><property>New &gt; Other...</property></emphasis> from the context menu and then select <emphasis><property>XML &gt; XML Schema</property></emphasis> in the dialog box.</para>
 
@@ -709,7 +709,7 @@ declaration properties:</para>
 <?dbhtml filename="SupportforXMLSchema.html"?>
 <title>Support for XML Schema</title>
 
-<para>Red Hat Developer Studio fully supports XML files based on schemas as well as DTDs:</para>
+<para>JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:</para>
 <figure>
 <title>XML File</title>
 <mediaobject> 

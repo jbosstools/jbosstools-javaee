@@ -4,7 +4,7 @@
 	<?dbhtml filename="crud_database_application.html"?>
 	<chapterinfo>
 		<keywordset>
-			<keyword>Red Hat Developer Studio</keyword>
+			<keyword>JBoss Developer Studio</keyword>
 			<keyword>Eclipse</keyword>
 			<keyword>Java</keyword>
 			<keyword>CRUD</keyword>

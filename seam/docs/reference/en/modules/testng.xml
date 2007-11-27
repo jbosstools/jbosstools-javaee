@@ -3,8 +3,8 @@
     <?dbhtml filename="testNG.html"?>
     <chapterinfo>
         <keywordset>
-            <keyword>Red Hat Developer Studio</keyword>
-            <keyword>RHDS</keyword>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>JBDS</keyword>
             <keyword>testNG</keyword>
             </keywordset>
     </chapterinfo>

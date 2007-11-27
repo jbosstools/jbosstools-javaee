@@ -7,7 +7,7 @@
 <title>Deploying an Application to a Server</title>
 
 <para>You can deploy your application to any server, but there are certain types of servers that 
-Red Hat Developer Studio supports directly (through the bundled Eclipse Web Tools Project, WTP, plug-ins). 
+JBoss Developer Studio supports directly (through the bundled Eclipse Web Tools Project, WTP, plug-ins). 
 To deploy to this type of directly supported server you need to follow these steps:</para>
 
 <itemizedlist>
@@ -18,7 +18,7 @@ To deploy to this type of directly supported server you need to follow these ste
 <section id="DefiningTheServer">
 <?dbhtml filename="DefiningTheServer.html"?>
 <title>Defining the Server</title>
-<para>To use a server for direct support in Red Hat Developer Studio, it needs to be defined. A special Servers view 
+<para>To use a server for direct support in JBoss Developer Studio, it needs to be defined. A special Servers view 
 (usually at the bottom of the screen) lists all currently defined servers. If you can&apos;t see this view, you 
 can open it by selecting Window/Show View.../Other/Server/Server from the menu bar. Expanding the server 
 will show any deployed applications for that server.</para>
@@ -113,7 +113,7 @@ selection in this section.</para>
 <?dbhtml filename="ServletContainerToolbar.html"?>
 <title>Servlet Container Toolbar</title>
 
-<para>Red Hat Developer Studio allows you to control its directly supported servlet containers from within Eclipse
+<para>JBoss Developer Studio allows you to control its directly supported servlet containers from within Eclipse
  through a special toolbar. You can select a servlet container (Tomcat is the default on installation), 
  start it in regular or debug mode, stop it, or restart it. For the current application, you can touch the 
  web.xml file. Also, you can launch the current application in the servlet container.</para>
@@ -180,7 +180,7 @@ like http://localhost:8080/applicationName:</para>
     <para>You have to have deployed the application before running it.</para>
   </note>
 
-<para>To see what URL will be launched, select the down pointing arrow. Red Hat Developer Studio will also remember
+<para>To see what URL will be launched, select the down pointing arrow. JBoss Developer Studio will also remember
  the last few URLs that were used.</para>
 
 <figure>
@@ -197,7 +197,7 @@ like http://localhost:8080/applicationName:</para>
 <?dbhtml filename="ServerContainerPreferences.html"?>
 <title>Server Container Preferences</title>
 
-<para>In Preferences, you can control how Red Hat Developer Studio Studio interacts with servlet containers. By selecting 
+<para>In Preferences, you can control how JBoss Developer Studio Studio interacts with servlet containers. By selecting 
 the appropriate switch, you can control which browser is used to run the application and settings for each 
 type of supported servlet container:</para>
 <para>SerlvetToolbarSettings</para>
@@ -207,7 +207,7 @@ type of supported servlet container:</para>
 <?dbhtml filename="JavaDebuggingOfApplicationsInSupportedServers.html"?>
 <title>Java Debugging of Applications in Supported Servers</title>
 
-<para>With Red Hat Developer Studio you can launch your application in debug mode with the types of servers 
+<para>With JBoss Developer Studio you can launch your application in debug mode with the types of servers 
 supported by Red Hat Studio. These are currently:</para>
 <itemizedlist>
 <listitem><para>Apache Geronimo 1.0</para></listitem>
@@ -234,7 +234,7 @@ supported by Red Hat Studio. These are currently:</para>
 <title>Launch Applications in the Web Browser of Your Choice</title>
 
 
-<para>Red Hat Developer Studio lets you easily launch your application in a Web browser of your choice to 
+<para>JBoss Developer Studio lets you easily launch your application in a Web browser of your choice to 
 run it or to test it. To launch your application with the currently selected browser, simply click the Run 
 button as shown.</para>
  <figure>
@@ -246,7 +246,7 @@ button as shown.</para>
     </mediaobject>
 </figure>
 
-<para>You can choose a new browser for running applications inside Red Hat Developer Studio by selecting 
+<para>You can choose a new browser for running applications inside JBoss Developer Studio by selecting 
 Window/Preferences from the menu bar and then selecting General/Web Browser in the dialog box. You can 
 always add a new Web browser to the list here by clicking New....</para>
 
@@ -264,13 +264,13 @@ always add a new Web browser to the list here by clicking New....</para>
 <?dbhtml filename="DeployToAnyServer.html"?>
 <title>Deploy to Any Server (Including WebLogic, WebSphere and Resin)</title>
 
-<para>Red Hat Developer Studio works closely with a specific group of servlet containers provided by the bundled WTP
- (Eclipse Web Tools Project) plug-ins, but Red Hat Developer Studio doesn&apos;t ultimately tie you to any particular server
+<para>JBoss Developer Studio works closely with a specific group of servlet containers provided by the bundled WTP
+ (Eclipse Web Tools Project) plug-ins, but JBoss Developer Studio doesn&apos;t ultimately tie you to any particular server
   for deployment. You are free to deploy your application to any server of your choice. For the servers that 
-  are not supported explicitly by Red Hat Developer Studio, you simply need to create an Ant script that will create 
+  are not supported explicitly by JBoss Developer Studio, you simply need to create an Ant script that will create 
   a .war file and copy it to the deployment directory under your server.</para>
 
-<para>Any new or imported Red Hat Developer Studio project should have an ant folder containing an 
+<para>Any new or imported JBoss Developer Studio project should have an ant folder containing an 
 Ant build.xml script. In this script, there are two commented-out &quot;targets&quot; war and deploy:</para>
 
   <programlisting role="XML"><![CDATA[

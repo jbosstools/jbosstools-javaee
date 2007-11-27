@@ -10,10 +10,10 @@
     </keywordset>
   </chapterinfo>
   <title>JBoss Tools</title>
-<para>JBoss Tools is an umbrella project for the JBoss developed plugins that will make it into Red Hat Developer Studio. It includes the following Eclipse modules:</para>
+<para>JBoss Tools is an umbrella project for the JBoss developed plugins that will make it into JBoss Developer Studio. It includes the following Eclipse modules:</para>
 <itemizedlist>
         <listitem><para><emphasis><property>Seam Tools</property></emphasis> Will include support for seam-gen, RichFaces VE integration, Seam related code completion and refactoring and more.</para>
-		<para>To read more on Seam, see <ulink url="http://docs.jboss.com/seam/2.0.0.GA/reference/en/html/index.html">Seam Reference Guide </ulink> or <ulink url="http://www.redhat.com/developers/rhds/Getting_Started/GetStartSeamGen.html">Getting Started Guide</ulink></para></listitem>
+		<para>To read more on Seam, see <ulink url="http://docs.jboss.com/seam/2.0.0.GA/reference/en/html/index.html">Seam Reference Guide </ulink> or <ulink url="http://www.redhat.com/developers/jbds/Getting_Started/GetStartSeamGen.html">Getting Started Guide</ulink></para></listitem>
 		<!--TODO link for Seam Guide -->
 		
 		<listitem><para><emphasis><property>RichFaces Support</property></emphasis>. <para>Rich Faces is an open source framework that adds Ajax capability into existing JSF applications without resorting to JavaScript.</para>

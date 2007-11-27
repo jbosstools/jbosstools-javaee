@@ -2,7 +2,7 @@
 <chapter id="editors_features" xreflabel="editors_features">
     <?dbhtml filename="editors_features.html"?>
 <title>Editors Features</title>
-<para>Red Hat Developer Studio has powerful editor features that help you easily navigate within your application and make use of content and code assist no matter what project file (jsp, xhtml, xml, css, etc.) you are working on.</para>
+<para>JBoss Developer Studio has powerful editor features that help you easily navigate within your application and make use of content and code assist no matter what project file (jsp, xhtml, xml, css, etc.) you are working on.</para>
 <section id="OpenOnSelection4Hyperlinknavigation">
 <?dbhtml filename="OpenOnSelection(Hyperlinknavigation)"?>
 <title>OpenOn</title>
@@ -127,7 +127,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <?dbhtml filename="JSFProjectFiles.html"?>
 <title>JSF Project Files</title>
 
-    <para>When working with JSF project in Red Hat Developer Studio, you can use various <property>Content Assist features</property> while developing:</para>
+    <para>When working with JSF project in JBoss Developer Studio, you can use various <property>Content Assist features</property> while developing:</para>
 <itemizedlist>
 <listitem><para>Content Assist for XML, JSP and JSF configuration files</para></listitem>
 <listitem><para>Content Assist based on project data</para></listitem>
@@ -171,7 +171,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <?dbhtml filename="ContentAssistBasedOnProjectData.html"?>
 <title>Content Assist Based on Project Data</title>
 
-<para>Red Hat Developer Studio takes Content Assist to the next level. Studio will
+<para>JBoss Developer Studio takes Content Assist to the next level. Studio will
  constantly scan your project and you will be able to insert code into the JSP page from your project that
   includes:</para>
 <itemizedlist>
@@ -181,7 +181,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
     <listitem><para>JSF variables (context, request etc...)</para></listitem>
 </itemizedlist>
 <para>The first screenshot shows how to insert message from a Properties files. You simply put the cursor
- inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute and press <emphasis><property>Ctrl-Space</property></emphasis>. Red Hat Developer Studio will scan your project and show a list of possible values to insert.</para>
+ inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute and press <emphasis><property>Ctrl-Space</property></emphasis>. JBoss Developer Studio will scan your project and show a list of possible values to insert.</para>
 <figure>
 <title>Inserting Message</title>
 <mediaobject> 
@@ -190,7 +190,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
         </imageobject>
 </mediaobject>
 </figure>
-<para>In the following screen shot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis> attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property></emphasis>, Red Hat Developer Studio will show a list of all possible values that you can insert:</para>
+<para>In the following screen shot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis> attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property></emphasis>, JBoss Developer Studio will show a list of all possible values that you can insert:</para>
 
 <para>Once you select a Managed bean, it will show you a list of all available attributes for the selected Managed bean (userBean).</para>
 <figure>
@@ -216,7 +216,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <?dbhtml filename="ContentAssistWithinJSFGraphicalEditor.html"?>
 <title>Content Assist within Tree JSF Editor</title>
 
-<para>Red Hat Developer Studio also provides Content Assist when working within the Tree JSF 
+<para>JBoss Developer Studio also provides Content Assist when working within the Tree JSF 
 configuration editor. Just click <emphasis><property>Ctrl-Space</property></emphasis>.</para>
 <figure>
 <title>Content Assist in Tree JSF Configuration Editor</title>
@@ -308,7 +308,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <section id="ContentAssistForJSFTags96">
 <?dbhtml filename="ContentAssistForJSFTags.html"?>
 <title>Content Assist for JSF Tags</title>
-<para>RHDS provides full code completion for JSF tags:</para>
+<para>JBDS provides full code completion for JSF tags:</para>
 
 <figure>
 <title>JSF Tags Content Assist</title>
@@ -392,7 +392,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <section id="ContentAssistForRF">
 <?dbhtml filename="ContentAssistForRF.html"?>
 <title>Content Assist for Rich Faces components</title>
-<para>RHDS indeed provides code completion for Rich Faces framework components. All you have to do is to install Rich Faces libraries into your project. See <ulink url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html">here</ulink> how to install.</para>
+<para>JBDS indeed provides code completion for Rich Faces framework components. All you have to do is to install Rich Faces libraries into your project. See <ulink url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html">here</ulink> how to install.</para>
 <figure>
 <title>Content Assist for Rich Faces Components</title>
 <mediaobject> 
@@ -431,9 +431,9 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <?dbhtml filename="AddingDynamicCodeAssistToCustomComponentsThatWereAddedToJBossToolsPalette.html"?>
 <title>Adding dynamic code assist to custom components that were added to JBoss Tools Palette</title>
 <para>Here is what you need to do to add project based code assist to a custom component added in 
-Red Hat Developer Studio:</para>
+JBoss Developer Studio:</para>
 <orderedlist>
-    <listitem><para>Create a new xml file in <emphasis><property>&lt;RHDS_home&gt;rhds/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property></emphasis>. For example call it JeniaFaces.xml. The file should be written according to <emphasis><property>&lt;RHDS_home&gt;/rhds/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property></emphasis></para></listitem>
+    <listitem><para>Create a new xml file in <emphasis><property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property></emphasis>. For example call it JeniaFaces.xml. The file should be written according to <emphasis><property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property></emphasis></para></listitem>
 </orderedlist>
         <para>Here is how you set what is available for code assist:</para>
 <itemizedlist>
@@ -479,7 +479,7 @@ Red Hat Developer Studio:</para>
 </AttributeType>
 ]]></programlisting>
     <orderedlist continuation="continues">
-        <listitem><para>Add information on your xml file in <emphasis><property>&lt;RHDS_home&gt;/rhds/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property></emphasis></para></listitem>        
+        <listitem><para>Add information on your xml file in <emphasis><property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property></emphasis></para></listitem>        
     </orderedlist>
     <programlisting role="XML"><![CDATA[
          <tld
@@ -497,10 +497,10 @@ Red Hat Developer Studio:</para>
 <?dbhtml filename="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing.html"?>
 <title>Full Control over Source Files - Synchronized Source and Visual Editing</title>
 
-<para>Red Hat Developer Studio offers the flexibility to edit any files in either source or extra visual
+<para>JBoss Developer Studio offers the flexibility to edit any files in either source or extra visual
  modes at the same time.</para>
 
-<para>The project is yours and so is the source. Red Hat Developer Studio provides you many different
+<para>The project is yours and so is the source. JBoss Developer Studio provides you many different
  graphical editors to speed your application development. At the same time, you always have full control
   over all project source files. Any changes you make in the source view, will immediately appear in
    the graphical view.</para>
@@ -532,7 +532,7 @@ synchronized, you can edit the file in any view.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>The same applies to all other Red Hat Developer Studio editors.</para>
+<para>The same applies to all other JBoss Developer Studio editors.</para>
 
 <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source (Source).</para>
 
@@ -552,7 +552,7 @@ synchronized, you can edit the file in any view.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Red Hat Developer Studio TLD file editor shown in Tree view. At any point you can edit the source by going
+<para>JBoss Developer Studio TLD file editor shown in Tree view. At any point you can edit the source by going
  switching to Source view.</para>
 <figure>
 <title>Tree Editor</title>

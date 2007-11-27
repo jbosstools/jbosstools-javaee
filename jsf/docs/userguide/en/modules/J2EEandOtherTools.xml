@@ -6,7 +6,7 @@
 <section id="J2EETools">
 <?dbhtml filename="J2EETools.html"?>
 <title>J2EE Tools</title>
-<para>J2EE tools and features in Red Hat Developer Studio are provided by the WTP (Web Services Tools)
+<para>J2EE tools and features in JBoss Developer Studio are provided by the WTP (Web Services Tools)
  plug-in. A really good guide on how to get started can be found
   <ulink url="http://www.eclipse.org/webtools/community/communityresources.html#j2ee">here</ulink>.</para>
 </section>
@@ -17,7 +17,7 @@
 <?dbhtml filename="WebServiceTools.html"?>
 <title>Web Service Tools</title>
 
-<para>Web Service tools in Red Hat Developer Studio are provided by the WTP (Web Services Tools) plug-in. 
+<para>Web Service tools in JBoss Developer Studio are provided by the WTP (Web Services Tools) plug-in. 
 A really good guide on how to get started can be found
  <ulink url="http://www.eclipse.org/webtools/initial-contribution/IBM/evalGuides/WebServicesToolsEval.html?p=1">here</ulink>.</para>
 </section>

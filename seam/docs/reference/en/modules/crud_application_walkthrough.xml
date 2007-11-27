@@ -3,7 +3,7 @@
 <?dbhtml filename="crud_application_walkthrough.html"?>
   <chapterinfo>
     <keywordset>
-      <keyword>Red Hat Developer Studio</keyword>
+      <keyword>JBoss Developer Studio</keyword>
       <keyword>Eclipse</keyword>
       <keyword>Java</keyword>
       <keyword>CRUD</keyword>
@@ -101,7 +101,7 @@
  			<para>After the previous steps you can use CRUD application to select, delete or update date from <property>employee</property> database.</para>
  			
         
-        <para>You can use internal RHDS Web Browser or your external Web Browser with the same link. (<emphasis>http://localhost:8080/crudapp/home.seam</emphasis>)</para>
+        <para>You can use internal JBDS Web Browser or your external Web Browser with the same link. (<emphasis>http://localhost:8080/crudapp/home.seam</emphasis>)</para>
         <para>Click on the <emphasis><property>Employees List</property></emphasis> link and observe that data from DataBase <emphasis><property>employee</property></emphasis> selected.</para>
         <figure>
             <title>Employees List</title>

@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
- <chapter id="rhds_editors" xreflabel="rhds_editors">
- <?dbhtml filename="rhds_editors"?>
+ <chapter id="jbds_editors" xreflabel="jbds_editors">
+ <?dbhtml filename="jbds_editors.html"?>
  <chapterinfo>
         <keywordset>
-            <keyword>Red Hat Developer Studio</keyword>
-            <keyword>RHDS</keyword>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>JBDS</keyword>
             <keyword>Editor</keyword>
             </keywordset>
     </chapterinfo>
 
 	<title>Editors</title>
 
-<para>RHDS is supplied with a huge range of various editors for different file types.</para>
+<para>JBDS is supplied with a huge range of various editors for different file types.</para>
 
 <section id="editors_features">
     <?dbhtml filename="editors_features.html"?>
 <title>Editors Features</title>
-<para>Red Hat Developer Studio has powerful editor features that help you easily navigate within your application and make use of content and code assist no matter what project file (jsp, xhtml, xml, css, etc.) you are working on.</para>
+<para>JBoss Developer Studio has powerful editor features that help you easily navigate within your application and make use of content and code assist no matter what project file (jsp, xhtml, xml, css, etc.) you are working on.</para>
 
 <section id="OpenOnSelection4Hyperlinknavigation">
 <?dbhtml filename="OpenOnSelection(Hyperlinknavigation)"?>
@@ -142,7 +142,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <?dbhtml filename="JSFProjectFiles.html"?>
 <title>JSF Project Files</title>
 
-    <para>When working with JSF project in Red Hat Developer Studio, you can use various <property>Content Assist features</property> while developing:</para>
+    <para>When working with JSF project in JBoss Developer Studio, you can use various <property>Content Assist features</property> while developing:</para>
 <itemizedlist>
 <listitem><para>Content Assist for XML, JSP and JSF configuration files</para></listitem>
 <listitem><para>Content Assist based on project data</para></listitem>
@@ -186,7 +186,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <?dbhtml filename="ContentAssistBasedOnProjectData.html"?>
 <title>Content Assist Based on Project Data</title>
 
-<para>Red Hat Developer Studio takes Content Assist to the next level. Studio will
+<para>JBoss Developer Studio takes Content Assist to the next level. Studio will
  constantly scan your project and you will be able to insert code into the JSP page from your project that
   includes:</para>
 <itemizedlist>
@@ -196,7 +196,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
     <listitem><para>JSF variables (context, request etc...)</para></listitem>
 </itemizedlist>
 <para>The first screenshot shows how to insert message from a Properties files. You simply put the cursor
- inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute and press <emphasis><property>Ctrl-Space</property></emphasis>. Red Hat Developer Studio will scan your project and show a list of possible values to insert.</para>
+ inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute and press <emphasis><property>Ctrl-Space</property></emphasis>. JBoss Developer Studio will scan your project and show a list of possible values to insert.</para>
 <figure>
 <title>Inserting Message</title>
 <mediaobject> 
@@ -205,7 +205,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
         </imageobject>
 </mediaobject>
 </figure>
-<para>In the following screen shot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis> attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property></emphasis>, Red Hat Developer Studio will show a list of all possible values that you can insert:</para>
+<para>In the following screen shot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis> attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property></emphasis>, JBoss Developer Studio will show a list of all possible values that you can insert:</para>
 
 <para>Once you select a Managed bean, it will show you a list of all available attributes for the selected Managed bean (userBean).</para>
 <figure>
@@ -231,7 +231,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <?dbhtml filename="ContentAssistWithinJSFGraphicalEditor.html"?>
 <title>Content Assist within Tree JSF Editor</title>
 
-<para>Red Hat Developer Studio also provides Content Assist when working within the Tree JSF 
+<para>JBoss Developer Studio also provides Content Assist when working within the Tree JSF 
 configuration editor. Just click <emphasis><property>Ctrl-Space</property></emphasis>.</para>
 <figure>
 <title>Content Assist in Tree JSF Configuration Editor</title>
@@ -323,7 +323,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <section id="ContentAssistForJSFTags96">
 <?dbhtml filename="ContentAssistForJSFTags.html"?>
 <title>Content Assist for JSF Tags</title>
-<para>RHDS provides full code completion for JSF tags:</para>
+<para>JBDS provides full code completion for JSF tags:</para>
 
 <figure>
 <title>JSF Tags Content Assist</title>
@@ -407,7 +407,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <section id="ContentAssistForRF">
 <?dbhtml filename="ContentAssistForRF.html"?>
 <title>Content Assist for Rich Faces components</title>
-<para>RHDS indeed provides code completion for Rich Faces framework components. All you have to do is to install Rich Faces libraries into your project. See <ulink url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html">here</ulink> how to install.</para>
+<para>JBDS indeed provides code completion for Rich Faces framework components. All you have to do is to install Rich Faces libraries into your project. See <ulink url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html">here</ulink> how to install.</para>
 <figure>
 <title>Content Assist for Rich Faces Components</title>
 <mediaobject> 
@@ -446,9 +446,9 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <?dbhtml filename="AddingDynamicCodeAssistToCustomComponentsThatWereAddedToJBossToolsPalette.html"?>
 <title>Adding dynamic code assist to custom components that were added to JBoss Tools Palette</title>
 <para>Here is what you need to do to add project based code assist to a custom component added in 
-Red Hat Developer Studio:</para>
+JBoss Developer Studio:</para>
 <orderedlist>
-    <listitem><para>Create a new xml file in <emphasis><property>&lt;RHDS_home&gt;rhds/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property></emphasis>. For example call it JeniaFaces.xml. The file should be written according to <emphasis><property>&lt;RHDS_home&gt;/rhds/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property></emphasis></para></listitem>
+    <listitem><para>Create a new xml file in <emphasis><property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property></emphasis>. For example call it JeniaFaces.xml. The file should be written according to <emphasis><property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property></emphasis></para></listitem>
 </orderedlist>
         <para>Here is how you set what is available for code assist:</para>
 <itemizedlist>
@@ -494,7 +494,7 @@ Red Hat Developer Studio:</para>
 </AttributeType>
 ]]></programlisting>
     <orderedlist continuation="continues">
-        <listitem><para>Add information on your xml file in <emphasis><property>&lt;RHDS_home&gt;/rhds/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property></emphasis></para></listitem>        
+        <listitem><para>Add information on your xml file in <emphasis><property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property></emphasis></para></listitem>        
     </orderedlist>
     <programlisting role="XML"><![CDATA[
          <tld
@@ -512,10 +512,10 @@ Red Hat Developer Studio:</para>
 <?dbhtml filename="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing.html"?>
 <title>Full Control over Source Files - Synchronized Source and Visual Editing</title>
 
-<para>Red Hat Developer Studio offers the flexibility to edit any files in either source or extra visual
+<para>JBoss Developer Studio offers the flexibility to edit any files in either source or extra visual
  modes at the same time.</para>
 
-<para>The project is yours and so is the source. Red Hat Developer Studio provides you many different
+<para>The project is yours and so is the source. JBoss Developer Studio provides you many different
  graphical editors to speed your application development. At the same time, you always have full control
   over all project source files. Any changes you make in the source view, will immediately appear in
    the graphical view.</para>
@@ -547,7 +547,7 @@ synchronized, you can edit the file in any view.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>The same applies to all other Red Hat Developer Studio editors.</para>
+<para>The same applies to all other JBoss Developer Studio editors.</para>
 
 <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source (Source).</para>
 
@@ -567,7 +567,7 @@ synchronized, you can edit the file in any view.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Red Hat Developer Studio TLD file editor shown in Tree view. At any point you can edit the source by going
+<para>JBoss Developer Studio TLD file editor shown in Tree view. At any point you can edit the source by going
  switching to Source view.</para>
 <figure>
 <title>Tree Editor</title>
@@ -611,7 +611,7 @@ synchronized, you can edit the file in any view.</para>
 <section id="visual_page">
 <?dbhtml filename="visual_page.html"?>
 <title>Visual Page Editor</title>
-<para>Red Hat Developer Studio comes with a powerful and customizable <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
+<para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
 <section id="visual_tabs">
 <?dbhtml filename="visual_tabs.html"?>
@@ -878,7 +878,7 @@ contextual error checking as you type.</para>
 <?dbhtml filename="PageEditorWithPreview.html"?>
 <title>JSP Page Preview</title>
 
-<para>Red Hat Developer Studio comes with JSP design-time preview features. When designing JSP pages you
+<para>JBoss Developer Studio comes with JSP design-time preview features. When designing JSP pages you
  can easily preview how they will look during runtime. You can even attach your stylesheet to the preview.</para>
 
 <para>JSP preview is available for:</para>
@@ -895,7 +895,7 @@ contextual error checking as you type.</para>
 <section id="more_editors">
     <?dbhtml filename="more_editors.html"?>
 <title>More Editors</title>
-<para>Besides Visual Page Editor RHDS provides editors for editing project files of any types: properties, TLD, web.xml, tiles, and so on.</para>	
+<para>Besides Visual Page Editor JBDS provides editors for editing project files of any types: properties, TLD, web.xml, tiles, and so on.</para>	
 <section id="GraphicalPropertiesEditor">
 <?dbhtml filename="GraphicalPropertiesEditor.html"?>
 <title>Graphical Properties Editor</title>
@@ -938,7 +938,7 @@ contextual error checking as you type.</para>
 <?dbhtml filename="GraphicalTLDEditor.html"?>
 <title>Graphical TLD Editor</title>
 
-    <para><property>The TLD editor</property> comes with same features you will find in all other Red Hat Developer Studio editors:</para>
+    <para><property>The TLD editor</property> comes with same features you will find in all other JBoss Developer Studio editors:</para>
 
 <itemizedlist>
 <listitem><para>Graphical and source edit modes</para></listitem>
@@ -1023,7 +1023,7 @@ next to the line and also in the Problems view below.</para>
 <title>Graphical Web Application File (web.xml) Editor</title>
 
 <para>The Web Application File editor comes with the same features you will find in all other 
-Red Hat Developer Studio editors:</para>
+JBoss Developer Studio editors:</para>
 
 <itemizedlist>
 <listitem><para>Graphical and source edit modes</para></listitem>
@@ -1245,7 +1245,7 @@ Any changes here will immediately appear in when you switch to any of the other 
 <section id="GraphicalEditorForStrutsValidationFiles">
 <?dbhtml filename="GraphicalStrutsValidationFilesEditor.html"?>
 <title>Graphical Editor for Struts Validation Files</title>
-<para>Red Hat Developer Studio comes with a visual validation editor. To create a new validation file, 
+<para>JBoss Developer Studio comes with a visual validation editor. To create a new validation file, 
 right click any folder and select <emphasis><property>File > Validation File</property></emphasis> from the context menu.</para>
 
 <figure>
@@ -1332,7 +1332,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <section id="SpringIDE">
 <?dbhtml filename="SpringIDE.html"?>
 <title>Spring IDE</title>
-    <para>Red Hat Developer Studio bundles a <property>Spring Framework editor</property> from <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit this site for the latest versions and documentation.</para>
+    <para>JBoss Developer Studio bundles a <property>Spring Framework editor</property> from <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit this site for the latest versions and documentation.</para>
 
     <para>You can add a <property>Spring Project nature</property> to an existing project by right-clicking on the project and
  selecting from the context menu:</para>
@@ -1443,7 +1443,7 @@ in this viewer will immediately be available in the other viewers of this editor
 <?dbhtml filename="CSSEditor.html"?>
 <title>CSS Editor</title>
 
-    <para>The <property>CSS editor</property> comes with the same features you will find in all other Red Hat Developer Studio editors.</para>
+    <para>The <property>CSS editor</property> comes with the same features you will find in all other JBoss Developer Studio editors.</para>
 
 <itemizedlist>
 <listitem><para>Content assist</para></listitem>
@@ -1531,7 +1531,7 @@ declaration properties:</para>
 <?dbhtml filename="XSDEditor.html"?>
 <title>XSD Editor</title>
 
-    <para>Red Hat Developer Studio comes with an <property>XSD Editor</property> for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).</para>
+    <para>JBoss Developer Studio comes with an <property>XSD Editor</property> for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).</para>
 
     <para>To create a new XSD file, right-click a folder in the Package Explorer view, select <emphasis><property>New &gt; Other...</property></emphasis> from the context menu and then select <emphasis><property>XML &gt; XML Schema</property></emphasis> in the dialog box.</para>
 
@@ -1605,7 +1605,7 @@ declaration properties:</para>
 <?dbhtml filename="SupportforXMLSchema.html"?>
 <title>Support for XML Schema</title>
 
-<para>Red Hat Developer Studio fully supports XML files based on schemas as well as DTDs:</para>
+<para>JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:</para>
 <figure>
 <title>XML File</title>
 <mediaobject> 

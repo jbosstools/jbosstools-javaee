@@ -6,7 +6,7 @@
  <section id="faq_facelets">
   <title>Facelets</title>
   <para>Q: Could you give me more information on templates for the MyFaces JSF implementation?</para>
-    <para>A: Red Hat Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
+    <para>A: JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
    with MyFaces and Facelets and then save it as a template for future use.</para>
   

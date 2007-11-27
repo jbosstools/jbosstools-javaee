@@ -2,8 +2,8 @@
 <chapter id="struts1" xreflabel="struts">
   <?dbhtml filename="struts.html"?>
 <title>Struts</title>
-<para>If you prefer develop web applications using <property>Struts</property> technology Red Hat Developer Studio also meets your needs.</para>
-       <para>RHDS supports the Struts 1.1, 1.2.x versions.</para>
+<para>If you prefer develop web applications using <property>Struts</property> technology JBoss Developer Studio also meets your needs.</para>
+       <para>JBDS supports the Struts 1.1, 1.2.x versions.</para>
 
 <section id="SupportForStruts1.2.x1.1">
 <?dbhtml filename="SupportForStruts1.1.1.2.x.html"?>
@@ -27,7 +27,7 @@
 <?dbhtml filename="CreatingANewStrutsProject.html"?>
 <title>Creating a New Struts Project</title>
 
-<para>Red Hat Developer Studio provides the following when working with Struts.</para>
+<para>JBoss Developer Studio provides the following when working with Struts.</para>
 
 <itemizedlist>
        <listitem><para>Create new <property>Struts projects</property></para></listitem>
@@ -37,7 +37,7 @@
        <listitem><para>Add <property>Struts capabilities</property> to any existing Eclipse project</para></listitem>
 <listitem><para>Import and add Struts capabilities to any existing project created outside Eclipse</para></listitem>
 </itemizedlist>
-<para>Red Hat Developer Studio includes a New Struts Project Wizard that radically simplifies the process
+<para>JBoss Developer Studio includes a New Struts Project Wizard that radically simplifies the process
 for getting started with a new Struts project. You just need to follow these 4 steps:</para>
 <orderedlist>
        <listitem><para>Select<emphasis><property> File > New > Project...</property></emphasis> from the menu bar. Then, select <emphasis><property>JBoss Tools Web > Struts > Struts Project</property></emphasis> in this dialog box. Click <emphasis><property>Next</property></emphasis>:</para></listitem>
@@ -113,15 +113,15 @@ arrow in the upper right corner, select <emphasis>Filters...</emphasis>, check t
 <?dbhtml filename="ImportingAnExistingStrutsProjectWithAnyStructure.html"?>
 <title>Importing an Existing Struts Project with Any Structure</title>
 
-       <para>For detailed information on migration projects to Red Hat Developer Studio see <ulink url="http://www.redhat.com/developers/rhds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
+       <para>For detailed information on migration projects to JBoss Developer Studio see <ulink url="http://www.redhat.com/developers/jbds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
        
     </section>
     <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
     <?dbhtml filename="AddingStrutsCapabilityToAnExistingWebApplication.html"?>
 <title>Adding Struts Capability to an Existing Web Application</title>
 
-           <para>With Red Hat Developer Studio you can add <property>Struts capabilities</property> (including Struts libraries, tag libraries and a Struts configuration file) to any existing Web application project in your Eclipse workspace. By adding a
- Struts Nature to your project, you can now edit files using Red Hat Developer Studio editors, such as the Struts 
+           <para>With JBoss Developer Studio you can add <property>Struts capabilities</property> (including Struts libraries, tag libraries and a Struts configuration file) to any existing Web application project in your Eclipse workspace. By adding a
+ Struts Nature to your project, you can now edit files using JBoss Developer Studio editors, such as the Struts 
  configuration editor and the JBoss Tools JSP editor.</para>
 <para>Right-click the project and select <emphasis><property>JBoss Tools > Add Struts Capabilities</property></emphasis> from the context menu. This will start the process of adding all necessary libraries and files to make this a Web JSF project.</para>
       
@@ -478,7 +478,7 @@ the right-hand side.</para>
 <?dbhtml filename="GraphicalEditorForStrutsValidationFiles.html"?>
 <title>Graphical Editor for Struts Validation Files</title>
 
-<para>Red Hat Developer Studio comes with a <property>visual validation editor</property>. To create a new validation file,
+<para>JBoss Developer Studio comes with a <property>visual validation editor</property>. To create a new validation file,
  right click any folder and select <emphasis><property>File > Validation File</property></emphasis> from the context menu.</para>
 <figure>
 <title>Creating New Validation File</title>
@@ -558,7 +558,7 @@ your own rules.</para>
 <section id="StrutsModulesghf07">
 <?dbhtml filename="StrutsModules.html"?>
 <title>Struts Modules</title>
-<para>Red Hat Developer Studio supports working with Struts projects that have multiple <property>modules</property>. You can easily do the following:</para>
+<para>JBoss Developer Studio supports working with Struts projects that have multiple <property>modules</property>. You can easily do the following:</para>
 <itemizedlist>
 <listitem><para>Add new modules</para></listitem>
 <listitem><para>Edit modules for an existing project or during Struts project import</para></listitem>
@@ -634,10 +634,10 @@ your own rules.</para>
 <?dbhtml filename="CodeGenerationForActionFormBeanForwardAndExceptionClasses.html"?>
 <title>Code Generation for Action, FormBean, Forward and Exception Classes</title>
 
-<para>Red Hat Developer Studio comes with a <property>code generation</property> feature. You can generate stub code for
+<para>JBoss Developer Studio comes with a <property>code generation</property> feature. You can generate stub code for
  Struts Actions, FormBeans, Forwards and Exceptions.</para>
 
-       <para>The code generation in Red Hat Developer Studio is based on Velocity templates which can be modified for your use. The templates are located at <emphasis><property> {RedHatDeveloperStudioHome} > templates > codegeneration</property> </emphasis>.</para>
+       <para>The code generation in JBoss Developer Studio is based on Velocity templates which can be modified for your use. The templates are located at <emphasis><property> {RedHatDeveloperStudioHome} > templates > codegeneration</property> </emphasis>.</para>
 
 <para>There are a number of ways to invoke code generation. One is simply right-clicking the Struts
        diagram and selecting <emphasis><property>Generate Java Code....</property></emphasis></para>
@@ -704,7 +704,7 @@ generated:</para>
 <?dbhtml filename="StrutsConfigurationFileDebugger.html"?>
 <title>Struts Configuration File Debugger</title>
 
-<para>Red Hat Developer Studio comes with <property>Struts configuration file debugger</property>. It allows you to set break points on Struts diagram and then simply launch the server in debug mode.</para>
+<para>JBoss Developer Studio comes with <property>Struts configuration file debugger</property>. It allows you to set break points on Struts diagram and then simply launch the server in debug mode.</para>
 
        <para>Simply right click an Action or a page and select Add <emphasis><property>Breakpoint</property></emphasis>. </para>
 <figure>

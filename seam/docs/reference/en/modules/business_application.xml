@@ -17,7 +17,7 @@
       multi-user systems. The JBoss Rules engine (formerly known as Drools) and jBPM business 
       process engine are two production-ready open source products supported by Red Hat. It is 
       very easy to incorporate rules and business processes into a Seam web application using the 
-      Red Hat Developer Studio. In this section, we further re-factor the CRUD application we
+      JBoss Developer Studio. In this section, we further re-factor the CRUD application we
        already have and add support for an &quot;order management&quot; process.User scenario is to 
        simulate the following process and rules:</para>
        <itemizedlist>
@@ -456,6 +456,6 @@ enter the case exactly as indicated here:</para>
 </figure>
 <para>This example shows a simple example of the powerful jBPM and JBoss Rules runtimes 
 integrated in a Seam application. We have also see how easy it is build these kinds of 
-applications using the Red Hat Developer Studio.</para>
+applications using the JBoss Developer Studio.</para>
 </section>
     </chapter>

@@ -163,7 +163,7 @@
             </figure>
             <para>Also make sure that the JBoss Tools Palette is open. Select the tag library that
                 you want to add and simply drag-and-drop it on to the JBoss Tools Palette.</para>
-            <para>You will see the following dialog window. As you can see Red Hat Developer Studio
+            <para>You will see the following dialog window. As you can see JBoss Developer Studio
                 takes care of all the details. You just need to set the Group name to which to add
                 this tag library. You can either add this tag library to an existing Group or just
                 create a new one.</para>
@@ -416,9 +416,9 @@
     <section id="RichFacesSupport">
         <?dbhtml filename="RichFacesSupport.html"?>
         <title>Rich Faces Support</title>
-        <para>Red Hat Developer Studio comes with a tight integration with <emphasis>
+        <para>JBoss Developer Studio comes with a tight integration with <emphasis>
                 <property>Rich Faces</property>
-            </emphasis> component framework. After installing RHDS Rich Faces components as well as <emphasis>
+            </emphasis> component framework. After installing JBDS Rich Faces components as well as <emphasis>
                 <property>Ajax4jsf</property>
             </emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
         <figure>

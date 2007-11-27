@@ -3,20 +3,20 @@
     <?dbhtml filename="verif_valid.html"?>
 <title>Verification and Validation</title>
 
-<para>As you are developing your project, Red Hat Developer Studio Verification constantly provides 
-dynamic <property>validation</property>, consistency checking and error checking. This greatly reduces your development time as it allows you to catch many of the errors during development. Red Hat Developer Studio provides dynamic
+<para>As you are developing your project, JBoss Developer Studio Verification constantly provides 
+dynamic <property>validation</property>, consistency checking and error checking. This greatly reduces your development time as it allows you to catch many of the errors during development. JBoss Developer Studio provides dynamic
   verification for both JSF and Struts projects.</para>
   
 <section id="RedHatDeveloperVerification42">
 <?dbhtml filename="RedHatDeveloperVerification.html"?>
-<title>Red Hat Developer Studio Verification</title>
+<title>JBoss Developer Studio Verification</title>
 
 
     <section id="JSFProjectVerification754">
   <?dbhtml filename="JSFProjectVerification.html"?>
 <title>JSF Project Verification</title>
 
-<para>Red Hat Developer Studio checks for many different rules for a JSF project that can be configured by 
+<para>JBoss Developer Studio checks for many different rules for a JSF project that can be configured by 
 selecting <emphasis><property>Window > Preferences</property></emphasis> from the menu bar, selecting <emphasis><property>JBoss Tools > Web > Verification</property></emphasis> from the Preferences dialog box and then expanding the JSF Rules node.</para>
 <figure>
 <title>JSF Rules</title>
@@ -89,7 +89,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <?dbhtml filename="GettingStartedwithRHDS.html"?>
 <title>Struts Project Verification</title>
 
-<para>Red Hat Developer Studio provides the same functionality for Struts projects. To configure Struts
+<para>JBoss Developer Studio provides the same functionality for Struts projects. To configure Struts
  project verification select <emphasis><property>Window > Preferences</property></emphasis> from the menu bar, select <emphasis><property>JBoss Tools > Web > Verification</property></emphasis> from the Preferences dialog box and then expand the Struts Rules node.</para>
 <figure>
 <title>Struts Rules</title>

@@ -5,7 +5,7 @@
         <keywordset>
             <keyword>JBoss Tools</keyword>
             <keyword>Seam</keyword>
-            <keyword>RHDS</keyword>
+            <keyword>JBDS</keyword>
             </keywordset>
     </chapterinfo>
     <title>Creating a New Seam Project via the New Seam Project wizard</title>

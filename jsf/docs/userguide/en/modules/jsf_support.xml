@@ -3,24 +3,24 @@
         <?dbhtml filename="jsf_support.html"?>
   <chapterinfo>
     <keywordset>
-      <keyword>Red Hat Developer Studio</keyword>
+      <keyword>JBoss Developer Studio</keyword>
       <keyword>Eclipse</keyword>
       <keyword>Java</keyword>
       <keyword>Tomcat</keyword>
     </keywordset>
   </chapterinfo>
   <title>Java Server Faces Support</title>
-  <para>Red Hat Developer Studio is especially designed for supporting JSF and JSF-related technologies. RHDS provides extensible and exemplary tools for building JSF-based applications as well as adding JSF capabilities to existing web projects, importing JSF projects (created outside RHDS) and choosing any JSF implementation while developing JSF application.</para>
-  <para>Red Hat Developer Studio allows you to develop JSF applications much faster and with far fewer errors so sparing your time.</para>
+  <para>JBoss Developer Studio is especially designed for supporting JSF and JSF-related technologies. JBDS provides extensible and exemplary tools for building JSF-based applications as well as adding JSF capabilities to existing web projects, importing JSF projects (created outside JBDS) and choosing any JSF implementation while developing JSF application.</para>
+  <para>JBoss Developer Studio allows you to develop JSF applications much faster and with far fewer errors so sparing your time.</para>
   <section id="SupportForJSFEnvironmentsJSF_RIMyFacesFaceletsShaleOrAnyCustom442">
   <?dbhtml filename="SupportForJSFEnvironmentsJSF-RIMyFacesFaceletsShaleOrAnyCustom.html"?>
 <title>Support for JSF Environments: JSF-RI, MyFaces, Facelets or any Custom</title>
-          <para>With Red Hat Developer Studio, we don&apos;t lock you into any one <property>JavaServer Faces</property> implementation. Select the one you want to use for your project.</para>
+          <para>With JBoss Developer Studio, we don&apos;t lock you into any one <property>JavaServer Faces</property> implementation. Select the one you want to use for your project.</para>
 <para>When you:</para>
 <itemizedlist>
         <listitem><para>Create a new <property>JSF project</property></para></listitem>
         <listitem><para>Add <property>JSF capability</property> to any existing Eclipse project</para></listitem>
-        <listitem><para>Add <property>JSF capability</property> to any existing project (created outside RHDS)</para></listitem>
+        <listitem><para>Add <property>JSF capability</property> to any existing project (created outside JBDS)</para></listitem>
 </itemizedlist>
 <para>You can always select which JSF implementation to use.</para>
 
@@ -34,7 +34,7 @@
 </mediaobject>
 </figure>
 
-<para>Red Hat Developer Studio will add all the required libraries for the selected version to your project.</para>
+<para>JBoss Developer Studio will add all the required libraries for the selected version to your project.</para>
   </section>
         
 <!--        
@@ -42,7 +42,7 @@
 <?dbhtml filename="AddingSupportForTheOracleADFComponentsLibraryOrAnyOtherSupport.html"?>
 <title>Adding Support for the Oracle ADF Components Library or Any Other Support</title>
 
-<para>Red Hat Developer Studio is set up to work with the <property>ADF Faces Component Library</property>, but still requires a few extra
+<para>JBoss Developer Studio is set up to work with the <property>ADF Faces Component Library</property>, but still requires a few extra
  steps to complete the support. First, you will need to download the 2 jar files for the library from the 
  Oracle site down to your system. Then, you just need to follow these steps to add ADF Faces support to your projects:</para>
 
@@ -58,7 +58,7 @@
  library set to which we just added the required Jar libraries. We don&apos;t need to do anything here.</listitem>
         <listitem><para>Click <emphasis><property>OK</property></emphasis> and then click <emphasis><property>OK</property></emphasis> again.</para></listitem>
 <listitem>After this is done, you can always add in the library files to a project by just right-clicking
- your project and selecting <emphasis><property>Red Hat Developer Studio > Add Custom Capability...</property></emphasis> from the context menu and select a needed capability.</listitem>
+ your project and selecting <emphasis><property>JBoss Developer Studio > Add Custom Capability...</property></emphasis> from the context menu and select a needed capability.</listitem>
 </itemizedlist>
 
 <para>You can add any custom capability (support) to your project using Library Sets in the same fashion. </para>
@@ -69,7 +69,7 @@
 <?dbhtml filename="FaceletsSupport.html"?>
 <title>Facelets Support</title>
 
-<para><property>Facelets</property> extends JavaServer Faces by providing a lightweight framework that radically simplifies the design of presentation pages for JSF. Red Hat Developer Studio provides support for Facelets in a variety of  ways.</para>
+<para><property>Facelets</property> extends JavaServer Faces by providing a lightweight framework that radically simplifies the design of presentation pages for JSF. JBoss Developer Studio provides support for Facelets in a variety of  ways.</para>
 
 <para>The Create New JSF Project wizard contains templates for creating Faceletsprojects based on 
 version 1.2 of the JSF Reference Implementation:</para>
@@ -93,7 +93,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 </figure>
 <para>The JBoss Tools Palette comes with the Facelets components ready to use. A useful tip appears when you hover the mouse cursor over the tag:</para>
 
-<!-- Red Hat Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
+<!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
    with MyFaces and Facelets and then save it as a template for future use. 
    
@@ -157,7 +157,7 @@ version 1.2 of the JSF Reference Implementation:</para>
                 </mediaobject>
         </figure>
         
-<para>Using Red Hat Developer Studio OpenOn feature, you can easily navigate between the <property>Facelets
+<para>Using JBoss Developer Studio OpenOn feature, you can easily navigate between the <property>Facelets
         templates</property> and other parts of your projects. Just by holding down the Control key while hovering the 
  mouse cursor over a reference to a template, the reference becomes a hyperlink to open that template.</para>
 <figure>
@@ -169,7 +169,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 </mediaobject>
 </figure>
 
-   <!--     <para>Additionally, when hovering the mouse cursor over <emphasis role="italic"><property>&quot;Facelets tag&quot;</property></emphasis> attributes, Red Hat Developer Studio provides a pop-up help tip:</para>
+   <!--     <para>Additionally, when hovering the mouse cursor over <emphasis role="italic"><property>&quot;Facelets tag&quot;</property></emphasis> attributes, JBoss Developer Studio provides a pop-up help tip:</para>
  <figure>
 <title>Pop-up Help Tip for Facelets Tag Attributes</title>
 <mediaobject> 
@@ -189,7 +189,7 @@ version 1.2 of the JSF Reference Implementation:</para>
 <?dbhtml filename="CreatingANewJSFProject.html"?>
 <title>Creating a New JSF Project</title>
 
-<para>Red Hat Developer Studio provides the following when working with JSF:</para>
+<para>JBoss Developer Studio provides the following when working with JSF:</para>
 
 <itemizedlist>
 <listitem><para>Create new JSF projects</para></listitem>
@@ -197,10 +197,10 @@ version 1.2 of the JSF Reference Implementation:</para>
 <listitem><para>Add JSF capability to any existing Eclipse project</para></listitem>
 <listitem><para>Import and add JSF capability to any existing project created outside Eclipse</para></listitem>
 </itemizedlist>
-        <para>Red Hat Developer Studio allows you to create brand new <emphasis><property>JSF projects</property></emphasis>. A new JSF project will have all JSF
+        <para>JBoss Developer Studio allows you to create brand new <emphasis><property>JSF projects</property></emphasis>. A new JSF project will have all JSF
  libraries, tag libraries and a JSF configuration file.</para>
 
-<para>Red Hat Developer Studio comes with a number of predefined project templates. These templates are flexible and easily 
+<para>JBoss Developer Studio comes with a number of predefined project templates. These templates are flexible and easily 
 customizable.</para>
 
 <para>To create a brand new JSF project, select<emphasis><property> File &gt; New &gt; Project &gt; JBoos Tools Web &gt; JSF &gt; JSF Project</property></emphasis> and click <emphasis><property>Next</property></emphasis>:</para>
@@ -286,15 +286,15 @@ customizable.</para>
 
 <title>Importing Existing JSF Projects with Any Structure</title>
 
-                <para>For detailed information on migration projects to Red Hat Developer Studio see <ulink url="http://www.redhat.com/developers/rhds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
+                <para>For detailed information on migration projects to JBoss Developer Studio see <ulink url="http://www.redhat.com/developers/jbds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
 </section>
         <section id="AddingJSFCapabilityToAnyExistingEclipseProject">
 <?dbhtml filename="AddingJSFCapabilityToAnyExistingEclipseProject.html"?> 
 <title>Adding JSF Capability to Any Existing Eclipse Project</title>
 
-<para>With Red Hat Developer Studio you can add <property>JSF capability</property> (JSF libraries, tag libraries) to any existing Eclipse project in your workspace.</para>
+<para>With JBoss Developer Studio you can add <property>JSF capability</property> (JSF libraries, tag libraries) to any existing Eclipse project in your workspace.</para>
 
-<para>By adding JSF capability to your project, you can now edit any file using Red Hat Developer Studio editors, such as JSF configuration editor, JBoss Tools JSP editor and any others.</para>
+<para>By adding JSF capability to your project, you can now edit any file using JBoss Developer Studio editors, such as JSF configuration editor, JBoss Tools JSP editor and any others.</para>
 <para>Right click the project and select <emphasis><property>JBoss Tools > Add JSF Capabilities</property></emphasis>. This will start the process of adding all necessary libraries, files to make this a Web JSF project:</para>
 <figure>
 <title>Adding JSF Capabilities</title>
@@ -316,7 +316,7 @@ customizable.</para>
 <para>On the last form you can set the different folders for your project as well as register this
  application with a servlet container.</para>
 
-                <para>Make sure to select <emphasis><property>Add JSF Libraries</property></emphasis> for Red Hat Developer Studio to add all required JSF related libraries
+                <para>Make sure to select <emphasis><property>Add JSF Libraries</property></emphasis> for JBoss Developer Studio to add all required JSF related libraries
  to this project.</para>
 
                 <para><emphasis><property>Context Path</property></emphasis> is the name under which the application will be deployed.</para>
@@ -356,7 +356,7 @@ customizable.</para>
 <?dbhtml filename="AddingYourOwnProjectTemplates.html"?>
 <title>Adding Your Own Project Templates</title>
 
-<para>Red Hat Developer Studio has a powerful templating capability for creating new and importing existing
+<para>JBoss Developer Studio has a powerful templating capability for creating new and importing existing
  Struts and JSF projects. This templating facility has a variety of aspects to consider. But, let&apos;s start 
  with the most straightforward case.</para>
 
@@ -520,7 +520,7 @@ are always synchronized, so any changes made in one of the viewers will immediat
 <?dbhtml filename="ErrorReporting.html"?>
 <title>Error Reporting</title>
 
-<para>Errors will be reported by Red Hat Developer Studio&apos;s <link linkend="VerificationandValidation"> verification</link> facility:</para>
+<para>Errors will be reported by JBoss Developer Studio&apos;s <link linkend="VerificationandValidation"> verification</link> facility:</para>
 <figure>
 <title>Error Reporting in Source View</title>
 <mediaobject> 
@@ -582,7 +582,7 @@ jump to the same place in the Source viewer.</para>
 <?dbhtml filename="CodeGenerationForManagedBeans.html"?>
 <title>Code Generation for Managed Beans</title>
 
-<para>Red Hat Developer Studio gives you lots of power to work with <property>managed beans</property>.</para>
+<para>JBoss Developer Studio gives you lots of power to work with <property>managed beans</property>.</para>
 <itemizedlist>
 <listitem><para>Add and generate code for new managed beans</para>
 <itemizedlist>

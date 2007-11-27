@@ -6,12 +6,12 @@
 <section id="AddingHibernateCapabilitiesToAProject">
 <?dbhtml filename="AddingHibernateCapabilitiesToAProject.html"?>
 <title>Adding Hibernate Capabilities to a Project</title>
-<para>Making a project Hibernate-enabled is very straight-forward in Red Hat Developer Studio. Adding Hibernate
+<para>Making a project Hibernate-enabled is very straight-forward in JBoss Developer Studio. Adding Hibernate
  capability to a project will add all the required libraries to the project.</para>
 
 <para>
 1. If you want to add a new Hibernate nature to a project, right-click the project and select 
-<emphasis>Red Hat Developer Studio/Add Hibernate Capabilities...</emphasis> from the context menu</para>
+<emphasis>JBoss Developer Studio/Add Hibernate Capabilities...</emphasis> from the context menu</para>
 
 <figure>
         <title></title>
@@ -113,7 +113,7 @@ Hibernate-enabled projects. Most Hibernate features are available by right-click
 <section id="AutoMappingsForForwardReverseAndMeet-at-the-MiddleEngineeringApproaches">
 <title>Auto Mappings for Forward, Reverse, and Meet-at-the-Middle Engineering Approaches</title>
 
-<para>Red Hat Developer Studio allows you to automatically generate Hibernate mappings using the following
+<para>JBoss Developer Studio allows you to automatically generate Hibernate mappings using the following
  approaches:</para>
 
 <itemizedlist>
@@ -183,7 +183,7 @@ the Generate Mapping check box. You can also provide an optional database schema
 <para>5. To create mappings, click the Finish button. Once generation is finished, you can see the mappings
  for your classes in the ORM Explorer view.</para>
 
-<para>If the Generate Mapping option was selected, then Red Hat Developer Studio will mark the selected classes as
+<para>If the Generate Mapping option was selected, then JBoss Developer Studio will mark the selected classes as
  persistent and will generate mappings for the selected class fields.</para>
 
 <para>For collections, the type of elements will be determined via a search. Then, either a collection of
@@ -682,8 +682,8 @@ property mapping on the next page.</para>
 <section id="SynchronizingMappingsWithTableSchemas">
 <?dbhtml filename="SynchronizingMappingsWithTableSchemas.html"?>
 <title>Synchronizing Mappings with Table Schemas</title>
-<para>Red Hat Developer Studio includes features that help you to keep your mappings synchronized with
- changes made outside the Red Hat Developer Studio environment (for example, in database tables). Our synchronization
+<para>JBoss Developer Studio includes features that help you to keep your mappings synchronized with
+ changes made outside the JBoss Developer Studio environment (for example, in database tables). Our synchronization
   component will reanalyze database table structure changes you've made and update or create the appropriate
    Hibernate mappings.</para>
 
@@ -751,7 +751,7 @@ schema.</para>
 <title>Synchronizing Mapping with the Source Code</title>
 
 <para>Synchronization with changes in the source code is an easy-to-use feature of 
-Red Hat Developer Studio&apos;s ORM functionality. When invoked, this kind of synchronization cleans stale mappings that
+JBoss Developer Studio&apos;s ORM functionality. When invoked, this kind of synchronization cleans stale mappings that
  don&apos;t exist in the source code but do exist in the mapping files. Also, it will run an automapping process 
  that will create default mappings for your classes.</para>
 
@@ -1029,7 +1029,7 @@ this screen select properties:</para>
 <section id="DDLGenerationForAllDatabasesSupportedByHibernate">
 <?dbhtml filename="DDLGenerationForAllDatabasesSupportedByHibernate.html"?>
 <title>DDL Generation for All Databases Supported by Hibernate</title>
-<para>Red Hat Developer Studio comes with a DDL (Data Definition Language) generation feature. It allows
+<para>JBoss Developer Studio comes with a DDL (Data Definition Language) generation feature. It allows
  you to easily generate table creation scripts based on your Hibernate mappings.</para>
 
 <para>You can take advantage of this facility in the Diagram viewer of the mappings file editor by following these steps:</para>
@@ -1292,7 +1292,7 @@ No problem! Here is the code that&apos;ll do that task for you:</para>
     </figure>
 <para>The createType method is overridden here to add Comparable to the array of interfaces to implement
  (only for primary types, but not for inner ones), then the default implementation is invoked by 
- super.createType call. Red Hat Developer Studio automatically generates all the necessary method stubs for 
+ super.createType call. JBoss Developer Studio automatically generates all the necessary method stubs for 
  implemented interfaces.</para>
 
 <para>8. After that you can use this created extension point for a custom POJO renderer. If you create a 
@@ -1310,7 +1310,7 @@ new Java project and after that you add &quot;Hibernate Capabilities&quot;, you 
 <?dbhtml filename="HibernateFileContentAssist.html"?>
 <title>Hibernate File Content Assist</title>
 
-<para>With Red Hat Developer Studio, Code Assist is available in the editor for any XML file. The first
+<para>With JBoss Developer Studio, Code Assist is available in the editor for any XML file. The first
  screen shot shows Code Assist being invoked for the Hibernate mapping file.</para>
 
 <figure>
@@ -1348,9 +1348,9 @@ new Java project and after that you add &quot;Hibernate Capabilities&quot;, you 
     <?dbhtml filename="SupportedTechnologiesForORMHibernate.html"?>
 <title>Supported Technologies for ORM Hibernate</title>
 
-<para>Red Hat Developer Studio supports Hibernate 3.0.</para>
+<para>JBoss Developer Studio supports Hibernate 3.0.</para>
 
-<para>Red Hat Developer Studio works with any database Hibernate supports. You can connect to these types
+<para>JBoss Developer Studio works with any database Hibernate supports. You can connect to these types
  of databases:</para>
 <itemizedlist>
 <listitem><para>Cloudscape</para></listitem>

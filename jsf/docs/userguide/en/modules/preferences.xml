@@ -2,7 +2,7 @@
 <chapter id="preferences" xreflabel="preferences">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
-    <para>Configuring the various Red Hat Developer Studio features is done via the <property>Preferences</property> screen
+    <para>Configuring the various JBoss Developer Studio features is done via the <property>Preferences</property> screen
         by selecting <emphasis><property>Window &gt; Preferences &gt; JBoss Tools</property></emphasis> from the menu bar.</para>
         <figure>
         <title>Preferences are included in this dialog.</title>
@@ -62,7 +62,7 @@
         <section id="Editors">
             <?dbhtml filename="Editors.html"?>
             <title>Editors</title>
-            <para>You can set various preferences for the editors that Red Hat Developer Studio adds to the Eclipse environment by selectind <emphasis><property>JBoss Tools &gt; Web &gt; Editors</property></emphasis>.</para>
+            <para>You can set various preferences for the editors that JBoss Developer Studio adds to the Eclipse environment by selectind <emphasis><property>JBoss Tools &gt; Web &gt; Editors</property></emphasis>.</para>
             <figure>
                 <title>Editors</title>
                 <mediaobject> 

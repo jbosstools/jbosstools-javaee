@@ -2,7 +2,7 @@
 <chapter id="web_projects" xreflabel="web_projects">
     <?dbhtml filename="web_projects.html"?>
 <title>Web Projects View</title>
-<para><property>Web Projects</property> is a special view that comes with Red Hat Developer Studio.</para>
+<para><property>Web Projects</property> is a special view that comes with JBoss Developer Studio.</para>
 <para>If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <emphasis><property>Window &gt; Show View &gt; Web Projects</property></emphasis> from the menu bar.</para>
 <section id="WebProjectsView1">
   <?dbhtml filename="WebProjectsView.html"?>
@@ -69,7 +69,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that Red Hat Developer Studio added the correctly formatted expression for referring to the property value:  <emphasis>#{Message.header}</emphasis> automatically.</para>
+<para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value:  <emphasis>#{Message.header}</emphasis> automatically.</para>
   <figure>
 <title>Inserted Property</title>
 <mediaobject> 
@@ -79,7 +79,7 @@ locate what you are looking for and develop.</para>
 </mediaobject>
 </figure>
 <para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case,
- Red Hat Developer Studio will place the complete tag <emphasis role="bold"><property>&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
+ JBoss Developer Studio will place the complete tag <emphasis role="bold"><property>&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
  </section>
 <section id="ForManagedBeanAttributes">
 <?dbhtml filename="ForManagedBeanAttributes.html"?>
@@ -94,7 +94,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Once again, Red Hat Developer Studio adds the correct expression, <emphasis>#{user.name}</emphasis>.</para>
+<para>Once again, JBoss Developer Studio adds the correct expression, <emphasis>#{user.name}</emphasis>.</para>
 <figure>
 <title>Added Expression</title>
 <mediaobject> 
