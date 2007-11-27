@@ -17,4 +17,11 @@
       <property name="cachedConnectionManager"><inject bean="CachedConnectionManager"/></property>
       <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
    </bean>
+
+   <bean name="@projectName@Datasource" class="java.lang.Object">
+      <constructor factoryMethod="getDatasource">
+         <factory bean="@projectName@TestDatasourceBootstrap"/>
+      </constructor>
+   </bean>
+
 </deployment>
