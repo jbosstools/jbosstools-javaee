@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/seam-components.meta"/>
+      <meta path="meta/seam-async.meta"/>
+      <meta path="meta/seam-core.meta"/>
+      <meta path="meta/seam-drools.meta"/>
+      <meta path="meta/seam-framework.meta"/>
+      <meta path="meta/seam-international.meta"/>
+      <meta path="meta/seam-mail.meta"/>
+      <meta path="meta/seam-pdf.meta"/>
+      <meta path="meta/seam-persistence.meta"/>
+      <meta path="meta/seam-theme.meta"/>
+      <meta path="meta/seam-web.meta"/>
+      <meta path="meta/seam-security.meta"/>
+      <meta path="meta/seam-jms.meta"/>
+      <meta path="meta/seam-remoting.meta"/>
+      <meta path="meta/seam-spring.meta"/>
+      <meta path="meta/seam-transaction.meta"/>
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.keys">
+      <keys path="help/keys-seam.properties">
+      </keys>
+   </extension>
+
+   	<extension
+		point="org.eclipse.wst.xml.core.catalogContributions">
+		<catalogContribution id="default">
+		</catalogContribution>
+	</extension>	
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
+			class="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponents11FileLoader"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponents11FileLoader"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"/>
+	</extension>
+
+ <extension point="org.eclipse.wst.xml.core.catalogContributions">
+      <catalogContribution id="default">
+         <uri 
+            name="http://jboss.com/products/seam/components-1.2.xsd" 
+            uri="schemas/components-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/core-1.2.xsd" 
+            uri="schemas/core-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/drools-1.2.xsd" 
+            uri="schemas/drools-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/framework-1.2.xsd" 
+            uri="schemas/framework-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/jms-1.2.xsd" 
+            uri="schemas/jms-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/mail-1.2.xsd" 
+            uri="schemas/mail-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pdf-1.2.xsd" 
+            uri="schemas/pdf-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/remoting-1.2.xsd" 
+            uri="schemas/remoting-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/security-1.2.xsd" 
+            uri="schemas/security-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring-1.2.xsd" 
+            uri="schemas/spring-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/theme-1.2.xsd" 
+            uri="schemas/theme-1.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/web-1.2.xsd" 
+            uri="schemas/web-1.2.xsd"/>
+
+         <public 
+         	publicId="-//JBoss/Seam Component Configuration DTD 1.1//EN" 
+         	uri="dtds/components-1.1.dtd"/>
+
+
+
+
+
+         <uri 
+            name="http://jboss.com/products/seam/async-2.0.xsd" 
+            uri="schemas/async-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/bpm-2.0.xsd" 
+            uri="schemas/bpm-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/components-2.0.xsd" 
+            uri="schemas/components-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/core-2.0.xsd" 
+            uri="schemas/core-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/drools-2.0.xsd" 
+            uri="schemas/drools-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/framework-2.0.xsd" 
+            uri="schemas/framework-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/international-2.0.xsd" 
+            uri="schemas/international-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/jms-2.0.xsd" 
+            uri="schemas/jms-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/mail-2.0.xsd" 
+            uri="schemas/mail-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/navigation-2.0.xsd" 
+            uri="schemas/navigation-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pageflow-2.0.xsd" 
+            uri="schemas/pageflow-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pages-2.0.xsd" 
+            uri="schemas/pages-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pdf-2.0.xsd" 
+            uri="schemas/pdf-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/persistence-2.0.xsd" 
+            uri="schemas/persistence-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/remoting-2.0.xsd" 
+            uri="schemas/remoting-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/security-2.0.xsd" 
+            uri="schemas/security-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring-2.0.xsd" 
+            uri="schemas/spring-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring-seam-2.0.xsd" 
+            uri="schemas/spring-seam-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/theme-2.0.xsd" 
+            uri="schemas/theme-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/transaction-2.0.xsd" 
+            uri="schemas/transaction-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/web-2.0.xsd" 
+            uri="schemas/web-2.0.xsd"/>
+
+
+      </catalogContribution>
+   </extension>
+</plugin>
