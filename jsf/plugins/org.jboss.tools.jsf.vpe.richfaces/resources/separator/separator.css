@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.td-parentdiv {
+font-size: 0px;}
+.separator-color {
+ border-color: #D4CFC7;}
+ 
+ .dr-table-headercell {
+	border-right: 1px solid;
+	border-bottom: 1px solid;
+	border-color: #C4C0B9;
+	padding: 4px 4px 4px 4px;
+	color: #000000;
+	text-align: center;
+	font-weight: bold;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
+}
+.dr-table-header-continue {
+	background-color: #D4CFC7;
+}
+.dr-table-header {
+	background-color: #D4CFC7;
+	background-position: top left;
+	background-repeat: repeat-x;
+}

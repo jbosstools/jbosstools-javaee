@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"../../resources/support/docbook-dtd/docbookx.dtd"
+
+[
+<!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
+<!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
+<!ENTITY struts  SYSTEM "modules/struts.xml">
+<!ENTITY palette SYSTEM "modules/palette.xml">
+<!ENTITY web_projects SYSTEM "modules/web_projects.xml">
+<!ENTITY editors SYSTEM "modules/editors.xml">
+<!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
+
+<!--<!ENTITY editors_features SYSTEM "modules/editors_features.xml"> -->
+
+<!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
+
+<!-- <!ENTITY more_editors SYSTEM "modules/more_editors.xml"> -->
+<!ENTITY preferences SYSTEM "modules/preferences.xml">
+
+]>
+<book>
+    <bookinfo>
+        <title>Visual Web Tools Reference Guide</title>
+        <copyright>
+            <year>2007</year>
+            <holder>Red Hat</holder>
+        </copyright>
+        <releaseinfo>
+            <para>Version: 2.0.0.GA</para>
+           </releaseinfo>
+    </bookinfo>
+    
+    <toc/>  
+	&Visual_Web_Tools;
+    &jsf_support;
+    &struts;
+    &palette;
+    &web_projects;	
+    &verif_valid;
+    &editors;
+    &preferences;
+</book>    

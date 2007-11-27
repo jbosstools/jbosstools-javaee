@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="DeploymentAndRunning" xreflabel="DeploymentAndRunning">
+  <?dbhtml filename="DeploymentAndRunning.html"?>
+<title>Deployment and Running</title>
+<section id="DeployingAnApplicationToAServer">
+<?dbhtml filename="DeployingAnApplicationToAServer.html"?>
+<title>Deploying an Application to a Server</title>
+
+<para>You can deploy your application to any server, but there are certain types of servers that 
+JBoss Developer Studio supports directly (through the bundled Eclipse Web Tools Project, WTP, plug-ins). 
+To deploy to this type of directly supported server you need to follow these steps:</para>
+
+<itemizedlist>
+<listitem><para>If the server you want to use is not already defined, you need to define it</para></listitem>
+<listitem><para>Register your application with the defined server</para></listitem>
+</itemizedlist>
+</section>
+<section id="DefiningTheServer">
+<?dbhtml filename="DefiningTheServer.html"?>
+<title>Defining the Server</title>
+<para>To use a server for direct support in JBoss Developer Studio, it needs to be defined. A special Servers view 
+(usually at the bottom of the screen) lists all currently defined servers. If you can&apos;t see this view, you 
+can open it by selecting Window/Show View.../Other/Server/Server from the menu bar. Expanding the server 
+will show any deployed applications for that server.</para>
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>If you followed the default installation, you will already have a Tomcat 5.5 server defined. To add 
+a new server to this view, right-click anywhere in the Servers view, select New/Server, and follow the 
+wizard&apos;s steps.</para>
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<note>
+    <title>Note:</title>
+    <para>When adding a new server you will need to specify what JRE to use. It is important to set 
+this value to a full JDK, not JRE. Again, you need a full JDK to run Web applications, JRE will not be 
+enough.</para>
+</note>
+</section>
+<section id="DeployingToTheDefinedServer">
+<?dbhtml filename="DeployingtotheDefinedServer.html"?> 
+<title>Deploying to the Defined Server</title>
+
+<para>There are two times to deploy your application:</para>
+
+<itemizedlist>
+<listitem><para>While creating it</para></listitem>
+<listitem><para>After it already exists</para></listitem>
+</itemizedlist>
+<section id="NewApplication">
+<?dbhtml filename="NewApplication.html"?> 
+<title>New Application</title>
+
+<para>When you create a new JSF or Struts project with the New Project or Import Project wizards, the second 
+screen called Web has a Target Server section. You can deploy the application through the appropriate 
+selection in this section.</para>
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<note>
+    <title>Note:</title>
+    <para>The default installation defines a Tomcat 5.5 server that by default will be selected as the target
+ server.</para>
+  </note>
+</section>
+<section id="Existingpplication">
+<?dbhtml filename="ExistingApplication.html"?>
+<title>Existing Application</title>
+
+<para>You can deploy an existing application to a server by right-clicking the target defined server in the
+ Servers view and then selecting <emphasis>Add and Remove Projects...</emphasis> from the context menu.</para>
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>If this application is not assigned to a server, it will be in the left-hand available projects list.
+ Clicking on the &quot;Add&quot; button will add it to the right-hand configured projects list and deploy the 
+ application to this server.</para>
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+
+<section id="ServletContainerToolbar">
+<?dbhtml filename="ServletContainerToolbar.html"?>
+<title>Servlet Container Toolbar</title>
+
+<para>JBoss Developer Studio allows you to control its directly supported servlet containers from within Eclipse
+ through a special toolbar. You can select a servlet container (Tomcat is the default on installation), 
+ start it in regular or debug mode, stop it, or restart it. For the current application, you can touch the 
+ web.xml file. Also, you can launch the current application in the servlet container.</para>
+<note>
+    <title>Note:</title>
+    <para>Note: You also can run your application in any other server that is not listed here. Simply 
+deploy and start the server manually.</para>
+  </note>
+
+<para>The servlet toolbar is shown below:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>You can select which server to use for running the application:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>Select the green colored icon to launch the server:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<para>	</para>
+
+<tip><title>Tip:</title><para>Server output will be written to the Console view.</para></tip>
+
+<para>Select the Run icon to launch the application. The URL that will be launched will be in a form 
+like http://localhost:8080/applicationName:</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+<note>
+    <title>Note:</title>
+    <para>You might need to create an index.html file for your application to start.</para>
+  </note>
+
+<note>
+    <title>Note:</title>
+    <para>You have to have deployed the application before running it.</para>
+  </note>
+
+<para>To see what URL will be launched, select the down pointing arrow. JBoss Developer Studio will also remember
+ the last few URLs that were used.</para>
+
+<figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<tip><title>Tip:</title><para>To enter a URL by hand, select <emphasis>Run...</emphasis> from the menu.</para></tip>
+<section id="ServerContainerPreferences">
+<?dbhtml filename="ServerContainerPreferences.html"?>
+<title>Server Container Preferences</title>
+
+<para>In Preferences, you can control how JBoss Developer Studio Studio interacts with servlet containers. By selecting 
+the appropriate switch, you can control which browser is used to run the application and settings for each 
+type of supported servlet container:</para>
+<para>SerlvetToolbarSettings</para>
+
+</section>
+<section id="JavaDebuggingOfApplicationsInSupportedServers">
+<?dbhtml filename="JavaDebuggingOfApplicationsInSupportedServers.html"?>
+<title>Java Debugging of Applications in Supported Servers</title>
+
+<para>With JBoss Developer Studio you can launch your application in debug mode with the types of servers 
+supported by Red Hat Studio. These are currently:</para>
+<itemizedlist>
+<listitem><para>Apache Geronimo 1.0</para></listitem>
+<listitem><para>Apache Tomcat (3.2, 4.0, 4.1, 5.0, 5.5)</para></listitem>
+<listitem><para>JBoss (3.2.3, 4.0.x)</para></listitem>
+<listitem><para>BEA WebLogic Server (8.1, 9.0)</para></listitem>
+<listitem><para>IBM WebSphere 6.0.x</para></listitem>
+<listitem><para>JOnAS 4.x</para></listitem>
+</itemizedlist>
+
+<para>Simply click on the start-in-debug-mode icon and start debugging your application:</para>
+<figure>
+<title></title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+
+<section id="LaunchApplicationsInTheWebBrowserOfYourChoice">
+<?dbhtml filename="LaunchApplicationsInTheWebBrowserOfYourChoice.html"?>
+<title>Launch Applications in the Web Browser of Your Choice</title>
+
+
+<para>JBoss Developer Studio lets you easily launch your application in a Web browser of your choice to 
+run it or to test it. To launch your application with the currently selected browser, simply click the Run 
+button as shown.</para>
+ <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+</figure>
+
+<para>You can choose a new browser for running applications inside JBoss Developer Studio by selecting 
+Window/Preferences from the menu bar and then selecting General/Web Browser in the dialog box. You can 
+always add a new Web browser to the list here by clicking New....</para>
+
+ <figure>
+        <title></title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/defaultImage.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+</section>
+
+<section id="DeployToAnyServer">
+<?dbhtml filename="DeployToAnyServer.html"?>
+<title>Deploy to Any Server (Including WebLogic, WebSphere and Resin)</title>
+
+<para>JBoss Developer Studio works closely with a specific group of servlet containers provided by the bundled WTP
+ (Eclipse Web Tools Project) plug-ins, but JBoss Developer Studio doesn&apos;t ultimately tie you to any particular server
+  for deployment. You are free to deploy your application to any server of your choice. For the servers that 
+  are not supported explicitly by JBoss Developer Studio, you simply need to create an Ant script that will create 
+  a .war file and copy it to the deployment directory under your server.</para>
+
+<para>Any new or imported JBoss Developer Studio project should have an ant folder containing an 
+Ant build.xml script. In this script, there are two commented-out &quot;targets&quot; war and deploy:</para>
+
+  <programlisting role="XML"><![CDATA[
+    ...
+    <!-- Create binary distribution ->
+    <target name="war" depends="build">
+      <mkdir dir="${build.dir}"/>
+      <war
+        basedir="${webroot.dir}"
+        warfile="${build.dir}/${project.distname}.war"
+        webxml="${webinf.dir}/web.xml">
+        <exclude name="WEB-INF/${build.dir}/**"/>
+        <exclude name="WEB-INF/src/**"/>
+
+        <exclude name="WEB-INF/*exadel*"/>
+        <exclude name="WEB-INF/web.xml"/>
+       </war>
+    </target>
+    <target name="deploy" depends="war">
+       <delete file="${deploy.dir}/${project.distname}.war"/>
+
+       <delete dir="${deploy.dir}/${project.distname}"/>
+       <copy file="${build.dir}/${project.distname}.war" todir="${deploy.dir}"/>
+    </target>
+]]></programlisting>
+
+<para>Once you uncomment these targets, you can customize the script to deploy your final application.</para>
+</section>
+</section>
+</chapter>

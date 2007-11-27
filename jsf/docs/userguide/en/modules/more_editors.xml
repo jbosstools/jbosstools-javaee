@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="more_editors" xreflabel="more_editors">
+    <?dbhtml filename="more_editors.html"?>
+<title>More Editors</title>
+<para>Besides Visual Page Editor JBDS provides editors for editing project files of any types: properties, TLD, web.xml, tiles, and so on.</para>	
+<section id="GraphicalPropertiesEditor">
+<?dbhtml filename="GraphicalPropertiesEditor.html"?>
+<title>Graphical Properties Editor</title>
+
+    <para><property>The Properties editor</property> allows you to work in two different modes and also supports unicode characters.</para>
+
+    <para>To create a new properties file, in the Package Explorer view, select<emphasis><property> New > Properties File</property></emphasis> from the right-click context menu on the folder where you want to create the file.</para>
+<figure>
+<title>Selecting Properties File</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_1.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can edit the file using a table-oriented &quot;Properties&quot; viewer:</para>
+
+<figure>
+<title>&quot;Properties&quot; Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_2.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use a Source viewer for editing the file:</para>
+<figure>
+<title>Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_3.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+
+<section id="GraphicalTLDEditor">
+<?dbhtml filename="GraphicalTLDEditor.html"?>
+<title>Graphical TLD Editor</title>
+
+    <para><property>The TLD editor</property> comes with same features you will find in all other JBoss Developer Studio editors:</para>
+
+<itemizedlist>
+<listitem><para>Graphical and source edit modes</para></listitem>
+<listitem><para>Validation and error checking</para></listitem>
+</itemizedlist>
+<section id="TreeView2">
+<?dbhtml filename="TreeView.html"?>
+<title>Tree view</title>
+
+<figure>
+<title>Tree View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_4.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="SourceView1">
+<?dbhtml filename="SourceView.html"?>
+<title>Source view</title>
+
+<para>You can easily switch from Tree to Source by selecting the Source tab at the bottom of the editor.</para>
+
+<figure>
+<title>Source View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_5.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can easily add a <property>new tag</property>:</para>
+
+<figure>
+<title>Adding a New Tag</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_6.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also easily add a <property>new attribute</property> to an existing tag:</para>
+<figure>
+<title>Adding a New Attribute</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_7.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Content assist is available when editing the file using the Source viewer:</para>
+
+<figure>
+<title>Content Assist</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_8.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>In the Source viewer, if at any point a tag is incorrect or incomplete, an error will be indicated 
+next to the line and also in the Problems view below.</para>
+
+<figure>
+<title>Error Reporting</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_9.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+
+<section id="GraphicalWebApplicationFile(web.xml)Editor">
+<?dbhtml filename="GraphicalWebApplicationFile(web.xml)Editor.html"?>
+<title>Graphical Web Application File (web.xml) Editor</title>
+
+<para>The Web Application File editor comes with the same features you will find in all other 
+JBoss Developer Studio editors:</para>
+
+<itemizedlist>
+<listitem><para>Graphical and source edit modes</para></listitem>
+<listitem><para>Validation and error checking</para></listitem>
+</itemizedlist>
+<section id="TreeView1">
+<title>Tree View</title>
+
+<figure>
+<title>Tree View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_10.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can add any new elements right in the <property>Tree viewer</property>:</para>
+
+<figure>
+<title>Adding New Elements</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_11.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="SourceView2">
+<?dbhtml filename="SourceView.html"?>
+<title>Source View</title>
+
+<para>Switch to the <property>Source viewer </property>to edit the web.xml file by hand at any time:</para>
+
+<figure>
+<title>Source View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_12.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="ContentAssist">
+<?dbhtml filename="ContentAssist.html"?>
+<title>Content Assist</title>
+
+<para>Content assist is available in the Source viewer. Simply click <emphasis><property>CTRL-Space</property></emphasis> anywhere in the file.</para>
+
+<figure>
+<title>Content Assist</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_13.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="ErrorCheckingAndValidation">
+<?dbhtml filename="ErrorCheckingAndValidation.html"?>
+<title>Errors Checking and Validation</title>
+
+<para>If errors occur anywhere in the file, small red dots will appear next to the lines where the errors
+ occurred. Also, note that the file is marked by a small x in the Package Explorer view.</para>
+
+<figure>
+<title>Errors Reporting</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_14.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+<section id="GraphicalTilesFilesEditor">
+<?dbhtml filename="GraphicalTilesFilesEditor.html"?>
+<title>Graphical Tiles Files Editor</title>
+<section id="GraphicalEditorForTilesFiles">
+<?dbhtml filename="GraphicalEditorForTilesFiles.html"?>
+<title>Graphical Editor For Tiles Files</title>
+<para>The Tiles configuration file editor has three main viewers (modes): Tree (shown), Diagram and Source. The modes can be selected via the tabs at the bottom of the editor. Any changes made in one mode are immediately visible when you switch to any other mode.</para>
+
+<para>When working in Source view, you always have all following features available:</para>
+
+<itemizedlist>
+<listitem><para>Content Assist</para></listitem>
+<listitem><para>Open On Selection</para></listitem>
+</itemizedlist>
+</section>
+<section id="CreateNewTilesFile">
+<?dbhtml filename="GraphicalTilesFilesEditor.html"?>
+<title>Create New Tiles File</title>
+
+<para>To create a new Tiles files, right click any folder and select <emphasis><property>New > Tiles Files</property></emphasis>:</para>
+
+<figure>
+<title>Creating New Tiles File</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_15.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="TreeView3">
+<?dbhtml filename="TreeView.html"?>
+<title>Tree View</title>
+
+<para>In the Tree mode, the different elements of the Tiles file are organized into functional categories 
+on the left-hand side and a form for editing the properties of currently selected items on the right-hand
+ side.</para>
+
+<figure>
+<title>Tree View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_16.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>To edit the file, simply right click any node and select among the available actions:</para>
+
+<figure>
+<title>Editing in Tiles Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_17.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="DiagramView">
+<?dbhtml filename="TreeView.html"?>
+<title>Diagram View</title>
+
+<para>The Diagram mode is shown below:</para>
+<figure>
+<title>Diagram View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_18.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>To create new definition, simply right click anywhere in the diagram:</para>
+<figure>
+<title>Creating New Definition</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_19.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use the Diagram toolbar to make editing easier:</para>
+
+<figure>
+<title>Diagram Toolbar</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_20.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="Source">
+<?dbhtml filename="TreeView.html"?>
+<title>Source</title>
+
+    <para>The Tiles editor also comes with a <property>Source view</property> that gives you full control over the source. 
+Any changes here will immediately appear in when you switch to any of the other viewers.</para>
+<figure>
+<title>Source View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_21.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>Content assist is available in the Source mode.</para>
+
+<figure>
+<title>Content Assist</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_22.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>Any errors are immediately reported as shown below:</para>
+<figure>
+<title>Error Reporting</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_23.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use the Outline view together with the editor&apos;s Source mode. Selecting any node in the Outline view will jump to that place in the source:</para>
+
+<figure>
+<title>Outline View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_24.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+
+<section id="GraphicalEditorForStrutsValidationFiles">
+<?dbhtml filename="GraphicalStrutsValidationFilesEditor.html"?>
+<title>Graphical Editor for Struts Validation Files</title>
+<para>JBoss Developer Studio comes with a visual validation editor. To create a new validation file, 
+right click any folder and select <emphasis><property>File > Validation File</property></emphasis> from the context menu.</para>
+
+<figure>
+<title>Creating Validation File</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_25.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The validation editor works through a number of viewers.</para>
+
+<para>The Formsets viewer shows forms and their elements for which to define validation rules:</para>
+
+<figure>
+<title>Formsets Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_26.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The Constants viewer lets you set constant values for your validation rules:</para>
+
+<figure>
+<title>Constants viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_27.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>The validation file also can be viewed in a Tree viewer:</para>
+
+<figure>
+<title>Tree Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_28.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>At any point you have full control over the source by switching to the Source viewer. Any editing 
+in this viewer will immediately be available in the other viewers of this editor.</para>
+
+<figure>
+<title>Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_29.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also open your own custom or Struts-standard validation-rules.xml file.</para>
+
+<para>The Validators viewer shows the validation rules for a selected validator. You can of course add your
+ own rules.</para>
+
+<figure>
+<title>Validation Rules</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_30.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>Here are the validation rules shown in the Source viewer.</para>
+
+<figure>
+<title>Validation Rules in Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_31.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+</section>
+<section id="SpringIDE">
+<?dbhtml filename="SpringIDE.html"?>
+<title>Spring IDE</title>
+    <para>JBoss Developer Studio bundles a <property>Spring Framework editor</property> from <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit this site for the latest versions and documentation.</para>
+
+    <para>You can add a <property>Spring Project nature</property> to an existing project by right-clicking on the project and
+ selecting from the context menu:</para>
+
+<figure>
+        <title>Adding Spring Project Nature</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_32.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+
+    <para>Once the nature is added, you will see a small <property>&quot;S&quot;</property> decorating a Spring project in the Package Explorer
+ view. To remove the nature, right click the project and select <emphasis><property>Remove Spring Project Nature</property></emphasis>:</para>
+
+<figure>
+        <title>Project with Spring Nature</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_33.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>After creating a Spring configuration file with bean definitions:</para>
+
+<figure>
+        <title>Spring Configuration File</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_34.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+    <para>Select Spring Beans project with <emphasis><property>Project &gt; Properties &gt; Spring &gt; Beans Support</property></emphasis> from the menu bar:</para>
+
+<figure>
+        <title>Spring Beans</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_35.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para> Now you can add the Spring bean configuration files to your project by clicking on <emphasis><property>Add</property></emphasis> button:</para>
+
+<figure>
+        <title>Adding Configuration Files</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_36.png"/>
+        </imageobject>
+    </mediaobject>
+</figure>
+
+<para>Once you add this file, the file will be marked by an &quot;S&quot; to indicate a Spring bean file:</para>
+
+<figure>
+        <title>Spring Bean File</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_37.png"/>
+        </imageobject>
+    </mediaobject>
+</figure>
+
+    <para>To activate the Spring Beans view, select <emphasis><property>Window &gt; Show View... &gt; Other</property></emphasis> and then <emphasis><property>Spring Explorer&gt; Spring Beans</property></emphasis> from the
+ menu bar:</para>
+
+<figure>
+        <title>Selecting Spring Beans View</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_38.png"/>
+        </imageobject>
+    </mediaobject>
+    </figure>
+
+<para>The Spring Beans view shows a read-only outline view of the Spring bean configuration file:</para>
+
+<figure>
+        <title>Spring Beans View</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_39.png"/>
+        </imageobject>
+    </mediaobject>
+</figure>
+
+<para>Using a context menu, you can select a graph view of the Spring configuration file&apos;s referenced
+ beans:</para>
+
+<figure>
+        <title>Graph View</title>
+      <mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_40.png"/>
+        </imageobject>
+    </mediaobject>
+</figure>
+</section>
+
+<section id="CSSEditor">
+<?dbhtml filename="CSSEditor.html"?>
+<title>CSS Editor</title>
+
+    <para>The <property>CSS editor</property> comes with the same features you will find in all other JBoss Developer Studio editors.</para>
+
+<itemizedlist>
+<listitem><para>Content assist</para></listitem>
+<listitem><para>Validation and error checking</para></listitem>
+</itemizedlist>
+
+<para>With the CSS (Cascading Style Sheet) editor, you can take advantage of code prompting:</para>
+
+<figure>
+<title>CSS Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_41.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use the Outline view next to the editor to navigate through the CSS file:</para>
+
+<figure>
+<title>Outline View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_42.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>And you can also use the Properties view next to the editor to edit existing stylesheet 
+declaration properties:</para>
+
+<figure>
+<title>Properties View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_43.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+</section>
+<section id="JavaScriptEditor">
+<?dbhtml filename="JavaScriptEditor.html"?>
+<title>JavaScript Editor</title>
+
+    <para>The <property>JavaScript editor</property> includes a Preview viewer and a Source viewer. In the Source viewer, you can use code assist:</para>
+
+<figure>
+<title>JavaScript Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_44.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use the Source viewer with the Outline view to navigate around the file:</para>
+
+<figure>
+<title>Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_45.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+</section>
+<section id="ImageViewer">
+<?dbhtml filename="ImageViewer.html"?>
+<title>Image Viewer</title>
+<para>This simple image viewer allows you to view GIF and JPEG files individually in a separate window:</para>
+
+<figure>
+<title>Image Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_46.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+</section>
+<section id="XSDEditor">
+<?dbhtml filename="XSDEditor.html"?>
+<title>XSD Editor</title>
+
+    <para>JBoss Developer Studio comes with an <property>XSD Editor</property> for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).</para>
+
+    <para>To create a new XSD file, right-click a folder in the Package Explorer view, select <emphasis><property>New &gt; Other...</property></emphasis> from the context menu and then select <emphasis><property>XML &gt; XML Schema</property></emphasis> in the dialog box.</para>
+
+<figure>
+<title>Creating New XSD file</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_47.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+    <para>The XSD Editor includes two viewers for working on the file, a Design viewer and a Source viewer:</para>
+
+<figure>
+<title>Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_48.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+    <para>In the Design viewer, you can drill down on an element by double-clicking on it:</para>
+
+<figure>
+    <title>Design Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_49.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>Various edit options are available when you right-click an element in the diagram:</para>
+
+<figure>
+<title>Edit Options</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_50.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use the Properties view to edit a selected element:</para>
+
+<figure>
+<title>Properties View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_51.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<para>You can also use a Source viewer for the file. In this viewer, along with direct editing of the
+ source code, you can also edit the file by using the Properties view on the right:</para>
+
+<figure>
+<title>Source Viewer</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_52.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+</section>
+<section id="SupportforXMLSchema">
+<?dbhtml filename="SupportforXMLSchema.html"?>
+<title>Support for XML Schema</title>
+
+<para>JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:</para>
+<figure>
+<title>XML File</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/more_editors/more_editors_53.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+</section>
+</chapter>

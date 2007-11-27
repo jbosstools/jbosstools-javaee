@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="roadmap" xreflabel="roadmap">
+	<?dbhtml filename="roadmap.html"?>
+	<title>Roadmap to Learn JBoss Developer Studio</title>
+ <para><property>JBoss Developer Studio</property> is an advanced enterprise-level Web application development environment for
+ leveraging open source, J2EE and AJAX technologies within the Eclipse environment. The extensive collection of specialized wizards, editors and views in JBoss Developer Studio is constantly expanding to meet the needs of enterprise developers to keep pace with rapidly changing business environments. JBoss Developer Studio is packed with lot's of powerful features:</para>
+ 
+ 	<figure>
+			<title>JBoss Developer Studio Overview</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/roadmap/roadmap_1.png"/>
+				</imageobject>
+			</mediaobject>
+</figure>
+
+<itemizedlist>
+<listitem><para><property>Seam framework</property> Seam provides a single programming model for developers to use underlying frameworks such as JSF, EJB3, JMS, Web Services, jBPM, JBoss Rules, Ajax4jsf, RichFaces, Facelets, Spring, iText, Quartz, TestNG, etc., via simple annotated POJOs (Plain Old Java Objects).</para>
+<para>To read more on Seam, see <ulink url="http://docs.jboss.com/seam/2.0.0.GA/reference/en/html/index.html">Seam Reference Guide </ulink> or <ulink url="http://www.redhat.com/developers/jbds/Getting_Started/GetStartSeamGen.html">Getting Started Guide</ulink></para></listitem>
+<!--TODO link for Seam Guide -->
+
+<listitem><para><property>Hibernate Tools</property> Supporting mapping files, annotations and JPA with reverse engineering, code completion, project wizards, refactoring, interactive HQL/JPA-QL/Criteria execution and more. In short a merger of Hibernate Tools and Exadel ORM features.</para>
+<para>To read more on Hibernate Tools, see <ulink url="http://www.hibernate.org/hib_docs/tools/reference/en/html/">Hibernate Tools Reference Guide</ulink></para></listitem>
+
+<listitem><para><property>RichFaces Support</property>. Rich Faces is an open source framework that adds Ajax capability into existing JSF applications without resorting to JavaScript.</para>
+<para>To read more on RF, see<ulink url="http://labs.jboss.com/jbossrichfaces/docs/index.html"> RF Developer Guide</ulink></para></listitem>
+
+<listitem><para><emphasis><property>JBoss AS Tools</property></emphasis> Easy start, stop and debug of JBoss AS 4+ servers from within Eclipse. It also includes features for efficient packaging and deployment of any type of Eclipse project.</para></listitem>
+<!-- TODO link for docs	<para>To read more on AS Tools, see <ulink url="AS Tools">Hibernate Tools Reference Guide</ulink></listitem>-->
+
+<listitem><para><property>JBPM Tools</property> JBPM workflow editing, deployment and more.</para></listitem>
+<!-- TODO link for docs	<para>To read more on AS Tools, see <ulink url="AS Tools">Hibernate Tools Reference Guide</ulink></listitem>-->
+
+<listitem><para><property>WYSIWYG Visual Page Editor </property> gives a possibility to visually design HTML/XHTML/JSP/JSF pages with drag and drop or see visual changes as you edit markup.</para></listitem>
+
+<!-- <ulink url="http://docs.jboss.com/seam/2.0.0.GA/reference/en/html/index.html"> VPE Chapter </ulink> or <ulink url="http://www.redhat.com/developers/jbds/Getting_Started/GetStartSeamGen.html">Getting Started Guide</ulink></para></listitem> -->
+
+<listitem> And lot's of other useful functionality described further in this guide</listitem>
+
+</itemizedlist>
+	
+        
+	<!--		<para>Here is the table of main features of <property>JBoss Developer Studio</property>:</para>
+		<table>
+			<title>Key Functionality for JBoss Developer Studio</title>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Feature</entry>
+						<entry>Benefit</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Project development support for JSF, Struts, Spring, Hibernate and with the first 
+            support in the industry for Facelets 1.0</entry>
+						<entry>Leverage multiple open source technologies within one application, allowing more
+             flexibility and greater success</entry>
+					</row>
+					<row>
+						<entry>WYSIWYG Visual Page Editor for JSF and Struts, and with additional configuration wizards for complex JSF components</entry>
+						<entry>Easily delegate presentation design within a project team, increasing productivity and
+             development speed (or ease of development)</entry>
+					</row>
+					<row>
+						<entry>Code assist and code folding for XML, JSP/XHTML files and with additional assist for Facelets</entry>
+						<entry>Edit source code more efficiently through code completion suggestions during typing and 
+          through zooming in and out of different parts of the source code easily</entry>
+					</row>
+					<row>
+						<entry>Full instant synchronization among editing modes. Interactive editors for standard descriptors (faces-config.xml, web.xml, etc.)</entry>
+						<entry>Avoid updating when working between various editing modes</entry>
+					</row>
+					<row>
+						<entry>Flexible and customizable project template management, including additional templates
+             for Facelets</entry>
+						<entry>Jump-start development with out-of-the-box templates or easily customized templates 
+            for re-use</entry>
+					</row>
+					<row>
+					<entry>Web Projects view</entry>
+					<entry>Easy navigation/editing the various components of your web project</entry>
+					</row>
+					<row>
+						<entry>Support of RichFaces framework</entry>
+						<entry>Tight integration between JBDS and RichFaces frameworks. Easy managing RichFaces components in any web application</entry>		
+					</row>
+					<row>
+						<entry>New Webtools 2.0 based JBossAS Tools</entry>
+						<entry>Tight integration with Webtools projects for deploying/running JBossAS in JBDS. JBossAS Perspective with deployed modules, event log, twiddle utility, common port configurations</entry>
+					</row>
+					<row>
+						<entry>New &quot;packaging&quot; implementation (renamed to &quot;Archives&quot;)</entry>
+						<entry>A completely dynamic way to describe the packaging process of your application. Incremental building of archives, incremental deployment of all resources in your application (CSS, JavaScript, JSP, images, etc.)</entry>
+					</row>
+					<row>
+						<entry>New SeamTools component</entry>
+						<entry>Integrated seamgen support. Seam/WTP Project wizard. Auto complete of seam components/properties in JSF editor</entry>
+					</row>
+					<row>
+						<entry>Features planned for future versions:</entry>
+					</row>
+					<row>
+						<entry>JBossPortal Tools</entry>
+						<entry>Possibility for hosting and serving a portal&apos;s Web interface, publishing and managing its content, and customizing its experience. JBoss Portal makes it easier for users to leverage existing IT applications, increasing the ROI on IT assets and reducing the need for new application and integration development</entry>
+					</row>
+					<row>
+						<entry>SOA Tools</entry>
+						<entry>Enables building frameworks and exemplary extensible tools that enable the design, configuration, assembly, deployment, monitoring, and management of software designed around a Service Oriented Architecture (SOA)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		-->
+
+		<para>JBoss Developer Studio, also has a steady schedule of updates, continues to build on and significantly improve its role as a unique environment that radically simplifies and accelerates application development cycles.</para>
+
+</chapter>

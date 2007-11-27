@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="jbds" xreflabel="jbds">
+ <?dbhtml filename="jbds.html"?>
+ <chapterinfo>
+  <keywordset>
+   <keyword>JBoss Developer Studio</keyword>
+   <keyword>JBDS</keyword>
+   <keyword>Java</keyword>
+  </keywordset>
+ </chapterinfo>
+
+ <title>About the JBoss Developer Studio</title>
+ <para><property>JBoss Developer Studio</property> is a result of strategic partnership of Exadel
+  and Red Hat to open sourcing the main Exadel&apos;s product.</para>
+ <para>JBoss Developer Studio, earlier known as Exadel Studio Pro, now is completely available in
+  open source.</para>
+ <section id="TheLeadingOpenSourceIDEForBuildingRichApplications">
+  <?dbhtml filename="TheLeadingOpenSourceIDEForBuildingRichApplications.html"?>
+  <title>The Leading Open Source IDE for Building Rich Applications</title>
+  <para><property>JBoss Developer Studio</property> is a set of plug-ins for the Eclipse IDE. It
+   extends the Eclipse platform to be an advanced enterprise-level Web application development
+   environment for leveraging open source, JEE and AJAX technologies. By combining visual and
+   source-oriented development approaches with support for multiple open source technologies,
+   including JSF, Hibernate, Seam, MyFaces, Spring and others.</para>
+  <para>JBoss Developer Studio enables developers to work easily with many different technologies
+   all within one environment. JBoss Developer Studio provides an extensive collection of
+   specialized wizards, editors and views all of which have been constantly expanding to meet the
+   needs of enterprise developers to keep pace with rapidly changing business environments and
+   technologies.</para>
+ </section>
+
+ <!--  <section id="Feature_List">
+  <title>JBoss Developer Studio Feature List</title>
+  <para>Based on Eclipse 3.2</para>
+  <para>Uses WTP (Web Tools Project) 1.5 Final Release</para>
+  <para>Runs under Windows, Linux</para>
+  <para>Backed by free and professional support. [Premium support available]</para>
+  
+  <para><emphasis role="bold">JavaServer Faces</emphasis></para>
+   <para>Create new JSF projects using a wizard <link  linkend="CreatingANewJSFProject96">learn more</link></para>
+  <para>Use Facelets extension to JSF <link  linkend="FaceletsSupport865">learn more</link></para>
+  <para>Use Facelets 1.0 version <link  linkend="FaceletsSupport865">learn more</link></para>
+  <para>Use Shale extension to JSF</para>
+  <para>Define new project templates that are flexible and easily customizable</para>
+  <para>Use Oracle ADF, MyFaces, any other JSF component libraries</para>
+  <para>Use AJAX feature in MyFaces Sandbox library</para>
+  <para>Import existing JSF projects <link  linkend="ImportingExsJSFProjWithAnyStr74447">learn more</link></para>
+  <para>Add JSF capability to any existing Eclipse project <link  linkend="AddingJSFCapabilityToAnyExistingEclipseProject">learn more</link></para>
+  <para>Visually edit of JSF configuration files, with full synchronization between visual and source editing <link  linkend="GraphicalEditorAndViewingForJSFConfigurationFiles76331">learn more</link></para>
+  <para>Use Diagram view for JSF navigation</para>
+  <para>Create new JSP pages based on flexible and customizable templates <link  linkend="CreatingCustomJSPTemplates">learn more</link></para>
+  <para>Drag and drop JSF project artifacts from Web Projects view to editors <link  linkend="WebProjectsView1">learn more</link></para>
+  <para>Automate code generation for managed beans</para>
+  <para>Use dynamic code assist for JSF artifacts (based on project data) <link  linkend="ContentAssist374">learn more</link></para>
+  <para>Use code assist for all JSF project files <link  linkend="ContentAssist374">learn more</link></para>
+  <para>Add look and feel for any custom JSF component library</para>
+  
+  <para><emphasis role="bold">Struts</emphasis></para>
+  <para>Use Struts 1.2 or 1.1 <link  linkend="SupportForStruts1.2.x1.1">learn more</link></para>
+  <para>Create new Struts projects using a wizard <link  linkend="CreatingANewStrutsProjec745t">learn more</link></para>
+  <para>Define new project templates that are flexible and easily customizable</para>
+  <para>Graphically edit Tiles files</para>
+  <para>Import existing Struts projects <link  linkend="ImportingAnExistingStrutsProjectWithAnyStructure9653">learn more</link></para>
+  <para>Import an existing Struts project from a WAR file</para> 
+  <para>Add Struts capability to any existing Eclipse project <link  linkend="AddingStrutsCapabilityToAnExistingWebApplication532">learn more</link></para>
+  <para>Graphically edit and view Struts configuration files with Diagram, Tree and Source viewers <link  linkend="GraphicalEditorForStrutsConfigurationFiles564">learn more</link></para>
+  <para>Work with Web flow representation of Struts configuration files <link  linkend="GraphicalEditorForStrutsConfigurationFiles564">learn more</link></para>
+  <para>Use dynamic code assist for all Struts project files <link  linkend="ContentAssistForStrutsConfigurationFile75">learn more</link></para>
+  <para>Graphically edit Struts Validation files <link  linkend="GraphicalEditorForStrutsValidationFiles86">learn more</link></para>
+  <para>Use multiple modules in Struts applications <link  linkend="StrutsModulesghf07">learn more</link></para>
+  <para>Automate code generation of stub code for Action, FormBean, Forward and Exception classes <link  linkend="CodeGenerationForActionFormBeanForwardAndExceptionClasses1">learn more</link></para>
+  <para>Customize how the Struts configuration file editor&apos;s Diagram viewer recognizes links between pages (when using user-defined link tags) <link  linkend="CustomizablePageLinksRecognizer1">learn more</link></para>
+  <para>Debug Struts configuration files with a special Data View <link  linkend="StrutsConfigurationFileDebugger097">learn more</link></para>
+   
+  <para><emphasis role="bold">Visual Page Editor</emphasis></para>
+  <para>Work with Visual Page Editor WYSIWYG capabilities in both Windows and Linux environments</para>
+  <para>Drag and drop among project navigator, component palette and Page Editor windows</para>
+  <para>Use advanced drag-and-drop wizards in the Page Editor window for adding even the most complex components</para>
+  <para>Resize components in-place</para>
+  <para>Work in visual, source, or split-screen visual/source modes with instant synchronization between modes</para>
+  <para>Create new JSP pages based on flexible and customizable templates <link  linkend="CreatingCustomJSPTemplates">learn more</link></para>
+  <para>Use any tag library of your choice: JSF, Struts, JSTL, Oracle ADF, MyFaces, Facelets, Shale or any other</para>
+  <para>Validate syntax &quot;as you type" <link  linkend="JSPsyntaxvalidation84">learn more</link></para>
+  <para>Use code assist, syntax highlighting and an integrated editable properties view</para>
+  <para>Fully access code assist within JavaScript and CSS code sections on the page</para>
+  <para>Navigate with OpenOn Selection feature for referenced CSS and TLD files <link  linkend="OpenOnSelection4Hyperlinknavigation">learn more</link></para>
+  <para>Navigate with OpenOn Selection feature for referenced JSF and Struts project artifacts <link  linkend="OpenOnSelection4Hyperlinknavigation">learn more</link></para>
+  <para>Use JSP 2.0, 1.2 or 1.1</para>
+  
+  <para><emphasis role="bold">Hibernate Mapping Tools</emphasis></para>
+  <para>Take advantage of Hibernate 3.0</para>
+  <para>Choose among forward, reverse and &quot;meet-at-the-middle&quot; engineering approaches</para>
+  <para>Use powerful and flexible class mapping and field mapping wizards</para>
+  <para>Automatically generate mapping using a wizard with a unique incremental functionality</para>
+  <para>Easily control auto-mapping using preferences</para>
+  <para>Automatically generate Data Access Object classes for persistent entities</para>
+  <para>Automatically generate DDL files</para>
+  <para>Easily configure Hibernate using a wizard that supports both XML-based and properties-based configurations</para>
+  <para>Validate mappings with Quick Fix</para>
+  <para>Configure Fetch Strategy with a special wizard</para>
+  <para>Configure Class Cache with a special wizard</para>
+  
+  <para><emphasis role="bold">Spring</emphasis></para>
+  <para>Incorporate full access to the Spring IDE <link  linkend="SpringIDE">learn more</link></para>
+  
+  <para><emphasis role="bold">Code Assist</emphasis></para>
+  <para>Use dynamic code assist for JSF and Struts project artifacts</para>
+  <para>Take advantage of automatic and continuous scanning of the project to keep track of available artifacts</para>
+  <para>Use code assist for all JSP, XML and TLD files</para>
+  <para>Use special code assist for JSF Expression Language</para>
+  
+  <para><emphasis role="bold">OpenOn Selection</emphasis></para>
+  <para>Navigate with OpenOn selection from within all source editors to referenced project artifacts including JSF, Struts, JSP, Java, images and CSS</para>
+  
+  <para><emphasis role="bold">Verification and Validation</emphasis></para>
+  <para>Validate for JSP syntax rules</para>
+  <para>Verify consistency for XML, JSP, and Java code within a project</para>
+  <para>Take advantage of rules-based dynamic validation, consistency, and error checking for the entire Web application</para>
+  
+  <para><emphasis role="bold">J2EE</emphasis></para>
+  <para>Edit source for HTML, JavaScript, CSS, JSP, SQL, XML, DTD, XSD and WSDL with advanced features</para>
+  <para>Graphically edit XSD and WSDL files</para>
+  <para>Use J2EE project natures, builders, and models along with a J2EE navigator</para>
+  <para>Easily set up and work with Web services using a wizard and a special explorer</para>
+  <para>Take advantage of WS-I Test Tools</para>
+  
+  <para><emphasis role="bold">Editors</emphasis></para>
+  <para>Graphically edit Tiles files <link  linkend="GraphicalEditorForTilesFiles132">learn more</link></para>
+  <para>Graphically edit Struts Validation files <link  linkend="GraphicalEditorForStrutsValidationFiles86">learn more</link></para>
+  <para>Graphically edit Properties files with support for Unicode characters <link  linkend="GraphicalPropertiesEditor">learn more</link></para>
+  <para>Expand and browse any TLD file in an outline context</para>
+  <para>Graphically edit TLD files <link  linkend="GraphicalTLDEditor">learn more</link></para>
+  <para>Graphically edit web.xml files <link  linkend="GraphicalWebApplicationFile(web.xml)Editor">learn more</link></para>
+  <para>Edit CSS files <link  linkend="CSSEditor">learn more</link></para>
+  <para>Edit JavaScript files <link  linkend="JavaScriptEditor">learn more</link></para>
+  <para>View images <link  linkend="ImageViewer">learn more</link></para>
+  <para>Edit XSD files <link  linkend="XSDEditor">learn more</link></para>
+  
+  <para><emphasis role="bold">Deployment</emphasis></para>
+  <para>Deploy to any server of your choice with or without an Ant script (JBoss Developer Studio doesn&apos;t tie you to any particular runtime)</para>
+  <para>Control registered servers through toolbar icons (start/stop/restart/debug)</para>
+  <para>Register these types of servers to integrate closely with JBoss Developer Studio right out of the box: Tomcat, JBoss, WebLogic, WebSphere, Geronimo, JRun, JOnAS</para>
+  <para>Register Jetty servers to integrate closely with JBoss Developer Studio right out of the box</para>
+  
+  <para><emphasis role="bold">Red Hat Palette</emphasis></para>
+  <para>Insert tags into a JSP page with drag-and-drop or just a click</para>
+  <para>Take advantage of JSF, MyFaces, Shale, Facelets, Struts, JSTL and HTML tag libraries available in the palette &quot;right out of the box&quot;</para>
+  <para>Add any custom or 3rd-party tag libraries to the palette through drag-and-drop</para>
+   
+  <para><emphasis role="bold">Web Projects View</emphasis></para>
+  <para>Inspect and work with JSF and Struts project artifacts organized in a specialized Web Projects view <link  linkend="WebProjectsView1">learn more</link></para>
+  <para>Drag and drop artifacts from the Web Projects view onto JSP pages <link  linkend="WebProjectsView1">learn more</link></para>
+  <para>Add new tag libraries to the tag palette with a simple drag-and-drop from the Web Projects view <link  linkend="AddingTagLibraries">learn more</link></para>
+  
+  </section>-->
+ <section id="Subscription">
+
+  <title>Subscriptions</title>
+  <para>Purchasing a subscription to <ulink url="http://www.redhat.com/developers/jbds/index.html"
+    >JBoss Developer Studio</ulink> provides you access to <ulink url="https://rhn.redhat.com">Red
+    Hat Network</ulink>, as well as access to and updates for Red Hat Enterprise Linux, JBoss
+   Enterprise Application Platform, and integrated Eclipse Tooling.</para>
+  <para>If you require developer support or additional <property>Red Hat/JBoss software</property>
+   for development purposes, you may additionally purchase Red Hat Developer subscriptions. There
+   are two developer support offerings: </para>
+  <itemizedlist>
+   <listitem><para><property>Red Hat Developer Professional</property> for corporate developers and individuals</para></listitem>
+   <listitem><para><property>Red Hat Developer Enterprise</property> for Independent Software Vendors</para></listitem>
+</itemizedlist>
+  
+  <para><ulink
+   url="http://www.redhat.com/developers/subscriptions.html">Here</ulink> you can get all required information about the Red Hat Developer subscriptions. </para>
+  <para>If you have questions <ulink
+    url="http://www.redhat.com/about/contact/dir/#custservice">contact us by web or phone</ulink>.
+  </para>
+ </section>
+
+ <section id="OtherRelevantResourcesOnTheTopic38">
+  <?dbhtml filename="OtherRelevantResourcesOnTheTopic38.html"?>
+  <title>Other relevant resources on the topic</title>
+  <para>JBDS on JBoss: <ulink url="http://labs.jboss.com/rhdevstudio/">Red Hat Developer
+   Studio</ulink></para>
+  <para>Forum: <ulink
+    url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss
+   Forum</ulink></para>
+  <para>Download: <ulink url="http://www.redhat.com/developers/jbds/index.html">JBDS
+   Download</ulink></para>
+ </section>
+</chapter>
