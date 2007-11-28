@@ -15,20 +15,15 @@
 	<section>
 		<title>What is CRUD?</title>
 		<para>
-			<property>CRUD</property>
-			(&quot;Create, read, update and delete&quot;) are the four 
-			basic functions of persistent storage, a major part of nearly 
-			all computer software.
+			<property>CRUD</property> is an acronym for the four basic types of SQL commands: <emphasis><property>Create</property></emphasis>, <emphasis><property>Read</property></emphasis>, <emphasis><property>Update</property></emphasis>, <emphasis><property>Delete</property></emphasis>. Most applications have some kind of <property>CRUD</property> functionality, and we can assume that every programmer had to deal with <property>CRUD</property> at some point. A <property>CRUD</property> application is one that uses forms to get data into and out of a database.
 		</para>
 		<para>
-			More information can be found on Wikipedia site:
-			<ulink url="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">
-			www.wikipedia.org</ulink>
+			In the next chapter we will create <link linkend="intro">Seam</link> Web application, connect it to the <ulink url="http://www.postgresql.org/">PostgreSQL</ulink> database and add <property>CRUD</property> support.
 		</para>
 	</section>
 
     <section>
-        <title>How to create the CRUD Database Application</title>
+        <title>How to create the CRUD Database Application with Seam</title>
         
         <itemizedlist>
             <listitem><para>Create a new Seam Web Project using New Project wizard or main menu <emphasis><property>File > New > Seam Web Project</property>.</emphasis></para></listitem>
@@ -45,7 +40,7 @@
 		<itemizedlist>
 	       <listitem>
 	       		<para>Name your project as <emphasis><property>crudapp</property></emphasis> and follow the next wizard steps keeping default settings.</para>
-	       		<para>Please have a look <link linkend="create_seam">here</link> how to create <emphasis><property>Target Runtime</property></emphasis> and <emphasis><property>Seam Runtime</property></emphasis>.</para>
+	       		<para>Please have a look <link linkend="create_seam">here</link> how to create <emphasis><property>Target Runtime</property></emphasis> and <emphasis><property>Seam Runtime</property></emphasis> in order to get started creating, running, and debugging J2EE applications.</para>
 	       </listitem>
 	    </itemizedlist>
         <figure>
@@ -225,7 +220,7 @@
         </figure>
 
         <itemizedlist>
-            <listitem><para>Switch back to the <property>Seam</property> perspective. From the toolbar select <emphasis><property>New->Seam Generate Entities</property></emphasis> to create necessary entity classes and web pages.
+            <listitem><para>Switch back to the <property>Seam</property> perspective. From the toolbar select <emphasis><property>New->Seam Generate Entities</property></emphasis> to create a set of <property>CRUD</property> Seam components and web pages based on existing tables in the database.
             In the <emphasis><property>Generate Seam Entities</property></emphasis> dialog keep everything by default and press <emphasis><property>Finish</property></emphasis>. 
             </para></listitem>
         </itemizedlist>
