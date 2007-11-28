@@ -127,6 +127,8 @@
         
         <para> Press <property>Edit</property> to Edit employees fields.</para>
         <para> Enter <emphasis>Login</emphasis> and <emphasis>Password</emphasis> to login. (Use <emphasis>&quot;Crudapp-user&quot;/&quot;secret&quot;</emphasis> for example)</para>
+        <para> After this you will be loged in to the server and it will not ask you to enter login and password if you decide to carry through the same steps again.</para>
+        <para> Link <emphasis><property>Login</property></emphasis> in the right top corner will be changed on label <emphasis>Welcome, crudapp-user</emphasis> and link <emphasis><property>Logout</property></emphasis>.</para>
         
         <figure>
             <title>Login page</title>
