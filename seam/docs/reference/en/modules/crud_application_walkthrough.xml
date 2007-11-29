@@ -47,7 +47,7 @@
             </mediaobject>
         </figure> 
         
-        <para>Select a Server in the wizard <emphasis><property>Run on Server </property></emphasis> and click <property>Finish</property></para> 
+        <para>Select a Server and click <property>Finish</property></para> 
            
         <figure>
             <title>Select a Server</title>
@@ -68,11 +68,11 @@
             </mediaobject>
         </figure>  
  			
- 		<para>After the previous steps you can use CRUD application to select, delete or update date from <property>employee</property> database.</para>
+ 		<para>After that you can use CRUD application with <property>employee</property> database.</para>
  			
         
-        <para>You can use internal JBDS Web Browser or your external Web Browser with the same link. (<emphasis>http://localhost:8080/crudapp/home.seam</emphasis>)</para>
-        <para>Click on the <emphasis><property>Employees List</property></emphasis> link and observe that data from DataBase <emphasis><property>employee</property></emphasis> selected.</para>
+        <para>You can use internal JBDS Web Browser or your external Web Browser with the same link (<ulink url="http://localhost:8080/crudapp/home.seam">http://localhost:8080/crudapp/home.seam</ulink>). </para>
+        <para>Click on the <emphasis><property>Employees List</property></emphasis> link and observe that data from <emphasis><property>employee</property></emphasis> database are displayed.</para>
         <figure>
             <title>Employees List</title>
             <mediaobject> 
@@ -82,7 +82,7 @@
             </mediaobject>
         </figure>
         
-        <para>Use <property>Employees search parameters</property> fields to filter selected list.</para>
+        <para>Use <property>Employees search parameters</property> fields to filter the selected list.</para>
         
         <para> Press <property>Select</property> opposite one of employees.</para>
         <figure>
@@ -95,10 +95,8 @@
         </figure>
         
         
-        <para> Press <property>Edit</property> to Edit employees fields.</para>
-        <para> Enter <emphasis>Login</emphasis> and <emphasis>Password</emphasis> to login. (Use <emphasis>&quot;Crudapp-user&quot;/&quot;secret&quot;</emphasis> for example)</para>
-        <para> After this you will be loged in to the server and it will not ask you to enter login and password if you decide to carry through the same steps again.</para>
-        <para> Link <emphasis><property>Login</property></emphasis> in the right top corner will be changed on label <emphasis>Welcome, crudapp-user</emphasis> and link <emphasis><property>Logout</property></emphasis>.</para>
+        <para> Press <property>Edit</property> to edit employee fields.</para>
+        <para> Enter <emphasis><property>Login</property></emphasis> and <emphasis><property>Password</property></emphasis> to login. (Use <emphasis>&quot;crudapp-user&quot;/&quot;secret&quot;</emphasis> for example)</para>
         
         <figure>
             <title>Login page</title>
@@ -116,9 +114,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para> Insert opposite <emphasis><property>firstname</property></emphasis> your name and press <property>Update</property>.</para>
-        <para> Record in DataBase will be updated.</para>
-        <para> See that field <emphasis><property>firstname</property></emphasis> also updated on the screen .</para>        
+        <para> Fill in <emphasis><property>firstname</property></emphasis> and press <property>Update</property>.</para>
+        <para> Database will be updated.</para>
      </section>   
 </chapter>
 
