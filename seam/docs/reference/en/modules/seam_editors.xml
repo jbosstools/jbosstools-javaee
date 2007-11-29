@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="seam_editors" xreflabel="seam_editors">of various possible problematic definitions is i
+<chapter id="seam_editors" xreflabel="seam_editors">
     <?dbhtml filename="seam_editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -23,6 +23,8 @@
             <listitem><para>JAVA</para></listitem>
         </itemizedlist>
    
+   <para>The Seam components are available in content assist.</para>
+   
         <figure>
             <title>Content Assist</title>
             <mediaobject> 
@@ -38,7 +40,7 @@
         <title>OpenOn</title>
         
         <para><property>OpenOn</property> let's you easily navigate through your project without using the Package Explorer or Project Explorer. 
-        After pressing ctrl + left click you will see a corresponding method or class.</para>
+        After pressing ctrl + left click (or just F3) you will see a corresponding method or class.</para>
         
         <figure>
             <title>OpenOn</title>

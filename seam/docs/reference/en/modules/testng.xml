@@ -41,57 +41,9 @@
         <title>How to use the generated Seam-test project to run Seam tests</title>
         
         <itemizedlist>
-            <listitem><para>Create a new Seam Web Project using New Project wizard or main menu <emphasis><property>File > New > Seam Web Project</property>.</emphasis></para></listitem>
+            <listitem><para>Create a new Seam Web Project with EAR deployment using the New Seam Project wizard.</para></listitem>
         </itemizedlist>
-                
-        <figure>
-            <title>Seam Web Project Creation</title>
-            <mediaobject> 
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_1.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-  
-  <itemizedlist>
-      <listitem><para>Name your project and follow the next wizard steps keeping default settings.</para></listitem>
-  </itemizedlist>
-  
-        <figure>
-            <title>New Seam Project Wizard</title>
-            <mediaobject> 
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_2.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
-        <itemizedlist>
-            <listitem><para>Check <emphasis><property>Server Supplied JSF Implementation</property>.</emphasis></para></listitem>
-        </itemizedlist>
-        
-        <figure>
-            <title>Adding JSF Capabilities</title>
-            <mediaobject> 
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_3.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
-        <itemizedlist>
-            <listitem><para>Select <emphasis><property>EAR</property></emphasis> next to <emphasis><property>Deploy as:</property></emphasis> field.</para></listitem>
-        </itemizedlist>
-        
-        <figure>
-            <title>Select Deployment Type</title>
-            <mediaobject> 
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_4.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
+                       
         <itemizedlist>
             <listitem><para>After project is created you will have the generated Seam-test project that is setup to run TestNG directly against the proper libraries and server runtime libraries.</para></listitem>
         </itemizedlist>
@@ -171,11 +123,14 @@
         
         
         <itemizedlist>
-            <listitem><para>After running TestNG you will have the test results in <emphasis><property>test-output</property></emphasis> folder in Seam-test project (press F5 to refresh the Package Explorer view). Open <property>index.html</property> file with Web Browser.</para></listitem>
+            <listitem><para>After running TestNG you will have the test results in <emphasis><property>test-output</property></emphasis> folder in Seam-test project (press F5 to refresh the Package Explorer view). 
+                Open <property>index.html</property> file with Web Browser or simply use the TestNG view.</para></listitem>
         </itemizedlist>
         
+        <para>The below view shows a successful run of the test.</para>
+        
         <figure>
-            <title>Opening Test Results in Web Browser</title>
+            <title>Viewing the Test Results</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/testng/testng_11.png"/>
@@ -183,10 +138,11 @@
             </mediaobject>
         </figure>
         
+           
         <para>You can see the test results in Web Browser.</para>
         
         <figure>
-            <title>Test Results</title>
+            <title>Test Results in Browser</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/testng/testng_12.png"/>

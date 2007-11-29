@@ -81,7 +81,7 @@
             </mediaobject>
         </figure>
                        
-        <para>The Seam Component View can be filtered by choosing <property>Customize View</property></para>
+        <para>The Seam Component View can be filtered by choosing <property>Customize View</property>.</para>
             
         <figure>
             <title>Customize View</title>
@@ -92,7 +92,7 @@
             </mediaobject>
         </figure>
             
-        <para> and select the <emphasis><property>Seam Components from Libraries</property></emphasis> under the Filters tab. 
+        <para>Select the <emphasis><property>Seam Components from Libraries</property></emphasis> under the Filters tab. 
             This will make the view ignore components defined in jar's. This will hide the many built-in Seam components and leave only those left that are actually 
             defined in the project or have actively configured via components.xml. Consequently deselecting the filter will show you all available components.</para>
         <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that are dependent on other project.</para>
