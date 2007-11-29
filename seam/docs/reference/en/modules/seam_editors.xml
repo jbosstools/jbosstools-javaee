@@ -58,7 +58,7 @@
         
         <para>Validation of various possible problematic definitions is implemented for Seam applications.</para>
                
-        <para>If an issue is found it will show up in the standard <property>Problems View</property>.</para>
+        <para>If an issue is found it will be showed in the standard <property>Problems View</property>.</para>
         
         <figure>
             <title>Seam Validation</title>

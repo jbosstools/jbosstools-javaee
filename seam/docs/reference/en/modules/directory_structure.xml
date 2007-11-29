@@ -40,9 +40,7 @@
         
             <para>Furthermore the Seam Project wizard generates a test project that is setup to run TestNG directly against the proper libraries and server runtime libraries. 
                 When the TestNG plugin is installed you can just run your tests via <emphasis><property>Run As > TestNG Test</property>.</emphasis></para>
-            
-            
-        
+                
     </section>
         
             <section id="EAR">

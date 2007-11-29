@@ -14,7 +14,7 @@
     <section>
         <title>Seam Components View</title>
         
-        <para>The <property>Seam Components View</property> is available from Seam perspective. It provides a list of the seam components found in the project.</para>
+        <para>The <property>Seam Components View</property> is available from Seam perspective. It provides a list of seam components found in a project.</para>
                 
         <figure>
             <title>Seam Components View</title>
@@ -93,9 +93,8 @@
         </figure>
             
         <para>Select the <emphasis><property>Seam Components from Libraries</property></emphasis> under the Filters tab. 
-            This will make the view ignore components defined in jar's. This will hide the many built-in Seam components and leave only those left that are actually 
-            defined in the project or have actively configured via components.xml. Consequently deselecting the filter will show you all available components.</para>
-        <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that are dependent on other project.</para>
+            This will make the view ignore components defined in jars. This will hide the many built-in Seam components and leave only those that are actually defined in the project or have been actively configured via components.xml. Therefore, deselecting the filter will show you all available components.</para>
+        <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that dependent on other project.</para>
         
         <figure>
             <title>Available Customozations</title>
@@ -107,13 +106,11 @@
         </figure>
                        
     </section>
- 
-    
+     
     <section>
         <title>Project Explorer integration</title>
         
-        <para>If you don't like to have a view for every piece of information in Eclipse, the content of the Seam Components view is also avaible as a node
-            in the built-in Project Explorer (not Package Explorer !) view in Eclipse.</para>
+        <para>If you don't like to have a view for every piece of information in Eclipse, the content of the Seam Components view is also avaible as a node in the built-in Project Explorer (not Package Explorer!) view in Eclipse.</para>
         
         <figure>
             <title>Seam Components in Project Explorer</title>

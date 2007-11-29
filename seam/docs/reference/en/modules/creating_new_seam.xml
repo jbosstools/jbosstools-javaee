@@ -9,16 +9,13 @@
             </keywordset>
     </chapterinfo>
     <title>Creating a New Seam Project via the New Seam Project wizard</title>
-    <para>To start working with Seam select a Seam perspective via <emphasis><property>Window > Open Perspective > Other > Seam</property></emphasis>. 
+    <para>To start working with Seam, select a Seam perspective via <emphasis><property>Window > Open Perspective > Other > Seam</property></emphasis>. 
         Select <emphasis><property>File > New > Seam Web Project</property></emphasis> to run the <property>New Seam Project</property> wizard.</para> 
        
     <section id="standaloneSeam">
            <title>Create standalone Seam Web Project</title>
-           
-        <para>You are able to enter a name and a location directory for your new project. Next wizard's sections allows you create runtime and server instances in order 
-        to get started creating, running, and debugging J2EE applications.</para>
-        <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP runtime) that will be used for the project. This allows the wizard to correctly
-            identify where the needed datasource and driver libraries need to go.</para>
+        <para>It's necessary to enter a name and a location directory for your new project. The next wizard forms allow you to create runtime and server instances in order to get started creating, running, and debugging J2EE applications.</para>
+        <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP runtime) that will be used for the project. This allows the wizard to identify correctly where the required datasource and driver libraries need to go.</para>
            
     <figure>
         <title>New Seam Project Wizard</title>
@@ -42,7 +39,7 @@
         </mediaobject>
     </figure>
     
-        <para>All what you need here is to name runtime, browse to it's install directory, select a Java Runtime Environment, and select which configuration you want. Click on <emphasis><property>Finish</property></emphasis>.</para>
+        <para>All what you need here is to name runtime, browse to its install directory, select a Java Runtime Environment, and select which configuration you want. Click on <emphasis><property>Finish</property></emphasis>.</para>
     
     <figure>
         <title>New Server Runtime Dialog</title>
@@ -54,7 +51,7 @@
     </figure>
         
         <para>Now you should define an installed server by clicking on <emphasis><property>New...</property></emphasis> button in the Target section.
-            You are able to select a server version and a server runtime. Use <emphasis><property>Installed Runtimes</property></emphasis> button to see or edit what runtimes are installed. Click on Next</para>
+            It's possible to select a server version and a server runtime. Use <emphasis><property>Installed Runtimes</property></emphasis> button to see or edit what runtimes are installed. Click on Next</para>
     
     <figure>
         <title>New Server Dialog</title>
@@ -76,7 +73,7 @@
         </mediaobject>
     </figure>
     
-        <para>On the last wizard's step you can modify your project to configure it on server.</para>
+        <para>On the last wizard step you can modify your project to configure it on server.</para>
     
         <figure>
         <title>New Server Dialog</title>
@@ -116,7 +113,7 @@
         </mediaobject>
     </figure>
     
-    <para>You can also see all available runtimes after clicking on <emphasis><property>Show Runtimes</property></emphasis> or create the new ones using the <emphasis><property>New</property></emphasis> button.</para>
+    <para>You can also see all available runtimes after clicking on <emphasis><property>Show Runtimes</property></emphasis> or create new ones using the <emphasis><property>New</property></emphasis> button.</para>
     
         <figure>
             <title>Project Facets Selection</title>
@@ -130,7 +127,7 @@
     </section>
     
     <section id="configureWebModule">
-        <title>Configure Web Module Settings</title>
+        <title>How to Configure Web Module Settings</title>
         
         <para>A dynamic web application contains both web pages and Java code. The wizard will ask you where you want to put those files. You can just leave the default values.</para>
         

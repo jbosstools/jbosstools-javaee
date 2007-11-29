@@ -184,7 +184,7 @@
         </figure>
 
         <itemizedlist>
-            <listitem><para>Have a look to the created projects. You can expand <property>WEB_CONTENT</property> folder and open <property>home.xhtml</property> or <property>login.xhtml</property> with <property>JBoss Visual Editor</property>.</para></listitem>
+            <listitem><para>Have a look at the created projects. You can expand <property>WEB_CONTENT</property> folder and open <property>home.xhtml</property> or <property>login.xhtml</property> with <property>JBoss Visual Editor</property>.</para></listitem>
         </itemizedlist>
         <figure>
             <title>CRUDAPP Seam Project</title>

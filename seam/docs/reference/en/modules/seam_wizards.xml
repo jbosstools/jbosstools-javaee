@@ -32,7 +32,7 @@
         </mediaobject>
     </figure>
     
-        <para>The wizards create multiple resources and place in the appropriate folders dependend on your project structure (WAR or EAR).</para>
+        <para>The wizards create multiple resources and place it in the appropriate folders depending on your project structure (WAR or EAR).</para>
    
     <section id="seam_action">
         
@@ -97,8 +97,7 @@
             </mediaobject>
         </figure>
         
-        
-    </section>
+        </section>
     <section id="seam_entity">
         <title>New Seam Entity</title>
         
@@ -114,8 +113,7 @@
             </mediaobject>
         </figure>
                
-        
-    </section>
+        </section>
     <section id="seam_conversation">
         <title>New Seam Conversation</title>
         

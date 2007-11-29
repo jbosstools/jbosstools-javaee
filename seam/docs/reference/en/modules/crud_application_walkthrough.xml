@@ -69,10 +69,9 @@
         </figure>  
  			
  		<para>After that you can use CRUD application with <property>employee</property> database.</para>
- 			
         
         <para>You can use internal JBDS Web Browser or your external Web Browser with the same link (<ulink url="http://localhost:8080/crudapp/home.seam">http://localhost:8080/crudapp/home.seam</ulink>). </para>
-        <para>Click on the <emphasis><property>Employees List</property></emphasis> link and observe that data from <emphasis><property>employee</property></emphasis> database are displayed.</para>
+        <para>Click on the <emphasis><property>Employees List</property></emphasis> link and observe that data from <emphasis><property>employee</property></emphasis> database is displayed.</para>
         <figure>
             <title>Employees List</title>
             <mediaobject> 
