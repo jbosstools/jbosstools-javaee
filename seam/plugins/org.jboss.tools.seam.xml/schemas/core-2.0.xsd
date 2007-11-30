@@ -44,17 +44,17 @@
         <xs:attribute name="parent-conversation-id-parameter"/>
     </xs:attributeGroup>
     
-    <xs:element name="resource-bundle">
+    <xs:element name="resource-loader">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="core:bundle-names"/>
             </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.resourceBundle"/>
+            <xs:attributeGroup ref="core:attlist.resourceLoader"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="bundle-names" type="components:multiValuedProperty"/>
-    <xs:attributeGroup name="attlist.resourceBundle">
+    <xs:attributeGroup name="attlist.resourceLoader">
         <xs:attribute name="bundle-names"> </xs:attribute>
     </xs:attributeGroup>
 

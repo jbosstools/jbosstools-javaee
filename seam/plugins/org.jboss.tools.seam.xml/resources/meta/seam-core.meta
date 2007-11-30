@@ -1316,6 +1316,55 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="core:resource-loader" name="SeamCoreResourceLoader20">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamCoreBundleNames" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="resource loader" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.core.resourceBundle" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="bundle-names" xmlname="bundle-names"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="core:time-zone-selector" name="SeamCoreTimeZoneSelector">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -1709,7 +1758,7 @@
    <XChildEntity name="SeamCoreInit"/>
    <XChildEntity name="SeamCoreManager"/>
    <XChildEntity name="SeamCorePojoCache"/>
-   <XChildEntity name="SeamCoreResourceBundle"/>
+   <XChildEntity name="SeamCoreResourceLoader20"/>
    <XChildEntity name="SeamBPMActor20"/>
    <XChildEntity name="SeamBPMJBPM20"/>
   </XChildrenEntities>
@@ -1745,8 +1794,8 @@
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Resource Bundle..." kind="action" name="AddResourceBundle">
-      <EntityData EntityName="SeamCoreResourceBundle">
+      displayName="Resource Loader..." kind="action" name="AddResourceLoader">
+      <EntityData EntityName="SeamCoreResourceLoader20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="bundle-names" Mandatory="no"/>
       </EntityData>
@@ -1807,8 +1856,8 @@
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Resource Bundle..." kind="action" name="AddResourceBundle">
-      <EntityData EntityName="SeamCoreResourceBundle">
+      displayName="Resource Loader..." kind="action" name="AddResourceLoader">
+      <EntityData EntityName="SeamCoreResourceLoader20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="bundle-names" Mandatory="no"/>
       </EntityData>
