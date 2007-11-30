@@ -22,5 +22,5 @@
             </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
-    <!-- subscription registry -->
+   
 </xs:schema>
