@@ -52,17 +52,25 @@
             <xs:attribute name="auth-type" type="xs:string"/>
         </xs:complexType>
     </xs:element>
-    
+        
+    <xs:element name="logging-filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+        </xs:complexType>
+    </xs:element>
+       
     <xs:element name="ajax4jsf-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="web:attlist.filter"/>
             <xs:attributeGroup ref="web:attlist.ajax4jsfFilter"/>
         </xs:complexType>
-    </xs:element>
+    </xs:element>    
     
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
+        <xs:attribute name="disabled" type="xs:string" default="false" />
     </xs:attributeGroup>
     
     <xs:attributeGroup name="attlist.multipartFilter">

@@ -47,6 +47,7 @@
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="disabled" xmlname="disabled"/>
    <XModelAttribute PROPERTIES="category=general" name="enable-cache" xmlname="enable-cache">
     <Constraint loader="List">
      <value/>
@@ -112,6 +113,7 @@
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="disabled" xmlname="disabled"/>
    <XModelAttribute PROPERTIES="category=advanced" name="realm" xmlname="realm"/>
    <XModelAttribute PROPERTIES="category=advanced" name="key" xmlname="key"/>
    <XModelAttribute PROPERTIES="category=advanced"
@@ -165,6 +167,7 @@
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="disabled" xmlname="disabled"/>
    <XModelAttribute PROPERTIES="category=general" name="encoding" xmlname="encoding"/>
    <XModelAttribute PROPERTIES="category=general" name="override-client" xmlname="override-client">
     <Constraint loader="List">
@@ -268,6 +271,54 @@
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:logging-filter" name="SeamWebLoggingFilter20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="logging filter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.loggingFilter" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="disabled" xmlname="disabled"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -555,6 +606,7 @@
    <XChildEntity name="SeamWebAuthenticationFilter20"/>
    <XChildEntity name="SeamWebCharacterFilter20"/>
    <XChildEntity name="SeamWebAjaxFilter20"/>
+   <XChildEntity name="SeamWebLoggingFilter20"/>
    <XChildEntity name="SeamWebServletSession20"/>
   </XChildrenEntities>
   <XActionItem kind="list">
@@ -614,6 +666,14 @@
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Ajax For JSF Filter..." kind="action" name="AddAjaxFilter">
       <EntityData EntityName="SeamWebAjaxFilter20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Logging Filter..." kind="action" name="AddLoggingFilter">
+      <EntityData EntityName="SeamWebLoggingFilter20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="url-pattern" Mandatory="no"/>
       </EntityData>
@@ -689,6 +749,14 @@
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Ajax For JSF Filter..." kind="action" name="AddAjaxFilter">
       <EntityData EntityName="SeamWebAjaxFilter20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Logging Filter..." kind="action" name="AddLoggingFilter">
+      <EntityData EntityName="SeamWebLoggingFilter20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="url-pattern" Mandatory="no"/>
       </EntityData>

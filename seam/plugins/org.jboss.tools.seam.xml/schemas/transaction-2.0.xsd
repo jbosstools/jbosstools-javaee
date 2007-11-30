@@ -32,5 +32,11 @@
     <xs:attributeGroup name="attlist.EntityTransaction">
         <xs:attribute name="entity-manager" type="xs:string" use="required"/>
     </xs:attributeGroup>
+    
+     <xs:element name="no-transaction">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
 
 </xs:schema>
