@@ -186,6 +186,72 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="spring:spring-transaction" name="SeamSpringTransaction20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.dispatcher" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="spring transaction" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.transaction.transaction" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,jndi-name"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="platform-transaction-manager" xmlname="platform-transaction-manager"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="conversation-context-required" xmlname="conversation-context-required">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="join-transaction" xmlname="join-transaction">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XEntityExtension name="FileSeamComponents12">
   <XChildrenEntities>
    <XChildEntity name="SeamSpringContextLoader"/>
@@ -230,6 +296,7 @@
   <XChildrenEntities>
    <XChildEntity name="SeamSpringContextLoader"/>
    <XChildEntity name="SeamSpringTaskDispatcher20"/>
+   <XChildEntity name="SeamSpringTransaction20"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -250,6 +317,14 @@
       <EntityData EntityName="SeamSpringTaskDispatcher20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="task-executor"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Transaction..." kind="action" name="AddTransaction">
+      <EntityData EntityName="SeamSpringTransaction20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="platform-transaction-manager"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
@@ -277,6 +352,14 @@
       <EntityData EntityName="SeamSpringTaskDispatcher20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="task-executor"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Transaction..." kind="action" name="AddTransaction">
+      <EntityData EntityName="SeamSpringTransaction20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="platform-transaction-manager"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
