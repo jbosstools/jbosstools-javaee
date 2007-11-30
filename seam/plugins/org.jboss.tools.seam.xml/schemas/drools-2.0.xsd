@@ -16,7 +16,23 @@
     <xs:element name="rule-files" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.RuleBase">
         <xs:attribute name="dsl-file" type="xs:string"/>
-        <xs:attribute name="rule-files" type="xs:string"/>
+        <xs:attribute name="rule-files" type="xs:string"/>        
+    </xs:attributeGroup>
+
+    <xs:element name="rule-agent">
+    	<xs:complexType mixed="true">    		
+    		<xs:attributeGroup ref="components:attlist.component" />
+    		<xs:attributeGroup ref="drools:attlist.RuleAgent" />
+    	</xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.RuleAgent">
+        <xs:attribute name="configuration-file" type="xs:string" />
+        <xs:attribute name="config-name" type="xs:string" />
+        <xs:attribute name="new-instance" type="xs:string" />
+        <xs:attribute name="files" type="xs:string" />
+        <xs:attribute name="url" type="xs:string" />
+        <xs:attribute name="local-cache-dir" type="xs:string" />
+        <xs:attribute name="poll" type="xs:string" />        
     </xs:attributeGroup>
 
     <xs:element name="managed-working-memory">

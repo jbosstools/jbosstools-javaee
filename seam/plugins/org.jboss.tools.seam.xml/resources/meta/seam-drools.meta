@@ -77,6 +77,59 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="drools:rule-agent" name="SeamDroolsRuleAgent">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.drools.base" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="rule agent" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="name,class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="configuration-file" xmlname="configuration-file"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="config-name" xmlname="config-name"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="new-instance" xmlname="new-instance"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="files" xmlname="files"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="url" xmlname="url"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="local-cache-dir" xmlname="local-cache-dir"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="poll" xmlname="poll"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="drools:rule-base" name="SeamDroolsRuleBase">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="SeamDroolsRuleFiles" required="yes"/>
@@ -241,6 +294,7 @@
   <XChildrenEntities>
    <XChildEntity name="SeamDroolsManagedWorkingMemory"/>
    <XChildEntity name="SeamDroolsRuleBase"/>
+   <XChildEntity name="SeamDroolsRuleAgent"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -261,6 +315,14 @@
       <EntityData EntityName="SeamDroolsRuleBase">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="rule-files" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Base..." kind="action" name="AddRuleAgent">
+      <EntityData EntityName="SeamDroolsRuleAgent">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="configuration-file" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
@@ -288,6 +350,14 @@
       <EntityData EntityName="SeamDroolsRuleBase">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="rule-files" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Base..." kind="action" name="AddRuleAgent">
+      <EntityData EntityName="SeamDroolsRuleAgent">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="configuration-file" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
