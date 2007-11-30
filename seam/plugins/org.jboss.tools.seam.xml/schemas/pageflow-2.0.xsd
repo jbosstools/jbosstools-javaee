@@ -18,6 +18,7 @@
 				<xs:element ref="exception-handler" />
 			</xs:choice>
 			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute name="start-page" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 
@@ -64,8 +65,10 @@
 
 	<xs:element name="start-page">
 		<xs:complexType>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">				<xs:group ref="page-elements" />
-			</xs:choice>			<xs:attributeGroup ref="page-attributes" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:group ref="page-elements" />
+			</xs:choice>
+			<xs:attributeGroup ref="page-attributes" />
 		</xs:complexType>
 	</xs:element>
 
@@ -123,7 +126,8 @@
 	<xs:element name="description" type="xs:string" />
 
 	<xs:element name="end-conversation">
-		<xs:complexType>			<xs:attribute name="before-redirect" type="booleanType" />
+		<xs:complexType>
+			<xs:attribute name="before-redirect" type="booleanType" />
 			<xs:attribute name="create-process" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
@@ -301,26 +305,23 @@
 
 	<xs:group name="action-elements">
 		<xs:choice>
-			<xs:element ref="action" />		</xs:choice>
+			<xs:element ref="action" />
+		</xs:choice>
 	</xs:group>
 
 	<xs:group name="page-elements">
 		<xs:sequence>
-			<xs:choice minOccurs="0">
-				<xs:element ref="description" />
-				<xs:element ref="redirect" />
-			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element ref="event" />
-				<xs:element ref="exception-handler" />
-				<xs:element ref="transition" />
-				<xs:group ref="action-elements" />
-			</xs:choice>
+                <xs:element ref="description" maxOccurs="1" minOccurs="0"/>
+                <xs:element ref="redirect" maxOccurs="1" minOccurs="0"/>
+				<xs:element ref="event" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="exception-handler" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="transition" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:group ref="action-elements" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="page-attributes">
-		<xs:attribute name="redirect" type="booleanType" />
+		<xs:attribute name="redirect" type="xs:boolean" />
 		<xs:attribute name="switch" type="enabledType" />
 		<xs:attribute name="no-conversation-view-id" type="xs:string" />
 		<xs:attribute name="timeout" type="xs:int" />
