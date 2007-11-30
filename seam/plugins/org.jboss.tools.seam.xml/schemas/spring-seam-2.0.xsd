@@ -26,6 +26,16 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
+            <xsd:attribute name="default-auto-create" type="xsd:boolean" use="optional" default="false">
+            	<xsd:annotation>
+            		<xsd:documentation>
+            			<![CDATA[
+							Should instances of this component be auto-created.  Defaults to false since custom Seam
+							scopes are typically used to create stateful components that go on to be created multiple times.
+                        ]]>
+            		</xsd:documentation>
+            	</xsd:annotation>
+            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
     <xsd:element name="instance">
@@ -160,9 +170,8 @@
                 <xsd:annotation>
                     <xsd:documentation>
                         <![CDATA[
-                                 Determines whether Seam interceptors should be wrapped around a bean, by overriding Seam's default rules. 
-                                 Seldom do you want the seam interceptors wrapped around a sprig singleton.  Auto will use choose no
-                                 interception for a singleton and use Seam standard rules otherwise.
+                                 Determines whether Seam interceptors should be wrapped around a bean, overriding
+                                 Seam's default which is currently "true". 
                         ]]>
                     </xsd:documentation>
                 </xsd:annotation>
