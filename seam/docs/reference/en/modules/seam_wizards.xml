@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="seam_wizards" xreflabel="seam_wizards">
+    <?dbhtml filename="seam_wizards.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>JBDS</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Seam Wizards</title>
+    
+    <para>All the Seam component generations options known from Seam-gen are available as wizards (with sensible auto-defaulting)
+    for creating various common Seam components:</para>
+    
+    <itemizedlist>
+        <listitem><para>Seam Action</para></listitem>
+        <listitem><para>Seam Form</para></listitem>
+        <listitem><para>Seam Entity</para></listitem>
+        <listitem><para>Seam Conversation</para></listitem>
+    </itemizedlist>
+    
+    <para>Go to <emphasis><property>File > New</property></emphasis> and select the component wizard.</para>
+    
+    <figure>
+        <title>Seam Component Wizards</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="images/seam_wizards/seam_wizards1.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+        <para>The wizards create multiple resources and place it in the appropriate folders depending on your project structure (WAR or EAR).</para>
+   
+    <section id="seam_action">
+        
+        <title>New Seam Action</title>
+        
+        <para>To create a New Seam Action you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
+        <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
+        
+        <para>WAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Action Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>The wizard for EAR deployment differs from WAR in <property>Local interface</property> and <property>Bean</property> fields so you need to fill them in.</para>
+        
+        <para>EAR deployment:</para>
+                 
+        <figure>
+            <title>New Seam Action Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards3.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+    </section>
+    <section id="seam_form">
+        <title>New Seam Form</title>
+        
+        <para>To create a New Seam Form you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
+            <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
+        
+        
+        <para>WAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Form Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards4.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        
+        <para>The wizard for EAR deployment differs from WAR in <property>Local interface</property> and <property>Bean</property> fields so you need to fill them in.</para>
+        <para>EAR deployment is:</para>
+        
+             <figure>
+            <title>New Seam Form Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards4_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        </section>
+    <section id="seam_entity">
+        <title>New Seam Entity</title>
+        
+        <para>To create New Seam Entity you should select a necessary project, type a name for <property>Entity class</property>, select a 
+            <property>Package</property> using <emphasis><property>Browse</property></emphasis> button, type a name for <property>Master Page</property> and <property>Page</property>.</para>
+        
+        <figure>
+            <title>New Seam Entity Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards5.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+               
+        </section>
+    <section id="seam_conversation">
+        <title>New Seam Conversation</title>
+        
+        <para>To create a New Seam Conversation you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
+            <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
+        
+        <para>WAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Conversation Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards6.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>The wizard for EAR deployment differs from WAR in <property>Local interface</property> and <property>Bean</property> fields so you need to fill them in.</para>
+        <para>EAR deployment:</para>
+        
+        <figure>
+            <title>New Seam Conversation Wizard</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards6_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+    </section>
+  </chapter>
