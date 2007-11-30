@@ -163,8 +163,10 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			for (ISeamComponent c : p.getComponents()) {
 				children.add(c);
 			}
-			for (ISeamPackage pc : p.getPackages().values()) {
-				children.add(pc);
+			if(!isPackageStructureFlat()) {
+				for (ISeamPackage pc : p.getPackages().values()) {
+					children.add(pc);
+				}
 			}
 			return children.toArray(new Object[0]);
 		} else if(parentElement instanceof ISeamComponent) {
