@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="jsf_support" xreflabel="jsf_support">
         <?dbhtml filename="jsf_support.html"?>
-  <chapterinfo>
-    <keywordset>
-      <keyword>JBoss Developer Studio</keyword>
-      <keyword>Eclipse</keyword>
-      <keyword>Java</keyword>
-      <keyword>Tomcat</keyword>
-    </keywordset>
-  </chapterinfo>
-  <title>Java Server Faces Support</title>
-  <para>JBoss Developer Studio is especially designed for supporting JSF and JSF-related technologies. JBDS provides extensible and exemplary tools for building JSF-based applications as well as adding JSF capabilities to existing web projects, importing JSF projects (created outside JBDS) and choosing any JSF implementation while developing JSF application.</para>
-  <para>JBoss Developer Studio allows you to develop JSF applications much faster and with far fewer errors so sparing your time.</para>
-  <section id="SupportForJSFEnvironmentsJSF_RIMyFacesFaceletsShaleOrAnyCustom442">
-  <?dbhtml filename="SupportForJSFEnvironmentsJSF-RIMyFacesFaceletsShaleOrAnyCustom.html"?>
-<title>Support for JSF Environments: JSF-RI, MyFaces, Facelets or any Custom</title>
-          <para>With JBoss Developer Studio, we don&apos;t lock you into any one <property>JavaServer Faces</property> implementation. Select the one you want to use for your project.</para>
-<para>When you:</para>
-<itemizedlist>
-        <listitem><para>Create a new <property>JSF project</property></para></listitem>
-        <listitem><para>Add <property>JSF capability</property> to any existing Eclipse project</para></listitem>
-        <listitem><para>Add <property>JSF capability</property> to any existing project (created outside JBDS)</para></listitem>
-</itemizedlist>
-<para>You can always select which JSF implementation to use.</para>
+        <chapterinfo>
+                <keywordset>
+                        <keyword>JBoss Developer Studio</keyword>
+                        <keyword>Eclipse</keyword>
+                        <keyword>Java</keyword>
+                        <keyword>Tomcat</keyword>
+                </keywordset>
+        </chapterinfo>
+        <title>Java Server Faces Support</title>
+        <para>JBoss Developer Studio is especially designed for supporting JSF and JSF-related
+                technologies. JBDS provides extensible and exemplary tools for building JSF-based
+                applications as well as adding JSF capabilities to existing web projects, importing
+                JSF projects (created outside JBDS) and choosing any JSF implementation while
+                developing JSF application.</para>
+        <para>JBoss Developer Studio allows you to develop JSF applications much faster and with far
+                fewer errors so sparing your time.</para>
+        <section id="SupportForJSFEnvironmentsJSF_RIMyFacesFaceletsShaleOrAnyCustom442">
+                <?dbhtml filename="SupportForJSFEnvironmentsJSF-RIMyFacesFaceletsShaleOrAnyCustom.html"?>
+                <title>Support for JSF Environments: JSF-RI, MyFaces, Facelets or any Custom</title>
+                <para>With JBoss Developer Studio, we don&apos;t lock you into any one
+                                <property>JavaServer Faces</property> implementation. Select the one
+                        you want to use for your project.</para>
+                <para>When you:</para>
+                <itemizedlist>
+                        <listitem>
+                                <para>Create a new <property>JSF project</property></para>
+                        </listitem>
+                        <listitem>
+                                <para>Add <property>JSF capability</property> to any existing
+                                        Eclipse project</para>
+                        </listitem>
+                        <listitem>
+                                <para>Add <property>JSF capability</property> to any existing
+                                        project (created outside JBDS)</para>
+                        </listitem>
+                </itemizedlist>
+                <para>You can always select which JSF implementation to use.</para>
 
-<para>You can also create your own custom JSF environments.</para>
-<figure>
-<title>Choosing JSF Environment</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_1.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                <para>You can also create your own custom JSF environments.</para>
+                <figure>
+                        <title>Choosing JSF Environment</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_1.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
 
-<para>JBoss Developer Studio will add all the required libraries for the selected version to your project.</para>
-  </section>
-        
-<!--        
+                <para>JBoss Developer Studio will add all the required libraries for the selected
+                        version to your project.</para>
+        </section>
+
+        <!--        
 <section id="AddingSupportForTheOracleADFComponentsLibraryOrAnyOtherSupport64">
 <?dbhtml filename="AddingSupportForTheOracleADFComponentsLibraryOrAnyOtherSupport.html"?>
 <title>Adding Support for the Oracle ADF Components Library or Any Other Support</title>
@@ -63,113 +79,132 @@
 
 <para>You can add any custom capability (support) to your project using Library Sets in the same fashion. </para>
 </section>
--->        
-        
-<section id="FaceletsSupport865">
-<?dbhtml filename="FaceletsSupport.html"?>
-<title>Facelets Support</title>
+-->
 
-<para><property>Facelets</property> extends JavaServer Faces by providing a lightweight framework that radically simplifies the design of presentation pages for JSF. JBoss Developer Studio provides support for Facelets in a variety of  ways.</para>
+        <section id="FaceletsSupport865">
+                <?dbhtml filename="FaceletsSupport.html"?>
+                <title>Facelets Support</title>
 
-<para>The Create New JSF Project wizard contains templates for creating Faceletsprojects based on 
-version 1.2 of the JSF Reference Implementation:</para>
-<figure>
-<title>Choosing Facelets Environment</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata  fileref="images/jsf_support/jsf_support_2.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                <para><property>Facelets</property> extends JavaServer Faces by providing a
+                        lightweight framework that radically simplifies the design of presentation
+                        pages for JSF. JBoss Developer Studio provides support for Facelets in a
+                        variety of ways.</para>
 
-<para>Once you select the environment, you can select one of the six available templates:</para>
-<figure>
-<title>Choosing Facelets Template</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_3.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>The JBoss Tools Palette comes with the Facelets components ready to use. A useful tip appears when you hover the mouse cursor over the tag:</para>
+                <para>The Create New JSF Project wizard contains templates for creating
+                        Faceletsprojects based on version 1.2 of the JSF Reference Implementation:</para>
+                <figure>
+                        <title>Choosing Facelets Environment</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_2.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
 
-<!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
+                <para>Once you select the environment, you can select one of the six available
+                        templates:</para>
+                <figure>
+                        <title>Choosing Facelets Template</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_3.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <para>The JBoss Tools Palette comes with the Facelets components ready to use. A
+                        useful tip appears when you hover the mouse cursor over the tag:</para>
+
+                <!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
    with MyFaces and Facelets and then save it as a template for future use. 
    
     How can I add Facelets support to an existing project?</para>
     <para>A: Right-click on the folder of existing project and select <emphasis>JBoss Tools &gt; Add Custom Capabilities.. &gt; Facelets</emphasis>. </para>
 	-->
-<figure>
-<title>Facelets Components</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_4.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-        <para>Code assist for <property>Facelets tags</property> is available when editing xhtml files:</para>
-<figure>
-<title>XHTML File Code Assist</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_5.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-        
-        <itemizedlist>
-                <listitem><para>In any HTML tag you also get the code assist for <emphasis role="italic"><property>&quot;jsfc&quot;</property></emphasis> attribute</para></listitem>
-        </itemizedlist>
+                <figure>
+                        <title>Facelets Components</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_4.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <para>Code assist for <property>Facelets tags</property> is available when editing
+                        xhtml files:</para>
+                <figure>
+                        <title>XHTML File Code Assist</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_5.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
 
-        <figure>
-<title>Code Assist for Jsfc Attribute</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_6.png"/>
-        </imageobject>
-</mediaobject>
-        </figure>
-        
-        <itemizedlist>
-                <listitem><para>Then you get the code assist for JSF components are available on the page</para></listitem>
-        </itemizedlist>
-        
-<figure>
-<title>Code Assist for JSF Components</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_7.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-        
-        <itemizedlist>
-                <listitem><para>Then you will see all available attributes for the component.</para></listitem>
-        </itemizedlist>
-        
-        <figure>
-                <title></title>
-                <mediaobject> 
-                        <imageobject>
-                                <imagedata fileref="images/jsf_support/jsf_support_8.png"/>
-                        </imageobject>
-                </mediaobject>
-        </figure>
-        
-<para>Using JBoss Developer Studio OpenOn feature, you can easily navigate between the <property>Facelets
-        templates</property> and other parts of your projects. Just by holding down the Control key while hovering the 
- mouse cursor over a reference to a template, the reference becomes a hyperlink to open that template.</para>
-<figure>
-<title>Template Hyperlink</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_9.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                <itemizedlist>
+                        <listitem>
+                                <para>In any HTML tag you also get the code assist for <emphasis
+                                                role="italic">
+                                                <property>&quot;jsfc&quot;</property>
+                                        </emphasis> attribute</para>
+                        </listitem>
+                </itemizedlist>
 
-   <!--     <para>Additionally, when hovering the mouse cursor over <emphasis role="italic"><property>&quot;Facelets tag&quot;</property></emphasis> attributes, JBoss Developer Studio provides a pop-up help tip:</para>
+                <figure>
+                        <title>Code Assist for Jsfc Attribute</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_6.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+
+                <itemizedlist>
+                        <listitem>
+                                <para>Then you get the code assist for JSF components are available
+                                        on the page</para>
+                        </listitem>
+                </itemizedlist>
+
+                <figure>
+                        <title>Code Assist for JSF Components</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_7.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+
+                <itemizedlist>
+                        <listitem>
+                                <para>Then you will see all available attributes for the
+                                component.</para>
+                        </listitem>
+                </itemizedlist>
+
+                <figure>
+                        <title/>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_8.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+
+                <para>Using JBoss Developer Studio OpenOn feature, you can easily navigate between
+                        the <property>Facelets templates</property> and other parts of your
+                        projects. Just by holding down the Control key while hovering the mouse
+                        cursor over a reference to a template, the reference becomes a hyperlink to
+                        open that template.</para>
+                <figure>
+                        <title>Template Hyperlink</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_9.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+
+                <!--     <para>Additionally, when hovering the mouse cursor over <emphasis role="italic"><property>&quot;Facelets tag&quot;</property></emphasis> attributes, JBoss Developer Studio provides a pop-up help tip:</para>
  <figure>
 <title>Pop-up Help Tip for Facelets Tag Attributes</title>
 <mediaobject> 
@@ -179,729 +214,1053 @@ version 1.2 of the JSF Reference Implementation:</para>
 </mediaobject>
  </figure>
         
-   -->     
-        <para>See <link  linkend="faq_facelets">FAQ</link> concerning Facelets support.</para>
-</section>
-<section id="WorkingWithProjects7844">
-<?dbhtml filename="WorkingWithProjects.html"?>
-<title>Working with Projects</title>
-<section id="CreatingANewJSFProject96">
-<?dbhtml filename="CreatingANewJSFProject.html"?>
-<title>Creating a New JSF Project</title>
+   -->
+                <para>See <link linkend="faq_facelets">FAQ</link> concerning Facelets
+                support.</para>
+        </section>
+        <section id="WorkingWithProjects7844">
+                <?dbhtml filename="WorkingWithProjects.html"?>
+                <title>Working with Projects</title>
+                <section id="CreatingANewJSFProject96">
+                        <?dbhtml filename="CreatingANewJSFProject.html"?>
+                        <title>Creating a New JSF Project</title>
 
-<para>JBoss Developer Studio provides the following when working with JSF:</para>
+                        <para>JBoss Developer Studio provides the following when working with JSF:</para>
 
-<itemizedlist>
-<listitem><para>Create new JSF projects</para></listitem>
-<listitem><para>Import (open) existing JSF projects</para></listitem>
-<listitem><para>Add JSF capability to any existing Eclipse project</para></listitem>
-<listitem><para>Import and add JSF capability to any existing project created outside Eclipse</para></listitem>
-</itemizedlist>
-        <para>JBoss Developer Studio allows you to create brand new <emphasis><property>JSF projects</property></emphasis>. A new JSF project will have all JSF
- libraries, tag libraries and a JSF configuration file.</para>
+                        <itemizedlist>
+                                <listitem>
+                                        <para>Create new JSF projects</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Import (open) existing JSF projects</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Add JSF capability to any existing Eclipse
+                                        project</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Import and add JSF capability to any existing project
+                                                created outside Eclipse</para>
+                                </listitem>
+                        </itemizedlist>
+                        <para>JBoss Developer Studio allows you to create brand new <emphasis>
+                                        <property>JSF projects</property>
+                                </emphasis>. A new JSF project will have all JSF libraries, tag
+                                libraries and a JSF configuration file.</para>
 
-<para>JBoss Developer Studio comes with a number of predefined project templates. These templates are flexible and easily 
-customizable.</para>
+                        <para>JBoss Developer Studio comes with a number of predefined project
+                                templates. These templates are flexible and easily customizable.</para>
 
-<para>To create a brand new JSF project, select<emphasis><property> File &gt; New &gt; Project &gt; JBoos Tools Web &gt; JSF &gt; JSF Project</property></emphasis> and click <emphasis><property>Next</property></emphasis>:</para>
-<figure>
-<title>Choosing a JSF Project</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_10.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-
-<para>On this form enter Project Name. You can also select where to create the project.</para>
-<para>JSF Version allows you to select which JSF implementation to use:</para>
-<figure>
-<title>Creating a New JSF Project</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_11.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-
-<para>You can also pick a different template on which to base the project. Almost all templates come in two variations: with jsf libraries and without ones. Some servers already provide jsf libs and you take risk of getting conflicting libraries while deploying your project. So the idea here is to avoid such conflicts. Select a template without libs if you use a server with its own jsf libraries.</para>
-<figure>
-<title>JSF Templates</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_12.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>The JSFBlank template will create a standard Web project structure with all JSF capabilities.</para>
-
-<para>The JSFKickStart template will create the same standard structure but will also include a sample application
- that is ready to run.</para>
-
-<para>You can of course create your own custom templates. More information on templates creation could be found in <link linkend="CreatingCustomJSPTemplates">Chapter 5</link>.</para>
-<figure>
-<title>Choosing JSF Template</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_13.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-
-        <para>On the next screen select what <emphasis><property>Servlet version</property></emphasis> to use and whether to register this application with JBoss AS (or other server) for running and testing of your application.</para>
-
-        <para><emphasis><property>Context Path</property></emphasis> is the name under which the application will be deployed.</para>
-
-        <para>The <emphasis><property>Runtime</property></emphasis> value tells Eclipse where to find Web libraries in order to build (compile) the project.
- It is not possible to finish project creation without selecting Runtime. If you don&apos;t have any values, 
- select <emphasis><property>New...</property></emphasis> to add new Runtime.</para>
-
-        <para><emphasis><property>Target Server</property></emphasis> allows you specify whether to deploy the application. The Target Server corresponds to the Runtime value selected above.</para>
-
-<para>If you don&apos;t want to deploy the application, uncheck this value:</para>
-<figure>
-<title>Registering the Project on Server</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_14.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-
-<para>When you are all done, you should have the project that has been created in the Package Explorer view:</para>
-<figure>
-<title>A New Project in the Package Explorer</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_15.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-
-<para>At this point you can open faces-config.xml and start working on your application.</para>
-</section>
-
-        <section id="ImportingExsJSFProjWithAnyStr74447">
-<?dbhtml filename="ImportingExistingJSFProjectsWithAnyStructure.html"?>
-
-<title>Importing Existing JSF Projects with Any Structure</title>
-
-                <para>For detailed information on migration projects to JBoss Developer Studio see <ulink url="http://www.redhat.com/developers/jbds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
-</section>
-        <section id="AddingJSFCapabilityToAnyExistingEclipseProject">
-<?dbhtml filename="AddingJSFCapabilityToAnyExistingEclipseProject.html"?> 
-<title>Adding JSF Capability to Any Existing Eclipse Project</title>
-
-<para>With JBoss Developer Studio you can add <property>JSF capability</property> (JSF libraries, tag libraries) to any existing Eclipse project in your workspace.</para>
-
-<para>By adding JSF capability to your project, you can now edit any file using JBoss Developer Studio editors, such as JSF configuration editor, JBoss Tools JSP editor and any others.</para>
-<para>Right click the project and select <emphasis><property>JBoss Tools > Add JSF Capabilities</property></emphasis>. This will start the process of adding all necessary libraries, files to make this a Web JSF project:</para>
-<figure>
-<title>Adding JSF Capabilities</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_16.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>The wizard will first show you the web.xml file location and the project name:</para>
-<figure>
-<title>Project Location</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_17.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>On the last form you can set the different folders for your project as well as register this
- application with a servlet container.</para>
-
-                <para>Make sure to select <emphasis><property>Add JSF Libraries</property></emphasis> for JBoss Developer Studio to add all required JSF related libraries
- to this project.</para>
-
-                <para><emphasis><property>Context Path</property></emphasis> is the name under which the application will be deployed.</para>
-
-                <para>The <emphasis><property>Runtime</property></emphasis> value tells Eclipse where to find Web libraries in order to build (compile) the project. 
-        It is not possible to finish project import without selecting Runtime. If you don&apos;t have any values, select <emphasis><property>New...</property></emphasis> to add new Runtime.</para>
-
-                <para><emphasis><property>Target Server</property></emphasis> allows you specify whether to deploy the application. The Target Server corresponds to the
- Runtime value selected above.</para>
-
-<para>If you don&apos;t want to deploy the application, uncheck this value:</para>
-<figure>
-<title>Project Folders</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_18.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Once your project is imported you can see that JSF related libraries have been added to your
- project jsf-api.jar and jsf-impl.jar.</para>
-<para>You are now ready to work with JSF by creating a new JSF configuration file:</para>
-                
-                           
+                        <para>To create a brand new JSF project, select<emphasis>
+                                        <property> File &gt; New &gt; Project &gt; JBoos
+                                                Tools Web &gt; JSF &gt; JSF
+                                        Project</property>
+                                </emphasis> and click <emphasis>
+                                        <property>Next</property>
+                                </emphasis>:</para>
                         <figure>
-                        <title>Creating a New JSF Configuration File</title>
-                        <mediaobject> 
-                        <imageobject >
-                                <imagedata fileref="images/jsf_support/jsf_support_19.png"/>
-                        </imageobject>
-                        </mediaobject>
+                                <title>Choosing a JSF Project</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_10.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
                         </figure>
-       
-                
-</section>
-<section id="AddingYourOwnProjectTemplates853">
-<?dbhtml filename="AddingYourOwnProjectTemplates.html"?>
-<title>Adding Your Own Project Templates</title>
 
-<para>JBoss Developer Studio has a powerful templating capability for creating new and importing existing
- Struts and JSF projects. This templating facility has a variety of aspects to consider. But, let&apos;s start 
- with the most straightforward case.</para>
+                        <para>On this form enter Project Name. You can also select where to create
+                                the project.</para>
+                        <para>JSF Version allows you to select which JSF implementation to use:</para>
+                        <figure>
+                                <title>Creating a New JSF Project</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_11.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<para>Let&apos;s say you have a project that you want to use as the basis for a new <property>template</property>. Follow these steps to make a template out of it:</para>
-<itemizedlist>
-<listitem><para>In the Web Projects view, right-click the project and select <emphasis><property>JBoss Tools JSF > Save As Template</property></emphasis> as
-        template </para></listitem>
-</itemizedlist>
-        <figure>
-                <title>Saving Your Project as Template</title>
-                <mediaobject> 
-                        <imageobject>
-                                <imagedata fileref="images/jsf_support/jsf_support_20.png"/>
-                        </imageobject>
-                </mediaobject>
-        </figure>        
-<itemizedlist>        
-<listitem><para>In the first dialog box, you can choose a name for the template (defaults to the project name)
-        and confirm what run-time implementation of the project&apos;s technology will be used</para></listitem>
-        <listitem><para>Select <emphasis><property>Next</property></emphasis> and you will be sent to a dialog box with your project structure displayed with
- check boxes. Here you can check only those parts and files in your project directory that should be part of
-        the template</para></listitem>
-<listitem><para>At this point, unless you want to designate some extra files as having Velocity template 
-        coding inside them, you should select Finish</para></listitem>
-</itemizedlist>
-<para>That&apos;s it. Now, you can use this template with any new or imported project that uses the same run-time implementation as the project you turned into a <property>template</property>.</para>
-</section>
-</section>
-<section id="GraphicalEditorAndViewingForJSFConfigurationFiles76331">
-<?dbhtml filename="GraphicalEditorAndViewingForJSFConfigurationFiles.html"?>
-<title>Graphical Editor and Viewing for JSF Configuration Files</title>
-<para>The JSF configuration file editor has three main <property>viewers</property> (modes):</para>
+                        <para>You can also pick a different template on which to base the project.
+                                Almost all templates come in two variations: with jsf libraries and
+                                without ones. Some servers already provide jsf libs and you take
+                                risk of getting conflicting libraries while deploying your project.
+                                So the idea here is to avoid such conflicts. Select a template
+                                without libs if you use a server with its own jsf libraries.</para>
+                        <figure>
+                                <title>JSF Templates</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_12.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>The JSFBlank template will create a standard Web project structure
+                                with all JSF capabilities.</para>
 
-<itemizedlist>
-<listitem><para>Diagram</para></listitem>
-<listitem><para>Tree</para></listitem>
-<listitem><para>Source</para></listitem>
-</itemizedlist>
+                        <para>The JSFKickStart template will create the same standard structure but
+                                will also include a sample application that is ready to run.</para>
 
-<para>The modes can be selected via the tabs at the bottom of the editor.</para>
+                        <para>You can of course create your own custom templates. More information
+                                on templates creation could be found in <link
+                                        linkend="CreatingCustomJSPTemplates">Chapter 5</link>.</para>
+                        <figure>
+                                <title>Choosing JSF Template</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_13.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<para>The JSF configuration editor also comes with a very useful  <link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link> selection feature.</para>
+                        <para>On the next screen select what <emphasis>
+                                        <property>Servlet version</property>
+                                </emphasis> to use and whether to register this application with
+                                JBoss AS (or other server) for running and testing of your
+                                application.</para>
 
-<section id="Diagram9553">
-<?dbhtml filename="Diagram.html"?>
-<title>Diagram</title>
-<para>The Diagram view displays the navigation rules in the JSF configuration file:</para>
-<figure>
-<title>Diagram View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_21.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="CreatingNewViewPage85">
-<?dbhtml filename="CreatingNewViewPage.html"?>
-<title>Creating New View (Page)</title>
+                        <para><emphasis>
+                                        <property>Context Path</property>
+                                </emphasis> is the name under which the application will be
+                                deployed.</para>
 
-<para>To create a new page (view), you can click the page icon on this toolbar and then click anywhere on the diagram. A New Page Wizard will appear.</para>
+                        <para>The <emphasis>
+                                        <property>Runtime</property>
+                                </emphasis> value tells Eclipse where to find Web libraries in order
+                                to build (compile) the project. It is not possible to finish project
+                                creation without selecting Runtime. If you don&apos;t have any
+                                values, select <emphasis>
+                                        <property>New...</property>
+                                </emphasis> to add new Runtime.</para>
 
-<para>To create a transition (rule) connecting pages:</para>
+                        <para><emphasis>
+                                        <property>Target Server</property>
+                                </emphasis> allows you specify whether to deploy the application.
+                                The Target Server corresponds to the Runtime value selected above.</para>
+
+                        <para>If you don&apos;t want to deploy the application, uncheck this
+                                value:</para>
+                        <figure>
+                                <title>Registering the Project on Server</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_14.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+
+                        <para>When you are all done, you should have the project that has been
+                                created in the Package Explorer view:</para>
+                        <figure>
+                                <title>A New Project in the Package Explorer</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_15.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+
+                        <para>At this point you can open faces-config.xml and start working on your
+                                application.</para>
+                </section>
+
+                <section id="ImportingExsJSFProjWithAnyStr74447">
+                        <?dbhtml filename="ImportingExistingJSFProjectsWithAnyStructure.html"?>
+
+                        <title>Importing Existing JSF Projects with Any Structure</title>
+
+                        <para>For detailed information on migration projects to JBoss Developer
+                                Studio see <ulink
+                                        url="http://www.redhat.com/developers/jbds/Exadel_Studio_Single/"
+                                        >Migration Guide</ulink>.</para>
+                </section>
+                <section id="AddingJSFCapabilityToAnyExistingEclipseProject">
+                        <?dbhtml filename="AddingJSFCapabilityToAnyExistingEclipseProject.html"?>
+                        <title>Adding JSF Capability to Any Existing Eclipse Project</title>
+
+                        <para>With JBoss Developer Studio you can add <property>JSF
+                                capability</property> (JSF libraries, tag libraries) to any existing
+                                Eclipse project in your workspace.</para>
+
+                        <para>By adding JSF capability to your project, you can now edit any file
+                                using JBoss Developer Studio editors, such as JSF configuration
+                                editor, JBoss Tools JSP editor and any others.</para>
+                        <para>Right click the project and select <emphasis>
+                                        <property>JBoss Tools > Add JSF Capabilities</property>
+                                </emphasis>. This will start the process of adding all necessary
+                                libraries, files to make this a Web JSF project:</para>
+                        <figure>
+                                <title>Adding JSF Capabilities</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_16.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>The wizard will first show you the web.xml file location and the
+                                project name:</para>
+                        <figure>
+                                <title>Project Location</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_17.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>On the last form you can set the different folders for your project as
+                                well as register this application with a servlet container.</para>
+
+                        <para>Make sure to select <emphasis>
+                                        <property>Add JSF Libraries</property>
+                                </emphasis> for JBoss Developer Studio to add all required JSF
+                                related libraries to this project.</para>
+
+                        <para><emphasis>
+                                        <property>Context Path</property>
+                                </emphasis> is the name under which the application will be
+                                deployed.</para>
+
+                        <para>The <emphasis>
+                                        <property>Runtime</property>
+                                </emphasis> value tells Eclipse where to find Web libraries in order
+                                to build (compile) the project. It is not possible to finish project
+                                import without selecting Runtime. If you don&apos;t have any
+                                values, select <emphasis>
+                                        <property>New...</property>
+                                </emphasis> to add new Runtime.</para>
+
+                        <para><emphasis>
+                                        <property>Target Server</property>
+                                </emphasis> allows you specify whether to deploy the application.
+                                The Target Server corresponds to the Runtime value selected above.</para>
+
+                        <para>If you don&apos;t want to deploy the application, uncheck this
+                                value:</para>
+                        <figure>
+                                <title>Project Folders</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_18.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>Once your project is imported you can see that JSF related libraries
+                                have been added to your project jsf-api.jar and jsf-impl.jar.</para>
+                        <para>You are now ready to work with JSF by creating a new JSF configuration
+                                file:</para>
 
 
-<itemizedlist>
-<listitem><para>Select the transition icon from the toolbar (2nd from the bottom).</para></listitem>
-<listitem><para>Click the source page.</para></listitem>
-<listitem><para>Click the target page.</para></listitem>
-</itemizedlist>
+                        <figure>
+                                <title>Creating a New JSF Configuration File</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_19.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<para>A transition will appear between the two pages:</para>
-<figure>
-<title>Transition Between JSP Pages</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_22.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
 
-<para>It is also possible to create a new page by right-clicking anywhere on the diagram and selecting <emphasis><property>
-New View</property></emphasis>.</para>
-<figure>
-<title>Creating a New View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_23.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                </section>
+                <section id="AddingYourOwnProjectTemplates853">
+                        <?dbhtml filename="AddingYourOwnProjectTemplates.html"?>
+                        <title>Adding Your Own Project Templates</title>
 
-<para>To edit an existing transition, first select the transition line. Then, place the mouse cursor
- over the last black dot (on the target page). The mouse cursor will change to a big +. At this point,
-  drag the line to a new target page:</para>
-<figure>
-<title>Editing Transition Between Views</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_24.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="TreeView11123">
-<?dbhtml filename="TreeView.html"?>
-<title>Tree View</title>
+                        <para>JBoss Developer Studio has a powerful templating capability for
+                                creating new and importing existing Struts and JSF projects. This
+                                templating facility has a variety of aspects to consider. But,
+                                let&apos;s start with the most straightforward case.</para>
 
-<para>The Tree mode for the editor displays all JSF application artifacts referenced in the configuration
- file in a tree format. Select any node and its properties will appear in the right-hand area:</para>
-<figure>
-<title>Tree View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_25.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>Let&apos;s say you have a project that you want to use as the
+                                basis for a new <property>template</property>. Follow these steps to
+                                make a template out of it:</para>
+                        <itemizedlist>
+                                <listitem>
+                                        <para>In the Web Projects view, right-click the project and
+                                                select <emphasis>
+                                                  <property>JBoss Tools JSF > Save As
+                                                  Template</property>
+                                                </emphasis> as template </para>
+                                </listitem>
+                        </itemizedlist>
+                        <figure>
+                                <title>Saving Your Project as Template</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_20.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <itemizedlist>
+                                <listitem>
+                                        <para>In the first dialog box, you can choose a name for the
+                                                template (defaults to the project name) and confirm
+                                                what run-time implementation of the
+                                                project&apos;s technology will be used</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Select <emphasis>
+                                                  <property>Next</property>
+                                                </emphasis> and you will be sent to a dialog box
+                                                with your project structure displayed with check
+                                                boxes. Here you can check only those parts and files
+                                                in your project directory that should be part of the
+                                                template</para>
+                                </listitem>
+                                <listitem>
+                                        <para>At this point, unless you want to designate some extra
+                                                files as having Velocity template coding inside
+                                                them, you should select Finish</para>
+                                </listitem>
+                        </itemizedlist>
+                        <para>That&apos;s it. Now, you can use this template with any new or
+                                imported project that uses the same run-time implementation as the
+                                project you turned into a <property>template</property>.</para>
+                </section>
+        </section>
+        <section id="GraphicalEditorAndViewingForJSFConfigurationFiles76331">
+                <?dbhtml filename="GraphicalEditorAndViewingForJSFConfigurationFiles.html"?>
+                <title>Graphical Editor and Viewing for JSF Configuration Files</title>
+                <para>The JSF configuration file editor has three main <property>viewers</property>
+                        (modes):</para>
 
-<para>To edit, right-click any node and select one of the available actions in the context menu. You can
- also edit in the properties window to the right:</para>
-<figure>
-<title>Editing in Tree View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_26.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="SourceView4643">
-<?dbhtml filename="SourceView.html"?>
-<title>Source View</title>
+                <itemizedlist>
+                        <listitem>
+                                <para>Diagram</para>
+                        </listitem>
+                        <listitem>
+                                <para>Tree</para>
+                        </listitem>
+                        <listitem>
+                                <para>Source</para>
+                        </listitem>
+                </itemizedlist>
 
-<para>The Source mode for the editor displays a text view of the JSF configuration file. All three viewers 
-are always synchronized, so any changes made in one of the viewers will immediately appear in the others:</para>
-<figure>
-<title>Source View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_27.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="ContentAssist976">
-<?dbhtml filename="SendAnAJAXRequest.html"?>
-<title>Content Assist</title>
+                <para>The modes can be selected via the tabs at the bottom of the editor.</para>
 
-<para>Content assist is always available in the Source viewer:</para>
-<figure>
-<title>Content Assist in Source View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_28.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="ErrorReporting3324">
-<?dbhtml filename="ErrorReporting.html"?>
-<title>Error Reporting</title>
+                <para>The JSF configuration editor also comes with a very useful <link
+                                linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link>
+                        selection feature.</para>
 
-<para>Errors will be reported by JBoss Developer Studio&apos;s <link linkend="VerificationandValidation"> verification</link> facility:</para>
-<figure>
-<title>Error Reporting in Source View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_29.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                <section id="Diagram9553">
+                        <?dbhtml filename="Diagram.html"?>
+                        <title>Diagram</title>
+                        <para>The Diagram view displays the navigation rules in the JSF
+                                configuration file:</para>
+                        <figure>
+                                <title>Diagram View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_21.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+                <section id="CreatingNewViewPage85">
+                        <?dbhtml filename="CreatingNewViewPage.html"?>
+                        <title>Creating New View (Page)</title>
 
-<para>Other errors are also reported.</para>
-<figure>
-<title>Others Errors Reporting</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_30.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>To create a new page (view), you can click the page icon on this
+                                toolbar and then click anywhere on the diagram. A New Page Wizard
+                                will appear.</para>
 
-        <para>You can also work in the Source viewer with the help of the <emphasis><property>Outline view</property></emphasis>. The Outline views show 
-a tree structure of the JSF configuration file. Simply select any element in the Outline view, and it will 
-jump to the same place in the Source viewer.</para>
-<figure>
-<title>Outline View</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_31.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>To create a transition (rule) connecting pages:</para>
 
-        <para>If your diagram is large, within Outline view you can switch to a <emphasis><property>Diagram Navigator</property></emphasis> mode by selecting
- the middle icon at the top of the view window. It allows you to easily move around the diagram. Just move 
- the blue area in any direction, and the diagram on the left will also move:</para>
-<figure>
-<title>Outline View for Diagram</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_32.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
 
-        <para>You can also edit in the <emphasis><property>Tree</property></emphasis> viewer with the help of the Properties view as shown below:</para>
-<figure>
-<title>Properties View </title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_33.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-</section>
-<section id="ManagedBeans96453">
-<?dbhtml filename="ManagedBeans.html"?>
-<title>Managed Beans</title>
-<section id="CodeGenerationForManagedBeans421">
-<?dbhtml filename="CodeGenerationForManagedBeans.html"?>
-<title>Code Generation for Managed Beans</title>
+                        <itemizedlist>
+                                <listitem>
+                                        <para>Select the transition icon from the toolbar (2nd from
+                                                the bottom).</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Click the source page.</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Click the target page.</para>
+                                </listitem>
+                        </itemizedlist>
 
-<para>JBoss Developer Studio gives you lots of power to work with <property>managed beans</property>.</para>
-<itemizedlist>
-<listitem><para>Add and generate code for new managed beans</para>
-<itemizedlist>
-<listitem><para>Generate code for attributes and getter/setter methods</para></listitem>
-</itemizedlist></listitem>
-<listitem><para>Add existing managed beans to JSF configuration file</para></listitem>
-</itemizedlist>
-<para>To start, create a new managed bean in JSF configuration file editor, in the Tree view.</para>
-<figure>
-<title>Creation of New Managed Bean</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_34.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>When you define a new managed bean, make sure that Generate Source Code is checked as shown in the
- figure below:</para>
-<figure>
-        <title>New Managed Bean</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_35.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>After the <emphasis role="italic"><property>&quot;Java&quot;</property></emphasis> class has been generated you can open it for additional editing. There are two ways to open the <emphasis role="italic"><property>&quot;Java&quot;</property></emphasis> class:</para>
+                        <para>A transition will appear between the two pages:</para>
+                        <figure>
+                                <title>Transition Between JSP Pages</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_22.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<itemizedlist>
-        <listitem><para>Click on <emphasis><property>Managed-Bean-Class</property></emphasis> link in the editor -or-</para></listitem>
-        <listitem><para>Right click the <emphasis><property>managed bean</property></emphasis> and select <emphasis><property>Open Source</property></emphasis></para></listitem>
-</itemizedlist>
+                        <para>It is also possible to create a new page by right-clicking anywhere on
+                                the diagram and selecting <emphasis>
+                                        <property> New View</property>
+                                </emphasis>.</para>
+                        <figure>
+                                <title>Creating a New View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_23.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<figure>
-<title>Opening of Created Managed Bean</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_36.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>To edit an existing transition, first select the transition line.
+                                Then, place the mouse cursor over the last black dot (on the target
+                                page). The mouse cursor will change to a big +. At this point, drag
+                                the line to a new target page:</para>
+                        <figure>
+                                <title>Editing Transition Between Views</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_24.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+                <section id="TreeView11123">
+                        <?dbhtml filename="TreeView.html"?>
+                        <title>Tree View</title>
 
-<para>The generated Java source:</para>
+                        <para>The Tree mode for the editor displays all JSF application artifacts
+                                referenced in the configuration file in a tree format. Select any
+                                node and its properties will appear in the right-hand area:</para>
+                        <figure>
+                                <title>Tree View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_25.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<figure>
-<title>Java Source Code</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_37.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>You can also generate source code for properties - this also includes <emphasis role="italic"><property>&quot;getter&quot;</property></emphasis> and <emphasis role="italic"><property>&quot;setter&quot;</property></emphasis> methods:</para>
-<figure>
-<title>Generation of Source Code for Properties</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_38.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Make sure that all the check boxes are selected:</para>
-<itemizedlist>
-<listitem>Add Java property</listitem>
-<listitem>Generate Getter</listitem>
-<listitem>Generate Setter</listitem>
-</itemizedlist>
- <para></para>     
-<figure>
-<title>&quot;Add Property&quot; Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_39.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Once the generation is complete, you can open the file and see the added property with <emphasis role="italic"><property>&quot;getter&quot;</property></emphasis> and <emphasis role="italic"><property>&quot;setter&quot;</property></emphasis> methods:</para>
-<figure>
-<title>Generated Java Source Code for Property</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_40.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>To edit, right-click any node and select one of the available actions
+                                in the context menu. You can also edit in the properties window to
+                                the right:</para>
+                        <figure>
+                                <title>Editing in Tree View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_26.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+                <section id="SourceView4643">
+                        <?dbhtml filename="SourceView.html"?>
+                        <title>Source View</title>
 
-</section>
-<section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
-<?dbhtml filename="AddExistingJavaBeansToAJSFConfigurationFile.html"?>
-<title>Add Existing Java Beans to a JSF Configuration File</title>
-<para>If you already have a Java bean you can easily add it to a <property>JSF configuration file</property>.</para>
-<para>You would start the same way you would create a new managed bean.</para>
-<figure>
-<title>Creation of New Managed Bean</title>
-<mediaobject> 
-        <imageobject>
-            <imagedata fileref="images/jsf_support/CrManBean.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para> On the next screen, type in or browse for your existing Java class.</para>
+                        <para>The Source mode for the editor displays a text view of the JSF
+                                configuration file. All three viewers are always synchronized, so
+                                any changes made in one of the viewers will immediately appear in
+                                the others:</para>
+                        <figure>
+                                <title>Source View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_27.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+                <section id="ContentAssist976">
+                        <?dbhtml filename="SendAnAJAXRequest.html"?>
+                        <title>Content Assist</title>
 
-<para>Once the class is set, it&apos;s Name will be set as well. You can always change the name.</para>
+                        <para>Content assist is always available in the Source viewer:</para>
+                        <figure>
+                                <title>Content Assist in Source View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_28.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+                <section id="ErrorReporting3324">
+                        <?dbhtml filename="ErrorReporting.html"?>
+                        <title>Error Reporting</title>
 
-<para>Notice that Generate Source Code option is not available as the <emphasis role="italic"><property>&quot;Java&quot;</property></emphasis> class already exists. </para>
-<figure>
-<title>New Managed Bean Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_42.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>On the next screen you will see all properties from this class. Check the ones you want to add
- managed properties to a <property>JSF configuration file</property>.</para>
-        <para>If you don&apos;t want to add any, just click <emphasis><property>Finish</property></emphasis>.</para>
-<figure>
-<title>Selection of Bean&apos;s Properties.</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_43.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>Errors will be reported by JBoss Developer Studio&apos;s <link
+                                        linkend="VerificationandValidation"> verification</link>
+                                facility:</para>
+                        <figure>
+                                <title>Error Reporting in Source View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_29.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-</section>
-</section>
+                        <para>Other errors are also reported.</para>
+                        <figure>
+                                <title>Others Errors Reporting</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_30.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<section id="CreateAndRegisterACustomConverter94230">
-<?dbhtml filename="CreateAndRegisterACustomConverter.html"?>
-<title>Create and Register a Custom Converter</title>
+                        <para>You can also work in the Source viewer with the help of the <emphasis>
+                                        <property>Outline view</property>
+                                </emphasis>. The Outline views show a tree structure of the JSF
+                                configuration file. Simply select any element in the Outline view,
+                                and it will jump to the same place in the Source viewer.</para>
+                        <figure>
+                                <title>Outline View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_31.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<orderedlist>
-        <listitem><para>In the Project Explorer view open <emphasis><property>faces-config.xml</property></emphasis> and select <emphasis><property>Tree</property></emphasis> tab.</para></listitem>
-</orderedlist>
-<figure>
-<title>Converters</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_44.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-        <listitem><para>Select <emphasis><property>Converters</property></emphasis> and click on<emphasis><property> Add</property></emphasis> button.</para></listitem>
-<listitem><para>Type the name of your converter in the Converter-id field and name of the class for converters.
-        After clicking <emphasis><property>Finish</property></emphasis> button your custom converter is registered under entered name.</para></listitem>
- </orderedlist>
- <figure>
-<title>Add Converter Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_45.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-        <listitem><para>Let&apos;s create <emphasis role="italic"><property>&quot;converter&quot;</property></emphasis> class. In the Converter section you should see your Converter-id and Converter-class. Click on <emphasis><property>Converter-class</property></emphasis> to generate the source code.</para></listitem>
- </orderedlist>
- <figure>
-<title>Generation of Source Code for Converter Class</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_46.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+                        <para>If your diagram is large, within Outline view you can switch to a <emphasis>
+                                        <property>Diagram Navigator</property>
+                                </emphasis> mode by selecting the middle icon at the top of the view
+                                window. It allows you to easily move around the diagram. Just move
+                                the blue area in any direction, and the diagram on the left will
+                                also move:</para>
+                        <figure>
+                                <title>Outline View for Diagram</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_32.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
 
-<orderedlist continuation="continues">
-        <listitem><para>Java class will be created automatically. Leave everything without changes and click <emphasis><property>Finish</property></emphasis>.</para></listitem>
-</orderedlist>
-<figure>
-<title>New Java Class Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_47.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-<listitem><para>To open converter class click again on Converter-class link in the Converter section. Now
- you are able to write business logic of converter.</para></listitem>
-</orderedlist>
-<figure>
-        <title>Converter Class</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_48.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
+                        <para>You can also edit in the <emphasis>
+                                        <property>Tree</property>
+                                </emphasis> viewer with the help of the Properties view as shown
+                                below:</para>
+                        <figure>
+                                <title>Properties View </title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_33.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+        </section>
+        <section id="ManagedBeans96453">
+                <?dbhtml filename="ManagedBeans.html"?>
+                <title>Managed Beans</title>
+                <section id="CodeGenerationForManagedBeans421">
+                        <?dbhtml filename="CodeGenerationForManagedBeans.html"?>
+                        <title>Code Generation for Managed Beans</title>
+
+                        <para>JBoss Developer Studio gives you lots of power to work with
+                                        <property>managed beans</property>.</para>
+                        <itemizedlist>
+                                <listitem>
+                                        <para>Add and generate code for new managed beans</para>
+                                        <itemizedlist>
+                                                <listitem>
+                                                  <para>Generate code for attributes and
+                                                  getter/setter methods</para>
+                                                </listitem>
+                                        </itemizedlist>
+                                </listitem>
+                                <listitem>
+                                        <para>Add existing managed beans to JSF configuration
+                                        file</para>
+                                </listitem>
+                        </itemizedlist>
+                        <para>To start, create a new managed bean in JSF configuration file editor,
+                                in the Tree view.</para>
+                        <figure>
+                                <title>Creation of New Managed Bean</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_34.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>When you define a new managed bean, make sure that Generate Source
+                                Code is checked as shown in the figure below:</para>
+                        <figure>
+                                <title>New Managed Bean</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_35.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>After the <emphasis role="italic">
+                                        <property>&quot;Java&quot;</property>
+                                </emphasis> class has been generated you can open it for additional
+                                editing. There are two ways to open the <emphasis role="italic">
+                                        <property>&quot;Java&quot;</property>
+                                </emphasis> class:</para>
+
+                        <itemizedlist>
+                                <listitem>
+                                        <para>Click on <emphasis>
+                                                  <property>Managed-Bean-Class</property>
+                                                </emphasis> link in the editor -or-</para>
+                                </listitem>
+                                <listitem>
+                                        <para>Right click the <emphasis>
+                                                  <property>managed bean</property>
+                                                </emphasis> and select <emphasis>
+                                                  <property>Open Source</property>
+                                                </emphasis></para>
+                                </listitem>
+                        </itemizedlist>
+
+                        <figure>
+                                <title>Opening of Created Managed Bean</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_36.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+
+                        <para>The generated Java source:</para>
+
+                        <figure>
+                                <title>Java Source Code</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_37.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>You can also generate source code for properties - this also includes
+                                        <emphasis role="italic">
+                                        <property>&quot;getter&quot;</property>
+                                </emphasis> and <emphasis role="italic">
+                                        <property>&quot;setter&quot;</property>
+                                </emphasis> methods:</para>
+                        <figure>
+                                <title>Generation of Source Code for Properties</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_38.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>Make sure that all the check boxes are selected:</para>
+                        <itemizedlist>
+                                <listitem>Add Java property</listitem>
+                                <listitem>Generate Getter</listitem>
+                                <listitem>Generate Setter</listitem>
+                        </itemizedlist>
+                        <para/>
+                        <figure>
+                                <title>&quot;Add Property&quot; Form</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_39.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>Once the generation is complete, you can open the file and see the
+                                added property with <emphasis role="italic">
+                                        <property>&quot;getter&quot;</property>
+                                </emphasis> and <emphasis role="italic">
+                                        <property>&quot;setter&quot;</property>
+                                </emphasis> methods:</para>
+                        <figure>
+                                <title>Generated Java Source Code for Property</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_40.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+
+                </section>
+                <section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
+                        <?dbhtml filename="AddExistingJavaBeansToAJSFConfigurationFile.html"?>
+                        <title>Add Existing Java Beans to a JSF Configuration File</title>
+                        <para>If you already have a Java bean you can easily add it to a
+                                        <property>JSF configuration file</property>.</para>
+                        <para>You should start the same way you create a new managed bean. Use
+                                        <emphasis>Browse...</emphasis> to add your existing Java
+                                class.</para>
+                        <figure>
+                                <title>New Managed Bean Form</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_42.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>Once the class is set, it&apos;s <emphasis><property>Name</property></emphasis> will be
+                                set as well. But you can easily substitute it for the other one.
+                                Notice that <emphasis><property>Generate Source Code</property></emphasis> option is not
+                                available as the <emphasis role="italic">
+                                        <property>&quot;Java&quot;</property>
+                                </emphasis> class already exists. </para> 
+                        <para> After adding your class
+                                <emphasis><property>Next</property></emphasis> button will be activated.
+                                Pressing it you&apos;ll get <emphasis><property>Managed Properties</property></emphasis> dialog where all corresponding properties are displayed. 
+                        Check the necessary ones to
+                                add them into your <property>JSF Configuration
+                                File</property>.</para>
+                        <para>If you don&apos;t want to add any, just click <emphasis>
+                                        <property>Finish</property>
+                                </emphasis>.</para>
+                        <figure>
+                                <title>Selection of Bean&apos;s Properties.</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_43.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                </section>
+        </section>
+
+        <section id="CreateAndRegisterACustomConverter94230">
+                <?dbhtml filename="CreateAndRegisterACustomConverter.html"?>
+                <title>Create and Register a Custom Converter</title>
+
+                <orderedlist>
+                        <listitem>
+                                <para>In the Project Explorer view open <emphasis>
+                                                <property>faces-config.xml</property>
+                                        </emphasis> and select <emphasis>
+                                                <property>Tree</property>
+                                        </emphasis> tab.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Converters</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_44.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Select <emphasis>
+                                                <property>Converters</property>
+                                        </emphasis> and click on<emphasis>
+                                                <property> Add</property>
+                                        </emphasis> button.</para>
+                        </listitem>
+                        <listitem>
+                                <para>Type the name of your converter in the Converter-id field and
+                                        name of the class for converters. After clicking <emphasis>
+                                                <property>Finish</property>
+                                        </emphasis> button your custom converter is registered under
+                                        entered name.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Add Converter Form</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_45.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Let&apos;s create <emphasis role="italic">
+                                                <property>&quot;converter&quot;</property>
+                                        </emphasis> class. In the Converter section you should see
+                                        your Converter-id and Converter-class. Click on <emphasis>
+                                                <property>Converter-class</property>
+                                        </emphasis> to generate the source code.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Generation of Source Code for Converter Class</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_46.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Java class will be created automatically. Leave everything
+                                        without changes and click <emphasis>
+                                                <property>Finish</property>
+                                        </emphasis>.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>New Java Class Form</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_47.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>To open converter class click again on Converter-class link in
+                                        the Converter section. Now you are able to write business
+                                        logic of converter.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Converter Class</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_48.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+        </section>
 
         <section id="CreateAndRegisterACustomValidator5632">
-<?dbhtml filename="CreateAndRegisterACustomValidator.html"?>
-<title>Create and Register a Custom Validator</title>
+                <?dbhtml filename="CreateAndRegisterACustomValidator.html"?>
+                <title>Create and Register a Custom Validator</title>
 
-<orderedlist>
-        <listitem><para>In the Project Explorer view open<emphasis><property> faces-config.xml</property></emphasis> and select <emphasis><property>Tree </property></emphasis>tab.</para></listitem>
-</orderedlist>
-<figure>
-<title>Validator in Faces Config Editor</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_49.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-        <listitem><para>Select <emphasis><property>Validators</property></emphasis>, and click on <emphasis><property>Add </property></emphasis>button.</para></listitem>
-<listitem><para>Type the name of your validator in the Valifator-id field an
-        d name of the class for validators. After clicking <emphasis><property>Finish</property></emphasis> button your custom validator is registered under entered name.</para></listitem>
-</orderedlist>
-<figure>
-<title>Adding Validator</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_50.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-        <listitem><para>Let&apos;s create <emphasis role="italic"><property>&quot;validator&quot;</property></emphasis> class. In the Validator section you should see your Validator-id and Validator-class. Click on <emphasis><property>Validator-class</property></emphasis> to generate the source code.</para></listitem>
-</orderedlist>
-<figure>
-        <title>Creating Validator Class</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_51.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-        <listitem><para>Java class will be created automatically. Leave everything without changes and click <emphasis><property>Finish</property></emphasis>.</para></listitem>
-</orderedlist>
-<figure>
-<title>New Java Class Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_52.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-<listitem><para>To open validator class click again on Validator-class in the Validator section. Now you are
- able to write business logic of validator.</para></listitem>
- </orderedlist>
- <figure>
-         <title>Converter Class Editing</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_53.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
+                <orderedlist>
+                        <listitem>
+                                <para>In the Project Explorer view open<emphasis>
+                                                <property> faces-config.xml</property>
+                                        </emphasis> and select <emphasis>
+                                                <property>Tree </property>
+                                        </emphasis>tab.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Validator in Faces Config Editor</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_49.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Select <emphasis>
+                                                <property>Validators</property>
+                                        </emphasis>, and click on <emphasis>
+                                                <property>Add </property>
+                                        </emphasis>button.</para>
+                        </listitem>
+                        <listitem>
+                                <para>Type the name of your validator in the Valifator-id field an d
+                                        name of the class for validators. After clicking <emphasis>
+                                                <property>Finish</property>
+                                        </emphasis> button your custom validator is registered under
+                                        entered name.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Adding Validator</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_50.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Let&apos;s create <emphasis role="italic">
+                                                <property>&quot;validator&quot;</property>
+                                        </emphasis> class. In the Validator section you should see
+                                        your Validator-id and Validator-class. Click on <emphasis>
+                                                <property>Validator-class</property>
+                                        </emphasis> to generate the source code.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Creating Validator Class</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_51.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Java class will be created automatically. Leave everything
+                                        without changes and click <emphasis>
+                                                <property>Finish</property>
+                                        </emphasis>.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>New Java Class Form</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_52.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>To open validator class click again on Validator-class in the
+                                        Validator section. Now you are able to write business logic
+                                        of validator.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Converter Class Editing</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_53.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+        </section>
 
         <section id="CreateAndRegisterReferencedBeans64322">
-<?dbhtml filename="CreateAndRegisterReferencedBeans.html"?>
-<title>Create and Register Referenced Beans</title>
-<orderedlist>
-        <listitem><para>In the Project Explorer view open<emphasis><property> faces-config.xml</property></emphasis> and select <emphasis><property>Tree </property></emphasis>tab.</para></listitem>
-</orderedlist>
-<figure>
-        <title>Validator in Faces Config Editor</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_54.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-<listitem><para>Select <emphasis><property>Referenced Beans</property></emphasis> and click on <emphasis><property>Add</property></emphasis> button.</para></listitem>
-<listitem><para>Type in the name of your Referenced Bean and type in or select Referenced-Bean-Class by 
-using Browse button.</para></listitem>
-</orderedlist>
-<figure>
-<title>Add Validator Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_55.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-<listitem><para>In the Referenced Bean section you should see your Referenced-Bean-Name and 
-Referenced-Bean-Class. Click on the link to open the Java creation wizard.</para></listitem>
-</orderedlist>
-<figure>
-        <title>Create Validator Class</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_56.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-        <listitem><para>Java class will be created automatically. Leave everything without changes and click <emphasis><property>Finish</property></emphasis>.</para></listitem>
-</orderedlist>
-<figure>
-<title>New Java Class Form</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_57.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<orderedlist continuation="continues">
-<listitem><para>To open Referenced Bean class click again on <emphasis><property>Referenced-Bean-Class</property></emphasis> in the Referenced Bean section. Now you are able to write business logic of Referenced Bean.</para></listitem>
- </orderedlist>
- <figure>
-         <title>Referenced Bean Class Editing</title>
-<mediaobject> 
-        <imageobject>
-                <imagedata fileref="images/jsf_support/jsf_support_58.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
+                <?dbhtml filename="CreateAndRegisterReferencedBeans.html"?>
+                <title>Create and Register Referenced Beans</title>
+                <orderedlist>
+                        <listitem>
+                                <para>In the Project Explorer view open<emphasis>
+                                                <property> faces-config.xml</property>
+                                        </emphasis> and select <emphasis>
+                                                <property>Tree </property>
+                                        </emphasis>tab.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Validator in Faces Config Editor</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_54.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Select <emphasis>
+                                                <property>Referenced Beans</property>
+                                        </emphasis> and click on <emphasis>
+                                                <property>Add</property>
+                                        </emphasis> button.</para>
+                        </listitem>
+                        <listitem>
+                                <para>Type in the name of your Referenced Bean and type in or select
+                                        Referenced-Bean-Class by using Browse button.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Add Validator Form</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_55.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>In the Referenced Bean section you should see your
+                                        Referenced-Bean-Name and Referenced-Bean-Class. Click on the
+                                        link to open the Java creation wizard.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Create Validator Class</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_56.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>Java class will be created automatically. Leave everything
+                                        without changes and click <emphasis>
+                                                <property>Finish</property>
+                                        </emphasis>.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>New Java Class Form</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_57.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+                <orderedlist continuation="continues">
+                        <listitem>
+                                <para>To open Referenced Bean class click again on <emphasis>
+                                                <property>Referenced-Bean-Class</property>
+                                        </emphasis> in the Referenced Bean section. Now you are able
+                                        to write business logic of Referenced Bean.</para>
+                        </listitem>
+                </orderedlist>
+                <figure>
+                        <title>Referenced Bean Class Editing</title>
+                        <mediaobject>
+                                <imageobject>
+                                        <imagedata fileref="images/jsf_support/jsf_support_58.png"/>
+                                </imageobject>
+                        </mediaobject>
+                </figure>
+        </section>
 
 
 </chapter>
