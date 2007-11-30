@@ -11,12 +11,8 @@
  </chapterinfo>
 
  <title>Visual Web Tools</title>
- <para>JBoss Developer Studio provides is a set of plug-ins for the Eclipse IDE. The plugins
-   extend the Eclipse platform to be an advanced enterprise-level Web application development
-   environment for leveraging open source, JEE and AJAX technologies. By combining visual and
-   source-oriented development approaches with support for multiple open source technologies,
-   including JSF, Hibernate, Seam, MyFaces, Spring and others.</para>
-   <para>In JBDS there is an extensive collection of specialized wizards, editors and views all of which have been constantly expanding to meet the
-   needs of enterprise developers to keep pace with rapidly changing business environments and
-   technologies.</para>
+ <para>In <property>JBoss Tools</property>
+  there is an extensive collection of specialized wizards,  
+  editors and views that can be used in various scenerios. The following  
+  chapters walksthrough these features.</para>
 </chapter>
