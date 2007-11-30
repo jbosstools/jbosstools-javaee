@@ -8,11 +8,12 @@
     <xs:attributeGroup name="attlist.mailSession">
         <xs:attribute name="username" type="xs:string"/>
         <xs:attribute name="password" type="xs:string"/>
-        <xs:attribute name="host" type="xs:string"/>
-        <xs:attribute name="port" type="xs:string"/>
-        <xs:attribute name="debug" type="xs:string"/>
-        <xs:attribute name="ssl" type="xs:boolean"/>
-        <xs:attribute name="session-jndi-name" type="xs:string"/>
+        <xs:attribute name="host" type="xs:string" default="localhost"/>
+        <xs:attribute name="port" type="xs:string" />
+        <xs:attribute name="debug" type="xs:string" default="false" />
+        <xs:attribute name="ssl" type="xs:boolean" default="false" />
+        <xs:attribute name="tls" type="xs:boolean" default="true" />
+        <xs:attribute name="session-jndi-name" type="xs:string" />
     </xs:attributeGroup>
     <xs:element name="mail-session">
         <xs:complexType>

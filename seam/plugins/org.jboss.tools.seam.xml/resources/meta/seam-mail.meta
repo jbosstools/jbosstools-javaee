@@ -226,6 +226,15 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="tls"
+    visibility="false" xmlname="tls">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
