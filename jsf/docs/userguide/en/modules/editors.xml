@@ -1742,7 +1742,7 @@
             </figure>
 
         </section>
-        <section id="ImageViewer">
+       <!-- <section id="ImageViewer">
             <?dbhtml filename="ImageViewer.html"?>
             <title>Image Viewer</title>
             <para>This simple image viewer allows you to view GIF and JPEG files individually in a
@@ -1757,7 +1757,7 @@
                 </mediaobject>
             </figure>
 
-        </section>
+        </section> -->
         <section id="XSDEditor">
             <?dbhtml filename="XSDEditor.html"?>
             <title>XSD Editor</title>
