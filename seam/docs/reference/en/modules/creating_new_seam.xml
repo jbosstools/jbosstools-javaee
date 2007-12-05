@@ -169,7 +169,7 @@
             </mediaobject>
         </figure>
         
-        <para>You can also add a <property>Component Libraries</property> (e.g. Richfaces) clicking on <emphasis><property>New</property></emphasis> button in the Component LIbraries section.</para>
+        <para>You can also add a <property>Component Libraries</property> (e.g. Richfaces) clicking on <emphasis><property>New</property></emphasis> button in the Component Libraries section.</para>
         
         <figure>
             <title>Create JSF Implementation Library</title>

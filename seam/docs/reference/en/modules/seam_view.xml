@@ -97,7 +97,7 @@
         <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that dependent on other project.</para>
         
         <figure>
-            <title>Available Customozations</title>
+            <title>Available Custimozations</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_view/seam_view3.png"/>
@@ -110,7 +110,7 @@
     <section>
         <title>Project Explorer integration</title>
         
-        <para>If you don't like to have a view for every piece of information in Eclipse, the content of the Seam Components view is also avaible as a node in the built-in Project Explorer (not Package Explorer!) view in Eclipse.</para>
+        <para>If you don't like to have a view for every piece of information in Eclipse, the content of the Seam Components view is also available as a node in the built-in Project Explorer (not Package Explorer!) view in Eclipse.</para>
         
         <figure>
             <title>Seam Components in Project Explorer</title>
