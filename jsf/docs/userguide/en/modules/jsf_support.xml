@@ -215,8 +215,9 @@
  </figure>
         
    -->
-                <para>See <link linkend="faq_facelets">FAQ</link> concerning Facelets
+        <!--        <para>See <link linkend="faq_facelets">FAQ</link> concerning Facelets
                 support.</para>
+                -->
         </section>
         <section id="WorkingWithProjects7844">
                 <?dbhtml filename="WorkingWithProjects.html"?>
@@ -305,9 +306,10 @@
                         <para>The JSFKickStart template will create the same standard structure but
                                 will also include a sample application that is ready to run.</para>
 
-                        <para>You can of course create your own custom templates. More information
+      <!--                  <para>You can of course create your own custom templates. More information
                                 on templates creation could be found in <link
                                         linkend="CreatingCustomJSPTemplates">Chapter 5</link>.</para>
+     -->                                   
                         <figure>
                                 <title>Choosing JSF Template</title>
                                 <mediaobject>
@@ -380,9 +382,10 @@
                         <title>Importing Existing JSF Projects with Any Structure</title>
 
                         <para>For detailed information on migration projects to JBoss Developer
-                                Studio see <ulink
-                                        url="http://www.redhat.com/developers/jbds/Exadel_Studio_Single/"
-                                        >Migration Guide</ulink>.</para>
+                                Studio see 
+                          <ulink url="../../../../../../documentation/guides/build/Exadel-migration/en/html_single/index.html">Migration Guide</ulink>. 
+                        </para>
+                        
                 </section>
                 <section id="AddingJSFCapabilityToAnyExistingEclipseProject">
                         <?dbhtml filename="AddingJSFCapabilityToAnyExistingEclipseProject.html"?>
@@ -715,7 +718,7 @@
                         <title>Error Reporting</title>
 
                         <para>Errors will be reported by JBoss Developer Studio&apos;s <link
-                                        linkend="VerificationandValidation"> verification</link>
+                                linkend="verif_valid"> verification</link>
                                 facility:</para>
                         <figure>
                                 <title>Error Reporting in Source View</title>

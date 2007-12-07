@@ -113,7 +113,7 @@ arrow in the upper right corner, select <emphasis>Filters...</emphasis>, check t
 <?dbhtml filename="ImportingAnExistingStrutsProjectWithAnyStructure.html"?>
 <title>Importing an Existing Struts Project with Any Structure</title>
 
-       <para>For detailed information on migration projects to JBoss Developer Studio see <ulink url="http://www.redhat.com/developers/jbds/Exadel_Studio_Single/">Migration Guide</ulink>.</para>
+       <para>For detailed information on migration projects to JBoss Developer Studio see <ulink url="../../../../../../documentation/guides/build/Exadel-migration/en/html_single/index.html">Migration Guide</ulink>.</para>
        
     </section>
     <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
