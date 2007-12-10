@@ -119,7 +119,7 @@
             <title>Edit Driver Definition</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_09.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_09.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -190,7 +190,7 @@
             <title>CRUDAPP Seam Project</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_15.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_15.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -202,7 +202,7 @@
             <title>Connecting to the CRUDDB database</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_16.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_16.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -214,7 +214,7 @@
             <title>CRUDDB Database</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_17.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_17.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -240,7 +240,7 @@
             <title>Entities Web Pages</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_19.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_19.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -252,7 +252,7 @@
             <title>Entities Java Classes</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_20.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_20.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -266,7 +266,7 @@
             <title>Hibernate Configurations View</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_21.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_21.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -280,7 +280,7 @@
             <title>Mapping Diagram</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_22.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_22.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -294,7 +294,7 @@
             <title>Entity class from Mapping Diagram</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_database_application/crud_database_application_23.png"/>
+                    <imagedata fileref="images/crud_database_application/crud_database_application_23.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>

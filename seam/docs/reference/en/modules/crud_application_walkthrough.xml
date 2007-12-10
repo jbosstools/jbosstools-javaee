@@ -25,7 +25,7 @@
             <title>Start the Server</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_1.png"/>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_1.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -42,7 +42,7 @@
             <title>Run Project on Server</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_2.png"/>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_2.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure> 
@@ -63,7 +63,7 @@
             <title>Home page</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_4.png"/>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_4.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>  
@@ -76,7 +76,7 @@
             <title>Employees List</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_5.png"/>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_5.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -88,7 +88,7 @@
             <title>Employee details</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_6.png"/>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_6.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -109,7 +109,7 @@
             <title>Edit Employee</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_8.png"/>
+                    <imagedata fileref="images/crud_application_walkthrough/crud_application_walkthrough_8.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>

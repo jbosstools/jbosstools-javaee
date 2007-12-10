@@ -91,7 +91,7 @@
             <title>Created Action</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/testng/testng_8.png"/>
+                    <imagedata fileref="images/testng/testng_8.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -116,7 +116,7 @@
             <title>Test is Finished</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/testng/testng_10.png"/>
+                    <imagedata fileref="images/testng/testng_10.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -133,7 +133,7 @@
             <title>Viewing the Test Results</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/testng/testng_11.png"/>
+                    <imagedata fileref="images/testng/testng_11.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -145,7 +145,7 @@
             <title>Test Results in Browser</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/testng/testng_12.png"/>
+                    <imagedata fileref="images/testng/testng_12.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -156,7 +156,7 @@
             <title>Test Information</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/testng/testng_13.png"/>
+                    <imagedata fileref="images/testng/testng_13.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>

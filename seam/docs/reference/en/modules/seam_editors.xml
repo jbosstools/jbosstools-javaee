@@ -29,7 +29,7 @@
             <title>Content Assist</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors1.png"/>
+                    <imagedata fileref="images/seam_editors/seam_editors1.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -64,7 +64,7 @@
             <title>Seam Validation</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors2_1.png"/>
+                    <imagedata fileref="images/seam_editors/seam_editors2_1.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>

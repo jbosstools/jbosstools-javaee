@@ -29,7 +29,7 @@
         
     <para>The <property>Reverse Engineer from database</property> mode can be described in four steps:</para>
     <orderedlist>
-        <listitem><para>The wizard get in database, extracts the tables and 
+        <listitem><para>The wizard gets in database, extracts the tables and 
             their connections</para></listitem>
         <listitem><para>On basis of this metainfomation the Entity classes are generated into 
             <property>org.domain.project.entity</property> package</para></listitem>
