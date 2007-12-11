@@ -42,6 +42,9 @@
             name="%newProjectWizard.name"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="true">
+         <description>
+            	Create a Struts Project
+         </description>
       </wizard>
       <wizard
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
@@ -52,6 +55,9 @@
             name="%strutsConfig.11"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="false">
+         <description>
+            	Create a Struts Config
+         </description>
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
@@ -64,6 +70,9 @@
             name="%new.validation"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="false">
+         <description>
+            	Create a Validation File
+         </description>
          <selection
                class="org.eclipse.core.resources.IResource">
          </selection>

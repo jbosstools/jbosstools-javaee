@@ -75,6 +75,9 @@
             id="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
             name="Faces Config"
             project="false">
+         <description>
+            	Create a Faces Config
+         </description>
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
@@ -87,6 +90,9 @@
             name="%newProjectWizard.name"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="true">
+         <description>
+            	Create a JSF Project
+         </description>
       </wizard>
 
    </extension>
