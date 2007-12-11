@@ -6,7 +6,7 @@
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
 <!ENTITY features_list  SYSTEM "modules/features_list.xml">
 <!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
-<!ENTITY struts  SYSTEM "modules/struts_support.xml">
+<!ENTITY struts  SYSTEM "modules/struts.xml">
 <!ENTITY editors SYSTEM "modules/editors.xml">
 <!ENTITY palette SYSTEM "modules/palette.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
@@ -32,7 +32,7 @@
            </releaseinfo>
     </bookinfo>
     
-    <toc/>  
+<toc/>  
 	&Visual_Web_Tools;
 	&features_list;
     &jsf_support;
