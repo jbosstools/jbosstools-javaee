@@ -1046,7 +1046,7 @@
                 </figure>
                 <orderedlist continuation="continues">
                         <listitem>
-                                <para>Let&apos;s create <emphasis role="italic">
+                                <para>Now you can create <emphasis role="italic">
                                                 <property>&quot;converter&quot;</property>
                                         </emphasis> class. In the Converter section you should see
                                         your Converter-id and Converter-class. Click on <emphasis>
@@ -1082,7 +1082,7 @@
                 <orderedlist continuation="continues">
                         <listitem>
                                 <para>To open converter class click again on Converter-class link in
-                                        the Converter section. Now you are able to write business
+                                        the Converter section. Now you are able to add business
                                         logic of converter.</para>
                         </listitem>
                 </orderedlist>
@@ -1100,6 +1100,7 @@
                 <?dbhtml filename="CreateAndRegisterACustomValidator.html"?>
                 <title>Create and Register a Custom Validator</title>
 
+                <para>With the help of JBDS you can easy develop your own custom validators.</para>
                 <orderedlist>
                         <listitem>
                                 <para>In the Project Explorer view open<emphasis>
@@ -1126,7 +1127,7 @@
                                         </emphasis>button.</para>
                         </listitem>
                         <listitem>
-                                <para>Type the name of your validator in the Valifator-id field an d
+                                <para>Type the name of your validator in the Valifator-id field and
                                         name of the class for validators. After clicking <emphasis>
                                                 <property>Finish</property>
                                         </emphasis> button your custom validator is registered under
@@ -1141,14 +1142,17 @@
                                 </imageobject>
                         </mediaobject>
                 </figure>
+                
+                <para>Now you can create the &quot;validatir&quot; class.
+                </para>
                 <orderedlist continuation="continues">
                         <listitem>
                                 <para>Let&apos;s create <emphasis role="italic">
                                                 <property>&quot;validator&quot;</property>
                                         </emphasis> class. In the Validator section you should see
-                                        your Validator-id and Validator-class. Click on <emphasis>
+                                        your Validator-id and Validator-class. To generate the source code click on <emphasis>
                                                 <property>Validator-class</property>
-                                        </emphasis> to generate the source code.</para>
+                                        </emphasis>.</para>
                         </listitem>
                 </orderedlist>
                 <figure>
@@ -1195,6 +1199,9 @@
         <section id="CreateAndRegisterReferencedBeans64322">
                 <?dbhtml filename="CreateAndRegisterReferencedBeans.html"?>
                 <title>Create and Register Referenced Beans</title>
+                
+                <para>Creation of Referenced Beans is similar to creation of Custom Validator.</para>
+                
                 <orderedlist>
                         <listitem>
                                 <para>In the Project Explorer view open<emphasis>
@@ -1205,7 +1212,7 @@
                         </listitem>
                 </orderedlist>
                 <figure>
-                        <title>Validator in Faces Config Editor</title>
+                        <title>Referenced Beans in Faces Config Editor</title>
                         <mediaobject>
                                 <imageobject>
                                         <imagedata fileref="images/jsf_support/jsf_support_54.png"/>
@@ -1226,7 +1233,7 @@
                         </listitem>
                 </orderedlist>
                 <figure>
-                        <title>Add Validator Form</title>
+                        <title>Add Referenced Bean</title>
                         <mediaobject>
                                 <imageobject>
                                         <imagedata fileref="images/jsf_support/jsf_support_55.png"/>
@@ -1241,7 +1248,7 @@
                         </listitem>
                 </orderedlist>
                 <figure>
-                        <title>Create Validator Class</title>
+                        <title>Create Referenced Bean Class</title>
                         <mediaobject>
                                 <imageobject>
                                         <imagedata fileref="images/jsf_support/jsf_support_56.png"/>
