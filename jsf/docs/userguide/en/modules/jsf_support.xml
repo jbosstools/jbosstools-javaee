@@ -9,7 +9,7 @@
                         <keyword>Tomcat</keyword>
                 </keywordset>
         </chapterinfo>
-        <title>Java Server Faces Support</title>
+        <title>JavaServer Faces Support</title>
         <para>JBoss Developer Studio is especially designed for supporting JSF and JSF-related
                 technologies. JBDS provides extensible and exemplary tools for building JSF-based
                 applications as well as adding JSF capabilities to existing web projects, importing
@@ -44,7 +44,7 @@
                         <title>Choosing JSF Environment</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_1.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_11.png"/>
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -112,7 +112,7 @@
                         </mediaobject>
                 </figure>
                 <para>The JBoss Tools Palette comes with the Facelets components ready to use. A
-                        useful tip appears when you hover the mouse cursor over the tag:</para>
+                        useful tip appears when you hover the mouse cursor over the tag - that includes a detailed description of the tag component, the syntax and available attributes:</para>
 
                 <!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
@@ -142,10 +142,10 @@
 
                 <itemizedlist>
                         <listitem>
-                                <para>In any HTML tag you also get the code assist for <emphasis
+                                <para>Code assist is also available for <emphasis
                                                 role="italic">
                                                 <property>&quot;jsfc&quot;</property>
-                                        </emphasis> attribute</para>
+                                        </emphasis> attribute in any HTML tag</para>
                         </listitem>
                 </itemizedlist>
 
@@ -190,7 +190,7 @@
                         </mediaobject>
                 </figure>
 
-                <para>Using JBoss Developer Studio OpenOn feature, you can easily navigate between
+                <para>JBDS provides Eclipse&apos;s <emphasis><property>OpenOn</property></emphasis> feature for editing Facelets files. Using this feature, you can easily navigate between
                         the <property>Facelets templates</property> and other parts of your
                         projects. Just by holding down the Control key while hovering the mouse
                         cursor over a reference to a template, the reference becomes a hyperlink to
@@ -360,7 +360,7 @@
                         </figure>
 
                         <para>When you are all done, you should have the project that has been
-                                created in the Package Explorer view:</para>
+                                appeared in the Package Explorer view:</para>
                         <figure>
                                 <title>A New Project in the Package Explorer</title>
                                 <mediaobject>
@@ -373,7 +373,7 @@
                         </figure>
 
                         <para>At this point you can open faces-config.xml and start working on your
-                                application.</para>
+                                application. JBDS provides a lot of features to develop JSF applications. We will describe the features further.</para>
                 </section>
 
                 <section id="ImportingExsJSFProjWithAnyStr74447">
@@ -412,7 +412,7 @@
                                         </imageobject>
                                 </mediaobject>
                         </figure>
-                        <para>The wizard will first show you the web.xml file location and the
+                        <para>The wizard will first ask you to show the web.xml file location and the
                                 project name:</para>
                         <figure>
                                 <title>Project Location</title>
@@ -464,7 +464,11 @@
                                 </mediaobject>
                         </figure>
                         <para>Once your project is imported you can see that JSF related libraries
-                                have been added to your project jsf-api.jar and jsf-impl.jar.</para>
+                                have been added to your project: jsf-api.jar and jsf-impl.jar.</para>
+                                <note>
+                           <title>Note:</title>
+                                      <para>Some application servers provide their own jsf implementation libraries. So, to avoid conflicts you should not add jsf libraries while adding jsf capabilities.</para>
+   </note>
                         <para>You are now ready to work with JSF by creating a new JSF configuration
                                 file:</para>
 
@@ -485,7 +489,7 @@
                 <section id="AddingYourOwnProjectTemplates853">
                         <?dbhtml filename="AddingYourOwnProjectTemplates.html"?>
                         <title>Adding Your Own Project Templates</title>
-
+						<para>Template is a set of files that serve as a basis to facilitate the creation of a new project. Project templates provide content and structure for a project.</para>
                         <para>JBoss Developer Studio has a powerful templating capability for
                                 creating new and importing existing Struts and JSF projects. This
                                 templating facility has a variety of aspects to consider. But,
@@ -616,7 +620,7 @@
                                 </mediaobject>
                         </figure>
 
-                        <para>It is also possible to create a new page by right-clicking anywhere on
+                        <para>It is also possible to create a new page with context menu by right-clicking anywhere on
                                 the diagram and selecting <emphasis>
                                         <property> New View</property>
                                 </emphasis>.</para>
@@ -651,8 +655,8 @@
                         <title>Tree View</title>
 
                         <para>The Tree mode for the editor displays all JSF application artifacts
-                                referenced in the configuration file in a tree format. Select any
-                                node and its properties will appear in the right-hand area:</para>
+                                referenced in the configuration file in a tree format. By selecting any
+                                node you can see and edit its properties will appear in the right-hand area. For example, a Managed Bean:</para>
                         <figure>
                                 <title>Tree View</title>
                                 <mediaobject>
@@ -664,7 +668,7 @@
                                 </mediaobject>
                         </figure>
 
-                        <para>To edit, right-click any node and select one of the available actions
+                        <para>To edit some artifact, right-click any node and select one of the available actions
                                 in the context menu. You can also edit in the properties window to
                                 the right:</para>
                         <figure>
@@ -673,6 +677,17 @@
                                         <imageobject>
                                                 <imagedata
                                                   fileref="images/jsf_support/jsf_support_26.png"
+                                                />
+                                        </imageobject>
+                                </mediaobject>
+                        </figure>
+                        <para>The same way you can create a new artifact:</para>
+                        <figure>
+                                <title>Creating a New Artifact in Tree View</title>
+                                <mediaobject>
+                                        <imageobject>
+                                                <imagedata
+                                                  fileref="images/jsf_support/jsf_support_59.png"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -699,11 +714,11 @@
                 </section>
                 <section id="ContentAssist976">
                         <?dbhtml filename="SendAnAJAXRequest.html"?>
-                        <title>Content Assist</title>
-
-                        <para>Content assist is always available in the Source viewer:</para>
+                        <title>Code Assist</title>
+						<para>Code Assist provides pop-up help to help you complete your code statements. Using Code Assist allows you to complete your code statements faster and with more accuracy.</para>
+                        <para>Code assist is always available in the Source mode:</para>
                         <figure>
-                                <title>Content Assist in Source View</title>
+                                <title>Code Assist in Source View</title>
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
@@ -716,7 +731,7 @@
                 <section id="ErrorReporting3324">
                         <?dbhtml filename="ErrorReporting.html"?>
                         <title>Error Reporting</title>
-
+						<para>When you are developing your project, JBoss Developer Studio constantly provides error checking. This greatly reduces your development time as it allows you to catch many of the errors during development.</para>
                         <para>Errors will be reported by JBoss Developer Studio&apos;s <link
                                 linkend="verif_valid"> verification</link>
                                 facility:</para>
@@ -743,11 +758,11 @@
                                 </mediaobject>
                         </figure>
 
-                        <para>You can also work in the Source viewer with the help of the <emphasis>
+                        <para>You can also work in the Source editor with the help of the <emphasis>
                                         <property>Outline view</property>
                                 </emphasis>. The Outline views show a tree structure of the JSF
                                 configuration file. Simply select any element in the Outline view,
-                                and it will jump to the same place in the Source viewer.</para>
+                                and it will jump to the same place in the Source editor, so you can navigate through the source code with Outline view.</para>
                         <figure>
                                 <title>Outline View</title>
                                 <mediaobject>
@@ -776,9 +791,9 @@
                                 </mediaobject>
                         </figure>
 
-                        <para>You can also edit in the <emphasis>
+                        <para>You can also edit the properties of the selected element in the <emphasis>
                                         <property>Tree</property>
-                                </emphasis> viewer with the help of the Properties view as shown
+                                </emphasis> mode with the help of the Properties view as shown
                                 below:</para>
                         <figure>
                                 <title>Properties View </title>
@@ -828,9 +843,11 @@
                                         </imageobject>
                                 </mediaobject>
                         </figure>
-                        <para>When you define a new managed bean, make sure that Generate Source
-                                Code is checked as shown in the figure below:</para>
-                        <figure>
+                        <note>
+                           <title>Note:</title>
+                                      <para>When you define a new managed bean, make sure that Generate Source Code is checked as shown in the figure below:</para>
+   </note>
+                            <figure>
                                 <title>New Managed Bean</title>
                                 <mediaobject>
                                         <imageobject>
@@ -890,7 +907,7 @@
                                         <property>&quot;getter&quot;</property>
                                 </emphasis> and <emphasis role="italic">
                                         <property>&quot;setter&quot;</property>
-                                </emphasis> methods:</para>
+                                </emphasis> methods. Right click on the bean and select <emphasis><property>New &gt; Property</property></emphasis>. You will see &quot;Add Property&quot; dialog:</para>
                         <figure>
                                 <title>Generation of Source Code for Properties</title>
                                 <mediaobject>
