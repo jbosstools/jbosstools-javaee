@@ -4779,7 +4779,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="JSF" kind="list" name="JSF">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.jsf.faces-config"
        PROPERTIES="entity=FacesConfig;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport;extension=xml;entityVersion=FacesConfig"
        displayName="Faces Config" kind="action" name="CreateFacesConfig">
@@ -4791,6 +4791,10 @@
         <AttributeData AttributeName="register in web.xml" Mandatory="no"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.jsf.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.jsf.ui;wizard=org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
+       displayName="Faces Config" kind="action" name="CreateFacesConfigV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
@@ -4808,7 +4812,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="JSF" kind="list" name="JSF">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.jsf.faces-config"
        PROPERTIES="entity=FacesConfig;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport;extension=xml;entityVersion=FacesConfig"
        displayName="Faces Config" kind="action" name="CreateFacesConfig">
@@ -4820,6 +4824,10 @@
         <AttributeData AttributeName="register in web.xml" Mandatory="no"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.jsf.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.jsf.ui;wizard=org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
+       displayName="Faces Config" kind="action" name="CreateFacesConfigV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
