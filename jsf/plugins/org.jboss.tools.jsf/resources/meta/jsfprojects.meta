@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
  <MAPPINGS>
@@ -38,17 +39,12 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="bean" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="class name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="class name"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
@@ -72,17 +68,12 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="method" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="class name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="class name"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
@@ -109,15 +100,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="class name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="class name"/>
    <XModelAttribute default="property" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -145,7 +131,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Beans" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -166,7 +151,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Configuration" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -179,7 +163,7 @@
       <XActionItem
        HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsConfigurationRedirectHandler"
        ICON="action.new.jsf.faces-config"
-       PROPERTIES="actionpath=CreateActions/CreateFiles/JSF/CreateFacesConfig"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/JSF/CreateFacesConfigV"
        displayName="Faces Config" kind="action" name="CreateFacesConfig"/>
      </XActionItem>
     </XActionItem>
@@ -200,7 +184,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Resource Bundles" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -212,7 +195,7 @@
      <XActionItem
       HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsResourceRedirectHandler"
       ICON="action.new.file.unknow_file"
-      PROPERTIES="actionpath=CreateActions/CreateFiles/Common/CreateFileProperties"
+      PROPERTIES="actionpath=CreateActions/CreateFiles/Common/CreateFilePropertiesV"
       displayName="Properties File..." kind="action" name="CreateFileProperties"/>
     </XActionItem>
    </XActionItem>
@@ -232,7 +215,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Tag Libraries" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -244,7 +226,7 @@
      <XActionItem
       HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
       ICON="main.tld.taglib"
-      PROPERTIES="actionpath=CreateActions/CreateFiles/Web/CreateFileTLD"
+      PROPERTIES="actionpath=CreateActions/CreateFiles/Web/CreateFileTLDV"
       displayName="Tag Library..." kind="action" name="CreateFileTLD"/>
     </XActionItem>
    </XActionItem>
@@ -264,7 +246,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Tiles" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -275,7 +256,7 @@
       <XActionItem
        HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
        ICON="action.new.web.tiles.file"
-       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateTiles"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateTilesV"
        displayName="Tiles..." kind="action" name="CreateTiles"/>
      </XActionItem>
     </XActionItem>
@@ -298,10 +279,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="JSFProjects" name="name" xmlname="NAME">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute default="JSFProjects" name="name" xmlname="NAME"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="JBoss Tools JSF"
@@ -322,7 +300,8 @@
     <XActionItem kind="list" name="CreateActions">
      <XActionItem
       HandlerClassName="org.jboss.tools.jst.web.project.handlers.CreateTemplateFromProjectHandler"
-      ICON="action.empty" displayName="Save As Template..." kind="action" name="SaveAsTemplate"/>
+      ICON="action.empty" displayName="Save As Template..."
+      kind="action" name="SaveAsTemplate"/>
     </XActionItem>
     <XActionItem kind="list" name="Separator"/>
     <XActionItem
@@ -382,7 +361,6 @@
   <XEntityRenderer/>
   <XModelAttributes>
    <XModelAttribute default="JSF Workspace" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
