@@ -1723,7 +1723,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="Seam" kind="list" name="Seam">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
        PROPERTIES="entity=FileSeamComponents12;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=SeamComponents"
        displayName="Seam Components File..." kind="action" name="CreateFileSeamComponents">
@@ -1734,6 +1734,10 @@
         <AttributeData AttributeName="version"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
+       displayName="Seam Components File..." kind="action" name="CreateFileSeamComponentsV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
@@ -1753,7 +1757,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="Seam" kind="list" name="Seam">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
        PROPERTIES="entity=FileSeamComponents12;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=SeamComponents"
        displayName="Seam Components File..." kind="action" name="CreateFileSeamComponents">
@@ -1764,6 +1768,10 @@
         <AttributeData AttributeName="version"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
+       displayName="Seam Components File..." kind="action" name="CreateFileSeamComponentsV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
