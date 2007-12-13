@@ -293,6 +293,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 				                           "default", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_USE_AS_DEFAULT, false); //$NON-NLS-1$
 		
 		SeamRuntime current = null;
+		List<SeamVersion> validSeamVersions = null;
 		
 		/**
 		 * @param parent
@@ -313,10 +314,14 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
 							new String[]{SeamVersion.SEAM_1_2.toString(), SeamVersion.SEAM_2_0.toString()}), 
 							                SeamVersion.SEAM_1_2.toString(), false);
+				validSeamVersions = new ArrayList<SeamVersion>();
+				validSeamVersions.add(SeamVersion.SEAM_1_2);
+				validSeamVersions.add(SeamVersion.SEAM_2_0);							                
 			} else {
 				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
 						"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, validSeamVersions, 
 								                SeamVersion.SEAM_1_2.toString(), false);
+				this.validSeamVersions = validSeamVersions;								          
 			}
 
 			setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CREATE_A_SEAM_RUNTIME);
@@ -338,12 +343,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 			root.setLayoutData(dg);
 			GridLayout gl = new GridLayout(3, false);
 			root.setLayout(gl);
+			homeDir.doFillIntoGrid(root);
+			homeDir.addPropertyChangeListener(this);
 			name.doFillIntoGrid(root);
 			name.addPropertyChangeListener(this);
 			version.doFillIntoGrid(root);
 			version.addPropertyChangeListener(this);
-			homeDir.doFillIntoGrid(root);
-			homeDir.addPropertyChangeListener(this);
 			setPageComplete(false);
 			setControl(root);
 		}
@@ -352,7 +357,25 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 		 * 
 		 */
 		public void propertyChange(PropertyChangeEvent evt) {
+			if ("homeDir".equals(evt.getPropertyName())) {
+				if (name.getValueAsString() == null ||
+						"".equals(name.getValueAsString().trim())) {
+					String homeDirName = homeDir.getValueAsString();
+					if (homeDirName != null && !"".equals(homeDirName.trim())) {
+						File folder = new File(homeDirName);
+						homeDirName = folder.getName();
+					}
+					name.setValue(homeDirName);
 
+					String seamVersion = getSeamVersion(homeDir.getValueAsString());
+					for (SeamVersion ver : validSeamVersions) {
+						if (seamVersion.matches(ver.toString().replace(".","\\.")+".*")) {
+							version.setValue(ver.toString());
+							break;
+						}
+					}
+				}
+ 			}
 				if(name.getValueAsString()==null || "".equals( //$NON-NLS-1$
 						name.getValueAsString().toString().trim())) {
 					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME_CANNOT_BE_EMPTY);
