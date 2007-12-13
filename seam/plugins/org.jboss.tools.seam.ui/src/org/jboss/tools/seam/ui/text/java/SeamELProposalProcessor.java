@@ -313,7 +313,10 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			if(node instanceof IDOMNode) {
 				IDOMNode xmlnode = (IDOMNode) node;
 				ITextRegion completionRegion = getCompletionRegion(offset, node);
-				return DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE == completionRegion.getType();
+				if (DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE != completionRegion.getType())
+					return false;
+				ITextRegion nextRegion = getCompletionRegion(offset + 1, node);
+				return DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE == nextRegion.getType();
 			}
 		}
 		return false;
