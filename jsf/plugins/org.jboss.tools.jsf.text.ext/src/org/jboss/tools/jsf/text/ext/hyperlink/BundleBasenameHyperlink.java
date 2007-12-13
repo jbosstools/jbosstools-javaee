@@ -65,7 +65,7 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 			if(project == null || !project.isOpen()) return null;
 			if(!project.hasNature(JavaCore.NATURE_ID)) return null;
 			IJavaProject javaProject = JavaCore.create(project);		
-			IClasspathEntry[] es = javaProject.getRawClasspath();
+			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
 			for (int i = 0; i < es.length; i++) {
 				if(es[i].getEntryKind() != IClasspathEntry.CPE_SOURCE) continue;
 				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name);
