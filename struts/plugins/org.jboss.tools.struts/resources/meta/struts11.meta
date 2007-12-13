@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
  <MAPPINGS>
@@ -27,19 +28,11 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="action" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="attribute" xmlname="attribute">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute name="attribute" xmlname="attribute"/>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute name="forward" xmlname="forward">
@@ -64,20 +57,10 @@
     <Constraint loader="ListString"/>
     <Editor name="StrutsActionNameEditor"/>
    </XModelAttribute>
-   <XModelAttribute name="parameter" xmlname="parameter">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;save=always" name="path" xmlname="path">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="prefix" xmlname="prefix">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="parameter" xmlname="parameter"/>
+   <XModelAttribute PROPERTIES="id=true;save=always" name="path" xmlname="path"/>
+   <XModelAttribute name="prefix" xmlname="prefix"/>
    <XModelAttribute name="roles" xmlname="roles">
-    <Constraint/>
     <Editor name="WebRoleChoiceList"/>
    </XModelAttribute>
    <XModelAttribute name="scope" xmlname="scope">
@@ -88,12 +71,8 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute name="suffix" xmlname="suffix">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="suffix" xmlname="suffix"/>
    <XModelAttribute PROPERTIES="linkAction=OpenSource" name="type" xmlname="type">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute default="false" name="unknown" xmlname="unknown">
@@ -113,30 +92,16 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="display-name" xmlname="display-name.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
    <XModelAttribute name="description" xmlname="description.#text">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
-   <XModelAttribute name="_shape" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="_shape" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem
@@ -266,24 +231,15 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="action-mappings" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="action-mappings" loader="ElementType"
     name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="type" xmlname="type">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute name="type" xmlname="type"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -352,39 +308,23 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="struts-config 1.1" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute default="struts-config" name="name" xmlname="NAME">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute default="struts-config" name="name" xmlname="NAME"/>
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute
     default="-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
-    name="publicId" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="systemId" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="publicId" visibility="false"/>
+   <XModelAttribute name="systemId" visibility="false"/>
    <XModelAttribute default="no" name="isIncorrect" visibility="false">
     <Constraint loader="List">
      <value name="yes"/>
@@ -392,10 +332,7 @@
     </Constraint>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="incorrectBody" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
    <XModelAttribute default="UTF-8" name="encoding">
     <Constraint loader="ListString">
      <value name="ISO-8859-1"/>
@@ -556,18 +493,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="controller" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="controller" loader="ElementType"
     name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute name="bufferSize" xmlname="bufferSize">
     <Constraint loader="Int">
      <value name="minimum=0"/>
@@ -576,13 +508,9 @@
     <Editor name="Int"/>
    </XModelAttribute>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute name="contentType" xmlname="contentType">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="contentType" xmlname="contentType"/>
    <XModelAttribute name="debug" xmlname="debug">
     <Constraint loader="Int">
      <value name="minimum=0"/>
@@ -590,10 +518,7 @@
     </Constraint>
     <Editor name="Int"/>
    </XModelAttribute>
-   <XModelAttribute name="forwardPattern" xmlname="forwardPattern">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="forwardPattern" xmlname="forwardPattern"/>
    <XModelAttribute name="inputForward" xmlname="inputForward">
     <Constraint loader="List">
      <value/>
@@ -616,14 +541,11 @@
    </XModelAttribute>
    <XModelAttribute name="maxFileSize" xmlname="maxFileSize">
     <Constraint loader="FileSize"/>
-    <Editor/>
    </XModelAttribute>
    <XModelAttribute name="memFileSize" xmlname="memFileSize">
     <Constraint loader="FileSize"/>
-    <Editor/>
    </XModelAttribute>
    <XModelAttribute name="multipartClass" xmlname="multipartClass">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute name="nocache" xmlname="nocache">
@@ -636,20 +558,12 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute name="pagePattern" xmlname="pagePattern">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="pagePattern" xmlname="pagePattern"/>
    <XModelAttribute name="processorClass" xmlname="processorClass">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute name="tempDir" xmlname="tempDir">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="tempDir" xmlname="tempDir"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -709,27 +623,17 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="data-source" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="key" xmlname="key">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute name="key" xmlname="key"/>
    <XModelAttribute PROPERTIES="save=always" name="type" xmlname="type">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -786,20 +690,14 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="data-sources" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="data-sources" loader="ElementType"
     name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -840,27 +738,17 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="exception" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="bundle" xmlname="bundle">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute name="bundle" xmlname="bundle"/>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute name="handler" xmlname="handler">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="save=always" name="key" xmlname="key">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute name="path" xmlname="path">
@@ -879,33 +767,18 @@
    </XModelAttribute>
    <XModelAttribute
     PROPERTIES="linkAction=OpenSource;id=true;save=always" name="type" xmlname="type">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="display-name" xmlname="display-name.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
    <XModelAttribute name="description" xmlname="description.#text">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
-   <XModelAttribute name="_shape" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="_shape" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem
@@ -992,15 +865,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="form-bean" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute name="dynamic" xmlname="dynamic">
@@ -1013,33 +881,18 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name"/>
    <XModelAttribute PROPERTIES="linkAction=OpenSource;save=always"
     name="type" xmlname="type">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="display-name" xmlname="display-name.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
    <XModelAttribute name="description" xmlname="description.#text">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1118,24 +971,17 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="form-beans" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="form-beans" loader="ElementType"
     name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute name="type" xmlname="type">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1179,21 +1025,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="form-property" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute TRIM="no" name="initial" xmlname="initial">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="initial" xmlname="initial"/>
+   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name"/>
    <XModelAttribute name="size" xmlname="size">
     <Constraint loader="Int">
      <value name="minimum=0"/>
@@ -1202,11 +1040,9 @@
     <Editor name="Int"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="save=always" name="type" xmlname="type">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1264,15 +1100,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="forward" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute PROPERTIES="linkAction=OpenSource" name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute loader="ContextRelative" name="contextRelative" xmlname="contextRelative">
@@ -1285,10 +1116,7 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name"/>
    <XModelAttribute PROPERTIES="linkAction=JumpByPath;save=always"
     name="path" xmlname="path">
     <Constraint loader="Properties">
@@ -1306,30 +1134,16 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="display-name" xmlname="display-name.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
    <XModelAttribute name="description" xmlname="description.#text">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
-   <XModelAttribute name="_shape" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="_shape" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem
@@ -1418,20 +1232,14 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="global-exceptions" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="global-exceptions" loader="ElementType"
     name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1473,24 +1281,15 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="global-forwards" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="global-forwards" loader="ElementType"
     name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="type" xmlname="type">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute name="type" xmlname="type"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1536,25 +1335,16 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="message-resources" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute name="factory" xmlname="factory">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute name="key" xmlname="key">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="key" xmlname="key"/>
    <XModelAttribute name="null" xmlname="null">
     <Constraint loader="List">
      <value/>
@@ -1574,7 +1364,6 @@
     <Editor name="TreeChooser"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1628,11 +1417,9 @@
   <XModelAttributes>
    <XModelAttribute default="message-resources folder"
     loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="resources" loader="ElementType" name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1672,19 +1459,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="plug-in" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute PROPERTIES="save=always" name="className" xmlname="className">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1730,11 +1511,9 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="plug-in folder" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="plug-ins" loader="ElementType" name="name" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1782,23 +1561,15 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="set-property" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="id" xmlname="id">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute PROPERTIES="id=true;save=always" name="property" xmlname="property">
     <Constraint loader="StrutsProperty"/>
     <Editor name="Name"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="value" xmlname="value">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="value" xmlname="value"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1830,7 +1601,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="Struts" kind="list" name="Struts">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.struts.struts-config"
        PROPERTIES="entity=StrutsConfig11;extensions=.xml.;validator.addfile=true;extension=xml;support=org.jboss.tools.struts.model.handlers.CreateStrutsConfigSupport;entityVersion=StrutsConfig"
        displayName="Struts Config" kind="action" name="CreateStrutsConfig11">
@@ -1843,6 +1614,10 @@
         <AttributeData AttributeName="register in web.xml" Mandatory="no"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.struts.struts-config"
+       PROPERTIES="plugin=org.jboss.tools.struts.ui;wizard=org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFileWizard"
+       displayName="Struts Config" kind="action" name="CreateStrutsConfig11V"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
@@ -1858,7 +1633,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="Struts" kind="list" name="Struts">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.struts.struts-config"
        PROPERTIES="entity=StrutsConfig11;extensions=.xml.;validator.addfile=true;extension=xml;support=org.jboss.tools.struts.model.handlers.CreateStrutsConfigSupport;entityVersion=StrutsConfig"
        displayName="Struts Config" kind="action" name="CreateStrutsConfig11">
@@ -1871,6 +1646,10 @@
         <AttributeData AttributeName="register in web.xml" Mandatory="no"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.struts.struts-config"
+       PROPERTIES="plugin=org.jboss.tools.struts.ui;wizard=org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFileWizard"
+       displayName="Struts Config" kind="action" name="CreateStrutsConfig11V"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>

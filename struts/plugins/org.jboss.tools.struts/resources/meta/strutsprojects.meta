@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
  <MAPPINGS>
@@ -38,7 +39,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Configuration" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -63,7 +63,7 @@
       <XActionItem
        HandlerClassName="org.jboss.tools.struts.model.pv.handler.StrutsProjectsConfigurationRedirectHandler"
        ICON="action.new.struts.struts-config"
-       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateStrutsConfig11"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateStrutsConfig11V"
        displayName="Struts Config" kind="action" name="CreateStrutsConfig11"/>
      </XActionItem>
     </XActionItem>
@@ -81,7 +81,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -104,7 +103,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Resource Bundles" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -116,7 +114,7 @@
      <XActionItem
       HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsResourceRedirectHandler"
       ICON="action.new.file.unknow_file"
-      PROPERTIES="actionpath=CreateActions/CreateFiles/Common/CreateFileProperties"
+      PROPERTIES="actionpath=CreateActions/CreateFiles/Common/CreateFilePropertiesV"
       displayName="Properties File..." kind="action" name="CreateFileProperties"/>
     </XActionItem>
    </XActionItem>
@@ -133,7 +131,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Tag Libraries" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -145,7 +142,7 @@
      <XActionItem
       HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
       ICON="main.tld.taglib"
-      PROPERTIES="actionpath=CreateActions/CreateFiles/Web/CreateFileTLD"
+      PROPERTIES="actionpath=CreateActions/CreateFiles/Web/CreateFileTLDV"
       displayName="Tag Library..." kind="action" name="CreateFileTLD"/>
     </XActionItem>
    </XActionItem>
@@ -162,7 +159,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Tiles" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -173,7 +169,7 @@
       <XActionItem
        HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
        ICON="action.new.web.tiles.file"
-       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateTiles"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateTilesV"
        displayName="Tiles..." kind="action" name="CreateTiles"/>
      </XActionItem>
     </XActionItem>
@@ -191,7 +187,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="Validation" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -202,7 +197,7 @@
       <XActionItem
        HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
        ICON="action.new.validator.file"
-       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateValidator"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateValidatorV"
        displayName="Validation..." kind="action" name="CreateValidator"/>
      </XActionItem>
     </XActionItem>
@@ -225,14 +220,11 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="StrutsProjects" name="name" xmlname="NAME">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute default="StrutsProjects" name="name" xmlname="NAME"/>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="Red Hat Developer Studio Struts"
-    group="1" kind="list" name="StrutsStudio">
+   <XActionItem ICON="action.empty"
+    displayName="Red Hat Developer Studio Struts" group="1" kind="list" name="StrutsStudio">
     <XActionItem
      HandlerClassName="org.jboss.tools.struts.model.pv.handler.StrutsProjectsRootRedirectHandler"
      ICON="action.empty" PROPERTIES="actionpath=SynchronizeModules"
@@ -240,7 +232,8 @@
     <XActionItem kind="list" name="CreateActions">
      <XActionItem
       HandlerClassName="org.jboss.tools.jst.web.project.handlers.CreateTemplateFromProjectHandler"
-      ICON="action.empty" displayName="Save As Template..." kind="action" name="SaveAsTemplate"/>
+      ICON="action.empty" displayName="Save As Template..."
+      kind="action" name="SaveAsTemplate"/>
     </XActionItem>
     <XActionItem kind="list" name="Separator"/>
     <XActionItem kind="list" name="Registration">
@@ -307,7 +300,6 @@
   <XEntityRenderer/>
   <XModelAttributes>
    <XModelAttribute default="Struts Workspace" name="name" xmlname="NAME">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
   </XModelAttributes>

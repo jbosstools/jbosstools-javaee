@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.1"/>
  <MAPPINGS>
@@ -74,33 +75,21 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="validation rules" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="name" xmlname="NAME">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="NAME"/>
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute
     default="-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
-    name="publicId" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="publicId" visibility="false"/>
    <XModelAttribute
     default="http://jakarta.apache.org/commons/dtds/validator_1_0.dtd"
-    name="systemId" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="systemId" visibility="false"/>
    <XModelAttribute default="no" name="isIncorrect" visibility="false">
     <Constraint loader="List">
      <value name="yes"/>
@@ -108,10 +97,7 @@
     </Constraint>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="incorrectBody" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
    <XModelAttribute default="true" name="expanded" visibility="false">
     <Constraint loader="List">
      <value name="false"/>
@@ -120,7 +106,6 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute default="UTF-8" name="encoding">
@@ -303,19 +288,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="arg0" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="arg0" loader="ElementType" name="arg">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="name"/>
    <XModelAttribute name="key" xmlname="key">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="resource" xmlname="resource">
@@ -326,7 +305,6 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -369,19 +347,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="arg1" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="arg1" loader="ElementType" name="arg">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="name"/>
    <XModelAttribute name="key" xmlname="key">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="resource" xmlname="resource">
@@ -392,7 +364,6 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -435,19 +406,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="arg2" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="arg2" loader="ElementType" name="arg">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="name"/>
    <XModelAttribute name="key" xmlname="key">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="resource" xmlname="resource">
@@ -458,7 +423,6 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -501,19 +465,13 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="arg3" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute default="arg3" loader="ElementType" name="arg">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="name" xmlname="name"/>
    <XModelAttribute name="key" xmlname="key">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="resource" xmlname="resource">
@@ -524,7 +482,6 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -567,20 +524,12 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="constant" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;save=always"
-    name="constant-name" xmlname="constant-name.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="constant-value" xmlname="constant-value.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    name="constant-name" xmlname="constant-name.#text"/>
+   <XModelAttribute PROPERTIES="save=always" name="constant-value" xmlname="constant-value.#text"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -619,10 +568,7 @@
   <XChildrenEntities/>
   <XEntityRenderer/>
   <XModelAttributes>
-   <XModelAttribute name="dependency name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="dependency name"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
@@ -660,15 +606,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="field" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;save=always" name="property" xmlname="property">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;save=always" name="property" xmlname="property"/>
    <XModelAttribute name="depends" xmlname="depends">
-    <Constraint/>
     <Editor name="ValidationDependency"/>
    </XModelAttribute>
    <XModelAttribute name="page" xmlname="page">
@@ -677,12 +618,8 @@
     </Constraint>
     <Editor name="Int"/>
    </XModelAttribute>
-   <XModelAttribute name="indexedListProperty" xmlname="indexedListProperty">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="indexedListProperty" xmlname="indexedListProperty"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -771,15 +708,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="form" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -834,7 +766,6 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="formset" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="language" xmlname="language">
@@ -846,7 +777,6 @@
     <Editor name="CountriesList"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -906,11 +836,9 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="global" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -968,15 +896,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="msg" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name"/>
    <XModelAttribute PROPERTIES="save=always" name="key" xmlname="key">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="resource" xmlname="resource">
@@ -987,7 +910,6 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1039,45 +961,29 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="validator" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="name" xmlname="name"/>
    <XModelAttribute PROPERTIES="save=always" name="classname" xmlname="classname">
-    <Constraint/>
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always" name="method" xmlname="method">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="method" xmlname="method"/>
    <XModelAttribute
     PROPERTIES="save=always;trim=true;delimiter=comma;newValueClassName=org.jboss.tools.common.model.ui.attribute.adapter.JavaClassNewValueProvider"
     name="methodParams" xmlname="methodParams">
-    <Constraint/>
     <Editor name="MutableList"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="save=always" name="msg" xmlname="msg">
-    <Constraint/>
     <Editor name="SelectResourceKey"/>
    </XModelAttribute>
    <XModelAttribute name="depends" xmlname="depends">
-    <Constraint/>
     <Editor name="ValidationDependency"/>
    </XModelAttribute>
-   <XModelAttribute name="jsFunctionName" xmlname="jsFunctionName">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="jsFunctionName" xmlname="jsFunctionName"/>
    <XModelAttribute TRIM="no" name="javascript" visibility="false" xmlname="javascript.CDATA">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
   </XModelAttributes>
@@ -1179,17 +1085,10 @@
   </XEntityRenderer>
   <XModelAttributes>
    <XModelAttribute default="var" loader="ElementType" name="element type">
-    <Constraint/>
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true" name="var-name" xmlname="var-name.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
-   <XModelAttribute name="var-value" xmlname="var-value.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" name="var-name" xmlname="var-name.#text"/>
+   <XModelAttribute name="var-value" xmlname="var-value.#text"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem HIDE="always" HandlerClassName="%Edit%"
@@ -1254,7 +1153,7 @@
    <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem displayName="File" group="1" kind="list" name="CreateFiles">
      <XActionItem displayName="Struts" kind="list" name="Struts">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.validator.file"
        PROPERTIES="support=org.jboss.tools.struts.validators.model.handlers.CreateValidationFileSupport;entity=FileValidationRules;extension=xml;validator.addfile=true;entityVersion=Validation"
        displayName="Validation..." kind="action" name="CreateValidator">
@@ -1265,6 +1164,10 @@
         <AttributeData AttributeName="version" Mandatory="no"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.validator.file"
+       PROPERTIES="plugin=org.jboss.tools.struts.ui;wizard=org.jboss.tools.struts.ui.wizard.newfile.NewValidationFileWizard"
+       displayName="Validation..." kind="action" name="CreateValidatorV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
@@ -1278,7 +1181,7 @@
    <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem displayName="File" group="1" kind="list" name="CreateFiles">
      <XActionItem displayName="Struts" kind="list" name="Struts">
-      <XActionItem HandlerClassName="%SpecialWizard%"
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
        ICON="action.new.validator.file"
        PROPERTIES="support=org.jboss.tools.struts.validators.model.handlers.CreateValidationFileSupport;entity=FileValidationRules;extension=xml;validator.addfile=true;entityVersion=Validation"
        displayName="Validation..." kind="action" name="CreateValidator">
@@ -1289,6 +1192,10 @@
         <AttributeData AttributeName="version" Mandatory="no"/>
        </EntityData>
       </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.validator.file"
+       PROPERTIES="plugin=org.jboss.tools.struts.ui;wizard=org.jboss.tools.struts.ui.wizard.newfile.NewValidationFileWizard"
+       displayName="Validation..." kind="action" name="CreateValidatorV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
