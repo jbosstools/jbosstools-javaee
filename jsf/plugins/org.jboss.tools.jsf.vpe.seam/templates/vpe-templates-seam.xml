@@ -90,7 +90,8 @@
 
 
 	<vpe:tag name="s:formattedText" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamFormattedTextTemplate">
 			<div style="{@style}" class="{@styleClass}"
 				title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
