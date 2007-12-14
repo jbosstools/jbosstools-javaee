@@ -20,6 +20,8 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
+ * @author Vitali (vyemialyanchyk@exadel.com)
+ * 
  * The activator class controls the plug-in life cycle
  */
 public class SeamTemplatesActivator extends BaseUIPlugin {

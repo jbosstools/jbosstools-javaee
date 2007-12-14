@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.seam.template;
 
 import java.io.InputStreamReader;
@@ -32,6 +42,11 @@ import org.w3c.dom.NodeList;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 
+/**
+ * @author Vitali (vyemialyanchyk@exadel.com)
+ * 
+ * s:formattedText template
+ */
 public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 
 	private static final String CID_DOMPARSER = "@mozilla.org/xmlextras/domparser;1";
