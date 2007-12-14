@@ -298,7 +298,8 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 	} else if (HtmlComponentUtil.HTML_STYLE_ATTR.equalsIgnoreCase(name)) {
 	    setAttributeToTree(visualNode, HtmlComponentUtil.HTML_STYLE_ATTR,
 		    removeFromStyleWithAndHeight(value));
-	    ((Element) visualNode).setAttribute(
+	    nsIDOMElement visualElement = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    visualElement.setAttribute(
 		    HtmlComponentUtil.HTML_STYLE_ATTR, value);
 	}
     }
