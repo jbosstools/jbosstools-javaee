@@ -789,6 +789,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			fireChanges(changes);
 		}
+		Iterator<String> it = javaDeclarations.keySet().iterator();
+		while(it.hasNext()) {
+			String cn = it.next();
+			SeamJavaComponentDeclaration d = javaDeclarations.get(cn);
+			if(source.equals(d.getSourcePath())) {
+				it.remove();
+			}
+		}
 		revalidateLock--;
 		revalidate();
 

@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -127,25 +128,43 @@ public class JavaScanner implements IFileScanner {
 		}
 		
 		public void acceptAST(ICompilationUnit source, CompilationUnit ast) {
-			
+			IType[] ts = null;
 			try {
-				IType[] ts = source.getTypes();
-				if(ts != null && ts.length > 0) {
-					visitor.type = ts[0];
-				}
+				ts = source.getTypes();
 			} catch (JavaModelException e) {
 				//ignore
 			}
-			ast.accept(visitor);
-			
-			if(!visitor.hasSeamComponent()) return;
-			
-			ComponentBuilder b = new ComponentBuilder(ds, visitor);
-			
-			b.component.setSourcePath(sourcePath);
-			b.component.setResource(resource);
-			
-			b.process();
+			if(ts == null || ts.length == 0) return;
+			for (int i = 0; i < ts.length; i++) {
+				visitor.setType(null);
+				int f = 0;
+				try {
+					f = ts[i].getFlags();
+				} catch (JavaModelException e) {
+					//ignore
+					continue;
+				}
+				if(Flags.isPublic(f)) {
+					visitor.setType(ts[i]);
+					ast.accept(visitor);
+					if(!visitor.hasSeamComponent()) continue;
+					processTypeData(visitor.root);
+				}
+			}
+		}
+		
+		private void processTypeData(ASTVisitorImpl.TypeData data) {
+			if(data.hasSeamComponentItself()) {
+				ComponentBuilder b = new ComponentBuilder(ds, data);
+				
+				b.component.setSourcePath(sourcePath);
+				b.component.setResource(resource);
+				
+				b.process();
+			}
+			for (ASTVisitorImpl.TypeData c: data.children) {
+				processTypeData(c);
+			}
 		}
 	}
 	

@@ -57,7 +57,7 @@ public class ComponentBuilder implements SeamAnnotations {
 	SeamJavaComponentDeclaration component = new SeamJavaComponentDeclaration();
 	
 	
-	public ComponentBuilder(LoadedDeclarations ds, ASTVisitorImpl visitor) {
+	public ComponentBuilder(LoadedDeclarations ds, ASTVisitorImpl.TypeData visitor) {
 		this.ds = ds;
 		annotatedType = visitor.annotatedType;
 		annotatedFields = visitor.annotatedFields;

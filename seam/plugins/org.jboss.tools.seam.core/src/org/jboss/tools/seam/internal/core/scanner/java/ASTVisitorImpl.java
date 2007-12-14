@@ -10,10 +10,14 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.scanner.java;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Block;
@@ -26,6 +30,7 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 
 /**
@@ -35,42 +40,75 @@ import org.jboss.tools.seam.internal.core.scanner.Util;
  */
 public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
-	IType type;
-	
-	AnnotatedASTNode<TypeDeclaration> annotatedType = null;
-	Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = new HashSet<AnnotatedASTNode<FieldDeclaration>>();
-	Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = new HashSet<AnnotatedASTNode<MethodDeclaration>>();
+	static class TypeData {
+		TypeData parent = null;
+		List<TypeData> children = new ArrayList<TypeData>();
 
-	AnnotatedASTNode<?> currentAnnotatedNode = null;
-	AnnotatedASTNode<FieldDeclaration> currentAnnotatedField = null;
-	AnnotatedASTNode<MethodDeclaration> currentAnnotatedMethod = null;
+		IType type;
+		int innerLock = 0;
+		
+		AnnotatedASTNode<TypeDeclaration> annotatedType = null;
+		Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = new HashSet<AnnotatedASTNode<FieldDeclaration>>();
+		Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = new HashSet<AnnotatedASTNode<MethodDeclaration>>();
+
+		AnnotatedASTNode<?> currentAnnotatedNode = null;
+		AnnotatedASTNode<FieldDeclaration> currentAnnotatedField = null;
+		AnnotatedASTNode<MethodDeclaration> currentAnnotatedMethod = null;
+		
+		public boolean hasSeamComponentItself() {
+			if(annotatedFields.size() > 0 || annotatedMethods.size() > 0) return true;
+			if(annotatedType != null && annotatedType.getAnnotations() != null) return true;
+			return false;
+		}
+		
+		public boolean hasSeamComponent() {
+			if(hasSeamComponentItself()) return true;
+			for (TypeData c: children) {
+				if(c.hasSeamComponent()) return true;
+			}
+			return false;
+		}
+		
+	}
+	
+	TypeData root = null;	
+	TypeData current = null;	
+	
+	ASTVisitorImpl() {}
+	
+	public void setType(IType type) {
+		root = new TypeData();
+		root.type = type;
+	}
+	
 	
 	public boolean hasSeamComponent() {
-		if(annotatedFields.size() > 0 || annotatedMethods.size() > 0) return true;
-		if(annotatedType != null && annotatedType.getAnnotations() != null) return true;		
-		return false;
+		return root.hasSeamComponent();
 	}
 	
 	public boolean visit(SingleMemberAnnotation node) {
+		if(current.innerLock > 0) return false;
 		String type = resolveType(node);
-		if(Util.isSeamAnnotationType(type) && currentAnnotatedNode != null) {
-			currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
+		if(Util.isSeamAnnotationType(type) && current.currentAnnotatedNode != null) {
+			current.currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
 		}
 		return false;
 	}
 
 	public boolean visit(NormalAnnotation node) {
+		if(current.innerLock > 0) return false;
 		String type = resolveType(node);
-		if(Util.isSeamAnnotationType(type) && currentAnnotatedNode != null) {
-			currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
+		if(Util.isSeamAnnotationType(type) && current.currentAnnotatedNode != null) {
+			current.currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
 		}
 		return false;
 	}
 
 	public boolean visit(MarkerAnnotation node) {
+		if(current.innerLock > 0) return false;
 		String type = resolveType(node);
-		if(Util.isSeamAnnotationType(type) && currentAnnotatedNode != null) {
-			currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
+		if(Util.isSeamAnnotationType(type) && current.currentAnnotatedNode != null) {
+			current.currentAnnotatedNode.addAnnotation(new ResolvedAnnotation(type, node));
 		}
 		return true;
 	}
@@ -81,7 +119,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 	
 	String resolveType(Annotation node) {
-		return resolveType(type, node);
+		return resolveType(current.type, node);
 	}
 
 	static String resolveType(IType type, Annotation node) {
@@ -104,45 +142,93 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 
 	public boolean visit(TypeDeclaration node) {
-		if(annotatedType == null) {
-			annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
-			currentAnnotatedNode = annotatedType;
+		if(current == null) {
+			String n = node.getName().getFullyQualifiedName();
+			if(n != null && n.indexOf('.') < 0) n = EclipseJavaUtil.resolveType(root.type, n);
+			String nr = root.type.getFullyQualifiedName();
+			if(n == null || !n.equals(nr)) return false;
+			current = root;
+		}
+		if(current.annotatedType == null) {
+			current.annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
+			current.currentAnnotatedNode = current.annotatedType;
+		} else {
+			String n = node.getName().getFullyQualifiedName();
+			if(n != null && n.indexOf('.') < 0) n = EclipseJavaUtil.resolveType(current.type, n);
+			IType[] ts = null;
+			try {
+				ts = current.type.getTypes();
+			} catch (JavaModelException e) {
+				//ignore
+			}
+			IType t = null;
+			if(ts != null) for (int i = 0; t == null && i < ts.length; i++) {
+				try {
+					if(!Flags.isStatic(ts[i].getFlags())) continue;
+				} catch (JavaModelException e) {
+					continue;
+				}
+				String ni = ts[i].getFullyQualifiedName();
+				if(ni != null) ni = ni.replace('$', '.');
+				if(n == null || !n.equals(ni)) continue;
+				t = ts[i];
+			}
+			if(t == null) {
+				current.innerLock++;
+				return false;
+			} else {
+				TypeData d = new TypeData();
+				d.type = t;
+				d.parent = current;
+				current.children.add(d);
+				current = d;
+				current.annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
+				current.currentAnnotatedNode = current.annotatedType;
+			}			
 		}
 		return true;
 	}
 	
 	public void endVisit(TypeDeclaration node) {
-		if(currentAnnotatedNode != null && currentAnnotatedNode.node == node) {
-			currentAnnotatedNode = null;
+		if(current == null) return;
+		if(current.currentAnnotatedNode != null && current.currentAnnotatedNode.node == node) {
+			current.currentAnnotatedNode = null;
+			current = current.parent;
+		} else {
+			current.innerLock--;
 		}
 	}
 	
 	public boolean visit(FieldDeclaration node) {
-		currentAnnotatedField = new AnnotatedASTNode<FieldDeclaration>(node);
-		currentAnnotatedNode = currentAnnotatedField;
+		if(current == null || current.innerLock > 0) return false;
+		current.currentAnnotatedField = new AnnotatedASTNode<FieldDeclaration>(node);
+		current.currentAnnotatedNode = current.currentAnnotatedField;
 		return true;
 	}
 
 	public void endVisit(FieldDeclaration node) {
-		if(currentAnnotatedField != null && currentAnnotatedField.getAnnotations() != null) {
-			annotatedFields.add(currentAnnotatedField);
+		if(current == null || current.innerLock > 0) return;
+		if(current.currentAnnotatedField != null && current.currentAnnotatedField.getAnnotations() != null) {
+			current.annotatedFields.add(current.currentAnnotatedField);
 		}
-		currentAnnotatedField = null;
-		currentAnnotatedNode = annotatedType;
+		current.currentAnnotatedField = null;
+		current.currentAnnotatedNode = current.annotatedType;
 	}
 	
 	public boolean visit(MethodDeclaration node) {
-		currentAnnotatedMethod = new AnnotatedASTNode<MethodDeclaration>(node);
-		currentAnnotatedNode = currentAnnotatedMethod;
+		if(current == null || current.innerLock > 0) return false;
+		current.currentAnnotatedMethod = new AnnotatedASTNode<MethodDeclaration>(node);
+		current.currentAnnotatedNode = current.currentAnnotatedMethod;
 		return true;
 	}
 
 	public void endVisit(MethodDeclaration node) {
-		if(currentAnnotatedMethod != null && currentAnnotatedMethod.getAnnotations() != null) {
-			annotatedMethods.add(currentAnnotatedMethod);
+		if(current == null || current.innerLock > 0) return;
+		if(current.currentAnnotatedMethod != null && current.currentAnnotatedMethod.getAnnotations() != null) {
+			current.annotatedMethods.add(current.currentAnnotatedMethod);
 		}
-		currentAnnotatedMethod = null;
-		currentAnnotatedNode = annotatedType;
+		current.currentAnnotatedMethod = null;
+		current.currentAnnotatedNode = current.annotatedType;
 	}
 	
 }

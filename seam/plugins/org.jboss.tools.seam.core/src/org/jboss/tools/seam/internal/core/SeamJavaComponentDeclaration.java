@@ -19,7 +19,9 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -138,13 +140,56 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public Set<ISeamComponentMethod> getMethodsByType(
 			SeamComponentMethodType type) {
 		Set<ISeamComponentMethod> result = null;
+		Set<String> names = null;
 		for(ISeamComponentMethod a: getMethods()) {
 			if(a.isOfType(type)) {
-				if(result == null) result = new HashSet<ISeamComponentMethod>();
+				if(result == null) {
+					result = new HashSet<ISeamComponentMethod>();
+					names = new HashSet<String>();
+				}
 				result.add(a);
+				if(a.getSourceMember() != null) {
+					names.add(a.getSourceMember().getElementName());
+				}
+			}
+		}
+		
+		ISeamJavaComponentDeclaration superDeclaration = getSuperDeclaration();
+		if(superDeclaration != null) {
+			Set<ISeamComponentMethod> s = superDeclaration.getMethodsByType(type);
+			if(s != null) for(ISeamComponentMethod a: s) {
+				if(a.getSourceMember() == null) continue;
+				String n = a.getSourceMember().getElementName();
+				if(names != null && names.contains(n)) continue;
+				if(result == null) {
+					result = new HashSet<ISeamComponentMethod>();
+					names = new HashSet<String>();
+				}
+				result.add(a);
+				if(a.getSourceMember() != null) {
+					names.add(a.getSourceMember().getElementName());
+				}
 			}
 		}
 		return result;
+	}
+	
+	public ISeamJavaComponentDeclaration getSuperDeclaration() {
+		if(type == null) return null;
+		String superclass = null;
+		try {
+			superclass = type.getSuperclassName();
+		} catch (JavaModelException e) {
+			return null;
+		}
+		if(superclass == null || "java.lang.Object".equals(superclass)) {
+			return null;
+		}
+		if(superclass.indexOf('.') < 0) {
+			superclass = EclipseJavaUtil.resolveType(type, superclass);
+		}
+		SeamProject p = (SeamProject)getSeamProject();
+		return p == null ? null : p.getAllJavaComponentDeclarations().get(superclass);
 	}
 
 	public Set<IRole> getRoles() {

@@ -11,27 +11,22 @@
 
 package org.jboss.tools.seam.internal.core.project.facet;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModelStatus;
 import org.eclipse.jdt.core.IJavaProject;
@@ -44,7 +39,6 @@ import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
-import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -120,8 +114,8 @@ public class WtpUtils {
 		try {
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 			IRuntime rt = facetedProject.getPrimaryRuntime();
-			if(facetedProject.getPrimaryRuntime()!=null) {
-				return facetedProject.getPrimaryRuntime().getName();
+			if(rt != null) {
+				return rt.getName();
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
@@ -133,7 +127,6 @@ public class WtpUtils {
 		IJavaProject javaProject;
 		IClasspathEntry[] javaProjectEntries;
 		IPath outputLocation;
-		IWorkspaceRoot workspaceRoot;
 
 		if (project == null || !project.exists()) {
 			return null;
@@ -148,34 +141,41 @@ public class WtpUtils {
 			javaProject= JavaCore.create(project);
 			javaProjectEntries= javaProject.getRawClasspath();
 			outputLocation= javaProject.getOutputLocation();
-			workspaceRoot= ResourcesPlugin.getWorkspace().getRoot();
 
 			IPath projPath= javaProject.getProject().getFullPath();
 			IPath newSourceFolderPath = projPath.append(path);
 			IPath excludeSourceFolderPath = projPath.append(exclude);
 
-			ArrayList newEntries= new ArrayList(javaProjectEntries.length + 1);
+			ArrayList<IClasspathEntry> newEntries = new ArrayList<IClasspathEntry>(javaProjectEntries.length + 1);
 			int projectEntryIndex= -1;
 			
 			for (int i= 0; i < javaProjectEntries.length; i++) {
 				IClasspathEntry curr= javaProjectEntries[i];
-				if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					if (newSourceFolderPath.equals(curr.getPath())) {
+				IClasspathEntry resolved = curr;
+				if(resolved.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
+					try {
+						resolved = JavaCore.getResolvedClasspathEntry(resolved);
+					} catch (AssertionFailedException e) {
+						continue;
+					}					
+				}
+				if (resolved.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
+					if (newSourceFolderPath.equals(resolved.getPath())) {
 						return null;
 					}
-					if (projPath.equals(curr.getPath())) {
+					if (projPath.equals(resolved.getPath())) {
 						projectEntryIndex= i;
 					}
-					if (excludeSourceFolderPath.equals(curr.getPath())) {
+					if (excludeSourceFolderPath.equals(resolved.getPath())) {
 						continue;
 					}
 				}
 				newEntries.add(curr);
 			}
-			if(outputFolder!=null) {
+			if(outputFolder != null) {
 				CoreUtility.createDerivedFolder(project.getFolder(outputFolder), true, true, new NullProgressMonitor());
 			}
-			IClasspathEntry newEntry= JavaCore.newSourceEntry(newSourceFolderPath,new Path[]{},new Path[]{},outputFolder!=null?project.getFullPath().append(outputFolder):null);
+			IClasspathEntry newEntry = JavaCore.newSourceEntry(newSourceFolderPath,new Path[]{},new Path[]{},outputFolder!=null?project.getFullPath().append(outputFolder):null);
 			
 			if (projectEntryIndex != -1) {
 				newEntries.set(projectEntryIndex, newEntry);
@@ -183,10 +183,10 @@ public class WtpUtils {
 				insertClasspathEntry(newEntry, newEntries);
 			}
 
-			IClasspathEntry[] newClasspathEntries= (IClasspathEntry[]) newEntries.toArray(new IClasspathEntry[newEntries.size()]);
-			IPath newOutputLocation= outputLocation;
+			IClasspathEntry[] newClasspathEntries = newEntries.toArray(new IClasspathEntry[newEntries.size()]);
+			IPath newOutputLocation = outputLocation;
 
-			IJavaModelStatus result= JavaConventions.validateClasspath(javaProject, newClasspathEntries, newOutputLocation);
+			IJavaModelStatus result = JavaConventions.validateClasspath(javaProject, newClasspathEntries, newOutputLocation);
 			if (!result.isOK()) {
 				if (outputLocation.equals(projPath)) {
 					newOutputLocation= projPath.append(PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.SRCBIN_BINNAME));
@@ -212,9 +212,9 @@ public class WtpUtils {
 		return null;
 	}
 	
-	static private void insertClasspathEntry(IClasspathEntry entry, List entries) {
+	static private void insertClasspathEntry(IClasspathEntry entry, List<IClasspathEntry> entries) {
 		int length= entries.size();
-		IClasspathEntry[] elements= (IClasspathEntry[])entries.toArray(new IClasspathEntry[length]);
+		IClasspathEntry[] elements = entries.toArray(new IClasspathEntry[length]);
 		int i= 0;
 		while (i < length && elements[i].getEntryKind() != entry.getEntryKind()) {
 			i++;
