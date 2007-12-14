@@ -114,18 +114,41 @@ public class SeamComponentTest extends TestCase implements ILogListener{
 			delay(5000);
 	}
 
-	public void testAllComponentsOnSinglePage() throws PartInitException, Throwable {
-		performTestForSeamComponent("seamtest.xhtml"); // $NON-NLS-1$
-	}
-	
 	public void testButton() throws PartInitException, Throwable {
 		performTestForSeamComponent("button.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDecorate() throws PartInitException, Throwable {
+		performTestForSeamComponent("decorate.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testDiv() throws PartInitException, Throwable {
+		performTestForSeamComponent("div.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testFormattedText() throws PartInitException, Throwable {
+		performTestForSeamComponent("formattedText.xhtml"); // $NON-NLS-1$
 	}
 	
 	public void testSpan() throws PartInitException, Throwable {
 		performTestForSeamComponent("span.xhtml"); // $NON-NLS-1$
 	}
 	
+	public void testLabel() throws PartInitException, Throwable {
+		performTestForSeamComponent("label.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testLink() throws PartInitException, Throwable {
+		performTestForSeamComponent("link.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testMessage() throws PartInitException, Throwable {
+		performTestForSeamComponent("message.xhtml"); // $NON-NLS-1$
+	}
+	
+	public void testAllComponentsOnSinglePage() throws PartInitException, Throwable {
+		performTestForSeamComponent("seamtest.xhtml"); // $NON-NLS-1$
+	}
 	
 	private void performTestForSeamComponent(String componentPage) throws PartInitException, Throwable {
 		waitForJobs();
