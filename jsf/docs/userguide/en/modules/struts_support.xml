@@ -315,7 +315,7 @@
                             </mediaobject>
                      </figure>
 
-                     <para>Just by right-clicking anywhere on the diagram, you can use a context
+                     <para>The Diagram mode allows to edit the navigation in your Struts application. Just by right-clicking anywhere on the diagram, you can use a context
                             menu to create the building blocks of a Struts application:</para>
                      <itemizedlist>
                             <listitem>
