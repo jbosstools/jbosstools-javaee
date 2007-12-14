@@ -25,6 +25,19 @@ import org.jboss.seam.annotations.*;
 @Install(precedence=Install.FRAMEWORK)
 
 public class User {
+	
+	@Name("inner_JBIDE_1374")
+	public static class Inner {
+		private String innerName;
+		
+		public String getInnerName() {
+			return innerName;
+		}
+		
+		public void setInnerName(String s) {
+			innerName = s;
+		}
+	}
 
 	private String name;
 	
