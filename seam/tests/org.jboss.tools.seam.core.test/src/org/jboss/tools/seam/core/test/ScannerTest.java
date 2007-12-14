@@ -495,4 +495,10 @@ public class ScannerTest extends TestCase {
 		assertTrue("Prompting has to contain 'payment' property for '#{myUser.' seed", list.contains("payment"));
 	}
 
+	public void testInnerClass_JBIDE_1374() {
+		ISeamProject seamProject = getSeamProject();
+		ISeamComponent c = seamProject.getComponent("inner_JBIDE_1374");
+		assertTrue("Component inner_JBIDE_1374 declared in inner static class is not found.", c != null);
+	}
+
 }
