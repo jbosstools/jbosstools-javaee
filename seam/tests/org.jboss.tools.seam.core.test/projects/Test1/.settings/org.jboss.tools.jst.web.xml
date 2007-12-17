@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<FILESYSTEMS APPLICATION_NAME="Test1" model-entity="FileSystems"
+<file-systems application-name="Test1" model-entity="FileSystems"
  VERSION="2.0.0" WORKSPACE_HOME="./WebContent/WEB-INF">
- <FILESYSTEM model-entity="FileSystemFolder" LOCATION="%workspace.home%" NAME="WEB-INF"/>
- <FILESYSTEM model-entity="FileSystemFolder" INFO="Content-Type=Web"
-  LOCATION="%workspace.home%/.." NAME="WEB-ROOT"/>
- <FILESYSTEM model-entity="FileSystemFolder"
-  LOCATION="%workspace.home%/../../src" NAME="src"/>
- <FILESYSTEM model-entity="FileSystemFolder" LOCATION="%workspace.home%/lib" NAME="lib"/>
- <FILESYSTEM model-entity="FileSystemFolder"
-  LOCATION="%workspace.home%/classes" NAME="classes"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Program Files\Java\jre1.5.0_06\lib\ext\dnsns.jar" NAME="lib-dnsns.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Program Files\Java\jre1.5.0_06\lib\ext\localedata.jar" NAME="lib-localedata.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Program Files\Java\jre1.5.0_06\lib\ext\sunjce_provider.jar" NAME="lib-sunjce_provider.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Program Files\Java\jre1.5.0_06\lib\ext\sunpkcs11.jar" NAME="lib-sunpkcs11.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\ajax4jsf-1.1.1-SNAPSHOT.jar" NAME="lib-ajax4jsf-1.1.1-SNAPSHOT.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-beanutils-1.7.0.jar" NAME="lib-commons-beanutils-1.7.0.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-collections-3.1.jar" NAME="lib-commons-collections-3.1.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-digester-1.6.jar" NAME="lib-commons-digester-1.6.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-debug.jar" NAME="lib-jboss-seam-debug.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-ioc.jar" NAME="lib-jboss-seam-ioc.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-mail.jar" NAME="lib-jboss-seam-mail.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-pdf.jar" NAME="lib-jboss-seam-pdf.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-remoting.jar" NAME="lib-jboss-seam-remoting.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-ui.jar" NAME="lib-jboss-seam-ui.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jsf-facelets.jar" NAME="lib-jsf-facelets.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\oscache-2.3.2.jar" NAME="lib-oscache-2.3.2.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1-ear\EarContent\jboss-seam.jar" NAME="lib-jboss-seam.jar"/>
- <FILESYSTEM model-entity="FileSystemJar"
-  LOCATION="%workspace.home%/lib/ajax4jsf-1.1.1-snapshot.jar" NAME="lib-ajax4jsf-1.1.1-snapshot.jar"/>
+ <file-system model-entity="FileSystemFolder" location="%workspace.home%" NAME="WEB-INF"/>
+ <file-system model-entity="FileSystemFolder" INFO="Content-Type=Web"
+  location="%workspace.home%/.." NAME="WEB-ROOT"/>
+ <file-system model-entity="FileSystemFolder"
+  location="%workspace.home%/../../src" NAME="src"/>
+ <file-system model-entity="FileSystemFolder" location="%workspace.home%/lib" NAME="lib"/>
+ <file-system model-entity="FileSystemFolder"
+  location="%workspace.home%/classes" NAME="classes"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_06\lib\ext\dnsns.jar" NAME="lib-dnsns.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_06\lib\ext\localedata.jar" NAME="lib-localedata.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_06\lib\ext\sunjce_provider.jar" NAME="lib-sunjce_provider.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_06\lib\ext\sunpkcs11.jar" NAME="lib-sunpkcs11.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\ajax4jsf-1.1.1-SNAPSHOT.jar" NAME="lib-ajax4jsf-1.1.1-SNAPSHOT.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-beanutils-1.7.0.jar" NAME="lib-commons-beanutils-1.7.0.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-collections-3.1.jar" NAME="lib-commons-collections-3.1.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-digester-1.6.jar" NAME="lib-commons-digester-1.6.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-debug.jar" NAME="lib-jboss-seam-debug.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-ioc.jar" NAME="lib-jboss-seam-ioc.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-mail.jar" NAME="lib-jboss-seam-mail.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-pdf.jar" NAME="lib-jboss-seam-pdf.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-remoting.jar" NAME="lib-jboss-seam-remoting.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-ui.jar" NAME="lib-jboss-seam-ui.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jsf-facelets.jar" NAME="lib-jsf-facelets.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\oscache-2.3.2.jar" NAME="lib-oscache-2.3.2.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Documents and Settings\glory\RedHat-3.3\org.jboss.tools.seam.core.test\projects\Test1-ear\EarContent\jboss-seam.jar" NAME="lib-jboss-seam.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/ajax4jsf-1.1.1-snapshot.jar" NAME="lib-ajax4jsf-1.1.1-snapshot.jar"/>
  <WEB model-entity="JstWeb" MODEL_PATH="/web.xml" SERVLET_VERSION="2.4">
   <MODULE model-entity="WebJSFModule" MODEL_PATH="/faces-config.xml"
    ROOT="WEB-ROOT" SRC="src" URI="/WEB-INF/faces-config.xml"/>
  </WEB>
-</FILESYSTEMS>
+</file-systems>
