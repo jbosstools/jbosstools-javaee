@@ -276,7 +276,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 		SimpleDateFormat wdf = new SimpleDateFormat("EE");
 
 		cal1.set(Calendar.WEEK_OF_MONTH, Calendar.SATURDAY);
-		System.out.print(wdf.format(cal1.getTime()));
+		
 
 		for (int i = 0; i < COLUMN; i++) {
 			nsIDOMElement td = visualDocument
