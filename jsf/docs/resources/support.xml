@@ -162,6 +162,7 @@
             </classpath>
             <arg value="fork-fop-instance"/>
             <sysproperty key="lang" value="${lang}"/>
+            <sysproperty key="file-path" path="${build.dir}/${lang}/pdf"/>
         </java>
         
 <!--        <java classname="org.apache.fop.cli.Main" 
@@ -180,14 +181,12 @@
 
     <target name="fork-fop-instance">
         
-        <echo>${build.dir}/${lang}/pdf</echo>
-        <echo>${build.dir}/${lang}/pdf/${pdf.name}</echo>
-        <echo>${build.dir}/${lang}/pdf/docbook_fop.tmp</echo>
+        <echo>${file-path}/docbook_fop.tmp</echo>
         
         <fop format="application/pdf"
-            basedir="${build.dir}/${lang}/pdf"
-            outfile="${build.dir}/${lang}/pdf/${pdf.name}"
-            fofile="${build.dir}/${lang}/pdf/docbook_fop.tmp"
+            basedir="${file-path}"
+            outfile="${file-path}/${pdf.name}"
+            fofile="${file-path}/docbook_fop.tmp"
             messagelevel="debug">
             
         </fop>

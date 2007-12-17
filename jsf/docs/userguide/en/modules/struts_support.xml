@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="struts1" xreflabel="struts">
+<chapter id="struts1" xreflabel="struts1">
        <?dbhtml filename="struts.html"?>
        <title>Struts support</title>
        <para>If you prefer develop web applications using <property>Struts</property> technology
