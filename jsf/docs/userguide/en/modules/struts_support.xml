@@ -89,7 +89,9 @@
 
                      <tip>
                             <title>Tip:</title>
-                            <para>Don&apos;t put spaces in project names.</para>
+                            <para>Don&apos;t put spaces in project names since some OS could
+                                   experience problems with their processing and searching these
+                                   files.</para>
                      </tip>
                      <note>
                             <title>Note:</title>
@@ -250,7 +252,10 @@
                      </figure>
 
                      <para>On the last screen you can set the different folders for your project as
-                            well as register this application with a servlet container.</para>
+                            well as register this application with a servlet container. If you want
+                            the libraries (.jar files) will be automatically added to your project,
+                            click on the checkbox <emphasis>
+                                   <property>Add Libraries</property></emphasis>.</para>
 
                      <figure>
                             <title>Registering the Project at Server</title>
@@ -261,7 +266,7 @@
                             </mediaobject>
                      </figure>
 
-                     <para>When done, you can open nd edit the struts-config.xml file using usefull
+                     <para>When done, you can open end edit the struts-config.xml file using usefull
                             Struts configuration file editor provided by JBDS. (The Struts
                             configuration is shown below in the Tree viewer).</para>
 
@@ -315,8 +320,9 @@
                             </mediaobject>
                      </figure>
 
-                     <para>The Diagram mode allows to edit the navigation in your Struts application. Just by right-clicking anywhere on the diagram, you can use a context
-                            menu to create the building blocks of a Struts application:</para>
+                     <para>The Diagram mode allows to edit the navigation in your Struts
+                            application. Just by right-clicking anywhere on the diagram, you can use
+                            a context menu to create the building blocks of a Struts application:</para>
                      <itemizedlist>
                             <listitem>
                                    <para>Actions</para>
@@ -608,7 +614,7 @@
                             <property>File > New > Other...</property>
                      </emphasis>from the context menu and then <emphasis>
                             <property>jBoss Tools Web > Struts > Validation File</property>
-                            </emphasis>.</para>
+                     </emphasis>.</para>
               <figure>
                      <title>Creating New Validation File</title>
                      <mediaobject>
@@ -621,8 +627,8 @@
               <para>The validation editor works through five modes: Formsets, Validators, Constants
                      and standard Tree and Source that you can easily switch over to using tabs at
                      the bottom of the editor.</para>
-              <para>The Formsets mode shows forms and their elements on the
-                     left side and the dialogue for defining their validation rules on the right side.</para>
+              <para>The Formsets mode shows forms and their elements on the left side and the
+                     dialogue for defining their validation rules on the right side.</para>
               <figure>
                      <title>Formsets Mode</title>
                      <mediaobject>
@@ -653,8 +659,8 @@
               </figure>
 
               <para>At any point you have full control over the source by switching to the Source
-                     mode. Any editing in this mode will immediately be available in other
-                     modes of the editor.</para>
+                     mode. Any editing in this mode will immediately be available in other modes of
+                     the editor.</para>
               <figure>
                      <title>Source Mode</title>
                      <mediaobject>
@@ -665,8 +671,8 @@
               </figure>
 
               <para>You can also open your own custom or Struts-standard validation-rules.xml file.</para>
-              <para>The Validators mode shows the validation rules for a selected validator. You
-                     can of course add your own rules.</para>
+              <para>The Validators mode shows the validation rules for a selected validator. You can
+                     of course add your own rules.</para>
               <figure>
                      <title>Validators Mode</title>
                      <mediaobject>
