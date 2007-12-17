@@ -10,34 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.seam.template;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.jboss.seam.test.unit.SeamTextTest;
-import org.jboss.seam.text.SeamTextLexer;
-import org.jboss.seam.text.SeamTextParser;
-import org.jboss.tools.jsf.vpe.seam.ComponentUtil;
+import org.jboss.seam.text.xpl.SeamTextLexer;
+import org.jboss.seam.text.xpl.SeamTextParser;
 import org.jboss.tools.jsf.vpe.seam.SeamTemplatesActivator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIComponentManager;
 import org.mozilla.interfaces.nsIDOMDocument;
-import org.mozilla.interfaces.nsIDOMDocumentRange;
-import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.interfaces.nsIDOMParser;
-import org.mozilla.interfaces.nsIDOMText;
-import org.mozilla.interfaces.nsISupportsArray;
 import org.mozilla.xpcom.Mozilla;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;

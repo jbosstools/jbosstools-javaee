@@ -13,8 +13,8 @@ package org.jboss.seam.test.unit;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import org.jboss.seam.text.SeamTextLexer;
-import org.jboss.seam.text.SeamTextParser;
+import org.jboss.seam.text.xpl.SeamTextLexer;
+import org.jboss.seam.text.xpl.SeamTextParser;
 
 /**
  * @author Vitali (vyemialyanchyk@exadel.com)

@@ -1,6 +1,6 @@
 // $ANTLR 2.7.6 (2005-12-22): "seam-text.g" -> "SeamTextParser.java"$
 
-package org.jboss.seam.text;
+package org.jboss.seam.text.xpl;
 
 import antlr.TokenBuffer;
 import antlr.TokenStreamException;

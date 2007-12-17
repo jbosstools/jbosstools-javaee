@@ -1,6 +1,6 @@
 // $ANTLR 2.7.6 (2005-12-22): "seam-text.g" -> "SeamTextLexer.java"$
 
-package org.jboss.seam.text;
+package org.jboss.seam.text.xpl;
 
 public interface SeamTextParserTokenTypes {
 	int EOF = 1;
