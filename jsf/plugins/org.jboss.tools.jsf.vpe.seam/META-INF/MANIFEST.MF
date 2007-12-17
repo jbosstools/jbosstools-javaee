@@ -16,7 +16,5 @@ Require-Bundle: org.eclipse.ui,
  org.mozilla.xpcom
 Bundle-Vendor: Red Hat, Inc.
 Eclipse-LazyStart: true
-Bundle-ClassPath: lib/ant-antlr.jar,
- lib/antlr.jar,
- lib/antlr-runtime.jar,
+Bundle-ClassPath: lib/antlr.jar,
  .
