@@ -74,20 +74,20 @@ public class PostInstallJsfFacetDelegate implements IDelegate  {
 	 */
 	private static String XMODEL = 
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-		"<FILESYSTEMS APPLICATION_NAME=\"{0}\" ENTITY=\"FileSystems\"" +
+		"<file-systems APPLICATION_NAME=\"{0}\" model-entity=\"FileSystems\"" +
 		" VERSION=\"2.0.0\" WORKSPACE_HOME=\"./{1}/WEB-INF\">" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "\" NAME=\"WEB-INF\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" INFO=\"Content-Type=Web\"" +
-		" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/..\" NAME=\"WEB-ROOT\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
-		" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/../../{2}\" NAME=\"src\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/lib\" NAME=\"lib\"/>" +
-		"<FILESYSTEM ENTITY=\"FileSystemFolder\"" +
-		" LOCATION=\"" + XModelConstants.WORKSPACE_REF + "/classes\" NAME=\"classes\"/>" +
-		"<WEB ENTITY=\"JstWeb\" MODEL_PATH=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
-		"  <MODULE ENTITY=\"WebJSFModule\" MODEL_PATH=\"/faces-config.xml\"" +
+		"<file-system model-entity=\"FileSystemFolder\" location=\"" + XModelConstants.WORKSPACE_REF + "\" NAME=\"WEB-INF\"/>" +
+		"<file-system model-entity=\"FileSystemFolder\" INFO=\"Content-Type=Web\"" +
+		" location=\"" + XModelConstants.WORKSPACE_REF + "/..\" NAME=\"WEB-ROOT\"/>" +
+		"<file-system model-entity=\"FileSystemFolder\"" +
+		" location=\"" + XModelConstants.WORKSPACE_REF + "/../../{2}\" NAME=\"src\"/>" +
+		"<file-system model-entity=\"FileSystemFolder\" location=\"" + XModelConstants.WORKSPACE_REF + "/lib\" NAME=\"lib\"/>" +
+		"<file-system model-entity=\"FileSystemFolder\"" +
+		" location=\"" + XModelConstants.WORKSPACE_REF + "/classes\" NAME=\"classes\"/>" +
+		"<WEB model-entity=\"JstWeb\" MODEL_PATH=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
+		"  <MODULE model-entity=\"WebJSFModule\" MODEL_PATH=\"/faces-config.xml\"" +
 		"   ROOT=\"WEB-ROOT\" SRC=\"src\" URI=\"/WEB-INF/faces-config.xml\"/>" +
 		"</WEB>" +
-		"</FILESYSTEMS>"
+		"</file-systems>"
 	;
 }
