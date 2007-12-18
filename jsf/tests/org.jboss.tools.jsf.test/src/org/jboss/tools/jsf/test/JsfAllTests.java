@@ -20,6 +20,7 @@ public class JsfAllTests {
 		TestSuite suite = new TestSuite("Test model loading for JSF projects");
 		
 		suite.addTestSuite(JSFModelTest.class);
+		suite.addTestSuite(ModelFormat_2_0_0_Test.class);
 		
 		return suite;
 	}
