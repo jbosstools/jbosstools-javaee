@@ -12,15 +12,21 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.eclipse.jface.text.Document;
 
 /**
  * Abstract implementation of ISeamvalidator
@@ -71,9 +77,39 @@ public abstract class SeamValidator implements ISeamValidator {
 		IMessage message = new Message(getBaseName(), messageSeverity, messageId, messageArguments, target, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		message.setLength(length);
 		message.setOffset(offset);
+		int lineNumber = getLineNumber(target, offset);
+		if(lineNumber != 0)message.setLineNo(lineNumber);
 		if(!ignore) {
 			reporter.addMessage(validationManager, message);
 		}
+	}
+	
+	private int getLineNumber(IResource resource, int offset){
+		if(resource.getType() == IResource.FILE){
+			IFile file = (IFile)resource;
+			String content;
+			try {
+				if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
+					// The resource is out of sync with the file system
+					// Just ignore this resource.
+					return 0;
+				}
+				content = FileUtil.readStream(file.getContents());
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				return 0;
+			}
+			Document document = new Document(content);
+			int lineNumber=0;
+			try{
+				lineNumber = document.getLineOfOffset(offset);
+				return lineNumber+1;
+			}catch(Exception e){
+				SeamCorePlugin.getPluginLog().logError(e);
+				return 0;
+			}
+		}
+		return 0;
 	}
 
 	protected void displaySubtask(String messageId) {
