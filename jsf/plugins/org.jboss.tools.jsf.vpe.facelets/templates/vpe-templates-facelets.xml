@@ -79,8 +79,7 @@
     </vpe:tag>
 
     <vpe:tag name="ui:repeat" case-sensitive="yes" >
-		<vpe:template children="yes" modify="yes">
-			<div />
+		<vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeRepeatTemplate">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes" />
