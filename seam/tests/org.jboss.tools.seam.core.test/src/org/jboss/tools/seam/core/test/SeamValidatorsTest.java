@@ -103,6 +103,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		assertTrue("Problem marker 'Duplicate component name' not found","Duplicate component name: abcComponent".equals(messages[0]));
 		
+		int[] lineNumbers = getMarkersNumbersOfLine(bbcComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 7);
+		
 		// Stateful component does not contain @Remove method
 		System.out.println("Test - Stateful component does not contain @Remove method");
 		
@@ -119,6 +123,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Stateful component does not contain @Remove method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 16);
 		
 		// Stateful component does not contain @Destroy method
 		System.out.println("Test - Stateful component does not contain @Destroy method");
@@ -137,6 +145,10 @@ public class SeamValidatorsTest extends TestCase {
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Stateful component does not contain @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Destroy".equals(messages[0]));
 		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 16);
+		
 		// Stateful component has wrong scope
 		System.out.println("Test - Stateful component has wrong scope");
 		
@@ -153,6 +165,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Stateful component has wrong scope' not found", "Stateful component \"statefulComponent\" should not have org.jboss.seam.ScopeType.PAGE, nor org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 16);
 		
 		// Component class name cannot be resolved to a type
 		System.out.println("Test - Component class name cannot be resolved to a type");
@@ -171,6 +187,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(componentsFile);
 		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(componentsFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 15);
 
 		// Component class does not contain setter for property
 		System.out.println("Test - Component class does not contain setter for property");
@@ -199,6 +219,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(componentsFile);
 		assertTrue("Problem marker 'Component class does not contain setter for property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not contain setter for property \"abc\"".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(componentsFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 16);
 	}
 	
 	public void testEntitiesValidator() {
@@ -226,6 +250,9 @@ public class SeamValidatorsTest extends TestCase {
 		String[] messages = getMarkersMessage(abcEntityFile);
 		assertTrue("Problem marker 'Entity component has wrong scope' not found", "Entity component \"abcEntity\" should not have org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
 
+		int[] lineNumbers = getMarkersNumbersOfLine(abcEntityFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 15);
 		
 		// Duplicate @Remove method
 		System.out.println("Test - Duplicate @Remove method");
@@ -244,6 +271,18 @@ public class SeamValidatorsTest extends TestCase {
 		messages = getMarkersMessage(abcEntityFile);
 		assertTrue("Problem marker 'Duplicate @Remove method' not found", messages[0].startsWith("Duplicate @Remove method \"removeMethod"));
 
+		lineNumbers = getMarkersNumbersOfLine(abcEntityFile);
+		
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+		
+		if(messages[1].indexOf("removeMethod2") >= 0){
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 42);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 47);
+		}else{
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 47);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 42);
+			
+		}
 	}
 
 	public void testComponentLifeCycleMethodsValidator() {
@@ -272,6 +311,19 @@ public class SeamValidatorsTest extends TestCase {
 		String[] messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Duplicate @Destroy method' not found", messages[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
 
+		int[] lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+		
+		if(messages[1].indexOf("destroyMethod2") >= 0){
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 32);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 38);
+		}else{
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 38);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 32);
+			
+		}
+		
 		// Duplicate @Create method
 		System.out.println("Test - Duplicate @Create method");
 		
@@ -288,6 +340,19 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Duplicate @Create method' not found", messages[0].startsWith("Duplicate @Create method \"createMethod"));
+		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+		
+		if(messages[1].indexOf("createMethod2") >= 0){
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 33);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 40);
+		}else{
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 40);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 33);
+			
+		}
 		
 		// Duplicate @Unwrap method
 		System.out.println("Test - Duplicate @Unwrap method");
@@ -306,6 +371,19 @@ public class SeamValidatorsTest extends TestCase {
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Duplicate @Unwrap method' not found", messages[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
 
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+		
+		if(messages[1].indexOf("unwrapMethod2") >= 0){
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 39);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 44);
+		}else{
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 44);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 39);
+			
+		}
+		
 		// Only component class can have @Destroy method
 		System.out.println("Test - Only component class can have @Destroy method");
 		
@@ -332,6 +410,10 @@ public class SeamValidatorsTest extends TestCase {
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Destroy method' not found", "Only component class can have @Destroy method \"destroyMethod\"".equals(messages[0]));
 		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
+		
 		// Only component class can have @Create method
 		System.out.println("Test - Only component class can have @Create method");
 		
@@ -348,6 +430,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Create method' not found", "Only component class can have @Create method \"createMethod\"".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
 		
 		// Only component class can have @Unwrap method
 		System.out.println("Test - Only component class can have @Unwrap method");
@@ -366,6 +452,10 @@ public class SeamValidatorsTest extends TestCase {
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Unwrap method' not found", "Only component class can have @Unwrap method \"unwrapMethod\"".equals(messages[0]));
 
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
+		
 		// Only component class can have @Observer method
 		System.out.println("Test - Only component class can have @Observer method");
 		
@@ -382,6 +472,10 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Observer method' not found", "Only component class can have @Observer method \"observerMethod\"".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
 	}
 	
 	public void testFactoriesValidator() {
@@ -429,6 +523,23 @@ public class SeamValidatorsTest extends TestCase {
 			JUnitUtils.fail("Error in getting problem markers", ex);
 		}
 		return messages;
+	}
+
+	private int[] getMarkersNumbersOfLine(IFile file){
+		int[] numbers = new int[1];
+		numbers[0]=0;
+		try{
+			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
+			numbers = new int[markers.length];
+			
+			for(int i=0;i<markers.length;i++){
+				System.out.println("Marker line number - "+markers[i].getAttribute(IMarker.LINE_NUMBER, 0));
+				numbers[i] = markers[i].getAttribute(IMarker.LINE_NUMBER, 0);
+			}
+		}catch(CoreException ex){
+			JUnitUtils.fail("Error in getting problem markers", ex);
+		}
+		return numbers;
 	}
 	
 	private void refreshProject(IProject project){
