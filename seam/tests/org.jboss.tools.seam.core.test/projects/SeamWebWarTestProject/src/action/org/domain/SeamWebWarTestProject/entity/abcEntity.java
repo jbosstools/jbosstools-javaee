@@ -44,11 +44,6 @@ public class abcEntity implements Serializable {
 		
 	}
 
-	@Remove
-	public void removeMethod2(){
-		
-	}
-
 	@Length(max=20)
 	public String getName() {
 	     return name;
