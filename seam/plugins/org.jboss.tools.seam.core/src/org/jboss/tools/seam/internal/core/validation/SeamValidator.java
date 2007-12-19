@@ -1,17 +1,16 @@
- /*******************************************************************************
-  * Copyright (c) 2007 Red Hat, Inc.
-  * Distributed under license by Red Hat, Inc. All rights reserved.
-  * This program is made available under the terms of the
-  * Eclipse Public License v1.0 which accompanies this distribution,
-  * and is available at http://www.eclipse.org/legal/epl-v10.html
-  *
-  * Contributors:
-  *     Red Hat, Inc. - initial API and implementation
-  ******************************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
-
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -26,15 +25,18 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 
 /**
  * Abstract implementation of ISeamvalidator
+ * 
  * @author Alexey Kazakov
  */
 public abstract class SeamValidator implements ISeamValidator {
 
-	IStatus OK_STATUS = new Status(IStatus.OK, "org.eclipse.wst.validation", 0, "OK", null); //$NON-NLS-1$ //$NON-NLS-2$
+	IStatus OK_STATUS = new Status(IStatus.OK,
+			"org.eclipse.wst.validation", 0, "OK", null); //$NON-NLS-1$ //$NON-NLS-2$
 
 	protected SeamValidatorManager validationManager;
 	protected SeamValidationHelper coreHelper;
@@ -43,7 +45,9 @@ public abstract class SeamValidator implements ISeamValidator {
 	protected ISeamProject project;
 	protected String projectName;
 
-	public SeamValidator(SeamValidatorManager validatorManager, SeamValidationHelper coreHelper, IReporter reporter, SeamValidationContext validationContext, ISeamProject project) {
+	public SeamValidator(SeamValidatorManager validatorManager,
+			SeamValidationHelper coreHelper, IReporter reporter,
+			SeamValidationContext validationContext, ISeamProject project) {
 		this.validationManager = validatorManager;
 		this.coreHelper = coreHelper;
 		this.project = project;
@@ -56,60 +60,51 @@ public abstract class SeamValidator implements ISeamValidator {
 		return "org.jboss.tools.seam.internal.core.validation.messages"; //$NON-NLS-1$
 	}
 
-	protected void addError(String messageId, String preferenceKey, String[] messageArguments, ISeamTextSourceReference location, IResource target) {
-		addError(messageId, preferenceKey, messageArguments, location.getLength(), location.getStartPosition(), target);
+	protected void addError(String messageId, String preferenceKey,
+			String[] messageArguments, ISeamTextSourceReference location,
+			IResource target) {
+		addError(messageId, preferenceKey, messageArguments, location
+				.getLength(), location.getStartPosition(), target);
 	}
 
-	protected void addError(String messageId, String preferenceKey, ISeamTextSourceReference location, IResource target) {
+	protected void addError(String messageId, String preferenceKey,
+			ISeamTextSourceReference location, IResource target) {
 		addError(messageId, preferenceKey, new String[0], location, target);
 	}
 
-	protected void addError(String messageId, String preferenceKey, String[] messageArguments, int length, int offset, IResource target) {
-		String preferenceValue = SeamPreferences.getProjectPreference(project, preferenceKey);
+	protected void addError(String messageId, String preferenceKey,
+			String[] messageArguments, int length, int offset, IResource target) {
+		String preferenceValue = SeamPreferences.getProjectPreference(project,
+				preferenceKey);
 		boolean ignore = false;
 		int messageSeverity = IMessage.HIGH_SEVERITY;
-		if(SeamPreferences.WARNING.equals(preferenceValue)) {
+		if (SeamPreferences.WARNING.equals(preferenceValue)) {
 			messageSeverity = IMessage.NORMAL_SEVERITY;
-		} else if(SeamPreferences.IGNORE.equals(preferenceValue)) {
+		} else if (SeamPreferences.IGNORE.equals(preferenceValue)) {
 			ignore = true;
 		}
 
-		IMessage message = new Message(getBaseName(), messageSeverity, messageId, messageArguments, target, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+		IMessage message = new Message(getBaseName(), messageSeverity,
+				messageId, messageArguments, target,
+				ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		message.setLength(length);
 		message.setOffset(offset);
-		int lineNumber = getLineNumber(target, offset);
-		if(lineNumber != 0)message.setLineNo(lineNumber);
-		if(!ignore) {
+		try {
+			coreHelper.getDocumentProvider().connect(target);
+
+			message.setLineNo(coreHelper.getDocumentProvider().getDocument(
+					target).getLineOfOffset(offset) + 1);
+
+		} catch (BadLocationException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+			return;
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+			return;
+		}
+		if (!ignore) {
 			reporter.addMessage(validationManager, message);
 		}
-	}
-	
-	private int getLineNumber(IResource resource, int offset){
-		if(resource.getType() == IResource.FILE){
-			IFile file = (IFile)resource;
-			String content;
-			try {
-				if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
-					// The resource is out of sync with the file system
-					// Just ignore this resource.
-					return 0;
-				}
-				content = FileUtil.readStream(file.getContents());
-			} catch (CoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-				return 0;
-			}
-			Document document = new Document(content);
-			int lineNumber=0;
-			try{
-				lineNumber = document.getLineOfOffset(offset);
-				return lineNumber+1;
-			}catch(Exception e){
-				SeamCorePlugin.getPluginLog().logError(e);
-				return 0;
-			}
-		}
-		return 0;
 	}
 
 	protected void displaySubtask(String messageId) {
@@ -117,11 +112,13 @@ public abstract class SeamValidator implements ISeamValidator {
 	}
 
 	protected void displaySubtask(String messageId, String[] messageArguments) {
-		IMessage message = new Message(getBaseName(), IMessage.NORMAL_SEVERITY, messageId, messageArguments);
+		IMessage message = new Message(getBaseName(), IMessage.NORMAL_SEVERITY,
+				messageId, messageArguments);
 		reporter.displaySubtask(validationManager, message);
 	}
 
-	protected void removeMessagesFromResources(Set<IResource> resources, String messageGroup) {
+	protected void removeMessagesFromResources(Set<IResource> resources,
+			String messageGroup) {
 		for (IResource r : resources) {
 			reporter.removeMessageSubset(validationManager, r, messageGroup);
 		}

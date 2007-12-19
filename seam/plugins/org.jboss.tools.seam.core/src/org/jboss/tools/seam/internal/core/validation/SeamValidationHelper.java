@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -44,6 +45,7 @@ import org.jboss.tools.seam.internal.core.SeamProject;
 public class SeamValidationHelper extends WorkbenchContext {
 
 	protected SeamValidationContext validationContext;
+	protected TextFileDocumentProvider documentProvider = new TextFileDocumentProvider();
 
 	/**
 	 * @return Seam project
@@ -276,5 +278,9 @@ public class SeamValidationHelper extends WorkbenchContext {
 			validationContext = ((SeamProject)getSeamProject()).getValidationContext();
 		}
 		return validationContext;
+	}
+	
+	public TextFileDocumentProvider getDocumentProvider(){
+		return documentProvider;
 	}
 }
