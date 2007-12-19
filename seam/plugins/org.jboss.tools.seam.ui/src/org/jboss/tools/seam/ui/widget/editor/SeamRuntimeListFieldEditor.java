@@ -314,9 +314,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, Arrays.asList( //$NON-NLS-1$
 							new String[]{SeamVersion.SEAM_1_2.toString(), SeamVersion.SEAM_2_0.toString()}), 
 							                SeamVersion.SEAM_1_2.toString(), false);
-				validSeamVersions = new ArrayList<SeamVersion>();
-				validSeamVersions.add(SeamVersion.SEAM_1_2);
-				validSeamVersions.add(SeamVersion.SEAM_2_0);							                
+				this.validSeamVersions = new ArrayList<SeamVersion>();
+				this.validSeamVersions.add(SeamVersion.SEAM_1_2);
+				this.validSeamVersions.add(SeamVersion.SEAM_2_0);							                
 			} else {
 				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
 						"version", SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2, validSeamVersions, 
@@ -368,10 +368,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor implements ISele
 					name.setValue(homeDirName);
 
 					String seamVersion = getSeamVersion(homeDir.getValueAsString());
-					for (SeamVersion ver : validSeamVersions) {
-						if (seamVersion.matches(ver.toString().replace(".","\\.")+".*")) {
-							version.setValue(ver.toString());
-							break;
+					if (validSeamVersions != null) {
+						for (SeamVersion ver : validSeamVersions) {
+							if (seamVersion.matches(ver.toString().replace(".","\\.")+".*")) {
+								version.setValue(ver.toString());
+								break;
+							}
 						}
 					}
 				}
