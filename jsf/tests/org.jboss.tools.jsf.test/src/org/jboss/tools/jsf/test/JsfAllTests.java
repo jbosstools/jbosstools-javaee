@@ -21,6 +21,7 @@ public class JsfAllTests {
 		
 		suite.addTestSuite(JSFModelTest.class);
 		suite.addTestSuite(ModelFormat_2_0_0_Test.class);
+		suite.addTestSuite(JSFImportTest.class);
 		
 		return suite;
 	}
