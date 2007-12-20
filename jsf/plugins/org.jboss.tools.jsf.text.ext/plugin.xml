@@ -110,6 +110,23 @@
          			<!-- Web.xml -->
            		</partitionType>
         		</contentType>
+         	<contentType id="org.eclipse.jst.jee.ee5webDD">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- Web.xml -->
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/login-config/form-login-config/form-error-page/" />
+         			<axis path="/web-app/login-config/form-login-config/form-login-page/" />
+         			<axis path="/web-app/servlet/jsp-file/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/*/icon/large-icon/" />
+         			<axis path="/web-app/*/icon/small-icon/" />
+         			<axis path="/web-app/taglib/taglib-location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<axis path="/web-app/error-page/location/" />
+         			<!-- Web.xml -->
+           		</partitionType>
+        		</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -131,6 +148,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.jst.j2ee.webDD">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<axis path="/web-app/context-param/param-value/" />
+         		</partitionType>
+        		</contentType>
+         	<contentType id="org.eclipse.jst.jee.ee5webDD">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/web-app/context-param/param-value/" />
          		</partitionType>
@@ -975,6 +997,10 @@
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
      		</contenttypeidentifier>
+      	<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK" />
+     		</contenttypeidentifier>
+     		
 		</hyperlink>
 		<!-- Web.inf File -->
   
@@ -994,6 +1020,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
 			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
+     		</contenttypeidentifier>
+      	<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.JSF_XML_LINK" />
      		</contenttypeidentifier>
 		</hyperlink>
@@ -1016,6 +1045,9 @@
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
      		</contenttypeidentifier>
+      	<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
+     		</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1034,6 +1066,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
 			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
+     		</contenttypeidentifier>
+      	<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
      		</contenttypeidentifier>
 		</hyperlink>
@@ -1089,6 +1124,9 @@
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
      		</contenttypeidentifier>
+      	<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_BUNDLE_BASENAME" />
+     		</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1135,6 +1173,9 @@
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
 			</contenttypeidentifier>
       	<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
+            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
+     		</contenttypeidentifier>
+     		<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_CONVERTER" />
      		</contenttypeidentifier>
 		</hyperlink>
