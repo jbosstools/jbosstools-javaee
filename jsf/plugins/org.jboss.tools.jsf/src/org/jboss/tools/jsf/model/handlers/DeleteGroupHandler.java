@@ -50,7 +50,7 @@ public class DeleteGroupHandler extends AbstractHandler implements JSFConstants 
 			int q = confirmPageDelete(object.getModel(), message);
 			if(q < 0) return;
 			deletePage = (q == 0);
-			if(p != null) p.put("deletePage", new Boolean(q == 0));
+			if(p != null) p.put("deletePage", Boolean.valueOf(q == 0));
 		}
 		g.getModel().changeObjectAttribute(g, "persistent", "false");
 		XModelObject[] cs = g.getReferences();
@@ -70,7 +70,7 @@ public class DeleteGroupHandler extends AbstractHandler implements JSFConstants 
 		ServiceDialog d = model.getService();
 		Properties dp = new Properties();
 		dp.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
-		dp.put(ServiceDialog.CHECKED, new Boolean(false));
+		dp.put(ServiceDialog.CHECKED, Boolean.FALSE);
 		dp.setProperty(ServiceDialog.CHECKBOX_MESSAGE, "Delete file from disk");
 		if(!d.openConfirm(dp)) return -1;
 		Boolean b = (Boolean)dp.get(ServiceDialog.CHECKED);

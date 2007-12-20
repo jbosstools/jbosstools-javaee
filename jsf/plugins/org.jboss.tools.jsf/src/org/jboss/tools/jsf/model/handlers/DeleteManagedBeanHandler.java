@@ -34,7 +34,7 @@ public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 			String message = SignificanceMessageFactory.getInstance().getMessage(action, object, null) + "?";
 			pd.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
 			pd.setProperty(ServiceDialog.CHECKBOX_MESSAGE, JSFUIMessages.DELETE_JAVA_SOURCE);
-			pd.put(ServiceDialog.CHECKED, new Boolean(false));
+			pd.put(ServiceDialog.CHECKED, Boolean.FALSE);
 			if(!d.openConfirm(pd)) return;
 			Boolean b = (Boolean)pd.get(ServiceDialog.CHECKED);
 			unregister = b.booleanValue();

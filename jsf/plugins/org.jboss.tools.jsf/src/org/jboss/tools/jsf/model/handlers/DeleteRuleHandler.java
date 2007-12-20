@@ -39,7 +39,7 @@ public class DeleteRuleHandler extends DefaultRemoveHandler implements JSFConsta
 		ServiceDialog d = object.getModel().getService();
 		Properties dp = new Properties();
 		dp.setProperty(ServiceDialog.DIALOG_MESSAGE, JSFUIMessages.DELETE + DefaultCreateHandler.title(object, false) + "?");
-		dp.put(ServiceDialog.CHECKED, new Boolean(false));
+		dp.put(ServiceDialog.CHECKED, Boolean.FALSE);
 		dp.setProperty(ServiceDialog.CHECKBOX_MESSAGE, JSFUIMessages.DELETE_FILE_FROM_DISK);
 		if(!d.openConfirm(dp)) return;
 		Boolean b = (Boolean)dp.get(ServiceDialog.CHECKED);

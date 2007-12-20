@@ -38,7 +38,7 @@ public class DeleteManagedPropertyHandler extends AbstractHandler {
 			p = new Properties();
 			p.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
 			p.setProperty(ServiceDialog.CHECKBOX_MESSAGE, "Delete java property");
-			p.put(ServiceDialog.CHECKED, new Boolean(false));
+			p.put(ServiceDialog.CHECKED, Boolean.FALSE);
 			if(!d.openConfirm(p)) return;
 			Boolean b = (Boolean)p.get(ServiceDialog.CHECKED);
 			deleteField = (b != null) && b.booleanValue();

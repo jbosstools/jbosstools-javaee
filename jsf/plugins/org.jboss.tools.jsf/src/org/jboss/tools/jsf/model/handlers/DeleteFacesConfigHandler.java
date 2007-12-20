@@ -30,7 +30,7 @@ public class DeleteFacesConfigHandler extends DeleteFileHandler {
 			String message = "Delete faces-config " + FileAnyImpl.toFileName(object);
 			pd.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
 			pd.setProperty(ServiceDialog.CHECKBOX_MESSAGE, "Delete reference from web.xml");
-			pd.put(ServiceDialog.CHECKED, new Boolean(true));
+			pd.put(ServiceDialog.CHECKED, Boolean.TRUE);
 			if(!d.openConfirm(pd)) return;
 			Boolean b = (Boolean)pd.get(ServiceDialog.CHECKED);
 			unregister = b.booleanValue();
