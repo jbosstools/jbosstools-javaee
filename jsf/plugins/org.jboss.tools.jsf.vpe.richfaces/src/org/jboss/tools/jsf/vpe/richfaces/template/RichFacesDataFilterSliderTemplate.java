@@ -339,7 +339,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 * @return number
 	 */
 	private int getSize(String size) {
-		String num = new String(size);
+		String num = size;
 		int pos = num.indexOf(PIXEL_PREFIX);
 		if (pos != -1) {
 			num = num.substring(0, pos);

@@ -274,7 +274,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		if(size==null) {
 			return 0;
 		}
-		String num = new String(size);
+		String num = size;
 		int pos = size.indexOf(PIXEL_PREFIX);
 		if (pos != -1) {
 			num = size.substring(0, pos);
