@@ -954,9 +954,9 @@
 	<vpe:tag name="t:inputFileUpload" case-sensitive="yes">
 		<vpe:template children="no" modify="no">
 			<div class="{@styleClass}" onclick="{@onclick}"
-				style="{@style}" rendered="{@rendered}" title="{tagstring()}">
+				rendered="{@rendered}" title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
-				<input type="file" />
+				<input type="file" style="{@style}" />
 			</div>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
