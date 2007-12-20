@@ -483,9 +483,9 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 				.getLayer(ScalableFreeformRootEditPart.CONNECTION_LAYER))
 				.setConnectionRouter(new JSFConnectionRouter());
 		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
-				new Boolean(true));
+				Boolean.TRUE);
 		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
-				new Boolean(true));
+				Boolean.TRUE);
 		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_SPACING,
 				new Dimension(8, 8));
 

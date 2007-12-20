@@ -85,7 +85,7 @@ public class Link extends JSFElement implements ILink {
 	}
 
 	public void savePointList(PointList list) {
-		String value = new String("");
+		String value = "";
 		for (int i = 0; i < list.size(); i++) {
 			if (i != 0)
 				value += ",";
