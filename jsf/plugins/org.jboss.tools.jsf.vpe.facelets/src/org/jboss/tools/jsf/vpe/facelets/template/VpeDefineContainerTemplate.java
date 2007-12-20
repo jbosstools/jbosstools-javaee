@@ -99,7 +99,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 			Node sourceChild = sourceChildren.item(i);
 			if (sourceChild.getNodeType() == Node.ELEMENT_NODE && "define".equals(sourceChild.getLocalName())) {
 				if (template == null) {
-					VpeTemplateManager templateManager = VpeTemplateManager.getInstance();
+					VpeTemplateManager templateManager = pageContext.getVisualBuilder().getTemplateManager(); 
 					template = templateManager.getTemplate(pageContext, (Element)sourceChild, null);
 					if (template == null) {
 						break;
