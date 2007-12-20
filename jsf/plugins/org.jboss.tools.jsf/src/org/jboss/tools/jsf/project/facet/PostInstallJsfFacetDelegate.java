@@ -74,20 +74,20 @@ public class PostInstallJsfFacetDelegate implements IDelegate  {
 	 */
 	private static String XMODEL = 
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-		"<file-systems APPLICATION_NAME=\"{0}\" model-entity=\"FileSystems\"" +
-		" VERSION=\"2.0.0\" WORKSPACE_HOME=\"./{1}/WEB-INF\">" +
+		"<file-systems application-name=\"{0}\" model-entity=\"FileSystems\"" +
+		" VERSION=\"2.0.0\" workspace-home=\"./{1}/WEB-INF\">" +
 		"<file-system model-entity=\"FileSystemFolder\" location=\"" + XModelConstants.WORKSPACE_REF + "\" NAME=\"WEB-INF\"/>" +
-		"<file-system model-entity=\"FileSystemFolder\" INFO=\"Content-Type=Web\"" +
+		"<file-system model-entity=\"FileSystemFolder\" info=\"Content-Type=Web\"" +
 		" location=\"" + XModelConstants.WORKSPACE_REF + "/..\" NAME=\"WEB-ROOT\"/>" +
 		"<file-system model-entity=\"FileSystemFolder\"" +
 		" location=\"" + XModelConstants.WORKSPACE_REF + "/../../{2}\" NAME=\"src\"/>" +
 		"<file-system model-entity=\"FileSystemFolder\" location=\"" + XModelConstants.WORKSPACE_REF + "/lib\" NAME=\"lib\"/>" +
 		"<file-system model-entity=\"FileSystemFolder\"" +
 		" location=\"" + XModelConstants.WORKSPACE_REF + "/classes\" NAME=\"classes\"/>" +
-		"<WEB model-entity=\"JstWeb\" MODEL_PATH=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
-		"  <MODULE model-entity=\"WebJSFModule\" MODEL_PATH=\"/faces-config.xml\"" +
-		"   ROOT=\"WEB-ROOT\" SRC=\"src\" URI=\"/WEB-INF/faces-config.xml\"/>" +
-		"</WEB>" +
+		"<web model-entity=\"JstWeb\" model-path=\"/web.xml\" SERVLET_VERSION=\"2.4\">" + 
+		"  <module model-entity=\"WebJSFModule\" model-path=\"/faces-config.xml\"" +
+		"   root=\"WEB-ROOT\" src=\"src\" URI=\"/WEB-INF/faces-config.xml\"/>" +
+		"</web>" +
 		"</file-systems>"
 	;
 }

@@ -4717,7 +4717,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.web.WebJSFModuleImpl"
-  XMLSUBPATH="MODULE" name="WebJSFModule">
+  XMLSUBPATH="module" name="WebJSFModule">
   <XChildrenEntities>
    <XChildEntity name="JstWebConfig"/>
   </XChildrenEntities>
@@ -4760,9 +4760,9 @@
     </Constraint>
     <Editor name="FolderChooser"/>
    </XModelAttribute>
-   <XModelAttribute name="model path" xmlname="MODEL_PATH"/>
-   <XModelAttribute name="root file system" xmlname="ROOT"/>
-   <XModelAttribute name="src file system" xmlname="SRC"/>
+   <XModelAttribute name="model path" xmlname="model-path"/>
+   <XModelAttribute name="root file system" xmlname="root"/>
+   <XModelAttribute name="src file system" xmlname="src"/>
   </XModelAttributes>
   <XActionItem kind="list"/>
   <XDependencies/>
