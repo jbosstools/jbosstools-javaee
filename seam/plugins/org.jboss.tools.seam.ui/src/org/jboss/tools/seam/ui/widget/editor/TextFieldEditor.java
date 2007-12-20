@@ -143,7 +143,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      */
     private String checkCollection(Object value){
     	
-    	return value != null && (((Collection)value).size() > 0) ? prepareCollectionToString((Collection)value) : new String(""); //$NON-NLS-1$
+    	return value != null && (((Collection)value).size() > 0) ? prepareCollectionToString((Collection)value) : ""; //$NON-NLS-1$
     }
     
     /*
@@ -168,7 +168,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      * @return 
      */
     private String checkSimple(Object value){
-    	return (value != null) ? value.toString() : new String(""); //$NON-NLS-1$
+    	return (value != null) ? value.toString() : ""; //$NON-NLS-1$
     }
     
     /**
