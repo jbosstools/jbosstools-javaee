@@ -36,106 +36,168 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * Package name used session objects: actions, forms, conversations, beans 
 	 * web pages backing beans
 	 */
-	public static final String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
+	String SESION_BEAN_PACKAGE_NAME = "action.package"; //$NON-NLS-1$
 
 	/**
 	 * Package name for Entity Beans classes
 	 */
-	public static final String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
+	String ENTITY_BEAN_PACKAGE_NAME = "model.package"; //$NON-NLS-1$
 	
 	/**
 	 * Connection profile name
 	 */
-	public static final String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile"; //$NON-NLS-1$
+	String SEAM_CONNECTION_PROFILE = "seam.project.connection.profile"; //$NON-NLS-1$
 
 	/**
 	 * Selected deployment type
 	 */
-	public static final String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type"; //$NON-NLS-1$
+	String JBOSS_AS_DEPLOY_AS = "seam.project.deployment.type"; //$NON-NLS-1$
 
 	/**
 	 * Test project name that was created for Seam Web Project
 	 */
-	public static final String SEAM_TEST_PROJECT = "seam.test.project"; //$NON-NLS-1$	
+	String SEAM_TEST_PROJECT = "seam.test.project"; //$NON-NLS-1$	
 	
 	/**
 	 * Seam runtime name that should be used to create seam artifacts:
 	 * forms, actions, conversations and entities
 	 */
-	public static final String SEAM_RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
+	String SEAM_RUNTIME_NAME = "seam.runtime.name"; //$NON-NLS-1$
 
 	/**
 	 * Package where tests for seam artifacts should be placed inside the 
 	 * test project
 	 */
-	public static final String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
+	String TEST_CASES_PACKAGE_NAME = "test.package"; //$NON-NLS-1$
 	
 	/**
-	 * Ejb project name created fro Seam Web Project in EAR deployment configuration
+	 * Ejb project name created from Seam Web Project in EAR deployment configuration
 	 */
-	public static final String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
+	String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
 	
 	/**
 	 * Ear project name created for Seam Web Project in EAR deployment configuration
 	 */
-	public static final String SEAM_EAR_PROJECT = "seam.ear.project"; //$NON-NLS-1$
+	String SEAM_EAR_PROJECT = "seam.ear.project"; //$NON-NLS-1$
 
 
 	// Seam Facet Wizard Page parameters constants
 	
-	public static final String SEAM_PROJECT_NAME = "project.name"; //$NON-NLS-1$
+	/**
+	 * Project name token
+	 */
+	String SEAM_PROJECT_NAME = "project.name"; //$NON-NLS-1$
 	
-	public static final String SEAM_PROJECT_INSTANCE =  "seam.project.instance"; //$NON-NLS-1$
+	/**
+	 * Selected Seam Project
+	 */
+	String SEAM_PROJECT_INSTANCE =  "seam.project.instance"; //$NON-NLS-1$
+
+	/**
+	 * Path to JBoss AS server
+	 */
+	String JBOSS_AS_HOME = "jboss.home"; //$NON-NLS-1$
 	
-	public static final String JBOSS_AS_HOME = "jboss.home"; //$NON-NLS-1$
+	/**
+	 * Selected Database type
+	 */
+	String DB_TYPE = "database.type"; //$NON-NLS-1$
 	
-	public static final String DB_TYPE = "database.type"; //$NON-NLS-1$
+	/**
+	 * Selected hibernate dialect
+	 */
+	String HIBERNATE_DIALECT = "hibernate.dialect"; //$NON-NLS-1$
 	
-	public static final String HIBERNATE_DIALECT = "hibernate.dialect"; //$NON-NLS-1$
+	/**
+	 * JDBC driver class name token
+	 */
+	String JDBC_DRIVER_CLASS_NAME = "hibernate.connection.driver_class"; //$NON-NLS-1$
 	
-	public static final String JDBC_DRIVER_CLASS_NAME = "hibernate.connection.driver_class"; //$NON-NLS-1$
+	/**
+	 * JDBC Connection URL token
+	 */
+	String JDBC_URL_FOR_DB = "hibernate.connection.url"; //$NON-NLS-1$
 	
-	public static final String JDBC_URL_FOR_DB = "hibernate.connection.url"; //$NON-NLS-1$
+	/**
+	 * Connection user name token
+	 */
+	String DB_USER_NAME = "hibernate.connection.username"; //$NON-NLS-1$
 	
-	public static final String DB_USER_NAME = "hibernate.connection.username"; //$NON-NLS-1$
+	/**
+	 * Connection user name password
+	 */
+	String DB_USER_PASSWORD = "hibernate.connection.password"; //$NON-NLS-1$
 	
-	public static final String DB_USER_PASSWORD = "hibernate.connection.password"; //$NON-NLS-1$
+	/**
+	 * Schema name
+	 */
+	String DB_SCHEMA_NAME = "schema.property"; //$NON-NLS-1$
 	
-	public static final String DB_SCHEMA_NAME = "schema.property"; //$NON-NLS-1$
+	/**
+	 * Catalog name
+	 */
+	String DB_CATALOG_NAME  = "catalog.property"; //$NON-NLS-1$
 	
-	public static final String DB_CATALOG_NAME  = "catalog.property"; //$NON-NLS-1$
+	/**
+	 * DB tables already exists in database check box value
+	 */
+	String DB_ALREADY_EXISTS = "database.exists"; //$NON-NLS-1$
 	
-	public static final String DB_ALREADY_EXISTS = "database.exists"; //$NON-NLS-1$
+	/**
+	 * Recreate database tables and data on deploy check box value
+	 */
+	String RECREATE_TABLES_AND_DATA_ON_DEPLOY = "database.drop"; //$NON-NLS-1$
 	
-	public static final String RECREATE_TABLES_AND_DATA_ON_DEPLOY = "database.drop"; //$NON-NLS-1$
+	/**
+	 * TODO
+	 */
+	String HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto"; //$NON-NLS-1$
 	
-	public static final String HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto"; //$NON-NLS-1$
-	
-	public static final String JDBC_DRIVER_JAR_PATH = "driver.file"; //$NON-NLS-1$
+	/**
+	 * Driver file name 
+	 */
+	String JDBC_DRIVER_JAR_PATH = "driver.file"; //$NON-NLS-1$
 	
 	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from sesion_bean_package_name ?
-	public static final String SESION_BEAN_PACKAGE_PATH = "action.package.path"; //$NON-NLS-1$
+	String SESION_BEAN_PACKAGE_PATH = "action.package.path"; //$NON-NLS-1$
 
 	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from entity_bean_package_name ?
-	public static final String ENTITY_BEAN_PACKAGE_PATH = "model.package.path"; //$NON-NLS-1$
+	String ENTITY_BEAN_PACKAGE_PATH = "model.package.path"; //$NON-NLS-1$
 
 	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from test_package_path ?
-	public static final String TEST_CASES_PACKAGE_PATH = "test.package.path"; //$NON-NLS-1$
+	String TEST_CASES_PACKAGE_PATH = "test.package.path"; //$NON-NLS-1$
 
-	public static final String JBOSS_SEAM_HOME = "seam.home.folder"; //$NON-NLS-1$
+	/**
+	 * Selected Seam Runtime home folder
+	 */
+	String JBOSS_SEAM_HOME = "seam.home.folder"; //$NON-NLS-1$
 	
-	public static final String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder"; //$NON-NLS-1$
+	/**
+	 * Seam project web contents root folder
+	 */
+	String WEB_CONTENTS_FOLDER = "seam.project.web.root.folder"; //$NON-NLS-1$
 	
-	public static final String DEPLOY_AS_WAR = "war"; //$NON-NLS-1$
+	/**
+	 * WAR deployment constant 
+	 */
+	String DEPLOY_AS_WAR = "war"; //$NON-NLS-1$
 	
-	public static final String DEPLOY_AS_EAR = "ear";	 //$NON-NLS-1$
+	/**
+	 * EAR deployment constant
+	 */
+	String DEPLOY_AS_EAR = "ear";	 //$NON-NLS-1$
 	
-	public static final String JBOSS_AS_TARGET_SERVER = "seam.project.deployment.target"; //$NON-NLS-1$
+	/**
+	 * Selected Server Runtime 
+	 */
+	String JBOSS_AS_TARGET_SERVER = "seam.project.deployment.target"; //$NON-NLS-1$
 	
-	public static final String JBOSS_AS_TARGET_RUNTIME = "seam.project.deployment.runtime"; //$NON-NLS-1$
-	
+	/**
+	 * Selected Server
+	 */
+	String JBOSS_AS_TARGET_RUNTIME = "seam.project.deployment.runtime"; //$NON-NLS-1$
 	
 }

@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -28,46 +27,74 @@ import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 
 /**
+ * <p>Facet Post install delegate that handles:
+ *  <ul>
+ *  	<li>JDBC driver copying to server libraries folder;
+ *  	<li> registering faceted project on the selected server;
+ *  	<li>deploying datasource .xml file to the selected server;
+ *  </ul>
+ *  </p>
  * @author eskimo
  *
  */
-public class SeamFacetPostInstallDelegate implements
-		IDelegate, ISeamFacetDataModelProperties{
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
+public class SeamFacetPostInstallDelegate implements IDelegate, ISeamFacetDataModelProperties {
+	/**
+	 * Description
+	 * @param project 
+	 * 	target project
+	 * @param fv
+	 *  Facet version information
+	 * @param config
+	 * 	configuration parameters
+	 * @param monitor
+	 *  progress monitor
+	 * @throws CoreException
+	 *  never throws 
 	 */
-	public void execute(final IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor) throws CoreException {
-		final IDataModel model = (IDataModel)config;
+	public void execute(IProject project, IProjectFacetVersion fv, Object config, IProgressMonitor monitor) throws CoreException {
+	final IDataModel model = (IDataModel) config;
 	
-		IServer server = (IServer)model.getProperty(JBOSS_AS_TARGET_SERVER);
-		JBossServer jbs = (JBossServer)server.loadAdapter(JBossServer.class, new NullProgressMonitor());
-		if( jbs != null ) {
-			String[] driverJars = (String[])model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
+		IServer server = (IServer) model.getProperty(JBOSS_AS_TARGET_SERVER);
+		JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
+		if (jbs != null) {
+			String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
 			String configFolder = jbs.getConfigDirectory();
-			AntCopyUtils.copyFiles(driverJars, new File(configFolder,"lib"),false);
+			AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
 		} 
 		if (server != null) {
 			RegistrationHelper.runRegisterInServerJob(project, server);
 			
 			IPath filePath = new Path("resources").append(project.getName() + "-ds.xml");
 			
-			if(!isWarConfiguration(model)) {
+			if (!isWarConfiguration(model)) {
 				IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
-				IProject earProjectToBeImported = wsRoot.getProject(project.getName()+"-ear");
-				new DataSourceXmlDeployer(earProjectToBeImported,server,filePath).schedule();
+				IProject earProjectToBeImported = wsRoot.getProject(project.getName() + "-ear");
+				new DataSourceXmlDeployer(earProjectToBeImported, server, filePath).schedule();
 			} else {
-				new DataSourceXmlDeployer(project,server,filePath).schedule();
+				new DataSourceXmlDeployer(project, server, filePath).schedule();
 			}			
 		}
 	}
 
 	/**
+	 * Never used
+	 * @throws CoreException
+	 * 	never throws
+	 * @return 
+	 *  always return null
 	 * @see org.eclipse.wst.common.project.facet.core.IActionConfigFactory#create()
 	 */
-	public Object create() throws CoreException {return null; }
-	
+	public Object create() throws CoreException {
+		return null; 
+	}
+	/**
+	 * Define if WAR deployment configuration is used
+	 * @param model
+	 * 	configuration parameters
+	 * @return
+	 * 	true  - is Seam Project uses EAR deployment
+	 *  false - EAR
+	 */
 	public static boolean isWarConfiguration(IDataModel model) {
 		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)); //$NON-NLS-1$
 	}

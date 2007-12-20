@@ -11,8 +11,15 @@
 
 package org.jboss.tools.seam.internal.core.project.facet;
 
-public interface ISeamCoreConstants {
+/**
+ * Old fashion way to define constants 
+ * @author eskimo
+ */
+public	interface ISeamCoreConstants {
 
-	public static final String SEAM_CORE_FACET_ID = "jst.seam"; //$NON-NLS-1$
+	/**
+	 * Seam Facet ID constant
+	 */
+	String SEAM_CORE_FACET_ID = "jst.seam"; //$NON-NLS-1$
 
 }

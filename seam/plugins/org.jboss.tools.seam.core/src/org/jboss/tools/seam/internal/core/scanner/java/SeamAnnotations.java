@@ -10,7 +10,6 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.scanner.java;
 
-import org.jboss.tools.seam.core.SeamCoreMessages;
 
 /**
  * Java annotations processed in building seam model

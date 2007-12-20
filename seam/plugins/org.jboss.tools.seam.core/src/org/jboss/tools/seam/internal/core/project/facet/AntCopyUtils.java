@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.project.facet;
 
-import java.io.File;
-
 /**
  * @author eskimo
  *

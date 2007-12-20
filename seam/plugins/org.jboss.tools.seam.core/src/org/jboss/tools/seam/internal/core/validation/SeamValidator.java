@@ -12,21 +12,18 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
 
 /**
  * Abstract implementation of ISeamvalidator
@@ -96,10 +93,12 @@ public abstract class SeamValidator implements ISeamValidator {
 					target).getLineOfOffset(offset) + 1);
 
 		} catch (BadLocationException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+			SeamCorePlugin.getPluginLog().logError(
+					"Exception occurred during error line number calculation",e);
 			return;
 		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+			SeamCorePlugin.getPluginLog().logError(
+					"Exception occurred during error line number calculation",e);
 			return;
 		}
 		if (!ignore) {

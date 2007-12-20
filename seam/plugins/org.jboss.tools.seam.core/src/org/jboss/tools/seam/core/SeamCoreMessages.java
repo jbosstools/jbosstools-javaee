@@ -1,8 +1,5 @@
 package org.jboss.tools.seam.core;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 import org.eclipse.osgi.util.NLS;
 
 public class SeamCoreMessages {
