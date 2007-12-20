@@ -11,7 +11,7 @@
     
     <title>Seam Editors Features</title>
     
-    <section>
+    <section id="ContentAssist">
         
         <title>Content Assist</title>
    
@@ -36,7 +36,7 @@
           
     </section>
     
-    <section>
+    <section id="OpenOn">
         <title>OpenOn</title>
         
         <para><property>OpenOn</property> let's you easily navigate through your project without using the Package Explorer or Project Explorer. 
@@ -53,7 +53,7 @@
         
     </section>
     
-    <section>
+    <section id="SeamValidation">
         <title>Seam Validation</title>
         
         <para>Validation of various possible problematic definitions is implemented for Seam applications.</para>
@@ -85,6 +85,34 @@
         <para>On WTP projects validation are enabled by default and thus executed automatically, but on normal Java projects you will have to go and add the Validation builder to your project . 
             It is available in the properties of your project under <property>Validation</property>. The validations can be run manually by clicking <property>Validate</property> via the context menu
             on your project which will execute all the active WTP validations.</para>
+    </section>
+    
+    <section id="ComponentsEditor">
+        <title>Structured components.xml Editor</title>
+   
+        <para>When editing <property>components.xml</property> a structured tree editor is available in addition to pure source editing.
+            It has a graphical view (Tree tab) and source (Source tab).</para>
+     
+        <figure>
+            <title>component.xml Editor</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors4.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+     
+        <para>Notice that <property>components.xml</property> and other xml files can be viewed and edited directly in the Project Explorer and Properties sheet without opening the components.xml editor.</para>
+     
+        <figure>
+            <title>component.xml Editor</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors5.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+     
     </section>
     
   </chapter>
