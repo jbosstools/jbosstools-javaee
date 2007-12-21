@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
+import java.io.IOException;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
@@ -20,11 +22,15 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.internal.decorators.DecoratorManager;
 import org.eclipse.ui.progress.UIJob;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 
@@ -479,19 +485,62 @@ public class SeamValidatorsTest extends TestCase {
 	}
 	
 	public void testFactoriesValidator() {
-		
+		// Unknown factory name
+		System.out.println("Test - Unknown factory name");
 	}
 	
 	public void testBijectionsValidator() {
+		// Multiple data binder
+		System.out.println("Test - Multiple data binder");
 		
+		// Unknown @DataModel/@Out name
+		System.out.println("Test - Unknown @DataModel/@Out name");
 	}
 
 	public void testContextVariablesValidator() {
+		modifyPreferences();
+		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
+		System.out.println("UNKNOWN_EL_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME));
+
+		// Duplicate variable name
+		System.out.println("Test - Duplicate variable name");
 		
+		// Unknown variable name
+		System.out.println("Test - Unknown variable name");
 	}
 
 	public void testExpressionLanguageValidator() {
-		
+		modifyPreferences();
+		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
+		System.out.println("UNKNOWN_EL_VARIABLE_PROPERTY_NAME value- "+store.getString(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME));
+		System.out.println("UNKNOWN_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_VARIABLE_NAME));
+		System.out.println("UNPAIRED_GETTER_OR_SETTER value- "+store.getString(SeamPreferences.UNPAIRED_GETTER_OR_SETTER));
+
+		// Context variable cannot be resolved
+		System.out.println("Test - Context variable cannot be resolved");
+
+		// Property cannot be resolved
+		System.out.println("Test - Property cannot be resolved");
+
+		// Unpaired Getter/Setter
+		System.out.println("Test - Unpaired Getter/Setter");
+
+	}
+	
+	private void modifyPreferences(){
+		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
+		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
+		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.ERROR);
+		store.putValue(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.ERROR);
+		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
+
+		if(store instanceof IPersistentPreferenceStore) {
+			try {
+				((IPersistentPreferenceStore)store).save();
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 	
 	private int getMarkersNumber(IFile file){
