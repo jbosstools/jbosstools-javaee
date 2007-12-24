@@ -22,7 +22,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
@@ -65,7 +64,6 @@ public class SeamELValidator extends SeamValidator {
 	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
 
 	private SeamELCompletionEngine engine= new SeamELCompletionEngine();
-	private IJavaProject javaProject;
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamValidationHelper coreHelper, IReporter reporter,
