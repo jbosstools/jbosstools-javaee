@@ -516,12 +516,58 @@ public class SeamValidatorsTest extends TestCase {
 		System.out.println("UNKNOWN_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_VARIABLE_NAME));
 		System.out.println("UNPAIRED_GETTER_OR_SETTER value- "+store.getString(SeamPreferences.UNPAIRED_GETTER_OR_SETTER));
 
+		ISeamProject seamProject = getSeamProject(project);
+		
+		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
+		
+		
+		int number = getMarkersNumber(abcComponentXHTMLFile);
+		assertTrue("Problem marker was found in abcComponent.xhtml", number == 0);
+
 		// Context variable cannot be resolved
 		System.out.println("Test - Context variable cannot be resolved");
 
+		IFile abcComponentXHTMLFile2 = project.getFile("WebContent/abcComponent.2");
+		try{
+			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile2.getContents(), true, false, new NullProgressMonitor());
+			abcComponentXHTMLFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
+					"'abcComponent.2'", ex);
+		}
+		
+		refreshProject(project);
+		
+		String[] messages = getMarkersMessage(abcComponentXHTMLFile);
+		
+		assertTrue("Problem marker 'Context variable cannot be resolved' not found", "bcComponent cannot be resolved".equals(messages[0]));
+		
+		int[] lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
+		
 		// Property cannot be resolved
 		System.out.println("Test - Property cannot be resolved");
 
+		IFile abcComponentXHTMLFile3 = project.getFile("WebContent/abcComponent.3");
+		try{
+			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile3.getContents(), true, false, new NullProgressMonitor());
+			abcComponentXHTMLFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
+					"'abcComponent.3'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(abcComponentXHTMLFile);
+		
+		assertTrue("Problem marker 'Property cannot be resolved' not found", "bcComponent cannot be resolved".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
+		
 		// Unpaired Getter/Setter
 		System.out.println("Test - Unpaired Getter/Setter");
 
