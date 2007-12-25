@@ -229,6 +229,16 @@ public class SeamValidatorsTest extends TestCase {
 		lineNumbers = getMarkersNumbersOfLine(componentsFile);
 		
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 16);
+		
+		// resolve error in BbcComponent.java
+		IFile bbcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.3");
+		try{
+			bbcComponentFile.setContents(bbcComponentFile3.getContents(), true, false, new NullProgressMonitor());
+			bbcComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'BbcComponent.java' content to " +
+					"'BbcComponent.3'", ex);
+		}
 	}
 	
 	public void testEntitiesValidator() {
@@ -519,10 +529,15 @@ public class SeamValidatorsTest extends TestCase {
 		ISeamProject seamProject = getSeamProject(project);
 		
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
+		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
 		
+		refreshProject(project);
 		
 		int number = getMarkersNumber(abcComponentXHTMLFile);
 		assertTrue("Problem marker was found in abcComponent.xhtml", number == 0);
+		
+		number = getMarkersNumber(abcComponentFile);
+		assertTrue("Problem marker was found in AbcComponent.java", number == 0);
 
 		// Context variable cannot be resolved
 		System.out.println("Test - Context variable cannot be resolved");
@@ -562,7 +577,7 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(abcComponentXHTMLFile);
 		
-		assertTrue("Problem marker 'Property cannot be resolved' not found", "bcComponent cannot be resolved".equals(messages[0]));
+		assertTrue("Problem marker 'Property cannot be resolved' not found", "actionType2 cannot be resolved".equals(messages[0]));
 		
 		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
 		
@@ -570,6 +585,58 @@ public class SeamValidatorsTest extends TestCase {
 		
 		// Unpaired Getter/Setter
 		System.out.println("Test - Unpaired Getter/Setter");
+		
+		IFile abcComponentXHTMLFile4 = project.getFile("WebContent/abcComponent.4");
+		try{
+			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile4.getContents(), true, false, new NullProgressMonitor());
+			abcComponentXHTMLFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
+					"'abcComponent.4'", ex);
+		}
+		
+		refreshProject(project);
+		
+		number = getMarkersNumber(abcComponentXHTMLFile);
+		assertTrue("Problem marker was found in abcComponent.xhtml", number == 0);
+
+		IFile abcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
+		try{
+			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, new NullProgressMonitor());
+			abcComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
+					"'abcComponent.2'", ex);
+		}
+		
+		refreshProject(project);
+
+		messages = getMarkersMessage(abcComponentXHTMLFile);
+
+		assertTrue("Problem marker 'Unpaired Getter/Setter' not found", "Property \"actionType\" has only Setter. Getter is missing.".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
+
+		IFile abcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
+		try{
+			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, new NullProgressMonitor());
+			abcComponentFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
+					"'abcComponent.3'", ex);
+		}
+		
+		refreshProject(project);
+
+		messages = getMarkersMessage(abcComponentXHTMLFile);
+
+		assertTrue("Problem marker 'Unpaired Getter/Setter' not found", "Property \"actionType\" has only Getter. Setter is missing.".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
 
 	}
 	
