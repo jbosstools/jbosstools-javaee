@@ -495,8 +495,37 @@ public class SeamValidatorsTest extends TestCase {
 	}
 	
 	public void testFactoriesValidator() {
+		ISeamProject seamProject = getSeamProject(project);
+		
+		IFile Component12File = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.java");
+		
+		refreshProject(project);
+		
+		int number = getMarkersNumber(Component12File);
+		assertTrue("Problem marker was found in Component12.java", number == 0);
+
 		// Unknown factory name
 		System.out.println("Test - Unknown factory name");
+		
+		IFile Component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
+		try{
+			Component12File.setContents(Component12File2.getContents(), true, false, new NullProgressMonitor());
+			Component12File.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
+					"'Component12File2.2'", ex);
+		}
+		
+		refreshProject(project);
+		
+		String[] messages = getMarkersMessage(Component12File);
+
+		assertTrue("Problem marker 'Unknown factory name' not found", "Factory method \"messageList2\" with a void return type must have an associated @Out/Databinder".equals(messages[0]));
+		
+		int[] lineNumbers = getMarkersNumbersOfLine(Component12File);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 24);
+
 	}
 	
 	public void testBijectionsValidator() {
