@@ -529,11 +529,98 @@ public class SeamValidatorsTest extends TestCase {
 	}
 	
 	public void testBijectionsValidator() {
+		ISeamProject seamProject = getSeamProject(project);
+		
+		IFile selectionTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java");
+		IFile selectionIndexTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java");
+		
+		refreshProject(project);
+		
+		int number = getMarkersNumber(selectionTestFile);
+		assertTrue("Problem marker was found in SelectionIndexTest.java", number == 0);
+		
+		number = getMarkersNumber(selectionIndexTestFile);
+		assertTrue("Problem marker was found in SelectionIndexTest.java", number == 0);
+
 		// Multiple data binder
 		System.out.println("Test - Multiple data binder");
 		
+		IFile selectionTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2");
+		try{
+			selectionTestFile.setContents(selectionTestFile2.getContents(), true, false, new NullProgressMonitor());
+			selectionTestFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
+					"'SelectionTest.2'", ex);
+		}
+
+		IFile selectionIndexTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2");
+		try{
+			selectionIndexTestFile.setContents(selectionIndexTestFile2.getContents(), true, false, new NullProgressMonitor());
+			selectionIndexTestFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
+					"'SelectionIndexTest.2'", ex);
+		}
+		
+		refreshProject(project);
+
+		String[] messages = getMarkersMessage(selectionTestFile);
+		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
+
+		int[] lineNumbers = getMarkersNumbersOfLine(selectionTestFile);
+		
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
+
+		messages = getMarkersMessage(selectionIndexTestFile);
+		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
+
+		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile);
+		
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
+		
 		// Unknown @DataModel/@Out name
 		System.out.println("Test - Unknown @DataModel/@Out name");
+		
+		IFile selectionTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.3");
+		try{
+			selectionTestFile.setContents(selectionTestFile3.getContents(), true, false, new NullProgressMonitor());
+			selectionTestFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
+					"'SelectionTest.3'", ex);
+		}
+
+		IFile selectionIndexTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.3");
+		try{
+			selectionIndexTestFile.setContents(selectionIndexTestFile3.getContents(), true, false, new NullProgressMonitor());
+			selectionIndexTestFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
+					"'SelectionIndexTest.3'", ex);
+		}
+		
+		refreshProject(project);
+
+		messages = getMarkersMessage(selectionTestFile);
+		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: messageList2"));
+
+		lineNumbers = getMarkersNumbersOfLine(selectionTestFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 27);
+
+		messages = getMarkersMessage(selectionIndexTestFile);
+		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: messageList2"));
+		
+		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile);
+
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 27);
 	}
 
 	public void testContextVariablesValidator() {
