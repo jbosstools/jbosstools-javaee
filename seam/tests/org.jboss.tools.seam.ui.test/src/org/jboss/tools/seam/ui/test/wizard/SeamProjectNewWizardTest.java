@@ -10,43 +10,117 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.wizard;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 import junit.framework.TestCase;
 
-import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.jboss.tools.common.util.WorkbenchUtils;
+import org.jboss.tools.jst.firstrun.JBossASAdapterInitializer;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.osgi.framework.Bundle;
 
 /**
- * @author eskimo
+ * @author eskimo, akazakov
  *
  */
 public class SeamProjectNewWizardTest extends TestCase{
-	
+
+	NewProjectDataModelFacetWizard wizard;
+	IWizardPage startSeamPrjWzPg;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		wizard = (NewProjectDataModelFacetWizard)WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
+		WizardDialog dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				wizard);
+		dialog.create();
+		startSeamPrjWzPg = wizard.getStartingPage();
+		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
+	}
+
 	/**
 	 * 
 	 */
 	public void testSeamProjectNewWizardInstanceIsCreated() {
-		IWizard
-		aWizard = WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
-
-			
-		WizardDialog dialog = new WizardDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				aWizard);
-		dialog.create();
-		IWizardPage startSeamPrjWzPg = aWizard.getStartingPage();
-		assertNotNull("Cannot create seam start wizard page",startSeamPrjWzPg);
-		IWizardPage projectFacetsWizPg = aWizard.getNextPage(startSeamPrjWzPg);
+		IWizardPage projectFacetsWizPg = wizard.getNextPage(startSeamPrjWzPg);
 		assertNotNull("Cannot create select facets wizard page",projectFacetsWizPg);
-		IWizardPage webModuleWizPg = aWizard.getNextPage(projectFacetsWizPg);
+		IWizardPage webModuleWizPg = wizard.getNextPage(projectFacetsWizPg);
 		assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
-		IWizardPage jsfCapabilitiesWizPg = aWizard.getNextPage(webModuleWizPg);
+		IWizardPage jsfCapabilitiesWizPg = wizard.getNextPage(webModuleWizPg);
 		assertNotNull("Cannot create JSF capabilities wizard page",jsfCapabilitiesWizPg);
-		IWizardPage seamWizPg = aWizard.getNextPage(jsfCapabilitiesWizPg);
+		IWizardPage seamWizPg = wizard.getNextPage(jsfCapabilitiesWizPg);
 		assertNotNull("Cannot create seam facet wizard page",seamWizPg);
-		aWizard.performCancel();
+		wizard.performCancel();
+	}
+
+	/**
+	 * If all fields of all pages are valid then
+	 * first page of New Seam Project Wizard must enable Finish button. 
+	 * See http://jira.jboss.com/jira/browse/JBIDE-1111
+	 */
+	public void testSeamProjectNewWizardAllowsToFinishAtFirstPage() {
+		// Check Finish button
+		boolean canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
+		wizard.performCancel();
+
+		// Create JBoss AS Runtime, Server, HSQL DB Driver
+		try {
+			JBossASAdapterInitializer.initJBossAS("", new NullProgressMonitor());
+		} catch (CoreException e) {
+			fail("Cannot create JBoss AS Runtime, Server or HSQL Driver for unexisted AS location to test New Seam Project Wizard. " + e.getMessage());
+		} catch (ConnectionProfileException e) {
+			fail("Cannot create HSQL Driver for nonexistent AS location to test New Seam Project Wizard. " + e.getMessage());
+		}
+
+		// Create Seam Runtime and set proper field
+		SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
+
+		Bundle seamTest = Platform.getBundle("org.jboss.tools.seam.ui.test");
+		try {
+			URL seamUrl = FileLocator.resolve(seamTest.getEntry("/seam"));
+			File folder = new File(seamUrl.getPath());
+			manager.addRuntime("Seam 1.2.1", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			manager.addRuntime("Seam 2.0", folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
+		} catch (IOException e) {
+			fail("Cannot create Seam Runtime to test New Seam Project Wizard. " + e.getMessage());
+		}
+
+		try {
+			setUp();
+		} catch (Exception e) {
+			fail("Cannot create New Seam Project Wizard. " + e.getMessage());
+		}
+
+		// Check Finish button
+		canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled at first wizard page before user entered the project name.", canFinish);
+
+		// Set project name
+		IDataModel model = wizard.getDataModel();
+		model.setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProjectNewWizardAllowsToFinishAtFirstPageProjectName");
+
+		// Check Finish button
+		canFinish = wizard.canFinish();
+		assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", canFinish);
+
+		wizard.performCancel();
 	}
 }
