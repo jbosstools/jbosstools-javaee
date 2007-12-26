@@ -578,7 +578,7 @@
                             <title>Code Assist</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_30.png" scale="75"/>
+                                          <imagedata fileref="images/struts/struts_30.png" scale="85"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
@@ -598,7 +598,7 @@
                             <title>Outline View</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_32.png" scale="75"/>
+                                          <imagedata fileref="images/struts/struts_32.png" scale="85"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
@@ -665,7 +665,7 @@
                      <title>Source Mode</title>
                      <mediaobject>
                             <imageobject>
-                                   <imagedata fileref="images/struts/struts_37.png"/>
+                                   <imagedata fileref="images/struts/struts_37.png" scale="85"/>
                             </imageobject>
                      </mediaobject>
               </figure>
@@ -677,7 +677,7 @@
                      <title>Validators Mode</title>
                      <mediaobject>
                             <imageobject>
-                                   <imagedata fileref="images/struts/struts_38.png"/>
+                                   <imagedata fileref="images/struts/struts_38.png" scale="75"/>
                             </imageobject>
                      </mediaobject>
               </figure>
@@ -686,7 +686,7 @@
                      <title>Validation Rules</title>
                      <mediaobject>
                             <imageobject>
-                                   <imagedata fileref="images/struts/struts_39.png"/>
+                                   <imagedata fileref="images/struts/struts_39.png" scale="75"/>
                             </imageobject>
                      </mediaobject>
               </figure>
