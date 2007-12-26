@@ -33,9 +33,11 @@
     </bookinfo>
     
 <toc/>  
-	&Visual_Web_Tools;
-	&features_list;
+    
     &jsf_support;
+    &Visual_Web_Tools;
+    &features_list;
+    
     &struts_support;
     &editors;
     &palette;
