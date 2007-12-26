@@ -418,7 +418,7 @@
         <title>Rich Faces Support</title>
         <para>JBoss Developer Studio comes with a tight integration with <emphasis>
                 <property>Rich Faces</property>
-            </emphasis> component framework. After installing JBDS Rich Faces components as well as <emphasis>
+            </emphasis> component framework. Rich Faces ans Ajax4jsf in JBoss Tools Palette always exist, this palette is not dynamic and is not changed from file to file. After installing JBDS Rich Faces components as well as <emphasis>
                 <property>Ajax4jsf</property>
             </emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
         <figure>
