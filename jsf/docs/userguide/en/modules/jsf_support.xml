@@ -44,7 +44,7 @@
                         <title>Choosing JSF Environment</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_11.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_11.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -96,7 +96,7 @@
                         <title>Choosing Facelets Environment</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_2.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_2.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -107,7 +107,7 @@
                         <title>Choosing Facelets Template</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_3.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_3.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -125,7 +125,7 @@
                         <title>Facelets Components</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_4.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_4.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -135,7 +135,7 @@
                         <title>XHTML File Code Assist</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_5.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_5.png" scale="70"/>
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -153,7 +153,7 @@
                         <title>Code Assist for Jsfc Attribute</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_6.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_6.png" scale="75"/>
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -169,7 +169,7 @@
                         <title>Code Assist for JSF Components</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_7.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_7.png" scale="80"/>
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -185,7 +185,7 @@
                         <title/>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_8.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_8.png" scale="80"/>
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -199,7 +199,7 @@
                         <title>Template Hyperlink</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_9.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_9.png" scale="75"/>
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -263,9 +263,7 @@
                                 <title>Choosing a JSF Project</title>
                                 <mediaobject>
                                         <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_10.png"
-                                                />
+                                                <imagedata fileref="images/jsf_support/jsf_support_10.png" />
                                         </imageobject>
                                 </mediaobject>
                         </figure>
@@ -278,7 +276,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_11.png"
+                                                        fileref="images/jsf_support/jsf_support_11.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -295,7 +293,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_12.png"
+                                                        fileref="images/jsf_support/jsf_support_12.png " 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -315,7 +313,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_13.png"
+                                                        fileref="images/jsf_support/jsf_support_13.png "  
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -353,7 +351,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_14.png"
+                                                        fileref="images/jsf_support/jsf_support_14.png"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -366,7 +364,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_15.png"
+                                                        fileref="images/jsf_support/jsf_support_15.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -407,7 +405,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_16.png"
+                                                        fileref="images/jsf_support/jsf_support_16.png"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -419,8 +417,8 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_17.png"
-                                                />
+                                                        fileref="images/jsf_support/jsf_support_17.png" 
+                                                /> 
                                         </imageobject>
                                 </mediaobject>
                         </figure>
@@ -458,7 +456,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_18.png"
+                                                        fileref="images/jsf_support/jsf_support_18.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -478,7 +476,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_19.png"
+                                                        fileref="images/jsf_support/jsf_support_19.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -489,7 +487,7 @@
                 <section id="AddingYourOwnProjectTemplates853">
                         <?dbhtml filename="AddingYourOwnProjectTemplates.html"?>
                         <title>Adding Your Own Project Templates</title>
-						<para>Template is a set of files that serve as a basis to facilitate the creation of a new project. Project templates provide content and structure for a project.</para>
+                        <para>Template is a set of files that serve as a basis to facilitate the creation of a new project. Project templates provide content and structure for a project.</para>
                         <para>JBoss Developer Studio has a powerful templating capability for
                                 creating new and importing existing Struts and JSF projects. This
                                 templating facility has a variety of aspects to consider. But,
@@ -512,7 +510,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_20.png"
+                                                        fileref="images/jsf_support/jsf_support_20.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -578,7 +576,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_21.png"
+                                                        fileref="images/jsf_support/jsf_support_21.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -614,7 +612,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_22.png"
+                                                        fileref="images/jsf_support/jsf_support_22.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -629,7 +627,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_23.png"
+                                                        fileref="images/jsf_support/jsf_support_23.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -644,7 +642,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_24.png"
+                                                        fileref="images/jsf_support/jsf_support_24.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -662,7 +660,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_25.png"
+                                                        fileref="images/jsf_support/jsf_support_25.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -676,8 +674,8 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_26.png"
-                                                />
+                                                        fileref="images/jsf_support/jsf_support_26.png" 
+                                                /> 
                                         </imageobject>
                                 </mediaobject>
                         </figure>
@@ -687,7 +685,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_59.png"
+                                                        fileref="images/jsf_support/jsf_support_59.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -706,7 +704,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_27.png"
+                                                        fileref="images/jsf_support/jsf_support_27.png" scale="75"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -715,14 +713,14 @@
                 <section id="ContentAssist976">
                         <?dbhtml filename="SendAnAJAXRequest.html"?>
                         <title>Code Assist</title>
-						<para>Code Assist provides pop-up help to help you complete your code statements. Using Code Assist allows you to complete your code statements faster and with more accuracy.</para>
+                        <para>Code Assist provides pop-up help to help you complete your code statements. Using Code Assist allows you to complete your code statements faster and with more accuracy.</para>
                         <para>Code assist is always available in the Source mode:</para>
                         <figure>
                                 <title>Code Assist in Source View</title>
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_28.png"
+                                                        fileref="images/jsf_support/jsf_support_28.png"  scale="75"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -731,7 +729,7 @@
                 <section id="ErrorReporting3324">
                         <?dbhtml filename="ErrorReporting.html"?>
                         <title>Error Reporting</title>
-						<para>When you are developing your project, JBoss Developer Studio constantly provides error checking. This greatly reduces your development time as it allows you to catch many of the errors during development.</para>
+                        <para>When you are developing your project, JBoss Developer Studio constantly provides error checking. This greatly reduces your development time as it allows you to catch many of the errors during development.</para>
                         <para>Errors will be reported by JBoss Developer Studio&apos;s <link
                                 linkend="verif_valid"> verification</link>
                                 facility:</para>
@@ -740,7 +738,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_29.png"
+                                                        fileref="images/jsf_support/jsf_support_29.png"  scale="75"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -752,7 +750,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_30.png"
+                                                        fileref="images/jsf_support/jsf_support_30.png"  scale="75"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -768,7 +766,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_31.png"
+                                                        fileref="images/jsf_support/jsf_support_31.png" scale="60"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -785,7 +783,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_32.png"
+                                                        fileref="images/jsf_support/jsf_support_32.png" scale="60"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -800,7 +798,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_33.png"
+                                                        fileref="images/jsf_support/jsf_support_33.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -838,7 +836,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_34.png"
+                                                        fileref="images/jsf_support/jsf_support_34.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -852,7 +850,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_35.png"
+                                                        fileref="images/jsf_support/jsf_support_35.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -884,7 +882,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_36.png"
+                                                        fileref="images/jsf_support/jsf_support_36.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -897,7 +895,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_37.png"
+                                                        fileref="images/jsf_support/jsf_support_37.png"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -913,7 +911,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_38.png"
+                                                        fileref="images/jsf_support/jsf_support_38.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -930,7 +928,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_39.png"
+                                                        fileref="images/jsf_support/jsf_support_39.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -946,7 +944,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_40.png"
+                                                        fileref="images/jsf_support/jsf_support_40.png" scale="75"
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -966,7 +964,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_42.png"
+                                                        fileref="images/jsf_support/jsf_support_42.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -991,7 +989,7 @@
                                 <mediaobject>
                                         <imageobject>
                                                 <imagedata
-                                                  fileref="images/jsf_support/jsf_support_43.png"
+                                                        fileref="images/jsf_support/jsf_support_43.png" 
                                                 />
                                         </imageobject>
                                 </mediaobject>
@@ -1016,7 +1014,7 @@
                         <title>Converters</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_44.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_44.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1040,7 +1038,7 @@
                         <title>Add Converter Form</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_45.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_45.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1058,7 +1056,7 @@
                         <title>Generation of Source Code for Converter Class</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_46.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_46.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1075,7 +1073,7 @@
                         <title>New Java Class Form</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_47.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_47.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1090,7 +1088,7 @@
                         <title>Converter Class</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_48.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_48.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1114,7 +1112,7 @@
                         <title>Validator in Faces Config Editor</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_49.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_49.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1138,7 +1136,7 @@
                         <title>Adding Validator</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_50.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_50.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1159,7 +1157,7 @@
                         <title>Creating Validator Class</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_51.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_51.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1175,7 +1173,7 @@
                         <title>New Java Class Form</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_52.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_52.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1190,7 +1188,7 @@
                         <title>Converter Class Editing</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_53.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_53.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1215,7 +1213,7 @@
                         <title>Referenced Beans in Faces Config Editor</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_54.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_54.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1236,7 +1234,7 @@
                         <title>Add Referenced Bean</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_55.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_55.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1251,7 +1249,7 @@
                         <title>Create Referenced Bean Class</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_56.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_56.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1267,7 +1265,7 @@
                         <title>New Java Class Form</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_57.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_57.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>
@@ -1283,7 +1281,7 @@
                         <title>Referenced Bean Class Editing</title>
                         <mediaobject>
                                 <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_58.png"/>
+                                        <imagedata fileref="images/jsf_support/jsf_support_58.png" />
                                 </imageobject>
                         </mediaobject>
                 </figure>

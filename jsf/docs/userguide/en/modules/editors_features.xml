@@ -27,7 +27,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>NameBean Managed Bean</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/editors_features/editors_features_1.png"/>
+            <imagedata fileref="images/editors_features/editors_features_1.png" scalefit="75"/>
         </imageobject>
 </mediaobject>
 </figure>

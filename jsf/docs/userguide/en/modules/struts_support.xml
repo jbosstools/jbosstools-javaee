@@ -274,7 +274,7 @@
                             <title>Struts-config.xml File</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_13.png"/>
+                                          <imagedata fileref="images/struts/struts_13.png" scale="75"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
@@ -437,7 +437,7 @@
                             <title>Errors in Source Mode</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_21.png"/>
+                                          <imagedata fileref="images/struts/struts_21.png" scale="75"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
@@ -578,7 +578,7 @@
                             <title>Code Assist</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_30.png"/>
+                                          <imagedata fileref="images/struts/struts_30.png" scale="75"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
@@ -587,7 +587,7 @@
                             <title>Errors Reporting</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_31.png"/>
+                                          <imagedata fileref="images/struts/struts_31.png" scale="75"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
@@ -598,7 +598,7 @@
                             <title>Outline View</title>
                             <mediaobject>
                                    <imageobject>
-                                          <imagedata fileref="images/struts/struts_32.png"/>
+                                          <imagedata fileref="images/struts/struts_32.png" scale="75"/>
                                    </imageobject>
                             </mediaobject>
                      </figure>
