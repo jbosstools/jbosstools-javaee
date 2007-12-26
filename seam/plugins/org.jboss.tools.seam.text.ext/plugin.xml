@@ -39,7 +39,7 @@
 		
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner"
-         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFJSPLinkHyperlinkPartitioner">
+         	class="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
@@ -77,6 +77,18 @@
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
 			</contenttypeidentifier>
 		</hyperlink>
+		
+		<hyperlink 
+			class="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlink" 
+	  		id="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
    </extension>
 
 	<extension
@@ -88,5 +100,6 @@
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
    </extension>
+
 
 </plugin>
