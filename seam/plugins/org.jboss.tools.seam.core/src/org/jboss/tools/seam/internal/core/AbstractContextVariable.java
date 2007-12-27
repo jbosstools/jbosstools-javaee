@@ -27,6 +27,9 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 	protected String scope;
 
 	public ScopeType getScope() {
+		if(scopeType == null) {
+			return ScopeType.UNSPECIFIED;
+		}
 		return scopeType;
 	}
 
@@ -66,7 +69,7 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 			scope = f.scope;
 			scopeType = f.scopeType;
 		}
-	
+
 		return changes;
 	}
 
@@ -79,5 +82,4 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 		AbstractContextVariable c = (AbstractContextVariable)super.clone();
 		return c;
 	}
-
 }
