@@ -281,32 +281,30 @@ public class SeamCoreValidator extends SeamValidator {
 		boolean unknownVariable = true;
 		boolean firstDuplicateVariableWasMarked = false;
 		for (ISeamContextVariable variable : variables) {
-			if((factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
-				if(variable instanceof ISeamFactory || variable instanceof ISeamComponent || variable instanceof IRole) {
-					if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName)) {
-						// Duplicate factory name. Mark it.
-						// Save link to factory resource.
-						ISeamTextSourceReference location = null;
-						if(!firstDuplicateVariableWasMarked) {
-							firstDuplicateVariableWasMarked = true;
-							// mark original factory
-							validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath());
-							location = coreHelper.getLocationOfName(factory);
-							this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, factory.getResource());
-						}
-						// Mark duplicate variable.
-						if(!coreHelper.isJar(variable.getSourcePath())) {
-							IResource resource = coreHelper.getComponentResourceWithName(variable);
-							validationContext.addLinkedCoreResource(factoryName, resource.getFullPath());
-							location = coreHelper.getLocationOfName(variable);
-							this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, resource);
-						}
-//						markedDuplicateFactoryNames.add(factoryName);
+			if(variable instanceof ISeamFactory || variable instanceof ISeamComponent || variable instanceof IRole) {
+				if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName) && 
+					(factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
+					// Duplicate factory name. Mark it.
+					// Save link to factory resource.
+					ISeamTextSourceReference location = null;
+					if(!firstDuplicateVariableWasMarked) {
+						firstDuplicateVariableWasMarked = true;
+						// mark original factory
+						validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath());
+						location = coreHelper.getLocationOfName(factory);
+						this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, factory.getResource());
 					}
-				} else {
-					// We have that variable name
-					unknownVariable = false;
+					// Mark duplicate variable.
+					if(!coreHelper.isJar(variable.getSourcePath())) {
+						IResource resource = coreHelper.getComponentResourceWithName(variable);
+						validationContext.addLinkedCoreResource(factoryName, resource.getFullPath());
+						location = coreHelper.getLocationOfName(variable);
+						this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, resource);
+					}
 				}
+			} else {
+				// We know that variable name
+				unknownVariable = false;
 			}
 		}
 		if(firstDuplicateVariableWasMarked) {
