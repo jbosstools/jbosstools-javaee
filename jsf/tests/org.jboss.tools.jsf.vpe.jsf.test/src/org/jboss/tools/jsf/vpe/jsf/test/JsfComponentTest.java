@@ -208,6 +208,67 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 		performTestForJsfComponent("converter.jsp"); // $NON-NLS-1$
 	}
 
+	public void testFacet() throws PartInitException, Throwable {
+		performTestForJsfComponent("facet.jsp"); // $NON-NLS-1$
+	}
+
+	public void testLoadBundle() throws PartInitException, Throwable {
+		performTestForJsfComponent("loadBundle.jsp"); // $NON-NLS-1$
+	}
+
+	public void testParam() throws PartInitException, Throwable {
+		performTestForJsfComponent("param.jsp"); // $NON-NLS-1$
+	}
+
+	public void testPhaseListener() throws PartInitException, Throwable {
+		performTestForJsfComponent("phaseListener.jsp"); // $NON-NLS-1$
+	}
+
+	public void testSelectItem() throws PartInitException, Throwable {
+		performTestForJsfComponent("selectItem.jsp"); // $NON-NLS-1$
+	}
+
+	public void testSelectItems() throws PartInitException, Throwable {
+		performTestForJsfComponent("selectItems.jsp"); // $NON-NLS-1$
+	}
+
+	public void testSetPropertyActionListener() throws PartInitException,
+			Throwable {
+		performTestForJsfComponent("setPropertyActionListener.jsp"); // $NON-NLS-1$
+	}
+
+	public void testSubview() throws PartInitException, Throwable {
+		performTestForJsfComponent("subview.jsp"); // $NON-NLS-1$
+	}
+
+	public void testValidateDoubleRange() throws PartInitException, Throwable {
+		performTestForJsfComponent("validateDoubleRange.jsp"); // $NON-NLS-1$
+	}
+
+	public void testValidateLength() throws PartInitException, Throwable {
+		performTestForJsfComponent("validateLength.jsp"); // $NON-NLS-1$
+	}
+
+	public void testValidateLongRange() throws PartInitException, Throwable {
+		performTestForJsfComponent("validateLongRange.jsp"); // $NON-NLS-1$
+	}
+
+	public void testValidator() throws PartInitException, Throwable {
+		performTestForJsfComponent("validator.jsp"); // $NON-NLS-1$
+	}
+
+	public void testValueChangeListener() throws PartInitException, Throwable {
+		performTestForJsfComponent("valueChangeListener.jsp"); // $NON-NLS-1$
+	}
+
+	public void testVerbatim() throws PartInitException, Throwable {
+		performTestForJsfComponent("verbatim.jsp"); // $NON-NLS-1$
+	}
+
+	public void testView() throws PartInitException, Throwable {
+		performTestForJsfComponent("view.jsp"); // $NON-NLS-1$
+	}
+
 	private void performTestForJsfComponent(String componentPage)
 			throws PartInitException, Throwable {
 		TestJsfComponentsUtil.waitForJobs();
