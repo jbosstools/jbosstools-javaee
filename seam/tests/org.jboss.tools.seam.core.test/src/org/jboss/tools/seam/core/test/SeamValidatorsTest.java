@@ -628,11 +628,61 @@ public class SeamValidatorsTest extends TestCase {
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 		System.out.println("UNKNOWN_EL_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME));
 
+		ISeamProject seamProject = getSeamProject(project);
+		
+		IFile contextVariableTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java");
+		
+		refreshProject(project);
+		
+		int number = getMarkersNumber(contextVariableTestFile);
+		assertTrue("Problem marker was found in contextVariableTestFile.java", number == 0);
+		
 		// Duplicate variable name
 		System.out.println("Test - Duplicate variable name");
 		
+		IFile contextVariableTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2");
+		try{
+			contextVariableTestFile.setContents(contextVariableTestFile2.getContents(), true, false, new NullProgressMonitor());
+			contextVariableTestFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
+					"'ContextVariableTest.2'", ex);
+		}
+		
+		refreshProject(project);
+
+		String[] messages = getMarkersMessage(contextVariableTestFile);
+		
+		assertTrue("Not all problem markers 'Duplicate variable name' was found", messages.length == 4);
+		
+		assertTrue("Problem marker 'Duplicate variable name' not found", "Duplicate variable name: messageList".equals(messages[0]));
+		
+		int[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
+		
+		assertTrue("Problem marker has wrong line number", (lineNumbers[0] == 16)||(lineNumbers[0] == 17)||(lineNumbers[0] == 36)||(lineNumbers[0] == 41));
+		
 		// Unknown variable name
 		System.out.println("Test - Unknown variable name");
+		
+		IFile contextVariableTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.3");
+		try{
+			contextVariableTestFile.setContents(contextVariableTestFile3.getContents(), true, false, new NullProgressMonitor());
+			contextVariableTestFile.touch(new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
+					"'ContextVariableTest.3'", ex);
+		}
+		
+		refreshProject(project);
+		
+		messages = getMarkersMessage(contextVariableTestFile);
+		
+		assertTrue("Problem marker 'Unknown variable name' not found", "Unknown context variable name: messageList5".equals(messages[0]));
+		
+		lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
+		
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
+
 	}
 
 	public void testExpressionLanguageValidator() {
