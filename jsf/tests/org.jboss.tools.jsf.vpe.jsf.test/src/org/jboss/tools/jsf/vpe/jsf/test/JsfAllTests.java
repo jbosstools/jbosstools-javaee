@@ -22,13 +22,28 @@ import junit.framework.TestSuite;
 
 public class JsfAllTests {
 
-    public static Test suite() {
-	TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$
-	// $JUnit-BEGIN$
-	suite.addTestSuite(JsfComponentTest.class);
-	// $JUnit-END$
-	return suite;
+	private final static String TEST_PROJECT_PATH = "/jsfTest";
 
-    }
+	private static void prepareTests() {
+
+		TestJsfComponentsUtil.importJsfPages(JsfTestPlugin
+				.getPluginResourcePath()
+				+ TEST_PROJECT_PATH);
+
+	}
+
+	public static Test suite() {
+		// prepare tests
+		prepareTests();
+
+		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$
+		// $JUnit-BEGIN$
+
+		suite.addTestSuite(JsfComponentTest.class);
+
+		// $JUnit-END$
+		return suite;
+
+	}
 
 }

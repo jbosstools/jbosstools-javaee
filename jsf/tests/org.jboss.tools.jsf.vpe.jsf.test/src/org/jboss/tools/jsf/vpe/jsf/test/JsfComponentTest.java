@@ -18,8 +18,6 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -34,7 +32,8 @@ import org.eclipse.ui.part.FileEditorInput;
 public class JsfComponentTest extends TestCase implements ILogListener {
 
 	private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; // $NON-NLS-1$
-	private final static String TEST_PROJECT_JAR_PATH = "/jsfTest.jar"; // $NON-NLS-1$
+	// private final static String TEST_PROJECT_JAR_PATH = "/jsfTest.jar"; //
+	// $NON-NLS-1$
 
 	// check warning log
 	private final static boolean checkWarning = false;
@@ -51,21 +50,23 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 	 * 
 	 * @see TestCase#setUp()
 	 */
+
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		// TODO: Use TestSetup to create and remove project once for all tests
 		// not for every one
-		if (ResourcesPlugin.getWorkspace().getRoot().findMember("JsfTest") == null) {
-
-			ImportJsfComponents.importJsfPages(JsfTestPlugin
-					.getPluginResourcePath()
-					+ TEST_PROJECT_JAR_PATH);
-
-			waitForJobs();
-			waitForJobs();
-			delay(5000);
-		}
+		// if (ResourcesPlugin.getWorkspace().getRoot().findMember("JsfTest") ==
+		// null) {
+		//
+		// ImportJsfComponents.importJsfPages(JsfTestPlugin
+		// .getPluginResourcePath()
+		// + TEST_PROJECT_JAR_PATH);
+		//
+		// waitForJobs();
+		// waitForJobs();
+		// delay(5000);
+		// }
 		Platform.addLogListener(this);
 	}
 
@@ -78,49 +79,14 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		// ImportRichFacesComponents.removeProject();
+		// ImportJsfComponents.removeProject();
 		// waitForJobs();
 		Platform.removeLogListener(this);
 	}
 
-	/**
-	 * Process UI input but do not return for the specified time interval.
-	 * 
-	 * @param waitTimeMillis
-	 *            the number of milliseconds
+	/*
+	 * JSF HTML test cases
 	 */
-	private void delay(long waitTimeMillis) {
-		Display display = Display.getCurrent();
-		if (display != null) {
-			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-			while (System.currentTimeMillis() < endTimeMillis) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-			display.update();
-		}
-		// Otherwise, perform a simple sleep.
-		else {
-			try {
-				Thread.sleep(waitTimeMillis);
-			} catch (InterruptedException e) {
-				// Ignored.
-			}
-		}
-	}
-
-	/**
-	 * Wait until all background tasks are complete.
-	 */
-	public void waitForJobs() {
-		while (Job.getJobManager().currentJob() != null)
-			delay(5000);
-	}
-
-	// public void testAllComponentsOnSinglePage() throws PartInitException,
-	// Throwable {
-	// performTestForRichFacesComponent("richFacesTest.xhtml"); // $NON-NLS-1$
-	// }
 
 	public void testCommandButton() throws PartInitException, Throwable {
 		performTestForJsfComponent("commandButton.jsp"); // $NON-NLS-1$
@@ -218,12 +184,36 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 		performTestForJsfComponent("selectOneRadio.jsp"); // $NON-NLS-1$
 	}
 
+	/*
+	 * JSF Core test cases
+	 */
+
+	public void testActionListener() throws PartInitException, Throwable {
+		performTestForJsfComponent("actionListener.jsp"); // $NON-NLS-1$
+	}
+
+	public void testAttribute() throws PartInitException, Throwable {
+		performTestForJsfComponent("attribute.jsp"); // $NON-NLS-1$
+	}
+
+	public void testConvertDateTime() throws PartInitException, Throwable {
+		performTestForJsfComponent("convertDateTime.jsp"); // $NON-NLS-1$
+	}
+
+	public void testConvertNumber() throws PartInitException, Throwable {
+		performTestForJsfComponent("convertNumber.jsp"); // $NON-NLS-1$
+	}
+
+	public void testConverter() throws PartInitException, Throwable {
+		performTestForJsfComponent("converter.jsp"); // $NON-NLS-1$
+	}
+
 	private void performTestForJsfComponent(String componentPage)
 			throws PartInitException, Throwable {
-		waitForJobs();
+		TestJsfComponentsUtil.waitForJobs();
 
 		exception = null;
-		IPath componentPath = ImportJsfComponents
+		IPath componentPath = TestJsfComponentsUtil
 				.getComponentPath(componentPage);
 
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
@@ -233,8 +223,8 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.openEditor(input, EDITOR_ID, true);
 
-		waitForJobs();
-		delay(3000);
+		TestJsfComponentsUtil.waitForJobs();
+		TestJsfComponentsUtil.delay(3000);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.closeAllEditors(true);
 
