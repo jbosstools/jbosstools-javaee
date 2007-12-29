@@ -26,11 +26,18 @@ public class Change {
 	List<Change> children;
 	
 	/**
+	 * Constructs object with initial values
 	 * 
 	 * @param target
-	 * @param property - name of property changed or null, if change is adding/removing a child.
-	 * @param oldValue - old value; if null and property = null, then child (newValue) is added
-	 * @param newValue - new value; if null and property = null, then child (oldValue) is removed
+	 * @param property
+	 *            name of property changed or null, if change is adding/removing
+	 *            a child.
+	 * @param oldValue
+	 *            old value; if null and property = null, then child (newValue)
+	 *            is added
+	 * @param newValue
+	 *            new value; if null and property = null, then child (oldValue)
+	 *            is removed
 	 */
 	public Change(Object target, String property, Object oldValue, Object newValue) {
 		this.target = target;
