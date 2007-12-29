@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -37,19 +39,27 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 
 	@Override
 	public void doFillIntoGrid(Object parent) {
-		Assert.isTrue(parent instanceof Composite, SeamUIMessages.COMPOSITE_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
-		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,SeamUIMessages.COMPOSITE_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
+		Assert.isTrue(parent instanceof Composite,
+			SeamUIMessages.COMPOSITE_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
+		Assert.isTrue(((Composite) parent).getLayout() instanceof GridLayout,
+			SeamUIMessages.COMPOSITE_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
+
 		Composite aComposite = (Composite) parent;
-		Control[] controls = (Control[])getEditorControls(aComposite);
-		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
+		Control[] controls = (Control[]) getEditorControls(aComposite);
+		GridLayout gl = (GridLayout) ((Composite) parent).getLayout();
 		
-        for(int i=0;i<controls.length;i++) {
-        	GridData gd = new GridData();
-            gd.horizontalSpan = i==1?gl.numColumns-controls.length+1:1;
-            gd.horizontalAlignment = GridData.FILL;
-         	gd.grabExcessHorizontalSpace = (i==1);
-            controls[i].setLayoutData(gd);
-        }
+        for (int i = 0; i < controls.length; i++) {
+			GridData gd = new GridData();
+			gd.horizontalSpan = i == 1 ? gl.numColumns - controls.length + 1 : 1;
+			if (controls[i] instanceof Combo && i == (controls.length - 1)) {
+				gd.horizontalAlignment = SWT.BEGINNING;
+			} else {
+				gd.horizontalAlignment = GridData.FILL;
+				gd.grabExcessHorizontalSpace = (i == 1);				
+			}
+
+			controls[i].setLayoutData(gd);
+		}
 	}
 
 	List<Control> controls = new ArrayList<Control>();

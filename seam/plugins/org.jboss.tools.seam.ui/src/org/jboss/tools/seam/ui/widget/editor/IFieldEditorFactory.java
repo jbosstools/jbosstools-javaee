@@ -104,7 +104,7 @@ public interface IFieldEditorFactory {
 	 */
 	IFieldEditor createUneditableTextEditor(String jdbcDriverClassName,
 			String string, String string2);
-
+	
 	/**
 	 * 
 	 * @param name
