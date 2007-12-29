@@ -12,19 +12,18 @@ package org.jboss.tools.jsf.vpe.jsf.test;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
-import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 
 /**
@@ -33,7 +32,7 @@ import org.eclipse.ui.wizards.datatransfer.ImportOperation;
  * @author sdzmitrovich
  * 
  */
-public class TestJsfComponentsUtil {
+public class TestJsfUtil {
 	private static final String PROJECT_NAME = "JsfTest"; // $NON-NLS-1$
 	private static final String COMPONENTS_PATH = "WebContent/pages"; // $NON-NLS-1$
 
@@ -41,7 +40,7 @@ public class TestJsfComponentsUtil {
 	static void importJsfPages(String path) {
 
 		if (ResourcesPlugin.getWorkspace().getRoot().findMember(
-				TestJsfComponentsUtil.PROJECT_NAME) != null) {
+				TestJsfUtil.PROJECT_NAME) != null) {
 			waitForJobs();
 
 			try {
@@ -62,13 +61,17 @@ public class TestJsfComponentsUtil {
 				}
 			};
 
-			// source file
-			File source = new File(path);
+			ImportProvider importProvider = new ImportProvider();
+
+			// need to remove from imported project "svn" files
+			List<String> unimportedFiles = new ArrayList<String>();
+			unimportedFiles.add(".svn");
+
+			importProvider.setUnimportedFiles(unimportedFiles);
 
 			// create import operation
 			ImportOperation importOp = new ImportOperation(project
-					.getFullPath(), null, FileSystemStructureProvider.INSTANCE,
-					overwrite, Arrays.asList(source.listFiles()));
+					.getFullPath(), new File(path), importProvider, overwrite);
 
 			// import files just to project folder ( without old structure )
 			importOp.setCreateContainerStructure(false);
@@ -91,15 +94,15 @@ public class TestJsfComponentsUtil {
 	 * @return
 	 * @throws CoreException
 	 */
-	static IPath getComponentPath(String componentPage) throws CoreException {
+	static IResource getComponentPath(String componentPage)
+			throws CoreException {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				PROJECT_NAME);
 		if (project != null) {
-			IResource resource = project.getFolder(COMPONENTS_PATH).findMember(
-					componentPage);
-			if (resource != null) {
-				return resource.getFullPath();
-			}
+			return project.getFolder(COMPONENTS_PATH).findMember(componentPage);
+			// if (resource != null) {
+			// return resource.getFullPath();
+			// }
 
 		}
 

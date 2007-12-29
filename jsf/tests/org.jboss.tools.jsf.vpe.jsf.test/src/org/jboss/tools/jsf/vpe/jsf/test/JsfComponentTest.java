@@ -13,9 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.test;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IEditorInput;
@@ -32,7 +30,6 @@ import org.eclipse.ui.part.FileEditorInput;
 public class JsfComponentTest extends TestCase implements ILogListener {
 
 	private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; // $NON-NLS-1$
-	// private final static String TEST_PROJECT_JAR_PATH = "/jsfTest.jar"; //
 	// $NON-NLS-1$
 
 	// check warning log
@@ -54,19 +51,6 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		// TODO: Use TestSetup to create and remove project once for all tests
-		// not for every one
-		// if (ResourcesPlugin.getWorkspace().getRoot().findMember("JsfTest") ==
-		// null) {
-		//
-		// ImportJsfComponents.importJsfPages(JsfTestPlugin
-		// .getPluginResourcePath()
-		// + TEST_PROJECT_JAR_PATH);
-		//
-		// waitForJobs();
-		// waitForJobs();
-		// delay(5000);
-		// }
 		Platform.addLogListener(this);
 	}
 
@@ -79,8 +63,6 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		// ImportJsfComponents.removeProject();
-		// waitForJobs();
 		Platform.removeLogListener(this);
 	}
 
@@ -271,21 +253,26 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 
 	private void performTestForJsfComponent(String componentPage)
 			throws PartInitException, Throwable {
-		TestJsfComponentsUtil.waitForJobs();
+		TestJsfUtil.waitForJobs();
 
 		exception = null;
-		IPath componentPath = TestJsfComponentsUtil
+		
+		// IPath componentPath = TestJsfComponentsUtil
+		// .getComponentPath(componentPage);
+		//
+		// IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
+		// componentPath);
+
+		IFile file = (IFile) TestJsfUtil
 				.getComponentPath(componentPage);
 
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
-				componentPath);
 		IEditorInput input = new FileEditorInput(file);
 
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.openEditor(input, EDITOR_ID, true);
 
-		TestJsfComponentsUtil.waitForJobs();
-		TestJsfComponentsUtil.delay(3000);
+		TestJsfUtil.waitForJobs();
+		TestJsfUtil.delay(3000);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.closeAllEditors(true);
 

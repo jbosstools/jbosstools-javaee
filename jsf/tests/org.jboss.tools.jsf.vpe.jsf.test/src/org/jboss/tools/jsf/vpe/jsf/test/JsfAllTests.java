@@ -26,7 +26,7 @@ public class JsfAllTests {
 
 	private static void prepareTests() {
 
-		TestJsfComponentsUtil.importJsfPages(JsfTestPlugin
+		TestJsfUtil.importJsfPages(JsfTestPlugin
 				.getPluginResourcePath()
 				+ TEST_PROJECT_PATH);
 
@@ -40,6 +40,7 @@ public class JsfAllTests {
 		// $JUnit-BEGIN$
 
 		suite.addTestSuite(JsfComponentTest.class);
+//		suite.addTestSuite(JsfJideTest.class);
 
 		// $JUnit-END$
 		return suite;
