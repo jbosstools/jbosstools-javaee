@@ -105,6 +105,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(bbcComponentFile);
+		assertFalse("Problem marker 'Duplicate component name' not found", number == 0);
+		
 		String[] messages = getMarkersMessage(bbcComponentFile);
 		
 		assertTrue("Problem marker 'Duplicate component name' not found","Duplicate component name: abcComponent".equals(messages[0]));
@@ -127,6 +130,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Stateful component does not contain @Remove method' not found' not found", number == 0);
+		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Stateful component does not contain @Remove method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove".equals(messages[0]));
 		
@@ -147,6 +153,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Stateful component does not contain @Destroy method' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Stateful component does not contain @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Destroy".equals(messages[0]));
@@ -169,6 +178,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Stateful component has wrong scope' not found' not found' not found", number == 0);
+		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Stateful component has wrong scope' not found", "Stateful component \"statefulComponent\" should not have org.jboss.seam.ScopeType.PAGE, nor org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
 		
@@ -190,6 +202,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(componentsFile);
+		assertFalse("Problem marker 'Component class name cannot be resolved to a type' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(componentsFile);
 		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(messages[0]));
@@ -222,6 +237,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(componentsFile);
+		assertFalse("Problem marker 'Component class does not contain setter for property' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(componentsFile);
 		assertTrue("Problem marker 'Component class does not contain setter for property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not contain setter for property \"abc\"".equals(messages[0]));
@@ -263,6 +281,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(abcEntityFile);
+		assertFalse("Problem marker 'Entity component has wrong scope' not found' not found' not found", number == 0);
+		
 		String[] messages = getMarkersMessage(abcEntityFile);
 		assertTrue("Problem marker 'Entity component has wrong scope' not found", "Entity component \"abcEntity\" should not have org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
 
@@ -283,6 +304,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(abcEntityFile);
+		assertFalse("Problem marker 'Duplicate @Remove method' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(abcEntityFile);
 		assertTrue("Problem marker 'Duplicate @Remove method' not found", messages[0].startsWith("Duplicate @Remove method \"removeMethod"));
@@ -324,6 +348,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Duplicate @Destroy method' not found' not found' not found", number == 0);
+		
 		String[] messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Duplicate @Destroy method' not found", messages[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
 
@@ -354,6 +381,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Duplicate @Create method' not found' not found' not found", number == 0);
+		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Duplicate @Create method' not found", messages[0].startsWith("Duplicate @Create method \"createMethod"));
 		
@@ -383,6 +413,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Duplicate @Unwrap method' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Duplicate @Unwrap method' not found", messages[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
@@ -423,6 +456,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Only component class can have @Destroy method' not found' not found' not found", number == 0);
+		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Destroy method' not found", "Only component class can have @Destroy method \"destroyMethod\"".equals(messages[0]));
 		
@@ -443,6 +479,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Only component class can have @Create method' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Create method' not found", "Only component class can have @Create method \"createMethod\"".equals(messages[0]));
@@ -465,6 +504,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Only component class can have @Unwrap method' not found' not found' not found' not found", number == 0);
+		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Unwrap method' not found", "Only component class can have @Unwrap method \"unwrapMethod\"".equals(messages[0]));
 
@@ -485,6 +527,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Only component class can have @Observer method' not found' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(statefulComponentFile);
 		assertTrue("Problem marker 'Only component class can have @Observer method' not found", "Only component class can have @Observer method \"observerMethod\"".equals(messages[0]));
@@ -518,6 +563,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(Component12File);
+		assertFalse("Problem marker 'Unknown factory name' not found' not found' not found' not found", number == 0);
+		
 		String[] messages = getMarkersMessage(Component12File);
 
 		assertTrue("Problem marker 'Unknown factory name' not found", "Factory method \"messageList2\" with a void return type must have an associated @Out/Databinder".equals(messages[0]));
@@ -525,7 +573,6 @@ public class SeamValidatorsTest extends TestCase {
 		int[] lineNumbers = getMarkersNumbersOfLine(Component12File);
 		
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 24);
-
 	}
 	
 	public void testBijectionsValidator() {
@@ -564,6 +611,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(selectionTestFile);
+		assertFalse("Problem marker 'Multiple data binder' not found' not found' not found' not found", number == 0);
 
 		String[] messages = getMarkersMessage(selectionTestFile);
 		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
@@ -575,6 +625,9 @@ public class SeamValidatorsTest extends TestCase {
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
 
+		number = getMarkersNumber(selectionIndexTestFile);
+		assertFalse("Problem marker 'Multiple data binder' not found' not found' not found' not found", number == 0);
+		
 		messages = getMarkersMessage(selectionIndexTestFile);
 		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
 
@@ -607,6 +660,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(selectionTestFile);
+		assertFalse("Problem marker 'Unknown @DataModel/@Out name' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(selectionTestFile);
 		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: messageList2"));
@@ -614,6 +670,9 @@ public class SeamValidatorsTest extends TestCase {
 		lineNumbers = getMarkersNumbersOfLine(selectionTestFile);
 		
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 27);
+		
+		number = getMarkersNumber(selectionIndexTestFile);
+		assertFalse("Problem marker 'Unknown @DataModel/@Out name' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(selectionIndexTestFile);
 		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: messageList2"));
@@ -650,16 +709,18 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
-
+		
 		String[] messages = getMarkersMessage(contextVariableTestFile);
 		
 		assertTrue("Not all problem markers 'Duplicate variable name' was found", messages.length == 4);
 		
-		assertTrue("Problem marker 'Duplicate variable name' not found", "Duplicate variable name: messageList".equals(messages[0]));
+		for(int i=0;i<4;i++)
+			assertTrue("Problem marker 'Duplicate variable name' not found", "Duplicate variable name: messageList".equals(messages[i]));
 		
 		int[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
 		
-		assertTrue("Problem marker has wrong line number", (lineNumbers[0] == 16)||(lineNumbers[0] == 17)||(lineNumbers[0] == 36)||(lineNumbers[0] == 41));
+		for(int i=0;i<4;i++)
+			assertTrue("Problem marker has wrong line number", (lineNumbers[i] == 16)||(lineNumbers[i] == 17)||(lineNumbers[i] == 36)||(lineNumbers[i] == 41));
 		
 		// Unknown variable name
 		System.out.println("Test - Unknown variable name");
@@ -674,6 +735,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(contextVariableTestFile);
+		assertFalse("Problem marker 'Unknown variable name' not found' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(contextVariableTestFile);
 		
@@ -719,6 +783,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		refreshProject(project);
 		
+		number = getMarkersNumber(abcComponentXHTMLFile);
+		assertFalse("Problem marker 'Context variable cannot be resolved' not found' not found' not found' not found", number == 0);
+		
 		String[] messages = getMarkersMessage(abcComponentXHTMLFile);
 		
 		assertTrue("Problem marker 'Context variable cannot be resolved' not found", "bcComponent cannot be resolved".equals(messages[0]));
@@ -740,6 +807,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(abcComponentXHTMLFile);
+		assertFalse("Problem marker 'Property cannot be resolved' not found' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(abcComponentXHTMLFile);
 		
@@ -776,6 +846,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(abcComponentXHTMLFile);
+		assertFalse("Problem marker 'Unpaired Getter/Setter' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(abcComponentXHTMLFile);
 
@@ -795,6 +868,9 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
+		
+		number = getMarkersNumber(abcComponentXHTMLFile);
+		assertFalse("Problem marker 'Unpaired Getter/Setter' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(abcComponentXHTMLFile);
 
