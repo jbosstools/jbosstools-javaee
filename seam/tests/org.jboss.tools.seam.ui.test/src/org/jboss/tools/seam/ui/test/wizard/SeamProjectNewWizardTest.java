@@ -75,7 +75,7 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * first page of New Seam Project Wizard must enable Finish button. 
 	 * See http://jira.jboss.com/jira/browse/JBIDE-1111
 	 */
-	public void testSeamProjectNewWizardAllowsToFinishAtFirstPage() {
+	public void testJiraJbide1111() {
 		// Check Finish button
 		boolean canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
