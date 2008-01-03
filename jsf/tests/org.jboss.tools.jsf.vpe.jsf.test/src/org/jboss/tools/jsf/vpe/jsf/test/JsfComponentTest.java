@@ -71,99 +71,99 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 	 */
 
 	public void testCommandButton() throws PartInitException, Throwable {
-		performTestForJsfComponent("commandButton.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/commandButton.jsp"); // $NON-NLS-1$
 	}
 
 	public void testCommandLink() throws PartInitException, Throwable {
-		performTestForJsfComponent("commandLink.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/commandLink.jsp"); // $NON-NLS-1$
 	}
 
 	public void testDataTable() throws PartInitException, Throwable {
-		performTestForJsfComponent("dataTable.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/dataTable.jsp"); // $NON-NLS-1$
 	}
 
 	public void testForm() throws PartInitException, Throwable {
-		performTestForJsfComponent("form.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/form.jsp"); // $NON-NLS-1$
 	}
 
 	public void testGraphicImage() throws PartInitException, Throwable {
-		performTestForJsfComponent("graphicImage.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/graphicImage.jsp"); // $NON-NLS-1$
 	}
 
 	public void testInputHidden() throws PartInitException, Throwable {
-		performTestForJsfComponent("inputHidden.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/inputHidden.jsp"); // $NON-NLS-1$
 	}
 
 	public void testInputSecret() throws PartInitException, Throwable {
-		performTestForJsfComponent("inputSecret.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/inputSecret.jsp"); // $NON-NLS-1$
 	}
 
 	public void testInputText() throws PartInitException, Throwable {
-		performTestForJsfComponent("inputText.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/inputText.jsp"); // $NON-NLS-1$
 	}
 
 	public void testInputTextArea() throws PartInitException, Throwable {
-		performTestForJsfComponent("inputTextArea.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/inputTextArea.jsp"); // $NON-NLS-1$
 	}
 
 	public void testMessage() throws PartInitException, Throwable {
-		performTestForJsfComponent("message.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/message.jsp"); // $NON-NLS-1$
 	}
 
 	public void testMessages() throws PartInitException, Throwable {
-		performTestForJsfComponent("messages.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/messages.jsp"); // $NON-NLS-1$
 	}
 
 	public void testOutputFormat() throws PartInitException, Throwable {
-		performTestForJsfComponent("outputFormat.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/outputFormat.jsp"); // $NON-NLS-1$
 	}
 
 	public void testOutputLabel() throws PartInitException, Throwable {
-		performTestForJsfComponent("outputLabel.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/outputLabel.jsp"); // $NON-NLS-1$
 	}
 
 	public void testOutputLink() throws PartInitException, Throwable {
-		performTestForJsfComponent("outputLink.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/outputLink.jsp"); // $NON-NLS-1$
 	}
 
 	public void testOutputText() throws PartInitException, Throwable {
-		performTestForJsfComponent("outputText.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/outputText.jsp"); // $NON-NLS-1$
 	}
 
 	public void testPanelGrid() throws PartInitException, Throwable {
-		performTestForJsfComponent("panelGrid.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/panelGrid.jsp"); // $NON-NLS-1$
 	}
 
 	public void testPanelGroup() throws PartInitException, Throwable {
-		performTestForJsfComponent("panelGroup.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/panelGroup.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectBooleanCheckbox() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectBooleanCheckbox.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectBooleanCheckbox.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectManyCheckbox() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectManyCheckbox.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectManyCheckbox.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectManyListbox() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectManyListbox.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectManyListbox.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectManyMenu() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectManyMenu.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectManyMenu.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectOneListbox() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectOneListbox.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectOneListbox.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectOneMenu() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectOneMenu.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectOneMenu.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectOneRadio() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectOneRadio.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectOneRadio.jsp"); // $NON-NLS-1$
 	}
 
 	/*
@@ -171,84 +171,84 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 	 */
 
 	public void testActionListener() throws PartInitException, Throwable {
-		performTestForJsfComponent("actionListener.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/actionListener.jsp"); // $NON-NLS-1$
 	}
 
 	public void testAttribute() throws PartInitException, Throwable {
-		performTestForJsfComponent("attribute.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/attribute.jsp"); // $NON-NLS-1$
 	}
 
 	public void testConvertDateTime() throws PartInitException, Throwable {
-		performTestForJsfComponent("convertDateTime.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/convertDateTime.jsp"); // $NON-NLS-1$
 	}
 
 	public void testConvertNumber() throws PartInitException, Throwable {
-		performTestForJsfComponent("convertNumber.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/convertNumber.jsp"); // $NON-NLS-1$
 	}
 
 	public void testConverter() throws PartInitException, Throwable {
-		performTestForJsfComponent("converter.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/converter.jsp"); // $NON-NLS-1$
 	}
 
 	public void testFacet() throws PartInitException, Throwable {
-		performTestForJsfComponent("facet.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/facet.jsp"); // $NON-NLS-1$
 	}
 
 	public void testLoadBundle() throws PartInitException, Throwable {
-		performTestForJsfComponent("loadBundle.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/loadBundle.jsp"); // $NON-NLS-1$
 	}
 
 	public void testParam() throws PartInitException, Throwable {
-		performTestForJsfComponent("param.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/param.jsp"); // $NON-NLS-1$
 	}
 
 	public void testPhaseListener() throws PartInitException, Throwable {
-		performTestForJsfComponent("phaseListener.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/phaseListener.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectItem() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectItem.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectItem.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSelectItems() throws PartInitException, Throwable {
-		performTestForJsfComponent("selectItems.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/selectItems.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSetPropertyActionListener() throws PartInitException,
 			Throwable {
-		performTestForJsfComponent("setPropertyActionListener.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/setPropertyActionListener.jsp"); // $NON-NLS-1$
 	}
 
 	public void testSubview() throws PartInitException, Throwable {
-		performTestForJsfComponent("subview.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/subview.jsp"); // $NON-NLS-1$
 	}
 
 	public void testValidateDoubleRange() throws PartInitException, Throwable {
-		performTestForJsfComponent("validateDoubleRange.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/validateDoubleRange.jsp"); // $NON-NLS-1$
 	}
 
 	public void testValidateLength() throws PartInitException, Throwable {
-		performTestForJsfComponent("validateLength.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/validateLength.jsp"); // $NON-NLS-1$
 	}
 
 	public void testValidateLongRange() throws PartInitException, Throwable {
-		performTestForJsfComponent("validateLongRange.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/validateLongRange.jsp"); // $NON-NLS-1$
 	}
 
 	public void testValidator() throws PartInitException, Throwable {
-		performTestForJsfComponent("validator.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/validator.jsp"); // $NON-NLS-1$
 	}
 
 	public void testValueChangeListener() throws PartInitException, Throwable {
-		performTestForJsfComponent("valueChangeListener.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/valueChangeListener.jsp"); // $NON-NLS-1$
 	}
 
 	public void testVerbatim() throws PartInitException, Throwable {
-		performTestForJsfComponent("verbatim.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/verbatim.jsp"); // $NON-NLS-1$
 	}
 
 	public void testView() throws PartInitException, Throwable {
-		performTestForJsfComponent("view.jsp"); // $NON-NLS-1$
+		performTestForJsfComponent("components/view.jsp"); // $NON-NLS-1$
 	}
 
 	private void performTestForJsfComponent(String componentPage)
@@ -256,15 +256,8 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 		TestJsfUtil.waitForJobs();
 
 		exception = null;
-		
-		// IPath componentPath = TestJsfComponentsUtil
-		// .getComponentPath(componentPage);
-		//
-		// IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
-		// componentPath);
 
-		IFile file = (IFile) TestJsfUtil
-				.getComponentPath(componentPage);
+		IFile file = (IFile) TestJsfUtil.getComponentPath(componentPage);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -273,6 +266,7 @@ public class JsfComponentTest extends TestCase implements ILogListener {
 
 		TestJsfUtil.waitForJobs();
 		TestJsfUtil.delay(3000);
+
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.closeAllEditors(true);
 

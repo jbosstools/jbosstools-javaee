@@ -100,9 +100,6 @@ public class TestJsfUtil {
 				PROJECT_NAME);
 		if (project != null) {
 			return project.getFolder(COMPONENTS_PATH).findMember(componentPage);
-			// if (resource != null) {
-			// return resource.getFullPath();
-			// }
 
 		}
 
