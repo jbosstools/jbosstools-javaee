@@ -27,7 +27,7 @@ public class TextField extends BaseField implements ModifyListener{
 	}
 
 	public void modifyText(ModifyEvent e) {
-		firePropertyChange(new Object(),((Text)e.widget).getText());
+		firePropertyChange(new Object(),((Text)e.widget).getText().trim());
 	}
 
 	public Text getTextControl() {

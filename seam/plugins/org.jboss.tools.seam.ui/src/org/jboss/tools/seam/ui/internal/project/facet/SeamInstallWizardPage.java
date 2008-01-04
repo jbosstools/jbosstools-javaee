@@ -121,11 +121,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 							.getDialectNames()), getDefaultDbType(), false);
 
 	private IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE.createTextEditor(
-			ISeamFacetDataModelProperties.DB_SCHEMA_NAME,
+			ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME,
 			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_SCHEMA_NAME, ""); //$NON-NLS-1$
 
 	private IFieldEditor dbCatalogName = IFieldEditorFactory.INSTANCE.createTextEditor(
-			ISeamFacetDataModelProperties.DB_CATALOG_NAME,
+			ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME,
 			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_CATALOG_NAME, ""); //$NON-NLS-1$
 
 	private IFieldEditor dbTablesExists = IFieldEditorFactory.INSTANCE
