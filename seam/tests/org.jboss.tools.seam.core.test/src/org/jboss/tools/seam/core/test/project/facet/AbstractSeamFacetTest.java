@@ -24,6 +24,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate;
 
 /**
  * Base class for facet related tests; based on the facet test class found in
@@ -68,16 +69,16 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		super.setUp();
 		assertSeamHomeAvailable();
 		File folder = getSeamHomeFolder();
-				
-		
-		
+
 		SeamRuntimeManager.getInstance().addRuntime(SEAM_1_2_0, folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
 		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_1_2_0);
 		
 	}
 
 	protected File getSeamHomeFolder() {
-		return new File(System.getProperty("jbosstools.test.seam.1.2.1.eap.home", "/home/max/rhdevstudio/jboss-eap/seam"));
+		return new File(
+				System.getProperty("jbosstools.test.seam.1.2.1.eap.home", 
+				"C:/jbdevstudio/jboss-eap/seam"));
 	}
 	
 	
@@ -152,7 +153,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 				null);
 	
 		installDependentFacets(fproj);
-		
+//		new SeamFacetPreInstallDelegate().execute(fproj.getProject(), getSeamFacetVersion(), config, null);
 		fproj.installProjectFacet(getSeamFacetVersion(), config, null);
 		
 		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(fproj.getProject());

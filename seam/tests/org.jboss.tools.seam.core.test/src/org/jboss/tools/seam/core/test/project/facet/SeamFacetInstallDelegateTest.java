@@ -12,10 +12,14 @@ package org.jboss.tools.seam.core.test.project.facet;
 
 import java.io.IOException;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 
@@ -46,4 +50,73 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 
 	}
 	
+	public void testJiraJbide1544() throws CoreException, IOException {
+
+		final String catalogName = "catalog1";
+		final String schemaName = "schema1";
+		
+		IDataModel createSeamDataModel = createSeamDataModel("war");
+		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME, catalogName);
+		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME, schemaName);		
+		IFacetedProject fproj = createSeamProject("customSchemaAndCatalog",createSeamDataModel);
+		IFile  persistence = (IFile)fproj.getProject().findMember("src/model/META-INF/persistence.xml");
+		assertTrue(persistence.exists());
+		boolean schemaExists = ResourcesUtils.findLineInFile(persistence, ".*" +
+					NLS.bind(
+						SeamFacetPreInstallDelegate.PROP_DECL, 
+						new String[]{
+							ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME.replace(".","\\."),
+							schemaName}));
+		boolean catalogExists = ResourcesUtils.findLineInFile(persistence, ".*" +
+						NLS.bind(
+							SeamFacetPreInstallDelegate.PROP_DECL, 
+							new String[]{
+								ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME.replace(".","\\."),
+								catalogName}));		
+		assertTrue(
+			NLS.bind(
+				"Cannot find ''{0}'' property in persistence.xml file",
+					new String[]{
+						ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME})
+			, schemaExists);
+		
+		assertTrue(
+			NLS.bind(
+				"Cannot find ''{0}'' property in persistence.xml file",
+					new String[]{
+					ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME})
+			, catalogExists);
+		
+		createSeamDataModel = createSeamDataModel("war");
+		fproj = createSeamProject("noSchemaAndCatalog",createSeamDataModel);
+		persistence = (IFile)fproj.getProject().findMember("src/model/META-INF/persistence.xml");
+		assertTrue(persistence.exists());
+		schemaExists = ResourcesUtils.findLineInFile(persistence, ".*" +
+					NLS.bind(
+						SeamFacetPreInstallDelegate.PROP_DECL, 
+						new String[]{
+							ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME.replace(".","\\."),
+							".*"}));
+		catalogExists = ResourcesUtils.findLineInFile(persistence, ".*" +
+						NLS.bind(
+							SeamFacetPreInstallDelegate.PROP_DECL, 
+							new String[]{
+								ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME.replace(".","\\."),
+								".*"}));		
+		assertTrue(
+				NLS.bind(
+					"''{0}'' property mustn't be in persistence.xml file",
+						new String[]{
+							ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME})
+				, !schemaExists);
+			
+			assertTrue(
+				NLS.bind(
+					"''{0}'' property mustn't be in persistence.xml file",
+						new String[]{
+						ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME})
+				, !catalogExists);
+
+	}
+
 }
