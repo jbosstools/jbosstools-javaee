@@ -132,11 +132,26 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * Schema name
 	 */
 	String DB_SCHEMA_NAME = "schema.property"; //$NON-NLS-1$
+
+	/**
+	 * If it is empty schema.property is empty
+	 * If is not empty schema.property should be set to
+	 * &#xa; &lt;property name=&quot;hibernate.default_schema&quot; value=&quot;${hibernate.default_schema}&quot;/&gt;  
+	 *   
+	 */
+	String DB_DEFAULT_SCHEMA_NAME = "hibernate.default_schema"; //$NON-NLS-1$
 	
 	/**
 	 * Catalog name
 	 */
 	String DB_CATALOG_NAME  = "catalog.property"; //$NON-NLS-1$
+	
+	/**
+	 * If it is empty catalog.property is empty
+	 * If is not empty catalog.property should be set to
+	 * &#xa; &lt;property name=&quot;hibernate.default_catalog&quot; value=&quot;${hibernate.default_catalog}&quot;/&gt;  
+	 */
+	String DB_DEFAULT_CATALOG_NAME = "hibernate.default_catalog"; //$NON-NLS-1$
 	
 	/**
 	 * DB tables already exists in database check box value

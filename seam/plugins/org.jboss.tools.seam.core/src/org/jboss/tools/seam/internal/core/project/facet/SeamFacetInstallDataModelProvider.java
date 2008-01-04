@@ -7,55 +7,44 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Data model provider for Seam facet wizard page
+ * 
  * @author eskimo
- *
+ * 
  */
 public class SeamFacetInstallDataModelProvider extends
 		FacetInstallDataModelProvider implements ISeamFacetDataModelProperties {
-	
-	@Override
-	public IStatus validate(String name) {
-		// TODO Auto-generated method stub
-		return super.validate(name);
-	}
 
-	public static final Map<String,String[]> SEAM_LIBRARIES= new HashMap<String,String[]>();
-	
-	static {
-		SEAM_LIBRARIES.put("1.2",new String[] { //$NON-NLS-1$
-		});
-	}
+	private static final String EMPTY_STRING = "";
+
 	/**
 	 * Returns set of facet properties for facet wizard page
+	 * 
+	 * @return set of property names
 	 */
-	@Override
 	public Set getPropertyNames() {
 		Set<String> names = super.getPropertyNames();
-		
+
 		// General group
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_HOME);
 		names.add(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME);
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
-		
+
 		// Database group
 		names.add(ISeamFacetDataModelProperties.DB_TYPE);
 		names.add(ISeamFacetDataModelProperties.HIBERNATE_DIALECT);
@@ -65,8 +54,9 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.DB_USER_NAME);
 		names.add(ISeamFacetDataModelProperties.DB_USER_PASSWORD);
 		names.add(ISeamFacetDataModelProperties.DB_SCHEMA_NAME);
+		names.add(ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME);
 		names.add(ISeamFacetDataModelProperties.DB_CATALOG_NAME);
-
+		names.add(ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME);
 		names.add(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
 		names.add(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
 
@@ -84,31 +74,46 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
 		names.add(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		names.add(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO);
-		
+
 		return names;
 	}
-	
+
 	/**
 	 * Returns default value for a given property
+	 * 
+	 * @param propertyName name of property which default value requested
+	 * @return default value 
 	 */
 	public Object getDefaultProperty(String propertyName) {
-		if(JBOSS_AS_HOME.equals(propertyName)) {
+		if (JBOSS_AS_HOME.equals(propertyName)) {
 			return "Jboss_AS_HOME"; //$NON-NLS-1$
-		} else if(JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
+		} else if (JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
 			return "Jboos_DEPLOY_AS"; //$NON-NLS-1$
 		} else if (propertyName.equals(FACET_ID)) {
-				return ISeamCoreConstants.SEAM_CORE_FACET_ID;
-		} else if(SEAM_TEST_PROJECT.equals(propertyName)) {
-				return "";
-		} else if(SEAM_EJB_PROJECT.equals(propertyName)) {
-			return "";
-		} else if(SEAM_EAR_PROJECT.equals(propertyName)) {
-			return "";
+			return ISeamCoreConstants.SEAM_CORE_FACET_ID;
+		} else if (SEAM_TEST_PROJECT.equals(propertyName)) {
+			return EMPTY_STRING;
+		} else if (SEAM_EJB_PROJECT.equals(propertyName)) {
+			return EMPTY_STRING;
+		} else if (SEAM_EAR_PROJECT.equals(propertyName)) {
+			return EMPTY_STRING;
+		} else if (DB_DEFAULT_CATALOG_NAME.equals(propertyName)) {
+			return EMPTY_STRING;
+		} else if (DB_DEFAULT_SCHEMA_NAME.equals(propertyName)) {
+			return EMPTY_STRING;
 		}
 		return super.getDefaultProperty(propertyName);
 	}
-	
+
+	/**
+	 * Calculate path to templates folder
+	 *  
+	 * @return path to templates
+	 * @throws IOException if templates folder not found
+	 */
 	public static File getTemplatesFolder() throws IOException {
-		return new File(FileLocator.resolve(Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry("/templates")).getPath()); //$NON-NLS-1$
+		return new File(FileLocator.resolve(
+				Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry(
+						"/templates")).getPath()); //$NON-NLS-1$
 	}
 }
