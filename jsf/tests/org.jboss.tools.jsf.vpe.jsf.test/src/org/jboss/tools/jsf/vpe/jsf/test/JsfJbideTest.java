@@ -207,7 +207,6 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		// find "select" elements
 		findElementsByName(node, elements, HTML.TAG_SELECT);
 
-		System.out.print("\n1:" + elements.size());
 		for (nsIDOMNode select : elements) {
 
 			// get attributes
@@ -247,8 +246,6 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 
 		// find "select" elements
 		findElementsByName(node, elements, HTML.TAG_SELECT);
-
-		System.out.print("\n2:" + elements.size());
 
 		for (nsIDOMNode select : elements) {
 
