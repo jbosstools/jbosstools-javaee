@@ -50,25 +50,34 @@
             <?dbhtml filename="JBossToolsPalette.html"?>
             <title>JBoss Tools Palette</title>
 
-            <para> In the Palette Editor window(Figure 5.1. &quot;Palette Editor&quot;) we can see that every
+            <para> In the Palette Editor window we can see that every
                 group contains its own subgroups. For example, JSF includes Core, Facelets, HTML.
                 So, in the Palette every group has the next view: &lt;Group name&gt;
                 &lt;Subgroup name&gt;. </para>
 
             <figure>
-                <title>JBoss Tools Palette</title>
+                <title>Subgroups of JSF group</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_1.png"/>
+                        <imagedata fileref="images/palette/palette_24.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
 
             <para>By default the Palette is represented in Web Development Perspective with four
-                groups(Figure 5.2. &quot;JBoss Tools Palette&quot;). If you can&apos;t see it, select <emphasis>
+                groups. If you can&apos;t see it, select <emphasis>
                     <property>Window &gt; Show View Other... &gt; JBoos Tools Web &gt;
                         JBoss Tools Palette</property>
                 </emphasis> from the menu bar.</para>
+            
+            <figure>
+                <title>JBoss Tools Palette</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/palette/palette_1.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
 
             <para>By using <property>Show/Hide</property> button you can add any predefined group of
                 tag libraries. It&apos;s also possible to create your own group. </para>
@@ -91,7 +100,7 @@
                 <title>Inserting Tag</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_2.png"/>
+                        <imagedata fileref="images/palette/palette_2.png" scale="80"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -114,7 +123,7 @@
                 <title>Cursor position</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/palette_16.png"/>
+                        <imagedata fileref="images/palette/palette_16.png" scale="50"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -157,7 +166,7 @@
                 <title>Web Projects View</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_3.png"/>
+                        <imagedata fileref="images/palette/palette_3.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -171,7 +180,7 @@
                 <title>Import Tags From TLD File Form</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_4.png"/>
+                        <imagedata fileref="images/palette/palette_4.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -182,7 +191,7 @@
                 <title>JBoss Tools Palette with New Tag Library</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_5.png"/>
+                        <imagedata fileref="images/palette/palette_5.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -197,7 +206,7 @@
                 <title>Import Button</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_6.png"/>
+                        <imagedata fileref="images/palette/palette_6.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -208,7 +217,7 @@
                 <title>Import Tags From TLD File Form</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_7.png"/>
+                        <imagedata fileref="images/palette/palette_7.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -217,7 +226,7 @@
                 <title>Select TLD File</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_8.png"/>
+                        <imagedata fileref="images/palette/palette_8.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -247,7 +256,7 @@
             <title>Palette Buttons</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/palette/pallete_9.png"/>
+                    <imagedata fileref="images/palette/palette_9.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -366,7 +375,7 @@
                 <title>Show/Hide Button</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_10.png"/>
+                        <imagedata fileref="images/palette/palette_10.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -381,7 +390,7 @@
                 <title>Show/Hide Drawers</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_11.png"/>
+                        <imagedata fileref="images/palette/palette_11.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -396,7 +405,7 @@
                 <title>New Added Groups</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/palette/pallete_12.png"/>
+                        <imagedata fileref="images/palette/palette_12.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -425,7 +434,7 @@
             <title>Rich Faces Components</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/palette/pallete_13.png"/>
+                    <imagedata fileref="images/palette/palette_13.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
