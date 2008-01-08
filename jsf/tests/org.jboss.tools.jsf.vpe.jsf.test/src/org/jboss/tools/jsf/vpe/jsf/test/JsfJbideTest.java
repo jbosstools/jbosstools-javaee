@@ -72,10 +72,13 @@ public class JsfJbideTest extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil
-				.getComponentPath("JBIDE/1467/JBIDE-1467.jsp",getImportProjectName());
-
+				.getComponentPath("JBIDE/JBIDE-1467/JBIDE-1467.jsp",getImportProjectName());
+		
+		assertNotNull("Could not open specified file "+file.getFullPath(), file);
+		
 		IEditorInput input = new FileEditorInput(file);
-
+		
+		assertNotNull("Editor input is null",input);
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
@@ -260,7 +263,6 @@ public class JsfJbideTest extends VpeTest {
 		}
 
 	}
-
 	/**
 	 * 
 	 * @param elements
