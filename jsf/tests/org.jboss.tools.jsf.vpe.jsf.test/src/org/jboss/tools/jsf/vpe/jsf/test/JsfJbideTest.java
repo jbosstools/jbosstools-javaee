@@ -14,80 +14,38 @@ package org.jboss.tools.jsf.vpe.jsf.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.vpe.editor.VpeController;
-import org.jboss.tools.vpe.editor.VpeEditorPart;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.xulrunner.editor.XulRunnerEditor;
+import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNamedNodeMap;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
-
 /**
  * Class for testing all jsf bugs
  * 
  * @author sdzmitrovich
  * 
  */
-public class JsfJbideTest extends TestCase implements ILogListener {
+public class JsfJbideTest extends VpeTest {
 
-	private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; // $NON-NLS-1$
 	// type of input tag
 	private static final String ATTR_TYPE_VALUE = "radio";
-
-	// check warning log
-	private final static boolean checkWarning = false;
-
-	private Throwable exception;
+	
+	//import project name
+	
+	private static final String IMPORT_PROJECT_NAME = "jsfTest"; 
 
 	public JsfJbideTest(String name) {
-		super(name);
+		super(name,IMPORT_PROJECT_NAME,JsfTestPlugin.getPluginResourcePath());
 	}
 
-	/**
-	 * Perform pre-test initialization.
-	 * 
-	 * @throws Exception
-	 * 
-	 * @see TestCase#setUp()
-	 */
-
-	protected void setUp() throws Exception {
-
-		super.setUp();
-
-		Platform.addLogListener(this);
-
-		closeEditors();
-	}
-
-	/**
-	 * Perform post-test cleanup.
-	 * 
-	 * @throws Exception
-	 * 
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-
-		super.tearDown();
-
-		Platform.removeLogListener(this);
-
-		closeEditors();
-	}
 
 	/*
 	 * JBIDE's test cases
@@ -108,13 +66,13 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 	public void testJBIDE_1467() throws PartInitException, Throwable {
 
 		// wait
-		TestJsfUtil.waitForJobs();
+		TestUtil.waitForJobs();
 		// set exception
-		exception = null;
+		setException(null);
 
 		// get test page path
-		IFile file = (IFile) TestJsfUtil
-				.getComponentPath("JBIDE/1467/JBIDE-1467.jsp");
+		IFile file = (IFile) TestUtil
+				.getComponentPath("JBIDE/1467/JBIDE-1467.jsp",getImportProjectName());
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -122,7 +80,7 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		JSPMultiPageEditor part = openEditor(input);
 
 		// get dom document
-		nsIDOMDocument document = getVpePageSource(part);
+		nsIDOMDocument document = getVpeVisualDocument(part);
 		nsIDOMElement element = document.getDocumentElement();
 
 		if (element != null) {
@@ -143,8 +101,8 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		}
 
 		// check exception
-		if (exception != null) {
-			throw exception;
+		if (getException() != null) {
+			throw getException();
 		}
 
 	}
@@ -175,15 +133,15 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 	public void testJBIDE_1501() throws PartInitException, Throwable {
 
 		// wait
-		TestJsfUtil.waitForJobs();
+		TestUtil.waitForJobs();
 		// set exception
-		exception = null;
+		setException(null);
 
 		// _____1st Part____//
 
 		// get test page path
-		IFile file = (IFile) TestJsfUtil
-				.getComponentPath("JBIDE/1501/JBIDE-1501_multiple.jsp");
+		IFile file = (IFile) TestUtil
+				.getComponentPath("JBIDE/1501/JBIDE-1501_multiple.jsp",getImportProjectName());
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -191,7 +149,7 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		JSPMultiPageEditor part = openEditor(input);
 
 		// get dom document
-		nsIDOMDocument document = getVpePageSource(part);
+		nsIDOMDocument document = getVpeVisualDocument(part);
 		assertNotNull(document);
 
 		// get dom element
@@ -223,8 +181,8 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		// _____2nd Part____//
 
 		// get test page path
-		file = (IFile) TestJsfUtil
-				.getComponentPath("JBIDE/1501/JBIDE-1501_size.jsp");
+		file = (IFile) TestUtil
+				.getComponentPath("JBIDE/1501/JBIDE-1501_size.jsp",getImportProjectName());
 
 		input = new FileEditorInput(file);
 
@@ -232,7 +190,7 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		part = openEditor(input);
 
 		// get dom document
-		document = getVpePageSource(part);
+		document = getVpeVisualDocument(part);
 		assertNotNull(document);
 
 		// get dom element
@@ -265,8 +223,8 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		}
 
 		// check exception
-		if (exception != null) {
-			throw exception;
+		if (getException() != null) {
+			throw getException();
 		}
 
 	}
@@ -342,80 +300,6 @@ public class JsfJbideTest extends TestCase implements ILogListener {
 		}
 
 		return radioNames;
-
-	}
-
-	/**
-	 * close all opened editors
-	 */
-	private void closeEditors() {
-
-		// wait
-		TestJsfUtil.waitForJobs();
-
-		// close
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.closeAllEditors(true);
-
-	}
-
-	/**
-	 * Open JSPMultiPageEditor editor
-	 * 
-	 * @param input
-	 * @return
-	 * @throws PartInitException
-	 */
-	private JSPMultiPageEditor openEditor(IEditorInput input)
-			throws PartInitException {
-
-		// get editor
-		JSPMultiPageEditor part = (JSPMultiPageEditor) PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.openEditor(input, EDITOR_ID, true);
-
-		// wait for jobs
-		TestJsfUtil.waitForJobs();
-		// wait full initialization of vpe
-		TestJsfUtil.delay(3000);
-
-		return part;
-
-	}
-
-	/**
-	 * get xulrunner source page
-	 * 
-	 * @param part -
-	 *            JSPMultiPageEditor
-	 * @return nsIDOMDocument
-	 */
-	private nsIDOMDocument getVpePageSource(JSPMultiPageEditor part) {
-
-		VpeEditorPart visualEditor = (VpeEditorPart) part.getVisualEditor();
-		VpeController vpeController = visualEditor.getController();
-
-		// get xulRunner editor
-		XulRunnerEditor xulRunnerEditor = vpeController.getXulRunnerEditor();
-
-		// get dom document
-		nsIDOMDocument document = xulRunnerEditor.getDOMDocument();
-
-		return document;
-	}
-
-	public void logging(IStatus status, String plugin) {
-		switch (status.getSeverity()) {
-		case IStatus.ERROR:
-			exception = status.getException();
-			break;
-		case IStatus.WARNING:
-			if (checkWarning)
-				exception = status.getException();
-			break;
-		default:
-			break;
-		}
 
 	}
 

@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test;
 
+import org.eclipse.core.runtime.CoreException;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -22,25 +24,13 @@ import junit.framework.TestSuite;
 
 public class JsfAllTests {
 
-	private final static String TEST_PROJECT_PATH = "/jsfTest";
-
-	private static void prepareTests() {
-
-		TestJsfUtil.importJsfPages(JsfTestPlugin.getPluginResourcePath()
-				+ TEST_PROJECT_PATH);
-
-	}
-
 	public static Test suite() {
-		// prepare tests
-		prepareTests();
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$
 		// $JUnit-BEGIN$
-
 		suite.addTestSuite(JsfComponentTest.class);
 		suite.addTestSuite(JsfJbideTest.class);
-
+		//cleanUpTests();
 		// $JUnit-END$
 		return suite;
 
