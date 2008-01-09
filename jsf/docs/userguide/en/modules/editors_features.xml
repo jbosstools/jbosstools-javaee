@@ -27,7 +27,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>NameBean Managed Bean</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/editors_features/editors_features_1.png" scalefit="75"/>
+            <imagedata fileref="images/editors_features/editors_features_1.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -144,7 +144,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Content Assist in JSF Configuration File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/editors_features/editors_features_9.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_9.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -162,7 +162,7 @@ the file, they display an underline. When you have the mouse cursor over the nam
 <title>Content Assist in web.xml File</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/editors_features/editors_features_11.png"/>
+            <imagedata fileref="images/editors_features/editors_features_11.png" />
         </imageobject>
 </mediaobject>
 </figure>
@@ -222,7 +222,7 @@ configuration editor. Just click <emphasis><property>Ctrl-Space</property></emph
 <title>Content Assist in Tree JSF Configuration Editor</title>
 <mediaobject> 
         <imageobject>
-            <imagedata  fileref="images/editors_features/editors_features_15.png"/>
+            <imagedata  fileref="images/editors_features/editors_features_15.png" />
         </imageobject>
 </mediaobject>
 </figure>
