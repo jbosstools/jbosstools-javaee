@@ -118,17 +118,62 @@ public class FaceletsComponentTest extends TestCase implements ILogListener {
     }
 
     public void testInsert() throws PartInitException, Throwable {
-	performTestForFaceletComponent("insert.xhtml"); // $NON-NLS-1$
+    	performTestForFaceletComponent("insert.xhtml"); // $NON-NLS-1$
     }
 
     public void testDefine() throws PartInitException, Throwable {
-	performTestForFaceletComponent("define.xhtml"); // $NON-NLS-1$
+    	performTestForFaceletComponent("define.xhtml"); // $NON-NLS-1$
+    	// TODO check that content from ui:defime element is shown
+    	assertTrue("Defined content is not shown",false);
     }
 
     public void testComposite() throws PartInitException, Throwable {
-	performTestForFaceletComponent("composition.xhtml"); // $NON-NLS-1$
+    	performTestForFaceletComponent("composition.xhtml"); // $NON-NLS-1$
+    	// TODO check that related and absolute path is processed
+    	assertTrue("Template with absolute path is not included",false);
+    	assertTrue("Template with related path is not included",false);    	
     }
 
+    public void testComponent() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("component.xhtml"); // $NON-NLS-1$
+    	// TODO check that content from ui:defime element is shown
+    	//assertTrue("Component's content is not shown",false);
+    }
+    
+    public void testRemove() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("remove.xhtml"); // $NON-NLS-1$
+    	// TODO check that content in ui:remove isn't shown in VPE
+    	assertTrue("Content inside ui:remove tag shouldn't be shown",false);
+    }
+    
+    public void testDecorate() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("decorate.xhtml"); // $NON-NLS-1$
+    	// TODO check that related and absolute path is processed
+    	assertTrue("Template with absolute path is not included",false);
+    	assertTrue("Template with related path is not included",false);    	
+    }
+
+    public void testRepeat() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("repeat.xhtml"); // $NON-NLS-1$
+    	assertTrue("Component's content is not shown",false);    	
+    }    
+    
+    public void testDebug() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("debug.xhtml"); // $NON-NLS-1$
+    }
+    
+    public void testInclude() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("include.xhtml"); // $NON-NLS-1$
+    	// TODO check that absolute and related path is processed
+    	assertTrue("Template with absolute path is not included",false);
+    	assertTrue("Template with related path is not included",false);    	
+    }
+    
+    public void testFragment() throws PartInitException, Throwable {
+    	performTestForFaceletComponent("fragment.xhtml"); // $NON-NLS-1$
+    	// TODO check that fragment's content is showed
+    	assertTrue("Fragment's content is not sown",false);
+    }
     private void performTestForFaceletComponent(String componentPage)
 	    throws PartInitException, Throwable {
 	waitForJobs();
