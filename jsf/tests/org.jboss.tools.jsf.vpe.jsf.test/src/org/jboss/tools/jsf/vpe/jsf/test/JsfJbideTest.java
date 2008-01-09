@@ -72,7 +72,7 @@ public class JsfJbideTest extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil
-				.getComponentPath("JBIDE/JBIDE-1467/JBIDE-1467.jsp",getImportProjectName());
+				.getComponentPath("JBIDE/1467/JBIDE-1467.jsp",getImportProjectName());
 		
 		assertNotNull("Could not open specified file "+file.getFullPath(), file);
 		
