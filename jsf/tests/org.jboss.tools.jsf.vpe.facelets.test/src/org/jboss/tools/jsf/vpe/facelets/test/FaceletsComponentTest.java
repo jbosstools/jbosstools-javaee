@@ -10,20 +10,19 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.facelets.test;
 
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 
 /**
  * Class for testing all Seam components
@@ -31,187 +30,79 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author dsakovich@exadel.com
  * 
  */
-public class FaceletsComponentTest extends TestCase implements ILogListener {
+public class FaceletsComponentTest extends VpeTest {
 
-    private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; // $NON-NLS-1$
-    private final static String TEST_PROJECT_JAR_PATH = "/faceletstest.jar"; // $NON-NLS-1$
-
-    // check warning log
-    private final static boolean checkWarning = false;
-    private Throwable exception;
+    // import project name
+    private static final String IMPORT_PROJECT_NAME = "faceletsTest";
 
     public FaceletsComponentTest(String name) {
-	super(name);
+	super(name, IMPORT_PROJECT_NAME, FaceletsTestPlugin
+		.getPluginResourcePath());
     }
 
-    /**
-     * Perform pre-test initialization.
-     * 
-     * @throws Exception
-     * 
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-	super.setUp();
-
-	// TODO: Use TestSetup to create and remove project once for all tests
-	// not for every one
-	if (ResourcesPlugin.getWorkspace().getRoot().findMember("faceletsTest") == null) {
-
-	    ImportFaceletsComponents.importFaceletsPages(FaceletsTestPlugin
-		    .getPluginResourcePath()
-		    + TEST_PROJECT_JAR_PATH);
-
-	    waitForJobs();
-	    delay(5000);
-	}
-	Platform.addLogListener(this);
+    public void testDebug() throws Throwable {
+	performTestForJsfComponent("components/debug.xhtml"); // $NON-NLS-1$
     }
 
-    /**
-     * Perform post-test cleanup.
-     * 
-     * @throws Exception
-     * 
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-	super.tearDown();
-	if (ResourcesPlugin.getWorkspace().getRoot().findMember("faceletsTest") != null) {
-	    ImportFaceletsComponents.removeProject();
-	}
-	Platform.removeLogListener(this);
-    }
+    public void testDefine() throws Throwable {
+	TestUtil.waitForJobs();
+	// set exception
+	setException(null);
 
-    /**
-     * Process UI input but do not return for the specified time interval.
-     * 
-     * @param waitTimeMillis
-     *                the number of milliseconds
-     */
-    private void delay(long waitTimeMillis) {
-	Display display = Display.getCurrent();
-	if (display != null) {
-	    long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-	    while (System.currentTimeMillis() < endTimeMillis) {
-		if (!display.readAndDispatch())
-		    display.sleep();
-	    }
-	    display.update();
-	}
-	// Otherwise, perform a simple sleep.
-	else {
-	    try {
-		Thread.sleep(waitTimeMillis);
-	    } catch (InterruptedException e) {
-		// Ignored.
-	    }
-	}
-    }
+	// get test page path
+	IFile file = (IFile) TestUtil.getComponentPath(
+		"components/define.xhtml", getImportProjectName());
 
-    /**
-     * Wait until all background tasks are complete.
-     */
-    public void waitForJobs() {
-	while (Job.getJobManager().currentJob() != null)
-	    delay(5000);
-    }
+	assertNotNull("Could not open specified file " + file.getFullPath(),
+		file);
 
-    public void testInsert() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("insert.xhtml"); // $NON-NLS-1$
-    }
-
-    public void testDefine() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("define.xhtml"); // $NON-NLS-1$
-    	// TODO check that content from ui:defime element is shown
-    	assertTrue("Defined content is not shown",false);
-    }
-
-    public void testComposite() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("composition.xhtml"); // $NON-NLS-1$
-    	// TODO check that related and absolute path is processed
-    	assertTrue("Template with absolute path is not included",false);
-    	assertTrue("Template with related path is not included",false);    	
-    }
-
-    public void testComponent() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("component.xhtml"); // $NON-NLS-1$
-    	// TODO check that content from ui:defime element is shown
-    	//assertTrue("Component's content is not shown",false);
-    }
-    
-    public void testRemove() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("remove.xhtml"); // $NON-NLS-1$
-    	// TODO check that content in ui:remove isn't shown in VPE
-    	assertTrue("Content inside ui:remove tag shouldn't be shown",false);
-    }
-    
-    public void testDecorate() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("decorate.xhtml"); // $NON-NLS-1$
-    	// TODO check that related and absolute path is processed
-    	assertTrue("Template with absolute path is not included",false);
-    	assertTrue("Template with related path is not included",false);    	
-    }
-
-    public void testRepeat() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("repeat.xhtml"); // $NON-NLS-1$
-    	assertTrue("Component's content is not shown",false);    	
-    }    
-    
-    public void testDebug() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("debug.xhtml"); // $NON-NLS-1$
-    }
-    
-    public void testInclude() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("include.xhtml"); // $NON-NLS-1$
-    	// TODO check that absolute and related path is processed
-    	assertTrue("Template with absolute path is not included",false);
-    	assertTrue("Template with related path is not included",false);    	
-    }
-    
-    public void testFragment() throws PartInitException, Throwable {
-    	performTestForFaceletComponent("fragment.xhtml"); // $NON-NLS-1$
-    	// TODO check that fragment's content is showed
-    	assertTrue("Fragment's content is not sown",false);
-    }
-    private void performTestForFaceletComponent(String componentPage)
-	    throws PartInitException, Throwable {
-	waitForJobs();
-
-	exception = null;
-	IPath componentPath = ImportFaceletsComponents
-		.getComponentPath(componentPage);
-
-	IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
-		componentPath);
 	IEditorInput input = new FileEditorInput(file);
 
-	PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-		.openEditor(input, EDITOR_ID, true);
+	assertNotNull("Editor input is null", input);
+	// open and get editor
+	JSPMultiPageEditor part = openEditor(input);
 
-	waitForJobs();
-	delay(5000);
-	PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-		.closeAllEditors(true);
+	// get dom document
+	nsIDOMDocument document = getVpeVisualDocument(part);
+	nsIDOMElement element = document.getDocumentElement();
 
-	if (exception != null) {
-	    throw exception;
+	// check that element is not null
+	assertNotNull(element);
+
+	// get root node
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "span" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
+
+	assertEquals(2, elements.size());
+
+	nsIDOMElement elementSpan0 = (nsIDOMElement) elements.get(0)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement elementSpan1 = (nsIDOMElement) elements.get(1)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	/*
+	 * nsIDOMText text0 = (nsIDOMText) elementSpan0.getFirstChild();
+	 * nsIDOMText text1 = (nsIDOMText) elementSpan1.getFirstChild();
+	 * System.out.println(text0.getNodeValue());
+	 * assertEquals(elementInput0.getAttribute("value"), "");
+	 * assertNotNull(elementInput1.getAttribute("value"), "");
+	 * assertNotNull(elementInput2.getAttribute("value"), "test");
+	 */
+
+	// TODO Dzmitry Sakovich Test not complete
+	assertTrue("Defined content is not shown", false);
+	if (getException() != null) {
+	    throw getException();
 	}
     }
 
-    public void logging(IStatus status, String plugin) {
-	switch (status.getSeverity()) {
-	case IStatus.ERROR:
-	    exception = status.getException();
-	    break;
-	case IStatus.WARNING:
-	    if (checkWarning)
-		exception = status.getException();
-	    break;
-	default:
-	    break;
-	}
-
+    public void testInsert() throws Throwable {
+	performTestForJsfComponent("components/insert.xhtml"); // $NON-NLS-1$
     }
 
 }

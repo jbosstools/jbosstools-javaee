@@ -7,7 +7,7 @@ public class FaceletsAllTests {
 
     public static Test suite() {
 
-	TestSuite suite = new TestSuite("Tests for Vpe Facelets components"); // $NON-NLS-1$
+	TestSuite suite = new TestSuite("Tests for Vpe Facelets components");
 	// $JUnit-BEGIN$
 
 	suite.addTestSuite(FaceletsComponentTest.class);
