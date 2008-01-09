@@ -1450,7 +1450,7 @@
                     <title>Content Assist</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_22.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_22.png" scale="85"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1460,7 +1460,7 @@
                     <title>Error Reporting</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_23.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_23.png" scale="85"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1473,7 +1473,7 @@
                     <title>Outline View</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_24.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_24.png" scale="85"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
