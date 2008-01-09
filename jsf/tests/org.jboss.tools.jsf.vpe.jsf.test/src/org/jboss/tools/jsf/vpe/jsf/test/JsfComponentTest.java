@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test;
 
-import org.eclipse.ui.PartInitException;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
@@ -21,110 +20,110 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JsfComponentTest extends VpeTest {
 
-	//import project name	
-	private static final String IMPORT_PROJECT_NAME = "jsfTest"; 
-	
+	// import project name
+	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+
 	public JsfComponentTest(String name) {
-		super(name,IMPORT_PROJECT_NAME,JsfTestPlugin.getPluginResourcePath());
+		super(name, IMPORT_PROJECT_NAME, JsfTestPlugin.getPluginResourcePath());
 	}
 
 	/*
 	 * JSF HTML test cases
 	 */
 
-	public void testCommandButton() throws PartInitException, Throwable {
+	public void testCommandButton() throws Throwable {
 		performTestForJsfComponent("components/commandButton.jsp"); // $NON-NLS-1$
 	}
 
-	public void testCommandLink() throws PartInitException, Throwable {
+	public void testCommandLink() throws Throwable {
 		performTestForJsfComponent("components/commandLink.jsp"); // $NON-NLS-1$
 	}
 
-	public void testDataTable() throws PartInitException, Throwable {
+	public void testDataTable() throws Throwable {
 		performTestForJsfComponent("components/dataTable.jsp"); // $NON-NLS-1$
 	}
 
-	public void testForm() throws PartInitException, Throwable {
+	public void testForm() throws Throwable {
 		performTestForJsfComponent("components/form.jsp"); // $NON-NLS-1$
 	}
 
-	public void testGraphicImage() throws PartInitException, Throwable {
+	public void testGraphicImage() throws Throwable {
 		performTestForJsfComponent("components/graphicImage.jsp"); // $NON-NLS-1$
 	}
 
-	public void testInputHidden() throws PartInitException, Throwable {
+	public void testInputHidden() throws Throwable {
 		performTestForJsfComponent("components/inputHidden.jsp"); // $NON-NLS-1$
 	}
 
-	public void testInputSecret() throws PartInitException, Throwable {
+	public void testInputSecret() throws Throwable {
 		performTestForJsfComponent("components/inputSecret.jsp"); // $NON-NLS-1$
 	}
 
-	public void testInputText() throws PartInitException, Throwable {
+	public void testInputText() throws Throwable {
 		performTestForJsfComponent("components/inputText.jsp"); // $NON-NLS-1$
 	}
 
-	public void testInputTextArea() throws PartInitException, Throwable {
+	public void testInputTextArea() throws Throwable {
 		performTestForJsfComponent("components/inputTextArea.jsp"); // $NON-NLS-1$
 	}
 
-	public void testMessage() throws PartInitException, Throwable {
+	public void testMessage() throws Throwable {
 		performTestForJsfComponent("components/message.jsp"); // $NON-NLS-1$
 	}
 
-	public void testMessages() throws PartInitException, Throwable {
+	public void testMessages() throws Throwable {
 		performTestForJsfComponent("components/messages.jsp"); // $NON-NLS-1$
 	}
 
-	public void testOutputFormat() throws PartInitException, Throwable {
+	public void testOutputFormat() throws Throwable {
 		performTestForJsfComponent("components/outputFormat.jsp"); // $NON-NLS-1$
 	}
 
-	public void testOutputLabel() throws PartInitException, Throwable {
+	public void testOutputLabel() throws Throwable {
 		performTestForJsfComponent("components/outputLabel.jsp"); // $NON-NLS-1$
 	}
 
-	public void testOutputLink() throws PartInitException, Throwable {
+	public void testOutputLink() throws Throwable {
 		performTestForJsfComponent("components/outputLink.jsp"); // $NON-NLS-1$
 	}
 
-	public void testOutputText() throws PartInitException, Throwable {
+	public void testOutputText() throws Throwable {
 		performTestForJsfComponent("components/outputText.jsp"); // $NON-NLS-1$
 	}
 
-	public void testPanelGrid() throws PartInitException, Throwable {
+	public void testPanelGrid() throws Throwable {
 		performTestForJsfComponent("components/panelGrid.jsp"); // $NON-NLS-1$
 	}
 
-	public void testPanelGroup() throws PartInitException, Throwable {
+	public void testPanelGroup() throws Throwable {
 		performTestForJsfComponent("components/panelGroup.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectBooleanCheckbox() throws PartInitException, Throwable {
+	public void testSelectBooleanCheckbox() throws Throwable {
 		performTestForJsfComponent("components/selectBooleanCheckbox.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectManyCheckbox() throws PartInitException, Throwable {
+	public void testSelectManyCheckbox() throws Throwable {
 		performTestForJsfComponent("components/selectManyCheckbox.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectManyListbox() throws PartInitException, Throwable {
+	public void testSelectManyListbox() throws Throwable {
 		performTestForJsfComponent("components/selectManyListbox.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectManyMenu() throws PartInitException, Throwable {
+	public void testSelectManyMenu() throws Throwable {
 		performTestForJsfComponent("components/selectManyMenu.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectOneListbox() throws PartInitException, Throwable {
+	public void testSelectOneListbox() throws Throwable {
 		performTestForJsfComponent("components/selectOneListbox.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectOneMenu() throws PartInitException, Throwable {
+	public void testSelectOneMenu() throws Throwable {
 		performTestForJsfComponent("components/selectOneMenu.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectOneRadio() throws PartInitException, Throwable {
+	public void testSelectOneRadio() throws Throwable {
 		performTestForJsfComponent("components/selectOneRadio.jsp"); // $NON-NLS-1$
 	}
 
@@ -132,84 +131,83 @@ public class JsfComponentTest extends VpeTest {
 	 * JSF Core test cases
 	 */
 
-	public void testActionListener() throws PartInitException, Throwable {
+	public void testActionListener() throws Throwable {
 		performTestForJsfComponent("components/actionListener.jsp"); // $NON-NLS-1$
 	}
 
-	public void testAttribute() throws PartInitException, Throwable {
+	public void testAttribute() throws Throwable {
 		performTestForJsfComponent("components/attribute.jsp"); // $NON-NLS-1$
 	}
 
-	public void testConvertDateTime() throws PartInitException, Throwable {
+	public void testConvertDateTime() throws Throwable {
 		performTestForJsfComponent("components/convertDateTime.jsp"); // $NON-NLS-1$
 	}
 
-	public void testConvertNumber() throws PartInitException, Throwable {
+	public void testConvertNumber() throws Throwable {
 		performTestForJsfComponent("components/convertNumber.jsp"); // $NON-NLS-1$
 	}
 
-	public void testConverter() throws PartInitException, Throwable {
+	public void testConverter() throws Throwable {
 		performTestForJsfComponent("components/converter.jsp"); // $NON-NLS-1$
 	}
 
-	public void testFacet() throws PartInitException, Throwable {
+	public void testFacet() throws Throwable {
 		performTestForJsfComponent("components/facet.jsp"); // $NON-NLS-1$
 	}
 
-	public void testLoadBundle() throws PartInitException, Throwable {
+	public void testLoadBundle() throws Throwable {
 		performTestForJsfComponent("components/loadBundle.jsp"); // $NON-NLS-1$
 	}
 
-	public void testParam() throws PartInitException, Throwable {
+	public void testParam() throws Throwable {
 		performTestForJsfComponent("components/param.jsp"); // $NON-NLS-1$
 	}
 
-	public void testPhaseListener() throws PartInitException, Throwable {
+	public void testPhaseListener() throws Throwable {
 		performTestForJsfComponent("components/phaseListener.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectItem() throws PartInitException, Throwable {
+	public void testSelectItem() throws Throwable {
 		performTestForJsfComponent("components/selectItem.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSelectItems() throws PartInitException, Throwable {
+	public void testSelectItems() throws Throwable {
 		performTestForJsfComponent("components/selectItems.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSetPropertyActionListener() throws PartInitException,
-			Throwable {
+	public void testSetPropertyActionListener() throws Throwable {
 		performTestForJsfComponent("components/setPropertyActionListener.jsp"); // $NON-NLS-1$
 	}
 
-	public void testSubview() throws PartInitException, Throwable {
+	public void testSubview() throws Throwable {
 		performTestForJsfComponent("components/subview.jsp"); // $NON-NLS-1$
 	}
 
-	public void testValidateDoubleRange() throws PartInitException, Throwable {
+	public void testValidateDoubleRange() throws Throwable {
 		performTestForJsfComponent("components/validateDoubleRange.jsp"); // $NON-NLS-1$
 	}
 
-	public void testValidateLength() throws PartInitException, Throwable {
+	public void testValidateLength() throws Throwable {
 		performTestForJsfComponent("components/validateLength.jsp"); // $NON-NLS-1$
 	}
 
-	public void testValidateLongRange() throws PartInitException, Throwable {
+	public void testValidateLongRange() throws Throwable {
 		performTestForJsfComponent("components/validateLongRange.jsp"); // $NON-NLS-1$
 	}
 
-	public void testValidator() throws PartInitException, Throwable {
+	public void testValidator() throws Throwable {
 		performTestForJsfComponent("components/validator.jsp"); // $NON-NLS-1$
 	}
 
-	public void testValueChangeListener() throws PartInitException, Throwable {
+	public void testValueChangeListener() throws Throwable {
 		performTestForJsfComponent("components/valueChangeListener.jsp"); // $NON-NLS-1$
 	}
 
-	public void testVerbatim() throws PartInitException, Throwable {
+	public void testVerbatim() throws Throwable {
 		performTestForJsfComponent("components/verbatim.jsp"); // $NON-NLS-1$
 	}
 
-	public void testView() throws PartInitException, Throwable {
+	public void testView() throws Throwable {
 		performTestForJsfComponent("components/view.jsp"); // $NON-NLS-1$
 	}
 }
