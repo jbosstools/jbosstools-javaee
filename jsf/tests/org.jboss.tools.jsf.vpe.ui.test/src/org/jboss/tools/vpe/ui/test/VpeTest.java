@@ -98,13 +98,18 @@ public class VpeTest extends TestCase implements ILogListener {
 	protected void tearDown() throws Exception {
 
 		super.tearDown();
-		TestUtil.removeProject(getImportProjectName());
-		Platform.removeLogListener(this);
 		
 		closeEditors();
+
+		TestUtil.removeProject(getImportProjectName());
+		Platform.removeLogListener(this);
+
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime.IStatus, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime.IStatus,
+	 *      java.lang.String)
 	 */
 	public void logging(IStatus status, String plugin) {
 		switch (status.getSeverity()) {
