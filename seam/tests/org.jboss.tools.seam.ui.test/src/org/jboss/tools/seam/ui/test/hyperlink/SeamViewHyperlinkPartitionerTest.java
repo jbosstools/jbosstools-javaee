@@ -11,6 +11,8 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
@@ -30,9 +32,10 @@ import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamViewHyperlinkPartitionerTest  extends TestCase {
-	TestProjectProvider provider = null;
+
 	IProject project = null;
 	boolean makeCopy = false;
 	private static final String PROJECT_NAME = "TestSeamELContentAssist";
@@ -43,21 +46,15 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 	}
 
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy); 
-		project = provider.getProject();
+		//provider = new TestProjectProvider("", null, PROJECT_NAME, makeCopy); 
+		project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestSeamELContentAssist", new NullProgressMonitor());
 		Throwable exception = null;
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+		project.refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
 
 	protected void tearDown() throws Exception {
-		if(provider != null) {
-			provider.dispose();
+		if(project != null) {
+			project.delete(true, true, null);
 		}
 	}
 

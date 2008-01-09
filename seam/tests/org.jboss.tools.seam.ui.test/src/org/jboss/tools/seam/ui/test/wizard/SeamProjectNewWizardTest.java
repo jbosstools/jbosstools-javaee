@@ -26,6 +26,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.server.core.IServerWorkingCopy;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.jst.firstrun.JBossASAdapterInitializer;
@@ -40,9 +41,22 @@ import org.osgi.framework.Bundle;
  */
 public class SeamProjectNewWizardTest extends TestCase{
 
+	
+	/**
+	 * 
+	 */
+	private static final String SEAM_2_0_0_RT_NAME = "Seam 2.0";
+	/**
+	 * 
+	 */
+	private static final String SEAM_1_2_1_RT_NAME = "Seam 1.2.1";
+	public static final String JBOSS_AS_42_HOME 
+		= System.getProperty("jbosstools.test.jboss.home.4.2", "C:\\java\\jboss-4.2.2.GA");
 	NewProjectDataModelFacetWizard wizard;
 	IWizardPage startSeamPrjWzPg;
-
+	SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
+	
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -83,7 +97,9 @@ public class SeamProjectNewWizardTest extends TestCase{
 
 		// Create JBoss AS Runtime, Server, HSQL DB Driver
 		try {
-			JBossASAdapterInitializer.initJBossAS("", new NullProgressMonitor());
+			IServerWorkingCopy server = JBossASAdapterInitializer.initJBossAS(JBOSS_AS_42_HOME, new NullProgressMonitor());
+			System.out.println(server.getName());
+			System.out.println(server.getRuntime().getName());
 		} catch (CoreException e) {
 			fail("Cannot create JBoss AS Runtime, Server or HSQL Driver for unexisted AS location to test New Seam Project Wizard. " + e.getMessage());
 		} catch (ConnectionProfileException e) {
@@ -91,14 +107,12 @@ public class SeamProjectNewWizardTest extends TestCase{
 		}
 
 		// Create Seam Runtime and set proper field
-		SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
-
 		Bundle seamTest = Platform.getBundle("org.jboss.tools.seam.ui.test");
 		try {
 			URL seamUrl = FileLocator.resolve(seamTest.getEntry("/seam"));
 			File folder = new File(seamUrl.getPath());
-			manager.addRuntime("Seam 1.2.1", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
-			manager.addRuntime("Seam 2.0", folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
+			manager.addRuntime(SEAM_1_2_1_RT_NAME, folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			manager.addRuntime(SEAM_2_0_0_RT_NAME, folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
 		} catch (IOException e) {
 			fail("Cannot create Seam Runtime to test New Seam Project Wizard. " + e.getMessage());
 		}
@@ -122,5 +136,15 @@ public class SeamProjectNewWizardTest extends TestCase{
 		assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", canFinish);
 
 		wizard.performCancel();
+		
+		manager.removeRuntime(manager.findRuntimeByName(SEAM_1_2_1_RT_NAME));
+		manager.removeRuntime(manager.findRuntimeByName(SEAM_2_0_0_RT_NAME));		
+		
 	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+	
 }
