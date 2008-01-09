@@ -1450,7 +1450,7 @@
                     <title>Content Assist</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_22.png" scale="85"/>
+                            <imagedata fileref="images/more_editors/more_editors_22.png" scale="75"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1557,7 +1557,7 @@
                 <title>Validation Rules</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_30.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_30.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -1568,7 +1568,7 @@
                 <title>Validation Rules in Source Viewer</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_31.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_31.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
