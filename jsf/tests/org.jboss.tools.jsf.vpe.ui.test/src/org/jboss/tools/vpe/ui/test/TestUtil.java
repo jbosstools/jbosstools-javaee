@@ -25,6 +25,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 
 /**
  * Class for importing project from jar file
@@ -140,6 +142,38 @@ public class TestUtil {
 	public static void waitForJobs() {
 		while (Job.getJobManager().currentJob() != null)
 			delay(100);
+	}
+	
+	/**
+	 * find elements by name
+	 * 
+	 * @param node -
+	 *            current node
+	 * @param elements -
+	 *            list of found elements
+	 * @param name -
+	 *            name element
+	 */
+	static public void findElementsByName(nsIDOMNode node, List<nsIDOMNode> elements,
+			String name) {
+
+		// get children
+		nsIDOMNodeList children = node.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			nsIDOMNode child = children.item(i);
+
+			// if current child is required then add his to list
+			if (name.equalsIgnoreCase((child.getNodeName()))) {
+
+				elements.add(child);
+
+			} else {
+
+				findElementsByName(child, elements, name);
+
+			}
+		}
+
 	}
 
 }
