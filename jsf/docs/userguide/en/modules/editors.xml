@@ -191,7 +191,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_9.png"/>
+                                        fileref="images/editors_features/editors_features_9.png" scale="85"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -201,7 +201,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_10.png"/>
+                                        fileref="images/editors_features/editors_features_10.png" scale="85"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -211,7 +211,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_11.png"/>
+                                        fileref="images/editors_features/editors_features_11.png" scale="85"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -299,7 +299,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_15.png"/>
+                                        fileref="images/editors_features/editors_features_15.png" scale="85"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
