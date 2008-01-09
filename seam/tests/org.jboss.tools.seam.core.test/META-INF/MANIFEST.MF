@@ -21,5 +21,8 @@ Require-Bundle:
  org.eclipse.ui.workbench,
  org.eclipse.wst.common.modulecore,
  org.eclipse.wst.common.frameworks,
- org.eclipse.jface
+ org.eclipse.jface,
+ org.jboss.tools.jst.firstrun,
+ org.eclipse.wst.server.core,
+ org.eclipse.datatools.connectivity
 Provide-Package: org.jboss.tools.seam.core.test

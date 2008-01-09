@@ -50,46 +50,27 @@ import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class ScannerTest extends TestCase {
-	TestProjectProvider provider = null;
 	IProject project = null;
 	boolean makeCopy = true;
 
-	public ScannerTest() {}
-	
-	protected void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "TestScanner", true); 
-		project = provider.getProject();
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Error in refreshing",e);
-		}
-		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
-			JUnitUtils.fail("Interrupted",e);
-		}
+	public ScannerTest() {
+		super("Seam Scanner test");
 	}
 	
+	protected void setUp() throws Exception {
+		project = ResourcesUtils.importProject(
+				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		EditorTestHelper.joinBackgroundActivities();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		EditorTestHelper.joinBackgroundActivities();
+	}
+
 	private ISeamProject getSeamProject() {
-		try {
-			XJob.waitForJob();
-		} catch (Exception e) {
-			JUnitUtils.fail("Interrupted",e);
-		}
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			try {
-				XJob.waitForJob();
-			} catch (InterruptedException e) {
-				JUnitUtils.fail("Interrupted",e);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			JUnitUtils.fail("Cannot build",e);
-		}
 		ISeamProject seamProject = null;
 		try {
 			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
@@ -321,7 +302,7 @@ public class ScannerTest extends TestCase {
 		
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			XJob.waitForJob();
+			EditorTestHelper.joinBackgroundActivities();
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot build",e);
 		}
@@ -501,4 +482,9 @@ public class ScannerTest extends TestCase {
 		assertTrue("Component inner_JBIDE_1374 declared in inner static class is not found.", c != null);
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		EditorTestHelper.joinBackgroundActivities();
+		project.delete(true,true, null);
+	}
 }
