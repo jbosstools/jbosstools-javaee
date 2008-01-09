@@ -1196,7 +1196,7 @@
                     <title>Adding a New Tag</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_6.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_6.png" scale="85"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1207,7 +1207,7 @@
                     <title>Adding a New Attribute</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_7.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_7.png" scale="85"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1217,7 +1217,7 @@
                     <title>Content Assist</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_8.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_8.png" scale="65"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1303,7 +1303,7 @@
                     <title>Content Assist</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_13.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_13.png" scale="85"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
