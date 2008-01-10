@@ -12,18 +12,24 @@ package org.jboss.tools.seam.ui.preferences;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.Wizard;
@@ -45,6 +51,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
@@ -53,6 +60,7 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
@@ -375,7 +383,30 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 				&& !hasNature("org.eclipse.wst.common.project.facet.core.nature")) {
 			return SeamRuntimeManager.getInstance().getAllRuntimeNames();
 		}
+		if(seamProject != null) {
+			SeamRuntime r = seamProject.getRuntime();
+			if(r != null) {
+				SeamRuntime[] rs = SeamRuntimeManager.getInstance().getRuntimes(r.getVersion());
+				return toNames(rs);
+			}
+			String jarLocation = getJBossSeamJarLocation();
+			if(jarLocation != null) {
+				String folder = new File(jarLocation).getParent();
+				String vs = SeamRuntimeListFieldEditor.SeamRuntimeWizardPage.getSeamVersion(folder);
+				SeamVersion v = findMatchingVersion(vs);
+				if(v != null) {
+					SeamRuntime[] rs = SeamRuntimeManager.getInstance().getRuntimes(v);
+					return toNames(rs);
+				}
+			}
+		}
 		return SeamRuntimeManager.getInstance().getRuntimeNames();
+	}
+	
+	private List<String> toNames(SeamRuntime[] rs) {
+		List<String> list = new ArrayList<String>();
+		if(rs != null) for (int i = 0; i < rs.length; i++) list.add(rs[i].getName());
+		return list;
 	}
 	
 	private boolean hasNature(String natureId) {
@@ -385,4 +416,37 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 			return false;
 		}
 	}
+	
+	private String getJBossSeamJarLocation() {
+		IJavaProject jp = EclipseResourceUtil.getJavaProject(project);
+		if(jp == null) return null;
+		IClasspathEntry[] es = null;
+		try {
+			es = jp.getResolvedClasspath(true);
+		} catch (JavaModelException e) {
+			//ignore
+			return null;
+		}
+		if(es == null) return null;
+		for (int i = 0; i < es.length; i++) {
+			IPath p = es[i].getPath();
+			if(p != null && p.lastSegment().equalsIgnoreCase("jboss-seam.jar")) {
+				IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(p);
+				if(f != null && f.exists()) return f.getLocation().toString();
+			}
+		}
+		return null;
+	}
+	
+	private SeamVersion findMatchingVersion(String vs) {
+		if(vs == null) return null;
+		if(vs.matches(SeamVersion.SEAM_1_2.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_1_2;
+		}
+		if(vs.matches(SeamVersion.SEAM_2_0.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_2_0;
+		}
+		return null;
+	}
+
 }
