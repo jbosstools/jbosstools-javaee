@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test;
 
+import org.eclipse.core.resources.IFile;
+import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
@@ -21,10 +23,11 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 public class JsfComponentTest extends VpeTest {
 
 	// import project name
-	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest";
 
 	public JsfComponentTest(String name) {
-		super(name, IMPORT_PROJECT_NAME, JsfTestPlugin.getPluginResourcePath());
+		super(name);
+		setCheckWarning(false);
 	}
 
 	/*
@@ -32,99 +35,99 @@ public class JsfComponentTest extends VpeTest {
 	 */
 
 	public void testCommandButton() throws Throwable {
-		performTestForJsfComponent("components/commandButton.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/commandButton.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testCommandLink() throws Throwable {
-		performTestForJsfComponent("components/commandLink.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/commandLink.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testDataTable() throws Throwable {
-		performTestForJsfComponent("components/dataTable.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/dataTable.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testForm() throws Throwable {
-		performTestForJsfComponent("components/form.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/form.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testGraphicImage() throws Throwable {
-		performTestForJsfComponent("components/graphicImage.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/graphicImage.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testInputHidden() throws Throwable {
-		performTestForJsfComponent("components/inputHidden.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/inputHidden.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testInputSecret() throws Throwable {
-		performTestForJsfComponent("components/inputSecret.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/inputSecret.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testInputText() throws Throwable {
-		performTestForJsfComponent("components/inputText.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/inputText.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testInputTextArea() throws Throwable {
-		performTestForJsfComponent("components/inputTextArea.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/inputTextArea.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testMessage() throws Throwable {
-		performTestForJsfComponent("components/message.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/message.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testMessages() throws Throwable {
-		performTestForJsfComponent("components/messages.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/messages.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testOutputFormat() throws Throwable {
-		performTestForJsfComponent("components/outputFormat.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/outputFormat.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testOutputLabel() throws Throwable {
-		performTestForJsfComponent("components/outputLabel.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/outputLabel.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testOutputLink() throws Throwable {
-		performTestForJsfComponent("components/outputLink.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/outputLink.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testOutputText() throws Throwable {
-		performTestForJsfComponent("components/outputText.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/outputText.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testPanelGrid() throws Throwable {
-		performTestForJsfComponent("components/panelGrid.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/panelGrid.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testPanelGroup() throws Throwable {
-		performTestForJsfComponent("components/panelGroup.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/panelGroup.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectBooleanCheckbox() throws Throwable {
-		performTestForJsfComponent("components/selectBooleanCheckbox.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectBooleanCheckbox.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectManyCheckbox() throws Throwable {
-		performTestForJsfComponent("components/selectManyCheckbox.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectManyCheckbox.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectManyListbox() throws Throwable {
-		performTestForJsfComponent("components/selectManyListbox.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectManyListbox.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectManyMenu() throws Throwable {
-		performTestForJsfComponent("components/selectManyMenu.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectManyMenu.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectOneListbox() throws Throwable {
-		performTestForJsfComponent("components/selectOneListbox.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectOneListbox.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectOneMenu() throws Throwable {
-		performTestForJsfComponent("components/selectOneMenu.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectOneMenu.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectOneRadio() throws Throwable {
-		performTestForJsfComponent("components/selectOneRadio.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectOneRadio.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	/*
@@ -132,82 +135,82 @@ public class JsfComponentTest extends VpeTest {
 	 */
 
 	public void testActionListener() throws Throwable {
-		performTestForJsfComponent("components/actionListener.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/actionListener.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testAttribute() throws Throwable {
-		performTestForJsfComponent("components/attribute.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/attribute.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testConvertDateTime() throws Throwable {
-		performTestForJsfComponent("components/convertDateTime.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/convertDateTime.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testConvertNumber() throws Throwable {
-		performTestForJsfComponent("components/convertNumber.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/convertNumber.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testConverter() throws Throwable {
-		performTestForJsfComponent("components/converter.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/converter.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testFacet() throws Throwable {
-		performTestForJsfComponent("components/facet.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/facet.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testLoadBundle() throws Throwable {
-		performTestForJsfComponent("components/loadBundle.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/loadBundle.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testParam() throws Throwable {
-		performTestForJsfComponent("components/param.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/param.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testPhaseListener() throws Throwable {
-		performTestForJsfComponent("components/phaseListener.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/phaseListener.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectItem() throws Throwable {
-		performTestForJsfComponent("components/selectItem.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectItem.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSelectItems() throws Throwable {
-		performTestForJsfComponent("components/selectItems.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/selectItems.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSetPropertyActionListener() throws Throwable {
-		performTestForJsfComponent("components/setPropertyActionListener.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/setPropertyActionListener.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testSubview() throws Throwable {
-		performTestForJsfComponent("components/subview.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/subview.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testValidateDoubleRange() throws Throwable {
-		performTestForJsfComponent("components/validateDoubleRange.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/validateDoubleRange.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testValidateLength() throws Throwable {
-		performTestForJsfComponent("components/validateLength.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/validateLength.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testValidateLongRange() throws Throwable {
-		performTestForJsfComponent("components/validateLongRange.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/validateLongRange.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testValidator() throws Throwable {
-		performTestForJsfComponent("components/validator.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/validator.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testValueChangeListener() throws Throwable {
-		performTestForJsfComponent("components/valueChangeListener.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/valueChangeListener.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testVerbatim() throws Throwable {
-		performTestForJsfComponent("components/verbatim.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/verbatim.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testView() throws Throwable {
-		performTestForJsfComponent("components/view.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/view.jsp",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 }

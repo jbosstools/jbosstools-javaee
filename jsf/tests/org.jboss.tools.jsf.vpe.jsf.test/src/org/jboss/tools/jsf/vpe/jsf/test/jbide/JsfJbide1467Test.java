@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
-import org.jboss.tools.jsf.vpe.jsf.test.JsfTestPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -40,10 +39,10 @@ public class JsfJbide1467Test extends VpeTest {
 
 	// import project name
 
-	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest";
 
 	public JsfJbide1467Test(String name) {
-		super(name, IMPORT_PROJECT_NAME, JsfTestPlugin.getPluginResourcePath());
+		super(name);
 	}
 
 	/*
@@ -71,7 +70,7 @@ public class JsfJbide1467Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1467/JBIDE-1467.jsp", getImportProjectName());
+				"JBIDE/1467/JBIDE-1467.jsp", IMPORT_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);

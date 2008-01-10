@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
-import org.jboss.tools.jsf.vpe.jsf.test.JsfTestPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -35,10 +34,10 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JsfJbide1501Test extends VpeTest {
 
-	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest";
 
 	public JsfJbide1501Test(String name) {
-		super(name, IMPORT_PROJECT_NAME, JsfTestPlugin.getPluginResourcePath());
+		super(name);
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class JsfJbide1501Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1501/JBIDE-1501_multiple.jsp", getImportProjectName());
+				"JBIDE/1501/JBIDE-1501_multiple.jsp", IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -116,7 +115,7 @@ public class JsfJbide1501Test extends VpeTest {
 
 		// get test page path
 		file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1501/JBIDE-1501_size.jsp", getImportProjectName());
+				"JBIDE/1501/JBIDE-1501_size.jsp", IMPORT_PROJECT_NAME);
 
 		input = new FileEditorInput(file);
 

@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
-import org.jboss.tools.jsf.vpe.jsf.test.JsfTestPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -32,13 +31,13 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE1484Test extends VpeTest {
 
-	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest";
 	
 	private static final String TEST_PAGE_NAME = "JBIDE/1484/JBIDE-1484.jsp";
 	
 	public JBIDE1484Test(String name) {
 		
-		super(name, IMPORT_PROJECT_NAME, JsfTestPlugin.getPluginResourcePath());
+		super(name);
 	}
 	
 	//test method for JBIDE 1484
@@ -50,7 +49,7 @@ public class JBIDE1484Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_NAME, getImportProjectName());
+				TEST_PAGE_NAME, IMPORT_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);
