@@ -11,15 +11,13 @@
 package org.jboss.tools.vpe.ui.test;
 
 
-import java.io.File;
-
 import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
@@ -50,24 +48,14 @@ public class VpeTest extends TestCase implements ILogListener {
 	private  Boolean checkWarning;
 	
 	/**
-	 * Contains project name with information for testing
-	 */
-	private  String importProjectName;
-	
-	/**
-	 * Contains plugin resource path
-	 */
-	private String pluginResourcePath;
-	/**
 	 * 
 	 * @param name
 	 * @param importProjectName
 	 */
 	
-	public VpeTest(String name, String importProjectName,String pluginResourcePath) {
+	public VpeTest(String name) {
 		super(name);
-		setImportProjectName(importProjectName);
-		setPluginResourcePath(pluginResourcePath);
+
 	}
 	/**
 	 * Perform pre-test initialization.
@@ -79,13 +67,9 @@ public class VpeTest extends TestCase implements ILogListener {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		closeEditors();
-		if (ResourcesPlugin.getWorkspace().getRoot().findMember(getImportProjectName()) == null) {
-			closeEditors();
-			TestUtil.importProjectIntoWorkspace((getPluginResourcePath()
-					+ File.separator+getImportProjectName()),getImportProjectName());
-		}
+
 		Platform.addLogListener(this);
+
 		closeEditors();
 		}
 	/**
@@ -101,7 +85,6 @@ public class VpeTest extends TestCase implements ILogListener {
 		
 		closeEditors();
 
-		TestUtil.removeProject(getImportProjectName());
 		Platform.removeLogListener(this);
 
 	}
@@ -165,22 +148,24 @@ public class VpeTest extends TestCase implements ILogListener {
 	 * @throws PartInitException
 	 * @throws Throwable
 	 */
-	protected void performTestForJsfComponent(String componentPage)
+	protected void performTestForVpeComponent(IFile componentPage)
 			throws PartInitException, Throwable {
 		TestUtil.waitForJobs();
 
 		setException(null);
 
-		IFile file = (IFile) TestUtil.getComponentPath(componentPage,getImportProjectName());
-		IEditorInput input = new FileEditorInput(file);
+//		IFile file = (IFile) TestUtil.getComponentPath(componentPage,getImportProjectName());
+		IEditorInput input = new FileEditorInput(componentPage);
 		
 		TestUtil.waitForJobs();
 		
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+		IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.openEditor(input, EDITOR_ID, true);
-
+		
+		assertNotNull(editor);
+		
 		TestUtil.waitForJobs();
-		TestUtil.delay(3000);
+		TestUtil.delay(1000);
 		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.closeAllEditors(true);
@@ -207,7 +192,7 @@ public class VpeTest extends TestCase implements ILogListener {
 		// wait for jobs
 		TestUtil.waitForJobs();
 //		// wait full initialization of vpe
-		TestUtil.delay(3000);
+		TestUtil.delay(100);
 
 		return part;
 
@@ -235,30 +220,6 @@ public class VpeTest extends TestCase implements ILogListener {
 	 */
 	protected void setCheckWarning(Boolean checkWarning) {
 		this.checkWarning = checkWarning;
-	}
-	/**
-	 * @return the importProjectName
-	 */
-	protected String getImportProjectName() {
-		return importProjectName;
-	}
-	/**
-	 * @param importProjectName the importProjectName to set
-	 */
-	protected void setImportProjectName(String importProjectName) {
-		this.importProjectName = importProjectName;
-	}
-	/**
-	 * @return the pluginResourcePath
-	 */
-	protected String getPluginResourcePath() {
-		return pluginResourcePath;
-	}
-	/**
-	 * @param pluginResourcePath the pluginResourcePath to set
-	 */
-	protected void setPluginResourcePath(String pluginResourcePath) {
-		this.pluginResourcePath = pluginResourcePath;
 	}
 
 }
