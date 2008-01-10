@@ -33,15 +33,14 @@ import org.mozilla.interfaces.nsIDOMNode;
 public class FaceletsComponentTest extends VpeTest {
 
     // import project name
-    private static final String IMPORT_PROJECT_NAME = "faceletsTest";
+    public static final String IMPORT_PROJECT_NAME = "faceletsTest";
 
     public FaceletsComponentTest(String name) {
-	super(name, IMPORT_PROJECT_NAME, FaceletsTestPlugin
-		.getPluginResourcePath());
+	super(name);
     }
 
     public void testDebug() throws Throwable {
-	performTestForJsfComponent("components/debug.xhtml"); // $NON-NLS-1$
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/debug.xhtml",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
 
     public void testDefine() throws Throwable {
@@ -51,7 +50,7 @@ public class FaceletsComponentTest extends VpeTest {
 
 	// get test page path
 	IFile file = (IFile) TestUtil.getComponentPath(
-		"components/define.xhtml", getImportProjectName());
+		"components/define.xhtml", IMPORT_PROJECT_NAME);
 
 	assertNotNull("Could not open specified file " + file.getFullPath(),
 		file);
@@ -102,7 +101,7 @@ public class FaceletsComponentTest extends VpeTest {
     }
 
     public void testInsert() throws Throwable {
-	performTestForJsfComponent("components/insert.xhtml"); // $NON-NLS-1$
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath("components/insert.xhtml",IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
 
 }
