@@ -82,8 +82,8 @@ public class JBIDE1484Test extends VpeTest {
 		nsIDOMElement elementInput2 = (nsIDOMElement) elements.get(2).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		
 		assertEquals(elementInput0.getAttribute("value"),"");
-		assertNotNull(elementInput1.getAttribute("value"),"");
-		assertNotNull(elementInput2.getAttribute("value"),"test");
+		assertEquals(elementInput1.getAttribute("value"),"");
+		assertEquals(elementInput2.getAttribute("value"),"test");
 		if(getException()!=null) {
 			throw getException();
 		}

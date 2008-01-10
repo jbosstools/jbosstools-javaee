@@ -43,9 +43,9 @@ public class JsfAllTests {
 		//add here projects which should be imported for junit tests
 		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
 		ImportBean importBean = new ImportBean();
-		importBean.setImportProjectName("jsfTest");
+		importBean.setImportProjectName(JsfComponentTest.IMPORT_PROJECT_NAME);
  		importBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
- 		
+ 		projectToImport.add(importBean);
 		return new VpeTestSetup(suite,projectToImport);
 
 	}
