@@ -26,7 +26,7 @@ public class HtmlComponentTest extends VpeTest {
 	public static final String IMPORT_PROJECT_NAME = "htmlTest";
 
 	public HtmlComponentTest(String name) {
-		super(name);
+		super(name,IMPORT_PROJECT_NAME,HtmlTestPlugin.getPluginResourcePath());
 		setCheckWarning(false);
 	}
 
@@ -35,23 +35,22 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testDiv() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/block/div.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent("components/block/div.html");
 	}
 
 	public void testDl() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/block/dl.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/block/dl.html");
 	}
 
 	public void testLists() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/block/lists.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(		
+				"components/block/lists.html");
 	}
 
 	public void testSpan() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/block/span.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/block/span.html");
 	}
 
 	/*
@@ -59,48 +58,48 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testA() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/a.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/a.html");
 	}
 
 	public void testAddress() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/address.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/address.html");
 	}
 
 	public void testBasic() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/basic.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/basic.html");
 	}
 
 	public void testImg() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/img.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/img.html");
 	}
 
 	public void testLink() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/link.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/link.html");
 	}
 
 	public void testMap() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/map.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/map.html");
 	}
 
 	public void testObject() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/object.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/object.html");
 	}
 
 	public void testStyle() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/style.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/style.html");
 	}
 
 	public void testTitle() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/core/title.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/core/title.html");
 	}
 
 	/*
@@ -108,38 +107,38 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testButton() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/button.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/button.html");
 	}
 
 	public void testFieldset() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/fieldset.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/fieldset.html");
 	}
 
 	public void testForm() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/form.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/form.html");
 	}
 
 	public void testInput() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/input.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/input.html");
 	}
 
 	public void testLabel() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/label.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/label.html");
 	}
 
 	public void testSelect() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/select.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/select.html");
 	}
 
 	public void testTextArea() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/form/textArea.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/form/textArea.html");
 	}
 
 	/*
@@ -147,13 +146,13 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testFrameset() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/frames/frameset.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/frames/frameset.html");
 	}
 
 	public void testIframe() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/frames/iframe.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/frames/iframe.html");
 	}
 
 	/*
@@ -161,8 +160,8 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testScript() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/scripts/script.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/scripts/script.html");
 	}
 
 	/*
@@ -170,13 +169,13 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testComplexTable() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/table/complex_table.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/table/complex_table.html");
 	}
 
 	public void testTable() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/table/table.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/table/table.html");
 	}
 
 	/*
@@ -184,128 +183,128 @@ public class HtmlComponentTest extends VpeTest {
 	 */
 
 	public void testAbbr() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/abbr.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/abbr.html");
 	}
 
 	public void testAcronym() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/acronym.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/acronym.html");
 	}
 
 	public void testB() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/b.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/b.html");
 	}
 
 	public void testBig() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/big.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/big.html");
 	}
 
 	public void testBlockquote() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/blockquote.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/blockquote.html");
 	}
 
 	public void testBr() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/br.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/br.html");
 	}
 
 	public void testCite() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/cite.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/cite.html");
 	}
 
 	public void testCode() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/code.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/code.html");
 	}
 
 	public void testDel() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/del.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/del.html");
 	}
 
 	public void testDfn() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/dfn.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/dfn.html");
 	}
 
 	public void testEm() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/em.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/em.html");
 	}
 
 	public void testHr() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/hr.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/hr.html");
 	}
 
 	public void testI() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/i.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/i.html");
 	}
 
 	public void testIns() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/ins.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/ins.html");
 	}
 
 	public void testKbd() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/kbd.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/kbd.html");
 	}
 
 	public void testP() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/p.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/p.html");
 	}
 
 	public void testPre() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/pre.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/pre.html");
 	}
 
 	public void testQ() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/q.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/q.html");
 	}
 
 	public void testSamp() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/samp.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/samp.html");
 	}
 
 	public void testSmall() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/small.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/small.html");
 	}
 
 	public void testStrong() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/strong.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/strong.html");
 	}
 
 	public void testSub() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/sub.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/sub.html");
 	}
 
 	public void testSup() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/sup.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/sup.html");
 	}
 
 	public void testTt() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/tt.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/tt.html");
 	}
 
 	public void testVar() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/text/var.html", IMPORT_PROJECT_NAME));
+		performTestForJsfComponent(
+				"components/text/var.html");
 	}
 
 }

@@ -17,7 +17,7 @@ import junit.framework.TestSuite;
 /**
  * Class for testing all RichFaces components
  * 
- * @author sdzmitrovich
+ * @author dazarov
  * 
  */
 

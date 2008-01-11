@@ -15,7 +15,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 /**
  * Class for testing all struts components
  * 
- * @author sdzmitrovich
+ * @author dazarov
  * 
  */
 public class StrutsComponentTest extends VpeTest {
