@@ -10,12 +10,14 @@
  ******************************************************************************/
 package org.jboss.tools.struts.vpe.struts.test;
 
+import org.eclipse.core.resources.IFile;
+import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * Class for testing all struts components
  * 
- * @author dazarov
+ * @author sdzmitrovich
  * 
  */
 public class StrutsComponentTest extends VpeTest {
@@ -24,7 +26,7 @@ public class StrutsComponentTest extends VpeTest {
 	private static final String IMPORT_PROJECT_NAME = "StrutsTest";
 
 	public StrutsComponentTest(String name) {
-		super(name, IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath());
+		super(name);
 	}
 
 	/*
@@ -32,39 +34,39 @@ public class StrutsComponentTest extends VpeTest {
 	 */
 
 	public void testBase() throws Throwable {
-		performTestForJsfComponent("components/base.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/base.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testErrors() throws Throwable {
-		performTestForJsfComponent("components/errors.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/errors.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 	public void testFrame() throws Throwable {
-		performTestForJsfComponent("components/frame.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/frame.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 	
 	public void testHtml() throws Throwable {
-		performTestForJsfComponent("components/html.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 	
 	public void testImage() throws Throwable {
-		performTestForJsfComponent("components/image.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/image.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 	
 	public void testImg() throws Throwable {
-		performTestForJsfComponent("components/img.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/img.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 	
 	public void testLink() throws Throwable {
-		performTestForJsfComponent("components/link.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/link.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 	
 	public void testRewrite() throws Throwable {
-		performTestForJsfComponent("components/rewrite.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/rewrite.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 	
 	public void testMessages() throws Throwable {
-		performTestForJsfComponent("components/messages.jsp"); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/messages.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
 
 
