@@ -16,9 +16,12 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.ui.test.beans.ImportBean;
+
 
 /**
- * Class for testing all RichFaces components
+ * Class for testing all Html components
  * 
  * @author sdzmitrovich
  * 
@@ -32,7 +35,12 @@ public class HtmlAllTests {
 		// $JUnit-BEGIN$
 		suite.addTestSuite(HtmlComponentTest.class);
 		
-		return suite;
+		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
+		ImportBean importBean = new ImportBean();
+		importBean.setImportProjectName(HtmlComponentTest.IMPORT_PROJECT_NAME);
+ 		importBean.setImportProjectPath(HtmlTestPlugin.getPluginResourcePath());
+ 		projectToImport.add(importBean);
+		return new VpeTestSetup(suite,projectToImport);
 	}
 
 }
