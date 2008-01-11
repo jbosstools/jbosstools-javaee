@@ -125,28 +125,15 @@ public class FaceletsComponentTest extends VpeTest {
 
 	// check absolute path
 	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml");
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
 
-	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-
-	// find "table" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
-
-	assertEquals("Template with absolute path is not included", 1, elements
-		.size());
+	checkTemplatePage(element, "Page Header",
+		"Template with absolute path is not included");
 
 	// check related path
 	element = performTestForFaceletComponent("components/composition_related.xhtml");
-	node = (nsIDOMNode) element.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
 
-	elements = new ArrayList<nsIDOMNode>();
-
-	// find "table" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
-
-	assertEquals("Template with related path is not included", 1, elements
-		.size());
+	checkTemplatePage(element, "Page Header",
+		"Template with related path is not included");
 
 	if (getException() != null) {
 	    throw getException();
@@ -397,6 +384,37 @@ public class FaceletsComponentTest extends VpeTest {
 	assertNotNull(element);
 
 	return element;
+    }
+
+    private void checkTemplatePage(nsIDOMElement element, String contextString,
+	    String message) {
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "table" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
+
+	assertEquals(message, 1, elements.size());
+
+	nsIDOMElement table = (nsIDOMElement) elements.get(0).queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement tbody = (nsIDOMElement) table.getFirstChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement tr = (nsIDOMElement) tbody.getFirstChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement td = (nsIDOMElement) tr.getFirstChild().queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement div = (nsIDOMElement) td.getFirstChild().queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement span = (nsIDOMElement) div.getFirstChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMText text = (nsIDOMText) span.getFirstChild().queryInterface(
+		nsIDOMText.NS_IDOMTEXT_IID);
+
+	assertEquals(message, contextString, text.getNodeValue());
     }
 
 }
