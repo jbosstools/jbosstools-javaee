@@ -1790,7 +1790,7 @@
                 <title>Source Viewer</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_48.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_48.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -1801,7 +1801,7 @@
                 <title>Design Viewer</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_49.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_49.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -1812,7 +1812,7 @@
                 <title>Edit Options</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_50.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_50.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -1836,7 +1836,7 @@
                 <title>Source Viewer</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_52.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_52.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
