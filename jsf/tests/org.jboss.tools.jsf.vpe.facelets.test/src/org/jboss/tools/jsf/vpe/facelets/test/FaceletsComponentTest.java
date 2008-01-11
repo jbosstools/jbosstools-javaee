@@ -161,10 +161,28 @@ public class FaceletsComponentTest extends VpeTest {
      * @throws Throwable
      */
     public void testRemove() throws Throwable {
-	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/remove.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-	// TODO check that content in ui:remove isn't shown in VPE
-	assertTrue("Content inside ui:remove tag shouldn't be shown", false);
+	nsIDOMElement element = performTestForFaceletComponent("components/remove.xhtml");
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "span" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
+
+	assertEquals(1, elements.size());
+
+	nsIDOMElement elementSpan = (nsIDOMElement) elements.get(0)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMText text = (nsIDOMText) elementSpan.getFirstChild()
+		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
+
+	assertEquals(false, text.getNodeValue().equals("\nThis will be removed.\n"));
+
+	if (getException() != null) {
+	    throw getException();
+	}
     }
 
     /**
