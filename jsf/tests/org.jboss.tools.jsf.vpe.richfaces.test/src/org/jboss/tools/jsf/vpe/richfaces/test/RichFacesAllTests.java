@@ -10,8 +10,14 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
 /**
  * Class for testing all RichFaces components
@@ -22,13 +28,24 @@ import junit.framework.TestSuite;
 
 public class RichFacesAllTests {
 
-    public static Test suite() {
-	TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON-NLS-1$
-	// $JUnit-BEGIN$
-	suite.addTestSuite(RichFacesComponentTest.class);
-	// $JUnit-END$
-	return suite;
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON-NLS-1$
+		// $JUnit-BEGIN$
 
-    }
+		suite.addTestSuite(RichFacesComponentTest.class);
+
+		// $JUnit-END$
+
+		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
+		ImportBean importBean = new ImportBean();
+		importBean
+				.setImportProjectName(RichFacesComponentTest.IMPORT_PROJECT_NAME);
+		importBean.setImportProjectPath(RichFacesTestPlugin
+				.getPluginResourcePath());
+		projectToImport.add(importBean);
+
+		return new VpeTestSetup(suite, projectToImport);
+
+	}
 
 }
