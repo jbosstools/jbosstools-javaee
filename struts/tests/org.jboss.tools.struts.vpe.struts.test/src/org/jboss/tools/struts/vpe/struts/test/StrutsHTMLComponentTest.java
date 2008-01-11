@@ -15,9 +15,9 @@ import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
- * Class for testing all struts components
+ * Class for testing html struts components
  * 
- * @author sdzmitrovich
+ * @author dazarov
  * 
  */
 public class StrutsHTMLComponentTest extends VpeTest {
@@ -68,19 +68,4 @@ public class StrutsHTMLComponentTest extends VpeTest {
 	public void testMessages() throws Throwable {
 		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/messages.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
-	
-	public void testParameter() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/parameter.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-	}
-
-	public void testCookie() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/cookie.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-	}
-
-	public void testHeader() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/header.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-	}
-
-
-
 }
