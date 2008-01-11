@@ -212,29 +212,16 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testDecorate() throws Throwable {
 	// check absolute path
-	nsIDOMElement element = performTestForFaceletComponent("components/decorate_absolute.xhtml");
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml");
 
-	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-
-	// find "table" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
-
-	assertEquals("Template with absolute path is not included", 1, elements
-		.size());
+	checkTemplatePage(element, "Page Header",
+		"Template with absolute path is not included");
 
 	// check related path
-	element = performTestForFaceletComponent("components/decorate_related.xhtml");
-	node = (nsIDOMNode) element.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	element = performTestForFaceletComponent("components/composition_related.xhtml");
 
-	elements = new ArrayList<nsIDOMNode>();
-
-	// find "table" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
-
-	assertEquals("Template with related path is not included", 1, elements
-		.size());
+	checkTemplatePage(element, "Page Header",
+		"Template with related path is not included");
 
 	if (getException() != null) {
 	    throw getException();
