@@ -111,7 +111,7 @@
                 <title>JSF Flow Diagram</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/preferences/preferences_6.png" />
+                        <imagedata fileref="images/preferences/preferences_6.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -122,7 +122,7 @@
                 <title>Add View</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/preferences/preferences_7.png" />
+                        <imagedata fileref="images/preferences/preferences_7.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -418,7 +418,7 @@
                 <title>View</title>
                 <mediaobject> 
                     <imageobject>
-                        <imagedata fileref="images/preferences/preferences_28.png" />
+                        <imagedata fileref="images/preferences/preferences_28.png"  scale="70"/>
                     </imageobject>
                 </mediaobject>
             </figure>

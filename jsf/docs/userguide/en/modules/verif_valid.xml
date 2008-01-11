@@ -41,7 +41,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error in Source View</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/verif_valid/verif_valid_3.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_3.png" scale="75"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -69,7 +69,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Page Name Verification</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/verif_valid/verif_valid_6.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_6.png" scale="75"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -114,7 +114,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>Error Reporting</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/verif_valid/verif_valid_10.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_10.png" scale="75"/>
         </imageobject>
 </mediaobject>
 </figure>
@@ -133,7 +133,7 @@ selecting <emphasis><property>Window > Preferences</property></emphasis> from th
 <title>JSP Page Verification</title>
 <mediaobject> 
         <imageobject>
-            <imagedata fileref="images/verif_valid/verif_valid_12.png"/>
+            <imagedata fileref="images/verif_valid/verif_valid_12.png" scale="75"/>
         </imageobject>
 </mediaobject>
 </figure>
