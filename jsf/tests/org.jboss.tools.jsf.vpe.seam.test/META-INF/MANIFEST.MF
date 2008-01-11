@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe
 Eclipse-LazyStart: true
 Bundle-ClassPath: vpe-seam-test.jar
+Export-Package: org.jboss.tools.jsf.vpe.seam.test
