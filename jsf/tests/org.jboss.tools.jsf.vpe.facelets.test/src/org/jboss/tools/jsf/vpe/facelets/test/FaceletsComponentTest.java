@@ -71,7 +71,8 @@ public class FaceletsComponentTest extends VpeTest {
 	nsIDOMText text = (nsIDOMText) div.getFirstChild().queryInterface(
 		nsIDOMText.NS_IDOMTEXT_IID);
 
-	assertEquals(text.getNodeValue(), "Ctrl+Shift+");
+	assertEquals("Debug's content is not shown", text.getNodeValue(),
+		"Ctrl+Shift+");
 
 	if (getException() != null) {
 	    throw getException();
@@ -105,8 +106,10 @@ public class FaceletsComponentTest extends VpeTest {
 	nsIDOMText text1 = (nsIDOMText) elementSpan1.getFirstChild()
 		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
 
-	assertEquals(text0.getNodeValue(), "Greeting Page");
-	assertEquals(text1.getNodeValue(), "#{person.name}!");
+	assertEquals("Defined content is not shown", text0.getNodeValue(),
+		"Greeting Page");
+	assertEquals("Defined content is not shown", text1.getNodeValue(),
+		"#{person.name}!");
 
 	if (getException() != null) {
 	    throw getException();
@@ -130,7 +133,8 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "table" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
 
-	assertEquals(1, elements.size());
+	assertEquals("Template with absolute path is not included", 1, elements
+		.size());
 
 	// check related path
 	element = performTestForFaceletComponent("components/composition_related.xhtml");
@@ -141,7 +145,8 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "table" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
 
-	assertEquals(1, elements.size());
+	assertEquals("Template with related path is not included", 1, elements
+		.size());
 
 	if (getException() != null) {
 	    throw getException();
@@ -175,8 +180,8 @@ public class FaceletsComponentTest extends VpeTest {
 
 	String title = div.getAttribute("title");
 
-	assertEquals(title.replaceAll("\\s+", ""),
-		"ui:componentbinding:#{backingBean.menu}");
+	assertEquals("Component's content is not shown", title.replaceAll(
+		"\\s+", ""), "ui:componentbinding:#{backingBean.menu}");
 	if (getException() != null) {
 	    throw getException();
 	}
@@ -205,8 +210,8 @@ public class FaceletsComponentTest extends VpeTest {
 	nsIDOMText text = (nsIDOMText) elementSpan.getFirstChild()
 		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
 
-	assertEquals(false, text.getNodeValue().equals(
-		"\nThis will be removed.\n"));
+	assertEquals("Content inside ui:remove tag shouldn't be shown", false,
+		text.getNodeValue().equals("\nThis will be removed.\n"));
 
 	if (getException() != null) {
 	    throw getException();
@@ -229,7 +234,8 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "table" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
 
-	assertEquals(1, elements.size());
+	assertEquals("Template with absolute path is not included", 1, elements
+		.size());
 
 	// check related path
 	element = performTestForFaceletComponent("components/decorate_related.xhtml");
@@ -240,7 +246,8 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "table" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
 
-	assertEquals(1, elements.size());
+	assertEquals("Template with related path is not included", 1, elements
+		.size());
 
 	if (getException() != null) {
 	    throw getException();
@@ -253,9 +260,29 @@ public class FaceletsComponentTest extends VpeTest {
      * @throws Throwable
      */
     public void testRepeat() throws Throwable {
-	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/repeat.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-	assertTrue("Component's content is not shown", false);
+	nsIDOMElement element = performTestForFaceletComponent("components/repeat.xhtml");
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "dl" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_DL);
+
+	assertEquals(1, elements.size());
+
+	nsIDOMElement elementDL = (nsIDOMElement) elements.get(0)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement elementDT = (nsIDOMElement) elementDL.getFirstChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	assertEquals("Component's content is not shown", HTML.TAG_DT, elementDT
+		.getNodeName().toUpperCase());
+
+	if (getException() != null) {
+	    throw getException();
+	}
     }
 
     /**
@@ -274,7 +301,8 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "table" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
 
-	assertEquals(1, elements.size());
+	assertEquals("Template with absolute path is not included", 1, elements
+		.size());
 
 	// check related path
 	element = performTestForFaceletComponent("components/include_related.xhtml");
@@ -285,7 +313,8 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "table" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
 
-	assertEquals(1, elements.size());
+	assertEquals("Template with related path is not included", 1, elements
+		.size());
 
 	if (getException() != null) {
 	    throw getException();
@@ -318,8 +347,8 @@ public class FaceletsComponentTest extends VpeTest {
 
 	String title = div.getAttribute("title");
 
-	assertEquals(title.replaceAll("\\s+", ""),
-		"ui:fragmentbinding:#{uiCache['searchResult']}");
+	assertEquals("Fragment's content is not shown", title.replaceAll(
+		"\\s+", ""), "ui:fragmentbinding:#{uiCache['searchResult']}");
 	if (getException() != null) {
 	    throw getException();
 	}
