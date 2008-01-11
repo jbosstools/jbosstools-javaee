@@ -29,7 +29,7 @@ public class ImportProvider implements IImportStructureProvider {
 	/**
 	 * list of files which will not be imported
 	 */
-	List unimportedFiles = new ArrayList();
+	List<String> unimportedFiles = new ArrayList<String>();
 
 	/**
 	 * Creates an instance of <code>ImportProvider</code>.
@@ -41,11 +41,11 @@ public class ImportProvider implements IImportStructureProvider {
 	/*
 	 * (non-Javadoc) Method declared on IImportStructureProvider
 	 */
-	public List getChildren(Object element) {
+	public List<File> getChildren(Object element) {
 		File folder = (File) element;
 		String[] children = folder.list();
 		int childrenLength = children == null ? 0 : children.length;
-		List result = new ArrayList(childrenLength);
+		List<File> result = new ArrayList<File>(childrenLength);
 
 		for (int i = 0; i < childrenLength; i++) {
 			if (!unimportedFiles.contains(children[i]))
@@ -96,11 +96,11 @@ public class ImportProvider implements IImportStructureProvider {
 		return ((File) element).isDirectory();
 	}
 
-	public List getUnimportedFiles() {
+	public List<String> getUnimportedFiles() {
 		return unimportedFiles;
 	}
 
-	public void setUnimportedFiles(List unimportedFiles) {
+	public void setUnimportedFiles(List<String> unimportedFiles) {
 		this.unimportedFiles = unimportedFiles;
 	}
 
