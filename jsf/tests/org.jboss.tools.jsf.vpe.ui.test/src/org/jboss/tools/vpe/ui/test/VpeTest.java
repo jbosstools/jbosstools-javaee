@@ -1,15 +1,14 @@
 /******************************************************************************* 
-* Copyright (c) 2007 Red Hat, Inc.
-* Distributed under license by Red Hat, Inc. All rights reserved.
-* This program is made available under the terms of the
-* Eclipse Public License v1.0 which accompanies this distribution,
-* and is available at http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*     Red Hat, Inc. - initial API and implementation
-******************************************************************************/
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.vpe.ui.test;
-
 
 import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
@@ -29,8 +28,8 @@ import org.mozilla.interfaces.nsIDOMDocument;
 
 /**
  * @author Max Areshkau
- *	
- *	Base Class for VPE tests
+ * 
+ * Base Class for VPE tests
  */
 public class VpeTest extends TestCase implements ILogListener {
 
@@ -38,25 +37,26 @@ public class VpeTest extends TestCase implements ILogListener {
 	 * Editor in which we open visual page
 	 */
 	private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor";
-	
+
 	/**
 	 * Collects exceptions
 	 */
 	private Throwable exception;
-	
+
 	// check warning log
-	private  Boolean checkWarning;
-	
+	private Boolean checkWarning;
+
 	/**
 	 * 
 	 * @param name
 	 * @param importProjectName
 	 */
-	
+
 	public VpeTest(String name) {
 		super(name);
 
 	}
+
 	/**
 	 * Perform pre-test initialization.
 	 * 
@@ -71,7 +71,8 @@ public class VpeTest extends TestCase implements ILogListener {
 		Platform.addLogListener(this);
 
 		closeEditors();
-		}
+	}
+
 	/**
 	 * Perform post-test cleanup.
 	 * 
@@ -82,12 +83,13 @@ public class VpeTest extends TestCase implements ILogListener {
 	protected void tearDown() throws Exception {
 
 		super.tearDown();
-		
+
 		closeEditors();
 
 		Platform.removeLogListener(this);
 
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -108,6 +110,7 @@ public class VpeTest extends TestCase implements ILogListener {
 		}
 
 	}
+
 	/**
 	 * close all opened editors
 	 */
@@ -121,6 +124,7 @@ public class VpeTest extends TestCase implements ILogListener {
 				.closeAllEditors(true);
 
 	}
+
 	/**
 	 * get xulrunner source page
 	 * 
@@ -131,6 +135,7 @@ public class VpeTest extends TestCase implements ILogListener {
 	protected nsIDOMDocument getVpeVisualDocument(JSPMultiPageEditor part) {
 
 		VpeEditorPart visualEditor = (VpeEditorPart) part.getVisualEditor();
+		
 		VpeController vpeController = visualEditor.getController();
 
 		// get xulRunner editor
@@ -141,6 +146,7 @@ public class VpeTest extends TestCase implements ILogListener {
 
 		return document;
 	}
+
 	/**
 	 * Perfoms test for some page
 	 * 
@@ -154,26 +160,29 @@ public class VpeTest extends TestCase implements ILogListener {
 
 		setException(null);
 
-//		IFile file = (IFile) TestUtil.getComponentPath(componentPage,getImportProjectName());
+		// IFile file = (IFile)
+		// TestUtil.getComponentPath(componentPage,getImportProjectName());
 		IEditorInput input = new FileEditorInput(componentPage);
-		
+
 		TestUtil.waitForJobs();
-		
-		IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.openEditor(input, EDITOR_ID, true);
-		
+
+		IEditorPart editor = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().openEditor(input,
+						EDITOR_ID, true);
+
 		assertNotNull(editor);
-		
+
 		TestUtil.waitForJobs();
 		TestUtil.delay(1000);
-		
+
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.closeAllEditors(true);
 
 		if (getException() != null) {
 			throw getException();
 		}
-	}	
+	}
+
 	/**
 	 * Open JSPMultiPageEditor editor
 	 * 
@@ -189,34 +198,41 @@ public class VpeTest extends TestCase implements ILogListener {
 				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.openEditor(input, EDITOR_ID, true);
 
+		assertNotNull(part);
 		// wait for jobs
 		TestUtil.waitForJobs();
-//		// wait full initialization of vpe
-		TestUtil.delay(100);
+		// wait full initialization of vpe
+		TestUtil.delay(1000);
 
 		return part;
 
 	}
+
 	/**
 	 * @return the exception
 	 */
 	protected Throwable getException() {
 		return exception;
 	}
+
 	/**
-	 * @param exception the exception to set
+	 * @param exception
+	 *            the exception to set
 	 */
 	protected void setException(Throwable exception) {
 		this.exception = exception;
 	}
+
 	/**
 	 * @return the checkWarning
 	 */
 	protected Boolean getCheckWarning() {
 		return checkWarning;
 	}
+
 	/**
-	 * @param checkWarning the checkWarning to set
+	 * @param checkWarning
+	 *            the checkWarning to set
 	 */
 	protected void setCheckWarning(Boolean checkWarning) {
 		this.checkWarning = checkWarning;
