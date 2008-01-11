@@ -417,7 +417,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @return
 	 */
-	private nsIDOMElement getMaxValueElement(nsIDOMElement visualNode) {
+	private nsIDOMNode getMaxValueElement(nsIDOMElement visualNode) {
 		nsIDOMElement table = visualNode;
 		nsIDOMNodeList tableList = table.getChildNodes();
 		nsIDOMNode tr = tableList.item(0);
@@ -425,8 +425,7 @@ public class RichFacesInputNumberSliderTemplate extends
 		nsIDOMNode td1 = trList.item(1);
 		nsIDOMNodeList td1List = td1.getChildNodes();
 		nsIDOMNode maxValue = td1List.item(0);
-		nsIDOMElement maxValueElement = (nsIDOMElement) maxValue.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		return maxValueElement;
+		return maxValue;
 	}
 
 	/**
@@ -434,7 +433,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param visualNode
 	 * @return
 	 */
-	private nsIDOMElement getMinValueElement(nsIDOMElement visualNode) {
+	private nsIDOMNode getMinValueElement(nsIDOMElement visualNode) {
 		nsIDOMElement table = visualNode;
 		nsIDOMNodeList tableList = table.getChildNodes();
 		nsIDOMNode tr = tableList.item(0);
@@ -442,13 +441,7 @@ public class RichFacesInputNumberSliderTemplate extends
 		nsIDOMNode td1 = trList.item(0);
 		nsIDOMNodeList td1List = td1.getChildNodes();
 		nsIDOMNode minValue = td1List.item(0);
-		nsIDOMElement minValueElement = null;
-		try {
-			minValueElement = (nsIDOMElement) minValue.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		} catch (org.mozilla.xpcom.XPCOMException e) {
-			return null; // It could happen if source code doesn't have such element.
-		}
-		return minValueElement;
+		return minValue;
 	}
 
 	/**
@@ -509,7 +502,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param sourceNode
 	 */
 	public void setMaxValue(nsIDOMElement visualNode, Element sourceNode) {
-		nsIDOMElement maxValue = getMaxValueElement(visualNode);
+		nsIDOMNode maxValue = getMaxValueElement(visualNode);
 		if (maxValue != null) {
 			if (getAttribute(SLIDER_SHOWBOUNDARY_ATTR, sourceNode)
 					.equalsIgnoreCase("false")) {
@@ -533,7 +526,7 @@ public class RichFacesInputNumberSliderTemplate extends
 	 * @param sourceNode
 	 */
 	public void setMinValue(nsIDOMElement visualNode, Element sourceNode) {
-		nsIDOMElement minValue = getMinValueElement(visualNode);
+		nsIDOMNode minValue = getMinValueElement(visualNode);
 		if (minValue != null) {
 			if (getAttribute(SLIDER_SHOWBOUNDARY_ATTR, sourceNode)
 					.equalsIgnoreCase("false")) {
