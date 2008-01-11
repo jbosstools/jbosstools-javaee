@@ -47,8 +47,35 @@ public class FaceletsComponentTest extends VpeTest {
      * @throws Throwable
      */
     public void testDebug() throws Throwable {
-	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/debug.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	nsIDOMElement element = performTestForFaceletComponent("components/debug.xhtml");
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "div" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_DIV);
+	assertEquals(1, elements.size());
+	nsIDOMElement divElement = (nsIDOMElement) elements.get(0)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement divBody = (nsIDOMElement) divElement.getLastChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement divParent = (nsIDOMElement) divBody.getLastChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement div = (nsIDOMElement) divParent.getFirstChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMText text = (nsIDOMText) div.getFirstChild().queryInterface(
+		nsIDOMText.NS_IDOMTEXT_IID);
+
+	assertEquals(text.getNodeValue(), "Ctrl+Shift+");
+
+	if (getException() != null) {
+	    throw getException();
+	}
     }
 
     /**
