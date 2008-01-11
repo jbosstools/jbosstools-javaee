@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
+import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
 
@@ -175,5 +176,17 @@ public class TestUtil {
 		}
 
 	}
-
+	
+	static public List<ImportBean> createImportBeanList(String projectName, String resourcePath) {
+		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
+ 		projectToImport.add(createImportBean(projectName,resourcePath));
+ 		return projectToImport;
+	}
+	
+	static public ImportBean createImportBean(String projectName, String resourcePath) {
+		ImportBean importBean = new ImportBean();
+		importBean.setImportProjectName(projectName);
+ 		importBean.setImportProjectPath(resourcePath);
+ 		return importBean;
+	}
 }

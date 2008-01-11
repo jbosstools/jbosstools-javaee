@@ -13,6 +13,9 @@ package org.jboss.tools.struts.vpe.struts.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+
 
 /**
  * Class for testing all RichFaces components
@@ -30,7 +33,7 @@ public class StrutsAllTests {
 		suite.addTestSuite(StrutsComponentTest.class);
 		//cleanUpTests();
 		// $JUnit-END$
-		return suite;
+		return new VpeTestSetup(suite,TestUtil.createImportBeanList(StrutsComponentTest.IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath()));
 
 	}
 

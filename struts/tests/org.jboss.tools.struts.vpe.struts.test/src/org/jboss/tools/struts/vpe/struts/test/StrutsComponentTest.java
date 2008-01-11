@@ -23,7 +23,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 public class StrutsComponentTest extends VpeTest {
 
 	// import project name
-	private static final String IMPORT_PROJECT_NAME = "StrutsTest";
+	static final String IMPORT_PROJECT_NAME = "StrutsTest";
 
 	public StrutsComponentTest(String name) {
 		super(name);
