@@ -178,7 +178,8 @@ public class FaceletsComponentTest extends VpeTest {
 	nsIDOMText text = (nsIDOMText) elementSpan.getFirstChild()
 		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
 
-	assertEquals(false, text.getNodeValue().equals("\nThis will be removed.\n"));
+	assertEquals(false, text.getNodeValue().equals(
+		"\nThis will be removed.\n"));
 
 	if (getException() != null) {
 	    throw getException();
@@ -270,10 +271,31 @@ public class FaceletsComponentTest extends VpeTest {
      * @throws Throwable
      */
     public void testFragment() throws Throwable {
-	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/fragment.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-	// TODO check that fragment's content is showed
-	assertTrue("Fragment's content is not sown", false);
+	nsIDOMElement element = performTestForFaceletComponent("components/fragment.xhtml");
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "div" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_DIV);
+	assertEquals(1, elements.size());
+	nsIDOMElement divElement = (nsIDOMElement) elements.get(0)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement divBody = (nsIDOMElement) divElement.getLastChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement div = (nsIDOMElement) divBody.getLastChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	String title = div.getAttribute("title");
+
+	assertEquals(title.replaceAll("\\s+", ""),
+		"ui:fragmentbinding:#{uiCache['searchResult']}");
+	if (getException() != null) {
+	    throw getException();
+	}
     }
 
     /**
