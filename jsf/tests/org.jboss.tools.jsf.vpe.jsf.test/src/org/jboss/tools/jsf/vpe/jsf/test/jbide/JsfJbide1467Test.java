@@ -31,6 +31,15 @@ import org.mozilla.interfaces.nsIDOMNode;
  * 
  * @author sdzmitrovich
  * 
+ * test for http://jira.jboss.com/jira/browse/JBIDE-1467
+ * 
+ * the cause of bug : <input type=radio > tags ( which vpe template forms when
+ * process "selectOneRadio" jsf tag ) didn't have equal "name" attribute
+ * 
+ * REQUIREMENT :test page must has only one <h:selectOneRadio > tag
+ * 
+ * test checks that all "radio" elements ( of xulRunner DOMDocument ) have equal
+ * "name" attributes
  */
 public class JsfJbide1467Test extends VpeTest {
 
@@ -49,18 +58,6 @@ public class JsfJbide1467Test extends VpeTest {
 	 * JBIDE's test cases
 	 */
 
-	/**
-	 * test for http://jira.jboss.com/jira/browse/JBIDE-1467
-	 * 
-	 * the cause of bug : <input type=radio > tags ( which vpe template forms
-	 * when process "selectOneRadio" jsf tag ) didn't have equal "name"
-	 * attribute
-	 * 
-	 * REQUIREMENT :test page must has only one <h:selectOneRadio > tag
-	 * 
-	 * test checks that all "radio" elements ( of xulRunner DOMDocument ) have
-	 * equal "name" attributes
-	 */
 	public void testJbide() throws Throwable {
 
 		// wait
@@ -85,22 +82,20 @@ public class JsfJbide1467Test extends VpeTest {
 		nsIDOMDocument document = getVpeVisualDocument(part);
 		nsIDOMElement element = document.getDocumentElement();
 
-		if (element != null) {
+		assertNotNull(element);
 
-			// get root node
-			nsIDOMNode node = (nsIDOMNode) element
-					.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		// get root node
+		nsIDOMNode node = (nsIDOMNode) element
+				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
 
-			List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
-			// find "input" elements
-			TestUtil.findElementsByName(node, elements, HTML.TAG_INPUT);
+		// find "input" elements
+		TestUtil.findElementsByName(node, elements, HTML.TAG_INPUT);
 
-			// check that "radio" elements have equal names
-			// (size of list of names == 1 )
-			assertEquals(1, getRadioNames(elements).size());
-
-		}
+		// check that "radio" elements have equal names
+		// (size of list of names == 1 )
+		assertEquals(1, getRadioNames(elements).size());
 
 		// check exception
 		if (getException() != null) {
