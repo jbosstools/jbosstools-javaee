@@ -30,10 +30,10 @@ public class StrutsAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Struts components"); // $NON-NLS-1$
 		// $JUnit-BEGIN$
-		suite.addTestSuite(StrutsComponentTest.class);
+		suite.addTestSuite(StrutsHTMLComponentTest.class);
 		//cleanUpTests();
 		// $JUnit-END$
-		return new VpeTestSetup(suite,TestUtil.createImportBeanList(StrutsComponentTest.IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath()));
+		return new VpeTestSetup(suite,TestUtil.createImportBeanList(StrutsHTMLComponentTest.IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath()));
 
 	}
 
