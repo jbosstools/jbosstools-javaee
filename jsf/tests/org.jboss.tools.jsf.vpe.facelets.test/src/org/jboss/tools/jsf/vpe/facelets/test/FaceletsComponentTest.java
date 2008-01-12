@@ -239,9 +239,9 @@ public class FaceletsComponentTest extends VpeTest {
 		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-	//TODO dsacovich Compilation error was corrected.Deal with it.
+
 	// find "dl" elements
-//	TestUtil.findElementsByName(node, elements, HTML.TAG_DL);
+	TestUtil.findElementsByName(node, elements, HTML.TAG_DL);
 
 	assertEquals(1, elements.size());
 
@@ -250,9 +250,9 @@ public class FaceletsComponentTest extends VpeTest {
 
 	nsIDOMElement elementDT = (nsIDOMElement) elementDL.getFirstChild()
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	//TODO dsacovich Compilation error was corrected.Deal with it.
-//	assertEquals("Component's content is not shown", HTML.TAG_DT, elementDT
-//		.getNodeName().toUpperCase());
+	
+	assertEquals("Component's content is not shown", HTML.TAG_DT, elementDT
+		.getNodeName().toUpperCase());
 
 	if (getException() != null) {
 	    throw getException();
