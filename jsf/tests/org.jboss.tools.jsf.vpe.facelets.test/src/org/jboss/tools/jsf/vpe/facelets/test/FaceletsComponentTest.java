@@ -23,6 +23,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.interfaces.nsIDOMText;
 
 /**
@@ -95,20 +96,26 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "span" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
 
-	assertEquals(2, elements.size());
+	assertEquals(3, elements.size());
 	nsIDOMElement elementSpan0 = (nsIDOMElement) elements.get(0)
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 	nsIDOMElement elementSpan1 = (nsIDOMElement) elements.get(1)
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement elementSpan2 = (nsIDOMElement) elements.get(2)
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 	nsIDOMText text0 = (nsIDOMText) elementSpan0.getFirstChild()
 		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
 	nsIDOMText text1 = (nsIDOMText) elementSpan1.getFirstChild()
 		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
+	nsIDOMText text2 = (nsIDOMText) elementSpan2.getFirstChild()
+		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
 
 	assertEquals("Defined content is not shown", text0.getNodeValue(),
 		"Greeting Page");
 	assertEquals("Defined content is not shown", text1.getNodeValue(),
+		"#{user}");
+	assertEquals("Defined content is not shown", text2.getNodeValue(),
 		"#{person.name}!");
 
 	if (getException() != null) {
@@ -250,7 +257,7 @@ public class FaceletsComponentTest extends VpeTest {
 
 	nsIDOMElement elementDT = (nsIDOMElement) elementDL.getFirstChild()
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	
+
 	assertEquals("Component's content is not shown", HTML.TAG_DT, elementDT
 		.getNodeName().toUpperCase());
 
@@ -358,6 +365,53 @@ public class FaceletsComponentTest extends VpeTest {
 	assertNotNull(element);
 
 	return element;
+    }
+
+    /**
+     * Test for ui:param
+     * 
+     * @throws Throwable
+     */
+    public void testParam() throws Throwable {
+	// check absolute path
+	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml");
+
+	nsIDOMNode node = (nsIDOMNode) element
+		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+
+	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+	// find "table" elements
+	TestUtil.findElementsByName(node, elements, HTML.TAG_TABLE);
+
+	assertEquals("Component's content is not shown", 1, elements.size());
+
+	nsIDOMElement table = (nsIDOMElement) elements.get(0).queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement tbody = (nsIDOMElement) table.getFirstChild()
+		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMNodeList list = tbody.getChildNodes();
+
+	assertEquals("Component's content is not shown", 4, list.getLength());
+
+	nsIDOMElement tr = (nsIDOMElement) list.item(1).queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMElement td = (nsIDOMElement) tr.getFirstChild().queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement span = (nsIDOMElement) td.getFirstChild().queryInterface(
+		nsIDOMElement.NS_IDOMELEMENT_IID);
+
+	nsIDOMText text = (nsIDOMText) span.getFirstChild().queryInterface(
+		nsIDOMText.NS_IDOMTEXT_IID);
+
+	assertEquals("Component's content is not shown", text.getNodeValue(),
+		"#{currentUser}");
+
+	if (getException() != null) {
+	    throw getException();
+	}
     }
 
     private void checkTemplatePage(nsIDOMElement element, String contextString,
