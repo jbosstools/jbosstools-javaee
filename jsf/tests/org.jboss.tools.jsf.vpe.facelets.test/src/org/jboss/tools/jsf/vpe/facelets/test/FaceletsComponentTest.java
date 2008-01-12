@@ -219,13 +219,13 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testDecorate() throws Throwable {
 	// check absolute path
-	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml");
+	nsIDOMElement element = performTestForFaceletComponent("components/decorate_absolute.xhtml");
 
 	checkTemplatePage(element, "Page Header",
 		"Template with absolute path is not included");
 
 	// check related path
-	element = performTestForFaceletComponent("components/composition_related.xhtml");
+	element = performTestForFaceletComponent("components/decorate_related.xhtml");
 
 	checkTemplatePage(element, "Page Header",
 		"Template with related path is not included");
@@ -273,13 +273,13 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testInclude() throws Throwable {
 	// check absolute path
-	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml");
+	nsIDOMElement element = performTestForFaceletComponent("components/include_absolute.xhtml");
 
 	checkTemplatePage(element, "Page Header",
 		"Template with absolute path is not included");
 
 	// check related path
-	element = performTestForFaceletComponent("components/composition_related.xhtml");
+	element = performTestForFaceletComponent("components/include_related.xhtml");
 
 	checkTemplatePage(element, "Page Header",
 		"Template with related path is not included");
@@ -374,7 +374,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testParam() throws Throwable {
 	// check absolute path
-	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml");
+	nsIDOMElement element = performTestForFaceletComponent("components/param.xhtml");
 
 	nsIDOMNode node = (nsIDOMNode) element
 		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
