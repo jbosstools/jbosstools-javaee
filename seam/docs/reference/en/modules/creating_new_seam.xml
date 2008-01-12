@@ -11,8 +11,8 @@
     <title>Creating a New Seam Project via the New Seam Project wizard</title>
     <para>In this chapter we provide you with the necessary steps to start working with Seam
         Framework.</para>
-    <para>At first, we suggest browsing the specific Seam perspective.</para>
-    <para>For that select <emphasis>
+    <para>At first, we suggest setting the specific Seam perspective that provides a necessary type
+        of functionality. For that select <emphasis>
             <property>Window > Open Perspective > Other > Seam</property>
         </emphasis> or you can also access it through the button in the right top corner.</para>
 
@@ -31,14 +31,14 @@
             experiment with it by creating variations.</para>
         <para>Thus, you should select <emphasis>
                 <property>File > New > Seam Web Project</property>
-            </emphasis> to run the <property>New Seam Project</property> wizard.</para>
-        <para>It's necessary to enter a name and a location directory for your new project. The next
-            wizard forms allow you to create runtime and server instances in order to get started
-            creating, running, and debugging J2EE applications.</para>
+            </emphasis> to run the <property>New Seam Project</property> wizard. It's necessary to
+            enter a name and a location directory for your new project. The next wizard forms allow
+            you to create runtime and server instances in order to get started creating, running,
+            and debugging J2EE applications.</para>
         <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP
             runtime) that will be used for the project. This allows the wizard to identify correctly
             where the required datasource and driver libraries need to go.</para>
-
+        <para>Let&apos;s get through the wizard step-by-step. First, you should type the name of your new project.</para>
         <figure>
             <title>New Seam Project Wizard</title>
             <mediaobject>
@@ -51,14 +51,15 @@
 
         <para>Clicking on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the Target Runtime section brings us to another dialog. Here, you can
-            specify a new installed Runtime environment or the other type of runtime appropriate for
-            configuring your project. Let's create a JBoss 4.2 Runtime. For that after choosing it click on <emphasis>
+            </emphasis> button in the Target Runtime section brings us to another dialog. Here, you
+            can specify a new installed Runtime environment or the other type of runtime appropriate
+            for configuring your project. Let's create a JBoss 4.2 Runtime. For that after choosing
+            it click on <emphasis>
                 <property>Next</property>
             </emphasis> button.</para>
 
         <figure>
-            <title>New Server Runtime Dialog</title>
+            <title>Specifying Target Runtime</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam2.png"/>
@@ -66,16 +67,14 @@
             </mediaobject>
         </figure>
 
-        <para>All what you need here is to name runtime, type or locate using <emphasis>
-            <property>Browse</property></emphasis> button the path to its install directory, select a
-            Java Runtime Environment, and select which configuration you want. Clicking on <emphasis>
-                <property>Finish</property>
-            </emphasis> returns you to the previous dialog. The next step is to define an installed server. You can do it by clicking on <emphasis>
-                <property>New...</property>
-            </emphasis> button in the Target section. </para>
+        <para>All what you need here is to name runtime, type the path to its install directory or
+            locate it by using <emphasis>
+                <property>Browse</property>
+            </emphasis> button, select a Java Runtime Environment, and select which configuration
+            you want.</para>
 
         <figure>
-            <title>New Server Runtime Dialog</title>
+            <title>Specifying Target Server Runtime</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam3.png"/>
@@ -83,13 +82,21 @@
             </mediaobject>
         </figure>
 
-        <para>It's possible to select a server version and a
-            server runtime. Use <emphasis>
-                <property>Installed Runtimes</property>
-            </emphasis> button to see or edit what runtimes are installed. Click on Next</para>
+        <para> Clicking on <emphasis>
+                <property>Finish</property>
+            </emphasis> returns you to the previous dialog. The next step is to define an installed
+            server that you can do by clicking on <emphasis>
+                <property>New...</property>
+            </emphasis> button in the Target Server section. In appeared Server Dialog it's possible
+            to select a server version. For jBoss AS 4.2 it's also possible to indicate a server
+            runtime. Use <emphasis>
+                <property>Installed Runtimes...</property>
+            </emphasis> button to see or edit what runtimes are installed. Click on <emphasis>
+                <property>Next</property>
+            </emphasis>.</para>
 
         <figure>
-            <title>New Server Dialog</title>
+            <title>Specifying Target Server</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam4.png"/>
@@ -97,7 +104,10 @@
             </mediaobject>
         </figure>
 
-        <para>Leave everything as is and click on next.</para>
+        <para>Next dialog allows you to verify chosen Runtime information as well as set login
+            credentials and specify a deploy directory. Leave everything as it is and click on <emphasis>
+                <property>Next</property>
+            </emphasis>.</para>
 
         <figure>
             <title>New Server Dialog</title>
@@ -120,7 +130,9 @@
         </figure>
 
 
-        <para>After clicking on Finish button you should have the following wizard view:</para>
+        <para>After clicking on <emphasis>
+                <property>Finish</property>
+            </emphasis> button you should have the following wizard view:</para>
 
         <figure>
             <title>New Seam Project Creation</title>
@@ -132,8 +144,8 @@
         </figure>
 
         <para>The last section on this wizard step is <property>Configurations</property>. You can
-            select one of the pre-defined project configuration or create your own. Click on
-                    <emphasis><property>Next</property>.</emphasis></para>
+            select one of the pre-defined project configurations or create your own. Having all needed options arranged click on 
+            <emphasis><property>Next</property></emphasis> to pass on to the other wizard.</para>
 
     </section>
     <section id="projectFacets">
@@ -168,11 +180,13 @@
             </mediaobject>
         </figure>
 
+        <para><emphasis>
+            <property>Next</property>
+        </emphasis> button will bring you to the Web Module wizard.</para>
     </section>
 
     <section id="configureWebModule">
         <title>How to Configure Web Module Settings</title>
-
         <para>A dynamic web application contains both web pages and Java code. The wizard will ask
             you where you want to put those files. You can just leave the default values.</para>
 
@@ -184,8 +198,9 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
+        
     </section>
+    
     <section id="addJSFCapab">
         <title>Adding JSF Capabilities</title>
 
@@ -207,8 +222,8 @@
             button. You are able to create a library of jars by clicking on <emphasis>
                 <property>New</property>
             </emphasis> button.</para>
-        <para>Type a <property>Library Name</property>, select a <property>Version
-            Supported</property> and add <property>Library jars</property>. Click on
+        <para>Here, it's necessary to type a <property>Library Name</property>, select a <property>Version
+            Supported</property> and add proper <property>Library jars</property>. Then click on
                     <emphasis><property>Finish</property>.</emphasis></para>
         <figure>
             <title>Create JSF Implementation Library</title>
@@ -235,7 +250,7 @@
 
         <para>The last wizard options allows to edit a path for <property>JSF Configuration
             File</property>, a name for <property>JSF Servlet</property>, <property>JSF Servlet
-                Classname</property> and change an <property>URL Mapping Patterns</property>.</para>
+                Classname</property> and change <property>URL Mapping Patterns</property>.</para>
 
         <figure>
             <title>JSF Capabilities Wizard</title>
@@ -245,7 +260,6 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
     </section>
 
     <section id="seamFacet">
