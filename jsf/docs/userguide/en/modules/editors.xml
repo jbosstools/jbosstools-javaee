@@ -1707,7 +1707,7 @@
                 <title>Properties View</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_43.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_43.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
