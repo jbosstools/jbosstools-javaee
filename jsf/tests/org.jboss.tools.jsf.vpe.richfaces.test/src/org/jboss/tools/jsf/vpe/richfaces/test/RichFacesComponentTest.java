@@ -196,5 +196,10 @@ public class RichFacesComponentTest extends VpeTest {
 		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 				"components/virtualEarth.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
+	
+	public void testComponentControl() throws PartInitException, Throwable {
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+				"components/componentControl.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
 
 }
