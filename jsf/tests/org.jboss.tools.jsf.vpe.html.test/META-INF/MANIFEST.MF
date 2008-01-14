@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Html Plug-in
-Bundle-SymbolicName: org.jboss.tools.jsf.vpe.html.test
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.html.test;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.jsf.vpe.html.test.HtmlTestPlugin
 Require-Bundle: org.eclipse.ui,
