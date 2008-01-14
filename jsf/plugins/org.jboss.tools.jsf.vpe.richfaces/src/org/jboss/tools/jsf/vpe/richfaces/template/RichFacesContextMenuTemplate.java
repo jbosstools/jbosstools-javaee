@@ -50,25 +50,25 @@ public class RichFacesContextMenuTemplate extends VpeAbstractTemplate {
 
 	parentDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		"dr-menu-list-border");
-	nsIDOMElement div = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	nsIDOMElement table = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
-	div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+	table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		"dr-menu-list-bg rich-menu-list-bg dr-menu-list-border");
 
 	String path = RichFacesTemplatesActivator.getPluginResourcePath()
 		+ BACKGROUND_PATH;
 
-	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+	table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 		"background-image: url(file://" + path + "); " + DIV_STYLE);
 
-	parentDiv.appendChild(div);
+	parentDiv.appendChild(table);
 	List<Node> listItems = ComponentUtil.getChildren(sourceElement, false);
 
 	for (Node node : listItems) {
 	    nsIDOMElement element = createMenuItem(visualDocument, node);
 	    if (element != null)
-		div.appendChild(element);
+		table.appendChild(element);
 	}
 
 	VpeCreationData creationData = new VpeCreationData(parentDiv);
