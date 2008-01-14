@@ -45,11 +45,6 @@ public class RichFacesContextMenuTemplate extends VpeAbstractTemplate {
 		"richFacesContextMenu");
 	Element sourceElement = (Element) sourceNode;
 
-	nsIDOMElement parentDiv = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-
-	parentDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		"dr-menu-list-border");
 	nsIDOMElement table = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
@@ -62,7 +57,6 @@ public class RichFacesContextMenuTemplate extends VpeAbstractTemplate {
 	table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 		"background-image: url(file://" + path + "); " + DIV_STYLE);
 
-	parentDiv.appendChild(table);
 	List<Node> listItems = ComponentUtil.getChildren(sourceElement, false);
 
 	for (Node node : listItems) {
@@ -71,7 +65,7 @@ public class RichFacesContextMenuTemplate extends VpeAbstractTemplate {
 		table.appendChild(element);
 	}
 
-	VpeCreationData creationData = new VpeCreationData(parentDiv);
+	VpeCreationData creationData = new VpeCreationData(table);
 
 	return creationData;
 
