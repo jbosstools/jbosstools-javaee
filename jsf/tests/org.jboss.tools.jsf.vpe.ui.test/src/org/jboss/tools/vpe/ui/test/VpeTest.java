@@ -20,6 +20,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.common.model.util.ClassLoaderUtil;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
@@ -46,6 +47,12 @@ public class VpeTest extends TestCase implements ILogListener {
 	// check warning log
 	private Boolean checkWarning;
 
+	//FIX for JBIDE-1628
+	static {
+		ClassLoaderUtil.init();
+		//wait for initialization
+		TestUtil.delay(3000);
+		} 
 	/**
 	 * 
 	 * @param name
@@ -173,7 +180,7 @@ public class VpeTest extends TestCase implements ILogListener {
 		assertNotNull(editor);
 
 		TestUtil.waitForJobs();
-		TestUtil.delay(1000);
+		TestUtil.delay(100);
 
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.closeAllEditors(true);
