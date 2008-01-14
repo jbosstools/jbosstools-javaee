@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Richfaces Test Plug-in
-Bundle-SymbolicName: org.jboss.tools.jsf.vpe.richfaces.test
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.richfaces.test;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.jsf.vpe.richfaces.test.RichFacesTestPlugin
 Require-Bundle: org.eclipse.ui,
