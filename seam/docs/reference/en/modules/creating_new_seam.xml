@@ -11,8 +11,8 @@
     <title>Creating a New Seam Project via the New Seam Project wizard</title>
     <para>In this chapter we provide you with the necessary steps to start working with Seam
         Framework.</para>
-    <para>At first, we suggest setting the specific Seam perspective that provides a necessary type
-        of functionality. For that select <emphasis>
+    <para>At first, we suggest setting the specific Seam perspective that combines a number of
+        different views and editors needed for work with resources concerned. For that select <emphasis>
             <property>Window > Open Perspective > Other > Seam</property>
         </emphasis> or you can also access it through the button in the right top corner.</para>
 
@@ -31,14 +31,14 @@
             experiment with it by creating variations.</para>
         <para>Thus, you should select <emphasis>
                 <property>File > New > Seam Web Project</property>
-            </emphasis> to run the <property>New Seam Project</property> wizard. It's necessary to
-            enter a name and a location directory for your new project. The next wizard forms allow
-            you to create runtime and server instances in order to get started creating, running,
-            and debugging J2EE applications.</para>
+            </emphasis> to run the <property>New Seam Project</property> wizard. The wizard form
+            allows you to create runtime and server instances in order to get started creating,
+            running, and debugging J2EE applications.</para>
         <para>Seam Web Project wizard has an option for selecting the actual Server (not just WTP
             runtime) that will be used for the project. This allows the wizard to identify correctly
             where the required datasource and driver libraries need to go.</para>
-        <para>Let&apos;s get through the wizard step-by-step. First, you should type the name of your new project.</para>
+        <para>Let&apos;s get through the wizard step-by-step. First, you should enter a name and
+            a location directory for your new project</para>
         <figure>
             <title>New Seam Project Wizard</title>
             <mediaobject>
@@ -51,10 +51,10 @@
 
         <para>Clicking on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the Target Runtime section brings us to another dialog. Here, you
-            can specify a new installed Runtime environment or the other type of runtime appropriate
-            for configuring your project. Let's create a JBoss 4.2 Runtime. For that after choosing
-            it click on <emphasis>
+            </emphasis> button in the Target Runtime section will bring you to another dialog. Here,
+            you can specify a new installed Runtime environment or the other type of runtime
+            appropriate for configuring your project. Let's create a JBoss 4.2 Runtime. For that
+            after choosing it click on <emphasis>
                 <property>Next</property>
             </emphasis> button.</para>
 
@@ -144,23 +144,38 @@
         </figure>
 
         <para>The last section on this wizard step is <property>Configurations</property>. You can
-            select one of the pre-defined project configurations or create your own. Having all needed options arranged click on 
-            <emphasis><property>Next</property></emphasis> to pass on to the other wizard.</para>
+            select one of the pre-defined project configurations or create your own. Having all
+            needed options arranged click on <emphasis>
+                <property>Next</property>
+            </emphasis> to pass on to the other wizard.</para>
 
     </section>
     <section id="projectFacets">
         <title>Select the Project Facets</title>
 
-        <para>This page of the wizard allows you to enable or disable specific facets. You can save
-            or delete your preset of selected facets clicking on <emphasis>
-                <property>Save</property>
-            </emphasis> button.</para>
+        <para>This page of the wizard allows you to enable or disable specific facets that define
+            necessary characteristics for the project. The moment you switch to this wizard form,
+            all critical facets are already checked for the chosen Dynamic Web Project.</para>
 
         <figure>
             <title>Project Facets Selection</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam8.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>Moreover, you can specify your own preset of selected facets by checking needed ones
+            in project facets window and clicking on <emphasis>
+                <property>Save</property>
+            </emphasis> button.</para>
+
+        <figure>
+            <title>Specifying Custom Facet Preset</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam8_1.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -175,20 +190,28 @@
             <title>Project Facets Selection</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/create_new_seam/create_seam8_1.png"/>
+                    <imagedata fileref="images/create_new_seam/create_seam8_2.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
 
+        <para>Here, if more than one runtimes are checked, the <emphasis>
+                <property>Make Primary</property>
+            </emphasis> button won&apos;t be dimmed yet. So you can make use of it to mark
+            primary runtime.</para>
         <para><emphasis>
-            <property>Next</property>
-        </emphasis> button will bring you to the Web Module wizard.</para>
+                <property>Next</property>
+            </emphasis> button will bring you to the Web Module wizard form.</para>
     </section>
 
     <section id="configureWebModule">
         <title>How to Configure Web Module Settings</title>
-        <para>A dynamic web application contains both web pages and Java code. The wizard will ask
-            you where you want to put those files. You can just leave the default values.</para>
+
+        <para> As we deal with a dynamic web application we should first specify the top level
+            directory of our application for deploying it to a server afterwards. You know, this
+            kind of application contains both Web and Java code resources. Thus, it's also important
+            to indicate the content directory as well as Java source directory. The wizard will put
+            all those values itself. So you can leave everything as it is.</para>
 
         <figure>
             <title>Web Module Settings</title>
@@ -198,13 +221,16 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+        <para>Choose <emphasis>
+                <property>Next</property>
+            </emphasis> to switch to the next wizard form.</para>
     </section>
-    
+
     <section id="addJSFCapab">
         <title>Adding JSF Capabilities</title>
 
-        <para>This wizard helps you to add JSF capabilities into your project. </para>
+        <para>This wizard helps you to add JSF capabilities into your project for representing
+            appropriate behaviours associated with JSF. </para>
         <para>Checking <emphasis>
                 <property>Server Supplied JSF Implementation</property>
             </emphasis> means that you will have a default JSF implementation given by server.</para>
@@ -222,9 +248,11 @@
             button. You are able to create a library of jars by clicking on <emphasis>
                 <property>New</property>
             </emphasis> button.</para>
-        <para>Here, it's necessary to type a <property>Library Name</property>, select a <property>Version
-            Supported</property> and add proper <property>Library jars</property>. Then click on
-                    <emphasis><property>Finish</property>.</emphasis></para>
+        <para>Here, it's necessary to type a <property>Library Name</property>, select a
+                <property>Version Supported</property> and add proper <property>Library
+            jars</property>. Then click on <emphasis>
+                <property>Finish</property>
+            </emphasis> to complete the choice.</para>
         <figure>
             <title>Create JSF Implementation Library</title>
             <mediaobject>
@@ -234,10 +262,13 @@
             </mediaobject>
         </figure>
 
-        <para>You can also add a <property>Component Libraries</property> (e.g. Richfaces) clicking
-            on <emphasis>
+        <para>In the Component Libraries section of the wizard you can also add <property>Component
+                Libraries</property> (e.g. Richfaces). Just click on <emphasis>
                 <property>New</property>
-            </emphasis> button in the Component Libraries section.</para>
+            </emphasis> button. Appeared dialog will ask you to type the Library name, supported
+            version and add necessary jar's. Press <emphasis>
+                <property>Finish</property>
+            </emphasis> to complete the choice.</para>
 
         <figure>
             <title>Create JSF Implementation Library</title>
@@ -260,6 +291,9 @@
                 </imageobject>
             </mediaobject>
         </figure>
+
+        <para>Finally, as we are arranging the Seam Web project, the last step we should do is to adjust project
+            configurations associated with Seam.</para>
     </section>
 
     <section id="seamFacet">
@@ -277,12 +311,12 @@
 
         <itemizedlist>
             <listitem>
-                <para>Create Seam runtime and define Seam home folder. Click on <emphasis>
-                        <property>Add</property>
-                    </emphasis> button in the <property>General</property> section.</para>
+                <para>Create Seam runtime and define Seam home folder.</para>
             </listitem>
         </itemizedlist>
-        <para>Notice that in this wizard presented below you can create a Seam runtime only for that
+        <para>For that click on <emphasis>
+            <property>Add</property>
+        </emphasis> button in the <property>General</property> section. Notice that in this wizard presented below you can create a Seam runtime only for that
             version which was selected in the <link linkend="projectFacets">Project Facets</link>
             wizard (version 1.2 in our case).</para>
 
@@ -314,7 +348,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
+        
         <itemizedlist>
             <listitem>
                 <para>and create a <emphasis>
@@ -325,6 +359,15 @@
             </listitem>
         </itemizedlist>
 
+        <figure>
+            <title>Connection Profile Options</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam13_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
         <figure>
             <title>Connection Profile Selecting</title>
             <mediaobject>
@@ -352,6 +395,7 @@
         <para>Click on <emphasis>
                 <property>Finish</property>
             </emphasis> to generate a project.</para>
-
+    
+        <para></para>
     </section>
 </chapter>
