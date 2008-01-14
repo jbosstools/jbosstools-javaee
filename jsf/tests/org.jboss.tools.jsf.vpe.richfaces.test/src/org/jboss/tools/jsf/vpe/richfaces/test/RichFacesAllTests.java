@@ -15,9 +15,9 @@ import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 import org.jboss.tools.vpe.ui.test.beans.ImportBean;
+
 
 /**
  * Class for testing all RichFaces components
@@ -26,7 +26,7 @@ import org.jboss.tools.vpe.ui.test.beans.ImportBean;
  * 
  */
 
-public class RichFacesAllTests {
+public class RichFacesAllTests  {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON-NLS-1$
