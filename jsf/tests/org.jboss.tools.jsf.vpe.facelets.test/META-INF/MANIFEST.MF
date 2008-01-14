@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Plug-in
-Bundle-SymbolicName: org.jboss.tools.jsf.vpe.facelets.test
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.facelets.test;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.jsf.vpe.facelets.test.FaceletsTestPlugin
 Require-Bundle: org.eclipse.ui,
