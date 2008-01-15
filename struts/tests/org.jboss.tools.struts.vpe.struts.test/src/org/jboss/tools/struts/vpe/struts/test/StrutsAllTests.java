@@ -35,6 +35,7 @@ public class StrutsAllTests {
 		suite.addTestSuite(StrutsLogicComponentTest.class);
 		suite.addTestSuite(StrutsFormComponentTest.class);
 		suite.addTestSuite(StrutsNestedComponentTest.class);
+		suite.addTestSuite(StrutsTilesComponentTest.class);
 		//cleanUpTests();
 		// $JUnit-END$
 		return new VpeTestSetup(suite,TestUtil.createImportBeanList(StrutsHTMLComponentTest.IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath()));
