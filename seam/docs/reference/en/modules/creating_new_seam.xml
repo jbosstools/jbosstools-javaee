@@ -142,10 +142,16 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        
+        <para>The last section on this wizard step is <property>Configurations</property>. Here, you
+            can select one of the pre-defined project configurations either Dynamic Web Project with
+            Seam 1.2 or with Seam 2.0 that&apos;s the latest release but just only a technology
+            preview. In addition, you can create your own configuration. Choosing Default
+            Configuration for jBoss 4.2 Runtime allows you later to specify your own set of facets
+            for adding extra functionality to your project. For more details about facets, see next
+            section.</para>
 
-        <para>The last section on this wizard step is <property>Configurations</property>. You can
-            select one of the pre-defined project configurations or create your own. Having all
-            needed options arranged click on <emphasis>
+        <para>Having all necessary options arranged click on <emphasis>
                 <property>Next</property>
             </emphasis> to pass on to the other wizard.</para>
 
@@ -154,8 +160,11 @@
         <title>Select the Project Facets</title>
 
         <para>This page of the wizard allows you to enable or disable specific facets that define
-            necessary characteristics for the project. The moment you switch to this wizard form,
+            necessary characteristics for the project. In time you switch to this wizard form,
             all critical facets are already checked for the chosen Dynamic Web Project.</para>
+
+        <para>Notice that this page of the wizard also allows you to specify the necessary version for
+            any facet. </para>
 
         <figure>
             <title>Project Facets Selection</title>
@@ -292,8 +301,8 @@
             </mediaobject>
         </figure>
 
-        <para>Finally, as we are arranging the Seam Web project, the last step we should do is to adjust project
-            configurations associated with Seam.</para>
+        <para>Finally, as we are arranging the Seam Web project, the last step we should do is to
+            adjust project configurations associated with the Seam.</para>
     </section>
 
     <section id="seamFacet">
@@ -315,10 +324,11 @@
             </listitem>
         </itemizedlist>
         <para>For that click on <emphasis>
-            <property>Add</property>
-        </emphasis> button in the <property>General</property> section. Notice that in this wizard presented below you can create a Seam runtime only for that
-            version which was selected in the <link linkend="projectFacets">Project Facets</link>
-            wizard (version 1.2 in our case).</para>
+                <property>Add</property>
+            </emphasis> button in the <property>General</property> section. Notice that in this
+            wizard presented below you can create a Seam runtime only for that version which was
+            selected in the <link linkend="projectFacets">Project Facets</link> wizard (version 1.2
+            in our case).</para>
 
         <figure>
             <title>Seam Runtime Creation</title>
@@ -348,17 +358,21 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+
         <itemizedlist>
             <listitem>
-                <para>and create a <emphasis>
+                <para>and then specify a <emphasis>
                         <property>Connection profile</property>
-                    </emphasis> clicking on <emphasis>
-                        <property>New</property>
-                    </emphasis> button and selecting the necessary connection profile.</para>
+                    </emphasis> appropriate for your database.</para>
+
             </listitem>
         </itemizedlist>
 
+        <para>By default, <emphasis>
+            <property>DefaultDS</property></emphasis> value of Connection profile is set here. You can organise the
+            other one by clicking on <emphasis>
+                <property>New</property>
+            </emphasis> button and selecting necessary for you type of connection profile.</para>
         <figure>
             <title>Connection Profile Options</title>
             <mediaobject>
@@ -367,7 +381,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+
         <figure>
             <title>Connection Profile Selecting</title>
             <mediaobject>
@@ -378,10 +392,9 @@
         </figure>
 
         <para>Other Database fields are describing a Database and a connection to it.</para>
-        <para>In the <property>Code Generation</property> section you can edit a package name for
+        <para>In the <property>Code Generation</property> section the wizard have already put the names for your 
                 <property>Session Bean</property>, <property>Entity Bean</property> and
-                <property>Test</property>.</para>
-
+                <property>Test</property> packages. Of course, you can change them to any others likable for you.</para>
 
         <figure>
             <title>Code Generation Section</title>
@@ -395,7 +408,7 @@
         <para>Click on <emphasis>
                 <property>Finish</property>
             </emphasis> to generate a project.</para>
-    
-        <para></para>
+
+        <para/>
     </section>
 </chapter>
