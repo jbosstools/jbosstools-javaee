@@ -444,4 +444,25 @@ public class ComponentUtil {
 		} else
 			visualNode.removeAttribute(attrName);
 	}
+	
+	/**
+	 * Parses string value retrieved from 
+	 * sourceElement.getAttribure(..) method 
+	 * to its boolean value.
+	 * <p>
+	 * <code>false</code> is returned only if it specified explicitly,
+	 * otherwise <code>true</code> is returned.
+	 * 
+	 * @param str the string to parse
+	 * @return boolean value from string
+	 */
+	public static boolean string2boolean(String str) {
+		if ((str == null) || ("".equals(str))) {
+			return true;
+		} else if (("true".equalsIgnoreCase(str)) || ("false".equalsIgnoreCase(str))) {
+			return new Boolean(str).booleanValue();
+		} 
+		return true;
+	}
+
 }

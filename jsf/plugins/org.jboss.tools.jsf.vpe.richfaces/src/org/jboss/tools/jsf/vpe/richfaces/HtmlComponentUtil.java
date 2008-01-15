@@ -69,6 +69,9 @@ public class HtmlComponentUtil {
 	/** HTML_TAG_SPAN */
 	public static final String HTML_TAG_SPAN = "SPAN";
 
+	/** HTML_TAG_A */
+	public static final String HTML_TAG_A = "A";
+
 	/** HTML_TAG_B */
 	public static final String HTML_TAG_B = "B";
 
