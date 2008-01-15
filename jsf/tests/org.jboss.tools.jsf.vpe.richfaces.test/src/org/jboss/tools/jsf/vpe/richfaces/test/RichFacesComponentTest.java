@@ -211,4 +211,9 @@ public class RichFacesComponentTest extends VpeTest {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/contextMenu.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
+    
+    public void testListShuttle() throws Throwable {
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+				"components/listShuttle.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
 }
