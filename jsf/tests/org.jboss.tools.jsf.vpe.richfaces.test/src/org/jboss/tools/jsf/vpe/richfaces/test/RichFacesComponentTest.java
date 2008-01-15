@@ -10,21 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.FileEditorInput;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
-import org.mozilla.interfaces.nsIDOMDocument;
-import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMText;
 
 /**
  * Class for testing all RichFaces components
@@ -139,10 +128,10 @@ public class RichFacesComponentTest extends VpeTest {
     }
 
     public void testOrderingList() throws PartInitException, Throwable {
-    	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-    			"components/orderingList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/orderingList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
-    
+
     public void testPaint2D() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/paint2D.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
@@ -218,71 +207,8 @@ public class RichFacesComponentTest extends VpeTest {
 		"components/componentControl.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
 
-    public void testcontextMenu() throws Throwable {
-	nsIDOMElement element = performTestForRichFacesComponent("components/contextMenu.xhtml");
-
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
-
-	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-
-	// find "span" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
-
-	assertEquals("Component's content is not shown", 4, elements.size());
-
-	nsIDOMElement elementSpan = (nsIDOMElement) elements.get(1)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-
-	nsIDOMText text = (nsIDOMText) elementSpan.getFirstChild()
-		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
-
-	nsIDOMElement elementSpan1 = (nsIDOMElement) elements.get(3)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-
-	nsIDOMText text1 = (nsIDOMText) elementSpan1.getFirstChild()
-		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
-
-	assertEquals("Component's content is not shown", text.getNodeValue(),
-		"Zoom In");
-	assertEquals("Component's content is not shown", text1.getNodeValue(),
-		"Zoom Out");
-
+    public void testContextMenu() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/contextMenu.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
-
-    /**
-     * 
-     * @param componentPage
-     * @return
-     * @throws Throwable
-     */
-    private nsIDOMElement performTestForRichFacesComponent(String componentPage)
-	    throws Throwable {
-	TestUtil.waitForJobs();
-	// set exception
-	setException(null);
-
-	// get test page path
-	IFile file = (IFile) TestUtil.getComponentPath(componentPage,
-		IMPORT_PROJECT_NAME);
-
-	assertNotNull("Could not open specified file " + file.getFullPath(),
-		file);
-
-	IEditorInput input = new FileEditorInput(file);
-
-	assertNotNull("Editor input is null", input);
-	// open and get editor
-	JSPMultiPageEditor part = openEditor(input);
-
-	// get dom document
-	nsIDOMDocument document = getVpeVisualDocument(part);
-	nsIDOMElement element = document.getDocumentElement();
-
-	// check that element is not null
-	assertNotNull(element);
-
-	return element;
-    }
-
 }
