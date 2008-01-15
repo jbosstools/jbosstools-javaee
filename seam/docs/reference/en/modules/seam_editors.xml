@@ -15,6 +15,7 @@
         
         <title>Content Assist</title>
    
+        <para>In this chapter you know what are Seam Editors Features and how to work with them. </para>  
         <para><property>Content Assist</property> (ctrl + space) is available when using expression language in:</para>
         <itemizedlist>
             <listitem><para>JSP</para></listitem>

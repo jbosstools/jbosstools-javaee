@@ -9,6 +9,7 @@
             </keywordset>
     </chapterinfo>
     <title>Using TestNG project</title>
+    <para>With the help this chapter you will get to know with TestNG.</para>
     <section>
  <title>What is TestNG?</title>
         <para><property>TestNG</property> (&quot;Testing, the Next Generation&quot;) is a Java unit testing framework that aims to overcome many limitations of JUnit. 

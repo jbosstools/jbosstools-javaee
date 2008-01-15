@@ -14,6 +14,7 @@
     <section>
         <title>Seam Components View</title>
         
+        <para>This chapter introduces you with Seam Components View.</para>
         <para>The <property>Seam Components View</property> is available from Seam perspective. It provides a list of seam components found in a project.</para>
                 
         <figure>

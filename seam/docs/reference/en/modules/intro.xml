@@ -14,7 +14,7 @@
     <section>
         
         <title>What is Seam?</title>
-    
+        <para>This introduction will help you to understand what is <property>Seam</property>.</para>
     <para><property>Seam</property> is a fully featured application framework on top of Java EE 5. It is also one of the most popular enterprise Java framework today. Seam deeply integrates many other
         standard-based or open source frameworks (e.g., JSF, EJB3, JMS, Web Services, jBPM, JBoss Rules, Ajax4jsf, RichFaces, Facelets, Spring, iText, Quartz, TestNG, etc.), and
         provides a single programming model for developers to &quot;drive&quot; those underlying frameworks via simple annotated POJOs (Plain Old Java Objects). It makes life easier

@@ -11,6 +11,7 @@
     
     <title>Seam Generate Entities</title>
     
+    <para>The main purpose of this chapter is to tell you about Seam Generate Entities.</para>
     <para>Generate Entities is available directly from within Eclipse using Hibernate Tools plugin for the standard seam-gen generation.</para>
     <para>Generate Entities generates a set of CRUD Seam components and web pages based on existing tables in a database or on existing entities in your application.</para>
     

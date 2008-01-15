@@ -18,7 +18,7 @@
 			<property>CRUD</property> is an acronym for the four basic types of SQL commands: <emphasis><property>Create</property></emphasis>, <emphasis><property>Read</property></emphasis>, <emphasis><property>Update</property></emphasis>, <emphasis><property>Delete</property></emphasis>. Most applications have some kind of <property>CRUD</property> functionality, and we can assume that every programmer had to deal with <property>CRUD</property> at some point. A <property>CRUD</property> application is one that uses forms to get data into and out of a database.
 		</para>
 		<para>
-			In the next chapter we will create <link linkend="intro">Seam</link> Web application, connect it to the <ulink url="http://www.postgresql.org/">PostgreSQL</ulink> database and add <property>CRUD</property> support.
+			In the next  section we will create <link linkend="intro">Seam</link> Web application, connect it to the <ulink url="http://www.postgresql.org/">PostgreSQL</ulink> database and add <property>CRUD</property> support.
 		</para>
 	</section>
 

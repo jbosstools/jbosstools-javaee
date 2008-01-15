@@ -10,7 +10,8 @@
     </chapterinfo>
     
     <title>Seam Wizards</title>
-    
+   
+    <para>This chapter introduces you with Seam Components.</para>
     <para>All the Seam component generations options known from Seam-gen are available as wizards (with sensible auto-defaulting)
     for creating various common Seam components:</para>
     
@@ -51,6 +52,7 @@
         
         <title>New Seam Action</title>
 
+        <para>In this and following sections you can see example creating Seam Components.</para>
         <para>To create a New Seam Action you should select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>,
             <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis><property>Browse</property></emphasis> button.</para>
                 
