@@ -445,4 +445,14 @@ public class FaceletsComponentTest extends VpeTest {
 	assertEquals(message, contextString, text.getNodeValue());
     }
 
+    /**
+     * Test for all facelets tags
+     * 
+     * @throws Throwable
+     */
+    public void testAllTags() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/faceletsTest.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
+
 }
