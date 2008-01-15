@@ -10,20 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.seam.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * Class for testing all Seam components
@@ -31,158 +20,59 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author dsakovich@exadel.com
  * 
  */
-public class SeamComponentTest extends TestCase implements ILogListener{
+public class SeamComponentTest extends VpeTest {
 
-    private final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; // $NON-NLS-1$
-	private final static String TEST_PROJECT_JAR_PATH = "/seamtest.jar"; // $NON-NLS-1$
+    // import project name
+    public static final String IMPORT_PROJECT_NAME = "SeamTest";
 
-	// check warning log
-	private final static boolean checkWarning = false;
-	private Throwable exception;
+    public SeamComponentTest(String name) {
+	super(name);
+	setCheckWarning(false);
+    }
 
-	public SeamComponentTest(String name) {
-		super(name);
-	}
+    public void testButton() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/button.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-	/**
-	 * Perform pre-test initialization.
-	 * 
-	 * @throws Exception
-	 * 
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
+    public void testDecorate() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/decorate.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-		// TODO: Use TestSetup to create and remove project once for all tests 
-		// not for every one 
-		if(ResourcesPlugin.getWorkspace().getRoot().findMember("SeamTest")==null) {
-		
-			ImportSeamComponents.importSeamPages(SeamTestPlugin
-					.getPluginResourcePath() + TEST_PROJECT_JAR_PATH);
-			
-			waitForJobs();
-			waitForJobs();
-			delay(5000);
-		}
-		Platform.addLogListener(this);
-	}
+    public void testDiv() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/div.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-	/**
-	 * Perform post-test cleanup.
-	 * 
-	 * @throws Exception
-	 * 
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		Platform.removeLogListener(this);
-	}
+    public void testFormattedText() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/formattedText.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-	/**
-	 * Process UI input but do not return for the specified time interval.
-	 * 
-	 * @param waitTimeMillis
-	 *                the number of milliseconds
-	 */
-	private void delay(long waitTimeMillis) {
-		Display display = Display.getCurrent();
-		if (display != null) {
-			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-			while (System.currentTimeMillis() < endTimeMillis) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-			display.update();
-		}
-		// Otherwise, perform a simple sleep.
-		else {
-			try {
-				Thread.sleep(waitTimeMillis);
-			} catch (InterruptedException e) {
-				// Ignored.
-			}
-		}
-	}
+    public void testSpan() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/span.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-	/**
-	 * Wait until all background tasks are complete.
-	 */
-	public void waitForJobs() {
-		while (Job.getJobManager().currentJob() != null)
-			delay(5000);
-	}
+    public void testLabel() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/label.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-	public void testButton() throws PartInitException, Throwable {
-		performTestForSeamComponent("button.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testDecorate() throws PartInitException, Throwable {
-		performTestForSeamComponent("decorate.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testDiv() throws PartInitException, Throwable {
-		performTestForSeamComponent("div.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testFormattedText() throws PartInitException, Throwable {
-		performTestForSeamComponent("formattedText.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testSpan() throws PartInitException, Throwable {
-		performTestForSeamComponent("span.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testLabel() throws PartInitException, Throwable {
-		performTestForSeamComponent("label.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testLink() throws PartInitException, Throwable {
-		performTestForSeamComponent("link.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testMessage() throws PartInitException, Throwable {
-		performTestForSeamComponent("message.xhtml"); // $NON-NLS-1$
-	}
-	
-	public void testAllComponentsOnSinglePage() throws PartInitException, Throwable {
-		performTestForSeamComponent("seamtest.xhtml"); // $NON-NLS-1$
-	}
-	
-	private void performTestForSeamComponent(String componentPage) throws PartInitException, Throwable {
-		waitForJobs();
+    public void testLink() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/link.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-		exception = null;
-		IPath componentPath = ImportSeamComponents.getComponentPath(componentPage);
-		
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(componentPath);
-		IEditorInput input = new FileEditorInput(file);
-		
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, EDITOR_ID, true);
+    public void testMessage() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/message.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
-		waitForJobs();
-		delay(3000);
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(true);
-
-		if (exception != null) {
-			throw exception;
-		}
-	}
-
-	public void logging(IStatus status, String plugin) {
-		switch (status.getSeverity()) {
-		case IStatus.ERROR:
-			exception = status.getException();
-			break;
-		case IStatus.WARNING:
-			if (checkWarning)
-				exception = status.getException();
-			break;
-		default:
-			break;
-		}
-
-	}
+    public void testAllComponentsOnSinglePage() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/seamtest.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
 
 }
