@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,8 +45,10 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
+import org.jboss.tools.seam.internal.core.el.ELStringToken;
 import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
+import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
@@ -217,41 +218,27 @@ public class SeamELValidator extends SeamValidator {
 	 * @param length - length of string in file
 	 */
 	private void validateString(IFile file, String string, int offset) {
-		Set<EL> els = new HashSet<EL>();
-		String localString = string;
-		while(!reporter.isCancelled()) {
-			int startEl = localString.indexOf("#{"); //$NON-NLS-1$
-			int endEl = -1;
-//			if(startEl==-1) {
-//				startEl = localString.indexOf("${");
-//			}
-			if(startEl>-1) {
-				endEl = localString.lastIndexOf('}');
-				if(endEl>-1) {
-					String value = localString.substring(startEl+2, endEl);
-					int os = offset + startEl + 2;
-					int ln = value.length();
-					els.add(new EL(value, ln, os));
-					localString = localString.substring(endEl);
-					offset = offset + endEl;
-					continue;
+		int startEl = string.indexOf("#{"); //$NON-NLS-1$
+		if(startEl>-1) {
+			SeamELStringTokenizer st = new SeamELStringTokenizer(string);
+			List<ELStringToken> tokens = st.getTokens();
+			for (ELStringToken stringToken : tokens) {
+				if(reporter.isCancelled()) {
+					return;
 				}
+				stringToken.setStart(offset + stringToken.getStart() + 2);
+				validateEl(file, stringToken);
 			}
-			break;
-		}
-
-		for(EL el: els) {
-			validateEl(file, el);
 		}
 	}
 
-	private void validateEl(IFile file, EL el) {
-		String exp = el.value;
+	private void validateEl(IFile file, ELStringToken el) {
+		String exp = el.getBody();
 		SeamELTokenizer elTokenizer = new SeamELTokenizer(exp);
 		List<ELToken> tokens = elTokenizer.getTokens();
 		for (ELToken token : tokens) {
 			if(token.getType()==ELToken.EL_VARIABLE_TOKEN) {
-				validateElOperand(file, token, el.getOffset());
+				validateElOperand(file, token, el.getStart());
 			}
 		}
 	}
@@ -327,42 +314,6 @@ public class SeamELValidator extends SeamValidator {
 			addError(UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
 		} else {
 			addError(UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-		}
-	}
-
-	public static class EL {
-		private String value;
-		private int length;
-		private int offset;
-
-		public EL(String value, int length, int offset) {
-			this.value = value;
-			this.length = length;
-			this.offset = offset;
-		}
-
-		public String getValue() {
-			return value;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-		}
-
-		public int getLength() {
-			return length;
-		}
-
-		public void setLength(int length) {
-			this.length = length;
-		}
-
-		public int getOffset() {
-			return offset;
-		}
-
-		public void setOffset(int offset) {
-			this.offset = offset;
 		}
 	}
 }

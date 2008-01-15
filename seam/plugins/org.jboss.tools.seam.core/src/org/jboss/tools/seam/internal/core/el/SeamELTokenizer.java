@@ -16,8 +16,7 @@ import java.util.List;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
- * EL string parser.
- * Creates list of tokens for the operands and operators 
+ * Parses EL and creates list of tokens for the operands and operators within one EL.
  * @author Alexey Kazakov
  */
 public class SeamELTokenizer {
@@ -44,10 +43,9 @@ public class SeamELTokenizer {
 
 	/**
 	 * Constructs SeamELTokenizer object.
-	 * Constructs SeamELTokenizer object
 	 * Parse an expression.
 	 * For example: expression is '#{var1.pr != var2.pr}'
-	 *              then tokens are {"var1.pr"," ", "!=", " ", "var2",}
+	 *              then tokens are ["var1.pr"," ", "!=", " ", "var2.pr"]
 	 * @param expression
 	 */
 	public SeamELTokenizer(String expression) {
@@ -63,7 +61,7 @@ public class SeamELTokenizer {
 	}
 
 	/**
-	 * Returns list of tokens for the expression parsed
+	 * Returns list of tokens for the parsed expression
 	 * 
 	 * @return
 	 */

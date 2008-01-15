@@ -824,22 +824,29 @@ public class SeamValidatorsTest extends TestCase {
 			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
 					"'abcComponent.3'", ex);
 		}
-		
+
 		refreshProject(project);
-		
+
 		number = getMarkersNumber(abcComponentXHTMLFile);
 		assertFalse("Problem marker 'Unpaired Getter/Setter' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(abcComponentXHTMLFile);
 
 		assertTrue("Problem marker 'Unpaired Getter/Setter' not found", "Property \"actionType\" has only Getter. Setter is missing.".equals(messages[0]));
-		
+
 		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
-		
+
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
 
+		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
+		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
+		lineNumbers = getMarkersNumbersOfLine(jbide1631XHTMLFile);
+		String errorMessage = "Seam tools doesn't validate string with a few EL properly. There should be two markers in string '#{authenticator.foo1} #{authenticator.foo2}'.";
+		assertTrue(errorMessage, lineNumbers.length>1);
+		assertTrue(errorMessage, lineNumbers[0] == 16);
+		assertTrue(errorMessage, lineNumbers[1] == 16);
 	}
-	
+
 	private void modifyPreferences(){
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
