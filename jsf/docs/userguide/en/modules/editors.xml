@@ -1736,7 +1736,7 @@
                 <title>Source Viewer</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_45.png"/>
+                        <imagedata fileref="images/more_editors/more_editors_45.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
