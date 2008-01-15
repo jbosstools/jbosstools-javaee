@@ -1,0 +1,47 @@
+.rich-shuttle-box {
+	background-color: #FFF;
+	border-color: #C0C0C0;
+	border-width: 1px;
+	border-style: solid;
+	overflow: auto;
+	//display:block;
+}
+
+.rich-shuttle-caption-label {
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.rich-shuttle-button-content {
+	padding: 0 4px 0 1px;
+	text-align: left;
+	white-space: nowrap;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+}
+
+.rich-shuttle-button-content img {
+	margin-right: 2px;
+	vertical-align: middle;
+}
+
+.rich-shuttle-control {
+	border: 1px solid;
+	margin-bottom: 3px;
+	border-color: #C0C0C0;
+}
+
+.rich-shuttle-button {
+	background: top left repeat-x;
+	padding: 2px;
+	cursor: pointer;
+	background-color: #E3DED5;
+	color: #000;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+}
+
+.rich-shuttle-controls {
+	padding: 0 8px 5px 8px;
+}
