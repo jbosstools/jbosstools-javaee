@@ -66,8 +66,6 @@ public class ScannerTest extends TestCase {
 				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		EditorTestHelper.joinBackgroundActivities();
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		EditorTestHelper.joinBackgroundActivities();
 	}
 
 	private ISeamProject getSeamProject() {

@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -31,27 +32,21 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.core.test.project.facet.TestUtils;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class SeamValidatorsTest extends TestCase {
 	IProject project = null;
-	
-	boolean makeCopy = true;
 
 	public SeamValidatorsTest() {}
 
 	protected void setUp() throws Exception {
-		TestProjectProvider providerEAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "SeamWebWarTestProject", makeCopy);
-		project = providerEAR.getProject();
-
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Error in refreshing",e);
-		}
-
-		refreshProject(project);
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject("SeamWebWarTestProject");
+		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		EditorTestHelper.joinJobs(5000, 20000, 1000);
 	}
 
 	private ISeamProject getSeamProject(IProject project) {
@@ -67,13 +62,6 @@ public class SeamValidatorsTest extends TestCase {
 		return seamProject;
 	}
 	
-	/**
-	 * This empty test is meaningful as it gives Eclipse opportunity 
-	 * to pass for the first time setUp() and show the license dialog 
-	 * that may cause InterruptedException for XJob.waitForJob()
-	 */
-	public void testCreatingProject() {
-	}
 	
 	public void testComponentsValidator() {
 		ISeamProject seamProject = getSeamProject(project);
@@ -97,7 +85,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile bbcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.2");
 		try{
 			bbcComponentFile.setContents(bbcComponentFile2.getContents(), true, false, new NullProgressMonitor());
-			bbcComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'BbcComponent.java' content to " +
 					"'BbcComponent.2'", ex);
@@ -106,7 +93,7 @@ public class SeamValidatorsTest extends TestCase {
 		refreshProject(project);
 		
 		number = getMarkersNumber(bbcComponentFile);
-		assertFalse("Problem marker 'Duplicate component name' not found", number == 0);
+			assertFalse("Problem marker 'Duplicate component name' not found", number == 0);
 		
 		String[] messages = getMarkersMessage(bbcComponentFile);
 		
@@ -122,7 +109,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.2");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile2.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.2'", ex);
@@ -146,7 +132,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.3");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile3.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.3'", ex);
@@ -170,7 +155,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile4 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.4");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile4.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.4'", ex);
@@ -195,7 +179,6 @@ public class SeamValidatorsTest extends TestCase {
 		
 		try{
 			componentsFile.setContents(componentsFile2.getContents(), true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.2'", ex);
@@ -220,7 +203,6 @@ public class SeamValidatorsTest extends TestCase {
 		
 		try{
 			componentsFile.setContents(componentsFile3.getContents(), true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.3'", ex);
@@ -230,7 +212,6 @@ public class SeamValidatorsTest extends TestCase {
 
 		try{
 			statefulComponentFile.setContents(statefulComponentFile5.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.5'", ex);
@@ -252,7 +233,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile bbcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.3");
 		try{
 			bbcComponentFile.setContents(bbcComponentFile3.getContents(), true, false, new NullProgressMonitor());
-			bbcComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'BbcComponent.java' content to " +
 					"'BbcComponent.3'", ex);
@@ -273,7 +253,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcEntityFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.2");
 		try{
 			abcEntityFile.setContents(abcEntityFile2.getContents(), true, false, new NullProgressMonitor());
-			abcEntityFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
 					"'abcEntity.2'", ex);
@@ -297,7 +276,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcEntityFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.3");
 		try{
 			abcEntityFile.setContents(abcEntityFile3.getContents(), true, false, new NullProgressMonitor());
-			abcEntityFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
 					"'abcEntity.3'", ex);
@@ -340,7 +318,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile6 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile6.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.6'", ex);
@@ -373,7 +350,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile7 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.7");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile7.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.7'", ex);
@@ -406,7 +382,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile8 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.8");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile8.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.8'", ex);
@@ -440,7 +415,6 @@ public class SeamValidatorsTest extends TestCase {
 		
 		try{
 			componentsFile.setContents(componentsFile4.getContents(), true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.4'", ex);
@@ -448,7 +422,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile9 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.9");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile9.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.9'", ex);
@@ -472,7 +445,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile10 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.10");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile10.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.10'", ex);
@@ -496,7 +468,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile11 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.11");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile11.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.11'", ex);
@@ -520,7 +491,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile statefulComponentFile12 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.12");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile12.getContents(), true, false, new NullProgressMonitor());
-			statefulComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.12'", ex);
@@ -555,7 +525,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile Component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
 		try{
 			Component12File.setContents(Component12File2.getContents(), true, false, new NullProgressMonitor());
-			Component12File.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
 					"'Component12File2.2'", ex);
@@ -595,7 +564,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile selectionTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2");
 		try{
 			selectionTestFile.setContents(selectionTestFile2.getContents(), true, false, new NullProgressMonitor());
-			selectionTestFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
 					"'SelectionTest.2'", ex);
@@ -604,7 +572,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile selectionIndexTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2");
 		try{
 			selectionIndexTestFile.setContents(selectionIndexTestFile2.getContents(), true, false, new NullProgressMonitor());
-			selectionIndexTestFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
 					"'SelectionIndexTest.2'", ex);
@@ -644,7 +611,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile selectionTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.3");
 		try{
 			selectionTestFile.setContents(selectionTestFile3.getContents(), true, false, new NullProgressMonitor());
-			selectionTestFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
 					"'SelectionTest.3'", ex);
@@ -653,7 +619,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile selectionIndexTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.3");
 		try{
 			selectionIndexTestFile.setContents(selectionIndexTestFile3.getContents(), true, false, new NullProgressMonitor());
-			selectionIndexTestFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
 					"'SelectionIndexTest.3'", ex);
@@ -702,7 +667,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile contextVariableTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2");
 		try{
 			contextVariableTestFile.setContents(contextVariableTestFile2.getContents(), true, false, new NullProgressMonitor());
-			contextVariableTestFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
 					"'ContextVariableTest.2'", ex);
@@ -728,7 +692,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile contextVariableTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.3");
 		try{
 			contextVariableTestFile.setContents(contextVariableTestFile3.getContents(), true, false, new NullProgressMonitor());
-			contextVariableTestFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
 					"'ContextVariableTest.3'", ex);
@@ -775,7 +738,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcComponentXHTMLFile2 = project.getFile("WebContent/abcComponent.2");
 		try{
 			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile2.getContents(), true, false, new NullProgressMonitor());
-			abcComponentXHTMLFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
 					"'abcComponent.2'", ex);
@@ -800,7 +762,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcComponentXHTMLFile3 = project.getFile("WebContent/abcComponent.3");
 		try{
 			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile3.getContents(), true, false, new NullProgressMonitor());
-			abcComponentXHTMLFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
 					"'abcComponent.3'", ex);
@@ -825,7 +786,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcComponentXHTMLFile4 = project.getFile("WebContent/abcComponent.4");
 		try{
 			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile4.getContents(), true, false, new NullProgressMonitor());
-			abcComponentXHTMLFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
 					"'abcComponent.4'", ex);
@@ -839,7 +799,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
 		try{
 			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, new NullProgressMonitor());
-			abcComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
 					"'abcComponent.2'", ex);
@@ -861,7 +820,6 @@ public class SeamValidatorsTest extends TestCase {
 		IFile abcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
 		try{
 			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, new NullProgressMonitor());
-			abcComponentFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
 					"'abcComponent.3'", ex);
@@ -947,77 +905,13 @@ public class SeamValidatorsTest extends TestCase {
 	}
 	
 	private void refreshProject(IProject project){
-		long timestamp = project.getModificationStamp();
-		int count = 1;
-		while(true){
-			System.out.println("Refresh project "+count);
-			try {
-				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				try {
 					waitForJob();
-				} catch (InterruptedException e) {
-					JUnitUtils.fail(e.getMessage(),e);
-				}
-			} catch (Exception e) {
-				JUnitUtils.fail("Cannot build test Project", e);
-				break;
-			}
-			if(project.getModificationStamp() != timestamp) break;
-			count++;
-			if(count > 1) break;
-		}
 	}
 	
-	public static void waitForJob() throws InterruptedException {
-		Object[] o = {
-			XJob.FAMILY_XJOB, ResourcesPlugin.FAMILY_AUTO_REFRESH, ResourcesPlugin.FAMILY_AUTO_BUILD
-		};
-		while(true) {
-			boolean stop = true;
-			for (int i = 0; i < o.length; i++) {
-				Job[] js = Job.getJobManager().find(o[i]);
-				if(js != null && js.length > 0) {
-					Job.getJobManager().join(o[i], new NullProgressMonitor());
-					stop = false;
-				}
-			}
-			if(stop) {
-				Job running = getJobRunning(10);
-				if(running != null) {
-					running.join();
-					stop = false;
-				}
-			}
-			if(stop) break;
-		}
-	}
-	
-	public static Job getJobRunning(int iterationLimit) {
-		Job[] js = Job.getJobManager().find(null);
-		Job dm = null;
-		if(js != null) for (int i = 0; i < js.length; i++) {
-			if(js[i].getState() == Job.RUNNING && js[i].getThread() != Thread.currentThread()) {
-				if(js[i] instanceof UIJob) continue;
-				if(js[i].belongsTo(DecoratorManager.FAMILY_DECORATE) || js[i].getName().equals("Task List Saver")) {
-					dm = js[i];
-					continue;
-				}
-				//TODO keep watching 
-				System.out.println(js[i].getName());
-				return js[i];
-			}
-		}
-		if(dm != null) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				//ignore
-			}
-			if(iterationLimit > 0)
-				return getJobRunning(iterationLimit - 1);
-		}
-		return null;
-		
+	public static void waitForJob() {
+		EditorTestHelper.joinJobs(1000,10000,500);
+		//then wait for a while to Workspace runnable is finished
+		EditorTestHelper.joinJobs(2000, 2000, 0);
 	}
 
 }

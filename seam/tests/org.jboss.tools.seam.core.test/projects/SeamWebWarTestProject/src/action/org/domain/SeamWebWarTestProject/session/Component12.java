@@ -21,9 +21,9 @@ public class Component12 {
     @DataModel 
     private List<String> messageList=new ArrayList<String>();
     
-    @Factory("messageList") 
-    public void findMessages() {
-    	
+    @Factory("messageList12") 
+    public List<String>  findMessages() {
+    	return messageList;
     }
     
     public List<String> getList(){
