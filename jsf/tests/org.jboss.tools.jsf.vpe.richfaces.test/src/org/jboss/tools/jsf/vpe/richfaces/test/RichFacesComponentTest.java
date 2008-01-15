@@ -138,6 +138,11 @@ public class RichFacesComponentTest extends VpeTest {
 		"components/modalPanel.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
     }
 
+    public void testOrderingList() throws PartInitException, Throwable {
+    	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+    			"components/orderingList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+    }
+    
     public void testPaint2D() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/paint2D.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$

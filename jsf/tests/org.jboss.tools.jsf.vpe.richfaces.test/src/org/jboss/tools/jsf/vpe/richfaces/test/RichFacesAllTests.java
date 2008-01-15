@@ -15,6 +15,7 @@ import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1579Test;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
@@ -33,6 +34,7 @@ public class RichFacesAllTests  {
 		// $JUnit-BEGIN$
 
 		suite.addTestSuite(RichFacesComponentTest.class);
+		suite.addTestSuite(JBIDE1579Test.class);
 
 		// $JUnit-END$
 
