@@ -511,7 +511,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 					String seamVersion = getSeamVersion(homeDir
 							.getValueAsString());
-					if (validSeamVersions != null) {
+					if (seamVersion != null && validSeamVersions != null) {
 						for (SeamVersion ver : validSeamVersions) {
 							if (seamVersion.matches(ver.toString().replace(".",
 									"\\.")
