@@ -511,6 +511,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 					String seamVersion = getSeamVersion(homeDir
 							.getValueAsString());
+					if (seamVersion == null) {
+						setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
+						setPageComplete(false);
+						return;
+					}
 					if (seamVersion != null && validSeamVersions != null) {
 						for (SeamVersion ver : validSeamVersions) {
 							if (seamVersion.matches(ver.toString().replace(".",
