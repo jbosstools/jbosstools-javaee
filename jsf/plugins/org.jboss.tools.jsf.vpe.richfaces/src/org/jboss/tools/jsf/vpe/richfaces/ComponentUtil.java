@@ -251,10 +251,16 @@ public class ComponentUtil {
 			Node attribute = namedNodeMap.item(i);
 			//added by Max Areshkau fix for JBIDE-1568
 			try {
+
 			visualElement.setAttribute(attribute.getNodeName(), attribute
 					.getNodeValue());
 			} catch(XPCOMException ex) {
-				//Just ignore this exception
+				//if error-code not equals error for incorrect name  throws exception
+				// error code is NS_ERROR_DOM_INVALID_CHARACTER_ERR=0x80530005
+				if(ex.errorcode!=2152923141L) {
+					throw ex;
+				}
+				//else we ignore this exception
 			}
 		}
 	}
