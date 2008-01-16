@@ -24,6 +24,7 @@ public class SeamValidatorsTestSetup extends TestSetup {
 
 	@Override
 	protected void setUp() throws Exception {
+		EditorTestHelper.joinBackgroundActivities();		
 		ResourcesUtils.importProject("org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject" , new NullProgressMonitor());
 		EditorTestHelper.joinBackgroundActivities();		
 	}
