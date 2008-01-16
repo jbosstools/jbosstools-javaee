@@ -24,6 +24,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -248,8 +249,13 @@ public class ComponentUtil {
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
 		for (int i = 0; i < namedNodeMap.getLength(); i++) {
 			Node attribute = namedNodeMap.item(i);
+			//added by Max Areshkau fix for JBIDE-1568
+			try {
 			visualElement.setAttribute(attribute.getNodeName(), attribute
 					.getNodeValue());
+			} catch(XPCOMException ex) {
+				//Just ignore this exception
+			}
 		}
 	}
 
