@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 public class RichFacesDataListTemplate extends VpeAbstractTemplate {
 	/** CSS_FILE_NAME */
 	final static private String CSS_FILE_NAME = "dataList/dataList.css";
+	final static private int NUMBER_OF_ROWS_TO_DISPLAY  = 1;
 
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
@@ -48,15 +49,10 @@ public class RichFacesDataListTemplate extends VpeAbstractTemplate {
 
 		VpeCreationData creatorInfo = new VpeCreationData(unorderedList);
 
-		int rows = -1;
-		try {
-			rows = Integer.valueOf(sourceElement.getAttribute(HtmlComponentUtil.HTML_ROW_ATTR));
-		} catch (Exception x) {
-			rows = -1;
-		}
+		int rows = NUMBER_OF_ROWS_TO_DISPLAY;
 		
-		for (int i = 0; i < (rows == -1 ? 3 : rows); i++) {
-			nsIDOMElement listItem = visualDocument.createElement("li");
+		for (int i = 0; i < rows; i++) {
+			nsIDOMElement listItem = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_LI);
 			listItem.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-list-item rich-list-item");
 			unorderedList.appendChild(listItem);
 			

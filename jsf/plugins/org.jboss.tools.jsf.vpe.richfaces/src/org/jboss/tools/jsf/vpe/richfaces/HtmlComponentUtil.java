@@ -74,6 +74,9 @@ public class HtmlComponentUtil {
 
 	/** HTML_TAG_B */
 	public static final String HTML_TAG_B = "B";
+	
+	/** HTML_TAG_LI */
+	public static final String HTML_TAG_LI = "LI";
 
 	/** HTML_TABLE_COLSPAN * */
 	public static final String HTML_TABLE_COLSPAN = "colspan";
