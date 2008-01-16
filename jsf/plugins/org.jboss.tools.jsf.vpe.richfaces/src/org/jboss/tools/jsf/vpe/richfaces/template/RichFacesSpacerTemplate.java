@@ -7,7 +7,7 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  */
 public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 
-	final static private String IMAGE_NAME = "/spacer/spacer.gif";
+	final static private String IMAGE_NAME = "spacer/spacer.gif";
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -35,18 +35,28 @@ public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 	 * 
 	 * @param pageContext
 	 *            Contains the information on edited page.
-	 * @param sourceNode The current node of the source tree.
-	 * @param visualDocument The document of the visual tree.
+	 * @param sourceNode
+	 *            The current node of the source tree.
+	 * @param visualDocument
+	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,	nsIDOMDocument visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument) {
 
-		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		nsIDOMElement img = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		ComponentUtil.setImg(img, IMAGE_NAME);
 
-		if(sourceNode instanceof Element) {
-			img.setAttribute("width", getSize((Element)sourceNode, "width"));
-			img.setAttribute("height", getSize((Element)sourceNode, "height"));
+		if (sourceNode instanceof Element) {
+			// ComponentUtil.copyAttributes(sourceNode, img);
+			img.setAttribute("style", ((Element) sourceNode)
+					.getAttribute("style"));
+			img.setAttribute("class", ((Element) sourceNode)
+					.getAttribute("styleClass"));
+			img.setAttribute("width", getSize((Element) sourceNode, "width"));
+			img.setAttribute("height", getSize((Element) sourceNode, "height"));
+
 		}
 
 		VpeCreationData creationData = new VpeCreationData(img);
@@ -55,8 +65,8 @@ public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 	}
 
 	private String getSize(Element sourceElement, String attributeName) {
-		String size = sourceElement.getAttribute(attributeName); 
-		if (size==null || size.length()==0) {
+		String size = sourceElement.getAttribute(attributeName);
+		if (size == null || size.length() == 0) {
 			return "1px";
 		} else {
 			return size;
@@ -70,11 +80,18 @@ public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 	 *      java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
-		super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
+	public void setAttribute(VpePageContext pageContext, Element sourceElement,
+			nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
+			String name, String value) {
+		super.setAttribute(pageContext, sourceElement, visualDocument,
+				visualNode, data, name, value);
 
-		nsIDOMElement img = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement img = (nsIDOMElement) visualNode
+				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		// ComponentUtil.copyAttributes(sourceElement, img);
 
+		img.setAttribute("style", sourceElement.getAttribute("style"));
+		img.setAttribute("class", sourceElement.getAttribute("styleClass"));
 		img.setAttribute("width", getSize(sourceElement, "width"));
 		img.setAttribute("height", getSize(sourceElement, "height"));
 	}
