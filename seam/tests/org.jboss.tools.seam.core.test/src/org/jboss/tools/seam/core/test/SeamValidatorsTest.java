@@ -910,15 +910,14 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		return numbers;
 	}
-	
+
 	private void refreshProject(IProject project){
-					waitForJob();
+		waitForJob();
 	}
-	
+
 	public static void waitForJob() {
 		EditorTestHelper.joinJobs(1000,10000,500);
 		//then wait for a while to Workspace runnable is finished
-		EditorTestHelper.joinJobs(2000, 2000, 0);
+		EditorTestHelper.joinJobs(2000, 2000, 500);
 	}
-
 }

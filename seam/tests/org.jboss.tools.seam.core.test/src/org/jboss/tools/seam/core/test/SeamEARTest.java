@@ -10,19 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
-
-import junit.framework.TestCase;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * @author V.Kabanovich
@@ -40,10 +39,10 @@ public class SeamEARTest extends TestCase {
 	protected void setUp() throws Exception {
 		TestProjectProvider providerEAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ear", makeCopy);
 		projectEAR = providerEAR.getProject();
-		
+
 		TestProjectProvider providerWAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1", makeCopy);
 		projectWAR = providerWAR.getProject();
-		
+
 		TestProjectProvider providerEJB = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ejb", makeCopy);
 		projectEJB = providerEJB.getProject();
 
@@ -55,26 +54,19 @@ public class SeamEARTest extends TestCase {
 			JUnitUtils.fail("Error in refreshing",e);
 		}
 
-		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
-			JUnitUtils.fail("Interrupted",e);
-		}
+		EditorTestHelper.joinBackgroundActivities();
 	}
 
 	private ISeamProject getSeamProject(IProject project) {
 		try {
-			XJob.waitForJob();
+			EditorTestHelper.joinBackgroundActivities();
+//			XJob.waitForJob();
 		} catch (Exception e) {
 			JUnitUtils.fail("Interrupted",e);
 		}
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			try {
-				XJob.waitForJob();
-			} catch (InterruptedException e) {
-				JUnitUtils.fail("Interrupted",e);
-			}
+			EditorTestHelper.joinBackgroundActivities();
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot build", e);
 		}
@@ -104,13 +96,11 @@ public class SeamEARTest extends TestCase {
 	 */
 	public void testCreatingProject() {
 	}
-	
+
 	public void testProject() {
 		ISeamProject seamProject = getSeamProject(projectWAR);
 		ISeamComponent c = seamProject.getComponent("authenticator");
-		
-		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
-		
-	}
 
+		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
+	}
 }
