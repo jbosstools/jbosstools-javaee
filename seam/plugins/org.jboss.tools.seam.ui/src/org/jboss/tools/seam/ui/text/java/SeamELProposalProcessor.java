@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
@@ -257,20 +258,32 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 
 			String proposalPrefix = "";
 			String proposalSufix = "";
+			String documentContent = null;
+			IDocument document = viewer.getDocument();
 			if (!checkStartPositionInEL(viewer, offset)) {
 				// Work only with attribute value for JSP/HTML
 				if((part instanceof XMLTextEditor) || (!isAttributeValue(viewer, offset))) {
 					return NO_PROPOSALS;
 				}
+				prefix = ""; // Clear prefix because it's not the part of EL 
 				if(isCharSharp(viewer, offset-1)) {
 					proposalPrefix = "{";  //$NON-NLS-1$
 				} else {
 					proposalPrefix = "#{";  //$NON-NLS-1$
 				}
+				
+				if(document != null) {
+					documentContent = document.get(0,offset) +  proposalPrefix + document.get(offset, document.getLength() - offset);
+				}
+				
 				proposalSufix = "}";  //$NON-NLS-1$
+			} else {
+				if(viewer.getDocument() != null) {
+					documentContent = document.get();
+				}
 			}
 
-			List<String> suggestions = fEngine.getCompletions(seamProject, file, viewer.getDocument(), prefix, offset - prefix.length());
+			List<String> suggestions = fEngine.getCompletions(seamProject, file, documentContent, prefix, offset - prefix.length());
 			List<String> uniqueSuggestions = fEngine.makeUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();
@@ -414,13 +427,27 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 	 * @throws BadLocationException
 	 */
 	private boolean checkStartPositionInEL(ITextViewer viewer, int offset) throws BadLocationException {
+		IStructuredDocumentRegion sdRegion = ContentAssistUtils.getStructuredDocumentRegion(viewer, offset);
+		ITextRegion region = (sdRegion == null ? null : sdRegion.getRegionAtCharacterOffset(offset));
+		
+		int startIndex = (region == null ? 0 : sdRegion.getStartOffset() + region.getStart());
+		
 		IDocument doc= viewer.getDocument();
 		if (doc == null || offset > doc.getLength())
 			return false;
 
-		while (--offset >= 0) {
+		while (--offset >= startIndex) {
 			if ('}' == doc.getChar(offset))
 				return false;
+
+			if ('"' == doc.getChar(offset) || '\'' == doc.getChar(offset)) {
+				int backslashCount = 0;
+				while (doc.getChar(offset - 1 - backslashCount) == '\\') {
+					backslashCount++;
+				}
+				if (backslashCount%2 == 0)
+					return false;
+			}
 
 			if ('{' == doc.getChar(offset) &&
 					(offset - 1) >= 0 && 
