@@ -18,6 +18,11 @@
     <property name="db.style.html"         value="html_chunk.xsl"/>
     <property name="db.style.htmlsingle"   value="html.xsl"/>
 
+
+    <!-- my -->
+    <property name="db.style.com.jbossseam.help"   value="eclipse.xsl"/>
+    
+    
     <property name="maxmem"                value="1024m" />
 
     <xmlcatalog id="docbook.catalog">
@@ -112,11 +117,16 @@
         <antcall target="lang.docpdf"/>
         <antcall target="lang.dochtml"/>
         <antcall target="lang.dochtmlsingle"/>
+        <antcall target="lang.com.jbossseam.help"/>
         <!-- 
         <antcall target="lang.htmlmisc"/>
         -->
     </target>
 
+   
+    
+    
+    
     <target name="lang.docpdf">
         <!-- Copy all the images to the output location, 
              will be removed later. -->
@@ -173,6 +183,45 @@
         <delete dir="${build.dir}/${lang}/pdf/images"/>
     </target>
 
+    <!-- my -->
+    
+    <target name="lang.com.jbossseam.help">
+        <mkdir dir="${build.dir}/${lang}/com.jbossseam.help/"/>
+        
+        <!-- Copy all the images to the output location -->
+        <copy todir="${build.dir}/${lang}/com.jbossseam.help/images">
+            <fileset dir="${basedir}/${lang}/images">
+                <include name="**/*.png"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/${lang}/com.jbossseam.help/css">
+            <fileset dir="${styles.dir}/${lang}">
+                <include name="**/*.css"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/${lang}/com.jbossseam.help">
+            <fileset dir="${styles.dir}/${lang}">
+                <include name="**/*.js"/>
+            </fileset>
+        </copy>
+        
+        <copy todir="${build.dir}/${lang}/com.jbossseam.help/css/images">
+            <fileset dir="${styles.dir}/${lang}/Images">
+                <include name="**/*.gif"/>
+            </fileset>
+        </copy>
+        
+        
+        <java classname="com.icl.saxon.StyleSheet"
+            fork="true" dir="${build.dir}/${lang}/com.jbossseam.help">
+            <classpath refid="lib.classpath"/>
+            <arg value="${basedir}/${lang}/master.xml"/>
+            <arg value="${styles.dir}/${lang}/${db.style.com.jbossseam.help}"/>
+        </java>
+    </target>
+    
     <target name="lang.dochtml">
         <mkdir dir="${build.dir}/${lang}/html/"/>
 

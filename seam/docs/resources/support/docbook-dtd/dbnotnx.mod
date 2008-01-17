@@ -1,14 +1,14 @@
 <!-- ...................................................................... -->
-<!-- DocBook notations module V4.3CR3 ........................................ -->
+<!-- DocBook notations module V4.5 ........................................ -->
 <!-- File dbnotnx.mod ..................................................... -->
 
-<!-- Copyright 1992-2002 HaL Computer Systems, Inc.,
+<!-- Copyright 1992-2004 HaL Computer Systems, Inc.,
      O'Reilly & Associates, Inc., ArborText, Inc., Fujitsu Software
      Corporation, Norman Walsh, Sun Microsystems, Inc., and the
      Organization for the Advancement of Structured Information
      Standards (OASIS).
 
-     $Id: dbnotnx.mod,v 1.1.1.1 2004/10/19 21:21:34 juntao Exp $
+     $Id: dbnotnx.mod 6340 2006-10-03 13:23:24Z nwalsh $
 
      Permission to use, copy, modify and distribute the DocBook DTD
      and its accompanying documentation for any purpose and without fee
@@ -30,14 +30,13 @@
 
 <!-- ...................................................................... -->
 
-<!-- This module contains the entity declarations for the standard ISO
-     entity sets used by DocBook.
+<!-- This module contains the notation declarations used by DocBook.
 
      In DTD driver files referring to this module, please use an entity
      declaration that uses the public identifier shown below:
 
      <!ENTITY % dbnotn PUBLIC
-     "-//OASIS//ENTITIES DocBook Notations V4.3CR3//EN"
+     "-//OASIS//ENTITIES DocBook Notations V4.5//EN"
      "dbnotnx.mod">
      %dbnotn;
 
@@ -98,5 +97,5 @@
 <!NOTATION SWF          SYSTEM "http://www.macromedia.com/software/flash">
 <!NOTATION linespecific	SYSTEM "linespecific">
 
-<!-- End of DocBook notations module V4.3CR3 ................................. -->
+<!-- End of DocBook notations module V4.5 ................................. -->
 <!-- ...................................................................... -->

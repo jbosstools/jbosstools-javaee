@@ -1,12 +1,12 @@
 <!-- ...................................................................... -->
-<!-- DocBook XML HTML Table Module V4.3CR3 ................................... -->
+<!-- DocBook XML HTML Table Module V4.5 ................................... -->
 <!-- File htmltblx.mod .................................................... -->
 
-<!-- Copyright 2003 ArborText, Inc., Norman Walsh, Sun Microsystems, Inc.,
-     and the Organization for the Advancement of Structured Information
+<!-- Copyright 2003-2006 ArborText, Inc., Norman Walsh, Sun Microsystems,
+     Inc., and the Organization for the Advancement of Structured Information
      Standards (OASIS).
 
-     $Id: htmltblx.mod,v 1.1.1.1 2004/10/19 21:21:35 juntao Exp $
+     $Id: htmltblx.mod 6340 2006-10-03 13:23:24Z nwalsh $
 
      Permission to use, copy, modify and distribute the DocBook XML DTD
      and its accompanying documentation for any purpose and without fee
@@ -34,7 +34,7 @@
      HTML one is more like what browsers are likely to accept today
      and users are likely to use.
 
-     This module has been developed for use with the DocBook V4.3
+     This module has been developed for use with the DocBook V4.5
      "union table model" in which elements and attlists common to both
      models are defined (as the union) in the CALS table module by
      setting various parameter entities appropriately in this file.
@@ -43,7 +43,7 @@
      declaration that uses the public identifier shown below:
 
      <!ENTITY % htmltbl PUBLIC
-     "-//OASIS//ELEMENTS DocBook XML HTML Tables V4.3CR3//EN"
+     "-//OASIS//ELEMENTS DocBook XML HTML Tables V4.5//EN"
      "htmltblx.mod">
      %htmltbl;
 
@@ -56,13 +56,16 @@
 <!--======================= XHTML Tables =======================================-->
 
 <!ENTITY % html.coreattrs
- "id          ID             #IMPLIED
+ "%common.attrib;
   class       CDATA          #IMPLIED
   style       CDATA          #IMPLIED
   title       CDATA         #IMPLIED"
   >
 
 <!-- Does not contain lang or dir because they are in %common.attribs -->
+<![%sgml.features;[
+<!ENTITY % i18n "">
+]]>
 <!ENTITY % i18n
  "xml:lang    NMTOKEN        #IMPLIED"
   >
@@ -92,11 +95,16 @@
   "valign     (top|middle|bottom|baseline) #IMPLIED"
   >
 
-<!ELEMENT colgroup (col)*>
-<!ELEMENT col      EMPTY>
-<!ELEMENT tr       (th|td)+>
-<!ELEMENT th       (%para.char.mix; | %tabentry.mix;)*>
-<!ELEMENT td       (%para.char.mix; | %tabentry.mix;)*>
+<!--doc:A group of columns in an HTML table.-->
+<!ELEMENT colgroup %ho; (col)*>
+<!--doc:Specifications for a column in an HTML table.-->
+<!ELEMENT col %ho; EMPTY>
+<!--doc:A row in an HTML table.-->
+<!ELEMENT tr %ho;  (th|td)+>
+<!--doc:A table header entry in an HTML table.-->
+<!ELEMENT th %ho;  (%para.char.mix; | %tabentry.mix; | table | informaltable)*>
+<!--doc:A table ntry in an HTML table.-->
+<!ELEMENT td %ho;  (%para.char.mix; | %tabentry.mix; | table | informaltable)*>
 
 <!ATTLIST colgroup
   %attrs;
@@ -163,6 +171,7 @@
 <!-- Add label and role attributes to table and informaltable -->
 <!ENTITY % bodyatt "
 		floatstyle	CDATA			#IMPLIED
+		rowheader	(firstcol|norowheader)	#IMPLIED
                 %label.attrib;"
 >
 
@@ -197,6 +206,11 @@
          | ((col*|colgroup*), thead?, tfoot?, (tbody+|tr+))">
 
 <!-- Attributes for Table (including HTML ones) -->
+
+<!-- N.B. rules = (none | groups | rows | cols | all) but it can't be spec'd -->
+<!-- that way because 'all' already occurs in a different enumeration in -->
+<!-- CALS tables (frame). -->
+
 <!ENTITY % tbl.table.att        '
     tabstyle    CDATA           #IMPLIED
     tocentry    %yesorno.attvals;       #IMPLIED
@@ -206,7 +220,7 @@
     summary     CDATA          #IMPLIED
     width       CDATA        #IMPLIED
     border      CDATA        #IMPLIED
-    rules       (none | groups | rows | cols | all)      #IMPLIED
+    rules       CDATA		#IMPLIED
     cellspacing CDATA        #IMPLIED
     cellpadding CDATA        #IMPLIED
     align       (left|center|right)   #IMPLIED
@@ -226,3 +240,6 @@ top|bottom|topbot|all|sides|none">
 <!ENTITY % tbl.hdft.mdl        "(tr+|(colspec*,row+))">
 <!ENTITY % tbl.tbody.mdl       "(tr+|row+)">
 <!ENTITY % tbl.valign.attval   "top|middle|bottom|baseline">
+
+<!-- End of DocBook XML HTML Table Module V4.5 ............................ -->
+<!-- ...................................................................... -->
