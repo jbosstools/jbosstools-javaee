@@ -20,7 +20,7 @@
         <title>Seam Perspective</title>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/create_new_seam/create_seam0.png"/>
+                <imagedata fileref="images/create_new_seam/create_seam0.png" scale="70"/>
             </imageobject>
         </mediaobject>
     </figure>
