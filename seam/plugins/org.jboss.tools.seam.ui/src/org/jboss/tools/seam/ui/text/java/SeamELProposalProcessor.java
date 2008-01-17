@@ -283,7 +283,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 				}
 			}
 
-			List<String> suggestions = fEngine.getCompletions(seamProject, file, documentContent, prefix, offset - prefix.length());
+			List<String> suggestions = fEngine.getCompletions(seamProject, file, documentContent, prefix, offset + proposalPrefix.length() - prefix.length());
 			List<String> uniqueSuggestions = fEngine.makeUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();
