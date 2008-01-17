@@ -534,6 +534,10 @@ public class TypeInfoCollector {
 		if(superclassName!=null) {
 			String fullySuperclassName = EclipseJavaUtil.resolveType(type, superclassName);
 			if(fullySuperclassName!=null&&!fullySuperclassName.equals("java.lang.Object")) { //$NON-NLS-1$
+				if(fullySuperclassName.equals(type.getFullyQualifiedName())) {
+					//FIX JBIDE-1642
+					return null;
+				}
 				IType superType = type.getJavaProject().findType(fullySuperclassName);
 				return superType;
 			}

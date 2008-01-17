@@ -188,6 +188,10 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		if(superclass.indexOf('.') < 0) {
 			superclass = EclipseJavaUtil.resolveType(type, superclass);
 		}
+		if(superclass != null && superclass.equals(type.getFullyQualifiedName())) {
+			//FIX JBIDE-1642
+			return null;
+		}
 		SeamProject p = (SeamProject)getSeamProject();
 		return p == null ? null : p.getAllJavaComponentDeclarations().get(superclass);
 	}
