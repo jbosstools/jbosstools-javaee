@@ -62,7 +62,22 @@ public final class SeamELCompletionEngine {
 		if(document!=null) {
 			documentContent = document.get();
 		}
+		return getCompletions(project, file, documentContent, prefix, position);
+	}
 
+	/**
+	 * Create the array of suggestions. 
+	 * 
+	 * @param project Seam project 
+	 * @param file File 
+	 * @param documentContent 
+	 * @param prefix the prefix to search for
+	 * @param position Offset of the prefix 
+	 * @return the list of all possible suggestions
+	 * @throws BadLocationException if accessing the current document fails
+	 */
+	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
+			int position) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<String> completions = new ArrayList<String>();
 		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, false);
 		if (status.isOK()) {
@@ -72,7 +87,6 @@ public final class SeamELCompletionEngine {
 		
 //		return getCompletions(project, file, documentContent, prefix, position, false, null, null);
 	}
-
 	/**
 	 * Create the array of suggestions. 
 	 * @param project Seam project 
