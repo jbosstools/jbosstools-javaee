@@ -101,6 +101,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jboss-deployers.jar") //$NON-NLS-1$
 		.include("test/thirdparty-all\\.jar") //$NON-NLS-1$
 		.include("thirdparty-all\\.jar") //$NON-NLS-1$
+		.include("core.jar") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 	
@@ -126,8 +127,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jboss-el.*.jar") //$NON-NLS-1$
 		.include("mvel14.*.jar") //$NON-NLS-1$
 		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
-		.include("richfaces-api.*\\.jar") //$NON-NLS-1$
-	    .include("security\\.drl"); //$NON-NLS-1$
+		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
 
 	/*public static AntCopyUtils.FileSet JBOSS_EAR_CONTENT_META_INF = new AntCopyUtils.FileSet()
 		.include("META-INF/application\\.xml") //$NON-NLS-1$
@@ -411,6 +411,11 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 				// Copy seam project indicator
 				// ********************************************************************************************
 				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb,"ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
+
+				// ********************************************************************************************
+				// Copy security.drl to source folder
+				// ********************************************************************************************
+				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"security.drl"), new File(ejb,"ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
 				
 				File resources = new File(ear,"resources");
 				AntCopyUtils.copyFileToFile(

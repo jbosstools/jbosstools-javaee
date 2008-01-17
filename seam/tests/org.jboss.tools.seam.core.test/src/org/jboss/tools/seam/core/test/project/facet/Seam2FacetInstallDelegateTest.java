@@ -128,6 +128,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		Set<String> onlyInWar = new HashSet<String>();
 		Set<String> onlyInEar = new HashSet<String>();
+		Set<String> onlyInEjbSrc = new HashSet<String>();		
 		
 		onlyInEar.add("jboss-seam.jar");
 		onlyInEar.add("antlr-runtime.jar");
@@ -138,7 +139,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInEar.add("richfaces-api.jar");		
 		onlyInEar.add("jbpm-jpdl.jar");
 		onlyInEar.add("META-INF");
-		onlyInEar.add("security.drl");
 		
 		onlyInWar.add("commons-beanutils.jar");
 		onlyInWar.add("commons-digester.jar");
@@ -165,10 +165,16 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		assertOnlyContainsTheseFiles(onlyInEarMeta, earMeta);
 		
-		
 		assertOnlyContainsTheseFiles(onlyInWar, (IContainer)war.findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class));
-		
 
+		IProject ejb = seamProjectsSet.getEjbProject();
+
+		onlyInEjbSrc.add("security.drl");
+		onlyInEjbSrc.add("seam.properties");
+		onlyInEjbSrc.add("import.sql");
+		onlyInEjbSrc.add("components.properties");
+		
+		assertOnlyContainsTheseFiles(onlyInEjbSrc, ear.findMember("ejbModule"));		
 	}
 
 
@@ -230,6 +236,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		libs.add("jboss-embedded-all.jar");
 		libs.add("thirdparty-all.jar");
 		libs.add("jboss-embedded-api.jar");
+		libs.add("core.jar");		
 		
 		assertOnlyContainsTheseFiles(libs, testProject.findMember("lib"));
 		assertNotNull(testProject.findMember("lib/testng.jar"));
@@ -237,8 +244,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		assertNotNull(testProject.findMember("lib/jboss-deployers.jar"));
 		assertNotNull(testProject.findMember("lib/jboss-embedded-all.jar"));
 		assertNotNull(testProject.findMember("lib/thirdparty-all.jar"));
-		
-		
 		
 	}
 	
