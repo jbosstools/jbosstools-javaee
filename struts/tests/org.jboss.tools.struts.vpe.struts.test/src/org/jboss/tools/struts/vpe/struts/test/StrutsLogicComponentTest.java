@@ -76,4 +76,28 @@ public class StrutsLogicComponentTest extends VpeTest {
 	public void testNotMatch() throws Throwable {
 		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/notMatch.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
+
+	public void testForward() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/forward.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testMessagesNotPresent() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/messagesNotPresent.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testMessagesPresent() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/messagesPresent.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testNotPresent() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/notPresent.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testPresent() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/present.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testRedirect() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/logic/redirect.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
 }

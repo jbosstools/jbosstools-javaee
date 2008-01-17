@@ -68,4 +68,16 @@ public class StrutsHTMLComponentTest extends VpeTest {
 	public void testMessages() throws Throwable {
 		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/messages.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
+
+	public void testJavascript() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/javascript.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testOptionsCollection() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/optionsCollection.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testXHTML() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/xhtml.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
 }

@@ -84,4 +84,16 @@ public class StrutsFormComponentTest extends VpeTest {
 	public void testText() throws Throwable {
 		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/form/text.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
+
+	public void testButton() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/form/button.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testPassword() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/form/password.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
+
+	public void testTextarea() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/form/textarea.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
 }

@@ -72,4 +72,8 @@ public class StrutsBeanComponentTest extends VpeTest {
 	public void testWrite() throws Throwable {
 		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/bean/write.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
 	}
+
+	public void testPage() throws Throwable {
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/bean/page.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+	}
 }
