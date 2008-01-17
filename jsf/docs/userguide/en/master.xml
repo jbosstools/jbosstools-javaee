@@ -4,7 +4,6 @@
 
 [
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
-<!ENTITY features_list  SYSTEM "modules/features_list.xml">
 <!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
 <!ENTITY struts_support  SYSTEM "modules/struts_support.xml">
 <!ENTITY editors SYSTEM "modules/editors.xml">
@@ -34,10 +33,8 @@
     
 <toc/>  
     
-    &jsf_support;
     &Visual_Web_Tools;
-    &features_list;
-    
+    &jsf_support;
     &struts_support;
     &editors;
     &palette;

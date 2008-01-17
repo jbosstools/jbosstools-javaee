@@ -85,13 +85,15 @@
                 <?dbhtml filename="FaceletsSupport.html"?>
                 <title>Facelets Support</title>
 
-                <para><property>Facelets</property> extends JavaServer Faces by providing a
-                        lightweight framework that radically simplifies the design of presentation
-                        pages for JSF. JBoss Developer Studio provides support for Facelets in a
-                        variety of ways.</para>
+                <para>The <ulink url="https://facelets.dev.java.net/">Facelets</ulink> extends JavaServer Faces by providing a lightweight framework that radically simplifies the design
+                of presentation pages for JSF. JBoss Developer Studio provides support for Facelets in a variety of ways:</para>
+                
+                <itemizedlist>
+                        <listitem><para>The New JSF Project wizard contains templates for creating Facelets projects based on version 1.2 of the JSF Reference Implementation. Just select the
+                                <property>JSF 1.2 with Facelets</property> in JSF Environment section.</para></listitem>
+                </itemizedlist>
 
-                <para>The Create New JSF Project wizard contains templates for creating
-                        Faceletsprojects based on version 1.2 of the JSF Reference Implementation:</para>
+              
                 <figure>
                         <title>Choosing Facelets Environment</title>
                         <mediaobject>
@@ -101,8 +103,7 @@
                         </mediaobject>
                 </figure>
 
-                <para>Once you select the environment, you can select one of the six available
-                        templates:</para>
+                <para>Once you select the environment, you can select the one of three available templates.</para>
                 <figure>
                         <title>Choosing Facelets Template</title>
                         <mediaobject>
@@ -111,8 +112,13 @@
                                 </imageobject>
                         </mediaobject>
                 </figure>
-                <para>The JBoss Tools Palette comes with the Facelets components ready to use. A
-                        useful tip appears when you hover the mouse cursor over the tag - that includes a detailed description of the tag component, the syntax and available attributes:</para>
+                
+                <itemizedlist>
+                        <listitem><para>The JBoss Tools Palette comes with the Facelets components ready to use. A
+                                useful tip appears when you hover the mouse cursor over the tag, the tip includes a detailed description of the tag component, the syntax and available attributes.</para></listitem>
+                </itemizedlist>
+                
+                
 
                 <!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
@@ -129,8 +135,11 @@
                                 </imageobject>
                         </mediaobject>
                 </figure>
-                <para>Code assist for <property>Facelets tags</property> is available when editing
-                        xhtml files:</para>
+                
+                <itemizedlist>
+                        <listitem><para>Code assist (ctrl + space) for <property>Facelets tags</property> is available when editing xhtml files.</para></listitem>
+                </itemizedlist>
+                
                 <figure>
                         <title>XHTML File Code Assist</title>
                         <mediaobject>
@@ -140,16 +149,9 @@
                         </mediaobject>
                 </figure>
 
-                <itemizedlist>
-                        <listitem>
-                                <para>Code assist is also available for <emphasis
-                                                role="italic">
-                                                <property>&quot;jsfc&quot;</property>
-                                        </emphasis> attribute in any HTML tag</para>
-                        </listitem>
-                </itemizedlist>
-
-                <figure>
+             <para>Code assist is also available for <emphasis role="italic"><property>&quot;jsfc&quot;</property></emphasis> attribute in any HTML tag.</para>
+                
+                               <figure>
                         <title>Code Assist for Jsfc Attribute</title>
                         <mediaobject>
                                 <imageobject>
@@ -158,14 +160,9 @@
                         </mediaobject>
                 </figure>
 
-                <itemizedlist>
-                        <listitem>
-                                <para>Then you get the code assist for JSF components are available
-                                        on the page</para>
-                        </listitem>
-                </itemizedlist>
-
-                <figure>
+                <para>After selecting <emphasis role="italic"><property>&quot;jsfc&quot;</property></emphasis> you get the code assist for JSF components available on a page.</para>
+                
+               <figure>
                         <title>Code Assist for JSF Components</title>
                         <mediaobject>
                                 <imageobject>
@@ -174,15 +171,10 @@
                         </mediaobject>
                 </figure>
 
-                <itemizedlist>
-                        <listitem>
-                                <para>Then you will see all available attributes for the
-                                component.</para>
-                        </listitem>
-                </itemizedlist>
-
+                                <para>When a component is chosen you  will see all available attributes for it.</para>
+                 
                 <figure>
-                        <title/>
+                        <title>Available Attributes for the Component</title>
                         <mediaobject>
                                 <imageobject>
                                         <imagedata fileref="images/jsf_support/jsf_support_8.png" scale="80"/>
@@ -190,11 +182,14 @@
                         </mediaobject>
                 </figure>
 
-                <para>JBDS provides Eclipse&apos;s <emphasis><property>OpenOn</property></emphasis> feature for editing Facelets files. Using this feature, you can easily navigate between
-                        the <property>Facelets templates</property> and other parts of your
-                        projects. Just by holding down the Control key while hovering the mouse
-                        cursor over a reference to a template, the reference becomes a hyperlink to
-                        open that template.</para>
+<itemizedlist>
+        <listitem> <para>JBDS provides Eclipse&apos;s <emphasis><property>OpenOn</property></emphasis> feature for editing Facelets files. Using this feature, you can easily navigate between
+                the <property>Facelets templates</property> and other parts of your
+                projects. Just by holding down the Control key while hovering the mouse
+                cursor over a reference to a template, the reference becomes a hyperlink to
+                open that template.</para></listitem>
+</itemizedlist>
+               
                 <figure>
                         <title>Template Hyperlink</title>
                         <mediaobject>
