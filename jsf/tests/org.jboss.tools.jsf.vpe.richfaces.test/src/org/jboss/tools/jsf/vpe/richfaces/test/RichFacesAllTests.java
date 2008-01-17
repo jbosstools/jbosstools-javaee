@@ -19,6 +19,7 @@ import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1579Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1613Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1580Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1614Test;
+import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1639Test;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
@@ -40,7 +41,8 @@ public class RichFacesAllTests {
 	suite.addTestSuite(Jbide1580Test.class);
 	suite.addTestSuite(JBIDE1613Test.class);
 	suite.addTestSuite(Jbide1614Test.class);
-
+	suite.addTestSuite(Jbide1639Test.class);
+	
 	// $JUnit-END$
 
 	List<ImportBean> projectToImport = new ArrayList<ImportBean>();

@@ -48,16 +48,9 @@ public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		ComponentUtil.setImg(img, IMAGE_NAME);
 
-		if (sourceNode instanceof Element) {
-			// ComponentUtil.copyAttributes(sourceNode, img);
-			img.setAttribute("style", ((Element) sourceNode)
-					.getAttribute("style"));
-			img.setAttribute("class", ((Element) sourceNode)
-					.getAttribute("styleClass"));
-			img.setAttribute("width", getSize((Element) sourceNode, "width"));
-			img.setAttribute("height", getSize((Element) sourceNode, "height"));
+		Element sourceElement = (Element) sourceNode;
 
-		}
+		setData(sourceElement, img);
 
 		VpeCreationData creationData = new VpeCreationData(img);
 
@@ -88,11 +81,23 @@ public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 
 		nsIDOMElement img = (nsIDOMElement) visualNode
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		// ComponentUtil.copyAttributes(sourceElement, img);
 
-		img.setAttribute("style", sourceElement.getAttribute("style"));
-		img.setAttribute("class", sourceElement.getAttribute("styleClass"));
-		img.setAttribute("width", getSize(sourceElement, "width"));
-		img.setAttribute("height", getSize(sourceElement, "height"));
+		setData(sourceElement, img);
+	}
+
+	/**
+	 * 
+	 * @param sourceElement
+	 * @param visualElement
+	 */
+	private void setData(Element sourceElement, nsIDOMElement visualElement) {
+
+		visualElement
+				.setAttribute("style", sourceElement.getAttribute("style"));
+		visualElement.setAttribute("class", sourceElement
+				.getAttribute("styleClass"));
+		visualElement.setAttribute("width", getSize(sourceElement, "width"));
+		visualElement.setAttribute("height", getSize(sourceElement, "height"));
+
 	}
 }
