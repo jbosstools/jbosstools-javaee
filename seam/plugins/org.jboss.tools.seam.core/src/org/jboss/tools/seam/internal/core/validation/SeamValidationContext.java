@@ -64,6 +64,14 @@ public class SeamValidationContext {
 		coreLinks.removeLinkedResources(resources);
 	}
 
+	/**
+	 * Removes link between core resource and variable names.
+	 * @param linkedResource
+	 */
+	public void removeLinkedCoreResource(IPath resource) {
+		coreLinks.removeLinkedResource(resource);
+	}
+
 	public Set<IPath> getCoreResourcesByVariableName(String variableName) {
 		return coreLinks.getResourcesByVariableName(variableName);
 	}
@@ -142,6 +150,14 @@ public class SeamValidationContext {
 	 */
 	public void removeLinkedElResources(Set<IPath> resources) {
 		elLinks.removeLinkedResources(resources);
+	}
+
+	/**
+	 * Removes link between resource and variable names.
+	 * @param linkedResource
+	 */
+	public void removeLinkedElResource(IPath resource) {
+		elLinks.removeLinkedResource(resource);
 	}
 
 	/**
@@ -307,20 +323,28 @@ public class SeamValidationContext {
 		 */
 		public void removeLinkedResources(Set<IPath> resources) {
 			for (IPath resource : resources) {
-				Set<String> resourceNames = variableNamesByResource.get(resource);
-				if(resourceNames!=null) {
-					for (String name : resourceNames) {
-						Set<IPath> linkedResources = resourcesByVariableName.get(name);
-						if(linkedResources!=null) {
-							linkedResources.remove(resource);
-							if(linkedResources.isEmpty()) {
-								resourcesByVariableName.remove(name);
-							}
+				removeLinkedResource(resource);
+			}
+		}
+
+		/**
+		 * Removes link between resource and variable names.
+		 * @param linkedResources
+		 */
+		public void removeLinkedResource(IPath resource) {
+			Set<String> resourceNames = variableNamesByResource.get(resource);
+			if(resourceNames!=null) {
+				for (String name : resourceNames) {
+					Set<IPath> linkedResources = resourcesByVariableName.get(name);
+					if(linkedResources!=null) {
+						linkedResources.remove(resource);
+						if(linkedResources.isEmpty()) {
+							resourcesByVariableName.remove(name);
 						}
 					}
 				}
-				variableNamesByResource.remove(resource);
 			}
+			variableNamesByResource.remove(resource);
 		}
 
 		public Set<IPath> getResourcesByVariableName(String variableName) {

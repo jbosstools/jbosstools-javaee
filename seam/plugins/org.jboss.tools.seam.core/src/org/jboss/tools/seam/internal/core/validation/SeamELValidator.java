@@ -111,7 +111,11 @@ public class SeamELValidator extends SeamValidator {
 		Set<IFile> files = validationContext.getRegisteredFiles();
 		for (IFile file : files) {
 			if(!reporter.isCancelled()) {
-				validateFile(file);
+				if(file.exists()) {
+					validateFile(file);
+				} else {
+					validationContext.removeUnnamedElResource(file.getFullPath());
+				}
 			}
 		}
 		return OK_STATUS;
