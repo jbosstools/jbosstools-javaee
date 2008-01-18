@@ -20,5 +20,7 @@ public class ISeamUiConstants {
 		NEW_SEAM_PROJECT_WIZARD_ID = "org.jboss.tools.seam.ui.wizards.SeamProjectWizard", //$NON-NLS-1$
 		NEW_SEAM_FORM_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamFormWizard", //$NON-NLS-1$
 		NEW_SEAM_ACTION_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamActionWizard", //$NON-NLS-1$
+		NEW_SEAM_CONVERSATION_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamConversationWizard",
+		NEW_SEAM_ENTITY_WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamEntityWizard",
 		SEAM_COMPONENTS_VIEW_ID = "org.jboss.tools.seam.ui.views.SeamComponentsNavigator"; //$NON-NLS-1$
 }
