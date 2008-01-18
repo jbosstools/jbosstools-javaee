@@ -49,6 +49,7 @@ import org.jboss.tools.seam.ui.views.actions.SeamViewLayoutActionGroup.SeamContr
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * 
@@ -552,12 +553,8 @@ public class SeamComponentsViewTest extends TestCase {
 			System.out.println("Refresh project "+count);
 			try {
 				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				try {
-					waitForJob();
-				} catch (InterruptedException e) {
-					JUnitUtils.fail(e.getMessage(),e);
-				}
-			} catch (Exception e) {
+				EditorTestHelper.joinBackgroundActivities();
+			} catch (CoreException e) {
 				JUnitUtils.fail("Cannot build test Project", e);
 				break;
 			}
@@ -567,84 +564,6 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 	}
 	
-	public void waitForJobs() {
-		while (Job.getJobManager().currentJob() != null)
-			delay(5000);
-	}
-	
-	/** * Process UI input but do not return for the 
-	 * specified time interval. *
-	 * @param waitTimeMillis the number of milliseconds */ 
-	protected void delay(long waitTimeMillis) {
-		Display display = Display.getCurrent();
-		// If this is the UI thread,
-		// then process input.
-		if (display != null) {
-			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-			while (System.currentTimeMillis() < endTimeMillis){
-				if (!display.readAndDispatch()) display.sleep();
-			} display.update();
-		}
-		// Otherwise, perform a simple sleep.
-		else {
-			try {
-				Thread.sleep(waitTimeMillis);
-			} catch (InterruptedException e) {
-					// Ignored.
-			}
-		}
-	}
-	public static void waitForJob() throws InterruptedException {
-		Object[] o = {
-			XJob.FAMILY_XJOB, ResourcesPlugin.FAMILY_AUTO_REFRESH, ResourcesPlugin.FAMILY_AUTO_BUILD
-		};
-		while(true) {
-			boolean stop = true;
-			for (int i = 0; i < o.length; i++) {
-				Job[] js = Job.getJobManager().find(o[i]);
-				if(js != null && js.length > 0) {
-					Job.getJobManager().join(o[i], new NullProgressMonitor());
-					stop = false;
-				}
-			}
-			if(stop) {
-				Job running = getJobRunning(10);
-				if(running != null) {
-					running.join();
-					stop = false;
-				}
-			}
-			if(stop) break;
-		}
-	}
-	
-	public static Job getJobRunning(int iterationLimit) {
-		Job[] js = Job.getJobManager().find(null);
-		Job dm = null;
-		if(js != null) for (int i = 0; i < js.length; i++) {
-			if(js[i].getState() == Job.RUNNING && js[i].getThread() != Thread.currentThread()) {
-				if(js[i] instanceof UIJob) continue;
-				if(js[i].belongsTo(DecoratorManager.FAMILY_DECORATE) || js[i].getName().equals("Task List Saver")) {
-					dm = js[i];
-					continue;
-				}
-				//TODO keep watching 
-				System.out.println(js[i].getName());
-				return js[i];
-			}
-		}
-		if(dm != null) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				//ignore
-			}
-			if(iterationLimit > 0)
-				return getJobRunning(iterationLimit - 1);
-		}
-		return null;
-		
-	}
 
 	public void updateTree(Tree tree) {
 		for(int i=0;i<tree.getItemCount();i++){
