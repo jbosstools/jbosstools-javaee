@@ -64,31 +64,22 @@ public class SeamComponentsViewTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		//ScopePresentationActionProvider.setPackageStructureFlat(false);
-		WorkbenchUtils.getWorkbench().showPerspective(
-				WebDevelopmentPerspectiveFactory.PERSPECTIVE_ID,
-				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
-		TestProjectProvider provider=null;
-		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
 		
-		if(project==null) {
-			project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestComponentView", new NullProgressMonitor());
-		}
+		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
+		assertNotNull("",project);
+		
 		componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
+
+		EditorTestHelper.joinBackgroundActivities();
 	}
 	
-	public void testAddComponentInXmlFile(){
-		SeamCorePlugin.getSeamProject(project, true);
-		
+	public void testAddComponentInXmlFile() throws CoreException{
 		CommonNavigator navigator = getSeamComponentsView();
 
 		navigator.getCommonViewer().expandAll();
 		
-		
 		Tree tree = navigator.getCommonViewer().getTree();
-		
-		updateTree(tree);
 		
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
 		
@@ -104,7 +95,6 @@ public class SeamComponentsViewTest extends TestCase {
 		try {
 			componentsFile.setContents(file1.getContents(), 
 										true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		} catch (CoreException e) {
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'WebContent/WEB-INF/components.1'", e);
@@ -112,8 +102,8 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 
-		updateTree(tree);
-
+		navigator.getCommonViewer().expandAll();
+		
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Seam model is not updated, expected package 'myPackage'" +
 				" is not found in tree",seamPackage!=null);
@@ -126,13 +116,12 @@ public class SeamComponentsViewTest extends TestCase {
 		
 	}
 
-	public void testRenameComponentInXmlFile(){
+	public void testRenameComponentInXmlFile() throws CoreException{
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
 		Tree tree = navigator.getCommonViewer().getTree();
-		updateTree(tree);
 
 		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
 		
@@ -152,15 +141,14 @@ public class SeamComponentsViewTest extends TestCase {
 
 		try{
 			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'WebContent/WEB-INF/components.2'", ex);
 		}
 		
 		refreshProject(project);
-		
-		updateTree(tree);
+
+		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Expected package 'myPackage' was not found it tree",
@@ -176,7 +164,6 @@ public class SeamComponentsViewTest extends TestCase {
 		}		
 		try{
 			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'WebContent/WEB-INF/components.3'", ex);
@@ -184,7 +171,9 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
+		
+		EditorTestHelper.joinBackgroundActivities();
 		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Expected package 'myNewPackage' was not found it tree after " +
@@ -196,15 +185,13 @@ public class SeamComponentsViewTest extends TestCase {
 				"after renaming",component!=null);
 	}
 	
-	public void testDeleteComponentInXmlFile(){
+	public void testDeleteComponentInXmlFile() throws CoreException{
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
-
+		EditorTestHelper.joinBackgroundActivities();
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-		updateTree(tree);
-
 		ISeamPackage seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
 		
@@ -216,14 +203,13 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		try{
 			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
-			componentsFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.4", ex);
 		}
 		
 		refreshProject(project);
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" found!",seamPackage==null);
@@ -248,14 +234,13 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		try{
 			classFile.create(file1.getContents(), false, new NullProgressMonitor());
-			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.1", ex);
 		}
 		
 		refreshProject(project);
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
@@ -286,14 +271,13 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		try{
 			classFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
-			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.2", ex);
 		}
 		
 		refreshProject(project);
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" not found!",seamPackage!=null);
@@ -309,14 +293,13 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		try{
 			classFile.setContents(file2.getContents(), true, false, new NullProgressMonitor());
-			classFile.touch(new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.3", ex);
 		}
 		
 		refreshProject(project);
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "demo");
 		assertTrue("Package \"demo\" found!",seamPackage==null);
@@ -352,7 +335,7 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "beatles");
 		assertTrue("Package \"beatles\" found!",seamPackage==null);
@@ -390,7 +373,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
 		
@@ -423,7 +406,7 @@ public class SeamComponentsViewTest extends TestCase {
 	
 		Tree tree = navigator.getCommonViewer().getTree();
 		
-		updateTree(tree);
+		navigator.getCommonViewer().expandAll();
 		
 		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
 		
@@ -564,11 +547,4 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 	}
 	
-
-	public void updateTree(Tree tree) {
-		for(int i=0;i<tree.getItemCount();i++){
-			showTreeItem(tree.getItem(i),0);
-		}
-
-	}
 }

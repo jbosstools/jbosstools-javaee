@@ -57,6 +57,10 @@ public class SeamProjectNewWizardTest extends TestCase{
 	SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
 	
 	
+	public SeamProjectNewWizardTest() {
+		super("New Seam Web Project tests");
+	}
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();

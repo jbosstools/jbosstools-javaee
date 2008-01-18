@@ -16,7 +16,9 @@ import junit.framework.TestSuite;
 
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
+import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewTest;
+import org.jboss.tools.seam.ui.test.view.SeamComponentsViewTestSetup;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 
@@ -27,8 +29,8 @@ import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 public class SeamUiAllTests {
 	
 	public static Test suite() {
-		TestSuite suite = new TestSuite(SeamUiAllTests.class.getName());
-		suite.addTestSuite(SeamComponentsViewTest.class);
+		TestSuite suite = new TestSuite("Seam UI tests");
+		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTestSuite(SeamProjectNewWizardTest.class);
 		suite.addTestSuite(SeamFormNewWizardTest.class);
 		suite.addTestSuite(SeamPreferencesPageTest.class);		
