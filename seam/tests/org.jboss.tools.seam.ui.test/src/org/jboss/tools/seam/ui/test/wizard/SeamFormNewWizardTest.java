@@ -14,11 +14,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.apache.velocity.runtime.directive.Foreach;
 import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
