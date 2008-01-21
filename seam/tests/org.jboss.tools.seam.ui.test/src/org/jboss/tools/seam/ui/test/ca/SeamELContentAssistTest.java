@@ -35,6 +35,7 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -411,8 +412,9 @@ public class SeamELContentAssistTest extends TestCase {
 	
 	public void testSeamELContentAssist() {
 		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
+//			XJob.waitForJob();
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
@@ -441,8 +443,9 @@ public class SeamELContentAssistTest extends TestCase {
 		// Delay for 3 seconds so that
 		// the Favorites view can be seen.
 		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
+//			XJob.waitForJob();
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Waiting for the jobs to complete has failed.", false);
 		} 
