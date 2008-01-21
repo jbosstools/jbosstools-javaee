@@ -112,7 +112,7 @@ text-align:left;
 }
 
 DIV.note{
-	BORDER: #CECECE 1px solid; PADDING: 3px 10px 10px 50px; line-height : 14px;   MARGIN: 10px 0px 10px 0px; FONT-SIZE: 11px; WIDTH: 500px; BACKGROUND-COLOR: #cfe3ff;
+	BORDER: #CECECE 1px solid; PADDING: 3px 10px 10px 50px; line-height : 14px;   MARGIN: 10px 0px 10px 0px; FONT-SIZE: 11px; WIDTH: 500px; BACKGROUND-COLOR: #FFFDD3;
 	background-image : url('../images/ico_note.gif'); background-repeat : no-repeat; background-position :top left;
 }
 
