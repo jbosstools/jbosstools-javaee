@@ -13,14 +13,14 @@
 
     <itemizedlist>
         <listitem>
-            <para>Insert tags into a JSP page with one click</para>
+            <para>Insert tags into a JSP or JSF page with one click</para>
         </listitem>
         <listitem>
             <para>Add custom and 3rd party tags.</para>
         </listitem>
     </itemizedlist>
 
-    <para>The <property>JBoss Tools Palette</property> provides possibility to add any tag
+    <para>The <property>JBoss Tools Palette</property> contains a developer's project tag libraries and provides possibility to add any tag
         libraries to it. Or you can choose a necessary one from the list of already existent tag
         libraries:</para>
     <itemizedlist>
@@ -43,10 +43,11 @@
         </mediaobject>
     </figure>
     
-<section id="UsingThePalette(IncludingOne-ClickTagInsertion)">
+     <section id="UsingThePalette(IncludingOne-ClickTagInsertion)">
         <?dbhtml filename="UsingThePalette(IncludingOne-ClickTagInsertion).html"?>
         <title>Using the Palette</title>
-        <section id="RedHatPalette">
+        
+         <section id="RedHatPalette">
             <?dbhtml filename="JBossToolsPalette.html"?>
             <title>JBoss Tools Palette</title>
 
@@ -88,14 +89,24 @@
             <?dbhtml filename="InsertingTagsIntoAJSPFile.html"?>
             <title>Inserting Tags into a JSP File</title>
 
-            <para>A new tag can be added into any text file including jsp, xhtml и htm(l).</para>
-            <para>It&apos;s very simple to do this. Place the cursor in the JSP page where you
-                want to add a tag and then click the tag in the palette. In the example below, the
-                commandButton tag has been inserted. Notice also that if you place the cursor over
-                any tag, a balloon tip is shown with all the <emphasis role="italic">
-                    <property>&quot;tag&quot;</property>
-                </emphasis> attributes.</para>
-
+            <para>A new tag can be added into any text file including jsp, htm, html and xhtml.</para>
+            <para>It&apos;s very simple to do this. Open your JSP file and place the cursor in a place where you&apos;d
+                like to add a tag and then click that tag in the palette. 
+                
+                In <property>Insert Tag</property> window, that will appeared after that action, you can set the 
+                <emphasis><property>value</property></emphasis> of general and advanced <emphasis><property>attributes</property></emphasis> of the tag that you chose.</para>
+                                
+                <figure>
+                    <title>Inserting Tag</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_25.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+                <para>In the example below, the commandButton tag has been inserted.</para>
+               
             <figure>
                 <title>Inserting Tag</title>
                 <mediaobject>
@@ -103,7 +114,11 @@
                         <imagedata fileref="images/palette/palette_2.png" scale="80"/>
                     </imageobject>
                 </mediaobject>
-            </figure>
+                        </figure>
+            <note> if you place the cursor over
+                any tag, a balloon tip is shown with all the <emphasis role="italic">
+                    <property>&quot;tag&quot;</property>
+                </emphasis> attributes.</note>
             <para>The cursor position after adding a tag into a file is specified by
                 &quot;|&quot; symbol in the tag template on the right in the Palette Editor window. </para>
             <figure>
@@ -152,86 +167,94 @@
                     <property>&quot;.jar&quot;</property>
                 </emphasis> that includes your tag library under the lib folder in your project.
             </para>
-        </section>
-
-        <section id="Drag_and_Drop65332">
-            <?dbhtml filename="DragAndDrop.html"?>
-            <title>Drag-and-Drop</title>
-            <para>Switch to the Web Projects view and expand the Tag Libraries folder. If the view
-                not active, select <emphasis>
-                    <property>Window > Show View > Web Projects</property>
-                </emphasis> from the menu bar.</para>
-
-            <figure>
-                <title>Web Projects View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_3.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Also make sure that the JBoss Tools Palette is open. Select the tag library that
-                you want to add and simply drag-and-drop it on to the JBoss Tools Palette.</para>
-            <para>You will see the following dialog window. As you can see JBoss Developer Studio
-                takes care of all the details. You just need to set the Group name to which to add
-                this tag library. You can either add this tag library to an existing Group or just
-                create a new one.</para>
-            <figure>
-                <title>Import Tags From TLD File Form</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_4.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Once you are finished, you will see the new tag library added to the JBoss Tools
-                Palette.</para>
-
-            <figure>
-                <title>JBoss Tools Palette with New Tag Library</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_5.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-        </section>
-        <section id="ImportButton521">
-            <?dbhtml filename="ImportButton.html"?>
-            <title>Import Button</title>
-            <para>The same you can do with <emphasis>
-                    <property>Import</property>
-                </emphasis> button.</para>
-            <figure>
+            
+            <section id="Drag_and_Drop65332">
+                <?dbhtml filename="DragAndDrop.html"?>
+                <title>Drag-and-Drop</title>
+                <para>Switch to the Web Projects view and expand the Tag Libraries folder. If the view
+                    not active, select <emphasis>
+                        <property>Window > Show View > Web Projects</property>
+                    </emphasis> from the menu bar.</para>
+                
+                <figure>
+                    <title>Web Projects View</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_3.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+                <para>Also make sure that the JBoss Tools Palette is open. Select the tag library that
+                    you want to add and simply drag-and-drop it on to the JBoss Tools Palette.</para>
+                
+                <para>You will see the following dialog window. As you can see JBoss Developer Studio
+                    takes care of all the details. You just need to set the Group name to which you wish to place
+                    this tag library. You can either add this tag library to an existing Group or just
+                    create a new one.</para>
+                
+                <figure>
+                    <title>Import Tags From TLD File Form</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_4.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Once you are finished, you will see the new tag library added to the JBoss Tools
+                    Palette.</para>
+                
+                <figure>
+                    <title>JBoss Tools Palette with New Tag Library</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_5.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            
+            <section id="ImportButton521">
+                <?dbhtml filename="ImportButton.html"?>
                 <title>Import Button</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_6.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>On this screen you can select <emphasis>
-                    <property>Browse</property>
-                </emphasis> to locate the tag library that you want to add.</para>
-            <figure>
-                <title>Import Tags From TLD File Form</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_7.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Now select the TLD file you want to be added:</para>
-            <figure>
-                <title>Select TLD File</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_8.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+                <para>The same you can do with <emphasis><property>Import</property></emphasis> button.
+                You can see this button at the top right side of the JBoss Tools Palette</para>
+                
+                <figure>
+                    <title>Import Button</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_6.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+                <para>By clicking on the Import button you will see the Import Tag window a similar like in the Drag-and-Drop method. 
+                    On this Import Tag form you can select <emphasis><property>Browse...</property></emphasis> to locate the tag library that you want to add.
+                Also you need to set the Group name to which you&apos;d like to add your tag library. And like in the previous method you can add it to an existing Group or create a new one.</para>
+                
+                <figure>
+                    <title>Import Tags From TLD File Form</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_7.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Now select the TLD file you want to be added:</para>
+                <figure>
+                    <title>Select TLD File</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_8.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            
         </section>
-    </section>
+    
+ </section>
 
     <section id="PaletteOptions">
         <?dbhtml filename="PaletteOptions.html"?>
@@ -415,8 +438,8 @@
             <title>Import</title>
 
             <para>The Import button lets you add a custom or 3rd party tag library to
-                    <property>JBoss Tools Palette</property>. See <link linkend="ImportButton521"
-                    >here</link> how to add.
+                    JBoss Tools Palette. Find out more information on how to add the tags see the <link linkend="ImportButton521"
+                    >Adding Custom JSF Tags</link>section.
                 <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
 
         </section>
@@ -425,11 +448,14 @@
     <section id="RichFacesSupport">
         <?dbhtml filename="RichFacesSupport.html"?>
         <title>Rich Faces Support</title>
-        <para>JBoss Developer Studio comes with a tight integration with <emphasis>
-                <property>Rich Faces</property>
-            </emphasis> component framework. Rich Faces ans Ajax4jsf in JBoss Tools Palette always exist, this palette is not dynamic and is not changed from file to file. After installing JBDS Rich Faces components as well as <emphasis>
-                <property>Ajax4jsf</property>
-            </emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
+        
+        <para>JBoss Developer Studio comes with a tight integration with <emphasis><property>Rich Faces</property></emphasis> component framework. 
+            Rich Faces and Ajax4jsf in JBoss Tools Palette always exist, this palette is not dynamic and is not changed from file to file.
+             JBoss Tools Palette supports only the last version of the Rich Faces components. 
+            <note>If you&apos;d like to know the last version of Rich Faces component framework see <ulink url="http://labs.jboss.com/jbossrichfaces/">JBoss RichFaces</ulink> site.</note>
+             After installing JBDS Rich Faces components as well as 
+            <emphasis><property>Ajax4jsf</property></emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
+        
         <figure>
             <title>Rich Faces Components</title>
             <mediaobject>
@@ -438,6 +464,9 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        
+       <!-- <para>Insert tag into JSP file </para>-->
+        
     </section>
 
 </chapter>
