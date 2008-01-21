@@ -38,8 +38,8 @@
             runtime) that will be used for the project. This allows the wizard to identify correctly
             where the required datasource and driver libraries need to go.</para>
         <para>Let&apos;s get through the wizard step-by-step. First, you should enter a name and
-            a location directory for your new project/</para>
-        <figure>
+            a location directory for your new project.</para>
+        <figure id="figure_create_seam1">
             <title>New Seam Project Wizard</title>
             <mediaobject>
                 <imageobject>
@@ -84,16 +84,21 @@
 
         <para> Clicking on <emphasis>
                 <property>Finish</property>
-            </emphasis> returns you to the previous dialog. The next step is to define an installed
-            server that you can do by clicking on <emphasis>
+            </emphasis> returns you to the <link linkend="figure_create_seam1">previous
+            dialog</link>. The next step is to define an installed server that you can do by
+            clicking on <emphasis>
                 <property>New...</property>
             </emphasis> button in the Target Server section. In appeared Server Dialog it's possible
-            to select a server version. For jBoss AS 4.2 it's also possible to indicate a server
-            runtime. Use <emphasis>
+            to select a server version. </para>
+
+        <para> If the chosen server has already got an installed runtime, there appears a combo box
+            with all declared runtimes under the servers view. Here, you can indicate a server
+            runtime that you need. Use <emphasis>
                 <property>Installed Runtimes...</property>
-            </emphasis> button to see or edit what runtimes are installed. Click on <emphasis>
+            </emphasis> button to see or edit which runtimes are installed. If there is no any
+            declared runtime for chosen server, click on <emphasis>
                 <property>Next</property>
-            </emphasis>.</para>
+            </emphasis> to specify it on the next preferences page.</para>
 
         <figure>
             <title>Specifying Target Server</title>
@@ -104,8 +109,9 @@
             </mediaobject>
         </figure>
 
-        <para>Next dialog allows you to verify chosen Runtime information, set login
-            credentials to authorize an access to the server and specify a directory for deploying. Leave everything as it is and click on <emphasis>
+        <para>Next dialog allows you to verify the information for chosen server, set login
+            credentials to authorize an access to the server and specify a directory for deploying.
+            Leave everything as it is and click on <emphasis>
                 <property>Next</property>
             </emphasis>.</para>
 
@@ -144,14 +150,16 @@
         </figure>
 
         <para>The last section on this wizard step is <property>Configurations</property>. Here, you
-            can select one of the pre-defined project configurations either associated with Seam 1.2 or with Seam 2.0 that is the latest release but just only a technology
-            preview. In addition, you can create your own configuration. Choosing <emphasis>
-                <property>Default
-            Configuration for jBoss 4.2 Runtime</property></emphasis> allows you later to specify your own set of facets
-            for adding extra functionality to your project. For more details about facets, see next
-            section.</para>
+            can select one of the pre-defined project configurations either associated with Seam 1.2
+            or with Seam 2.0 that is the latest release but just only a technology preview. In
+            addition, you can create your own configuration. Choosing <emphasis>
+                <property>Default Configuration for jBoss 4.2 Runtime</property>
+            </emphasis> allows you later to specify your own set of facets for adding extra
+            functionality to your project. For more details about facets, see next section. Besides,
+            we suggest that you look through our <ulink url="http://www.redhat.com/developer_studio/guides/as/html_single/">AS manager guide</ulink> to find out more about runtimes
+            and servers.</para>
 
-        <para>Having all necessary options arranged click on <emphasis>
+        <para>Having all necessary options arranged, click on <emphasis>
                 <property>Next</property>
             </emphasis> to pass on to the other wizard.</para>
 
@@ -378,8 +386,8 @@
         </figure>
 
         <para>You can edit chosen profile by using <emphasis>
-            <property>Edit</property>
-        </emphasis> button or organise a new one by clicking on <emphasis>
+                <property>Edit</property>
+            </emphasis> button or organise a new one by clicking on <emphasis>
                 <property>New</property>
             </emphasis> button and selecting necessary for you type of connection profile.</para>
         <figure>
@@ -391,10 +399,11 @@
             </mediaobject>
         </figure>
 
-        <para>On the other dialog you&apos;ll be asked to enter its name and description. And then you should select a proper
-            driver and adjust connection details. Press <emphasis>
+        <para>On the other dialog you&apos;ll be asked to enter its name and description. And
+            then you should select a proper driver and adjust connection details. Press <emphasis>
                 <property>Next</property>
-            </emphasis> to preview all the adjusted settings and complete the creation of the new profile.</para>
+            </emphasis> to preview all the adjusted settings and complete the creation of the new
+            profile.</para>
 
         <figure>
             <title>Connection Details</title>
@@ -405,7 +414,8 @@
             </mediaobject>
         </figure>
 
-        <para>The next block of settings in the Seam Facet wizard are describing a Database and a connection to it.</para>
+        <para>The next block of settings in the Seam Facet wizard are describing a Database and a
+            connection to it.</para>
         <para>In the <property>Code Generation</property> section the wizard have already put the
             names for your <property>Session Bean</property>, <property>Entity Bean</property> and
                 <property>Test</property> packages. Of course, you can change them into the others
