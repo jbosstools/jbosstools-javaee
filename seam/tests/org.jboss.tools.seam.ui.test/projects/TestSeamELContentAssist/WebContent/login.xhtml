@@ -18,7 +18,7 @@
             <f:facet name="header">Login</f:facet>
     
             <p>Please login using any username and password</p>
-        
+            
             <div class="dialog">
                 <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
                     <h:outputLabel for="username">Username</h:outputLabel>
@@ -32,7 +32,9 @@
                                           value="#{identity.rememberMe}"/>
                 </h:panelGrid>
             </div>
-                
+            
+            <p>Previously the values was: #{identity.username}, #{identity.password} and #{identity.rememberMe}.</p>
+            
         </rich:panel>
             
         <div class="actionButtons">
