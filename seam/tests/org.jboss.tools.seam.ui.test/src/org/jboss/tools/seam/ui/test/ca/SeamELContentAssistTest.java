@@ -423,52 +423,6 @@ public class SeamELContentAssistTest extends TestCase {
 		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile.exists()));
 
 		FileEditorInput editorInput = new FileEditorInput(jspFile);
-		
-//		IDocumentProvider documentProvider = null;
-//		Throwable exception = null;
-//		try {
-//			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
-//		} catch (Exception x) {
-//			exception = x;
-//			x.printStackTrace();
-//			
-//		}
-//		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
-//
-//		assertTrue("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", (documentProvider != null));
-
-//		try {
-//			documentProvider.connect(editorInput);
-//		} catch (Exception x) {
-//			exception = x;
-//			x.printStackTrace();
-//			assertTrue("The document provider is not able to be initialized with the editor input", false);
-//		}
-//		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
-		
-//		IDocument document = documentProvider.getDocument(editorInput);
-//		IDocumentExtension3 de3 = (document instanceof IDocumentExtension3) ? 
-//				(IDocumentExtension3)document : null;
-		
-//		assertTrue("The document for the file \"" + PAGE_NAME + "\" is not loaded", (document != null));
-		
-//		IStructuredModel model = null;
-//		IStructuredDocument sd = null;
-//		if (document instanceof IStructuredDocument) {
-//			sd = (IStructuredDocument)document;
-			// corresponding releaseFromEdit occurs in
-			// dispose()
-//			model = StructuredModelManager.getModelManager().getModelForEdit((IStructuredDocument) document);
-//			EditorModelUtil.addFactoriesTo(model);
-//		}
-
-//		assertTrue("The document model for the file \"" + PAGE_NAME + "\" is not loaded", (model != null));
-//		IDocumentPartitioner partitioner = null;
-//		IDocumentPartitionerExtension2 pe2 = null;
-		
-//		String[] contentTypes = document.getLegalContentTypes();
-//		String[] partitionings = de3.getPartitionings();
-
 		Throwable exception = null;
 		IEditorPart editorPart = null;
 		try {
