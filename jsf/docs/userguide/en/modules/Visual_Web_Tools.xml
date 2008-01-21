@@ -106,7 +106,7 @@
      </row>
      
      <row>
-      <entry>Support for JSF and JSF Configuration Files</entry>
+      <entry>Support for JSF and Struts Configuration Files</entry>
       <entry>Working on files using three modes: diagram, tree and source. Synchronization between the modes and full control over the code. Easy moving around the diagram using the Diagram Navigator. Working with struts projects that have multiple modules. Possibility to use Struts configuration file debugger allowing to set break points on struts diagram and then launch the server in debug mode.</entry>
       <entry><link linkend="GraphicalEditorAndViewingForJSFConfigurationFiles76331">graphical editor for jsf</link> <link linkend="GraphicalEditorForStrutsConfigurationFiles564">graphical editor for struts</link> </entry>
      </row>
