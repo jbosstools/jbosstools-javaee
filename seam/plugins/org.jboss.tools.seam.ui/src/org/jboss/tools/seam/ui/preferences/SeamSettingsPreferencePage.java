@@ -84,7 +84,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		super.setElement(element);
 		project = (IProject) getElement().getAdapter(IProject.class);
 	}
-	
+
 	boolean hasSeamSupport() {
 		return seamProject != null;
 	}
@@ -92,7 +92,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 	@Override
 	protected Control createContents(Composite parent) {
 		seamProject = SeamCorePlugin.getSeamProject(project, false);
-		
+
 		boolean cannotBeModified = false;
 
 		if(seamProject != null) {
@@ -101,13 +101,13 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		if(!cannotBeModified) {
 			cannotBeModified = isEarPartInEarSeamProject(project);
 		}
-		
+
 		seamEnablement = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
 		seamEnablement.setValue(hasSeamSupport());
 
 		SeamRuntime rs = SeamRuntimeManager.getInstance().getDefaultRuntime();
-		
+
 		List<String> namesAsList = getNameList();
 
 		runtime = IFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
@@ -121,7 +121,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 					SeamPreferencePage.SEAM_PREFERENCES_ID, 
 					new String[] {SeamPreferencePage.SEAM_PREFERENCES_ID}, null
 				);
-				
+
 				prefsdlg.open();
 
 				String v = runtime.getValueAsString();

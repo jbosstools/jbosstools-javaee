@@ -99,7 +99,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 	private Map<SeamRuntime, SeamRuntime> changed = new HashMap<SeamRuntime, SeamRuntime>();
 
-	private SeamRuntime checkedElement = null;
+	private List<SeamRuntime> checkedElements = new ArrayList<SeamRuntime>();
 
 	private List<SeamRuntime> added = new ArrayList<SeamRuntime>();
 
@@ -129,8 +129,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 * 
 	 * @return List&lt;SeamRuntime&gt;
 	 */
-	public SeamRuntime getDefaultSeamRuntime() {
-		return checkedElement;
+	public List<SeamRuntime> getDefaultSeamRuntimes() {
+		return checkedElements;
 	}
 
 	/**
@@ -271,9 +271,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		tableView.getTable().setHeaderVisible(true);
 		tableView.addCheckStateListener(new ICheckStateListener() {
 			public void checkStateChanged(CheckStateChangedEvent event) {
+				SeamRuntime selRt = (SeamRuntime) event.getElement();
 				if (event.getChecked()) {
 					SeamRuntime deselRt = null;
-					SeamRuntime selRt = (SeamRuntime) event.getElement();
 					Object[] selRts = tableView.getCheckedElements();
 
 					for (int i = 0; i < selRts.length; i++) {
@@ -287,21 +287,23 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 					if (deselRt != null) {
 						Object[] newChecked = new Object[selRts.length - 1];
+						checkedElements.clear();
 						int i = 0;
 						for (Object object : selRts) {
 							SeamRuntime rt = (SeamRuntime) object;
 							if (rt.getVersion() != selRt.getVersion()
 									|| rt == selRt) {
 								newChecked[i] = rt;
+								checkedElements.add(rt);
 								i++;
 							}
 						}
 						tableView.setCheckedElements(newChecked);
+					} else {
+						checkedElements.add((SeamRuntime)event.getElement());
 					}
-
-					// checkedElement.setDefault(false);
-					checkedElement = (SeamRuntime) event.getElement();
-					// checkedElement.setDefault(true);
+				} else {
+					checkedElements.remove(selRt);
 				}
 				pcs.firePropertyChange(getName(), null, getValue());
 			}
@@ -309,15 +311,34 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 		for (SeamRuntime rt : (List<SeamRuntime>) getValue()) {
 			if (rt.isDefault()) {
-				tableView.setCheckedElements(new Object[] {rt});
-				checkedElement = rt;
-				break;
+				tableView.setChecked(rt, true);
+				checkedElements.add(rt);
 			}
 		}
 		ActionPanel actionPanel = new ActionPanel(root, new BaseAction[] {
 				new AddAction(), new EditAction(), new RemoveAction()});
 		tableView.addSelectionChangedListener(actionPanel);
 		return new Control[] {root};
+	}
+
+	/**
+	 * Checks all runtimes and set default one (for each version) if user did not do it. 
+	 */
+	private void setDefaultRuntimes() {
+		List<SeamRuntime> runtimes = (List<SeamRuntime>)getValue();
+		for (SeamRuntime seamRuntime : runtimes) {
+			boolean checked = false;
+			for(SeamRuntime checkedElement: checkedElements) {
+				if(checkedElement.getVersion() == seamRuntime.getVersion()) {
+					checked = true;
+					break;
+				}
+			}
+			if(!checked) {
+				tableView.setChecked(seamRuntime, true);
+				checkedElements.add(seamRuntime);
+			}
+		}
 	}
 
 	/**
@@ -919,7 +940,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			this.button.setEnabled(action.isEnabled());
 			this.button.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
-					// TODO Auto-generated method stub
 					ActionButton.this.action.run();
 				}
 
@@ -1034,6 +1054,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					.getActiveShell(), wiz);
 			dialog.open();
 			tableView.refresh();
+			setDefaultRuntimes();
 		}
 	}
 
@@ -1130,6 +1151,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				removeRuntime(rt);
 			}
 			tableView.refresh();
+			setDefaultRuntimes();
 		}
 
 		private void removeRuntime(SeamRuntime r) {
@@ -1151,6 +1173,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				}
 				((List) getValue()).remove(r);
 			}
+			checkedElements.remove(r);
 		}
 
 		private boolean isRuntimeUsed(String runtimeName) {
@@ -1165,5 +1188,4 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			return false;
 		}
 	}
-
 }

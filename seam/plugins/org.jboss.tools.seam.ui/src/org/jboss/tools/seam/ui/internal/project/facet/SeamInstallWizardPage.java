@@ -206,12 +206,20 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * @return
 	 */
 	private Object getSeamRuntimeDefaultValue() {
-		return ("".equals(SeamProjectPreferences //$NON-NLS-1$
-				.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME)) ?
-						(SeamRuntimeManager.getInstance().getDefaultRuntime()==null?
-								"":SeamRuntimeManager.getInstance().getDefaultRuntime().getName()) : //$NON-NLS-1$
-									SeamProjectPreferences
-									.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME));
+		String seamFacetVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+		SeamVersion seamVersion = SeamVersion.parseFromString(seamFacetVersion); 
+
+		String seamDefaultRuntimeName = SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME);
+		if("".equals(seamDefaultRuntimeName)) {
+			SeamRuntime defaultRuntime = SeamRuntimeManager.getInstance().getDefaultRuntime(seamVersion);
+			if(defaultRuntime==null) {
+				return "";
+			} else {
+				return defaultRuntime.getName();
+			}
+		} else {
+			return seamDefaultRuntimeName;
+		}
 	}
 
 	private DataModelSynchronizer sync;

@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.preferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.preference.PreferencePage;
@@ -32,24 +33,22 @@ import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
  * <li>define new </li>
  * <li>change exists</li>
  * <li>remove</li>
+ * <li>set default ones</li>
  * </ul>
  * 
  * @author eskimo
  */
-public class SeamPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage {
+public class SeamPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Seam Preferences page ID
 	 */
 	public static final String SEAM_PREFERENCES_ID = "org.jboss.tools.common.model.ui.seam";
-	
+
 	private static final int COLUMNS = 3;
 
 	SeamRuntimeListFieldEditor seamRuntimes = new SeamRuntimeListFieldEditor(
 			"rtlist", SeamPreferencesMessages.SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES, new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))); //$NON-NLS-1$
-	
-	SeamRuntime initialDefault;
 
 	/**
 	 * Create contents of Seam preferences page. SeamRuntime list editor is
@@ -63,8 +62,6 @@ public class SeamPreferencePage extends PreferencePage implements
 		GridLayout gl = new GridLayout(COLUMNS, false);
 		root.setLayout(gl);
 		seamRuntimes.doFillIntoGrid(root);
-
-		initialDefault = SeamRuntimeManager.getInstance().getDefaultRuntime();
 
 		return root;
 	}
@@ -92,12 +89,17 @@ public class SeamPreferencePage extends PreferencePage implements
 			SeamRuntimeManager.getInstance().removeRuntime(rt);
 		}
 		seamRuntimes.getRemoved().clear();
-		if (initialDefault != null
-				&& seamRuntimes.getDefaultSeamRuntime() != initialDefault) {
-			initialDefault.setDefault(false);
+		List<SeamRuntime> defaultRuntimes = seamRuntimes.getDefaultSeamRuntimes();
+		// reset all default runtimes 
+		for (SeamRuntime seamRuntime : SeamRuntimeManager.getInstance().getRuntimes()) {
+			seamRuntime.setDefault(false);
 		}
-		Map<SeamRuntime, SeamRuntime> changed = seamRuntimes
-				.getChangedSeamRuntimes();
+		// set deafult runtimes
+		for (SeamRuntime seamRuntime : defaultRuntimes) {
+			seamRuntime.setDefault(true);
+		}
+		seamRuntimes.getDefaultSeamRuntimes().clear();
+		Map<SeamRuntime, SeamRuntime> changed = seamRuntimes.getChangedSeamRuntimes();
 		for (SeamRuntime c : changed.keySet()) {
 			SeamRuntime o = changed.get(c);
 			o.setHomeDir(c.getHomeDir());
@@ -105,15 +107,11 @@ public class SeamPreferencePage extends PreferencePage implements
 			String oldName = o.getName();
 			String newName = c.getName();
 			if (!oldName.equals(newName)) {
-				SeamRuntimeManager.getInstance().changeRuntimeName(oldName,
-						newName);
+				SeamRuntimeManager.getInstance().changeRuntimeName(oldName, newName);
 			}
 		}
 		seamRuntimes.getChangedSeamRuntimes().clear();
 
-		if (seamRuntimes.getDefaultSeamRuntime() != null) {
-			seamRuntimes.getDefaultSeamRuntime().setDefault(true);
-		}
 		SeamRuntimeManager.getInstance().save();
 	}
 
