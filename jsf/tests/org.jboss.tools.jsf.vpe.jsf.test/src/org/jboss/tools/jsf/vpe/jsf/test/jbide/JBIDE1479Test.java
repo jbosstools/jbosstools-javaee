@@ -80,9 +80,9 @@ public class JBIDE1479Test extends VpeTest {
 		TestUtil.delay(15000L);
 		TestUtil.waitForJobs();
 		
+
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-								.closeAllEditors(true);
-//		TestUtil.delay(15000L);
+								.closeAllEditors(false);
 
 		if(getException()!=null) {
 			throw getException();
