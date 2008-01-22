@@ -67,7 +67,7 @@
 	border-color: #C4C0B9;
 	padding: 4px 4px 4px 4px;
 	color: #000000;
-	text-align: left;
+	text-align: center;
 	font-weight: bold;
 	font-size: 11px;
 	font-family: Arial, Verdana, sans-serif;
@@ -78,7 +78,7 @@
 	border-bottom: 1px solid;
 	border-color: #C4C0B9;
 	padding: 4px 4px 4px 4px;
-	text-align: left;
+	text-align: center;
 	font-size: 11px;
 	color: #000000;
 	font-family: Arial, Verdana, sans-serif;
@@ -104,7 +104,7 @@
 	border-bottom: 1px solid;
 	border-color: #C4C0B9;
 	padding: 4px 4px 4px 4px;
-	text-align: left;
+	text-align: center;
 }
 
 .dr-spr {
@@ -116,16 +116,55 @@
 	border: solid 1px #C4C0C9;
 }
 
+.dr-default-caption-text {
+	font-size:14px;
+	text-align:center;
+	font-weight: bold;
+}
+
+.dr-default-control-button-text {
+	font-size:11px;
+	text-align:left;
+}
+
+.rich-ordering-list-caption {
+	white-space: normal; 
+	word-wrap: break-word; 
+	font-weight: bold; 
+	font-size:14px;
+}
+
+/* BUTTONS DIV */
+.rich-ordering-list-button-valign {
+	vertical-align:middle;
+}
+
 .rich-ordering-list-button-layout {
 	padding:15px 8px 15px 0pt;
 }
 
-.rich-ordering-control-disabled {
+.rich-ordering-controls {
+	border:1px solid;
+	margin-bottom:3px;
+}
+.rich-ordering-control-top {
+	border:1px solid;
+	margin-bottom:3px;
+}	
+.rich-ordering-control-bottom {
+	border:1px solid;
+	margin-bottom:3px;
+}	
+.rich-ordering-control-up {
+	border:1px solid;
+	margin-bottom:3px;
+}
+.rich-ordering-control-down {
 	border:1px solid;
 	margin-bottom:3px;
 }
 
-.rich-ordering-control {
+.rich-ordering-control-disabled {
 	border:1px solid;
 	margin-bottom:3px;
 }
@@ -145,6 +184,7 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 
 .rich-ordering-list-button-content {
 	padding:0pt 4px 0pt 1px;
+	font-size:11px;
 	text-align:left;
 	white-space:nowrap;
 }
@@ -152,6 +192,37 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 .rich-ordering-list-button-content img {
 	margin-right:2px;
 	vertical-align:middle;
+}
+
+
+/* TABLE CONTENT */
+.rich-ordering-list-body {
+	border:0pt solid;
+}
+
+.rich-ordering-list-output {
+	background-color:#FFFFFF;
+	border-color:#C0C0C0;
+	border-width:1px;
+}
+
+.rich-ordering-list-header {
+	overflow:hidden;
+	width:100%;
+}
+
+.rich-ordering-list-content {
+	overflow:hidden;
+	width:100%;
+}
+
+.rich-ordering-list-footer {
+	overflow:hidden;
+	width:100%;
+}
+
+.rich-ordering-list-table-header {
+	
 }
 
 .rich-ordering-list-table-header-cell, .rich-ordering-list-table-header-cell-last {
@@ -165,7 +236,27 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
+	text-align: center;
+	
 }
 .rich-ordering-list-table-header-cell-last {
 	border-right-width:0pt;
+}
+
+.rich-ordering-list-items {
+	width:100%;
+}
+
+.rich-ordering-list-row {
+	
+}
+
+.rich-ordering-list-cell {
+	color:#000000;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	padding:2px;
+	white-space:normal;
+	text-align: center;
+	width: 100%;
 }

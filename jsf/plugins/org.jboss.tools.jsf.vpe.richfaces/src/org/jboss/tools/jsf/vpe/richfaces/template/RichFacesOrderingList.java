@@ -13,6 +13,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -25,8 +26,17 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesOrderingList extends VpeAbstractTemplate {
 
+	final static String DEFAULT_LIST_HEIGHT = "150px";
+	final static String DEFAULT_LIST_WIDTH = "250px";
 	final static String DEFAULT_HEIGHT = "200px";
 	final static String DEFAULT_WIDTH = "300px";
+	
+	final static String 	CAPTION_FACET = "caption";
+	final static String 	TOP_CONTROL_FACET = "topControl";
+	final static String 	UP_CONTROL_FACET = "upControl";
+	final static String 	DOWN_CONTROL_FACET = "downControl";
+	final static String 	BOTTOM_CONTROL_FACET = "bottomControl";
+	
 	final static String HEADER = "header";
 	final static String HEADER_CLASS = "headerClass";
 	final static String FOOTER = "footer";
@@ -35,7 +45,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	final static String CAPTION_STYLE = "captionStyle";
 	final static String SPACE = " ";
 
-	private static String STYLE_FOR_CAPTOION_LABEL = "white-space: normal; word-wrap: break-word; font-weight: bold; ";
+	private static String STYLE_FOR_CAPTOION_LABEL = "white-space: normal; word-wrap: break-word; font-weight: bold; font-size:14px;";
 	private static String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
 	private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
 
@@ -49,6 +59,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	private static final String BUTTON_BG = "orderingList/button_bg.gif";
 	private static final String HEADER_CELL_BG = "orderingList/table_header_cell_bg.gif";
 
+	private static final String WIDTH = "width";
+	private static final String HEIGHT = "height";
 	private static final String LIST_WIDTH = "listWidth";
 	private static final String LIST_HEIGHT = "listHeight";
 
@@ -63,9 +75,13 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	private static final String BOTTOM_CONTROL_LABEL_DEFAULT = "Last";
 
 	private static final String CAPTION_LABEL = "captionLabel";
+	
+	private static final String CONTROLS_TYPE = "controlsType";
 	private static final String CONTROLS_VERTICAL_ALIGN = "controlsVerticalAlign";
+	private static final String CONTROLS_HORIZONTAL_ALIGN = "controlsHorizontalAlign";
 	private static final String SHOW_BUTTON_LABELS = "showButtonLabels";
 	private static final String FAST_ORDER_CONTROL_VISIBLE = "fastOrderControlsVisible";
+	private static final String ORDER_CONTROL_VISIBLE = "orderControlsVisible";
 
 	/*
 	 * (non-Javadoc)
@@ -80,23 +96,13 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		String listWidth = sourceElement.getAttribute(LIST_WIDTH);
 		String listHeight = sourceElement.getAttribute(LIST_HEIGHT);
+		String width = sourceElement.getAttribute(WIDTH);
+		String height = sourceElement.getAttribute(HEIGHT);
 
-		String topControlLabel = sourceElement.getAttribute(TOP_CONTROL_LABEL);
-		String upControlLabel = sourceElement.getAttribute(UP_CONTROL_LABEL);
-		String downControlLabel = sourceElement
-				.getAttribute(DOWN_CONTROL_LABEL);
-		String bottomControlLabel = sourceElement
-				.getAttribute(BOTTOM_CONTROL_LABEL);
-
-		String showButtonLabelsStr = sourceElement
-				.getAttribute(SHOW_BUTTON_LABELS);
-		String fastOrderControlsVisibleStr = sourceElement
-				.getAttribute(FAST_ORDER_CONTROL_VISIBLE);
-		boolean showButtonLabels = ComponentUtil
-				.string2boolean(showButtonLabelsStr);
-		boolean fastOrderControlsVisible = ComponentUtil
-				.string2boolean(fastOrderControlsVisibleStr);
-
+		String controlsType = sourceElement
+		.getAttribute(CONTROLS_TYPE);
+		String controlsHorizontalAlign = sourceElement
+			.getAttribute(CONTROLS_HORIZONTAL_ALIGN);
 		String controlsVerticalAlign = sourceElement
 				.getAttribute(CONTROLS_VERTICAL_ALIGN);
 		String captionLabel = sourceElement.getAttribute(CAPTION_LABEL);
@@ -107,77 +113,85 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		VpeCreationData creationData = new VpeCreationData(tableCommon);
 
-		nsIDOMElement row1 = visualDocument
+		nsIDOMElement captionRow = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
-		nsIDOMElement row2 = visualDocument
+		nsIDOMElement dataRow = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
-
-		tableCommon.appendChild(row1);
-		tableCommon.appendChild(row2);
+		
+		tableCommon.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, (width == null ? DEFAULT_WIDTH : width));
+		tableCommon.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT, (height == null ? DEFAULT_HEIGHT : height));
+		
+		
+		tableCommon.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-body");
+		tableCommon.appendChild(captionRow);
+		tableCommon.appendChild(dataRow);
 
 		// ---------------------row1------------------------
-		nsIDOMElement row1_TD1 = visualDocument
+		nsIDOMElement captionRow_TD = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		row1.appendChild(row1_TD1);
+		captionRow.appendChild(captionRow_TD);
 
-		nsIDOMElement row1_TD1_DIV = visualDocument
+		nsIDOMElement captionRow_TD_DIV = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		row1_TD1_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-				STYLE_FOR_CAPTOION_LABEL + "width: "
-						+ (listWidth == null ? DEFAULT_WIDTH : listWidth)
+		captionRow_TD_DIV.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-caption");
+		captionRow_TD_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				/*STYLE_FOR_CAPTOION_LABEL +*/ "width: "
+						+ (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth)
 						+ "px");
-		row1_TD1_DIV.appendChild(visualDocument.createTextNode(captionLabel));
-		row1_TD1.appendChild(row1_TD1_DIV);
+		
+		Element captionFacet = ComponentUtil.getFacet(sourceElement, CAPTION_FACET);
+		if (null != captionFacet) {
+			// Creating table caption with facet content
+			nsIDOMElement fecetDiv = encodeFacetsToDiv(captionFacet, false, creationData, visualDocument);
+			captionRow_TD_DIV.appendChild(fecetDiv);
+		} else {
+			captionRow_TD_DIV.appendChild(visualDocument.createTextNode(captionLabel));
+		}
+		
+		captionRow_TD.appendChild(captionRow_TD_DIV);
 
 		// ---------------------row2 ---- with list table and buttons------------------------
-		nsIDOMElement row2_TD1 = visualDocument
+		nsIDOMElement dataRow_leftTD = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		row2.appendChild(row2_TD1);
+		dataRow.appendChild(dataRow_leftTD);
 
-		nsIDOMElement row2_TD2 = visualDocument
+		nsIDOMElement dataRow_rightTD = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		row2.appendChild(row2_TD2);
-
-		// ---------------------buttonsTable------------------------
-		nsIDOMElement buttonsDiv = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		buttonsDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-button-layout");
+		dataRow.appendChild(dataRow_rightTD);
 		
-		nsIDOMElement btnUpDiv = createButtonDiv(visualDocument,
-				(null == upControlLabel ? UP_CONTROL_LABEL_DEFAULT
-						: upControlLabel), UP_CONTROL_IMG, new Boolean(
-						showButtonLabels).booleanValue());
-		nsIDOMElement btnDownDiv = createButtonDiv(visualDocument,
-				(null == upControlLabel ? DOWN_CONTROL_LABEL_DEFAULT
-						: upControlLabel), DOWN_CONTROL_IMG, new Boolean(
-						showButtonLabels).booleanValue());
-
-		if (fastOrderControlsVisible) {
-			nsIDOMElement btnTopDiv = createButtonDiv(visualDocument,
-					(null == upControlLabel ? TOP_CONTROL_LABEL_DEFAULT
-							: upControlLabel), TOP_CONTROL_IMG, new Boolean(
-									showButtonLabels).booleanValue());
-			nsIDOMElement btnBottomDiv = createButtonDiv(visualDocument,
-					(null == upControlLabel ? BOTTOM_CONTROL_LABEL_DEFAULT
-							: upControlLabel), BOTTOM_CONTROL_IMG, new Boolean(
-									showButtonLabels).booleanValue());
-			
-			buttonsDiv.appendChild(btnTopDiv);
-			buttonsDiv.appendChild(btnBottomDiv);
+		nsIDOMElement tableListTD;
+		nsIDOMElement buttonsTD;
+		
+		if ("left".equalsIgnoreCase(controlsHorizontalAlign)) {
+			buttonsTD = dataRow_leftTD;
+			tableListTD = dataRow_rightTD;
+			buttonsTD.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 1%;");
+		} else {
+			tableListTD = dataRow_leftTD;
+			buttonsTD = dataRow_rightTD;
 		}
 
-		buttonsDiv.appendChild(btnUpDiv);
-		buttonsDiv.appendChild(btnDownDiv);
-		
-		row2_TD2.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center");
-		row2_TD2.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, ("center"
-				.equalsIgnoreCase(controlsVerticalAlign) ? "middle"
-				: controlsVerticalAlign));
-		row2_TD2.appendChild(buttonsDiv);
-
+		// ---------------------buttons------------------------
+		if (!"none".equalsIgnoreCase(controlsType)) {
+			nsIDOMElement controlsDiv = createControlsDiv(creationData, visualDocument, sourceElement);
+			buttonsTD.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-button-valign");
+			buttonsTD.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center");
+			buttonsTD.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, ("center"
+					.equalsIgnoreCase(controlsVerticalAlign) ? "middle"
+							: controlsVerticalAlign));
+			buttonsTD.appendChild(controlsDiv);
+		}
 		// --------------------------------------------
 
 		// ---------------------listTable------------------------
+		tableListTD.appendChild(createListDiv(visualDocument, sourceElement, creationData, pageContext));
+		// --------------------------------------------
+		
+		return creationData;
+	}
+	
+	private nsIDOMElement createListDiv(nsIDOMDocument visualDocument, 
+			Element sourceElement, VpeCreationData creationData, VpePageContext pageContext) {
 		nsIDOMElement listTable = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		nsIDOMElement tr1 = visualDocument
@@ -187,8 +201,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		listTable.appendChild(tr1);
 		listTable.appendChild(tr2);
-
-		row2_TD1.appendChild(listTable);
 
 		// ---------------------tr1------------------------
 		nsIDOMElement tr1_TD1 = visualDocument
@@ -220,136 +232,78 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		// --------------------------------------------
 
-		nsIDOMElement div = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		tr1_TD1.appendChild(div);
-		div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-table-hidden");
-
-		String divStyle = HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
-				+ (listWidth == null ? DEFAULT_WIDTH : listWidth) + ";"
-				+ HtmlComponentUtil.HTML_HEIGHT_ATTR + " : "
-				+ (listHeight == null ? DEFAULT_HEIGHT : listHeight) + ";";
-
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
-
-		nsIDOMElement table = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		ComponentUtil.copyAttributes(sourceNode, table);
-		table.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;");
-		div.appendChild(table);
-
 		ComponentUtil.setCSSLink(pageContext, "orderingList/orderingList.css",
 				"richFacesOrderingList");
-		String tableClass = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
-		table
-				.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-						"dr-table rich-table "
-								+ (tableClass == null ? "" : tableClass));
+		nsIDOMElement contentDiv = createOutputList(creationData, visualDocument,
+				sourceElement);
+		tr1_TD1.appendChild(contentDiv);
 
-		// Encode colgroup definition.
-		ArrayList<Element> columns = getColumns(sourceElement);
-		int columnsLength = getColumnsCount(sourceElement, columns);
-		nsIDOMElement colgroup = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_COLGROUP);
-		colgroup.setAttribute(HtmlComponentUtil.HTML_TAG_SPAN, String
-				.valueOf(columnsLength));
-		table.appendChild(colgroup);
+		return listTable;
+	}
+	
+	private nsIDOMElement createControlsDiv( VpeCreationData creationData, nsIDOMDocument visualDocument, 
+			Element sourceElement) {
+		
+		String topControlLabel = sourceElement.getAttribute(TOP_CONTROL_LABEL);
+		String upControlLabel = sourceElement.getAttribute(UP_CONTROL_LABEL);
+		String downControlLabel = sourceElement
+				.getAttribute(DOWN_CONTROL_LABEL);
+		String bottomControlLabel = sourceElement
+				.getAttribute(BOTTOM_CONTROL_LABEL);
 
-		// Encode Caption
-		encodeCaption(creationData, sourceElement, visualDocument, table);
+		String showButtonLabelsStr = sourceElement
+				.getAttribute(SHOW_BUTTON_LABELS);
+		String fastOrderControlsVisibleStr = sourceElement
+				.getAttribute(FAST_ORDER_CONTROL_VISIBLE);
+		String orderControlsVisibleStr = sourceElement
+				.getAttribute(ORDER_CONTROL_VISIBLE);
+		boolean showButtonLabels = ComponentUtil
+				.string2boolean(showButtonLabelsStr);
+		boolean fastOrderControlsVisible = ComponentUtil
+				.string2boolean(fastOrderControlsVisibleStr);
+		boolean orderControlsVisible = ComponentUtil
+				.string2boolean(orderControlsVisibleStr);
 
-		// Encode Header
-		Element header = ComponentUtil.getFacet(sourceElement, HEADER);
-		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, HEADER);
-		if (header != null || !columnsHeaders.isEmpty()) {
-			nsIDOMElement thead = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_THEAD);
-			table.appendChild(thead);
-			String headerClass = (String) sourceElement
-					.getAttribute(HEADER_CLASS);
-			if (header != null) {
-				encodeTableHeaderFacet(creationData, thead, columnsLength,
-						visualDocument, header,
-						"dr-table-header rich-table-header",
-						"dr-table-header-continue rich-table-header-continue",
-						"dr-table-headercell rich-table-headercell",
-						headerClass, HtmlComponentUtil.HTML_TAG_TD);
-			}
-			if (!columnsHeaders.isEmpty()) {
-				nsIDOMElement tr = visualDocument
-						.createElement(HtmlComponentUtil.HTML_TAG_TR);
-				thead.appendChild(tr);
-				
-				String styleClass = encodeStyleClass(null,
-						"dr-table-subheader rich-table-subheader", null,
-						headerClass);
-				if (styleClass != null) {
-					tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-							styleClass);
-				}
-				encodeHeaderFacets(creationData, tr, visualDocument,
-						columnsHeaders,
-						"rich-ordering-list-table-header-cell",
-						headerClass, HEADER, HtmlComponentUtil.HTML_TAG_TD);
-			}
+		nsIDOMElement buttonsDiv = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		buttonsDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				"rich-ordering-list-button-layout");
+
+		Element top_control_facet = ComponentUtil.getFacet(sourceElement, TOP_CONTROL_FACET);
+		Element up_control_facet = ComponentUtil.getFacet(sourceElement, UP_CONTROL_FACET);
+		Element down_control_facet = ComponentUtil.getFacet(sourceElement, DOWN_CONTROL_FACET);
+		Element bottom_control_facet = ComponentUtil.getFacet(sourceElement, BOTTOM_CONTROL_FACET);
+		
+		if (fastOrderControlsVisible) {
+			nsIDOMElement btnTopDiv = createButtonDiv(creationData, visualDocument,
+					(null == topControlLabel ? TOP_CONTROL_LABEL_DEFAULT
+							: topControlLabel), TOP_CONTROL_IMG, new Boolean(
+							showButtonLabels).booleanValue(), top_control_facet);
+			buttonsDiv.appendChild(btnTopDiv);
 		}
 
-		nsIDOMElement tbody = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-		table.appendChild(tbody);
-
-		// Create mapping to Encode body
-		for (int i = 0; i < NUM_ROW; i++) {
-			List<Node> children = ComponentUtil.getChildren(sourceElement);
-			boolean firstRow = true;
-			nsIDOMElement tr = null;
-			VpeChildrenInfo trInfo = null;
-			for (Node child : children) {
-				if (child.getNodeName().endsWith(":column")) {
-					String breakBefore = ((Element) child)
-							.getAttribute("breakBefore");
-					if (breakBefore != null
-							&& breakBefore.equalsIgnoreCase("true")) {
-						tr = null;
-					}
-					if (tr == null) {
-						tr = visualDocument
-								.createElement(HtmlComponentUtil.HTML_TAG_TR);
-						if (firstRow) {
-							tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-									"dr-table-firstrow rich-table-firstrow");
-							firstRow = false;
-						} else {
-							tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-									"dr-table-row rich-table-row");
-						}
-						trInfo = new VpeChildrenInfo(tr);
-						tbody.appendChild(tr);
-						creationData.addChildrenInfo(trInfo);
-					}
-					trInfo.addSourceChild(child);
-				} else if (child.getNodeName().endsWith(":columnGroup")) {
-					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(
-							creationData, (Element) child, visualDocument,
-							tbody);
-					tr = null;
-				} else if (child.getNodeName().endsWith(":subTable")) {
-					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(
-							creationData, (Element) child, visualDocument,
-							tbody);
-					tr = null;
-				} else {
-					VpeChildrenInfo childInfo = new VpeChildrenInfo(tbody);
-					childInfo.addSourceChild(child);
-					creationData.addChildrenInfo(childInfo);
-					tr = null;
-				}
-			}
+		if (orderControlsVisible) {
+			nsIDOMElement btnUpDiv = createButtonDiv(creationData, visualDocument,
+					(null == upControlLabel ? UP_CONTROL_LABEL_DEFAULT
+							: upControlLabel), UP_CONTROL_IMG, new Boolean(
+							showButtonLabels).booleanValue(), up_control_facet);
+			nsIDOMElement btnDownDiv = createButtonDiv(creationData, visualDocument,
+					(null == downControlLabel ? DOWN_CONTROL_LABEL_DEFAULT
+							: downControlLabel), DOWN_CONTROL_IMG, new Boolean(
+							showButtonLabels).booleanValue(), down_control_facet);
+			buttonsDiv.appendChild(btnUpDiv);
+			buttonsDiv.appendChild(btnDownDiv);
 		}
 
-		return creationData;
+		if (fastOrderControlsVisible) {
+			nsIDOMElement btnBottomDiv = createButtonDiv(creationData, visualDocument,
+					(null == bottomControlLabel ? BOTTOM_CONTROL_LABEL_DEFAULT
+							: bottomControlLabel), BOTTOM_CONTROL_IMG,
+					new Boolean(showButtonLabels).booleanValue(), bottom_control_facet);
+			buttonsDiv.appendChild(btnBottomDiv);
+
+		}
+		return buttonsDiv;
 	}
 
 	/**
@@ -366,8 +320,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * 
 	 * @return the button
 	 */
-	private nsIDOMElement createButtonDiv(nsIDOMDocument visualDocument,
-			String btnName, String imgName, boolean showButtonLabels) {
+	private nsIDOMElement createButtonDiv(VpeCreationData creationData, nsIDOMDocument visualDocument,
+			String btnName, String imgName, boolean showButtonLabels, Element buttonFacet) {
 		
 		nsIDOMElement div1 = visualDocument
 			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -380,30 +334,355 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		nsIDOMElement img = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		
-		div1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-control");
+		div1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-controls");
 		div2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-button");
 		
 		a.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-button-selection");
 		div3.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "rich-ordering-list-button-content");
 		
 		String  resourceFolder = RichFacesTemplatesActivator.getPluginResourcePath();
-		img.setAttribute("src", "file://" + resourceFolder + imgName);
-		
 		String divStyle = "background-image: url(file://" + resourceFolder + BUTTON_BG + ");";
 		div2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
-
 		div1.appendChild(div2);
-		div2.appendChild(a);
-		a.appendChild(div3);
 		
-		div3.appendChild(img);
-		if (showButtonLabels) {
-			div3.appendChild(visualDocument.createTextNode(btnName));
+		if (null != buttonFacet) {
+			// Creating button with facet content
+			nsIDOMElement fecetDiv = encodeFacetsToDiv(buttonFacet, true,  creationData, visualDocument);;
+			div2.appendChild(fecetDiv);
+		} else {
+			div2.appendChild(a);
+			a.appendChild(div3);
+			// Creating button with image and label 
+			img.setAttribute("src", "file://" + resourceFolder + imgName);
+			img.setAttribute(HTML.ATTR_WIDTH, "15");
+			img.setAttribute(HTML.ATTR_HEIGHT, "15");
+			div3.appendChild(img);
+			if (showButtonLabels) {
+				div3.appendChild(visualDocument.createTextNode(btnName));
+			}
 		}
-		
 		return div1;
 	}
 
+	
+	private nsIDOMElement createOutputList(VpeCreationData creationData, nsIDOMDocument visualDocument,
+			Element sourceElement) {
+		nsIDOMElement outputDiv = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		nsIDOMElement contentDiv = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+
+		nsIDOMElement contentTable = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement thead = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_THEAD);
+		nsIDOMElement tfoot = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TFOOT);
+		nsIDOMElement tbody = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+		
+		ArrayList<Element> columns = getColumns(sourceElement);
+		int columnsLength = getColumnsCount(sourceElement, columns);
+		
+		// ---------- HEADER -----------
+		// Encode Header
+		Element header = ComponentUtil.getFacet(sourceElement, HEADER);
+		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, HEADER);
+		if (header != null || !columnsHeaders.isEmpty()) {
+			String headerClass = (String) sourceElement
+					.getAttribute(HEADER_CLASS);
+			if (header != null) {
+				encodeTableHeaderOrFooterFacet(creationData, thead,
+						columnsLength, visualDocument, header,
+						"dr-table-header rich-ordering-list-table-header",
+						"dr-table-header-continue rich-ordering-list-header-continue",
+						"dr-table-headercell rich-ordering-list-table-header-cell",
+						headerClass, HtmlComponentUtil.HTML_TAG_TD);
+			}
+			if (!columnsHeaders.isEmpty()) {
+				nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				thead.appendChild(tr);
+				String styleClass = encodeStyleClass(null,
+						"dr-table-subheader rich-table-subheader", null,
+						headerClass);
+				if (styleClass != null) {
+					tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+							styleClass);
+				}
+				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
+						columnsHeaders,
+						"rich-ordering-list-table-header rich-ordering-list-table-header-cell",
+						headerClass, HEADER, HtmlComponentUtil.HTML_TAG_TD);
+			}
+		}
+
+		// ---------- FOOTER -----------
+		// Encode Footer
+		Element footer = ComponentUtil.getFacet(sourceElement, FOOTER);
+		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, FOOTER);
+		if (footer != null || !columnsFooters.isEmpty()) {
+			String footerClass = (String) sourceElement
+					.getAttribute(FOOTER_CLASS);
+			if (!columnsFooters.isEmpty()) {
+				nsIDOMElement tr = visualDocument
+						.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				tfoot.appendChild(tr);
+				String styleClass = encodeStyleClass(null,
+						"dr-table-subfooter rich-table-subfooter", null,
+						footerClass);
+				if (styleClass != null) {
+					tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+							styleClass);
+				}
+				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
+						columnsFooters,
+						"rich-ordering-list-table-header rich-ordering-list-table-header-cell",
+						footerClass, FOOTER, HtmlComponentUtil.HTML_TAG_TD);
+			}
+			if (footer != null) {
+				encodeTableHeaderOrFooterFacet(creationData, tfoot,
+						columnsLength, visualDocument, footer,
+						"dr-table-footer rich-ordering-list-table-header",
+						"dr-table-footer-continue rich-table-footer-continue",
+						"dr-table-footercell rich-ordering-list-table-header-cell",
+						footerClass, HtmlComponentUtil.HTML_TAG_TD);
+			}
+		}
+		
+		// ---------- CONTENT -----------
+		
+		String listWidth = sourceElement.getAttribute(LIST_WIDTH);
+		String listHeight = sourceElement.getAttribute(LIST_HEIGHT);
+		
+		String divStyle = HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
+		+ (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + ";"
+		+ HtmlComponentUtil.HTML_HEIGHT_ATTR + " : "
+		+ (listHeight == null ? DEFAULT_LIST_HEIGHT : listHeight) + ";";
+
+		contentDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
+		
+		/*
+		// Encode colgroup definition.
+		nsIDOMElement colgroup = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_COLGROUP);
+		colgroup.setAttribute(HtmlComponentUtil.HTML_TAG_SPAN, String
+				.valueOf(columnsLength));
+		table.appendChild(colgroup);
+		
+		// Encode Caption
+		encodeCaption(creationData, sourceElement, visualDocument, table);
+		 */
+		contentDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+		"rich-ordering-list-content");
+		contentTable.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+		"rich-ordering-list-items");
+		
+		ComponentUtil.copyAttributes(sourceElement, contentTable);
+		contentTable.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
+		contentTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;");
+		
+		// Create mapping to Encode body
+		for (int i = 0; i < NUM_ROW; i++) {
+			List<Node> children = ComponentUtil.getChildren(sourceElement);
+			nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+			tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+			"rich-ordering-list-row");
+			VpeChildrenInfo trInfo = new VpeChildrenInfo(tr);
+			tbody.appendChild(tr);
+			creationData.addChildrenInfo(trInfo);
+
+			for (Node child : children) {
+				if (child.getNodeName().endsWith(":column")) {
+					trInfo.addSourceChild(child);
+				} else if (child.getNodeName().endsWith(":columnGroup")) {
+					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(
+							creationData, (Element) child, visualDocument,
+							tbody);
+					tr = null;
+					trInfo = null;
+				} else if (child.getNodeName().endsWith(":subTable")) {
+					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(
+							creationData, (Element) child, visualDocument,
+							tbody);
+					tr = null;
+					trInfo = null;
+				} else {
+					VpeChildrenInfo childInfo = new VpeChildrenInfo(tbody);
+					childInfo.addSourceChild(child);
+					creationData.addChildrenInfo(childInfo);
+					tr = null;
+					trInfo = null;
+				}
+			}
+		}
+		
+		// ---------- FINILAZING -----------
+		contentTable.appendChild(thead);
+		contentTable.appendChild(tbody);
+		contentTable.appendChild(tfoot);
+		contentDiv.appendChild(contentTable);
+		outputDiv.appendChild(contentDiv);
+		
+		return outputDiv;
+	}
+	
+	protected nsIDOMElement encodeFacetsToDiv(Element facetBody, boolean isControlFacet, VpeCreationData creationData, nsIDOMDocument visualDocument) {
+		nsIDOMElement fecetDiv = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		nsIDOMElement table = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement tbody = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+		
+		boolean isColumnGroup = facetBody.getNodeName()
+				.endsWith(":columnGroup");
+		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
+		if (isColumnGroup) {
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
+					facetBody, visualDocument, tbody);
+		} else if (isSubTable) {
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
+					facetBody, visualDocument, tbody);
+		} else {
+			nsIDOMElement tr = visualDocument
+					.createElement(HtmlComponentUtil.HTML_TAG_TR);
+			tbody.appendChild(tr);
+
+			nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+			tr.appendChild(td);
+			
+			td.setAttribute(HtmlComponentUtil.HTML_SCOPE_ATTR,
+					HtmlComponentUtil.HTML_TAG_COLGROUP);
+
+			VpeChildrenInfo child = new VpeChildrenInfo(td);
+			child.addSourceChild(facetBody);
+			creationData.addChildrenInfo(child);
+		}
+		
+		if (isControlFacet) {
+			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-default-control-button-text rich-ordering-list-button-content");
+		} else {
+			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-default-caption-text rich-ordering-list-caption");
+		}
+		
+		table.appendChild(tbody);
+		fecetDiv.appendChild(table);
+		return fecetDiv;
+	}
+	
+	/**
+	 * 
+	 * @param creationData
+	 * @param parentTheadOrTfood
+	 * @param columns
+	 * @param visualDocument
+	 * @param facetBody
+	 * @param skinFirstRowClass
+	 * @param skinRowClass
+	 * @param skinCellClass
+	 * @param facetBodyClass
+	 * @param element
+	 */
+	protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData,
+			nsIDOMElement parentTheadOrTfood, int columns,
+			nsIDOMDocument visualDocument, Element facetBody,
+			String skinFirstRowClass, String skinRowClass,
+			String skinCellClass, String facetBodyClass, String element) {
+		boolean isColumnGroup = facetBody.getNodeName()
+				.endsWith(":columnGroup");
+		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
+		if (isColumnGroup) {
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
+					facetBody, visualDocument, parentTheadOrTfood);
+		} else if (isSubTable) {
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
+					facetBody, visualDocument, parentTheadOrTfood);
+		} else {
+			nsIDOMElement tr = visualDocument
+					.createElement(HtmlComponentUtil.HTML_TAG_TR);
+			parentTheadOrTfood.appendChild(tr);
+
+			String styleClass = encodeStyleClass(null, skinFirstRowClass,
+					facetBodyClass, null);
+			if (styleClass != null) {
+				tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+			}
+			String style = ComponentUtil.getHeaderBackgoundImgStyle();
+			tr.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+
+			nsIDOMElement td = visualDocument.createElement(element);
+			tr.appendChild(td);
+
+			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass,
+					null);
+			if (styleClass != null) {
+				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+			}
+
+			if (columns > 0) {
+				td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, String
+						.valueOf(columns));
+			}
+			td.setAttribute(HtmlComponentUtil.HTML_SCOPE_ATTR,
+					HtmlComponentUtil.HTML_TAG_COLGROUP);
+
+			VpeChildrenInfo child = new VpeChildrenInfo(td);
+			child.addSourceChild(facetBody);
+			creationData.addChildrenInfo(child);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param creationData
+	 * @param parentTr
+	 * @param visualDocument
+	 * @param headersOrFooters
+	 * @param skinCellClass
+	 * @param headerClass
+	 * @param facetName
+	 * @param element
+	 */
+	public static void encodeHeaderOrFooterFacets(VpeCreationData creationData,
+			nsIDOMElement parentTr, nsIDOMDocument visualDocument,
+			ArrayList<Element> headersOrFooters, String skinCellClass,
+			String headerClass, String facetName, String element) {
+		for (Element column : headersOrFooters) {
+			String classAttribute = facetName + "Class";
+			String columnHeaderClass = column.getAttribute(classAttribute);
+			nsIDOMElement td = visualDocument.createElement(element);
+			parentTr.appendChild(td);
+			String styleClass = encodeStyleClass(null, skinCellClass,
+					headerClass, columnHeaderClass);
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+			td.setAttribute("scop", "col");
+			
+			nsIDOMElement div1 = visualDocument
+					.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+			String resourceFolder = RichFacesTemplatesActivator
+					.getPluginResourcePath();
+			String div1Style = "background-image: url(file://" + resourceFolder
+					+ HEADER_CELL_BG + ");";
+			div1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+					"rich-ordering-list-table-header-cell");
+			div1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, div1Style);
+			td.appendChild(div1);
+			
+			String colspan = column
+					.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
+			if (colspan != null && colspan.length() > 0) {
+				td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, colspan);
+			}
+			Element facetBody = ComponentUtil.getFacet(column, facetName);
+
+//			VpeChildrenInfo child = new VpeChildrenInfo(td);
+			VpeChildrenInfo child = new VpeChildrenInfo(div1);
+			child.addSourceChild(facetBody);
+			creationData.addChildrenInfo(child);
+		}
+	}
+	
+	
 	/**
 	 * 
 	 * @param creationData
@@ -488,68 +767,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			Element facetBody = ComponentUtil.getFacet(column, facetName);
 
 			VpeChildrenInfo child = new VpeChildrenInfo(div1);
-			child.addSourceChild(facetBody);
-			creationData.addChildrenInfo(child);
-		}
-	}
-
-	/**
-	 * 
-	 * @param creationData
-	 * @param parentTheadOrTfood
-	 * @param columns
-	 * @param visualDocument
-	 * @param facetBody
-	 * @param skinFirstRowClass
-	 * @param skinRowClass
-	 * @param skinCellClass
-	 * @param facetBodyClass
-	 * @param element
-	 */
-	protected void encodeTableHeaderFacet(VpeCreationData creationData,
-			nsIDOMElement parentTheadOrTfood, int columns,
-			nsIDOMDocument visualDocument, Element facetBody,
-			String skinFirstRowClass, String skinRowClass,
-			String skinCellClass, String facetBodyClass, String element) {
-		boolean isColumnGroup = facetBody.getNodeName()
-				.endsWith(":columnGroup");
-		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
-		if (isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
-					facetBody, visualDocument, parentTheadOrTfood);
-		} else if (isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
-					facetBody, visualDocument, parentTheadOrTfood);
-		} else {
-			nsIDOMElement tr = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TR);
-			parentTheadOrTfood.appendChild(tr);
-
-			String styleClass = encodeStyleClass(null, skinFirstRowClass,
-					facetBodyClass, null);
-			if (styleClass != null) {
-				tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
-			}
-			String style = ComponentUtil.getHeaderBackgoundImgStyle();
-			tr.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
-
-			nsIDOMElement td = visualDocument.createElement(element);
-			tr.appendChild(td);
-
-			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass,
-					null);
-			if (styleClass != null) {
-				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
-			}
-
-			if (columns > 0) {
-				td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, String
-						.valueOf(columns));
-			}
-			td.setAttribute(HtmlComponentUtil.HTML_SCOPE_ATTR,
-					HtmlComponentUtil.HTML_TAG_COLGROUP);
-
-			VpeChildrenInfo child = new VpeChildrenInfo(td);
 			child.addSourceChild(facetBody);
 			creationData.addChildrenInfo(child);
 		}
