@@ -264,29 +264,31 @@
         <section id="WorkingWithProjects7844">
                 <?dbhtml filename="WorkingWithProjects.html"?>
                 <title>Working with Projects</title>
+                
+                <para>JBoss Developer Studio provides the following functionality when working with JSF:</para>
+                
+                <itemizedlist>
+                        <listitem>
+                                <para>Create new JSF projects</para>
+                        </listitem>
+                        <listitem>
+                                <para>Import (open) existing JSF projects</para>
+                        </listitem>
+                        <listitem>
+                                <para>Add JSF capability to any existing Eclipse
+                                        project</para>
+                        </listitem>
+                        <listitem>
+                                <para>Import and add JSF capability to any existing project
+                                        created outside Eclipse.</para>
+                        </listitem>
+                </itemizedlist>
+                
                 <section id="CreatingANewJSFProject96">
                         <?dbhtml filename="CreatingANewJSFProject.html"?>
                         <title>Creating a New JSF Project</title>
 
-                        <para>JBoss Developer Studio provides the following functionality when working with JSF:</para>
-
-                        <itemizedlist>
-                                <listitem>
-                                        <para>Create new JSF projects</para>
-                                </listitem>
-                                <listitem>
-                                        <para>Import (open) existing JSF projects</para>
-                                </listitem>
-                                <listitem>
-                                        <para>Add JSF capability to any existing Eclipse
-                                        project</para>
-                                </listitem>
-                                <listitem>
-                                        <para>Import and add JSF capability to any existing project
-                                                created outside Eclipse</para>
-                                </listitem>
-                        </itemizedlist>
-                        <para>JBoss Developer Studio allows you to create a brand new JSF projects. A new JSF project will have all JSF libraries, tag
+                                               <para>JBoss Developer Studio allows you to create a brand new JSF projects. A new JSF project will have all JSF libraries, tag
                                 libraries and JSF configuration file.</para>
 
                         <para>JBoss Developer Studio comes with a number of predefined project
@@ -308,8 +310,7 @@
                                 </mediaobject>
                         </figure>
 
-                        <para>On the next form enter <property>Project Name</property>. You can also select where to create
-                                the project.</para>
+                        <para>On the next form enter <property>Project Name</property>. You can also select where to create the project or use the default path.</para>
                         <para>JSF Version allows you to select which JSF implementation to use.</para>
                         <figure>
                                 <title>Creating a New JSF Project</title>
@@ -1085,6 +1086,8 @@
                 <?dbhtml filename="CreateAndRegisterACustomConverter.html"?>
                 <title>Create and Register a Custom Converter</title>
 
+<para>To create and register a custom converter it&apos;s necessary to go through the following steps:</para>
+
                 <itemizedlist>
                         <listitem>
                                 <para>In the Project Explorer view open <emphasis>
@@ -1111,10 +1114,10 @@
                                         </emphasis> button.</para>
                         </listitem>
                         <listitem>
-                                <para>Type the name of your converter in the Converter-id field and
+                                <para>On the form type the name of your converter in the <emphasis><property>Converter-id</property></emphasis> field and
                                         name of the class for converters. After clicking <emphasis>
                                                 <property>Finish</property>
-                                        </emphasis> button your custom converter is registered under
+                                        </emphasis> button your custom converter is registered under the
                                         entered name.</para>
                         </listitem>
                </itemizedlist>
@@ -1131,7 +1134,7 @@
                                 <para>Now you can create <emphasis role="italic">
                                                 <property>&quot;converter&quot;</property>
                                         </emphasis> class. In the Converter section you should see
-                                        your Converter-id and Converter-class. Click on <emphasis>
+                                        your <emphasis><property>Converter-id</property></emphasis> and <emphasis><property>Converter-class</property>.</emphasis> Click on <emphasis>
                                                 <property>Converter-class</property>
                                         </emphasis> to generate the source code.</para>
                         </listitem>
@@ -1149,8 +1152,8 @@
                         <listitem>
                                 <para>Java class will be created automatically. Leave everything
                                         without changes and click <emphasis>
-                                                <property>Finish</property>
-                                        </emphasis>.</para>
+                                                <property>Finish</property>.
+                                        </emphasis></para>
                         </listitem>
                 </itemizedlist>
                 <figure>
@@ -1163,9 +1166,8 @@
                 </figure>
                 <itemizedlist>
                         <listitem>
-                                <para>To open converter class click again on Converter-class link in
-                                        the Converter section. Now you are able to add business
-                                        logic of converter.</para>
+                                <para>To open a converter class click again on <emphasis><property>Converter-class</property></emphasis> link in
+                                        the Converter section. Now you are able to add a business logic of converter in the Java editor.</para>
                         </listitem>
                 </itemizedlist>
                 <figure>
@@ -1182,7 +1184,7 @@
                 <?dbhtml filename="CreateAndRegisterACustomValidator.html"?>
                 <title>Create and Register a Custom Validator</title>
 
-                <para>With the help of JBDS you can easy develop your own custom validators.</para>
+                <para>With the help of JBDS you can easy develop your own custom validators. Go through the following steps:</para>
                 <itemizedlist>
                         <listitem>
                                 <para>In the Project Explorer view open<emphasis>
@@ -1203,16 +1205,15 @@
                 <itemizedlist>
                         <listitem>
                                 <para>Select <emphasis>
-                                                <property>Validators</property>
-                                        </emphasis>, and click on <emphasis>
+                                                <property>Validators</property></emphasis> and click on <emphasis>
                                                 <property>Add </property>
                                         </emphasis>button.</para>
                         </listitem>
                         <listitem>
-                                <para>Type the name of your validator in the Valifator-id field and
+                                <para>Type the name of your validator in the <emphasis><property>Validator-id</property></emphasis> field and
                                         name of the class for validators. After clicking <emphasis>
                                                 <property>Finish</property>
-                                        </emphasis> button your custom validator is registered under
+                                        </emphasis> button your custom validator is registered under the
                                         entered name.</para>
                         </listitem>
                 </itemizedlist>
@@ -1225,16 +1226,15 @@
                         </mediaobject>
                 </figure>
                 
-                <para>Now you can create the &quot;validatir&quot; class.
+                <para>Now you can create the &quot;validator&quot; class.
                 </para>
                 <itemizedlist>
                         <listitem>
-                                <para>Let&apos;s create <emphasis role="italic">
-                                                <property>&quot;validator&quot;</property>
-                                        </emphasis> class. In the Validator section you should see
-                                        your Validator-id and Validator-class. To generate the source code click on <emphasis>
-                                                <property>Validator-class</property>
-                                        </emphasis>.</para>
+                                <para>In the Validator section you can see
+                                        your <emphasis><property>Validator-id</property></emphasis> and <emphasis><property>Validator-class</property></emphasis>. 
+                                        To generate the source code click on <emphasis>
+                                                <property>Validator-class</property>.
+                                        </emphasis></para>
                         </listitem>
                 </itemizedlist>
                 <figure>
@@ -1249,8 +1249,8 @@
                         <listitem>
                                 <para>Java class will be created automatically. Leave everything
                                         without changes and click <emphasis>
-                                                <property>Finish</property>
-                                        </emphasis>.</para>
+                                                <property>Finish</property>.
+                                        </emphasis></para>
                         </listitem>
                 </itemizedlist>
                 <figure>
@@ -1263,9 +1263,8 @@
                 </figure>
               <itemizedlist>
                         <listitem>
-                                <para>To open validator class click again on Validator-class in the
-                                        Validator section. Now you are able to write business logic
-                                        of validator.</para>
+                                <para>To open validator class click again on <emphasis><property>Validator-Class</property></emphasis> link in the
+                                        Validator section. Now you are able to write a business logic of validator in the Java editor.</para>
                         </listitem>
                </itemizedlist>
                 <figure>
@@ -1311,7 +1310,7 @@
                         </listitem>
                         <listitem>
                                 <para>Type in the name of your Referenced Bean and type in or select
-                                        Referenced-Bean-Class by using Browse button.</para>
+                                        <emphasis><property>Referenced-Bean-Class</property></emphasis> by using <emphasis><property>Browse</property></emphasis> button.</para>
                         </listitem>
                 </itemizedlist>
                 <figure>
@@ -1325,7 +1324,7 @@
                 <itemizedlist>
                         <listitem>
                                 <para>In the Referenced Bean section you should see your
-                                        Referenced-Bean-Name and Referenced-Bean-Class. Click on the
+                                        <emphasis><property>Referenced-Bean-Name</property></emphasis> and <emphasis><property>Referenced-Bean-Class</property>.</emphasis> Click on the
                                         link to open the Java creation wizard.</para>
                         </listitem>
                </itemizedlist>
@@ -1341,8 +1340,8 @@
                         <listitem>
                                 <para>Java class will be created automatically. Leave everything
                                         without changes and click <emphasis>
-                                                <property>Finish</property>
-                                        </emphasis>.</para>
+                                                <property>Finish</property>.
+                                        </emphasis></para>
                         </listitem>
                 </itemizedlist>
                 <figure>
@@ -1358,7 +1357,7 @@
                                 <para>To open Referenced Bean class click again on <emphasis>
                                                 <property>Referenced-Bean-Class</property>
                                         </emphasis> in the Referenced Bean section. Now you are able
-                                        to write business logic of Referenced Bean.</para>
+                                        to write business logic of Referenced Bean in the Java editor.</para>
                         </listitem>
               </itemizedlist>
                 <figure>

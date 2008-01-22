@@ -2,67 +2,54 @@
 <chapter id="struts1" xreflabel="struts1">
        <?dbhtml filename="struts.html"?>
        <title>Struts support</title>
-       <para>If you prefer develop web applications using <property>Struts</property> technology
+       <para>If you prefer develop web applications using <ulink url="http://struts.apache.org/"><property>Struts</property></ulink> technology
               JBoss Developer Studio also meets your needs.</para>
-       <para>JBDS supports the Struts 1.1, 1.2.x versions.</para>
+       <para>JBDS supports the <property>Struts 1.1</property>, <property>1.2.x</property> versions.</para>
 
-       <section id="SupportForStruts1.2.x1.1">
-              <?dbhtml filename="SupportForStruts1.1.1.2.x.html"?>
-              <title>Support for Struts 1.1, 1.2.x</title>
-
-
-              <para>When you create a brand new or import an existing project you can set which
-                     Struts version to use:</para>
-              <figure>
-                     <title>Choosing Struts Environment</title>
-                     <mediaobject>
-                            <imageobject>
-                                   <imagedata fileref="images/struts/struts_1.png"/>
-                            </imageobject>
-                     </mediaobject>
-              </figure>
-       </section>
-       <section id="WorkingWithStrutsProjects866">
+            <section id="WorkingWithStrutsProjects866">
               <?dbhtml filename="WorkingWithStrutsProjects.html"?>
               <title>Working with Projects</title>
+              
+              <para>JBoss Developer Studio provides the following functionality when working with Struts:</para>
+              
+              <itemizedlist>
+                     <listitem>
+                            <para>Create new <property>Struts projects</property></para>
+                     </listitem>
+                     <listitem>
+                            <para>Import (open) existing Struts projects. You can import any project structure</para>
+                     </listitem>
+                     <listitem>
+                            <para>Add <property>Struts capabilities</property> to any
+                                   existing Eclipse project</para>
+                     </listitem>
+                     <listitem>
+                            <para>Import and add Struts capabilities to any existing project
+                                   created outside Eclipse.</para>
+                     </listitem>
+              </itemizedlist>
+              
+              
               <section id="CreatingANewStrutsProjec745t">
                      <?dbhtml filename="CreatingANewStrutsProject.html"?>
                      <title>Creating a New Struts Project</title>
 
-                     <para>JBoss Developer Studio provides the following when working with Struts.</para>
-
-                     <itemizedlist>
-                            <listitem>
-                                   <para>Create new <property>Struts projects</property></para>
-                            </listitem>
-                            <listitem>
-                                   <para>Import (open) existing Struts projects</para>
-                                   <para>You can import any project structure</para>
-                            </listitem>
-                            <listitem>
-                                   <para>Add <property>Struts capabilities</property> to any
-                                          existing Eclipse project</para>
-                            </listitem>
-                            <listitem>
-                                   <para>Import and add Struts capabilities to any existing project
-                                          created outside Eclipse</para>
-                            </listitem>
-                     </itemizedlist>
+                   
                      <para>JBoss Developer Studio includes a New Struts Project Wizard that
                             radically simplifies the process for getting started with a new Struts
-                            project. You just need to follow these 4 steps:</para>
-                     <orderedlist>
+                            project. You just need to follow these steps:</para>
+                     <itemizedlist>
                             <listitem>
                                    <para>Select<emphasis>
-                                                 <property> File > New > Project...</property>
+                                                 <property>File > New > Project...</property>
                                           </emphasis> from the menu bar. Then, select <emphasis>
                                                  <property>JBoss Tools Web > Struts > Struts
                                                  Project</property>
                                           </emphasis> in this dialog box. Click <emphasis>
-                                                 <property>Next</property>
-                                          </emphasis>:</para>
+                                                 <property>Next</property>:
+                                          </emphasis></para>
                             </listitem>
-                     </orderedlist>
+                     </itemizedlist>
                      <figure>
                             <title>Selecting Struts Wizard</title>
                             <mediaobject>
@@ -71,12 +58,12 @@
                                    </imageobject>
                             </mediaobject>
                      </figure>
-                     <orderedlist continuation="continues">
+                     <itemizedlist>
                             <listitem>
-                                   <para>On this screen, provide the project name. You can leave all
-                                          other values as they are:</para>
+                                   <para>On this form, provide the <property>Project Name</property>. You can also select where to create the project or use the default path.</para>
+                                   <para>Next to <property>Struts Environment</property> set which Struts version to use.</para>
                             </listitem>
-                     </orderedlist>
+                     </itemizedlist>
 
                      <figure>
                             <title>Creating Struts Project</title>
@@ -93,15 +80,23 @@
                                    experience problems with their processing and searching these
                                    files.</para>
                      </tip>
-                     <note>
-                            <title>Note:</title>
-                            <para>If you select the KickStart template, then the project created
-                                   will include a simple Hello World type application that is
-                                   ready-to-run.</para>
-                     </note>
-                     <orderedlist continuation="continues">
+                    
+                     <para>You can select the KickStart template, then the project created
+                            will include a simple Hello World type application that is
+                            ready to run.</para>
+                    
+                     <figure>
+                            <title>Choosing Struts Template  </title>
+                            <mediaobject>
+                                   <imageobject>
+                                          <imagedata fileref="images/struts/struts_3_1.png"/>
+                                   </imageobject>
+                            </mediaobject>
+                     </figure>
+                    
+                     <itemizedlist>
                             <listitem>
-                                   <para>Next, you can register this application with the current
+                                   <para>Next, you register this application with the current
                                           servlet container defined for your workspace (JBoss AS, by
                                           default) in order to allow you to test your application
                                           more easily while still developing it. A new entry will be
@@ -115,7 +110,7 @@
                                           don&apos;t want to register your application at this
                                           point.</para>
                             </listitem>
-                     </orderedlist>
+                     </itemizedlist>
                      <figure>
                             <title>Registering The Project at Server</title>
                             <mediaobject>
@@ -124,12 +119,12 @@
                                    </imageobject>
                             </mediaobject>
                      </figure>
-                     <orderedlist continuation="continues">
+                     <itemizedlist>
                             <listitem>
-                                   <para>On the next screen, you can select the TLD files to include
+                                   <para>On the next form, you can select the TLD files to include
                                           in this project:</para>
                             </listitem>
-                     </orderedlist>
+                    </itemizedlist>
                      <figure>
                             <title>Selecting Tag Libraries</title>
                             <mediaobject>
@@ -180,7 +175,7 @@
                             your Eclipse workspace. By adding a Struts Nature to your project, you
                             can now edit files using JBoss Developer Studio editors, such as the
                             Struts configuration editor and the JBoss Tools JSP editor.</para>
-                     <para>To add Struts Nature t oyour existing Project right-click the project and
+                     <para>To add Struts Nature to your existing Project right-click the project and
                             select <emphasis>
                                    <property>JBoss Tools > Add Struts Capabilities</property>
                             </emphasis> from the context menu. This will start the process of adding
@@ -196,7 +191,7 @@
                      </figure>
 
                      <para>In the wizard you should point to location of your deployment descriptor
-                            file web.xml and name of Web application.</para>
+                            file web.xml and name of the project.</para>
 
                      <figure>
                             <title>Choosing Project Location</title>
@@ -207,8 +202,8 @@
                             </mediaobject>
                      </figure>
                      <para>After hitting <emphasis>
-                                   <property>Next</property>
-                            </emphasis>, you will see the following screen. This screen simply means
+                                   <property>Next</property>,
+                            </emphasis> you will see the following screen. This screen simply means
                             that you need to add at least one Struts module to your project to make
                             this project a Struts project. Adding a Struts module means that a new
                             struts-config.xml will be added to your project and registered in the
@@ -225,8 +220,8 @@
                             </mediaobject>
                      </figure>
 
-                     <para>Here you can select what Struts version, Servlet class, URL pattern and
-                            TLDs to add to this project.</para>
+                     <para>Here you can select what Struts <property>Version</property>, <property>Servlet Class</property>, <property>URL Pattern</property> and
+                            <property>TLD</property>s to add to this project.</para>
 
                      <figure>
                             <title>Selecting Struts Support Options</title>
@@ -255,7 +250,7 @@
                             well as register this application with a servlet container. If you want
                             the libraries (.jar files) will be automatically added to your project,
                             click on the checkbox <emphasis>
-                                   <property>Add Libraries</property></emphasis>.</para>
+                                   <property>Add Libraries</property>.</emphasis></para>
 
                      <figure>
                             <title>Registering the Project at Server</title>
@@ -284,10 +279,10 @@
               <?dbhtml filename="GraphicalEditorForStrutsConfigurationFiles.html"?>
               <title>Graphical Editor for Struts Configuration Files</title>
 
-              <para><property>The Struts configuration file editor</property> has three modes with
-                     different reprisentation of <emphasis>
-                            <property>struts-config.xml</property>
-                     </emphasis>: Diagram, Tree and Source. The modes can be selected via the tabs
+              <para>The Struts configuration file editor has three modes with
+                     different representation of <emphasis>
+                            <property>struts-config.xml</property>:
+                     </emphasis>Diagram, Tree and Source. The modes can be selected via the tabs
                      at the bottom of the editor. Any changes made in one mode are immediately
                      visible when you switch to any other mode.</para>
 
@@ -320,7 +315,7 @@
                             </mediaobject>
                      </figure>
 
-                     <para>The Diagram mode allows to edit the navigation in your Struts
+                     <para>The Diagram mode allows to edit navigation in your Struts
                             application. Just by right-clicking anywhere on the diagram, you can use
                             a context menu to create the building blocks of a Struts application:</para>
                      <itemizedlist>
@@ -348,7 +343,19 @@
                      </figure>
 
                      <para>Along the upper-left side of the editor is a stack of seven icons for
-                            changing the behavior of the cursor in the diagram. The first icon
+                            changing the behavior of the cursor in the diagram. 
+                     </para>
+                     
+                     <figure>
+                            <title>Editor Icons</title>
+                            <mediaobject>
+                                   <imageobject>
+                                          <imagedata fileref="images/struts/struts_16.png"/>
+                                   </imageobject>
+                            </mediaobject>
+                     </figure>
+                     
+                     <para>The first icon
                             switches to the default regular selection cursor, the second to the
                             marquee selection cursor and the third to the new connection cursor. The
                             last four icons switch the cursor to an insert cursor for each type of
@@ -363,14 +370,7 @@
                             It&apos;s just more efficient to use this cursor if you&apos;re
                             adding more than one action at once.</para>
 
-                     <figure>
-                            <title>Insert Actions Cursor</title>
-                            <mediaobject>
-                                   <imageobject>
-                                          <imagedata fileref="images/struts/struts_16.png"/>
-                                   </imageobject>
-                            </mediaobject>
-                     </figure>
+                  
               </section>
               <section id="StrutsTreeMode42">
                      <?dbhtml filename="TreeMode.html"?>
@@ -409,7 +409,7 @@
                      <title>Source Mode</title>
 
                      <para>In the Source mode, you have complete editing control of the underlying
-                            XML coding:</para>
+                            XML coding.</para>
 
                      <figure>
                             <title>Source Mode</title>
@@ -420,7 +420,8 @@
                             </mediaobject>
                      </figure>
 
-                     <para>You can take advantage of code assist:</para>
+                     <para>You can take advantage of <link
+                            linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</link>.</para>
 
                      <figure>
                             <title>Code Assist</title>
@@ -431,7 +432,7 @@
                             </mediaobject>
                      </figure>
 
-                     <para>The editor will also immediately flag any errors:</para>
+                     <para>The editor will also immediately flag any errors.</para>
 
                      <figure>
                             <title>Errors in Source Mode</title>
@@ -443,7 +444,7 @@
                      </figure>
 
                      <para>Finally, you can use the Outline view with the editor to easily navigate
-                            through the file:</para>
+                            through the file.</para>
 
                      <figure>
                             <title>Outline View</title>
@@ -454,14 +455,18 @@
                             </mediaobject>
                      </figure>
               </section>
+              
+              <para>Find more information about editor features <link
+                     linkend="editors_features">here</link>.</para>
+              
        </section>
 
        <section id="GraphicalEditorForTilesFiles132">
               <?dbhtml filename="GraphicalEditorForTilesFiles.html"?>
               <title>Graphical Editor for Tiles Files</title>
 
-              <para><property>The Tiles configuration file editor</property> has three main modes:
-                     Tree (shown), Diagram and Source. The modes can be selected via the tabs at the
+              <para>The Tiles configuration file editor has three main modes:
+                     Tree, Diagram and Source. The modes can be selected via the tabs at the
                      bottom of the editor. Any changes made in one mode are immediately visible when
                      you switch to any other mode.</para>
 
@@ -478,9 +483,9 @@
                      <?dbhtml filename="CreateNewTilesFile.html"?>
                      <title>Create New Tiles File</title>
 
-                     <para>To create a new Tiles files, right click any folder and select <emphasis>
-                                   <property>New &gt; Tiles File</property>
-                            </emphasis>.</para>
+                     <para>To create new Tiles files, right click any folder and select <emphasis>
+                                   <property>New &gt; Tiles File</property>.
+                            </emphasis></para>
                      <figure>
                             <title>Creating a New Tiles File</title>
                             <mediaobject>
@@ -508,7 +513,7 @@
                      </figure>
 
                      <para>To edit the file, simply right click any node and select among the
-                            available actions:</para>
+                            available actions.</para>
                      <figure>
                             <title>Editing in Tiles Editor</title>
                             <mediaobject>
@@ -533,7 +538,7 @@
                             </mediaobject>
                      </figure>
 
-                     <para>To create new definitions, simply right click anywhere in the diagram:</para>
+                     <para>To create new definitions, simply right click anywhere in the diagram.</para>
                      <figure>
                             <title>Creating New Definition</title>
                             <mediaobject>
@@ -573,7 +578,8 @@
                                    </imageobject>
                             </mediaobject>
                      </figure>
-                     <para>Code assist is available in the Source mode:</para>
+                     <para><link
+                            linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Code assist</link> is available in the Source mode.</para>
                      <figure>
                             <title>Code Assist</title>
                             <mediaobject>
@@ -609,11 +615,11 @@
               <title>Graphical Editor for Struts Validation Files</title>
 
               <para>Providing full support for development Struts applications JBoss Developer
-                     Studio comes with a <property>visual validation editor</property>. To create a
+                     Studio comes with a visual validation editor. To create a
                      new validation file, right click any folder in Project Explorer and select <emphasis>
                             <property>File > New > Other...</property>
                      </emphasis>from the context menu and then <emphasis>
-                            <property>jBoss Tools Web > Struts > Validation File</property>
+                            <property>JBoss Tools Web > Struts > Validation File</property>
                      </emphasis>.</para>
               <figure>
                      <title>Creating New Validation File</title>
@@ -624,8 +630,8 @@
                      </mediaobject>
               </figure>
 
-              <para>The validation editor works through five modes: Formsets, Validators, Constants
-                     and standard Tree and Source that you can easily switch over to using tabs at
+              <para>The validation editor works with five modes: Formsets, Validators, Constants
+                     and standard Tree and Source that you can easily switch over using tabs at
                      the bottom of the editor.</para>
               <para>The Formsets mode shows forms and their elements on the left side and the
                      dialogue for defining their validation rules on the right side.</para>
@@ -670,7 +676,7 @@
                      </mediaobject>
               </figure>
 
-              <para>You can also open your own custom or Struts-standard validation-rules.xml file.</para>
+              <para>You can also open your own custom or Struts-standard <emphasis><property>validation-rules.xml</property></emphasis> file.</para>
               <para>The Validators mode shows the validation rules for a selected validator. You can
                      of course add your own rules.</para>
               <figure>
@@ -694,21 +700,19 @@
        <section id="SupportForMultipleStrutsModules75">
               <?dbhtml filename="SupportForMultipleStrutsModules.html"?>
               <title>Support for Multiple Struts Modules</title>
-              <section id="StrutsModulesghf07">
-                     <?dbhtml filename="StrutsModules.html"?>
-                     <title>Struts Modules</title>
-                     <para>JBoss Developer Studio supports working with Struts projects that have
-                            multiple <property>modules</property>. You can easily do the following:</para>
-                     <itemizedlist>
-                            <listitem>
-                                   <para>Add new modules</para>
-                            </listitem>
-                            <listitem>
-                                   <para>Edit modules for an existing project or during Struts
-                                          project import</para>
-                            </listitem>
-                     </itemizedlist>
-              </section>
+             
+              <para>JBoss Developer Studio supports working with Struts projects that have
+                     multiple modules. You can easily do the following:</para>
+              <itemizedlist>
+                     <listitem>
+                            <para>Add new modules</para>
+                     </listitem>
+                     <listitem>
+                            <para>Edit modules for an existing project or during Struts
+                                   project import</para>
+                     </listitem>
+              </itemizedlist>
+             
               <section id="WhenImportingAStrutsProject432">
                      <?dbhtml filename="WhenImportingAStrutsProject.html"?>
                      <title>When Importing a Struts Project</title>
@@ -731,8 +735,8 @@
                      <title>Editing Modules in an Existing Project</title>
                      <para>To edit modules in an existing project, right click the project and
                             select <emphasis>
-                                   <property>JBoss Tools > Modules Configuration</property>
-                            </emphasis>.</para>
+                                   <property>JBoss Tools > Modules Configuration</property>.
+                            </emphasis></para>
                      <figure>
                             <title>Choosing Modules Configuration</title>
                             <mediaobject>
@@ -742,7 +746,7 @@
                             </mediaobject>
                      </figure>
                      <para>You will see the same screen as above where you will be able to select a
-                            module and edit its details:</para>
+                            module and edit its details.</para>
                      <figure>
                             <title>Modules Configuration</title>
                             <mediaobject>
@@ -792,8 +796,8 @@
               <para>The code generation in JBoss Developer Studio is based on Velocity templates
                      which can be modified for your use. The templates are located at <emphasis>
                             <property> {RedHatDeveloperStudioHome} > templates >
-                            codegeneration</property>
-                     </emphasis>.</para>
+                            codegeneration</property>.
+                     </emphasis></para>
 
               <para>There are a number of ways to invoke code generation. One is simply
                      right-clicking the Struts diagram and selecting <emphasis>
@@ -876,8 +880,8 @@
                      then simply launch the server in debug mode.</para>
 
               <para>Simply right click an Action or a page and select Add <emphasis>
-                            <property>Breakpoint</property>
-                     </emphasis>. </para>
+                            <property>Breakpoint</property>.
+                     </emphasis></para>
               <figure>
                      <title>Adding Breakpoint</title>
                      <mediaobject>
