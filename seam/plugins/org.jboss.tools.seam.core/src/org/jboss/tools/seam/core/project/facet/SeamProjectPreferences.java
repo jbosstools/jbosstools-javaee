@@ -20,12 +20,6 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  */
 public class SeamProjectPreferences {
 	/**
-	 * Last selected SeamRuntime name
-	 */
-	public static final String SEAM_DEFAULT_RUNTIME_NAME = SeamCorePlugin.PLUGIN_ID
-			+ ".project.facet.default.runtime.name"; //$NON-NLS-1$
-
-	/**
 	 * Last selected connection profile
 	 */
 	public static final String SEAM_DEFAULT_CONNECTION_PROFILE = SeamCorePlugin.PLUGIN_ID
@@ -42,12 +36,6 @@ public class SeamProjectPreferences {
 	 */
 	public static final String RUNTIME_LIST = SeamCorePlugin.PLUGIN_ID
 			+ ".runtime.list"; //$NON-NLS-1$
-
-	/**
-	 * TODO
-	 */
-	public static final String RUNTIME_DEFAULT = SeamCorePlugin.PLUGIN_ID
-			+ ".runtime.default"; //$NON-NLS-1$
 
 	/**
 	 * Last selected deployment type

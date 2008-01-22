@@ -22,8 +22,13 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
 import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
 
@@ -207,6 +212,18 @@ public class SeamRuntimeManager {
 	}
 
 	/**
+	 * Marks this runtime as default. Marks other runtimes with the same version as not default.
+	 * @param runtime
+	 */
+	public void setDefaultRuntime(SeamRuntime runtime) {
+		SeamRuntime[] runtimes = getRuntimes(runtime.getVersion());
+		for (int i = 0; i < runtimes.length; i++) {
+			runtimes[i].setDefault(false);
+		}
+		runtime.setDefault(true);
+	}
+
+	/**
 	 * Return first default SeamRuntime
 	 * 
 	 * @return
@@ -219,6 +236,32 @@ public class SeamRuntimeManager {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * If project has seam facet then this method returns default seam runtime for proper version of facet.
+	 * Otherwise return first default runtime.  
+	 * @param project
+	 * @return
+	 */
+	public static SeamRuntime getDefaultRuntimeForProject(IProject project) {
+		if(project==null) {
+			throw new IllegalArgumentException("Project must not be null.");
+		}
+		try {
+			IProjectFacet facet = ProjectFacetsManager.getProjectFacet(ISeamCoreConstants.SEAM_CORE_FACET_ID);
+			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
+			if(facetedProject!=null) {
+				IProjectFacetVersion facetVersion = facetedProject.getInstalledVersion(facet);
+				SeamVersion seamVersion = SeamVersion.parseFromString(facetVersion.getVersionString());
+				return getInstance().getDefaultRuntime(seamVersion);
+			}
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (IllegalArgumentException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return getInstance().getDefaultRuntime();
 	}
 
 	/**

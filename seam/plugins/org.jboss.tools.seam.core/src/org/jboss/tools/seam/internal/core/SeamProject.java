@@ -35,6 +35,10 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -55,6 +59,8 @@ import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
@@ -138,24 +144,18 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public IProject getProject() {
 		return project;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public String getRuntimeName() {
-		String parent = getParentProjectName();
-		if(parent != null) {
-			IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(parent);
-			if(p == null || !p.isAccessible()) return null;
-			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
-			return sp == null ? null : sp.getRuntimeName();
-		}
-		if(runtimeName == null) {
-			SeamRuntime runtime = SeamRuntimeManager.getInstance().getDefaultRuntime();
-			return runtime != null ? runtime.getName() : null;
+		SeamRuntime runtime = getRuntime();
+		if(runtime!=null) {
+			return runtime.getName();
 		}
 		return runtimeName;
 	}
+
 	/**
 	 * 
 	 */
@@ -168,21 +168,21 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			return sp == null ? null : sp.getRuntime();
 		}
 		if(runtimeName == null) {
-			return SeamRuntimeManager.getInstance().getDefaultRuntime();
+			return SeamRuntimeManager.getDefaultRuntimeForProject(project);
 		}
 		return runtimeName == null ? null : SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 	}
-	
+
 	public String getParentProjectName() {
 		IEclipsePreferences p = getSeamPreferences();
 		return p == null ? null : p.get("seam.parent.project", null);
 	}
-	
+
 	public void setRuntimeName(String runtimeName) {
 		if(this.runtimeName == runtimeName) return;
 		if(this.runtimeName != null && this.runtimeName.equals(runtimeName)) return;
-		SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
-		
+		SeamRuntime d = SeamRuntimeManager.getDefaultRuntimeForProject(project);
+
 		boolean useDefaultRuntime = d != null && d.getName().equals(runtimeName);
 		if(useDefaultRuntime) {
 			this.runtimeName = null;
@@ -191,7 +191,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		storeRuntime();
 	}
-	
+
 	/**
 	 * Returns list of scope objects for all scope types.
 	 * @return
@@ -199,7 +199,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public ISeamScope[] getScopes() {
 		return scopes;
 	}
-	
+
 	/**
 	 * Returns scope object for specified scope type.
 	 * @param scopeType
@@ -251,7 +251,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		loadRuntime();
 //		load();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -263,19 +263,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		} else {
 			storeRuntime();
 		}
-		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
-			public void propertyChange(Preferences.PropertyChangeEvent event) {
-				if(SeamProjectPreferences.RUNTIME_LIST.equals(event.getProperty())) {
-					SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
-					if(d != null && d.getName().equals(runtimeName)) {
+//		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
+//			public void propertyChange(Preferences.PropertyChangeEvent event) {
+//				if(SeamProjectPreferences.RUNTIME_LIST.equals(event.getProperty())) {
+//					SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
+//					if(d != null && d.getName().equals(runtimeName)) {
 //						runtimeName = null;
 //						storeRuntime();
-					}
-				}
-			}
-		});
+//					}
+//				}
+//			}
+//		});
 	}
-	
+
 	/**
 	 * 
 	 * @return

@@ -101,7 +101,7 @@ public class SeamRuntimeManagerTest extends TestCase {
 	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#getDefaultRuntime()}.
 	 */
 	public void testGetDefaultRuntime() {
-		assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'",manager.getDefaultRuntime());
-		assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'",manager.getDefaultRuntime().getName().equals("Seam 1.2.0"));
+		assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'",manager.getDefaultRuntime(SeamVersion.SEAM_1_2));
+		assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'",manager.getDefaultRuntime(SeamVersion.SEAM_1_2).getName().equals("Seam 1.2.0"));
 	}
 }

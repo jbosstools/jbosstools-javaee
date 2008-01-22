@@ -88,11 +88,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 	private DataModelValidatorDelegate validatorDelegate;
 
-	private IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
-		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, getRuntimeNames(), 
-				getSeamRuntimeDefaultValue(), 
-				true, new NewSeamRuntimeAction(), (IValidator)null);
+	private IFieldEditor jBossSeamHomeEditor;
 
 	private IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE
 			.createRadioEditor(
@@ -209,17 +205,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		String seamFacetVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
 		SeamVersion seamVersion = SeamVersion.parseFromString(seamFacetVersion); 
 
-		String seamDefaultRuntimeName = SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME);
-		if("".equals(seamDefaultRuntimeName)) {
-			SeamRuntime defaultRuntime = SeamRuntimeManager.getInstance().getDefaultRuntime(seamVersion);
-			if(defaultRuntime==null) {
-				return "";
-			} else {
-				return defaultRuntime.getName();
-			}
-		} else {
-			return seamDefaultRuntimeName;
+		SeamRuntime defaultRuntime = SeamRuntimeManager.getInstance().getDefaultRuntime(seamVersion);
+		if(defaultRuntime==null) {
+			return "";
 		}
+		return defaultRuntime.getName();
 	}
 
 	private DataModelSynchronizer sync;
@@ -248,9 +238,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * Finish has been pressed.
 	 */
 	public void transferStateToConfig() {
-		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-			SeamProjectPreferences.SEAM_DEFAULT_RUNTIME_NAME,
-			jBossSeamHomeEditor.getValueAsString());
+		String seamRuntimeName = jBossSeamHomeEditor.getValueAsString();
+		SeamRuntime seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(seamRuntimeName);
+		if(seamRuntime!=null) {
+			SeamRuntimeManager.getInstance().setDefaultRuntime(seamRuntime);
+		}
 
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 			SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE,
@@ -301,6 +293,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * Creates Seam Facet Wizard Page contents
 	 */
 	public void createControl(Composite parent) {
+		jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
+		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, getRuntimeNames(), 
+				getSeamRuntimeDefaultValue(), 
+				true, new NewSeamRuntimeAction(), (IValidator)null);
+
 		initializeDialogUnits(parent);
 
 		Composite root = new Composite(parent, SWT.NONE);
