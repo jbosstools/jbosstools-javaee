@@ -4761,7 +4761,7 @@
     <Editor name="FolderChooser"/>
    </XModelAttribute>
    <XModelAttribute name="model path" xmlname="model-path"/>
-   <XModelAttribute name="root file system" xmlname="root"/>
+   <XModelAttribute name="root file system" xmlname="web-root"/>
    <XModelAttribute name="src file system" xmlname="src"/>
   </XModelAttributes>
   <XActionItem kind="list"/>
