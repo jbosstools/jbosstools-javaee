@@ -32,9 +32,9 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE1479Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "JBIDE1479";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest";
 	
-	public static final String TEST_PAGE_NAME = "seam/employee.xhtml";
+	public static final String TEST_PAGE_NAME = "JBIDE/1479/employee.xhtml";
 	
 	public JBIDE1479Test(String name) {
 		super(name);

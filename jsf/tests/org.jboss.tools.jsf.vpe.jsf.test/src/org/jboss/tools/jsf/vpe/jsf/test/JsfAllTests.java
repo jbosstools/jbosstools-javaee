@@ -55,11 +55,6 @@ public class JsfAllTests {
 		importBean.setImportProjectName(JsfComponentTest.IMPORT_PROJECT_NAME);
  		importBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
  		projectToImport.add(importBean);
- 		//bean for JBIDE-1479
- 		ImportBean importBeanJBIDE1479 = new ImportBean();
- 		importBeanJBIDE1479.setImportProjectName(JBIDE1479Test.IMPORT_PROJECT_NAME);
- 		importBeanJBIDE1479.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
- 		projectToImport.add(importBeanJBIDE1479);
 		return new VpeTestSetup(suite,projectToImport);
 
 	}
