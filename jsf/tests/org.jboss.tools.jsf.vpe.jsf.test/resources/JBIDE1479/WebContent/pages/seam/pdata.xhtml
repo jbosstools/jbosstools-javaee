@@ -1,0 +1,15 @@
+<!DOCTYPE data SYSTEM "pdata.dtd">
+<data
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:intranet="http://www.meteo.be/Intranet-Jsf"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<intranet:header name="Content-Type" value="application/xml"/>
+	<intranet:header name="Content-Disposition" value="attachment; filename= pdata.xml"/>
+      <!-- Royal meteorological institute service code-->
+      <service_code>11045</service_code>
+      <refdate><h:outputText value="#{now}"><f:convertDateTime timeZone="Europe/Paris" pattern="yyyyMMdd"/></h:outputText></refdate>
+      <ui:repeat value="#{hrRequest.employeesMap['10']}" var="employee">
+      	<ui:include src="elements/pdata_single.xhtml"/>
+      </ui:repeat>
+</data>

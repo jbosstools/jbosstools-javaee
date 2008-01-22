@@ -16,6 +16,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1479Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1484Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1615Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
@@ -45,6 +46,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JsfJbide1548Test.class);
 		suite.addTestSuite(JsfJbide1568Test.class);
 		suite.addTestSuite(JBIDE1615Test.class);
+		suite.addTestSuite(JBIDE1479Test.class);
 		// $JUnit-END$
 		//added by Max Areshkau
 		//add here projects which should be imported for junit tests
@@ -53,6 +55,11 @@ public class JsfAllTests {
 		importBean.setImportProjectName(JsfComponentTest.IMPORT_PROJECT_NAME);
  		importBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
  		projectToImport.add(importBean);
+ 		//bean for JBIDE-1479
+ 		ImportBean importBeanJBIDE1479 = new ImportBean();
+ 		importBeanJBIDE1479.setImportProjectName(JBIDE1479Test.IMPORT_PROJECT_NAME);
+ 		importBeanJBIDE1479.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+ 		projectToImport.add(importBeanJBIDE1479);
 		return new VpeTestSetup(suite,projectToImport);
 
 	}
