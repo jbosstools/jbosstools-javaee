@@ -736,9 +736,6 @@
 					<vpe:container-child tag-name="column" />
 				</vpe:drop>
 			</vpe:dnd>
-			<vpe:resize>
-				<vpe:height height-attr="listsHeight" />
-			</vpe:resize>
 			<vpe:textFormating>
 				<vpe:format type="UnderlineFormat">
 					<vpe:formatAttribute type="style" />
