@@ -17,6 +17,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.preferences.SeamPreferencePage;
+import org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 import junit.framework.TestCase;
@@ -28,18 +29,7 @@ import junit.framework.TestCase;
 
 public class SeamPreferencesPageTest extends TestCase {
 
-	@Override
-	protected void setUp() throws Exception {
-		// TODO Auto-generated method stub
-		super.setUp();
-	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		// TODO Auto-generated method stub
-		super.tearDown();
-	}
-	
 	/**
 	 * Test that preference page is showed up without errors
 	 */
@@ -55,6 +45,26 @@ public class SeamPreferencesPageTest extends TestCase {
 			
 			Object selectedPage = prefDialog.getSelectedPage();
 			assertTrue("Selected page is not an instance of SeamPreferencePage", selectedPage instanceof SeamPreferencePage);
+		} finally {
+			prefDialog.close();
+		}
+	}
+	
+	/**
+	 * Test that preference page is showed up without errors
+	 */
+	public void testShowSeamValidationPreferencePage() {
+		
+		PreferenceDialog prefDialog = 
+			WorkbenchUtils.createPreferenceDialog(
+					SeamValidatorPreferencePage.PREF_ID);
+
+		try {
+			prefDialog.setBlockOnOpen(false);
+			prefDialog.open();
+			
+			Object selectedPage = prefDialog.getSelectedPage();
+			assertTrue("Selected page is not an instance of SeamValidatorPreferencePage", selectedPage instanceof SeamValidatorPreferencePage);
 		} finally {
 			prefDialog.close();
 		}
