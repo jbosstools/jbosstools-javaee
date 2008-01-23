@@ -24,15 +24,23 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Sergey Dzmitrovich
  * 
  */
 public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
+
+	private static final String ATTR_CONTROLS_TYPE = "controlsType";
+	/**
+	 * 
+	 */
+	private static final String ATTR_SHOW_BUTTON_LABELS = "showButtonLabels";
 
 	/**
 	 * source caption key
@@ -50,6 +58,16 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	private static final String STYLE_PATH = "shuttle/shuttle.css";
 
 	/**
+	 * path to img
+	 */
+	private static final String BUTTON_IMG_PATH = "shuttle/button.gif";
+
+	/**
+	 * path to img
+	 */
+	private static final String HEADER_IMG_PATH = "shuttle/button.gif";
+
+	/**
 	 * default value of width of box(list)
 	 */
 	private static final String DEFAULT_LIST_WIDTH = "140px";
@@ -58,6 +76,16 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * default value of height of box(list)
 	 */
 	private static final String DEFAULT_LIST_HEIGHT = "140px";
+
+	/**
+	 * rowClasses attribute name
+	 */
+	private static final String ATTR_ROW_CLASSES = "rowClasses";
+
+	/**
+	 * columnClasses attribute name
+	 */
+	private static final String ATTR_COLUMN_CLASSES = "columnClasses";
 
 	/**
 	 * attribute name of width of source list
@@ -134,6 +162,57 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		buttonImages.put("upControl", "shuttle/arrow_up.gif");
 		buttonImages.put("downControl", "shuttle/arrow_down.gif");
 		buttonImages.put("bottomControl", "shuttle/arrow_last.gif");
+
+	}
+
+	/**
+	 * style classes
+	 */
+	private static final Map<String, String> defaultStyleClasses;
+
+	static {
+		defaultStyleClasses = new HashMap<String, String>();
+
+		// general style
+		defaultStyleClasses.put("style", "rich-list-shuttle");
+
+		// styles of the lists
+		defaultStyleClasses.put("list-header", "rich-shuttle-list-header");
+		defaultStyleClasses.put("list", "rich-shuttle-list-content");
+
+		// styles of button's block
+		defaultStyleClasses.put("controls", "rich-shuttle-controls");
+
+		// styles of the first set of buttons
+		defaultStyleClasses.put("copyAllControl",
+				"rich-shuttle-button rich-shuttle-copyAll");
+		defaultStyleClasses.put("copyControl",
+				"rich-shuttle-button rich-shuttle-copy");
+		defaultStyleClasses.put("removeControl",
+				"rich-shuttle-button rich-shuttle-remove");
+		defaultStyleClasses.put("removeAllControl",
+				"rich-shuttle-button rich-shuttle-removeAll");
+
+		// styles of the second set of buttons
+		defaultStyleClasses.put("topControl",
+				"rich-shuttle-button rich-shuttle-top");
+		defaultStyleClasses.put("upControl",
+				"rich-shuttle-button rich-shuttle-up");
+		defaultStyleClasses.put("downControl",
+				"rich-shuttle-button rich-shuttle-down");
+		defaultStyleClasses.put("bottomControl",
+				"rich-shuttle-button rich-shuttle-bottom");
+
+		// styles of captions
+		defaultStyleClasses.put("sourceCaption", "rich-shuttle-source-caption");
+		defaultStyleClasses.put("targetCaption", "rich-shuttle-target-caption");
+
+		// styles of rows
+		defaultStyleClasses.put("sourceRow", "rich-shuttle-source-row");
+		defaultStyleClasses.put("targetRow", "rich-shuttle-target-row");
+
+		// styles of rows
+		defaultStyleClasses.put("columns", "");
 
 	}
 
@@ -225,6 +304,11 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	private final List<String> targetButtons = new ArrayList<String>();
 
 	/**
+	 * 
+	 */
+	private static final Map<String, String> styleClasses = new HashMap<String, String>();
+
+	/**
 	 * value of vertical-align attribute for source (copy/remove) buttons
 	 */
 	private String sourceButtonsAlign;
@@ -248,6 +332,26 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * value of width attribute of target list
 	 */
 	private String targetListsWidth;
+
+	/**
+	 * row style class
+	 */
+	private String rowClass;
+
+	/**
+	 * column style class
+	 */
+	private List<String> columnClasses;
+
+	/**
+	 * facetLabels
+	 */
+	private final Map<String, Node> facetLabels = new HashMap<String, Node>();
+
+	/**
+	 * 
+	 */
+	private boolean isShowButtonLabels;
 
 	/**
 	 * 
@@ -292,11 +396,14 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 		// create table element
 		nsIDOMElement basicTable = visualDocument.createElement(HTML.TAG_TABLE);
-		ComponentUtil.copyAttributes(sourceNode, basicTable);
+		// ComponentUtil.copyAttributes(sourceNode, basicTable);
+
+		basicTable.setAttribute("class", styleClasses.get("style"));
+
 		VpeCreationData creationData = new VpeCreationData(basicTable);
 
 		// create caption
-		nsIDOMElement caption = createCaption(visualDocument);
+		nsIDOMElement caption = createCaption(visualDocument, creationData);
 		if (caption != null)
 			basicTable.appendChild(caption);
 
@@ -306,7 +413,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create source box
 		nsIDOMElement sourceBoxTd = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement sourceBox = createBox(visualDocument, creationData,
-				children);
+				children, "source");
 		sourceBox.setAttribute(HTML.ATTR_STYLE, "width:" + sourceListsWidth
 				+ ";height:" + listsHeight + ";");
 		sourceBoxTd.appendChild(sourceBox);
@@ -315,7 +422,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		nsIDOMElement sourceButtonsTd = visualDocument
 				.createElement(HTML.TAG_TD);
 		nsIDOMElement sourceButtonsBlock = createButtonsBlock(visualDocument,
-				sourceButtons);
+				creationData, sourceButtons);
 		sourceButtonsTd.appendChild(sourceButtonsBlock);
 
 		// set vertical-align attribute for source buttons
@@ -325,7 +432,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create target box
 		nsIDOMElement targetBoxTd = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement targetBox = createBox(visualDocument, creationData,
-				children);
+				children, "target");
 		targetBox.setAttribute(HTML.ATTR_STYLE, "width:" + targetListsWidth
 				+ ";height:" + listsHeight + ";");
 		targetBoxTd.appendChild(targetBox);
@@ -334,7 +441,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		nsIDOMElement targetButtonsTd = visualDocument
 				.createElement(HTML.TAG_TD);
 		nsIDOMElement targetButtonsBlock = createButtonsBlock(visualDocument,
-				targetButtons);
+				creationData, targetButtons);
 		targetButtonsTd.appendChild(targetButtonsBlock);
 
 		// set vertical-align attribute for target buttons
@@ -350,6 +457,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// add "tr" to table
 		basicTable.appendChild(basicTr);
 
+		clearData();
+
 		return creationData;
 	}
 
@@ -361,24 +470,29 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * @param sourceCaptionLabel
 	 * @param targetCaptionLabel
 	 * @param visualDocument
+	 * @param creationData
+	 * @param sourceElement
 	 * @return
 	 */
-	private nsIDOMElement createCaption(nsIDOMDocument visualDocument) {
+	private nsIDOMElement createCaption(nsIDOMDocument visualDocument,
+			VpeCreationData creationData) {
 
 		// check sourceCaptionLabel
 		if ((labels.get(SOURCE_CAPTION).length() == 0)
-				&& (labels.get(TARGET_CAPTION).length() == 0))
+				&& (!facetLabels.containsKey(SOURCE_CAPTION))
+				&& (labels.get(TARGET_CAPTION).length() == 0)
+				&& (!facetLabels.containsKey(TARGET_CAPTION)))
 			return null;
 
 		// basic element for caption is "tr" tag
 		nsIDOMElement caption = visualDocument.createElement(HTML.TAG_TR);
 
 		// create source caption label
-		caption.appendChild(createCaptionLabel(visualDocument, labels
-				.get(SOURCE_CAPTION)));
+		caption.appendChild(createCaptionLabel(visualDocument, creationData,
+				SOURCE_CAPTION));
 		// create target caption label
-		caption.appendChild(createCaptionLabel(visualDocument, labels
-				.get(TARGET_CAPTION)));
+		caption.appendChild(createCaptionLabel(visualDocument, creationData,
+				TARGET_CAPTION));
 
 		return caption;
 
@@ -388,11 +502,13 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * create caption label
 	 * 
 	 * @param visualDocument
+	 * @param creationData
+	 * @param sourceElement
 	 * @param label
 	 * @return
 	 */
 	private nsIDOMElement createCaptionLabel(nsIDOMDocument visualDocument,
-			String label) {
+			VpeCreationData creationData, String labelId) {
 
 		// create "td" for target caption label
 		nsIDOMElement captionLabelTd = visualDocument
@@ -400,14 +516,25 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 		// set attributes
 		captionLabelTd.setAttribute(HTML.ATTR_COLSPAN, "2");
-		captionLabelTd.setAttribute(HTML.ATTR_CLASS,
-				"rich-shuttle-caption-label");
+		captionLabelTd.setAttribute(HTML.ATTR_CLASS, styleClasses.get(labelId));
 
+		// if facet is defined for this label add facet to "td"
+		if (facetLabels.containsKey(labelId)) {
+
+			VpeChildrenInfo captionLabelTdInfo = new VpeChildrenInfo(
+					captionLabelTd);
+			creationData.addChildrenInfo(captionLabelTdInfo);
+
+			captionLabelTdInfo.addSourceChild(facetLabels.get(labelId));
+		}
 		// add to "td" value of captionLabel
-		nsIDOMText captionLabelText = visualDocument.createTextNode(label);
+		else {
+			nsIDOMText captionLabelText = visualDocument.createTextNode(labels
+					.get(labelId));
 
-		captionLabelTd.appendChild(captionLabelText);
+			captionLabelTd.appendChild(captionLabelText);
 
+		}
 		return captionLabelTd;
 
 	}
@@ -420,17 +547,21 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * @return
 	 */
 	private nsIDOMElement createBox(nsIDOMDocument visualDocument,
-			VpeCreationData creationData, List<Node> children) {
+			VpeCreationData creationData, List<Node> children, String boxId) {
 
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
-		div.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-box");
+		div.setAttribute(HTML.ATTR_CLASS, styleClasses.get("list"));
 		// create table element
 		nsIDOMElement box = visualDocument.createElement(HTML.TAG_TABLE);
-		// box.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-box");
+		box.setAttribute("cellspacing", "0");
+		box.setAttribute("cellpadding", "0");
+		box.setAttribute("width", "100%");
 
 		// create "tr" for box
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		tr.setAttribute(HTML.ATTR_STYLE, "vertical-align:top");
+		tr.setAttribute(HTML.ATTR_CLASS, styleClasses.get(boxId + "Row") + " "
+				+ rowClass);
 
 		VpeChildrenInfo trInfo = new VpeChildrenInfo(tr);
 		creationData.addChildrenInfo(trInfo);
@@ -452,20 +583,22 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * create buttons block
 	 * 
 	 * @param visualDocument
+	 * @param creationData
 	 * @param buttonNames
 	 * @return
 	 */
 	private nsIDOMElement createButtonsBlock(nsIDOMDocument visualDocument,
-			List<String> buttonNames) {
+			VpeCreationData creationData, List<String> buttonNames) {
 
 		// create "div"
 		nsIDOMElement buttonsBlock = visualDocument.createElement(HTML.TAG_DIV);
-		buttonsBlock.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-controls");
+		buttonsBlock
+				.setAttribute(HTML.ATTR_CLASS, styleClasses.get("controls"));
 
 		for (String buttonId : buttonNames) {
 
-			buttonsBlock.appendChild(createButton(visualDocument, labels
-					.get(buttonId), buttonImages.get(buttonId)));
+			buttonsBlock.appendChild(createButton(visualDocument, creationData,
+					buttonId));
 
 		}
 
@@ -477,44 +610,57 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * create button
 	 * 
 	 * @param visualDocument
+	 * @param creationData
 	 * @param buttonValue
 	 * @param buttonImage
 	 * @return
 	 */
 	private nsIDOMElement createButton(nsIDOMDocument visualDocument,
-			String buttonValue, String buttonImageFile) {
+			VpeCreationData creationData, String buttonId) {
 
 		nsIDOMElement buttonSpace = visualDocument.createElement(HTML.TAG_DIV);
 		buttonSpace.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-control");
 
-		// button represent "div" element
-		nsIDOMElement button = visualDocument.createElement(HTML.TAG_DIV);
-		button.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-button");
-		button.setAttribute(HTML.ATTR_STYLE, ComponentUtil
-				.getBackgoundImgStyle("shuttle/button.gif"));
+		if (facetLabels.containsKey(buttonId)) {
 
-		// button represent "div" element
-		nsIDOMElement buttonContent = visualDocument
-				.createElement(HTML.TAG_DIV);
-		buttonContent.setAttribute(HTML.ATTR_CLASS,
-				"rich-shuttle-button-content");
+			VpeChildrenInfo buttonInfo = new VpeChildrenInfo(buttonSpace);
+			creationData.addChildrenInfo(buttonInfo);
 
-		nsIDOMElement buttonImage = visualDocument.createElement(HTML.TAG_IMG);
+			buttonInfo.addSourceChild(facetLabels.get(buttonId));
 
-		buttonImage.setAttribute(HTML.ATTR_WIDTH, "15");
-		buttonImage.setAttribute(HTML.ATTR_HEIGHT, "15");
-		buttonImage
-				.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-button-content");
-		ComponentUtil.setImg(buttonImage, buttonImageFile);
+		} else {
+			// button represent "div" element
+			nsIDOMElement button = visualDocument.createElement(HTML.TAG_DIV);
+			button.setAttribute(HTML.ATTR_CLASS, styleClasses.get(buttonId));
+			button.setAttribute(HTML.ATTR_STYLE, ComponentUtil
+					.getBackgoundImgStyle(BUTTON_IMG_PATH));
+			// button represent "div" element
+			nsIDOMElement buttonContent = visualDocument
+					.createElement(HTML.TAG_DIV);
+			buttonContent.setAttribute(HTML.ATTR_CLASS,
+					"rich-shuttle-button-content");
 
-		nsIDOMText buttonText = visualDocument.createTextNode(buttonValue);
+			nsIDOMElement buttonImage = visualDocument
+					.createElement(HTML.TAG_IMG);
 
-		buttonContent.appendChild(buttonImage);
-		buttonContent.appendChild(buttonText);
+			buttonImage.setAttribute(HTML.ATTR_WIDTH, "15");
+			buttonImage.setAttribute(HTML.ATTR_HEIGHT, "15");
+			buttonImage.setAttribute(HTML.ATTR_CLASS,
+					"rich-shuttle-button-content");
+			ComponentUtil.setImg(buttonImage, buttonImages.get(buttonId));
+			buttonContent.appendChild(buttonImage);
 
-		button.appendChild(buttonContent);
-		buttonSpace.appendChild(button);
+			if (isShowButtonLabels) {
+				nsIDOMText buttonText = visualDocument.createTextNode(labels
+						.get(buttonId));
 
+				buttonContent.appendChild(buttonText);
+			}
+
+			button.appendChild(buttonContent);
+
+			buttonSpace.appendChild(button);
+		}
 		return buttonSpace;
 
 	}
@@ -527,37 +673,81 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	void prepareData(Element sourceElement) {
 
 		// prepare labels
-		labels.clear();
-
 		Set<String> labelsKeys = defaultLabels.keySet();
+
+		isShowButtonLabels = !"false".equalsIgnoreCase(sourceElement
+				.getAttribute(ATTR_SHOW_BUTTON_LABELS));
+
 		for (String key : labelsKeys) {
 
 			String label = sourceElement.getAttribute(key + "Label");
+
 			if (label != null)
 				labels.put(key, label);
 			else
 				labels.put(key, defaultLabels.get(key));
 		}
 
-		// prepare source buttons
-		sourceButtons.clear();
-		if (!"false".equalsIgnoreCase(sourceElement
-				.getAttribute(ATTR_FAST_MOVE_CONTROLS_VIZIBLE)))
-			sourceButtons.addAll(fastMoveButtons);
-		if (!"false".equalsIgnoreCase(sourceElement
-				.getAttribute(ATTR_MOVE_CONTROLS_VIZIBLE)))
-			sourceButtons
-					.addAll(sourceButtons.size() == 0 ? 0 : 1, moveButtons);
+		// prepare style classes
+		Set<String> styleClassesKeys = defaultStyleClasses.keySet();
+		for (String key : styleClassesKeys) {
 
-		// prepare target buttons
-		targetButtons.clear();
-		if (!"false".equalsIgnoreCase(sourceElement
-				.getAttribute(ATTR_FAST_ORDER_CONTROLS_VIZIBLE)))
-			targetButtons.addAll(fastOrderButtons);
-		if (!"false".equalsIgnoreCase(sourceElement
-				.getAttribute(ATTR_ORDER_CONTROLS_VIZIBLE)))
-			targetButtons.addAll(targetButtons.size() == 0 ? 0 : 1,
-					orderButtons);
+			String styleClass = sourceElement.getAttribute(key + "Class");
+			if (styleClass != null)
+				styleClasses.put(key, defaultStyleClasses.get(key) + " "
+						+ styleClass);
+			else
+				styleClasses.put(key, defaultStyleClasses.get(key));
+		}
+
+		// prepare facets
+		NodeList children = sourceElement.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+
+			Node child = children.item(i);
+
+			if ((child instanceof Element)
+					&& ("facet".equals(child.getLocalName()))
+					&& (defaultLabels.containsKey(((Element) child)
+							.getAttribute("name")))) {
+
+				facetLabels.put(((Element) child).getAttribute("name"), child);
+
+			}
+
+		}
+
+		// get rowClass
+		String rowClasses = sourceElement.getAttribute(ATTR_ROW_CLASSES);
+
+		// if this attribue exist then
+		if (rowClasses != null) {
+			rowClass = rowClasses.split(",")[0];
+		}
+
+		// if "controlsType" attribute is not "none" (if buttons are visible)
+		if (!"none".equalsIgnoreCase(sourceElement
+				.getAttribute(ATTR_CONTROLS_TYPE))) {
+
+			// prepare source buttons
+			if (!"false".equalsIgnoreCase(sourceElement
+					.getAttribute(ATTR_FAST_MOVE_CONTROLS_VIZIBLE)))
+				sourceButtons.addAll(fastMoveButtons);
+			if (!"false".equalsIgnoreCase(sourceElement
+					.getAttribute(ATTR_MOVE_CONTROLS_VIZIBLE)))
+				sourceButtons.addAll(sourceButtons.size() == 0 ? 0 : 1,
+						moveButtons);
+
+			// prepare target buttons
+			if (!"false".equalsIgnoreCase(sourceElement
+					.getAttribute(ATTR_FAST_ORDER_CONTROLS_VIZIBLE)))
+				targetButtons.addAll(fastOrderButtons);
+			if (!"false".equalsIgnoreCase(sourceElement
+					.getAttribute(ATTR_ORDER_CONTROLS_VIZIBLE)))
+				targetButtons.addAll(targetButtons.size() == 0 ? 0 : 1,
+						orderButtons);
+
+		}
 
 		// prepare buttons attributes
 		sourceButtonsAlign = sourceElement
@@ -583,4 +773,22 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				.getAttribute(ATTR_TARGET_LIST_WIDTH)
 				: DEFAULT_LIST_WIDTH;
 	}
+
+	private void clearData() {
+
+		labels.clear();
+		styleClasses.clear();
+		sourceButtons.clear();
+		targetButtons.clear();
+		facetLabels.clear();
+
+	}
+
+	/**
+	 * 
+	 * @param sourceElement
+	 * @param name
+	 * @return
+	 */
+
 }

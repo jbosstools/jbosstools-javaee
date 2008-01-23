@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.richfaces;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -49,7 +50,8 @@ public class ComponentUtil {
 		NodeList children = sourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
-			if (node instanceof Element && node.getNodeName()!=null && node.getNodeName().indexOf(":facet")>0) {
+			if (node instanceof Element && node.getNodeName() != null
+					&& node.getNodeName().indexOf(":facet") > 0) {
 				Element element = (Element) node;
 				String name = element.getAttribute("name");
 				if (facetName.equals(name)) {
@@ -249,20 +251,44 @@ public class ComponentUtil {
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
 		for (int i = 0; i < namedNodeMap.getLength(); i++) {
 			Node attribute = namedNodeMap.item(i);
-			//added by Max Areshkau fix for JBIDE-1568
+			// added by Max Areshkau fix for JBIDE-1568
 			try {
 
-			visualElement.setAttribute(attribute.getNodeName(), attribute
-					.getNodeValue());
-			} catch(XPCOMException ex) {
-				//if error-code not equals error for incorrect name  throws exception
+				visualElement.setAttribute(attribute.getNodeName(), attribute
+						.getNodeValue());
+			} catch (XPCOMException ex) {
+				// if error-code not equals error for incorrect name throws
+				// exception
 				// error code is NS_ERROR_DOM_INVALID_CHARACTER_ERR=0x80530005
-				if(ex.errorcode!=2152923141L) {
+				if (ex.errorcode != 2152923141L) {
 					throw ex;
 				}
-				//else we ignore this exception
+				// else we ignore this exception
 			}
 		}
+	}
+
+	/**
+	 * Copies attributes from source node to visual node.
+	 * 
+	 * @param attributes -
+	 *            list names of attributes which will copy
+	 * @param sourceNode
+	 * @param visualNode
+	 */
+	public static void copyAttributes(Element sourceElement,
+			List<String> attributes, nsIDOMElement visualElement) {
+
+		if (attributes == null)
+			return;
+
+		for (String attributeName : attributes) {
+
+			String attributeValue = sourceElement.getAttribute(attributeName);
+			if (attributeValue != null)
+				visualElement.setAttribute(attributeName, attributeValue);
+		}
+
 	}
 
 	/**
@@ -303,6 +329,10 @@ public class ComponentUtil {
 				+ imgPath.replace('\\', '/') + ");";
 		return style;
 	}
+	
+//	public static createStyleClass(String content){
+//		
+//	}
 
 	/**
 	 * Returns value of attribute.
@@ -456,24 +486,25 @@ public class ComponentUtil {
 		} else
 			visualNode.removeAttribute(attrName);
 	}
-	
+
 	/**
-	 * Parses string value retrieved from 
-	 * sourceElement.getAttribure(..) method 
+	 * Parses string value retrieved from sourceElement.getAttribure(..) method
 	 * to its boolean value.
 	 * <p>
 	 * <code>false</code> is returned only if it specified explicitly,
 	 * otherwise <code>true</code> is returned.
 	 * 
-	 * @param str the string to parse
+	 * @param str
+	 *            the string to parse
 	 * @return boolean value from string
 	 */
 	public static boolean string2boolean(String str) {
 		if ((str == null) || ("".equals(str))) {
 			return true;
-		} else if (("true".equalsIgnoreCase(str)) || ("false".equalsIgnoreCase(str))) {
+		} else if (("true".equalsIgnoreCase(str))
+				|| ("false".equalsIgnoreCase(str))) {
 			return new Boolean(str).booleanValue();
-		} 
+		}
 		return true;
 	}
 
