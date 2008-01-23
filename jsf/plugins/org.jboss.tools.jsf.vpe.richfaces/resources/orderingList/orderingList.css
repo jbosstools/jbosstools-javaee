@@ -127,6 +127,12 @@
 	text-align:left;
 }
 
+.dr-buttons-border {
+	border:1px solid;
+	margin-bottom:3px;	
+	border-color: #000000
+}
+
 .rich-ordering-list-caption {
 	white-space: normal; 
 	word-wrap: break-word; 
@@ -144,7 +150,7 @@
 }
 
 .rich-ordering-controls {
-	border:1px solid;
+	border:0px solid;
 	margin-bottom:3px;
 }
 .rich-ordering-control-top {
@@ -164,22 +170,13 @@
 	margin-bottom:3px;
 }
 
-.rich-ordering-control-disabled {
-	border:1px solid;
-	margin-bottom:3px;
-}
-
 .rich-ordering-list-button {
-	background-color:#E3DED5;
-	background-repeat: repeat-x;
 	background-attachment: scroll;
 	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
 	cursor: pointer;
-}
-a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selection:link, a.rich-ordering-list-button-a-disabled:visited, a.rich-ordering-list-button-a-disabled:link {
-	text-decoration:none;
+	border-width:0px;
 }
 
 .rich-ordering-list-button-content {
@@ -187,7 +184,13 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 	font-size:11px;
 	text-align:left;
 	white-space:nowrap;
+	border-width:0px;
 }
+
+a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selection:link, a.rich-ordering-list-button-a-disabled:visited, a.rich-ordering-list-button-a-disabled:link {
+	text-decoration:none;
+}
+
 
 .rich-ordering-list-button-content img {
 	margin-right:2px;
@@ -204,28 +207,34 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 	background-color:#FFFFFF;
 	border-color:#C0C0C0;
 	border-width:1px;
-}
-
-.rich-ordering-list-header {
-	overflow:hidden;
-	width:100%;
+	width: 100%;
 }
 
 .rich-ordering-list-content {
 	overflow:hidden;
 	width:100%;
 }
+.rich-ordering-list-header {
+	overflow:hidden;
+	width:100%;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	text-align: center;
+}
 
 .rich-ordering-list-footer {
 	overflow:hidden;
 	width:100%;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	text-align: center;
 }
 
 .rich-ordering-list-table-header {
 	
 }
 
-.rich-ordering-list-table-header-cell, .rich-ordering-list-table-header-cell-last {
+.rich-ordering-list-table-header-cell{
 	background-color: #E3DED5;
 	background-repeat: repeat-x;
 	background-attachment: scroll;
@@ -239,8 +248,24 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 	text-align: center;
 	
 }
-.rich-ordering-list-table-header-cell-last {
-	border-right-width:0pt;
+
+.rich-ordering-list-table-footer {
+	
+}
+
+.rich-ordering-list-table-footer-cell{
+	background-color: #E3DED5;
+	background-repeat: repeat-x;
+	background-attachment: scroll;
+	border-bottom-color:#C4C0C9;
+	border-bottom-width:1px;
+	border-right-color:#C4C0C9;
+	border-right-width:1px;
+	color:#000000;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	text-align: center;
+	
 }
 
 .rich-ordering-list-items {
