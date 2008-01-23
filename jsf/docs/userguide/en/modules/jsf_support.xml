@@ -117,7 +117,7 @@
                 <table>
                         <title>Facelets Templates</title>
                         <tgroup cols="2">
-                                <colspec colnum="1" colwidth="1*"/>
+                                <colspec colnum="1" colwidth="2*"/>
                                 <colspec colnum="2" colwidth="3*"/>
                                 
                                 

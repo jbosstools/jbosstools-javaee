@@ -280,9 +280,24 @@
         <xsl:attribute name="padding-top">4pt</xsl:attribute>
         <xsl:attribute name="padding-bottom">4pt</xsl:attribute>
     </xsl:attribute-set>
+    
+    <xsl:param name="table.cell.border.color">black</xsl:param>
+    <xsl:param name="table.frame.border.color">black</xsl:param>
+    
     <!-- Only hairlines as frame and cell borders in tables -->
+   
+
     <xsl:param name="table.frame.border.thickness">0.1pt</xsl:param>
     <xsl:param name="table.cell.border.thickness">0.1pt</xsl:param>
+
+    
+    
+    <xsl:attribute-set name="table.table.properties">
+        <xsl:attribute name="keep-together.within-column">auto</xsl:attribute>
+    </xsl:attribute-set>
+    <xsl:attribute-set name="table.properties">
+        <xsl:attribute name="keep-together.within-column">auto</xsl:attribute>
+    </xsl:attribute-set>
     
     
     
