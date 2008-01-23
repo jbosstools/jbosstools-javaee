@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -65,7 +65,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	/**
 	 * path to img
 	 */
-	private static final String HEADER_IMG_PATH = "shuttle/button.gif";
+	private static final String HEADER_IMG_PATH = "shuttle/header.gif";
 
 	/**
 	 * default value of width of box(list)
@@ -177,7 +177,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		defaultStyleClasses.put("style", "rich-list-shuttle");
 
 		// styles of the lists
-		defaultStyleClasses.put("list-header", "rich-shuttle-list-header");
+		defaultStyleClasses.put("header", "rich-shuttle-list-header");
+		defaultStyleClasses.put("headerCell", "rich-shuttle-header-tab-cell");
 		defaultStyleClasses.put("list", "rich-shuttle-list-content");
 
 		// styles of button's block
@@ -360,17 +361,11 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument,
-	 *      org.mozilla.interfaces.nsIDOMElement, java.lang.Object,
-	 *      java.lang.String, java.lang.String)
-	 */
+	@Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -383,17 +378,13 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
-		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "shuttle");
-
 		// cast to Element
 		Element sourceElement = (Element) sourceNode;
-
-		// get children
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
 
 		// prepare data
 		prepareData(sourceElement);
 
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "shuttle");
 		// create table element
 		nsIDOMElement basicTable = visualDocument.createElement(HTML.TAG_TABLE);
 		// ComponentUtil.copyAttributes(sourceNode, basicTable);
@@ -413,9 +404,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create source box
 		nsIDOMElement sourceBoxTd = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement sourceBox = createBox(visualDocument, creationData,
-				children, "source");
+				getChildren(sourceNode), "source");
 		sourceBox.setAttribute(HTML.ATTR_STYLE, "width:" + sourceListsWidth
-				+ ";height:" + listsHeight + ";");
+		 + ";height:" + listsHeight + ";" );
 		sourceBoxTd.appendChild(sourceBox);
 
 		// create source buttons
@@ -432,9 +423,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create target box
 		nsIDOMElement targetBoxTd = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement targetBox = createBox(visualDocument, creationData,
-				children, "target");
+				getChildren(sourceNode), "target");
 		targetBox.setAttribute(HTML.ATTR_STYLE, "width:" + targetListsWidth
-				+ ";height:" + listsHeight + ";");
+		 + ";height:" + listsHeight + ";");
 		targetBoxTd.appendChild(targetBox);
 
 		// create target buttons
@@ -556,20 +547,56 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		box.setAttribute("cellspacing", "0");
 		box.setAttribute("cellpadding", "0");
 		box.setAttribute("width", "100%");
+//		box.setAttribute("height", listsHeight);
 
-		// create "tr" for box
+		nsIDOMElement header = createHeader(visualDocument, creationData,
+				children);
+		if (header != null)
+			box.appendChild(header);
+
+		// create body for box
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		tr.setAttribute(HTML.ATTR_STYLE, "vertical-align:top");
 		tr.setAttribute(HTML.ATTR_CLASS, styleClasses.get(boxId + "Row") + " "
 				+ rowClass);
 
-		VpeChildrenInfo trInfo = new VpeChildrenInfo(tr);
-		creationData.addChildrenInfo(trInfo);
+		// VpeChildrenInfo trInfo = new VpeChildrenInfo(tr);
+		// creationData.addChildrenInfo(trInfo);
 
 		// add children to "tr" element
+		int columnCount = 0;
 		for (Node child : children) {
 			if ("column".equals(child.getLocalName())) {
-				trInfo.addSourceChild(child);
+
+				nsIDOMElement column = visualDocument
+						.createElement(HTML.TAG_TD);
+				
+				tr.appendChild(column);
+
+				if (columnClasses.size() > 0) {
+
+					String columnClass = columnClasses.get(columnCount
+							% columnClasses.size());
+					column.setAttribute(HTML.ATTR_CLASS, columnClass);
+
+				}
+				nsIDOMElement columnTable = visualDocument
+						.createElement(HTML.TAG_TABLE);
+				column.appendChild(columnTable);
+
+				nsIDOMElement columnTableTr = visualDocument
+						.createElement(HTML.TAG_TR);
+				columnTable.appendChild(columnTableTr);
+
+				VpeChildrenInfo columnTableTrInfo = new VpeChildrenInfo(
+						columnTableTr);
+				creationData.addChildrenInfo(columnTableTrInfo);
+				columnTableTrInfo.addSourceChild(child);
+
+				columnCount++;
+
+				// trInfo.addSourceChild(child);
+
 			}
 		}
 
@@ -630,11 +657,17 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 		} else {
 			// button represent "div" element
+			nsIDOMElement metaButton = visualDocument
+					.createElement(HTML.TAG_DIV);
+
+			metaButton.setAttribute(HTML.ATTR_STYLE, ComponentUtil
+					.getBackgoundImgStyle(BUTTON_IMG_PATH));
+
+			// button represent "div" element
+
 			nsIDOMElement button = visualDocument.createElement(HTML.TAG_DIV);
 			button.setAttribute(HTML.ATTR_CLASS, styleClasses.get(buttonId));
-			button.setAttribute(HTML.ATTR_STYLE, ComponentUtil
-					.getBackgoundImgStyle(BUTTON_IMG_PATH));
-			// button represent "div" element
+
 			nsIDOMElement buttonContent = visualDocument
 					.createElement(HTML.TAG_DIV);
 			buttonContent.setAttribute(HTML.ATTR_CLASS,
@@ -645,8 +678,6 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 			buttonImage.setAttribute(HTML.ATTR_WIDTH, "15");
 			buttonImage.setAttribute(HTML.ATTR_HEIGHT, "15");
-			buttonImage.setAttribute(HTML.ATTR_CLASS,
-					"rich-shuttle-button-content");
 			ComponentUtil.setImg(buttonImage, buttonImages.get(buttonId));
 			buttonContent.appendChild(buttonImage);
 
@@ -658,8 +689,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			}
 
 			button.appendChild(buttonContent);
-
-			buttonSpace.appendChild(button);
+			metaButton.appendChild(button);
+			buttonSpace.appendChild(metaButton);
 		}
 		return buttonSpace;
 
@@ -670,7 +701,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	 * 
 	 * @param sourceElement
 	 */
-	void prepareData(Element sourceElement) {
+	private void prepareData(Element sourceElement) {
 
 		// prepare labels
 		Set<String> labelsKeys = defaultLabels.keySet();
@@ -700,7 +731,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				styleClasses.put(key, defaultStyleClasses.get(key));
 		}
 
-		// prepare facets
+		// prepare facets for caption and buttons
 		NodeList children = sourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 
@@ -724,6 +755,13 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		if (rowClasses != null) {
 			rowClass = rowClasses.split(",")[0];
 		}
+
+		String columnClassesAtribute = sourceElement
+				.getAttribute(ATTR_COLUMN_CLASSES);
+		if (columnClassesAtribute != null)
+			columnClasses = Arrays.asList(columnClassesAtribute.split(","));
+		else
+			columnClasses = new ArrayList<String>();
 
 		// if "controlsType" attribute is not "none" (if buttons are visible)
 		if (!"none".equalsIgnoreCase(sourceElement
@@ -761,17 +799,34 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				: DEFAULT_BUTTON_ALIGN;
 
 		// prepare lists attributes
-		listsHeight = sourceElement.getAttribute(ATTR_LISTS_HEIGHT) != null ? sourceElement
-				.getAttribute(ATTR_LISTS_HEIGHT)
-				: DEFAULT_LIST_HEIGHT;
 
-		sourceListsWidth = sourceElement.getAttribute(ATTR_SOURCE_LIST_WIDTH) != null ? sourceElement
-				.getAttribute(ATTR_SOURCE_LIST_WIDTH)
-				: DEFAULT_LIST_WIDTH;
+		String listsHeightString = sourceElement
+				.getAttribute(ATTR_LISTS_HEIGHT);
+		try {
+			Integer.parseInt(listsHeightString);
+			listsHeight = listsHeightString;
+		} catch (NumberFormatException e) {
+			listsHeight = DEFAULT_LIST_HEIGHT;
+		}
 
-		targetListsWidth = sourceElement.getAttribute(ATTR_TARGET_LIST_WIDTH) != null ? sourceElement
-				.getAttribute(ATTR_TARGET_LIST_WIDTH)
-				: DEFAULT_LIST_WIDTH;
+		String sourceListWithString = sourceElement
+				.getAttribute(ATTR_SOURCE_LIST_WIDTH);
+		try {
+			Integer.parseInt(sourceListWithString);
+			sourceListsWidth = sourceListWithString;
+		} catch (NumberFormatException e) {
+			sourceListsWidth = DEFAULT_LIST_WIDTH;
+		}
+
+		String targetListWithString = sourceElement
+				.getAttribute(ATTR_TARGET_LIST_WIDTH);
+		try {
+			Integer.parseInt(targetListWithString);
+			targetListsWidth = targetListWithString;
+		} catch (NumberFormatException e) {
+			targetListsWidth = DEFAULT_LIST_WIDTH;
+		}
+
 	}
 
 	private void clearData() {
@@ -786,9 +841,125 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 	/**
 	 * 
-	 * @param sourceElement
+	 * @param node
 	 * @param name
 	 * @return
 	 */
+	private Element getNodeFacet(Node node, String name) {
 
+		NodeList children = node.getChildNodes();
+
+		Element facet = null;
+
+		for (int i = 0; i < children.getLength(); i++) {
+
+			Node child = children.item(i);
+
+			if ((child instanceof Element)
+					&& ("facet".equals(child.getLocalName()))
+					&& (name.equals(((Element) child).getAttribute("name")))) {
+
+				facet = (Element) child;
+
+			}
+
+		}
+		return facet;
+	}
+
+	/**
+	 * 
+	 * @param children
+	 * @return
+	 */
+	private boolean haveFacet(List<Node> children, String name) {
+
+		for (Node node : children) {
+
+			if (getNodeFacet(node, name) != null)
+				return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * 
+	 * @param visualDocument
+	 * @param creationData
+	 * @param children
+	 * @param id -
+	 *            "header" or "footer"
+	 * @return
+	 */
+	private nsIDOMElement createHeader(nsIDOMDocument visualDocument,
+			VpeCreationData creationData, List<Node> children) {
+
+		if (!haveFacet(children, "header"))
+			return null;
+
+		nsIDOMElement header = visualDocument.createElement(HTML.TAG_TR);
+
+		header.setAttribute(HTML.ATTR_CLASS, styleClasses.get(header));
+
+		for (Node child : children) {
+			if ("column".equals(child.getLocalName())) {
+
+				nsIDOMElement headerCell = visualDocument
+						.createElement(HTML.TAG_TH);
+
+				headerCell.setAttribute("background", ComponentUtil
+						.getAbsoluteResourcePath(HEADER_IMG_PATH));
+
+				// get header classes
+				String headerClass = styleClasses.get("headerCell");
+
+				if ((child instanceof Element)
+						&& (((Element) child).getAttribute("headerClass")) != null) {
+					headerClass += " "
+							+ ((Element) child).getAttribute("headerClass");
+				}
+				headerCell.setAttribute(HTML.ATTR_CLASS, headerClass);
+
+				Element facet = getNodeFacet(child, "header");
+				if (facet != null) {
+					VpeChildrenInfo headerCellInfo = new VpeChildrenInfo(
+							headerCell);
+					creationData.addChildrenInfo(headerCellInfo);
+
+					headerCellInfo.addSourceChild(facet);
+
+				} else {
+
+					nsIDOMElement pre = visualDocument
+							.createElement(HTML.TAG_PRE);
+
+					pre.appendChild(visualDocument.createTextNode(""));
+					headerCell.appendChild(pre);
+
+				}
+				header.appendChild(headerCell);
+
+			}
+		}
+
+		return header;
+
+	}
+
+	/**
+	 * 
+	 * @param sourceNode
+	 * @return
+	 */
+	public static List<Node> getChildren(Node sourceNode) {
+		ArrayList<Node> children = new ArrayList<Node>();
+		NodeList nodeList = sourceNode.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node child = nodeList.item(i);
+			children.add(child);
+		}
+		return children;
+	}
 }
