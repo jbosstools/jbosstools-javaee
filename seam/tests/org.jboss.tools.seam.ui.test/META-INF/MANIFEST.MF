@@ -34,7 +34,8 @@ Require-Bundle: org.junit,
  org.jboss.tools.jst.firstrun,
  org.eclipse.wst.server.core,
  org.eclipse.datatools.connectivity,
- org.jboss.tools.jst.jsp
+ org.jboss.tools.jst.jsp,
+ org.eclipse.jdt.ui
 Export-Package: org.jboss.tools.seam.ui.test,
  org.jboss.tools.seam.ui.test.view,
  org.jboss.tools.seam.ui.test.wizard
