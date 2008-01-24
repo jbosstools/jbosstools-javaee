@@ -1,132 +1,3 @@
-.dr-table {
-	border-top: 1px solid;
-	border-left: 1px solid;
-	border-color: #C4C0B9;
-}
-
-.dr-table-cell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	font-size: 11px;
-	color: #000000;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-subtable-cell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	font-size: 11px;
-	color: #000000;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-table-header {
-	background-color: #D4CFC7;
-	background-position: top left;
-	background-repeat: repeat-x;
-}
-
-.dr-table-header-continue {
-	background-color: #D4CFC7;
-}
-
-.dr-table-headercell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	color: #000000;
-	text-align: center;
-	font-weight: bold;
-	font-size: 11px;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-table-subheader {
-	background-color: #F1EEE9;
-}
-
-.dr-table-subheadercell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	text-align: center;
-	font-size: 11px;
-	font-color: #000000;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-table-footercell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	color: #000000;
-	text-align: center;
-	font-weight: bold;
-	font-size: 11px;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-table-subfootercell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	text-align: center;
-	font-size: 11px;
-	color: #000000;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-subtable-header {
-	background-color: #F1EEE9;
-}
-
-.dr-subtable-headercell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	text-align: center;
-	font-size: 11px;
-	color: #000000;
-	font-family: Arial, Verdana, sans-serif;
-}
-
-.dr-subtable-footercell {
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	border-color: #C4C0B9;
-	padding: 4px 4px 4px 4px;
-	text-align: center;
-}
-
-.dr-spr {
-	display: block;
-}
-
-.dr-table-hidden {
-	overflow: hidden;
-	border: solid 1px #C4C0C9;
-}
-
-.dr-default-caption-text {
-	font-size:14px;
-	text-align:center;
-	font-weight: bold;
-}
-
-.dr-default-control-button-text {
-	font-size:11px;
-	text-align:left;
-}
-
 .dr-buttons-border {
 	border:1px solid;
 	margin-bottom:3px;	
@@ -137,7 +8,7 @@
 	white-space: normal; 
 	word-wrap: break-word; 
 	font-weight: bold; 
-	font-size:14px;
+	font-size:12px;
 }
 
 /* BUTTONS DIV */
@@ -150,41 +21,36 @@
 }
 
 .rich-ordering-controls {
-	border:0px solid;
-	margin-bottom:3px;
+	font-family:Arial,Verdana,sans-serif;
+	margin-bottom:2px;
+	 background-repeat: repeat-x;
 }
 .rich-ordering-control-top {
-	border:1px solid;
-	margin-bottom:3px;
+	
 }	
 .rich-ordering-control-bottom {
-	border:1px solid;
-	margin-bottom:3px;
+	
 }	
 .rich-ordering-control-up {
-	border:1px solid;
-	margin-bottom:3px;
+	
 }
 .rich-ordering-control-down {
-	border:1px solid;
-	margin-bottom:3px;
+	
 }
 
 .rich-ordering-list-button {
-	background-attachment: scroll;
-	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
 	cursor: pointer;
-	border-width:0px;
 }
 
 .rich-ordering-list-button-content {
+	font-family:Arial,Verdana,sans-serif;
 	padding:0pt 4px 0pt 1px;
 	font-size:11px;
 	text-align:left;
 	white-space:nowrap;
-	border-width:0px;
+	/*border-width:0px;*/
 }
 
 a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selection:link, a.rich-ordering-list-button-a-disabled:visited, a.rich-ordering-list-button-a-disabled:link {
@@ -196,76 +62,60 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 	margin-right:2px;
 	vertical-align:middle;
 }
-
+*/
 
 /* TABLE CONTENT */
+
 .rich-ordering-list-body {
-	border:0pt solid;
+	/*border:0pt solid;*/
 }
 
 .rich-ordering-list-output {
-	background-color:#FFFFFF;
+	font-family:Arial,Verdana,sans-serif;
 	border-color:#C0C0C0;
 	border-width:1px;
 	width: 100%;
 }
 
 .rich-ordering-list-content {
+	font-family:Arial,Verdana,sans-serif;
 	overflow:hidden;
 	width:100%;
 }
 .rich-ordering-list-header {
+	font-family:Arial,Verdana,sans-serif;
 	overflow:hidden;
 	width:100%;
-	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
 	text-align: center;
 }
 
 .rich-ordering-list-footer {
+	font-family:Arial,Verdana,sans-serif;
 	overflow:hidden;
 	width:100%;
-	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
 	text-align: center;
 }
 
 .rich-ordering-list-table-header {
-	
+	 background-repeat: repeat-x;
 }
 
 .rich-ordering-list-table-header-cell{
-	background-color: #E3DED5;
-	background-repeat: repeat-x;
-	background-attachment: scroll;
-	border-bottom-color:#C4C0C9;
-	border-bottom-width:1px;
-	border-right-color:#C4C0C9;
-	border-right-width:1px;
-	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
 	text-align: center;
-	
 }
 
 .rich-ordering-list-table-footer {
-	
+	background-repeat: repeat-x;
 }
 
 .rich-ordering-list-table-footer-cell{
-	background-color: #E3DED5;
-	background-repeat: repeat-x;
-	background-attachment: scroll;
-	border-bottom-color:#C4C0C9;
-	border-bottom-width:1px;
-	border-right-color:#C4C0C9;
-	border-right-width:1px;
-	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
 	text-align: center;
-	
 }
 
 .rich-ordering-list-items {
@@ -273,14 +123,12 @@ a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selec
 }
 
 .rich-ordering-list-row {
-	
+	font-size:11px;
 }
 
 .rich-ordering-list-cell {
-	color:#000000;
 	font-family:Arial,Verdana,sans-serif;
 	font-size:11px;
-	padding:2px;
 	white-space:normal;
 	text-align: center;
 	width: 100%;

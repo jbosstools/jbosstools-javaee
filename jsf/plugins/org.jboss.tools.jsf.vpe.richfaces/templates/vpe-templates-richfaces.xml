@@ -347,10 +347,6 @@
     
     <vpe:tag name="rich:orderingList" case-sensitive="yes">
 		<vpe:template children="yes" modify="no" class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesOrderingList">
-			<vpe:resize>
-				<vpe:width width-attr="listWidth" />
-				<vpe:height height-attr="listHeight" />
-			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">

@@ -167,4 +167,7 @@ public class HtmlComponentUtil {
 	 
 	 /** HTML_ATTR_VALIGN_MIDDLE_VALUE */
 	 public static final String HTML_ATTR_VALIGN_MIDDLE_VALUE = "middle";
+
+	 /** HTML_ATTR_BACKGROUND */
+	 public static final String HTML_ATTR_BACKGROUND = "background";
 }
