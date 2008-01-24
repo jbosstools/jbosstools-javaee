@@ -34,6 +34,7 @@ import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
@@ -432,7 +433,7 @@ public class SeamELContentAssistTest extends TestCase {
 		} catch (PartInitException ex) {
 			exception = ex;
 			ex.printStackTrace();
-			assertTrue("The JSP Visual Editor couln'd be initialized.", false);
+			assertTrue("The JSP Visual Editor couldn't be initialized.", false);
 		}
 
 		JSPMultiPageEditor jspEditor = null;
@@ -449,13 +450,16 @@ public class SeamELContentAssistTest extends TestCase {
 			e.printStackTrace();
 			assertTrue("Waiting for the jobs to complete has failed.", false);
 		} 
-		delay(3000);
+		TestUtil.delay(3000);
 
 		JSPTextEditor jspTextEditor = jspEditor.getJspEditor();
 		StructuredTextViewer viewer = jspTextEditor.getTextViewer();
 		IDocument document = viewer.getDocument();
-		IContentAssistant contentAssistant = jspTextEditor.getSourceViewerConfigurationForTest().getContentAssistant(viewer);
-		
+		SourceViewerConfiguration config = TestUtil.getSourceViewerConfiguration(jspTextEditor);
+		IContentAssistant contentAssistant = (config == null ? null : config.getContentAssistant(viewer));
+
+		assertTrue("Cannot get the Content Assistant instance for the editor for page \"" + PAGE_NAME + "\"", (contentAssistant != null));
+
 		List<IRegion> regionsToTest = getELRegionsToTest(document);
 		if (regionsToTest != null) {
 			for (IRegion region : regionsToTest) {
@@ -473,7 +477,7 @@ public class SeamELContentAssistTest extends TestCase {
 						ICompletionProposal[] result= null;
 						String errorMessage = null;
 
-						IContentAssistProcessor p= getProcessor(viewer, offset, contentAssistant);
+						IContentAssistProcessor p= TestUtil.getProcessor(viewer, offset, contentAssistant);
 						if (p != null) {
 							try {
 								result= p.computeCompletionProposals(viewer, offset);
@@ -571,7 +575,7 @@ public class SeamELContentAssistTest extends TestCase {
 							ICompletionProposal[] result= null;
 							String errorMessage = null;
 	
-							IContentAssistProcessor p= getProcessor(viewer, offset, contentAssistant);
+							IContentAssistProcessor p= TestUtil.getProcessor(viewer, offset, contentAssistant);
 							if (p != null) {
 								try {
 									result= p.computeCompletionProposals(viewer, offset);
@@ -621,50 +625,4 @@ public class SeamELContentAssistTest extends TestCase {
 		.closeEditor(editorPart, false);
 
 	}
-	
-	private IContentAssistProcessor getProcessor(ITextViewer viewer, int offset, IContentAssistant ca) {
-		try {
-
-			IDocument document= viewer.getDocument();
-			String type= TextUtilities.getContentType(document, ((IContentAssistantExtension)ca).getDocumentPartitioning(), offset, true);
-
-			return ca.getContentAssistProcessor(type);
-
-		} catch (BadLocationException x) {
-		}
-
-		return null;
-	}
-
-	public SourceViewerConfiguration svConfiguration = null; 
-	
-    /**
-     * Process UI input but do not return for the specified time interval.
-     * 
-     * @param waitTimeMillis
-     *                the number of milliseconds
-     */
-    protected void delay(long waitTimeMillis) {
-	Display display = Display.getCurrent();
-
-	// If this is the UI thread,
-	// then process input.
-	if (display != null) {
-	    long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-	    while (System.currentTimeMillis() < endTimeMillis) {
-		if (!display.readAndDispatch())
-		    display.sleep();
-	    }
-	    display.update();
-	}
-	// Otherwise, perform a simple sleep.
-	else {
-	    try {
-		Thread.sleep(waitTimeMillis);
-	    } catch (InterruptedException e) {
-		// Ignored.
-	    }
-	}
-    }
-
 }
