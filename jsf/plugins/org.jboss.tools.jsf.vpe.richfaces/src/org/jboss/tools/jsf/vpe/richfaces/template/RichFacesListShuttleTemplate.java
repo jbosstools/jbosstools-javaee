@@ -662,7 +662,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 			metaButton.setAttribute(HTML.ATTR_STYLE, ComponentUtil
 					.getBackgoundImgStyle(BUTTON_IMG_PATH));
-
+			metaButton.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-meta-button");
+			
 			// button represent "div" element
 
 			nsIDOMElement button = visualDocument.createElement(HTML.TAG_DIV);
