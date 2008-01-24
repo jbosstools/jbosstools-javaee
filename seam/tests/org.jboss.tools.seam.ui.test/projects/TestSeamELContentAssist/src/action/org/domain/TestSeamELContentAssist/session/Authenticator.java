@@ -16,7 +16,7 @@ public class Authenticator
    
     public boolean authenticate()
     {
-        log.info("authenticating #0", identity.getUsername());
+        log.info("authenticating #{} #0", identity.getUsername());
         //write your authentication logic here,
         //return true if the authentication was
         //successful, false otherwise

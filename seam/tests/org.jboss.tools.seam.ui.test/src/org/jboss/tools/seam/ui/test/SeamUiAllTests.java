@@ -15,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
+import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;
 import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
@@ -37,6 +38,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamPreferencesPageTest.class);		
 		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
 		suite.addTestSuite(SeamELContentAssistTest.class);
+		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
 		return suite;
 	}
 }
