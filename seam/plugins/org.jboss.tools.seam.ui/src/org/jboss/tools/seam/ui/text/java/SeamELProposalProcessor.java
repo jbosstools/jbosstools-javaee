@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
@@ -427,7 +428,14 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 	 * @throws BadLocationException
 	 */
 	private boolean checkStartPositionInEL(ITextViewer viewer, int offset) throws BadLocationException {
-		IStructuredDocumentRegion sdRegion = ContentAssistUtils.getStructuredDocumentRegion(viewer, offset);
+		
+		// JBIDE-1676: Do not even try to get IStructuredDocument in case of not-a-structured document
+		// This will prevent class cast exceptions while using the editors other than StructuredEditor 
+		// (CompilationUnitEditor, for example). 
+		IStructuredDocumentRegion sdRegion = 
+			(viewer.getDocument() instanceof IStructuredDocument ? 
+					ContentAssistUtils.getStructuredDocumentRegion(viewer, offset) : 
+						null);
 		ITextRegion region = (sdRegion == null ? null : sdRegion.getRegionAtCharacterOffset(offset));
 		
 		int startIndex = (region == null ? 0 : sdRegion.getStartOffset() + region.getStart());
