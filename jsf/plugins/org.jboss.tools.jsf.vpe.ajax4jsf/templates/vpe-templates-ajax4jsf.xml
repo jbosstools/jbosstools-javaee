@@ -309,8 +309,7 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:include" case-sensitive="yes">
-	    <vpe:template children="no" modify="no">
-	    </vpe:template>
+	     <vpe:template children="yes" file="{@viewId}" class="org.jboss.tools.vpe.editor.template.VpeIncludeTemplate"/>
     </vpe:tag>
     
     <vpe:tag name="a4j:repeat" case-sensitive="yes">
