@@ -406,7 +406,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		nsIDOMElement sourceBox = createBox(visualDocument, creationData,
 				getChildren(sourceNode), "source");
 		sourceBox.setAttribute(HTML.ATTR_STYLE, "width:" + sourceListsWidth
-		 + ";height:" + listsHeight + ";" );
+				+ ";height:" + listsHeight + ";");
 		sourceBoxTd.appendChild(sourceBox);
 
 		// create source buttons
@@ -425,7 +425,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		nsIDOMElement targetBox = createBox(visualDocument, creationData,
 				getChildren(sourceNode), "target");
 		targetBox.setAttribute(HTML.ATTR_STYLE, "width:" + targetListsWidth
-		 + ";height:" + listsHeight + ";");
+				+ ";height:" + listsHeight + ";");
 		targetBoxTd.appendChild(targetBox);
 
 		// create target buttons
@@ -547,7 +547,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		box.setAttribute("cellspacing", "0");
 		box.setAttribute("cellpadding", "0");
 		box.setAttribute("width", "100%");
-//		box.setAttribute("height", listsHeight);
+		// box.setAttribute("height", listsHeight);
 
 		nsIDOMElement header = createHeader(visualDocument, creationData,
 				children);
@@ -570,7 +570,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 				nsIDOMElement column = visualDocument
 						.createElement(HTML.TAG_TD);
-				
+
 				tr.appendChild(column);
 
 				if (columnClasses.size() > 0) {
@@ -662,8 +662,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 			metaButton.setAttribute(HTML.ATTR_STYLE, ComponentUtil
 					.getBackgoundImgStyle(BUTTON_IMG_PATH));
-			metaButton.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-meta-button");
-			
+			metaButton
+					.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-meta-button");
+
 			// button represent "div" element
 
 			nsIDOMElement button = visualDocument.createElement(HTML.TAG_DIV);
@@ -910,8 +911,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				nsIDOMElement headerCell = visualDocument
 						.createElement(HTML.TAG_TH);
 
-				headerCell.setAttribute("background", ComponentUtil
-						.getAbsoluteResourcePath(HEADER_IMG_PATH));
+				headerCell.setAttribute("background", "file:///"
+						+ ComponentUtil
+								.getAbsoluteResourcePath(HEADER_IMG_PATH));
 
 				// get header classes
 				String headerClass = styleClasses.get("headerCell");
