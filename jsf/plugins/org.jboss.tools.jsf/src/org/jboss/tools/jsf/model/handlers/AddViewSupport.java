@@ -223,8 +223,17 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		return isCorrectPath(path) && !fileExists(path);
 	}
 	
+	String FORBIDDEN_INDICES = "\"\n\t*\\:<>?|";
+	
 	private boolean isCorrectPath(String path) {
 		if(path == null || path.equals("/") || path.indexOf("//") >= 0) return false;
+		if(path.endsWith("/") || path.indexOf("../") >= 0) return false;
+		if(path.endsWith("..")) return false;
+		for (int i = 0; i < FORBIDDEN_INDICES.length(); i++) {
+			if(path.indexOf(FORBIDDEN_INDICES.charAt(i)) >= 0) {
+				return false;
+			}
+		}				
 		return true;
 	}
 	
