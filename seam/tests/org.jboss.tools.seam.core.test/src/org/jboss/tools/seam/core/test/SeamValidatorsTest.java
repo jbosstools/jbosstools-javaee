@@ -22,20 +22,13 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.internal.decorators.DecoratorManager;
-import org.eclipse.ui.progress.UIJob;
-import org.jboss.tools.common.model.XJob;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
-import org.jboss.tools.seam.core.test.project.facet.TestUtils;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class SeamValidatorsTest extends TestCase {
@@ -61,8 +54,7 @@ public class SeamValidatorsTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
-	
+
 	public void testComponentsValidator() {
 		ISeamProject seamProject = getSeamProject(project);
 		
@@ -187,10 +179,10 @@ public class SeamValidatorsTest extends TestCase {
 		refreshProject(project);
 		
 		number = getMarkersNumber(componentsFile);
-		assertFalse("Problem marker 'Component class name cannot be resolved to a type' not found' not found' not found", number == 0);
+		assertFalse("Problem marker 'Component class name cannot be resolved to a type' was not found", number == 0);
 		
 		messages = getMarkersMessage(componentsFile);
-		assertTrue("Problem marker 'Component class name cannot be resolved to a type' not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(messages[0]));
+		assertTrue("Problem marker 'Component class name cannot be resolved to a type' was not found", "\"org.domain.SeamWebTestProject.session.StateComponent\" cannot be resolved to a type".equals(messages[0]));
 		
 		lineNumbers = getMarkersNumbersOfLine(componentsFile);
 		
@@ -257,64 +249,29 @@ public class SeamValidatorsTest extends TestCase {
 			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
 					"'abcEntity.2'", ex);
 		}
-		
+
 		refreshProject(project);
-		
+
 		number = getMarkersNumber(abcEntityFile);
 		assertFalse("Problem marker 'Entity component has wrong scope' not found' not found' not found", number == 0);
-		
+
 		String[] messages = getMarkersMessage(abcEntityFile);
 		assertTrue("Problem marker 'Entity component has wrong scope' not found", "Entity component \"abcEntity\" should not have org.jboss.seam.ScopeType.STATELESS".equals(messages[0]));
 
 		int[] lineNumbers = getMarkersNumbersOfLine(abcEntityFile);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 15);
-		
-		// Duplicate @Remove method
-		System.out.println("Test - Duplicate @Remove method");
-		
-		IFile abcEntityFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.3");
-		try{
-			abcEntityFile.setContents(abcEntityFile3.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
-					"'abcEntity.3'", ex);
-		}
-		
-		refreshProject(project);
-		
-		number = getMarkersNumber(abcEntityFile);
-		assertFalse("Problem marker 'Duplicate @Remove method' not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(abcEntityFile);
-		assertTrue("Problem marker 'Duplicate @Remove method' not found", messages[0].startsWith("Duplicate @Remove method \"removeMethod"));
 
-		lineNumbers = getMarkersNumbersOfLine(abcEntityFile);
-		
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-		
-		if(messages[1].indexOf("removeMethod2") >= 0){
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 42);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 47);
-		}else{
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 47);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 42);
-			
-		}
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 15);
 	}
 
 	public void testComponentLifeCycleMethodsValidator() {
 		ISeamProject seamProject = getSeamProject(project);
 		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
-		
+
 		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
-		
-		int number = getMarkersNumber(statefulComponentFile);
-		assertTrue("Problem marker was found in StatefulComponent.java file", number == 0);
 
 		// Duplicate @Destroy method
 		System.out.println("Test - Duplicate @Destroy method");
-		
+
 		IFile statefulComponentFile6 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6");
 		try{
 			statefulComponentFile.setContents(statefulComponentFile6.getContents(), true, false, new NullProgressMonitor());
@@ -324,12 +281,12 @@ public class SeamValidatorsTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Destroy method' not found' not found' not found", number == 0);
+
+		int number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Duplicate @Destroy method' was not found", number == 0);
 		
 		String[] messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Destroy method' not found", messages[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
+		assertTrue("Problem marker 'Duplicate @Destroy method' was not found", messages[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
 
 		int[] lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
 		
@@ -358,10 +315,10 @@ public class SeamValidatorsTest extends TestCase {
 		refreshProject(project);
 		
 		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Create method' not found' not found' not found", number == 0);
+		assertFalse("Problem marker 'Duplicate @Create method' was not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Create method' not found", messages[0].startsWith("Duplicate @Create method \"createMethod"));
+		assertTrue("Problem marker 'Duplicate @Create method' was not found", messages[0].startsWith("Duplicate @Create method \"createMethod"));
 		
 		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
 		
@@ -390,10 +347,10 @@ public class SeamValidatorsTest extends TestCase {
 		refreshProject(project);
 		
 		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Unwrap method' not found' not found' not found", number == 0);
+		assertFalse("Problem marker 'Duplicate @Unwrap method' was not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Unwrap method' not found", messages[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
+		assertTrue("Problem marker 'Duplicate @Unwrap method' was not found", messages[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
 
 		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
 		
@@ -507,8 +464,49 @@ public class SeamValidatorsTest extends TestCase {
 		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
 		
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
+
+		// Duplicate @Remove method
+
+		IFile statefulComponentFile1 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.1");
+		try{
+			statefulComponentFile.setContents(statefulComponentFile1.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
+					"'StatefulComponent.1'", ex);
+		}
+
+		refreshProject(project);
+
+		number = getMarkersNumber(statefulComponentFile);
+		assertFalse("Problem marker 'Duplicate @Remove method' not found", number == 0);
+
+		messages = getMarkersMessage(statefulComponentFile);
+		assertTrue("Problem marker 'Duplicate @Remove method' not found", messages[0].startsWith("Duplicate @Remove method \"removeMethod"));
+
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+
+		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+
+		if(messages[1].indexOf("removeMethod2") >= 0){
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 17);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 21);
+		}else{
+			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21);
+			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 17);
+		}
 	}
-	
+
+	/**
+	 * The validator should check duplicate @Remove methods only in stateful session bean component
+	 * This method tests usual component (not stateful sessian bean) with two @Remove methods. It must not have error markers.  
+	 */
+	public void testDuplicateRemoveMethodInComponent() {
+		getSeamProject(project);
+		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/UsualComponent.java");
+		int number = getMarkersNumber(componentFile);
+		assertTrue("Problem marker was found in UsualComponent.java file", number == 0);
+	}
+
 	public void testFactoriesValidator() {
 		ISeamProject seamProject = getSeamProject(project);
 		

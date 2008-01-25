@@ -501,6 +501,7 @@ public class SeamCoreValidator extends SeamValidator {
 				ISeamTextSourceReference location = getScopeLocation(component);
 				addError(STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID, SeamPreferences.STATEFUL_COMPONENT_WRONG_SCOPE, new String[]{component.getName()}, location, javaDeclaration.getResource());
 			}
+			validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DUPLICATE_REMOVE);
 		}
 	}
 
@@ -515,7 +516,6 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateDuplicateComponentMethods(ISeamComponent component) {
 		validateDuplicateComponentMethod(SeamComponentMethodType.DESTROY, component, DESTROY_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DUPLICATE_DESTROY);
-		validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, REMOVE_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DUPLICATE_REMOVE);
 		validateDuplicateComponentMethod(SeamComponentMethodType.CREATE, component, CREATE_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DUPLICATE_CREATE);
 		validateDuplicateComponentMethod(SeamComponentMethodType.UNWRAP, component, UNWRAP_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DUPLICATE_UNWRAP);
 	}

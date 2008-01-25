@@ -69,14 +69,14 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static SectionDescription SECTION_ENTITY = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_entities,
 		new String[][]{
-			{SeamPreferences.ENTITY_COMPONENT_WRONG_SCOPE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_entityComponentHasWrongScope_label},
-			{SeamPreferences.DUPLICATE_REMOVE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateRemove_label},
+			{SeamPreferences.ENTITY_COMPONENT_WRONG_SCOPE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_entityComponentHasWrongScope_label}
 		}
 	);
 
 	private static SectionDescription SECTION_LIFECYCLE = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_lifecycle,
 		new String[][]{
+			{SeamPreferences.DUPLICATE_REMOVE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateRemove_label},
 			{SeamPreferences.DUPLICATE_DESTROY, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateDestroy_label},
 			{SeamPreferences.DUPLICATE_CREATE, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateCreate_label},
 			{SeamPreferences.DUPLICATE_UNWRAP, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateUnwrap_label},
