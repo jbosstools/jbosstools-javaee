@@ -1,11 +1,12 @@
 package org.jboss.tools.seam.ui.test.ca;
 
-import javax.crypto.SealedObject;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -17,16 +18,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.jboss.tools.common.test.util.TestProjectProvider;
-import org.jboss.tools.jst.jsp.contentassist.RedHatCustomCompletionProposal;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class SeamELContentAssistJbide1645Test extends TestCase {
 	TestProjectProvider provider = null;
