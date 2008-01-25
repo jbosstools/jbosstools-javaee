@@ -141,13 +141,8 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 		if (!sourceNode.getParentNode().getNodeName().endsWith(":" + RichFacesToolBarTemplate.TAG_NAME)) {
 			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument, "Parent should be toolBar");
 			creationData = new VpeCreationData(visualNode);
-		} else if (!RichFacesToolBarTemplate.isValidItemSeparatorName(itemSeparator)) {
-			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument,
-					"Unknown type of separator \"" + itemSeparator + "\"");
-			
-			creationData = new VpeCreationData(visualNode);
-		} else {
-		
+		}  else {
+			itemSeparator = RichFacesToolBarTemplate.checkAndUpdateItemSeparatorName(itemSeparator);
 			SourceToolBarGroupItems sourceToolBarGroupItems = new SourceToolBarGroupItems(sourceNode,
 					ATTR_LOCATION_RIGHT_VALUE.equals(sourceElement.getAttribute(ATTR_LOCATION_NAME)),
 					itemSeparator);

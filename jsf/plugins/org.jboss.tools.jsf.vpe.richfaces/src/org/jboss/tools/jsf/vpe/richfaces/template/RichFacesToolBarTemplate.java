@@ -58,11 +58,8 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 		
 		Element sourceElement = (Element) sourceNode;
 		String itemSeparator = sourceElement.getAttribute(ITEMSEPARATOR_ATTR_NAME); 
-		if (!isValidItemSeparatorName(itemSeparator)) {
-			visualNode = createExceptionNode(visualDocument,
-					"Unknown type of separator \"" + itemSeparator + "\"");
-			creationData = new VpeCreationData(visualNode);
-		} else {
+
+			itemSeparator = checkAndUpdateItemSeparatorName(itemSeparator);
 			SourceToolBarItems sourceToolBarItems = new SourceToolBarItems(sourceNode, itemSeparator);
 			String itemSeparatorImageUrl = getSeparatorImageUrlString(sourceToolBarItems.getItemSeparator());
 	
@@ -169,7 +166,6 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 			
 			body.appendChild(row);
 			visualNode.appendChild(body);
-		}
 		
 		return creationData;
 	}
@@ -351,14 +347,18 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 		return separatorImageUrl;
 	}
 	
-	static boolean isValidItemSeparatorName(String itemSeparator) {
-		return itemSeparator == null
-				|| (itemSeparator != null && itemSeparator.length() == 0)
-				|| ITEM_SEPARATOR_DISC.equals(itemSeparator)
-				|| ITEM_SEPARATOR_LINE.equals(itemSeparator)
-				|| ITEM_SEPARATOR_GRID.equals(itemSeparator)
-				|| ITEM_SEPARATOR_SQUARE.equals(itemSeparator)
-				|| ITEM_SEPARATOR_NONE.equals(itemSeparator);
+	static String checkAndUpdateItemSeparatorName(String itemSeparator) {
+		if (itemSeparator == null
+				|| (itemSeparator != null && itemSeparator.length() == 0)) {
+			return ITEM_SEPARATOR_NONE;
+		} else if (ITEM_SEPARATOR_DISC.equals(itemSeparator)
+		|| ITEM_SEPARATOR_LINE.equals(itemSeparator)
+		|| ITEM_SEPARATOR_GRID.equals(itemSeparator)
+		|| ITEM_SEPARATOR_SQUARE.equals(itemSeparator)
+		|| ITEM_SEPARATOR_NONE.equals(itemSeparator)) {
+			return itemSeparator;
+		} 
+			return ITEM_SEPARATOR_NONE;
 	}
 	
 	private class SourceToolBarItem {
