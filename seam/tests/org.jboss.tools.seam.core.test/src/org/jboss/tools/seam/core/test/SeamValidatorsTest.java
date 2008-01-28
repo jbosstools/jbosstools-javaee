@@ -292,14 +292,9 @@ public class SeamValidatorsTest extends TestCase {
 		
 		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
 		
-		if(messages[1].indexOf("destroyMethod2") >= 0){
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 32);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 38);
-		}else{
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 38);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 32);
-			
-		}
+		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 34);
+		assertTrue("Problem marker has wrong line number", lineNumbers[1] == 39);
+
 		
 		// Duplicate @Create method
 		System.out.println("Test - Duplicate @Create method");
@@ -915,7 +910,5 @@ public class SeamValidatorsTest extends TestCase {
 
 	public static void waitForJob() {
 		EditorTestHelper.joinJobs(1000,10000,500);
-		//then wait for a while to Workspace runnable is finished
-		EditorTestHelper.joinJobs(2000, 2000, 500);
 	}
 }
