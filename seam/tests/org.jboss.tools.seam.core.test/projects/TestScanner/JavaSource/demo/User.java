@@ -70,7 +70,8 @@ public class User {
 	}
 	
 	@Unwrap
-	public void unwrapMethod() {
+	public User unwrapMethod() {
+		return new User();
 	}
 	
 	@Create @Destroy
@@ -78,8 +79,8 @@ public class User {
 	}
 	
 	@Factory(value="myFactory", scope=ScopeType.SESSION)
-	public void testFactory() {
-		
+	public User testFactory() {
+		return new User();
 	}
 
 }
