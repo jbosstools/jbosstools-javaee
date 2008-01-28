@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <chapter id="jbds_editors" xreflabel="jbds_editors">
-    <?dbhtml filename="jbds_editors.html"?>
+    <?dbhtml filename="editors.html"?>
     <chapterinfo>
         <keywordset>
             <keyword>JBoss Developer Studio</keyword>
@@ -14,14 +14,14 @@
     <para>JBDS is supplied with a huge range of various editors for different file types.</para>
 
     <section id="editors_features">
-        <?dbhtml filename="editors_features.html"?>
+       
         <title>Editors Features</title>
         <para>JBoss Developer Studio has powerful editor features that help you easily navigate
             within your application and make use of content and code assist no matter what project
             file (jsp, xhtml, xml, css, etc.) you are working on.</para>
 
         <section id="OpenOnSelection4Hyperlinknavigation">
-            <?dbhtml filename="OpenOnSelection(Hyperlinknavigation)"?>
+         
             <title>OpenOn</title>
 
             <para><property>OpenOn</property> let&apos;s you easily navigate through your
@@ -41,7 +41,7 @@
                 </listitem>
             </itemizedlist>
             <section id="XMLFiles232">
-                <?dbhtml filename="XMLFiles"?>
+              
                 <title>XML Files</title>
 
                 <para>Press and hold down the Ctrl key. As you move the mouse cursor over different
@@ -85,7 +85,7 @@
                 </figure>
             </section>
             <section id="JSPPages223">
-                <?dbhtml filename="GettingStartedwithRHDS.html"?>
+                
                 <title>JSP Pages</title>
 
                 <para><property>OpenOn</property> is also very useful in JSP pages. It will allow
@@ -134,13 +134,13 @@
         </section>
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
-            <?dbhtml filename="CodeAssistAndDynamicCodeAssist(BasedOnProjectData).html"?>
+         
             <title>Code Assist and Dynamic Code Assist (based on project data)</title>
             <section id="ContentAssistFeatures321">
-                <?dbhtml filename="ContentAssistFeatures"?>
+                
                 <title>Content Assist Features</title>
                 <section id="ContentAssist374">
-                    <?dbhtml filename="ContentAssist.html"?>
+                
                     <title>Content Assist</title>
                     <para><property>Content assist</property> is available when working with</para>
 
@@ -160,7 +160,7 @@
                     </itemizedlist>
                 </section>
                 <section id="JSFProjectFiles3087">
-                    <?dbhtml filename="JSFProjectFiles.html"?>
+ 
                     <title>JSF Project Files</title>
 
                     <para>When working with JSF project in JBoss Developer Studio, you can use
@@ -177,7 +177,7 @@
                         </listitem>
                     </itemizedlist>
                     <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
-                        <?dbhtml filename="ContentAssistForXMLJSPAndJSFConfigurationFiles.html"?>
+                       
                         <title>Content Assist for XML, JSP and JSF configuration files</title>
 
                         <para>At any point when working with any XML, JSP and JSF configuration
@@ -217,7 +217,7 @@
                         </figure>
                     </section>
                     <section id="ContentAssistBasedOnProjectData86">
-                        <?dbhtml filename="ContentAssistBasedOnProjectData.html"?>
+                   
                         <title>Content Assist Based on Project Data</title>
 
                         <para>JBoss Developer Studio takes Content Assist to the next level. Studio
@@ -287,7 +287,7 @@
                         </figure>
                     </section>
                     <section id="ContentAssistWithinJSFGraphicalEditor44">
-                        <?dbhtml filename="ContentAssistWithinJSFGraphicalEditor.html"?>
+                  
                         <title>Content Assist within Tree JSF Editor</title>
 
                         <para>JBoss Developer Studio also provides Content Assist when working
@@ -386,10 +386,10 @@
                 </section>
 
                 <section id="StrutsProjectFile46s3">
-                    <?dbhtml filename="StrutsProjectFiles.html"?>
+                    
                     <title>Struts Project Files</title>
                     <section id="ContentAssistForStrutsConfigurationFile75">
-                        <?dbhtml filename="ContentAssistForStrutsConfigurationFile.html"?>
+                      
                         <title>Content Assist for Struts Configuration File</title>
                         <figure>
                             <title>Struts Content Assist</title>
@@ -402,7 +402,7 @@
                         </figure>
                     </section>
                     <section id="ContentAssistForStrutsJSPFile07">
-                        <?dbhtml filename="ContentAssistForStrutsJSPFile.html"?>
+                    
                         <title>Content Assist for Struts JSP File</title>
                         <figure>
                             <title>Struts JSP Content Assist</title>
@@ -416,10 +416,10 @@
                     </section>
                 </section>
                 <section id="JSPPages434">
-                    <?dbhtml filename="JSPPages.html"?>
+         
                     <title>JSP Pages</title>
                     <section id="ContentAssistForJSFTags96">
-                        <?dbhtml filename="ContentAssistForJSFTags.html"?>
+                    
                         <title>Content Assist for JSF Tags</title>
                         <para>JBDS provides full code completion for JSF tags:</para>
 
@@ -447,7 +447,7 @@
 
                     </section>
                     <section id="ContentAssistForJSTLTags6332">
-                        <?dbhtml filename="ContentAssistForJSTLTags.html"?>
+                  
                         <title>Content Assist for JSTL Tags</title>
                         <figure>
                             <title>JSTL Tags Content Assist</title>
@@ -460,7 +460,7 @@
                         </figure>
                     </section>
                     <section id="ContentAssistForHTMLTags7454">
-                        <?dbhtml filename="ContentAssistForHTMLTags.html"?>
+            
                         <title>Content Assist for HTML Tags</title>
                         <para>Content assist for HTML tags has the same mechanism as for JSF tags:</para>
                         <figure>
@@ -484,7 +484,7 @@
                         </figure>
                     </section>
                     <section id="ContentAssistForJavaScriptTags67433">
-                        <?dbhtml filename="ContentAssistForJavaScriptTags.html"?>
+                  
                         <title>Content Assist for JavaScript Tags</title>
                         <figure>
                             <title>JavaScript Tags Content Assist</title>
@@ -498,7 +498,7 @@
                     </section>
 
                     <section id="ContentAssistWithinConfigurationEditor743">
-                        <?dbhtml filename="ContentAssistWithinConfigurationEditor.html"?>
+                     
                         <title>Content Assist within JSF Configuration Editor</title>
                         <figure>
                             <title>Content Assist in JSF Configuration Editor</title>
@@ -512,7 +512,7 @@
                     </section>
                 </section>
                 <section id="ContentAssistForRF">
-                    <?dbhtml filename="ContentAssistForRF.html"?>
+       
                     <title>Content Assist for Rich Faces components</title>
                     <para>JBDS indeed provides code completion for Rich Faces framework components.
                         All you have to do is to install Rich Faces libraries into your project. See
@@ -570,7 +570,7 @@
             </section>
 
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
-                <?dbhtml filename="AddingDynamicCodeAssistToCustomComponentsThatWereAddedToJBossToolsPalette.html"?>
+          
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
@@ -665,7 +665,7 @@
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
-            <?dbhtml filename="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing.html"?>
+            
             <title>Full Control over Source Files - Synchronized Source and Visual Editing</title>
 
             <para>JBoss Developer Studio offers the flexibility to edit any files in either source
@@ -766,16 +766,13 @@
 
 
     <section id="visual_page">
-        <?dbhtml filename="visual_page.html"?>
+
         <title>Visual Page Editor</title>
         <para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page
                 Editor</property> (VPE). You can use the Visual Page Editor to develop an
             application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
-        <section id="visual_tabs">
-            <?dbhtml filename="visual_tabs.html"?>
-
-            <para>Current VPE version has four tabs: Visual/Source, Visual, Source and Preview.</para>
+           <para>Current VPE version has four tabs: Visual/Source, Visual, Source and Preview.</para>
             <para>Split screen design with instant synchronization between source and visual views:</para>
             <figure>
                 <title>Visual/Source View</title>
@@ -846,7 +843,7 @@
             </figure>
 
             <section id="AdvancedSettings954">
-                <?dbhtml filename="AdvancedSettings.html"?>
+              
                 <title>Advanced Settings</title>
 
                 <para>There are three buttons on the <property>Visual Page Editor</property> left
@@ -961,13 +958,13 @@
                     </mediaobject>
                 </figure>
             </section>
-        </section>
+        
 
         <section id="SetupnotesforLinu895x">
-            <?dbhtml filename="SetupNotesforLinux.html"?>
+   
             <title>Setup notes for Linux</title>
             <section id="HowToStartTheVisualPageEditorUnderLinux85">
-                <?dbhtml filename="HowToStartTheVisualPageEditorUnderLinux.html"?>
+              
                 <title>How to Start the Visual Page Editor under Linux</title>
 
                 <para>Linux users may need to do the following to get the Visual Editor to work
@@ -1028,7 +1025,7 @@
         </section>
 
         <section id="JSPsyntaxvalidation84">
-            <?dbhtml filename="JSPsyntaxValidation.html"?>
+    
             <title>JSP syntax validation</title>
             <para>When working in JBoss Tools JSP editor you are constantly provided with feedback
                 and contextual error checking as you type.</para>
@@ -1075,7 +1072,7 @@
 -->
 
         <section id="PageEditorWithPreview53">
-            <?dbhtml filename="PageEditorWithPreview.html"?>
+         
             <title>JSP Page Preview</title>
 
             <para>JBoss Developer Studio comes with JSP design-time preview features. When designing
@@ -1096,15 +1093,16 @@
             <para>The preview features are available with Visual
                     Page Editor.</para>
         </section>
+        
     </section>
 
     <section id="more_editors">
-        <?dbhtml filename="more_editors.html"?>
+
         <title>More Editors</title>
         <para>Besides Visual Page Editor JBDS provides editors for editing project files of any
             types: properties, TLD, web.xml, tiles, and so on.</para>
         <section id="GraphicalPropertiesEditor">
-            <?dbhtml filename="GraphicalPropertiesEditor.html"?>
+           
             <title>Graphical Properties Editor</title>
 
             <para><property>The Properties editor</property> allows you to work in two different
@@ -1147,7 +1145,7 @@
         </section>
 
         <section id="GraphicalTLDEditor">
-            <?dbhtml filename="GraphicalTLDEditor.html"?>
+     
             <title>Graphical TLD Editor</title>
 
             <para><property>The TLD editor</property> comes with same features you will find in all
@@ -1162,7 +1160,7 @@
                 </listitem>
             </itemizedlist>
             <section id="TreeView2">
-                <?dbhtml filename="TreeView.html"?>
+        
                 <title>Tree view</title>
 
                 <figure>
@@ -1175,7 +1173,7 @@
                 </figure>
             </section>
             <section id="SourceView1">
-                <?dbhtml filename="SourceView.html"?>
+               
                 <title>Source view</title>
 
                 <para>You can easily switch from Tree to Source by selecting the Source tab at the
@@ -1238,7 +1236,7 @@
 
 
         <section id="GraphicalWebApplicationFile(web.xml)Editor">
-            <?dbhtml filename="GraphicalWebApplicationFile(web.xml)Editor.html"?>
+          
             <title>Graphical Web Application File (web.xml) Editor</title>
 
             <para>The Web Application File editor comes with the same features you will find in all
@@ -1276,7 +1274,7 @@
                 </figure>
             </section>
             <section id="SourceView2">
-                <?dbhtml filename="SourceView.html"?>
+              
                 <title>Source View</title>
 
                 <para>Switch to the <property>Source viewer </property>to edit the web.xml file by
@@ -1292,7 +1290,7 @@
                 </figure>
             </section>
             <section id="ContentAssist">
-                <?dbhtml filename="ContentAssist.html"?>
+               
                 <title>Content Assist</title>
 
                 <para>Content assist is available in the Source viewer. Simply click <emphasis>
@@ -1309,7 +1307,7 @@
                 </figure>
             </section>
             <section id="ErrorCheckingAndValidation">
-                <?dbhtml filename="ErrorCheckingAndValidation.html"?>
+               
                 <title>Errors Checking and Validation</title>
 
                 <para>If errors occur anywhere in the file, small red dots will appear next to the
@@ -1326,255 +1324,8 @@
                 </figure>
             </section>
         </section>
-        <section id="GraphicalTilesFilesEditor">
-            <?dbhtml filename="GraphicalTilesFilesEditor.html"?>
-            <title>Graphical Tiles Files Editor</title>
-            <section id="GraphicalEditorForTilesFiles">
-                <?dbhtml filename="GraphicalEditorForTilesFiles.html"?>
-                <title>Graphical Editor For Tiles Files</title>
-                <para>The Tiles configuration file editor has three main viewers (modes): Tree
-                    (shown), Diagram and Source. The modes can be selected via the tabs at the
-                    bottom of the editor. Any changes made in one mode are immediately visible when
-                    you switch to any other mode.</para>
-
-                <para>When working in Source view, you always have all following features available:</para>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>Content Assist</para>
-                    </listitem>
-                    <listitem>
-                        <para>Open On Selection</para>
-                    </listitem>
-                </itemizedlist>
-            </section>
-            <section id="CreateNewTilesFile">
-                <?dbhtml filename="GraphicalTilesFilesEditor.html"?>
-                <title>Create New Tiles File</title>
-
-                <para>To create a new Tiles files, right click any folder and select <emphasis>
-                        <property>New > Tiles Files</property>
-                    </emphasis>:</para>
-
-                <figure>
-                    <title>Creating New Tiles File</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_15.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
-            <section id="TreeView3">
-                <?dbhtml filename="TreeView.html"?>
-                <title>Tree View</title>
-
-                <para>In the Tree mode, the different elements of the Tiles file are organized into
-                    functional categories on the left-hand side and a form for editing the
-                    properties of currently selected items on the right-hand side.</para>
-
-                <figure>
-                    <title>Tree View</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_16.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>To edit the file, simply right click any node and select among the available
-                    actions:</para>
-
-                <figure>
-                    <title>Editing in Tiles Editor</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_17.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
-            <section id="DiagramView">
-                <?dbhtml filename="TreeView.html"?>
-                <title>Diagram View</title>
-
-                <para>The Diagram mode is shown below:</para>
-                <figure>
-                    <title>Diagram View</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_18.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <para>To create new definition, simply right click anywhere in the diagram:</para>
-                <figure>
-                    <title>Creating New Definition</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_19.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <para>You can also use the Diagram toolbar to make editing easier:</para>
-
-                <figure>
-                    <title>Diagram Toolbar</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_20.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
-            <section id="Source">
-                <?dbhtml filename="TreeView.html"?>
-                <title>Source</title>
-
-                <para>The Tiles editor also comes with a <property>Source view</property> that gives
-                    you full control over the source. Any changes here will immediately appear in
-                    when you switch to any of the other viewers.</para>
-                <figure>
-                    <title>Source View</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_21.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <para>Content assist is available in the Source mode.</para>
-
-                <figure>
-                    <title>Content Assist</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_22.png" scale="75"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <para>Any errors are immediately reported as shown below:</para>
-                <figure>
-                    <title>Error Reporting</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_23.png" scale="85"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <para>You can also use the Outline view together with the editor&apos;s Source
-                    mode. Selecting any node in the Outline view will jump to that place in the
-                    source:</para>
-
-                <figure>
-                    <title>Outline View</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_24.png" scale="85"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
-        </section>
-
-
-
-        <section id="GraphicalEditorForStrutsValidationFiles">
-            <?dbhtml filename="GraphicalStrutsValidationFilesEditor.html"?>
-            <title>Graphical Editor for Struts Validation Files</title>
-            <para>JBoss Developer Studio comes with a visual validation editor. To create a new
-                validation file, right click any folder and select <emphasis>
-                    <property>File > Validation File</property>
-                </emphasis> from the context menu.</para>
-
-            <figure>
-                <title>Creating Validation File</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_25.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>The validation editor works through a number of viewers.</para>
-
-            <para>The Formsets viewer shows forms and their elements for which to define validation
-                rules:</para>
-
-            <figure>
-                <title>Formsets Viewer</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_26.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>The Constants viewer lets you set constant values for your validation rules:</para>
-
-            <figure>
-                <title>Constants viewer</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_27.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>The validation file also can be viewed in a Tree viewer:</para>
-
-            <figure>
-                <title>Tree Viewer</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_28.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>At any point you have full control over the source by switching to the Source
-                viewer. Any editing in this viewer will immediately be available in the other
-                viewers of this editor.</para>
-
-            <figure>
-                <title>Source Viewer</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_29.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>You can also open your own custom or Struts-standard validation-rules.xml file.</para>
-
-            <para>The Validators viewer shows the validation rules for a selected validator. You can
-                of course add your own rules.</para>
-
-            <figure>
-                <title>Validation Rules</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_30.png" scale="75"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>Here are the validation rules shown in the Source viewer.</para>
-
-            <figure>
-                <title>Validation Rules in Source Viewer</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/more_editors/more_editors_31.png" scale="75"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-        </section>
-        <section id="SpringIDE">
-            <?dbhtml filename="SpringIDE.html"?>
+         <section id="SpringIDE">
+       
             <title>Spring IDE</title>
             <para>JBoss Developer Studio bundles a <property>Spring Framework editor</property> from
                     <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit
@@ -1660,7 +1411,7 @@
         </section>
 
         <section id="CSSEditor">
-            <?dbhtml filename="CSSEditor.html"?>
+         
             <title>CSS Editor</title>
 
             <para>The <property>CSS editor</property> comes with the same features you will find in
@@ -1714,7 +1465,7 @@
 
         </section>
         <section id="JavaScriptEditor">
-            <?dbhtml filename="JavaScriptEditor.html"?>
+           
             <title>JavaScript Editor</title>
 
             <para>The <property>JavaScript editor</property> includes a Preview viewer and a Source
@@ -1759,7 +1510,7 @@
 
         </section> -->
         <section id="XSDEditor">
-            <?dbhtml filename="XSDEditor.html"?>
+        
             <title>XSD Editor</title>
 
             <para>JBoss Developer Studio comes with an <property>XSD Editor</property> for XML
@@ -1843,7 +1594,7 @@
 
         </section>
         <section id="SupportforXMLSchema">
-            <?dbhtml filename="SupportforXMLSchema.html"?>
+       
             <title>Support for XML Schema</title>
 
             <para>JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:</para>

@@ -109,7 +109,7 @@
      <row>
       <entry>Struts Support</entry>
       <entry>Step-by-step wizards for creating a new struts project with a number of predefined templates, importing existing ones and adding struts capabilities to non-struts web projects.</entry>
-      <entry><link linkend="struts1">struts support</link></entry>
+      <entry><link linkend="Struts_support">struts support</link></entry>
      </row>
      
      <row>

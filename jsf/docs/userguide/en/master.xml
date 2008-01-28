@@ -4,18 +4,10 @@
 
 [
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
-<!ENTITY jsf_support  SYSTEM "modules/jsf_support.xml">
-<!ENTITY struts_support  SYSTEM "modules/struts_support.xml">
+<!ENTITY VWTforJSFandStruts SYSTEM "modules/VWTforJSFandStruts.xml">
 <!ENTITY editors SYSTEM "modules/editors.xml">
 <!ENTITY palette SYSTEM "modules/palette.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
-<!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
-
-<!--<!ENTITY editors_features SYSTEM "modules/editors_features.xml"> -->
-
-<!ENTITY verif_valid SYSTEM "modules/verif_valid.xml">
-
-<!-- <!ENTITY more_editors SYSTEM "modules/more_editors.xml"> -->
 <!ENTITY preferences SYSTEM "modules/preferences.xml">
 
 ]>
@@ -34,11 +26,9 @@
 <toc/>  
     
     &Visual_Web_Tools;
-    &jsf_support;
-    &struts_support;
+    &VWTforJSFandStruts;
     &editors;
     &palette;
     &web_projects;	
-    &verif_valid;
     &preferences;
 </book>    
