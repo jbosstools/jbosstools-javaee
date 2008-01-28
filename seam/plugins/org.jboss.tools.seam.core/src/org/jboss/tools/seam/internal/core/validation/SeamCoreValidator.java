@@ -525,9 +525,11 @@ public class SeamCoreValidator extends SeamValidator {
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods!=null && methods.size()>1) {
 			for (ISeamComponentMethod method : methods) {
-				IMethod javaMethod = (IMethod)method.getSourceMember();
-				String methodName = javaMethod.getElementName();
-				addError(DUPLICATE_METHOD_PREFIX_MESSAGE_ID + postfixMessageId, preferenceKey, new String[]{methodName}, method, javaDeclaration.getResource());
+				if(javaDeclaration.getSourcePath().equals(method.getSourcePath())) {
+					IMethod javaMethod = (IMethod)method.getSourceMember();
+					String methodName = javaMethod.getElementName();
+					addError(DUPLICATE_METHOD_PREFIX_MESSAGE_ID + postfixMessageId, preferenceKey, new String[]{methodName}, method, javaDeclaration.getResource());
+				}
 			}
 		}
 	}
@@ -626,7 +628,7 @@ public class SeamCoreValidator extends SeamValidator {
 			for (ISeamComponentMethod method : methods) {
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();
-				addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, preferenceKey, new String[]{methodName}, method, declaration.getResource());
+				addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, preferenceKey, new String[]{methodName}, method, method.getResource());
 				validationContext.addUnnamedCoreResource(declaration.getSourcePath());
 			}
 		} else {
