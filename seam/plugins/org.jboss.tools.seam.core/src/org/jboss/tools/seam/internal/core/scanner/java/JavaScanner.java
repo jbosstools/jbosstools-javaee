@@ -64,7 +64,10 @@ public class JavaScanner implements IFileScanner {
 		String content = FileUtil.readFile(f.getLocation().toFile());
 		if(content == null) return false;
 		int a = content.indexOf("org.jboss.seam.annotations."); //$NON-NLS-1$
-		if(a < 0) return false;
+		if(a < 0) {
+			a = content.indexOf("javax.ejb.");
+			if(a < 0) return false;
+		}
 		int i = content.indexOf("@"); //$NON-NLS-1$
 		if(i < 0) return false;
 		return true;
