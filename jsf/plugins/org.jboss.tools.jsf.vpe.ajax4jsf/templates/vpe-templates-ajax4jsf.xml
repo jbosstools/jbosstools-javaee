@@ -250,6 +250,9 @@
     
     <vpe:tag name="a4j:mediaOutput" case-sensitive="yes">
 	    <vpe:template children="no" modify="no">
+	    <div class="{@styleClass}" style="{@style}" size="{@size}">
+	    	mediaOutput
+	    </div>
 	    </vpe:template>
     </vpe:tag>
     
