@@ -42,6 +42,7 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
@@ -474,17 +475,17 @@ public class SeamCoreValidator extends SeamValidator {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
 		ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_SCOPE);
 		if(location==null) {
-			location = getClassNameLocation(javaDeclaration);
+			location = getNameLocation(javaDeclaration);
 		}
 		return location;
 	}
 
-	private ISeamTextSourceReference getClassNameLocation(ISeamJavaComponentDeclaration declaration) {
+	private ISeamTextSourceReference getNameLocation(ISeamJavaSourceReference source) {
 		int length = 0;
 		int offset = 0;
 		try {
-			length = declaration.getSourceMember().getNameRange().getLength();
-			offset = declaration.getSourceMember().getNameRange().getOffset();
+			length = source.getSourceMember().getNameRange().getLength();
+			offset = source.getSourceMember().getNameRange().getOffset();
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 		}
@@ -507,7 +508,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateStatefulComponentMethods(SeamComponentMethodType methodType, ISeamComponent component, String postfixMessageId, String preferenceKey) {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
-		ISeamTextSourceReference classNameLocation = getClassNameLocation(javaDeclaration);
+		ISeamTextSourceReference classNameLocation = getNameLocation(javaDeclaration);
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods==null || methods.size()==0) {
 			addError(STATEFUL_COMPONENT_DOES_NOT_CONTAIN_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, preferenceKey, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource());
@@ -528,7 +529,8 @@ public class SeamCoreValidator extends SeamValidator {
 				if(javaDeclaration.getSourcePath().equals(method.getSourcePath())) {
 					IMethod javaMethod = (IMethod)method.getSourceMember();
 					String methodName = javaMethod.getElementName();
-					addError(DUPLICATE_METHOD_PREFIX_MESSAGE_ID + postfixMessageId, preferenceKey, new String[]{methodName}, method, javaDeclaration.getResource());
+					ISeamTextSourceReference methodNameLocation = getNameLocation(method);
+					addError(DUPLICATE_METHOD_PREFIX_MESSAGE_ID + postfixMessageId, preferenceKey, new String[]{methodName}, methodNameLocation, javaDeclaration.getResource());
 				}
 			}
 		}
@@ -628,7 +630,8 @@ public class SeamCoreValidator extends SeamValidator {
 			for (ISeamComponentMethod method : methods) {
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();
-				addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, preferenceKey, new String[]{methodName}, method, method.getResource());
+				ISeamTextSourceReference methodNameLocation = getNameLocation(method);
+				addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, preferenceKey, new String[]{methodName}, methodNameLocation, method.getResource());
 				validationContext.addUnnamedCoreResource(declaration.getSourcePath());
 			}
 		} else {
