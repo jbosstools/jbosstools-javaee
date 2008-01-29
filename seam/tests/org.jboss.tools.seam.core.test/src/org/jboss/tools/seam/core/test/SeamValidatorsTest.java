@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -24,7 +25,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
@@ -838,6 +842,23 @@ public class SeamValidatorsTest extends TestCase {
 		assertTrue(errorMessage, lineNumbers.length>1);
 		assertTrue(errorMessage, lineNumbers[0] == 16);
 		assertTrue(errorMessage, lineNumbers[1] == 16);
+	}
+	
+	public void testInheritedMethods() {
+		ISeamProject seamProject = getSeamProject(project);
+
+		ISeamComponent c = seamProject.getComponent("inheritedComponent");
+		assertTrue("Component inheritedComponent is not found", c != null);
+
+		Set<ISeamComponentMethod> ms = c.getMethodsByType(SeamComponentMethodType.DESTROY);
+		assertTrue("Seam tools does not see @Destroy-annotated method declared in super class", ms.size() > 0);
+
+		ms = c.getMethodsByType(SeamComponentMethodType.REMOVE);
+		assertTrue("Seam tools does not see @Remove-annotated method declared in super class", ms.size() > 0);
+
+		IFile f = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/InheritedComponent.java");
+		int errorsCount = getMarkersNumber(f);
+		assertTrue("Seam tools validator does not see annotated methods declared in super class", errorsCount == 0);
 	}
 
 	private void modifyPreferences(){
