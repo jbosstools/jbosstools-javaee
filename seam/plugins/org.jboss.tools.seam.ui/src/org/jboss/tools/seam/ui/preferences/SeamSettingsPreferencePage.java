@@ -106,7 +106,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
 		seamEnablement.setValue(hasSeamSupport());
 
-		SeamRuntime rs = SeamRuntimeManager.getDefaultRuntimeForProject(project);
+		SeamRuntime rs = SeamRuntimeManager.getInstance().getRuntimeForProject(project);
 
 		List<String> namesAsList = getNameList();
 
