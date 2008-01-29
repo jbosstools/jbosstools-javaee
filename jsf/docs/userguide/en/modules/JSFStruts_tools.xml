@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="VWTforJSFandStruts">
- <?dbhtml filename="VWTforJSFandStruts.html"?>
- <title>Visual Web Tools for JSF and Struts</title>
+<chapter id="JSFStrutsTools">
+        <?dbhtml filename="JSFStrutsTools.html"?>
+ <title>JSF and Struts Tools</title>
  
  <section id="JSF_support">
      <title>JavaServer Faces Support</title>

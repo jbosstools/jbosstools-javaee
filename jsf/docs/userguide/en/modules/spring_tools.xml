@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="springTools">
+ <?dbhtml filename="springTools.html"?>
+    <title>Spring Tools</title>
+
+  <para>JBoss Developer Studio bundles a <property>Spring Framework editor</property> from
+   <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit
+   this site for the latest versions and documentation.</para>
+  
+  <para>You can add a <property>Spring Project Nature</property> to an existing project by
+   right-clicking on the project and selecting <emphasis><property>Adding Spring Project
+    Nature</property></emphasis> from the context menu:</para>
+  
+  <figure>
+   <title>Adding Spring Project Nature</title>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/more_editors/more_editors_32.png"/>
+    </imageobject>
+   </mediaobject>
+  </figure>
+  
+  
+  <para>If you need to remove it you should select <emphasis>
+   <property>Remove Spring Project Nature</property></emphasis> from the context menu of your project.</para>
+  <para>Once the Nature is added, a Spring project will be decorated with a small
+   <property>&quot;S&quot;</property>   in the
+   <emphasis><property>Package Explorer</property></emphasis> view.
+  </para>
+  
+  <figure>
+   <title>Project with Spring Nature</title>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/more_editors/more_editors_33.png"/>
+    </imageobject>
+   </mediaobject>
+  </figure>
+  
+  <para>To add a Spring Configuration File with bean definitions open Properties dialog
+   from the context menu of your project. Then select <emphasis><property>Spring &gt; Beans Support</property></emphasis>  on the left side.</para>
+  
+  <figure>
+   <title>Spring Beans</title>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/more_editors/more_editors_35.png"/>
+    </imageobject>
+   </mediaobject>
+  </figure>
+  
+  <para>Click
+   on <emphasis>
+    <property>Add</property>
+   </emphasis> button to choose the corresponding Spring Configuration File.</para>
+  
+  <figure>
+   <title>Adding Configuration Files</title>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/more_editors/more_editors_36.png"/>
+    </imageobject>
+   </mediaobject>
+  </figure>
+  
+  <para>The added file will also be marked by an <property>&quot;S&quot;</property>
+   in the
+   <emphasis><property>Package Explorer</property></emphasis> view.</para>
+  
+  <para>To activate the <emphasis>
+   <property>Spring Explorer</property></emphasis>  view, select <emphasis>
+    <property>Window &gt; Show View... &gt; Other</property>
+   </emphasis> and then <emphasis>
+    <property>Spring &gt; Spring Explorer</property>
+   </emphasis>.</para>
+  
+  <figure>
+   <title>Selecting Spring Beans View</title>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/more_editors/more_editors_38.png"/>
+    </imageobject>
+   </mediaobject>
+  </figure>
+  
+  <para>This view shows a read-only outline view of the Spring Bean Configuration File.</para>
+    
+ </chapter>
