@@ -244,7 +244,7 @@ public class SeamRuntimeManager {
 	 * @param project
 	 * @return
 	 */
-	public static SeamRuntime getDefaultRuntimeForProject1(IProject project) {
+	public static SeamRuntime getDefaultRuntimeForProject(IProject project) {
 		if(project==null) {
 			throw new IllegalArgumentException("Project must not be null.");
 		}

@@ -40,6 +40,11 @@ import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
  */
 public class SeamPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
+	public SeamPreferencePage() {
+		super();
+		noDefaultAndApplyButton();
+	}
+
 	/**
 	 * Seam Preferences page ID
 	 */
