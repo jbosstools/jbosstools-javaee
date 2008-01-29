@@ -244,7 +244,7 @@ public class SeamRuntimeManager {
 	 * @param project
 	 * @return
 	 */
-	public static SeamRuntime getDefaultRuntimeForProject(IProject project) {
+	public static SeamRuntime getDefaultRuntimeForProject1(IProject project) {
 		if(project==null) {
 			throw new IllegalArgumentException("Project must not be null.");
 		}
@@ -253,6 +253,7 @@ public class SeamRuntimeManager {
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 			if(facetedProject!=null) {
 				IProjectFacetVersion facetVersion = facetedProject.getInstalledVersion(facet);
+				if(facetVersion==null) return null;
 				SeamVersion seamVersion = SeamVersion.parseFromString(facetVersion.getVersionString());
 				return getInstance().getDefaultRuntime(seamVersion);
 			}

@@ -167,9 +167,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
 			return sp == null ? null : sp.getRuntime();
 		}
-		if(runtimeName == null) {
-			return SeamRuntimeManager.getDefaultRuntimeForProject(project);
-		}
 		return runtimeName == null ? null : SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 	}
 
@@ -181,7 +178,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void setRuntimeName(String runtimeName) {
 		if(this.runtimeName == runtimeName) return;
 		if(this.runtimeName != null && this.runtimeName.equals(runtimeName)) return;
-		SeamRuntime d = SeamRuntimeManager.getDefaultRuntimeForProject(project);
+		SeamRuntime d = SeamRuntimeManager.getInstance().getRuntimeForProject(project);
 
 		boolean useDefaultRuntime = d != null && d.getName().equals(runtimeName);
 		if(useDefaultRuntime) {
