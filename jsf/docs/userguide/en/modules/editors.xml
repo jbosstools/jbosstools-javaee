@@ -11,14 +11,22 @@
 
     <title>Editors</title>
 
-    <para>JBDS is supplied with a huge range of various editors for different file types.</para>
+    <para>In previous chapters you had possibility to read about Graphical Editor for 
+        <link linkend="GraphicalEditorAndViewingForJSFConfigurationFiles76331">JSF</link> and
+        <link linkend="GraphicalEditorForStrutsConfigurationFiles564">Struts</link> configuration files, 
+        <link linkend="GraphicalEditorForTilesFiles132">Graphical Editor for Tiles Files</link>, 
+        <link linkend="GraphicalEditorForStrutsValidationFiles86">Graphical Editor for Struts Validation Files</link>. 
+        All these editors have  <link linkend="OpenOnSelection4Hyperlinknavigation"><property>OpenOn</property></link> and 
+        <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"><property>Content Assist</property></link> features, 
+        they are described more detail in this chapter. In addition you get to know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and source editing
+        of Web pages and many <link linkend="more_editors">other editors</link> for different types of files.</para>
 
     <section id="editors_features">
        
         <title>Editors Features</title>
         <para>JBoss Developer Studio has powerful editor features that help you easily navigate
             within your application and make use of content and code assist no matter what project
-            file (jsp, xhtml, xml, css, etc.) you are working on.</para>
+            file (jsp, xhtml, xml, css, etc...) you are working on.</para>
 
         <section id="OpenOnSelection4Hyperlinknavigation">
          
@@ -112,7 +120,7 @@
                 </figure>
                 <para>Open managed beans:</para>
                 <figure>
-                    <title>OpenOn With Maneaged Beans</title>
+                    <title>OpenOn With Managed Beans</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/editors_features/editors_features_7.png"/>
@@ -135,30 +143,32 @@
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
          
-            <title>Code Assist and Dynamic Code Assist (based on project data)</title>
-            <section id="ContentAssistFeatures321">
-                
-                <title>Content Assist Features</title>
-                <section id="ContentAssist374">
-                
+                            
                     <title>Content Assist</title>
                     <para><property>Content assist</property> is available when working with</para>
-
+                    
                     <itemizedlist>
                         <listitem>
-                            <para>Seam project files</para>
+                            <para>
+                                <ulink url="../../../seam/en/html_single/index.html#ContentAssist">Seam project files</ulink>
+                            </para>
+                           
                         </listitem>
                         <listitem>
-                            <para>JSF project files</para>
+                            <para><link linkend="JSFProjectFiles3087">JSF project files</link></para>
                         </listitem>
                         <listitem>
-                            <para>Struts project files</para>
+                            <para><link linkend="StrutsProjectFile46s3">Struts project files</link></para>
                         </listitem>
                         <listitem>
-                            <para>JSP files</para>
+                            <para><link linkend="JSPPages434">JSP files</link></para>
+                        </listitem>
+                        <listitem>
+                            <para><link linkend="ContentAssistForRF">RichFaces components</link></para>
                         </listitem>
                     </itemizedlist>
-                </section>
+           
+                
                 <section id="JSFProjectFiles3087">
  
                     <title>JSF Project Files</title>
@@ -513,7 +523,7 @@
                 </section>
                 <section id="ContentAssistForRF">
        
-                    <title>Content Assist for Rich Faces components</title>
+                    <title>Rich Faces components</title>
                     <para>JBDS indeed provides code completion for Rich Faces framework components.
                         All you have to do is to install Rich Faces libraries into your project. See
                             <ulink
@@ -567,7 +577,7 @@
                         </mediaobject>
                     </figure>
                 </section>
-            </section>
+           
 
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
           
@@ -1099,8 +1109,8 @@
     <section id="more_editors">
 
         <title>More Editors</title>
-        <para>Besides Visual Page Editor JBDS provides editors for editing project files of any
-            types: properties, TLD, web.xml, tiles, and so on.</para>
+        
+        <para>Besides Visual Page Editor JBDS is supplied with a huge range of various editors for different file types: properties, TLD, web.xml, tiles, and so on.</para>
         <section id="GraphicalPropertiesEditor">
            
             <title>Graphical Properties Editor</title>
