@@ -310,7 +310,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 		if(project==null) {
 			return null;
 		}
-		SeamRuntime seamRt = SeamRuntimeManager.getDefaultRuntimeForProject(project);
+		SeamRuntime seamRt = SeamRuntimeManager.getInstance().getRuntimeForProject(project);
 
 		String runtimeName = SeamCorePlugin.getSeamPreferences(project)
 			.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
