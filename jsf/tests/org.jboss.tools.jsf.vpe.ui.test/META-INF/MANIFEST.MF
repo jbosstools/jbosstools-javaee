@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
- org.mozilla.xpcom
+ org.mozilla.xpcom,
+ org.jboss.tools.jst.firstrun,
+ org.eclipse.wst.server.core
 Eclipse-LazyStart: true
 Bundle-ClassPath: .
 Export-Package: org.jboss.tools.vpe.ui.test,
