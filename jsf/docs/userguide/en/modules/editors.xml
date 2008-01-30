@@ -39,10 +39,10 @@
             <para>OpenOn is available for the following files:</para>
             <itemizedlist>
                 <listitem>
-                    <para><link linkend="XMLFiles232">XML files</link></para>
+                    <para>XML files</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="JSPPages223">JSP/XHTML Pages</link></para>
+                    <para>JSP/XHTML Pages</para>
                 </listitem>
                 <listitem>
                     <para>Java files</para>
@@ -64,7 +64,7 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>This is the result of using OpenOn.</para>
+                <para>This is the result of using OpenOn</para>
                 <figure>
                     <title>NameBean Java Class</title>
                     <mediaobject>
@@ -253,8 +253,8 @@
                             files. You simply put the cursor inside the <emphasis role="italic">
                                 <property>&quot;value&quot;</property>
                             </emphasis> attribute and press <emphasis>
-                                <property>Ctrl-Space</property>.
-                            </emphasis> JBoss Developer Studio will scan your project and show a
+                                <property>Ctrl-Space</property>
+                            </emphasis>. JBoss Developer Studio will scan your project and show a
                             list of possible values to insert.</para>
                         <figure>
                             <title>Inserting Message</title>
@@ -265,9 +265,13 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
-                        <para>In the following screenshot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis>
-                            attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property>,</emphasis> 
-                            JBoss Developer Studio will show a list of all possible values that you can insert.</para>
+                        <para>In the following screen shot we are inserting a <emphasis
+                                role="italic">
+                                <property>&quot;Managed bean&quot;</property>
+                            </emphasis> attribute value. Again, by simply clicking <emphasis>
+                                <property>Ctrl-Space</property>
+                            </emphasis>, JBoss Developer Studio will show a list of all possible
+                            values that you can insert:</para>
 
                         <para>Once you select a Managed bean, it will show you a list of all
                             available attributes for the selected Managed bean (userBean).</para>
@@ -298,8 +302,8 @@
 
                         <para>JBoss Developer Studio also provides Content Assist when working
                             within the Tree JSF configuration editor. Just click <emphasis>
-                                <property>Ctrl-Space</property>.
-                            </emphasis></para>
+                                <property>Ctrl-Space</property>
+                            </emphasis>.</para>
                         <figure>
                             <title>Content Assist in Tree JSF Configuration Editor</title>
                             <mediaobject>
@@ -309,9 +313,6 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
-                        
-                        <!--
-                        
                         <para>If a field contains right class name and you click a link near the
                             field you will come to the file with this class otherwise a new Java
                             Class dialog will be shown:</para>
@@ -391,23 +392,15 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
-                                           
-                        -->
                     </section>
                 </section>
 
                 <section id="StrutsProjectFile46s3">
                     
-                    <para>Content Assist features are available when you work with Struts projects.</para>
-                    
                     <title>Struts Project Files</title>
                     <section id="ContentAssistForStrutsConfigurationFile75">
                       
-                                           
                         <title>Content Assist for Struts Configuration File</title>
-                        
-                        <para>Content Assist helps you in Struts Configuration file.</para>
-                        
                         <figure>
                             <title>Struts Content Assist</title>
                             <mediaobject>
@@ -421,9 +414,6 @@
                     <section id="ContentAssistForStrutsJSPFile07">
                     
                         <title>Content Assist for Struts JSP File</title>
-                        
-                        <para>Using Code Assist in Struts JSP file is shown below.</para>
-                        
                         <figure>
                             <title>Struts JSP Content Assist</title>
                             <mediaobject>
@@ -438,8 +428,6 @@
                 <section id="JSPPages434">
          
                     <title>JSP Pages</title>
-                    
-                    
                     <section id="ContentAssistForJSFTags96">
                     
                         <title>Content Assist for JSF Tags</title>
@@ -519,7 +507,19 @@
                         </figure>
                     </section>
 
-                 
+                    <section id="ContentAssistWithinConfigurationEditor743">
+                     
+                        <title>Content Assist within JSF Configuration Editor</title>
+                        <figure>
+                            <title>Content Assist in JSF Configuration Editor</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_28.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </section>
                 </section>
                 <section id="ContentAssistForRF">
        
@@ -676,7 +676,7 @@
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
             
-            <title>Synchronized Source and Visual Editing</title>
+            <title>Full Control over Source Files - Synchronized Source and Visual Editing</title>
 
             <para>JBoss Developer Studio offers the flexibility to edit any files in either source
                 or extra visual modes at the same time.</para>
@@ -819,7 +819,7 @@
                 <title>Properties And Outline Views</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_4.png" scale="65"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -847,7 +847,7 @@
                 <title>Inserting Tags From Palette</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_7.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_7.png" scale="80"/>
                     </imageobject>
                 </mediaobject>
             </figure>
