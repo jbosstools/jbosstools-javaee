@@ -77,6 +77,7 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 	ISeamProject seamProject;
 
 	public SeamSettingsPreferencePage() {
+		noDefaultAndApplyButton();
 	}
 
 	@Override
