@@ -16,7 +16,7 @@
             <para>Insert tags into a JSP or JSF page with one click</para>
         </listitem>
         <listitem>
-            <para>Add custom and 3rd party tags.</para>
+            <para>Add custom and 3rd party tags</para>
         </listitem>
     </itemizedlist>
 
@@ -50,12 +50,7 @@
          <section id="RedHatPalette">
             <?dbhtml filename="JBossToolsPalette.html"?>
             <title>JBoss Tools Palette</title>
-
-            <para> In the Palette Editor window we can see that every
-                group contains its own subgroups. For example, JSF includes Core, Facelets, HTML.
-                So, in the Palette every group has the next view: &lt;Group name&gt;
-                &lt;Subgroup name&gt;. </para>
-
+            <para> Palette Editor window is divided into multiple groups, and every group consists of several subgroups. For example, JSF consists of Core, Facelets, HTML: </para>
             <figure>
                 <title>Subgroups of JSF group</title>
                 <mediaobject>
@@ -105,7 +100,7 @@
                     </mediaobject>
                 </figure>
                 
-                <para>In the example below, the commandButton tag has been inserted.</para>
+            <para>In the example below, the <emphasis><property>commandButton</property></emphasis> tag has been inserted.</para>
                
             <figure>
                 <title>Inserting Tag</title>
@@ -115,10 +110,14 @@
                     </imageobject>
                 </mediaobject>
                         </figure>
-            <note> if you place the cursor over
+            
+            <note><title>Note:</title>
+                <para>if you place the cursor over
                 any tag, a balloon tip is shown with all the <emphasis role="italic">
                     <property>&quot;tag&quot;</property>
-                </emphasis> attributes.</note>
+                </emphasis> attributes.</para>
+            </note>
+            
             <para>The cursor position after adding a tag into a file is specified by
                 &quot;|&quot; symbol in the tag template on the right in the Palette Editor window. </para>
             <figure>
@@ -129,7 +128,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para> Above you can see where the cursor position for HTML/Form/input is set. So, after
+            <para> Above you can see where the cursor position for HTML/Form/input is set. Thus, after
                 adding this tag into your file the cursor will be in the attribute
                 &quot;type&quot;. Then, you can straight use the combination of buttons <property>Ctrl
                 + Space</property> to inquire about a prompting. </para>
@@ -218,7 +217,7 @@
                 <?dbhtml filename="ImportButton.html"?>
                 <title>Import Button</title>
                 <para>The same you can do with <emphasis><property>Import</property></emphasis> button.
-                You can see this button at the top right side of the JBoss Tools Palette</para>
+                You can see this button at the top right side of the JBoss Tools Palette.</para>
                 
                 <figure>
                     <title>Import Button</title>
@@ -229,7 +228,7 @@
                     </mediaobject>
                 </figure>
                 
-                <para>By clicking on the Import button you will see the Import Tag window a similar like in the Drag-and-Drop method. 
+                <para>By clicking on the <emphasis><property>Import button</property></emphasis> you will see the Import Tag window a similar like in the Drag-and-Drop method. 
                     On this Import Tag form you can select <emphasis><property>Browse...</property></emphasis> to locate the tag library that you want to add.
                 Also you need to set the Group name to which you&apos;d like to add your tag library. And like in the previous method you can add it to an existing Group or create a new one.</para>
                 
@@ -290,7 +289,7 @@
             <para>To edit the Pallete view use <property>Edit</property> button. The Palette
                 Editor provides following possibilities: <itemizedlist>
                     <listitem>
-                        <para>to work with set of icons.</para>
+                        <para>to work with set of icons</para>
                         <figure>
                             <title>Creating a set of icons</title>
                             <mediaobject>
@@ -420,8 +419,7 @@
             <itemizedlist>
                 <listitem>
                     <para>Click <emphasis>
-                            <property>OK</property>
-                        </emphasis>. The new groups will now be displayed on the palette:</para>
+                            <property>OK</property>.</emphasis> The new groups will now be displayed on the palette:</para>
                 </listitem>
             </itemizedlist>
             <figure>
@@ -438,8 +436,7 @@
             <title>Import</title>
 
             <para>The Import button lets you add a custom or 3rd party tag library to
-                    JBoss Tools Palette. Find out more information on how to add the tags see the <link linkend="ImportButton521"
-                    >Adding Custom JSF Tags</link>section.
+                    JBoss Tools Palette. Find out more information on how to add the tags see the <link linkend="ImportButton521">Adding Custom JSF Tags</link> section.
                 <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
 
         </section>
@@ -452,7 +449,10 @@
         <para>JBoss Developer Studio comes with a tight integration with <emphasis><property>Rich Faces</property></emphasis> component framework. 
             Rich Faces and Ajax4jsf in JBoss Tools Palette always exist, this palette is not dynamic and is not changed from file to file.
              JBoss Tools Palette supports only the last version of the Rich Faces components. 
-            <note>If you&apos;d like to know the last version of Rich Faces component framework see <ulink url="http://labs.jboss.com/jbossrichfaces/">JBoss RichFaces</ulink> site.</note>
+            
+            <note><title>Note:</title>
+                <para>If you&apos;d like to know the last version of Rich Faces component framework see <ulink url="http://labs.jboss.com/jbossrichfaces/">JBoss RichFaces</ulink> site.</para>
+            </note>
              After installing JBDS Rich Faces components as well as 
             <emphasis><property>Ajax4jsf</property></emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
         
