@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -21,6 +22,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.model.util.ClassLoaderUtil;
+import org.jboss.tools.jst.firstrun.JBossASAdapterInitializer;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
@@ -72,11 +74,11 @@ public class VpeTest extends TestCase implements ILogListener {
 	 * @see TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
-
 		super.setUp();
 
 		Platform.addLogListener(this);
-
+		String jbossPath = System.getProperty("jbosstools.test.jboss.home.4.2", "C:\\java\\jboss-4.2.2.GA");
+		JBossASAdapterInitializer.initJBossAS(jbossPath, new NullProgressMonitor());
 		closeEditors();
 	}
 
