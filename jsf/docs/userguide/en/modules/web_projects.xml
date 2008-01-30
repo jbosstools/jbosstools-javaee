@@ -3,11 +3,7 @@
     <?dbhtml filename="web_projects.html"?>
 <title>Web Projects View</title>
 <para><property>Web Projects</property> is a special view that comes with JBoss Developer Studio.</para>
-<para>If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <emphasis><property>Window &gt; Show View &gt; Web Projects</property></emphasis> from the menu bar.</para>
-<section id="WebProjectsView1">
-  <?dbhtml filename="WebProjectsView.html"?>
-<title>Web Projects View</title>
-
+<para>If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <emphasis><property>Window &gt; Show View &gt; Other &gt; JBoss Tools Web &gt; Web Projects</property></emphasis> from the menu bar.</para>
 <para>With the Web Projects view, you can:</para>
 
 <itemizedlist>
@@ -27,9 +23,9 @@
     <listitem><link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Select custom and third-party tag libraries to drag and drop onto 
 the JBoss Tools Palette</link></listitem>
 </itemizedlist>
-</section>
+
 <section id="ProjectOrganization">
-<?dbhtml filename="ProjectOrganization.html"?>
+
 <title>Project Organization</title>
 <para>The Web Projects view organizes your project in a different way. The physical structure of course stays the same. The new organization combines common project artifacts together which makes it simpler to 
 locate what you are looking for and develop.</para>
@@ -45,10 +41,10 @@ locate what you are looking for and develop.</para>
     </figure>
 </section>
 <section id="DragAndDrop">
-<?dbhtml filename="DragAndDrop.html"?>
+
 <title>Drag and Drop</title>
 <section id="ForAProperty">
-<?dbhtml filename="DragAndDrop.html"?>
+
 <title>For a Property</title>
 <para>Expand the Resources Bundles folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.</para>
 <para>We will be dragging and dropping a property file value inside the outputText tag for the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute.</para>
@@ -82,12 +78,12 @@ locate what you are looking for and develop.</para>
  JBoss Developer Studio will place the complete tag <emphasis role="bold"><property>&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
  </section>
 <section id="ForManagedBeanAttributes">
-<?dbhtml filename="ForManagedBeanAttributes.html"?>
+
 <title>For Managed Bean Attributes</title>
 
 <para>Select a <emphasis role="italic"><property>&quot;managed bean&quot;</property></emphasis> attribute and then drag and drop it onto the JSP page. We are going to place it inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute of the inputText tag.</para>
 <figure>
-<title>Selecting Managed Bean Attrubute</title>
+<title>Selecting Managed Bean Attribute</title>
 <mediaobject> 
         <imageobject>
             <imagedata fileref="images/web_projects/web_projects_5.png"/>
@@ -105,7 +101,7 @@ locate what you are looking for and develop.</para>
 </figure>
 </section>
 <section id="NavigationRules">
-<?dbhtml filename="Navigation Rules.html"?>
+
 <title>Navigation Rules</title>
 
 <para>Select the navigation rule under <emphasis><property>Configuration > faces-config.xml > Navigation Rules</property></emphasis>:</para>
@@ -146,7 +142,7 @@ locate what you are looking for and develop.</para>
 </figure>
 </section>
 <section id="ForATagLibraryFileDeclaration">
-<?dbhtml filename="ForATagLibraryFileDeclaration.html"?>
+
 <title>For a Tag Library File Declaration</title>
 
 <para>Select a TLD file:</para>
@@ -169,7 +165,7 @@ locate what you are looking for and develop.</para>
 </figure>
 </section>
 <section id="ForJSPPages">
-<?dbhtml filename="For JSP Pages.html"?>
+
 <title>For JSP Pages</title>
 
 <para>You can also drag and drop a JSP page path to a JSP page to create a forward as shown:</para>
@@ -184,7 +180,7 @@ locate what you are looking for and develop.</para>
 </section>
 </section>
 <section id="DevelopingTheApplication">
-<?dbhtml filename="DevelopingTheApplication.html"?>
+
 <title>Developing the Application</title>
 
 <para>It is also possible to develop your application right from the Web Projects view. 
@@ -199,7 +195,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 </figure>
 </section>
 <section id="ExpandingTagLibraryFiles">
-<?dbhtml filename="ExpandingTagLibraryFiles.html"?>
+
 <title>Expanding Tag Library Files</title>
 
 <para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Expand</property></emphasis>. The TLD file will now be expanded.</para>
@@ -215,7 +211,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 </figure>
 </section>
 <section id="DragAndDropTagLibrariesOnToRedHatPalette">
-<?dbhtml filename="DragAndDropTagLibrariesOnToRedHatPalette.html"?>
+
 <title>Drag and Drop Tag Libraries on to JBoss Tools Palette</title>
 
     <para>Read <link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Adding Tag Libraries</link> to learn about this.</para>
