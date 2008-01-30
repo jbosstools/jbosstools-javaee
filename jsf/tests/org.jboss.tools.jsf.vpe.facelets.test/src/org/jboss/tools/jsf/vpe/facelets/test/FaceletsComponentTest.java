@@ -407,7 +407,7 @@ public class FaceletsComponentTest extends VpeTest {
 		nsIDOMText.NS_IDOMTEXT_IID);
 
 	assertEquals("Component's content is not shown", text.getNodeValue(),
-		"#{currentUser}");
+		"#{user}");
 
 	if (getException() != null) {
 	    throw getException();
