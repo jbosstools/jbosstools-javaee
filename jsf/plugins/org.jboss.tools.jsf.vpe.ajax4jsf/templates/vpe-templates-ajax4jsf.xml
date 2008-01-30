@@ -249,10 +249,9 @@
     </vpe:tag>	
     
     <vpe:tag name="a4j:mediaOutput" case-sensitive="yes">
-	    <vpe:template children="no" modify="no">
-	    <div class="{@styleClass}" style="{@style}" size="{@size}">
-	    	mediaOutput
-	    </div>
+	    <vpe:template children="no" modify="no" 
+	            class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFMediaOutput">
+	   
 	    </vpe:template>
     </vpe:tag>
     

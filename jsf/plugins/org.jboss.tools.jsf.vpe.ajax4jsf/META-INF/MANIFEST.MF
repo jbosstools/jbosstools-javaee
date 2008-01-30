@@ -7,6 +7,8 @@ Bundle-Version: 2.1.0
 Bundle-Localization: plugin
 Require-Bundle: org.jboss.tools.vpe,
  org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.jboss.tools.jst.jsp,
+ org.mozilla.xpcom
 Eclipse-LazyStart: true
 Bundle-Vendor: Red Hat, Inc.
