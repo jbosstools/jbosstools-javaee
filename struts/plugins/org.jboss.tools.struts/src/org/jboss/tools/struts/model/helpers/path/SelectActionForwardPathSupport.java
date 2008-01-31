@@ -106,7 +106,7 @@ public class SelectActionForwardPathSupport extends SpecialWizardSupport impleme
     }
 
     public void action(String name) throws Exception {
-        if(OK.equals(name)) {
+		if(OK.equals(name) || FINISH.equals(name)) {
             setFinished(true);
             setStepId(-1);
         } else if(CANCEL.equals(name)) {
