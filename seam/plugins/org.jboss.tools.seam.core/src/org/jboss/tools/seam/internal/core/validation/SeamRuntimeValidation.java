@@ -25,7 +25,8 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
  * @author Viacheslav Kabanovich
  */
 public class SeamRuntimeValidation {
-	static final String TYPE = "org.jboss.tools.seam.core.seamProblem";
+	
+	public static final String MARKER_TYPE = "org.jboss.tools.seam.core.seamProblem";
 	static final String ATTR_KIND = "kind";
 	static final String RUNTIME_KIND = "SeamRuntimeProblem";
 	
@@ -52,7 +53,7 @@ public class SeamRuntimeValidation {
 	}
 	
 	private IMarker findErrorMarker(ISeamProject project) throws CoreException {
-		IMarker[] ms = project.getProject().findMarkers(TYPE, true, IResource.DEPTH_ZERO);
+		IMarker[] ms = project.getProject().findMarkers(MARKER_TYPE, true, IResource.DEPTH_ZERO);
 		if(ms == null) return null;
 		for (int i = 0; i < ms.length; i++) {
 			int s = ms[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
@@ -85,7 +86,7 @@ public class SeamRuntimeValidation {
 	}
 
 	private void doCreateMarker(ISeamProject project, String message) throws CoreException {
-		IMarker marker = project.getProject().createMarker(TYPE);
+		IMarker marker = project.getProject().createMarker(MARKER_TYPE);
 		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 		marker.setAttribute(IMarker.MESSAGE, message);
 		marker.setAttribute(ATTR_KIND, RUNTIME_KIND);

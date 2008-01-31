@@ -32,6 +32,9 @@ import org.jboss.tools.seam.core.SeamPreferences;
  */
 public abstract class SeamValidator implements ISeamValidator {
 
+	public static final String BASE_NAME 
+		= "org.jboss.tools.seam.internal.core.validation.messages"; //$NON-NLS-1$
+
 	IStatus OK_STATUS = new Status(IStatus.OK,
 			"org.eclipse.wst.validation", 0, "OK", null); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -54,7 +57,7 @@ public abstract class SeamValidator implements ISeamValidator {
 	}
 
 	protected String getBaseName() {
-		return "org.jboss.tools.seam.internal.core.validation.messages"; //$NON-NLS-1$
+		return BASE_NAME;
 	}
 
 	protected void addError(String messageId, String preferenceKey,
