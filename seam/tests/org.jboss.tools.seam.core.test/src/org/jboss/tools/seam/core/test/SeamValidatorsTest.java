@@ -31,6 +31,9 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
+import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
+import org.jboss.tools.seam.internal.core.validation.SeamValidator;
+import org.jboss.tools.seam.internal.core.validation.SeamValidatorManager;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -606,7 +609,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	}
 
-	public void testExpressionLanguageValidator() {
+	public void testExpressionLanguageValidator() throws CoreException {
 		modifyPreferences();
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 		System.out.println("UNKNOWN_EL_VARIABLE_PROPERTY_NAME value- "+store.getString(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME));
@@ -731,14 +734,13 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
 
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
-
+	} 
+	
+	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
-		lineNumbers = getMarkersNumbersOfLine(jbide1631XHTMLFile);
-		String errorMessage = "Seam tools doesn't validate string with a few EL properly. There should be two markers in string '#{authenticator.foo1} #{authenticator.foo2}'.";
-		assertTrue(errorMessage, lineNumbers.length>1);
-		assertTrue(errorMessage, lineNumbers[0] == 16);
-		assertTrue(errorMessage, lineNumbers[1] == 16);
+		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
+		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 16 );
 	}
 	
 	public void testInheritedMethods() {
