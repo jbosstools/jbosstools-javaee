@@ -55,13 +55,14 @@ public class SeamFacetPostInstallDelegate implements IDelegate, ISeamFacetDataMo
 	final IDataModel model = (IDataModel) config;
 	
 		IServer server = (IServer) model.getProperty(JBOSS_AS_TARGET_SERVER);
-		JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
-		if (jbs != null) {
-			String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
-			String configFolder = jbs.getConfigDirectory();
-			AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
-		} 
 		if (server != null) {
+			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
+			if (jbs != null) {
+				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
+				String configFolder = jbs.getConfigDirectory();
+				AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
+			} 
+
 			RegistrationHelper.runRegisterInServerJob(project, server);
 			
 			IPath filePath = new Path("resources").append(project.getName() + "-ds.xml");
