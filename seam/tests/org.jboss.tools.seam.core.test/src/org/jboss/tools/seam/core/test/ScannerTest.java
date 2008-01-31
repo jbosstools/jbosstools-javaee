@@ -482,7 +482,7 @@ public class ScannerTest extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		EditorTestHelper.joinBackgroundActivities();
+		EditorTestHelper.joinJobs(1000, 10000, 500);
 		project.delete(true,true, null);
 	}
 }
