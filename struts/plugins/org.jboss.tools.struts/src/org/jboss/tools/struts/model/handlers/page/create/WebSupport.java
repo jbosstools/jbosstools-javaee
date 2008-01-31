@@ -17,7 +17,7 @@ public class WebSupport extends SpecialWizardSupport {
     public WebSupport() {}
 
     public void action(String name) throws Exception {
-        if(OK.equals(name)) {
+		if(OK.equals(name) || FINISH.equals(name)) {
             setFinished(true);
         } else if(CANCEL.equals(name)) {
             setStepId(-1);
@@ -32,7 +32,7 @@ public class WebSupport extends SpecialWizardSupport {
     }
 
     public boolean isActionEnabled(String name) {
-        if(name.equals(OK)) {
+		if(OK.equals(name) || FINISH.equals(name)) {
             return (getProperties().get("selectedObject") != null);
         }
         return true;
