@@ -24,7 +24,7 @@ public class SelectPageSupport extends SpecialWizardSupport {
     }
 
     public void action(String name) throws Exception {
-        if(OK.equals(name)) {
+		if(OK.equals(name) || FINISH.equals(name)) {
             extractStepData(0);
             getProperties().setProperty("name", getAttributeValue(0, "name"));
             setFinished(true);
