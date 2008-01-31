@@ -13,8 +13,6 @@ package org.jboss.tools.seam.core.test;
 import java.io.IOException;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -32,17 +30,26 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
-public class SeamValidatorsTest extends TestCase {
+public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	IProject project = null;
 
-	public SeamValidatorsTest() {}
+	public SeamValidatorsTest() {
+		super("Seam Validator Tests");
+	}
 
 	protected void setUp() throws Exception {
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
+		if(project == null) {
+			new SeamValidatorsTestSetup(this).setUp();
+		}
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("SeamWebWarTestProject");
-		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		this.project = project.getProject();
+		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		EditorTestHelper.joinJobs(5000, 20000, 1000);
 	}
 
@@ -93,7 +100,7 @@ public class SeamValidatorsTest extends TestCase {
 		
 		String[] messages = getMarkersMessage(bbcComponentFile);
 		
-		assertTrue("Problem marker 'Duplicate component name' not found","Duplicate component name: abcComponent".equals(messages[0]));
+		assertTrue("Problem marker 'Duplicate component name' not found","Duplicate component name: \"abcComponent\"".equals(messages[0]));
 		
 		int[] lineNumbers = getMarkersNumbersOfLine(bbcComponentFile);
 		
@@ -267,232 +274,122 @@ public class SeamValidatorsTest extends TestCase {
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 15);
 	}
 
-	public void testComponentLifeCycleMethodsValidator() {
+	public void testComponentLifeCycleMethodsValidator() throws CoreException {
+		final String TARGET_FILE_NAME 
+			= "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java";
+		
 		ISeamProject seamProject = getSeamProject(project);
 		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 
-		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
+		final String NEW_CONTENT_FILE_NAME6 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6";
 
 		// Duplicate @Destroy method
 		System.out.println("Test - Duplicate @Destroy method");
-
-		IFile statefulComponentFile6 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile6.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.6'", ex);
-		}
-		
+	
 		refreshProject(project);
 
-		int number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Destroy method' was not found", number == 0);
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME, 
+				NEW_CONTENT_FILE_NAME6, 
+				".*\"destroyMethod\".*", 34);
 		
-		String[] messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Destroy method' was not found", messages[0].startsWith("Duplicate @Destroy method \"destroyMethod"));
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME, ".*\"destroyMethod2\"", 39);
 
-		int[] lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 32);
-		assertTrue("Problem marker has wrong line number", lineNumbers[1] == 38);
-
-		
 		// Duplicate @Create method
 		System.out.println("Test - Duplicate @Create method");
 		
-		IFile statefulComponentFile7 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.7");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile7.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.7'", ex);
-		}
+		final String NEW_CONTENT_FILE_NAME7 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.7";
+	
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME7, ".*@Create.*\"createMethod\".*", 36);
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME, ".*@Create.*\"createMethod2\".*", 41);
 		
-		refreshProject(project);
 		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Create method' was not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Create method' was not found", messages[0].startsWith("Duplicate @Create method \"createMethod"));
-		
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-		
-		if(messages[1].indexOf("createMethod2") >= 0){
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 33);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 40);
-		}else{
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 40);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 33);
-			
-		}
 		
 		// Duplicate @Unwrap method
 		System.out.println("Test - Duplicate @Unwrap method");
 		
-		IFile statefulComponentFile8 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.8");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile8.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.8'", ex);
-		}
+		final String NEW_CONTENT_FILE_NAME8 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.8";
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME8, ".*@Unwrap.*\"unwrapMethod\".*", 40);
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME, ".*@Unwrap.*\"unwrapMethod2\".*", 45);
 		
-		refreshProject(project);
-		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Unwrap method' was not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Unwrap method' was not found", messages[0].startsWith("Duplicate @Unwrap method \"unwrapMethod"));
-
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-		
-		if(messages[1].indexOf("unwrapMethod2") >= 0){
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 39);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 44);
-		}else{
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 44);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 39);
-			
-		}
 		
 		// Only component class can have @Destroy method
 		System.out.println("Test - Only component class can have @Destroy method");
 		
-		IFile componentsFile4 = project.getFile("WebContent/WEB-INF/components.4");
+		final String NEW_CONTENT_FILE_NAME9 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.9";
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME9, ".*@Destroy.*\"destroyMethod\".*", 25);
 		
-		try{
-			componentsFile.setContents(componentsFile4.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'components.xml' content to " +
-					"'components.4'", ex);
-		}
-		IFile statefulComponentFile9 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.9");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile9.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.9'", ex);
-		}
-		
-		refreshProject(project);
-		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Only component class can have @Destroy method' not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Only component class can have @Destroy method' not found", "Only component class can have @Destroy method \"destroyMethod\"".equals(messages[0]));
-		
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
 		
 		// Only component class can have @Create method
 		System.out.println("Test - Only component class can have @Create method");
 		
-		IFile statefulComponentFile10 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.10");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile10.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.10'", ex);
-		}
+		final String NEW_CONTENT_FILE_NAME10 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.10";
 		
-		refreshProject(project);
-		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Only component class can have @Create method' not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Only component class can have @Create method' not found", "Only component class can have @Create method \"createMethod\"".equals(messages[0]));
-		
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME10, ".*@Create.*\"createMethod\".*", 25);
 		
 		// Only component class can have @Unwrap method
 		System.out.println("Test - Only component class can have @Unwrap method");
 		
-		IFile statefulComponentFile11 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.11");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile11.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.11'", ex);
-		}
-		
-		refreshProject(project);
-		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Only component class can have @Unwrap method' not found' not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Only component class can have @Unwrap method' not found", "Only component class can have @Unwrap method \"unwrapMethod\"".equals(messages[0]));
-
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
+		final String NEW_CONTENT_FILE_NAME11 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.11";
+	
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME11, "Only component class can have @Unwrap method \"unwrapMethod\"", 26);
 		
 		// Only component class can have @Observer method
 		System.out.println("Test - Only component class can have @Observer method");
 		
-		IFile statefulComponentFile12 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.12");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile12.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.12'", ex);
-		}
-		
-		refreshProject(project);
-		
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Only component class can have @Observer method' not found' not found' not found' not found", number == 0);
-		
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Only component class can have @Observer method' not found", "Only component class can have @Observer method \"observerMethod\"".equals(messages[0]));
-		
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 23);
+		final String NEW_CONTENT_FILE_NAME12 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.12";
+
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME12, "Only component class can have @Observer method \"observerMethod\"", 26);
 
 		// Duplicate @Remove method
 
-		IFile statefulComponentFile1 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.1");
-		try{
-			statefulComponentFile.setContents(statefulComponentFile1.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.1'", ex);
-		}
+		final String NEW_CONTENT_FILE_NAME1 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.1";
 
+		//assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
+
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME1, "Duplicate @Remove method \"removeMethod1\"", 18);
+		assertMarkerIsCreated(
+				TARGET_FILE_NAME,"Duplicate @Remove method \"removeMethod2\"", 22);
+
+	}
+
+	/**
+	 * @param statefulComponentFile
+	 * @param string
+	 * @param i
+	 * @throws CoreException 
+	 */
+	protected void assertMarkerIsCreated(String targetPath, String newContentPath,
+			String pattern, int line) throws CoreException {
+		
+		IFile newContentFile = project.getFile(newContentPath);
+		IFile targetFile = project.getFile(targetPath);
+		targetFile.setContents(newContentFile.getContents(), true, false, new NullProgressMonitor());
 		refreshProject(project);
-
-		number = getMarkersNumber(statefulComponentFile);
-		assertFalse("Problem marker 'Duplicate @Remove method' not found", number == 0);
-
-		messages = getMarkersMessage(statefulComponentFile);
-		assertTrue("Problem marker 'Duplicate @Remove method' not found", messages[0].startsWith("Duplicate @Remove method \"removeMethod"));
-
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
-
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-
-		if(messages[1].indexOf("removeMethod2") >= 0){
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 17);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 21);
-		}else{
-			assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21);
-			assertTrue("Problem marker has wrong line number", lineNumbers[1] == 17);
-		}
+		assertMarkerIsCreated(targetFile, SeamRuntimeValidation.MARKER_TYPE, pattern, line);
+	}
+	
+	/**
+	 * @param statefulComponentFile
+	 * @param string
+	 * @param i
+	 * @throws CoreException 
+	 */
+	protected void assertMarkerIsCreated(String targetPath,
+			String pattern, int line) throws CoreException {
+		
+		IFile targetFile = project.getFile(targetPath);
+		assertMarkerIsCreated(targetFile, SeamRuntimeValidation.MARKER_TYPE, pattern, line);
 	}
 
 	/**
@@ -627,7 +524,7 @@ public class SeamValidatorsTest extends TestCase {
 		assertFalse("Problem marker 'Unknown @DataModel/@Out name' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(selectionTestFile);
-		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: messageList2"));
+		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: \"messageList2\""));
 
 		lineNumbers = getMarkersNumbersOfLine(selectionTestFile);
 		
@@ -637,7 +534,7 @@ public class SeamValidatorsTest extends TestCase {
 		assertFalse("Problem marker 'Unknown @DataModel/@Out name' not found' not found' not found' not found", number == 0);
 
 		messages = getMarkersMessage(selectionIndexTestFile);
-		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: messageList2"));
+		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: \"messageList2\""));
 		
 		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile);
 
@@ -676,7 +573,7 @@ public class SeamValidatorsTest extends TestCase {
 		assertTrue("Not all problem markers 'Duplicate variable name' was found", messages.length == 4);
 		
 		for(int i=0;i<4;i++)
-			assertTrue("Problem marker 'Duplicate variable name' not found", "Duplicate variable name: messageList".equals(messages[i]));
+			assertTrue("Problem marker 'Duplicate variable name' not found", "Duplicate variable name: \"messageList\"".equals(messages[i]));
 		
 		int[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
 		
@@ -701,7 +598,7 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(contextVariableTestFile);
 		
-		assertTrue("Problem marker 'Unknown variable name' not found", "Unknown context variable name: messageList5".equals(messages[0]));
+		assertTrue("Problem marker 'Unknown variable name' not found", "Unknown context variable name: \"messageList5\"".equals(messages[0]));
 		
 		lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
 		
@@ -747,7 +644,7 @@ public class SeamValidatorsTest extends TestCase {
 		
 		String[] messages = getMarkersMessage(abcComponentXHTMLFile);
 		
-		assertTrue("Problem marker 'Context variable cannot be resolved' not found", "bcComponent cannot be resolved".equals(messages[0]));
+		assertTrue("Problem marker 'Context variable cannot be resolved' not found", "\"bcComponent\" cannot be resolved".equals(messages[0]));
 		
 		int[] lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
 		
@@ -771,7 +668,7 @@ public class SeamValidatorsTest extends TestCase {
 		
 		messages = getMarkersMessage(abcComponentXHTMLFile);
 		
-		assertTrue("Problem marker 'Property cannot be resolved' not found", "actionType2 cannot be resolved".equals(messages[0]));
+		assertTrue("Problem marker 'Property cannot be resolved' not found", "\"actionType2\" cannot be resolved".equals(messages[0]));
 		
 		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
 		
@@ -931,7 +828,5 @@ public class SeamValidatorsTest extends TestCase {
 
 	public static void waitForJob() {
 		EditorTestHelper.joinJobs(1000,10000,500);
-		// wait for Workspace runnable 
-		EditorTestHelper.runEventQueue(2000);
 	}
 }

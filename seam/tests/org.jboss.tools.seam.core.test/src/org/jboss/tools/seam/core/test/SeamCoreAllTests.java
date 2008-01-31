@@ -13,7 +13,6 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.seam.core.test.project.facet.Seam2FacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamFacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
@@ -32,7 +31,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
 		suite.addTestSuite(SeamFacetInstallDelegateTest.class);
-		suite.addTest(new SeamValidatorsTestSetup(new TestSuite(SeamValidatorsTest.class)));
+		suite.addTest(SeamValidatorsAllTests.suite());
 
 		// Seam 2 tests can't run on hudson for now ;(
 		//suite.addTestSuite(Seam2FacetInstallDelegateTest.class);

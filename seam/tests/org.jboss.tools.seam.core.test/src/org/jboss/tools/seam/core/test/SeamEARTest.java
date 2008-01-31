@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -46,30 +47,18 @@ public class SeamEARTest extends TestCase {
 		TestProjectProvider providerEJB = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ejb", makeCopy);
 		projectEJB = providerEJB.getProject();
 
-		try {
-			projectEAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			projectWAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			projectEJB.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			JUnitUtils.fail("Error in refreshing",e);
-		}
+		projectEAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		projectWAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		projectEJB.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
 		EditorTestHelper.joinBackgroundActivities();
 	}
 
-	private ISeamProject getSeamProject(IProject project) {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-//			XJob.waitForJob();
-		} catch (Exception e) {
-			JUnitUtils.fail("Interrupted",e);
-		}
-		try {
-			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot build", e);
-		}
+	private ISeamProject getSeamProject(IProject project) throws CoreException {
+
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		EditorTestHelper.joinBackgroundActivities();
+
 		ISeamProject seamProject = null;
 		
 		/*
@@ -80,24 +69,12 @@ public class SeamEARTest extends TestCase {
 		 * (ISeamProject)project.getNature(SeamProject.NATURE_ID);
 		 */
 		seamProject = SeamCorePlugin.getSeamProject(project, true);
-//		try {
-//			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
-//		} catch (Exception e) {
-//			JUnitUtils.fail("Cannot get seam nature.",e);
-//		}
+
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
 	
-	/**
-	 * This empty test is meaningful as it gives Eclipse opportunity 
-	 * to pass for the first time setUp() and show the license dialog 
-	 * that may cause InterruptedException for XJob.waitForJob()
-	 */
-	public void testCreatingProject() {
-	}
-
-	public void testProject() {
+	public void testEarProject() throws CoreException {
 		ISeamProject seamProject = getSeamProject(projectWAR);
 		ISeamComponent c = seamProject.getComponent("authenticator");
 
