@@ -29,7 +29,7 @@ public class AddFormsetSupport extends SpecialWizardSupport {
     public void action(String name) throws Exception {
         if(CANCEL.equals(name)) {
             setFinished(true);
-        } else if(OK.equals(name)) {
+        } else if(OK.equals(name) || FINISH.equals(name)) {
             finish();
             setFinished(true);
         }
