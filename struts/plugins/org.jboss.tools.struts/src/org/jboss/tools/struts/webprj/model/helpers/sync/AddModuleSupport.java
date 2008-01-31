@@ -23,7 +23,7 @@ public class AddModuleSupport extends SpecialWizardSupport {
     }
 
     public void action(String name) throws Exception {
-        if(OK.equals(name)) {
+		if(OK.equals(name) || FINISH.equals(name)) {
             finish();
             setFinished(true);
             context = null;
