@@ -25,6 +25,7 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * Base class for facet related tests; based on the facet test class found in
@@ -87,6 +88,9 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	throws Exception
 
 	{
+		// Wait until all jobs is finished to avoid delete project problems
+		EditorTestHelper.joinBackgroundActivities();
+		EditorTestHelper.runEventQueue(3000);
 		Exception last = null;
 		for (IResource r : this.resourcesToCleanup) {
 			try {
