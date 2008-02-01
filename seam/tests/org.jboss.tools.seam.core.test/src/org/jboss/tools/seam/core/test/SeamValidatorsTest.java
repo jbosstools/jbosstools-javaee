@@ -13,6 +13,8 @@ package org.jboss.tools.seam.core.test;
 import java.io.IOException;
 import java.util.Set;
 
+import junit.framework.TestSuite;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -35,6 +37,7 @@ import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
 import org.jboss.tools.seam.internal.core.validation.SeamValidator;
 import org.jboss.tools.seam.internal.core.validation.SeamValidatorManager;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -48,12 +51,16 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	protected void setUp() throws Exception {
 		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
 		if(project == null) {
-			new SeamValidatorsTestSetup(this).setUp();
+			ProjectImportTestSetup setup = new ProjectImportTestSetup(
+					this,
+					"org.jboss.tools.seam.core.test",
+					"projects/SeamWebWarTestProject",
+					"SeamWebWarTestProject");
+			project = setup.importProject();
 		}
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject("SeamWebWarTestProject");
 		this.project = project.getProject();
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		EditorTestHelper.joinJobs(5000, 20000, 1000);
+		EditorTestHelper.joinBackgroundActivities();
 	}
 
 	private ISeamProject getSeamProject(IProject project) {
@@ -734,7 +741,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
 
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
-	} 
+	} 	
 	
 	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631

@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core.test;
 
+import org.jboss.tools.test.util.ProjectImportTestSetup;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -21,7 +23,7 @@ public class SeamValidatorsAllTests {
 	
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTest(new SeamValidatorsTestSetup(new TestSuite(SeamValidatorsTest.class)));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamValidatorsTest.class),"org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject","SeamWebWarTestProject"));
 		return suite;
 	}
 	
