@@ -39,10 +39,10 @@
             <para>OpenOn is available for the following files:</para>
             <itemizedlist>
                 <listitem>
-                    <para>XML files</para>
+                    <para><link linkend="XMLFiles232">XML files</link></para>
                 </listitem>
                 <listitem>
-                    <para>JSP/XHTML Pages</para>
+                    <para><link linkend="JSPPages223">JSP/XHTML Pages</link></para>
                 </listitem>
                 <listitem>
                     <para>Java files</para>
@@ -64,7 +64,7 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>This is the result of using OpenOn</para>
+                <para>This is the result of using OpenOn.</para>
                 <figure>
                     <title>NameBean Java Class</title>
                     <mediaobject>
@@ -253,8 +253,8 @@
                             files. You simply put the cursor inside the <emphasis role="italic">
                                 <property>&quot;value&quot;</property>
                             </emphasis> attribute and press <emphasis>
-                                <property>Ctrl-Space</property>
-                            </emphasis>. JBoss Developer Studio will scan your project and show a
+                                <property>Ctrl-Space</property>.
+                            </emphasis> JBoss Developer Studio will scan your project and show a
                             list of possible values to insert.</para>
                         <figure>
                             <title>Inserting Message</title>
@@ -265,13 +265,9 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
-                        <para>In the following screen shot we are inserting a <emphasis
-                                role="italic">
-                                <property>&quot;Managed bean&quot;</property>
-                            </emphasis> attribute value. Again, by simply clicking <emphasis>
-                                <property>Ctrl-Space</property>
-                            </emphasis>, JBoss Developer Studio will show a list of all possible
-                            values that you can insert:</para>
+                        <para>In the following screenshot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis>
+                            attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property>,</emphasis> 
+                            JBoss Developer Studio will show a list of all possible values that you can insert.</para>
 
                         <para>Once you select a Managed bean, it will show you a list of all
                             available attributes for the selected Managed bean (userBean).</para>
@@ -302,8 +298,8 @@
 
                         <para>JBoss Developer Studio also provides Content Assist when working
                             within the Tree JSF configuration editor. Just click <emphasis>
-                                <property>Ctrl-Space</property>
-                            </emphasis>.</para>
+                                <property>Ctrl-Space</property>.
+                            </emphasis></para>
                         <figure>
                             <title>Content Assist in Tree JSF Configuration Editor</title>
                             <mediaobject>
@@ -313,6 +309,9 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
+                        
+                        <!--
+                        
                         <para>If a field contains right class name and you click a link near the
                             field you will come to the file with this class otherwise a new Java
                             Class dialog will be shown:</para>
@@ -392,15 +391,23 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
+                                           
+                        -->
                     </section>
                 </section>
 
                 <section id="StrutsProjectFile46s3">
                     
+                    <para>Content Assist features are available when you work with Struts projects.</para>
+                    
                     <title>Struts Project Files</title>
                     <section id="ContentAssistForStrutsConfigurationFile75">
                       
+                                           
                         <title>Content Assist for Struts Configuration File</title>
+                        
+                        <para>Content Assist helps you in Struts Configuration file.</para>
+                        
                         <figure>
                             <title>Struts Content Assist</title>
                             <mediaobject>
@@ -414,6 +421,9 @@
                     <section id="ContentAssistForStrutsJSPFile07">
                     
                         <title>Content Assist for Struts JSP File</title>
+                        
+                        <para>Using Code Assist in Struts JSP file is shown below.</para>
+                        
                         <figure>
                             <title>Struts JSP Content Assist</title>
                             <mediaobject>
@@ -428,6 +438,8 @@
                 <section id="JSPPages434">
          
                     <title>JSP Pages</title>
+                    
+                    
                     <section id="ContentAssistForJSFTags96">
                     
                         <title>Content Assist for JSF Tags</title>
@@ -507,19 +519,7 @@
                         </figure>
                     </section>
 
-                    <section id="ContentAssistWithinConfigurationEditor743">
-                     
-                        <title>Content Assist within JSF Configuration Editor</title>
-                        <figure>
-                            <title>Content Assist in JSF Configuration Editor</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_28.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
+                 
                 </section>
                 <section id="ContentAssistForRF">
        
@@ -588,8 +588,8 @@
                 <orderedlist>
                     <listitem>
                         <para>Create a new xml file in <emphasis>
-                                <property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property>
-                            </emphasis>. For example call it JeniaFaces.xml. The file should be
+                                <property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property>.
+                            </emphasis>For example call it JeniaFaces.xml. The file should be
                             written according to <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property>
                             </emphasis></para>
@@ -676,7 +676,7 @@
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
             
-            <title>Full Control over Source Files - Synchronized Source and Visual Editing</title>
+            <title>Synchronized Source and Visual Editing</title>
 
             <para>JBoss Developer Studio offers the flexibility to edit any files in either source
                 or extra visual modes at the same time.</para>
@@ -686,96 +686,45 @@
                 time, you always have full control over all project source files. Any changes you
                 make in the source view, will immediately appear in the graphical view.</para>
 
-            <para>The JSF configuration file editor has three views: Diagram, Tree and Source. All
+            <para>The JSF configuration file editor has three views: <property>Diagram</property>, <property>Tree</property> and <property>Source</property>. All
                 views are synchronized, you can edit the file in any view.</para>
             <figure>
-                <title>Diagram View</title>
+                <title>Three Views are Synchronized</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_32.png"/>
+                        <imagedata fileref="images/editors_features/editors_features_32.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-            <figure>
-                <title>Tree View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_33.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <figure>
-                <title>Source View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_34.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+          
             <para>The same applies to all other JBoss Developer Studio editors.</para>
 
             <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source
                 (Source).</para>
 
             <figure>
-                <title>Tree View</title>
+                <title>Two Views are Synchronized</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_35.png"/>
+                        <imagedata fileref="images/editors_features/editors_features_35.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-            <figure>
-                <title>Source View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_36.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+           
             <para>JBoss Developer Studio TLD file editor shown in Tree view. At any point you can
                 edit the source by going switching to Source view.</para>
             <figure>
-                <title>Tree Editor</title>
+                <title>Two Views are Synchronized</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_37.png"/>
+                        <imagedata fileref="images/editors_features/editors_features_37.png" scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-            <figure>
-                <title>Source Editor</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_38.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>The Struts configuration file editor has three views: Diagram, Tree and Source.
-                All views are synchronized, you can edit the file in any view.</para>
-            <figure>
-                <title>Struts Diagram View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_39.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Source view. Any changes here will immediately appear in all other views.</para>
-            <figure>
-                <title>Struts Source View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_40.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+          
         </section>
-    </section>
-
-
-    <section id="visual_page">
+        </section>
+   <section id="visual_page">
 
         <title>Visual Page Editor</title>
         <para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page

@@ -833,8 +833,7 @@
                         </figure>
 
                         <para>You can also work in the Source editor with the help of the <emphasis>
-                                        <property>Outline view</property>
-                                </emphasis>. The Outline views show a tree structure of the JSF
+                                        <property>Outline view</property>.</emphasis> The Outline views show a tree structure of the JSF
                                 configuration file. Simply select any element in the Outline view,
                                 and it will jump to the same place in the Source editor, so you can navigate through the source code with Outline view.</para>
                         <figure>
@@ -1053,15 +1052,15 @@
                                 available as the <emphasis role="italic">
                                         <property>&quot;Java&quot;</property>
                                 </emphasis> class already exists. </para> 
-                        <para> After adding your class
+                        <para>After adding your class
                                 <emphasis><property>Next</property></emphasis> button will be activated.
                                 Pressing it you&apos;ll get <emphasis><property>Managed Properties</property></emphasis> dialog where all corresponding properties are displayed. 
                         Check the necessary ones to
                                 add them into your <property>JSF Configuration
                                 File</property>.</para>
                         <para>If you don&apos;t want to add any, just click <emphasis>
-                                        <property>Finish</property>
-                                </emphasis>.</para>
+                                        <property>Finish</property>.
+                                </emphasis></para>
                         <figure>
                                 <title>Selection of Bean&apos;s Properties.</title>
                                 <mediaobject>
@@ -1985,8 +1984,8 @@
                      new validation file, right click any folder in Project Explorer and select <emphasis>
                             <property>File > New > Other...</property>
                      </emphasis>from the context menu and then <emphasis>
-                            <property>JBoss Tools Web > Struts > Validation File</property>
-                     </emphasis>.</para>
+                            <property>JBoss Tools Web > Struts > Validation File</property>.
+                     </emphasis></para>
               <figure>
                      <title>Creating New Validation File</title>
                      <mediaobject>
@@ -2129,8 +2128,8 @@
                      <para>Adding a new module is very simple. First switch to Web Project view.
                             Expand your project to the Configuration folder. Under that folder you
                             should see the current modules. Right click on Configuration and select <emphasis>
-                                   <property>New > Struts Config</property>
-                            </emphasis>.</para>
+                                   <property>New > Struts Config</property>.
+                            </emphasis></para>
                      <figure>
                             <title>Adding New Modules</title>
                             <mediaobject>

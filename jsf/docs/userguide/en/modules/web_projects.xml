@@ -43,10 +43,11 @@ locate what you are looking for and develop.</para>
 <section id="DragAndDrop">
 
 <title>Drag and Drop</title>
+    <para>Web Projects View has a drag and drop option that can be used for property, managed bean attributes, navigation rules, tag library file declaration and JSP Pages.</para>
 <section id="ForAProperty">
-
+    
 <title>For a Property</title>
-<para>Expand the Resources Bundles folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.</para>
+    <para>Expand the <property>Resources Bundles</property> folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.</para>
 <para>We will be dragging and dropping a property file value inside the outputText tag for the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute.</para>
 <figure>
 <title>OutputText Tag</title>
@@ -65,7 +66,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value:  <emphasis>#{Message.header}</emphasis> automatically.</para>
+    <para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <emphasis><property>#{Message.header}</property></emphasis> automatically.</para>
   <figure>
 <title>Inserted Property</title>
 <mediaobject> 
@@ -75,7 +76,7 @@ locate what you are looking for and develop.</para>
 </mediaobject>
 </figure>
 <para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case,
- JBoss Developer Studio will place the complete tag <emphasis role="bold"><property>&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
+ JBoss Developer Studio will place the complete tag <emphasis><property>&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
  </section>
 <section id="ForManagedBeanAttributes">
 
