@@ -10,7 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.HashMap;
+
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -79,17 +82,18 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
     protected static String[] markers = { "passedMarker", "errorMarker",
 	    "fatalMarker", "infoMarker", "warnMarker" };
 
-    protected static String FACET_TAG_NAME = "f:facet";
+    protected static String FACET_TAG_NAME = "facet";
 
     protected static String NAME_ATTRIBUTE_NAME = "name";
 
-    private nsIDOMElement td1; // passed marker
-    private nsIDOMElement td2; // passed label
     private final static String MESSAGE_STYLE = "padding-left: 1px;padding-right: 1px;padding-top: 1px;padding-bottom: 1px";
-    protected VpeCreationData creationData;
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
+
+	Element sourceElement = (Element) sourceNode;
+
+	VpeCreationData creationData;
 
 	passedLabelValue = ((Element) sourceNode)
 		.getAttribute(PASSED_LABEL_ATTRIBUTE_NAME);
@@ -133,92 +137,34 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	styleClassValue = ((Element) sourceNode)
 		.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
 
-	createRichMessage(visualDocument, sourceNode);
+	HashMap<String, Node> facets = getFacelets(sourceElement);
 
-	return creationData;
-    }
+	if (facets.size() != 0) {
+	    creationData = createVisualFacets(visualDocument, sourceElement,
+		    facets);
+	} else {
+	    nsIDOMElement span = visualDocument
+		    .createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
-    protected void createRichMessage(nsIDOMDocument visualDocument,
-	    Node sourceNode) {
+	    if (styleValue != null && !styleValue.trim().equals(""))
+		span
+			.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				styleValue);
+	    if (styleClassValue != null && !styleClassValue.trim().equals(""))
+		span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+			styleClassValue);
+	    if (labelClassValue != null && !labelClassValue.trim().equals(""))
+		span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+			labelClassValue);
 
-	NodeList nodeList = sourceNode.getChildNodes();
+	    creationData = new VpeCreationData(span);
 
-	for (int i = 0; i < nodeList.getLength(); i++) {
-
-	    if (!(nodeList.item(i) instanceof Element))
-		continue;
-
-	    Element elemFacet = (Element) nodeList.item(i);
-	    if (elemFacet.getNodeName().equalsIgnoreCase(FACET_TAG_NAME)
-		    && searchInMarker(elemFacet
-			    .getAttribute(NAME_ATTRIBUTE_NAME))) {
-
-		// if f:facet not empty
-		if (elemFacet.getChildNodes().getLength() != 0) {
-		    nsIDOMElement tableHeader = visualDocument
-			    .createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		    tableHeader.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-			    MESSAGE_STYLE);
-
-		    creationData = new VpeCreationData(tableHeader);
-
-		    nsIDOMElement tbody = visualDocument
-			    .createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-		    tbody.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN,
-			    "top");
-		    tableHeader.appendChild(tbody);
-
-		    nsIDOMElement tr = visualDocument
-			    .createElement(HtmlComponentUtil.HTML_TAG_TR);
-
-		    if (styleValue != null && !styleValue.trim().equals(""))
-			tableHeader.setAttribute(
-				HtmlComponentUtil.HTML_STYLE_ATTR, styleValue);
-		    if (styleClassValue != null
-			    && !styleClassValue.trim().equals(""))
-			tableHeader.setAttribute(
-				HtmlComponentUtil.HTML_CLASS_ATTR,
-				styleClassValue);
-
-		    td1 = visualDocument
-			    .createElement(HtmlComponentUtil.HTML_TAG_TD);
-
-		    td2 = visualDocument
-			    .createElement(HtmlComponentUtil.HTML_TAG_TD);
-
-		    // set labelClass
-		    if (labelClassValue != null
-			    && !labelClassValue.trim().equals(""))
-			td2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				labelClassValue);
-
-		    nsIDOMText passedText = visualDocument
-			    .createTextNode(VALIDATION_MESSAGE);
-		    createVisualFacet(td1, elemFacet);
-		    tbody.appendChild(tr);
-		    tr.appendChild(td1);
-		    tr.appendChild(td2);
-		    td2.appendChild(passedText);
-		    return;
-		}
-	    }
+	    nsIDOMText passedText = visualDocument
+		    .createTextNode(VALIDATION_MESSAGE);
+	    span.appendChild(passedText);
 	}
 
-	nsIDOMElement span = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
-
-	if (styleValue != null && !styleValue.trim().equals(""))
-	    span.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, styleValue);
-	if (styleClassValue != null && !styleClassValue.trim().equals(""))
-	    span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		    styleClassValue);
-
-	creationData = new VpeCreationData(span);
-
-	nsIDOMText passedText = visualDocument
-		.createTextNode(VALIDATION_MESSAGE);
-	span.appendChild(passedText);
-
+	return creationData;
     }
 
     /**
@@ -250,23 +196,6 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
     /**
      * 
-     * @param td01
-     */
-    protected void addNotFacetComponent(nsIDOMElement td01, Node sourceNode) {
-
-	VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td01);
-	creationData.addChildrenInfo(childrenInfo);
-
-	NodeList nodeList = sourceNode.getChildNodes();
-	for (int i = 0; i < nodeList.getLength(); i++)
-	    if (!FACET_TAG_NAME.equalsIgnoreCase(nodeList.item(i).getNodeName()
-		    .trim()))
-		childrenInfo.addSourceChild(nodeList.item(i));
-
-    }
-
-    /**
-     * 
      * @param markerName
      *                Marker name
      * @return True if marker name correct or false
@@ -283,22 +212,169 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
     }
 
     /**
+     * Method for creating rich:message template if rich:message has facets
      * 
-     * @param td
-     * @param elemFacet
+     * @param visualDocument
+     * @param sourceElement
+     * @param facets
+     * @return
      */
-    protected void createVisualFacet(nsIDOMElement td, Element elemFacet) {
-	VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td);
-	creationData.addChildrenInfo(childrenInfo);
+    private VpeCreationData createVisualFacets(nsIDOMDocument visualDocument,
+	    Element sourceElement, HashMap<String, Node> facets) {
 
-	NodeList nodeList = elemFacet.getChildNodes();
+	nsIDOMElement tableHeader = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+	tableHeader.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+		MESSAGE_STYLE);
 
-	for (int i = 0; i < nodeList.getLength(); i++)
+	VpeCreationData creationData = new VpeCreationData(tableHeader);
+
+	nsIDOMElement tbody = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+	tbody.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, "top");
+	tableHeader.appendChild(tbody);
+
+	nsIDOMElement tr = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TR);
+
+	tbody.appendChild(tr);
+
+	if (styleValue != null && !styleValue.trim().equals(""))
+	    tableHeader.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+		    styleValue);
+	if (styleClassValue != null && !styleClassValue.trim().equals(""))
+	    tableHeader.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+		    styleClassValue);
+
+	for (int i = 0; i < markers.length; i++) {
+
+	    if (facets.containsKey(markers[i])) {
+
+		nsIDOMElement td = visualDocument
+			.createElement(HtmlComponentUtil.HTML_TAG_TD);
+
+		switch (i) {
+		case 0: // passed
+
+		    if (markerClassValue != null
+			    && !markerClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				markerClassValue);
+		    if (markerStyleValue != null
+			    && !markerStyleValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				markerStyleValue);
+		    break;
+		case 1: // error
+		    if (errorClassValue != null
+			    && !errorClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				errorClassValue);
+		    if (errorMarkerClassValue != null
+			    && !errorMarkerClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				errorMarkerClassValue);
+
+		    break;
+		case 2: // fatal
+		    if (fatalClassValue != null
+			    && !fatalClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				fatalClassValue);
+
+		    if (fatalMarkerClassValue != null
+			    && !fatalMarkerClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				fatalMarkerClassValue);
+
+		    break;
+		case 3: // info
+		    if (infoClassValue != null
+			    && !infoClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				infoClassValue);
+		    if (infoMarkerClassValue != null
+			    && !infoMarkerClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				infoMarkerClassValue);
+		    break;
+		case 4: // warn
+		    if (warnClassValue != null
+			    && !warnClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				warnClassValue);
+		    if (warnMarkerClassValue != null
+			    && !warnMarkerClassValue.trim().equals(""))
+			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				warnMarkerClassValue);
+
+		    break;
+		default:
+		    break;
+		}
+
+		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td);
+		creationData.addChildrenInfo(childrenInfo);
+
+		if (!(facets.get(markers[i]) instanceof Element))
+		    continue;
+		else {
+		    childrenInfo.addSourceChild(facets.get(markers[i]));
+		}
+		tr.appendChild(td);
+	    }
+	}
+
+	nsIDOMElement td1 = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_TD);
+
+	if (labelClassValue != null && !labelClassValue.trim().equals(""))
+	    td1
+		    .setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+			    labelClassValue);
+
+	nsIDOMText passedText = visualDocument
+		.createTextNode(VALIDATION_MESSAGE);
+	tr.appendChild(td1);
+	td1.appendChild(passedText);
+
+	return creationData;
+    }
+
+    @Override
+    public void setSourceAttributeSelection(VpePageContext pageContext,
+	    Element sourceElement, int offset, int length, Object data) {
+	VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
+	sourceBuilder.setSelection(sourceElement, 0, 0);
+    }
+
+    /**
+     * Method for getting message facets
+     * 
+     * @param sourceElement
+     * @return List of facets
+     */
+    protected HashMap<String, Node> getFacelets(Element sourceElement) {
+
+	NodeList nodeList = sourceElement.getChildNodes();
+	HashMap<String, Node> facets = new HashMap<String, Node>();
+
+	for (int i = 0; i < nodeList.getLength(); i++) {
+
 	    if (!(nodeList.item(i) instanceof Element))
 		continue;
-	    else {
-		childrenInfo.addSourceChild(nodeList.item(i));
-		return;
+
+	    String facetName = nodeList.item(i).getPrefix() + ":"
+		    + FACET_TAG_NAME;
+
+	    if (nodeList.item(i).getNodeName().equalsIgnoreCase(facetName)
+		    && searchInMarker(((Element) nodeList.item(i))
+			    .getAttribute(NAME_ATTRIBUTE_NAME))) {
+		facets.put(((Element) nodeList.item(i))
+			.getAttribute(NAME_ATTRIBUTE_NAME), nodeList.item(i));
 	    }
+	}
+
+	return facets;
     }
 }
