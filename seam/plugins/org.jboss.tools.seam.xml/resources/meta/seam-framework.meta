@@ -42,7 +42,11 @@
    <XModelAttribute default="ejbql" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general;id=true" name="value" xmlname="#text"/>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="ejbql" name="name">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -368,7 +372,11 @@
    <XModelAttribute default="order" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general;id=true" name="value" xmlname="#text"/>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="order" name="name">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
