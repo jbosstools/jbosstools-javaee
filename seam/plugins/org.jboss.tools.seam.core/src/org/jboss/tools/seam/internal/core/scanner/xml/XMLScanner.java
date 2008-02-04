@@ -25,6 +25,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamValueList;
@@ -199,6 +200,10 @@ public class XMLScanner implements IFileScanner {
 			p.setId(properties[j]);
 			p.setName(new XMLValueInfo(properties[j], "name")); //$NON-NLS-1$
 			String name = properties[j].getAttributeValue("name"); //$NON-NLS-1$
+			if(name == null) {
+				SeamCorePlugin.getPluginLog().logWarning("Entity " + entity.getName() + " has no 'name' attribute");
+				continue;
+			}
 			String cname = toCamelCase(name, false);
 			if(!cname.equals(name)) p.setName(cname);
 
