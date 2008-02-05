@@ -747,7 +747,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
 		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
-		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 16 );
+		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 17 );
 	}
 	
 	public void testInheritedMethods() {
