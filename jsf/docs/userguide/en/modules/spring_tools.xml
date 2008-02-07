@@ -3,86 +3,52 @@
  <?dbhtml filename="springTools.html"?>
     <title>Spring Tools</title>
 
-  <para>JBoss Developer Studio bundles a <property>Spring Framework editor</property> from
-   <ulink url="http://springide.org/project">Spring IDE for Eclipse</ulink>. Visit
-   this site for the latest versions and documentation.</para>
+ <para>JBoss Developer Studio is bundled with <ulink url="http://springide.org/project">Spring IDE</ulink> for Eclipse. 
+  Visit Spring IDE site for the latest versions and documentation.</para>
   
-  <para>You can add a <property>Spring Project Nature</property> to an existing project by
-   right-clicking on the project and selecting <emphasis><property>Adding Spring Project
-    Nature</property></emphasis> from the context menu:</para>
+ 
+ <section>
+  <title><ulink url="http://springide.org/project/wiki/SpringideGuide">Spring IDE guide</ulink></title>
   
-  <figure>
-   <title>Adding Spring Project Nature</title>
-   <mediaobject>
-    <imageobject>
-     <imagedata fileref="images/more_editors/more_editors_32.png"/>
-    </imageobject>
-   </mediaobject>
-  </figure>
+  <para><ulink url="http://springide.org/project">Spring IDE</ulink> is a graphical user interface for the configuration files used by the <ulink url="http://www.springframework.org/">Spring Framework</ulink>. It's built as a set of plugins for the Eclipse platform.</para>
   
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#AddProjectNature">Add Spring Project Nature</ulink></title>
+  </section>
   
-  <para>If you need to remove it you should select <emphasis>
-   <property>Remove Spring Project Nature</property></emphasis> from the context menu of your project.</para>
-  <para>Once the Nature is added, a Spring project will be decorated with a small
-   <property>&quot;S&quot;</property>   in the
-   <emphasis><property>Package Explorer</property></emphasis> view.
-  </para>
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#CreateNewProject">Create New Spring Project</ulink></title>
+  </section>
   
-  <figure>
-   <title>Project with Spring Nature</title>
-   <mediaobject>
-    <imageobject>
-     <imagedata fileref="images/more_editors/more_editors_33.png"/>
-    </imageobject>
-   </mediaobject>
-  </figure>
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#AddProjectReferences">Add References To Other Spring Projects</ulink></title>
+  </section>
   
-  <para>To add a Spring Configuration File with bean definitions open Properties dialog
-   from the context menu of your project. Then select <emphasis><property>Spring &gt; Beans Support</property></emphasis>  on the left side.</para>
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#AddBeansConfigs">Add Spring Beans Config Files</ulink></title>
+  </section>
   
-  <figure>
-   <title>Spring Beans</title>
-   <mediaobject>
-    <imageobject>
-     <imagedata fileref="images/more_editors/more_editors_35.png"/>
-    </imageobject>
-   </mediaobject>
-  </figure>
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#CreateBeansConfigSets">Create Spring Beans Config Sets</ulink></title>
+  </section>
+ 
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#OpenSpringExplorer">Open Spring Explorer</ulink></title>
+  </section>
   
-  <para>Click
-   on <emphasis>
-    <property>Add</property>
-   </emphasis> button to choose the corresponding Spring Configuration File.</para>
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#ValidateBeansConfig">Validate Spring Beans Config</ulink></title>
+  </section>
   
-  <figure>
-   <title>Adding Configuration Files</title>
-   <mediaobject>
-    <imageobject>
-     <imagedata fileref="images/more_editors/more_editors_36.png"/>
-    </imageobject>
-   </mediaobject>
-  </figure>
-  
-  <para>The added file will also be marked by an <property>&quot;S&quot;</property>
-   in the
-   <emphasis><property>Package Explorer</property></emphasis> view.</para>
-  
-  <para>To activate the <emphasis>
-   <property>Spring Explorer</property></emphasis>  view, select <emphasis>
-    <property>Window &gt; Show View... &gt; Other</property>
-   </emphasis> and then <emphasis>
-    <property>Spring &gt; Spring Explorer</property>
-   </emphasis>.</para>
-  
-  <figure>
-   <title>Selecting Spring Beans View</title>
-   <mediaobject>
-    <imageobject>
-     <imagedata fileref="images/more_editors/more_editors_38.png"/>
-    </imageobject>
-   </mediaobject>
-  </figure>
-  
-  <para>This view shows a read-only outline view of the Spring Bean Configuration File.</para>
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#OpenBeansGraph">Open Spring Beans Graph</ulink></title>
+  </section>
+ 
+  <section>
+   <title><ulink url="http://springide.org/project/wiki/SpringideGuide#SearchBeans">Search Spring Beans</ulink></title>
+  </section>
+ 
+ 
+ </section>
     
  </chapter>
