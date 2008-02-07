@@ -88,7 +88,8 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 			}
 			el = (Element) tempNode;
 			if (el.getLocalName().equals(FACET_DEFINITION)
-					&& pageContext.getSourceTaglibUri(el).equals(FACET_URI)
+					//TODO Max Areshkau JBIDE-788 Deal with it
+//					&& pageContext.getSourceTaglibUri(el).equals(FACET_URI)
 					&& el.getAttribute(FACET_NAME_ATTR) != null
 					&& el.getAttribute(FACET_NAME_ATTR).equals(
 							FACET_NAME_ATTR_VALUE)) {
