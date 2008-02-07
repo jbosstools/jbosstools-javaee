@@ -3,6 +3,10 @@
         <?dbhtml filename="JSFStrutsTools.html"?>
  <title>JSF and Struts Tools</title>
  
+        <para>This section provides information on JSF and Struts tooling in JBoss Developer Studio which
+                allows you to develop JSF and Struts applications much faster and with far
+                fewer errors so sparing your time.</para>
+ 
  <section id="JSF_support">
      <title>JavaServer Faces Support</title>
         <para>JBoss Developer Studio is especially designed for supporting JSF and JSF-related
@@ -10,11 +14,10 @@
                 applications as well as adding JSF capabilities to existing web projects, importing
                 JSF projects (created outside JBDS) and choosing any JSF implementation while
                 developing JSF application.</para>
-        <para>JBoss Developer Studio allows you to develop JSF applications much faster and with far
-                fewer errors so sparing your time.</para>
+      
         <section id="SupportForJSFEnvironmentsJSF_RIMyFacesFaceletsShaleOrAnyCustom442">
                 <title>Support for JSF Environments: JSF-RI, MyFaces, Facelets or any Custom</title>
-                <para>With JBoss Developer Studio, we don&apos;t lock you into any one
+                <para>With Developer Studio, we don&apos;t lock you into any one
                                 <property>JavaServer Faces</property> implementation. Select the one
                         you want to use for your project.</para>
                 <para>When you:</para>

@@ -13,7 +13,7 @@
  <title>Visual Web Tools</title>
  
  <para>This guide covers the usage of Visual Web Tools in <property>JBoss Developer Studio</property> and <property>JBoss Tools</property>.  The difference
- between these products is that JBoss Tools are just a set of Eclipse plugins and JBoss Developer Studio adds:</para>
+ between these products is that JBoss Tools are just a set of Eclipse plugins and JBoss Developer Studio adds</para>
  <itemizedlist>
   <listitem><para>an installer</para></listitem>
   <listitem><para>Eclipse and Web Tools preconfigured</para></listitem>
@@ -23,7 +23,8 @@
   <listitem><para>access to the JBoss/Red Hat supported software</para></listitem>
  </itemizedlist>
  
- <para>You can find more information about JBoss Developer Studio <ulink url="http://www.jboss.com/products/devstudio">here</ulink>.</para>
+ <para>For additional information, please visit the JBoss Developer Studio home page at:
+<ulink url="http://www.jboss.com/products/devstudio">http://www.jboss.com/products/devstudio</ulink>.</para>
  
  <para>In JBoss Tools there is an extensive collection of specialized wizards, editors and views that can be used in various scenarios while developing Web
   applications. The following chapters walk through these features.</para>
