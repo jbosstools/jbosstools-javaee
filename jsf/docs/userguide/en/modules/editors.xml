@@ -859,7 +859,8 @@
                     CSS is defined on your page in the following way:</para>
 
                 <para>Code:</para>
-                <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  href="#{facesContext.externalContext.requestContextPath}/style.css"/>
+                <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
+    href="#{facesContext.externalContext.requestContextPath}/style.css"/>
 ]]></programlisting>
 
                 <para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t
