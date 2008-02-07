@@ -76,6 +76,13 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		return seamProject;
 	}
 
+	public void testJiraJbide1631() throws CoreException {
+		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
+		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
+		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
+		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 17 );
+	}
+	
 	public void testComponentsValidator() {
 		ISeamProject seamProject = getSeamProject(project);
 		
@@ -742,13 +749,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 22);
 	} 	
-	
-	public void testJiraJbide1631() throws CoreException {
-		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
-		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
-		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
-		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 17 );
-	}
 	
 	public void testInheritedMethods() {
 		ISeamProject seamProject = getSeamProject(project);
