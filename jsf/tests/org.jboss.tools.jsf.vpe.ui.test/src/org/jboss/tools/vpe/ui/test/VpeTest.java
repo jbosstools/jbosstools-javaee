@@ -78,7 +78,7 @@ public class VpeTest extends TestCase implements ILogListener {
 
 		Platform.addLogListener(this);
 		String jbossPath = System.getProperty("jbosstools.test.jboss.home.4.2", "C:\\java\\jboss-4.2.2.GA");
-		JBossASAdapterInitializer.initJBossAS(jbossPath, new NullProgressMonitor());
+//		JBossASAdapterInitializer.initJBossAS(jbossPath, new NullProgressMonitor());
 		closeEditors();
 	}
 
@@ -211,7 +211,8 @@ public class VpeTest extends TestCase implements ILogListener {
 		// wait for jobs
 		TestUtil.waitForJobs();
 		// wait full initialization of vpe
-		TestUtil.delay(1000);
+		// commented by dgolovin to get rid of jvm error [libexpat.so.0+0xeff4]
+		// TestUtil.delay(1000);
 
 		return part;
 
