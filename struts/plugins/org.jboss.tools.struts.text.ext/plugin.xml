@@ -1496,6 +1496,12 @@
 			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_LINK" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
+				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_LINK" />
+			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.STRUTS_XML_LINK" />
 			</contenttypeidentifier>
