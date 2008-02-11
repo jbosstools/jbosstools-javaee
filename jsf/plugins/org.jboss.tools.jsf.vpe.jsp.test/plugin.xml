@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.jsf.vpe.ui.tests">
+      <tests
+            description="JSP Tests"
+            name="JSP Tests"
+            testSuite="org.jboss.tools.jsf.vpe.jsp.test.JSPAllTests">
+      </tests>
+   </extension>
+
+</plugin>
