@@ -170,4 +170,7 @@ public class HtmlComponentUtil {
 
 	 /** HTML_ATTR_BACKGROUND */
 	 public static final String HTML_ATTR_BACKGROUND = "background";
+
+	 /** HTML_ATTR_BACKGROUND */
+	 public static final String HTML_ATTR_DISABLED = "disabled";
 }

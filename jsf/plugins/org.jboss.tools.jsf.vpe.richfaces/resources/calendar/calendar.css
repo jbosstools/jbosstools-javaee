@@ -1,9 +1,16 @@
-.rich-calendar-exterior {
-	border: 1px solid #c0c0c0; /*panelBorderColor*/
+.rich-calendar-input {
+	 cursor:pointer;
+	vertical-align:middle;
 }
 
-.rich-calendar-btn {
-	cursor: pointer;
+.rich-calendar-button {
+	 cursor:pointer;
+	vertical-align:middle;
+	text-align: left;
+}
+
+.rich-calendar-exterior {
+	border: 1px solid #c0c0c0; /*panelBorderColor*/
 }
 
 .rich-calendar-header {
@@ -13,22 +20,6 @@
 	font-family: verdana; /*generalFamilyFont*/
 	padding: 7px;
 	height: 22px;
-}
-
-.rich-cell-size {
-	width: 25px;
-	height: 22px;
-}
-
-.rich-calendar-cell {
-	background-color: #FFFFFF; /*generalBackgroundColor*/
-	border-bottom: 1px solid #c0c0c0; /*panelBorderColor*/
-	border-right: 1px solid #c0c0c0; /*panelBorderColor*/
-	font-size: 11px; /*generalSizeFont*/
-	font-family: verdana; /*generalFamilyFont*/
-	padding: 0px;
-	vertical-align: middle;
-	text-align: center;
 }
 
 .rich-calendar-tool {
@@ -50,13 +41,19 @@
 	border-bottom-color: #C4C0B9;
 	font-size: 11px; /*headerSizeFont*/
 	font-family: Arial, Verdana, sans-serif;
-	color: #000000;
-	/*headerTextColor*/
+	color: #000000; /*headerTextColor*/
 	font-weight: bold;
 	vertical-align: middle;
 	text-align: center;
 	color: #000000;
 	font-size: 11px
+}
+
+.rich-calendar-tool-close {
+/*background-image:url(/richfaces-demo/a4j_3_1_4.GAorg.richfaces.renderkit.html.iconimages.CalendarSeparator/DATB/eAFjYGAAAAADAAE_.jsf);*/
+background-position:left center;
+background-repeat:no-repeat;
+padding:2px 2px 2px 4px;
 }
 
 .rich-calendar-days {
@@ -71,24 +68,49 @@
 	vertical-align: middle;
 }
 
-.rich-calendar-days-holly {
-	color: RED;
+.rich-calendar-weekends {
+	color:red;
 }
 
 .rich-calendar-week {
-	border-bottom: 1px solid #c0c0c0; /*panelBorderColor*/
-	border-right: 1px solid #c0c0c0; /*panelBorderColor*/
-	font-size: 11px; /*generalSizeFont*/
-	font-family: verdana; /*generalFamilyFont*/
-	background-color: #f5f5f5; /*unknown parameter - need to add*/
-	vertical-align: middle;
-	text-align: center;
-	width: 25px;
+	background:#F1EEE9 none repeat scroll 0%;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	padding: 0pt;
+	border-bottom:1px solid #C4C0B9;
+	border-right:1px solid #C4C0B9;
+	text-align:center;
+	vertical-align:middle;
+	width:25px;
+}
+
+.rich-calendar-cell {
+	background-color:#FFFFFF;
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	border-bottom:1px solid #C4C0B9;
+	border-right:1px solid #C4C0B9;
+	padding:0pt;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.rich-calendar-cell-size {
+height:22px;
+width:25px;
 }
 
 .rich-calendar-holly {
 	background-color:  #FFEBDA; /*unknown parameter - need to add*/
 	color: #FF7800; /*unknown parameter - need to add*/
+}
+
+.rich-calendar-boundary-dates {
+color:#A0A0A0;
+}
+
+.rich-calendar-btn {
+cursor:pointer;
 }
 
 .rich-calendar-today {
@@ -97,22 +119,10 @@
 	font-weight: bold;
 }
 
-.rich-calendar-spec {
-	background-color: #e4f5e2; /*unknown parameter - need to add*/
-}
-
 .rich-calendar-select {
 	background-color: #224986; /*headerBackgroundColor*/
 	color: #FFFFFF; /*headerTextColor*/
 	font-weight: bold;
-}
-
-.rich-right-cell {
-	border-right: 0px;
-}
-
-.rich-bottom-cell {
-	border-bottom: 0px;
 }
 
 .rich-calendar-toolfooter {
@@ -135,21 +145,17 @@
 	height: 22px;
 }
 
-.rich-calendar-popupicon {
-	cursor: pointer;
-	vertical-align: middle;
-}
-
-.rich-calendar-popupinput {
-	vertical-align: middle;
-}
-
-.rich-calendar-today {
-	background-color: #ff7800; /*unknown parameter - need to add*/
-	color: #ffebda; /*unknown parameter - need to add*/
-	font-weight: bold;
-}
-
 .rich-calendar-other-month {
 	color: #C7D7EC
 }
+
+.rich-calendar-header-optional {
+	background: #D4CFC7;
+	text-align: center;
+}
+
+.rich-calendar-footer-optional {
+	background: #F1EEE9;
+	text-align: center;
+}
+
