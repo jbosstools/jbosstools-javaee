@@ -13,15 +13,11 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TimeZone;
-
-import javax.smartcardio.ATR;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -345,16 +341,27 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 	nsIDOMElement tbody = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 	Element headerFacet = ComponentUtil.getFacet(sourceElement, HEADER);
-	nsIDOMElement optionalHeader = createCalendarOptionalHeaderOrFooter(visualDocument, creationData, headerFacet, true);
+	nsIDOMElement optionalHeader = null;
+	if (null != headerFacet) {
+		optionalHeader = createCalendarOptionalHeaderOrFooter(visualDocument, creationData, headerFacet, true);
+	}
 	Element footerFacet = ComponentUtil.getFacet(sourceElement, FOOTER);
-	nsIDOMElement optionalFooter = createCalendarOptionalHeaderOrFooter(visualDocument, creationData, footerFacet, false);
+	nsIDOMElement optionalFooter = null;
+	if (null != footerFacet) {
+		optionalFooter = createCalendarOptionalHeaderOrFooter(visualDocument, creationData, footerFacet, false);
+	}
+	
 	nsIDOMElement header = createCalendarHeader(visualDocument);
 	nsIDOMElement calendarBody = createCalendarBody(visualDocument);
 	
-	tbody.appendChild(optionalHeader);
+	if (null != headerFacet) {
+		tbody.appendChild(optionalHeader);
+	}
 	tbody.appendChild(header);
 	tbody.appendChild(calendarBody);
-	tbody.appendChild(optionalFooter);
+	if (null != headerFacet) {
+		tbody.appendChild(optionalFooter);
+	}
 
 	table.appendChild(tbody);
 	div.appendChild(table);
