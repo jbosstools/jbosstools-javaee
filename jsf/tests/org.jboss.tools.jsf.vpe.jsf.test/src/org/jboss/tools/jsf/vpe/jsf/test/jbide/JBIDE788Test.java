@@ -1,0 +1,127 @@
+/******************************************************************************* 
+* Copyright (c) 2007 Red Hat, Inc.
+* Distributed under license by Red Hat, Inc. All rights reserved.
+* This program is made available under the terms of the
+* Eclipse Public License v1.0 which accompanies this distribution,
+* and is available at http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*     Red Hat, Inc. - initial API and implementation
+******************************************************************************/
+package org.jboss.tools.jsf.vpe.jsf.test.jbide;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
+import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
+
+/**
+ * @author Max Areshkau
+ *
+ *	JUnit test for http://jira.jboss.com/jira/browse/JBIDE-788
+ */
+public class JBIDE788Test extends VpeTest{
+	
+	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	 
+	public JBIDE788Test(String name) {
+		super(name);
+	}
+	/**
+	 * Tests CA on html files
+	 * @throws Throwable
+	 */
+	public void testCAforHtmlFiles() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+		baseCheckofCA("org.eclipse.wst.html.HTML_DEFAULT", "JBIDE/788/testCAforHtml.html", 32, 79);
+
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}
+	}
+	/**
+	 * Tests CA on jsp files
+	 * @throws Throwable
+	 */
+	public void testCAforJSPFiles() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+		baseCheckofCA("org.eclipse.wst.html.HTML_DEFAULT", "JBIDE/788/testCAforJSP.jsp", 1000, 110);
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}
+	}
+	/**
+	 * Tests CA on jsp files
+	 * @throws Throwable
+	 */
+	public void testCAforXHTMLFiles() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+		baseCheckofCA("org.eclipse.wst.html.HTML_DEFAULT", "JBIDE/788/testCAforXHTML.xhtml", 745, 96);
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}
+	}
+	/**
+	 * Perfoms base test of ca, compare number of proposals which what returned by ca 
+	 * with etalon
+	 * @param caName - content assistent name
+	 * @param testPagePath - test page
+	 * @param position - position on test page
+	 * @param numberOfProposals - standard number of proposals 
+	 * @throws CoreException 
+	 */
+	private void baseCheckofCA(String caName,String testPagePath, int position, int numberOfProposals) throws CoreException {
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
+				IMPORT_PROJECT_NAME);
+		assertNotNull("Could not open specified file " + file.getFullPath(),
+				file);
+
+		IEditorInput input = new FileEditorInput(file);
+
+		assertNotNull("Editor input is null", input);
+		
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
+		TestUtil.waitForJobs();
+		TestUtil.delay(2000);
+		SourceViewerConfiguration  sourceViewerConfiguration = ((JSPTextEditor)part.getSourceEditor()).getSourceViewerConfigurationForTest();
+
+		StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration)  sourceViewerConfiguration;
+		IContentAssistant iContentAssistant = stvc.getContentAssistant((ISourceViewer) part.getSourceEditor().getAdapter(ISourceViewer.class));
+		assertNotNull(iContentAssistant);
+		IContentAssistProcessor iContentAssistProcessor= iContentAssistant.getContentAssistProcessor(caName);
+		assertNotNull(iContentAssistProcessor);
+		ICompletionProposal[] results = iContentAssistProcessor.computeCompletionProposals(part.getSourceEditor().getTextViewer(), position);
+		assertNotNull(results);
+		assertEquals(numberOfProposals,results.length);
+	}
+}
