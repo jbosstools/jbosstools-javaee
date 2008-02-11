@@ -10,8 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.core.resources.IFile;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -29,12 +34,18 @@ import org.jboss.tools.vpe.editor.template.VpeCreatorUtil;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.mozilla.interfaces.nsIDOMAttr;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNamedNodeMap;
 import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 
 public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 	protected static final String ATTR_TEMPLATE = "template";
+	protected static final String NAME = "name";
+	protected static final String VALUE = "value";
+	int count = 0;
 	private static Set<Node> defineContainer = new HashSet<Node>();
 	
 	@Override
@@ -67,8 +78,149 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		creationData.setData(null);
 		return creationData;
 	}
+	
+	private String replacePattern(String origStr, String target,
+			String replacement) {
+		StringBuilder sb = new StringBuilder();
+		String word = "((\\w+)([\\.\\[\\]]*))";
+		Matcher m;
+		String variable;
+		String signs;
+		m = Pattern.compile(word).matcher(origStr);
+
+		// everything must be found here
+		int endIndex = 0;
+		int startIndex = 0;
+		while (m.find()) {
+			variable = m.group(2);
+			signs = m.group(3);
+			startIndex = m.start(2);
+
+			if ((startIndex != 0) && (endIndex != 0)
+					&& (endIndex != startIndex)) {
+				sb.append(origStr.substring(endIndex, startIndex));
+			}
+
+			if (target.equals(variable)) {
+				sb.append(replacement);
+			} else {
+				sb.append(variable);
+			}
+			sb.append(signs);
+			endIndex = m.end(3);
+		}
+		
+		// append the tail
+		if (endIndex != origStr.length()) {
+			sb.append(origStr.substring(endIndex, origStr.length()));
+		}
+		
+		if (!"".equals(sb.toString())) {
+			return sb.toString();
+		}
+		return origStr;
+	}
+	
+	private void updateNodeValue(nsIDOMNode node, Map<String, String> paramsMap) {
+		Set<String> keys = paramsMap.keySet();
+		if (null != node) {
+			String nodeValue = node.getNodeValue();
+			String curlyBracketResultPattern = "(" + Pattern.quote("#")
+					+ "\\{(.+?)\\})+?";
+			int matcherGroupWithVariable = 2;
+
+			if ((null != nodeValue) && (!"".equals(nodeValue))) {
+				for (String key : keys) {
+					Matcher curlyBracketMatcher = Pattern.compile(
+							curlyBracketResultPattern).matcher(nodeValue);
+
+					String replacement = paramsMap.get(key);
+					if (replacement.startsWith("#{")
+							&& replacement.endsWith("}")) {
+						// remove first 2 signs '#{'
+						replacement = replacement.substring(2);
+						// remove last '}' sign
+						replacement = replacement.substring(0, replacement
+								.length() - 1);
+					}
+
+					int lastPos = 0;
+					StringBuilder sb = new StringBuilder();
+					lastPos = 0;
+					sb = new StringBuilder();
+					curlyBracketMatcher.reset(nodeValue);
+					boolean firstFind = false;
+					boolean find = curlyBracketMatcher.find();
+					while (find) {
+						if (!firstFind) {
+							firstFind = true;
+						}
+						int start = curlyBracketMatcher
+								.start(matcherGroupWithVariable);
+						int end = curlyBracketMatcher
+								.end(matcherGroupWithVariable);
+						String group = replacePattern(curlyBracketMatcher
+								.group(matcherGroupWithVariable), key,
+								replacement);
+						sb.append(nodeValue.substring(lastPos, start));
+						sb.append(group);
+						lastPos = end;
+						find = curlyBracketMatcher.find();
+					}
+					if (firstFind) {
+						sb.append(nodeValue.substring(lastPos, nodeValue
+								.length()));
+						nodeValue = sb.toString();
+						node.setNodeValue(nodeValue);
+					}
+				}
+			}
+		}
+	}
+	
+	private void insertParam(nsIDOMNode node, Map<String, String> paramsMap) {
+
+		// update current node value
+		updateNodeValue(node, paramsMap);
+
+		nsIDOMNamedNodeMap attributes = node.getAttributes();
+		if (null != attributes) {
+			long len = attributes.getLength();
+			for (int i = 0; i < len; i++) {
+				nsIDOMNode item = attributes.item(i);
+				// update attributes node
+				updateNodeValue(item, paramsMap);
+			}
+		}
+
+		nsIDOMNodeList children = node.getChildNodes();
+		if (null != children) {
+			long len = children.getLength();
+			for (int i = 0; i < len; i++) {
+				nsIDOMNode child = children.item(i);
+				// update child node
+				insertParam(child, paramsMap);
+			}
+		}
+	}
+	
 	@Override
 	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData creationData) {
+		
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		NodeList sourceChildren = sourceNode.getChildNodes();
+		int len = sourceChildren.getLength();
+		for (int i = 0; i < len; i++) {
+			Node sourceChild = sourceChildren.item(i);
+			if (sourceChild.getNodeType() == Node.ELEMENT_NODE && "param".equals(sourceChild.getLocalName())) {
+				String name = ((Element)sourceChild).getAttribute(NAME);
+				String value = ((Element)sourceChild).getAttribute(VALUE);
+				paramsMap.put(name, value);
+			}
+		}
+		nsIDOMNode node =  creationData.getNode();
+		insertParam(node, paramsMap);
+		
 		TemplateFileInfo templateFileInfo = (TemplateFileInfo)creationData.getData();
 		if (templateFileInfo != null) {
 			VpeIncludeInfo includeInfo = pageContext.getVisualBuilder().popIncludeStack();
