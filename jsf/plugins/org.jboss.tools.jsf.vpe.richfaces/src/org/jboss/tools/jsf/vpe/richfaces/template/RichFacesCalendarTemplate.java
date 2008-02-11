@@ -354,12 +354,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 	nsIDOMElement header = createCalendarHeader(visualDocument);
 	nsIDOMElement calendarBody = createCalendarBody(visualDocument);
 	
-	if (null != headerFacet) {
+	if (null != optionalHeader) {
 		tbody.appendChild(optionalHeader);
 	}
 	tbody.appendChild(header);
 	tbody.appendChild(calendarBody);
-	if (null != headerFacet) {
+	if (null != optionalFooter) {
 		tbody.appendChild(optionalFooter);
 	}
 
@@ -381,12 +381,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate {
 		
 		if (isHeader) {
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_R_C_HEADER_OPTIONAL);
-			//td.appendChild(visualDocument
-			//		.createTextNode("header Here->"));
 		} else {
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_R_C_FOOTER_OPTIONAL);
-			td.appendChild(visualDocument
-					.createTextNode("footer Here->"));
 		}
 		
 		VpeChildrenInfo child = new VpeChildrenInfo(td);
