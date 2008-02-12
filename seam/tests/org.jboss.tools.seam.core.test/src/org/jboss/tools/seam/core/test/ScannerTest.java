@@ -258,6 +258,12 @@ public class ScannerTest extends TestCase {
 		ISeamAnnotatedFactory af = (ISeamAnnotatedFactory)myFactory;
 		assertTrue("Scope of 'myFactory' must be 'session'", af.getScope() == ScopeType.SESSION);
 
+		// g) @Factory getMyFactory2 - no name is set in annotation
+		ISeamFactory myFactory2 = find(fs, "myFactory");
+		assertTrue("Declared factory 'myFactory2' is not found in 'myUser'", myFactory2 != null);
+		ISeamAnnotatedFactory af2 = (ISeamAnnotatedFactory)myFactory2;
+		assertTrue("Scope of 'myFactory' must be 'session'", af2.getScope() == ScopeType.SESSION);
+
 	}
 	
 	private IBijectedAttribute findBijectedAttribute(Set<IBijectedAttribute> bijected, String name) {
