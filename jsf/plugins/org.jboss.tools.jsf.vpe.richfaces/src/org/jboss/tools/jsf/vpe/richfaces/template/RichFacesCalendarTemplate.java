@@ -46,6 +46,7 @@ import org.w3c.dom.Node;
 public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
     static String[] HEADER_CONTENT = { "<<", "<", "", ">", ">>" };
+    static String[] HEADER_CONTENT_ON_POPUP = { "<<", "<", "", ">", ">>", "X" };
     final static int MONTH_LENGTH[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
 			30, 31 };
 	final static int LEAP_MONTH_LENGTH[] = { 31, 29, 31, 30, 31, 30, 31, 31,
@@ -112,7 +113,6 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	static final String CSS_R_C_SELECT = "rich-calendar-select";
 	static final String CSS_R_C_TOOLFOOTER = "rich-calendar-toolfooter";
 	static final String CSS_R_C_FOOTER = "rich-calendar-footer";
-	static final String CSS_R_C_OTHER_MONTH = "rich-calendar-other-month";
 	static final String CSS_R_C_HEADER_OPTIONAL = "rich-calendar-header-optional";
 	static final String CSS_R_C_FOOTER_OPTIONAL = "rich-calendar-footer-optional";
 	
@@ -139,8 +139,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	private static final String STYLE_TOP_RIGHT = "vertical-align: bottom; text-align: left;";
 	private static final String STYLE_BOTTOM_LEFT = "vertical-align: top; text-align: right;";
 	private static final String STYLE_BOTTOM_RIGHT = "vertical-align: top; text-align: left;";
-	private static final String CALENDAR_POSITION_STYLE = "position: absolute; z-index: 10;";
-
+	
 	/*rich:calendar attributes*/
 	private String buttonLabel;
 	private String buttonIcon;
@@ -215,7 +214,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	    calendarWithPopup = createCalendarWithPopup(visualDocument, source);
 	    calendar = createCalendar(visualDocument, creationData, source);
 	   
-	    calendar.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, CALENDAR_POSITION_STYLE);
+//	    calendar.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, calculateCalendarPositionStryle());
 	    
 	    if (showPopupCalendar) {
 	    	if (attrPresents(direction) && directions.keySet().contains(direction)) {
@@ -270,7 +269,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	    		
 	    	} else {
 	    		// no direction. simple display.
-	    	    calendar.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, CALENDAR_POSITION_STYLE);
+	    	    //calendar.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, calculateCalendarPositionStryle());
 	    		div.appendChild(calendarWithPopup);
 	    		div.appendChild(calendar);
 	    	}
@@ -531,8 +530,14 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN);
 
+		String[] array;
+		if ("false".equalsIgnoreCase(popup)) {
+			array = HEADER_CONTENT;
+		} else {
+			array = HEADER_CONTENT_ON_POPUP;
+		}
+		
 		SimpleDateFormat sdf = new SimpleDateFormat();
-//		Date date = Calendar.getInstance().getTime();
 		Date date = getCalendarWithLocale().getTime();
 		String dateStr = "";
 		if (attrPresents(datePattern)) {
@@ -547,7 +552,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 			sdf.applyPattern(DEFAULT_DATE_PATTERN);
 			dateStr = sdf.format(date);
 		}
-		HEADER_CONTENT[2] = dateStr;
+		array[2] = dateStr;
 
 		nsIDOMElement table = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
@@ -561,13 +566,22 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 
 		nsIDOMElement tr1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
-		for (int i = 0; i < HEADER_CONTENT.length; i++) {
+		tr1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				CSS_R_C_HEADER);
+		
+		for (int i = 0; i < array.length; i++) {
 			nsIDOMElement td1 = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			td1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					i == 2 ? CSS_R_C_MONTH : CSS_R_C_TOOL);
+			
+			// close tool
+			if (i == 5) {
+				td1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, "0");
+				td1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "cursor: pointer;");
+			}
 
-			nsIDOMText text1 = visualDocument.createTextNode(HEADER_CONTENT[i]);
+			nsIDOMText text1 = visualDocument.createTextNode(array[i]);
 			td1.appendChild(text1);
 			tr1.appendChild(td1);
 		}
@@ -598,6 +612,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 
 		nsIDOMElement tr1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		tr1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				CSS_R_C_FOOTER);
 
 		nsIDOMElement td1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
@@ -615,8 +631,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		nsIDOMElement td2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		td2.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
-		td2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				CSS_R_C_TOOLFOOTER);
+//		td2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+//				CSS_R_C_TOOLFOOTER);
 		tr1.appendChild(td2);
 
 		nsIDOMElement td3 = visualDocument
@@ -666,7 +682,6 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		nsIDOMElement bodyTR = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
-		//Calendar cal1 = Calendar.getInstance();
 		Calendar cal1 = getCalendarWithLocale();
 
 		SimpleDateFormat wdf = new SimpleDateFormat("EE");
@@ -704,7 +719,6 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		} // showWeekDaysBar
 
 		// Calendar body
-		//Calendar cal = Calendar.getInstance();
 		Calendar cal = getCalendarWithLocale();
 
 		int month = cal.get(Calendar.MONTH);
@@ -934,7 +948,13 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
 		showPopupCalendar = !showPopupCalendar;
-//		showPopupCalendar = (showPopupCalendar ? false : true);
+	}
+	
+	private String calculateCalendarPositionStryle() {
+		String position = "position: absolute; z-index: 10;";
+		position += " top: " + verticalOffset + ";";
+		position += " left: " + horizontalOffset + ";";
+		return position;
 	}
     
 }
