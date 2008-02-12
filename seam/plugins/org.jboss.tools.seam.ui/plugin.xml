@@ -418,4 +418,41 @@
             name="Seam">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Seam Navigation"
+            description="Seam Navigation Action Set"
+            visible="true"
+            id="org.jboss.tools.seam.ui.SeamActionSet">
+         <action
+               class="org.jboss.tools.seam.ui.actions.OpenSeamComponentAction"
+               definitionId="org.jboss.tools.seam.ui.open.component"
+               helpContextId="org.eclipse.jdt.ui.open_type_action"
+               icon="icons/open_seam_project.gif"
+               id="openComponent"
+               label="Open Seam Component"
+               menubarPath="navigate/open.ext2"
+               toolbarPath="org.eclipse.search.searchActionSet/Search"
+               tooltip="Open Seam Component">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            description="Open Seam Component"
+            id="org.jboss.tools.seam.ui.open.component"
+            name="Open Seam Component">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.jboss.tools.seam.ui.open.component"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+Y">
+      </key>
+   </extension>
 </plugin>
