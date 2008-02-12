@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
+import java.lang.reflect.InvocationTargetException;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
@@ -17,11 +19,16 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.ui.refactoring.RenameSupport;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.WorkbenchUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
@@ -33,7 +40,7 @@ public class SeamEARTest extends TestCase {
 	IProject projectWAR = null;
 	IProject projectEJB = null;
 	
-	boolean makeCopy = false;
+	boolean makeCopy = true;
 
 	public SeamEARTest() {}
 
@@ -79,5 +86,28 @@ public class SeamEARTest extends TestCase {
 		ISeamComponent c = seamProject.getComponent("authenticator");
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
+	}
+	
+	public void testRenameProject() throws CoreException {
+		getSeamProject(projectWAR);
+		ISeamProject seamProjectEJB = getSeamProject(projectEJB);
+
+		String parentName = seamProjectEJB.getParentProjectName();
+
+		RenameSupport support = RenameSupport.create(JavaCore.create(projectWAR), "newName", RenameSupport.UPDATE_REFERENCES);
+		
+		Shell parent = WorkbenchUtils.getActiveShell();
+		IWorkbenchWindow context = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow();
+		try {
+			support.perform(parent, context);
+		} catch (InterruptedException e) {
+			JUnitUtils.fail("Rename failed", e);
+		} catch (InvocationTargetException e) {
+			JUnitUtils.fail("Rename failed", e);
+		}
+		String newParentName = seamProjectEJB.getParentProjectName();
+		System.out.println(parentName);
+		System.out.println(newParentName);
+		assertTrue("", "newName".equals(newParentName));
 	}
 }

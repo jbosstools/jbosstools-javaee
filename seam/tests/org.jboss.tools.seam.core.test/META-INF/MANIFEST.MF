@@ -24,5 +24,11 @@ Require-Bundle:
  org.eclipse.jface,
  org.jboss.tools.jst.firstrun,
  org.eclipse.wst.server.core,
- org.eclipse.datatools.connectivity
+ org.eclipse.datatools.connectivity,
+ org.eclipse.ltk.core.refactoring,
+ org.eclipse.ltk.ui.refactoring,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.jface
 Provide-Package: org.jboss.tools.seam.core.test
