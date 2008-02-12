@@ -76,6 +76,13 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		return seamProject;
 	}
 
+	public void testVarAttributes() throws CoreException {
+		// Test for http://jira.jboss.com/jira/browse/JBIDE-999
+		IFile file = project.getFile("WebContent/varAttributes.xhtml");
+		int number = getMarkersNumber(file);
+		assertTrue("Problem marker was found in varAttributes.xhtml file. Validator did not recognize 'var' attribute.", number == 0);
+	}
+
 	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
