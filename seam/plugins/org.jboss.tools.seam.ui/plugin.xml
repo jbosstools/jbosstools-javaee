@@ -429,7 +429,7 @@
                class="org.jboss.tools.seam.ui.actions.OpenSeamComponentAction"
                definitionId="org.jboss.tools.seam.ui.open.component"
                helpContextId="org.eclipse.jdt.ui.open_type_action"
-               icon="icons/open_seam_project.gif"
+               icon="icons/open_seam_component.gif"
                id="openComponent"
                label="Open Seam Component"
                menubarPath="navigate/open.ext2"

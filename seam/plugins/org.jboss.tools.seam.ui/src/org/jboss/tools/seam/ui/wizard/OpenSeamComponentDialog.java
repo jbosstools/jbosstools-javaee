@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -45,15 +46,11 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 
 	public OpenSeamComponentDialog(Shell shell) {
 		super(shell);
+		setSelectionHistory(new SeamComponentSelectionHistory());
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
-		setSelectionHistory(new SeamComponentSelectionHistory());
 	}
 	
-	protected void computeResult() {
-		super.computeResult();
-	}
-
 	protected Control createExtendedContentArea(Composite parent) {
 		return null;
 	}
@@ -159,6 +156,8 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		}
 
 		public boolean isOK() {
+			if(getSelectedItems().size() < 0) return false;
+			
 			return true;
 		}
 
@@ -169,12 +168,32 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	}
 	
 	public class SeamComponentSelectionHistory extends SelectionHistory{
+		public SeamComponentSelectionHistory(){
+			super();
+		}
+		
 		protected Object restoreItemFromMemento(IMemento memento) {
-			return null;
+			System.out.println("restoreItemFromMemento memento - "+memento.getClass());
+			XMLMemento mem = (XMLMemento)memento;
+			String projectName = mem.getString("ProjectName");
+			if(projectName == null) return null;
+			String componentName = mem.getString("ComponentName");
+			if(componentName == null) return null;
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+			ISeamComponent component = seamProject.getComponent(componentName);
+			
+			return component;
 		}
 
 		@Override
 		protected void storeItemToMemento(Object item, IMemento memento) {
+			
+			System.out.println("storeItemToMemento item - "+item.getClass()+" memento - "+memento.getClass());
+			SeamComponent component = (SeamComponent)item;
+			XMLMemento mem = (XMLMemento)memento;
+			mem.putString("ProjectName", component.getSeamProject().getProject().getName());
+			mem.putString("ComponentName", component.getName());
 		}
 		
 	}
