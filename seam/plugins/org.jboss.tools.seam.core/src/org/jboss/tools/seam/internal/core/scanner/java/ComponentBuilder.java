@@ -152,7 +152,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		}
 		if(methodName.startsWith("get") && methodName.length() > 3) {
 			String root = methodName.substring(3);
-			return root.substring(0, 1).toUpperCase() + root.substring(1);
+			return root.substring(0, 1).toLowerCase() + root.substring(1);
 		} 
 		return methodName;
 	}
