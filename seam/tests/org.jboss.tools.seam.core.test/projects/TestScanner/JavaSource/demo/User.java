@@ -82,5 +82,10 @@ public class User {
 	public User testFactory() {
 		return new User();
 	}
+	
+	@Factory
+	public User getMyFactory2() {
+		return new User();
+	}
 
 }
