@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,13 +31,14 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -47,10 +49,14 @@ import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ELStringToken;
 import org.jboss.tools.seam.internal.core.el.ELToken;
+import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
+import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * EL Validator
@@ -64,7 +70,8 @@ public class SeamELValidator extends SeamValidator {
 
 	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
 
-	private SeamELCompletionEngine engine= new SeamELCompletionEngine();
+	private SeamELCompletionEngine engine = new SeamELCompletionEngine();
+	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamValidationHelper coreHelper, IReporter reporter,
@@ -166,6 +173,7 @@ public class SeamELValidator extends SeamValidator {
 	}
 
 	private void validateDom(IFile file, String content) {
+		varListForCurentValidatedNode.clear();
 		IModelManager manager = StructuredModelManager.getModelManager();
 		if(manager == null) {
 			// this can happen if plugin org.eclipse.wst.sse.core 
@@ -178,17 +186,8 @@ public class SeamELValidator extends SeamValidator {
 			model = manager.getModelForRead(file);
 			if (model instanceof IDOMModel) {
 				IDOMModel domModel = (IDOMModel) model;
-    			IStructuredDocument structuredDoc = domModel.getStructuredDocument();
-    			IStructuredDocumentRegion curNode = structuredDoc.getFirstStructuredDocumentRegion();
-    			while (curNode !=null && !reporter.isCancelled()) {
-    				if (curNode.getFirstRegion().getType() == DOMRegionContext.XML_TAG_OPEN) {
-    					validateNodeContent(file, curNode, DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
-    				}				
-    				if (curNode.getFirstRegion().getType() == DOMRegionContext.XML_CONTENT) {
-    					validateNodeContent(file, curNode, DOMRegionContext.XML_CONTENT);
-    				}
-    				curNode = curNode.getNext();
-    			}
+				IDOMDocument document = domModel.getDocument();
+				validateChildNodes(file, document);
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
@@ -199,8 +198,27 @@ public class SeamELValidator extends SeamValidator {
 				model.releaseFromRead();
 			}
 		}
-
 		return;
+	}
+
+	private void validateChildNodes(IFile file, Node parent) {
+		Var var = ElVarSearcher.findVar(parent);
+		if(var!=null) {
+			varListForCurentValidatedNode.add(var);
+		}
+		NodeList children = parent.getChildNodes();
+		for(int i=0; i<children.getLength() && !reporter.isCancelled(); i++) {
+			Node curentValidatedNode = children.item(i);
+			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
+				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
+			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
+				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
+			}
+			validateChildNodes(file, curentValidatedNode);
+		}
+		if(var!=null) {
+			varListForCurentValidatedNode.remove(var);
+		}
 	}
 
 	private void validateNodeContent(IFile file, IStructuredDocumentRegion node, String regionType) {
@@ -264,7 +282,7 @@ public class SeamELValidator extends SeamValidator {
 					}
 
 					SeamELCompletionEngine.SeamELOperandResolveStatus status = 
-						engine.resolveSeamELOperand(project, file, operand, prefix, position, true);
+						engine.resolveSeamELOperand(project, file, operand, prefix, position, true, varListForCurentValidatedNode);
 
 					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names

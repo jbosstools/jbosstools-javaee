@@ -254,16 +254,9 @@ public class SeamCoreValidator extends SeamValidator {
 					// return type is void
 					String factoryName = factory.getName();
 					if(factoryName==null) {
-						String methodName = method.getElementName();
-						if(methodName.startsWith("get") && methodName.length()>3) { //$NON-NLS-1$
-							// This is getter
-							factoryName = methodName.substring(3);
-						} else {
-							// Unknown factory name
-							SeamCorePlugin.getDefault().logError(NLS.bind(SeamCoreMessages.SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME,factory.getResource()));
-							//factoryName = methodName;
-							return;
-						}
+						// Unknown factory name
+						SeamCorePlugin.getDefault().logError(NLS.bind(SeamCoreMessages.SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME,factory.getResource()));
+						return;
 					}
 					validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
 				}

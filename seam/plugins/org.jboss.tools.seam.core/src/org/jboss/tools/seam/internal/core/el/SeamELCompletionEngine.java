@@ -30,6 +30,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 
 /**
  * Utility class used to find Seam Project content assist proposals
@@ -37,12 +38,11 @@ import org.jboss.tools.seam.core.ScopeType;
  * @author Jeremy
  */
 public final class SeamELCompletionEngine {
-	
+
 	/**
 	 * Constructs SeamELCompletionEngine object
 	 */
 	public SeamELCompletionEngine() {
-		
 	}
 
 	/**
@@ -52,52 +52,29 @@ public final class SeamELCompletionEngine {
 	 * @param file File 
 	 * @param document 
 	 * @param prefix the prefix to search for
-	 * @param position Offset of the prefix 
+	 * @param position Offset of the prefix
+	 * @param vars - 'var' attributes which can be used in this EL 
 	 * @return the list of all possible suggestions
 	 * @throws BadLocationException if accessing the current document fails
 	 */
 	public List<String> getCompletions(ISeamProject project, IFile file, IDocument document, CharSequence prefix, 
-			int position) throws BadLocationException, StringIndexOutOfBoundsException {
+			int position, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
 		String documentContent = null;
 		if(document!=null) {
 			documentContent = document.get();
 		}
-		return getCompletions(project, file, documentContent, prefix, position);
+		return getCompletions(project, file, documentContent, prefix, position, false, vars);
 	}
 
 	/**
 	 * Create the array of suggestions. 
-	 * 
 	 * @param project Seam project 
 	 * @param file File 
-	 * @param documentContent 
+	 * @param documentContent
 	 * @param prefix the prefix to search for
 	 * @param position Offset of the prefix 
-	 * @return the list of all possible suggestions
-	 * @throws BadLocationException if accessing the current document fails
-	 */
-	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position) throws BadLocationException, StringIndexOutOfBoundsException {
-		List<String> completions = new ArrayList<String>();
-		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, false);
-		if (status.isOK()) {
-			completions.addAll(status.getProposals());
-		}
-		return completions;
-		
-//		return getCompletions(project, file, documentContent, prefix, position, false, null, null);
-	}
-	/**
-	 * Create the array of suggestions. 
-	 * @param project Seam project 
-	 * @param file File 
-	 * @param document 
-	 * @param prefix the prefix to search for
-	 * @param position Offset of the prefix 
-	 * @return the list of all possible suggestions
-	 * @param usedVariables - Set of variables which are used in this Expression. It's useful in incremental validation.
-	 * @param unpairedGettersOrSetters - map of unpaired getters or setters of property which is used in last segment of Expression. 'key' is property name.
-	 * @param returnCompletedVariablesOnly - if 'true' then returns only variables that equals prefix. It's useful for validation.
+	 * @param vars - 'var' attributes which can be used in this EL. Can be null.
+	 * @param returnEqualedVariablesOnly 'false' if we get proposals for mask  
 	 *  for example:
 	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'  
 	 *   prefix is 'variableName.variableProperty'
@@ -107,204 +84,44 @@ public final class SeamELCompletionEngine {
 	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'
 	 *   prefix is 'variableName.variableProperty'
 	 *   Result is {'1','2'}
+	 * @return the list of all possible suggestions
+	 * @throws BadLocationException if accessing the current document fails
+	 * @throws StringIndexOutOfBoundsException
 	 */
 	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly, Set<ISeamContextVariable> usedVariables, Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters) throws BadLocationException, StringIndexOutOfBoundsException {
-
-		List<String> res= new ArrayList<String>();
-		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
-		List<ELOperandToken> tokens = tokenizer.getTokens();
-		
-		List<ELOperandToken> resolvedExpressionPart = new ArrayList<ELOperandToken>();
-		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
-		ScopeType scope = getScope(project, file);
-		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(tokens);
-		
-		if (variations.isEmpty()) {
-			resolvedVariables = resolveVariables(project, scope, tokens, tokens, returnEqualedVariablesOnly);
-		} else {
-			for (List<ELOperandToken> variation : variations) {
-				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = resolveVariables(project, scope, variation, tokens, returnEqualedVariablesOnly);
-				if (resolvedVars != null && !resolvedVars.isEmpty()) {
-					resolvedVariables = resolvedVars;
-					resolvedExpressionPart = variation;
-					break;
-				}
-			}
+			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
+		List<String> completions = new ArrayList<String>();
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, returnEqualedVariablesOnly, vars);
+		if (status.isOK()) {
+			completions.addAll(status.getProposals());
 		}
-
-		// Save all resolved variables. It's useful for incremental validation.
-		if(resolvedVariables!=null && resolvedVariables.size()>0 && usedVariables!=null) {
-			usedVariables.addAll(resolvedVariables);
-		}
-		
-		if (resolvedExpressionPart.isEmpty() && 
-				!returnEqualedVariablesOnly && 
-				tokens.size() > 0 && 
-				tokens.get(tokens.size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
-			// no vars are resolved 
-			// the tokens are the part of var name ended with a separator (.)
-			resolvedVariables = resolveVariables(project, scope, tokens, tokens, returnEqualedVariablesOnly);			
-			String prefixString = prefix.toString();
-			for (ISeamContextVariable var : resolvedVariables) {
-				String varName = var.getName();
-				if(varName.startsWith(prefixString)) {
-					res.add(varName.substring(prefixString.length()));
-				}
-			}
-			return res;
-		}
-		
-
-		// Here we have a list of vars for some part of expression
-		// OK. we'll proceed with members of these vars
-		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
-			// First segment is the last one
-			for (ISeamContextVariable var : resolvedVariables) {
-				String varName = var.getName();
-				String prefixString = prefix.toString();
-				if(prefixString.length()<=varName.length()) {
-					res.add(varName.substring(prefixString.length()));
-				} else if(returnEqualedVariablesOnly) {
-					res.add(varName);
-				}
-			}
-			return res;
-		}
-
-		// First segment is found - proceed with next tokens 
-		int startTokenIndex = (resolvedExpressionPart == null ? 0 : resolvedExpressionPart.size());
-		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
-		for (ISeamContextVariable var : resolvedVariables) {
-			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, returnEqualedVariablesOnly);
-			if (member != null && !members.contains(member)) 
-				members.add(member);
-		}
-		for (int i = startTokenIndex; 
-				tokens != null && i < tokens.size() && 
-				members != null && members.size() > 0; 
-				i++) {
-			ELOperandToken token = tokens.get(i);
-			
-			if (i < tokens.size() - 1) { // inside expression
-				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
-					// proceed with next token
-					continue;
-
-				if (token.isNameToken()) {
-					// Find properties for the token
-					String name = token.getText();
-					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
-					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
-						for (TypeInfoCollector.MemberInfo property : properties) {
-							StringBuffer propertyName = new StringBuffer(property.getName());
-							if (property instanceof TypeInfoCollector.MethodInfo) { // Setter or getter
-								propertyName.delete(0, (propertyName.charAt(0) == 'i' ? 2 : 3));
-								propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
-							}
-							if (name.equals(propertyName.toString())) {
-								newMembers.add(property);
-							}
-						}
-					}
-					members = newMembers;
-				}
-				if (token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
-					// Find methods for the token
-					String name = token.getText();
-					if (name.indexOf('(') != -1) {
-						name = name.substring(0, name.indexOf('('));
-					}
-					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
-					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
-						for (TypeInfoCollector.MemberInfo method : methods) {
-							if (name.equals(method.getName())) {
-								newMembers.add(method);
-							}
-						}
-					}
-					members = newMembers;
-				}
-			} else { // Last segment
-				Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
-					// return all the methods + properties
-					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						proposals.addAll(infos.getMethodPresentations());
-						proposals.addAll(infos.getPropertyPresentations(unpairedGettersOrSetters));
-					}
-				} else if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
-						token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
-						token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
-					// return filtered methods + properties 
-					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
-					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						proposalsToFilter.addAll(infos.getMethodPresentations());
-						proposalsToFilter.addAll(infos.getPropertyPresentations(unpairedGettersOrSetters));
-					}
-					for (String proposal : proposalsToFilter) {
-						// We do expect nothing but name for method tokens (No round brackets)
-						String filter = token.getText();
-						if(returnEqualedVariablesOnly) {
-							// This is used for validation.
-							if (proposal.equals(filter)) {
-								proposals.add(proposal);
-								if(unpairedGettersOrSetters!=null) {
-									TypeInfoCollector.MethodInfo unpirMethod = unpairedGettersOrSetters.get(filter);
-									unpairedGettersOrSetters.clear();
-									if(unpirMethod!=null) {
-										unpairedGettersOrSetters.put(filter, unpirMethod);
-									}
-								}
-								break;
-							}
-						} else {
-							// This is used for CA.
-							if (proposal.startsWith(filter)) {
-								proposals.add(proposal.substring(filter.length()));
-							}
-						}
-					}
-				}
-				res.addAll(proposals);
-			}
-		}
-
-		if(res.isEmpty() && unpairedGettersOrSetters!=null) {
-			unpairedGettersOrSetters.clear();
-		}
-		return res;
+		return completions;
 	}
-	
+
+	/**
+	 * Status of EL resolving.
+	 * @author Jeremy
+	 */
 	public static class SeamELOperandResolveStatus {
 		private List<ELOperandToken> tokens;
 		public List<ISeamContextVariable> usedVariables;
 		Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters;
 		Set<String> proposals;
 		private ELOperandToken lastResolvedToken;
-		private boolean isMapOrBundleAmoungTheTokens;
+		private boolean isMapOrBundleAmoungTheTokens = false;
 
 		public SeamELOperandResolveStatus(List<ELOperandToken> tokens) {
 			this.tokens = tokens;
-			this.lastResolvedToken = null;
-			this.isMapOrBundleAmoungTheTokens = false;
 		}
-		
+
 		public boolean isMapOrBundleAmoungTheTokens() {
 			return this.isMapOrBundleAmoungTheTokens;
 		}
-		
+
 		public void setMapOrBundleAmoungTheTokens() {
 			this.isMapOrBundleAmoungTheTokens = true;
 		}
-		
+
 		public boolean isOK() {
 			return !getProposals().isEmpty() || isMapOrBundleAmoungTheTokens(); 
 		}
@@ -312,7 +129,7 @@ public final class SeamELCompletionEngine {
 		public boolean isError() {
 			return !isOK();
 		}
-		
+
 		public List<ELOperandToken> getResolvedTokens() {
 			List<ELOperandToken> resolvedTokens = new ArrayList<ELOperandToken>();
 			int index = tokens.indexOf(lastResolvedToken); // index == -1 means that no tokens are resolved
@@ -373,20 +190,100 @@ public final class SeamELCompletionEngine {
 		public void clearUnpairedGettersOrSetters() {
 			getUnpairedGettersOrSetters().clear();
 		}
-		
 	}
-	
+
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
+			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
+		String oldEl = prefix.toString();
+		Var var = findVarForEl(oldEl, vars);
+		String newEl = replacePrefixByVar(oldEl, var);
+		String newDocumentContent = documentContent;
+		boolean prefixWasChanged = newEl!=oldEl;
+		if(prefixWasChanged) {
+			newDocumentContent = documentContent.substring(0, position) + newEl;
+		}
+
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, newDocumentContent, newEl, position, returnEqualedVariablesOnly);
+
+		if(prefixWasChanged) {
+			// Replace new EL by original one in result status.
+			ELOperandToken newLastResolvedToken = status.getLastResolvedToken();
+			SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
+			List<ELOperandToken> oldTokens = tokenizer.getTokens();
+			status.setTokens(oldTokens);
+			if(newLastResolvedToken != null) {
+				if(newLastResolvedToken.getStart() < var.getElToken().getLength()) {
+					// Last resolved token is token from "var". Set first token of original EL as last resolved one.
+					status.setLastResolvedToken(oldTokens.get(0));
+				} else {
+					// Last resolved token is token outside "var" prefix. Correct last resolved token.
+					int oldLastResolvedTokenStart = newLastResolvedToken.getStart() - var.getElToken().getText().length() + var.getName().length();
+					for (ELOperandToken oldToken : oldTokens) {
+						if(oldToken.getStart() == oldLastResolvedTokenStart) {
+							status.setLastResolvedToken(oldToken);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return status;
+	}
+
+	private Var findVarForEl(String el, List<Var> vars) {
+		if(vars!=null) {
+			for (Var var : vars) {
+				ELToken token = var.getElToken();
+				if(token!=null && !token.getText().endsWith(".")) {
+					String varName = var.getName();
+					if(el.equals(varName) || el.startsWith(varName + ".")) {
+						return var;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Replace all el variables by variables from found "var" attributes.
+	 * @param el
+	 * @param vars
+	 * @return
+	 */
+	private String replacePrefixByVar(String el, Var var) {
+		if(var!=null) {
+			ELToken token = var.getElToken();
+			if(token!=null) {
+				return token.getText() + el.substring(var.getName().length());
+			}
+		}
+		return el;
+	}
+
+	/**
+	 * Resolves Seam EL
+	 * @param project
+	 * @param file
+	 * @param documentContent
+	 * @param prefix
+	 * @param position
+	 * @param returnEqualedVariablesOnly
+	 * @return
+	 * @throws BadLocationException
+	 * @throws StringIndexOutOfBoundsException
+	 */
+	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, String prefix, 
 			int position, boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
 
-		
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
-		SeamELOperandResolveStatus status= new SeamELOperandResolveStatus(tokenizer.getTokens());
+		SeamELOperandResolveStatus status = new SeamELOperandResolveStatus(tokenizer.getTokens());
 
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		ScopeType scope = getScope(project, file);
 		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(status.getTokens());
-		
+
 		if (variations.isEmpty()) {
 			resolvedVariables = resolveVariables(project, scope, 
 					status.getTokens(), status.getTokens(), 
@@ -409,7 +306,7 @@ public final class SeamELCompletionEngine {
 		if(resolvedVariables!=null && resolvedVariables.size()>0) {
 			status.setUsedVariables(resolvedVariables);
 		}
-		
+
 		if (status.getResolvedTokens().isEmpty() && 
 				!returnEqualedVariablesOnly && 
 				status.getTokens().size() > 0 && 
@@ -417,18 +314,16 @@ public final class SeamELCompletionEngine {
 			// no vars are resolved 
 			// the tokens are the part of var name ended with a separator (.)
 			resolvedVariables = resolveVariables(project, scope, status.getTokens(), status.getTokens(), returnEqualedVariablesOnly);			
-			String prefixString = prefix.toString();
 			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
-				if(varName.startsWith(prefixString)) {
-					proposals.add(varName.substring(prefixString.length()));
+				if(varName.startsWith(prefix)) {
+					proposals.add(varName.substring(prefix.length()));
 				}
 			}
 			status.setProposals(proposals);
 			return status;
 		}
-		
 
 		// Here we have a list of vars for some part of expression
 		// OK. we'll proceed with members of these vars
@@ -437,9 +332,8 @@ public final class SeamELCompletionEngine {
 			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
-				String prefixString = prefix.toString();
-				if(prefixString.length()<=varName.length()) {
-					proposals.add(varName.substring(prefixString.length()));
+				if(prefix.length()<=varName.length()) {
+					proposals.add(varName.substring(prefix.length()));
 				} else if(returnEqualedVariablesOnly) {
 					proposals.add(varName);
 				}
@@ -580,9 +474,8 @@ public final class SeamELCompletionEngine {
 			status.clearUnpairedGettersOrSetters();
 		}
 		return status;
-		
 	}
-	
+
 	private String computeVariableName(List<ELOperandToken> tokens){
 		if (tokens == null)
 			tokens = new ArrayList<ELOperandToken>();
@@ -597,7 +490,7 @@ public final class SeamELCompletionEngine {
 		}
 		return sb.toString();
 	}
-	
+
 	/*
 	 * Compares to tokenized expressions.
 	 * 
@@ -608,17 +501,17 @@ public final class SeamELCompletionEngine {
 	private boolean areEqualExpressions(List<ELOperandToken>first, List<ELOperandToken>second) {
 		if (first == null || second == null)
 			return (first == second);
-		
+
 		if (first.size() != second.size())
 			return false;
-		
+
 		for (int i = 0; i < first.size(); i++) {
 			if (!first.get(i).equals(second.get(i)))
 				return false;
 		}
 		return true;
 	}
-	
+
 	/* Returns scope for the resource
 	 * 
 	 * @param project
@@ -673,7 +566,7 @@ public final class SeamELCompletionEngine {
 		}
 		return new ArrayList<ISeamContextVariable>(); 
 	}
-	
+
 	/*
 	 * Creates and returns list of possible variable name combinations from expression starting from the longest name
 	 *  
@@ -695,7 +588,7 @@ public final class SeamELCompletionEngine {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Removes duplicates of completion strings
 	 *
@@ -708,7 +601,7 @@ public final class SeamELCompletionEngine {
 
 		if (suggestions == null)
 			return unique;
-		
+
 		for (String item : suggestions) {
 			if (!present.contains(item)) {
 				present.add(item);
@@ -765,13 +658,13 @@ public final class SeamELCompletionEngine {
 
 		if (tokens == null || tokens.size() == 0)
 			return null;
-		
+
 		List<List<ELOperandToken>> vars = getPossibleVarsFromPrefix(tokens);
 		if (vars == null) 
 			return null;
-		
+
 		String prefixPart = documentContent.substring(tokens.get(0).start, offset);
-		
+
 		// Search from the shortest variation to the longest one
 		for (int i = vars.size() - 1; i >= 0; i--) { 
 			List<ELOperandToken>var = vars.get(i);
@@ -782,7 +675,7 @@ public final class SeamELCompletionEngine {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Create the array of suggestions. 
 	 * @param project Seam project 
@@ -791,20 +684,19 @@ public final class SeamELCompletionEngine {
 	 * @param prefix the prefix to search for
 	 * @param position Offset of the prefix 
 	 */
-
 	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<IJavaElement> res= new ArrayList<IJavaElement>();
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(expression, expression.length());
 		List<ELOperandToken> tokens = tokenizer.getTokens();
-		
+
 		if (tokens == null || tokens.size() == 0 || tokens.get(tokens.size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 			return res;
-		
+
 		List<ELOperandToken> resolvedExpressionPart = new ArrayList<ELOperandToken>();
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		ScopeType scope = getScope(project, file);
 		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(tokens);
-		
+
 		if (variations.isEmpty()) {
 			resolvedVariables = resolveVariables(project, scope, tokens, tokens, true);
 		} else {
@@ -824,12 +716,6 @@ public final class SeamELCompletionEngine {
 		if (areEqualExpressions(resolvedExpressionPart, tokens)) {
 			// First segment is the last one
 			for (ISeamContextVariable var : resolvedVariables) {
-//				String varName = var.getName();
-//				if(expression.length()<varName.length()) {
-//					res.add(varName.substring(prefixString.length()));
-//				} else if(returnEqualedVariablesOnly) {
-//					res.add(varName);
-//				}
 				IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
 				if (member instanceof IJavaElement){
 					res.add((IJavaElement)member);
@@ -851,7 +737,7 @@ public final class SeamELCompletionEngine {
 				members != null && members.size() > 0; 
 				i++) {
 			ELOperandToken token = tokens.get(i);
-			
+
 			if (i < tokens.size() - 1) { // inside expression
 				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 					// proceed with next token
@@ -908,7 +794,7 @@ public final class SeamELCompletionEngine {
 						javaElementInfosToFilter.addAll(infos.getMethods());
 						javaElementInfosToFilter.addAll(infos.getProperties());
 					}
-					
+
 					for (TypeInfoCollector.MemberInfo info : javaElementInfosToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
 						String filter = token.getText();

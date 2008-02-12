@@ -44,7 +44,7 @@ public class SeamELTokenizer {
 	/**
 	 * Constructs SeamELTokenizer object.
 	 * Parse an expression.
-	 * For example: expression is '#{var1.pr != var2.pr}'
+	 * For example: expression is "var1.pr != var2.pr"
 	 *              then tokens are ["var1.pr"," ", "!=", " ", "var2.pr"]
 	 * @param expression
 	 */

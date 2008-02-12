@@ -8,7 +8,6 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-
 package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
@@ -29,9 +28,9 @@ public class SeamPromptingProvider implements IPromptingProvider {
 	static String IS_SEAM_PROJECT = "seam.is_seam_project"; //$NON-NLS-1$
 	public static String VARIABLES = "seam.variables"; //$NON-NLS-1$
 	public static String MEMBERS = "seam.members"; //$NON-NLS-1$
-	
+
 	SeamELCompletionEngine engine= new SeamELCompletionEngine();
-	
+
 	public SeamPromptingProvider() {}
 
 	public List getList(XModel model, String id, String prefix,
@@ -59,12 +58,11 @@ public class SeamPromptingProvider implements IPromptingProvider {
 		} else if(MEMBERS.equals(id)) {
 			try {
 				String prefix2 = SeamELCompletionEngine.getPrefix(prefix, prefix.length());
-				List<String> suggestions = engine.getCompletions(p, f, prefix, prefix2, 2, true, null, null);
+				List<String> suggestions = engine.getCompletions(p, f, prefix, prefix2, 2, true, null);
 				return suggestions;
 			} catch (BadLocationException e) {
 				return EMPTY_LIST;
 			}
-			
 		}
 		return null;
 	}
@@ -72,5 +70,4 @@ public class SeamPromptingProvider implements IPromptingProvider {
 	public boolean isSupporting(String id) {
 		return id != null && id.startsWith("seam."); //$NON-NLS-1$
 	}
-
 }
