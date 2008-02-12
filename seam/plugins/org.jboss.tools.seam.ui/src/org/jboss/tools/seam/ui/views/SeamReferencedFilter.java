@@ -40,7 +40,7 @@ public class SeamReferencedFilter extends ViewerFilter {
 		return true;
 	}
 	
-	boolean isComponentDeclaredInThisProject(ISeamComponent component) {
+	public static boolean isComponentDeclaredInThisProject(ISeamComponent component) {
 		Set<ISeamComponentDeclaration> ds = component.getAllDeclarations();
 		for (ISeamComponentDeclaration d : ds) {
 			IResource r = d.getResource();
