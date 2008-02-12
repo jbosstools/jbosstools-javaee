@@ -37,6 +37,8 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.ide.eclipse.as.core,
  org.eclipse.wst.server.core,
  org.eclipse.core.filesystem,
+ org.eclipse.ltk.core.refactoring,
+ org.eclipse.ltk.ui.refactoring,
  org.eclipse.jst.j2ee.ejb,
  org.eclipse.jst.jsf.ui,
  org.jboss.tools.jst.web,
@@ -44,7 +46,8 @@ Require-Bundle: org.eclipse.ui,
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner,
- org.jboss.tools.seam.internal.core.preferences
+ org.jboss.tools.seam.internal.core.preferences,
+ org.jboss.tools.seam.internal.core.refactoring
 Bundle-Version: 2.0.0
 Export-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,
@@ -56,4 +59,5 @@ Export-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core.scanner.java,
  org.jboss.tools.seam.internal.core.scanner.lib,
  org.jboss.tools.seam.internal.core.scanner.xml,
- org.jboss.tools.seam.internal.core.validation
+ org.jboss.tools.seam.internal.core.validation,
+ org.jboss.tools.seam.internal.core.refactoring

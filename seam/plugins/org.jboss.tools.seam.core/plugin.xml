@@ -289,4 +289,22 @@
 			class="org.jboss.tools.seam.internal.core.el.SeamPromptingProvider"/>
 	</extension>
 
+   <extension
+         point="org.eclipse.ltk.core.refactoring.renameParticipants">
+
+      <renameParticipant
+            class="org.jboss.tools.seam.internal.core.refactoring.SeamRenameProjectParticipant"
+            id="org.jboss.tools.seam.internal.core.refactoring.SeamRenameProjectParticipant"
+            name="seam-RenameProjectParticipant">
+         <enablement>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IProject"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+	</extension>
+
 </plugin>
