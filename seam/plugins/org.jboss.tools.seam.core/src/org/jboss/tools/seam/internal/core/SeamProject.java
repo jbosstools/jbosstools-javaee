@@ -202,7 +202,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param scopeType
 	 * @return
 	 */
-	public ISeamScope getScope(ScopeType scopeType) {
+	public SeamScope getScope(ScopeType scopeType) {
 		return scopesMap.get(scopeType);
 	}
 	
@@ -210,7 +210,15 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	public Collection<ISeamPackage> getPackages() {
-		return packages.values();
+		synchronized(packages) {
+			return packages.values();
+		}
+	}
+	
+	public void removePackage(ISeamPackage p) {
+		synchronized(packages) {
+			packages.remove(p.getName());
+		}
 	}
 	
 	/**
@@ -568,8 +576,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		if(!sourcePaths.contains(source)) sourcePaths.add(source);
 		
-		revalidateLock++;
-		
 		if(ds.getImports().size() > 0) {
 			setImports(source.toString(), ds.getImports());
 		} else {
@@ -578,6 +584,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 		Map<Object,ISeamComponentDeclaration> currentComponents = findComponentDeclarations(source);
 
+		Set<ISeamComponent> affectedComponents = new HashSet<ISeamComponent>();
 		List<Change> addedComponents = null;
 		for (int i = 0; i < components.length; i++) {
 			SeamComponentDeclaration loaded = (SeamComponentDeclaration)components[i];
@@ -592,6 +599,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			
 			SeamComponent c = getComponent(name);
 			
+			if(c != null) {
+				affectedComponents.add(c);
+			}
+
 			String oldClassName = c == null ? null : c.getClassName();
 
 			if(current != null) {
@@ -610,6 +621,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					loaded = current;
 					current = null;
 					c = getComponent(name);
+					if(c != null) {
+						affectedComponents.add(c);
+					}
 				} else {
 					if(loaded instanceof ISeamXmlComponentDeclaration) {
 						ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
@@ -622,6 +636,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(c == null && name != null) {
 				ScopeType scopeType = loaded.getScope();
 				c = newComponent(name, scopeType);
+				affectedComponents.add(c);
 				allComponents.put(name, c);
 				addVariable(c);
 				c.addDeclaration(loaded);
@@ -647,14 +662,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
 				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
 				onXMLLoadedDeclaration(c, oldClassName, xml);
-			}			
+			}
 		}
+
+		for (ISeamComponent c: affectedComponents) {
+			SeamComponent sc = (SeamComponent)c;
+			addedComponents = sc.revalidate(addedComponents);
+		}
+		
 		fireChanges(addedComponents);
 		
 		componentDeclarationsRemoved(currentComponents);
 
-		revalidateLock--;
-		revalidate();
+//		revalidate();
 
 		Map<Object, ISeamFactory> currentFactories = findFactoryDeclarations(source);
 		List<Change> addedFactories = null;
@@ -751,6 +771,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			c.addDeclaration(j);
 			changes = Change.addChange(changes, new Change(c, null, null, j));
 		}
+		if(changes != null) c.revalidate(changes); 
 		fireChanges(changes);
 	}
 
@@ -762,7 +783,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(!sourcePaths.contains(source)) return;
 		sourcePaths.remove(source);
 		removeImports(source.toString());
-		revalidateLock++;
 		Iterator<SeamComponent> iterator = allComponents.values().iterator();
 		while(iterator.hasNext()) {
 			List<Change> changes = null;
@@ -794,8 +814,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				it.remove();
 			}
 		}
-		revalidateLock--;
-		revalidate();
+//		revalidate();
 
 		Iterator<ISeamFactory> factories = allFactories.iterator();
 		while(factories.hasNext()) {
@@ -879,10 +898,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	private List<Change> removeEmptyComponent(SeamComponent c) {
 		List<Change> changes = null;
 		ISeamElement p = c.getParent();
-		if(p instanceof SeamScope) {
-			((SeamScope)p).removeComponent(c);
-			changes = Change.addChange(null, new Change(p, null, c, null));
-		}
+		changes = c.removeFromModel(changes);
 		removeVariable(c);
 		changes = Change.addChange(changes, new Change(this, null, c, null));
 		return changes;
@@ -1314,47 +1330,42 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	/**
 	 * 
 	 */
-	int revalidateLock = 0;
-	
-	/**
-	 * 
-	 */
 	void revalidate() {
-		if(revalidateLock > 0) return;
-		revalidateScopes();
-		revalidatePackages();
+//		if(revalidateLock > 0) return;
+//		revalidateScopes();
+//		revalidatePackages();
 	}
 	
 	/**
 	 * 
 	 */
-	void revalidateScopes() {
-		List<Change> changes = null;
-		for(SeamComponent c : allComponents.values()) {
-			SeamScope pc = (SeamScope)c.getParent();
-			SeamScope pn = (SeamScope)getScope(c.getScope());
-			if(pc == pn) continue;
-			c.setParent(pn);
-			if(pc != null) {
-				pc.removeComponent(c);
-				changes = Change.addChange(changes, new Change(pc, null, c, null));
-			}
-			pn.addComponent(c);
-			changes = Change.addChange(changes, new Change(pn, null, null, c));
-		}
-		for (int i = 0; i < scopes.length; i++) {
-			scopes[i].revalidatePackages();
-		}
-		fireChanges(changes);
-	}
+//	void revalidateScopes() {
+//		List<Change> changes = null;
+//		for(SeamComponent c : allComponents.values()) {
+//			SeamScope pc = (SeamScope)c.getParent();
+//			SeamScope pn = getScope(c.getScope());
+//			if(pc == pn) continue;
+//			c.setParent(pn);
+//			if(pc != null) {
+//				pc.removeComponent(c);
+//				changes = Change.addChange(changes, new Change(pc, null, c, null));
+//			}
+//			pn.addComponent(c);
+//			changes = Change.addChange(changes, new Change(pn, null, null, c));
+//		}
+//		for (int i = 0; i < scopes.length; i++) {
+//			scopes[i].revalidatePackages();
+//		}
+//		fireChanges(changes);
+//	}
 	
 	/**
 	 * 
 	 */
-	void revalidatePackages() {
-		List<Change> changes = SeamPackageUtil.revalidatePackages(this, allComponents, getComponents(), packages);
-		fireChanges(changes);
-	}
+//	void revalidatePackages() {
+//		List<Change> changes = SeamPackageUtil.revalidatePackages(this, allComponents, getComponents(), packages);
+//		fireChanges(changes);
+//	}
 	
 	/**
 	 * 
@@ -1457,4 +1468,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 
+	public void validatePackage(SeamComponent c) {
+		SeamPackage p = (SeamPackage)SeamPackageUtil.findOrCreatePackage(this, packages, SeamPackageUtil.getPackageName(c));
+		c.setProjectPackage(p);
+		p.getComponents().add(c);
+	}
 }

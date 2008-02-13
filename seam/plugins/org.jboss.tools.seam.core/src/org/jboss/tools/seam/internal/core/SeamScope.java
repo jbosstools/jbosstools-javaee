@@ -42,7 +42,9 @@ public class SeamScope extends SeamObject implements ISeamScope {
 	}
 	
 	public Collection<ISeamPackage> getPackages() {
-		return packages.values();
+		synchronized(packages) {
+			return packages.values();
+		}
 	}
 	
 	public Collection<ISeamPackage> getAllPackages() {
@@ -75,4 +77,15 @@ public class SeamScope extends SeamObject implements ISeamScope {
 		((SeamProject)getSeamProject()).fireChanges(changes);
 	}
 	
+	public void validatePackage(SeamComponent c) {
+		SeamPackage p = (SeamPackage)SeamPackageUtil.findOrCreatePackage(this, packages, SeamPackageUtil.getPackageName(c));
+		c.setScopePackage(p);
+		p.getComponents().add(c);
+	}
+	
+	public void removePackage(ISeamPackage p) {
+		synchronized(packages) {
+			packages.remove(p.getName());
+		}
+	}
 }

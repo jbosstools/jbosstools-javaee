@@ -22,12 +22,15 @@ import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
@@ -40,6 +43,9 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	Set<ISeamJavaComponentDeclaration> javaDeclarations = new HashSet<ISeamJavaComponentDeclaration>();
 	Set<ISeamXmlComponentDeclaration> xmlDeclarations = new HashSet<ISeamXmlComponentDeclaration>();
 	Set<ISeamPropertiesDeclaration> propertyDeclarations = new HashSet<ISeamPropertiesDeclaration>();
+	
+	SeamPackage projectPackage = null;
+	SeamPackage scopePackage = null;
 	
 	public SeamComponent () {
 	}
@@ -263,6 +269,90 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	
 	public SeamComponent clone() throws CloneNotSupportedException {
 		return this;
+	}
+	
+	public void setProjectPackage(SeamPackage p) {
+		projectPackage = p;
+	}
+	
+	public void setScopePackage(SeamPackage p) {
+		scopePackage = p;
+	}
+	
+	public List<Change> removeFromModel(List<Change> changes) {
+		SeamScope pc = (SeamScope)getParent();
+		if(pc != null) {
+			pc.removeComponent(this);
+			changes = Change.addChange(changes, new Change(pc, null, this, null));
+		}
+		if(scopePackage != null) {
+			removeFrom(scopePackage);
+			changes = Change.addChange(changes, new Change(scopePackage, null, this, null));
+			scopePackage = null;
+		}
+		if(projectPackage != null) {
+			removeFrom(projectPackage);
+			changes = Change.addChange(changes, new Change(projectPackage, null, this, null));
+			projectPackage = null;
+		}
+		
+		return changes;
+	}
+	
+	public List<Change> revalidate(List<Change> changes) {
+		SeamScope pc = (SeamScope)getParent();
+		SeamScope pn = (SeamScope)getSeamProject().getScope(getScope());
+		if(pc != pn) {
+			if(pc != null) {
+				pc.removeComponent(this);
+				changes = Change.addChange(changes, new Change(pc, null, this, null));
+			}
+			setParent(pn);
+			pn.addComponent(this);
+			changes = Change.addChange(changes, new Change(pn, null, null, this));
+			if(scopePackage != null) {
+				removeFrom(scopePackage);
+				changes = Change.addChange(changes, new Change(scopePackage, null, this, null));
+				scopePackage = null;
+			}
+		}
+		if(scopePackage != null && !scopePackage.getQualifiedName().equals(SeamPackageUtil.getPackageName(this))) {
+			removeFrom(scopePackage);
+			changes = Change.addChange(changes, new Change(scopePackage, null, this, null));
+			scopePackage = null;
+		}
+		if(scopePackage == null) {
+			pn.validatePackage(this);
+		}
+		if(projectPackage != null && !projectPackage.getQualifiedName().equals(SeamPackageUtil.getPackageName(this))) {
+			removeFrom(projectPackage);
+			changes = Change.addChange(changes, new Change(projectPackage, null, this, null));
+			projectPackage = null;
+		}
+		if(projectPackage == null) {
+			((SeamProject)getSeamProject()).validatePackage(this);
+		}
+		return changes;
+	}
+	
+	private void removeFrom(ISeamPackage p) {
+		p.getComponents().remove(this);
+		while(p != null && p.getComponents().size() + p.getPackages().size() == 0) {
+			ISeamElement o = p.getParent();
+			if(o instanceof ISeamPackage) {
+				ISeamPackage q = (ISeamPackage)o;
+				q.getPackages().remove(p);
+				p = q;
+			} else if(o instanceof SeamScope) {
+				SeamScope s = (SeamScope)o;
+				s.removePackage(p);
+				p = null;
+			} else if(o instanceof SeamProject) {
+				SeamProject project = (SeamProject)o;
+				project.removePackage(p);
+				p = null;
+			}
+		}
 	}
 
 }
