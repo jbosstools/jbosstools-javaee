@@ -43,10 +43,15 @@ import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
  * 
  */
 public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
-
+	private static SeamComponentSelectionHistory history = null;
+	
 	public OpenSeamComponentDialog(Shell shell) {
 		super(shell);
-		setSelectionHistory(new SeamComponentSelectionHistory());
+		
+		if(history == null)
+			history = new SeamComponentSelectionHistory();
+		
+		setSelectionHistory(history);
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
 	}
@@ -70,7 +75,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		for(int i = 0; i < projects.length; i++){
 			IProject project = projects[i];
 			progressMonitor.subTask(project.getName());
-			progressMonitor.worked(1);
+			
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 			if(seamProject != null){
 				Iterator<ISeamComponent> iter = seamProject.getComponents().iterator();
@@ -81,6 +86,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 						contentProvider.add(component, itemsFilter);
 				}
 			}
+			progressMonitor.worked(1);
 		}
 		progressMonitor.done();
 	}
@@ -173,7 +179,6 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		}
 		
 		protected Object restoreItemFromMemento(IMemento memento) {
-			System.out.println("restoreItemFromMemento memento - "+memento.getClass());
 			XMLMemento mem = (XMLMemento)memento;
 			String projectName = mem.getString("ProjectName");
 			if(projectName == null) return null;
@@ -188,8 +193,6 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 
 		@Override
 		protected void storeItemToMemento(Object item, IMemento memento) {
-			
-			System.out.println("storeItemToMemento item - "+item.getClass()+" memento - "+memento.getClass());
 			SeamComponent component = (SeamComponent)item;
 			XMLMemento mem = (XMLMemento)memento;
 			mem.putString("ProjectName", component.getSeamProject().getProject().getName());
