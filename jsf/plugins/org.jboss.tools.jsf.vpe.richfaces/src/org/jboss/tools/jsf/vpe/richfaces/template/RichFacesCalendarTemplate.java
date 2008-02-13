@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -202,7 +203,21 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "calendar");
     	nsIDOMElement div = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-    	VpeCreationData creationData = new VpeCreationData(div);
+    	
+    	nsIDOMElement resultTable = visualDocument
+    	.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+    	nsIDOMElement resultTD = visualDocument
+    	.createElement(HtmlComponentUtil.HTML_TAG_TD);
+    	nsIDOMElement resultTR = visualDocument
+    	.createElement(HtmlComponentUtil.HTML_TAG_TR);
+    	
+    	resultTD.appendChild(div);
+    	resultTR.appendChild(resultTD);
+    	resultTable.appendChild(resultTR);
+    	
+    	VpeCreationData creationData = new VpeCreationData(resultTable);
+    	
+    	
     	nsIDOMElement calendar;
     	nsIDOMElement calendarWithPopup;
     	if ("false".equalsIgnoreCase(popup)) {
@@ -977,4 +992,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 			String toggleId) {
 		showPopupCalendar = !showPopupCalendar;
 	}
+	
+    @Override
+    public void setSourceAttributeSelection(VpePageContext pageContext,
+	    Element sourceElement, int offset, int length, Object data) {
+	VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
+	sourceBuilder.setSelection(sourceElement, 0, 0);
+    }
+    
 }
