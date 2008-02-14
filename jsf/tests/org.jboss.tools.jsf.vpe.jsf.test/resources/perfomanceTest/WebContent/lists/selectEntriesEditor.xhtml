@@ -1,0 +1,137 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<head>
+<title>Editor</title>
+</head>
+<body style="font-size:smaller;">
+<f:view locale="#{strutsSession.locale}">
+	<f:loadBundle basename="resources.hr" var="bundle" />
+	#{bundle['selectEditor.key.title']}
+	<h:form id="selectKey">
+		<h:selectOneMenu id="key" value="#{selectEntriesEditor.key}" onchange="submit()">
+			<f:selectItem itemLabel="" itemValue=""/>
+			<f:selectItems value="#{selectEntriesEditor.keyItems}"/>
+		</h:selectOneMenu>
+	</h:form>
+	<hr/>
+	<h:form id="addEntry" rendered="#{not empty selectEntriesEditor.key}" acceptcharset="UTF-8" >
+		<table style="text-align:left;margin-left:10pt;margin-right:auto">
+			<tr>
+				<td colspan="2">#{bundle['selectEditor.add.title']}</td>
+			</tr>
+			<tr>
+				<td>#{bundle['selectEditor.pdata']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{selectEntriesEditor.newSelectEntry.pdata}"
+					size="8" required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['selectEditor.active']}</td>
+				<td><h:selectBooleanCheckbox
+					value="#{selectEntriesEditor.newSelectEntry.active}" required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['selectEditor.nameFr']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{selectEntriesEditor.newSelectEntry.nameFr}"
+					size="60" required="true" /></td>
+			</tr>
+			<tr>
+				<td>#{bundle['selectEditor.nameNl']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{selectEntriesEditor.newSelectEntry.nameNl}"
+					size="60" required="true"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><h:commandButton
+					action="#{selectEntriesEditor.addSelectEntry}" value="#{bundle['selectEditor.add.button']}" /></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:messages showDetail="true" showSummary="false"/>
+	<h:form id="filter" rendered="#{not empty selectEntriesEditor.key}" acceptcharset="UTF-8" >
+		#{bundle['selectEditor.filter.title']}
+		<table>
+			<tr>
+				<td>#{bundle['selectEditor.filter.lines']}</td>
+				<td><rich:inputNumberSlider minValue="10" maxValue="200" 
+				value="#{selectEntriesEditor.rows}" required="true" step="5" enableManualInput="false"/></td>
+				<td>
+					<h:selectOneMenu id="active" value="#{selectEntriesEditor.filter.active}">
+						<f:selectItem itemLabel="#{bundle['selectEditor.filter.active.all']}" itemValue="#{0}"/>
+						<f:selectItem itemLabel="#{bundle['selectEditor.filter.active.true']}" itemValue="#{1}"/>
+						<f:selectItem itemLabel="#{bundle['selectEditor.filter.active.false']}" itemValue="#{-1}"/>
+					</h:selectOneMenu>
+				</td>
+				<td>#{bundle['selectEditor.filter.pdata']}<h:inputText id="pdata" value="#{selectEntriesEditor.filter.pdata}" size="8"/></td>
+				<td>#{bundle['selectEditor.filter.name']}<h:inputText id="name" value="#{selectEntriesEditor.filter.name}" size="20"/></td>
+				<td><h:commandButton action="update" value="#{bundle['selectEditor.filter.button']}"></h:commandButton></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:form id="updateSelectEntries" rendered="#{not empty selectEntriesEditor.key}" acceptcharset="UTF-8" >
+		<rich:dataTable value="#{selectEntriesEditor.selectEntries}"
+			rows="#{selectEntriesEditor.rows}" var="SelectEntry" id="SelectEntryList">
+			<f:facet name="header">
+				<rich:columnGroup>
+					<rich:column rowspan="2">#{bundle['selectEditor.pdata']}</rich:column>
+					<rich:column rowspan="2">#{bundle['selectEditor.active']}</rich:column>
+					<rich:column>#{bundle['selectEditor.nameFr']}</rich:column>
+					<rich:column rowspan="2">Delete</rich:column>
+					<rich:column breakBefore="true">#{bundle['selectEditor.nameNl']}</rich:column>
+				</rich:columnGroup>
+			</f:facet>
+			<rich:column rowspan="2">
+				<h:inputText value="#{SelectEntry.pdata}" size="8" />
+			</rich:column>
+			<rich:column rowspan="2">
+				<h:selectBooleanCheckbox value="#{SelectEntry.active}"  readonly="true"/>
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{SelectEntry.nameFr}" size="80" />
+			</rich:column>
+			<rich:column rowspan="2">
+				<rich:spacer />
+			</rich:column>
+			<rich:column breakBefore="true">
+				<h:inputText value="#{SelectEntry.nameNl}" size="80" />
+			</rich:column>
+		</rich:dataTable>
+
+		<div style="font-size:smaller;text-align:center"><t:dataScroller
+			id="scroll_1" style="margin-left:auto;margin-right:auto"
+			for="SelectEntryList" fastStep="10" pageCountVar="pageCount"
+			pageIndexVar="pageIndex" styleClass="scroller" paginator="true"
+			paginatorMaxPages="18" paginatorTableClass="paginator"
+			paginatorActiveColumnStyle="font-weight:bold;" immediate="true">
+			<f:facet name="first">
+				<t:graphicImage url="/images/arrows/arrow-first.gif" border="1" />
+			</f:facet>
+			<f:facet name="last">
+				<t:graphicImage url="/images/arrows/arrow-last.gif" border="1" />
+			</f:facet>
+			<f:facet name="previous">
+				<t:graphicImage url="/images/arrows/arrow-previous.gif" border="1" />
+			</f:facet>
+			<f:facet name="next">
+				<t:graphicImage url="/images/arrows/arrow-next.gif" border="1" />
+			</f:facet>
+			<f:facet name="fastforward">
+				<t:graphicImage url="/images/arrows/arrow-ff.gif" border="1" />
+			</f:facet>
+			<f:facet name="fastrewind">
+				<t:graphicImage url="/images/arrows/arrow-fr.gif" border="1" />
+			</f:facet>
+			<h:outputFormat value="#{bundle['selectEditor.pageNumber']}">
+				<f:param value=" #{pageIndex}" />
+				<f:param value=" #{pageCount}" />
+			</h:outputFormat>
+		</t:dataScroller></div>
+		<h:commandButton action="#{selectEntriesEditor.saveSelectEntries}" value="#{bundle['selectEditor.save.button']}"/>
+	</h:form>
+</f:view>
+</body>
+</html>

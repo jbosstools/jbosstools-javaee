@@ -1,0 +1,135 @@
+<!ELEMENT data (service_code, refdate, record*)>
+<!ELEMENT service_code (#PCDATA)>
+<!ELEMENT refdate (#PCDATA)>
+	<!ELEMENT record ( abo_delijn?,
+ abo_sncb_nmbs?,
+ abo_stib_mivb?,
+ abo_tec?,
+ abs_reason_code?,
+ activity_perc?,
+ addr_box?,
+ addr_box2?,
+ addr_number?,
+ addr_number2?,
+ addr_street?,
+ addr_street2?,
+ admin_pos_code?,
+ alloc_comp?,
+ anci_pec?,
+ birthdate?,
+ contractcat_code?,
+ contractdurday?,
+ contractduryear?,
+ contract_id?,
+ cont_dur_code?,
+ cont_reason_code?,
+ country_code?,
+ country_code2?,
+ date_start_serve?,
+ disabled?,
+ disease_remain?,
+ disease_total?,
+ email?,
+ expertechel_code?,
+ family_code?,
+ fax?,
+ financesrc_code?,
+ firstname?,
+ floor?,
+ frame_code?,
+ function_code?,
+ grade_code?,
+ gsm?,
+ handicap_code?,
+ identification?,
+ integration_grant?,
+ language?,
+ lastname?,
+ local_service_code?,
+ manager_grant?,
+ nationality_code?,
+ nrnumber?,
+ nrn_etab?,
+ office?,
+ phone?,
+ postal_code?,
+ postal_code2?,
+ prepension?,
+ prime_ling_code?,
+ project_grant?,
+ refund_agdet_code?,
+ salary_scale_code?,
+ selection_code?,
+ sex?,
+ status_code?,
+ status_repl?,
+ superior_grant?,
+ taskperm_code?,
+ workplace_postal_code?
+)>
+<!ELEMENT abo_delijn (#PCDATA)>
+	<!ELEMENT abo_sncb_nmbs (#PCDATA)>
+	<!ELEMENT abo_stib_mivb (#PCDATA)>
+	<!ELEMENT abo_tec (#PCDATA)>
+	<!ELEMENT abs_reason_code (#PCDATA)>
+	<!ELEMENT activity_perc (#PCDATA)>
+	<!ELEMENT addr_box (#PCDATA)>
+	<!ELEMENT addr_box2 (#PCDATA)>
+	<!ELEMENT addr_number (#PCDATA)>
+	<!ELEMENT addr_number2 (#PCDATA)>
+	<!ELEMENT addr_street (#PCDATA)>
+	<!ELEMENT addr_street2 (#PCDATA)>
+	<!ELEMENT admin_pos_code (#PCDATA)>
+	<!ELEMENT alloc_comp (#PCDATA)>
+	<!ELEMENT anci_pec (#PCDATA)>
+	<!ELEMENT birthdate (#PCDATA)>
+	<!ELEMENT contractcat_code (#PCDATA)>
+	<!ELEMENT contractdurday (#PCDATA)>
+	<!ELEMENT contractduryear (#PCDATA)>
+	<!ELEMENT contract_id (#PCDATA)>
+	<!ELEMENT cont_dur_code (#PCDATA)>
+	<!ELEMENT cont_reason_code (#PCDATA)>
+	<!ELEMENT country_code (#PCDATA)>
+	<!ELEMENT country_code2 (#PCDATA)>
+	<!ELEMENT date_start_serve (#PCDATA)>
+	<!ELEMENT disabled (#PCDATA)>
+	<!ELEMENT disease_remain (#PCDATA)>
+	<!ELEMENT disease_total (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT expertechel_code (#PCDATA)>
+	<!ELEMENT family_code (#PCDATA)>
+	<!ELEMENT fax (#PCDATA)>
+	<!ELEMENT financesrc_code (#PCDATA)>
+	<!ELEMENT firstname (#PCDATA)>
+	<!ELEMENT floor (#PCDATA)>
+	<!ELEMENT frame_code (#PCDATA)>
+	<!ELEMENT function_code (#PCDATA)>
+	<!ELEMENT grade_code (#PCDATA)>
+	<!ELEMENT gsm (#PCDATA)>
+	<!ELEMENT handicap_code (#PCDATA)>
+	<!ELEMENT identification (#PCDATA)>
+	<!ELEMENT integration_grant (#PCDATA)>
+	<!ELEMENT language (#PCDATA)>
+	<!ELEMENT lastname (#PCDATA)>
+	<!ELEMENT local_service_code (#PCDATA)>
+	<!ELEMENT manager_grant (#PCDATA)>
+	<!ELEMENT nationality_code (#PCDATA)>
+	<!ELEMENT nrnumber (#PCDATA)>
+	<!ELEMENT nrn_etab (#PCDATA)>
+	<!ELEMENT office (#PCDATA)>
+	<!ELEMENT phone (#PCDATA)>
+	<!ELEMENT postal_code (#PCDATA)>
+	<!ELEMENT postal_code2 (#PCDATA)>
+	<!ELEMENT prepension (#PCDATA)>
+	<!ELEMENT prime_ling_code (#PCDATA)>
+	<!ELEMENT project_grant (#PCDATA)>
+	<!ELEMENT refund_agdet_code (#PCDATA)>
+	<!ELEMENT salary_scale_code (#PCDATA)>
+	<!ELEMENT selection_code (#PCDATA)>
+	<!ELEMENT sex (#PCDATA)>
+	<!ELEMENT status_code (#PCDATA)>
+	<!ELEMENT status_repl (#PCDATA)>
+	<!ELEMENT superior_grant (#PCDATA)>
+	<!ELEMENT taskperm_code (#PCDATA)>
+	<!ELEMENT workplace_postal_code (#PCDATA)>
+	

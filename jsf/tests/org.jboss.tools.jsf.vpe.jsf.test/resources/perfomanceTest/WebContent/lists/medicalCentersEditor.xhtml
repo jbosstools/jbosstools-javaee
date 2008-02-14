@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<head>
+<title>Editor</title>
+</head>
+<body style="font-size:smaller;">
+<f:view locale="#{strutsSession.locale}">
+	<f:loadBundle basename="resources.hr" var="bundle" />
+	<h:form id="addMedicalCenter" acceptcharset="UTF-8" >
+		<table style="text-align:left;margin-left:10pt;margin-right:auto">
+			<tr>
+				<td colspan="2">#{bundle['medicalCentersEditor.add.title']}</td>
+			</tr>
+			<tr>
+				<td>#{bundle['medicalCentersEditor.name']}</td>
+				<td><h:inputText 
+					style="font-size:smaller" 
+					value="#{medicalCentersEditor.newMedicalCenter.name}"
+					required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['medicalCentersEditor.address']}</td>
+				<td>
+					<ui:include src="../elements/address.xhtml">
+						<ui:param name="address" value="#{medicalCentersEditor.newMedicalCenter.address}" />
+					</ui:include>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><h:commandButton
+					action="#{medicalCentersEditor.addMedicalCenter}" value="#{bundle['medicalCentersEditor.add.button']}" /></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:messages showDetail="true" showSummary="false"/>
+	<h:form id="updateCenters" acceptcharset="UTF-8" >
+		<rich:dataTable value="#{medicalCentersEditor.medicalCenters}"
+			var="medicalCenter" id="centerList">
+			<f:facet name="header">
+				<rich:columnGroup>
+					<rich:column>#{bundle['medicalCentersEditor.name']}</rich:column>
+					<rich:column>#{bundle['medicalCentersEditor.address']}</rich:column>
+				</rich:columnGroup>
+			</f:facet>
+			<rich:column>
+				<h:inputText value="#{medicalCenter.name}" required="true"/>
+			</rich:column>
+			<rich:column>
+				<h:panelGroup>
+					<ui:include src="../elements/address.xhtml">
+						<ui:param name="address" value="#{medicalCenter.address}" />
+					</ui:include>
+				</h:panelGroup>
+			</rich:column>
+		</rich:dataTable>
+		<h:commandButton action="#{medicalCentersEditor.saveMedicalCenters}" value="#{bundle['medicalCentersEditor.save.button']}"/>
+	</h:form>
+</f:view>
+</body>
+</html>
