@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
@@ -216,10 +215,9 @@ public class SeamExpressionResolver {
 		return member;
 	}
 
-	public static TypeInfoCollector collectTypeInfo(IType type) {
-		TypeInfoCollector typeInfo = new TypeInfoCollector(type);
+	public static TypeInfoCollector collectTypeInfo(TypeInfoCollector.MemberInfo member) {
+		TypeInfoCollector typeInfo = new TypeInfoCollector(member);
 		typeInfo.collectInfo();
 		return typeInfo;
 	}
-
 }

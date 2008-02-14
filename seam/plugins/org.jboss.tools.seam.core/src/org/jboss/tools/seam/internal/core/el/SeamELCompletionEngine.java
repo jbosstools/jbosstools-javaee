@@ -108,22 +108,22 @@ public final class SeamELCompletionEngine {
 		Map<String, TypeInfoCollector.MethodInfo> unpairedGettersOrSetters;
 		Set<String> proposals;
 		private ELOperandToken lastResolvedToken;
-		private boolean isMapOrBundleAmoungTheTokens = false;
+		private boolean isMapOrCollectionOrBundleAmoungTheTokens = false;
 
 		public SeamELOperandResolveStatus(List<ELOperandToken> tokens) {
 			this.tokens = tokens;
 		}
 
-		public boolean isMapOrBundleAmoungTheTokens() {
-			return this.isMapOrBundleAmoungTheTokens;
+		public boolean isMapOrCollectionOrBundleAmoungTheTokens() {
+			return this.isMapOrCollectionOrBundleAmoungTheTokens;
 		}
 
-		public void setMapOrBundleAmoungTheTokens() {
-			this.isMapOrBundleAmoungTheTokens = true;
+		public void setMapOrCollectionOrBundleAmoungTheTokens() {
+			this.isMapOrCollectionOrBundleAmoungTheTokens = true;
 		}
 
 		public boolean isOK() {
-			return !getProposals().isEmpty() || isMapOrBundleAmoungTheTokens(); 
+			return !getProposals().isEmpty() || isMapOrCollectionOrBundleAmoungTheTokens(); 
 		}
 
 		public boolean isError() {
@@ -365,9 +365,9 @@ public final class SeamELCompletionEngine {
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						if (TypeInfoCollector.isMap(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
-							status.setMapOrBundleAmoungTheTokens();
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
+						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
 						for (TypeInfoCollector.MemberInfo property : properties) {
@@ -394,9 +394,9 @@ public final class SeamELCompletionEngine {
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						if (TypeInfoCollector.isMap(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
-							status.setMapOrBundleAmoungTheTokens();
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
+						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
 						for (TypeInfoCollector.MemberInfo method : methods) {
@@ -415,9 +415,9 @@ public final class SeamELCompletionEngine {
 					// return all the methods + properties
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						if (TypeInfoCollector.isMap(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
-							status.setMapOrBundleAmoungTheTokens();
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
+						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						proposals.addAll(infos.getMethodPresentations());
 						proposals.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
@@ -429,9 +429,9 @@ public final class SeamELCompletionEngine {
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
-						if (TypeInfoCollector.isMap(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
-							status.setMapOrBundleAmoungTheTokens();
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
+						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						proposalsToFilter.addAll(infos.getMethodPresentations());
 						proposalsToFilter.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
@@ -748,7 +748,7 @@ public final class SeamELCompletionEngine {
 					String name = token.getText();
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
 					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
 						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
 						for (TypeInfoCollector.MemberInfo property : properties) {
 							StringBuffer propertyName = new StringBuffer(property.getName());
@@ -771,7 +771,7 @@ public final class SeamELCompletionEngine {
 					}
 					List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
 					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
 						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
 						for (TypeInfoCollector.MemberInfo method : methods) {
 							if (method instanceof TypeInfoCollector.MethodInfo 
@@ -790,7 +790,7 @@ public final class SeamELCompletionEngine {
 					// return filtered methods + properties 
 					Set<TypeInfoCollector.MemberInfo> javaElementInfosToFilter = new HashSet<TypeInfoCollector.MemberInfo>(); 
 					for (TypeInfoCollector.MemberInfo mbr : members) {
-						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr.getMemberType());
+						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
 						javaElementInfosToFilter.addAll(infos.getMethods());
 						javaElementInfosToFilter.addAll(infos.getProperties());
 					}
