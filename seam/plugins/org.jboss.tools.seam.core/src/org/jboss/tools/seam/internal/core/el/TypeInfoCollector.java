@@ -9,7 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.ICompletionRequestor;
+import org.eclipse.jdt.core.CompletionProposal;
+import org.eclipse.jdt.core.CompletionRequestor;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
@@ -17,7 +18,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.compiler.IProblem;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -220,7 +221,8 @@ public class TypeInfoCollector {
 		
 		public IType getReturnType() {
 			try {
-				return getSourceType().getJavaProject().findType(getReturnTypeQualifiedName());
+				IType result = getSourceType().getJavaProject().findType(getReturnTypeQualifiedName());
+				return result;
 			} catch (JavaModelException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 				return null;
@@ -305,128 +307,57 @@ public class TypeInfoCollector {
 			}
 		}
 	}
-	
-	ICompletionRequestor fRequestor = new ICompletionRequestor() {
-		
-		public void acceptAnonymousType(
-				char[] superTypePackageName,
-				char[] superTypeName,
-				char[][] parameterPackageNames,
-				char[][] parameterTypeNames,
-				char[][] parameterNames, char[] completionName,
-				int modifiers, int completionStart,
-				int completionEnd, int relevance) {
-			
-		}
 
-		public void acceptClass(char[] packageName,
-				char[] className, char[] completionName,
-				int modifiers, int completionStart,
-				int completionEnd, int relevance) {
-			
-		}
+	CompletionRequestor fRequestor = new CompletionRequestor() {
 
-		public void acceptError(IProblem error) {
-			
-		}
+		@Override
+		public void accept(CompletionProposal proposal) {
+			switch(proposal.getKind()) {
+				case CompletionProposal.FIELD_REF:
+					{
+						char[] declarationSignature = proposal.getDeclarationSignature();
+						char[] signature = proposal.getSignature();
+						String type = String.valueOf(Signature.toCharArray(signature));
+						String declarationType = String.valueOf(Signature.toCharArray(declarationSignature));
+						FieldInfo info = new FieldInfo(TypeInfoCollector.this.fType,
+							declarationType,
+							String.valueOf(proposal.getName()), proposal.getFlags(), 
+							type);
+						fFields.add(info);
+					}
+					break;
+				case CompletionProposal.METHOD_REF:
+					{
+						char[][] parameterNames = proposal.findParameterNames(null);
+						char[] declarationSignature = proposal.getDeclarationSignature();
+						char[] signature = proposal.getSignature();
+						char[][] parametesSignatures = Signature.getParameterTypes(signature);
+						String returnType = String.valueOf(Signature.toCharArray(Signature.getReturnType(signature)));
+						String declarationType = String.valueOf(Signature.toCharArray(declarationSignature));
 
-		public void acceptField(
-				char[] declaringTypePackageName,
-				char[] declaringTypeName, char[] name,
-				char[] typePackageName, char[] typeName,
-				char[] completionName, int modifiers,
-				int completionStart, int completionEnd,
-				int relevance) {
-
-			FieldInfo info = new FieldInfo(TypeInfoCollector.this.fType,
-					getQualifiedClassNameFromChars(declaringTypePackageName, declaringTypeName), 
-					String.valueOf(name), modifiers, 
-					getQualifiedClassNameFromChars(typePackageName, typeName));
-			fFields.add(info);
+						MethodInfo info = new MethodInfo(TypeInfoCollector.this.fType,
+							declarationType,
+							String.valueOf(proposal.getName()), proposal.getFlags(), 
+							getQualifiedClassNameFromCharArray(parametesSignatures),
+							convertToStringArray(parameterNames),
+							returnType);
+						fMethods.add(info);
+					}
+					break;
+				case CompletionProposal.KEYWORD:
+				case CompletionProposal.PACKAGE_REF:
+				case CompletionProposal.TYPE_REF:
+				case CompletionProposal.METHOD_DECLARATION:
+				case CompletionProposal.ANONYMOUS_CLASS_DECLARATION:
+				case CompletionProposal.LABEL_REF :
+				case CompletionProposal.LOCAL_VARIABLE_REF:
+				case CompletionProposal.VARIABLE_DECLARATION:
+				case CompletionProposal.POTENTIAL_METHOD_DECLARATION:
+					break;
+			}
 		}
-
-		public void acceptInterface(char[] packageName,
-				char[] interfaceName, char[] completionName,
-				int modifiers, int completionStart,
-				int completionEnd, int relevance) {
-		}
-
-		public void acceptKeyword(char[] keywordName,
-				int completionStart, int completionEnd,
-				int relevance) {
-			
-		}
-
-		public void acceptLabel(char[] labelName,
-				int completionStart, int completionEnd,
-				int relevance) {
-		}
-
-		public void acceptLocalVariable(char[] name,
-				char[] typePackageName, char[] typeName,
-				int modifiers, int completionStart,
-				int completionEnd, int relevance) {
-		}
-
-		public void acceptMethod(
-				char[] declaringTypePackageName,
-				char[] declaringTypeName, char[] selector,
-				char[][] parameterPackageNames,
-				char[][] parameterTypeNames,
-				char[][] parameterNames,
-				char[] returnTypePackageName,
-				char[] returnTypeName, char[] completionName,
-				int modifiers, int completionStart,
-				int completionEnd, int relevance) {
-			
-			MethodInfo info = new MethodInfo(TypeInfoCollector.this.fType,
-					getQualifiedClassNameFromChars(declaringTypePackageName, declaringTypeName),
-					String.valueOf(selector), modifiers, 
-					getQualifiedClassNameFromCharArray(parameterPackageNames, parameterTypeNames),
-					convertToStringArray(parameterNames),
-					getQualifiedClassNameFromChars(returnTypePackageName, returnTypeName));
-			fMethods.add(info);
-		}
-
-		public void acceptMethodDeclaration(
-				char[] declaringTypePackageName,
-				char[] declaringTypeName, char[] selector,
-				char[][] parameterPackageNames,
-				char[][] parameterTypeNames,
-				char[][] parameterNames,
-				char[] returnTypePackageName,
-				char[] returnTypeName, char[] completionName,
-				int modifiers, int completionStart,
-				int completionEnd, int relevance) {
-		}
-
-		public void acceptModifier(char[] modifierName,
-				int completionStart, int completionEnd,
-				int relevance) {
-			
-		}
-
-		public void acceptPackage(char[] packageName,
-				char[] completionName, int completionStart,
-				int completionEnd, int relevance) {
-			
-		}
-
-		public void acceptType(char[] packageName,
-				char[] typeName, char[] completionName,
-				int completionStart, int completionEnd,
-				int relevance) {
-			
-		}
-
-		public void acceptVariableName(char[] typePackageName,
-				char[] typeName, char[] name,
-				char[] completionName, int completionStart,
-				int completionEnd, int relevance) {
-		}
-		
 	};
-	
+
 	public TypeInfoCollector(IType type) {
 		this.fType = type;
 	}
@@ -775,7 +706,17 @@ public class TypeInfoCollector {
 		}
 		return sNames;	
 	}
-	
+
+	static String[] getClassNameFromCharArray (char[][] packageNames, char[][] classNames) {
+		if (packageNames == null || packageNames.length == 0) 
+			return new String[0];
+		String[] qualifiedNames = new String[packageNames.length];
+		for (int i = 0; i < qualifiedNames.length; i++) {
+			qualifiedNames[i] = getQualifiedClassNameFromChars(packageNames[i], classNames[i]);
+		}
+		return qualifiedNames;
+	}
+
 	static String[] getQualifiedClassNameFromCharArray (char[][] packageNames, char[][] classNames) {
 		if (packageNames == null || packageNames.length == 0) 
 			return new String[0];
@@ -784,6 +725,16 @@ public class TypeInfoCollector {
 			qualifiedNames[i] = getQualifiedClassNameFromChars(packageNames[i], classNames[i]);
 		}
 		return qualifiedNames;
+	}
+
+	static String[] getQualifiedClassNameFromCharArray(char[][] signatureTypes) {
+		if (signatureTypes == null || signatureTypes.length == 0) 
+			return new String[0];
+		String[] qualifiedTypes = new String[signatureTypes.length];
+		for (int i = 0; i < signatureTypes.length; i++) {
+			qualifiedTypes[i] = String.valueOf(Signature.toCharArray(signatureTypes[i]));
+		}
+		return qualifiedTypes;
 	}
 
 	public static String getQualifiedClassNameFromChars (char[] packageName, char[] className) {
@@ -801,5 +752,4 @@ public class TypeInfoCollector {
 		qualifiedName.append(className);
 		return qualifiedName.toString();
 	}
-
 }
