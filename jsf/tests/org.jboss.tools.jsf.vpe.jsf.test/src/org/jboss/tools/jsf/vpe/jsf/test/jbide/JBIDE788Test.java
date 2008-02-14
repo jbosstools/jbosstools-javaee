@@ -33,9 +33,50 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 public class JBIDE788Test extends VpeTest{
 	
 	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	
+	private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT";
 	 
 	public JBIDE788Test(String name) {
 		super(name);
+	}
+	/**
+	 * Tests CA for Messages Bundles and EL Values
+	 * @throws Throwable
+	 */
+	public void testCAforMessageBundlesAndELExpressions() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml", 1245, 2);
+		
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}
+	}
+	
+	/**
+	 * Tests CA for proposals for JSFC
+	 * @throws Throwable
+	 */
+	public void testCAforForJSFCProposals() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml", 1200, 101);
+		
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}
+		
 	}
 	/**
 	 * Tests CA on html files
@@ -47,7 +88,7 @@ public class JBIDE788Test extends VpeTest{
 		// set exception
 		setException(null);
 		//Tests CA
-		baseCheckofCA("org.eclipse.wst.html.HTML_DEFAULT", "JBIDE/788/testCAforHtml.html", 32, 79);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAforHtml.html", 39, 79);
 
 		// check exception
 		if (getException() != null) {
@@ -65,7 +106,7 @@ public class JBIDE788Test extends VpeTest{
 		// set exception
 		setException(null);
 		//Tests CA
-		baseCheckofCA("org.eclipse.wst.html.HTML_DEFAULT", "JBIDE/788/testCAforJSP.jsp", 1000, 110);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAforJSP.jsp", 1000, 110);
 		// check exception
 		if (getException() != null) {
 		
@@ -82,7 +123,7 @@ public class JBIDE788Test extends VpeTest{
 		// set exception
 		setException(null);
 		//Tests CA
-		baseCheckofCA("org.eclipse.wst.html.HTML_DEFAULT", "JBIDE/788/testCAforXHTML.xhtml", 745, 96);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", 745, 96);
 		// check exception
 		if (getException() != null) {
 		
@@ -111,6 +152,9 @@ public class JBIDE788Test extends VpeTest{
 		
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
+		
+		//sets cursor position
+		part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(position);
 		TestUtil.waitForJobs();
 		TestUtil.delay(2000);
 		SourceViewerConfiguration  sourceViewerConfiguration = ((JSPTextEditor)part.getSourceEditor()).getSourceViewerConfigurationForTest();
