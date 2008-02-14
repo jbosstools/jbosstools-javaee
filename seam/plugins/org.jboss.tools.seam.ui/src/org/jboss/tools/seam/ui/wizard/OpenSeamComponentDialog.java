@@ -11,12 +11,16 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Comparator;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.DialogSettings;
@@ -34,6 +38,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamComponent;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
 import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
@@ -43,17 +48,19 @@ import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
  * 
  */
 public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
-	private static SeamComponentSelectionHistory history = null;
+	private static final String fileName="OpenSeamComponentHistory.xml";
 	
 	public OpenSeamComponentDialog(Shell shell) {
 		super(shell);
 		
-		if(history == null)
-			history = new SeamComponentSelectionHistory();
+		setSelectionHistory(new SeamComponentSelectionHistory());
 		
-		setSelectionHistory(history);
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
+		
+		XMLMemento memento = load();
+		if(memento != null)
+			getSelectionHistory().load(memento);
 	}
 	
 	protected Control createExtendedContentArea(Composite parent) {
@@ -63,7 +70,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	protected ItemsFilter createFilter() {
 		return new SeamComponentFilter();
 	}
-
+	
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
@@ -89,6 +96,24 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			progressMonitor.worked(1);
 		}
 		progressMonitor.done();
+	}
+	
+	public XMLMemento load() {
+		XMLMemento memento=null;
+		IPath stateLocation= SeamGuiPlugin.getDefault().getStateLocation().append(fileName);
+		File file= new File(stateLocation.toOSString());
+		if(file.exists()){
+			FileReader reader= null;
+			try {
+				reader = new FileReader(file);
+				
+				memento = XMLMemento.createReadRoot(reader);
+				reader.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return memento;
 	}
 
 	protected IDialogSettings getDialogSettings() {
@@ -174,6 +199,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	}
 	
 	public class SeamComponentSelectionHistory extends SelectionHistory{
+		 
 		public SeamComponentSelectionHistory(){
 			super();
 		}
@@ -185,10 +211,14 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			String componentName = mem.getString("ComponentName");
 			if(componentName == null) return null;
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-			ISeamComponent component = seamProject.getComponent(componentName);
-			
-			return component;
+			if(project != null){
+				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+				if(seamProject != null){
+					ISeamComponent component = seamProject.getComponent(componentName);
+					return component;
+				}
+			}
+			return null;
 		}
 
 		@Override
@@ -198,6 +228,24 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			mem.putString("ProjectName", component.getSeamProject().getProject().getName());
 			mem.putString("ComponentName", component.getName());
 		}
+		
+		public void save(IMemento memento) {
+			super.save(memento);
+			if(!(memento instanceof XMLMemento)) return;
+			XMLMemento xmlMemento = (XMLMemento)memento;
+			IPath stateLocation= SeamGuiPlugin.getDefault().getStateLocation().append(fileName);
+			File file= new File(stateLocation.toOSString());
+			FileWriter writer= null;
+			try {
+				writer = new FileWriter(file);
+				
+				xmlMemento.save(writer);
+				writer.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 		
 	}
 	
