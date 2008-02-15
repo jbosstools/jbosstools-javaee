@@ -37,7 +37,6 @@ import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
@@ -48,21 +47,23 @@ import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
  * 
  */
 public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
-	private static final String fileName="OpenSeamComponentHistory.xml";
-	
+	private static final String FILE_NAME = "OpenSeamComponentHistory.xml"; //$NON-NLS-1$
+	private static final String PROJECT_NAME = "ProjectName"; //$NON-NLS-1$
+	private static final String COMPONENT_NAME = "ComponentName"; //$NON-NLS-1$
+
 	public OpenSeamComponentDialog(Shell shell) {
 		super(shell);
-		
+
 		setSelectionHistory(new SeamComponentSelectionHistory());
-		
+
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
-		
+
 		XMLMemento memento = load();
-		if(memento != null)
+		if (memento != null)
 			getSelectionHistory().load(memento);
 	}
-	
+
 	protected Control createExtendedContentArea(Composite parent) {
 		return null;
 	}
@@ -70,43 +71,52 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	protected ItemsFilter createFilter() {
 		return new SeamComponentFilter();
 	}
-	
+
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		
-		progressMonitor.beginTask(SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_LOADING, projects.length);
-		
-		for(int i = 0; i < projects.length; i++){
+
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
+				.getProjects();
+
+		progressMonitor.beginTask(
+				SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_LOADING,
+				projects.length);
+
+		for (int i = 0; i < projects.length; i++) {
 			IProject project = projects[i];
 			progressMonitor.subTask(project.getName());
-			
-			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-			if(seamProject != null){
-				Iterator<ISeamComponent> iter = seamProject.getComponents().iterator();
-				while(iter.hasNext()){
+
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project,
+					true);
+			if (seamProject != null) {
+				Iterator<ISeamComponent> iter = seamProject.getComponents()
+						.iterator();
+				while (iter.hasNext()) {
 					ISeamComponent component = iter.next();
 
-					if(SeamReferencedFilter.isComponentDeclaredInThisProject(component))
-						contentProvider.add(component, itemsFilter);
+					if (SeamReferencedFilter
+							.isComponentDeclaredInThisProject(component))
+						contentProvider.add(new SeamComponentWrapper(component
+								.getName(), project.getName(), component),
+								itemsFilter);
 				}
 			}
 			progressMonitor.worked(1);
 		}
 		progressMonitor.done();
 	}
-	
-	public XMLMemento load() {
-		XMLMemento memento=null;
-		IPath stateLocation= SeamGuiPlugin.getDefault().getStateLocation().append(fileName);
-		File file= new File(stateLocation.toOSString());
-		if(file.exists()){
-			FileReader reader= null;
+
+	private XMLMemento load() {
+		XMLMemento memento = null;
+		IPath stateLocation = SeamGuiPlugin.getDefault().getStateLocation()
+				.append(FILE_NAME);
+		File file = new File(stateLocation.toOSString());
+		if (file.exists()) {
+			FileReader reader = null;
 			try {
 				reader = new FileReader(file);
-				
+
 				memento = XMLMemento.createReadRoot(reader);
 				reader.close();
 			} catch (Exception ex) {
@@ -117,47 +127,50 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	}
 
 	protected IDialogSettings getDialogSettings() {
-		return new DialogSettings(SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_NAME);
+		return new DialogSettings(
+				SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_NAME);
 	}
 
 	public String getElementName(Object item) {
-		if(item instanceof ISeamComponent){
-			ISeamComponent component = (ISeamComponent)item;
-			return component.getName();
+		if (item instanceof SeamComponentWrapper) {
+			SeamComponentWrapper componentWrapper = (SeamComponentWrapper) item;
+			return componentWrapper.getComponentName();
 		}
 		return null;
 	}
 
-	protected Comparator<SeamComponent> getItemsComparator() {
+	protected Comparator<SeamComponentWrapper> getItemsComparator() {
 		return new SeamComponentComparator();
 	}
 
 	protected IStatus validateItem(Object item) {
 		return new SeamComponentStatus();
 	}
-	
-	public class SeamComponentComparator implements Comparator<SeamComponent>{
-		public int compare(SeamComponent left, SeamComponent right) {
-			return left.getName().compareTo(right.getName());
+
+	public class SeamComponentComparator implements
+			Comparator<SeamComponentWrapper> {
+		public int compare(SeamComponentWrapper left, SeamComponentWrapper right) {
+			return left.getComponentName().compareTo(right.getComponentName());
 		}
-		
+
 	}
-	
-	public class SeamComponentFilter extends ItemsFilter{
+
+	public class SeamComponentFilter extends ItemsFilter {
 		public boolean isConsistentItem(Object item) {
 			return true;
 		}
 
 		public boolean matchItem(Object item) {
-			if(item instanceof ISeamComponent){
-				ISeamComponent component = (ISeamComponent)item;
-				return patternMatcher.matches(component.getName());
+			if (item instanceof SeamComponentWrapper) {
+				SeamComponentWrapper componentWrapper = (SeamComponentWrapper) item;
+				return patternMatcher.matches(componentWrapper
+						.getComponentName());
 			}
 			return false;
 		}
 	}
-	
-	public class SeamComponentStatus implements IStatus{
+
+	public class SeamComponentStatus implements IStatus {
 		public IStatus[] getChildren() {
 			return null;
 		}
@@ -187,78 +200,74 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		}
 
 		public boolean isOK() {
-			if(getSelectedItems().size() < 0) return false;
-			
+			if (getSelectedItems().size() < 0)
+				return false;
+
 			return true;
 		}
 
 		public boolean matches(int severityMask) {
 			return false;
 		}
-		
+
 	}
-	
-	public class SeamComponentSelectionHistory extends SelectionHistory{
-		 
-		public SeamComponentSelectionHistory(){
+
+	public class SeamComponentSelectionHistory extends SelectionHistory {
+
+		public SeamComponentSelectionHistory() {
 			super();
 		}
-		
+
 		protected Object restoreItemFromMemento(IMemento memento) {
-			XMLMemento mem = (XMLMemento)memento;
-			String projectName = mem.getString("ProjectName");
-			if(projectName == null) return null;
-			String componentName = mem.getString("ComponentName");
-			if(componentName == null) return null;
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			if(project != null){
-				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-				if(seamProject != null){
-					ISeamComponent component = seamProject.getComponent(componentName);
-					return component;
-				}
-			}
-			return null;
+			XMLMemento mem = (XMLMemento) memento;
+			String projectName = mem.getString(PROJECT_NAME);
+			if (projectName == null)
+				return null;
+			String componentName = mem.getString(COMPONENT_NAME);
+			if (componentName == null)
+				return null;
+			return new SeamComponentWrapper(componentName, projectName);
 		}
 
 		@Override
 		protected void storeItemToMemento(Object item, IMemento memento) {
-			SeamComponent component = (SeamComponent)item;
-			XMLMemento mem = (XMLMemento)memento;
-			mem.putString("ProjectName", component.getSeamProject().getProject().getName());
-			mem.putString("ComponentName", component.getName());
+			SeamComponentWrapper componentWrapper = (SeamComponentWrapper) item;
+			XMLMemento mem = (XMLMemento) memento;
+			mem.putString(PROJECT_NAME, componentWrapper.getProjectName());
+			mem.putString(COMPONENT_NAME, componentWrapper.getComponentName());
 		}
-		
+
 		public void save(IMemento memento) {
 			super.save(memento);
-			if(!(memento instanceof XMLMemento)) return;
-			XMLMemento xmlMemento = (XMLMemento)memento;
-			IPath stateLocation= SeamGuiPlugin.getDefault().getStateLocation().append(fileName);
-			File file= new File(stateLocation.toOSString());
-			FileWriter writer= null;
+			if (!(memento instanceof XMLMemento))
+				return;
+			XMLMemento xmlMemento = (XMLMemento) memento;
+			IPath stateLocation = SeamGuiPlugin.getDefault().getStateLocation()
+					.append(FILE_NAME);
+			File file = new File(stateLocation.toOSString());
+			FileWriter writer = null;
 			try {
 				writer = new FileWriter(file);
-				
+
 				xmlMemento.save(writer);
 				writer.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
-		
-		
 	}
-	
-	public class SeamComponentLabelProvider implements ILabelProvider{
+
+	public class SeamComponentLabelProvider implements ILabelProvider {
 
 		public Image getImage(Object element) {
 			return SeamUiImages.COMPONENT_IMAGE;
 		}
 
 		public String getText(Object element) {
-			if(element instanceof ISeamComponent){
-				ISeamComponent component = (ISeamComponent)element;
-				return component.getName()+" - "+component.getSeamProject().getProject().getName(); //$NON-NLS-1$
+			if (element instanceof SeamComponentWrapper) {
+				SeamComponentWrapper componentWrapper = (SeamComponentWrapper) element;
+				return componentWrapper.getComponentName()
+						+ " - " + componentWrapper.getProjectName(); //$NON-NLS-1$
 			}
 			return null;
 		}
@@ -275,6 +284,61 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 
 		public void removeListener(ILabelProviderListener listener) {
 		}
-		
+	}
+
+	public class SeamComponentWrapper {
+		private String componentName;
+		private String projectName;
+		private ISeamComponent component;
+
+		public SeamComponentWrapper(String componentName, String projectName) {
+			this.componentName = componentName;
+			this.projectName = projectName;
+		}
+
+		public SeamComponentWrapper(String componentName, String projectName,
+				ISeamComponent component) {
+			this(componentName, projectName);
+			this.component = component;
+		}
+
+		public String getComponentName() {
+			return componentName;
+		}
+
+		public void setComponentName(String componentName) {
+			this.componentName = componentName;
+		}
+
+		public String getProjectName() {
+			return projectName;
+		}
+
+		public void setProjectName(String projectName) {
+			this.projectName = projectName;
+		}
+
+		public ISeamComponent getComponent() {
+			if (component == null) {
+				IProject project = ResourcesPlugin.getWorkspace().getRoot()
+						.getProject(projectName);
+				if (project != null) {
+					ISeamProject seamProject = SeamCorePlugin.getSeamProject(
+							project, true);
+					if (seamProject != null) {
+						ISeamComponent component = seamProject
+								.getComponent(componentName);
+						return component;
+					}
+				}
+				return null;
+			}
+			return component;
+		}
+
+		public void setComponent(ISeamComponent component) {
+			this.component = component;
+		}
+
 	}
 }

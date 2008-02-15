@@ -25,12 +25,12 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
-import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
+import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 
 /**
  * @author Daniel Azarov
@@ -64,14 +64,14 @@ public class OpenSeamComponentAction extends Action implements IWorkbenchWindowA
 
 		Object[] components= dialog.getResult();
 		if (components != null && components.length > 0) {
-			ISeamComponent component= null;
+			SeamComponentWrapper wrapper= null;
 			for (int i= 0; i < components.length; i++) {
-				component= (ISeamComponent) components[i];
-				SeamJavaComponentDeclaration javaDeclaration = (SeamJavaComponentDeclaration)component.getJavaDeclaration();
+				wrapper= (SeamComponentWrapper) components[i];
+				SeamJavaComponentDeclaration javaDeclaration = (SeamJavaComponentDeclaration)wrapper.getComponent().getJavaDeclaration();
 				if(javaDeclaration != null){
 					javaDeclaration.open();
 				}else{
-					Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
+					Set<ISeamComponentDeclaration> declarations = wrapper.getComponent().getAllDeclarations();
 					if(declarations.iterator().hasNext()){
 						((SeamComponentDeclaration)declarations.iterator().next()).open();
 					}
