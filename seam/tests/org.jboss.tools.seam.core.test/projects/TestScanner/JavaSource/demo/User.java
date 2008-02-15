@@ -16,7 +16,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 
 /**
- * Created by Red Hat Developer Studio
+ * Created by JBoss Developer Studio
  */
 
 @Name("myUser")
