@@ -28,7 +28,7 @@ import org.osgi.framework.BundleContext;
 public class StrutsTestPlugin extends BaseUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.tools.struts.vpe.struts.test";
+	public static final String PLUGIN_ID = "org.jboss.tools.struts.vpe.struts.test"; //$NON-NLS-1$
 
 	// The shared instance
 	private static StrutsTestPlugin plugin;
@@ -77,9 +77,9 @@ public class StrutsTestPlugin extends BaseUIPlugin {
 		URL url = null;
 		try {
 			url = bundle == null ? null : FileLocator.resolve(bundle
-					.getEntry("/resources")); // $NON-NLS-1$
+					.getEntry("/resources")); //$NON-NLS-1$
 		} catch (Exception e) {
-			url = bundle.getEntry("/resources"); // $NON-NLS-1$
+			url = bundle.getEntry("/resources"); //$NON-NLS-1$
 		}
 		return (url == null) ? null : url.getPath();
 	}

@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Struts Test Plug-in
-Bundle-SymbolicName: org.jboss.tools.struts.vpe.struts.test
-Bundle-Version: 1.0.0
+Bundle-SymbolicName: org.jboss.tools.struts.vpe.struts.test;singleton:=true
+Bundle-Version: 2.1.0
 Bundle-Activator: org.jboss.tools.struts.vpe.struts.test.StrutsTestPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Bundle-ClassPath: struts-test.jar
 Export-Package: org.jboss.tools.struts.vpe.struts.test
+Bundle-Vendor: Red Hat, Inc.
