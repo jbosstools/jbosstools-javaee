@@ -256,7 +256,7 @@ public final class SeamELCompletionEngine {
 		if(var!=null) {
 			ELToken token = var.getElToken();
 			if(token!=null) {
-				return token.getText() + el.substring(var.getName().length());
+				return token.getText() + ".iterator().next()" + el.substring(var.getName().length());
 			}
 		}
 		return el;
