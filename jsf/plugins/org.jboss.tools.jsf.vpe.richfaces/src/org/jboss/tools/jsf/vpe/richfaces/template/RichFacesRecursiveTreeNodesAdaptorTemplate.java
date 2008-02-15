@@ -14,11 +14,11 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -30,7 +30,7 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
-	VpeAbstractTemplate {
+	RichFacesTreeNodeTemplate {
 
     private static final String TREE_NAME = "tree";
 
@@ -48,29 +48,37 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 
     public static final String ID_ATTR_NAME = "ID";
 
+    public static final String NODES_NAME = "nodes";
+
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "treeNodesAdaptor");
-	nsIDOMElement visualElement = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-	visualElement.setAttribute(ID_ATTR_NAME, TREE_NODES_ADAPTOR_NAME);
-	if (isHasParentAdapter(sourceNode)) {
-	    visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		    "dr-tree-h-ic-div");
-	    if (getShowLinesAttr(sourceNode)
-		    && (isAdapterBetweenNodes(sourceNode) || isHasNextParentAdaptorElement(sourceNode))) {
-		String path = RichFacesTemplatesActivator
-			.getPluginResourcePath()
-			+ ICON_DIV_LINE;
-		visualElement.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-			"background-image: url(file://" + path + "); "
-				+ ADAPTER_LINES_STYLE);
+	if (isEmptyNode(sourceNode)) {
+	    return super.create(pageContext, sourceNode, visualDocument);
+	} else {
+	    ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
+		    "treeNodesAdaptor");
+	    nsIDOMElement visualElement = visualDocument
+		    .createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	    visualElement.setAttribute(ID_ATTR_NAME, TREE_NODES_ADAPTOR_NAME);
+	    if (isHasParentAdapter(sourceNode)) {
+		visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+			"dr-tree-h-ic-div");
+		if (getShowLinesAttr(sourceNode)
+			&& (isAdapterBetweenNodes(sourceNode) || isHasNextParentAdaptorElement(sourceNode))) {
+		    String path = RichFacesTemplatesActivator
+			    .getPluginResourcePath()
+			    + ICON_DIV_LINE;
+		    visualElement.setAttribute(
+			    HtmlComponentUtil.HTML_STYLE_ATTR,
+			    "background-image: url(file://" + path + "); "
+				    + ADAPTER_LINES_STYLE);
+		}
 	    }
+	    VpeCreationData vpeCreationData = new VpeCreationData(visualElement);
+	    parseTree(pageContext, sourceNode, visualDocument, vpeCreationData,
+		    visualElement);
+	    return vpeCreationData;
 	}
-	VpeCreationData vpeCreationData = new VpeCreationData(visualElement);
-	parseTree(pageContext, sourceNode, visualDocument, vpeCreationData,
-		visualElement);
-	return vpeCreationData;
     }
 
     /**
@@ -243,4 +251,29 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	return false;
     }
 
+    /**
+     * 
+     * @param sourceElement
+     * @return
+     */
+    private boolean isEmptyNode(Node sourceNode) {
+
+	NodeList childs = sourceNode.getChildNodes();
+	for (int i = 0; i < childs.getLength(); i++) {
+	    Node el = childs.item(i);
+	    if (!(el instanceof Element)) {
+		continue;
+	    }
+	    return false;
+	}
+
+	return true;
+    }
+
+    @Override
+    public void setPseudoContent(VpePageContext pageContext,
+	    Node sourceContainer, nsIDOMNode visualContainer,
+	    nsIDOMDocument visualDocument) {
+	// Empty
+    }
 }

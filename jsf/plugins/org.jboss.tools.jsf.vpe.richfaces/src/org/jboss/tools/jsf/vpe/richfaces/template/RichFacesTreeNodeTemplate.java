@@ -23,6 +23,7 @@ import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -216,11 +217,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    Node sourceNode, VpeCreationData vpeCreationData) {
 	// creates icon node
 	String backgroundLinePath = null;
-	if (RichFacesTemplatesActivator.getDefault().isDebugging()) {
-	    System.out.println("call createBasicTree");
-	}
-	boolean showLinesValue = getShowLinesAttr((Element) sourceNode);
 
+	boolean showLinesValue = getShowLinesAttr((Element) sourceNode);
 	nsIDOMElement iconNode = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	// creates icon with status of node(collapsed or not) node
@@ -331,15 +329,29 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 	addBasicNodeTitleAttributes(nodeTitle);
 	// Create mapping to Encode body
-	VpeChildrenInfo tdInfo = new VpeChildrenInfo(nodeTitle);
+	String treeRecursiveNodesAdaptorName = sourceNode.getPrefix() + ":"
+		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
+	if (sourceNode.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
+	    Element sourceElement = (Element) sourceNode;
+	    String nodes = sourceElement
+		    .getAttribute(RichFacesRecursiveTreeNodesAdaptorTemplate.NODES_NAME);
+	    nsIDOMElement span = visualDocument
+		    .createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+	    nsIDOMText text = visualDocument
+		    .createTextNode((nodes == null) ? "" : nodes);
+	    span.appendChild(text);
+	    nodeTitle.appendChild(span);
+	} else {
+	    VpeChildrenInfo tdInfo = new VpeChildrenInfo(nodeTitle);
 
-	// Create mapping to Encode body
-	List<Node> children = ComponentUtil.getChildren((Element) sourceNode,
-		false);
-	for (Node child : children) {
-	    tdInfo.addSourceChild(child);
+	    // Create mapping to Encode body
+	    List<Node> children = ComponentUtil.getChildren(
+		    (Element) sourceNode, false);
+	    for (Node child : children) {
+		tdInfo.addSourceChild(child);
+	    }
+	    vpeCreationData.addChildrenInfo(tdInfo);
 	}
-	vpeCreationData.addChildrenInfo(tdInfo);
 	treeRow.appendChild(nodeTitle);
 
     }
