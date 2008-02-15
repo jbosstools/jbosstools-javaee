@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Struts support for JBoss Visual Page Editor Plug-in
+Bundle-SymbolicName: org.jboss.tools.struts.vpe.struts;singleton:=true
+Bundle-Version: 2.1.0
+Bundle-Activator: org.jboss.tools.struts.vpe.struts.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.jboss.tools.vpe
+Eclipse-LazyStart: true
+Bundle-Vendor: Red Hat, Inc.
