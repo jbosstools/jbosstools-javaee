@@ -16,5 +16,5 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
  org.mozilla.xpcom,
- org.jboss.tools.jsf.vpe.ui.test;visibility:=reexport
+ org.jboss.tools.vpe.ui.test;visibility:=reexport
 Eclipse-LazyStart: true
