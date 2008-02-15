@@ -16,6 +16,6 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
  org.mozilla.xpcom,
- org.jboss.tools.jsf.vpe.ui.test
+ org.jboss.tools.vpe.ui.test
 Eclipse-LazyStart: true
 Bundle-ClassPath: html-test.jar
