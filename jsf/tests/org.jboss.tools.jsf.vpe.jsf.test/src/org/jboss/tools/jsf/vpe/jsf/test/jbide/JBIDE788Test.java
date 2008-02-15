@@ -40,6 +40,27 @@ public class JBIDE788Test extends VpeTest{
 		super(name);
 	}
 	/**
+	 * Tests inner nodes include URI
+	 * @throws Throwable
+	 */
+	public void testCAforIncludeTaglibInInenerNodes() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+
+		baseCheckofCA(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml", 395, 185);
+		baseCheckofCA(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml", 503, 125);
+		baseCheckofCA(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml", 567, 199);
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}	
+	}
+	
+	/**
 	 * Tests CA for Messages Bundles and EL Values
 	 * @throws Throwable
 	 */
