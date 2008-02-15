@@ -209,10 +209,10 @@ public class VpeTest extends TestCase implements ILogListener {
 
 		assertNotNull(part);
 		// wait for jobs
-		TestUtil.waitForJobs();
+		//TestUtil.waitForJobs();
 		// wait full initialization of vpe
 		// commented by dgolovin to get rid of jvm error [libexpat.so.0+0xeff4]
-		TestUtil.delay(1000);
+		//TestUtil.delay(1000);
 
 		return part;
 
