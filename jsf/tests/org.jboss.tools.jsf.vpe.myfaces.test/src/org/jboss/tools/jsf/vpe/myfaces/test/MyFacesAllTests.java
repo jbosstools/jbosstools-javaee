@@ -21,7 +21,7 @@ public class MyFacesAllTests {
 	 */
 	public static Test suite() {
 
-		TestSuite suite = new TestSuite("Tests for Vpe MyFaces components"); // $NON-NLS-1$
+		TestSuite suite = new TestSuite("Tests for Vpe MyFaces components"); //$NON-NLS-1$
 
 		// $JUnit-BEGIN$
 		suite.addTestSuite(MyFacesComponentTest.class);
