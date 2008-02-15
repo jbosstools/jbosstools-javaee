@@ -61,6 +61,26 @@ public class JBIDE788Test extends VpeTest{
 	}
 	
 	/**
+	 * Tests Path proposals of CA
+	 */
+	public void testCAPathProposals() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		//Tests CA
+
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 514, 3);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 586, 4);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 653, 46);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 719, 46);
+		// check exception
+		if (getException() != null) {
+		
+			throw getException();
+		}	
+	}	
+	/**
 	 * Tests CA for Messages Bundles and EL Values
 	 * @throws Throwable
 	 */
