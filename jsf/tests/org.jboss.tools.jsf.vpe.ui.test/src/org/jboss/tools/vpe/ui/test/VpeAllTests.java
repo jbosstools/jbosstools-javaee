@@ -28,11 +28,11 @@ import org.osgi.framework.Bundle;
  */
 public class VpeAllTests {
 
-	public static final String VPE_TEST_EXTENTION_POINT_ID = "org.jboss.tools.jsf.vpe.ui.tests";
+	public static final String VPE_TEST_EXTENTION_POINT_ID = "org.jboss.tools.jsf.vpe.ui.tests"; //$NON-NLS-1$
 
-	public static final String TEST_SUITE_PARAM = "testSuite";
+	public static final String TEST_SUITE_PARAM = "testSuite"; //$NON-NLS-1$
 	
-	public static final String METHOD_SUITE_NAME = "suite";
+	public static final String METHOD_SUITE_NAME = "suite"; //$NON-NLS-1$
 
 	public static Test suite() {
 
