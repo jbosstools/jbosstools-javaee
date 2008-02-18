@@ -11,15 +11,20 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlFactory {
+	static String METHOD = "method";
+	static String VALUE = "value";
+
 	String method = null;
 	String value = null;
 
@@ -36,7 +41,7 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 	}
 
 	public void setMethod(IValueInfo value) {
-		attributes.put("method", value); //$NON-NLS-1$
+		attributes.put(METHOD, value); //$NON-NLS-1$
 		setMethod(value == null ? null : value.getValue());
 	}
 
@@ -45,7 +50,7 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 	}
 	
 	public void setValue(IValueInfo value) {
-		attributes.put("value", value); //$NON-NLS-1$
+		attributes.put(VALUE, value); //$NON-NLS-1$
 		setValue(value == null ? null : value.getValue());
 	}
 
@@ -54,11 +59,11 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 		SeamXmlFactory xf = (SeamXmlFactory)s;
 
 		if(!stringsEqual(value, xf.value)) {
-			changes = Change.addChange(changes, new Change(this, "value", value, xf.value)); //$NON-NLS-1$
+			changes = Change.addChange(changes, new Change(this, VALUE, value, xf.value)); //$NON-NLS-1$
 			value = xf.value;
 		}
 		if(!stringsEqual(method, xf.method)) {
-			changes = Change.addChange(changes, new Change(this, "method", method, xf.method)); //$NON-NLS-1$
+			changes = Change.addChange(changes, new Change(this, METHOD, method, xf.method)); //$NON-NLS-1$
 			method = xf.method;
 		}
 	
@@ -68,6 +73,32 @@ public class SeamXmlFactory extends AbstractContextVariable implements ISeamXmlF
 	public SeamXmlFactory clone() throws CloneNotSupportedException {
 		SeamXmlFactory c = (SeamXmlFactory)super.clone();
 		return c;
+	}
+	
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_FACTORY;
+	}
+
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_XML;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		if(attributes.get(METHOD) != null) {
+			setMethod(attributes.get(METHOD));
+		}
+		
+		if(attributes.get(VALUE) != null) {
+			setValue(attributes.get(VALUE));
+		}
 	}
 
 }

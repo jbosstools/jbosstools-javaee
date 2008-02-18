@@ -11,10 +11,13 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueMapEntry;
 import org.jboss.tools.seam.core.event.ISeamValueString;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -70,6 +73,50 @@ public class SeamValueMapEntry extends SeamObject implements ISeamValueMapEntry 
 		c.key = key == null ? null : key.clone();
 		c.value = value == null ? null : value.clone();
 		return c;
+	}
+
+	public String getXMLName() {
+		return TAG_ENTRY;
+	}
+	
+	public String getXMLClass() {
+		return null;
+	}
+	
+	static String TAG_ENTRY = "entry";
+	static String TAG_KEY = "key";
+	static String TAG_VALUE = "value";
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		if(key != null) {
+			Element e_key = XMLUtilities.createElement(element, TAG_KEY);
+			key.toXML(e_key, context);
+		}
+		if(value != null) {
+			value.toXML(element, context);
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		Element c = XMLUtilities.getUniqueChild(element, SeamXMLConstants.TAG_VALUE);
+		if(c != null) {
+			value = new SeamValueString();
+			value.loadXML(c, context);
+			adopt(value);
+		}
+		c = XMLUtilities.getUniqueChild(element, TAG_KEY);
+		if(c != null) {
+			c = XMLUtilities.getUniqueChild(c, SeamXMLConstants.TAG_VALUE);
+			if(c != null) {
+				key = new SeamValueString();
+				key.toXML(c, context);
+				adopt(key);
+			}
+		}
 	}
 
 }

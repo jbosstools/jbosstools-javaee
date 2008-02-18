@@ -10,6 +10,10 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import java.util.Properties;
+
+import org.w3c.dom.Element;
+
 /**
  * @author Viacheslav Kabanovich
  */
@@ -20,4 +24,8 @@ public interface IValueInfo extends ISeamTextSourceReference {
 	 * @return
 	 */
 	public String getValue();
+	
+	public Element toXML(Element parent, Properties context);
+	
+	public void loadXML(Element element, Properties context);
 }

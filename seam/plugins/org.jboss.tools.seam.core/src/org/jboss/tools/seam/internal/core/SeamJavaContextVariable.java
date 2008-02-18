@@ -12,15 +12,22 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
-public class SeamJavaContextVariable extends AbstractContextVariable implements ISeamJavaSourceReference {
+public abstract class SeamJavaContextVariable extends AbstractContextVariable implements ISeamJavaSourceReference {
 	protected IMember javaSource = null;
+	
+	public SeamJavaContextVariable() {}
 
 	public IMember getSourceMember() {
 		return javaSource;
@@ -71,6 +78,35 @@ public class SeamJavaContextVariable extends AbstractContextVariable implements 
 	public SeamJavaContextVariable clone() throws CloneNotSupportedException {
 		SeamJavaContextVariable c = (SeamJavaContextVariable)super.clone();
 		return c;
+	}
+	
+	static String TAG_JAVA_SOURCE = "java-source";
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		if(javaSource instanceof IField) {
+			SeamXMLHelper.saveField(element, (IField)javaSource, TAG_JAVA_SOURCE, context);
+		} else if(javaSource instanceof IMethod) {
+			SeamXMLHelper.saveMethod(element, (IMethod)javaSource, TAG_JAVA_SOURCE, context);
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		Element c = XMLUtilities.getUniqueChild(element, TAG_JAVA_SOURCE);
+		if(c != null) {
+			String cls = c.getAttribute(SeamXMLConstants.ATTR_CLASS);
+			if(SeamXMLConstants.CLS_FIELD.equals(cls)) {
+				javaSource = SeamXMLHelper.loadField(c, context);
+			} else if(SeamXMLConstants.CLS_METHOD.equals(cls)) {
+				javaSource = SeamXMLHelper.loadMethod(c, context);
+			}
+		}
+
 	}
 
 }

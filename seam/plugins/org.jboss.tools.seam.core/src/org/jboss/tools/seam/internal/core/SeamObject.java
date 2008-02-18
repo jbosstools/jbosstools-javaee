@@ -11,13 +11,21 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -131,6 +139,70 @@ public class SeamObject implements ISeamElement {
 		c.parent = null;
 		//do not copy parent
 		return c;
+	}
+	
+	//Serializing to XML
+	
+	public String getXMLName() {
+		return "object";
+	}
+	
+	public String getXMLClass() {
+		return null;
+	}
+	
+	public Element toXML(Element parent, Properties context) {
+		Element element = XMLUtilities.createElement(parent, getXMLName());
+		if(getXMLClass() != null) {
+			element.setAttribute(SeamXMLConstants.ATTR_CLASS, getXMLClass());
+		}
+		if(source != null && !source.equals(context.get(SeamXMLConstants.ATTR_PATH))) {
+			element.setAttribute(SeamXMLConstants.ATTR_PATH, source.toString());
+		}
+		if(id != null) {
+			if(id instanceof String) {
+				Element eid = XMLUtilities.createElement(element, SeamXMLConstants.TAG_ID);
+				eid.setAttribute(SeamXMLConstants.ATTR_CLASS, SeamXMLConstants.CLS_STRING);
+				eid.setAttribute(SeamXMLConstants.ATTR_VALUE, id.toString());
+			} else if(id instanceof IType) {
+				SeamXMLHelper.saveType(element, ((IType)id), SeamXMLConstants.TAG_ID, context);
+			} else if(id instanceof IField) {
+				SeamXMLHelper.saveField(element, ((IField)id), SeamXMLConstants.TAG_ID, context);
+			} else if(id instanceof IMethod) {
+				SeamXMLHelper.saveMethod(element, ((IMethod)id), SeamXMLConstants.TAG_ID, context);
+			} else if(id instanceof XModelObject) {
+				XModelObject o = (XModelObject)id;
+				SeamXMLHelper.saveModelObject(element, o, SeamXMLConstants.TAG_ID, context);
+			}
+		}
+		return element;
+	}
+
+	public void loadXML(Element element, Properties context) {
+		String s = element.getAttribute(SeamXMLConstants.ATTR_PATH);
+		if(s != null && s.length() > 0) {
+			source = new Path(s);
+		} else {
+			source = (IPath)context.get(SeamXMLConstants.ATTR_PATH);
+		}
+		if(source == null) {
+			System.out.println("Cannot load source");
+		}
+		Element e_id = XMLUtilities.getUniqueChild(element, SeamXMLConstants.TAG_ID);
+		if(e_id != null) {
+			String cls = e_id.getAttribute(SeamXMLConstants.ATTR_CLASS);
+			if(SeamXMLConstants.CLS_STRING.equals(cls)) {
+				id = e_id.getAttribute("string");
+			} else if(SeamXMLConstants.CLS_TYPE.equals(cls)) {
+				id = SeamXMLHelper.loadType(e_id, context);
+			} else if(SeamXMLConstants.CLS_FIELD.equals(cls)) {
+				id = SeamXMLHelper.loadField(e_id, context);
+			} else if(SeamXMLConstants.CLS_METHOD.equals(cls)) {
+				id = SeamXMLHelper.loadMethod(e_id, context);
+			} else if(SeamXMLConstants.CLS_MODEL_OBJECT.equals(cls)) {
+				id = SeamXMLHelper.loadModelObject(e_id, context);
+			}
+		}
 	}
 
 }

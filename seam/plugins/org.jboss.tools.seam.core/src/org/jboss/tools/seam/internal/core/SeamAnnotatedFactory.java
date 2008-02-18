@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
@@ -18,6 +19,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -78,6 +80,28 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		//we need not new copy here but reference!
 		c.parentDeclaration = parentDeclaration == null ? null : parentDeclaration.clone();
 		return c;
+	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_FACTORY;
+	}
+
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_JAVA;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		element.setAttribute(SeamXmlComponentDeclaration.AUTO_CREATE, "" + autoCreate);
+		
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+
+		autoCreate = "true".equals(element.getAttribute(SeamXmlComponentDeclaration.AUTO_CREATE));
 	}
 
 }

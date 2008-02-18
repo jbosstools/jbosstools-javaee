@@ -11,10 +11,12 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueString;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -49,6 +51,29 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 	public SeamValueString clone() throws CloneNotSupportedException {
 		SeamValueString c = (SeamValueString)super.clone();
 		return c;
+	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_VALUE;
+	}
+	
+	public String getXMLClass() {
+		return null;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		if(value != null) {
+			SeamXMLHelper.saveValueInfo(element, value, context);
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		setValue(SeamXMLHelper.loadValueInfo(element, context));
 	}
 
 }

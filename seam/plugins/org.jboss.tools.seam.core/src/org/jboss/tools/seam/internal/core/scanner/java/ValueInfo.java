@@ -12,6 +12,7 @@
 package org.jboss.tools.seam.internal.core.scanner.java;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Expression;
@@ -20,7 +21,10 @@ import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.IValueInfo;
+import org.jboss.tools.seam.internal.core.SeamXMLConstants;
+import org.w3c.dom.Element;
 
 public class ValueInfo implements IValueInfo {
 	String value;
@@ -98,4 +102,34 @@ public class ValueInfo implements IValueInfo {
 		this.value = value;
 	}
 
+	public Element toXML(Element parent, Properties context) {
+		Element element = XMLUtilities.createElement(parent, SeamXMLConstants.TAG_VALUE_INFO);
+		if(value != null) element.setAttribute(SeamXMLConstants.ATTR_VALUE, value);
+		if(valueStartPosition != 0) element.setAttribute(ATTR_START, "" + valueStartPosition);
+		if(valueLength != 0) element.setAttribute(ATTR_LENGTH, "" + valueLength);
+		return element;
+	}
+	
+	static String ATTR_START = "start";
+	static String ATTR_LENGTH = "length";
+
+	public void loadXML(Element element, Properties context) {
+		value = element.getAttribute(SeamXMLConstants.ATTR_VALUE);
+		String start = element.getAttribute(ATTR_START);
+		if(start != null && start.length() > 0) {
+			try {
+				valueStartPosition = Integer.parseInt(start);
+			} catch (NumberFormatException e) {
+				//ignore
+			}
+		}
+		String length = element.getAttribute(ATTR_LENGTH);
+		if(length != null && length.length() > 0) {
+			try {
+				valueLength = Integer.parseInt(length);
+			} catch (NumberFormatException e) {
+				//ignore
+			}
+		}
+	}
 }

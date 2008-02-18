@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IWorkbench;
@@ -25,10 +26,12 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 		implements ISeamPropertiesDeclaration {
@@ -122,7 +125,7 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 			
 		}
 	}
-
+	
 	public SeamPropertiesDeclaration clone() throws CloneNotSupportedException {
 		SeamPropertiesDeclaration c = (SeamPropertiesDeclaration)super.clone();
 		c.properties = new HashMap<String, ISeamProperty>();
@@ -131,6 +134,40 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 			c.addProperty(p);
 		}
 		return c;
+	}
+
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_PROPERTIES;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+
+		XModelObject old = pushModelObject(context);
+
+		for (String name: properties.keySet()) {
+			SeamProperty p = (SeamProperty)properties.get(name);
+			p.toXML(element, context);
+		}
+
+		popModelObject(context, old);
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+
+		XModelObject old = pushModelObject(context);
+
+		Element[] cs = XMLUtilities.getChildren(element, SeamXMLConstants.TAG_PROPERTY);
+		for (int i = 0; i < cs.length; i++) {
+			SeamProperty p = new SeamProperty();
+			p.loadXML(cs[i], context);
+			addProperty(p);
+		}
+
+		popModelObject(context, old);
 	}
 
 }

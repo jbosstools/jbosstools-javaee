@@ -267,7 +267,7 @@ public class XMLScanner implements IFileScanner {
 		return value != null && value.length() > 0;
 	}
 	
-	private String getImpliedClassName(XModelObject c, IPath path) {
+	public static String getImpliedClassName(XModelObject c, IPath path) {
 		if(path.toString().endsWith(".jar")) { //$NON-NLS-1$
 			String suffix = ".component"; //$NON-NLS-1$
 			String cn = c.getAttributeValue("name"); //$NON-NLS-1$
@@ -300,7 +300,7 @@ public class XMLScanner implements IFileScanner {
 	 * @param c
 	 * @return
 	 */
-	private String getDefaultClassName(XModelObject c) {
+	public static String getDefaultClassName(XModelObject c) {
 		String s = c.getModelEntity().getXMLSubPath();
 		int d = s.indexOf(':');
 		if(d < 0) return null;

@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
@@ -20,6 +21,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -105,6 +107,44 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 		c.types = new HashSet<SeamComponentMethodType>();
 		c.types.addAll(types);
 		return c;
+	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_METHOD;
+	}
+	
+	static String ATTR_COMP_TYPES = "comp-types";
+	
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		if(types != null) {
+			StringBuffer sb = new StringBuffer();
+			for (SeamComponentMethodType t : types) {
+				sb.append(t.toString()).append(';');
+			}
+			element.setAttribute(ATTR_COMP_TYPES, sb.toString());
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		if(element.hasAttribute(ATTR_COMP_TYPES)) {
+			String v = element.getAttribute(ATTR_COMP_TYPES);
+			if(v != null && v.length() > 0) {
+				String[] cs = v.split(";");
+				for (int i = 0; i < cs.length; i++) {
+					try {
+						types.add(SeamComponentMethodType.valueOf(cs[i]));
+					} catch (Exception e) {
+						//ignore
+					}
+				}
+			}
+		}
 	}
 
 }

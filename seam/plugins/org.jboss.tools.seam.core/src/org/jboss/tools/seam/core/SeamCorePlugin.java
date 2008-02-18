@@ -10,9 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -46,6 +50,26 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		cleanCachedProjects();
+	}
+	
+	static void cleanCachedProjects() {
+		IPath path = SeamCorePlugin.getDefault().getStateLocation();
+		File file = new File(path.toFile(), "projects"); //$NON-NLS-1$
+		if(file.isDirectory()) {
+			File[] fs = file.listFiles();
+			if(fs != null) {
+				for (int i = 0; i < fs.length; i++) {
+					if(!fs[i].isFile()) continue;
+					String n = fs[i].getName();
+					IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(n);
+					if(p == null || !p.isAccessible()) {
+						fs[i].delete();
+					}
+				}
+			}
+		}
+		
 	}
 
 	/*

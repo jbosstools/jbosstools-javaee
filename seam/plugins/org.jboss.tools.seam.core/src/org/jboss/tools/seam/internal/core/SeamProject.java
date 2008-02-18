@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.ICommand;
@@ -32,13 +33,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject;
-import org.eclipse.wst.common.project.facet.core.IProjectFacet;
-import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
-import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -56,11 +52,8 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
-import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.core.project.facet.SeamVersion;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
@@ -81,6 +74,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	String runtimeName = null;
 	
 	Set<IPath> sourcePaths = new HashSet<IPath>();
+	
+	Map<IPath, LoadedDeclarations> sourcePaths2 = new HashMap<IPath, LoadedDeclarations>();
 	
 	private boolean isStorageResolved = false;
 	
@@ -339,6 +334,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		p.usedBy.remove(this);
 		dependsOn.remove(p);
 		IPath[] ps = sourcePaths.toArray(new IPath[0]);
+		//TODO use sourcePaths2
 		for (int i = 0; i < ps.length; i++) {
 			IPath pth = ps[i];
 			if(p.getSourcePath().isPrefixOf(pth)) {
@@ -385,19 +381,33 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		long begin = System.currentTimeMillis();
 		
-		if(getClassPath().update()) {
-			getClassPath().process();
+		boolean b = getClassPath().update();
+		if(b) {
+			getClassPath().validateProjectDependencies();
 		}
 		File file = getStorageFile();
-		if(file == null || !file.isFile()) return;
-		Element root = XMLUtilities.getElement(file, null);
+		Element root = null;
+		if(file != null && file.isFile()) {
+			root = XMLUtilities.getElement(file, null);
+			if(root != null) {
+				loadProjectDependencies(root);
+				loadSourcePaths2(root);
+//				loadSourcePaths(root);
+			}
+		}
+
+		if(b) {
+			getClassPath().process();
+		}
+
 		if(root != null) {
-			loadProjectDependencies(root);
-			loadSourcePaths(root);
 			getValidationContext().load(root);
 		}
-		
+
 		long e = System.currentTimeMillis();
+		
+		//TODO replace with proper testing 
+		System.out.println("Seam project " + project.getName() + " started in " + (e - begin));
 	}
 
 	/**
@@ -412,6 +422,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
 		storeProjectDependencies(root);
 		storeSourcePaths(root);
+		storeSourcePaths2(root);
 		
 		if(validationContext != null) validationContext.store(root);
 		
@@ -450,6 +461,46 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 	}
 	
+	private void storeSourcePaths2(Element root) {
+		Properties context = new Properties();
+		Element sourcePathsElement = XMLUtilities.createElement(root, "paths"); //$NON-NLS-1$
+		for (IPath path : sourcePaths2.keySet()) {
+			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if(f != null && f.exists() && f.getProject() != project) {
+				continue;
+			}
+			context.put(SeamXMLConstants.ATTR_PATH, path);
+			LoadedDeclarations ds = sourcePaths2.get(path);
+			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path"); //$NON-NLS-1$
+			pathElement.setAttribute("value", path.toString()); //$NON-NLS-1$
+			List<ISeamComponentDeclaration> cs = ds.getComponents();
+			if(cs != null && cs.size() > 0) {
+				Element cse = XMLUtilities.createElement(pathElement, "components"); //$NON-NLS-1$
+				for (ISeamComponentDeclaration d: cs) {
+					SeamObject o = (SeamObject)d;
+					o.toXML(cse, context);
+				}
+			}
+			List<ISeamFactory> fs = ds.getFactories();
+			if(fs != null && fs.size() > 0) {
+				Element cse = XMLUtilities.createElement(pathElement, "factories"); //$NON-NLS-1$
+				for (ISeamFactory d: fs) {
+					SeamObject o = (SeamObject)d;
+					o.toXML(cse, context);
+				}
+			}
+			List<String> imports = ds.getImports();
+			if(imports != null && imports.size() > 0) {
+				Element cse = XMLUtilities.createElement(pathElement, "imports"); //$NON-NLS-1$
+				for (String d: imports) {
+					Element e = XMLUtilities.createElement(cse, SeamXMLConstants.TAG_IMPORT); //$NON-NLS-1$
+					e.setAttribute(SeamXMLConstants.ATTR_VALUE, d);
+				}
+			}
+			
+		}
+	}
+	
 	/*
 	 * 
 	 */
@@ -484,6 +535,75 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(f == null || !f.exists() || !f.isSynchronized(IResource.DEPTH_ZERO)) continue;
 			SeamResourceVisitor b = new SeamResourceVisitor(this);
 			b.visit(f);
+		}
+	}
+	
+	private void loadSourcePaths2(Element root) {
+		Properties context = new Properties();
+		Element sourcePathsElement = XMLUtilities.getUniqueChild(root, "paths"); //$NON-NLS-1$
+		if(sourcePathsElement == null) return;
+		Element[] paths = XMLUtilities.getChildren(sourcePathsElement, "path"); //$NON-NLS-1$
+		if(paths != null) for (int i = 0; i < paths.length; i++) {
+			String p = paths[i].getAttribute("value"); //$NON-NLS-1$
+			if(p == null || p.trim().length() == 0) continue;
+			IPath path = new Path(p.trim());
+			if(sourcePaths2.containsKey(path)) continue;
+
+			if(!getClassPath().hasPath(path)) {
+				IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				if(f == null || !f.exists() || !f.isSynchronized(IResource.DEPTH_ZERO)) continue;
+			}
+
+			context.put(SeamXMLConstants.ATTR_PATH, path);
+			
+			LoadedDeclarations ds = new LoadedDeclarations();
+			Element components = XMLUtilities.getUniqueChild(paths[i], "components");
+			if(components != null) {
+				Element[] cs = XMLUtilities.getChildren(components, SeamXMLConstants.TAG_COMPONENT);
+				for (int j = 0; j < cs.length; j++) {
+					String cls = cs[j].getAttribute(SeamXMLConstants.ATTR_CLASS);
+					SeamComponentDeclaration d = null;
+					if(SeamXMLConstants.CLS_JAVA.equals(cls)) {
+						d = new SeamJavaComponentDeclaration();
+					} else if(SeamXMLConstants.CLS_XML.equals(cls)) {
+						d = new SeamXmlComponentDeclaration();
+					} else if(SeamXMLConstants.CLS_PROPERTIES.equals(cls)) {
+						d = new SeamPropertiesDeclaration();
+					}
+					if(d == null) continue;
+					d.loadXML(cs[j], context);
+					ds.getComponents().add(d);
+				}
+			}
+			Element factories = XMLUtilities.getUniqueChild(paths[i], "factories");
+			if(factories != null) {
+				Element[] cs = XMLUtilities.getChildren(factories, SeamXMLConstants.TAG_FACTORY);
+				for (int j = 0; j < cs.length; j++) {
+					String cls = cs[j].getAttribute(SeamXMLConstants.ATTR_CLASS);
+					AbstractContextVariable d = null;
+					if(SeamXMLConstants.CLS_XML.equals(cls)) {
+						d = new SeamXmlFactory();
+					} else if(SeamXMLConstants.CLS_JAVA.equals(cls)) {
+						d = new SeamAnnotatedFactory();
+					}
+					if(d == null) continue;
+					d.loadXML(cs[j], context);
+					ds.getFactories().add((ISeamFactory)d);
+				}
+			}
+			Element imports = XMLUtilities.getUniqueChild(paths[i], "imports");
+			if(imports != null) {
+				Element[] cs = XMLUtilities.getChildren(imports, SeamXMLConstants.TAG_IMPORT);
+				for (int j = 0; j < cs.length; j++) {
+					String v = cs[j].getAttribute(SeamXMLConstants.ATTR_VALUE);
+					if(v != null && v.length() > 0) {
+						ds.getImports().add(v);
+					}
+				}
+				
+			}
+			getClassPath().pathLoaded(path);
+			registerComponents(ds, path);
 		}
 	}
 	
@@ -575,6 +695,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			return;
 		}
 		if(!sourcePaths.contains(source)) sourcePaths.add(source);
+
+		sourcePaths2.put(source, ds); //TODO
 		
 		if(ds.getImports().size() > 0) {
 			setImports(source.toString(), ds.getImports());
@@ -658,6 +780,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					cii.addDeclaration(loaded);
 					List<Change> changes = Change.addChange(null, new Change(ci, null, null, loaded));
 					fireChanges(changes);
+					affectedComponents.add(cii);
 				}
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
 				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
@@ -749,7 +872,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(newClassName == null || newClassName.length() == 0) return false;
 		return !oldClassName.equals(newClassName);
 	}
-	
+
 	/*
 	 * 
 	 */
@@ -782,6 +905,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void pathRemoved(IPath source) {
 		if(!sourcePaths.contains(source)) return;
 		sourcePaths.remove(source);
+		sourcePaths2.remove(source);
 		removeImports(source.toString());
 		Iterator<SeamComponent> iterator = allComponents.values().iterator();
 		while(iterator.hasNext()) {
@@ -1473,4 +1597,5 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		c.setProjectPackage(p);
 		p.getComponents().add(c);
 	}
+
 }

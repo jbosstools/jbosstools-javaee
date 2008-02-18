@@ -10,12 +10,15 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -84,6 +87,42 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 	public BijectedAttribute clone() throws CloneNotSupportedException {
 		BijectedAttribute c = (BijectedAttribute)super.clone();
 		return c;
+	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_BIJECTED_ATTRIBUTE;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		if(types != null) {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < types.length; i++) sb.append(types[i].toString()).append(';');
+			element.setAttribute("attr-types", sb.toString());
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		if(element.hasAttribute("attr-types")) {
+			String v = element.getAttribute("attr-types");
+			if(v != null && v.length() > 0) {
+				String[] cs = v.split(";");
+				List<BijectedAttributeType> list = new ArrayList<BijectedAttributeType>();
+				for (int i = 0; i < cs.length; i++) {
+					try {
+						list.add(BijectedAttributeType.valueOf(cs[i]));
+					} catch (Exception e) {
+						//ignore
+					}
+				}
+				types = list.toArray(new BijectedAttributeType[0]);
+			}
+		}
 	}
 
 }

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
@@ -22,6 +23,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -37,6 +39,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		implements ISeamJavaComponentDeclaration {
@@ -463,6 +466,159 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			c.addRole(r.clone());
 		}
 		return c;
+	}
+
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_JAVA;
+	}
+	
+	static String ATTR_CLASS_NAME = "class-name";
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		if(scopeType != null) {
+			element.setAttribute(SeamXMLConstants.ATTR_SCOPE, scopeType.toString());
+		}
+		
+		if(types != null) {
+			Element e_types = XMLUtilities.createElement(element, "bean-types");
+			for (BeanType t: types.keySet()) {
+				IValueInfo v = types.get(t);
+				if(v == null) continue;
+				Element e_type = XMLUtilities.createElement(e_types, "bean-type");
+				e_type.setAttribute(SeamXMLConstants.ATTR_NAME, t.toString());
+				SeamXMLHelper.saveValueInfo(e_type, v, context);
+			}
+		}
+		
+		element.setAttribute(SeamXmlComponentDeclaration.PRECEDENCE, "" + precedence);
+		
+		if(type != null && type != id) {
+			SeamXMLHelper.saveType(element, type, "type", context);
+		}
+		if(type != null) context.put(SeamXMLConstants.ATTR_TYPE, type);
+		
+		if(className != null && (type == null || !className.equals(type.getFullyQualifiedName()))) {
+			element.setAttribute(ATTR_CLASS_NAME, className);
+		}
+		
+		if(bijectedAttributes.size() > 0) {
+			Element b = XMLUtilities.createElement(element, "bijected");
+			for (IBijectedAttribute a: bijectedAttributes) {
+				SeamObject o = (SeamObject)a;
+				o.toXML(b, context);
+			}
+		}
+		
+		if(componentMethods.size() > 0) {
+			Element b = XMLUtilities.createElement(element, "methods");
+			for (ISeamComponentMethod a: componentMethods) {
+				SeamObject o = (SeamObject)a;
+				o.toXML(b, context);
+			}
+		}
+
+		if(roles.size() > 0) {
+			Element b = XMLUtilities.createElement(element, "roles");
+			for (IRole a: roles) {
+				SeamObject o = (SeamObject)a;
+				o.toXML(b, context);
+			}
+		}
+		
+		context.remove(SeamXMLConstants.ATTR_TYPE);
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		setScope(element.getAttribute(SeamXMLConstants.ATTR_SCOPE));
+
+		Element e_types = XMLUtilities.getUniqueChild(element, "bean-types");
+		if(e_types != null) {
+			types = new HashMap<BeanType, IValueInfo>();
+			Element[] e_type = XMLUtilities.getChildren(e_types, "bean-type");
+			for (int i = 0; i < e_type.length; i++) {
+				String name = e_type[i].getAttribute(SeamXMLConstants.ATTR_NAME);
+				BeanType t = null; 
+				try {
+					t = BeanType.valueOf(name);
+				} catch (Exception e) {
+					continue;
+				}
+				if(t == null) continue;
+				IValueInfo value = SeamXMLHelper.loadValueInfo(e_type[i], context);
+				if(value != null) {
+					types.put(t, value);
+				}
+			}
+		}
+		
+		if(element.hasAttribute(SeamXmlComponentDeclaration.PRECEDENCE)) {
+			String v = element.getAttribute(SeamXmlComponentDeclaration.PRECEDENCE);
+			if(v != null && v.length() > 0) {
+				try {
+					precedence = Integer.parseInt(v);
+				} catch (NumberFormatException e) {
+					//ignore
+				}
+			}
+		}
+		
+		Element e_type = XMLUtilities.getUniqueChild(element, "type");
+		if(e_type != null) {
+			type = SeamXMLHelper.loadType(e_type, context);
+		} else if(id instanceof IType) {
+			type = (IType)id;
+		}
+		if(type != null) context.put(SeamXMLConstants.ATTR_TYPE, type);
+		
+		if(element.hasAttribute(ATTR_CLASS_NAME)) {
+			className = element.getAttribute(ATTR_CLASS_NAME);
+		} else if(type != null) {
+			className = type.getFullyQualifiedName();
+		}
+		
+		Element b = XMLUtilities.getUniqueChild(element, "bijected");
+		if(b != null) {
+			Element[] cs = XMLUtilities.getChildren(b, SeamXMLConstants.TAG_BIJECTED_ATTRIBUTE);
+			for (int i = 0; i < cs.length; i++) {
+				String cls = cs[i].getAttribute(SeamXMLConstants.ATTR_CLASS);
+				BijectedAttribute a = null;
+				if(SeamXMLConstants.CLS_DATA_MODEL.equals(cls)) {
+					a = new DataModelSelectionAttribute();
+				} else {
+					a = new BijectedAttribute();
+				}
+				a.loadXML(cs[i], context);
+				addBijectedAttribute(a);
+			}
+		}
+		
+		b = XMLUtilities.getUniqueChild(element, "methods");
+		if(b != null) {
+			Element[] cs = XMLUtilities.getChildren(b, SeamXMLConstants.TAG_METHOD);
+			for (int i = 0; i < cs.length; i++) {
+				SeamComponentMethod a = new SeamComponentMethod();
+				a.loadXML(cs[i], context);
+				addMethod(a);
+			}
+		}
+		
+		b = XMLUtilities.getUniqueChild(element, "roles");
+		if(b != null) {
+			Element[] cs = XMLUtilities.getChildren(b, SeamXMLConstants.TAG_ROLE);
+			for (int i = 0; i < cs.length; i++) {
+				Role a = new Role();
+				a.loadXML(cs[i], context);
+				addRole(a);
+			}
+		}
+
+		context.remove(SeamXMLConstants.ATTR_TYPE);
 	}
 
 }

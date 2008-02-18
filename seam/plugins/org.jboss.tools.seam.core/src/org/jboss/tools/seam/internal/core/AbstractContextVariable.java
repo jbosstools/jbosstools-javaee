@@ -11,17 +11,19 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class AbstractContextVariable extends AbstractSeamDeclaration implements ISeamContextVariable {
+public abstract class AbstractContextVariable extends AbstractSeamDeclaration implements ISeamContextVariable {
 
 	protected ScopeType scopeType;
 	protected String scope;
@@ -82,4 +84,19 @@ public class AbstractContextVariable extends AbstractSeamDeclaration implements 
 		AbstractContextVariable c = (AbstractContextVariable)super.clone();
 		return c;
 	}
+	
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		if(scope != null) element.setAttribute(SeamXMLConstants.ATTR_SCOPE, scope);
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		if(element.hasAttribute(SeamXMLConstants.ATTR_SCOPE)) {
+			scope = element.getAttribute(SeamXMLConstants.ATTR_SCOPE);
+			setScopeAsString(scope);
+		}
+	}
+
 }

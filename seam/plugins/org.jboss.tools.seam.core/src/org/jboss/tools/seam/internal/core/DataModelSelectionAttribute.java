@@ -11,8 +11,11 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
+
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -48,4 +51,22 @@ public class DataModelSelectionAttribute extends BijectedAttribute {
 		return changes;
 	}
 	
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_DATA_MODEL;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		if(attributes.get(VALUE) != null) {
+			setValue(attributes.get(VALUE));
+		}
+	}
+
 }

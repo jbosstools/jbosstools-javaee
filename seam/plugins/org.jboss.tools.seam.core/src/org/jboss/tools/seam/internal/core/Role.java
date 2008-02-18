@@ -48,4 +48,9 @@ public class Role extends SeamJavaContextVariable implements IRole {
 		}
 		return returnScopeType;
 	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_ROLE;
+	}
+	
 }

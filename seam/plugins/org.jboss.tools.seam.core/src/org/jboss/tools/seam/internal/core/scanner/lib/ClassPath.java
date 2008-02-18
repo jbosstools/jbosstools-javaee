@@ -16,9 +16,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -54,6 +56,7 @@ public class ClassPath {
 	ClassLoader classLoader = null;
 	
 	List<String> paths = null;
+	Map<IPath, String> paths2 = new HashMap<IPath, String>();
 	
 	Set<String> processedPaths = new HashSet<String>();
 	
@@ -105,7 +108,7 @@ public class ClassPath {
 		if(paths == null && newPaths == null) return false;
 		if((newPaths == null || paths == null) || (paths.size() != newPaths.size())) {
 			paths = newPaths;
-		} else {
+		} else { 
 			boolean b = false;
 			for (int i = 0; i < paths.size() && !b; i++) {
 				if(!paths.get(i).equals(newPaths.get(i))) b = true;
@@ -113,6 +116,7 @@ public class ClassPath {
 			if(!b) return false;
 			paths = newPaths;
 		}
+		createMap();
 		XModelObject object = model.getByPath("FileSystems"); //$NON-NLS-1$
 		XModelObject[] fs = object.getChildren("FileSystemJar"); //$NON-NLS-1$
 		Set<XModelObject> fss = new HashSet<XModelObject>();
@@ -151,6 +155,15 @@ public class ClassPath {
 		return true;
 	}
 	
+	private void createMap() {
+		paths2.clear();
+		if(paths != null) {
+			for (String p : paths) {
+				paths2.put(new Path(p), p);
+			}
+		}
+	}
+	
 	/**
 	 * Loads seam components from items recently added to class path. 
 	 */
@@ -182,9 +195,15 @@ public class ClassPath {
 			} catch (ScannerException e) {
 				SeamCorePlugin.getDefault().logError(e);
 			}
-			if(c != null) componentsLoaded(c, new Path(p));
+			if(c != null) {
+				componentsLoaded(c, new Path(p));
+			}
 		}
 		
+		validateProjectDependencies();
+	}
+	
+	public void validateProjectDependencies() {
 		List<SeamProject> ps = null;
 		
 		try {
@@ -205,7 +224,7 @@ public class ClassPath {
 				project.removeSeamProject(p);
 			}
 		}
-	}	
+	}
 
 	void componentsLoaded(LoadedDeclarations c, IPath path) {
 		if(c == null || c.getComponents().size() + c.getFactories().size() == 0) return;
@@ -285,6 +304,17 @@ public class ClassPath {
 			}
 		}
 		return list;
+	}
+	
+	public void pathLoaded(IPath path) {
+		String p = paths2.get(path);
+		if(p != null) {
+			processedPaths.add(p);
+		}
+	}
+	
+	public boolean hasPath(IPath path) {
+		return paths2.get(path) != null;
 	}
 
 }

@@ -12,10 +12,13 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueList;
 import org.jboss.tools.seam.core.event.ISeamValueString;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -57,6 +60,35 @@ public class SeamValueList extends SeamObject implements ISeamValueList {
 			c.addValue(v.clone());
 		}
 		return c;
+	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_VALUE;
+	}
+	
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_LIST;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		for (ISeamValueString entry: values) {
+			SeamObject o = (SeamObject)entry;
+			o.toXML(element, context);
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		Element[] cs = XMLUtilities.getChildren(element, SeamXMLConstants.TAG_VALUE);
+		for (int i = 0; i < cs.length; i++) {
+			SeamValueString entry = new SeamValueString();
+			entry.loadXML(cs[i], context);
+			addValue(entry);
+		}
 	}
 
 }

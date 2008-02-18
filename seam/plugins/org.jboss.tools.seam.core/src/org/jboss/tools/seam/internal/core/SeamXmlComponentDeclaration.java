@@ -12,11 +12,15 @@
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
+import java.util.Properties;
 
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
+import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
+import org.w3c.dom.Element;
 
 public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 		implements ISeamXmlComponentDeclaration {
@@ -164,6 +168,37 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	public SeamXmlComponentDeclaration clone() throws CloneNotSupportedException {
 		SeamXmlComponentDeclaration c = (SeamXmlComponentDeclaration)super.clone();
 		return c;
+	}
+
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_XML;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		
+		setAutoCreate(attributes.get(AUTO_CREATE));
+		setInstalled(attributes.get(INSTALLED));
+		setJndiName(attributes.get(JNDI_NAME));
+		setPrecedence(attributes.get(PRECEDENCE));
+		setScope(attributes.get(SCOPE));
+		setClassName(attributes.get(CLASS));
+		
+		if(className == null && id instanceof XModelObject) {
+			XModelObject c = (XModelObject)id;
+			if(c.getModelEntity().getName().equals("FileSeamComponent12")) {
+				className = XMLScanner.getImpliedClassName(c, source);
+			} else {
+				className = XMLScanner.getDefaultClassName(c);
+			}
+		}
+
 	}
 
 }

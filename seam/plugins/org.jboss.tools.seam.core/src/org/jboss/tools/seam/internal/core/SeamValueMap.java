@@ -12,10 +12,13 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueMap;
 import org.jboss.tools.seam.core.event.ISeamValueMapEntry;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -57,6 +60,35 @@ public class SeamValueMap extends SeamObject implements ISeamValueMap {
 			c.addEntry(v.clone());
 		}
 		return c;
+	}
+
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_VALUE;
+	}
+	
+	public String getXMLClass() {
+		return SeamXMLConstants.CLS_MAP;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		for (ISeamValueMapEntry entry: entries) {
+			SeamObject o = (SeamObject)entry;
+			o.toXML(element, context);
+		}
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+		Element[] cs = XMLUtilities.getChildren(element, SeamValueMapEntry.TAG_ENTRY);
+		for (int i = 0; i < cs.length; i++) {
+			SeamValueMapEntry entry = new SeamValueMapEntry();
+			entry.loadXML(cs[i], context);
+			addEntry(entry);
+		}
 	}
 
 }

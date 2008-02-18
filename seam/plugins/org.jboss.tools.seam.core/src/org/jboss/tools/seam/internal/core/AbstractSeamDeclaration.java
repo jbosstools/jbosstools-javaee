@@ -13,12 +13,15 @@ package org.jboss.tools.seam.internal.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
@@ -96,6 +99,48 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 			attributes.putAll(d.attributes);
 		}
 		return changes;
+	}
+
+	public Element toXML(Element parent, Properties context) {
+		Element element = super.toXML(parent, context);
+		
+		XModelObject old = pushModelObject(context);
+
+		if(name != null) element.setAttribute(SeamXMLConstants.ATTR_NAME, name);
+		SeamXMLHelper.saveMap(element, attributes, "attributes", context);
+
+		popModelObject(context, old);
+
+		return element;
+	}
+	
+	public void loadXML(Element element, Properties context) {
+		super.loadXML(element, context);
+
+		XModelObject old = pushModelObject(context);
+
+		name = element.getAttribute(SeamXMLConstants.ATTR_NAME);
+		SeamXMLHelper.loadMap(element, attributes, "attributes", context);
+
+		popModelObject(context, old);
+	}
+	
+	protected XModelObject pushModelObject(Properties context) {
+		XModelObject old = (XModelObject)context.get(SeamXMLConstants.KEY_MODEL_OBJECT);
+		
+		if(id instanceof XModelObject) {
+			context.put(SeamXMLConstants.KEY_MODEL_OBJECT, id);
+		}
+
+		return old;
+	}
+	
+	protected void popModelObject(Properties context, XModelObject old) {
+		if(old != null) {
+			context.put(SeamXMLConstants.KEY_MODEL_OBJECT, old);
+		} else {
+			context.remove(SeamXMLConstants.KEY_MODEL_OBJECT);
+		}
 	}
 
 }

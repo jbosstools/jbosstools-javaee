@@ -66,4 +66,8 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 		return c;
 	}
 
+	public String getXMLName() {
+		return SeamXMLConstants.TAG_COMPONENT;
+	}
+	
 }
