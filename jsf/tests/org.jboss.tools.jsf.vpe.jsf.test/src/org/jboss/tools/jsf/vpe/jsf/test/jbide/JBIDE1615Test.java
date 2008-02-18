@@ -24,6 +24,12 @@ import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
+/**
+ * Test JBIDE-1615
+ * 
+ * @author dsakovich@exadel.com
+ *
+ */
 public class JBIDE1615Test extends VpeTest {
 
     public static final String IMPORT_PROJECT_NAME = "jsfTest";
@@ -31,12 +37,11 @@ public class JBIDE1615Test extends VpeTest {
     private static final String TEST_PAGE_NAME = "JBIDE/1615/JBIDE-1615.xhtml";
 
     public JBIDE1615Test(String name) {
-
 	super(name);
     }
 
-    //test method for JBIDE 1484
-    public void testJBIDE_1484() throws Throwable {
+    //test method for JBIDE 1615
+    public void testJBIDE_1615() throws Throwable {
 	// wait
 	TestUtil.waitForJobs();
 	// set exception
@@ -54,7 +59,7 @@ public class JBIDE1615Test extends VpeTest {
 	assertNotNull("Editor input is null", input);
 	// open and get editor
 	JSPMultiPageEditor part = openEditor(input);
-
+       
 	// get dom document
 	nsIDOMDocument document = getVpeVisualDocument(part);
 	nsIDOMElement element = document.getDocumentElement();
