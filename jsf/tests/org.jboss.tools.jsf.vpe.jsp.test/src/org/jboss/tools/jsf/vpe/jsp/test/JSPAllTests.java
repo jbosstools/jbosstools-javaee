@@ -22,7 +22,7 @@ import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 public class JSPAllTests {
     public static Test suite() {
 
-	TestSuite suite = new TestSuite("Tests for Vpe JSP components");
+	TestSuite suite = new TestSuite("Tests for Vpe JSP components"); //$NON-NLS-1$
 	// $JUnit-BEGIN$
 
 	suite.addTestSuite(JSPComponentTest.class);

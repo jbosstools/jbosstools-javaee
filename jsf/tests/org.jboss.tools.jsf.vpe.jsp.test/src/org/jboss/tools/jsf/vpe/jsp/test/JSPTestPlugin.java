@@ -24,7 +24,7 @@ import org.osgi.framework.BundleContext;
 public class JSPTestPlugin extends BaseUIPlugin {
 
     // The plug-in ID
-    public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.jsp.test";
+    public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.jsp.test"; //$NON-NLS-1$
 
     // The shared instance
     private static JSPTestPlugin plugin;
@@ -69,9 +69,9 @@ public class JSPTestPlugin extends BaseUIPlugin {
 	URL url = null;
 	try {
 	    url = bundle == null ? null : FileLocator.resolve(bundle
-		    .getEntry("/resources")); // $NON-NLS-1$
+		    .getEntry("/resources")); //$NON-NLS-1$
 	} catch (Exception e) {
-	    url = bundle.getEntry("/resources"); // $NON-NLS-1$
+	    url = bundle.getEntry("/resources"); //$NON-NLS-1$
 	}
 	return (url == null) ? null : url.getPath();
     }

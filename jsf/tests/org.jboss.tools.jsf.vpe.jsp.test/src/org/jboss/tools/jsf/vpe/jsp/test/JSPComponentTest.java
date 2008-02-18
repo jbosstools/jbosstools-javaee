@@ -24,7 +24,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 public class JSPComponentTest extends VpeTest {
 
     // import project name
-    public static final String IMPORT_PROJECT_NAME = "jspTest";
+    public static final String IMPORT_PROJECT_NAME = "jspTest"; //$NON-NLS-1$
 
     public JSPComponentTest(String name) {
 	super(name);
@@ -38,7 +38,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDeclaration() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/declaration.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/declaration.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     /**
@@ -48,7 +48,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testExpression() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/expression.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/expression.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     /**
@@ -58,7 +58,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testScriptlet() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/scriptlet.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/scriptlet.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     /**
@@ -68,7 +68,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDirectiveAttribute() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"../WEB-INF/tags/catalog.tag", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"../WEB-INF/tags/catalog.tag", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     /**
@@ -78,12 +78,10 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDirectiveInclude() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/directive_include_absolute.jsp",
-		IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/directive_include_absolute.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/directive_include_relative.jsp",
-		IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/directive_include_relative.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 
     }
 
@@ -94,10 +92,10 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testInclude() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/include_absolute.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/include_absolute.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/include_relative.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/include_relative.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 
     }
     
@@ -108,7 +106,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDirectivePage() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/directive_page.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/directive_page.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -119,7 +117,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDirectiveTag() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/directive_tag.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/directive_tag.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -130,7 +128,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDirectiveTaglib() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/directive_taglib.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/directive_taglib.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -141,7 +139,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDirectiveVariable() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"../WEB-INF/tags/catalog.tag", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"../WEB-INF/tags/catalog.tag", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -152,7 +150,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testAttribute() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/attribute.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/attribute.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -163,7 +161,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testBody() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/body.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/body.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -174,7 +172,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testElement() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/element.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/element.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -185,7 +183,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testDoBody() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"../WEB-INF/tags/double.tag", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"../WEB-INF/tags/double.tag", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -196,7 +194,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testForward() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/forward.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/forward.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -207,7 +205,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testGetProperty() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/get_property.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/get_property.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -218,7 +216,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testInvoke() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"../WEB-INF/tags/catalog.tag", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"../WEB-INF/tags/catalog.tag", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -229,7 +227,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testOutput() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/output.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/output.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -240,7 +238,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testPlugin() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/plugin.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/plugin.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -251,7 +249,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testRoot() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/root.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/root.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -262,7 +260,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testSetProperty() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/set_property.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/set_property.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -273,7 +271,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testText() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/text.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/text.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
     
@@ -284,7 +282,7 @@ public class JSPComponentTest extends VpeTest {
      */
     public void testUseBean() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/useBean.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/useBean.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	
     }
 
