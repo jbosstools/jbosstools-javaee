@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <vpe:templates>
-	<vpe:template-taglib uri="http://myfaces.apache.org/tomahawk"
-		prefix="t" />
+	<vpe:template-taglib uri="http://myfaces.apache.org/tomahawk" prefix="t" />
 
 	<vpe:tag name="t:checkbox" case-sensitive="yes">
 
@@ -509,7 +508,9 @@
 				<div style="display:hidden" />
 			</vpe:template>
 		</vpe:if>
-		<vpe:template children="yes" modify="no" class="org.jboss.tools.vpe.editor.template.myfaces.VpeMyFacesDataScrollerTemplate"/>
+		<vpe:template children="yes" modify="no" class="org.jboss.tools.jsf.vpe.tomahawk.template.DataScrollerTemplate">
+			<vpe:resize />
+		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="t:dataTable" case-sensitive="yes">
