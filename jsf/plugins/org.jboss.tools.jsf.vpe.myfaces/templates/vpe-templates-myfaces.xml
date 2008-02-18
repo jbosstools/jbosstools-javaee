@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <vpe:templates>
-	<vpe:template-taglib uri="http://myfaces.apache.org/extensions"
-		prefix="x" />
+	<vpe:template-taglib uri="http://myfaces.apache.org/extensions"	prefix="x" />
 
 	<vpe:tag name="x:checkbox" case-sensitive="yes">
 
@@ -377,7 +376,12 @@
 				<div style="display:hidden" />
 			</vpe:template>
 		</vpe:if>
-		<vpe:template children="yes" modify="no" class="org.jboss.tools.jsf.vpe.myfaces.template.VpeMyFacesDataScrollerTemplate"/>
+		<vpe:template children="yes" modify="no" class="org.jboss.tools.jsf.vpe.myfaces.template.VpeMyFacesDataScrollerTemplate">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="x:dataTable" case-sensitive="yes">
