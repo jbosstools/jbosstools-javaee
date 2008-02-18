@@ -441,7 +441,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
@@ -470,7 +470,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
@@ -491,7 +491,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						proposals.addAll(infos.getMethodPresentations());
@@ -505,7 +505,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						proposalsToFilter.addAll(infos.getMethodPresentations());

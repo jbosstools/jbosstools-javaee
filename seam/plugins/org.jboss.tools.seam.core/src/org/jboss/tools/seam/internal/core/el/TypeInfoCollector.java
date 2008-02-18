@@ -586,10 +586,16 @@ public class TypeInfoCollector {
 		}
 	}
 
-	public static boolean isNotParameterizedCollection(IType type) {
+	public static boolean isNotParameterizedCollection(TypeInfoCollector.MemberInfo mbr) {
 		try {
-			String name = type.getFullyQualifiedParameterizedName();
-			return (name.indexOf('<')==-1) && (isInstanceofType(type, "java.util.Map") || (isInstanceofType(type, "java.util.Collection")));
+			if(mbr.getParametersOfType()!=null && mbr.getParametersOfType().length>0) {
+				return false;
+			}
+			IType type = mbr.getMemberType();
+			if(type!=null) {
+				return isInstanceofType(type, "java.util.Map") || isInstanceofType(type, "java.util.Collection");
+			}
+			return false;
 		} catch (JavaModelException e) {
 			return false;
 		}
