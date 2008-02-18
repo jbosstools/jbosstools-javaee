@@ -200,6 +200,7 @@ public class SeamXMLHelper implements SeamXMLConstants {
 			IValueInfo value = map.get(name);
 			Element c =  XMLUtilities.createElement(element, TAG_ENTRY);
 			c.setAttribute(ATTR_NAME, name);
+			if(value == null) continue;
 			value.toXML(c, context);
 		}
 	}
