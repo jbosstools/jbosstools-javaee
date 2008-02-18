@@ -52,15 +52,20 @@ public class TypeInfoCollector {
 		private Map<String, String> fParametersOfDeclaringType;
 		private IType fMemberType;
 		private String fTypeName;
+		private boolean fTypeIsArray;
+		private String fTypeNameOfArray;
+		private String fQualifiedTypeNameOfErrayElement;
+		private boolean isDataModel;
 
 		protected MemberInfo (
 			IType sourceType,
-			String declaringTypeQualifiedName, String name, int modifiers, MemberInfo parentMember) {
+			String declaringTypeQualifiedName, String name, int modifiers, MemberInfo parentMember, boolean dataModel) {
 			setSourceType(sourceType);
 			setDeclaringTypeQualifiedName(declaringTypeQualifiedName);
 			setName(name);
 			setModifiers(modifiers);
 			setParentMember(parentMember);
+			setDataModel(dataModel);
 		}
 
 		protected void initializeParametersOfDeclaringType() {
@@ -188,7 +193,7 @@ public class TypeInfoCollector {
 			if(fMemberType==null) {
 				initializeParametersOfDeclaringType();
 				fMemberType = getMemberTypeInner();
-				if(fMemberType==null) {
+				if(fMemberType==null && fParametersOfDeclaringType!=null) {
 					// Maybe type name is parameter.
 					String typeName = fParametersOfDeclaringType.get(fTypeName);
 					if(typeName!=null) {
@@ -203,6 +208,37 @@ public class TypeInfoCollector {
 			return fMemberType;
 		}
 
+		public boolean isTypeArray() {
+			return fTypeIsArray;
+		}
+
+		void setTypeArray(boolean typeIsArray) {
+			fTypeIsArray = typeIsArray;
+		}
+
+		public String getTypeNameOfArray() {
+			return fTypeNameOfArray;
+		}
+
+		void setTypeNameOfArray(String typeNameOfArray) {
+			fTypeNameOfArray = typeNameOfArray;
+		}
+
+		public String getQualifiedTypeNameOfArrayElement() {
+			if(fQualifiedTypeNameOfErrayElement == null) {
+				fQualifiedTypeNameOfErrayElement = EclipseJavaUtil.resolveType(getSourceType(), getTypeNameOfArray());
+			}
+			return fQualifiedTypeNameOfErrayElement;
+		}
+
+		public boolean isDataModel() {
+			return isDataModel;
+		}
+
+		void setDataModel(boolean isDataModel) {
+			this.isDataModel = isDataModel;
+		}
+
 		abstract protected IType getMemberTypeInner();
 
 		abstract public IJavaElement getJavaElement();
@@ -211,8 +247,8 @@ public class TypeInfoCollector {
 	public static class TypeInfo extends MemberInfo {
 		private IType fType;
 
-		public TypeInfo(IType type, MemberInfo parentMember) throws JavaModelException {
-			super(type.getDeclaringType(), (type.getDeclaringType() == null ? null : type.getDeclaringType().getFullyQualifiedName()), type.getFullyQualifiedName(), type.getFlags(), parentMember);
+		public TypeInfo(IType type, MemberInfo parentMember, boolean dataModel) throws JavaModelException {
+			super(type.getDeclaringType(), (type.getDeclaringType() == null ? null : type.getDeclaringType().getFullyQualifiedName()), type.getFullyQualifiedName(), type.getFlags(), parentMember, dataModel);
 			this.fType = type;
 		}
 
@@ -234,21 +270,29 @@ public class TypeInfoCollector {
 	public static class FieldInfo extends MemberInfo {
 		private String fQualifiedTypeName;
 
-		public FieldInfo(IType sourceType, String declaringTypeQualifiedName, String name, int modifiers, String typeQualifiedName, String[] parametersOfType, MemberInfo parentMember) {
-			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember);
+		public FieldInfo(IType sourceType, String declaringTypeQualifiedName, String name, int modifiers, String typeQualifiedName, String[] parametersOfType, MemberInfo parentMember, boolean dataModel) {
+			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember, dataModel);
 			setTypeName(typeQualifiedName);
 			setParametersOfType(parametersOfType);
 		}
 
-		public FieldInfo(IField field, MemberInfo parentMember) throws JavaModelException {
+		public FieldInfo(IField field, MemberInfo parentMember, boolean dataModel) throws JavaModelException {
 			super(field.getDeclaringType(),
 					(field.getDeclaringType() == null ? null : field.getDeclaringType().getFullyQualifiedName()),
 					field.getElementName(),
 					field.getFlags(),
-					parentMember);
+					parentMember,
+					dataModel);
 
 			String fullTypeSignature = field.getTypeSignature();
-			String type = String.valueOf(Signature.toString(Signature.getTypeErasure(fullTypeSignature)));
+			String typeErasureSignature = Signature.getTypeErasure(fullTypeSignature);
+			String typeOfArray = String.valueOf(Signature.toString(Signature.getElementType(typeErasureSignature)));
+			String type = String.valueOf(Signature.toString(typeErasureSignature));
+			if(!type.equals(typeOfArray)) {
+				// this is an array
+				setTypeArray(true);
+				setTypeNameOfArray(typeOfArray);
+			}
 			String[] signaturesOfParametersOfType = Signature.getTypeArguments(fullTypeSignature);
 			String[] parametersOfType = getQualifiedClassNamesFromSignatureArray(signaturesOfParametersOfType);
 
@@ -267,6 +311,9 @@ public class TypeInfoCollector {
 
 		public IType getType() {
 			try {
+				if(isDataModel() && isTypeArray()) {
+					return getSourceType().getJavaProject().findType(getQualifiedTypeNameOfArrayElement());
+				}
 				return getSourceType().getJavaProject().findType(getQualifiedTypeName());
 			} catch (JavaModelException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
@@ -300,28 +347,38 @@ public class TypeInfoCollector {
 				String[] parameterNames,
 				String returnTypeQualifiedName,
 				String[] parametersOfReturnType,
-				MemberInfo parentMember) {
-			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember);
+				MemberInfo parentMember,
+				boolean dataModel) {
+			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember, dataModel);
 			setParameterTypeNames(parameterTypeQualifiedNames);
 			setParameterNames(parameterNames);
 			setTypeName(returnTypeQualifiedName);
 			setParametersOfType(parametersOfReturnType);
 		}
 
-		public MethodInfo(IMethod method, MemberInfo parentMember) throws JavaModelException {
+		public MethodInfo(IMethod method, MemberInfo parentMember, boolean dataModel) throws JavaModelException {
 			super(method.getDeclaringType(),
 					(method.getDeclaringType() == null ? null : method.getDeclaringType().getFullyQualifiedName()),
 					method.getElementName(),
 					method.getFlags(),
-					parentMember);
+					parentMember,
+					dataModel);
 
 			setParameterNames(method.getParameterNames());
 			setParameterTypeNames(resolveSignatures(method.getDeclaringType(), method.getParameterTypes()));
 
 			String fullReturnTypeSignature = method.getReturnType();
-			String returnType = String.valueOf(Signature.toString(Signature.getTypeErasure(fullReturnTypeSignature)));
+			String returnTypeErasureSignature = Signature.getTypeErasure(fullReturnTypeSignature);
+			String returnTypeOfArray = String.valueOf(Signature.toString(Signature.getElementType(returnTypeErasureSignature)));
+			String returnType = String.valueOf(Signature.toString(returnTypeErasureSignature));
 			String[] signaturesOfParametersOfReturnType = Signature.getTypeArguments(fullReturnTypeSignature);
 			String[] parametersOfReturnType = getQualifiedClassNamesFromSignatureArray(signaturesOfParametersOfReturnType);
+
+			if(!returnType.equals(returnTypeOfArray)) {
+				// this is an array
+				setTypeArray(true);
+				setTypeNameOfArray(returnTypeOfArray);
+			}
 
 			setTypeName(returnType);
 			setParametersOfType(parametersOfReturnType);
@@ -373,6 +430,9 @@ public class TypeInfoCollector {
 
 		public IType getReturnType() {
 			try {
+				if(isDataModel() && isTypeArray()) {
+					return getSourceType().getJavaProject().findType(getQualifiedTypeNameOfArrayElement());
+				}
 				return getSourceType().getJavaProject().findType(getReturnTypeQualifiedName());
 			} catch (JavaModelException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
@@ -462,70 +522,7 @@ public class TypeInfoCollector {
 			}
 		}
 	}
-/*
-	CompletionRequestor fRequestor = new CompletionRequestor() {
 
-		@Override
-		public void accept(CompletionProposal proposal) {
-			switch(proposal.getKind()) {
-				case CompletionProposal.FIELD_REF:
-					{
-						char[] declarationSignature = proposal.getDeclarationSignature();
-						String declarationType = String.valueOf(Signature.toCharArray(declarationSignature));
-
-						char[] fullSignature = proposal.getSignature();
-						String type = String.valueOf(Signature.toCharArray(Signature.getTypeErasure(fullSignature)));
-						char[][] signaturesOfParametersOfType = Signature.getTypeArguments(fullSignature);
-						String[] parametersOfType = getQualifiedClassNameFromCharArray(signaturesOfParametersOfType);
-
-						FieldInfo info = new FieldInfo(TypeInfoCollector.this.fType,
-							declarationType,
-							String.valueOf(proposal.getName()), proposal.getFlags(), 
-							type,
-							parametersOfType);
-						fFields.add(info);
-					}
-					break;
-				case CompletionProposal.METHOD_REF:
-					{
-						String[] parameterNames = convertToStringArray(proposal.findParameterNames(null));
-
-						char[] declarationSignature = proposal.getDeclarationSignature();
-						String declarationType = String.valueOf(Signature.toCharArray(Signature.getTypeErasure(declarationSignature)));
-
-						char[] signature = proposal.getSignature();
-						char[][] parametesSignatures = Signature.getParameterTypes(signature);
-						String[] parametersTypes = getQualifiedClassNameFromCharArray(parametesSignatures);
-
-						char[] fullReturnTypeSignature = Signature.getReturnType(signature);
-						String returnType = String.valueOf(Signature.toCharArray(Signature.getTypeErasure(fullReturnTypeSignature)));
-						char[][] signaturesOfParametersOfReturnType = Signature.getTypeArguments(fullReturnTypeSignature);
-						String[] parametersOfReturnType = getQualifiedClassNameFromCharArray(signaturesOfParametersOfReturnType);
-
-						MethodInfo info = new MethodInfo(TypeInfoCollector.this.fType,
-							declarationType,
-							String.valueOf(proposal.getName()), proposal.getFlags(), 
-							parametersTypes,
-							parameterNames,
-							returnType,
-							parametersOfReturnType);
-						fMethods.add(info);
-					}
-					break;
-				case CompletionProposal.KEYWORD:
-				case CompletionProposal.PACKAGE_REF:
-				case CompletionProposal.TYPE_REF:
-				case CompletionProposal.METHOD_DECLARATION:
-				case CompletionProposal.ANONYMOUS_CLASS_DECLARATION:
-				case CompletionProposal.LABEL_REF :
-				case CompletionProposal.LOCAL_VARIABLE_REF:
-				case CompletionProposal.VARIABLE_DECLARATION:
-				case CompletionProposal.POTENTIAL_METHOD_DECLARATION:
-					break;
-			}
-		}
-	};
-*/
 	public TypeInfoCollector(MemberInfo member) {
 		this.fMember = member;
 		this.fType = member.getMemberType();
@@ -551,16 +548,12 @@ public class TypeInfoCollector {
 		if (fType == null) 
 			return;
 		try {
-//			fType.codeComplete("".toCharArray(), -1, 0, new char[0][0], new char[0][0], new int[0], false, fRequestor);
 			IType binType = fType;
 			while (binType != null) {
 				IMethod[] binMethods = binType.getMethods();
 				for (int i = 0; binMethods != null && i < binMethods.length; i++) {
 					if (binMethods[i].isConstructor()) continue;
-//					MethodInfo[] infos = findMethodInfos(binMethods[i]);
-//					if (infos == null || infos.length == 0) {
-						fMethods.add(new MethodInfo(binMethods[i], fMember));
-//					}
+					fMethods.add(new MethodInfo(binMethods[i], fMember, false));
 				}
 				binType = getSuperclass(binType);
 			}
@@ -571,6 +564,10 @@ public class TypeInfoCollector {
 			// !!!!!!! 
 			if(isDataModelObject(fType)) {
 				addInfoForDataModelObject();				
+			}
+			// This inserts here methods "public int getRowCount()" for @DataModel variables.
+			if(fMember.isDataModel) {
+				addInfoForDataModelVariable();
 			}
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
@@ -589,10 +586,10 @@ public class TypeInfoCollector {
 		}
 	}
 
-	public static boolean isMapOrNotParameterizedCollection(IType type) {
+	public static boolean isNotParameterizedCollection(IType type) {
 		try {
 			String name = type.getFullyQualifiedParameterizedName();
-			return isInstanceofType(type, "java.util.Map") || (isInstanceofType(type, "java.util.Collection") && name.indexOf('<')==-1);
+			return (name.indexOf('<')==-1) && (isInstanceofType(type, "java.util.Map") || (isInstanceofType(type, "java.util.Collection")));
 		} catch (JavaModelException e) {
 			return false;
 		}
@@ -614,6 +611,18 @@ public class TypeInfoCollector {
 		return true;
 	}
 
+	void addInfoForDataModelVariable() {
+		fMethods.add(new MethodInfo(fType,
+				fType.getFullyQualifiedName(),
+				"getRowCount", Modifier.PUBLIC, 
+				new String[0],
+				new String[0],
+				"int",
+				new String[0],
+				fMember,
+				false));
+	}
+
 	void addInfoForDataModelObject() {
 		fMethods.add(new MethodInfo(fType,
 				fType.getFullyQualifiedName(),
@@ -622,7 +631,8 @@ public class TypeInfoCollector {
 				new String[0],
 				"int",
 				new String[0],
-				fMember));
+				fMember,
+				false));
 		fMethods.add(new MethodInfo(fType,
 				fType.getFullyQualifiedName(),
 				"isEmpty", Modifier.PUBLIC, 
@@ -630,7 +640,8 @@ public class TypeInfoCollector {
 				new String[0],
 				"boolean",
 				new String[0],
-				fMember));
+				fMember,
+				false));
 	}
 
 	private static IType getSuperclass(IType type) throws JavaModelException {
@@ -843,19 +854,23 @@ public class TypeInfoCollector {
 		return properties;
 	}
 
-	public static MemberInfo createMemberInfo(IMember member) {
+	public static MemberInfo createMemberInfo(IMember member, boolean dataModel) {
 		try {
 			if (member instanceof IType)
-				return new TypeInfo((IType)member, null);
+				return new TypeInfo((IType)member, null, dataModel);
 			else if (member instanceof IField)
-				return new FieldInfo((IField)member, null);
+				return new FieldInfo((IField)member, null, dataModel);
 			else if (member instanceof IMethod)
-				return new MethodInfo((IMethod)member, null);
+				return new MethodInfo((IMethod)member, null, dataModel);
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 
 		return null;
+	}
+
+	public static MemberInfo createMemberInfo(IMember member) {
+		return createMemberInfo(member, false);
 	}
 
 	static String[] resolveSignatures (IType type, String[] signatures) {

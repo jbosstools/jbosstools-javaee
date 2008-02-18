@@ -22,6 +22,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -30,6 +32,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 
 /**
@@ -109,6 +112,16 @@ public final class SeamELCompletionEngine {
 		Set<String> proposals;
 		private ELOperandToken lastResolvedToken;
 		private boolean isMapOrCollectionOrBundleAmoungTheTokens = false;
+		private TypeInfoCollector.MemberInfo memberOfResolvedOperand;
+
+		public TypeInfoCollector.MemberInfo getMemberOfResolvedOperand() {
+			return memberOfResolvedOperand;
+		}
+
+		public void setMemberOfResolvedOperand(
+				TypeInfoCollector.MemberInfo lastResolvedMember) {
+			this.memberOfResolvedOperand = lastResolvedMember;
+		}
 
 		public SeamELOperandResolveStatus(List<ELOperandToken> tokens) {
 			this.tokens = tokens;
@@ -192,11 +205,32 @@ public final class SeamELCompletionEngine {
 		}
 	}
 
+	private static final String collectionAdditionForCollectionDataModel = ".iterator().next()";
+	private static final String collectionAdditionForMapDataModel = ".get()";
+
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
 		String oldEl = prefix.toString();
 		Var var = findVarForEl(oldEl, vars);
-		String newEl = replacePrefixByVar(oldEl, var);
+		String suffix = "";
+		if(var!=null) {
+			TypeInfoCollector.MemberInfo member = resolveSeamEL(project, file, var.getElToken().getText());
+			if(member!=null && !member.isTypeArray()) {
+				IType type = member.getMemberType();
+				if(type!=null) {
+					try {
+						if(TypeInfoCollector.isInstanceofType(type, "java.util.Map")) {
+							suffix = collectionAdditionForMapDataModel;
+						} else {
+							suffix = collectionAdditionForCollectionDataModel;
+						}
+					} catch (JavaModelException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					}
+				}
+			}
+		}
+		String newEl = replacePrefixByVar(oldEl, var, suffix);
 		String newDocumentContent = documentContent;
 		boolean prefixWasChanged = newEl!=oldEl;
 		if(prefixWasChanged) {
@@ -212,12 +246,12 @@ public final class SeamELCompletionEngine {
 			List<ELOperandToken> oldTokens = tokenizer.getTokens();
 			status.setTokens(oldTokens);
 			if(newLastResolvedToken != null) {
-				if(newLastResolvedToken.getStart() < var.getElToken().getLength()) {
+				if(newLastResolvedToken.getStart() < var.getElToken().getLength() + suffix.length()) {
 					// Last resolved token is token from "var". Set first token of original EL as last resolved one.
-					status.setLastResolvedToken(oldTokens.get(0));
+					status.setLastResolvedToken(null);
 				} else {
 					// Last resolved token is token outside "var" prefix. Correct last resolved token.
-					int oldLastResolvedTokenStart = newLastResolvedToken.getStart() - var.getElToken().getText().length() + var.getName().length();
+					int oldLastResolvedTokenStart = newLastResolvedToken.getStart() - var.getElToken().getText().length() - suffix.length() + var.getName().length();
 					for (ELOperandToken oldToken : oldTokens) {
 						if(oldToken.getStart() == oldLastResolvedTokenStart) {
 							status.setLastResolvedToken(oldToken);
@@ -252,14 +286,54 @@ public final class SeamELCompletionEngine {
 	 * @param vars
 	 * @return
 	 */
-	private String replacePrefixByVar(String el, Var var) {
+	private String replacePrefixByVar(String el, Var var, String suffix) {
 		if(var!=null) {
 			ELToken token = var.getElToken();
 			if(token!=null) {
-				return token.getText() + ".iterator().next()" + el.substring(var.getName().length());
+				return token.getText() + suffix + el.substring(var.getName().length());
 			}
 		}
 		return el;
+	}
+
+	public TypeInfoCollector.MemberInfo resolveSeamEL(ISeamProject project, IFile file, String elBody) throws BadLocationException, StringIndexOutOfBoundsException {
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, elBody, elBody, 0, true);
+		return status.getMemberOfResolvedOperand();
+	}
+
+	public List<ISeamContextVariable> resolveSeamVariableFromEL(ISeamProject project, IFile file, String el) throws BadLocationException, StringIndexOutOfBoundsException {
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(el, el.length());
+		List<ELOperandToken> tokens = tokenizer.getTokens();
+
+		SeamELOperandResolveStatus status = new SeamELOperandResolveStatus(tokenizer.getTokens());
+		status.setTokens(tokens);
+	
+		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
+		ScopeType scope = getScope(project, file);
+		List<List<ELOperandToken>> variations = getPossibleVarsFromPrefix(tokens);
+
+		if (variations.isEmpty()) {
+			resolvedVariables = resolveVariables(project, scope, 
+					tokens, tokens, 
+					true);
+		} else {
+			for (List<ELOperandToken> variation : variations) {
+				List<ISeamContextVariable> resolvedVars = resolveVariables(project, scope, 
+						variation, tokens, 
+						true);
+				if (resolvedVars != null && !resolvedVars.isEmpty()) {
+					resolvedVariables = resolvedVars;
+					status.setLastResolvedToken(variation.get(variation.size() - 1));
+					break;
+				}
+			}
+		}
+
+		if (!areEqualExpressions(status.getResolvedTokens(), status.getTokens())) {
+			resolvedVariables.clear();
+		}
+
+		return resolvedVariables;
 	}
 
 	/**
@@ -337,6 +411,7 @@ public final class SeamELCompletionEngine {
 				} else if(returnEqualedVariablesOnly) {
 					proposals.add(varName);
 				}
+				status.setMemberOfResolvedOperand(SeamExpressionResolver.getMemberInfoByVariable(var, true));
 			}
 			status.setLastResolvedToken(status.getTokens().isEmpty() ? null : status.getTokens().get(status.getTokens().size() - 1));
 			status.setProposals(proposals);
@@ -366,7 +441,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
@@ -395,7 +470,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
@@ -416,7 +491,7 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						proposals.addAll(infos.getMethodPresentations());
@@ -430,11 +505,12 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
-						if (TypeInfoCollector.isMapOrNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
+						if (TypeInfoCollector.isNotParameterizedCollection(mbr.getMemberType()) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
 						proposalsToFilter.addAll(infos.getMethodPresentations());
 						proposalsToFilter.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
+						status.setMemberOfResolvedOperand(mbr);
 					}
 					for (String proposal : proposalsToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)

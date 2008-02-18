@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
+import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
@@ -182,7 +183,15 @@ public class SeamExpressionResolver {
 			}
 		}
 		if (member == null && variable instanceof IBijectedAttribute) {
-			member = TypeInfoCollector.createMemberInfo(((ISeamJavaSourceReference)variable).getSourceMember());
+			boolean isDataModel = false;
+			BijectedAttributeType[] types = ((IBijectedAttribute)variable).getTypes();
+			for(int i=0; i<types.length; i++) {
+				if(types[i]==BijectedAttributeType.DATA_BINDER) {
+					isDataModel = true;
+					break;
+				}
+			}
+			member = TypeInfoCollector.createMemberInfo(((ISeamJavaSourceReference)variable).getSourceMember(), isDataModel);
 		}
 		if (member == null && variable instanceof ISeamJavaSourceReference) {
 			member = TypeInfoCollector.createMemberInfo(((ISeamJavaSourceReference)variable).getSourceMember());
