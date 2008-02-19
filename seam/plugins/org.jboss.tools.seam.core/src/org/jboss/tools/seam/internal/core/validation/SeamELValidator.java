@@ -72,11 +72,13 @@ public class SeamELValidator extends SeamValidator {
 
 	private SeamELCompletionEngine engine = new SeamELCompletionEngine();
 	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
+	private ElVarSearcher elVarSearcher;
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
+		elVarSearcher = new ElVarSearcher(project, engine);
 	}
 
 	/* (non-Javadoc)
@@ -130,6 +132,7 @@ public class SeamELValidator extends SeamValidator {
 
 	private void validateFile(IFile file) {
 		displaySubtask(VALIDATING_EL_FILE_MESSAGE_ID, new String[]{projectName, file.getName()});
+		elVarSearcher.setFile(file);
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
@@ -282,7 +285,7 @@ public class SeamELValidator extends SeamValidator {
 					}
 
 					SeamELCompletionEngine.SeamELOperandResolveStatus status = 
-						engine.resolveSeamELOperand(project, file, operand, prefix, position, true, varListForCurentValidatedNode);
+						engine.resolveSeamELOperand(project, file, operand, prefix, position, true, varListForCurentValidatedNode, elVarSearcher);
 
 					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names

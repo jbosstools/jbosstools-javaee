@@ -13,6 +13,10 @@ package org.jboss.tools.seam.internal.core.el;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -24,6 +28,38 @@ public class ElVarSearcher {
 
 	private final static String VAR_ATTRIBUTE_NAME = "var";
 	private final static String VALUE_ATTRIBUTE_NAME = "value";
+
+	private ISeamProject project;
+	private IFile file;
+	private SeamELCompletionEngine engine;
+
+	/**
+	 * Constructor.
+	 * @param project Seam project where we will look for vars.
+	 * @param file File where we will look for vars.
+	 * @param engine Competion Engine that we will use for resolving vars.
+	 */
+	public ElVarSearcher(ISeamProject project, IFile file, SeamELCompletionEngine engine) {
+		this.project = project;
+		this.file = file;
+		this.engine = engine;
+	}
+
+	/**
+	 * Constructor.
+	 * @param project Seam project where we will look for vars.
+	 * @param engine Competion Engine that we will use for resolving vars.
+	 */
+	public ElVarSearcher(ISeamProject project, SeamELCompletionEngine engine) {
+		this(project, null, engine);
+	}
+
+	/**
+	 * @param file File where we will look for vars.
+	 */
+	public void setFile(IFile file) {
+		this.file = file;
+	}
 
 	/**
 	 * @param node
@@ -77,9 +113,10 @@ public class ElVarSearcher {
 	 * Finds var in list of vars that is used in given EL.
 	 * @param el EL without brackets.
 	 * @param vars
+	 * @param initializeNestedVars
 	 * @return
 	 */
-	public static Var findVarForEl(String el, List<Var> vars) {
+	public Var findVarForEl(String el, List<Var> vars, boolean initializeNestedVars) {
 		if(vars!=null) {
 			ArrayList<Var> parentVars = new ArrayList<Var>();
 			for (Var var : vars) {
@@ -87,10 +124,21 @@ public class ElVarSearcher {
 				if(token!=null && !token.getText().endsWith(".")) {
 					String varName = var.getName();
 					if(el.equals(varName) || el.startsWith(varName + ".")) {
-						if(var.getElToken()!=null) {
-							Var parentVar = findVarForEl(var.getElToken().getText(), parentVars);
+						if(var.getElToken()!=null && initializeNestedVars) {
+							Var parentVar = findVarForEl(var.getElToken().getText(), parentVars, true);
 							if(parentVar!=null) {
 								ELToken resolvedToken = parentVar.getResolvedElToken();
+								if(resolvedToken==null && parentVar.getElToken()!=null) {
+									try {
+										// Initialize parent vars.
+										engine.resolveSeamELOperand(project, file, parentVar.getElToken().getText(), parentVar.getElToken().getText(), 0, true, parentVars, this);
+										resolvedToken = parentVar.getResolvedElToken();
+									} catch (StringIndexOutOfBoundsException e) {
+										SeamCorePlugin.getPluginLog().logError(e);
+									} catch (BadLocationException e) {
+										SeamCorePlugin.getPluginLog().logError(e);
+									}
+								}
 								if(resolvedToken!=null) {
 									String oldText = var.getElToken().getText();
 									String newValue = "#{" + resolvedToken.getText() + oldText.substring(parentVar.getName().length()) + "}";

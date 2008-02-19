@@ -94,7 +94,7 @@ public final class SeamELCompletionEngine {
 	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<String> completions = new ArrayList<String>();
-		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, returnEqualedVariablesOnly, vars);
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, returnEqualedVariablesOnly, vars, new ElVarSearcher(project, file, this));
 		if (status.isOK()) {
 			completions.addAll(status.getProposals());
 		}
@@ -209,9 +209,9 @@ public final class SeamELCompletionEngine {
 	private static final String collectionAdditionForMapDataModel = ".entrySet().iterator().next()";
 
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
+			int position, boolean returnEqualedVariablesOnly, List<Var> vars, ElVarSearcher varSearcher) throws BadLocationException, StringIndexOutOfBoundsException {
 		String oldEl = prefix.toString();
-		Var var = ElVarSearcher.findVarForEl(oldEl, vars);
+		Var var = varSearcher.findVarForEl(oldEl, vars, true);
 		String suffix = "";
 		String newEl = oldEl;
 		if(var!=null) {
