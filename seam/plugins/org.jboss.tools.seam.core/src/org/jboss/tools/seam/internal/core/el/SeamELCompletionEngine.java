@@ -272,22 +272,6 @@ public final class SeamELCompletionEngine {
 		return status;
 	}
 
-	/**
-	 * Replace all el variables by variables from found "var" attributes.
-	 * @param el
-	 * @param vars
-	 * @return
-	 */
-	private String replacePrefixByVar(String el, Var var, String suffix) {
-		if(var!=null) {
-			ELToken token = var.getElToken();
-			if(token!=null) {
-				return token.getText() + suffix + el.substring(var.getName().length());
-			}
-		}
-		return el;
-	}
-
 	public TypeInfoCollector.MemberInfo resolveSeamEL(ISeamProject project, IFile file, String elBody) throws BadLocationException, StringIndexOutOfBoundsException {
 		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, elBody, elBody, 0, true);
 		return status.getMemberOfResolvedOperand();
