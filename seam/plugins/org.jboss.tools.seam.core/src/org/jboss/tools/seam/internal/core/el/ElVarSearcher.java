@@ -74,13 +74,50 @@ public class ElVarSearcher {
 	}
 
 	/**
+	 * Finds var in list of vars that is used in given EL.
+	 * @param el EL without brackets.
+	 * @param vars
+	 * @return
+	 */
+	public static Var findVarForEl(String el, List<Var> vars) {
+		if(vars!=null) {
+			ArrayList<Var> parentVars = new ArrayList<Var>();
+			for (Var var : vars) {
+				ELToken token = var.getElToken();
+				if(token!=null && !token.getText().endsWith(".")) {
+					String varName = var.getName();
+					if(el.equals(varName) || el.startsWith(varName + ".")) {
+						if(var.getElToken()!=null) {
+							Var parentVar = findVarForEl(var.getElToken().getText(), parentVars);
+							if(parentVar!=null) {
+								ELToken resolvedToken = parentVar.getResolvedElToken();
+								if(resolvedToken!=null) {
+									String oldText = var.getElToken().getText();
+									String newValue = "#{" + resolvedToken.getText() + oldText.substring(parentVar.getName().length()) + "}";
+									var.value = newValue;
+									var.elToken = var.parseEl(newValue);
+								}
+							}
+						}
+						return var;
+					}
+				}
+				parentVars.add(var);
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Represents "var"/"value" attributes.
 	 * @author Alexey Kazakov
 	 */
 	public static class Var {
-		private String name;
-		private String value;
-		private ELToken elToken;
+		String name;
+		String value;
+		ELToken elToken;
+		String resolvedValue;
+		ELToken resolvedElToken;
 
 		/**
 		 * Constructor
@@ -91,17 +128,39 @@ public class ElVarSearcher {
 			super();
 			this.name = name;
 			this.value = value;
-			if(value.length()>3 && value.startsWith("#{") && value.endsWith("}")) {
-				String elBody = value.substring(0, value.length()-1).substring(2);
+			elToken = parseEl(value);
+		}
+
+		private ELToken parseEl(String el) {
+			if(el.length()>3 && el.startsWith("#{") && el.endsWith("}")) {
+				String elBody = el.substring(0, el.length()-1).substring(2);
 				SeamELTokenizer elTokenizer = new SeamELTokenizer(elBody);
 				List<ELToken> tokens = elTokenizer.getTokens();
 				for (ELToken token : tokens) {
 					if(token.getType()==ELToken.EL_VARIABLE_TOKEN) {
-						elToken = token;
-						break;
+						return token;
 					}
 				}
 			}
+			return null;
+		}
+
+		/**
+		 * Sets value to new resolved EL which we got as result of parsing value.
+		 * For example:
+		 * <h:datatable value="#{list}" var="item">
+		 * 	<h:dataTable value="#{item.anotherList}" var="innerItem">
+		 * 		...
+		 * 	</h:dataTable>
+		 * </h:dataTable>
+		 * Original El is #{item.anotherList}
+		 * Resolved El is #{list.iterator().next().anotherList}
+		 * It's very useful for nested vars.
+		 * @param newEl
+		 */
+		public void resolveValue(String newEl) {
+			resolvedValue = newEl;
+			resolvedElToken = parseEl(newEl);
 		}
 
 		/**
@@ -109,6 +168,13 @@ public class ElVarSearcher {
 		 */
 		public ELToken getElToken() {
 			return elToken;
+		}
+
+		/**
+		 * @return parsed resolved EL from "value" attribute. May be null.
+		 */
+		public ELToken getResolvedElToken() {
+			return resolvedElToken;
 		}
 
 		/**
@@ -123,6 +189,13 @@ public class ElVarSearcher {
 		 */
 		public String getValue() {
 			return value;
+		}
+
+		/**
+		 * @return resolved value of variable. It's EL. May be null.
+		 */
+		public String getResolvedValue() {
+			return resolvedValue;
 		}
 	}
 }

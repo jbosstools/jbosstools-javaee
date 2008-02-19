@@ -211,8 +211,9 @@ public final class SeamELCompletionEngine {
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
 		String oldEl = prefix.toString();
-		Var var = findVarForEl(oldEl, vars);
+		Var var = ElVarSearcher.findVarForEl(oldEl, vars);
 		String suffix = "";
+		String newEl = oldEl;
 		if(var!=null) {
 			TypeInfoCollector.MemberInfo member = resolveSeamEL(project, file, var.getElToken().getText());
 			if(member!=null && !member.getType().isArray()) {
@@ -229,8 +230,10 @@ public final class SeamELCompletionEngine {
 					}
 				}
 			}
+			if(var.getElToken()!=null) {
+				newEl  = var.getElToken().getText() + suffix + oldEl.substring(var.getName().length());
+			}
 		}
-		String newEl = replacePrefixByVar(oldEl, var, suffix);
 		String newDocumentContent = documentContent;
 		boolean prefixWasChanged = newEl!=oldEl;
 		if(prefixWasChanged) {
@@ -262,22 +265,11 @@ public final class SeamELCompletionEngine {
 			}
 		}
 
-		return status;
-	}
-
-	private Var findVarForEl(String el, List<Var> vars) {
-		if(vars!=null) {
-			for (Var var : vars) {
-				ELToken token = var.getElToken();
-				if(token!=null && !token.getText().endsWith(".")) {
-					String varName = var.getName();
-					if(el.equals(varName) || el.startsWith(varName + ".")) {
-						return var;
-					}
-				}
-			}
+		if(prefixWasChanged) {
+			var.resolveValue("#{" + var.getElToken().getText() + suffix + "}");
 		}
-		return null;
+
+		return status;
 	}
 
 	/**
