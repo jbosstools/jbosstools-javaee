@@ -63,6 +63,18 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		if (memento != null)
 			getSelectionHistory().load(memento);
 	}
+	
+	public void beginTest(){
+		create();
+		applyFilter();
+	}
+	
+	public void endTest(){
+		refresh();
+		computeResult();
+		setResult(getSelectedItems().toList());
+		okPressed();
+	}
 
 	protected Control createExtendedContentArea(Composite parent) {
 		return null;
@@ -75,7 +87,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-
+		
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 				.getProjects();
 
