@@ -5,3 +5,4 @@ Bundle-SymbolicName: org.jboss.tools.jsf.vpe.adf;singleton:=true
 Bundle-Version: 2.1.0
 Bundle-Vendor: %providerName
 Require-Bundle: org.jboss.tools.vpe
+Bundle-Localization: plugin
