@@ -206,7 +206,7 @@ public final class SeamELCompletionEngine {
 	}
 
 	private static final String collectionAdditionForCollectionDataModel = ".iterator().next()";
-	private static final String collectionAdditionForMapDataModel = ".get()";
+	private static final String collectionAdditionForMapDataModel = ".entrySet().iterator().next()";
 
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
@@ -215,7 +215,7 @@ public final class SeamELCompletionEngine {
 		String suffix = "";
 		if(var!=null) {
 			TypeInfoCollector.MemberInfo member = resolveSeamEL(project, file, var.getElToken().getText());
-			if(member!=null && !member.isTypeArray()) {
+			if(member!=null && !member.getType().isArray()) {
 				IType type = member.getMemberType();
 				if(type!=null) {
 					try {

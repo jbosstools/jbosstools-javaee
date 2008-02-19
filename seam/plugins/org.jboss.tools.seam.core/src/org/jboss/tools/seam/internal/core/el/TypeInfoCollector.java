@@ -41,62 +41,170 @@ public class TypeInfoCollector {
 	List<MethodInfo> fMethods;
 	List<FieldInfo> fFields;
 
+	public static class Type {
+		private String fName;
+		private String fQualifiedName;
+		private Type[] fParameters;
+		private IType fSource;
+		private String fSignature;
+		private boolean fIsArray;
+		private Type fTypeOfArrayElement;
+		private String fQualifiedTypeNameOfArrayElement;
+
+		private Type() {
+		}
+
+		public static Type valueOf(String name) {
+			Type instance = new Type(); 
+			instance.setName(name);
+			instance.setParameters(new Type[0]);
+			return instance;
+		}
+
+		public Type(String signature, IType source) {
+			String erasureSignature = Signature.getTypeErasure(signature);
+			String typeOfArraySiganture = Signature.getElementType(erasureSignature);
+			fName = String.valueOf(Signature.toString(erasureSignature));
+			if(!erasureSignature.equals(typeOfArraySiganture)) {
+				// this is an array
+				fIsArray = true;
+				fTypeOfArrayElement = new Type(typeOfArraySiganture, source);
+			}
+			String[] signaturesOfParametersOfType = Signature.getTypeArguments(signature);
+			fParameters = new Type[signaturesOfParametersOfType.length];
+			for (int i = 0; i < signaturesOfParametersOfType.length; i++) {
+				fParameters[i] = new Type(signaturesOfParametersOfType[i], source);
+			}
+			fSource = source;
+		}
+
+		public void initializeParameters(Map<String, Type> parameters) {
+			Type type = parameters.get(fName);
+			if(type!=null) {
+				fName = type.getName();
+				fParameters = type.getParameters();
+				fSource = type.getSource();
+				fIsArray = type.isArray();
+				fTypeOfArrayElement = type.getTypeOfArrayElement();
+			}
+			for (int i = 0; i < fParameters.length; i++) {
+				fParameters[i].initializeParameters(parameters);
+			}
+		}
+
+		public Type getParameter(int index) {
+			if(fParameters.length>index) {
+				return fParameters[index];
+			}
+			return null;
+		}
+
+		public String getQualifiedTypeNameOfArrayElement() {
+			if(fQualifiedTypeNameOfArrayElement==null && fSource!=null) {
+				fQualifiedTypeNameOfArrayElement = EclipseJavaUtil.resolveType(fSource, fTypeOfArrayElement.getName());
+			}
+			return fQualifiedTypeNameOfArrayElement;
+		}
+
+		public String getQualifiedName() {
+			if(fQualifiedName == null && fSource!=null) {
+				fQualifiedName = EclipseJavaUtil.resolveType(fSource, fName);
+			}
+			return fQualifiedName;
+		}
+
+		public boolean isArray() {
+			return fIsArray;
+		}
+
+		public void setArray(boolean array) {
+			fIsArray = array;
+		}
+
+		public Type getTypeOfArrayElement() {
+			return fTypeOfArrayElement;
+		}
+
+		public void setTypeOfArrayElement(Type typeOfArrayElement) {
+			fTypeOfArrayElement = typeOfArrayElement;
+		}
+
+		public String getName() {
+			return fName;
+		}
+
+		public void setName(String name) {
+			fName = name;
+		}
+
+		public Type[] getParameters() {
+			return fParameters;
+		}
+
+		public void setParameters(Type[] parameters) {
+			this.fParameters = parameters;
+		}
+
+		public IType getSource() {
+			return fSource;
+		}
+
+		public void setSource(IType source) {
+			this.fSource = source;
+		}
+
+		public String getSignature() {
+			return fSignature;
+		}
+
+		public void setSignature(String signature) {
+			this.fSignature = signature;
+		}
+	}
+
 	public abstract static class MemberInfo {
 		private String fDeclaringTypeQualifiedName; 
 		private String fName;
 		private int fModifiers;
 		private IType fSourceType;
 		private MemberInfo fParentMember;
-		private String[] fParametersOfType;
 		private String[] fParametersNamesOfDeclaringType;
-		private Map<String, String> fParametersOfDeclaringType;
 		private IType fMemberType;
-		private String fTypeName;
-		private boolean fTypeIsArray;
-		private String fTypeNameOfArray;
-		private String fQualifiedTypeNameOfErrayElement;
 		private boolean isDataModel;
+		private Type fType;
 
 		protected MemberInfo (
 			IType sourceType,
-			String declaringTypeQualifiedName, String name, int modifiers, MemberInfo parentMember, boolean dataModel) {
+			String declaringTypeQualifiedName, String name, int modifiers, MemberInfo parentMember, boolean dataModel, Type type) {
 			setSourceType(sourceType);
 			setDeclaringTypeQualifiedName(declaringTypeQualifiedName);
 			setName(name);
 			setModifiers(modifiers);
 			setParentMember(parentMember);
 			setDataModel(dataModel);
+			setType(type);
 		}
 
 		protected void initializeParametersOfDeclaringType() {
-			if(fParametersOfDeclaringType==null && fParametersNamesOfDeclaringType!=null && fParametersNamesOfDeclaringType.length>0 && getParentMember()!=null) {
-				fParametersOfDeclaringType = new HashMap<String, String>();
-				// Set parameters from parent to return type.
-				String type = getParentMember().getParameterOfDeclaringType(getTypeName());
-				if(type!=null) {
-					fParametersOfDeclaringType.put(getTypeName(), type);
-				}
-				for(int i=0; i<fParametersNamesOfDeclaringType.length; i++) {
-					String paramName = getParameterNameFromType(fParametersNamesOfDeclaringType[i]);
-					String paramType = getParentMember().getParameterOfType(i);
+			if(fParametersNamesOfDeclaringType!=null && fParametersNamesOfDeclaringType.length>0 && getParentMember()!=null) {
+				Map<String, Type> parametersOfDeclaringType = new HashMap<String, Type>();
+				for (int i = 0; i < fParametersNamesOfDeclaringType.length; i++) {
+					String parameterName = getParameterNameFromType(fParametersNamesOfDeclaringType[i]);
+					Type paramType = getParentMember().getType().getParameter(i);
 					if(paramType!=null) {
-						String resolvedParamType = getParentMember().getParameterOfDeclaringType(paramType);
-						if(resolvedParamType!=null) {
-							paramType = resolvedParamType;
-						}
-						String fullQualifiedParamType = getParentMember().resolveTypeNameToFullQualifiedName(paramType);
-						fParametersOfDeclaringType.put(paramName, fullQualifiedParamType);
+						parametersOfDeclaringType.put(parameterName, paramType);
 					}
 				}
+				getType().initializeParameters(parametersOfDeclaringType);
 			}
 		}
 
-		protected void setTypeName(String typeName) {
-			fTypeName = typeName;
+		protected void setType(Type type) {
+			fType = type;
 		}
 
-		public String getTypeName() {
-			return fTypeName;
+		public Type getType() {
+			return fType;
 		}
 
 		public void setSourceType(IType sourceType) {
@@ -115,7 +223,7 @@ public class TypeInfoCollector {
 			return fName;
 		}
 
-		protected void setDeclaringTypeQualifiedName (String declaringTypeQualifiedName) {
+		protected void setDeclaringTypeQualifiedName(String declaringTypeQualifiedName) {
 			this.fDeclaringTypeQualifiedName = declaringTypeQualifiedName;
 		}
 
@@ -151,28 +259,6 @@ public class TypeInfoCollector {
 			fParentMember = parentMember;
 		}
 
-		public String resolveTypeNameToFullQualifiedName(String typeName) {
-			if(fSourceType==null) {
-				return typeName;
-			}
-			return EclipseJavaUtil.resolveType(fSourceType, typeName);
-		}
-
-		public String[] getParametersOfType() {
-			return fParametersOfType;
-		}
-
-		public String getParameterOfType(int index) {
-			if(fParametersOfType!=null && fParametersOfType.length>index) {
-				return fParametersOfType[index];
-			}
-			return null;
-		}
-
-		void setParametersOfType(String[] parametersOfType) {
-			fParametersOfType = parametersOfType;
-		}
-
 		public String[] getParametersNamesOfDeclaringType() {
 			return fParametersNamesOfDeclaringType;
 		}
@@ -182,53 +268,20 @@ public class TypeInfoCollector {
 			fParametersNamesOfDeclaringType = parametersNamesOfDeclaringType;
 		}
 
-		protected String getParameterOfDeclaringType(String parameterName) {
-			if(fParametersOfDeclaringType!=null) {
-				return fParametersOfDeclaringType.get(parameterName);
-			}
-			return null;
-		}
-
 		public IType getMemberType() {
 			if(fMemberType==null) {
 				initializeParametersOfDeclaringType();
-				fMemberType = getMemberTypeInner();
-				if(fMemberType==null && fParametersOfDeclaringType!=null) {
-					// Maybe type name is parameter.
-					String typeName = fParametersOfDeclaringType.get(fTypeName);
-					if(typeName!=null) {
-						try {
-							fMemberType = getSourceType().getJavaProject().findType(typeName);
-						} catch (JavaModelException e) {
-							SeamCorePlugin.getPluginLog().logError(e);
-						}
+				try {
+					if(isDataModel() && getType().isArray()) {
+						fMemberType = getSourceType().getJavaProject().findType(getType().getQualifiedTypeNameOfArrayElement());
+					} else {
+						fMemberType = getSourceType().getJavaProject().findType(getType().getQualifiedName());
 					}
+				} catch (JavaModelException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
 				}
 			}
 			return fMemberType;
-		}
-
-		public boolean isTypeArray() {
-			return fTypeIsArray;
-		}
-
-		void setTypeArray(boolean typeIsArray) {
-			fTypeIsArray = typeIsArray;
-		}
-
-		public String getTypeNameOfArray() {
-			return fTypeNameOfArray;
-		}
-
-		void setTypeNameOfArray(String typeNameOfArray) {
-			fTypeNameOfArray = typeNameOfArray;
-		}
-
-		public String getQualifiedTypeNameOfArrayElement() {
-			if(fQualifiedTypeNameOfErrayElement == null) {
-				fQualifiedTypeNameOfErrayElement = EclipseJavaUtil.resolveType(getSourceType(), getTypeNameOfArray());
-			}
-			return fQualifiedTypeNameOfErrayElement;
 		}
 
 		public boolean isDataModel() {
@@ -239,8 +292,6 @@ public class TypeInfoCollector {
 			this.isDataModel = isDataModel;
 		}
 
-		abstract protected IType getMemberTypeInner();
-
 		abstract public IJavaElement getJavaElement();
 	}
 
@@ -248,33 +299,23 @@ public class TypeInfoCollector {
 		private IType fType;
 
 		public TypeInfo(IType type, MemberInfo parentMember, boolean dataModel) throws JavaModelException {
-			super(type.getDeclaringType(), (type.getDeclaringType() == null ? null : type.getDeclaringType().getFullyQualifiedName()), type.getFullyQualifiedName(), type.getFlags(), parentMember, dataModel);
+			super(type.getDeclaringType(), (type.getDeclaringType() == null ? null : type.getDeclaringType().getFullyQualifiedName()), type.getFullyQualifiedName(), type.getFlags(), parentMember, dataModel, Type.valueOf(type.getFullyQualifiedName()));
 			this.fType = type;
 		}
 
-		public IType getType() {
+		@Override
+		public IType getMemberType() {
 			return fType;
 		}
 
 		@Override
-		public IType getMemberTypeInner() {
-			return getType();
-		}
-
-		@Override
 		public IJavaElement getJavaElement() {
-			return getType();
+			return fType;
 		}
 	}
 
 	public static class FieldInfo extends MemberInfo {
-		private String fQualifiedTypeName;
-
-		public FieldInfo(IType sourceType, String declaringTypeQualifiedName, String name, int modifiers, String typeQualifiedName, String[] parametersOfType, MemberInfo parentMember, boolean dataModel) {
-			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember, dataModel);
-			setTypeName(typeQualifiedName);
-			setParametersOfType(parametersOfType);
-		}
+		private IJavaElement fJavaElement;
 
 		public FieldInfo(IField field, MemberInfo parentMember, boolean dataModel) throws JavaModelException {
 			super(field.getDeclaringType(),
@@ -282,57 +323,23 @@ public class TypeInfoCollector {
 					field.getElementName(),
 					field.getFlags(),
 					parentMember,
-					dataModel);
+					dataModel,
+					new Type(field.getTypeSignature(),
+					field.getDeclaringType()));
 
-			String fullTypeSignature = field.getTypeSignature();
-			String typeErasureSignature = Signature.getTypeErasure(fullTypeSignature);
-			String typeOfArray = String.valueOf(Signature.toString(Signature.getElementType(typeErasureSignature)));
-			String type = String.valueOf(Signature.toString(typeErasureSignature));
-			if(!type.equals(typeOfArray)) {
-				// this is an array
-				setTypeArray(true);
-				setTypeNameOfArray(typeOfArray);
-			}
-			String[] signaturesOfParametersOfType = Signature.getTypeArguments(fullTypeSignature);
-			String[] parametersOfType = getQualifiedClassNamesFromSignatureArray(signaturesOfParametersOfType);
-
-			setTypeName(type);
-			setParametersOfType(parametersOfType);
-		
 			setParametersNamesOfDeclaringType(getTypeErasureFromSignatureArray(field.getDeclaringType().getTypeParameterSignatures()));
 		}
 
-		public String getQualifiedTypeName() {
-			if(fQualifiedTypeName == null) {
-				fQualifiedTypeName = EclipseJavaUtil.resolveType(getSourceType(), getTypeName());
-			}
-			return fQualifiedTypeName;
-		}
-
-		public IType getType() {
-			try {
-				if(isDataModel() && isTypeArray()) {
-					return getSourceType().getJavaProject().findType(getQualifiedTypeNameOfArrayElement());
-				}
-				return getSourceType().getJavaProject().findType(getQualifiedTypeName());
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
-			return null;
-		}
-
 		public IJavaElement getJavaElement () {
-			try {
-				IType declType = getSourceType().getJavaProject().findType(getDeclaringTypeQualifiedName());
-				return (declType == null ? null : declType.getField(getName()));
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-				return null;
+			if(fJavaElement == null) {
+				try {
+					IType declType = getSourceType().getJavaProject().findType(getDeclaringTypeQualifiedName());
+					fJavaElement = (declType == null ? null : declType.getField(getName()));
+				} catch (JavaModelException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
 			}
-		}
-
-		public IType getMemberTypeInner() {
-			return getType();
+			return fJavaElement;
 		}
 	}
 
@@ -340,20 +347,17 @@ public class TypeInfoCollector {
 		private String[] fParameterTypeNames;
 		private String[] fParameterTypeQualifiedNames;
 		private String[] fParameterNames;
-		private String fReturnTypeQualifiedName;
+		private IJavaElement fJavaElement;
 
 		public MethodInfo(IType sourceType, String declaringTypeQualifiedName, String name,
 				int modifiers, String[] parameterTypeQualifiedNames, 
 				String[] parameterNames,
 				String returnTypeQualifiedName,
-				String[] parametersOfReturnType,
 				MemberInfo parentMember,
 				boolean dataModel) {
-			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember, dataModel);
+			super(sourceType, declaringTypeQualifiedName, name, modifiers, parentMember, dataModel, Type.valueOf(name));
 			setParameterTypeNames(parameterTypeQualifiedNames);
 			setParameterNames(parameterNames);
-			setTypeName(returnTypeQualifiedName);
-			setParametersOfType(parametersOfReturnType);
 		}
 
 		public MethodInfo(IMethod method, MemberInfo parentMember, boolean dataModel) throws JavaModelException {
@@ -362,26 +366,12 @@ public class TypeInfoCollector {
 					method.getElementName(),
 					method.getFlags(),
 					parentMember,
-					dataModel);
+					dataModel,
+					new Type(method.getReturnType(),
+					method.getDeclaringType()));
 
 			setParameterNames(method.getParameterNames());
 			setParameterTypeNames(resolveSignatures(method.getDeclaringType(), method.getParameterTypes()));
-
-			String fullReturnTypeSignature = method.getReturnType();
-			String returnTypeErasureSignature = Signature.getTypeErasure(fullReturnTypeSignature);
-			String returnTypeOfArray = String.valueOf(Signature.toString(Signature.getElementType(returnTypeErasureSignature)));
-			String returnType = String.valueOf(Signature.toString(returnTypeErasureSignature));
-			String[] signaturesOfParametersOfReturnType = Signature.getTypeArguments(fullReturnTypeSignature);
-			String[] parametersOfReturnType = getQualifiedClassNamesFromSignatureArray(signaturesOfParametersOfReturnType);
-
-			if(!returnType.equals(returnTypeOfArray)) {
-				// this is an array
-				setTypeArray(true);
-				setTypeNameOfArray(returnTypeOfArray);
-			}
-
-			setTypeName(returnType);
-			setParametersOfType(parametersOfReturnType);
 			setParametersNamesOfDeclaringType(getTypeErasureFromSignatureArray(method.getDeclaringType().getTypeParameterSignatures()));
 		}
 
@@ -413,31 +403,12 @@ public class TypeInfoCollector {
 			return fParameterNames; 
 		}
 
-		public String getReturnTypeName() {
-			return getTypeName(); 
-		}
-
-		public String getReturnTypeQualifiedName() {
-			if(fReturnTypeQualifiedName==null) {
-				fReturnTypeQualifiedName = EclipseJavaUtil.resolveType(getSourceType(), getReturnTypeName());
-			}
-			return fReturnTypeQualifiedName;
-		}
-
 		public int getNumberOfParameters() {
 			return (getParameterNames() == null ? 0 : getParameterNames().length); 
 		}
 
 		public IType getReturnType() {
-			try {
-				if(isDataModel() && isTypeArray()) {
-					return getSourceType().getJavaProject().findType(getQualifiedTypeNameOfArrayElement());
-				}
-				return getSourceType().getJavaProject().findType(getReturnTypeQualifiedName());
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
-			return null;
+			return getMemberType();
 		}
 
 		public boolean isConstructor () {
@@ -453,73 +424,69 @@ public class TypeInfoCollector {
 		}
 
 		@Override
-		public IType getMemberTypeInner() {
-			return getReturnType();
-		}
-
-		public String[] getParametersOfReturnType() {
-			return getParametersOfType();
-		}
-
-		@Override
 		public IJavaElement getJavaElement () {
-			try {
-				IType declType = getSourceType().getJavaProject().findType(getDeclaringTypeQualifiedName());
-
-				IMethod[] allMethods = declType.getMethods();
-
-				// filter methods by name
-				List<IMethod> methods = new ArrayList<IMethod>();
-				for (int i = 0; allMethods != null && i < allMethods.length; i++) {
-					if (allMethods[i].getElementName().equals(getName())) {
-						methods.add(allMethods[i]);
+			if(fJavaElement == null) {
+				try {
+					IType declType = getSourceType().getJavaProject().findType(getDeclaringTypeQualifiedName());
+	
+					IMethod[] allMethods = declType.getMethods();
+	
+					// filter methods by name
+					List<IMethod> methods = new ArrayList<IMethod>();
+					for (int i = 0; allMethods != null && i < allMethods.length; i++) {
+						if (allMethods[i].getElementName().equals(getName())) {
+							methods.add(allMethods[i]);
+						}
 					}
-				}
-				if (methods.isEmpty())
-					return null;
-				if (methods.size() == 1)
-					return methods.get(0);
+					if (!methods.isEmpty()) {
+						if (methods.size() == 1) {
+							fJavaElement = methods.get(0);
+						} else {
+							// filter methods by number of parameters
+							List<IMethod> filteredMethods = new ArrayList<IMethod>();
+							for (IMethod method : methods) {
+								if (method.getNumberOfParameters() == getNumberOfParameters()) {
+									filteredMethods.add(method);
+								}
+							}
+							if (!filteredMethods.isEmpty()) {
+								if (filteredMethods.size() == 1) {
+									fJavaElement = filteredMethods.get(0);
+								} else {
+									methods = filteredMethods;
 
-				// filter methods by number of parameters
-				List<IMethod> filteredMethods = new ArrayList<IMethod>();
-				for (IMethod method : methods) {
-					if (method.getNumberOfParameters() == getNumberOfParameters())
-						filteredMethods.add(method);
-				}
-				if (filteredMethods.isEmpty())
-					return null;
-				if (filteredMethods.size() == 1)
-					return filteredMethods.get(0);
+									// filter methods by parameter types
+									for(IMethod method : methods) {
+										String[] methodParameterTypes = 
+											resolveSignatures(method.getDeclaringType(), 
+													method.getParameterTypes());
+										String[] parameterTypes = getParameterTypeQualifiedNames();
 
-				methods = filteredMethods;
-
-				// filter methods by parameter types
-				for(IMethod method : methods) {
-					String[] methodParameterTypes = 
-						resolveSignatures(method.getDeclaringType(), 
-								method.getParameterTypes());
-					String[] parameterTypes = getParameterTypeQualifiedNames();
-
-					boolean equal = true;
-					for (int i = 0; parameterTypes != null && i < parameterTypes.length; i++) {
-						// simple types must be equal, but complex types may not 
-						if (!parameterTypes[i].equals(methodParameterTypes[i])) {
-							// sure - it's Complex Type
-							if (! (parameterTypes[i].indexOf('.') != -1) 
-									&& (methodParameterTypes[i].indexOf('.') == -1)) {
-								equal = false;
-								break;
+										boolean equal = true;
+										for (int i = 0; parameterTypes != null && i < parameterTypes.length; i++) {
+											// simple types must be equal, but complex types may not 
+											if (!parameterTypes[i].equals(methodParameterTypes[i])) {
+												// sure - it's Complex Type
+												if (! (parameterTypes[i].indexOf('.') != -1) 
+														&& (methodParameterTypes[i].indexOf('.') == -1)) {
+													equal = false;
+													break;
+												}
+											}
+										}
+										if (equal) {
+											fJavaElement = method;
+										}
+									}
+								}
 							}
 						}
 					}
-					if (equal)
-						return method;
+				} catch (JavaModelException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
 				}
-				return null;
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-				return null;
 			}
+			return fJavaElement;
 		}
 	}
 
@@ -588,7 +555,7 @@ public class TypeInfoCollector {
 
 	public static boolean isNotParameterizedCollection(TypeInfoCollector.MemberInfo mbr) {
 		try {
-			if(mbr.getParametersOfType()!=null && mbr.getParametersOfType().length>0) {
+			if(mbr.getType().getParameters()!=null && mbr.getType().getParameters().length>0) {
 				return false;
 			}
 			IType type = mbr.getMemberType();
@@ -624,7 +591,6 @@ public class TypeInfoCollector {
 				new String[0],
 				new String[0],
 				"int",
-				new String[0],
 				fMember,
 				false));
 	}
@@ -636,7 +602,6 @@ public class TypeInfoCollector {
 				new String[0],
 				new String[0],
 				"int",
-				new String[0],
 				fMember,
 				false));
 		fMethods.add(new MethodInfo(fType,
@@ -645,7 +610,6 @@ public class TypeInfoCollector {
 				new String[0],
 				new String[0],
 				"boolean",
-				new String[0],
 				fMember,
 				false));
 	}
@@ -910,42 +874,10 @@ public class TypeInfoCollector {
 		return result;
 	}
 
-	static String[] getQualifiedClassNamesFromSignatureArray(String[] signatureTypes) {
-		if (signatureTypes == null || signatureTypes.length == 0) 
-			return new String[0];
-		String[] qualifiedTypes = new String[signatureTypes.length];
-		for (int i = 0; i < signatureTypes.length; i++) {
-			qualifiedTypes[i] = Signature.toString(signatureTypes[i]);
-		}
-		return qualifiedTypes;
-	}
-
-	static String[] getQualifiedClassNameFromCharArray(char[][] signatureTypes) {
-		if (signatureTypes == null || signatureTypes.length == 0) 
-			return new String[0];
-		String[] qualifiedTypes = new String[signatureTypes.length];
-		for (int i = 0; i < signatureTypes.length; i++) {
-			qualifiedTypes[i] = String.valueOf(Signature.toCharArray(signatureTypes[i]));
-		}
-		return qualifiedTypes;
-	}
-
 	static String getParameterNameFromType(String typeSignatures) {
 		if(typeSignatures==null) {
 			return null;
 		}
 		return Signature.getTypeVariable(typeSignatures);
-	}
-
-	static String[] getParameterNamesFromTypeArray(String[] typeSignatures) {
-		if(typeSignatures==null || typeSignatures.length==0) {
-			return new String[0];
-		}
-		String[] names = new String[typeSignatures.length];
-		for (int i = 0; i < typeSignatures.length; i++) {
-			names[i] = getParameterNameFromType(typeSignatures[i]);
-			
-		}
-		return names;
 	}
 }
