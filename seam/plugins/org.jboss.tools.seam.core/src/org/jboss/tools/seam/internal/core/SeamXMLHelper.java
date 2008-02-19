@@ -190,9 +190,6 @@ public class SeamXMLHelper implements SeamXMLConstants {
 		if(params != null && params.length() > 0) {
 			ps = params.split(",");
 		}
-		if(ps.length > 0) {
-			System.out.println("!!");
-		}
 		return type.getMethod(name, ps);
 	}
 
