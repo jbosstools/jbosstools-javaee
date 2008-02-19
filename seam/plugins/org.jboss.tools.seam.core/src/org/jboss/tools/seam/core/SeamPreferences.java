@@ -17,6 +17,7 @@ import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jdt.core.JavaCore;
 
 /**
  * Constants for names of seam preferences.
@@ -43,6 +44,9 @@ public class SeamPreferences {
 	public static final String ERROR = "error"; //$NON-NLS-1$
 	public static final String WARNING = "warning"; //$NON-NLS-1$
 	public static final String IGNORE = "ignore"; //$NON-NLS-1$
+
+	public static final String ENABLE = JavaCore.ENABLED; //$NON-NLS-1$
+	public static final String DISABLE = JavaCore.DISABLED; //$NON-NLS-1$
 
 	public static final Set<String> severityOptionNames = new HashSet<String>();
 
@@ -108,6 +112,8 @@ public class SeamPreferences {
 
 	// Mark EL Variable name which we can't resolve.
 	public static final String UNKNOWN_EL_VARIABLE_NAME = createSeverityOption("unknownElVariableName"); //$NON-NLS-1$
+	// Check "var" attributes.
+	public static final String CHECK_VARS = createSeverityOption("checkVars"); //$NON-NLS-1$
 	// Mark EL Variable property name which we can't resolve.
 	public static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME = createSeverityOption("unknownElVariablePropertyName"); //$NON-NLS-1$
 	// If Expression use property of component and this property has only setter(getter) without getter(setter) then mark it.

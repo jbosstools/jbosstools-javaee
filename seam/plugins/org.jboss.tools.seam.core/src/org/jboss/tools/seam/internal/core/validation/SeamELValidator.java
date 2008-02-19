@@ -35,6 +35,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -205,7 +206,11 @@ public class SeamELValidator extends SeamValidator {
 	}
 
 	private void validateChildNodes(IFile file, Node parent) {
-		Var var = ElVarSearcher.findVar(parent);
+		String preferenceValue = SeamPreferences.getProjectPreference(project, SeamPreferences.CHECK_VARS);
+		Var var = null;
+		if (SeamPreferences.ENABLE.equals(preferenceValue)) {
+			var = ElVarSearcher.findVar(parent);
+		}
 		if(var!=null) {
 			varListForCurentValidatedNode.add(var);
 		}

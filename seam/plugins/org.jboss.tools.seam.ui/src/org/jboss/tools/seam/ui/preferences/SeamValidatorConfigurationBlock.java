@@ -14,6 +14,7 @@ package org.jboss.tools.seam.ui.preferences;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock;
 import org.eclipse.jdt.internal.ui.preferences.ScrolledPageContent;
@@ -21,8 +22,12 @@ import org.eclipse.jdt.internal.ui.util.PixelConverter;
 import org.eclipse.jdt.internal.ui.wizards.IStatusChangeListener;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -30,6 +35,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 
 /**
  * Find in SeamPreferences the instruction to Framework for Severity preferences
@@ -53,6 +59,10 @@ import org.jboss.tools.seam.core.SeamPreferences;
  */
 public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static final String SETTINGS_SECTION_NAME = SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_SEAM_VALIDATOR_CONFIGURATION_BLOCK;
+
+	private Button recognizeVarsCheckBox;
+	private Combo elVariablesCombo;
+	private Combo elPropertiesCombo;
 
 	private static SectionDescription SECTION_COMPONENT = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_component,
@@ -129,11 +139,12 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		SECTION_EL
 	};
 
-	private static Key PREF_NON_UNIQUE_COMPONENT_NAME = getSeamKey(SeamPreferences.NONUNIQUE_COMPONENT_NAME);
-
 	private static final String ERROR = SeamPreferences.ERROR;
 	private static final String WARNING = SeamPreferences.WARNING;
 	private static final String IGNORE = SeamPreferences.IGNORE;
+
+	private static final String ENABLED= JavaCore.ENABLED;
+	private static final String DISABLED= JavaCore.DISABLED;
 
 	private PixelConverter fPixelConverter;
 
@@ -144,6 +155,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 				keys.add(ALL_SECTIONS[i].options[j].key);
 			}
 		}
+		keys.add(getSeamKey(SeamPreferences.CHECK_VARS));
 		return keys.toArray(new Key[0]);
 	}
 
@@ -177,6 +189,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 
 	private Composite createStyleTabContent(Composite folder) {
 		String[] errorWarningIgnore = new String[] {ERROR, WARNING, IGNORE};
+		String[] enableDisableValues= new String[] {ENABLED, DISABLED};
 
 		String[] errorWarningIgnoreLabels = new String[] {
 			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_ERROR,  
@@ -214,14 +227,56 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 			for (int j = 0; j < section.options.length; j++) {
 				OptionDescription option = section.options[j];
 				label = option.label;
-				addComboBox(inner, label, option.key, errorWarningIgnore, errorWarningIgnoreLabels, defaultIndent);
+				Combo combo = addComboBox(inner, label, option.key, errorWarningIgnore, errorWarningIgnoreLabels, defaultIndent);
+				if(option.label == SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownElVariableName_label) {
+					elVariablesCombo = combo;
+					combo.addSelectionListener(new SelectionListener(){
+						public void widgetDefaultSelected(SelectionEvent e) {
+							updateELCombox();
+						}
+						public void widgetSelected(SelectionEvent e) {
+							updateELCombox();
+						}
+					});
+				} else if(option.label == SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownElVariablePropertyName_label) {
+					elPropertiesCombo = combo;
+					combo.addSelectionListener(new SelectionListener(){
+						public void widgetDefaultSelected(SelectionEvent e) {
+							updateELCombox();
+						}
+						public void widgetSelected(SelectionEvent e) {
+							updateELCombox();
+						}
+					});
+				}
+			}
+
+			if(section==SECTION_EL) {
+				label = SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_checkVars_label; 
+				recognizeVarsCheckBox = addCheckBox(inner, label, getSeamKey(SeamPreferences.CHECK_VARS), enableDisableValues, defaultIndent);
 			}
 		}
 
 		IDialogSettings section = SeamCorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 		restoreSectionExpansionStates(section);
 
+		updateELCombox();
+
 		return sc1;
+	}
+
+	@Override
+	public void performDefaults() {
+		super.performDefaults();
+		updateELCombox();
+	}
+
+	private void updateELCombox() {
+		if(elPropertiesCombo.getSelectionIndex()==2 && elVariablesCombo.getSelectionIndex()==2) {
+			recognizeVarsCheckBox.setEnabled(false);
+		} else {
+			recognizeVarsCheckBox.setEnabled(true);
+		}
 	}
 
 	@Override
