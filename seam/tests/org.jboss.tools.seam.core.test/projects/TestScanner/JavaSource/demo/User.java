@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.Component;
 
 /**
  * Created by JBoss Developer Studio
@@ -75,7 +76,7 @@ public class User {
 	}
 	
 	@Create @Destroy
-	public void createAndDestroyMethod() {
+	public void createAndDestroyMethod(Component c) {
 	}
 	
 	@Factory(value="myFactory", scope=ScopeType.SESSION)
