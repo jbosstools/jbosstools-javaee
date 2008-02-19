@@ -39,9 +39,9 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	
 	public void testOpenSeamComponentDialogSearch() {
 		
-		find("m","mockSecureEntity");
-		find("o","org.jboss.seam.captcha.captcha");
-		find("p","package1.package2.package3.package4.myComponent");
+		find("m", "mockSecureEntity");
+		find("o", "org.jboss.seam.captcha.captcha");
+		find("p", "package1.package2.package3.package4.myComponent");
 		
 	}
 	
@@ -49,6 +49,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		OpenSeamComponentDialog dialog = new OpenSeamComponentDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
+		System.out.print("Searching the component "+componentName+" by pattern \""+pattern+"\"...");
 		dialog.setInitialPattern(pattern);
 		dialog.beginTest();
 		try{
@@ -67,6 +68,8 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		SeamComponentWrapper wrapper = (SeamComponentWrapper)objects[0];
 		
 		assertTrue("Component "+componentName+"not found", wrapper.getComponentName().equals(componentName));
+		
+		System.out.println("done.");
 	}
 	
 }

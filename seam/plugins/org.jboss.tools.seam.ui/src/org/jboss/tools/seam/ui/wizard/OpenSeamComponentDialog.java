@@ -71,9 +71,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	
 	public void endTest(){
 		refresh();
-		computeResult();
 		setResult(getSelectedItems().toList());
-		okPressed();
 	}
 
 	protected Control createExtendedContentArea(Composite parent) {
