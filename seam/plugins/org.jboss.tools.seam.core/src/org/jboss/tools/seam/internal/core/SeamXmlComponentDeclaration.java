@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
@@ -133,7 +134,8 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamXmlComponentDeclaration xd = (SeamXmlComponentDeclaration)s;
 		

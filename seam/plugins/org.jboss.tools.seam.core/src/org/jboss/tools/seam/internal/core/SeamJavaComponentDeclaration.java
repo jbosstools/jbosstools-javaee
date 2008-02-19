@@ -30,6 +30,7 @@ import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -237,7 +238,8 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)s;
 		if(!stringsEqual(className, jd.className)) {

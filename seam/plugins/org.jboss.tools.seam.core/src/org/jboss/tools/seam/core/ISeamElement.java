@@ -10,8 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.util.List;
+import java.util.Properties;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.seam.core.event.Change;
+import org.w3c.dom.Element;
 
 /**
  * Common interface for objects of seam model.
@@ -45,5 +50,28 @@ public interface ISeamElement extends Cloneable {
 	public IResource getResource();
 	
 	public ISeamElement clone() throws CloneNotSupportedException;
+	
+	/**
+	 * Updates this seam object to be equal to the passed seam object.
+	 * @param s
+	 * @return List of performed modifications.
+	 */
+	public List<Change> merge(ISeamElement s);
+	
+	/**
+	 * Serializes this object to XML element and adds it as child to the passed element.
+	 * @param parent
+	 * @param context
+	 * @return
+	 */
+	public Element toXML(Element parent, Properties context);
+
+	/**
+	 * Extracts data from the passed XML element to update this object 
+	 * to be equal to seam object serialized to XML.
+	 * @param element
+	 * @param context
+	 */
+	public void loadXML(Element element, Properties context);
 
 }

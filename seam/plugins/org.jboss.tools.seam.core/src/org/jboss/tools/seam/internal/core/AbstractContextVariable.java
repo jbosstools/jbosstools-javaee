@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
@@ -58,7 +59,8 @@ public abstract class AbstractContextVariable extends AbstractSeamDeclaration im
 	 * @param f
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		AbstractContextVariable f = (AbstractContextVariable)s;
 

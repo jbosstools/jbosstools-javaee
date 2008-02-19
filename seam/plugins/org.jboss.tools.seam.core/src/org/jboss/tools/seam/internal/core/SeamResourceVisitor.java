@@ -56,6 +56,7 @@ public class SeamResourceVisitor implements IResourceVisitor {
 			for (int i = 0; i < FILE_SCANNERS.length; i++) {
 				IFileScanner scanner = FILE_SCANNERS[i];
 				if(scanner.isRelevant(f)) {
+					long t = System.currentTimeMillis();
 					if(!scanner.isLikelyComponentSource(f)) {
 						p.pathRemoved(f.getFullPath());
 						return false;
@@ -67,6 +68,9 @@ public class SeamResourceVisitor implements IResourceVisitor {
 						SeamCorePlugin.getDefault().logError(e);
 					}
 					if(c != null) componentsLoaded(c, f);
+					long dt = System.currentTimeMillis() - t;
+					timeUsed += dt;
+//					System.out.println("Time=" + timeUsed);
 				}
 			}
 		}
@@ -78,6 +82,8 @@ public class SeamResourceVisitor implements IResourceVisitor {
 		//return true to continue visiting children.
 		return true;
 	}
+	
+	static long timeUsed = 0;
 	
 	void componentsLoaded(LoadedDeclarations c, IFile resource) {
 		if(c == null || c.getComponents().size() + c.getFactories().size() == 0) return;

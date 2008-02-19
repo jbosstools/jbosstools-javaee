@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.core.IOpenableElement;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
@@ -91,7 +92,8 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		return c;
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		if(s instanceof AbstractSeamDeclaration) {
 			AbstractSeamDeclaration d = (AbstractSeamDeclaration)s;
@@ -119,7 +121,9 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 
 		XModelObject old = pushModelObject(context);
 
-		name = element.getAttribute(SeamXMLConstants.ATTR_NAME);
+		if(element.hasAttribute(SeamXMLConstants.ATTR_NAME)) {
+			name = element.getAttribute(SeamXMLConstants.ATTR_NAME);
+		}
 		SeamXMLHelper.loadMap(element, attributes, "attributes", context);
 
 		popModelObject(context, old);

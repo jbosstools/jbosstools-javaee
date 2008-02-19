@@ -16,6 +16,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.event.Change;
 
@@ -40,7 +41,8 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamComponentDeclaration d = (SeamComponentDeclaration)s;
 

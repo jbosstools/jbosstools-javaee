@@ -169,7 +169,7 @@ public class SeamXMLHelper implements SeamXMLConstants {
 		element.setAttribute(ATTR_NAME, method.getElementName());
 		String[] s = method.getParameterTypes();
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < s.length; i++) sb.append(s[i]).append(';');
+		for (int i = 0; i < s.length; i++) sb.append(s[i]).append(',');
 		element.setAttribute(ATTR_PARAMS, sb.toString());
 	}
 
@@ -188,7 +188,10 @@ public class SeamXMLHelper implements SeamXMLConstants {
 		String params = element.getAttribute(ATTR_PARAMS);
 		String[] ps = new String[0];
 		if(params != null && params.length() > 0) {
-			ps = params.split(";");
+			ps = params.split(",");
+		}
+		if(ps.length > 0) {
+			System.out.println("!!");
 		}
 		return type.getMethod(name, ps);
 	}

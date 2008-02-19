@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueList;
 import org.jboss.tools.seam.core.event.ISeamValueString;
@@ -37,7 +38,8 @@ public class SeamValueList extends SeamObject implements ISeamValueList {
 		adopt(value);
 	}
 	
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamValueList v = (SeamValueList)s;
 		

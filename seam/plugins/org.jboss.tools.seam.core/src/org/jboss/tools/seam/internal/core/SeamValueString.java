@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 import java.util.Properties;
 
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueString;
@@ -36,7 +37,8 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 		if(value != null) currentValue = value.getValue();
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamValueString v = (SeamValueString)s;
 		String v1 = currentValue;

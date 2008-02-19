@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
@@ -42,7 +43,8 @@ public class SeamAnnotatedFactory extends SeamJavaContextVariable implements ISe
 		this.autoCreate = autoCreate;
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamAnnotatedFactory af = (SeamAnnotatedFactory)s;
 

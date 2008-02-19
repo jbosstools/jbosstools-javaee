@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.IValueInfo;
@@ -48,7 +49,8 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 		return 0;
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		
 		SeamProperty d = (SeamProperty)s;
@@ -121,7 +123,7 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 		Element c = XMLUtilities.getUniqueChild(element, SeamXMLConstants.TAG_VALUE);
 		if(c != null) {
 			SeamObject v = null;
-			String cls = element.getAttribute(SeamXMLConstants.ATTR_CLASS);
+			String cls = c.getAttribute(SeamXMLConstants.ATTR_CLASS);
 			if(SeamXMLConstants.CLS_MAP.equals(cls)) {
 				v = new SeamValueMap();
 			} else if(SeamXMLConstants.CLS_LIST.equals(cls)) {

@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
@@ -63,7 +64,8 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		}
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		
 		if(s instanceof SeamJavaContextVariable) {

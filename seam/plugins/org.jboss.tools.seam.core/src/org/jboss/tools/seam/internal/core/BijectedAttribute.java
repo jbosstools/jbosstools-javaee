@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
@@ -59,7 +60,8 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 	
 	public void setValue(IValueInfo value) {}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		AbstractContextVariable f = (AbstractContextVariable)s;
 		

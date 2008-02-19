@@ -27,6 +27,7 @@ import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -68,7 +69,8 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 	 * @param d
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamPropertiesDeclaration pd = (SeamPropertiesDeclaration)s;
 		

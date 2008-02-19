@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
@@ -82,7 +83,8 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 		}
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		SeamComponentMethod m = (SeamComponentMethod)s;
 		if(!typesAreEqual(types, m.types)) {
@@ -131,6 +133,10 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 	
 	public void loadXML(Element element, Properties context) {
 		super.loadXML(element, context);
+		
+		if(id instanceof IMember) {
+			javaSource = (IMember)id;
+		}
 		
 		if(element.hasAttribute(ATTR_COMP_TYPES)) {
 			String v = element.getAttribute(ATTR_COMP_TYPES);

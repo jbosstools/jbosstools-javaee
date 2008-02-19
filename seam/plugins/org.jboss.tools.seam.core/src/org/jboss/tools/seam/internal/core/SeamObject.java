@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
+import java.lang.annotation.Inherited;
 import java.util.List;
 import java.util.Properties;
 
@@ -123,10 +124,11 @@ public class SeamObject implements ISeamElement {
 	 * @param f
 	 * @return list of changes
 	 */
-	public List<Change> merge(SeamObject s) {
-		source = s.source;
-		id = s.id;
-		resource = s.resource;
+	public List<Change> merge(ISeamElement s) {
+		SeamObject o = (SeamObject)s;
+		source = o.source;
+		id = o.id;
+		resource = o.resource;
 		//If there are no changes, null is returned, 
 		//which prevents creating a lot of unnecessary objects.
 		//Subclasses and clients must check returned 

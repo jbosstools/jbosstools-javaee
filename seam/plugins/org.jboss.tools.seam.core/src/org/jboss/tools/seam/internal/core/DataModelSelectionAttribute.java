@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 import java.util.Properties;
 
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
@@ -39,7 +40,8 @@ public class DataModelSelectionAttribute extends BijectedAttribute {
 		this.value = value == null ? null : value.getValue();
 	}
 
-	public List<Change> merge(SeamObject s) {
+	@Override
+	public List<Change> merge(ISeamElement s) {
 		List<Change> changes = super.merge(s);
 		if(s instanceof DataModelSelectionAttribute) {
 			DataModelSelectionAttribute sf = (DataModelSelectionAttribute)s;
