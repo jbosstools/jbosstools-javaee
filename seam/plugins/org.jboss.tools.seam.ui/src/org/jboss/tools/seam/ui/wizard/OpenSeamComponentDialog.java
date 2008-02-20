@@ -50,6 +50,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	private static final String FILE_NAME = "OpenSeamComponentHistory.xml"; //$NON-NLS-1$
 	private static final String PROJECT_NAME = "ProjectName"; //$NON-NLS-1$
 	private static final String COMPONENT_NAME = "ComponentName"; //$NON-NLS-1$
+	private static final String COMPONENT_DELETED = "ComponentDeleted"; //$NON-NLS-1$
 
 	public OpenSeamComponentDialog(Shell shell) {
 		super(shell);
@@ -58,8 +59,10 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
+		
+		//validateHistory();
 
-		XMLMemento memento = load();
+		XMLMemento memento = loadMemento();
 		if (memento != null)
 			getSelectionHistory().load(memento);
 	}
@@ -117,7 +120,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		progressMonitor.done();
 	}
 
-	private XMLMemento load() {
+	private static XMLMemento loadMemento() {
 		XMLMemento memento = null;
 		IPath stateLocation = SeamGuiPlugin.getDefault().getStateLocation()
 				.append(FILE_NAME);
@@ -134,6 +137,21 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			}
 		}
 		return memento;
+	}
+	
+	private static void saveMemento(XMLMemento xmlMemento){
+		IPath stateLocation = SeamGuiPlugin.getDefault().getStateLocation()
+		.append(FILE_NAME);
+		File file = new File(stateLocation.toOSString());
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(file);
+		
+			xmlMemento.save(writer);
+			writer.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	protected IDialogSettings getDialogSettings() {
@@ -236,6 +254,10 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			String componentName = mem.getString(COMPONENT_NAME);
 			if (componentName == null)
 				return null;
+			String componentDeleted = mem.getString(COMPONENT_DELETED);
+			if (componentDeleted != null && "yes".equals(componentDeleted))
+				return null;
+			
 			return new SeamComponentWrapper(componentName, projectName);
 		}
 
@@ -252,18 +274,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			if (!(memento instanceof XMLMemento))
 				return;
 			XMLMemento xmlMemento = (XMLMemento) memento;
-			IPath stateLocation = SeamGuiPlugin.getDefault().getStateLocation()
-					.append(FILE_NAME);
-			File file = new File(stateLocation.toOSString());
-			FileWriter writer = null;
-			try {
-				writer = new FileWriter(file);
-
-				xmlMemento.save(writer);
-				writer.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			saveMemento(xmlMemento);
 		}
 	}
 
@@ -350,5 +361,50 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			this.component = component;
 		}
 
+	}
+	
+
+	public static void validateHistory(){
+		XMLMemento memento = loadMemento();
+		if(memento != null){
+			XMLMemento historyMemento = (XMLMemento) memento
+			.getChild("historyRootNode");
+
+			if (historyMemento == null) {
+				return;
+			}
+		
+			IMemento[] mementoElements = historyMemento
+					.getChildren("infoNode");
+			for (int i = 0; i < mementoElements.length; ++i) {
+				IMemento mem = mementoElements[i];
+				String projectName = mem.getString(PROJECT_NAME);
+				if (projectName == null){
+					mem.putString(COMPONENT_DELETED, "yes");
+					continue;
+				}
+				String componentName = mem.getString(COMPONENT_NAME);
+				if (componentName == null){
+					mem.putString(COMPONENT_DELETED, "yes");
+					continue;
+				}
+				IProject project = ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(projectName);
+				if (project != null) {
+					ISeamProject seamProject = SeamCorePlugin.getSeamProject(
+							project, true);
+					if (seamProject != null) {
+						ISeamComponent component = seamProject
+								.getComponent(componentName);
+						if(component == null)
+							mem.putString(COMPONENT_DELETED, "yes");
+					}else
+						mem.putString(COMPONENT_DELETED, "yes");
+				}else
+					mem.putString(COMPONENT_DELETED, "yes");
+				
+			}
+			saveMemento(memento);
+		}
 	}
 }
