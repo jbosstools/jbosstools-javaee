@@ -224,7 +224,7 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty"
-    displayName="JBoss Developer Studio Struts" group="1" kind="list" name="StrutsStudio">
+    displayName="JBoss Tools Struts" group="1" kind="list" name="StrutsStudio">
     <XActionItem
      HandlerClassName="org.jboss.tools.struts.model.pv.handler.StrutsProjectsRootRedirectHandler"
      ICON="action.empty" PROPERTIES="actionpath=SynchronizeModules"
