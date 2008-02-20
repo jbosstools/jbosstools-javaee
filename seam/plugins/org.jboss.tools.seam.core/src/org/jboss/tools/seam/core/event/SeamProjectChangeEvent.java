@@ -34,6 +34,7 @@ public class SeamProjectChangeEvent extends EventObject {
 
 	public SeamProjectChangeEvent(ISeamProject project, List<Change> changes) {
 		super(project);
+		this.project = project;
 		this.changes = changes;
 	}
 	
