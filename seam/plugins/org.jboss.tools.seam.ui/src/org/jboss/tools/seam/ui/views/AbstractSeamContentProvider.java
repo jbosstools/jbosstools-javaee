@@ -241,9 +241,12 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 
 		public void resourceChanged(IResourceChangeEvent event) {
 			try {
-				if(event.getDelta()==null) refresh(null);
-				else event.getDelta().accept(visitor);
-			} catch (Exception e) {
+				if (event.getDelta() == null) {
+					refresh(null);
+				} else {
+					event.getDelta().accept(visitor);
+				}
+			} catch (CoreException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}			
 		}
