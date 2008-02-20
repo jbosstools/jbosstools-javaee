@@ -11,6 +11,8 @@
 package org.jboss.tools.seam.core;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
@@ -24,6 +26,8 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
+import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
+import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -150,6 +154,39 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	 */
 	public static IStatus createErrorStatus(String message, Throwable exception) {
 		return new Status(IStatus.ERROR, PLUGIN_ID, -1, message, exception);
+	}
+	
+	private static List<ISeamProjectChangeListener> listeners = new ArrayList<ISeamProjectChangeListener>();
+	
+	/**
+	 * 
+	 */
+	public static void addSeamProjectListener(ISeamProjectChangeListener listener) {
+		synchronized(listeners) {
+			if(listeners.contains(listener)) return;
+			listeners.add(listener);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public static void removeSeamProjectListener(ISeamProjectChangeListener listener) {
+		synchronized(listeners) {
+			listeners.remove(listener);
+		}
+	}
+	
+	public static void fire(SeamProjectChangeEvent event) {
+		ISeamProjectChangeListener[] ls = null;
+		synchronized(listeners) {
+			ls = listeners.toArray(new ISeamProjectChangeListener[0]);
+		}
+		if(ls != null) {
+			for (int i = 0; i < ls.length; i++) {
+				ls[i].projectChanged(event);
+			}
+		}
 	}
 
 }

@@ -78,32 +78,40 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
 		SeamProject sp = getSeamProject();
-		if(sp==null) {
-			return null; // 
+		if(sp == null) {
+			return null; 
 		}
 		
-		sp.resolveStorage(kind != FULL_BUILD);
+		sp.postponeFiring();
 		
-		if(sp.getClassPath().update()) {
-			sp.getClassPath().process();
-		}
+		try {
+		
+			sp.resolveStorage(kind != FULL_BUILD);
+			
+			if(sp.getClassPath().update()) {
+				sp.getClassPath().process();
+			}
 
-		new SeamRuntimeValidation().validate(sp);
+			new SeamRuntimeValidation().validate(sp);
 
-		if (kind == FULL_BUILD) {
-			fullBuild(monitor);
-		} else {
-			IResourceDelta delta = getDelta(getProject());
-			if (delta == null) {
+			if (kind == FULL_BUILD) {
 				fullBuild(monitor);
 			} else {
-				incrementalBuild(delta, monitor);
+				IResourceDelta delta = getDelta(getProject());
+				if (delta == null) {
+					fullBuild(monitor);
+				} else {
+					incrementalBuild(delta, monitor);
+				}
 			}
-		}
-		try {
-			sp.store();
-		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError(NLS.bind(SeamCoreMessages.SeamCoreBuilder_1,sp.getProject().getName()), e); //$NON-NLS-1$
+			try {
+				sp.store();
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(NLS.bind(SeamCoreMessages.SeamCoreBuilder_1,sp.getProject().getName()), e); //$NON-NLS-1$
+			}
+		
+		} finally {
+			sp.fireChanges();
 		}
 		return null;
 	}

@@ -381,27 +381,35 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		long begin = System.currentTimeMillis();
 		
-		boolean b = getClassPath().update();
-		if(b) {
-			getClassPath().validateProjectDependencies();
-		}
-		File file = getStorageFile();
-		Element root = null;
-		if(file != null && file.isFile()) {
-			root = XMLUtilities.getElement(file, null);
-			if(root != null) {
-				loadProjectDependencies(root);
-				loadSourcePaths2(root);
-//				loadSourcePaths(root);
+		postponeFiring();
+		
+		try {
+		
+			boolean b = getClassPath().update();
+			if(b) {
+				getClassPath().validateProjectDependencies();
 			}
-		}
+			File file = getStorageFile();
+			Element root = null;
+			if(file != null && file.isFile()) {
+				root = XMLUtilities.getElement(file, null);
+				if(root != null) {
+					loadProjectDependencies(root);
+					loadSourcePaths2(root);
+//					loadSourcePaths(root);
+				}
+			}
 
-		if(b) {
-			getClassPath().process();
-		}
+			if(b) {
+				getClassPath().process();
+			}
 
-		if(root != null) {
-			getValidationContext().load(root);
+			if(root != null) {
+				getValidationContext().load(root);
+			}
+		
+		} finally {
+			fireChanges();
 		}
 
 		long e = System.currentTimeMillis();
@@ -1375,12 +1383,32 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return c;
 	}
 	
+	List<Change> postponedChanges = null;
+	
+	public void postponeFiring() {
+		if(postponedChanges == null) {
+			postponedChanges = new ArrayList<Change>();
+		}
+	}
+	
+	public void fireChanges() {
+		if(postponedChanges == null) return;
+		List<Change> changes = postponedChanges;
+		postponedChanges = null;
+		System.out.println("fireng " + changes.size() + " changes");
+		fireChanges(changes);
+	}
+	
 	/**
 	 * 
 	 * @param changes
 	 */
 	void fireChanges(List<Change> changes) {
 		if(changes == null || changes.size() == 0) return;
+		if(postponedChanges != null) {
+			postponedChanges.addAll(changes);
+			return;
+		}
 		SeamProjectChangeEvent event = new SeamProjectChangeEvent(this, changes);
 		ISeamProjectChangeListener[] ls = null;
 		synchronized(this) {
@@ -1391,6 +1419,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				ls[i].projectChanged(event);
 			}
 		}
+		SeamCorePlugin.fire(event);
 	}
 
 	/**
