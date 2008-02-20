@@ -13,6 +13,10 @@ package org.jboss.tools.seam.ui;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
+import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
+import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -68,5 +72,14 @@ public class SeamGuiPlugin extends BaseUIPlugin {
 	 */
 	public static IPluginLog getPluginLog() {
 		return getDefault();
+	}
+
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		SeamCorePlugin.addSeamProjectListener(new ISeamProjectChangeListener(){
+			public void projectChanged(SeamProjectChangeEvent event) {
+				OpenSeamComponentDialog.validateHistory(event.getProject());
+			}
+		});
 	}
 }

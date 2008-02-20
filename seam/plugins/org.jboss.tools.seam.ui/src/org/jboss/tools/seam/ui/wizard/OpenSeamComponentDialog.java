@@ -364,7 +364,9 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	}
 	
 
-	public static void validateHistory(){
+	public static void validateHistory(ISeamProject seamProject){
+		String seamProjectName = seamProject.getProject().getName();
+		
 		XMLMemento memento = loadMemento();
 		if(memento != null){
 			XMLMemento historyMemento = (XMLMemento) memento
@@ -383,26 +385,29 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 					mem.putString(COMPONENT_DELETED, "yes");
 					continue;
 				}
-				String componentName = mem.getString(COMPONENT_NAME);
-				if (componentName == null){
-					mem.putString(COMPONENT_DELETED, "yes");
-					continue;
-				}
-				IProject project = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(projectName);
-				if (project != null) {
-					ISeamProject seamProject = SeamCorePlugin.getSeamProject(
-							project, true);
-					if (seamProject != null) {
-						ISeamComponent component = seamProject
-								.getComponent(componentName);
-						if(component == null)
+				if(projectName.equals(seamProjectName)){
+					String componentName = mem.getString(COMPONENT_NAME);
+					if (componentName == null){
+						mem.putString(COMPONENT_DELETED, "yes");
+						continue;
+					}
+					IProject project = ResourcesPlugin.getWorkspace().getRoot()
+					.getProject(projectName);
+					if (project != null) {
+						ISeamProject cSeamProject = SeamCorePlugin.getSeamProject(
+								project, true);
+						if (cSeamProject != null) {
+							ISeamComponent component = cSeamProject
+									.getComponent(componentName);
+							if(component == null)
+								mem.putString(COMPONENT_DELETED, "yes");
+							else
+								mem.putString(COMPONENT_DELETED, "no");
+						}else
 							mem.putString(COMPONENT_DELETED, "yes");
 					}else
 						mem.putString(COMPONENT_DELETED, "yes");
-				}else
-					mem.putString(COMPONENT_DELETED, "yes");
-				
+				}
 			}
 			saveMemento(memento);
 		}
