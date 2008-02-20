@@ -16,6 +16,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1105Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1479Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1484Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1615Test;
@@ -50,6 +51,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE1615Test.class);
 		suite.addTestSuite(JBIDE1479Test.class);
 		suite.addTestSuite(JBIDE788Test.class);
+		suite.addTestSuite(JBIDE1105Test.class);
 		
  		
 		// $JUnit-END$
@@ -62,11 +64,12 @@ public class JsfAllTests {
  		projectToImport.add(importBean);
  		
  		// Perfomance Tests
- 		suite.addTestSuite(PerfomanceTest.class);
-		ImportBean importPerfomanceBean = new ImportBean();
-		importPerfomanceBean.setImportProjectName(PerfomanceTest.IMPORT_PROJECT_NAME);
- 		importPerfomanceBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
- 		projectToImport.add(importPerfomanceBean);
+ 		//TODO dsakovich adjust perfomance tests
+// 		suite.addTestSuite(PerfomanceTest.class);
+//		ImportBean importPerfomanceBean = new ImportBean();
+//		importPerfomanceBean.setImportProjectName(PerfomanceTest.IMPORT_PROJECT_NAME);
+// 		importPerfomanceBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+// 		projectToImport.add(importPerfomanceBean);
 		
  		return new VpeTestSetup(suite,projectToImport);
 
