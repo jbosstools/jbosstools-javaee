@@ -59,6 +59,10 @@ public class XMLValueInfo implements IValueInfo {
 		h.update();
 		return h;
 	}
+	
+	public XModelObject getObject() {
+		return object;
+	}
 
 	public Element toXML(Element parent, Properties context) {
 		Element element = XMLUtilities.createElement(parent, SeamXMLConstants.TAG_VALUE_INFO);

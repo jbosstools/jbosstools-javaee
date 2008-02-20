@@ -32,10 +32,17 @@ public class SeamXMLHelper implements SeamXMLConstants {
 		IValueInfo v = null;
 		if(CLS_XML.equals(c.getAttribute(ATTR_CLASS))) {
 			v = new XMLValueInfo();
+			v.loadXML(c, context);
+			if(((XMLValueInfo)v).getObject() == null) {
+				v = new ValueInfo();
+				//that may be a problem
+				((ValueInfo)v).setValue("");
+			}
 		} else {
 			v = new ValueInfo();
+			v.loadXML(c, context);
 		}
-		v.loadXML(c, context);
+		
 		return v;
 	}
 	
