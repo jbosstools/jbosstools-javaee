@@ -199,7 +199,8 @@ public class JBIDE788Test extends VpeTest{
 		TestUtil.waitForJobs();
 		TestUtil.delay(2000);
 		SourceViewerConfiguration  sourceViewerConfiguration = ((JSPTextEditor)part.getSourceEditor()).getSourceViewerConfigurationForTest();
-
+		//errase errors which can be on start of editor(for example xuklunner not found)
+		setException(null);
 		StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration)  sourceViewerConfiguration;
 		IContentAssistant iContentAssistant = stvc.getContentAssistant((ISourceViewer) part.getSourceEditor().getAdapter(ISourceViewer.class));
 		assertNotNull(iContentAssistant);
