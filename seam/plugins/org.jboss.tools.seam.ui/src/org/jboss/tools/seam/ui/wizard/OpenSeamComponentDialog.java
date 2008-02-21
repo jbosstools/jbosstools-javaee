@@ -50,9 +50,14 @@ import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
  */
 public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	private static final String FILE_NAME = "OpenSeamComponentHistory.xml"; //$NON-NLS-1$
+	private static final String ROOT_NODE = "historyRootNode"; //$NON-NLS-1$
+	private static final String INFO_NODE = "infoNode"; //$NON-NLS-1$
 	private static final String PROJECT_NAME = "ProjectName"; //$NON-NLS-1$
 	private static final String COMPONENT_NAME = "ComponentName"; //$NON-NLS-1$
-	private static final String COMPONENT_DELETED = "ComponentDeleted"; //$NON-NLS-1$
+	private static final String DELETED = "Deleted"; //$NON-NLS-1$
+	private static final String SEPARATOR = " - "; //$NON-NLS-1$
+	private static final String YES = "yes"; //$NON-NLS-1$
+	private static final String NO = "no"; //$NON-NLS-1$
 
 	public OpenSeamComponentDialog(Shell shell) {
 		super(shell);
@@ -266,8 +271,8 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			String componentName = mem.getString(COMPONENT_NAME);
 			if (componentName == null)
 				return null;
-			String componentDeleted = mem.getString(COMPONENT_DELETED);
-			if (componentDeleted != null && "yes".equals(componentDeleted))
+			String componentDeleted = mem.getString(DELETED);
+			if (componentDeleted != null && YES.equals(componentDeleted))
 				return null;
 			
 			return new SeamComponentWrapper(componentName, projectName);
@@ -300,7 +305,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			if (element instanceof SeamComponentWrapper) {
 				SeamComponentWrapper componentWrapper = (SeamComponentWrapper) element;
 				return componentWrapper.getComponentName()
-						+ " - " + componentWrapper.getProjectName(); //$NON-NLS-1$
+						+ SEPARATOR + componentWrapper.getProjectName(); //$NON-NLS-1$
 			}
 			return null;
 		}
@@ -382,25 +387,25 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		XMLMemento memento = loadMemento();
 		if(memento != null){
 			XMLMemento historyMemento = (XMLMemento) memento
-			.getChild("historyRootNode");
+			.getChild(ROOT_NODE);
 
 			if (historyMemento == null) {
 				return;
 			}
 		
 			IMemento[] mementoElements = historyMemento
-					.getChildren("infoNode");
+					.getChildren(INFO_NODE);
 			for (int i = 0; i < mementoElements.length; ++i) {
 				IMemento mem = mementoElements[i];
 				String projectName = mem.getString(PROJECT_NAME);
 				if (projectName == null){
-					mem.putString(COMPONENT_DELETED, "yes");
+					mem.putString(DELETED, YES);
 					continue;
 				}
 				if(projectName.equals(seamProjectName)){
 					String componentName = mem.getString(COMPONENT_NAME);
 					if (componentName == null){
-						mem.putString(COMPONENT_DELETED, "yes");
+						mem.putString(DELETED, YES);
 						continue;
 					}
 					IProject project = ResourcesPlugin.getWorkspace().getRoot()
@@ -412,13 +417,13 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 							ISeamComponent component = cSeamProject
 									.getComponent(componentName);
 							if(component == null)
-								mem.putString(COMPONENT_DELETED, "yes");
+								mem.putString(DELETED, YES);
 							else
-								mem.putString(COMPONENT_DELETED, "no");
+								mem.putString(DELETED, NO);
 						}else
-							mem.putString(COMPONENT_DELETED, "yes");
+							mem.putString(DELETED, YES);
 					}else
-						mem.putString(COMPONENT_DELETED, "yes");
+						mem.putString(DELETED, YES);
 				}
 			}
 			saveMemento(memento);
