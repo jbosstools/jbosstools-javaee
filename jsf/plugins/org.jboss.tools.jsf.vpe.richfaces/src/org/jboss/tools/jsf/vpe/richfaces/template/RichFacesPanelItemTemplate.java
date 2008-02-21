@@ -25,6 +25,8 @@ import org.w3c.dom.Node;
 
 public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 
+    private static final String DEFAULT_LABEL = "auto generated label";
+
     /**
      * 
      * @param creationData
@@ -60,13 +62,13 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	    parentVisualElement.appendChild(div);
 	}
 
-	div.setAttribute("class", "dr-pnlbar rich-panelbar dr-pnlbar-ext "
-		+ barStyleClass);
+	div.setAttribute("class", barStyleClass
+		+ " dr-pnlbar rich-panelbar dr-pnlbar-ext ");
 	div.setAttribute("style", barStyle);
 	div.setAttribute("vpe-user-toggle-id", toggleId);
 
 	// Encode Header
-	String headerActivetStyleClass = "dr-pnlbar-h-act rich-panelbar-header-act "
+	String headerActivetStyleClass = "dr-pnlbar-h rich-panelbar-header "
 		+ barHeaderActiveStyleClass
 		+ " "
 		+ ComponentUtil
@@ -78,20 +80,18 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 		+ barHeaderActiveStyle
 		+ " "
 		+ ComponentUtil
-			.getAttribute(sourceElement, "headerStyleActive") + " "
-		+ ComponentUtil.getHeaderBackgoundImgStyle();
+			.getAttribute(sourceElement, "headerStyleActive");
 	String headerStyleClass = "dr-pnlbar-h rich-panelbar-header "
-		+ barHeaderStyleClass + " "
-		+ ComponentUtil.getAttribute(sourceElement, "headerClass");
+		+ ComponentUtil.getAttribute(sourceElement, "headerClass")
+		+ barHeaderStyleClass;
 	String headerStyle = barHeaderStyle + " "
-		+ ComponentUtil.getAttribute(sourceElement, "headerStyle")
-		+ " " + ComponentUtil.getHeaderBackgoundImgStyle();
+		+ ComponentUtil.getAttribute(sourceElement, "headerStyle");
 	if (active) {
-	    encodeHeader(sourceElement, visualDocument, div,
+	    encodeHeader(creationData, sourceElement, visualDocument, div,
 		    headerActivetStyleClass, headerActivetStyle, toggleId);
 	} else {
-	    encodeHeader(sourceElement, visualDocument, div, headerStyleClass,
-		    headerStyle, toggleId);
+	    encodeHeader(creationData, sourceElement, visualDocument, div,
+		    headerStyleClass, headerStyle, toggleId);
 	}
 
 	// Encode Body
@@ -110,16 +110,17 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 		parentVisualElement.appendChild(tr2);
 	    }
 
-	    nsIDOMElement table = visualDocument
+	    nsIDOMElement contentTable = visualDocument
 		    .createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-	    td2.appendChild(table);
-	    table.setAttribute("cellpadding", "0");
-	    table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
-	    table.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
+
+	    td2.appendChild(contentTable);
+	    contentTable.setAttribute("cellpadding", "0");
+	    contentTable.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
+	    contentTable.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
 
 	    nsIDOMElement tbody = visualDocument
 		    .createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-	    table.appendChild(tbody);
+	    contentTable.appendChild(tbody);
 
 	    nsIDOMElement tr = visualDocument
 		    .createElement(HtmlComponentUtil.HTML_TAG_TR);
@@ -164,9 +165,10 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
      * @param style
      * @param toggleId
      */
-    private static void encodeHeader(Element sourceElement,
-	    nsIDOMDocument visualDocument, nsIDOMElement parentDiv,
-	    String styleClass, String style, String toggleId) {
+    private static void encodeHeader(VpeCreationData vpeCreationData,
+	    Element sourceElement, nsIDOMDocument visualDocument,
+	    nsIDOMElement parentDiv, String styleClass, String style,
+	    String toggleId) {
 
 	nsIDOMElement div = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -176,9 +178,15 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	div.setAttribute("vpe-user-toggle-id", toggleId);
 
 	String label = sourceElement.getAttribute("label");
-	if (label != null) {
-	    div.appendChild(visualDocument.createTextNode(label));
+	Element facet = ComponentUtil.getFacet(sourceElement, "label");
+	if (facet == null) {
+	    div.appendChild(visualDocument
+		    .createTextNode((label == null) ? DEFAULT_LABEL : label));
+	} else {
+	    VpeChildrenInfo facetInfo = new VpeChildrenInfo(div);
+	    facetInfo.addSourceChild(facet);
+	    vpeCreationData.addChildrenInfo(facetInfo);
 	}
-
     }
+
 }

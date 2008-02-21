@@ -32,19 +32,26 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
 
     private static Map toggleMap = new HashMap();
 
+    private final static String CONTENT_CLASS = "contentClass";
+    private final static String CONTENT_STYLE = "contentStyle";
+    private final static String HEADER_CLASS = "headerClass";
+    private final static String HEADER_STYLE = "headerStyle";
+    private final static String HEADER_ACTIVE_CLASS = "headerClassActive";
+    private final static String HEADER_ACTIVE_STYLE = "headerStyleActive";
+    
+     
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-
+	
 	Element sourceElement = (Element) sourceNode;
+	nsIDOMElement table = visualDocument.createElement("table");
 
-	nsIDOMElement div = visualDocument.createElement("table");
-
-	VpeCreationData creationData = new VpeCreationData(div);
+	VpeCreationData creationData = new VpeCreationData(table);
 
 	ComponentUtil.setCSSLink(pageContext, "panelBar/panelBar.css",
 		"richFacesPanelBar");
 	String styleClass = sourceElement.getAttribute("styleClass");
-	div.setAttribute("class", "dr-pnlbar rich-panelbar dr-pnlbar-b "
+	table.setAttribute("class", "dr-pnlbar rich-panelbar dr-pnlbar-b "
 		+ (styleClass == null ? "" : styleClass));
 
 	// Set style attribute
@@ -57,30 +64,69 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
 	List<Node> children = ComponentUtil.getChildren(sourceElement);
 	int activeId = getActiveId(sourceElement, children);
 	int i = 0;
+
+	String style = ComponentUtil.getAttribute(sourceElement,
+		HtmlComponentUtil.HTML_STYLE_ATTR);
+
+	String contentClass = ComponentUtil.getAttribute(sourceElement,
+		CONTENT_CLASS);
+	String contentStyle = ComponentUtil.getAttribute(sourceElement,
+		CONTENT_STYLE);
+	String headerClass = ComponentUtil.getAttribute(sourceElement,
+		HEADER_CLASS);
+	String headerStyle = ComponentUtil.getAttribute(sourceElement,
+		HEADER_STYLE);
+	String headerActiveStyle = ComponentUtil.getAttribute(sourceElement,
+		HEADER_ACTIVE_STYLE);
+	String headerActiveClass = ComponentUtil.getAttribute(sourceElement,
+		HEADER_ACTIVE_CLASS);
+
 	for (Node child : children) {
 	    boolean active = (i == activeId);
 
 	    if (child.getNodeName().endsWith(":panelBarItem")) {
 
-		RichFacesPanelItemTemplate.encode(creationData,
-			(Element) child, visualDocument, div, active,
-			ComponentUtil.getAttribute((Element) child,
-				"styleClass"), ComponentUtil.getAttribute(
-				(Element) child, "style"), ComponentUtil
-				.getAttribute((Element) child, "headerClass"),
-			ComponentUtil.getAttribute((Element) child,
-				"headerStyle"), ComponentUtil.getAttribute(
-				(Element) child, "headerClassActive"),
-			ComponentUtil.getAttribute((Element) child,
-				"headerStyleActive"), ComponentUtil
-				.getAttribute((Element) child, "contentClass"),
-			ComponentUtil.getAttribute((Element) child,
-				"contentStyle"), String.valueOf(i));
+		String internContentClass = ComponentUtil.getAttribute(
+			(Element) child, CONTENT_CLASS);
+		String internContentStyle = ComponentUtil.getAttribute(
+			(Element) child, CONTENT_STYLE);
+		String internHeaderClass = ComponentUtil.getAttribute(
+			(Element) child, HEADER_CLASS);
+		String internHeaderStyle = ComponentUtil.getAttribute(
+			(Element) child, HEADER_STYLE);
+		String internHeaderActiveStyle = ComponentUtil.getAttribute(
+			(Element) child, HEADER_ACTIVE_STYLE);
+		String internHeaderActiveClass = ComponentUtil.getAttribute(
+			(Element) child, HEADER_ACTIVE_CLASS);
+
+		RichFacesPanelItemTemplate
+			.encode(
+				creationData,
+				(Element) child,
+				visualDocument,
+				table,
+				active,
+				ComponentUtil.getAttribute(sourceElement,
+					HtmlComponentUtil.HTML_STYLECLASS_ATTR),
+				style,
+				(internHeaderClass.length() == 0) ? headerClass
+					: internHeaderClass,
+				(internHeaderStyle.length() == 0) ? headerStyle
+					: internHeaderStyle,
+				(internHeaderActiveClass.length() == 0) ? headerActiveClass
+					: internHeaderActiveClass,
+				(internHeaderActiveStyle.length() == 0) ? headerActiveStyle
+					: internHeaderActiveStyle,
+				(internContentClass.length() == 0) ? contentClass
+					: internContentClass,
+				(internContentStyle.length() == 0) ? contentStyle
+					: internContentStyle, String.valueOf(i));
+		
 		i++;
 	    }
 	}
 
-	div.setAttribute("style", styleValue.toString());
+	table.setAttribute("style", styleValue.toString());
 	return creationData;
     }
 
@@ -91,7 +137,8 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
      */
     private String height(Element sourceElement) {
 	String height = sourceElement.getAttribute("height");
-	if (height == null || height.length() == 0 || height.equals("100%")) {
+	if (height == null || height.length() == 0 ) {
+	   
 	    height = "100%";
 	}
 	return "height: " + height + ";";
@@ -175,4 +222,5 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
 	    return true;
 	return false;
     }
+    
 }
