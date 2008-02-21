@@ -1,0 +1,96 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<a4j:region id="salaryRegion">
+	
+	<a4j:outputPanel id="a4jSalary" layout="block">
+	<table class="list" width="100%" cellpadding="5">
+		<thead>
+			<tr>
+				<th>#{bundle['SalaryRank.scale']}</th>
+				<th>#{bundle['SalaryRank.start']}</th>
+				<th>#{bundle['SalaryRank.end']}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList var="rank" rowIndexVar="index" value="#{ranks}">
+			<tbody class="highlight">
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td><h:outputText value="#{rank.scale}"/></td>
+					<td><h:outputText value="#{rank.start}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+					<td><h:outputText value="#{rank.end}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+					<td><a4j:commandLink action="#{hrActions.editSalaryRank}" immediate="true"
+							reRender=":#{parentClientId}:a4jSalary" limitToList="true">
+							<f:param name="editId" value="#{index}" />
+							<f:param name="containerToReset" value="editSalaryRank" />
+							<f:param name="editId" value="#{index}" />
+							<h:graphicImage url="/images/icon_edit.gif" style="border:none" />
+						</a4j:commandLink></td>
+				</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr>
+				<td colspan="4" align="right"><a4j:commandLink immediate="true"
+							rendered="#{hrSession.edits.salaryRank == null}"
+							reRender=":#{parentClientId}:a4jSalary" limitToList="true"
+							action="#{hrActions.addSalaryRank}">
+					<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+					<f:param name="containerToReset" value="editSalaryRank" />
+					<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+				</a4j:commandLink></td>
+			</tr>
+		</tbody>
+	</table>
+	<s:subForm id="editSalaryRank"
+		rendered="#{hrSession.edits.salaryRank != null}">
+		<fieldset>
+		<table style="border:none;">
+			<tr>
+				<td>#{bundle['SalaryRank.start']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.salaryRank.start}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar></td>
+				
+				<td rowspan="4" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteSalaryRank}" immediate="true"
+							reRender=":#{parentClientId}:a4jSalary" limitToList="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['SalaryRank.end']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.salaryRank.end}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar></td>
+			</tr>
+			<tr>
+				<td>#{bundle['SalaryRank.scale']}</td>
+				<td><h:inputText value="#{hrSession.edits.salaryRank.scale}"/></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:commandButton value="Done" action="#{hrActions.doneSalaryRank}"
+							reRender=":#{parentClientId}:a4jSalary" limitToList="true"
+							actionFor="editSalaryRank" />
+				</td>
+			</tr>
+		</table>
+		</fieldset>
+	</s:subForm>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

@@ -1,0 +1,174 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<head>
+<title>Editor</title>
+</head>
+<body style="font-size:smaller;">
+<f:view locale="#{strutsSession.locale}">
+	<f:loadBundle basename="resources.hr" var="bundle" />
+	<h:form id="addFunctionClass" acceptcharset="UTF-8" >
+		<table style="text-align:left;margin-left:10pt;margin-right:auto">
+			<tr>
+				<td colspan="2">#{bundle['functionClassesEditor.add.title']}</td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.code']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{functionClassesEditor.newFunctionClass.code}"
+					size="8" required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.nameFr']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{functionClassesEditor.newFunctionClass.nameFr}"
+					size="60" required="true" /></td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.nameNl']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{functionClassesEditor.newFunctionClass.nameNl}"
+					size="60" required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.class']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{functionClassesEditor.newFunctionClass.functionClass}"
+					size="8" required="true" /></td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.careerPath']}</td>
+				<td>
+					<ui:include src="../elements/selectEntry.xhtml">
+							<ui:param name="value" value="#{functionClassesEditor.newFunctionClass.careerPath}" />
+							<ui:param name="id" value="careerPath" />
+							<ui:param name="key" value="Career path" />
+					</ui:include><h:message for="careerPath"/>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.organisation']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{functionClassesEditor.newFunctionClass.organisation}"
+					required="true" /></td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.active']}</td>
+				<td><h:selectBooleanCheckbox
+					value="#{functionClassesEditor.newFunctionClass.active}" required="true"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><h:commandButton
+					action="#{functionClassesEditor.addFunctionClass}" value="#{bundle['functionClassesEditor.add.button']}" /></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:messages showDetail="true" showSummary="false"/>
+	<h:form id="filter" acceptcharset="UTF-8" >
+		#{bundle['functionClassesEditor.filter.title']}
+		<table>
+			<tr>
+				<td>#{bundle['functionClassesEditor.filter.lines']}</td>
+				<td><rich:inputNumberSlider minValue="10" maxValue="200" 
+				value="#{functionClassesEditor.rows}" required="true" step="5" enableManualInput="false"/></td>
+				<td colspan="2">
+					<h:selectOneMenu id="active" value="#{functionClassesEditor.filter.active}">
+						<f:selectItem itemLabel="#{bundle['functionClassesEditor.filter.active.all']}" itemValue="#{0}"/>
+						<f:selectItem itemLabel="#{bundle['functionClassesEditor.filter.active.true']}" itemValue="#{1}"/>
+						<f:selectItem itemLabel="#{bundle['functionClassesEditor.filter.active.false']}" itemValue="#{-1}"/>
+					</h:selectOneMenu>
+				</td>
+				<td>#{bundle['functionClassesEditor.filter.careerPath']}</td>
+				<td><ui:include src="../elements/selectEntry.xhtml">
+							<ui:param name="value" value="#{functionClassesEditor.filter.careerPath}" />
+							<ui:param name="id" value="careerPath" />
+							<ui:param name="key" value="Career path" />
+					</ui:include>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['functionClassesEditor.filter.code']}</td><td><h:inputText id="code" value="#{functionClassesEditor.filter.code}" size="8"/></td>
+				<td>#{bundle['functionClassesEditor.filter.name']}</td><td><h:inputText id="name" value="#{functionClassesEditor.filter.name}" size="20"/></td>
+				<td colspan="2"><h:commandButton action="update" value="#{bundle['functionClassesEditor.filter.button']}"></h:commandButton></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:form id="updateFunctionClasses" acceptcharset="UTF-8" >
+		<rich:dataTable value="#{functionClassesEditor.functionClasses}"
+			rows="#{functionClassesEditor.rows}" var="functionClass" id="functionClassList">
+			<f:facet name="header">
+				<rich:columnGroup>
+					<rich:column rowspan="2">#{bundle['functionClassesEditor.active']}</rich:column>
+					<rich:column>#{bundle['functionClassesEditor.code']}</rich:column>
+					<rich:column>#{bundle['functionClassesEditor.class']}</rich:column>
+					<rich:column>#{bundle['functionClassesEditor.organisation']}</rich:column>
+					<rich:column>#{bundle['functionClassesEditor.nameFr']}</rich:column>
+					<rich:column rowspan="2">Delete</rich:column>
+					<rich:column colspan="3" breakBefore="true">#{bundle['functionClassesEditor.careerPath']}</rich:column>
+					<rich:column>#{bundle['functionClassesEditor.nameNl']}</rich:column>
+				</rich:columnGroup>
+			</f:facet>
+			<rich:column rowspan="2">
+				<h:selectBooleanCheckbox value="#{functionClass.active}" />
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{functionClass.code}" size="8" />
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{functionClass.functionClass}" size="8" />
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{functionClass.organisation}"/>
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{functionClass.nameFr}" size="80" />
+			</rich:column>
+			<rich:column rowspan="2">
+				<rich:spacer />
+			</rich:column>
+			<rich:column colspan="3" breakBefore="true">
+				<ui:include src="../elements/selectEntry.xhtml">
+							<ui:param name="value" value="#{functionClass.careerPath}" />
+							<ui:param name="id" value="careerPath" />
+							<ui:param name="key" value="Career path" />
+				</ui:include>
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{functionClass.nameNl}" size="80" />
+			</rich:column>
+		</rich:dataTable>
+
+		<div style="font-size:smaller;text-align:center"><t:dataScroller
+			id="scroll_1" style="margin-left:auto;margin-right:auto"
+			for="functionClassList" fastStep="10" pageCountVar="pageCount"
+			pageIndexVar="pageIndex" styleClass="scroller" paginator="true"
+			paginatorMaxPages="18" paginatorTableClass="paginator"
+			paginatorActiveColumnStyle="font-weight:bold;" immediate="true">
+			<f:facet name="first">
+				<t:graphicImage url="/images/arrows/arrow-first.gif" border="1" />
+			</f:facet>
+			<f:facet name="last">
+				<t:graphicImage url="/images/arrows/arrow-last.gif" border="1" />
+			</f:facet>
+			<f:facet name="previous">
+				<t:graphicImage url="/images/arrows/arrow-previous.gif" border="1" />
+			</f:facet>
+			<f:facet name="next">
+				<t:graphicImage url="/images/arrows/arrow-next.gif" border="1" />
+			</f:facet>
+			<f:facet name="fastforward">
+				<t:graphicImage url="/images/arrows/arrow-ff.gif" border="1" />
+			</f:facet>
+			<f:facet name="fastrewind">
+				<t:graphicImage url="/images/arrows/arrow-fr.gif" border="1" />
+			</f:facet>
+			<h:outputFormat value="#{bundle['functionClassesEditor.pageNumber']}">
+				<f:param value=" #{pageIndex}" />
+				<f:param value=" #{pageCount}" />
+			</h:outputFormat>
+		</t:dataScroller></div>
+		<h:commandButton action="#{functionClassesEditor.saveFunctionClasses}" value="#{bundle['functionClassesEditor.save.button']}"/>
+	</h:form>
+</f:view>
+</body>
+</html>

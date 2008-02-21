@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<head>
+<title>Editor</title>
+</head>
+<body style="font-size:smaller;">
+<f:view locale="#{strutsSession.locale}">
+	<f:loadBundle basename="resources.hr" var="bundle" />
+	<h:form id="addGrade" acceptcharset="UTF-8" >
+		<table style="text-align:left;margin-left:10pt;margin-right:auto">
+			<tr>
+				<td colspan="2">#{bundle['gradesEditor.add.title']}</td>
+			</tr>
+			<tr>
+				<td>#{bundle['gradesEditor.pdata']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{gradesEditor.newGrade.pdata}"
+					size="8" required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['gradesEditor.level']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{gradesEditor.newGrade.level}"
+					size="2" required="true" /></td>
+			</tr>
+			<tr>
+				<td>#{bundle['gradesEditor.active']}</td>
+				<td><h:selectBooleanCheckbox
+					value="#{gradesEditor.newGrade.active}" required="true"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['gradesEditor.nameFr']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{gradesEditor.newGrade.nameFr}"
+					size="60" required="true" /></td>
+			</tr>
+			<tr>
+				<td>#{bundle['gradesEditor.nameNl']}</td>
+				<td><h:inputText style="font-size:smaller" value="#{gradesEditor.newGrade.nameNl}"
+					size="60" required="true"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><h:commandButton
+					action="#{gradesEditor.addGrade}" value="#{bundle['gradesEditor.add.button']}" /></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:messages showDetail="true" showSummary="false"/>
+	<h:form id="filter" acceptcharset="UTF-8" >
+		#{bundle['gradesEditor.filter.title']}
+		<table>
+			<tr>
+				<td>#{bundle['gradesEditor.filter.lines']}</td>
+				<td><rich:inputNumberSlider minValue="10" maxValue="200" 
+				value="#{gradesEditor.rows}" required="true" step="5" enableManualInput="false"/></td>
+				<td>
+					<h:selectOneMenu id="active" value="#{gradesEditor.filter.active}">
+						<f:selectItem itemLabel="#{bundle['gradesEditor.filter.active.all']}" itemValue="#{0}"/>
+						<f:selectItem itemLabel="#{bundle['gradesEditor.filter.active.true']}" itemValue="#{1}"/>
+						<f:selectItem itemLabel="#{bundle['gradesEditor.filter.active.false']}" itemValue="#{-1}"/>
+					</h:selectOneMenu>
+				</td>
+				<td>#{bundle['gradesEditor.filter.pdata']}<h:inputText id="pdata" value="#{gradesEditor.filter.pdata}" size="8"/></td>
+				<td>#{bundle['gradesEditor.filter.name']}<h:inputText id="name" value="#{gradesEditor.filter.name}" size="20"/></td>
+				<td><h:commandButton action="update" value="#{bundle['gradesEditor.filter.button']}"></h:commandButton></td>
+			</tr>
+		</table>
+	</h:form>
+	<hr/>
+	<h:form id="updateGrades" acceptcharset="UTF-8" >
+		<rich:dataTable value="#{gradesEditor.grades}"
+			rows="#{gradesEditor.rows}" var="grade" id="gradeList">
+			<f:facet name="header">
+				<rich:columnGroup>
+					<rich:column rowspan="2">#{bundle['gradesEditor.pdata']}</rich:column>
+					<rich:column rowspan="2">#{bundle['gradesEditor.level']}</rich:column>
+					<rich:column rowspan="2">#{bundle['gradesEditor.active']}</rich:column>
+					<rich:column>#{bundle['gradesEditor.nameFr']}</rich:column>
+					<rich:column rowspan="2">Delete</rich:column>
+					<rich:column breakBefore="true">#{bundle['gradesEditor.nameNl']}</rich:column>
+				</rich:columnGroup>
+			</f:facet>
+			<rich:column rowspan="2">
+				<h:inputText value="#{grade.pdata}" size="8" />
+			</rich:column>
+			<rich:column rowspan="2">
+				<h:inputText value="#{grade.level}" size="2" />
+			</rich:column>
+			<rich:column rowspan="2">
+				<h:selectBooleanCheckbox value="#{grade.active}" />
+			</rich:column>
+			<rich:column>
+				<h:inputText value="#{grade.nameFr}" size="80" />
+			</rich:column>
+			<rich:column rowspan="2">
+				<rich:spacer />
+			</rich:column>
+			<rich:column breakBefore="true">
+				<h:inputText value="#{grade.nameNl}" size="80" />
+			</rich:column>
+		</rich:dataTable>
+
+		<div style="font-size:smaller;text-align:center"><t:dataScroller
+			id="scroll_1" style="margin-left:auto;margin-right:auto"
+			for="gradeList" fastStep="10" pageCountVar="pageCount"
+			pageIndexVar="pageIndex" styleClass="scroller" paginator="true"
+			paginatorMaxPages="18" paginatorTableClass="paginator"
+			paginatorActiveColumnStyle="font-weight:bold;" immediate="true">
+			<f:facet name="first">
+				<t:graphicImage url="/images/arrows/arrow-first.gif" border="1" />
+			</f:facet>
+			<f:facet name="last">
+				<t:graphicImage url="/images/arrows/arrow-last.gif" border="1" />
+			</f:facet>
+			<f:facet name="previous">
+				<t:graphicImage url="/images/arrows/arrow-previous.gif" border="1" />
+			</f:facet>
+			<f:facet name="next">
+				<t:graphicImage url="/images/arrows/arrow-next.gif" border="1" />
+			</f:facet>
+			<f:facet name="fastforward">
+				<t:graphicImage url="/images/arrows/arrow-ff.gif" border="1" />
+			</f:facet>
+			<f:facet name="fastrewind">
+				<t:graphicImage url="/images/arrows/arrow-fr.gif" border="1" />
+			</f:facet>
+			<h:outputFormat value="#{bundle['gradesEditor.pageNumber']}">
+				<f:param value=" #{pageIndex}" />
+				<f:param value=" #{pageCount}" />
+			</h:outputFormat>
+		</t:dataScroller></div>
+		<h:commandButton action="#{gradesEditor.saveGrades}" value="#{bundle['gradesEditor.save.button']}"/>
+	</h:form>
+</f:view>
+</body>
+</html>

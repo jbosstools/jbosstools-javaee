@@ -1,0 +1,38 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:s="http://myfaces.apache.org/sandbox">
+<ui:composition>
+
+  <f:loadBundle basename="resources.hr" var="bundle" />
+  <rich:column>
+  <rich:panel id="panel">
+	    <f:facet name="header">#{employee.fullname}</f:facet>
+	        
+  		<h:panelGroup rendered="#{empty employee.nationality.nationalRegisterCode}">
+			<h:outputFormat value="#{bundle['PData.error.required.nationality']}" class="warning" />
+			<br/>
+		</h:panelGroup>
+  		<h:panelGroup rendered="#{empty employee.nationalRegisterNumber}">
+			<h:outputFormat value="#{bundle['PData.error.required.nrn']}" class="warning" />
+			<br/>
+		</h:panelGroup>
+  		<h:panelGroup rendered="#{(employee.PData.status.pdata eq '30' or employee.PData.status.pdata eq '31' or employee.PData.status.pdata eq '32') and empty employee.current.contract.reason.pdata}">
+			<h:outputFormat value="#{bundle['PData.error.required.contractReason']}" class="warning" />
+			<br/>
+		</h:panelGroup>
+  		<h:panelGroup rendered="#{empty employee.current.careerRank.grade.pdata}" id="gradeGroup1">
+			<h:outputFormat value="#{bundle['PData.error.required.grade']}" class="warning" />
+			<br/>
+		</h:panelGroup>
+		<a4j:commandLink action="none" reRender=":pdata,:pdataEdit" oncomplete="javascript:Richfaces.showModalPanel('pdataEdit')">
+		<f:param name="employeeId" value="#{employee.id}"/>
+			editer			
+		</a4j:commandLink>
+  </rich:panel>
+  </rich:column>
+</ui:composition>
+</html>

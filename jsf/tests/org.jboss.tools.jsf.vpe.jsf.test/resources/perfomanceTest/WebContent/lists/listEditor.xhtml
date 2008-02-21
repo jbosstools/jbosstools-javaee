@@ -1,0 +1,29 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<ui:composition>
+	<rich:modalPanel top="0" id="editPanel" width="850" height="650">
+		<div style="text-align:center">
+			<iframe width="800" height="600" id="#{parentClientId}:iframe">*edit here*</iframe>
+			<br/>
+			<a href="javascript:hideListEditor()">[done]</a>
+		</div>
+	</rich:modalPanel>
+	<script language="javascript">
+	var __current_refresh;
+	function showListEditor(url,refresh){
+		__current_refresh=refresh;
+		document.getElementById('#{parentClientId}:iframe').src=url;
+		Richfaces.showModalPanel('editPanel');
+	}
+	function hideListEditor(){
+		Richfaces.hideModalPanel('editPanel');
+		document.getElementById('#{parentClientId}:iframe').src=undefined;
+		__current_refresh();
+	}
+	</script>
+</ui:composition>
+</html>

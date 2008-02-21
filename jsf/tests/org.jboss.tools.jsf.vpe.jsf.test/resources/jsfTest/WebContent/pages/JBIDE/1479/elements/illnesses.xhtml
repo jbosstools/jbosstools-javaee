@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<style type="text/css">
+	tr.separator td,tr.separator th {
+		border-bottom:1px solid black;
+	}
+	</style>
+	<a4j:region>
+	<a4j:outputPanel id="a4jIllness" layout="block">
+	<table class="list" width="100%">
+		<thead>
+			<tr>
+				<th>#{bundle['Illness.kind']}</th>
+				<th>#{bundle['Illness.startDate']}</th>
+				<th>#{bundle['Illness.endDate']}</th>
+				<th>#{bundle['Illness.workingDays']}</th>
+				<th>#{bundle['Illness.calendarDays']}</th>
+				<th>#{bundle['Illness.document']}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList id="illnesses" var="illness" rowIndexVar="index" value="#{illnesses}">
+	    	<tbody class="hightlight">
+	    		<tr class="#{(index%2)==0?'even':'odd'}">
+	    			<td><h:outputText value="#{illness.kind}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+	    			<td><h:outputText value="#{illness.startDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+	    			<td><h:outputText value="#{illness.endDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+	    			<td>#{illness.workingDays}</td>
+	    			<td>#{illness.calendarDays}</td>
+	    			<td>[document here later...]</td>
+					<td rowspan="2" valign="top">
+							<a4j:commandLink action="#{hrActions.editIllness}"
+								immediate="true" reRender=":#{parentClientId}:a4jIllness" limitToList="true">
+								<f:actionListener type="be.rmi.intranet.listener.ContainerReset"/>
+								<f:param name="containerToReset" value="editIllness" />
+								<f:param name="editId" value="#{index}" />
+								<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+							</a4j:commandLink>
+					</td>
+	    		</tr>
+	    		<tr class="#{(index%2)==0?'even':'odd'}">
+	    			<td colspan="6">#{illness.note}</td>
+	    		</tr>
+	    	</tbody>
+    	</t:dataList>
+    	<tbody>
+	    	<tr>
+	    		<td colspan="7" align="right">    		
+					<a4j:commandLink immediate="true"
+						 rendered="#{hrSession.edits.illness == null}"
+						action="#{hrActions.addIllness}"
+						reRender=":#{parentClientId}:a4jIllness" limitToList="true">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editIllness" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+	    		</td>
+	    	</tr>
+    	</tbody>
+	</table>
+    <s:subForm id="editIllness" rendered="#{hrSession.edits.illness != null}">    
+    	<fieldset>
+    	<table border="0" width="100%">
+    		<tr>
+    			<td>#{bundle['Illness.kind']}</td>
+    			<td><!-- <h:selectOneMenu value="#{hrSession.edits.illness.kind}" id="ikind">
+					<f:selectItems
+						value="#{hrRequest.selectEntries['Illness type']}" />
+				</h:selectOneMenu>-->
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.illness.kind}" />
+						<ui:param name="id" value="ikind" />
+						<ui:param name="key" value="Illness type" />
+				</ui:include>
+				<h:message for="ikind" showDetail="true" showSummary="false"/></td>
+    			<td colspan="2"></td>
+    			
+				<td rowspan="4" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteIllness}" immediate="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+							reRender=":#{parentClientId}:a4jIllness" limitToList="true">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['Illness.startDate']}</td>
+    			<td><t:inputCalendar value="#{hrSession.edits.illness.startDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="istartdate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar><h:message for="istartdate" showDetail="true" showSummary="false"/></td>
+    			<td>#{bundle['Illness.endDate']}</td>
+    			<td><t:inputCalendar value="#{hrSession.edits.illness.endDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="ienddate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar><h:message for="ienddate" showDetail="true" showSummary="false"/></td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['Illness.workingDays']}</td>
+    			<td><h:inputText value="#{hrSession.edits.illness.workingDays}" id="iwdays"/>
+    			<h:message for="iwdays" showDetail="true" showSummary="false"/></td>
+    			<td>#{bundle['Illness.calendarDays']}</td>
+    			<td><h:inputText value="#{hrSession.edits.illness.calendarDays}" id="icdays"/>
+    			<h:message for="icdays" showDetail="true" showSummary="false"/></td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['Illness.note']}</td>
+    			<td colspan="3"><h:inputTextarea value="#{hrSession.edits.illness.note}" rows="7" cols="50"/> </td>
+    		</tr>
+    	</table>
+		<a4j:commandButton value="Done" action="#{hrActions.doneIllness}"
+			actionFor="editIllness"
+			reRender=":#{parentClientId}:a4jIllness" limitToList="true" />
+    	</fieldset>
+   	</s:subForm>
+   	</a4j:outputPanel>
+   	</a4j:region>
+</ui:composition>
+</html>
