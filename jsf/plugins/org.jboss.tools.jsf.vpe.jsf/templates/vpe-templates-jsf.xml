@@ -1011,8 +1011,8 @@
     </vpe:tag>
 
     <vpe:tag name="f:view" case-sensitive="yes">
-	    <vpe:template children="yes" modify="yes" haveVisualPreview="no">
-			<div style="border:1px dotted #FF6600;padding: 5px;" title="{tagstring()}"/>
+	    <vpe:template children="yes" modify="yes" haveVisualPreview="no"
+	    class="org.jboss.tools.jsf.vpe.jsf.template.JsfView">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes"/>
@@ -1029,8 +1029,8 @@
     </vpe:tag>
 
     <vpe:tag name="f:subview" case-sensitive="yes">
-    	<vpe:template children="yes" modify="yes" haveVisualPreview="no">
-			<div style="border:1px dotted #FF6600;padding: 5px;" title="{tagstring()}"/>
+    	<vpe:template children="yes" modify="yes" haveVisualPreview="no"
+    	class="org.jboss.tools.jsf.vpe.jsf.template.JsfSubView">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes"/>
@@ -1047,8 +1047,8 @@
     </vpe:tag>
 
     <vpe:tag name="h:form" case-sensitive="yes">
-    	<vpe:template children="yes" modify="yes" haveVisualPreview="no">
-			<div style="border:1px dotted #FF6600;padding: 5px;{@style}" class="{@styleClass}" title="{tagstring()}"/>
+    	<vpe:template children="yes" modify="yes" haveVisualPreview="no"
+    	class="org.jboss.tools.jsf.vpe.jsf.template.JsfForm">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes"/>
