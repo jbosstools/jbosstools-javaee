@@ -91,7 +91,7 @@ public class JBIDE788Test extends VpeTest{
 		setException(null);
 		//Tests CA
 
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml", 1245, 2);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml", 1245, 13);
 		
 		// check exception
 		if (getException() != null) {
@@ -110,7 +110,7 @@ public class JBIDE788Test extends VpeTest{
 		// set exception
 		setException(null);
 		//Tests CA
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml", 1200, 101);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml", 1200, 112);
 		
 		// check exception
 		if (getException() != null) {
