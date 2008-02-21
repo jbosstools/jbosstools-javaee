@@ -14,6 +14,7 @@ package org.jboss.tools.seam.ui.wizard;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -32,6 +33,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -60,8 +62,6 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
 		
-		//validateHistory();
-
 		XMLMemento memento = loadMemento();
 		if (memento != null)
 			getSelectionHistory().load(memento);
@@ -131,9 +131,16 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 				reader = new FileReader(file);
 
 				memento = XMLMemento.createReadRoot(reader);
-				reader.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			}catch (IOException ex) {
+				SeamCorePlugin.getPluginLog().logError(ex);
+			}catch (WorkbenchException ex){
+				SeamCorePlugin.getPluginLog().logError(ex);
+			}finally{
+				try{
+					reader.close();
+				}catch(IOException ex){
+					SeamCorePlugin.getPluginLog().logError(ex);
+				}
 			}
 		}
 		return memento;
@@ -148,9 +155,14 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			writer = new FileWriter(file);
 		
 			xmlMemento.save(writer);
-			writer.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		}catch (IOException ex) {
+			SeamCorePlugin.getPluginLog().logError(ex);
+		}finally{
+			try{
+				writer.close();
+			}catch(IOException ex){
+				SeamCorePlugin.getPluginLog().logError(ex);
+			}
 		}
 	}
 
