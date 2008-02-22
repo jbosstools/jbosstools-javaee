@@ -584,9 +584,9 @@
 	Возможна проблема с нечувствительностью к регистру lineDirection/pageDirection (44 of 4)
 -->
     <vpe:tag name="h:selectManyCheckbox" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<vpe:grid layout="{@layout}" border="{@border}" title="{tagstring()}" style="{@style}" class="{@styleClass}"/>
-			<vpe:breaker type="ignore"/>
+		<vpe:template children="yes" modify="yes"
+		class="org.jboss.tools.jsf.vpe.jsf.template.JsfSelectManyCheckbox">
+
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">
@@ -807,7 +807,17 @@
     </vpe:tag>
 
     <vpe:tag name="f:selectItem" case-sensitive="yes">
-		<vpe:if test="hasinparents('h:selectManyCheckbox')|hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
+		<vpe:if test="hasinparents('h:selectManyCheckbox')">
+    			<vpe:template children="no" modify="yes"
+    			class="org.jboss.tools.jsf.vpe.jsf.template.JsfCheckboxSelectItemTemplate">
+    			</vpe:template>
+		</vpe:if>
+		<vpe:if test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')">
+    			<vpe:template children="no" modify="yes"
+    				class="org.jboss.tools.jsf.vpe.jsf.template.JsfOptionSelectItemTemplate">
+    			</vpe:template>
+		</vpe:if>
+		<vpe:if test="hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
 			<vpe:template children="no" modify="yes">
 				<span title="{tagstring()}">
 					<input type="checkbox" />
@@ -825,9 +835,7 @@
 			</vpe:template>
 		</vpe:if>
 		<vpe:if test="hasinparents('h:selectOneListbox')|
-						hasinparents('h:selectManyListbox')|
 						hasinparents('h:selectOneMenu')|
-						hasinparents('h:selectManyMenu')|
 						hasinparents('t:selectManyMenu')|
 						hasinparents('x:selectOneRadio')|
 						hasinparents('x:selectOneMenu')">   <!-- Gavr --><!-- added x: 8.02.05 -->
