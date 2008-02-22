@@ -208,6 +208,17 @@ public final class SeamELCompletionEngine {
 	private static final String collectionAdditionForCollectionDataModel = ".iterator().next()";
 	private static final String collectionAdditionForMapDataModel = ".entrySet().iterator().next()";
 
+	private List<String> getVarNameProposals(List <Var> vars, String prefix) {
+		List<String> proposals = new ArrayList<String>();
+		for (Var var : vars) {
+			if(var.getName().startsWith(prefix)) {
+				String proposal = var.getName().substring(prefix.length());
+				proposals.add(proposal);
+			}
+		}
+		return proposals;
+	}
+
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars, ElVarSearcher varSearcher) throws BadLocationException, StringIndexOutOfBoundsException {
 		String oldEl = prefix.toString();
@@ -269,6 +280,9 @@ public final class SeamELCompletionEngine {
 			var.resolveValue("#{" + var.getElToken().getText() + suffix + "}");
 		}
 
+		if(!returnEqualedVariablesOnly && vars!=null) {
+			status.getProposals().addAll(getVarNameProposals(vars, prefix.toString()));
+		}
 		return status;
 	}
 
