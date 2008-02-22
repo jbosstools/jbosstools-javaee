@@ -36,7 +36,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 
 /**
- * Utility class used to find Seam Project content assist proposals
+ * Utility class used to collect info for EL
  * 
  * @author Jeremy
  */
@@ -114,19 +114,33 @@ public final class SeamELCompletionEngine {
 		private boolean isMapOrCollectionOrBundleAmoungTheTokens = false;
 		private TypeInfoCollector.MemberInfo memberOfResolvedOperand;
 
+		/**
+		 * @return MemberInfo of last segment of EL operand. Null if El is not resolved.
+		 */
 		public TypeInfoCollector.MemberInfo getMemberOfResolvedOperand() {
 			return memberOfResolvedOperand;
 		}
 
+		/**
+		 * Sets MemberInfo for last segment of EL operand.
+		 * @param lastResolvedMember
+		 */
 		public void setMemberOfResolvedOperand(
 				TypeInfoCollector.MemberInfo lastResolvedMember) {
 			this.memberOfResolvedOperand = lastResolvedMember;
 		}
 
+		/**
+		 * Constructor
+		 * @param tokens Tokens of EL
+		 */
 		public SeamELOperandResolveStatus(List<ELOperandToken> tokens) {
 			this.tokens = tokens;
 		}
 
+		/**
+		 * @return true if EL contains any not parametrized Collection or ResourceBundle.
+		 */
 		public boolean isMapOrCollectionOrBundleAmoungTheTokens() {
 			return this.isMapOrCollectionOrBundleAmoungTheTokens;
 		}
@@ -135,14 +149,23 @@ public final class SeamELCompletionEngine {
 			this.isMapOrCollectionOrBundleAmoungTheTokens = true;
 		}
 
+		/**
+		 * @return true if EL is resolved.
+		 */
 		public boolean isOK() {
 			return !getProposals().isEmpty() || isMapOrCollectionOrBundleAmoungTheTokens(); 
 		}
 
+		/**
+		 * @return false if El is not resolved.
+		 */
 		public boolean isError() {
 			return !isOK();
 		}
 
+		/**
+		 * @return List of resolved tokens of EL. Includes separators "."
+		 */
 		public List<ELOperandToken> getResolvedTokens() {
 			List<ELOperandToken> resolvedTokens = new ArrayList<ELOperandToken>();
 			int index = tokens.indexOf(lastResolvedToken); // index == -1 means that no tokens are resolved
@@ -152,6 +175,9 @@ public final class SeamELCompletionEngine {
 			return resolvedTokens;
 		}
 
+		/**
+		 * @return List of unresolved tokens of EL.
+		 */
 		public List<ELOperandToken> getUnresolvedTokens() {
 			List<ELOperandToken> unresolvedTokens = new ArrayList<ELOperandToken>();
 			int index = tokens.indexOf(lastResolvedToken); // index == -1 means that no tokens are resolved
@@ -161,38 +187,68 @@ public final class SeamELCompletionEngine {
 			return unresolvedTokens;
 		}
 
+		/**
+		 * @return Last resolved token of EL. Can be separator "."
+		 */
 		public ELOperandToken getLastResolvedToken() {
 			return lastResolvedToken;
 		}
 
+		/**
+		 * @param lastResolvedToken Last resolved token of EL. Can be separator "."
+		 */
 		public void setLastResolvedToken(ELOperandToken lastResolvedToken) {
 			this.lastResolvedToken = lastResolvedToken;
 		}
 
+		/**
+		 * @return Tokens of EL.
+		 */
 		public List<ELOperandToken> getTokens() {
 			return tokens;
 		}
 
+		/**
+		 * @param tokens Tokens of EL.
+		 */
 		public void setTokens(List<ELOperandToken> tokens) {
 			this.tokens = tokens;
 		}
 
+		/**
+		 * @return Set of proposals for EL.
+		 */
 		public Set<String> getProposals() {
 			return proposals == null ? new TreeSet<String>() : proposals;
 		}
 
+		/**
+		 * @param proposals Set of proposals.
+		 */
 		public void setProposals(Set<String> proposals) {
 			this.proposals = proposals;
 		}
 
+		/**
+		 * @return List of Seam Context Variables used in EL.  
+		 */
 		public List<ISeamContextVariable> getUsedVariables() {
 			return (usedVariables == null ? new ArrayList<ISeamContextVariable>() : usedVariables);
 		}
 
+		/**
+		 * @param usedVariables List of Seam Context Variables used in EL.
+		 */
 		public void setUsedVariables(List<ISeamContextVariable> usedVariables) {
 			this.usedVariables = usedVariables;
 		}
 
+		/**
+		 * @return Map of unpaired getters and setters (getters/setters without proper setters/getters).
+		 * of all properties used in EL.
+		 * Key - name of property.
+		 * Value - MethodInfo of existed getter/setter.
+		 */
 		public Map<String, TypeInfoCollector.MethodInfo> getUnpairedGettersOrSetters() {
 			if (unpairedGettersOrSetters == null) {
 				unpairedGettersOrSetters = new HashMap<String, TypeInfoCollector.MethodInfo>();
@@ -200,6 +256,9 @@ public final class SeamELCompletionEngine {
 			return unpairedGettersOrSetters;
 		}
 
+		/**
+		 * Clear Map of unpaired getters and setters.
+		 */
 		public void clearUnpairedGettersOrSetters() {
 			getUnpairedGettersOrSetters().clear();
 		}
@@ -219,6 +278,20 @@ public final class SeamELCompletionEngine {
 		return proposals;
 	}
 
+	/**
+	 * Resolve EL.
+	 * @param project Seam project.
+	 * @param file
+	 * @param documentContent
+	 * @param prefix Text between #{ and cursor position in document. 
+	 * @param position Cursor position in document
+	 * @param returnEqualedVariablesOnly if "false" use prefix as mask. 
+	 * @param vars All "var" attributes that can be used in the EL.
+	 * @param varSearcher
+	 * @return Status of resolving.
+	 * @throws BadLocationException
+	 * @throws StringIndexOutOfBoundsException
+	 */
 	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars, ElVarSearcher varSearcher) throws BadLocationException, StringIndexOutOfBoundsException {
 		String oldEl = prefix.toString();
@@ -286,11 +359,29 @@ public final class SeamELCompletionEngine {
 		return status;
 	}
 
+	/**
+	 * Returns MemberInfo for last segment of EL. Null if El is not resolved.
+	 * @param project
+	 * @param file
+	 * @param elBody EL without #{}
+	 * @return MemberInfo for last segment of EL. Null if El is not resolved.
+	 * @throws BadLocationException
+	 * @throws StringIndexOutOfBoundsException
+	 */
 	public TypeInfoCollector.MemberInfo resolveSeamEL(ISeamProject project, IFile file, String elBody) throws BadLocationException, StringIndexOutOfBoundsException {
 		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, elBody, elBody, 0, true);
 		return status.getMemberOfResolvedOperand();
 	}
 
+	/**
+	 * Returns a list of Seam Context Variables that is represented by EL. Null if El is not resolved.
+	 * @param project
+	 * @param file
+	 * @param el
+	 * @return
+	 * @throws BadLocationException
+	 * @throws StringIndexOutOfBoundsException
+	 */
 	public List<ISeamContextVariable> resolveSeamVariableFromEL(ISeamProject project, IFile file, String el) throws BadLocationException, StringIndexOutOfBoundsException {
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(el, el.length());
 		List<ELOperandToken> tokens = tokenizer.getTokens();
@@ -635,7 +726,6 @@ public final class SeamELCompletionEngine {
 
 	/*
 	 * Creates and returns list of possible variable name combinations from expression starting from the longest name
-	 *  
 	 * 
 	 * @param prefix
 	 * @return
@@ -715,6 +805,13 @@ public final class SeamELCompletionEngine {
 		return documentContent.substring(tokens.get(0).start, offset);
 	}
 
+	/**
+	 * @param documentContent
+	 * @param offset
+	 * @param region
+	 * @return 
+	 * @throws StringIndexOutOfBoundsException
+	 */
 	public String getJavaElementExpression(String documentContent, int offset, IRegion region) throws StringIndexOutOfBoundsException {
 		if (documentContent == null || offset > documentContent.length())
 			return null;
