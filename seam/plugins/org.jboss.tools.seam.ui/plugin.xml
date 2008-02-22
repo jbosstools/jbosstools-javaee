@@ -452,7 +452,7 @@
       <key
             commandId="org.jboss.tools.seam.ui.open.component"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+M2+Y">
+            sequence="M1+M2+Z">
       </key>
    </extension>
 </plugin>
