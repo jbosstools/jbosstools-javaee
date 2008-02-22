@@ -42,6 +42,13 @@ public class SerializationTest extends TestCase {
 		EditorTestHelper.joinBackgroundActivities();
 	}
 
+	protected void tearDown() throws Exception {
+		if(project != null && project.isAccessible()) {
+			project.delete(false, true, new NullProgressMonitor());
+			project = null;
+		}
+	}
+
 	private ISeamProject getSeamProject() {
 		ISeamProject seamProject = null;
 		try {
@@ -52,7 +59,7 @@ public class SerializationTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
+
 	public void testXMLSerialization() {
 		Element root = XMLUtilities.createDocumentElement("root");
 		ISeamProject seamProject = getSeamProject();
@@ -105,6 +112,17 @@ public class SerializationTest extends TestCase {
 			}
 		}
 		
+	}
+	
+	public void testLoadSerializedModelTime() {
+		ISeamProject sp = getSeamProject();
+		
+		long time = ((SeamProject)sp).reload();
+		int components = sp.getComponents().size();
+		System.out.print("Reloaded " + components + " components in " + time + " ms");
+		
+		float timePerComponent = 1f * time / components;
+		assertTrue("Loading time per component is too large: " + timePerComponent + " ms.", timePerComponent < 3.0f);
 	}
 
 }
