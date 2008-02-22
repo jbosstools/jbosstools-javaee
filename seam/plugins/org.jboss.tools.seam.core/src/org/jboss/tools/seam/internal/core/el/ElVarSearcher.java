@@ -15,6 +15,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
@@ -62,6 +65,31 @@ public class ElVarSearcher {
 	}
 
 	/**
+	 * @param viewer
+	 * @param offset
+	 * @return
+	 */
+	public static Node getNode(ITextViewer viewer, int offset) {
+		IndexedRegion treeNode = ContentAssistUtils.getNodeAt(viewer, offset);
+		if(treeNode instanceof Node) {
+			return (Node)treeNode;
+		}
+		return null;
+	}
+
+	/**
+	 * @param node
+	 * @return All var/value that can be used in this position and null if can't find anyone.
+	 */
+	public static List<Var> findAllVars(ITextViewer viewer, int offset) {
+		Node node = getNode(viewer, offset);
+		if(node!=null) {
+			return findAllVars(node);
+		}
+		return null;
+	}
+
+	/**
 	 * @param node
 	 * @return All var/value that can be used in node and null if can't find anyone.
 	 */
@@ -74,7 +102,7 @@ public class ElVarSearcher {
 				if(vars == null) {
 					vars = new ArrayList<Var>();
 				}
-				vars.add(var);
+				vars.add(0, var);
 			}
 			parentNode = parentNode.getParentNode();
 		}
@@ -131,7 +159,7 @@ public class ElVarSearcher {
 								if(resolvedToken==null && parentVar.getElToken()!=null) {
 									try {
 										// Initialize parent vars.
-										engine.resolveSeamELOperand(project, file, parentVar.getElToken().getText(), parentVar.getElToken().getText(), 0, true, parentVars, this);
+										engine.resolveSeamELOperand(project, file, var.getElToken().getText(), var.getElToken().getText(), 0, true, parentVars, this);
 										resolvedToken = parentVar.getResolvedElToken();
 									} catch (StringIndexOutOfBoundsException e) {
 										SeamCorePlugin.getPluginLog().logError(e);
