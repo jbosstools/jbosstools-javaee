@@ -266,9 +266,9 @@
  <XEntityExtension name="FileSeamComponents12_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem ICON="action.empty" displayName="Drools" kind="list" name="Drools">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Drools" group="1"
+     kind="list" name="Drools">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Managed Working Memory..." kind="action" name="AddManagedWorkingMemory">
