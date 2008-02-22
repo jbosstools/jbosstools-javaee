@@ -265,8 +265,7 @@
  <XEntityExtension name="FileSeamComponents20_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Transaction" group="1"
      kind="list" name="Transaction">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"

@@ -587,7 +587,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
+   <XActionItem displayName="New" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
      ICON="action.new.struts.webapp.res_ref"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
@@ -614,8 +614,8 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
-     displayName="Properties..." kind="action" name="Properties"/>
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
    </XActionItem>
    <XActionItem kind="list" name="VerifyActions">
     <XActionItem kind="list" name="StaticActions"/>
@@ -771,7 +771,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
+   <XActionItem displayName="New" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
      ICON="action.new.struts.webapp.res_ref"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
@@ -798,8 +798,8 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
-     displayName="Properties..." kind="action" name="Properties"/>
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
    </XActionItem>
    <XActionItem kind="list" name="VerifyActions">
     <XActionItem kind="list" name="StaticActions"/>
@@ -962,7 +962,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
+   <XActionItem displayName="New" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
      ICON="action.new.struts.webapp.res_ref"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
@@ -995,8 +995,8 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
-     displayName="Properties..." kind="action" name="Properties"/>
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
    </XActionItem>
    <XActionItem kind="list" name="VerifyActions">
     <XActionItem kind="list" name="StaticActions"/>

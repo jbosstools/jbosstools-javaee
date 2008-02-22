@@ -43,7 +43,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="ejbql" name="name">
+    default="ejbql" name="name" visibility="false">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
@@ -373,7 +373,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="order" name="name">
+    default="order" name="name" visibility="false">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
@@ -513,8 +513,7 @@
  <XEntityExtension name="FileSeamComponents12_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Framework" group="1"
      kind="list" name="Framework">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
@@ -604,8 +603,7 @@
  <XEntityExtension name="FileSeamComponents20_EditorActionList">
   <XChildrenEntities/>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Framework" group="1"
      kind="list" name="Framework">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
