@@ -90,11 +90,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	Map<String,List<String>> imports = new HashMap<String, List<String>>();
 	
 	{
-		ScopeType[] types = ScopeType.values();
-		for (int i = 0; i < scopes.length; i++) {
-			scopes[i] = new SeamScope(this, types[i]);
-			scopesMap.put(types[i], scopes[i]);
-		}
+		createScopes();
 	}
 	
 	Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
@@ -333,8 +329,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
 		dependsOn.remove(p);
-		IPath[] ps = sourcePaths.toArray(new IPath[0]);
-		//TODO use sourcePaths2
+		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
 		for (int i = 0; i < ps.length; i++) {
 			IPath pth = ps[i];
 			if(p.getSourcePath().isPrefixOf(pth)) {
@@ -379,8 +374,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(isStorageResolved) return;
 		isStorageResolved = true;
 		
-		long begin = System.currentTimeMillis();
-		
 		postponeFiring();
 		
 		try {
@@ -395,8 +388,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				root = XMLUtilities.getElement(file, null);
 				if(root != null) {
 					loadProjectDependencies(root);
-					loadSourcePaths2(root);
-//					loadSourcePaths(root);
+					if(XMLUtilities.getUniqueChild(root, "paths") != null) {
+						loadSourcePaths2(root);
+					} else {
+						//old code
+						loadSourcePaths(root);
+					}
 				}
 			}
 
@@ -412,12 +409,51 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			fireChanges();
 		}
 
-		long e = System.currentTimeMillis();
-		
-		//TODO replace with proper testing 
-		System.out.println("Seam project " + project.getName() + " started in " + (e - begin));
 	}
 
+	/**
+	 * Method testing how long it takes to load Seam model
+	 * serialized previously.
+	 * This approach makes sure, that all other services 
+	 * (JDT, XModel, etc) are already loaded at first start of 
+	 * Seam model, so that now it is more or less pure time 
+	 * to be computed.
+	 * 
+	 * @return
+	 */
+	public long reload() {
+		classPath = new ClassPath(this);
+		sourcePaths.clear();
+		sourcePaths2.clear();
+		isStorageResolved = false;
+		dependsOn.clear();
+		usedBy.clear();
+		allComponents.clear();
+		allFactories.clear();
+		allVariables.clear();
+		allVariablesCopy = null;
+		allVariablesPlusShort = null;
+		imports.clear();
+		javaDeclarations.clear();
+		packages.clear();
+		createScopes();
+		
+		long begin = System.currentTimeMillis();
+
+		classPath.init();
+		resolve();
+
+		long end = System.currentTimeMillis();
+		return end - begin;
+	}
+
+	private void createScopes() {
+		ScopeType[] types = ScopeType.values();
+		for (int i = 0; i < scopes.length; i++) {
+			scopes[i] = new SeamScope(this, types[i]);
+			scopesMap.put(types[i], scopes[i]);
+		}
+	}
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
@@ -429,7 +465,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
 		storeProjectDependencies(root);
-		storeSourcePaths(root);
+//		storeSourcePaths(root);
 		storeSourcePaths2(root);
 		
 		if(validationContext != null) validationContext.store(root);
@@ -461,13 +497,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	/*
 	 * 
 	 */
-	private void storeSourcePaths(Element root) {
-		Element sourcePathsElement = XMLUtilities.createElement(root, "source-paths"); //$NON-NLS-1$
-		for (IPath path : sourcePaths) {
-			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path"); //$NON-NLS-1$
-			pathElement.setAttribute("value", path.toString()); //$NON-NLS-1$
-		}
-	}
+//	private void storeSourcePaths(Element root) {
+//		Element sourcePathsElement = XMLUtilities.createElement(root, "source-paths"); //$NON-NLS-1$
+//		for (IPath path : sourcePaths) {
+//			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path"); //$NON-NLS-1$
+//			pathElement.setAttribute("value", path.toString()); //$NON-NLS-1$
+//		}
+//	}
 	
 	private void storeSourcePaths2(Element root) {
 		Properties context = new Properties();
@@ -528,7 +564,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	/*
-	 * 
+	 * obsolete, will work only for old projects
 	 */
 	private void loadSourcePaths(Element root) {
 		Element sourcePathsElement = XMLUtilities.getUniqueChild(root, "source-paths"); //$NON-NLS-1$
@@ -703,8 +739,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			return;
 		}
 		if(!sourcePaths.contains(source)) sourcePaths.add(source);
-
-		sourcePaths2.put(source, ds); //TODO
+		sourcePaths2.put(source, ds);
 		
 		if(ds.getImports().size() > 0) {
 			setImports(source.toString(), ds.getImports());
@@ -911,7 +946,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param source
 	 */
 	public void pathRemoved(IPath source) {
-		if(!sourcePaths.contains(source)) return;
+		if(!sourcePaths.contains(source) && !sourcePaths2.containsKey(source)) return;
 		sourcePaths.remove(source);
 		sourcePaths2.remove(source);
 		removeImports(source.toString());
@@ -1395,7 +1430,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(postponedChanges == null) return;
 		List<Change> changes = postponedChanges;
 		postponedChanges = null;
-		System.out.println("fireng " + changes.size() + " changes");
 		fireChanges(changes);
 	}
 	

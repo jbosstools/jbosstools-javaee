@@ -187,9 +187,6 @@ public class SeamObject implements ISeamElement {
 		} else {
 			source = (IPath)context.get(SeamXMLConstants.ATTR_PATH);
 		}
-		if(source == null) {
-			System.out.println("Cannot load source");
-		}
 		Element e_id = XMLUtilities.getUniqueChild(element, SeamXMLConstants.TAG_ID);
 		if(e_id != null) {
 			String cls = e_id.getAttribute(SeamXMLConstants.ATTR_CLASS);
