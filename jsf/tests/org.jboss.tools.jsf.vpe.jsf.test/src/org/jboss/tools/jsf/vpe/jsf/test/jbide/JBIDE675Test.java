@@ -94,6 +94,9 @@ public class JBIDE675Test extends VpeTest {
 
 			styledText.insert("t");
 		}
+		if(getException()!=null) {
+			throw getException();
+		}
 	}
 	/**
 	 * Tests tag Input on Source Page
@@ -152,6 +155,58 @@ public class JBIDE675Test extends VpeTest {
 
 			styledText.insert("t");
 		}
+		if(getException()!=null) {
+			throw getException();
+		}
 	}
 
+	public void testInsertTagOnPage() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		// Tests CA
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/675/testInsertTag.xhtml",
+				IMPORT_PROJECT_NAME);
+		assertNotNull("Could not open specified file " + "JBIDE/675/testInsertTag.xhtml", file);
+
+		IEditorInput input = new FileEditorInput(file);
+
+		assertNotNull("Editor input is null", input);
+
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
+
+		StyledText styledText = part.getSourceEditor().getTextViewer()
+				.getTextWidget();
+
+			styledText.setCaretOffset(285);
+			styledText.insert("<test></test>");
+			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(part
+					.getSourceEditor().getTextViewer(), 290);
+			Node node = (Node) treeNode;
+			assertNotNull(node);
+
+			VpeController vpeController = getVpeController(part);
+
+			VpeDomMapping domMapping = vpeController.getDomMapping();
+
+			VpeNodeMapping nodeMapping = domMapping.getNodeMapping(node);
+
+			assertNotNull(nodeMapping);
+
+			nsIDOMNode div = nodeMapping.getVisualNode();
+
+			nsIDOMNode span = div.getFirstChild();
+			
+			nsIDOMNode textNode = span.getFirstChild();
+
+			assertEquals(textNode.getNodeType(), nsIDOMNode.TEXT_NODE);
+
+			assertNotNull(textNode.getNodeValue());
+			assertNotNull(node.getNodeName());
+			assertEquals(textNode.getNodeValue().trim(), node.getNodeName()
+					.trim());
+	}
 }
