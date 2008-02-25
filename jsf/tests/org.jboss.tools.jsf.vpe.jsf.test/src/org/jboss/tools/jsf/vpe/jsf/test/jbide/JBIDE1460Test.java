@@ -23,10 +23,9 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMNodeList;
 
 /**
- * Test JBIDE-1615
+ * Test JBIDE-1460
  * 
  * @author dsakovich@exadel.com
  * 
@@ -41,7 +40,7 @@ public class JBIDE1460Test extends VpeTest {
 	super(name);
     }
 
-    // test method for JBIDE 1615
+    // test method for JBIDE 1460
     public void testJBIDE_1460() throws Throwable {
 	// wait
 	TestUtil.waitForJobs();
