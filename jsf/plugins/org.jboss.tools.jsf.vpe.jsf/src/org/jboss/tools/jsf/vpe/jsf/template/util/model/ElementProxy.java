@@ -17,9 +17,9 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 
-public class ElementAdapter extends NodeAdapter implements IDOMElement {
+public class ElementProxy extends NodeProxy implements IDOMElement {
 
-	public ElementAdapter(IDOMElement basicElement, int basicOffset) {
+	public ElementProxy(IDOMElement basicElement, int basicOffset) {
 		super(basicElement, basicOffset);
 	}
 
@@ -126,13 +126,13 @@ public class ElementAdapter extends NodeAdapter implements IDOMElement {
 	}
 
 	public Attr getAttributeNode(String name) {
-		return new AttributeAdapter((IDOMAttr) ((IDOMElement) basicNode)
+		return new AttributeProxy((IDOMAttr) ((IDOMElement) basicNode)
 				.getAttributeNode(name), basicOffset);
 	}
 
 	public Attr getAttributeNodeNS(String namespaceURI, String localName)
 			throws DOMException {
-		return new AttributeAdapter((IDOMAttr) ((IDOMElement) basicNode)
+		return new AttributeProxy((IDOMAttr) ((IDOMElement) basicNode)
 				.getAttributeNodeNS(namespaceURI, localName), basicOffset);
 	}
 
@@ -176,7 +176,7 @@ public class ElementAdapter extends NodeAdapter implements IDOMElement {
 	}
 
 	public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
-		return new AttributeAdapter((IDOMAttr) ((IDOMElement) basicNode)
+		return new AttributeProxy((IDOMAttr) ((IDOMElement) basicNode)
 				.removeAttributeNode(oldAttr), basicOffset);
 	}
 
@@ -193,12 +193,12 @@ public class ElementAdapter extends NodeAdapter implements IDOMElement {
 	}
 
 	public Attr setAttributeNode(Attr newAttr) throws DOMException {
-		return new AttributeAdapter((IDOMAttr) ((IDOMElement) basicNode)
+		return new AttributeProxy((IDOMAttr) ((IDOMElement) basicNode)
 				.setAttributeNode(newAttr), basicOffset);
 	}
 
 	public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
-		return new AttributeAdapter((IDOMAttr) ((IDOMElement) basicNode)
+		return new AttributeProxy((IDOMAttr) ((IDOMElement) basicNode)
 				.setAttributeNodeNS(newAttr), basicOffset);
 	}
 

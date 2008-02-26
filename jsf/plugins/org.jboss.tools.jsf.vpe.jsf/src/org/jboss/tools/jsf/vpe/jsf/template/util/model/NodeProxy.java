@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
-public class NodeAdapter implements IDOMNode {
+public class NodeProxy implements IDOMNode {
 
 	protected Node basicNode;
 
@@ -39,7 +39,7 @@ public class NodeAdapter implements IDOMNode {
 
 	protected int basicOffset;
 
-	public NodeAdapter(Node basicNode, int basicOffset) {
+	public NodeProxy(Node basicNode, int basicOffset) {
 
 		this.basicNode = basicNode;
 		this.basicOffset = basicOffset;
@@ -68,7 +68,7 @@ public class NodeAdapter implements IDOMNode {
 
 			IDOMAttr attr = (IDOMAttr) basicAttributes.item(0);
 
-			newAttributes.setNamedItem(new AttributeAdapter(attr, basicOffset));
+			newAttributes.setNamedItem(new AttributeProxy(attr, basicOffset));
 
 		}
 
@@ -343,16 +343,16 @@ public class NodeAdapter implements IDOMNode {
 		((IDOMNode) basicNode).removeAdapter(adapter);
 	}
 
-	protected NodeAdapter getNodeAdapter(Node node) {
+	protected NodeProxy getNodeAdapter(Node node) {
 		if (node == null)
 			return null;
 
 		if (node instanceof IDOMText)
-			return new TextAdapter((IDOMText) node, basicOffset);
+			return new TextProxy((IDOMText) node, basicOffset);
 		else if (node instanceof IDOMElement)
-			return new ElementAdapter((IDOMElement) node, basicOffset);
+			return new ElementProxy((IDOMElement) node, basicOffset);
 		else
-			return new NodeAdapter(node, basicOffset);
+			return new NodeProxy(node, basicOffset);
 	}
 
 	protected NodeList createNodeAdapterList(NodeList nodeList) {

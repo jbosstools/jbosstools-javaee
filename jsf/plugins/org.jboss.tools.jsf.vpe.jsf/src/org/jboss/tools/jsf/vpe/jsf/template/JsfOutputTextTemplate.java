@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.jboss.tools.jsf.vpe.jsf.template.util.NodeAdapterUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.bundle.BundleMap;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
@@ -97,7 +97,7 @@ public class JsfOutputTextTemplate extends AbstractJsfTemplate {
 
 				VpeChildrenInfo spanInfo = new VpeChildrenInfo(span);
 
-				NodeList list = NodeAdapterUtil.reparseAttributeValue(attr);
+				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
 
 				for (int i = 0; i < list.getLength(); i++) {
 

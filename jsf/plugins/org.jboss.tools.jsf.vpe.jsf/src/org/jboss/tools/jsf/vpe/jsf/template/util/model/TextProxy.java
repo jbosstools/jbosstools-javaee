@@ -14,9 +14,9 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Text;
 
-public class TextAdapter extends NodeAdapter implements IDOMText {
+public class TextProxy extends NodeProxy implements IDOMText {
 
-	public TextAdapter(IDOMText basicText, int basicOffset) {
+	public TextProxy(IDOMText basicText, int basicOffset) {
 		super(basicText, basicOffset);
 		// TODO Auto-generated constructor stub
 	}

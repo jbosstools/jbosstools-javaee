@@ -17,9 +17,9 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;
 
-public class AttributeAdapter extends NodeAdapter implements IDOMAttr  {
+public class AttributeProxy extends NodeProxy implements IDOMAttr  {
 
-	public AttributeAdapter(IDOMAttr basicAttr, int basicOffset) {
+	public AttributeProxy(IDOMAttr basicAttr, int basicOffset) {
 		super(basicAttr, basicOffset);
 	}
 
