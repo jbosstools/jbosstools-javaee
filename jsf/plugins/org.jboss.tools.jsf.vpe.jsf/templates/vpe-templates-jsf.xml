@@ -166,9 +166,11 @@
 		</vpe:template>
     </vpe:tag>
 
-<!-- Проблема с указанием в качестве value HTML-тега (25 of 4) -->
     <vpe:tag name="h:outputText" case-sensitive="yes">
-		<vpe:if test="attrpresent('value')">
+    <vpe:template children="yes" modify="no"
+    		class="org.jboss.tools.jsf.vpe.jsf.template.JsfOutputTextTemplate">
+    </vpe:template>
+		<!--  <vpe:if test="attrpresent('value')">
 			<vpe:template children="no" modify="yes">
 				<span class="{@styleClass}" style="{@style}" title="{tagstring()}">
 					<vpe:value expr="{jsfvalue(@value)}"/>
@@ -292,8 +294,8 @@
 				</vpe:format>
 			</vpe:textFormating>
 		</vpe:template>
+		-->
     </vpe:tag>
-
 <!-- Проблема с подстановкой значений вложенных параметров (26 of 4) -->
     <vpe:tag name="h:outputFormat" case-sensitive="yes">
 		<vpe:template children="no" modify="yes">
@@ -496,32 +498,65 @@
     </vpe:tag>
 
     <vpe:tag name="h:outputLink" case-sensitive="yes">
-	    <vpe:template children="yes" modify="yes">
-			<a href="javascript:return false;" class="{@styleClass}" style="{@style}"/>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat" setDefault="true">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-			</vpe:textFormating>
-		</vpe:template>
+    	<vpe:if test="(@disabled='true')">
+    		<vpe:template children="yes" modify="yes">
+    			<span class="{@styleClass}"
+    				style="{@style}" dir="{@dir}">
+	 			</span>
+    			<vpe:textFormating>
+    				<vpe:format type="UnderlineFormat"
+    					setDefault="true">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="BoldFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="ItalicFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="FontNameFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="FontSizeFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="BackgroundColorFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    				<vpe:format type="ForegroundColorFormat">
+    					<vpe:formatAttribute type="style" />
+    				</vpe:format>
+    			</vpe:textFormating>
+    		</vpe:template>
+    	</vpe:if>
+    	<vpe:template children="yes" modify="yes">
+    		<a href="javascript:return false;" class="{@styleClass}"
+    			style="{@style}" />
+    		<vpe:textFormating>
+    			<vpe:format type="UnderlineFormat" setDefault="true">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="BoldFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="ItalicFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="FontNameFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="FontSizeFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="BackgroundColorFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    			<vpe:format type="ForegroundColorFormat">
+    				<vpe:formatAttribute type="style" />
+    			</vpe:format>
+    		</vpe:textFormating>
+    	</vpe:template>
+
     </vpe:tag>
 
     <vpe:tag name="h:outputLabel" case-sensitive="yes">
