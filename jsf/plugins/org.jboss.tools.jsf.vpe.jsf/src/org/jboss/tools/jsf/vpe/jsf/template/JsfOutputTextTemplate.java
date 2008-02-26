@@ -13,9 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
-import org.jboss.tools.vpe.editor.bundle.BundleMap;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -35,22 +33,7 @@ import org.w3c.dom.NodeList;
  * template for <h:outputText .../> jsf tag
  * 
  */
-public class JsfOutputTextTemplate extends AbstractJsfTemplate {
-
-	/**
-	 * name of "value" attribute
-	 */
-	private static final String VALUE_ATTR_NAME = "value";
-
-	/**
-	 * name of "binding" attribute
-	 */
-	private static final String BINDING_ATTR_NAME = "binding";
-
-	/**
-	 * name of "escape" attribute
-	 */
-	private static final String ESCAPE_ATTR_NAME = "escape";
+public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 
 	/*
 	 * (non-Javadoc)
@@ -68,21 +51,30 @@ public class JsfOutputTextTemplate extends AbstractJsfTemplate {
 		// create span element
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
 
+		// creation data
 		VpeCreationData creationData = new VpeCreationData(span);
 
-		copyGeneralJsfAttributes(span, element);
+		// copy attributes
+		copyOutputJsfAttributes(span, element);
 
+		// get attribute to represent
 		Attr attr = getOutputAttributeNode(element);
 
 		if (attr != null) {
-
-			if (!element.hasAttribute(ESCAPE_ATTR_NAME) || "true".equalsIgnoreCase(element.getAttribute(ESCAPE_ATTR_NAME))) {
+			// if escape then contents of value (or other attribute) is only
+			// text
+			if (!element.hasAttribute(ESCAPE_ATTR_NAME)
+					|| "true".equalsIgnoreCase(element
+							.getAttribute(ESCAPE_ATTR_NAME))) {
 
 				String value = attr.getNodeValue();
 
+				// get bundle value
 				String bundleValue = getBundleValue(pageContext, attr);
 
 				nsIDOMText text;
+				// if bundleValue differ from value then will be represent
+				// bundleValue, but text will be not edit
 				if (!value.equals(bundleValue)) {
 
 					text = visualDocument.createTextNode(bundleValue);
@@ -90,19 +82,26 @@ public class JsfOutputTextTemplate extends AbstractJsfTemplate {
 				} else {
 
 					text = visualDocument.createTextNode(value);
+					// add attribute for ability of editing
 					attributesMapping.add(new VpeNodeMapping(attr, text));
 				}
 				span.appendChild(text);
-			} else {
+			}
+			// then text can be html code
+			else {
 
+				// create info
 				VpeChildrenInfo spanInfo = new VpeChildrenInfo(span);
 
+				// reparse attribute's value
 				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
 
+				// add children to info
 				for (int i = 0; i < list.getLength(); i++) {
 
 					Node child = list.item(i);
 
+					// add info to creation data
 					spanInfo.addSourceChild(child);
 				}
 
@@ -124,26 +123,6 @@ public class JsfOutputTextTemplate extends AbstractJsfTemplate {
 			nsIDOMElement visualNode, Object data, String name, String value) {
 
 		return true;
-	}
-
-	private Attr getOutputAttributeNode(Element element) {
-
-		if (element.hasAttribute(VALUE_ATTR_NAME))
-			return element.getAttributeNode(VALUE_ATTR_NAME);
-		else if (element.hasAttribute(BINDING_ATTR_NAME))
-			return element.getAttributeNode(BINDING_ATTR_NAME);
-
-		return null;
-
-	}
-
-	private String getBundleValue(VpePageContext pageContext, Attr attr) {
-
-		BundleMap bundle = pageContext.getBundle();
-
-		return bundle.getBundleValue(attr.getNodeValue(), ((IDOMAttr) attr)
-				.getValueRegionStartOffset());
-
 	}
 
 }

@@ -47,10 +47,28 @@ public abstract class AbstractJsfTemplate extends EditableTemplateAdapter {
 		Set<String> jsfAttributes = attributes.keySet();
 
 		for (String key : jsfAttributes) {
-			if (sourceElement.hasAttribute(key))
-				visualElement.setAttribute(attributes.get(key), sourceElement
-						.getAttribute(key));
+
+			copyAttribute(visualElement, sourceElement, key, attributes
+					.get(key));
 		}
+
+	}
+
+	/**
+	 * copy attribute
+	 * 
+	 * @param visualElement
+	 * @param sourceElement
+	 * @param sourceAttributeName
+	 * @param targetAtttributeName
+	 */
+	protected void copyAttribute(nsIDOMElement visualElement,
+			Element sourceElement, String sourceAttributeName,
+			String targetAtttributeName) {
+
+		if (sourceElement.hasAttribute(sourceAttributeName))
+			visualElement.setAttribute(targetAtttributeName, sourceElement
+					.getAttribute(sourceAttributeName));
 
 	}
 

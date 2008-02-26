@@ -29,12 +29,11 @@ import org.w3c.dom.NodeList;
 
 public class NodeProxyUtil {
 
-	static public NodeList reparseAttributeValue(Attr attr) {
-
+	static public NodeList reparseAttributeValue(String attrString, int offset) {
 		IStructuredDocument newStructuredDocument = StructuredDocumentFactory
 				.getNewStructuredDocumentInstance(new JSPSourceParser());
 
-		newStructuredDocument.set(attr.getValue());
+		newStructuredDocument.set(attrString);
 
 		IDOMModel modelForJSP = new DOMModelForJSP();
 		modelForJSP.setStructuredDocument(newStructuredDocument);
@@ -43,10 +42,16 @@ public class NodeProxyUtil {
 
 		NodeList list = document.getChildNodes();
 
-		NodeList adaptersList = getNodeAdapterList(list, ((IDOMAttr) attr)
-				.getValueRegionStartOffset());
+		NodeList adaptersList = getNodeAdapterList(list, offset);
 
 		return adaptersList;
+
+	}
+
+	static public NodeList reparseAttributeValue(Attr attr) {
+
+		return reparseAttributeValue(attr.getValue(), ((IDOMAttr) attr)
+				.getValueRegionStartOffset());
 
 	}
 
@@ -69,7 +74,9 @@ public class NodeProxyUtil {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 
-			newNodeList.appendNode(getNodeAdapter(node, basicOffset));
+			// if node is only html tag
+			if (node.getPrefix() == null)
+				newNodeList.appendNode(getNodeAdapter(node, basicOffset));
 
 		}
 
