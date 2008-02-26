@@ -83,13 +83,31 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertTrue("Problem marker was found in varAttributes.xhtml file. Validator did not recognize 'var' attribute.", number == 0);
 	}
 
+	public void testJiraJbide1696() throws CoreException {
+		getSeamProject(project);
+
+		// Test for http://jira.jboss.com/jira/browse/JBIDE-1696
+		IFile subclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java");
+		assertMarkerIsCreated(subclassComponentFile, null, "Stateful component \"testComponentJBIDE1696\" must have a method marked @Remove", 25);
+		IFile superclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.java");
+		IFile superclassComponentFileWithRemove = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
+		try{
+			superclassComponentFile.setContents(superclassComponentFileWithRemove.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception e){
+			JUnitUtils.fail("Error during changing 'SuperclassTestComponent.java' content to 'SuperclassTestComponent.withRemove'", e);
+		}
+		refreshProject(project);
+		int number = getMarkersNumber(subclassComponentFile);
+		assertTrue("We changed super class of component but it still don't see changes.", number == 0);
+	}
+
 	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
 		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
 		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 17 );
 	}
-	
+
 	public void testComponentsValidator() {
 		ISeamProject seamProject = getSeamProject(project);
 		

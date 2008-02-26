@@ -23,10 +23,12 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -354,10 +356,24 @@ public class SeamCoreValidator extends SeamValidator {
 			for (ISeamComponentDeclaration declaration : declarations) {
 				if(declaration instanceof ISeamJavaComponentDeclaration) {
 					ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)declaration;
-					boolean sourceJavaDeclaration = !((IType)jd.getSourceMember()).isBinary();
+					IType type = (IType)jd.getSourceMember();
+					boolean sourceJavaDeclaration = !type.isBinary();
 					if(sourceJavaDeclaration) {
 						// Save link between component name and java source file.
 						validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
+						// Save link between component name and all supers of java declaration.
+						try {
+							ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
+							IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getAllSupertypes(type);
+							for (int i = 0; superTypes != null && i < superTypes.length; i++) {
+								if(!superTypes[i].isBinary()) {
+									IPath path = superTypes[i].getResource().getFullPath();
+									validationContext.addLinkedCoreResource(componentName, path);
+								}
+							}
+						} catch (JavaModelException e) {
+							SeamCorePlugin.getPluginLog().logError(e);
+						}
 					}
 					if(declaration!=firstJavaDeclaration) {
 						// Validate @Name
