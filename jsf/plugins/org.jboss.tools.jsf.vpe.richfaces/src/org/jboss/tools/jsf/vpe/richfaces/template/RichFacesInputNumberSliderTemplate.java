@@ -782,22 +782,4 @@ public class RichFacesInputNumberSliderTemplate extends
 		return true;
 	}
 
-	@Override
-	public void setSourceAttributeSelection(VpePageContext pageContext,
-			Element sourceElement, int offset, int length, Object data) {
-		System.out.print("\n  sourceElement:" + sourceElement.getNodeName()
-				+ "\toffset:" + offset + "\tlength:" + length + "\tdata : "
-				+ data);
-		VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
-		sourceBuilder.setAttributeSelection(sourceElement.getAttributeNode("value"), offset, length);
-		super.setSourceAttributeSelection(pageContext, sourceElement, offset,
-				length, data);
-	}
-	@Override
-	public void refreshBundleValues(VpePageContext pageContext,
-			Element sourceElement, Object data) {
-		System.out.print("\nrefresh");
-		// TODO Auto-generated method stub
-		super.refreshBundleValues(pageContext, sourceElement, data);
-	}
 }
