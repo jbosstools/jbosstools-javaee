@@ -70,9 +70,7 @@ public class StrutsProjectCreationOperation extends WebProjectCreationOperation 
 	protected void copyTemplate() throws Exception {
 		String location = getProject().getLocation().toString();
 		String location2 = location;
-		if(isMultipleModulesProject()) {
-			location2 += "/" + getProject().getName();
-		}
+
 		String templateLocation = getTemplateLocation();
 		String version = getProperty(WebNatureOperation.TEMPLATE_VERSION_ID);
 
