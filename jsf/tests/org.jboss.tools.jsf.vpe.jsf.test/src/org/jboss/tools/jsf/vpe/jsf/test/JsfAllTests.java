@@ -26,7 +26,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1501Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1548Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1568Test;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 import org.jboss.tools.vpe.ui.test.beans.ImportBean;
@@ -48,7 +47,6 @@ public class JsfAllTests {
 		suite.addTestSuite(JsfJbide1467Test.class);
 		suite.addTestSuite(JsfJbide1501Test.class);
 		suite.addTestSuite(JBIDE1484Test.class);
-		suite.addTestSuite(JsfJbide1548Test.class);
 		suite.addTestSuite(JsfJbide1568Test.class);
 		suite.addTestSuite(JBIDE1615Test.class);
 		suite.addTestSuite(JBIDE1479Test.class);
