@@ -15,8 +15,10 @@ import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1579Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1613Test;
+import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1548Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1580Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1614Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1639Test;
@@ -44,6 +46,7 @@ public class RichFacesAllTests {
 	suite.addTestSuite(Jbide1614Test.class);
 	suite.addTestSuite(Jbide1639Test.class);
 	suite.addTestSuite(Jbide1682Test.class);
+	suite.addTestSuite(Jbide1548Test.class);
 	
 	// $JUnit-END$
 
