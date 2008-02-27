@@ -21,10 +21,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
+import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemImpl;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jsf.project.JSFAutoLoad;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jst.web.WebUtils;
@@ -63,9 +65,7 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 	protected void copyTemplate() throws Exception {
 		String location = getProject().getLocation().toString();
 		String location2 = location;
-		if(isMultipleModulesProject()) {
-			location2 += "/" + getProject().getName();
-		}
+
 		String templateLocation = getTemplateLocation();
 		String version = getProperty(TEMPLATE_VERSION_ID);
 
@@ -117,4 +117,13 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 		if(f.exists()) return f;
 		return null;
 	}
+
+	protected void postCreateWebNature() {
+		if(projectFile != null) {
+			if(projectFile.isFile()) projectFile.delete();
+			projectFile = null;
+		}
+		model.getProperties().put(XModelConstants.AUTOLOAD, new JSFAutoLoad());
+	}
+
 }

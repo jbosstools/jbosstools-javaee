@@ -12,8 +12,12 @@ package org.jboss.tools.jsf.ui.operation;
 
 import java.io.File;
 
+import org.jboss.tools.common.model.XModelConstants;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFPreference;
+import org.jboss.tools.jsf.project.JSFAutoLoad;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jsf.web.helpers.context.AdoptJSFProjectFinisher;
@@ -49,6 +53,21 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 		}
 	}
 
+	protected void postCreateWebNature() {
+		File f = getEclipseFile();
+		if(f != null) {
+			f.delete();
+		}
+		model.getProperties().put(XModelConstants.AUTOLOAD, new JSFAutoLoad());
+	}
+
+    private File getEclipseFile() {
+		String fn = getProject().getLocation().toString() + "/" + IModelNature.PROJECT_FILE;
+		File f = new File(fn);
+		if(f.exists()) return f;
+		return null;
+    }
+    
 	protected String getNatureID() {
 		return JSFNature.NATURE_ID;
 	}
