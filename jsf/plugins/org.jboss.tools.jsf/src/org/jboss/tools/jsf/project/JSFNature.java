@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.project;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 
+import org.jboss.tools.common.model.project.IAutoLoad;
 import org.jboss.tools.common.model.project.ModelNature;
 import org.jboss.tools.jsf.JSFModelPlugin;
 
@@ -33,6 +34,10 @@ public class JSFNature extends ModelNature {
 			JSFModelPlugin.getPluginLog().logError(e);
 			return false;
 		}
+	}
+	
+	protected IAutoLoad createAutoLoad() {
+		return new JSFAutoLoad();
 	}
 
 	public void configure() throws CoreException {
