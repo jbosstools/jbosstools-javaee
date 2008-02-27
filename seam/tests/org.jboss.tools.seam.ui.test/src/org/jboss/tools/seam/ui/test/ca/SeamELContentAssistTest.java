@@ -9,7 +9,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -18,21 +17,13 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.jface.text.contentassist.IContentAssistant;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
-import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.test.util.TestProjectProvider;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
@@ -439,51 +430,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	}
 	
 	public void testSeamELContentAssist() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
-
-		IFile jspFile = project.getFile(PAGE_NAME);
-
-		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile != null));
-		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile.exists()));
-
-		FileEditorInput editorInput = new FileEditorInput(jspFile);
-		Throwable exception = null;
-		IEditorPart editorPart = null;
-		try {
-			editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(editorInput, "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor");
-		} catch (PartInitException ex) {
-			exception = ex;
-			ex.printStackTrace();
-			assertTrue("The JSP Visual Editor couldn't be initialized.", false);
-		}
-
-		JSPMultiPageEditor jspEditor = null;
-		
-		if (editorPart instanceof JSPMultiPageEditor)
-			jspEditor = (JSPMultiPageEditor)editorPart;
-		
-		// Delay for 3 seconds so that
-		// the Favorites view can be seen.
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			e.printStackTrace();
-			assertTrue("Waiting for the jobs to complete has failed.", false);
-		} 
-		TestUtil.delay(3000);
-
-		JSPTextEditor jspTextEditor = jspEditor.getJspEditor();
-		StructuredTextViewer viewer = jspTextEditor.getTextViewer();
-		IDocument document = viewer.getDocument();
-		SourceViewerConfiguration config = TestUtil.getSourceViewerConfiguration(jspTextEditor);
-		IContentAssistant contentAssistant = (config == null ? null : config.getContentAssistant(viewer));
-
-		assertTrue("Cannot get the Content Assistant instance for the editor for page \"" + PAGE_NAME + "\"", (contentAssistant != null));
+		openEditor(PAGE_NAME);
 
 		List<IRegion> regionsToTest = getELRegionsToTest(document);
 		if (regionsToTest != null) {
@@ -646,8 +593,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 			}
 		}
 		
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-		.closeEditor(editorPart, false);
+		closeEditor();
 
 	}
 }
