@@ -13,7 +13,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.ITypedRegion;
@@ -26,13 +25,12 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.internal.editor.EditorModelUtil;
-import org.jboss.tools.common.model.XJob;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner;
 import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 
@@ -46,9 +44,8 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 	}
 
 	public void setUp() throws Exception {
-		//provider = new TestProjectProvider("", null, PROJECT_NAME, makeCopy); 
+		//provider = new TestProjectProvider("", null, PROJECT_NAME, makeCopy);
 		project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestSeamELContentAssist", new NullProgressMonitor());
-		Throwable exception = null;
 		project.refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
 
@@ -60,9 +57,10 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 
 	public void testSeamViewPartitioner() {
 		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
 			e.printStackTrace();
+			fail("Waiting for the jobs to complete has failed.");
 		} 
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 

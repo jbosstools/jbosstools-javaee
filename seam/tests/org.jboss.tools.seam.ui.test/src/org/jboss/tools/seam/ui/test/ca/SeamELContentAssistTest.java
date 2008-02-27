@@ -5,20 +5,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
-import org.eclipse.jface.text.contentassist.IContentAssistantExtension;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -28,23 +29,18 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
-import org.eclipse.wst.sse.ui.internal.editor.EditorModelUtil;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
-import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
+import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class SeamELContentAssistTest extends TestCase {
+public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	TestProjectProvider provider = null;
-	IProject project = null;
 	boolean makeCopy = false;
 	private static final String PROJECT_NAME = "TestSeamELContentAssist";
 	private static final String PAGE_NAME = "/WebContent/login.xhtml";
@@ -70,6 +66,37 @@ public class SeamELContentAssistTest extends TestCase {
 		if(provider != null) {
 			provider.dispose();
 		}
+	}
+
+	/**
+	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1803
+	 */
+	public void testVarAttributes() {
+		try {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
+
+		IFile component = project.getFile("src/action/demo/TestComponentForVarAttributes.java");
+		IFile newComponent = project.getFile("src/action/demo/TestComponentForVarAttributes.1");
+		IFile emptyComponent = project.getFile("src/action/demo/TestComponentForVarAttributes.2");
+		try{
+			component.setContents(newComponent.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception e){
+			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.1'", e);
+		}
+		EditorTestHelper.joinJobs(1000,10000,500);
+
+		checkProposals("/WebContent/varAttributes.xhtml", 458, new String[]{"test.name"}, false);
+
+		try{
+			component.setContents(emptyComponent.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception e){
+			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.2'", e);
+		}
+		EditorTestHelper.joinJobs(1000,10000,500);
 	}
 
 	private static final String[] VALID_SEAM_EL_PROPOSALS = new String[] {
@@ -413,7 +440,6 @@ public class SeamELContentAssistTest extends TestCase {
 	
 	public void testSeamELContentAssist() {
 		try {
-//			XJob.waitForJob();
 			EditorTestHelper.joinBackgroundActivities();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -444,7 +470,6 @@ public class SeamELContentAssistTest extends TestCase {
 		// Delay for 3 seconds so that
 		// the Favorites view can be seen.
 		try {
-//			XJob.waitForJob();
 			EditorTestHelper.joinBackgroundActivities();
 		} catch (Exception e) {
 			e.printStackTrace();
