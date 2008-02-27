@@ -59,7 +59,7 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 
 		// create span element
-		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		nsIDOMElement span = visualDocument.createElement(HTML.TAG_TABLE);
 		// add title attribute to span
 		span.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		span.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
@@ -84,8 +84,10 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		// label exist
 		if (null != label) {
 			// add label to span
+			nsIDOMElement labelElement = visualDocument.createElement(HTML.TAG_LABEL);
 			nsIDOMText text = visualDocument.createTextNode(label);
-			span.appendChild(text);
+			span.appendChild(labelElement);
+			labelElement.appendChild(text);
 		}
 
 		return new VpeCreationData(span);

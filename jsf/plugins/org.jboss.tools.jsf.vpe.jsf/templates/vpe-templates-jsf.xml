@@ -561,9 +561,7 @@
     </vpe:tag>
 
     <vpe:tag name="h:selectOneRadio" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<vpe:grid layout="{@layout}" border="{@border}" title="{tagstring()}"/>
-			<vpe:breaker type="ignore"/>
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfSelectOneRadioTemplate">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">
@@ -671,8 +669,8 @@
     </vpe:tag>
 
     <vpe:tag name="h:selectOneMenu" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<select style="{@style}" class="{@styleClass}" title="{tagstring()}"/>
+		<vpe:template class="org.jboss.tools.jsf.vpe.jsf.template.JsfSelectOneMenuTemplate"
+    		children="yes" modify="yes">
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />

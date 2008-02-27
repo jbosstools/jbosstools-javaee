@@ -28,20 +28,18 @@ import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
- * @author Sergey Dzmitrovich
+ * @author Dzmitry Sakovich (dsakovich@exadel.com)
  * 
- * template for selectOneListbox select item
+ * template for selectOneMenu select item
  * 
  */
-public class JsfSelectOneListbox extends VpeAbstractTemplate {
+public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 
 	/**
 	 * "size" attribute
 	 */
-	private static final String ATTR_SIZE = "size"; //$NON-NLS-1$
 
 	private static final String ATTR_DISABLED_CLASS = "disabledClass";
 	private static final String ATTR_ENABLED_CLASS = "enabledClass";
@@ -66,12 +64,13 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 		ATTR_LIST_COPY.put("styleClass", "class"); //$NON-NLS-1$
 		ATTR_LIST_COPY.put("disabled", "disabled"); //$NON-NLS-1$
 		ATTR_LIST_COPY.put("dir", "dir"); //$NON-NLS-1$
+
 	}
 
 	/**
 	 * 
 	 */
-	public JsfSelectOneListbox() {
+	public JsfSelectOneMenuTemplate() {
 
 		// TODO Auto-generated constructor stub
 	}
@@ -87,7 +86,7 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 
 		// create select element
 		nsIDOMElement select = visualDocument.createElement(HTML.TAG_SELECT);
-
+		select.setAttribute(HTML.ATTR_SIZE, "1");
 		Element element = (Element) sourceNode;
 
 		// import attributes from source
@@ -104,6 +103,7 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 					if (attr.equalsIgnoreCase("true")) {
 						select.setAttribute(ATTR_LIST_COPY.get(attributeName),
 								"disabled");
+						
 					}
 					continue;
 				}
@@ -112,43 +112,7 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 
 		}
 
-		// get "size" attribute
-		String size = element.getAttribute(ATTR_SIZE);
-
-		// add "size" attribute to "select"
-		if (size != null)
-			// if source has "size" attribute import it
-			select.setAttribute(HTML.ATTR_SIZE, size);
-		else
-			// count size
-			select.setAttribute(HTML.ATTR_SIZE, String
-					.valueOf(countSize(element)));
-
 		return new VpeCreationData(select);
-	}
-
-	/**
-	 * Count size for "select" (size = number of "selectItem" and "selectItems"
-	 * children )
-	 * 
-	 * 
-	 * @param sourceNode
-	 * @return size of select (1 or more)
-	 */
-	private int countSize(Node sourceNode) {
-
-		NodeList children = sourceNode.getChildNodes();
-		int size = 0;
-		for (int i = 0; i < children.getLength(); i++) {
-
-			Node child = children.item(i);
-			// if children is one of visible items
-			if (CHILDREN_LIST.contains(child.getLocalName()))
-				size++;
-		}
-		// if 'size' == 0 return 1 else 'size'
-		return size == 0 ? 1 : size;
-
 	}
 
 	/**
