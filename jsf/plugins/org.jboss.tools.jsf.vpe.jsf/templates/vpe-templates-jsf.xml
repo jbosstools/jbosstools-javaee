@@ -438,7 +438,7 @@
     	</vpe:if>
     	<vpe:template children="yes" modify="yes">
     		<a href="javascript:return false;" class="{@styleClass}"
-    			style="{@style}" />
+    			style="{@style}" dir="{@dir}"  />
     		<vpe:textFormating>
     			<vpe:format type="UnderlineFormat" setDefault="true">
     				<vpe:formatAttribute type="style" />
