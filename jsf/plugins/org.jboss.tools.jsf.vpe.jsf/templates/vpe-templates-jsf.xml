@@ -22,7 +22,7 @@
 
     <vpe:tag name="h:inputText" case-sensitive="yes">
 	    <vpe:template children="no" modify="no">
-			<input type="text" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}" size="{@size}" />
+			<input type="text" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}" size="{@size}" dir="{@dir}"/>
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
@@ -67,7 +67,7 @@
 
     <vpe:tag name="h:inputTextarea" case-sensitive="yes">
 	    <vpe:template children="yes" modify="no">
-			<textarea class="{@styleClass}" style="{@style}" rows="{@rows}" cols="{@cols}" title="{tagstring()}">
+			<textarea class="{@styleClass}" style="{@style}" rows="{@rows}" cols="{@cols}" title="{tagstring()}"  dir="{@dir}">
 				<vpe:value expr="{jsfvalue(@value)}"/>
 			</textarea>
 			<vpe:resize>
@@ -105,7 +105,7 @@
 
     <vpe:tag name="h:inputSecret" case-sensitive="yes">
 	    <vpe:template children="no" modify="no">
-			<input type="password" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}" size="{@size}" />
+			<input type="password" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}" size="{@size}" dir="{@dir}" />
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
