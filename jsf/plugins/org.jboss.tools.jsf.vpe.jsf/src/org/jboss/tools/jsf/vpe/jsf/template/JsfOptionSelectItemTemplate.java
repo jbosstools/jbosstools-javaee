@@ -10,15 +10,19 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author dmaliarevich
@@ -33,6 +37,10 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 	private static final String ENABLED_CLASS = "enabledClass";
 	private static final String DISABLED_CLASS = "disabledClass";
 	
+	/* "escape" attribute of f:selectItem */
+	private static final String ESCAPE = "escape";
+	
+	private String escape;
 	private String disabled;
 	private String enabledClass;
 	private String disabledClass;
@@ -49,9 +57,14 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		
-		readAttributes(sourceNode.getParentNode());
-
+		readParentAttributes(sourceNode.getParentNode());
+		readAttributes(sourceNode);
+		Element element = (Element) sourceNode;
+		
 		nsIDOMElement option = visualDocument.createElement(HTML.TAG_OPTION);
+		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		option.appendChild(span);
+		
 		VpeCreationData creationData = new VpeCreationData(option);
 		
 		if (attrPresents(disabled) && "true".equalsIgnoreCase(disabled)) {
@@ -59,27 +72,33 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 		} else if (attrPresents(enabledClass)) {
 			option.setAttribute(CLASS, enabledClass);
 		}
-		
-		String itemLabel = getLabel(sourceNode);
-		option.appendChild(visualDocument.createTextNode(itemLabel));
 
-		return creationData;
-	}
-	
-	/**
-	 * get Label of element
-	 * 
-	 * @param sourceNode
-	 * @return
-	 */
-	private String getLabel(Node sourceNode) {
-		// get value of "itemLabeL" from jsf tag
-		Node attrNode = sourceNode.getAttributes().getNamedItem(ITEM_LABEL);
-		// if attribute exist return value
-		if (attrNode != null) {
-			return attrNode.getNodeValue();
+		Attr attr = null;
+		if (element.hasAttribute(ITEM_LABEL)) {
+			attr = element.getAttributeNode(ITEM_LABEL);
 		}
-		return "";
+
+		if (null != attr) {
+			if (null == escape || "true".equalsIgnoreCase(escape)) {
+				// show text as is
+				String itemLabel = attr.getNodeValue();
+				span.appendChild(visualDocument.createTextNode(itemLabel));
+			} else {
+				// show formatted text
+				VpeChildrenInfo spanInfo = new VpeChildrenInfo(span);
+				// re-parse attribute's value
+				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
+				// add children to info
+				for (int i = 0; i < list.getLength(); i++) {
+					Node child = list.item(i);
+					// add info to creation data
+					spanInfo.addSourceChild(child);
+				}
+				creationData.addChildrenInfo(spanInfo);
+			}
+		}
+		
+		return creationData;
 	}
 	
 	/**
@@ -94,6 +113,21 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 	}
 	
 	/**
+	 * Read attributes from the h:SelectManyCheckbox element.
+	 * 
+	 * @param sourceNode the source node
+	 */
+	private void readParentAttributes(Node sourceNode) {
+		if (null == sourceNode) {
+			return;
+		}
+		Element source = (Element) sourceNode;
+		disabled = source.getAttribute(DISABLED);
+		enabledClass = source.getAttribute(ENABLED_CLASS);
+		disabledClass = source.getAttribute(DISABLED_CLASS);
+	}
+
+	/**
 	 * Read attributes from the source element.
 	 * 
 	 * @param sourceNode the source node
@@ -103,9 +137,7 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 			return;
 		}
 		Element source = (Element) sourceNode;
-		disabled = source.getAttribute(DISABLED);
-		enabledClass = source.getAttribute(ENABLED_CLASS);
-		disabledClass = source.getAttribute(DISABLED_CLASS);
+		escape = source.getAttribute(ESCAPE);
 	}
 
 	@Override

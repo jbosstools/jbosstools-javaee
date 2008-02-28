@@ -11,15 +11,20 @@
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
+import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author sdzmitrovich
@@ -41,6 +46,14 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 	// style of span
 	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
 
+	/* "itemLabel" attribute of f:selectItem */
+	private static final String ITEM_LABEL = "itemLabel";
+	
+	/* "escape" attribute of f:selectItem */
+	private static final String ESCAPE = "escape";
+	
+	private String escape;
+	
 	/**
 	 * 
 	 */
@@ -58,39 +71,55 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
+		Element element = (Element) sourceNode;
+
 		// create span element
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_TABLE);
 		// add title attribute to span
 		span.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
-		span.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
-
-		// create radio element
 		nsIDOMElement radio = visualDocument.createElement(HTML.TAG_INPUT);
+		nsIDOMElement labelSpan = visualDocument.createElement(HTML.TAG_SPAN);
+		span.appendChild(radio);
+		span.appendChild(labelSpan);
+
+		VpeCreationData creationData = new VpeCreationData(span);
+
+		// set attributes
+		span.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
 		radio.setAttribute(HTML.ATTR_TYPE, ATTR_TYPE_VALUE);
-
-		// set title
 		radio.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
-
-		// set name
 		radio.setAttribute(HTML.ATTR_NAME, ATTR_NAME_VALUE
 				+ getNameSuffix(sourceNode));
 
-		// add radio to span
-		span.appendChild(radio);
-
-		// get label for element
-		String label = getLabel(sourceNode);
-
-		// label exist
-		if (null != label) {
-			// add label to span
-			nsIDOMElement labelElement = visualDocument.createElement(HTML.TAG_LABEL);
-			nsIDOMText text = visualDocument.createTextNode(label);
-			span.appendChild(labelElement);
-			labelElement.appendChild(text);
+		Attr attr = null;
+		if (element.hasAttribute(ITEM_LABEL)) {
+			attr = element.getAttributeNode(ITEM_LABEL);
 		}
 
-		return new VpeCreationData(span);
+		if (null != element) {
+			escape = element.getAttribute(ESCAPE);
+		}
+
+		if (null != attr) {
+			if (null == escape || "true".equalsIgnoreCase(escape)) {
+				// show text as is
+				String itemLabel = attr.getNodeValue();
+				labelSpan.appendChild(visualDocument.createTextNode(itemLabel));
+			} else {
+				// show formatted text
+				VpeChildrenInfo labelSpanInfo = new VpeChildrenInfo(labelSpan);
+				// re-parse attribute's value
+				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
+				// add children to info
+				for (int i = 0; i < list.getLength(); i++) {
+					Node child = list.item(i);
+					// add info to creation data
+					labelSpanInfo.addSourceChild(child);
+				}
+				creationData.addChildrenInfo(labelSpanInfo);
+			}
+		}
+		return creationData;
 	}
 
 	/**
@@ -159,6 +188,17 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 
 		return name_suffix;
 
+	}
+	
+	/**
+	 * Checks is attribute presents.
+	 * 
+	 * @param attr the attribute
+	 * 
+	 * @return true, if successful
+	 */
+	private boolean attrPresents(String attr) {
+		return ((null != attr) && (!"".equals(attr)));
 	}
 
 }

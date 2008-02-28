@@ -10,16 +10,22 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author dmaliarevich
@@ -39,6 +45,11 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 	private static final String ENABLED_CLASS = "enabledClass";
 	private static final String DISABLED_CLASS = "disabledClass";
 
+	
+	/* "escape" attribute of f:selectItem */
+	private static final String ESCAPE = "escape";
+	
+	private String escape;
 	private String disabled;
 	private String enabledClass;
 	private String disabledClass;
@@ -54,13 +65,17 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
-
-		readAttributes(sourceNode.getParentNode());
-
+		
+		readParentAttributes(sourceNode.getParentNode());
+		readAttributes(sourceNode);
+		
+		Element element = (Element) sourceNode;
+		
 		nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 		// create span element
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		nsIDOMElement labelSpan = visualDocument.createElement(HTML.TAG_SPAN);
 
 		VpeCreationData creationData = new VpeCreationData(span);
 
@@ -76,11 +91,34 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 			label.setAttribute(CLASS, enabledClass);
 		}
 
-		String itemLabel = getLabel(sourceNode);
-		label.appendChild(visualDocument.createTextNode(itemLabel));
-
+		label.appendChild(labelSpan);
 		span.appendChild(input);
 		span.appendChild(label);
+		
+		Attr attr = null;
+		if (element.hasAttribute(ITEM_LABEL)) {
+			attr = element.getAttributeNode(ITEM_LABEL);
+		}
+
+		if (null != attr) {
+			if (null == escape || "true".equalsIgnoreCase(escape)) {
+				// show text as is
+				String itemLabel = attr.getNodeValue();
+				labelSpan.appendChild(visualDocument.createTextNode(itemLabel));
+			} else {
+				// show formatted text
+				VpeChildrenInfo labelSpanInfo = new VpeChildrenInfo(labelSpan);
+				// re-parse attribute's value
+				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
+				// add children to info
+				for (int i = 0; i < list.getLength(); i++) {
+					Node child = list.item(i);
+					// add info to creation data
+					labelSpanInfo.addSourceChild(child);
+				}
+				creationData.addChildrenInfo(labelSpanInfo);
+			}
+		}
 
 		return creationData;
 	}
@@ -120,19 +158,18 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 	}
 
 	/**
-	 * get Label of element
+	 * Read attributes from the h:SelectManyCheckbox element.
 	 * 
-	 * @param sourceNode
-	 * @return
+	 * @param sourceNode the source node
 	 */
-	private String getLabel(Node sourceNode) {
-		// get value of "itemLabeL" from jsf tag
-		Node attrNode = sourceNode.getAttributes().getNamedItem(ITEM_LABEL);
-		// if attribute exist return value
-		if (attrNode != null) {
-			return attrNode.getNodeValue();
+	private void readParentAttributes(Node sourceNode) {
+		if (null == sourceNode) {
+			return;
 		}
-		return "";
+		Element source = (Element) sourceNode;
+		disabled = source.getAttribute(DISABLED);
+		enabledClass = source.getAttribute(ENABLED_CLASS);
+		disabledClass = source.getAttribute(DISABLED_CLASS);
 	}
 
 	/**
@@ -145,9 +182,7 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 			return;
 		}
 		Element source = (Element) sourceNode;
-		disabled = source.getAttribute(DISABLED);
-		enabledClass = source.getAttribute(ENABLED_CLASS);
-		disabledClass = source.getAttribute(DISABLED_CLASS);
+		escape = source.getAttribute(ESCAPE);
 	}
 
 	@Override
