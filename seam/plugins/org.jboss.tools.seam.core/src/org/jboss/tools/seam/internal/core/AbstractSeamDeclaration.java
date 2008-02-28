@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.core.IOpenableElement;
+import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -27,7 +28,7 @@ import org.w3c.dom.Element;
 /**
  * @author Viacheslav Kabanovich
  */
-public abstract class AbstractSeamDeclaration extends SeamObject implements ISeamTextSourceReference, IOpenableElement {
+public abstract class AbstractSeamDeclaration extends SeamObject implements ISeamDeclaration, ISeamTextSourceReference, IOpenableElement {
 	public static final String PATH_OF_NAME = "name"; //$NON-NLS-1$
 
 	protected String name;

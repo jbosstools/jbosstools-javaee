@@ -15,12 +15,7 @@ import org.jboss.tools.seam.core.event.ISeamValue;
 /**
  * A property of Seam Component defined in component.xml or seam.properties files
  */
-public interface ISeamProperty extends ISeamElement, ISeamTextSourceReference {
-
-	/**
-	 * @return name of this property
-	 */
-	public String getName();
+public interface ISeamProperty extends ISeamDeclaration, ISeamTextSourceReference {
 
 	/**
 	 * @return value of this property

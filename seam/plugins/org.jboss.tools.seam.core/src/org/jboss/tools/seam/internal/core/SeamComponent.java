@@ -27,6 +27,7 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
@@ -84,6 +85,18 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();
 		for(ISeamXmlComponentDeclaration d: xml) {
 			if(d.getClassName() != null && d.getClassName().length() > 0) return d.getClassName();
+		}
+		return null;
+	}
+
+	public ISeamTextSourceReference getLocationFor(String path) {
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		if(javaDeclaration != null) return javaDeclaration.getLocationFor(path);
+		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();
+		for(ISeamXmlComponentDeclaration d: xml) {
+			if(d.getLocationFor(path) != null) {
+				return d.getLocationFor(path);
+			}
 		}
 		return null;
 	}

@@ -11,11 +11,21 @@
 package org.jboss.tools.seam.core;
 
 /**
- * Represents declaration of seam component.
- * @author Alexey Kazakov
+ * @author Viacheslav Kabanovich
  */
-public interface ISeamComponentDeclaration extends ISeamDeclaration, ISeamTextSourceReference {
-
-	public ISeamComponentDeclaration clone() throws CloneNotSupportedException;
+public interface ISeamDeclaration extends ISeamElement {
+	
+	/**
+	 * @return name of this declaration
+	 */
+	public String getName();
+	
+	/**
+	 * @param path
+	 * @return source reference for some member of declaration.
+	 * e.g. if you need source reference for @Name you have to 
+	 * invoke getLocationFor("name");
+	 */
+	public ISeamTextSourceReference getLocationFor(String path);
 
 }
