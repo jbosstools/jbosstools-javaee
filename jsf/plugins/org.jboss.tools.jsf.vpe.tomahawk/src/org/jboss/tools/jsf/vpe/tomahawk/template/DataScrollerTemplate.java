@@ -158,14 +158,14 @@ public class DataScrollerTemplate extends VpeAbstractTemplate {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#getTagDescription(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getTagDescription(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object)
 	 */
 	@Override
 	public VpeTagDescription getTagDescription(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualElement, Object data) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.getTagDescription(pageContext, sourceElement, visualDocument,
+				visualElement, data);
 	}
 
 	/* (non-Javadoc)
