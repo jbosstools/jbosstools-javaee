@@ -710,7 +710,7 @@
 
     <vpe:tag name="h:selectManyMenu" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<select style="{@style}" multiple="multiple"  class="{@styleClass}" title="{tagstring()}" size="1"/>
+			<select style="{@style}" multiple="multiple"  class="{@styleClass}" title="{tagstring()}" size="1" dir="{@dir}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">

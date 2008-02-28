@@ -38,6 +38,11 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 	private static final String ATTR_SIZE = "size"; //$NON-NLS-1$
 
 	/**
+	 * "dir" attribute
+	 */
+	private static final String ATTR_DIR = "dir";
+	
+	/**
 	 * "size" attribute
 	 */
 	private static final String ATTR_MULTIPLE_VALUE = "multiple"; //$NON-NLS-1$
@@ -101,6 +106,13 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 		// get "size" attribute
 		String size = element.getAttribute(ATTR_SIZE);
 
+		// get "dir" attribute
+		String dir = element.getAttribute(ATTR_DIR);
+		
+		if (null != dir) {
+			select.setAttribute(HTML.ATTR_DIR, dir);
+		}
+		
 		// add "size" attribute to "select"
 		if (size != null)
 			// if source has "size" attribute import it

@@ -41,6 +41,7 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
 
 	/*h:SelectManyCheckbox attributes*/
+	private static final String DIR = "dir";
 	private static final String DISABLED = "disabled";
 	private static final String ENABLED_CLASS = "enabledClass";
 	private static final String DISABLED_CLASS = "disabledClass";
@@ -50,6 +51,7 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 	private static final String ESCAPE = "escape";
 	
 	private String escape;
+	private String dir;
 	private String disabled;
 	private String enabledClass;
 	private String disabledClass;
@@ -85,6 +87,10 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 
 		input.setAttribute(HTML.ATTR_TYPE, TYPE_CHECKBOX);
 
+		if (attrPresents(dir)) {
+			input.setAttribute(HTML.ATTR_DIR, dir);
+		}
+		
 		if (attrPresents(disabled) && "true".equalsIgnoreCase(disabled)) {
 			label.setAttribute(CLASS, disabledClass);
 		} else if (attrPresents(enabledClass)) {
@@ -167,6 +173,7 @@ public class JsfCheckboxSelectItemTemplate extends VpeAbstractTemplate {
 			return;
 		}
 		Element source = (Element) sourceNode;
+		dir = source.getAttribute(DIR);
 		disabled = source.getAttribute(DISABLED);
 		enabledClass = source.getAttribute(ENABLED_CLASS);
 		disabledClass = source.getAttribute(DISABLED_CLASS);

@@ -40,9 +40,6 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 	// common part of the name of element
 	private static final String ATTR_NAME_VALUE = "radio_name_"; //$NON-NLS-1$
 
-	// name of attribute which need represent
-	private static final String ITEM_LABEL_ATTR = "itemLabel"; //$NON-NLS-1$
-
 	// style of span
 	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
 
@@ -52,6 +49,10 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 	/* "escape" attribute of f:selectItem */
 	private static final String ESCAPE = "escape";
 	
+	/* "dir" attribute of f:selectSelectOneRadio */
+	private static final String DIR = "dir";
+	
+	private String dir;
 	private String escape;
 	
 	/**
@@ -82,6 +83,11 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		span.appendChild(radio);
 		span.appendChild(labelSpan);
 
+		if (null != element) {
+			escape = element.getAttribute(ESCAPE);
+			dir = element.getAttribute(DIR);
+		}
+		
 		VpeCreationData creationData = new VpeCreationData(span);
 
 		// set attributes
@@ -90,14 +96,14 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		radio.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		radio.setAttribute(HTML.ATTR_NAME, ATTR_NAME_VALUE
 				+ getNameSuffix(sourceNode));
+		
+		if (attrPresents(dir)) {
+			radio.setAttribute(HTML.ATTR_DIR, dir);
+		}
 
 		Attr attr = null;
 		if (element.hasAttribute(ITEM_LABEL)) {
 			attr = element.getAttributeNode(ITEM_LABEL);
-		}
-
-		if (null != element) {
-			escape = element.getAttribute(ESCAPE);
 		}
 
 		if (null != attr) {
@@ -143,25 +149,6 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		tagString += (sourceNode.hasChildNodes() ? "" : "/") + "> "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		return tagString;
-	}
-
-	/**
-	 * get Label of element
-	 * 
-	 * @param sourceNode
-	 * @return
-	 */
-	private String getLabel(Node sourceNode) {
-
-		// get value of "itemLabeL" from jsf tag
-		Node attrNode = sourceNode.getAttributes()
-				.getNamedItem(ITEM_LABEL_ATTR);
-
-		// if attribute exist return value
-		if (attrNode != null)
-			return attrNode.getNodeValue();
-
-		return null;
 	}
 
 	/**
