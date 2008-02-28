@@ -229,7 +229,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 				// get "choice" as value
 				String choice = getChoice(parametres[2]);
 				if (choice != null)
-					value = choice;
+					value = choice.replaceAll("[\\{\\}]", "");;
 
 			}
 		}
