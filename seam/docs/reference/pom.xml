@@ -8,7 +8,7 @@
     <artifactId>seam-tools-ref-guide-${translation}</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jdocbook</packaging>
-    <name>Seam_Tools_Reference Guide_(${translation})</name>
+    <name>Seam_Tools_Reference_Guide_(${translation})</name>
 
     <build>
         <plugins>
