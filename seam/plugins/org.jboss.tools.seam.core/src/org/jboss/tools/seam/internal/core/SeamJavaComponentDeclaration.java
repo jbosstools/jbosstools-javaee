@@ -22,6 +22,9 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.BeanType;
@@ -442,6 +445,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	
 	public void open() {
 		if(type == null) return;
+		if(!type.exists()) {
+			ServiceDialog d = PreferenceModelUtilities.getPreferenceModel().getService();
+			d.showDialog("Warning", "Type " + type.getElementName() + " does not exist.", new String[]{SpecialWizardSupport.OK}, null, ServiceDialog.WARNING);
+			return;
+		}
 		try {
 			JavaUI.openInEditor(type);
 		} catch (Exception e) {

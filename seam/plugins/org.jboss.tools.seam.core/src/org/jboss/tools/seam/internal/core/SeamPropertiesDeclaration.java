@@ -24,7 +24,10 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamElement;
@@ -114,6 +117,12 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 			FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
 		} else if(getResource() instanceof IFile) {
 			IFile f = (IFile)getResource();
+			if(f == null || !f.exists()) {
+				ServiceDialog d = PreferenceModelUtilities.getPreferenceModel().getService();
+				d.showDialog("Warning", "File " + getSourcePath() + " does not exist.", new String[]{SpecialWizardSupport.OK}, null, ServiceDialog.WARNING);
+				return;
+			}
+
 			try {
 				IWorkbench workbench = SeamCorePlugin.getDefault().getWorkbench();
 				if(workbench == null) return;
