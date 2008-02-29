@@ -11,13 +11,16 @@
 package org.jboss.tools.jsf.model.handlers;
 
 import java.util.*;
+
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.*;
+import org.jboss.tools.jsf.model.handlers.AddViewSupport.ViewValidator;
 import org.jboss.tools.jsf.model.helpers.*;
 import org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl;
 
@@ -199,4 +202,24 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		}		
 	}
     
+	protected DefaultWizardDataValidator viewValidator = new ViewValidator();
+    
+	public WizardDataValidator getValidator(int step) {
+		viewValidator.setSupport(this, step);
+		return viewValidator;    	
+	}
+	
+	class ViewValidator extends DefaultWizardDataValidator {
+		public void validate(Properties data) {
+			super.validate(data);
+			if(message != null) return;
+			String path = data.getProperty("from-view-id");
+			if(!AddViewSupport.isCorrectPath(path)) {
+				message = JSFUIMessages.ATTRIBUTE_FROM_VIEW_ID_IS_NOT_CORRECT;
+			} 
+			if(message != null) return;
+
+		}		
+	}
+
 }
