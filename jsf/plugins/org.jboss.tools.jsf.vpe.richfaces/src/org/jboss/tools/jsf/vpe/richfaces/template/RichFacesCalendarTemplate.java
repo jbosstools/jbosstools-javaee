@@ -81,6 +81,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	static final String CELL_HEIGHT = "cellHeight";
 	static final String CELL_WIDTH = "cellWidth";
 	static final String DATE_PATTERN = "datePattern";
+	static final String VALUE = "value";
 	static final String DISABLED = "disabled";
 	static final String HORIZONTAL_OFFSET = "horizontalOffset";
 	static final String VERTICAL_OFFSET = "verticalOffset";
@@ -148,6 +149,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 	private String cellHeight;
 	private String cellWidth;
 	private String datePattern;
+	private String value;
 	private String disabled;
 	private String enableManualInput;
 	private String horizontalOffset;
@@ -373,10 +375,11 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     		if ("true".equals(disabled)) {
     			input.setAttribute(HtmlComponentUtil.HTML_ATTR_DISABLED, "true");
     		}
-
-    		if (attrPresents(datePattern)) {
-    			input.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, datePattern);
+    		
+    		if (attrPresents(value)) {
+    			input.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, value);
     		}
+    		
     		td1_1.appendChild(input);
     	}
 
@@ -893,6 +896,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		cellHeight = source.getAttribute(CELL_HEIGHT);
 		cellWidth = source.getAttribute(CELL_WIDTH);
 		datePattern = source.getAttribute(DATE_PATTERN);
+		value = source.getAttribute(VALUE);
 		disabled = source.getAttribute(DISABLED);
 		enableManualInput = source.getAttribute(ENABLE_MANUAL_INPUT);
 		horizontalOffset = source.getAttribute(HORIZONTAL_OFFSET);
