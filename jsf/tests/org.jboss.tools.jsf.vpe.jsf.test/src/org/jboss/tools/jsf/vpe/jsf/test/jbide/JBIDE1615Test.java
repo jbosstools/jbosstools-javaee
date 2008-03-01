@@ -76,7 +76,7 @@ public class JBIDE1615Test extends VpeTest {
 	// find "span" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
 	
-	assertEquals(13, elements.size());
+	assertEquals(31, elements.size());
 		if (getException() != null) {
 	    throw getException();
 	}
