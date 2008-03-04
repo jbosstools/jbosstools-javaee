@@ -206,10 +206,10 @@
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="platform-transaction-manager" xmlname="platform-transaction-manager"/>
-   <XModelAttribute PROPERTIES="category=advanced"
+   <XModelAttribute PROPERTIES="category=advanced" default="default(true)"
     name="conversation-context-required" xmlname="conversation-context-required">
     <Constraint loader="List">
-     <value/>
+     <value name="default(true)"/>
      <value name="true"/>
      <value name="false"/>
     </Constraint>

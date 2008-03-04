@@ -205,17 +205,17 @@
    <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password"/>
    <XModelAttribute PROPERTIES="category=general" name="host" xmlname="host"/>
    <XModelAttribute PROPERTIES="category=general" name="port" xmlname="port"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug">
+   <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug" default="default(false)">
     <Constraint loader="ListString">
-     <value/>
+     <value name="default(false)"/>
      <value name="true"/>
      <value name="false"/>
     </Constraint>
     <Editor name="ListString"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="ssl" xmlname="ssl">
+   <XModelAttribute PROPERTIES="category=advanced" name="ssl" xmlname="ssl" default="default(false)">
     <Constraint loader="List">
-     <value/>
+     <value name="default(false)"/>
      <value name="true"/>
      <value name="false"/>
     </Constraint>
@@ -227,9 +227,9 @@
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="tls"
-    visibility="false" xmlname="tls">
+    visibility="false" xmlname="tls" default="default(true)">
     <Constraint loader="List">
-     <value/>
+     <value name="default(true)"/>
      <value name="true"/>
      <value name="false"/>
     </Constraint>
