@@ -42,7 +42,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	}
 
 	public boolean getInstalledAsString() {
-		return "true".equals(installed); //$NON-NLS-1$
+		return !"false".equals(installed); //$NON-NLS-1$
 	}
 
 	public String getJndiName() {
@@ -71,7 +71,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	}
 
 	public boolean isInstalled() {
-		return "true".equals(installed); //$NON-NLS-1$
+		return !"false".equals(installed); //$NON-NLS-1$
 	}
 	
 	public void setClassName(String className) {
