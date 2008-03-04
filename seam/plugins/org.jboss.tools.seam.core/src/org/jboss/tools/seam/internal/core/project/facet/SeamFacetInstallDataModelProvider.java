@@ -63,9 +63,13 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
 
 		// Code generation group
-		names.add(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME);
+		names.add(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER);
+		names.add(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME);
+		names.add(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER);
 		names.add(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
+		names.add(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER);
 		names.add(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
+		names.add(ISeamFacetDataModelProperties.TEST_CREATING);
 		names.add(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER);
 		names.add(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		names.add(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE);
