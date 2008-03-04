@@ -79,9 +79,9 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		// add title attribute to span
 		span.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		nsIDOMElement radio = visualDocument.createElement(HTML.TAG_INPUT);
-		nsIDOMElement labelSpan = visualDocument.createElement(HTML.TAG_SPAN);
+		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 		span.appendChild(radio);
-		span.appendChild(labelSpan);
+		span.appendChild(label);
 
 		if (null != element) {
 			escape = element.getAttribute(ESCAPE);
@@ -110,10 +110,10 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 			if (null == escape || "true".equalsIgnoreCase(escape)) {
 				// show text as is
 				String itemLabel = attr.getNodeValue();
-				labelSpan.appendChild(visualDocument.createTextNode(itemLabel));
+				label.appendChild(visualDocument.createTextNode(itemLabel));
 			} else {
 				// show formatted text
-				VpeChildrenInfo labelSpanInfo = new VpeChildrenInfo(labelSpan);
+				VpeChildrenInfo labelSpanInfo = new VpeChildrenInfo(label);
 				// re-parse attribute's value
 				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
 				// add children to info
