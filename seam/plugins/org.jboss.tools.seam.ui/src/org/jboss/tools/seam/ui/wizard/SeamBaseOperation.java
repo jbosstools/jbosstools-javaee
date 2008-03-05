@@ -22,7 +22,6 @@ import org.apache.tools.ant.types.FilterSetCollection;
 import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -39,7 +38,6 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
-import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
@@ -92,10 +90,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			String actionFolder = getSessionBeanPackageName(seamFacetPrefs, params);
 			String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
 			String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
-
-			IVirtualComponent com = ComponentCore.createComponent(project);
-			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-			IContainer webRootContainer = webRootFolder.getUnderlyingFolder();
 
 			vars.put(IParameter.SEAM_PROJECT_INSTANCE,project);
 			vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
