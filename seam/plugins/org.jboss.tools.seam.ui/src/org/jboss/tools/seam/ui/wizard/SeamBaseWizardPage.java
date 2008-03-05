@@ -369,7 +369,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	}
 
 	protected String getDefaultPackageName(IEclipsePreferences seamFacetPrefs) {
-		return seamFacetPrefs.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected void setSeamProjectNameData(String projectName) {

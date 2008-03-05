@@ -105,8 +105,8 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(IParameter.SEAM_PROJECT_SRC_MODEL,seamPrjSet.getModelFolder().getLocation().toFile().toString());			
 			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject()!=null?seamPrjSet.getEjbProject().getLocation().toFile().toString():"");
 			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
-			vars.put(IParameter.SESION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
-			vars.put(IParameter.SESION_BEAN_PACKAGE_NAME, actionFolder);
+			vars.put(IParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
+			vars.put(IParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
 			vars.put(IParameter.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
 			vars.put(IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
 			vars.put(IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
@@ -175,7 +175,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(IParameter.SESION_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(IParameter.SESSION_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getEntityBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {

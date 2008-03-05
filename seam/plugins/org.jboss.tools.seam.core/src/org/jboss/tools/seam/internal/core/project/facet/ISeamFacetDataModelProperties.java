@@ -251,4 +251,5 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * Selected Server
 	 */
 	String JBOSS_AS_TARGET_RUNTIME = "seam.project.deployment.runtime"; //$NON-NLS-1$
+
 }

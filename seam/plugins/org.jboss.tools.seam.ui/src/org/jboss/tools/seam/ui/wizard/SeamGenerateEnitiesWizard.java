@@ -223,7 +223,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 //                     foreach="entity"/>
 
 				IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
-				final String actionpackage = seamFacetPrefs.get(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "");
+				final String actionpackage = seamFacetPrefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "");
 				final String actionDir = actionpackage.replace('.','/');
 
 				ISeamProject sprj = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);

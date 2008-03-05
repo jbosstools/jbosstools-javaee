@@ -42,7 +42,7 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 	public void testCreateCustomProject() throws CoreException, IOException {
 
 		IDataModel createSeamDataModel = createSeamDataModel("war");
-		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME, "x.y.z");
+		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "x.y.z");
 		
 		final IFacetedProject fproj = createSeamProject("customProject",createSeamDataModel);
 		

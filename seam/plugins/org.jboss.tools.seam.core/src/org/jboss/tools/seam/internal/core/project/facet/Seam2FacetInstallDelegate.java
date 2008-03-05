@@ -320,7 +320,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"), //$NON-NLS-1$
-					new File(project.getLocation().toFile(),source.getFullPath().removeFirstSegments(1)+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					new File(project.getLocation().toFile(),source.getFullPath().removeFirstSegments(1)+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					new FilterSetCollection(filtersFilterSet), true);
 
 			// Needed to make sure /dev is picked up by test, so need seam.properties.
@@ -393,7 +393,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 				// *******************************************************************************************
 				AntCopyUtils.copyFileToFile(
 						new File(seamGenHomeFolder,"src/Authenticator.java"), //$NON-NLS-1$
-						new File(ejb,"ejbModule/" + model.getProperty(ISeamFacetDataModelProperties.SESION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						new File(ejb,"ejbModule/" + model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						new FilterSetCollection(filtersFilterSet), true);
 				AntCopyUtils.copyFileToFile(
 						persistenceFile,
@@ -545,7 +545,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	 * @param project
 	 * @param model
 	 */
-	private void createSeamProjectPreferenes(final IProject project,
+	protected void createSeamProjectPreferenes(final IProject project,
 			final IDataModel model) {
 		IScopeContext projectScope = new ProjectScope(project);
 		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
@@ -556,7 +556,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		
 		prefs.put(SEAM_CONNECTION_PROFILE,model.getProperty(SEAM_CONNECTION_PROFILE).toString());
 		
-		prefs.put(SESION_BEAN_PACKAGE_NAME, model.getProperty(SESION_BEAN_PACKAGE_NAME).toString());
+		prefs.put(SESSION_BEAN_PACKAGE_NAME, model.getProperty(SESSION_BEAN_PACKAGE_NAME).toString());
 		
 		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
 		

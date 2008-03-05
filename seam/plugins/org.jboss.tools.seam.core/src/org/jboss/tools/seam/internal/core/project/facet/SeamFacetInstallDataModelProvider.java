@@ -105,6 +105,8 @@ public class SeamFacetInstallDataModelProvider extends
 			return EMPTY_STRING;
 		} else if (DB_DEFAULT_SCHEMA_NAME.equals(propertyName)) {
 			return EMPTY_STRING;
+		} else if(JBOSS_AS_TARGET_RUNTIME.equals(propertyName)) {
+			return EMPTY_STRING;
 		}
 		return super.getDefaultProperty(propertyName);
 	}
