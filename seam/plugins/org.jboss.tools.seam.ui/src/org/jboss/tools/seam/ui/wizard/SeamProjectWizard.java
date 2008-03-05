@@ -115,7 +115,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 
 	@Override
 	protected String getFinalPerspectiveID() {
-		// TODO Auto-generated method stub
 		return "org.jboss.tools.seam.ui.SeamPerspective"; //$NON-NLS-1$
 	}
 
