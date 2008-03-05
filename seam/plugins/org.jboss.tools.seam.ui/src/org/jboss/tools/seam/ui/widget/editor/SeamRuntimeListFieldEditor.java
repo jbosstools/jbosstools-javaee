@@ -540,9 +540,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					}
 					if (seamVersion != null && validSeamVersions != null) {
 						for (SeamVersion ver : validSeamVersions) {
-							if (seamVersion.matches(ver.toString().replace(".",
-									"\\.")
-									+ ".*")) {
+							if (seamVersion.matches(ver.toString().substring(0,1)+ ".*")) {
 								version.setValue(ver.toString());
 								break;
 							}
@@ -606,10 +604,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				return;
 			} else if (!seamVersion.matches(version.getValueAsString().replace(
 					".", "\\.") + ".*")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
-						+ seamVersion + "'", IMessageProvider.WARNING); //$NON-NLS-1$
-				setPageComplete(true);
-				return;
+				if(seamVersion.matches(version.getValueAsString().substring(0,1)+".*")) {
+					setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
+							+ seamVersion + "'", IMessageProvider.WARNING); //$NON-NLS-1$
+				} else {
+					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
+							+ seamVersion + "'"); //$NON-NLS-1$
+					setPageComplete(false);
+					return;
+				}
 			}
 
 			Map errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR

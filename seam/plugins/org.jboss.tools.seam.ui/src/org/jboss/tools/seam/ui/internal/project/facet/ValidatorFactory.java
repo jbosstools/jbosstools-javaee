@@ -151,7 +151,7 @@ public class ValidatorFactory {
 			}
 			String version = (String) context;
 
-			if(version.startsWith("2.0")) { //$NON-NLS-1$
+			if(version.startsWith("2.")) { //$NON-NLS-1$
 				File seamJarFile = new File(value.toString(), "lib/jboss-seam.jar"); //$NON-NLS-1$
 				if (!seamJarFile.isFile()) {
 					errors = createErrorMap();
