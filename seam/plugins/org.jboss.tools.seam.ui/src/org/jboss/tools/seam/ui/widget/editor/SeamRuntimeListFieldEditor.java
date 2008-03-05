@@ -28,6 +28,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -599,14 +600,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				setPageComplete(false);
 				return;
 			} else if ("".equals(seamVersion)) { //$NON-NLS-1$
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER);
-				setPageComplete(false);
+				setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER,
+						IMessageProvider.WARNING);
+				setPageComplete(true);
 				return;
 			} else if (!seamVersion.matches(version.getValueAsString().replace(
 					".", "\\.") + ".*")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
-						+ seamVersion + "'"); //$NON-NLS-1$
-				setPageComplete(false);
+				setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
+						+ seamVersion + "'", IMessageProvider.WARNING); //$NON-NLS-1$
+				setPageComplete(true);
 				return;
 			}
 
