@@ -10,36 +10,28 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**
  * Helper class that collects related J2EE projects for 
- * a given 'seed' project.
- * 
- * If seed project is EAR, it's referenced projects are used to fill 
- * lists with WAR and EJB projects.
- * 
- * If seed project is referenced by a EAR project (the first occurrence is taken),
- * that EAR is used as seed project.
- *  
- * If seed project is WAR or EJB not referenced by any EAR project,
- * field 'ear' remains null, and only lists 'wars' and 'ejbs' are available.
- * 
- * Also this class provides helper methods to obtain root folders 
- * for involved EAR, WAR and EJB projects.
+ * a given WAR project.
  * 
  * @author Viacheslav Kabanovich
  */
@@ -58,37 +50,41 @@ public class SeamProjectsSet {
 		return new SeamProjectsSet(project);
 	}
 
-	public SeamProjectsSet(IProject project) {
-		
-		IScopeContext projectScope = new ProjectScope(project);
+	public SeamProjectsSet(IProject warProject) {
+		IScopeContext projectScope = new ProjectScope(warProject);
 		prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
-		
-		war = project;
-		
-		String earName = prefs.get(
-				ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,project.getName()+"-ear"); //$NON-NLS-1$
-		if(earName!=null && !"".equals(earName.trim())) { //$NON-NLS-1$
-			ear = (IProject)project.getWorkspace().getRoot().findMember(earName);
-		}
-		String ejbName = prefs.get(
-				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,project.getName()+"-ejb"); //$NON-NLS-1$
-		if(ejbName!=null && !"".equals(ejbName.trim())) { //$NON-NLS-1$
-			ejb = (IProject)project.getWorkspace().getRoot().findMember(ejbName);
-		}
-		String testName = prefs.get(
-				ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,project.getName()+"test"); //$NON-NLS-1$
-		if(testName!=null && !"".equals(testName)) { //$NON-NLS-1$
-			test = (IProject)project.getWorkspace().getRoot().findMember(testName);
+
+		war = warProject;
+
+		if(prefs!=null) {
+			String earName = prefs.get(
+					ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, warProject.getName()+"-ear"); //$NON-NLS-1$
+			if(earName!=null && !"".equals(earName.trim())) { //$NON-NLS-1$
+				ear = (IProject)warProject.getWorkspace().getRoot().findMember(earName);
+			}
+			String ejbName = prefs.get(
+					ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, warProject.getName()+"-ejb"); //$NON-NLS-1$
+			if(ejbName!=null && !"".equals(ejbName.trim())) { //$NON-NLS-1$
+				ejb = (IProject)warProject.getWorkspace().getRoot().findMember(ejbName);
+			}
+			String testName = prefs.get(
+					ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, warProject.getName()+"test"); //$NON-NLS-1$
+			if(testName!=null && !"".equals(testName)) { //$NON-NLS-1$
+				test = (IProject)warProject.getWorkspace().getRoot().findMember(testName);
+			}
 		}
 	}
-	
+
 	public boolean isWarConfiguration() {
+		if(prefs==null) {
+			return false;
+		}
 		return prefs.get(
 				ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 				ISeamFacetDataModelProperties.DEPLOY_AS_WAR)
 					.equals(ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 	}
-	
+
 	/**
 	 * Returns list of WAR projects.
 	 * @return
@@ -96,7 +92,7 @@ public class SeamProjectsSet {
 	public IProject getWarProject() {
 		return war;
 	}
-	
+
 	/**
 	 * Returns EAR project or null, if WAR project is not used by EAR.
 	 * @return
@@ -104,7 +100,7 @@ public class SeamProjectsSet {
 	public IProject getEarProject() {
 		return ear;
 	}
-	
+
 	/**
 	 * Returns list of EJB projects.
 	 * @return
@@ -112,7 +108,7 @@ public class SeamProjectsSet {
 	public IProject getEjbProject() {
 		return ejb;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -120,63 +116,89 @@ public class SeamProjectsSet {
 	public IProject getTestProject() {
 		return test;
 	}
-	
+
 	/**
 	 * 
 	 * @return the action folder (this folder is not guaranteed to exist!)
 	 */	
 	public IFolder getActionFolder() {
-		if(isWarConfiguration()) {
-			return findWebSrcFolderByLastSegment("action",war);			
-		} else {
-			IVirtualComponent com = ComponentCore.createComponent(ejb);
-			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-			return (IFolder)ejbRootFolder.getUnderlyingFolder();
+		if(prefs==null) {
+			return getSourceFolder();
 		}
-		 
+
+		String folderPath = prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
+		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
-	
+
 	/**
 	 *  
-	 * @return the model folder if exists, otherwise null
+	 * @return the model folder if exists (this folder is not guaranteed to exist!)
 	 */
-	public IFolder getModelFolder() {		
-		if(isWarConfiguration()) {
-			return findWebSrcFolderByLastSegment("model",war);			 		
-		} else {
-			IVirtualComponent com = ComponentCore.createComponent(ejb);
-			IVirtualFolder ejbRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-			return (IFolder)ejbRootFolder.getUnderlyingFolder();
-		}		
+	public IFolder getModelFolder() {
+		if(prefs==null) {
+			return getSourceFolder();
+		}
+
+		String folderPath = prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
+		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
-	
+
+	private IFolder getSourceFolder() {
+		IFolder webSrcFolder = findWebSrcFolder();
+		if(webSrcFolder!=null) {
+			return webSrcFolder;
+		}
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(war);
+		try {
+			IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
+			for (int i = 0; i < roots.length; i++) {
+				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE && roots[i].isOpen()) {
+					return (IFolder)roots[i].getResource();
+				}
+			}
+		} catch (JavaModelException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return (IFolder)javaProject.getResource();
+	}
+
 	/**
-	 * Returns source roots for first found EJB project.
+	 * Returns web contents folder.
 	 * @return
 	 */
 	public IFolder getViewsFolder() {
-		IVirtualComponent com = ComponentCore.createComponent(war);
-		IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-		return (IFolder)webRootFolder.getUnderlyingFolder();
+		if(prefs==null) {
+			IVirtualComponent com = ComponentCore.createComponent(war);
+			if(com!=null) {
+				IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+				if(webRootFolder!=null) {
+					return (IFolder)webRootFolder.getUnderlyingFolder();
+				}
+			}
+			return null;
+		}
+
+		String folderPath = prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
+		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
-	
+
 	/**
-	 * Returns source roots for first found EJB project.
+	 * Returns source folder for test cases.
 	 * @return
 	 */
 	public IFolder getTestsFolder() {
-		IResource testRes = test.findMember("test-src"); //$NON-NLS-1$
-		IFolder testFolder = null;
-		if(testRes instanceof IFolder) {
-			testFolder = (IFolder)testRes;
+		if(prefs==null) {
+			return getSourceFolder();
 		}
-		return  testFolder;
+
+		String folderPath = prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
+		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
-	
+
 	public String getEntityPackage(){
 		return prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "entity"); //$NON-NLS-1$
 	}
-	
+
 	public void refreshLocal(IProgressMonitor monitor) throws CoreException {
 		if(ejb!=null) { 
 			ejb.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -188,17 +210,12 @@ public class SeamProjectsSet {
 			war.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		}
 	}
-	
-	private static final IFolder findWebSrcFolderByLastSegment(String lastSegment, IProject project) {
-		IVirtualComponent component = ComponentCore.createComponent(project);
+
+	private IFolder findWebSrcFolder() {
+		IVirtualComponent component = ComponentCore.createComponent(war);
 		if(component!=null) {
 			IVirtualFolder vFolder = component.getRootFolder().getFolder("WEB-INF/classes");
-			IContainer[] folders = vFolder.getUnderlyingFolders();		
-			for (IContainer container : folders) {
-				if(lastSegment.equals(container.getFullPath().lastSegment())) {
-					return (IFolder)container;
-				}
-			}
+			return (IFolder)vFolder.getUnderlyingFolder();
 		}
 		return null;
 	}
