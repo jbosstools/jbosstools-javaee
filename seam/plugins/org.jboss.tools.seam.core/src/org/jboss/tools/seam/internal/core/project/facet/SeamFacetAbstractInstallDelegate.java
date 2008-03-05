@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.project.facet;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
@@ -25,6 +27,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
@@ -139,6 +142,12 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				model.getProperty(SEAM_TEST_PROJECT)==null?
 						"":model.getProperty(SEAM_TEST_PROJECT).toString()); //$NON-NLS-1$
 
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		IVirtualFolder rootFolder = component.getRootFolder();
+		IContainer webRootFolder = rootFolder.getFolder(new Path("/")).getUnderlyingFolder(); //$NON-NLS-1$
+		String webRootFolderPath = webRootFolder.getFullPath().toString();
+		prefs.put(WEB_CONTENTS_FOLDER, webRootFolderPath);
+
 		if(DEPLOY_AS_EAR.equals(model.getProperty(JBOSS_AS_DEPLOY_AS))) {
 			prefs.put(SEAM_EJB_PROJECT, 
 					model.getProperty(SEAM_EJB_PROJECT)==null? 
@@ -152,8 +161,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcPath);
 			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcPath);
 		} else {
-			IVirtualComponent component = ComponentCore.createComponent(project);
-			IPath srcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
+			IPath srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
 
 			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.append("model").toString());
 			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.append("action").toString());
