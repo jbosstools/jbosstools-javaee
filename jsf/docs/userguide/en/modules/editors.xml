@@ -450,7 +450,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_22.png"/>
+                                        fileref="images/editors_features/editors_features_22.png" scale="85"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -462,7 +462,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_23.png"/>
+                                        fileref="images/editors_features/editors_features_23.png" />
                                 </imageobject>
                             </mediaobject>
                         </figure>

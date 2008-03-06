@@ -235,7 +235,7 @@
                                         <imageobject>
                                                 <imagedata
                                                   fileref="images/jsf_support/jsf_support_4.png"
-                                                />
+                                                  scale="85"/>
                                         </imageobject>
                                 </mediaobject>
                         </figure>
@@ -715,22 +715,20 @@
                                 <title>Adding Your Own Project Templates</title>
                                 <para>Template is a set of files that serve as a basis to facilitate
                                         the creation of a new project. Project templates provide
-                                        content and structure for a project. <property>JBoss
-                                                Developer Studio</property> has a powerful
+                                        content and structure for a project.</para>
+                                <para><property>JBoss Developer Studio</property> has a powerful
                                         templating capability for creating new and importing
                                         existing Struts and JSF projects. This templating facility
                                         has a variety of aspects to consider. But, let&apos;s
-                                        start with the most straightforward case and consider the
-                                        process of creating a template from your existing JSF
-                                        project.</para>
+                                        start with the most straightforward case.</para>
 
                                 <para>Let&apos;s say you have a project that you want to use as
                                         the basis for a new <property>template</property>. Follow
                                         these steps to make a template out of it:</para>
                                 <itemizedlist>
                                         <listitem>
-                                                <para>In the <property>Web Projects view</property>,
-                                                  right-click the project and select <emphasis>
+                                                <para>In the Web Projects view, right-click the
+                                                  project and select <emphasis>
                                                   <property>JBoss Tools JSF > Save As
                                                   Template</property>
                                                   </emphasis> as template </para>
@@ -809,9 +807,7 @@
 
                         <title>Graphical Editor and Viewing for JSF Configuration Files</title>
                         <para>JBDS provides a graphical editor for working with JSF configuration
-                                file (<emphasis>
-                                        <property>faces-config.xml</property>
-                                </emphasis>). The editor has three main viewers (modes):</para>
+                                file (faces-config.xml). The editor has three main viewers (modes):</para>
 
                         <itemizedlist>
                                 <listitem>
@@ -829,9 +825,7 @@
 
                         <para>The JSF configuration editor also comes with a very useful <link
                                         linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link>
-                                selection feature. Now let&apos;s dwell on all specific
-                                functionality which is provided for work with JSF configuration
-                                file.</para>
+                                selection feature.</para>
 
                         <section id="Diagram9553">
 
@@ -999,11 +993,10 @@
                         <section id="ErrorReporting3324">
 
                                 <title>Error Reporting</title>
-                                <para>When you are developing your project, <property>JBoss
-                                                Developer Studio</property> constantly provides
-                                        error checking. This greatly reduces your development time
-                                        as it allows you to catch many of the errors during
-                                        development.</para>
+                                <para>When you are developing your project, JBoss Developer Studio
+                                        constantly provides error checking. This greatly reduces
+                                        your development time as it allows you to catch many of the
+                                        errors during development.</para>
                                 <para>Errors will be reported by JBoss Developer Studio&apos;s
                                                 <link linkend="verif_valid"> verification</link>
                                         facility:</para>
@@ -1237,9 +1230,7 @@
                                                 </imageobject>
                                         </mediaobject>
                                 </figure>
-                                <para>Thus, we&apos;ve discussed everything which comes to
-                                        creating a new Managed Bean. Further we will show you how to
-                                        add already existing Bean into a JSF configuration file.</para>
+
                         </section>
                         <section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
 
@@ -1637,18 +1628,15 @@
                         </figure>
                 </section>
 
-                <section>
-                        <title>Relevant Resources Links</title>
-                        <para>If you don&apos;t familiar with <ulink url="http://java.sun.com/javaee/javaserverfaces/">JSF
-                                technology</ulink>, we suggest that you walk through the information on the topic.</para>
-                </section>
         </section>
 
         <section id="Struts_support">
 
                 <title>Struts support</title>
-                <para>If you prefer develop web applications using 
-                                <property>Struts</property> technology JBoss Developer Studio also meets your needs.</para>
+                <para>If you prefer develop web applications using <ulink
+                                url="http://struts.apache.org/">
+                                <property>Struts</property>
+                        </ulink> technology JBoss Developer Studio also meets your needs.</para>
                 <para>JBDS supports the <property>Struts 1.1</property>, <property>1.2.x</property>
                         versions.</para>
 
@@ -2669,12 +2657,6 @@
                         </figure>
                 </section>
 
-                <section>
-                        <title>Relevant Resources Links</title>
-                        <para>Find out necessary information on <ulink
-                                url="http://struts.apache.org/">Struts technology</ulink> if you don&apos;t know enough.</para>
-                </section>
-
         </section>
 
         <section id="verif_valid">
@@ -2683,8 +2665,8 @@
                 <para>As you are developing your project, JBoss Developer Studio Verification
                         constantly provides dynamic <property>validation</property>, consistency
                         checking and error checking. This greatly reduces your development time as
-                        it allows you to catch many of the errors during development. <property>JBoss
-                        Developer Studio</property> provides dynamic verification for both JSF and Struts
+                        it allows you to catch many of the errors during development. JBoss
+                        Developer Studio provides dynamic verification for both JSF and Struts
                         projects.</para>
 
 
