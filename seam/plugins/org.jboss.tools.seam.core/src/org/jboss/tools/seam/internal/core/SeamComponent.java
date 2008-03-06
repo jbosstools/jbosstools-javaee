@@ -261,6 +261,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		} else if(declaration instanceof ISeamPropertiesDeclaration) {
 			propertyDeclarations.add((ISeamPropertiesDeclaration)declaration);
 		}
+		((SeamComponentDeclaration)declaration).bindToComponent(this);
 	}
 	
 	public void removeDeclaration(ISeamComponentDeclaration declaration) {
@@ -273,6 +274,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		} else if(declaration instanceof ISeamPropertiesDeclaration) {
 			propertyDeclarations.remove(declaration);
 		}
+		((SeamComponentDeclaration)declaration).unbindFromComponent(this);
 	}
 
 	@Override

@@ -456,7 +456,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
-
+	
 	public SeamJavaComponentDeclaration clone() throws CloneNotSupportedException {
 		SeamJavaComponentDeclaration c = (SeamJavaComponentDeclaration)super.clone();
 		if(types != null) {

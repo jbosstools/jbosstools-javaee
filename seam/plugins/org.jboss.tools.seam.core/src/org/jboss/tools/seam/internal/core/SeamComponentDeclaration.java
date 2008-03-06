@@ -10,6 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +36,23 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 		return ScopeType.UNSPECIFIED;
 	}
 	
+	/**
+	 * Components that use this declaration
+	 */
+	protected Set<SeamComponent> components = new HashSet<SeamComponent>();
+	
+	public Set<SeamComponent> getComponents() {
+		return components;
+	}
+
+	public void bindToComponent(SeamComponent c) {
+		components.add(c);
+	}
+
+	public void unbindFromComponent(SeamComponent c) {
+		components.remove(c);
+	}
+
 	/**
 	 * Merges loaded data into currently used declaration.
 	 * If changes were done returns a list of changes. 
@@ -65,6 +83,7 @@ public abstract class SeamComponentDeclaration extends AbstractSeamDeclaration i
 	
 	public SeamComponentDeclaration clone() throws CloneNotSupportedException {
 		SeamComponentDeclaration c = (SeamComponentDeclaration)super.clone();
+		c.components = new HashSet<SeamComponent>();
 		return c;
 	}
 
