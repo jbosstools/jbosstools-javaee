@@ -724,13 +724,13 @@ public final class SeamELCompletionEngine {
 		return new ArrayList<ISeamContextVariable>(); 
 	}
 
-	/*
+	/**
 	 * Creates and returns list of possible variable name combinations from expression starting from the longest name
 	 * 
 	 * @param prefix
 	 * @return
 	 */
-	private List<List<ELOperandToken>> getPossibleVarsFromPrefix(List<ELOperandToken>prefix) {
+	public static List<List<ELOperandToken>> getPossibleVarsFromPrefix(List<ELOperandToken>prefix) {
 		ArrayList<List<ELOperandToken>> result = new ArrayList<List<ELOperandToken>>();
 		for (int i = 0; prefix != null && i < prefix.size(); i++) {
 			ELOperandToken lastToken = prefix.get(i);
