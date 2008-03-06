@@ -30,7 +30,6 @@ import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.osgi.util.NLS;
@@ -68,8 +67,8 @@ import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
+import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 
 /**
  * @author eskimo
@@ -280,24 +279,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		return result;
 	}
 
-	public List<String> getRuntimeNames() {
-		SeamRuntime[] rts = SeamRuntimeManager.getInstance().getRuntimes(/*SeamVersion.SEAM_1_2*/);
-		List<String> result = new ArrayList<String>();
-		for(SeamRuntime seamRuntime : rts) {
-			result.add(seamRuntime.getName());
-		}
-		return result;
-	}
-
 	/**
 	 * Creates Seam Facet Wizard Page contents
 	 */
 	public void createControl(Composite parent) {
-		jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
-		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, getRuntimeNames(), 
-				getSeamRuntimeDefaultValue(), 
-				true, new NewSeamRuntimeAction(), (IValidator)null);
+		jBossSeamHomeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(new SeamVersion[0], getSeamRuntimeDefaultValue().toString(), new NewSeamRuntimeAction());
 
 		initializeDialogUnits(parent);
 
@@ -699,36 +685,22 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		}
 	}	
 
-	public class NewSeamRuntimeAction extends
-									ButtonFieldEditor.ButtonPressedAction {
-		/**
-		* @param label
-		*/
-		public NewSeamRuntimeAction() {
-			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_ADD);
+	private class NewSeamRuntimeAction extends SeamWizardFactory.NewSeamRuntimeAction {
+		/* (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamWizardFactory.NewSeamRuntimeAction#getRuntimeSelectionEditor()
+		 */
+		@Override
+		protected IFieldEditor getRuntimeSelectionEditor() {
+			return jBossSeamHomeEditor;
 		}
 
-		public void run() {
-			List<SeamRuntime> added = new ArrayList<SeamRuntime>();
+		/* (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamWizardFactory.NewSeamRuntimeAction#getSeamVersions()
+		 */
+		@Override
+		protected SeamVersion[] getSeamVersions() {
 			String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
-			List<SeamVersion> versians = new ArrayList<SeamVersion>(1);
-			versians.add(SeamVersion.parseFromString(seamVersion));
-			Wizard wiz = new SeamRuntimeNewWizard((List<SeamRuntime>)
-					new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))
-					, added, versians);
-			WizardDialog dialog  = new WizardDialog(Display.getCurrent().getActiveShell(), wiz);
-			dialog.open();
-
-			if (added.size()>0) {
-				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
-
-				List<String> runtimes = getRuntimeNames(seamVersion);
-				SeamRuntime newRuntime = added.get(0);
-				if(seamVersion.equals(newRuntime.getVersion().toString())) {
-					getFieldEditor().setValue(added.get(0).getName());
-				}
-				((ITaggedFieldEditor) ((CompositeEditor) jBossSeamHomeEditor).getEditors().get(1)).setTags(runtimes.toArray(new String[0]));
-			}
+			return new SeamVersion[]{SeamVersion.parseFromString(seamVersion)};
 		}
 	}
 

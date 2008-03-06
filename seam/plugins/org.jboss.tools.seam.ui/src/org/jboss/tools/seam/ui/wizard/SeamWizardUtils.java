@@ -48,37 +48,39 @@ public class SeamWizardUtils {
 		return getRootSeamProjectName(sel);
 	}
 
-	public static String getRootSeamProjectName(ISelection sel) {
-		IProject project = getInitialProject(sel);
+	public static IProject getRootSeamProject(IProject project) {
 		if (project != null) {
-			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project,
-					false);
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
 			if (seamProject == null) {
-				return "";
+				return null;
 			}
-			
-			
+
 			String parentProjectName = seamProject.getParentProjectName();
-						
+
 			IProject targetProject = null;
 			if (parentProjectName == null) {
-				targetProject = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getName());				
+				targetProject = project;				
 			} else {
 				targetProject = ResourcesPlugin.getWorkspace().getRoot().getProject(parentProjectName);
 			}
-			
+
 			if(targetProject.exists()) {
 				if("".equals(SeamCorePlugin.getSeamPreferences(targetProject).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) {
-					return "";
+					return null;
 				} else {
-					return targetProject.getName();
+					return targetProject;
 				}
 			}
 		}
-		return "";
+		return null;
 	}
 
-	static private IProject getInitialProject(ISelection simpleSelection) {
+	public static String getRootSeamProjectName(ISelection sel) {
+		IProject project = getRootSeamProject(getInitialProject(sel));
+		return project == null ? "" : project.getName();
+	}
+
+	public static IProject getInitialProject(ISelection simpleSelection) {
 
 		IProject project = null;
 		if (simpleSelection != null && !simpleSelection.isEmpty()

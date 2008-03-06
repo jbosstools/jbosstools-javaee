@@ -97,13 +97,14 @@ public interface IFieldEditorFactory {
 			String defaultValue);
 
 	/**
-	 * @param jdbcDriverClassName
-	 * @param string
-	 * @param string2
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createUneditableTextEditor(String jdbcDriverClassName,
-			String string, String string2);
+	IFieldEditor createUneditableTextEditor(String name,
+			String label, String defaultValue);
 	
 	/**
 	 * 

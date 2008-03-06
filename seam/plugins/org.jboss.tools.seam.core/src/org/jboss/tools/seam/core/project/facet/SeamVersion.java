@@ -45,6 +45,8 @@ public enum SeamVersion {
 		return version;
 	}
 
+	public static SeamVersion[] ALL_VERSIONS = new SeamVersion[]{SEAM_1_2, SEAM_2_0};
+
 	/**
 	 * Get enumeration by string
 	 * TODO support for compatible version? should 1.2.1 return SEAM_1_2?

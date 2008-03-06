@@ -305,6 +305,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String SEAM_WIZARD_FACTORY_SEAM_PROJECT;
 
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT;
+
 	public static String SELECT_SEAM_PROJECT_ACTION_BROWSE;
 
 	public static String SWT_FIELD_EDITOR_FACTORY_BROWS;
