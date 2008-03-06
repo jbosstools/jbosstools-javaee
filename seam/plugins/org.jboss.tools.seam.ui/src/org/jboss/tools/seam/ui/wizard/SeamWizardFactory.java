@@ -114,6 +114,9 @@ public class SeamWizardFactory {
 	 * @return Editor to select seam runtime
 	 */
 	public static IFieldEditor createSeamRuntimeSelectionFieldEditor(SeamVersion[] seamVersions, String defaultValue, NewSeamRuntimeAction action) {
+		if(seamVersions.length==0) {
+			seamVersions = SeamVersion.ALL_VERSIONS;
+		}
 		IFieldEditor jBossSeamRuntimeEditor = IFieldEditorFactory.INSTANCE
 		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, getRuntimeNames(seamVersions), 

@@ -29,11 +29,13 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -68,18 +70,21 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 	@Override
 	protected Control createContents(Composite parent) {
 		IFieldEditor projectNameEditor = IFieldEditorFactory.INSTANCE.createUneditableTextEditor(IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT, getSeamProjectName());
-//		addEditor(projectNameEditor);
+		addEditor(projectNameEditor);
 
-//		IFieldEditor jBossSeamHomeEditor = IFieldEditorFactory.INSTANCE
-//		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-//				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, getRuntimeNames(), 
-//				getSeamRuntimeDefaultValue(), 
-//				true, new NewSeamRuntimeAction(), (IValidator)null);
+		IFieldEditor seamRuntimeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(getSeamRuntimeName());
+		addEditor(seamRuntimeEditor);
 
 		Control control = new GridLayoutComposite(parent);
-//		projectNameEditor.setEnabled(false);
 
 		return control;
+	}
+
+	private String getSeamRuntimeName() {
+		if(preferences!=null) {
+			return preferences.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, "");
+		}
+		return "";
 	}
 
 	private String getSeamProjectName() {
