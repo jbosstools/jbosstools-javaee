@@ -40,16 +40,16 @@ import org.jboss.tools.seam.internal.core.scanner.Util;
  */
 public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	
-	static class TypeData {
+	public static class TypeData {
 		TypeData parent = null;
 		List<TypeData> children = new ArrayList<TypeData>();
 
-		IType type;
+		public IType type;
 		int innerLock = 0;
 		
-		AnnotatedASTNode<TypeDeclaration> annotatedType = null;
-		Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = new HashSet<AnnotatedASTNode<FieldDeclaration>>();
-		Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = new HashSet<AnnotatedASTNode<MethodDeclaration>>();
+		public AnnotatedASTNode<TypeDeclaration> annotatedType = null;
+		public Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = new HashSet<AnnotatedASTNode<FieldDeclaration>>();
+		public Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = new HashSet<AnnotatedASTNode<MethodDeclaration>>();
 
 		AnnotatedASTNode<?> currentAnnotatedNode = null;
 		AnnotatedASTNode<FieldDeclaration> currentAnnotatedField = null;
@@ -71,10 +71,10 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 		
 	}
 	
-	TypeData root = null;	
+	public TypeData root = null;	
 	TypeData current = null;	
 	
-	ASTVisitorImpl() {}
+	public ASTVisitorImpl() {}
 	
 	public void setType(IType type) {
 		root = new TypeData();
