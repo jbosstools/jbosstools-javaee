@@ -12,15 +12,22 @@ package org.jboss.tools.seam.ui.preferences;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -29,11 +36,14 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
+import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
@@ -49,6 +59,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 	private IProject project;
 	private IProject warProject;
 	private IEclipsePreferences preferences;
+	private ISeamProject warSeamProject;
 
 	/*
 	 * (non-Javadoc)
@@ -61,6 +72,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		warProject = SeamWizardUtils.getRootSeamProject(project);
 		if(warProject!=null) {
 			preferences = SeamCorePlugin.getSeamPreferences(warProject);
+			warSeamProject = SeamCorePlugin.getSeamProject(warProject, false);
 		}
 	}
 
@@ -72,7 +84,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		IFieldEditor projectNameEditor = IFieldEditorFactory.INSTANCE.createUneditableTextEditor(IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT, getSeamProjectName());
 		addEditor(projectNameEditor);
 
-		IFieldEditor seamRuntimeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(getSeamRuntimeName());
+		IFieldEditor seamRuntimeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(getSeamVersions(), getSeamRuntimeName());
 		addEditor(seamRuntimeEditor);
 
 		Control control = new GridLayoutComposite(parent);
@@ -153,6 +165,57 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
+	}
+
+	private SeamVersion[] getSeamVersions() {
+//		if(warSeamProject != null) {
+//			SeamRuntime r = warSeamProject.getRuntime();
+//			if(r != null) {
+//				return new SeamVersion[]{r.getVersion()};
+//			}
+//			String jarLocation = getJBossSeamJarLocation();
+//			if(jarLocation != null) {
+//				String folder = new File(jarLocation).getParent();
+//				String vs = SeamRuntimeListFieldEditor.SeamRuntimeWizardPage.getSeamVersion(folder);
+//				SeamVersion v = findMatchingVersion(vs);
+//				if(v != null) {
+//					return new SeamVersion[]{v};
+//				}
+//			}
+//		}
+		return SeamVersion.ALL_VERSIONS;
+	}
+
+	private SeamVersion findMatchingVersion(String vs) {
+		if(vs == null) return null;
+		if(vs.matches(SeamVersion.SEAM_1_2.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_1_2;
+		}
+		if(vs.matches(SeamVersion.SEAM_2_0.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_2_0;
+		}
+		return null;
+	}
+
+	private String getJBossSeamJarLocation() {
+		IJavaProject jp = EclipseResourceUtil.getJavaProject(project);
+		if(jp == null) return null;
+		IClasspathEntry[] es = null;
+		try {
+			es = jp.getResolvedClasspath(true);
+		} catch (JavaModelException e) {
+			//ignore
+			return null;
+		}
+		if(es == null) return null;
+		for (int i = 0; i < es.length; i++) {
+			IPath p = es[i].getPath();
+			if(p != null && p.lastSegment().equalsIgnoreCase("jboss-seam.jar")) {
+				IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(p);
+				if(f != null && f.exists()) return f.getLocation().toString();
+			}
+		}
+		return null;
 	}
 
 	public class GridLayoutComposite extends Composite {
