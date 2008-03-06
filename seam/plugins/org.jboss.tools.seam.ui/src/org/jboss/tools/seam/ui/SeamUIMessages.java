@@ -412,6 +412,35 @@ public class SeamUIMessages extends NLS {
 	public static String RUNTIME_DELETE_NOT_USED_CONFIRM;
 
 	public static String RUNTIME_DELETE_USED_CONFIRM;
+	
+	public static String FIND_DECLARATIONS_ACTION_ACTION_NAME;
+	public static String FIND_DECLARATIONS_ACTION_DESCRIPTION;
+	public static String FIND_DECLARATIONS_ACTION_MESSAGE;
+	public static String FIND_DECLARATIONS_ACTION_TOOL_TIP;
+
+	public static String FIND_REFERENCES_ACTION_ACTION_NAME;
+	public static String FIND_REFERENCES_ACTION_DESCRIPTION;
+	public static String FIND_REFERENCES_ACTION_MESSAGE;
+	public static String FIND_REFERENCES_ACTION_TOOL_TIP;
+
+	public static String SeamSearchQuery_task_label;
+	public static String SeamSearchQuery_label;
+	public static String SeamSearchQuery_error_unsupported_pattern;
+
+	public static String SeamSearchQuery_singularPatternWithLimitTo;
+	public static String SeamSearchQuery_pluralPatternWithLimitTo;
+
+	public static String SeamSearchScope_scope_empty;
+	public static String SeamSearchScope_scope_single;
+	public static String SeamSearchScope_scope_double;
+	public static String SeamSearchScope_scope_multiple;
+
+	public static String SeamSearchScope_scope_LimitToDeclarations;
+	public static String SeamSearchScope_scope_LimitToReferences;
+	public static String SeamSearchQuery_pluralPattern;
+	public static String SeamSearchQuery_singularLabel;
+
+	public static String SeamSearchVisitor_scanning;
 
 	static {
 		// load message values from bundle file

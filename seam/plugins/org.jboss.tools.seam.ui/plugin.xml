@@ -333,6 +333,27 @@
    	</javaCompletionProposalComputer>
 	</extension>
 
+   <extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.seam.ui.text.java.JavaStringHyperlinkDetector"
+            id="org.jboss.tools.seam.ui.text.java.JavaStringHyperlinkDetector"
+            name="Java String"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+
+	<!--======================================================================================-->
+	<!-- queryParticipant to participate in java serches                                     -->
+	<!--======================================================================================-->
+	<!-- extension point="org.eclipse.jdt.ui.queryParticipants">
+		<queryParticipant
+			name="Seam Query_Participant_Extension_Element"
+			nature="org.eclipse.jdt.core.javanature"
+			class="org.jboss.tools.seam.ui.text.java.search.SeamQueryParticipant"
+			id="org.jboss.tools.seam.ui.java.search.ui.SeamQueryParticipant" />
+	</extension -->
+	
 	<extension 
 		point="org.jboss.tools.common.text.xml.contentAssistProcessor"
 		id="org.jboss.tools.seam.ui.contentAssistProcessor"
@@ -436,6 +457,28 @@
                toolbarPath="org.eclipse.search.searchActionSet/Search"
                tooltip="Open Seam Component">
          </action>
+         <action
+               class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction"
+               definitionId="org.jboss.tools.seam.ui.find.declarations"
+               helpContextId="org.eclipse.jdt.ui.find_declarations_action"
+               icon="icons/open_seam_component.gif"
+               id="findDeclarations"
+               label="Find Seam Declarations"
+               menubarPath="navigate/open.ext2"
+               toolbarPath="org.eclipse.search.searchActionSet/Search"
+               tooltip="Find Seam Declarations">
+         </action>
+         <action
+               class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction"
+               definitionId="org.jboss.tools.seam.ui.find.references"
+               helpContextId="org.eclipse.jdt.ui.find_references_action"
+               icon="icons/open_seam_component.gif"
+               id="findReferences"
+               label="Find Seam References"
+               menubarPath="navigate/open.ext2"
+               toolbarPath="org.eclipse.search.searchActionSet/Search"
+               tooltip="Find Seam References">
+         </action>
       </actionSet>
    </extension>
    <extension
@@ -446,6 +489,18 @@
             id="org.jboss.tools.seam.ui.open.component"
             name="Open Seam Component">
       </command>
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            description="Find Declarations"
+            id="org.jboss.tools.seam.ui.find.declarations"
+            name="Find Seam Declarations">
+      </command>
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            description="Find References"
+            id="org.jboss.tools.seam.ui.find.references"
+            name="Find Seam References">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -454,5 +509,25 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+Z">
       </key>
+      <key
+            commandId="org.jboss.tools.seam.ui.find.declarations"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+G">
+      </key>
+      <key
+            commandId="org.jboss.tools.seam.ui.find.references"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+G">
+      </key>
    </extension>
+   
+   <extension
+			id="SeamSearchResultPage"
+			point="org.eclipse.search.searchResultViewPages">
+		<viewPage
+			id="org.jboss.tools.seam.ui.search.SeamSearchResultPage"
+			searchResultClass="org.jboss.tools.seam.ui.search.SeamSearchResult"
+			class="org.jboss.tools.seam.ui.search.SeamSearchResultPage">
+		</viewPage>
+	</extension>
 </plugin>
