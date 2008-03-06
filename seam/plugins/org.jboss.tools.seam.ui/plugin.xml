@@ -343,17 +343,6 @@
       </hyperlinkDetector>
    </extension>
 
-	<!--======================================================================================-->
-	<!-- queryParticipant to participate in java serches                                     -->
-	<!--======================================================================================-->
-	<!-- extension point="org.eclipse.jdt.ui.queryParticipants">
-		<queryParticipant
-			name="Seam Query_Participant_Extension_Element"
-			nature="org.eclipse.jdt.core.javanature"
-			class="org.jboss.tools.seam.ui.text.java.search.SeamQueryParticipant"
-			id="org.jboss.tools.seam.ui.java.search.ui.SeamQueryParticipant" />
-	</extension -->
-	
 	<extension 
 		point="org.jboss.tools.common.text.xml.contentAssistProcessor"
 		id="org.jboss.tools.seam.ui.contentAssistProcessor"
