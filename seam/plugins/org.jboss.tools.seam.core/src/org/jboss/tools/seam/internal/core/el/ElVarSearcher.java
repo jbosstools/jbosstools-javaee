@@ -18,6 +18,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
@@ -120,12 +121,21 @@ public class ElVarSearcher {
 			Element element = (Element)node;
 			String var = element.getAttribute(VAR_ATTRIBUTE_NAME);
 			if(var!=null) {
+				int declOffset = 0;
+				int declLength = 0;
+				Node varAttr = element.getAttributeNode(VAR_ATTRIBUTE_NAME); 
+				if (varAttr instanceof IDOMAttr) {
+					int varNameStart = ((IDOMAttr)varAttr).getNameRegionStartOffset();
+					int varNameEnd = ((IDOMAttr)varAttr).getNameRegionEndOffset();
+					declOffset = varNameStart;
+					declLength = varNameEnd - varNameStart;
+				}
 				var = var.trim();
 				if(!"".equals(var)) {
 					String value = element.getAttribute(VALUE_ATTRIBUTE_NAME);
 					if(value!=null) {
 						value = value.trim();
-						Var newVar = new Var(var, value);
+						Var newVar = new Var(var, value, declOffset, declLength);
 						if(newVar.getElToken()!=null) {
 							return newVar;
 						}
@@ -194,6 +204,22 @@ public class ElVarSearcher {
 		ELToken elToken;
 		String resolvedValue;
 		ELToken resolvedElToken;
+		int declOffset;
+		int declLength;
+		
+		/**
+		 * Constructor
+		 * @param name - value of "var" attribute. 
+		 * @param value - value of "value" attribute.
+		 */
+		public Var(String name, String value, int declOffset, int declLength) {
+			super();
+			this.name = name;
+			this.value = value;
+			elToken = parseEl(value);
+			this.declOffset = declOffset;
+			this.declLength = declLength;
+		}
 
 		/**
 		 * Constructor
@@ -201,12 +227,9 @@ public class ElVarSearcher {
 		 * @param value - value of "value" attribute.
 		 */
 		public Var(String name, String value) {
-			super();
-			this.name = name;
-			this.value = value;
-			elToken = parseEl(value);
-		}
-
+			this(name, value, 0, 0);
+		}		
+		
 		private ELToken parseEl(String el) {
 			if(el.length()>3 && el.startsWith("#{") && el.endsWith("}")) {
 				String elBody = el.substring(0, el.length()-1).substring(2);
@@ -273,5 +296,20 @@ public class ElVarSearcher {
 		public String getResolvedValue() {
 			return resolvedValue;
 		}
+		
+		/**
+		 * @return offset of the var declaration
+		 */
+		public int getDeclarationOffset() {
+			return declOffset;
+		}
+		
+		/**
+		 * @return length of the var declaration
+		 */
+		public int getDeclarationLength() {
+			return declLength;
+		}
+		
 	}
 }
