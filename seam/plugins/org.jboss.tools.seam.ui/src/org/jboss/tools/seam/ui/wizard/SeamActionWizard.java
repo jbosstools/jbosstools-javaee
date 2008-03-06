@@ -17,7 +17,9 @@ import java.util.Map;
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
@@ -29,6 +31,12 @@ import org.jboss.tools.seam.ui.widget.editor.INamedElement;
  */
 public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 
+	public void createPageControls(Composite pageContainer) {
+		super.createPageControls(pageContainer);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.guide.new_seam_action");
+	}
+
+
 	/**
 	 * 
 	 */
@@ -36,7 +44,6 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 		super(CREATE_SEAM_ACTION);
 		setWindowTitle(SeamUIMessages.SEAM_ACTION_WIZARD_NEW_SEAM_ACTION);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png")); //$NON-NLS-1$
-		
 	}
 	
 	@Override

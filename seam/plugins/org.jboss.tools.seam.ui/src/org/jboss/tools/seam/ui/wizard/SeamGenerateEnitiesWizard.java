@@ -30,7 +30,9 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.PlatformUI;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -47,7 +49,12 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
  * @author Alexey Kazakov
  */
 public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWizard {
-
+	
+	public void createPageControls(Composite pageContainer) {
+		super.createPageControls(pageContainer);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.guide.generate_seam_entities");
+	}
+	
 	public SeamGenerateEnitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
 		setWindowTitle(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
