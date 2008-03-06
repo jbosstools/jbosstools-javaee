@@ -23,14 +23,14 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Jeremy
  */
 public class SeamELOperandTokenizer {
-	static final int STATE_INITIAL = 0;
-	static final int STATE_VAR = 1;
-	static final int STATE_METHOD = 2;
-	static final int STATE_SEPARATOR = 3;
+	protected static final int STATE_INITIAL = 0;
+	protected static final int STATE_VAR = 1;
+	protected static final int STATE_METHOD = 2;
+	protected static final int STATE_SEPARATOR = 3;
 
-	String documentContent;
-	List<ELOperandToken> fTokens;
-	int index;
+	protected String documentContent;
+	protected List<ELOperandToken> fTokens;
+	protected int index;
 
 	/**
 	 * Constructs SeamELTokenizer object.
@@ -174,7 +174,7 @@ public class SeamELOperandTokenizer {
 	 * 
 	 * @return
 	 */
-	ELOperandToken readMethodToken() {
+	private ELOperandToken readMethodToken() {
 		fState = STATE_METHOD;
 		int endOfToken = index;
 		
@@ -199,7 +199,7 @@ public class SeamELOperandTokenizer {
 	 * @param length
 	 * @return
 	 */
-	private CharSequence getCharSequence(int start, int length) {
+	protected CharSequence getCharSequence(int start, int length) {
 		String text = ""; //$NON-NLS-1$
 		try {
 			text = documentContent.substring(start, start + length);
@@ -214,7 +214,7 @@ public class SeamELOperandTokenizer {
 	/*
 	 * Skips the space characters in the document
 	 */
-	boolean skipSpaceChars() {
+	private boolean skipSpaceChars() {
 		int ch;
 		while ((ch = readCharBackward()) != -1) {
 			if (!Character.isSpaceChar(ch)) {
@@ -247,7 +247,7 @@ public class SeamELOperandTokenizer {
 	 * 
 	 * @return boolean true if complete parameters set had been read
 	 */
-	boolean skipMethodParameters() {
+	private boolean skipMethodParameters() {
 		int ch = readCharBackward(); 
 		if (ch != ')')
 			return false;
@@ -277,7 +277,7 @@ public class SeamELOperandTokenizer {
 	 * Skips the quoted characters 
 	 * 
 	 */
-	void skipQuotedChars(char pair) {
+	private void skipQuotedChars(char pair) {
 		int ch = readCharBackward();
 		
 		while (ch != -1) {
@@ -303,7 +303,7 @@ public class SeamELOperandTokenizer {
 	 * 
 	 * @return
 	 */
-	ELOperandToken readSeparatorToken() {
+	private ELOperandToken readSeparatorToken() {
 		fState = STATE_SEPARATOR;
 		int ch = readCharBackward();
 		
@@ -315,7 +315,7 @@ public class SeamELOperandTokenizer {
 	 * 
 	 * @return
 	 */
-	ELOperandToken readVarToken() {
+	private ELOperandToken readVarToken() {
 		fState = STATE_VAR;
 		int endOfToken = index;
 		int ch;
@@ -334,7 +334,7 @@ public class SeamELOperandTokenizer {
 	 * 
 	 * @return
 	 */
-	int readCharBackward() {
+	private int readCharBackward() {
 		if (--index < 0 || 
 				documentContent == null ||
 				documentContent.length() <= index)
@@ -350,7 +350,7 @@ public class SeamELOperandTokenizer {
 	/* 
 	 * returns the character to the document
 	 */
-	void releaseChar() {
+	private void releaseChar() {
 		if (index < documentContent.length())
 			index++;
 	}
