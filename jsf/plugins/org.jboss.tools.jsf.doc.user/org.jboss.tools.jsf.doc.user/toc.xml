@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<toc label="JSF and Struts Classic Reference Manual" topic="index.html">
+   <topic label="Introduction" href="introduction.html"/>
+   <topic label="Getting Started Guide for&#xA;Creating a JSF Application" href="jsf_application.html">
+      <topic label="Creating a Simple JSF Application" href="jsf_application.html#CreatingAJSFApplication"/>
+      <topic label="Setting Up the Project" href="jsf_application.html#SettingUpTheProject"/>
+      <topic label="The JSF Application Configuration File" href="jsf_application.html#TheJSFApplicationConfigurationFile"/>
+      <topic label="Adding Navigation to the Application" href="jsf_application.html#AddingNavigationToTheApplication">
+         <topic label="Adding Two Views (JSP Pages)" href="jsf_application.html#AddingTwoViews(JSPPages)">
+            <topic label="Creating the Transition (Navigation Rule)" href="jsf_application.html#CreatingTheTransition(NavigationRule)"/>
+         </topic>
+      </topic>
+      <topic label="Adding a Managed Bean to the Application" href="jsf_application.html#AddingAManagedBeanToTheApplication"/>
+      <topic label="Editing the JSP View Files" href="jsf_application.html#EditingTheJSPViewFiles">
+         <topic label="inputname.jsp" href="jsf_application.html#Inputname.jsp"/>
+         <topic label="greeting.jsp" href="jsf_application.html#Greeting.jsp"/>
+      </topic>
+      <topic label="Creating the Start Page" href="jsf_application.html#CreatingTheStartPage"/>
+      <topic label="Running the Application" href="jsf_application.html#RunningTheApplicationJSF"/>
+      <topic label="Other relevant resources on the topic" href="jsf_application.html#OtherRelevantResourcesOnTheTopic3"/>
+   </topic>
+   <topic label="Getting Started Guide for Creating a Struts Application" href="struts_application.html">
+      <topic label="Starting Up" href="struts_application.html#StartingUp"/>
+      <topic label="Creating the Application Components" href="struts_application.html#CreatingtheApplicationComponents">
+         <topic label="Creating JSP Page Placeholders" href="struts_application.html#CreatingJSPPagePlaceholders">
+            <topic label="Creating the Page Placeholders" href="struts_application.html#CreatingthePagePlaceholders"/>
+            <topic label="Placing the Page Placeholders" href="struts_application.html#PlacingthePagePlaceholders"/>
+         </topic>
+         <topic label="Creating an Action Mappings" href="struts_application.html#CreatinganActionMappings"/>
+         <topic label="Creating a Link" href="struts_application.html#CreatingaLink"/>
+         <topic label="Creating a Forward" href="struts_application.html#CreatingaForward"/>
+         <topic label="Creating a Global Forward" href="struts_application.html#CreatingaGlobalForward"/>
+         <topic label="Creating a Form Bean" href="struts_application.html#CreatingaFormBean"/>
+      </topic>
+      <topic label="Generating Stub Coding" href="struts_application.html#GeneratingStubCoding"/>
+      <topic label="Coding the Various Files" href="struts_application.html#CodingtheVariousFiles">
+         <topic label="Java Stub Classes" href="struts_application.html#JavaStubClasses">
+            <topic label="GetNameForm.java" href="struts_application.html#GetNameForm.java"/>
+            <topic label="GreetingAction.java" href="struts_application.html#GreetingAction.java"/>
+         </topic>
+         <topic label="JSP Pages" href="struts_application.html#JSPPages">
+            <topic label="inputname.jsp" href="struts_application.html#inputname.jsp"/>
+            <topic label="greeting.jsp" href="struts_application.html#greeting.jsp"/>
+            <topic label="index.jsp" href="struts_application.html#index.jsp"/>
+         </topic>
+      </topic>
+      <topic label="Compiling the Classes" href="struts_application.html#CompilingtheClasses"/>
+      <topic label="Running the Application" href="struts_application.html#RunningtheApplication"/>
+      <topic label="Other relevant resources on the topic" href="struts_application.html#OtherRelevantResourcesOnTheTopic4"/>
+   </topic>
+   <topic label="Getting Started Struts Validation Examples" href="struts_validation.html">
+      <topic label="Starting Point" href="struts_validation.html#StartingPoint"/>
+      <topic label="Defining the Validation Rule" href="struts_validation.html#DefiningTheValidationRule"/>
+      <topic label="Client-Side Validation" href="struts_validation.html#Client-SideValidation"/>
+      <topic label="Server Side Validation" href="struts_validation.html#Server-SideValidation"/>
+      <topic label="Editing the JSP File" href="struts_validation.html#EditingTheJSPFile"/>
+      <topic label="Editing the Action" href="struts_validation.html#EditingTheAction"/>
+      <topic label="Editing the Form Bean" href="struts_validation.html#EditingTheFormBean"/>
+      <topic label="Other Resources" href="struts_validation.html#OtherResource"/>
+   </topic>
+</toc>
