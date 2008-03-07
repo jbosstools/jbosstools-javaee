@@ -10,12 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
+import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
+import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -38,7 +36,7 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 	/**
 	 * name of "for" attribute
 	 */
-	protected static final String FOR_ATTR_NAME = "for";
+	protected static final String FOR_ATTR_NAME = "for"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -51,7 +49,7 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		List<VpeNodeMapping> attributesMapping = new ArrayList<VpeNodeMapping>();
+		VpeElementData elementData = new VpeElementData();
 
 		// create label element
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
@@ -71,7 +69,7 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 			// if escape then contents of value (or other attribute) is only
 			// text
 			if (!element.hasAttribute(ESCAPE_ATTR_NAME)
-					|| ("true".equalsIgnoreCase(element
+					|| ("true".equalsIgnoreCase(element //$NON-NLS-1$
 							.getAttribute(ESCAPE_ATTR_NAME)))) {
 
 				String value = attr.getNodeValue();
@@ -82,23 +80,20 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 				nsIDOMText text;
 				// if bundleValue differ from value then will be represent
 				// bundleValue, but text will be not edit
-				if (!value.equals(bundleValue)) {
+				boolean isEditable = value.equals(bundleValue);
 
-					text = visualDocument.createTextNode(bundleValue);
+				text = visualDocument.createTextNode(bundleValue);
+				// add attribute for ability of editing
+				elementData.addAttributeData(new VpeAttributeData(attr, text,
+						isEditable));
 
-				} else {
-
-					text = visualDocument.createTextNode(value);
-					// add attribute for ability of editing
-					attributesMapping.add(new VpeNodeMapping(attr, text));
-				}
 				label.appendChild(text);
 			}
 			// then text can be html code
 			else {
 
 				// create info
-				VpeChildrenInfo spanInfo = new VpeChildrenInfo(label);
+				VpeChildrenInfo labelInfo = new VpeChildrenInfo(label);
 
 				// reparse attribute's value
 				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
@@ -108,17 +103,20 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 
 					Node child = list.item(i);
 
-					spanInfo.addSourceChild(child);
+					labelInfo.addSourceChild(child);
 				}
 
+				elementData.addAttributeData(new VpeAttributeData(attr, label,
+						false));
+
 				// add info to creation data
-				creationData.addChildrenInfo(spanInfo);
+				creationData.addChildrenInfo(labelInfo);
 
 			}
 
 		}
 
-		creationData.setData(attributesMapping);
+		creationData.setElementData(elementData);
 
 		return creationData;
 

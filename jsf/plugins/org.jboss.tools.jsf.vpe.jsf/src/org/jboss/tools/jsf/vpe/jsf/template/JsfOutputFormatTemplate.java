@@ -18,7 +18,8 @@ import java.util.regex.Pattern;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
+import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
+import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -41,32 +42,32 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 	/**
 	 * name of "param" tag
 	 */
-	private static final String PARAM_NAME = "param";
+	private static final String PARAM_NAME = "param"; //$NON-NLS-1$
 
 	/**
 	 * name of "choice"
 	 */
-	private static final String CHOICE_NAME = "choice";
+	private static final String CHOICE_NAME = "choice"; //$NON-NLS-1$
 
 	/**
 	 * message format elements separator
 	 */
-	private static final String MESSAGE_FORMAT_ELEMENTS_SEPARATOR = ",";
+	private static final String MESSAGE_FORMAT_ELEMENTS_SEPARATOR = ","; //$NON-NLS-1$
 
 	/**
 	 * choices separator
 	 */
-	private static final String CHOICES_SEPARATOR = "\\|";
+	private static final String CHOICES_SEPARATOR = "\\|"; //$NON-NLS-1$
 
 	/**
 	 * choices separator
 	 */
-	private static final String CHOICE_PAIR_SEPARATOR = "#";
+	private static final String CHOICE_PAIR_SEPARATOR = "#"; //$NON-NLS-1$
 
 	/**
 	 * message format elements pattern
 	 */
-	private static final String MESSAGE_FORMAT_ELEMENTS_PATTERN = "\\{(\\d+)(,.*?){0,2}?\\}";
+	private static final String MESSAGE_FORMAT_ELEMENTS_PATTERN = "\\{(\\d+)(,.*?){0,2}?\\}"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -79,7 +80,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		List<VpeNodeMapping> attributesMapping = new ArrayList<VpeNodeMapping>();
+		VpeElementData elementData = new VpeElementData();
 
 		// create span element
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
@@ -115,16 +116,13 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 				nsIDOMText text;
 				// if bundleValue differ from value then will be represent
 				// bundleValue, but text will be not edit
-				if (!value.equals(newValue)) {
+				boolean isEditable = value.equals(newValue);
 
-					text = visualDocument.createTextNode(newValue);
+				text = visualDocument.createTextNode(newValue);
+				// add attribute for ability of editing
+				elementData.addAttributeData(new VpeAttributeData(attr, text,
+						isEditable));
 
-				} else {
-
-					text = visualDocument.createTextNode(value);
-					// add attribute for ability of editing
-					attributesMapping.add(new VpeNodeMapping(attr, text));
-				}
 				span.appendChild(text);
 			}
 			// then text can be html code
@@ -144,6 +142,8 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 					spanInfo.addSourceChild(child);
 				}
+				elementData.addAttributeData(new VpeAttributeData(attr, span,
+						false));
 
 				creationData.addChildrenInfo(spanInfo);
 
@@ -151,7 +151,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 		}
 
-		creationData.setData(attributesMapping);
+		creationData.setElementData(elementData);
 
 		return creationData;
 
@@ -229,7 +229,8 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 				// get "choice" as value
 				String choice = getChoice(parametres[2]);
 				if (choice != null)
-					value = choice.replaceAll("[\\{\\}]", "");;
+					value = choice.replaceAll("[\\{\\}]", ""); //$NON-NLS-1$//$NON-NLS-2$
+				;
 
 			}
 		}
@@ -239,7 +240,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 			// get number of param
 			String paramNumber = parametres[0].trim();
-			paramNumber = paramNumber.replaceAll("[\\{\\}]", "");
+			paramNumber = paramNumber.replaceAll("[\\{\\}]", ""); //$NON-NLS-1$//$NON-NLS-2$
 
 			try {
 				// decode

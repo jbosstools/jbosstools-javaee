@@ -14,10 +14,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
+import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.EditableTemplateAdapter;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.TemplateManagingUtil;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMKeyEvent;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsISelection;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * general class for jsf templates
@@ -72,4 +81,100 @@ public abstract class AbstractJsfTemplate extends EditableTemplateAdapter {
 
 	}
 
+	protected boolean handleCharacter(VpePageContext pageContext,
+			nsIDOMKeyEvent keyEvent) {
+
+		// get selection
+		nsISelection selection = getCurrentSelection(pageContext);
+
+		// get visual node which is focused
+		nsIDOMNode visualNode = selection.getFocusNode();
+
+		VpeElementMapping elementMapping = getElmentMapping(pageContext,
+				visualNode);
+		if (elementMapping != null)
+			return super.handleCharacter(pageContext, keyEvent);
+		else
+			return true;
+	}
+
+	protected boolean handleLeftDelete(VpePageContext pageContext,
+			nsIDOMKeyEvent keyEvent) {
+
+		// get selection
+		nsISelection selection = getCurrentSelection(pageContext);
+
+		// get visual node which is focused
+		nsIDOMNode visualNode = selection.getFocusNode();
+
+		VpeElementMapping elementMapping = getElmentMapping(pageContext,
+				visualNode);
+		if (elementMapping != null)
+			return super.handleLeftDelete(pageContext, keyEvent);
+		else
+			return true;
+
+	}
+
+	protected boolean handleRightDelete(VpePageContext pageContext,
+			nsIDOMKeyEvent keyEvent) {
+
+		// get selection
+		nsISelection selection = getCurrentSelection(pageContext);
+
+		// get visual node which is focused
+		nsIDOMNode visualNode = selection.getFocusNode();
+
+		VpeElementMapping elementMapping = getElmentMapping(pageContext,
+				visualNode);
+		if (elementMapping != null)
+			return super.handleRightDelete(pageContext, keyEvent);
+		else
+			return true;
+	}
+
+	@Override
+	public void setSelection(VpePageContext pageContext, nsISelection selection) {
+
+		nsIDOMNode focusedVisualNode = selection.getFocusNode();
+
+		VpeElementMapping elementMapping = pageContext.getDomMapping()
+				.getNearElementMapping(focusedVisualNode);
+
+		if (elementMapping != null)
+			super.setSelection(pageContext, selection);
+		else {
+
+			VpeNodeMapping insertedMapping = pageContext.getDomMapping()
+					.getNearNodeMappingAtVisualNode(focusedVisualNode);
+
+			if (insertedMapping != null) {
+
+				Node insertedNode = insertedMapping.getSourceNode();
+
+				int offset = ((IDOMNode) insertedNode).getStartOffset();
+
+				Node realNode = TemplateManagingUtil.getSourceNodeByPosition(
+						pageContext, offset);
+
+				VpeElementMapping mappingRealNode = pageContext.getDomMapping()
+						.getNearElementMapping(realNode);
+
+				if (mappingRealNode != null) {
+
+					Node focusedNode = getFocusedNode(realNode, mappingRealNode
+							.getElementData(), offset);
+
+					setSourceSelection(pageContext, focusedNode, 0,
+							getLengthNode(focusedNode));
+
+					pageContext.getVisualBuilder().setSelectionRectangle(
+							(nsIDOMElement) mappingRealNode.getVisualElement()
+									.queryInterface(
+											nsIDOMElement.NS_IDOMELEMENT_IID));
+				}
+
+			}
+		}
+	}
 }
