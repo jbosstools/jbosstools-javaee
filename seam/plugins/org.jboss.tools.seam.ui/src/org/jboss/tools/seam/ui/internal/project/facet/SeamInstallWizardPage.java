@@ -18,28 +18,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
-import org.eclipse.datatools.connectivity.IProfileListener;
 import org.eclipse.datatools.connectivity.ProfileManager;
-import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
-import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizard;
-import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizardCategoryFilter;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.internal.util.IModuleConstants;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
@@ -62,7 +54,6 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
@@ -81,8 +72,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 	private static final DriverClassHelpers HIBERNATE_HELPER = new DriverClassHelpers();
 
-	private static final List<String> DIALECT_CLASSES = getDialectClasses();
-
 	private IDataModel model = null;
 
 	private DataModelValidatorDelegate validatorDelegate;
@@ -97,18 +86,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					Arrays.asList(new Object[] { ISeamFacetDataModelProperties.DEPLOY_AS_WAR, ISeamFacetDataModelProperties.DEPLOY_AS_EAR }),
 					getDeployAsDefaultValue());
 
-	String lastCreatedCPName = ""; //$NON-NLS-1$
-
 	// Database group
-	private IFieldEditor connProfileSelEditor = IFieldEditorFactory.INSTANCE
-			.createComboWithTwoButtons(
-					ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONNECTION_PROFILE,
-					getProfileNameList(),
-					getConnectionProfileDefaultValue(),
-					false, new EditConnectionProfileAction(),
-					new NewConnectionProfileAction(),
-					ValidatorFactory.NO_ERRORS_VALIDATOR);
+	private IFieldEditor connProfileSelEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfileDefaultValue(), new IValidator() {
+		public Map<String, String> validate(Object value, Object context) {
+			SeamInstallWizardPage.this.validate();
+			return ValidatorFactory.NO_ERRORS;
+		}
+	});
 
 	private IFieldEditor jBossHibernateDbTypeEditor = IFieldEditorFactory.INSTANCE
 			.createComboEditor(ISeamFacetDataModelProperties.DB_TYPE,
@@ -163,17 +147,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	/**
 	 * @return
 	 */
-	private static List<String> getDialectClasses() {
-		List<String> dialects = new ArrayList<String>();
-		for (String dialectName : HIBERNATE_HELPER.getDialectNames()) {
-			dialects.add(HIBERNATE_HELPER.getDialectClass(dialectName));
-		}
-		return dialects;
-	}
-
-	/**
-	 * @return
-	 */
 	private String getDefaultDbType() {
 		return SeamProjectPreferences.getStringPreference(
 				SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE);
@@ -193,7 +166,17 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private Object getConnectionProfileDefaultValue() {
 		String defaultDs = SeamProjectPreferences.getStringPreference(
 				SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
-		return getProfileNameList().contains(defaultDs)?defaultDs:""; //$NON-NLS-1$
+		return getConnectionProfileNameList().contains(defaultDs)?defaultDs:""; //$NON-NLS-1$
+	}
+
+	private static List<String> getConnectionProfileNameList() {
+		IConnectionProfile[] profiles = ProfileManager.getInstance()
+				.getProfilesByCategory("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
+		List<String> names = new ArrayList<String>();
+		for (IConnectionProfile connectionProfile : profiles) {
+			names.add(connectionProfile.getName());
+		}
+		return names;
 	}
 
 	/**
@@ -392,108 +375,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, event
 							.getProperty().toString());
-		}
-	}
-
-	private List<String> getProfileNameList() {
-		IConnectionProfile[] profiles = ProfileManager.getInstance()
-				.getProfilesByCategory("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
-		List<String> names = new ArrayList<String>();
-		for (IConnectionProfile connectionProfile : profiles) {
-			names.add(connectionProfile.getName());
-		}
-		return names;
-	}
-
-	/**
-	 * 
-	 */
-	public class EditConnectionProfileAction extends
-			ButtonFieldEditor.ButtonPressedAction {
-
-		/**
-		 * @param label
-		 */
-		public EditConnectionProfileAction() {
-			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EDIT);
-		}
-
-		/**
-		 * 
-		 */
-		@Override
-		public void run() {
-			IConnectionProfile selectedProfile = ProfileManager.getInstance()
-					.getProfileByName(getFieldEditor().getValue().toString());
-			String oldName = getFieldEditor().getValue().toString();
-
-			if (selectedProfile == null)
-				return;
-			PropertyDialog
-					.createDialogOn(
-							Display.getCurrent().getActiveShell(),
-							"org.eclipse.datatools.connectivity.db.generic.profileProperties", //$NON-NLS-1$
-							selectedProfile).open();
-
-			if (!oldName.equals(selectedProfile.getName())) {
-				getFieldEditor().setValue(selectedProfile.getName());
-				((ITaggedFieldEditor) ((CompositeEditor) connProfileSelEditor)
-						.getEditors().get(1)).setTags(getProfileNameList()
-						.toArray(new String[0]));
-				oldName = selectedProfile.getName();
-			}
-			validate();
-		}
-	};
-
-	/**
-	 * Handler for ButtonFieldEditor that shows Property Editor dialog for
-	 * selected ConnectionProfile
-	 * 
-	 * @author eskimo
-	 */
-	public class NewConnectionProfileAction extends
-			ButtonFieldEditor.ButtonPressedAction {
-		/**
-		 * @param label
-		 */
-		public NewConnectionProfileAction() {
-			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_NEW);
-		}
-
-		@Override
-		public void run() {
-			IProfileListener listener = new ConnectionProfileChangeListener();
-
-			ProfileManager.getInstance().addProfileListener(listener);
-			NewCPWizardCategoryFilter filter = new NewCPWizardCategoryFilter("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
-			NewCPWizard wizard = new NewCPWizard(filter, null);
-			new NewConnectionProfileWizard() {
-				public boolean performFinish() {
-					// create profile only
-					try {
-						ProfileManager.getInstance().createProfile(
-								getProfileName() == null ? "" //$NON-NLS-1$
-										: getProfileName(),
-								getProfileDescription() == null ? "" //$NON-NLS-1$
-										: getProfileDescription(),
-								mProviderID,
-								getProfileProperties(),
-								mProfilePage.getRepository() == null ? "" //$NON-NLS-1$
-										: mProfilePage.getRepository()
-												.getName(), false);
-						lastCreatedCPName = getProfileName();
-					} catch (ConnectionProfileException e) {
-						SeamCorePlugin.getPluginLog().logError(e);
-					}
-
-					return true;
-				}
-			};
-			WizardDialog wizardDialog = new WizardDialog(Display.getCurrent()
-					.getActiveShell(), wizard);
-			wizardDialog.open();
-			ProfileManager.getInstance().removeProfileListener(listener);
 		}
 	}
 
@@ -701,34 +582,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		protected SeamVersion[] getSeamVersions() {
 			String seamVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
 			return new SeamVersion[]{SeamVersion.parseFromString(seamVersion)};
-		}
-	}
-
-	public class ConnectionProfileChangeListener implements IProfileListener {
-		/* (non-Javadoc)
-		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileAdded(org.eclipse.datatools.connectivity.IConnectionProfile)
-		 */
-		public void profileAdded(IConnectionProfile profile) {
-			connProfileSelEditor.setValue(profile.getName());
-			((ITaggedFieldEditor) ((CompositeEditor) connProfileSelEditor)
-					.getEditors().get(1)).setTags(getProfileNameList()
-					.toArray(new String[0]));
-			validate();
-		
-		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileChanged(org.eclipse.datatools.connectivity.IConnectionProfile)
-		 */
-		public void profileChanged(IConnectionProfile profile) {
-			profileAdded(profile);
-		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileDeleted(org.eclipse.datatools.connectivity.IConnectionProfile)
-		 */
-		public void profileDeleted(IConnectionProfile profile) {
-			// this event never happens
 		}
 	}
 

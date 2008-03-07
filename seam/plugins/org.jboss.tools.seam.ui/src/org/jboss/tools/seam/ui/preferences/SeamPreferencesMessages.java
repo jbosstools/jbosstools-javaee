@@ -18,7 +18,25 @@ import org.eclipse.osgi.util.NLS;
  */
 public class SeamPreferencesMessages extends NLS {
 	private static final String BUNDLE_NAME = "org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages"; //$NON-NLS-1$
-	
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_EJB_PROJECT;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_DEPLOYMENT;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_VIEW;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_MODEL;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_ACTION;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER;
+
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE;
+
+	public static String SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT;
+
 	public static String SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES;
 
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_ADD;
@@ -28,8 +46,6 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME;
 
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED;
-
-	public static String SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT;
 
 	public static String SEAM_VALIDATOR_CONFIGURATION_BLOCK_ERROR;
 

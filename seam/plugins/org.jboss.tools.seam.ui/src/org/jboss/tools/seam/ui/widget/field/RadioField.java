@@ -84,7 +84,11 @@ public class RadioField extends BaseField implements SelectionListener {
 	public Object getValue() {
 		return value;
 	}
-	
+
+	/**
+	 * 
+	 * @param value
+	 */
 	public void setValue(String value) {
 		this.value = value;
 		for (int i = 0; i < radios.length; i++) {
@@ -95,5 +99,4 @@ public class RadioField extends BaseField implements SelectionListener {
 			}
 		}
 	}
-
 }

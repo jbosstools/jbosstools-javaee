@@ -83,8 +83,25 @@ public interface IFieldEditorFactory {
 	 * @param defaultValue
 	 * @return
 	 */
-	IFieldEditor createBrowseFolderEditor(String name, String label,
-			String defaultValue);
+	IFieldEditor createBrowseFolderEditor(String name, String label, String defaultValue);
+
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
+	 * @return
+	 */
+	IFieldEditor createBrowseWorkspaceFolderEditor(String name, String label, String defaultValue);
+
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
+	 * @return
+	 */
+	IFieldEditor createBrowseSourceFolderEditor(String name, String label, String defaultValue);
 
 	/**
 	 * 

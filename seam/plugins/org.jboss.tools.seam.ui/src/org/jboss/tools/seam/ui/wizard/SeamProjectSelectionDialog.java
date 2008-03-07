@@ -28,8 +28,6 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
-import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
@@ -41,8 +39,9 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 
 	/**
 	 * @param parent
+	 * @param allowAllProjects If "false" show only projects with seam nature.
 	 */
-	public SeamProjectSelectionDialog(Shell parent) {
+	public SeamProjectSelectionDialog(Shell parent, final boolean allowAllProjects) {
 		super(parent);
 		setTitle(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SEAM_WEB_PROJECT);
 		setMessage(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SELECT_SEAM_WEB_PROJECT);
@@ -53,11 +52,11 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 				ArrayList<IProject> seamProjects = new ArrayList<IProject>();
 				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 					try {
-						if(project.hasNature(ISeamProject.NATURE_ID) 
+						if(allowAllProjects || (project.hasNature(ISeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
 								&& project.getAdapter(IFacetedProject.class)!=null
 								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
-								&& !"".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) { //$NON-NLS-1$
+								&& !"".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, "")))) { //$NON-NLS-1$
 							seamProjects.add(project);
 						}
 					} catch (CoreException e) {
@@ -73,7 +72,14 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 			}
 		});
 	}
-	
+
+	/**
+	 * @param parent
+	 */
+	public SeamProjectSelectionDialog(Shell parent) {
+		this(parent, false);
+	}
+
 	/**
 	 * 
 	 */

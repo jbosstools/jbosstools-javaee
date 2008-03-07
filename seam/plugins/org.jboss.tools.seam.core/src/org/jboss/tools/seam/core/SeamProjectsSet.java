@@ -79,10 +79,7 @@ public class SeamProjectsSet {
 		if(prefs==null) {
 			return false;
 		}
-		return prefs.get(
-				ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
-				ISeamFacetDataModelProperties.DEPLOY_AS_WAR)
-					.equals(ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
+		return prefs.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR).equals(ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 	}
 
 	/**
@@ -122,11 +119,14 @@ public class SeamProjectsSet {
 	 * @return the action folder (this folder is not guaranteed to exist!)
 	 */	
 	public IFolder getActionFolder() {
-		if(prefs==null) {
+		String folderPath = null;
+		if(prefs!=null) {
+			folderPath = prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
+		}
+		if(folderPath==null) {
 			return getSourceFolder();
 		}
 
-		String folderPath = prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
 		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
@@ -135,11 +135,14 @@ public class SeamProjectsSet {
 	 * @return the model folder if exists (this folder is not guaranteed to exist!)
 	 */
 	public IFolder getModelFolder() {
-		if(prefs==null) {
+		String folderPath = null;
+		if(prefs!=null) {
+			folderPath = prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
+		}
+		if(folderPath==null) {
 			return getSourceFolder();
 		}
 
-		String folderPath = prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
 		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
@@ -167,7 +170,11 @@ public class SeamProjectsSet {
 	 * @return
 	 */
 	public IFolder getViewsFolder() {
-		if(prefs==null) {
+		String folderPath = null;
+		if(prefs!=null) {
+			folderPath = prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
+		}
+		if(folderPath==null) {
 			IVirtualComponent com = ComponentCore.createComponent(war);
 			if(com!=null) {
 				IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
@@ -178,7 +185,6 @@ public class SeamProjectsSet {
 			return null;
 		}
 
-		String folderPath = prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
 		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
@@ -187,15 +193,21 @@ public class SeamProjectsSet {
 	 * @return
 	 */
 	public IFolder getTestsFolder() {
-		if(prefs==null) {
+		String folderPath = null;
+		if(prefs!=null) {
+			folderPath = prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
+		}
+		if(folderPath==null) {
 			return getSourceFolder();
 		}
 
-		String folderPath = prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
 		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
 	public String getEntityPackage(){
+		if(prefs==null) {
+			return "entity";
+		}
 		return prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "entity"); //$NON-NLS-1$
 	}
 

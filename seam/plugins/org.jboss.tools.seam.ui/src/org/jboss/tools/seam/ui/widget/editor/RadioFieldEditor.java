@@ -57,7 +57,7 @@ public class RadioFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 
 	@Override
 	public Object[] getEditorControls() {
-		return null;
+		return new Control[]{radioField.getControl()};
 	}
 
 	public void save(Object object) {

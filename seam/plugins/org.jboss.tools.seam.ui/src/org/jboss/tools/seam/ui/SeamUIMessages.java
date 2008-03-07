@@ -305,8 +305,6 @@ public class SeamUIMessages extends NLS {
 
 	public static String SEAM_WIZARD_FACTORY_SEAM_PROJECT;
 
-	public static String SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT;
-
 	public static String SELECT_SEAM_PROJECT_ACTION_BROWSE;
 
 	public static String SWT_FIELD_EDITOR_FACTORY_BROWS;
@@ -412,6 +410,8 @@ public class SeamUIMessages extends NLS {
 	public static String RUNTIME_DELETE_NOT_USED_CONFIRM;
 
 	public static String RUNTIME_DELETE_USED_CONFIRM;
+
+	public static String VIEW_FOLDER_FILED_EDITOR;
 	
 	public static String FIND_DECLARATIONS_ACTION_ACTION_NAME;
 	public static String FIND_DECLARATIONS_ACTION_DESCRIPTION;
@@ -423,6 +423,9 @@ public class SeamUIMessages extends NLS {
 	public static String FIND_REFERENCES_ACTION_MESSAGE;
 	public static String FIND_REFERENCES_ACTION_TOOL_TIP;
 
+	public static String SELECT_WORKSPACE_FOLDER_DIALOG_TITLE;
+	public static String SELECT_WORKSPACE_FOLDER_DIALOG_MESSAGE;
+	
 	public static String SeamSearchQuery_task_label;
 	public static String SeamSearchQuery_label;
 	public static String SeamSearchQuery_error_unsupported_pattern;

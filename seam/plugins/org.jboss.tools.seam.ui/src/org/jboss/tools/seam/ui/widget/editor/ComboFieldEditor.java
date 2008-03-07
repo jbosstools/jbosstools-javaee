@@ -55,7 +55,7 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 
 	@Override
 	public Object[] getEditorControls() {
-		return null;
+		return new Control[]{comboField.getControl()};
 	}
 
 	public void save(Object object) {

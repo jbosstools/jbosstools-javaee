@@ -21,17 +21,27 @@ import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 
 public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedAction {
 
+	private boolean allowAllProjects;
+
 	/**
-	 * @param label
+	 * @param allowAllProjects If "false" show only projects with seam nature.
+	 */
+	public SelectSeamProjectAction(boolean allowAllProjects) {
+		super(SeamUIMessages.SELECT_SEAM_PROJECT_ACTION_BROWSE);
+		this.allowAllProjects = allowAllProjects;
+	}
+
+	/**
+	 * 
 	 */
 	public SelectSeamProjectAction() {
-		super(SeamUIMessages.SELECT_SEAM_PROJECT_ACTION_BROWSE);
+		this(false);
 	}
 
 	@Override
 	public void run() {
 		ListDialog dialog = new SeamProjectSelectionDialog(
-				Display.getCurrent().getActiveShell());
+				Display.getCurrent().getActiveShell(), allowAllProjects);
 		if(!"".equals(this.getFieldEditor().getValueAsString())) //$NON-NLS-1$
 			dialog.setInitialSelections(new Object[] {
 				ResourcesPlugin.getWorkspace().getRoot().getProject(this.getFieldEditor().getValueAsString())});

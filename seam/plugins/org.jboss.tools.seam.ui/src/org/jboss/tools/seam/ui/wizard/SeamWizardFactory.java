@@ -15,12 +15,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.IProfileListener;
+import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.db.generic.ui.NewConnectionProfileWizard;
+import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizard;
+import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizardCategoryFilter;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.console.HibernateConsolePlugin;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -40,11 +49,25 @@ import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRunt
  *
  */
 public class SeamWizardFactory {
+
+	/**
+	 * @param defaultSelection
+	 * @param allowAllProjects If "false" show only projects with seam nature.
+	 * @return
+	 */
+	public static IFieldEditor createSeamProjectSelectionFieldEditor(String name, String label, String defaultSelection, boolean allowAllProjects) {
+		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+				name, label, defaultSelection, 
+				 new SelectSeamProjectAction(allowAllProjects), ValidatorFactory.NO_ERRORS_VALIDATOR);
+	}
+
+	/**
+	 * @param defaultSelection
+	 * @return
+	 */
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
-		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
-				IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, 
-				 new SelectSeamProjectAction(), ValidatorFactory.NO_ERRORS_VALIDATOR);
+		return createSeamProjectSelectionFieldEditor(IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false);
 	}
 
 	/**
@@ -86,7 +109,11 @@ public class SeamWizardFactory {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
 				IParameter.SEAM_MASTER_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
 	}
-	
+
+	/**
+	 * @param defaultSelection
+	 * @return
+	 */
 	public static final IFieldEditor[] createBaseFormFieldEditors(String defaultSelection) {
 		return new IFieldEditor[]{
 			SeamWizardFactory.createSeamProjectSelectionFieldEditor(defaultSelection),
@@ -123,6 +150,179 @@ public class SeamWizardFactory {
 				defaultValue, 
 				true, action, (IValidator)null);
 		return jBossSeamRuntimeEditor;
+	}
+
+	/**
+	 * Creates Selection Field of Connection Profiles
+	 * @param defaultValue
+	 * @return
+	 */
+	public static IFieldEditor createConnectionProfileSelectionFieldEditor(Object defaultValue, IValidator validator) {
+		EditConnectionProfileAction editAction = new EditConnectionProfileAction(validator);
+		NewConnectionProfileAction newAction = new NewConnectionProfileAction(validator);
+		IFieldEditor connProfileSelEditor = IFieldEditorFactory.INSTANCE.createComboWithTwoButtons(
+				ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONNECTION_PROFILE,
+				getConnectionProfileNameList(),
+				defaultValue,
+				false, editAction,
+				newAction,
+				ValidatorFactory.NO_ERRORS_VALIDATOR);
+		editAction.setEditor(connProfileSelEditor);
+		newAction.setEditor(connProfileSelEditor);
+		return connProfileSelEditor;
+	}
+
+	private static class EditConnectionProfileAction extends ButtonFieldEditor.ButtonPressedAction {
+
+		private IValidator validator;
+		private IFieldEditor connProfileSelEditor;
+
+		/**
+		 * @param validator
+		 */
+		public EditConnectionProfileAction(IValidator validator) {
+			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EDIT);
+			this.validator = validator;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			IConnectionProfile selectedProfile = ProfileManager.getInstance()
+					.getProfileByName(getFieldEditor().getValue().toString());
+			String oldName = getFieldEditor().getValue().toString();
+
+			if (selectedProfile == null) {
+				return;
+			}
+			PropertyDialog.createDialogOn(Display.getCurrent().getActiveShell(),
+							"org.eclipse.datatools.connectivity.db.generic.profileProperties", //$NON-NLS-1$
+							selectedProfile).open();
+			if (!oldName.equals(selectedProfile.getName())) {
+				getFieldEditor().setValue(selectedProfile.getName());
+				((ITaggedFieldEditor) ((CompositeEditor) connProfileSelEditor)
+						.getEditors().get(1)).setTags(getConnectionProfileNameList()
+						.toArray(new String[0]));
+				oldName = selectedProfile.getName();
+			}
+			validator.validate(selectedProfile.getName(), null);
+		}
+
+		public void setEditor(IFieldEditor connProfileSelEditor) {
+			this.connProfileSelEditor = connProfileSelEditor; 
+		}
+	};
+
+	/**
+	 * Handler for ButtonFieldEditor that shows Property Editor dialog for
+	 * selected ConnectionProfile
+	 * 
+	 * @author eskimo
+	 */
+	private static class NewConnectionProfileAction extends	ButtonFieldEditor.ButtonPressedAction {
+
+		private IValidator validator;
+		private IFieldEditor connProfileSelEditor;
+
+		public NewConnectionProfileAction(IValidator validator) {
+			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_NEW);
+			this.validator = validator;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			IProfileListener listener = new ConnectionProfileChangeListener(validator, connProfileSelEditor);
+
+			ProfileManager.getInstance().addProfileListener(listener);
+			NewCPWizardCategoryFilter filter = new NewCPWizardCategoryFilter("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
+			NewCPWizard wizard = new NewCPWizard(filter, null);
+			new NewConnectionProfileWizard() {
+				public boolean performFinish() {
+					// create profile only
+					try {
+						ProfileManager.getInstance().createProfile(
+								getProfileName() == null ? "" //$NON-NLS-1$
+										: getProfileName(),
+								getProfileDescription() == null ? "" //$NON-NLS-1$
+										: getProfileDescription(),
+								mProviderID,
+								getProfileProperties(),
+								mProfilePage.getRepository() == null ? "" //$NON-NLS-1$
+										: mProfilePage.getRepository()
+												.getName(), false);
+					} catch (ConnectionProfileException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					}
+
+					return true;
+				}
+			};
+			WizardDialog wizardDialog = new WizardDialog(Display.getCurrent()
+					.getActiveShell(), wizard);
+			wizardDialog.open();
+			ProfileManager.getInstance().removeProfileListener(listener);
+		}
+
+		public void setEditor(IFieldEditor connProfileSelEditor) {
+			this.connProfileSelEditor = connProfileSelEditor; 
+		}
+	}
+
+	private static class ConnectionProfileChangeListener implements IProfileListener {
+
+		private IFieldEditor connProfileSelEditor;
+		private IValidator validator;
+
+		/**
+		 * @param validator
+		 */
+		public ConnectionProfileChangeListener(IValidator validator, IFieldEditor connProfileSelEditor) {
+			this.validator = validator;
+			this.connProfileSelEditor = connProfileSelEditor;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileAdded(org.eclipse.datatools.connectivity.IConnectionProfile)
+		 */
+		public void profileAdded(IConnectionProfile profile) {
+			connProfileSelEditor.setValue(profile.getName());
+			((ITaggedFieldEditor) ((CompositeEditor) connProfileSelEditor)
+					.getEditors().get(1)).setTags(getConnectionProfileNameList()
+					.toArray(new String[0]));
+			validator.validate(profile.getName(), null);
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileChanged(org.eclipse.datatools.connectivity.IConnectionProfile)
+		 */
+		public void profileChanged(IConnectionProfile profile) {
+			profileAdded(profile);
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileDeleted(org.eclipse.datatools.connectivity.IConnectionProfile)
+		 */
+		public void profileDeleted(IConnectionProfile profile) {
+			// this event never happens
+		}
+	}
+
+	private static List<String> getConnectionProfileNameList() {
+		IConnectionProfile[] profiles = ProfileManager.getInstance()
+				.getProfilesByCategory("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
+		List<String> names = new ArrayList<String>();
+		for (IConnectionProfile connectionProfile : profiles) {
+			names.add(connectionProfile.getName());
+		}
+		return names;
 	}
 
 	/**
@@ -276,5 +476,17 @@ public class SeamWizardFactory {
 				SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, 
 				configurationNames, defaultSelection);
 		return editor;
+	}
+
+	/**
+	 * @param defaultSelection full path of resource
+	 * @return
+	 */
+	public static IFieldEditor createViewFolderFieldEditor(String defaultSelection) {
+		IFieldEditor viewDirEditor = IFieldEditorFactory.INSTANCE.createBrowseWorkspaceFolderEditor(
+				ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER,
+				SeamUIMessages.VIEW_FOLDER_FILED_EDITOR,
+				defaultSelection); 
+		return viewDirEditor;
 	}
 }
