@@ -1,0 +1,6 @@
+<contexts>
+	<context id="faces_config_editor" title="New Seam Project">
+		<description>Faces Config Editor</description>
+		<topic href="jsf_application.html" label="Getting Started Guide for Creating a JSF Application"/>
+	</context>
+</contexts>

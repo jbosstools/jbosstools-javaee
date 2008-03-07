@@ -1,0 +1,10 @@
+<contexts>
+	<context id="struts_config_editor" title="New Seam Project">
+		<description>Struts Config Editor</description>
+		<topic href="struts_application.html" label="Getting Started Guide for Creating a Struts Application"/>
+	</context>
+	<context id="add_formset" title="New Seam Project">
+		<description>Add Formset Wizard</description>
+		<topic href="struts_validation.html#DefiningTheValidationRule" label="Defining the Validation Rule"/>
+	</context>
+</contexts>

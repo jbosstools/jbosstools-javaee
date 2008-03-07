@@ -6,4 +6,15 @@
         file="toc.xml"
         primary="true"/>
 	</extension>
+ <extension
+       point="org.eclipse.help.contexts">
+    <contexts
+          file="StrutsContextHelp.xml"
+          plugin="org.jboss.tools.jsf.doc.user">
+    </contexts>
+    <contexts
+          file="JSFContextHelp.xml"
+          plugin="org.jboss.tools.jsf.doc.user">
+    </contexts>
+ </extension>
 </plugin>
