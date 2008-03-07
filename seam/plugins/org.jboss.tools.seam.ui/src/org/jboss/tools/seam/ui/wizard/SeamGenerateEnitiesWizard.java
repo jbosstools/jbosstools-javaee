@@ -52,7 +52,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 	
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.guide.generate_seam_entities");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.doc.user.generate_seam_entities");
 	}
 	
 	public SeamGenerateEnitiesWizard() {

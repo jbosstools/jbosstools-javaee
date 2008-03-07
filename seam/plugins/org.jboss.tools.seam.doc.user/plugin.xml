@@ -9,5 +9,12 @@
             primary="true">
       </toc>
    </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="SeamContextHelp.xml"
+            plugin="org.jboss.tools.seam.doc.user">
+      </contexts>
+   </extension>
 
 </plugin>

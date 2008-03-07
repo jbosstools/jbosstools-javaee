@@ -34,7 +34,7 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 	
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.guide.new_seam_form");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.doc.user.new_seam_form");
 	}
 	/**
 	 * 
