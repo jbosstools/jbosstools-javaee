@@ -16,6 +16,8 @@ import org.jboss.tools.common.editor.ObjectTextEditor;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import org.jboss.tools.common.model.XFilteredTreeConstraint;
@@ -30,6 +32,12 @@ import org.jboss.tools.struts.StrutsProject;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
 
 public class StrutsConfigEditor extends ObjectMultiPageEditor {
+	protected Composite createPageContainer(Composite parent) {
+		Composite composite = super.createPageContainer(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jboss.tools.jsf.doc.user.struts_config_editor");
+		return composite;
+	}
+
 	protected StrutsConfigGuiEditor guiEditor;
 ///	StrutsConfigPartListener partListener = new StrutsConfigPartListener();
 	protected XFilteredTreeConstraint constraint = new org.jboss.tools.struts.model.FileSystemsTreeConstraint();
