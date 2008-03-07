@@ -30,19 +30,9 @@
                         <type>jdocbook-style</type>
                     </dependency>
                     <dependency>
-                        <groupId>com.uwyn</groupId>
-                        <artifactId>jhighlight</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>de.java2html</groupId>
-                        <artifactId>java2html</artifactId>
-                        <version>5.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.exadel.docbook.colorer</groupId>
-                        <artifactId>highlight</artifactId>
-                        <version>1.0</version>
+                      <groupId>org.richfaces.docs</groupId>
+                      <artifactId>highlight</artifactId>
+                      <version>3.1.4.GA</version>
                     </dependency>
                 </dependencies>
                 <configuration>
