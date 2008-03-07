@@ -29,13 +29,17 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
+import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
+import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -226,6 +230,152 @@ public class JavaAnnotationScanner {
 		}
 	}
 	
+	public ResolvedAnnotation findAnnotationByValueOffset(int offset) {
+		if (resolvedAnnotations == null)
+			return null;
+
+		for (ResolvedAnnotation a : resolvedAnnotations.keySet()) {
+			if (a.getAnnotation() instanceof SingleMemberAnnotation) {
+				SingleMemberAnnotation sma = (SingleMemberAnnotation)a.getAnnotation();
+				Object vpd = sma.getStructuralProperty(SingleMemberAnnotation.VALUE_PROPERTY);
+				if (vpd instanceof ASTNode) {
+					ASTNode node = (ASTNode)vpd;
+					int start = node.getStartPosition();
+					int length = node.getLength();
+					if (offset >= start && offset < start + length) {
+						return a;
+					}
+				}
+			} else if (a.getAnnotation() instanceof NormalAnnotation) {
+				NormalAnnotation na = (NormalAnnotation)a.getAnnotation();
+				Object vpd = na.getStructuralProperty(NormalAnnotation.VALUES_PROPERTY);
+				if (vpd instanceof List) {
+					for (Object item : (List)vpd) {
+						if (item instanceof ASTNode) {
+							ASTNode node = (ASTNode)item;
+							if (node.getNodeType() != ASTNode.MEMBER_VALUE_PAIR) 
+								continue;
+							MemberValuePair mvp = (MemberValuePair)node;
+							SimpleName name = mvp.getName();
+							if (!"value".equals(name.getIdentifier())) {
+								continue;
+							}
+							int start = node.getStartPosition();
+							int length = node.getLength();
+							if (offset >= start && offset < start + length) {
+								return a;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the annotation's value text
+	 * 
+	 * @param annotation
+	 * @return
+	 */
+	public String getAnnotationValue(ResolvedAnnotation annotation) {
+		if (annotation.getAnnotation() instanceof SingleMemberAnnotation) {
+			SingleMemberAnnotation sma = (SingleMemberAnnotation)annotation.getAnnotation();
+			Object vpd = sma.getStructuralProperty(SingleMemberAnnotation.VALUE_PROPERTY);
+			if (vpd instanceof StringLiteral) {
+				return ((StringLiteral)vpd).getLiteralValue();
+			} 
+			return vpd.toString();
+		} else if (annotation.getAnnotation() instanceof NormalAnnotation) {
+			NormalAnnotation na = (NormalAnnotation)annotation.getAnnotation();
+			Object vpd = na.getStructuralProperty(NormalAnnotation.VALUES_PROPERTY);
+			if (vpd instanceof List) {
+				for (Object item : (List)vpd) {
+					if (item instanceof ASTNode) {
+						ASTNode node = (ASTNode)item;
+						if (node.getNodeType() != ASTNode.MEMBER_VALUE_PAIR) 
+							continue;
+						MemberValuePair mvp = (MemberValuePair)node;
+						SimpleName name = mvp.getName();
+						if (!"value".equals(name.getIdentifier())) {
+							continue;
+						}
+						return ((StringLiteral)mvp.getValue()).getLiteralValue();
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Returns the annotation's value region
+	 * 
+	 * @param annotation
+	 * @return
+	 */
+	public IRegion getAnnotationValueRegion(ResolvedAnnotation annotation) {
+		if (annotation.getAnnotation() instanceof SingleMemberAnnotation) {
+			SingleMemberAnnotation sma = (SingleMemberAnnotation)annotation.getAnnotation();
+			Object vpd = sma.getStructuralProperty(SingleMemberAnnotation.VALUE_PROPERTY);
+			if (vpd instanceof StringLiteral) {
+				StringLiteral sl = (StringLiteral)vpd;
+				return new Region(sl.getStartPosition() + 1, sl.getLength());
+			}
+			if (vpd instanceof ASTNode) {
+				ASTNode astNode = (ASTNode)vpd;
+				return new Region(astNode.getStartPosition(),astNode.getLength()); 
+			} 
+			return null;
+		} else if (annotation.getAnnotation() instanceof NormalAnnotation) {
+			NormalAnnotation na = (NormalAnnotation)annotation.getAnnotation();
+			Object vpd = na.getStructuralProperty(NormalAnnotation.VALUES_PROPERTY);
+			if (vpd instanceof List) {
+				for (Object item : (List)vpd) {
+					if (item instanceof ASTNode) {
+						ASTNode node = (ASTNode)item;
+						if (node.getNodeType() != ASTNode.MEMBER_VALUE_PAIR) 
+							continue;
+						MemberValuePair mvp = (MemberValuePair)node;
+						SimpleName name = mvp.getName();
+						if (!"value".equals(name.getIdentifier())) {
+							continue;
+						}
+						Object sValuesObj = mvp.getStructuralProperty(MemberValuePair.VALUE_PROPERTY);
+						if (sValuesObj instanceof StringLiteral) {
+							StringLiteral sl = (StringLiteral)sValuesObj;
+							return new Region(sl.getStartPosition() + 1, sl.getLength());
+						}
+						if (sValuesObj instanceof ASTNode) {
+							ASTNode astNode = (ASTNode)sValuesObj;
+							return new Region(astNode.getStartPosition(),astNode.getLength()); 
+						} 
+						return null;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Detects if the type of annotation equals to the selected SeamAnnotations' type
+	 * 
+	 * @param annotation
+	 * @param typeName
+	 * 
+	 * @return 
+	 */
+	public boolean isAnnotationOfType(ResolvedAnnotation annotation, String typeName) {
+		if (annotation == null || typeName == null)
+			return false;
+		
+		return (typeName.equals(annotation.getType()));
+	}
+
 	static String getResolvedType(IType type, String n) {
 
 		String[][] rs;

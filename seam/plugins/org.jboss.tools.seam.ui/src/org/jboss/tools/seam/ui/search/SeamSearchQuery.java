@@ -25,7 +25,7 @@ import org.eclipse.search.core.text.TextSearchScope;
 import org.eclipse.search.internal.core.text.PatternConstructor;
 import org.eclipse.search.internal.core.text.TextSearchVisitor;
 import org.eclipse.search.internal.ui.Messages;
-import org.eclipse.search.internal.ui.SearchMessages;
+//import org.eclipse.search.internal.ui.SearchMessages;
 import org.eclipse.search.internal.ui.text.FileMatch;
 import org.eclipse.search.internal.ui.text.FileSearchResult;
 import org.eclipse.search.internal.ui.text.SearchResultUpdater;
@@ -215,7 +215,9 @@ public class SeamSearchQuery implements ISearchQuery {
 					return Messages.format(SeamUIMessages.SeamSearchQuery_pluralPattern, args); 
 				}
 			}
-			// text search
+/*
+ * 
+ 			// text search
 			if (isScopeAllFileTypes()) {
 				// search all file extensions
 				if (nMatches == 1) {
@@ -232,34 +234,22 @@ public class SeamSearchQuery implements ISearchQuery {
 			}
 			Object[] args= { searchString, new Integer(nMatches), fScope.getDescription(), fScope.getFilterDescription() };
 			return Messages.format(SearchMessages.FileSearchQuery_pluralPatternWithFileExt, args);
+*/
 		}
-		// file search
+/*
+ * 
+ 		// file search
 		if (nMatches == 1) {
 			Object[] args= { fScope.getFilterDescription(), fScope.getDescription() };
 			return Messages.format(SearchMessages.FileSearchQuery_singularLabel_fileNameSearch, args); 
 		}
 		Object[] args= { fScope.getFilterDescription(), new Integer(nMatches), fScope.getDescription() };
 		return Messages.format(SearchMessages.FileSearchQuery_pluralPattern_fileNameSearch, args); 
+*/
+		return "";
 	}
 
-	/**
-	 * @param result all result are added to this search result
-	 * @param monitor the progress monitor to use
-	 * @param file the file to search in
-	 * @return returns the status of the operation
-	 */
-/*	public IStatus searchInFile(final AbstractTextSearchResult result, final IProgressMonitor monitor, IFile file) {
-		FileTextSearchScope scope= FileTextSearchScope.newSearchScope(new IResource[] { file }, new String[] { "*" }, true); //$NON-NLS-1$
-		
-		Pattern[] searchPatterns= new Pattern[fVariables == null ? 0 : fVariables.length];
-		for (int i = 0; fVariables != null && i < fVariables.length; i++) {
-			searchPatterns[i]= getSearchPattern(fVariables[i]);
-		}
-		SeamSearchResultCollector collector= new SeamSearchResultCollector(result, true);
-		
-		return SeamSearchEngine.create().search(scope, collector, searchPatterns, monitor);
-	}
-*/	
+
 	protected Pattern getSearchPattern(String variableName) {
 		return PatternConstructor.createPattern(variableName, true, false);
 	}

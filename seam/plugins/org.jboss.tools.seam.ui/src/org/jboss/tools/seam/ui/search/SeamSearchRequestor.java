@@ -1,12 +1,8 @@
 package org.jboss.tools.seam.ui.search;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.search.core.text.TextSearchRequestor;
-import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamDeclaration;
-import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 
 public class SeamSearchRequestor extends TextSearchRequestor {

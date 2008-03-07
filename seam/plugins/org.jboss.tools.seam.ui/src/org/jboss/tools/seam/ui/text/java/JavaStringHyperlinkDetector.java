@@ -105,11 +105,11 @@ public class JavaStringHyperlinkDetector extends AbstractHyperlinkDetector {
 			return null;
 		}
 		
-		ResolvedAnnotation a = findAnnotationByValueOffset(loadedAnnotations, offset);
-		if (!isAnnotationOfType(a, SeamAnnotations.FACTORY_ANNOTATION_TYPE))
+		ResolvedAnnotation a = annotationScanner.findAnnotationByValueOffset(offset);
+		if (!annotationScanner.isAnnotationOfType(a, SeamAnnotations.FACTORY_ANNOTATION_TYPE))
 			return null;
 
-		String value = getAnnotationValue(a);
+		String value = annotationScanner.getAnnotationValue(a);
 
 		// Look at the annotated method:
 		// If its return type is not void - the Declaration is the factory itself
@@ -199,102 +199,6 @@ public class JavaStringHyperlinkDetector extends AbstractHyperlinkDetector {
 		return null;
 	}
 
-	/*
-	 * Detects if the type of annotation equals to the selected SeamAnnotations' type
-	 * 
-	 * @param annotation
-	 * @param typeName
-	 * 
-	 * @return 
-	 */
-	private boolean isAnnotationOfType(ResolvedAnnotation annotation, String typeName) {
-		if (annotation == null || typeName == null)
-			return false;
-		
-		return (typeName.equals(annotation.getType()));
-	}
-	
-	/*
-	 * Returns the annotation's value text
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	private String getAnnotationValue(ResolvedAnnotation annotation) {
-		if (annotation.getAnnotation() instanceof SingleMemberAnnotation) {
-			SingleMemberAnnotation sma = (SingleMemberAnnotation)annotation.getAnnotation();
-			Object vpd = sma.getStructuralProperty(SingleMemberAnnotation.VALUE_PROPERTY);
-			if (vpd instanceof StringLiteral) {
-				return ((StringLiteral)vpd).getLiteralValue();
-			} 
-			return vpd.toString();
-		} else if (annotation.getAnnotation() instanceof NormalAnnotation) {
-			NormalAnnotation na = (NormalAnnotation)annotation.getAnnotation();
-			Object vpd = na.getStructuralProperty(NormalAnnotation.VALUES_PROPERTY);
-			if (vpd instanceof List) {
-				for (Object item : (List)vpd) {
-					if (item instanceof ASTNode) {
-						ASTNode node = (ASTNode)item;
-						if (node.getNodeType() != ASTNode.MEMBER_VALUE_PAIR) 
-							continue;
-						MemberValuePair mvp = (MemberValuePair)node;
-						SimpleName name = mvp.getName();
-						if (!"value".equals(name.getIdentifier())) {
-							continue;
-						}
-						return ((StringLiteral)mvp.getValue()).getLiteralValue();
-					}
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	private ResolvedAnnotation findAnnotationByValueOffset(Map<ResolvedAnnotation, AnnotatedASTNode<ASTNode>> annotations, int offset) {
-		if (annotations == null)
-			return null;
-
-		for (ResolvedAnnotation a : annotations.keySet()) {
-			if (a.getAnnotation() instanceof SingleMemberAnnotation) {
-				SingleMemberAnnotation sma = (SingleMemberAnnotation)a.getAnnotation();
-				Object vpd = sma.getStructuralProperty(SingleMemberAnnotation.VALUE_PROPERTY);
-				if (vpd instanceof ASTNode) {
-					ASTNode node = (ASTNode)vpd;
-					int start = node.getStartPosition();
-					int length = node.getLength();
-					if (offset >= start && offset < start + length) {
-						return a;
-					}
-				}
-			} else if (a.getAnnotation() instanceof NormalAnnotation) {
-				NormalAnnotation na = (NormalAnnotation)a.getAnnotation();
-				Object vpd = na.getStructuralProperty(NormalAnnotation.VALUES_PROPERTY);
-				if (vpd instanceof List) {
-					for (Object item : (List)vpd) {
-						if (item instanceof ASTNode) {
-							ASTNode node = (ASTNode)item;
-							if (node.getNodeType() != ASTNode.MEMBER_VALUE_PAIR) 
-								continue;
-							MemberValuePair mvp = (MemberValuePair)node;
-							SimpleName name = mvp.getName();
-							if (!"value".equals(name.getIdentifier())) {
-								continue;
-							}
-							int start = node.getStartPosition();
-							int length = node.getLength();
-							if (offset >= start && offset < start + length) {
-								return a;
-							}
-						}
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
-	
 	class JavaMemberHyperlink implements IHyperlink {
 
 		private final IRegion fRegion;

@@ -33,12 +33,19 @@ import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.internal.core.JavaModel;
+import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.search.core.text.TextSearchScope;
@@ -103,8 +110,13 @@ import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizerForward;
 import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
+import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
+import org.jboss.tools.seam.internal.core.scanner.java.ResolvedAnnotation;
+import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.text.java.scanner.JavaAnnotationScanner;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -361,14 +373,41 @@ public class SeamSearchVisitor {
 					String value = document.get(offset, length);
 					if(value.indexOf('{')>-1) {
 						locateMatchesInString(file, value, offset, content);
-					} else if (false) {
-						// TODO: Insert here the check for named Seam annotations 
-						
-					} else if (true) {
-						
 					}
 				}
 				token = scaner.nextToken();
+			}
+			
+			// Search in annotations
+			ICompilationUnit compilationUnit = JavaCore.createCompilationUnitFrom(file);
+			if (compilationUnit == null)
+				return;
+			
+			JavaAnnotationScanner annotationScanner = new JavaAnnotationScanner();
+			Map<ResolvedAnnotation, AnnotatedASTNode<ASTNode>> loadedAnnotations = null;
+			
+			try {
+				annotationScanner.parse((ICompilationUnit)compilationUnit);
+				loadedAnnotations = annotationScanner.getResolvedAnnotations();
+			} catch (ScannerException e) {
+				SeamGuiPlugin.getPluginLog().logError(e);
+				return;
+			}
+			for (ResolvedAnnotation annotation : loadedAnnotations.keySet()) {
+				if (annotationScanner.isAnnotationOfType(annotation, SeamAnnotations.IN_ANNOTATION_TYPE) ||
+						annotationScanner.isAnnotationOfType(annotation, SeamAnnotations.OUT_ANNOTATION_TYPE)) {
+					String value = annotationScanner.getAnnotationValue(annotation);
+					if (value == null || value.length() == 0)
+						continue;
+					IRegion valueRegion = annotationScanner.getAnnotationValueRegion(annotation);
+					if (valueRegion == null)
+						continue;
+					
+					int length = valueRegion.getLength();
+					int offset = valueRegion.getOffset();
+					String string = "#{" + value + "}";
+					locateMatchesInString(file, string, offset - 2, content);
+				}
 			}
 		} catch (BadLocationException e) {
 			SeamGuiPlugin.getDefault().logError(e);

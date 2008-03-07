@@ -3,13 +3,9 @@ package org.jboss.tools.seam.ui.search;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jdt.ui.search.IMatchPresentation;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.search.internal.ui.SearchPluginImages;
-import org.eclipse.search.internal.ui.text.FileSearchQuery;
 import org.eclipse.search.ui.ISearchQuery;
-import org.eclipse.search.ui.ISearchResult;
-import org.eclipse.search.ui.ISearchResultListener;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.IEditorMatchAdapter;
 import org.eclipse.search.ui.text.IFileMatchAdapter;
@@ -17,7 +13,6 @@ import org.eclipse.search.ui.text.Match;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 public class SeamSearchResult extends AbstractTextSearchResult implements IEditorMatchAdapter, IFileMatchAdapter {
 	private final Match[] EMPTY_ARR= new Match[0];
