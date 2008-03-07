@@ -13,7 +13,7 @@
          point="org.eclipse.help.contexts">
       <contexts
             file="SeamContextHelp.xml"
-            plugin="org.jboss.tools.seam.doc.user">
+            plugin="org.jboss.tools.seam.ui">
       </contexts>
    </extension>
 

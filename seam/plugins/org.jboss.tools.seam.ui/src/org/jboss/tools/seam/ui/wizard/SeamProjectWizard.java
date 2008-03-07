@@ -41,6 +41,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
+import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
 
@@ -81,7 +82,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 	@Override
 	public void createPageControls(Composite container) {
 		super.createPageControls(container);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(container, "org.jboss.tools.seam.guide.new_seam_project");
 		Control control = findGroupByText(getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
 		if (control != null)
 			control.setVisible(false);
@@ -134,6 +134,10 @@ public class SeamProjectWizard extends WebProjectWizard {
 	}
 	
 	class SeamWebProjectFirstPage extends WebProjectFirstPage {
+		@Override
+		protected String getInfopopID() {
+			return ISeamHelpContextIds.NEW_SEAM_PROJECT;
+		}
 		
 		public SeamWebProjectFirstPage(IDataModel model, String pageName ) {
 			super(model, pageName);
@@ -143,7 +147,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 		
 		protected Composite createTopLevelComposite(Composite parent) {
 			Composite top = new Composite(parent, SWT.NONE);
-			PlatformUI.getWorkbench().getHelpSystem().setHelp(top, "org.jboss.tools.seam.guide.new_seam_project");
 			top.setLayout(new GridLayout());
 			top.setLayoutData(new GridData(GridData.FILL_BOTH));
 			createProjectGroup(top);

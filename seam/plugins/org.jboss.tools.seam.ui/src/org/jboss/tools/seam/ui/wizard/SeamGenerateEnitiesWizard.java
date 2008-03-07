@@ -42,6 +42,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -52,7 +53,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 	
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.doc.user.generate_seam_entities");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.GENERATE_SEAM_ENTITIES);
 	}
 	
 	public SeamGenerateEnitiesWizard() {

@@ -22,6 +22,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 
@@ -33,7 +34,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 	
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, "org.jboss.tools.seam.doc.user.new_seam_entity");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.NEW_SEAM_ENTITY);
 	}
 	/**
 	 * 
