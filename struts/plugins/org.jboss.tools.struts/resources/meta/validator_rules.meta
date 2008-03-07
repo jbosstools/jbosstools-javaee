@@ -15,6 +15,9 @@
   <MAPPING name="Handlers">
    <PAIR name="ValidatorPaste" value="org.jboss.tools.struts.validators.model.handlers.ValidatorPasteHandler"/>
   </MAPPING>
+  <MAPPING name="HelpPlugins">
+   <PAIR name="struts" value="org.jboss.tools.jsf.doc.user."/>
+  </MAPPING>
   <MAPPING name="ObjectEditor">
    <PAIR name="Validator" value="org.jboss.tools.struts.validator.ui.ValidationCompoundEditor"/>
   </MAPPING>
@@ -159,7 +162,7 @@
     </XActionItem>
     <XActionItem HandlerClassName="%SpecialWizard%"
      ICON="action.new.validator.formset"
-     PROPERTIES="support=org.jboss.tools.struts.validators.model.handlers.AddFormsetSupport"
+     PROPERTIES="support=org.jboss.tools.struts.validators.model.handlers.AddFormsetSupport;helpId=%struts%add_formset"
      displayName="Add Formset..." kind="action" name="AddFormset">
      <EntityData EntityName="ValidationFormset">
       <AttributeData AttributeName="language" Mandatory="no"/>
@@ -233,7 +236,7 @@
     </XActionItem>
     <XActionItem HandlerClassName="%SpecialWizard%"
      ICON="action.new.validator.formset"
-     PROPERTIES="support=org.jboss.tools.struts.validators.model.handlers.AddFormsetSupport"
+     PROPERTIES="support=org.jboss.tools.struts.validators.model.handlers.AddFormsetSupport;helpId=%struts%add_formset"
      displayName="Add Formset..." kind="action" name="AddFormset">
      <EntityData EntityName="ValidationFormset">
       <AttributeData AttributeName="language" Mandatory="no"/>
