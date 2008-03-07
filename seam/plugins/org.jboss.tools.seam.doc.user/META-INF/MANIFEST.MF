@@ -3,3 +3,4 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Seam User Guide Plug-in
 Bundle-SymbolicName: org.jboss.tools.seam.doc.user;singleton:=true
 Bundle-Version: 1.0.0
+Require-Bundle: org.eclipse.help
