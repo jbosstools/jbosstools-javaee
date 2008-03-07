@@ -185,13 +185,18 @@ public class ClassPath {
 			if(SYSTEM_JAR_SET.contains(fileName)) continue;
 			String jsname = "lib-" + fileName; //$NON-NLS-1$
 			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
-			if(!scanner.isLikelyComponentSource(o)) continue;
+			if(o == null) continue;
 			
 			LoadedDeclarations c = null;
 			try {
-				c = scanner.parse(o, new Path(p));
+				if(scanner.isLikelyComponentSource(o)) {
+					c = scanner.parse(o, new Path(p));
+				}
 			} catch (ScannerException e) {
 				SeamCorePlugin.getDefault().logError(e);
+			}
+			if(c == null) {
+				c = new LoadedDeclarations();
 			}
 			if(c != null) {
 				componentsLoaded(c, new Path(p));
@@ -225,7 +230,7 @@ public class ClassPath {
 	}
 
 	void componentsLoaded(LoadedDeclarations c, IPath path) {
-		if(c == null || c.getComponents().size() + c.getFactories().size() == 0) return;
+		if(c == null) return;
 		project.registerComponents(c, path);
 	}
 	

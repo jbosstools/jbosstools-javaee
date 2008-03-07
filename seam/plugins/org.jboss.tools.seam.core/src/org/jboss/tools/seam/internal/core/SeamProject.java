@@ -94,12 +94,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	ComponentStorage components = new ComponentStorage();
 	FactoryStorage factories = new FactoryStorage();
+	VariablesStorage variables = new VariablesStorage();
 	
-	Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
-
-	Set<ISeamContextVariable> allVariablesCopy = null;
-	Set<ISeamContextVariable> allVariablesPlusShort = null;
-
 	Map<String, ISeamPackage> packages = new HashMap<String, ISeamPackage>();
 	
 	List<ISeamProjectChangeListener> listeners = new ArrayList<ISeamProjectChangeListener>();
@@ -426,9 +422,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		usedBy.clear();
 		components.clear();
 		factories.clear();
-		allVariables.clear();
-		allVariablesCopy = null;
-		allVariablesPlusShort = null;
+		variables.clear();
 		imports.clear();
 		packages.clear();
 		createScopes();
@@ -729,6 +723,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		if(components.length == 0 && factories.length == 0 && ds.getImports().size() == 0) {
 			pathRemoved(source);
+			if(source.toString().endsWith(".jar")) {
+				if(!sourcePaths.contains(source)) sourcePaths.add(source);
+				sourcePaths2.put(source, ds);
+			}
 			return;
 		}
 		if(!sourcePaths.contains(source)) sourcePaths.add(source);
@@ -860,13 +858,15 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		factoryDeclarationsRemoved(currentFactories);
 		
+		variables.revalidate(source);
+		
 		try {
 			registerComponentsInDependentProjects(ds, source);
 		} catch (CloneNotSupportedException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
-	
+
 	private static String getClassName(ISeamComponentDeclaration d) {
 		if(d instanceof ISeamJavaComponentDeclaration) {
 			return ((ISeamJavaComponentDeclaration)d).getClassName();
@@ -1146,34 +1146,23 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
 	 */
 	public Set<ISeamContextVariable> getVariables() {
-		Set<ISeamContextVariable> vs = allVariablesCopy;
-		if(vs == null) {
-			synchronized(this) {
-				allVariablesCopy = new HashSet<ISeamContextVariable>();
-				allVariablesCopy.addAll(allVariables);
-				vs = allVariablesCopy;
-			}
-		}
-		return vs;
+		return variables.getVariablesCopy();
 	}
 	
-	public synchronized void addVariable(ISeamContextVariable v) {
-		if(allVariables.contains(v)) return;
-		allVariablesCopy = null;
-		allVariablesPlusShort = null;
-		allVariables.add(v);
+	public void addVariable(ISeamContextVariable v) {
+		variables.add(v);
 	}
 
-	public synchronized void removeVariable(ISeamContextVariable v) {
-		if(!allVariables.contains(v)) return;
-		allVariablesCopy = null;
-		allVariablesPlusShort = null;
-		allVariables.remove(v);
+	public void removeVariable(ISeamContextVariable v) {
+		variables.remove(v);
 	}
 	
-	public synchronized void setImports(String source, List<String> paths) {
+	public void setImports(String source, List<String> paths) {
 		if(equalLists(imports.get(source), paths)) return;
-		allVariablesPlusShort = null;
+		synchronized(variables) {
+			variables.allVariablesPlusShort = null;
+			variables.byName = null;
+		}
 		imports.put(source, paths);
 	}
 	
@@ -1186,9 +1175,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return true;
 	}
 
-	public synchronized void removeImports(String source) {
+	public void removeImports(String source) {
 		if(!imports.containsKey(source)) return;
-		allVariablesPlusShort = null;
+		synchronized(variables) {
+			variables.allVariablesPlusShort = null;
+		}
 		imports.remove(source);
 	}
 
@@ -1196,27 +1187,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariables()
 	 */
 	public Set<ISeamContextVariable> getVariables(boolean includeShortNames) {
-		Set<ISeamContextVariable> vs = getVariables();
 		if(!includeShortNames) {
-			return vs;
+			return variables.getVariablesCopy();
+		} else {
+			return variables.getVariablesPlusShort();
 		}
-		Set<ISeamContextVariable> result = allVariablesPlusShort;
-		if(result != null) return result;
-		synchronized (this) {
-			result = new HashSet<ISeamContextVariable>();
-			result.addAll(vs);
-			for (ISeamContextVariable v: vs) {
-				String n = v.getName();
-				int i = n.lastIndexOf('.');
-				if(i < 0) continue;
-				String packageName = n.substring(0, i);
-				if(isImportedPackage(packageName)) {
-					result.add(new SeamContextShortVariable(v));
-				}
-			}
-			allVariablesPlusShort = result;
-		}
-		return result;
 	}
 	
 	public boolean isImportedPackage(String packageName) {
@@ -1231,13 +1206,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByName(java.lang.String)
 	 */
 	public Set<ISeamContextVariable> getVariablesByName(String name) {
-		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
-		for (ISeamContextVariable v: getVariables(true)) {
-			if(name.equals(v.getName())) {
-				result.add(v);
-			}
-		}
-		return result;
+		return variables.getByName(name);
 	}
 
 	/**
@@ -1471,26 +1440,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @see org.jboss.tools.seam.core.ISeamProject#getVariablesByPath(org.eclipse.core.runtime.IPath)
 	 */
 	public Set<ISeamContextVariable> getVariablesByPath(IPath path) {
-		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
-		for (ISeamContextVariable variable : getVariables(true)) {
-			if(variable instanceof ISeamComponent) {
-				ISeamComponent c = (ISeamComponent)variable;
-				for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
-					SeamComponentDeclaration di = (SeamComponentDeclaration)d;
-					if(path.equals(di.getSourcePath())) {
-						result.add(variable);
-						break;
-					}
-				}
-			} else {
-				IResource variableResource = variable.getResource();
-				if(variableResource == null) continue;
-				if(path.equals(variableResource.getFullPath())) {
-					result.add(variable);
-				}
-			}
-		}
-		return result;
+		return variables.getByPath(path);
 	}
 
 	/**
@@ -1822,6 +1772,128 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			return fs;
 		}
 		
+	}
+	
+	class VariablesStorage {
+		Set<ISeamContextVariable> allVariables = new HashSet<ISeamContextVariable>();
+		Set<ISeamContextVariable> allVariablesCopy = null;
+		Set<ISeamContextVariable> allVariablesPlusShort = null;
+		Map<IPath, Set<ISeamContextVariable>> byPath = null;
+		Map<String, Set<ISeamContextVariable>> byName = null;
+
+		public void clear() {
+			allVariables.clear();
+			clearCopies();
+		}
+		
+		synchronized void clearCopies() {
+			allVariablesCopy = null;
+			allVariablesPlusShort = null;
+			byName = null;
+			byPath = null;
+		}
+		
+		public Set<ISeamContextVariable> getVariablesCopy() {
+			Set<ISeamContextVariable> vs = allVariablesCopy;
+			if(vs == null) {
+				synchronized(this) {
+					allVariablesCopy = new HashSet<ISeamContextVariable>();
+					allVariablesCopy.addAll(allVariables);
+					vs = allVariablesCopy;
+				}
+			}
+			return vs;
+		}
+		
+		public Set<ISeamContextVariable> getVariablesPlusShort() {
+			Set<ISeamContextVariable> vs = getVariablesCopy();
+			Set<ISeamContextVariable> result = allVariablesPlusShort;
+			if(result != null) return result;
+			synchronized (this) {
+				result = new HashSet<ISeamContextVariable>();
+				result.addAll(vs);
+				for (ISeamContextVariable v: vs) {
+					String n = v.getName();
+					int i = n.lastIndexOf('.');
+					if(i < 0) continue;
+					String packageName = n.substring(0, i);
+					if(isImportedPackage(packageName)) {
+						result.add(new SeamContextShortVariable(v));
+					}
+				}
+				allVariablesPlusShort = result;
+			}
+			return result;
+		}
+
+		public synchronized void add(ISeamContextVariable v) {
+			if(allVariables.contains(v)) return;
+			clearCopies();
+			allVariables.add(v);
+		}
+
+		public synchronized void remove(ISeamContextVariable v) {
+			if(!allVariables.contains(v)) return;
+			clearCopies();
+			allVariables.remove(v);
+		}
+		
+		public synchronized void revalidate(IPath path) {
+			byPath = null;
+			byName = null;
+		}
+		
+		private void create() {
+			byName = new HashMap<String, Set<ISeamContextVariable>>();
+			byPath = new HashMap<IPath, Set<ISeamContextVariable>>();
+			Set<ISeamContextVariable> q = getVariablesPlusShort();
+			for (ISeamContextVariable v : q) {
+				if(v instanceof ISeamComponent) {
+					ISeamComponent c = (ISeamComponent)v;
+					for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
+						SeamComponentDeclaration di = (SeamComponentDeclaration)d;
+						addForPath(di.getSourcePath(), v);
+					}
+				} else {
+					IResource variableResource = v.getResource();
+					if(variableResource != null) {
+						addForPath(variableResource.getFullPath(), v);
+					}
+				}
+				
+				String n = "" + v.getName();
+				Set<ISeamContextVariable> s = byName.get(n);
+				if(s == null) {
+					s = new HashSet<ISeamContextVariable>();
+					byName.put(n, s);
+				}
+				s.add(v);
+			}
+		}
+		
+		private void addForPath(IPath p, ISeamContextVariable v) {
+			if(p == null) return;
+			Set<ISeamContextVariable> s = byPath.get(p);
+			if(s == null) {
+				s = new HashSet<ISeamContextVariable>();
+				byPath.put(p, s);
+			}
+			s.add(v);
+		}
+		
+		public synchronized Set<ISeamContextVariable> getByName(String n) {
+			if(byName == null) {
+				create();
+			}
+			return byName.get(n);
+		}
+
+		public synchronized Set<ISeamContextVariable> getByPath(IPath p) {
+			if(byPath == null) {
+				create();
+			}
+			return byPath.get(p);
+		}
 	}
 	
 }
