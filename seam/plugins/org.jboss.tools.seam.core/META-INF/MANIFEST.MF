@@ -51,7 +51,6 @@ Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core.refactoring
 Bundle-Version: 2.0.0
 Export-Package: org.jboss.tools.seam.core,
- org.jboss.tools.seam.core.commands,
  org.jboss.tools.seam.core.event,
  org.jboss.tools.seam.core.project.facet,
  org.jboss.tools.seam.internal.core,
