@@ -720,7 +720,9 @@
                                         templating capability for creating new and importing
                                         existing Struts and JSF projects. This templating facility
                                         has a variety of aspects to consider. But, let&apos;s
-                                        start with the most straightforward case.</para>
+                                        start with the most straightforward case and consider the
+                                        process of creating a template from your existing JSF
+                                        project.</para>
 
                                 <para>Let&apos;s say you have a project that you want to use as
                                         the basis for a new <property>template</property>. Follow
@@ -806,8 +808,10 @@
                 <section id="GraphicalEditorAndViewingForJSFConfigurationFiles76331">
 
                         <title>Graphical Editor and Viewing for JSF Configuration Files</title>
-                        <para>JBDS provides a graphical editor for working with JSF configuration
-                                file (faces-config.xml). The editor has three main viewers (modes):</para>
+                        <para><property>JBDS</property> provides a graphical editor for working with
+                                JSF configuration file (<emphasis>
+                                        <property>faces-config.xml</property>
+                                </emphasis>). The editor has three main viewers (modes):</para>
 
                         <itemizedlist>
                                 <listitem>
@@ -825,7 +829,9 @@
 
                         <para>The JSF configuration editor also comes with a very useful <link
                                         linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link>
-                                selection feature.</para>
+                                selection feature. Now let&apos;s dwell on each mode and all
+                                specific functionality which they provide for work with JSF
+                                configuration file.</para>
 
                         <section id="Diagram9553">
 
@@ -1138,7 +1144,7 @@
 
                                 <itemizedlist>
                                         <listitem>
-                                                <para>Click on <emphasis>
+                                                <para>click on <emphasis>
                                                   <property>Managed-Bean-Class</property>
                                                   </emphasis> link in the editor</para>
                                         </listitem>
@@ -1230,7 +1236,9 @@
                                                 </imageobject>
                                         </mediaobject>
                                 </figure>
-
+                                <para>Thus, we&apos;ve discussed everything which comes to
+                                        creating a new Managed Bean. Further we will show you how to
+                                        add an existing Bean into a JSF configuration file.</para>
                         </section>
                         <section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
 
@@ -1268,8 +1276,7 @@
                                         </emphasis> dialog where all corresponding properties are
                                         displayed. Check the necessary ones to add them into your
                                                 <property>JSF Configuration File</property>.</para>
-                                <para>If you don&apos;t want to add any, just click <emphasis>
-                                                <property>Finish</property>. </emphasis></para>
+
                                 <figure>
                                         <title>Selection of Bean&apos;s Properties.</title>
                                         <mediaobject>
@@ -1280,7 +1287,15 @@
                                                 </imageobject>
                                         </mediaobject>
                                 </figure>
+
+                                <para>If you don&apos;t want to add any, just click <emphasis>
+                                                <property>Finish</property>. </emphasis></para>
                         </section>
+                        <para>Above-listed steps have demonstrated specifying an existing Bean in
+                                the JSF configuration file, i.e. <emphasis>
+                                        <property>faces-config.xml</property>. </emphasis> In the
+                                next section you&apos;ll know how to organize and register a
+                                custom Converter to specify your own converting rules.</para>
                 </section>
 
                 <section id="CreateAndRegisterACustomConverter94230">
@@ -1364,8 +1379,10 @@
 
                         <itemizedlist>
                                 <listitem>
-                                        <para>Java class will be created automatically. Leave
-                                                everything without changes and click <emphasis>
+                                        <para>A usual wizard for creating a Java class will appear.
+                                                All needed fields here will be adjusted
+                                                automatically. Just leave everything without changes
+                                                and click <emphasis>
                                                   <property>Finish</property>.
                                         </emphasis></para>
                                 </listitem>
@@ -1399,14 +1416,16 @@
                                         </imageobject>
                                 </mediaobject>
                         </figure>
+                       
                 </section>
 
                 <section id="CreateAndRegisterACustomValidator5632">
 
                         <title>Create and Register a Custom Validator</title>
 
-                        <para>With the help of JBDS you can easy develop your own custom validators.
-                                Go through the following steps:</para>
+                        <para>With the help of JBDS it&apos;s also quite easy to develop your
+                                own custom Validators. You should perform the actions similar to previous. Go through the
+                                following steps:</para>
                         <itemizedlist>
                                 <listitem>
                                         <para>In the Project Explorer view open<emphasis>
@@ -1628,15 +1647,20 @@
                         </figure>
                 </section>
 
+                <section>
+                        <title>Relevant Resources Links</title>
+                        <para>If you don&apos;t familiar with <ulink
+                                        url="http://java.sun.com/javaee/javaserverfaces/">JSF
+                                        technology</ulink>, we suggest that you walk through the
+                                information on the topic.</para>
+                </section>
         </section>
 
         <section id="Struts_support">
 
                 <title>Struts support</title>
-                <para>If you prefer develop web applications using <ulink
-                                url="http://struts.apache.org/">
-                                <property>Struts</property>
-                        </ulink> technology JBoss Developer Studio also meets your needs.</para>
+                <para>If you prefer develop web applications using <property>Struts</property>
+                        technology JBoss Developer Studio also meets your needs.</para>
                 <para>JBDS supports the <property>Struts 1.1</property>, <property>1.2.x</property>
                         versions.</para>
 
@@ -2657,6 +2681,12 @@
                         </figure>
                 </section>
 
+                <section>
+                        <title>Relevant Resources Links</title>
+                        <para>Find out necessary information on <ulink
+                                        url="http://struts.apache.org/">Struts technology</ulink> if
+                                you don&apos;t know enough.</para>
+                </section>
         </section>
 
         <section id="verif_valid">
