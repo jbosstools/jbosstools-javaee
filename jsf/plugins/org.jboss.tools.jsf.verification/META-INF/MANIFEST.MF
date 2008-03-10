@@ -16,6 +16,6 @@ Require-Bundle: org.eclipse.core.runtime.compatibility,
  org.jboss.tools.common.verification,
  org.jboss.tools.jst.web,
  org.jboss.tools.jsf
-Bundle-Version: 2.0.0
+Bundle-Version: 2.0.1
 Eclipse-LazyStart: true
 

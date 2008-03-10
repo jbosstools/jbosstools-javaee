@@ -30,5 +30,5 @@ Require-Bundle: org.eclipse.ui.workbench,
  org.jboss.tools.jst.web.debug,
  org.jboss.tools.jst.web.debug.ui,
  org.jboss.tools.struts.ui
-Bundle-Version: 2.0.0
+Bundle-Version: 2.0.1
 

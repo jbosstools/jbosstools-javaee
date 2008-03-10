@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JSF Tests Plug-in
 Bundle-SymbolicName: org.jboss.tools.jsf.test
-Bundle-Version: 2.0.0
+Bundle-Version: 2.0.1
 Bundle-ClassPath: jsf-tests.jar,
  lib/xmlunit1.0.jar
 Bundle-Vendor: Red Hat, Inc.
