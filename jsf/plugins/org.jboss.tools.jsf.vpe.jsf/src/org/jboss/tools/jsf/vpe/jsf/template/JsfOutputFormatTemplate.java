@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
@@ -111,7 +112,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 							.getAttribute(ESCAPE_ATTR_NAME))) {
 
 				// get bundle value
-				newValue = getBundleValue(pageContext, newValue, offset);
+				newValue = ComponentUtil.getBundleValue(pageContext, newValue, offset);
 
 				nsIDOMText text;
 				// if bundleValue differ from value then will be represent

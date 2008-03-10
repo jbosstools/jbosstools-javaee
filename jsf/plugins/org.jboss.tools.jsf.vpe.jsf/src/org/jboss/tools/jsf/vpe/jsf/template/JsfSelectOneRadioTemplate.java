@@ -143,20 +143,39 @@ public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 						.setAttribute(
 								HTML.ATTR_DIR,
 								(ComponentUtil.getAttribute(sourceElement,
-										HTML.ATTR_DIR) == ATTR_DIR_LEFT_TO_RIGHT) ? ATTR_DIR_LEFT_TO_RIGHT
-										: ATTR_DIR_RIGHT_TO_LEFT);
+										HTML.ATTR_DIR).trim()
+										.equalsIgnoreCase(ATTR_DIR_RIGHT_TO_LEFT)) ? ATTR_DIR_RIGHT_TO_LEFT
+										: ((ComponentUtil.getAttribute(
+												sourceElement, HTML.ATTR_DIR)
+												.trim()
+												.equalsIgnoreCase(ATTR_DIR_LEFT_TO_RIGHT)) ? ATTR_DIR_LEFT_TO_RIGHT
+												: ""));
 				element.setAttribute(HTML.ATTR_SIZE, ComponentUtil
 						.getAttribute(sourceElement, HTML.ATTR_SIZE));
-				if (disabled)
+				if (disabled
+						|| ComponentUtil
+								.string2boolean(ComponentUtil
+										.getAttribute(
+												element,
+												JsfRadioSelectItemTemplate.ITEM_DISABLED)))
 					element.setAttribute(HTML.ATTR_DISABLED,
 							ATTR_DISABLED_VALUE);
 
 			}
 			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_LABEL)) {
-				element.setAttribute(HTML.ATTR_CLASS, disabled ? ComponentUtil
-						.getAttribute(sourceElement, ATTR_DISABLED_CLASS)
-						: ComponentUtil.getAttribute(sourceElement,
-								ATTR_ENABLED_CLASS));
+				element
+						.setAttribute(
+								HTML.ATTR_CLASS,
+								(disabled || ComponentUtil
+										.string2boolean(ComponentUtil
+												.getAttribute(
+														element,
+														JsfRadioSelectItemTemplate.ITEM_DISABLED))) ? ComponentUtil
+										.getAttribute(sourceElement,
+												ATTR_DISABLED_CLASS)
+										: ComponentUtil.getAttribute(
+												sourceElement,
+												ATTR_ENABLED_CLASS));
 			}
 
 			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_TABLE)) {

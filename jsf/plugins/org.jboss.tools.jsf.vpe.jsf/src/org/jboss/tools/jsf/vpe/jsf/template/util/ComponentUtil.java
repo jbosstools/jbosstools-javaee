@@ -10,7 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template.util;
 
+import java.io.File;
+
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.vpe.jsf.JsfTemplatePlugin;
+import org.jboss.tools.vpe.editor.bundle.BundleMap;
+import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 /**
@@ -72,5 +81,35 @@ public class ComponentUtil {
 			return new Boolean(str).booleanValue();
 		}
 		return false;
+	}
+
+	/**
+	 * get bundle
+	 * 
+	 * @param pageContext
+	 * @param attr
+	 * @return
+	 */
+	public static String getBundleValue(VpePageContext pageContext, Attr attr) {
+
+		return getBundleValue(pageContext, attr.getNodeValue(),
+				((IDOMAttr) attr).getValueRegionStartOffset());
+
+	}
+
+	/**
+	 * 
+	 * @param pageContext
+	 * @param value
+	 * @param offfset
+	 * @return
+	 */
+	public static String getBundleValue(VpePageContext pageContext,
+			String value, int offfset) {
+
+		BundleMap bundle = pageContext.getBundle();
+
+		return bundle.getBundleValue(value, offfset);
+
 	}
 }

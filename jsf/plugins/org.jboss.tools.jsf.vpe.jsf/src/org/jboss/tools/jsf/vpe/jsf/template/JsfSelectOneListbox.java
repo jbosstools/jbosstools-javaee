@@ -101,10 +101,11 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 			// add attribute to "select"
 			if (attr != null) {
 				if (attributeName.equalsIgnoreCase(HTML.ATTR_DISABLED)) {
-					if (attr.equalsIgnoreCase("true")) {
-						select.setAttribute(ATTR_LIST_COPY.get(attributeName),
-								"disabled");
-					}
+					/*
+					 * if (attr.equalsIgnoreCase("true")) {
+					 * select.setAttribute(ATTR_LIST_COPY.get(attributeName),
+					 * "disabled"); }
+					 */
 					continue;
 				}
 				select.setAttribute(ATTR_LIST_COPY.get(attributeName), attr);
@@ -181,12 +182,29 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 			nsIDOMElement element = (nsIDOMElement) node
 					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 			disabled = ComponentUtil.string2boolean(ComponentUtil.getAttribute(
-					sourceElement, HTML.ATTR_DISABLED));
+					sourceElement, HTML.ATTR_DISABLED))
+					|| ComponentUtil.string2boolean(ATTR_LIST_COPY
+							.get(HTML.ATTR_DISABLED));
 			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_OPTION)) {
-				element.setAttribute(HTML.ATTR_CLASS, disabled ? ComponentUtil
-						.getAttribute(sourceElement, ATTR_DISABLED_CLASS)
-						: ComponentUtil.getAttribute(sourceElement,
-								ATTR_ENABLED_CLASS));
+				if (disabled) {
+					element
+							.setAttribute(HTML.ATTR_DISABLED,
+									HTML.ATTR_DISABLED);
+					element.setAttribute(HTML.ATTR_STYLE, sourceElement.getAttribute(HTML.ATTR_STYLE));
+				}
+					element
+							.setAttribute(
+									HTML.ATTR_CLASS,
+									(disabled || ComponentUtil
+											.string2boolean(ComponentUtil
+													.getAttribute(element,
+															HTML.ATTR_DISABLED))) ? ComponentUtil
+											.getAttribute(sourceElement,
+													ATTR_DISABLED_CLASS)
+											: ComponentUtil.getAttribute(
+													sourceElement,
+													ATTR_ENABLED_CLASS));
+				
 			}
 			for (int i = 0; i < list.getLength(); i++) {
 				applyChildAttributes(sourceElement, list.item(i));

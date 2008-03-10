@@ -1,16 +1,17 @@
 /******************************************************************************* 
-* Copyright (c) 2007 Red Hat, Inc.
-* Distributed under license by Red Hat, Inc. All rights reserved.
-* This program is made available under the terms of the
-* Eclipse Public License v1.0 which accompanies this distribution,
-* and is available at http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*     Red Hat, Inc. - initial API and implementation
-******************************************************************************/
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -34,6 +35,9 @@ import org.w3c.dom.NodeList;
  */
 public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 
+	/* "itemDisabled" attribute of f:selectItem */
+	public static final String ITEM_DISABLED = "itemDisabled";
+
 	// type of input tag
 	private static final String ATTR_TYPE_VALUE = "radio"; //$NON-NLS-1$
 
@@ -45,16 +49,16 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 
 	/* "itemLabel" attribute of f:selectItem */
 	private static final String ITEM_LABEL = "itemLabel";
-	
+
 	/* "escape" attribute of f:selectItem */
 	private static final String ESCAPE = "escape";
-	
+
 	/* "dir" attribute of f:selectSelectOneRadio */
 	private static final String DIR = "dir";
-	
+
 	private String dir;
 	private String escape;
-	
+
 	/**
 	 * 
 	 */
@@ -74,29 +78,36 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 
 		Element element = (Element) sourceNode;
 
-		// create span element
-		nsIDOMElement span = visualDocument.createElement(HTML.TAG_TABLE);
+		// create table element
+		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+		boolean disabledItem = ComponentUtil.string2boolean(ComponentUtil
+				.getAttribute(element, ITEM_DISABLED));
+
 		// add title attribute to span
-		span.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
+		table.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		nsIDOMElement radio = visualDocument.createElement(HTML.TAG_INPUT);
+		if (disabledItem)
+			radio.setAttribute(ITEM_DISABLED, "true");
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
-		span.appendChild(radio);
-		span.appendChild(label);
+		if (disabledItem)
+			label.setAttribute(ITEM_DISABLED, "true");
+		table.appendChild(radio);
+		table.appendChild(label);
 
 		if (null != element) {
 			escape = element.getAttribute(ESCAPE);
 			dir = element.getAttribute(DIR);
 		}
-		
-		VpeCreationData creationData = new VpeCreationData(span);
+
+		VpeCreationData creationData = new VpeCreationData(table);
 
 		// set attributes
-		span.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
+		table.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
 		radio.setAttribute(HTML.ATTR_TYPE, ATTR_TYPE_VALUE);
 		radio.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		radio.setAttribute(HTML.ATTR_NAME, ATTR_NAME_VALUE
 				+ getNameSuffix(sourceNode));
-		
+
 		if (attrPresents(dir)) {
 			radio.setAttribute(HTML.ATTR_DIR, dir);
 		}
@@ -109,8 +120,24 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		if (null != attr) {
 			if (null == escape || "true".equalsIgnoreCase(escape)) {
 				// show text as is
+
 				String itemLabel = attr.getNodeValue();
-				label.appendChild(visualDocument.createTextNode(itemLabel));
+				String bundleValue = ComponentUtil.getBundleValue(pageContext,
+						attr);
+
+				nsIDOMText text;
+				// if bundleValue differ from value then will be represent
+				// bundleValue, but text will be not edit
+				if (!itemLabel.equals(bundleValue)) {
+
+					text = visualDocument.createTextNode(bundleValue);
+
+				} else {
+
+					text = visualDocument.createTextNode(itemLabel);
+
+				}
+				label.appendChild(text);
 			} else {
 				// show formatted text
 				VpeChildrenInfo labelSpanInfo = new VpeChildrenInfo(label);
@@ -166,7 +193,7 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		Node parent = sourceNode.getParentNode();
 
 		if (parent.getNodeType() == Node.ELEMENT_NODE) {
-			
+
 			ElementImpl element = (ElementImpl) parent;
 
 			// get start position of parent
@@ -176,11 +203,12 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		return name_suffix;
 
 	}
-	
+
 	/**
 	 * Checks is attribute presents.
 	 * 
-	 * @param attr the attribute
+	 * @param attr
+	 *            the attribute
 	 * 
 	 * @return true, if successful
 	 */

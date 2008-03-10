@@ -47,36 +47,6 @@ public abstract class AbstractOutputJsfTemplate extends AbstractJsfTemplate {
 	}
 
 	/**
-	 * get bundle
-	 * 
-	 * @param pageContext
-	 * @param attr
-	 * @return
-	 */
-	protected String getBundleValue(VpePageContext pageContext, Attr attr) {
-
-		return getBundleValue(pageContext, attr.getNodeValue(),
-				((IDOMAttr) attr).getValueRegionStartOffset());
-
-	}
-
-	/**
-	 * 
-	 * @param pageContext
-	 * @param value
-	 * @param offfset
-	 * @return
-	 */
-	protected String getBundleValue(VpePageContext pageContext, String value,
-			int offfset) {
-
-		BundleMap bundle = pageContext.getBundle();
-
-		return bundle.getBundleValue(value, offfset);
-
-	}
-
-	/**
 	 * copy outputAttributes
 	 * 
 	 * @param visualElement

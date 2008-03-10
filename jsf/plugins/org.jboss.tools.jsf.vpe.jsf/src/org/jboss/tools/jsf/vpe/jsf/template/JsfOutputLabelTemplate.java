@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
@@ -75,7 +76,7 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 				String value = attr.getNodeValue();
 
 				// get bundle value
-				String bundleValue = getBundleValue(pageContext, attr);
+				String bundleValue = ComponentUtil.getBundleValue(pageContext, attr);
 
 				nsIDOMText text;
 				// if bundleValue differ from value then will be represent
