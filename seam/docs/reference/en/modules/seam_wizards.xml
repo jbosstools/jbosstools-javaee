@@ -28,7 +28,7 @@
         <title>Seam Component Wizards</title>
         <mediaobject> 
             <imageobject>
-                <imagedata fileref="images/seam_wizards/seam_wizards1.png"/>
+                <imagedata fileref="images/seam_wizards/seam_wizards_1.png"/>
             </imageobject>
         </mediaobject>
     </figure>
@@ -40,7 +40,7 @@
         <title>Seam Project WAR Deployment</title>
         <mediaobject> 
             <imageobject>
-                <imagedata fileref="images/seam_wizards/seam_wizards2.png"/>
+                <imagedata fileref="images/seam_wizards/seam_wizards_2.png"/>
             </imageobject>
         </mediaobject>
     </figure>
@@ -60,7 +60,7 @@
             <title>New Seam Action Wizard</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards4.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_4.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -71,7 +71,7 @@
                     <title>Action Page in JBoss Tools HTML Editor.</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards5.png" scale="70"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_5.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -89,7 +89,7 @@
             <title>Action Component</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards6.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_6.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -109,7 +109,7 @@
             <title>New Seam Form Wizard</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards7.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_7.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -120,7 +120,7 @@
             <title>Form Page in JBoss Tools HTML Editor.</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards8.png" scale="70"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_8.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -131,7 +131,7 @@
             <title>Form Component</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards9.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_9.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -154,7 +154,7 @@
             <title>New Seam Conversation Wizard</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards10.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_10.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -165,7 +165,7 @@
             <title>Conversation Page in JBoss Tools HTML Editor.</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards11.png" scale="70"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_11.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -176,7 +176,7 @@
             <title>Conversation Component</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards12.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_12.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -200,7 +200,7 @@
             <title>New Seam Entity Wizard</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards13.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_13.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -211,7 +211,7 @@
             <title>Master Page in JBoss Tools HTML Editor.</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards14.png" scale="70"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_14.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -222,7 +222,7 @@
             <title>Entity Page in JBoss Tools HTML Editor.</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards15.png" scale="70"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_15.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -233,7 +233,7 @@
             <title>Customer Page</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_wizards/seam_wizards16.png"/>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_16.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -247,7 +247,7 @@
         <title>Two Customers Are Created</title>
         <mediaobject> 
             <imageobject>
-                <imagedata fileref="images/seam_wizards/seam_wizards17.png"/>
+                <imagedata fileref="images/seam_wizards/seam_wizards_17.png"/>
             </imageobject>
         </mediaobject>
     </figure>

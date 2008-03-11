@@ -30,7 +30,7 @@
             <title>Content Assist</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors1.png" scale="70"/>
+                    <imagedata fileref="images/seam_editors/seam_editors_1.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -47,7 +47,7 @@
             <title>OpenOn</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors2.png"/>
+                    <imagedata fileref="images/seam_editors/seam_editors_2.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -65,7 +65,7 @@
             <title>Seam Validation</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors2_1.png" scale="70"/>
+                    <imagedata fileref="images/seam_editors/seam_editors_6.png" scale="70"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -78,7 +78,7 @@
             <title>Seam Validator Preferences</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors3.png"/>
+                    <imagedata fileref="images/seam_editors/seam_editors_3.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -98,7 +98,7 @@
             <title>component.xml Editor</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors4.png"/>
+                    <imagedata fileref="images/seam_editors/seam_editors_4.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -109,7 +109,7 @@
             <title>component.xml Editor</title>
             <mediaobject> 
                 <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors5.png"/>
+                    <imagedata fileref="images/seam_editors/seam_editors_5.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
