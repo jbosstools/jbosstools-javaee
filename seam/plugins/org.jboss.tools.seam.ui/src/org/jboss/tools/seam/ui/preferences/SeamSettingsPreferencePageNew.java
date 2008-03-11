@@ -278,9 +278,9 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		return root;
 	}
 
-	private String getPrefValue(String seamRuntimeName,String defaultValue) {
+	private String getPrefValue(String prefName,String defaultValue) {
 		return preferences.get(
-				ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, 
+				prefName, 
 				defaultValue);
 	}
 
