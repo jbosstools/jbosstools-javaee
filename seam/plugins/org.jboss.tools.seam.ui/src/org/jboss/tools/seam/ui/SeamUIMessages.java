@@ -180,6 +180,8 @@ public class SeamUIMessages extends NLS {
 	public static String SEAM_PROJECT_LABEL_PROVIDER_SEAM_COMPONENTS;
 
 	public static String SEAM_PROJECT_SELECTION_DIALOG_SEAM_WEB_PROJECT;
+	
+	public static String SEAM_PROJECT_SELECTION_DIALOG_SHOW_ALL_PROJECTS;
 
 	public static String SEAM_PROJECT_SELECTION_DIALOG_SELECT_SEAM_WEB_PROJECT;
 
@@ -306,6 +308,8 @@ public class SeamUIMessages extends NLS {
 	public static String SEAM_WIZARD_FACTORY_SEAM_PROJECT;
 
 	public static String SELECT_SEAM_PROJECT_ACTION_BROWSE;
+	
+	public static String SHOW_PROJECT_SETTINGS_ACTION;
 
 	public static String SWT_FIELD_EDITOR_FACTORY_BROWS;
 

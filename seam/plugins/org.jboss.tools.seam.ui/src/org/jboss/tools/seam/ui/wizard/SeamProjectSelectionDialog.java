@@ -19,8 +19,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
@@ -36,6 +42,8 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
  *
  */
 public class SeamProjectSelectionDialog extends ListDialog implements ISelectionChangedListener {
+	Button check;
+	boolean allowAllProjects = false;
 
 	/**
 	 * @param parent
@@ -43,6 +51,7 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 	 */
 	public SeamProjectSelectionDialog(Shell parent, final boolean allowAllProjects) {
 		super(parent);
+		this.allowAllProjects = allowAllProjects;
 		setTitle(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SEAM_WEB_PROJECT);
 		setMessage(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SELECT_SEAM_WEB_PROJECT);
 		setLabelProvider(new WorkbenchLabelProvider());
@@ -52,7 +61,8 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 				ArrayList<IProject> seamProjects = new ArrayList<IProject>();
 				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 					try {
-						if(allowAllProjects || (project.hasNature(ISeamProject.NATURE_ID) 
+						if((allowAllProjects || (check != null && check.getSelection())) 
+							|| (project.hasNature(ISeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
 								&& project.getAdapter(IFacetedProject.class)!=null
 								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
@@ -96,4 +106,23 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 	public void selectionChanged(SelectionChangedEvent event) {
 		getOkButton().setEnabled(!event.getSelection().isEmpty());
 	}
+
+    protected Control createDialogArea(Composite container) {
+    	Composite parent = (Composite) super.createDialogArea(container);
+    	if(!allowAllProjects) {
+    		check = new Button(parent, SWT.CHECK);
+    		check.setText(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SHOW_ALL_PROJECTS);
+    		check.setSelection(false);
+    		check.addSelectionListener(new SelectionListener() {
+				public void widgetDefaultSelected(SelectionEvent e) {
+					widgetSelected(e);
+				}
+				public void widgetSelected(SelectionEvent e) {
+					TableViewer v = getTableViewer();
+					v.refresh();
+				}    			
+    		});
+    	}
+    	return parent;
+    }
 }

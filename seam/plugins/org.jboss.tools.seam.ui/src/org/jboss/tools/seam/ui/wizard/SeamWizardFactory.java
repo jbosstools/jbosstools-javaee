@@ -56,9 +56,22 @@ public class SeamWizardFactory {
 	 * @return
 	 */
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(String name, String label, String defaultSelection, boolean allowAllProjects) {
-		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+		if(allowAllProjects) {
+			return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+					name, label, defaultSelection, 
+					 new SelectSeamProjectAction(allowAllProjects), ValidatorFactory.NO_ERRORS_VALIDATOR);
+		}
+		ShowProjectSettingsAction settingsAction = new ShowProjectSettingsAction();
+		ButtonFieldEditor.ButtonPressedAction[] actions = new ButtonFieldEditor.ButtonPressedAction[]{
+			new SelectSeamProjectAction(allowAllProjects),
+			settingsAction
+		};
+		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
 				name, label, defaultSelection, 
-				 new SelectSeamProjectAction(allowAllProjects), ValidatorFactory.NO_ERRORS_VALIDATOR);
+				actions, ValidatorFactory.NO_ERRORS_VALIDATOR);
+		settingsAction.setEnabled(false);
+		settingsAction.setEditor(editor);
+		return editor;
 	}
 
 	/**
