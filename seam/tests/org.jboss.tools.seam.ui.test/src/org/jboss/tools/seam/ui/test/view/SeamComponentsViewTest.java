@@ -74,6 +74,12 @@ public class SeamComponentsViewTest extends TestCase {
 		EditorTestHelper.joinBackgroundActivities();
 	}
 	
+	@Override
+	protected void tearDown() throws Exception {
+		ResourcesUtils.deleteProject("TestComponentView");
+		EditorTestHelper.joinBackgroundActivities();
+	}
+	
 	public void testAddComponentInXmlFile() throws CoreException{
 		CommonNavigator navigator = getSeamComponentsView();
 

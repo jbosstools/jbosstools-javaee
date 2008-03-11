@@ -9,6 +9,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
@@ -34,6 +35,12 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		this.project = project.getProject();
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		
+		EditorTestHelper.joinBackgroundActivities();
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		ResourcesUtils.deleteProject("TestComponentView");
 		EditorTestHelper.joinBackgroundActivities();
 	}
 	
