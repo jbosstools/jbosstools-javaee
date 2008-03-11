@@ -172,6 +172,18 @@ public interface IFieldEditorFactory {
 	 * 
 	 * @param name
 	 * @param label
+	 * @param defaultValue
+	 * @param buttonAction
+	 * @param linkAction
+	 * @param validator
+	 * @return
+	 */
+	public IFieldEditor createButtonAndLinkFieldEditor(String name, String label, String defaultValue, ButtonFieldEditor.ButtonPressedAction buttonAction, ButtonFieldEditor.ButtonPressedAction linkAction, IValidator validator);
+
+	/**
+	 * 
+	 * @param name
+	 * @param label
 	 * @param values
 	 * @param defaultValue
 	 * @param editable

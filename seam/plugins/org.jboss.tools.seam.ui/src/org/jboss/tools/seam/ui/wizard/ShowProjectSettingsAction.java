@@ -43,6 +43,11 @@ public class ShowProjectSettingsAction extends ButtonFieldEditor.ButtonPressedAc
 			null);
 
         prefsdlg.open();
+        Object value = editor.getValue();
+        
+        //firing to provoke validation
+        editor.setValueAsString("");
+        editor.setValue(value);
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {

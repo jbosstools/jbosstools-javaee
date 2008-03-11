@@ -62,14 +62,19 @@ public class SeamWizardFactory {
 					name, label, defaultSelection, 
 					 new SelectSeamProjectAction(allowAllProjects), ValidatorFactory.NO_ERRORS_VALIDATOR);
 		}
+		SelectSeamProjectAction buttonAction = new SelectSeamProjectAction(allowAllProjects);
 		ShowProjectSettingsAction settingsAction = new ShowProjectSettingsAction();
 		ButtonFieldEditor.ButtonPressedAction[] actions = new ButtonFieldEditor.ButtonPressedAction[]{
-			new SelectSeamProjectAction(allowAllProjects),
-			settingsAction
+			buttonAction, settingsAction
 		};
-		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+//		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
+//				name, label, defaultSelection, 
+//				actions, ValidatorFactory.NO_ERRORS_VALIDATOR);
+
+		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createButtonAndLinkFieldEditor(
 				name, label, defaultSelection, 
-				actions, ValidatorFactory.NO_ERRORS_VALIDATOR);
+				buttonAction, settingsAction, ValidatorFactory.NO_ERRORS_VALIDATOR);
+
 		settingsAction.setEnabled(false);
 		settingsAction.setEditor(editor);
 		return editor;
