@@ -295,7 +295,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		registerEditor(testPackageEditor, testGroup);
 
 		setEnabledSeamSuport(warSeamProject!=null);
-//		setRuntimeIsSelected(getSeamRuntimeName().length()>0);
+		setRuntimeIsSelected(getSeamRuntimeName().length()>0);
 
 		return root;
 	}
@@ -527,9 +527,9 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 
 	private void setEnabledSeamSuport(boolean enabled) {
 		// just for enabling/disabling groups 
-		setEnabledGroups(enabled);
 		suportSeam = enabled;
 		if(!enabled) {
+			setEnabledGroups(enabled);
 			// disable all below
 			for (String key : editorRegistry.keySet()) {
 				if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT) {
@@ -537,19 +537,22 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 				}
 			}			
 		} else {
-			for (String key : editorRegistry.keySet()) {
-				if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT
-						&& key!=ISeamFacetDataModelProperties.SEAM_TEST_PROJECT
-						&& key!=ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER
-						&& key!=ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH
-						&& key!=ISeamFacetDataModelProperties.SEAM_EJB_PROJECT) {
-					editorRegistry.get(key).setEnabled(enabled);
+			editorRegistry.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).setEnabled(enabled);
+			if(runtimeIsSelected) {
+				setEnabledGroups(enabled);
+				for (String key : editorRegistry.keySet()) {
+					if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT
+							&& key!=ISeamFacetDataModelProperties.SEAM_TEST_PROJECT
+							&& key!=ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER
+							&& key!=ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH
+							&& key!=ISeamFacetDataModelProperties.SEAM_EJB_PROJECT) {
+						editorRegistry.get(key).setEnabled(enabled);
+					}
 				}
+				setEnabledTestGroup();
+				setEnabledDeploymentGroup();
 			}
-			setEnabledTestGroup();
-			setEnabledDeploymentGroup();
 		}
-
 	}
 
 	private void setEnabledDeploymentGroup() {
