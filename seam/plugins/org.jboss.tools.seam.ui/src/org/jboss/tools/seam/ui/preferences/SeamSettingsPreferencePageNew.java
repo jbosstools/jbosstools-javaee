@@ -34,6 +34,7 @@ import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -47,11 +48,11 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
@@ -124,7 +125,6 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 				if (value instanceof Boolean) {
 					boolean v = ((Boolean) value).booleanValue();
 					setEnabledSeamSuport(v);
-					validate();
 				}
 			}
 		});
@@ -142,7 +142,6 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 				} else {
 					setRuntimeIsSelected(false);
 				}
-				validate();
 			}
 		});
 		registerEditor(seamRuntimeEditor, generalGroup);
@@ -157,12 +156,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 
 		registerEditor(projectNameEditor, generalGroup);
 
-		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), new IValidator() {
-			public Map<String, String> validate(Object value, Object context) {
-				SeamSettingsPreferencePageNew.this.validate();
-				return ValidatorFactory.NO_ERRORS;
-			}
-		});
+		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR);
 		registerEditor(connProfileEditor, generalGroup);
 
 		Group deploymentGroup = createGroup(
@@ -297,6 +291,8 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		setEnabledSeamSuport(warSeamProject!=null);
 		setRuntimeIsSelected(getSeamRuntimeName().length()>0);
 
+		validate();
+
 		return root;
 	}
 
@@ -417,20 +413,31 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 	}
 
 	private void validate() {
-//		if(getSeamSupport() && (runtime.getValue()== null || "".equals(runtime.getValue()))) { //$NON-NLS-1$
-////			setValid(false);
-//			setMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED, IMessageProvider.WARNING);
-////			setErrorMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED);
-//		} else {
-//			setValid(true);
-//			String value = runtime.getValueAsString();
-//			if(Boolean.TRUE.equals(seamEnablement.getValue()) && SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
-//				setErrorMessage("Runtime " + value + " does not exist.");
-//			} else {
-//				setErrorMessage(null);
-//				setMessage(null, IMessageProvider.WARNING);
-//			}
-//		}
+		boolean warning = false;
+
+		if(!isSeamSupported()) {
+			setValid(true);
+			setErrorMessage(null);
+			setMessage(null, IMessageProvider.WARNING);
+			return;
+		}
+		if(!runtimeIsSelected) {
+			setMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED, IMessageProvider.WARNING);
+			warning = true;
+		} else {
+			String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+			if(SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
+				setErrorMessage("Runtime " + value + " does not exist.");
+				setValid(false);
+				return;
+			}
+		}
+
+		setValid(true);
+		setErrorMessage(null);
+		if(!warning) {
+			setMessage(null, IMessageProvider.WARNING);
+		}
 	}
 
 	private String getSeamRuntimeName() {
@@ -456,11 +463,13 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
+		validate();
 	}
 
 	private void registerEditor(IFieldEditor editor, Composite parent) {
 		editorRegistry.put(editor.getName(), editor);
 		editor.doFillIntoGrid(parent);
+		editor.addPropertyChangeListener(this);
 	}
 
 	/*
