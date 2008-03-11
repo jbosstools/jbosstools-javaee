@@ -355,8 +355,8 @@ public class ValidatorFactory {
 				try {
 					if (!selection.hasNature(ISeamProject.NATURE_ID) 
 							|| SeamCorePlugin.getSeamPreferences(selection)==null
-							|| selection.getAdapter(IFacetedProject.class)==null
-							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
+//							|| selection.getAdapter(IFacetedProject.class)==null
+//							|| !((IFacetedProject)selection.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
 							|| "".equals(SeamCorePlugin.getSeamPreferences(selection).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) { //$NON-NLS-1$
 						return createErrormessage(
 								SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PROJECT + project.getName() + SeamUIMessages.VALIDATOR_FACTORY_IS_NOT_A_SEAM_WEB_PROJECT);
