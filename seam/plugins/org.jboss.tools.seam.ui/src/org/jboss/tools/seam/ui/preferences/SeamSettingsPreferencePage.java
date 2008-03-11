@@ -183,7 +183,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, 
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_EJB_PROJECT, 
 				getEjbProjectName(),
-				true);
+				true, false);
 		registerEditor(ejbProjectEditor, deploymentGroup);
 
 		Group viewGroup = createGroup(
@@ -263,7 +263,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		registerEditor(createTestCheckBox, testGroup);
 
-		IFieldEditor testProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT, getTestProjectName(),false);
+		IFieldEditor testProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT, getTestProjectName(),false, false);
 		registerEditor(testProjectEditor, testGroup);
 
 		sourceFolder = getTestSourceFolder();

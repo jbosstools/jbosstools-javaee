@@ -49,14 +49,15 @@ import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRunt
  *
  */
 public class SeamWizardFactory {
-
+	
 	/**
 	 * @param defaultSelection
 	 * @param allowAllProjects If "false" show only projects with seam nature.
 	 * @return
 	 */
-	public static IFieldEditor createSeamProjectSelectionFieldEditor(String name, String label, String defaultSelection, boolean allowAllProjects) {
-		if(allowAllProjects) {
+	public static IFieldEditor createSeamProjectSelectionFieldEditor(String name, String label, String defaultSelection, 
+			boolean allowAllProjects, boolean editSettings) {
+		if(!editSettings) {
 			return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
 					name, label, defaultSelection, 
 					 new SelectSeamProjectAction(allowAllProjects), ValidatorFactory.NO_ERRORS_VALIDATOR);
@@ -80,7 +81,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
-		return createSeamProjectSelectionFieldEditor(IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false);
+		return createSeamProjectSelectionFieldEditor(IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false, true);
 	}
 
 	/**
