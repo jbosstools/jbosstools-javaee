@@ -1,0 +1,9 @@
+#Fri Dec 21 18:35:09 MSK 2007
+action.package=org.domain.TestSeamELContentAssist.session
+eclipse.preferences.version=1
+model.package=org.domain.TestSeamELContentAssist.entity
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=war
+seam.runtime.name=Seam12RT
+seam.test.project=TestSeamELContentAssist-test
+test.package=org.domain.TestSeamELContentAssist.test

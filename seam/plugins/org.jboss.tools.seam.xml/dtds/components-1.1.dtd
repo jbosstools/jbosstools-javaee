@@ -1,0 +1,40 @@
+<!--
+
+<!DOCTYPE components PUBLIC
+	"-//JBoss/Seam Component Configuration DTD 1.1//EN"
+	"http://jboss.com/products/seam/components-1.1.dtd">
+
+-->
+
+<!ELEMENT components (component|factory|event)*>
+
+<!ELEMENT component (property*)>
+<!ATTLIST component name CDATA #IMPLIED>
+<!ATTLIST component class CDATA #IMPLIED>
+<!ATTLIST component scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST component jndi-name CDATA #IMPLIED>
+<!ATTLIST component installed CDATA #IMPLIED>
+<!ATTLIST component precedence CDATA #IMPLIED>
+<!ATTLIST component auto-create (true|false) "false">
+
+<!ELEMENT factory EMPTY>
+<!ATTLIST factory name CDATA #REQUIRED>
+<!ATTLIST factory method CDATA #IMPLIED>
+<!ATTLIST factory value CDATA #IMPLIED>
+<!ATTLIST factory scope (stateless|event|page|conversation|session|business_process|application|STATELESS|EVENT|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST factory auto-create (true|false) "false">
+
+<!ELEMENT property (#PCDATA|key|value)*>
+<!ATTLIST property name CDATA #REQUIRED>
+
+<!ELEMENT key (#PCDATA)>
+<!ELEMENT value (#PCDATA)>
+
+<!-- event handling -->
+
+<!ELEMENT event (action*)>
+<!ATTLIST event type CDATA #REQUIRED>
+
+<!ELEMENT action EMPTY>
+<!ATTLIST action expression CDATA #REQUIRED>
+
