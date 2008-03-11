@@ -45,31 +45,38 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		
 	}
 	
+	
+	//JBIDE-1879
+	public void testFindShortHand() {
+		
+		find("o*jbpm", "org.jboss.seam.core.jbpm");
+		find("jbpm", "jbpm");
+		
+		
+	}
+	
 	private void find(String pattern, String componentName){
 		OpenSeamComponentDialog dialog = new OpenSeamComponentDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
-		System.out.print("Searching the component "+componentName+" by pattern \""+pattern+"\"...");
 		dialog.setInitialPattern(pattern);
 		dialog.beginTest();
-		try{
+		/*try{
 			Thread.sleep(30000);
 		}catch(Exception ex){
 			ex.printStackTrace();
-		}
+		}*/
 		dialog.endTest();
 		Object[] objects = dialog.getResult();
 		
 		
-		assertNotNull("Component "+componentName+"not found", objects);
+		assertNotNull("Search dialog returned null when searching for " + pattern, objects);
 		
-		assertTrue("Component "+componentName+"not found", objects.length != 0);
+		assertTrue("Component "+componentName+" not found", objects.length != 0);
 		
 		SeamComponentWrapper wrapper = (SeamComponentWrapper)objects[0];
 		
-		assertTrue("Component "+componentName+"not found", wrapper.getComponentName().equals(componentName));
-		
-		System.out.println("done.");
+		assertEquals("Component "+componentName+" not found with " + pattern, wrapper.getComponentName(), componentName);
 	}
 	
 }
