@@ -1,0 +1,130 @@
+<tests>
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/web.xml"/>
+	</test>
+
+	<!-- Application rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="action-listener"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="navigation-handler"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="view-handler"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/application"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="state-manager"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<!-- Property resolver rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.PropertyResolverImpl"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="class name"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<!-- Variable resolver rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/application/com.sun.faces.el.VariableResolverImpl"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="class name"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+
+	<!-- Factory rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/factory"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="application-factory"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+
+	<!-- Component rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Components/c1"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="component-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+
+	<!-- Converter rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Converters/c1"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="converter-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Converters/java.lang.String"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="converter-for-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+
+	<!-- Navigation rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Navigation Rules/rules:#pages#inputname.jsp:0/greeting::#pages#greeting.jsp"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="to-view-id"/>
+		<property name="incorrectValue" value="pages/greeting.jsp"/>
+	</test>
+
+	<!-- Validator rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Validators/v1"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="validator-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+
+	<!-- Render kit rules -->
+	<!-- test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="render-kit-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="renderer-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test-->
+
+	<!-- Managed bean rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="managed-bean-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	
+	<!-- Referenced bean rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/Referenced Beans/rBean"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="referenced-bean-class"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	
+	<!-- Phase listener rules -->
+	<test name="JSFVerificationTest:testPaths">
+		<property name="path" value="/faces-config.xml/lifecycle/demo.PhaseListenerImpl"/>
+		<property name="valid" value="true"/>
+		<property name="attribute" value="phase-listener"/>
+		<property name="incorrectValue" value="aaa.ccc"/>
+	</test>
+	
+</tests>

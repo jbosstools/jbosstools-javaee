@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox">
+<ui:composition>
+
+	<table border="0" width="100%">
+		<tr>
+			<td><h:outputText value="#{bundle['Transportation.type']}" /></td>
+			<td><!-- <h:selectOneMenu id="type" value="#{transport.type}">
+				<f:selectItems
+					value="#{hrRequest.selectEntries['Transportation Type']}" />
+			</h:selectOneMenu>-->
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{transport.type}" />
+						<ui:param name="id" value="type" />
+						<ui:param name="key" value="Transportation Type" />
+				</ui:include>
+			</td>
+			<td>#{bundle['Transportation.bicycleAllocation']}</td>
+			<td><h:selectBooleanCheckbox value="#{transport.bicycleAllocation}" /></td>
+		</tr>
+		<tr>
+			<td><h:outputText value="#{bundle['Transportation.autoNumber']}" /></td>
+			<td><h:inputText value="#{transport.autoNumber}" id="tanumber"/>
+			<h:message for="tanumber" showDetails="true" showSummary="false"/></td>
+			<td><h:outputText value="#{bundle['Transportation.autoModel']}" /></td>
+			<td><h:inputText value="#{transport.autoModel}" id="tamodel"/>
+			<h:message for="tamodel" showDetails="true" showSummary="false"/></td>
+		</tr>
+		<tr>
+			<td><h:outputText
+				value="#{bundle['Transportation.driverLicenceType']}" /></td>
+			<td><!-- <h:selectOneMenu
+				value="#{transport.driverLicenceType}" id="tdlictype">
+				<f:selectItems value="#{hrRequest.selectEntries['Driver Licence']}" />
+			</h:selectOneMenu>-->
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{transport.driverLicenceType}" />
+						<ui:param name="id" value="tdlictype" />
+						<ui:param name="key" value="Driver Licence" />
+				</ui:include>
+				<h:message for="tdlictype" showDetails="true" showSummary="false"/></td>
+			<td><h:outputText
+				value="#{bundle['Transportation.driverLicenceNumber']}" /></td>
+			<td><h:inputText value="#{transport.driverLicenceNumber}" id="tdlicnumber"/>
+			<h:message for="tdlicnumber" showDetails="true" showSummary="false"/></td>
+		</tr>
+
+		<tr>
+			<td><h:outputText
+				value="#{bundle['Transportation.subscriptionType']}" /></td>
+			<td><!-- <h:selectOneMenu
+				value="#{transport.subscriptionType}" id="tsubtype">
+				<f:selectItems
+					value="#{hrRequest.selectEntries['Transportation Subscription']}" />
+			</h:selectOneMenu>-->
+				<ui:include src="selectEntry.xhtml">
+					<ui:param name="value" value="#{transport.subscriptionType}" />
+					<ui:param name="id" value="tsubtype" />
+					<ui:param name="key" value="Transportation Subscription" />
+				</ui:include>
+				<h:message for="tsubtype" showDetails="true" showSummary="false"/>
+			</td>
+			<td><h:outputText
+				value="#{bundle['Transportation.subscriptionDuration']}" /></td>
+			<td><h:inputText value="#{transport.subscriptionDuration}" id="tsubduration"/>
+			<h:message for="tsubduration" showDetails="true" showSummary="false"/></td>
+		</tr>
+	</table>
+	<table width="100%">
+		<tr>
+			<td colspan="9"><h:outputText
+				value="#{bundle['Transportation.transportMode']}" /></td>
+		</tr>
+		<tr>
+			<td><h:outputText value="#{bundle['Transportation.usingFeet']}" /></td>
+			<td><h:outputText
+				value="#{bundle['Transportation.usingBicycle']}" /></td>
+			<td><h:outputText value="#{bundle['Transportation.usingTrain']}" /></td>
+			<td><h:outputText value="#{bundle['Transportation.usingStib']}" /></td>
+			<td><h:outputText
+				value="#{bundle['Transportation.usingDeLijn']}" /></td>
+			<td><h:outputText value="#{bundle['Transportation.usingTec']}" /></td>
+			<td><h:outputText
+				value="#{bundle['Transportation.usingMotorcycle']}" /></td>
+			<td><h:outputText value="#{bundle['Transportation.usingCar']}" /></td>
+			<td><h:outputText
+				value="#{bundle['Transportation.usingCarSharing']}" /></td>
+		</tr>
+		<tr>
+			<td><h:selectBooleanCheckbox value="#{transport.usingFeet}" /></td>
+			<td><h:selectBooleanCheckbox value="#{transport.usingBicycle}" /></td>
+			<td><h:selectBooleanCheckbox value="#{transport.usingTrain}" /></td>
+			<td><h:selectBooleanCheckbox value="#{transport.usingStib}" /></td>
+			<td><h:selectBooleanCheckbox value="#{transport.usingDeLijn}" /></td>
+			<td><h:selectBooleanCheckbox value="#{transport.usingTec}" /></td>
+			<td><h:selectBooleanCheckbox
+				value="#{transport.usingMotorcycle}" /></td>
+			<td><h:selectBooleanCheckbox value="#{transport.usingCar}" /></td>
+			<td><h:selectBooleanCheckbox
+				value="#{transport.usingCarSharing}" /></td>
+		</tr>
+	</table>
+</ui:composition>
+</html>

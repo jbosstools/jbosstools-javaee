@@ -1,0 +1,43 @@
+.dr-stglpnl{
+   border: 1px solid #678FC5;
+   background-color: #BFD0E9;   
+   padding: 1px;
+   background-position: top right;
+   background-repeat: no-repeat;
+   background-color: #FFFFFF;
+   border-color: #C4C0B9;
+}
+
+.dr-stglpnl-h{
+   border-width: 1px;
+   border-style: solid;
+   background-color: #224986;
+   font-size: 11px;
+   color: #ffffff;
+   cursor: pointer;
+   font-weight: bold;
+   font-family: verdana;
+   padding: 2px;
+   background-image: url(coll_panel_bg.gif);
+   background-position: top left;
+   background-repeat: repeat-x;
+   background-color: #D4CFC7;
+   border-color: #D4CFC7;
+   font-size: 11px;
+   color: #000000;
+   font-weight: bold;
+   font-family: Arial, Verdana, sans-serif;
+   height: 14px;
+}
+
+.dr-stglpnl-b{
+   font-size: 11px;
+   color: #000000;
+   font-family: verdana;
+   padding: 10px;
+   text-align: left;
+   vertical-align: top;
+   background-color: #FFFFFF;
+   font-size: 11px;
+   font-family: Arial, Verdana, sans-serif;
+}
