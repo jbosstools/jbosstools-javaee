@@ -76,7 +76,11 @@ public class SeamWizardUtils {
 	}
 
 	public static String getRootSeamProjectName(ISelection sel) {
-		IProject project = getRootSeamProject(getInitialProject(sel));
+		IProject initial = getInitialProject(sel);
+		IProject project = getRootSeamProject(initial);
+		if(project == null) {
+			project = initial;
+		}
 		return project == null ? "" : project.getName();
 	}
 
