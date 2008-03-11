@@ -114,6 +114,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
             Object value = getValue();
             textField.setText(getValue().toString());
             textField.setEditable(isEditable());
+            textField.setEnabled(isEnabled());
             fTextField.addPropertyChangeListener(this);
         } else if (parent!=null){
         	Assert.isTrue(parent==fTextField.getTextControl().getParent());

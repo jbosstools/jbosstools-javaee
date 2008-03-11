@@ -17,7 +17,7 @@ import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedActi
 
 public interface IFieldEditorFactory {
 
-	public static final IFieldEditorFactory INSTANCE = new SwtFieldEditorFactory();
+	final IFieldEditorFactory INSTANCE = new SwtFieldEditorFactory();
 
 	/**
 	 * 
@@ -62,7 +62,7 @@ public interface IFieldEditorFactory {
 	 * @param defaultValue
 	 * @return
 	 */
-	public ITaggedFieldEditor createRadioEditor(String name, String label,
+	ITaggedFieldEditor createRadioEditor(String name, String label,
 			List<String> labels, List values, Object defaultValue);
 
 	/**
@@ -103,6 +103,12 @@ public interface IFieldEditorFactory {
 	 */
 	IFieldEditor createBrowseSourceFolderEditor(String name, String label, String defaultValue);
 
+	
+	IFieldEditor createBrowsePackageEditor(String name,	String label, String defaultValue) ;
+
+	
+	IFieldEditor createBrowseSeamProjectEditor(String name,	String label, String defaultValue);
+	
 	/**
 	 * 
 	 * @param name
@@ -132,7 +138,7 @@ public interface IFieldEditorFactory {
 	 * @param validator
 	 * @return
 	 */
-	public IFieldEditor createButtonFieldEditor(String name, String label,
+	IFieldEditor createButtonFieldEditor(String name, String label,
 			String defaultValue, ButtonFieldEditor.ButtonPressedAction action,
 			IValidator validator);
 
@@ -148,15 +154,17 @@ public interface IFieldEditorFactory {
 	 * @param validator
 	 * @return
 	 */
-	public IFieldEditor createComboWithTwoButtons(String name, String label,
+	IFieldEditor createComboWithTwoButtons(String name, String label,
 			List values, Object defaultValue, boolean flat,
 			ButtonFieldEditor.ButtonPressedAction action1,
 			ButtonFieldEditor.ButtonPressedAction action2, IValidator validator);
 	
-	public ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName);
+	ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName);
 	
-	public IFieldEditor createComboWithButton(String name, String label,
+	IFieldEditor createComboWithButton(String name, String label,
 			List values, Object defaultValue, boolean flat,
 			ButtonPressedAction action1,
 			IValidator validator);
+
+	
 }

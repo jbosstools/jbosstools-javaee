@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
@@ -146,6 +147,19 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return editor;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory#createBrowseSourceFolderEditor(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public IFieldEditor createBrowsePackageEditor(String name,	String label, String defaultValue) {
+		ButtonFieldEditor.ButtonPressedAction action = createSelectPackageAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS, defaultValue);
+		CompositeEditor editor = new CompositeEditor(name, label, defaultValue);
+		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name, label),
+				new TextFieldEditor(name, label, defaultValue),
+				new ButtonFieldEditor(name, action, defaultValue)});
+		action.setFieldEditor(editor);
+		return editor;
+	}
+	
 	/**
 	 * @param buttonName
 	 * @return
@@ -213,6 +227,17 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	 */
 	private static class JavaSourceContentProvider extends StandardJavaElementContentProvider {
 
+		boolean providePackages = false;
+		
+		public JavaSourceContentProvider() {
+			super(false);
+		}
+
+		public JavaSourceContentProvider(boolean providePackages) {
+			this();
+			this.providePackages = providePackages;
+		}
+
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.jdt.ui.StandardJavaElementContentProvider#hasChildren(java.lang.Object)
@@ -220,6 +245,8 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		@Override
 		public boolean hasChildren(Object element) {
 			if (element instanceof IPackageFragmentRoot) {
+				return providePackages;
+			} else if(element instanceof IPackageFragment) {
 				return false;
 			}
 			return true;
@@ -268,7 +295,12 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				}
 			}
 			if (element instanceof IPackageFragmentRoot) {
-				return NO_CHILDREN;
+				IPackageFragmentRoot pkgRoot = (IPackageFragmentRoot)element;
+				try {
+					return pkgRoot.getChildren();
+				} catch (JavaModelException e) {
+					return NO_CHILDREN;
+				}
 			}
 
 			return super.getChildren(element);
@@ -381,6 +413,29 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 	 * @param buttonName
 	 * @return
 	 */
+	public ButtonFieldEditor.ButtonPressedAction createSelectPackageAction(String buttonName, String defaultValue) {
+		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
+			@Override
+			public void run() {
+				final ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(
+						Display.getCurrent().getActiveShell(),
+						new JavaElementLabelProvider(), new JavaSourceContentProvider(true));
+				dialog.setInput(ResourcesPlugin.getWorkspace());
+				if (dialog.open() == Window.OK) {
+					IPackageFragment pack = (IPackageFragment) dialog.getFirstResult();
+					IPath newPath = pack.getResource().getFullPath();
+					String value = newPath.toString();
+					getFieldEditor().setValue(value);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * 
+	 * @param buttonName
+	 * @return
+	 */
 	public ButtonFieldEditor.ButtonPressedAction createSelectFileAction(String buttonName) {
 		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
 			@Override
@@ -442,5 +497,11 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				new ButtonFieldEditor(name, action1, defaultValue)
 		});
 		return editor;
+	}
+
+	public IFieldEditor createBrowseSeamProjectEditor(String name,
+			String label, String defaultValue) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

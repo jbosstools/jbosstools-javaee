@@ -58,6 +58,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 			}
 
 			controls[i].setLayoutData(gd);
+			controls[i].setEnabled(isEnabled());
 		}
 	}
 

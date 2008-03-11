@@ -42,6 +42,8 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 
 	protected Map<Object, Object> data = null;
 
+	private boolean enabled = true;
+
 	/**
 	 * 
 	 * @param name
@@ -155,17 +157,14 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	 * 
 	 */
 	public boolean isEnabled() {
-		if(getSwtControls().length==0)
-			return true;
-		else {
-			return getSwtControls()[0].isEnabled();
-		}
+		return this.enabled ;
 	}
 
 	/**
 	 * 
 	 */
 	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 		Control[] controls = getSwtControls();
 		for(int i=0;i<controls.length;i++) {
 			Control control = controls[i];

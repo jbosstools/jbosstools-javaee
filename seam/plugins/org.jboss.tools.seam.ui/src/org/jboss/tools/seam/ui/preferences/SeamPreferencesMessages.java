@@ -57,6 +57,12 @@ public class SeamPreferencesMessages extends NLS {
 
 	public static String SEAM_VALIDATOR_PREFERENCE_PAGE_SEAM_VALIDATOR;
 	
+	public static String SEAM_SETTINGS_PREFERENCE_PAGE_CREATE_TEST;
+	
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_TEST;
+	
+	public static String SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT;
+	
 	//Validator Preference page
 	public static String SeamValidatorConfigurationBlock_common_description;
 	
