@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -183,7 +184,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, 
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_EJB_PROJECT, 
 				getEjbProjectName(),
-				true, false);
+				true,
+				false);
 		registerEditor(ejbProjectEditor, deploymentGroup);
 
 		Group viewGroup = createGroup(
@@ -263,7 +265,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		registerEditor(createTestCheckBox, testGroup);
 
-		IFieldEditor testProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT, getTestProjectName(),false, false);
+		IFieldEditor testProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT, getTestProjectName(), false, false);
 		registerEditor(testProjectEditor, testGroup);
 
 		sourceFolder = getTestSourceFolder();
@@ -428,6 +430,28 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 			if(SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
 				setErrorMessage("Runtime " + value + " does not exist.");
+				setValid(false);
+				return;
+			}
+		}
+
+		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
+		if(deployAsEar) {
+			String ejbProjectName = getValue(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).trim();
+			if(ejbProjectName.length()>0) {
+				if(!ResourcesPlugin.getWorkspace().getRoot().getProject(ejbProjectName).exists()) {
+					setErrorMessage("Seam EJB project " + ejbProjectName + " does not exist.");
+					setValid(false);
+					return;
+				}
+			}
+		}
+
+		String viewFolder = getValue(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).trim();
+		if(viewFolder.length()>0) {
+			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(viewFolder);
+			if(folder==null || !folder.exists()) {
+				setErrorMessage("View Folder " + viewFolder + " does not exist.");
 				setValid(false);
 				return;
 			}
