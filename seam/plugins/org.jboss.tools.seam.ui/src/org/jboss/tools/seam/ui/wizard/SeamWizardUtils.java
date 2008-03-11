@@ -40,7 +40,9 @@ public class SeamWizardUtils {
 
 	/**
 	 * @return current root seam project name based on the current selection;
-	 *         empty string if there is no seam project to be found
+	 *         name of currently selected project if it is not a seam project - 
+	 *         in this case it is up to wizard to show what is the problem with the selection;
+	 *         empty string if no project is selected
 	 */
 	public static String getCurrentSelectedRootSeamProjectName() {
 		ISelection sel = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
@@ -75,6 +77,14 @@ public class SeamWizardUtils {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param sel
+	 * @return root seam project name based on the passed selection;
+	 *         name of project if selection contains a project which is not a seam project - 
+	 *         in this case it is up to wizard to show what is the problem with the selection;
+	 *         empty string if selection contains no project
+	 */
 	public static String getRootSeamProjectName(ISelection sel) {
 		IProject initial = getInitialProject(sel);
 		IProject project = getRootSeamProject(initial);
