@@ -21,33 +21,22 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.internal.decorators.DecoratorManager;
 import org.eclipse.ui.navigator.CommonNavigator;
-import org.eclipse.ui.progress.UIJob;
-import org.jboss.tools.common.model.XJob;
-import org.jboss.tools.common.test.util.TestProjectProvider;
-import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
-import org.jboss.tools.seam.ui.views.actions.ScopePresentationActionProvider;
 import org.jboss.tools.seam.ui.views.actions.SeamViewLayoutActionGroup.SeamContributionItem;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
@@ -71,12 +60,6 @@ public class SeamComponentsViewTest extends TestCase {
 		componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 
-		EditorTestHelper.joinBackgroundActivities();
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		ResourcesUtils.deleteProject("TestComponentView");
 		EditorTestHelper.joinBackgroundActivities();
 	}
 	
