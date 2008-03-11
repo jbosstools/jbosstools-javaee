@@ -1,13 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Red Hat, Inc. - initial API and implementation
- ******************************************************************************/
+ /*******************************************************************************
+  * Copyright (c) 2007 Red Hat, Inc.
+  * Distributed under license by Red Hat, Inc. All rights reserved.
+  * This program is made available under the terms of the
+  * Eclipse Public License v1.0 which accompanies this distribution,
+  * and is available at http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  *     Red Hat, Inc. - initial API and implementation
+  ******************************************************************************/
 package org.jboss.tools.seam.ui.preferences;
 
 import java.beans.PropertyChangeEvent;
@@ -15,11 +15,12 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -27,270 +28,576 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.dialogs.PropertyPage;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
+import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
-import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
+import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
+import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
- * @author Viacheslav Kabanovich
+ * Seam Settings Preference Page
+ * @author Alexey Kazakov
  */
-public class SeamSettingsPreferencePage extends PropertyPage {
-	IProject project;
+public class SeamSettingsPreferencePage extends PropertyPage implements PropertyChangeListener {
 
-	IFieldEditor seamEnablement;
-	IFieldEditor runtime;
-	IFieldEditor installedRuntimes;
-	
-	ISeamProject seamProject;
+	private Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
+	private IProject project;
+	private IProject warProject;
+	private IEclipsePreferences preferences;
+	private ISeamProject warSeamProject;
+	private boolean suportSeam;
+	private boolean runtimeIsSelected;
+	private List<Group> groups = new ArrayList<Group>();
 
-	public SeamSettingsPreferencePage() {
-		noDefaultAndApplyButton();
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime.IAdaptable)
+	 */
 	@Override
 	public void setElement(IAdaptable element) {
 		super.setElement(element);
 		project = (IProject) getElement().getAdapter(IProject.class);
+		warProject = SeamWizardUtils.getRootSeamProject(project);
+		if(warProject!=null) {
+			preferences = SeamCorePlugin.getSeamPreferences(warProject);
+			warSeamProject = SeamCorePlugin.getSeamProject(warProject, false);
+		} else {
+			preferences = SeamCorePlugin.getSeamPreferences(project);
+		}
 	}
 
-	boolean hasSeamSupport() {
-		return seamProject != null;
-	}
-
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	protected Control createContents(Composite parent) {
-		seamProject = SeamCorePlugin.getSeamProject(project, false);
+		Composite root = new Composite(parent, SWT.NONE);
 
-		boolean cannotBeModified = false;
+		GridData gd = new GridData();
 
-		if(seamProject != null) {
-			cannotBeModified = seamProject.getParentProjectName() != null;
-		}
-		if(!cannotBeModified) {
-			cannotBeModified = isEarPartInEarSeamProject(project);
-		}
+		gd.horizontalSpan = 1;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = false;
 
-		seamEnablement = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
-				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, false);
-		seamEnablement.setValue(hasSeamSupport());
+		GridLayout gridLayout = new GridLayout(1, false);
+		root.setLayout(gridLayout);
 
-		SeamRuntime rs = SeamRuntimeManager.getInstance().getRuntimeForProject(project);
+		Composite generalGroup = new Composite(root, SWT.NONE);
+		generalGroup.setLayoutData(gd);
+		gridLayout = new GridLayout(4, false);
 
-		List<String> namesAsList = getNameList();
+		generalGroup.setLayout(gridLayout);
 
-		runtime = IFieldEditorFactory.INSTANCE.createComboWithButton(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME,
-				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_RUNTIME, namesAsList, 
-				rs==null?"":rs.getName(),true,new NewSeamRuntimeAction(),(IValidator)null); //$NON-NLS-1$
-
-		ButtonPressedAction action = new ButtonPressedAction(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_INSTALLED_RUNTIMES) {
-			public void run() {
-				PreferenceDialog prefsdlg = PreferencesUtil.createPreferenceDialogOn(
-					PlatformUI.getWorkbench().getDisplay().getActiveShell(),
-					SeamPreferencePage.SEAM_PREFERENCES_ID, 
-					new String[] {SeamPreferencePage.SEAM_PREFERENCES_ID}, null
-				);
-
-				prefsdlg.open();
-
-				String v = runtime.getValueAsString();
-				List<String> list = getNameList();
-				((ITaggedFieldEditor) ((CompositeEditor) runtime)
-						.getEditors().get(1)).setTags(list.toArray(new String[0]));
-				if(v != null && list.contains(v)) {
-					runtime.setValue(v);
-				} else {
-					setCurrentValue();
-				}
-			}
-		};
-		
-		installedRuntimes = new ButtonFieldEditor(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_INSTALLED_RUNTIMES, action, null);
-
-		List<IFieldEditor> editorOrder = new ArrayList<IFieldEditor>();
-		editorOrder.add(seamEnablement);
-		editorOrder.add(runtime);
-//		editorOrder.add(installedRuntimes);
-
-		setCurrentValue();
-		
-		seamEnablement.addPropertyChangeListener(new PropertyChangeListener() {
+		IFieldEditor seamSupportCheckBox = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT, warSeamProject!=null);
+		seamSupportCheckBox.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Object value = evt.getNewValue();
 				if (value instanceof Boolean) {
 					boolean v = ((Boolean) value).booleanValue();
-					updateRuntimeEnablement(v);
-					validate();
+					setEnabledSeamSuport(v);
 				}
 			}
 		});
-		
-		runtime.addPropertyChangeListener(new PropertyChangeListener() {
+		registerEditor(seamSupportCheckBox, generalGroup);
+
+		IFieldEditor seamRuntimeEditor = 
+			SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(
+					getSeamVersions(), 
+					getSeamRuntimeName());
+		seamRuntimeEditor.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				validate();
+				Object value = evt.getNewValue();
+				if(value.toString().length()>0) {
+					setRuntimeIsSelected(true);
+				} else {
+					setRuntimeIsSelected(false);
+				}
+			}
+		});
+		registerEditor(seamRuntimeEditor, generalGroup);
+
+		IFieldEditor projectNameEditor = 
+			IFieldEditorFactory.INSTANCE.createUneditableTextEditor(
+					IParameter.SEAM_PROJECT_NAME, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT, 
+					getPrefValue(
+							IParameter.SEAM_PROJECT_NAME, 
+							getSeamProjectName()));
+
+		registerEditor(projectNameEditor, generalGroup);
+
+		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR);
+		registerEditor(connProfileEditor, generalGroup);
+
+		Group deploymentGroup = createGroup(
+				root,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_DEPLOYMENT, 
+				4);
+
+		IFieldEditor deployTypeEditor = IFieldEditorFactory.INSTANCE.createRadioEditor(
+				ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, 
+				Arrays.asList(new String[] {ISeamFacetDataModelProperties.DEPLOY_AS_WAR.toUpperCase(), ISeamFacetDataModelProperties.DEPLOY_AS_EAR.toUpperCase()}),
+				Arrays.asList(new Object[] {ISeamFacetDataModelProperties.DEPLOY_AS_WAR, ISeamFacetDataModelProperties.DEPLOY_AS_EAR}),
+				getDeployAsValue());
+
+		deployTypeEditor.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				setEnabledDeploymentGroup();
 			}
 		});
 
-		Composite composite = new Composite(parent, SWT.NONE);
-		int columnNumber = 1;
-		for (IFieldEditor fieldEditor : editorOrder) {
-			if (fieldEditor.getNumberOfControls() > columnNumber)
-				columnNumber = fieldEditor.getNumberOfControls();
-		}
-		GridLayout gl = new GridLayout(columnNumber, false);
-		gl.verticalSpacing = 5;
-		gl.marginTop = 3;
-		gl.marginLeft = 3;
-		gl.marginRight = 3;
-		composite.setLayout(gl);
-		for (IFieldEditor fieldEditor2 : editorOrder) {
-			fieldEditor2.doFillIntoGrid(composite);
-		}
-		
-		LabelFieldEditor filler = new LabelFieldEditor("filler", "");
-		Object[] fs = filler.getEditorControls(composite);
-		if(fs != null && fs.length > 0 && fs[0] instanceof Label) {
-			Label l = (Label)fs[0];
-			GridData d = new GridData();
-			d.horizontalSpan = columnNumber - 1;
-			l.setLayoutData(d);
-		}
-		
-		Object[] cs = installedRuntimes.getEditorControls(composite);
-		if(cs != null && cs.length > 0 && cs[0] instanceof Button) {
-			Button b = (Button)cs[0];
-			GridData d = new GridData();
-			d.horizontalAlignment = SWT.END;
-			b.setLayoutData(d);
-		}
+		registerEditor(deployTypeEditor, deploymentGroup);
 
-		runtime.setEditable(false);
-		if (!hasSeamSupport()) {
-			updateRuntimeEnablement(false);
-		}
-		
-		if(cannotBeModified) {
-			setEnablement(seamEnablement, false);
-			setEnablement(runtime, false);
-		} else if(hasDependents(project)) {
-			setEnablement(seamEnablement, false);
-		}
+		IFieldEditor ejbProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(
+				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, 
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_EJB_PROJECT, 
+				getEjbProjectName(),
+				true);
+		registerEditor(ejbProjectEditor, deploymentGroup);
+
+		Group viewGroup = createGroup(
+				root,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_VIEW, 
+				3);
+
+		IFieldEditor viewFolderEditor = SeamWizardFactory.createViewFolderFieldEditor(getViewFolder());
+		registerEditor(viewFolderEditor, viewGroup);
+
+		Group modelGroup = createGroup(root,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_MODEL,
+				3);
+
+		String sourceFolder = getModelSourceFolder();
+		IFieldEditor modelSourceFolderEditor = 
+			IFieldEditorFactory.INSTANCE.createBrowseSourceFolderEditor(
+					ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER, 
+					sourceFolder);
+
+		final IFieldEditor modelPackageEditor = 
+			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
+					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"",
+					getPrefValue(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, ""));
+
+		modelSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent evt) {
+				modelPackageEditor.setData(IParameter.SOURCE_FOLDER_PATH, getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER));
+			}
+		});
+
+		registerEditor(modelSourceFolderEditor, modelGroup);
+		registerEditor(modelPackageEditor, modelGroup);
+
+		Group actionGroup = createGroup(root,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_ACTION,
+				3);
+
+		sourceFolder = getActionSourceFolder();
+		IFieldEditor actionSourceFolderEditor = 
+			IFieldEditorFactory.INSTANCE.createBrowseSourceFolderEditor(
+					ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER, 
+					sourceFolder);
+
+		final IFieldEditor actionPackageEditor = 
+			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
+					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"",
+					getPrefValue(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, ""));	
+
+		actionSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent evt) {
+				actionPackageEditor.setData(IParameter.SOURCE_FOLDER_PATH, getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER));
+			}
+		});
+
+		registerEditor(actionSourceFolderEditor, actionGroup);
+		registerEditor(actionPackageEditor, actionGroup);
+
+		Group testGroup = createGroup(root,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_TEST,
+				3);
+
+		IFieldEditor createTestCheckBox = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
+				ISeamFacetDataModelProperties.TEST_CREATING, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_CREATE_TEST, shouldCreateTests());
+		createTestCheckBox.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				Object value = evt.getNewValue();
+				if (value instanceof Boolean) {
+					setEnabledTestGroup();					
+				}
+			}
+		});
+
+		registerEditor(createTestCheckBox, testGroup);
+
+		IFieldEditor testProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT, getTestProjectName(),false);
+		registerEditor(testProjectEditor, testGroup);
+
+		sourceFolder = getTestSourceFolder();
+		IFieldEditor testSourceFolderEditor = 
+			IFieldEditorFactory.INSTANCE.createBrowseSourceFolderEditor(
+					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER, 
+					sourceFolder);
+
+		final IFieldEditor testPackageEditor = 
+			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
+					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, 
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"", 
+					getPrefValue(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""));
+
+		testSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent evt) {
+				testPackageEditor.setData(IParameter.SOURCE_FOLDER_PATH, getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER));
+			}
+		});
+
+		registerEditor(testSourceFolderEditor, testGroup);
+		registerEditor(testPackageEditor, testGroup);
+
+		setEnabledSeamSuport(warSeamProject!=null);
+		setRuntimeIsSelected(getSeamRuntimeName().length()>0);
+
 		validate();
 
-		return composite;
-	}
-	
-	private List<String> getNameList() {
-		Set<String> names = new TreeSet<String>();
-		names.addAll(getAvailableRuntimeNames());
-		if(hasSeamSupport()) {
-			String currentName = seamProject.getRuntimeName();
-			if(currentName != null) names.add(currentName);
-		}
-		List<String> namesAsList = new ArrayList<String>();
-		namesAsList.addAll(names);
-		return namesAsList;
-	}
-	
-	private void setCurrentValue() {
-		if (hasSeamSupport()) {
-			String currentName = seamProject.getRuntimeName();
-			if (currentName != null) {
-				runtime.setValue(currentName);
-			} else {
-				runtime.setValue("");
-			}
-		} else if(isEarPartInEarSeamProject(project)) {
-			runtime.setValue("");
-		}
-	}
-	
-	private boolean isEarPartInEarSeamProject(IProject p) {
-		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (int i = 0; i < ps.length; i++) {
-			IEclipsePreferences ep = new ProjectScope(ps[i]).getNode(SeamCorePlugin.PLUGIN_ID);
-			if(ep == null) continue;
-			String ear = ep.get("seam.ear.project", null);
-			if(ear != null && ear.equals(p.getName())) return true;
-		}
-		return false;
-	}
-	
-	private boolean hasDependents(IProject p) {
-		ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
-		if(sp == null) return false;
-		IEclipsePreferences ep = SeamPreferences.getProjectPreferences(sp);
-		if(ep == null) return false;
-		String ear = ep.get("seam.ear.project", null);
-		if(projectExists(ear)) return true;
-		String ejb = ep.get("seam.ejb.project", null);
-		if(projectExists(ejb)) return true;
-		String test = ep.get("seam.test.project", null);
-		if(projectExists(test)) return true;
-		return false;
-	}
-	
-	private boolean projectExists(String name) {
-		if(name == null) return false;
-		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
-		if(p != null && p.exists() && p.isAccessible()) return true;
-		return false;
+		return root;
 	}
 
+	private boolean shouldCreateTests() {
+		String value = getPrefValue(ISeamFacetDataModelProperties.TEST_CREATING, "false");
+		return Boolean.parseBoolean(value);
+	}
+
+	private String getPrefValue(String prefName,String defaultValue) {
+		return preferences.get(
+				prefName, 
+				defaultValue);
+	}
+
+	private Group createGroup(Composite parent, String title, int rows) {
+		return createGroupWithSpan(parent,title,rows,1);
+	}
+
+	private Group createGroupWithSpan(Composite parent, String title, int rows, int span) {
+		GridData gd;
+		GridLayout gridLayout;
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = span;
+		gd.horizontalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = false;
+
+		Group newGroup = new Group(parent, SWT.NONE);
+		newGroup.setLayoutData(gd);
+		newGroup.setText(title);
+		
+		gridLayout = new GridLayout(rows, false);
+		newGroup.setLayout(gridLayout);
+		groups.add(newGroup);
+		return newGroup;
+	}
+	
+	private String getModelSourceFolder() {
+		String folder = null;
+		if(preferences!=null) {
+			folder = preferences.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
+		}
+		if(folder==null) {
+			SeamProjectsSet set = new SeamProjectsSet(project);
+			IFolder f = set.getModelFolder();
+			folder = f!=null?f.getFullPath().toString():"";
+		}
+		return folder;
+	}
+
+	private String getActionSourceFolder() {
+		String folder = null;
+		if(preferences!=null) {
+			folder = preferences.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
+		}
+		if(folder==null) {
+			SeamProjectsSet set = new SeamProjectsSet(project);
+			IFolder f = set.getActionFolder();
+			folder = f!=null?f.getFullPath().toString():"";
+		}
+		return folder;
+	}
+
+	private String getTestSourceFolder() {
+		String folder = null;
+		if(preferences!=null) {
+			folder = preferences.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
+		}
+		if(folder==null) {
+			SeamProjectsSet set = new SeamProjectsSet(project);
+			IFolder f = set.getTestsFolder();
+			folder = f!=null?f.getFullPath().toString():"";
+		}
+		return folder;
+	}
+
+	private String getViewFolder() {
+		String folder = null;
+		if(preferences!=null) {
+			folder = preferences.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
+		}
+		if(folder==null) {
+			SeamProjectsSet set = new SeamProjectsSet(project);
+			IFolder f = set.getViewsFolder();
+			folder = f!=null?f.getFullPath().toString():"";
+		}
+		return folder;
+	}
+
+	private List<String> getProfileNameList() {
+		IConnectionProfile[] profiles = ProfileManager.getInstance()
+				.getProfilesByCategory("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
+		List<String> names = new ArrayList<String>();
+		for (IConnectionProfile connectionProfile : profiles) {
+			names.add(connectionProfile.getName());
+		}
+		return names;
+	}
+
+	private String getConnectionProfile() {
+		String defaultDs = SeamProjectPreferences.getStringPreference(
+				SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
+		return getProfileNameList().contains(defaultDs)?defaultDs:""; //$NON-NLS-1$
+	}
+
+	private String getEjbProjectName() {
+		if(preferences!=null) {
+			return preferences.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, project.getName());
+		}
+		return project.getName();
+	}
+
+	private Object getDeployAsValue() {
+		if(preferences!=null) {
+			return preferences.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
+		}
+		return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
+	}
+
+	private void validate() {
+		boolean warning = false;
+
+		if(!isSeamSupported()) {
+			setValid(true);
+			setErrorMessage(null);
+			setMessage(null, IMessageProvider.WARNING);
+			return;
+		}
+		if(!runtimeIsSelected) {
+			setMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED, IMessageProvider.WARNING);
+			warning = true;
+		} else {
+			String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+			if(SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
+				setErrorMessage("Runtime " + value + " does not exist.");
+				setValid(false);
+				return;
+			}
+		}
+
+		setValid(true);
+		setErrorMessage(null);
+		if(!warning) {
+			setMessage(null, IMessageProvider.WARNING);
+		}
+	}
+
+	private String getSeamRuntimeName() {
+		if(preferences!=null) {
+			return preferences.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, "");
+		}
+		return "";
+	}
+
+	private String getSeamProjectName() {
+		return warProject!=null ? warProject.getName() : project.getName();
+	}
+	
+	private String getTestProjectName() {
+		String projectName = "";
+		if(preferences!=null) {
+			projectName = preferences.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, getSeamProjectName());
+		}
+		return projectName;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
+		validate();
+	}
+
+	private void registerEditor(IFieldEditor editor, Composite parent) {
+		editorRegistry.put(editor.getName(), editor);
+		editor.doFillIntoGrid(parent);
+		editor.addPropertyChangeListener(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
+	 */
 	@Override
 	public boolean performOk() {
-		if (getSeamSupport()) {
+		if (isSeamSupported()) {
 			addSeamSupport();
-			changeRuntime();
+			storeSettigs();
 		} else {
 			removeSeamSupport();
 		}
 		return true;
 	}
 
-	private void updateRuntimeEnablement(boolean enabled) {
-		setEnablement(runtime, enabled);
+	private void storeSettigs() {
+		IScopeContext projectScope = new ProjectScope(project);
+		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+
+		prefs.put(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, 
+				ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_1);
+
+		prefs.put(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
+				getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
+
+		prefs.put(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, 
+				getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME));
+		prefs.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, 
+				getValue(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE));
+		prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME,
+				getValue(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME));
+		prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, 
+				getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME));
+		prefs.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, 
+				getValue(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME));
+		prefs.put(ISeamFacetDataModelProperties.TEST_CREATING,
+				getValue(ISeamFacetDataModelProperties.TEST_CREATING));
+		prefs.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, 
+				getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER));
+		prefs.put(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, 
+				getValue(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT));
+		prefs.put(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, 
+				getValue(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT));
+		prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, 
+				getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER));
+		prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, 
+				getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER));
+		try {
+			prefs.flush();
+		} catch (BackingStoreException e) {
+			SeamGuiPlugin.getPluginLog().logError(e);
+		}
 	}
-	
-	void setEnablement(IFieldEditor editor, boolean enabled) {
-		Object[] cs = editor.getEditorControls();
-		for (int i = 0; i < cs.length; i++) {
-			if (cs[i] instanceof Control) {
-				((Control) cs[i]).setEnabled(enabled);
+
+	private String getValue(String editorName) {
+		return editorRegistry.get(editorName).getValue().toString();
+	}
+
+	private boolean isSeamSupported() {
+		return suportSeam;
+	}
+
+	private void setEnabledSeamSuport(boolean enabled) {
+		// just for enabling/disabling groups 
+		suportSeam = enabled;
+		if(!enabled) {
+			setEnabledGroups(enabled);
+			// disable all below
+			for (String key : editorRegistry.keySet()) {
+				if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT) {
+					editorRegistry.get(key).setEnabled(enabled);
+				}
+			}			
+		} else {
+			editorRegistry.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).setEnabled(enabled);
+			if(runtimeIsSelected) {
+				setEnabledGroups(enabled);
+				for (String key : editorRegistry.keySet()) {
+					if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT
+							&& key!=ISeamFacetDataModelProperties.SEAM_TEST_PROJECT
+							&& key!=ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER
+							&& key!=ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH
+							&& key!=ISeamFacetDataModelProperties.SEAM_EJB_PROJECT) {
+						editorRegistry.get(key).setEnabled(enabled);
+					}
+				}
+				setEnabledTestGroup();
+				setEnabledDeploymentGroup();
 			}
 		}
+	}
+
+	private void setEnabledDeploymentGroup() {
+		IFieldEditor deployment = 
+			editorRegistry.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
+
+		editorRegistry.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)
+			.setEnabled(
+					ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(
+							deployment.getValue()));
+	}
+
+	private void setEnabledTestGroup() {
+		IFieldEditor createTestCheckBox = editorRegistry.get(ISeamFacetDataModelProperties.TEST_CREATING);
+		boolean enabled = ((Boolean)createTestCheckBox.getValue()).booleanValue();
+		editorRegistry.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setEnabled(enabled);
+		editorRegistry.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setEnabled(enabled);
+		editorRegistry.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setEnabled(enabled);						
+	}
+
+	private void setEnabledGroups(boolean enabled) {
+		for (Group group : groups) {
+				group.setEnabled(enabled);
+		}
+	}
+
+	private void setRuntimeIsSelected(boolean selected) {
+		runtimeIsSelected = selected;
+		for (String key : editorRegistry.keySet()) {
+			if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT && key!=ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME) {
+				editorRegistry.get(key).setEnabled(selected);
+			}
+		}
+		setEnabledGroups(selected);
+		setEnabledTestGroup();
+		setEnabledDeploymentGroup();
 	}
 
 	private void removeSeamSupport() {
@@ -304,91 +611,17 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 
 	private void addSeamSupport() {
 		try {
-			EclipseResourceUtil.addNatureToProject(project,
-					ISeamProject.NATURE_ID);
+			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
 	}
 
-	private void changeRuntime() {
-		String name = getRuntimeName();
-		SeamRuntime r = SeamRuntimeManager.getInstance()
-				.findRuntimeByName(name);
-		if (r == null)
-			return;
-		ISeamProject seamProject = SeamCorePlugin
-				.getSeamProject(project, false);
-		seamProject.setRuntimeName(name);
-	}
-
-	private boolean getSeamSupport() {
-		Object o = seamEnablement.getValue();
-		return o instanceof Boolean && ((Boolean) o).booleanValue();
-	}
-
-	private String getRuntimeName() {
-		return runtime.getValueAsString();
-	}
-
-	private void validate() {
-		if(getSeamSupport() && (runtime.getValue()== null || "".equals(runtime.getValue()))) { //$NON-NLS-1$
-//			setValid(false);
-			setMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED, IMessageProvider.WARNING);
-//			setErrorMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED);
-		} else {
-			setValid(true);
-			String value = runtime.getValueAsString();
-			if(Boolean.TRUE.equals(seamEnablement.getValue()) && SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
-				setErrorMessage("Runtime " + value + " does not exist.");
-			} else {
-				setErrorMessage(null);
-				setMessage(null, IMessageProvider.WARNING);
-			}
-		}
-	}
-
-	public class NewSeamRuntimeAction extends
-			ButtonFieldEditor.ButtonPressedAction {
-		/**
-		 * @param label
-		 */
-		public NewSeamRuntimeAction() {
-			super(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ADD);
-		}
-
-		@Override
-		public void run() {
-			List<SeamRuntime> added = new ArrayList<SeamRuntime>();
-			Wizard wiz = new SeamRuntimeNewWizard(
-					new ArrayList<SeamRuntime>(Arrays
-							.asList(SeamRuntimeManager.getInstance()
-									.getRuntimes())), added);
-			WizardDialog dialog = new WizardDialog(Display.getCurrent()
-					.getActiveShell(), wiz);
-			dialog.open();
-
-			if (added.size() > 0) {
-				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
-				getFieldEditor().setValue(added.get(0).getName());
-				((ITaggedFieldEditor) ((CompositeEditor) runtime)
-						.getEditors().get(1)).setTags(getAvailableRuntimeNames()
-						.toArray(new String[0]));
-				runtime.setValue(added.get(0).getName());
-			}
-		}
-	}
-
-	private List<String> getAvailableRuntimeNames() {
-		if(hasNature("org.eclipse.jdt.core.javanature")
-				&& !hasNature("org.eclipse.wst.common.project.facet.core.nature")) {
-			return SeamRuntimeManager.getInstance().getAllRuntimeNames();
-		}
-		if(seamProject != null) {
-			SeamRuntime r = seamProject.getRuntime();
+	private SeamVersion[] getSeamVersions() {
+		if(warSeamProject != null) {
+			SeamRuntime r = warSeamProject.getRuntime();
 			if(r != null) {
-				SeamRuntime[] rs = SeamRuntimeManager.getInstance().getRuntimes(r.getVersion());
-				return toNames(rs);
+				return new SeamVersion[]{r.getVersion()};
 			}
 			String jarLocation = getJBossSeamJarLocation();
 			if(jarLocation != null) {
@@ -396,28 +629,24 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 				String vs = SeamRuntimeListFieldEditor.SeamRuntimeWizardPage.getSeamVersion(folder);
 				SeamVersion v = findMatchingVersion(vs);
 				if(v != null) {
-					SeamRuntime[] rs = SeamRuntimeManager.getInstance().getRuntimes(v);
-					return toNames(rs);
+					return new SeamVersion[]{v};
 				}
 			}
 		}
-		return SeamRuntimeManager.getInstance().getRuntimeNames();
+		return SeamVersion.ALL_VERSIONS;
 	}
-	
-	private List<String> toNames(SeamRuntime[] rs) {
-		List<String> list = new ArrayList<String>();
-		if(rs != null) for (int i = 0; i < rs.length; i++) list.add(rs[i].getName());
-		return list;
-	}
-	
-	private boolean hasNature(String natureId) {
-		try {
-			return project != null && project.isAccessible() && project.hasNature(natureId);
-		} catch (CoreException e) {
-			return false;
+
+	private SeamVersion findMatchingVersion(String vs) {
+		if(vs == null) return null;
+		if(vs.matches(SeamVersion.SEAM_1_2.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_1_2;
 		}
+		if(vs.matches(SeamVersion.SEAM_2_0.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_2_0;
+		}
+		return null;
 	}
-	
+
 	private String getJBossSeamJarLocation() {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(project);
 		if(jp == null) return null;
@@ -438,16 +667,4 @@ public class SeamSettingsPreferencePage extends PropertyPage {
 		}
 		return null;
 	}
-	
-	private SeamVersion findMatchingVersion(String vs) {
-		if(vs == null) return null;
-		if(vs.matches(SeamVersion.SEAM_1_2.toString().replace(".", "\\.") + ".*")) {
-			return SeamVersion.SEAM_1_2;
-		}
-		if(vs.matches(SeamVersion.SEAM_2_0.toString().replace(".", "\\.") + ".*")) {
-			return SeamVersion.SEAM_2_0;
-		}
-		return null;
-	}
-
 }
