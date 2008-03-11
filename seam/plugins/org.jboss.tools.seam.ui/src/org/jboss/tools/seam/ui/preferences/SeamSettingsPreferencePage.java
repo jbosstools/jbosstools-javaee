@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -429,7 +430,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		} else {
 			String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 			if(SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
-				setErrorMessage("Runtime " + value + " does not exist.");
+				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_DOES_NOT_EXIST, new String[]{value}));
 				setValid(false);
 				return;
 			}
@@ -438,7 +439,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 		if(deployAsEar && !validateProjectName(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)) {
 			String ejbProjectName = getValue(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).trim();
-			setErrorMessage("Seam EJB project " + ejbProjectName + " does not exist.");
+			setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST, new String[]{ejbProjectName}));
 			return;
 		}
 
@@ -446,7 +447,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		if(viewFolder.length()>0) {
 			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(viewFolder);
 			if(folder==null || !folder.exists()) {
-				setErrorMessage("View Folder " + viewFolder + " does not exist.");
+				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_VIEW_FOLDER_DOES_NOT_EXIST, new String[]{viewFolder}));
 				setValid(false);
 				return;
 			}
@@ -454,25 +455,25 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		if(!validateSourceFolder(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
 			String modelSourceFolder = getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER).trim();
-			setErrorMessage("Model source folder " + modelSourceFolder + " does not exist.");
+			setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST, new String[]{modelSourceFolder}));
 			return;
 		}
 
 		if(!validateSourceFolder(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
 			String sourceFolder = getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER).trim();
-			setErrorMessage("Action/Form/Conversation source folder " + sourceFolder + " does not exist.");
+			setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST, new String[]{sourceFolder}));
 			return;
 		}
 
 		if(isTestEnabled()) {
 			if(!validateSourceFolder(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)){
 				String sourceFolder = getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).trim();
-				setErrorMessage("Test source folder " + sourceFolder + " does not exist.");
+				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST, new String[]{sourceFolder}));
 				return;
 			}
 			if(!validateProjectName(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT)) {
 				String testProjectName = getValue(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).trim();
-				setErrorMessage("Test project " + testProjectName + " does not exist.");
+				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, new String[]{testProjectName}));
 				return;
 			}
 		}
