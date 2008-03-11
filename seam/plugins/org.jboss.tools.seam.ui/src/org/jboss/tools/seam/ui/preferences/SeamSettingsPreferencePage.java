@@ -436,15 +436,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
-		if(deployAsEar) {
+		if(deployAsEar && !validateProjectName(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)) {
 			String ejbProjectName = getValue(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).trim();
-			if(ejbProjectName.length()>0) {
-				if(!ResourcesPlugin.getWorkspace().getRoot().getProject(ejbProjectName).exists()) {
-					setErrorMessage("Seam EJB project " + ejbProjectName + " does not exist.");
-					setValid(false);
-					return;
-				}
-			}
+			setErrorMessage("Seam EJB project " + ejbProjectName + " does not exist.");
+			return;
 		}
 
 		String viewFolder = getValue(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).trim();
@@ -457,11 +452,64 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			}
 		}
 
+		if(!validateSourceFolder(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
+			String modelSourceFolder = getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER).trim();
+			setErrorMessage("Model source folder " + modelSourceFolder + " does not exist.");
+			return;
+		}
+
+		if(!validateSourceFolder(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
+			String sourceFolder = getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER).trim();
+			setErrorMessage("Action/Form/Conversation source folder " + sourceFolder + " does not exist.");
+			return;
+		}
+
+		if(isTestEnabled()) {
+			if(!validateSourceFolder(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)){
+				String sourceFolder = getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).trim();
+				setErrorMessage("Test source folder " + sourceFolder + " does not exist.");
+				return;
+			}
+			if(!validateProjectName(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT)) {
+				String testProjectName = getValue(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).trim();
+				setErrorMessage("Test project " + testProjectName + " does not exist.");
+				return;
+			}
+		}
+
 		setValid(true);
 		setErrorMessage(null);
 		if(!warning) {
 			setMessage(null, IMessageProvider.WARNING);
 		}
+	}
+
+	private boolean validateProjectName(String editorName) {
+		String projectName = getValue(editorName).trim();
+		if(projectName.length()>0) {
+			if(!ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).exists()) {
+				setValid(false);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean validateSourceFolder(String sourceFolderEditorName, String packageEditorName) {
+		String sourceFolder = getValue(sourceFolderEditorName).trim();
+		if(sourceFolder.length()>0) {
+			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolder);
+			if(folder==null || !(folder instanceof IFolder) || !folder.exists()) {
+				editorRegistry.get(packageEditorName).setEnabled(false);
+				setValid(false);
+				return false;
+			} else {
+				editorRegistry.get(packageEditorName).setEnabled(true);
+			}
+		} else {
+			editorRegistry.get(packageEditorName).setEnabled(false);
+		}
+		return true;
 	}
 
 	private String getSeamRuntimeName() {
@@ -599,11 +647,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private void setEnabledTestGroup() {
-		IFieldEditor createTestCheckBox = editorRegistry.get(ISeamFacetDataModelProperties.TEST_CREATING);
-		boolean enabled = ((Boolean)createTestCheckBox.getValue()).booleanValue();
+		boolean enabled = isTestEnabled();
 		editorRegistry.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setEnabled(enabled);						
+	}
+
+	private boolean isTestEnabled() {
+		IFieldEditor createTestCheckBox = editorRegistry.get(ISeamFacetDataModelProperties.TEST_CREATING);
+		return ((Boolean)createTestCheckBox.getValue()).booleanValue();
 	}
 
 	private void setEnabledGroups(boolean enabled) {
