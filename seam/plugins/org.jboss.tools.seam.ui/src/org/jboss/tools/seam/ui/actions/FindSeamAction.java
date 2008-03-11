@@ -64,9 +64,11 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	
 	public void runWithEvent(Event e) {
 		IEditorPart editor = ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if (editor == null)
+			return;
+		
 		IEditorInput input = editor.getEditorInput();
 		IDocument document = null;
-		
 
 		ISourceViewer viewer = null;
 		
