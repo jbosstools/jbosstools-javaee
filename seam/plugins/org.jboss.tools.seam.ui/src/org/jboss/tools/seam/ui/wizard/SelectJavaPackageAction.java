@@ -92,18 +92,18 @@ public class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedActi
 
 		String initialValue = getFieldEditor().getValue().toString();
 		IJavaElement initialElement = null;
-		ArrayList packagesWithouDefaultPackage = new ArrayList();
+		ArrayList packagesWithoutDefaultPackage = new ArrayList();
 		for (IJavaElement packageElement : packages) {
 			String packageName = packageElement.getElementName();
 			if(packageName.length()>0) {
-				packagesWithouDefaultPackage.add(packageElement);
+				packagesWithoutDefaultPackage.add(packageElement);
 				if(packageName.equals(initialValue)) {
 					initialElement = packageElement;
 				}
 			}
 		}
 
-		packages = (IJavaElement[])packagesWithouDefaultPackage.toArray(new IJavaElement[packagesWithouDefaultPackage.size()]);
+		packages = (IJavaElement[])packagesWithoutDefaultPackage.toArray(new IJavaElement[packagesWithoutDefaultPackage.size()]);
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(), new JavaElementLabelProvider(
 				JavaElementLabelProvider.SHOW_DEFAULT));
 		dialog.setTitle(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_TITLE);

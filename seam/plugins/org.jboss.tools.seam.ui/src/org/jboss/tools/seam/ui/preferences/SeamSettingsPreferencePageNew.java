@@ -109,7 +109,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 
 		GridLayout gridLayout = new GridLayout(1, false);
 		root.setLayout(gridLayout);
-		
+
 		Composite generalGroup = new Composite(root, SWT.NONE);
 		generalGroup.setLayoutData(gd);
 		gridLayout = new GridLayout(4, false);
@@ -154,7 +154,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 					getPrefValue(
 							IParameter.SEAM_PROJECT_NAME, 
 							getSeamProjectName()));
-		
+
 		registerEditor(projectNameEditor, generalGroup);
 
 		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), new IValidator() {
@@ -176,7 +176,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 				Arrays.asList(new String[] {ISeamFacetDataModelProperties.DEPLOY_AS_WAR.toUpperCase(), ISeamFacetDataModelProperties.DEPLOY_AS_EAR.toUpperCase()}),
 				Arrays.asList(new Object[] {ISeamFacetDataModelProperties.DEPLOY_AS_WAR, ISeamFacetDataModelProperties.DEPLOY_AS_EAR}),
 				getDeployAsValue());
-		
+
 		deployTypeEditor.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				setEnabledDeploymentGroup();
@@ -204,45 +204,60 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_MODEL,
 				3);
 
+		String sourceFolder = getModelSourceFolder();
 		IFieldEditor modelSourceFolderEditor = 
 			IFieldEditorFactory.INSTANCE.createBrowseSourceFolderEditor(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, 
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER, 
-					getModelSourceFolder());
-		
-		IFieldEditor modelPackageEditor = 
+					sourceFolder);
+
+		final IFieldEditor modelPackageEditor = 
 			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, 
-					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, 
-					"");	
-		
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"",
+					getPrefValue(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, ""));
+
+		modelSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent evt) {
+				modelPackageEditor.setData(IParameter.SOURCE_FOLDER_PATH, getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER));
+			}
+		});
+
 		registerEditor(modelSourceFolderEditor, modelGroup);
 		registerEditor(modelPackageEditor, modelGroup);
-		
+
 		Group actionGroup = createGroup(root,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_ACTION,
 				3);
 
+		sourceFolder = getActionSourceFolder();
 		IFieldEditor actionSourceFolderEditor = 
 			IFieldEditorFactory.INSTANCE.createBrowseSourceFolderEditor(
 					ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, 
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER, 
-					getModelSourceFolder());
-		
-		IFieldEditor actionPackageEditor = 
+					sourceFolder);
+
+		final IFieldEditor actionPackageEditor = 
 			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
 					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, 
-					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, 
-					"");	
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"",
+					getPrefValue(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, ""));	
+
+		actionSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent evt) {
+				actionPackageEditor.setData(IParameter.SOURCE_FOLDER_PATH, getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER));
+			}
+		});
+
 		registerEditor(actionSourceFolderEditor, actionGroup);
 		registerEditor(actionPackageEditor, actionGroup);
-		
+
 		Group testGroup = createGroup(root,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_TEST,
 				3);
 
 		IFieldEditor createTestCheckBox = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
-				ISeamFacetDataModelProperties.TEST_CREATING, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_CREATE_TEST, false);
+				ISeamFacetDataModelProperties.TEST_CREATING, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_CREATE_TEST, shouldCreateTests());
 		createTestCheckBox.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Object value = evt.getNewValue();
@@ -251,31 +266,43 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 				}
 			}
 		});
-		
+
 		registerEditor(createTestCheckBox, testGroup);
-		
+
 		IFieldEditor testProjectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT, getTestProjectName(),false);
 		registerEditor(testProjectEditor, testGroup);
-		
+
+		sourceFolder = getTestSourceFolder();
 		IFieldEditor testSourceFolderEditor = 
 			IFieldEditorFactory.INSTANCE.createBrowseSourceFolderEditor(
 					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, 
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SOURCE_FOLDER, 
-					getModelSourceFolder());
-		
-		IFieldEditor testPackageEditor = 
+					sourceFolder);
+
+		final IFieldEditor testPackageEditor = 
 			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, 
-					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, 
-					"");
-		
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"", 
+					getPrefValue(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""));
+
+		testSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent evt) {
+				testPackageEditor.setData(IParameter.SOURCE_FOLDER_PATH, getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER));
+			}
+		});
+
 		registerEditor(testSourceFolderEditor, testGroup);
 		registerEditor(testPackageEditor, testGroup);
-		
+
 		setEnabledSeamSuport(warSeamProject!=null);
 //		setRuntimeIsSelected(getSeamRuntimeName().length()>0);
 
 		return root;
+	}
+
+	private boolean shouldCreateTests() {
+		String value = getPrefValue(ISeamFacetDataModelProperties.TEST_CREATING, "false");
+		return Boolean.parseBoolean(value);
 	}
 
 	private String getPrefValue(String prefName,String defaultValue) {
@@ -315,6 +342,32 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		if(folder==null) {
 			SeamProjectsSet set = new SeamProjectsSet(project);
 			IFolder f = set.getModelFolder();
+			folder = f!=null?f.getFullPath().toString():"";
+		}
+		return folder;
+	}
+
+	private String getActionSourceFolder() {
+		String folder = null;
+		if(preferences!=null) {
+			folder = preferences.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
+		}
+		if(folder==null) {
+			SeamProjectsSet set = new SeamProjectsSet(project);
+			IFolder f = set.getActionFolder();
+			folder = f!=null?f.getFullPath().toString():"";
+		}
+		return folder;
+	}
+
+	private String getTestSourceFolder() {
+		String folder = null;
+		if(preferences!=null) {
+			folder = preferences.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
+		}
+		if(folder==null) {
+			SeamProjectsSet set = new SeamProjectsSet(project);
+			IFolder f = set.getTestsFolder();
 			folder = f!=null?f.getFullPath().toString():"";
 		}
 		return folder;
@@ -430,8 +483,8 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 
 		prefs.put(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, 
-				"1.1");
-		
+				ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_1);
+
 		prefs.put(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 				getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 
@@ -446,9 +499,9 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		prefs.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, 
 				getValue(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME));
 		prefs.put(ISeamFacetDataModelProperties.TEST_CREATING,
-				"true");
-		prefs.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, 
 				getValue(ISeamFacetDataModelProperties.TEST_CREATING));
+		prefs.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, 
+				getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER));
 		prefs.put(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, 
 				getValue(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT));
 		prefs.put(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, 
@@ -502,12 +555,11 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 	private void setEnabledDeploymentGroup() {
 		IFieldEditor deployment = 
 			editorRegistry.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
-		
+
 		editorRegistry.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)
 			.setEnabled(
 					ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(
 							deployment.getValue()));
-		
 	}
 
 	private void setEnabledTestGroup() {
@@ -517,7 +569,7 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setEnabled(enabled);						
 	}
-	
+
 	private void setEnabledGroups(boolean enabled) {
 		for (Group group : groups) {
 				group.setEnabled(enabled);
@@ -532,6 +584,8 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 			}
 		}
 		setEnabledGroups(selected);
+		setEnabledTestGroup();
+		setEnabledDeploymentGroup();
 	}
 
 	private void removeSeamSupport() {
@@ -601,5 +655,4 @@ public class SeamSettingsPreferencePageNew extends PropertyPage implements Prope
 		}
 		return null;
 	}
-
 }

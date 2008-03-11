@@ -91,7 +91,7 @@ public interface IFieldEditor extends INamedElement {
 	 * @param data
 	 * @param key
 	 */
-	public void setData(Object data, Object key);
+	public void setData(Object key, Object data);
 
 	/**
 	 * Gets the application defined property of this editor

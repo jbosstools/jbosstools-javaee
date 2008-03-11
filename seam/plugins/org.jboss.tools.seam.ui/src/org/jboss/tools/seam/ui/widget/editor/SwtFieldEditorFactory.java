@@ -21,6 +21,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -31,9 +32,11 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jst.j2ee.internal.plugin.J2EEUIMessages;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.internal.util.Util;
@@ -44,7 +47,9 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
+import org.jboss.tools.seam.ui.wizard.IParameter;
 
 /**
  * 
@@ -147,19 +152,18 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return editor;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory#createBrowseSourceFolderEditor(java.lang.String, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory#createBrowsePackageEditor(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public IFieldEditor createBrowsePackageEditor(String name,	String label, String defaultValue) {
-		ButtonFieldEditor.ButtonPressedAction action = createSelectPackageAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS, defaultValue);
-		CompositeEditor editor = new CompositeEditor(name, label, defaultValue);
-		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name, label),
-				new TextFieldEditor(name, label, defaultValue),
-				new ButtonFieldEditor(name, action, defaultValue)});
-		action.setFieldEditor(editor);
+	public IFieldEditor createBrowsePackageEditor(String name,	String label, String initSourceFolderPath, String defaultValue) {
+		ButtonFieldEditor.ButtonPressedAction action = new SelectJavaPackageAction(SeamUIMessages.SWT_FIELD_EDITOR_FACTORY_BROWS, initSourceFolderPath, defaultValue);
+		IFieldEditor editor = createButtonFieldEditor(
+				name, label, defaultValue, 
+				action, ValidatorFactory.NO_ERRORS_VALIDATOR);
 		return editor;
 	}
-	
+
 	/**
 	 * @param buttonName
 	 * @return
@@ -333,6 +337,9 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return editor;
 	}
 
+	/**
+	 * 
+	 */
 	public IFieldEditor createButtonFieldEditor(String name, String label, String defaultValue, ButtonFieldEditor.ButtonPressedAction action, IValidator validator ) {
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,label),
@@ -408,29 +415,103 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 		return action;
 	}
 
-	/**
-	 * 
-	 * @param buttonName
-	 * @return
-	 */
-	public ButtonFieldEditor.ButtonPressedAction createSelectPackageAction(String buttonName, String defaultValue) {
-		return new ButtonFieldEditor.ButtonPressedAction(buttonName) {
-			@Override
-			public void run() {
-				final ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(
-						Display.getCurrent().getActiveShell(),
-						new JavaElementLabelProvider(), new JavaSourceContentProvider(true));
-				dialog.setInput(ResourcesPlugin.getWorkspace());
-				if (dialog.open() == Window.OK) {
-					IPackageFragment pack = (IPackageFragment) dialog.getFirstResult();
-					IPath newPath = pack.getResource().getFullPath();
-					String value = newPath.toString();
-					getFieldEditor().setValue(value);
+	private static class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedAction {
+		private String defaultSourceFolderPath;
+
+		public SelectJavaPackageAction(String buttonName, String defaultSourceFolderPath, String defaultPackageName) {
+			super(buttonName);
+			this.defaultSourceFolderPath = defaultSourceFolderPath;
+		}
+
+		@Override
+		public void run() {
+			String sourceFolder = (String)getFieldEditor().getData(IParameter.SOURCE_FOLDER_PATH);
+			if(sourceFolder==null) {
+				sourceFolder = defaultSourceFolderPath;
+			}
+			if(sourceFolder == null) {
+				SeamGuiPlugin.getPluginLog().logError("Can't init source folder");
+				return;
+			}
+			IResource initSourceFolder = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolder);
+			if(initSourceFolder == null) {
+				SeamGuiPlugin.getPluginLog().logError("Can't find source folder: " + defaultSourceFolderPath);
+				return;
+			}
+			IProject project = initSourceFolder.getProject();
+			if(project == null) {
+				SeamGuiPlugin.getPluginLog().logError("Can't find project for: " + defaultSourceFolderPath);
+				return;
+			}
+			IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+			if(javaProject == null) {
+				SeamGuiPlugin.getPluginLog().logError("Can't find java project for: " + defaultSourceFolderPath);
+				return;
+			}
+			IPackageFragmentRoot packageFragmentRoot = null;
+			IPackageFragmentRoot[] roots;
+			try {
+				roots = javaProject.getPackageFragmentRoots();
+				for (int i = 0; i < roots.length; i++) {
+					if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE && roots[i].getResource().equals(initSourceFolder)) {
+						packageFragmentRoot = roots[i];
+						break;
+					}
+				}
+			} catch (JavaModelException e) {
+				SeamGuiPlugin.getPluginLog().logError(e);
+			}
+			if (packageFragmentRoot == null) {
+				packageFragmentRoot = javaProject.getPackageFragmentRoot(javaProject.getResource());
+			}
+			if (packageFragmentRoot == null) {
+				SeamGuiPlugin.getPluginLog().logError("Can't find source folder for project " + project.getName());
+				return;
+			}
+			IJavaElement[] packages = null;
+			try {
+				packages = packageFragmentRoot.getChildren();
+			} catch (JavaModelException e) {
+				SeamGuiPlugin.getPluginLog().logError(e);
+			}
+			if (packages == null) {
+				packages = new IJavaElement[0];
+			}
+
+			String initialValue = getFieldEditor().getValue().toString();
+			IJavaElement initialElement = null;
+			ArrayList<IJavaElement> packagesWithoutDefaultPackage = new ArrayList<IJavaElement>();
+			for (IJavaElement packageElement : packages) {
+				String packageName = packageElement.getElementName();
+				if(packageName.length()>0) {
+					packagesWithoutDefaultPackage.add(packageElement);
+					if(packageName.equals(initialValue)) {
+						initialElement = packageElement;
+					}
 				}
 			}
-		};
+
+			packages = (IJavaElement[])packagesWithoutDefaultPackage.toArray(new IJavaElement[packagesWithoutDefaultPackage.size()]);
+			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(), new JavaElementLabelProvider(
+					JavaElementLabelProvider.SHOW_DEFAULT));
+			dialog.setTitle(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_TITLE);
+			dialog.setMessage(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_DESC);
+			dialog.setEmptyListMessage(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_MSG_NONE);
+			dialog.setElements(packages);
+			if(initialElement!=null) {
+				dialog.setInitialSelections(new Object[]{initialElement});
+			}
+			if (dialog.open() == Window.OK) {
+				IPackageFragment fragment = (IPackageFragment) dialog.getFirstResult();
+				if (fragment != null) {
+					getFieldEditor().setValue(fragment.getElementName());
+				} else {
+					getFieldEditor().setValue("");
+				}
+			}
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param buttonName

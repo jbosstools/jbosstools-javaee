@@ -103,12 +103,25 @@ public interface IFieldEditorFactory {
 	 */
 	IFieldEditor createBrowseSourceFolderEditor(String name, String label, String defaultValue);
 
-	
-	IFieldEditor createBrowsePackageEditor(String name,	String label, String defaultValue) ;
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param initProjectName
+	 * @param defaultValue
+	 * @return
+	 */
+	IFieldEditor createBrowsePackageEditor(String name,	String label, String initSourceFolderPath, String defaultValue);
 
-	
+	/**
+	 * 
+	 * @param name
+	 * @param label
+	 * @param defaultValue
+	 * @return
+	 */
 	IFieldEditor createBrowseSeamProjectEditor(String name,	String label, String defaultValue);
-	
+
 	/**
 	 * 
 	 * @param name
@@ -160,11 +173,9 @@ public interface IFieldEditorFactory {
 			ButtonFieldEditor.ButtonPressedAction action2, IValidator validator);
 	
 	ButtonFieldEditor.ButtonPressedAction createNotImplementedYetAction(String buttonName);
-	
+
 	IFieldEditor createComboWithButton(String name, String label,
 			List values, Object defaultValue, boolean flat,
 			ButtonPressedAction action1,
 			IValidator validator);
-
-	
 }
