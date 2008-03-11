@@ -10,11 +10,15 @@
        point="org.eclipse.help.contexts">
     <contexts
           file="StrutsContextHelp.xml"
-          plugin="org.jboss.tools.jsf.doc.user">
+          plugin="org.jboss.tools.struts.ui">
+    </contexts>
+    <contexts
+          file="StrutsContextHelp.xml"
+          plugin="org.jboss.tools.struts">
     </contexts>
     <contexts
           file="JSFContextHelp.xml"
-          plugin="org.jboss.tools.jsf.doc.user">
+          plugin="org.jboss.tools.jsf.ui">
     </contexts>
  </extension>
 </plugin>

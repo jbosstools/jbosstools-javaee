@@ -25,6 +25,7 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.FacesConfigFilteredTreeConstraint;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jsf.ui.IJSFHelpContextIds;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.common.model.ui.editor.EditorDescriptor;
 
@@ -34,7 +35,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 	
 	protected Composite createPageContainer(Composite parent) {
 		Composite composite = super.createPageContainer(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jboss.tools.jsf.doc.user.faces_config_editor");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IJSFHelpContextIds.FACES_CONFIG_EDITOR);
 		return composite;
 	}
 	

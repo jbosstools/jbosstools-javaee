@@ -16,7 +16,8 @@
    <PAIR name="ValidatorPaste" value="org.jboss.tools.struts.validators.model.handlers.ValidatorPasteHandler"/>
   </MAPPING>
   <MAPPING name="HelpPlugins">
-   <PAIR name="struts" value="org.jboss.tools.jsf.doc.user."/>
+   <PAIR name="struts" value="org.jboss.tools.struts."/>
+   <PAIR name="jsf" value="org.jboss.tools.jsf."/>
   </MAPPING>
   <MAPPING name="ObjectEditor">
    <PAIR name="Validator" value="org.jboss.tools.struts.validator.ui.ValidationCompoundEditor"/>

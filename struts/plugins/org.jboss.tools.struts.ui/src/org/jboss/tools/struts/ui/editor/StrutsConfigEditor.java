@@ -29,12 +29,13 @@ import org.jboss.tools.common.model.ui.editor.EditorDescriptor;
 import org.jboss.tools.struts.StrutsConstants;
 import org.jboss.tools.struts.StrutsPreference;
 import org.jboss.tools.struts.StrutsProject;
+import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
 
 public class StrutsConfigEditor extends ObjectMultiPageEditor {
 	protected Composite createPageContainer(Composite parent) {
 		Composite composite = super.createPageContainer(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jboss.tools.jsf.doc.user.struts_config_editor");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IStrutsHelpContextIds.STRUTS_CONFIG_EDITOR);
 		return composite;
 	}
 
