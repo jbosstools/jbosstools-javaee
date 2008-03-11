@@ -46,9 +46,9 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	
 	public void testOpenSeamComponentDialogSearch() {
 		
-		find("m", "mockSecureEntity");
-		find("o", "org.jboss.seam.captcha.captcha");
-		find("p", "package1.package2.package3.package4.myComponent");
+		find("m", "mockSecureEntity", true);
+		find("o", "org.jboss.seam.captcha.captcha", false);
+		find("p", "org.jboss.seam.core.pageContext", false);
 		
 	}
 	
@@ -56,23 +56,25 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	//JBIDE-1879
 	public void testFindShortHand() {
 		
-		find("o*jbpm", "org.jboss.seam.core.jbpm");
-		find("jbpm", "jbpm");
+		find("o*jbpm", "org.jboss.seam.core.jbpm", true);
+		find("jbpm", "org.jboss.seam.core.jbpm", false);
 		
 		
 	}
 	
-	private void find(String pattern, String componentName){
+	private void find(String pattern, String componentName, boolean wait){
 		OpenSeamComponentDialog dialog = new OpenSeamComponentDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
 		dialog.setInitialPattern(pattern);
 		dialog.beginTest();
-		/*try{
-			Thread.sleep(30000);
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}*/
+		if(wait){
+			try{
+				Thread.sleep(30000);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
 		dialog.endTest();
 		Object[] objects = dialog.getResult();
 		

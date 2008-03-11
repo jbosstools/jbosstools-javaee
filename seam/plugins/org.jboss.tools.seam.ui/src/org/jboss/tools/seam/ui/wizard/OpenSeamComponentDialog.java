@@ -66,18 +66,18 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 
 		setListLabelProvider(new SeamComponentLabelProvider());
 		setDetailsLabelProvider(new SeamComponentLabelProvider());
-		
+
 		XMLMemento memento = loadMemento();
 		if (memento != null)
 			getSelectionHistory().load(memento);
 	}
-	
-	public void beginTest(){
+
+	public void beginTest() {
 		create();
 		applyFilter();
 	}
-	
-	public void endTest(){
+
+	public void endTest() {
 		refresh();
 		setResult(getSelectedItems().toList());
 	}
@@ -93,7 +93,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
+
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 				.getProjects();
 
@@ -136,36 +136,36 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 				reader = new FileReader(file);
 
 				memento = XMLMemento.createReadRoot(reader);
-			}catch (IOException ex) {
+			} catch (IOException ex) {
 				SeamCorePlugin.getPluginLog().logError(ex);
-			}catch (WorkbenchException ex){
+			} catch (WorkbenchException ex) {
 				SeamCorePlugin.getPluginLog().logError(ex);
-			}finally{
-				try{
+			} finally {
+				try {
 					reader.close();
-				}catch(IOException ex){
+				} catch (IOException ex) {
 					SeamCorePlugin.getPluginLog().logError(ex);
 				}
 			}
 		}
 		return memento;
 	}
-	
-	private static void saveMemento(XMLMemento xmlMemento){
+
+	private static void saveMemento(XMLMemento xmlMemento) {
 		IPath stateLocation = SeamGuiPlugin.getDefault().getStateLocation()
-		.append(FILE_NAME);
+				.append(FILE_NAME);
 		File file = new File(stateLocation.toOSString());
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(file);
-		
+
 			xmlMemento.save(writer);
-		}catch (IOException ex) {
+		} catch (IOException ex) {
 			SeamCorePlugin.getPluginLog().logError(ex);
-		}finally{
-			try{
+		} finally {
+			try {
 				writer.close();
-			}catch(IOException ex){
+			} catch (IOException ex) {
 				SeamCorePlugin.getPluginLog().logError(ex);
 			}
 		}
@@ -208,8 +208,23 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		public boolean matchItem(Object item) {
 			if (item instanceof SeamComponentWrapper) {
 				SeamComponentWrapper componentWrapper = (SeamComponentWrapper) item;
-				return patternMatcher.matches(componentWrapper
+
+				boolean result = patternMatcher.matches(componentWrapper
 						.getComponentName());
+				if (!result) {
+					String pattern = patternMatcher.getPattern();
+					if (pattern.indexOf(".") < 0) {
+						int lastIndex = componentWrapper.getComponentName()
+								.lastIndexOf(".");
+						if (lastIndex >= 0
+								&& (lastIndex + 1) < componentWrapper
+										.getComponentName().length())
+							return patternMatcher.matches(componentWrapper
+									.getComponentName()
+									.substring(lastIndex + 1));
+					}
+				}
+				return result;
 			}
 			return false;
 		}
@@ -274,7 +289,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			String componentDeleted = mem.getString(DELETED);
 			if (componentDeleted != null && YES.equals(componentDeleted))
 				return null;
-			
+
 			return new SeamComponentWrapper(componentName, projectName);
 		}
 
@@ -304,8 +319,8 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		public String getText(Object element) {
 			if (element instanceof SeamComponentWrapper) {
 				SeamComponentWrapper componentWrapper = (SeamComponentWrapper) element;
-				return componentWrapper.getComponentName()
-						+ SEPARATOR + componentWrapper.getProjectName(); //$NON-NLS-1$
+				return componentWrapper.getComponentName() + SEPARATOR
+						+ componentWrapper.getProjectName(); //$NON-NLS-1$
 			}
 			return null;
 		}
@@ -379,50 +394,48 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		}
 
 	}
-	
 
-	public static void validateHistory(ISeamProject seamProject){
+	public static void validateHistory(ISeamProject seamProject) {
 		String seamProjectName = seamProject.getProject().getName();
-		
+
 		XMLMemento memento = loadMemento();
-		if(memento != null){
+		if (memento != null) {
 			XMLMemento historyMemento = (XMLMemento) memento
-			.getChild(ROOT_NODE);
+					.getChild(ROOT_NODE);
 
 			if (historyMemento == null) {
 				return;
 			}
-		
-			IMemento[] mementoElements = historyMemento
-					.getChildren(INFO_NODE);
+
+			IMemento[] mementoElements = historyMemento.getChildren(INFO_NODE);
 			for (int i = 0; i < mementoElements.length; ++i) {
 				IMemento mem = mementoElements[i];
 				String projectName = mem.getString(PROJECT_NAME);
-				if (projectName == null){
+				if (projectName == null) {
 					mem.putString(DELETED, YES);
 					continue;
 				}
-				if(projectName.equals(seamProjectName)){
+				if (projectName.equals(seamProjectName)) {
 					String componentName = mem.getString(COMPONENT_NAME);
-					if (componentName == null){
+					if (componentName == null) {
 						mem.putString(DELETED, YES);
 						continue;
 					}
 					IProject project = ResourcesPlugin.getWorkspace().getRoot()
-					.getProject(projectName);
+							.getProject(projectName);
 					if (project != null) {
-						ISeamProject cSeamProject = SeamCorePlugin.getSeamProject(
-								project, true);
+						ISeamProject cSeamProject = SeamCorePlugin
+								.getSeamProject(project, true);
 						if (cSeamProject != null) {
 							ISeamComponent component = cSeamProject
 									.getComponent(componentName);
-							if(component == null)
+							if (component == null)
 								mem.putString(DELETED, YES);
 							else
 								mem.putString(DELETED, NO);
-						}else
+						} else
 							mem.putString(DELETED, YES);
-					}else
+					} else
 						mem.putString(DELETED, YES);
 				}
 			}
