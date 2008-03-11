@@ -73,7 +73,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		}
 
 		Composite top = new GridLayoutComposite(parent);
-		Composite projectComposite = new GridLayoutComposite(top, SWT.NONE, 3);
+		Composite projectComposite = new GridLayoutComposite(top, SWT.NONE, 4);
 
 		projectEditor.doFillIntoGrid(projectComposite);
 
