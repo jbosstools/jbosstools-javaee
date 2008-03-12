@@ -14,6 +14,8 @@ public interface IStrutsHelpContextIds {
 	public static final String PREFIX = StrutsUIPlugin.PLUGIN_ID + '.';
 
 	public static final String STRUTS_CONFIG_EDITOR = PREFIX + "struts_config_editor";
+	
+	public static final String VALIDATION_EDITOR = PREFIX + "validation_editor";
 
 	
 }

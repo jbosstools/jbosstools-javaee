@@ -11,12 +11,15 @@
 package org.jboss.tools.struts.validator.ui;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.editor.AbstractSelectionProvider;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.editor.ObjectTextEditor;
 import org.jboss.tools.common.editor.TreeGuiEditor;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
+import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
 import org.jboss.tools.struts.validator.ui.constants.ConstantsEditor;
 import org.jboss.tools.struts.validator.ui.formset.FormsetsEditor;
 import org.jboss.tools.struts.validator.ui.global.ValidatorsEditor;
@@ -27,7 +30,12 @@ public class ValidationCompoundEditor extends ObjectMultiPageEditor {
     protected FormsetsEditor formsetsEditor;
     protected ValidatorsEditor validatorsEditor;
     protected ConstantsEditor constantsEditor;
-
+    
+    protected Composite createPageContainer(Composite parent) {
+		Composite composite = super.createPageContainer(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IStrutsHelpContextIds.VALIDATION_EDITOR);
+		return composite;
+	}
 	public void dispose() {
 		try {
 			getSite().setSelectionProvider(null);

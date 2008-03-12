@@ -21,10 +21,6 @@
 		<description>Add Struts Support Wizard</description>
 		<topic href="JSFStrutsTools.html#AddingStrutsCapabilityToAnExistingWebApplication532" label="Adding Struts Capability to an Existing Web Application"/>
 	</context>
-	<context id="tiles_editor" title="Tiles Editor">
-		<description>Tiles Editor</description>
-		<topic href="JSFStrutsTools.html#GraphicalEditorForTilesFiles132" label="Graphical Editor for Tiles Files"/>
-	</context>
 	<context id="validation_editor" title="Validation Editor">
 		<description>Validation Editor</description>
 		<topic href="JSFStrutsTools.html#GraphicalEditorForStrutsValidationFiles86" label="Graphical Editor for Struts Validation Files"/>
