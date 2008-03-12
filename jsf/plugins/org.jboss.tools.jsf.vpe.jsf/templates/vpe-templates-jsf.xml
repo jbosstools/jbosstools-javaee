@@ -927,7 +927,7 @@
 				cellspacing="{@cellspacing}" columnClasses="{@columnClasses}"
 				footerClass="{@footerClass}" headerClass="{@headerClass}"
 				rowClasses="{@rowClasses}" frame="{@frame}" rules="{@rules}"
-				class="{@styleClass}" style="{@style}" title="{tagstring()}" />
+				class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
