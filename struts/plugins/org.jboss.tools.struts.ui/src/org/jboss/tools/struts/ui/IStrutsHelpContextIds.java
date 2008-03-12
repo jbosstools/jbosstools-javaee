@@ -17,5 +17,7 @@ public interface IStrutsHelpContextIds {
 	
 	public static final String VALIDATION_EDITOR = PREFIX + "validation_editor";
 
+	public static final String NEW_STRUTS_PROJECT = PREFIX + "new_struts_project";
 	
+	public static final String IMPORT_STRUTS_PROJECT = PREFIX + "import_struts_project";
 }

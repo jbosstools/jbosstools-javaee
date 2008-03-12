@@ -12,10 +12,13 @@ package org.jboss.tools.struts.ui.wizard.project;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.jst.web.project.helpers.ProjectTemplate;
+import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
 import org.jboss.tools.struts.ui.operation.StrutsProjectCreationOperation;
 import org.jboss.tools.jst.web.WebPreference;
 import org.jboss.tools.jst.web.ui.wizards.appregister.NewProjectRegisterPage;
@@ -34,6 +37,11 @@ public class NewProjectWizard extends NewWebProjectWizard {
 		context = new NewProjectWizardContext();
 		this.setWindowTitle(WizardKeys.getString(NEW_STRUTS_PROJECT_WIZARD_WINDOW_TITLE));
 		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_NEW_PROJECT));
+	}
+	
+	public void createPageControls(Composite parent) {
+		super.createPageControls(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IStrutsHelpContextIds.NEW_STRUTS_PROJECT);
 	}
 	
 	public void addPages() {
