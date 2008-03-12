@@ -402,6 +402,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 
 	}
+	
+	public long fullBuildTime;
+	public List<Long> statistics;
 
 	/**
 	 * Method testing how long it takes to load Seam model
@@ -414,6 +417,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @return
 	 */
 	public long reload() {
+		statistics = new ArrayList<Long>();
 		classPath = new ClassPath(this);
 		sourcePaths.clear();
 		sourcePaths2.clear();
@@ -589,6 +593,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 			context.put(SeamXMLConstants.ATTR_PATH, path);
 			
+			long t1 = System.currentTimeMillis();
 			LoadedDeclarations ds = new LoadedDeclarations();
 			Element components = XMLUtilities.getUniqueChild(paths[i], "components");
 			if(components != null) {
@@ -637,6 +642,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			getClassPath().pathLoaded(path);
 			registerComponents(ds, path);
+			long t2 = System.currentTimeMillis();
+			if(statistics != null) {
+				statistics.add(new Long(t2 - t1));
+			}
 		}
 	}
 	
@@ -682,6 +691,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		IPath path = SeamCorePlugin.getDefault().getStateLocation();
 		File file = new File(path.toFile(), "projects/" + project.getName()); //$NON-NLS-1$
 		return file;
+	}
+	
+	public void clearStorage() {
+		File f = getStorageFile();
+		if(f != null && f.isFile()) f.delete();
 	}
 
 	/**

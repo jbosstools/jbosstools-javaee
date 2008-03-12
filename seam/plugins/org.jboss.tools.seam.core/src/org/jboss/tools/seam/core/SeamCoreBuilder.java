@@ -82,6 +82,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			return null; 
 		}
 		
+		long begin = System.currentTimeMillis();
+		
 		sp.postponeFiring();
 		
 		try {
@@ -104,6 +106,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 					incrementalBuild(delta, monitor);
 				}
 			}
+			long end = System.currentTimeMillis();
+			sp.fullBuildTime += end - begin;
 			try {
 				sp.store();
 			} catch (IOException e) {
