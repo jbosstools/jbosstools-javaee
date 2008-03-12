@@ -28,6 +28,7 @@ public class SeamCoreAllTests {
 		suite.setName("All tests for " + PLUGIN_ID);
 		suite.addTestSuite(ScannerTest.class);
 		suite.addTestSuite(SerializationTest.class);
+		suite.addTestSuite(SeamBigProjectTest.class);
 		suite.addTestSuite(SeamEARTest.class);
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
