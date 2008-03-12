@@ -11,8 +11,11 @@
 package org.jboss.tools.jsf.ui.wizard.project;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.XModelFactory;
+import org.jboss.tools.jsf.ui.IJSFHelpContextIds;
 import org.jboss.tools.jsf.ui.operation.JSFProjectAdoptOperation;
 import org.jboss.tools.jsf.web.helpers.context.*;
 import org.jboss.tools.common.model.ui.*;
@@ -25,6 +28,11 @@ public class ImportProjectWizard extends ImportWebProjectWizard {
 	public ImportProjectWizard() {
 		this.setWindowTitle(WizardKeys.getString(IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE));
 		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_IMPORT_PROJECT));
+	}
+	
+	public void createPageControls(Composite parent) {
+		super.createPageControls(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IJSFHelpContextIds.IMPORT_JSF_PROJECT);
 	}
 	
 	public void addPages() {

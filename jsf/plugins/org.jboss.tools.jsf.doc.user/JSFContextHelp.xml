@@ -21,10 +21,6 @@
 		<description>New Managed Bean Wizard</description>
 		<topic href="JSFStrutsTools.html#ManagedBeans96453" label="Managed Beans"/>
 	</context>
-	<context id="new_managed_bean" title="New Managed Bean">
-		<description>New Managed Bean Wizard</description>
-		<topic href="JSFStrutsTools.html#ManagedBeans96453" label="Managed Beans"/>
-	</context>
 	<context id="add_property" title="Add Property">
 		<description>Add Property Wizard</description>
 		<topic href="JSFStrutsTools.html#CodeGenerationForManagedBeans421" label="Code Generation for Managed Beans"/>
