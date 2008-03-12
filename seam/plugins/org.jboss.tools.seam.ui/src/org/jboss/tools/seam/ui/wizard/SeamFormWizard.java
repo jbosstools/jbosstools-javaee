@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +31,12 @@ import org.jboss.tools.seam.ui.widget.editor.INamedElement;
  *
  */
 public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
-	
+
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.NEW_SEAM_FORM);
 	}
+
 	/**
 	 * 
 	 */
@@ -44,9 +44,12 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 		super(CREATE_SEAM_FORM);
 		setWindowTitle(SeamUIMessages.SEAM_FORM_WIZARD_NEW_SEAM_FORM);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png")); //$NON-NLS-1$
-		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
 	@Override
 	public void addPages() {
 		addPage(new SeamFormWizardPage1(getInitialSelection()));
@@ -60,49 +63,65 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 			super(SeamUIMessages.SEAM_FORM_WIZARD_FORM_CREATING_OPERATION);
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#getFileMappings(java.util.Map)
 		 */
 		@Override
-		public List<String[]> getFileMappings(Map<String, Object> vars) {
-			if("war".equals(vars.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS))) //$NON-NLS-1$
-				return FORM_WAR_MAPPING;
-			else
-				return FORM_EAR_MAPPING;
+		public List<FileMapping> getFileMappings(Map<String, Object> vars) {
+			return ACTION_MAPPING;
 		}
 
-		public static final List<String[]> FORM_WAR_MAPPING = new ArrayList<String[]>();
-
-		public static final List<String[]> FORM_EAR_MAPPING = new ArrayList<String[]>();
+		public static final List<FileMapping> ACTION_MAPPING = new ArrayList<FileMapping>();
 
 		static {
-			FORM_WAR_MAPPING.add(new String[]{
+			// initialize war files mapping
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/FormActionJavaBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_WAR_MAPPING.add(new String[]{
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.WAR,
+					false));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/test/FormTest.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_WAR_MAPPING.add(new String[]{
+					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.WAR,
+					true));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/test/testng.xml", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_WAR_MAPPING.add(new String[]{
+					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.WAR,
+					true));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/form.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"});	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					FileMapping.TYPE.WAR,
+					false));
 			// initialize ear files mapping
-			FORM_EAR_MAPPING.add(new String[]{
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/FormActionBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_EAR_MAPPING.add(new String[]{
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.EAR,
+					false));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/FormAction.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_EAR_MAPPING.add(new String[]{
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.EAR,
+					false));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/test/FormTest.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_EAR_MAPPING.add(new String[]{
+					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.EAR,
+					true));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/test/testng.xml", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			FORM_EAR_MAPPING.add(FORM_WAR_MAPPING.get(3));
+					"${" + IParameter.TEST_SOURCE_FOLDER + "}/${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.EAR,
+					true));
+			ACTION_MAPPING.add(new FileMapping(
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/form.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
+					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					FileMapping.TYPE.EAR,
+					false));
 		}
 
 		/*

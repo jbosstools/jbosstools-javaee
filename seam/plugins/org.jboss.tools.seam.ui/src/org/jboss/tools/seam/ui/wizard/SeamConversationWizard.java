@@ -59,34 +59,40 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 		}
 
 		@Override
-		public List<String[]> getFileMappings(Map<String, Object> vars) {
-			if("war".equals(vars.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS))) //$NON-NLS-1$
-				return ACTION_WAR_MAPPING;
-			else
-				return ACTION_EAR_MAPPING;
+		public List<FileMapping> getFileMappings(Map<String, Object> vars) {
+			return ACTION_MAPPING;
 		}
 
-		public static final List<String[]> ACTION_WAR_MAPPING = new ArrayList<String[]>();
-
-		public static final List<String[]> ACTION_EAR_MAPPING = new ArrayList<String[]>();
+		public static final List<FileMapping> ACTION_MAPPING = new ArrayList<FileMapping>();
 
 		static {
 			// initialize war files mapping
-			ACTION_WAR_MAPPING.add(new String[]{
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationJavaBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			ACTION_WAR_MAPPING.add(new String[]{
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.WAR,
+					false));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/conversation.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"});	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					FileMapping.TYPE.WAR,
+					false));
 			// initialize ear files mapping
-			ACTION_EAR_MAPPING.add(new String[]{
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			ACTION_EAR_MAPPING.add(new String[]{
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.EAR,
+					false));
+			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Conversation.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			ACTION_EAR_MAPPING.add(ACTION_WAR_MAPPING.get(1));
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					FileMapping.TYPE.EAR,
+					false));
+			ACTION_MAPPING.add(new FileMapping(
+					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/conversation.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
+					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					FileMapping.TYPE.EAR,
+					false));
 		}
 
 		/*

@@ -50,12 +50,12 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
  * @author Alexey Kazakov
  */
 public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWizard {
-	
+
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.GENERATE_SEAM_ENTITIES);
 	}
-	
+
 	public SeamGenerateEnitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
 		setWindowTitle(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
@@ -65,6 +65,10 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 
 	public static final IUndoableOperation GENERATE_SEAM_ENTITIES = new SeamBaseOperation(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_ACTION_CREATING_OPERATION) {
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#execute(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
+		 */
 		@Override
 		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			Map<String, String> params = (Map)info.getAdapter(Map.class);	
@@ -119,7 +123,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				// Create exporters
 				// TODO Add others exporters
 				List<String> exporters = new ArrayList<String>();
-				
+
 				if(isReverseEngineer) { 
 					exporters.add("hbmtemplate0"); //$NON-NLS-1$
 				}
@@ -132,14 +136,14 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				exporters.add("hbmtemplate7"); //$NON-NLS-1$
 				exporters.add("hbmtemplate8"); //$NON-NLS-1$
 				exporters.add("hbmtemplate9"); //$NON-NLS-1$
-				
+
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS, exporters);
-				
+
 				if(isReverseEngineer) {
 					wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0", true); //$NON-NLS-1$
 					wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate0.extension_id", "org.hibernate.tools.hbm2java"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				
+
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1", true); //$NON-NLS-1$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.extension_id", "org.hibernate.tools.hbmtemplate"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate2", true); //$NON-NLS-1$
@@ -308,8 +312,12 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 			return Status.OK_STATUS;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#getFileMappings(java.util.Map)
+		 */
 		@Override
-		public List<String[]> getFileMappings(Map<String, Object> vars) {
+		public List<FileMapping> getFileMappings(Map<String, Object> vars) {
 			throw new UnsupportedOperationException(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_THIS_METHOD_IS_NOT_RELEVANT_IN_GENERATING_SEAM_ENTITIES);
 		}
 	};

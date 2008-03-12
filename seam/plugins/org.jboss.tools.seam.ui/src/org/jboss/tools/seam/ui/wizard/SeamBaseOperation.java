@@ -42,6 +42,7 @@ import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.widget.editor.INamedElement;
@@ -107,7 +108,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			vars.put(IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
 			vars.put(IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
 
-			List<String[]> fileMapping = getFileMappings(vars);	
+			List<FileMapping> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
 			final File[] file = new File[fileMappingCopy.size()];
@@ -186,23 +187,25 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	 * @param vars
 	 * @return
 	 */
-	public static List<String[]> applyVariables(List<String[]> fileMapping,
-			Map<String, Object> vars) {
+	public static List<String[]> applyVariables(List<FileMapping> fileMapping, Map<String, Object> vars) {
 		List<String[]> result = new ArrayList<String[]>();
-		for (String[] filter : fileMapping) {
-			String source = filter[0];
-			for (Object property : vars.keySet()){
-				if(source.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
-					source = source.replace("${"+property.toString()+"}",vars.get(property.toString()).toString()); //$NON-NLS-1$ //$NON-NLS-2$
+		for (FileMapping filter : fileMapping) {
+			if(filter.getDeployType().equalsString((String)vars.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)) &&
+					(!filter.isTest() || Boolean.parseBoolean(vars.get(ISeamFacetDataModelProperties.TEST_CREATING).toString()))) { //$NON-NLS-1$
+				String source = filter.getSource();
+				for (Object property : vars.keySet()){
+					if(source.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
+						source = source.replace("${"+property.toString()+"}",vars.get(property.toString()).toString()); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 				}
-			}
-			String dest = filter[1];
-			for (Object property : vars.keySet()){
-				if(dest.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
-					dest = dest.replace("${"+property.toString()+"}",vars.get(property.toString()).toString()); //$NON-NLS-1$ //$NON-NLS-2$
+				String dest = filter.getDestination();
+				for (Object property : vars.keySet()){
+					if(dest.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
+						dest = dest.replace("${"+property.toString()+"}",vars.get(property.toString()).toString()); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 				}
+				result.add(new String[]{source, dest});
 			}
-			result.add(new String[]{source,dest});
 		}
 		return result;
 	}
@@ -211,7 +214,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	 * @param vars
 	 * @return
 	 */
-	public abstract List<String[]> getFileMappings(Map<String, Object> vars);
+	public abstract List<FileMapping> getFileMappings(Map<String, Object> vars);
 
 	/**
 	 * 

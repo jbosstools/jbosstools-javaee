@@ -31,11 +31,12 @@ import org.jboss.tools.seam.ui.widget.editor.INamedElement;
  *
  */
 public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
-	
+
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.NEW_SEAM_ENTITY);
 	}
+
 	/**
 	 * 
 	 */
@@ -43,7 +44,6 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 		super(CREATE_SEAM_ENTITY);
 		setWindowTitle(SeamUIMessages.SEAM_ENTITY_WIZARD_NEW_SEAM_ENTITY);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamEntityWizard.class, "SeamWebProjectWizBan.png"));
-		
 	}
 
 	@Override
@@ -79,37 +79,55 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 			}
 
 			@Override
-			public List<String[]> getFileMappings(Map<String, Object> vars) {
-				if("war".equals(vars.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS))) //$NON-NLS-1$
-					return ACTION_WAR_MAPPING;
-				else
-					return ACTION_EAR_MAPPING;
+			public List<FileMapping> getFileMappings(Map<String, Object> vars) {
+				return ACTION_MAPPING;
 			}
 
-			public static final List<String[]> ACTION_WAR_MAPPING = new ArrayList<String[]>();
-
-			public static final List<String[]> ACTION_EAR_MAPPING = new ArrayList<String[]>();
+			public static final List<FileMapping> ACTION_MAPPING = new ArrayList<FileMapping>();
 
 			static {
 				// initialize war files mapping
-				ACTION_WAR_MAPPING.add(new String[]{
+				ACTION_MAPPING.add(new FileMapping(
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Entity.java", //$NON-NLS-1$ //$NON-NLS-2$
-						"${" + IParameter.SEAM_PROJECT_SRC_MODEL + "}/${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				ACTION_WAR_MAPPING.add(new String[]{
+						"${" + IParameter.SEAM_PROJECT_SRC_MODEL + "}/${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						FileMapping.TYPE.WAR,
+						false));
+				ACTION_MAPPING.add(new FileMapping(
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/EntityHome.java", //$NON-NLS-1$ //$NON-NLS-2$
-						"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				ACTION_WAR_MAPPING.add(new String[]{
+						"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						FileMapping.TYPE.WAR,
+						false));
+				ACTION_MAPPING.add(new FileMapping(
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/EntityList.java", //$NON-NLS-1$ //$NON-NLS-2$
-						"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}List.java"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-
-				ACTION_WAR_MAPPING.add(new String[]{
+						"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}List.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						FileMapping.TYPE.WAR,
+						false));
+				// initialize ear files mapping
+				ACTION_MAPPING.add(new FileMapping(
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/edit.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
-						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				ACTION_WAR_MAPPING.add(new String[]{
+						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						FileMapping.TYPE.EAR,
+						false));
+				ACTION_MAPPING.add(new FileMapping(
 						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/list.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
-						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml"});	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		
-				ACTION_EAR_MAPPING.addAll(ACTION_WAR_MAPPING);
+						"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						FileMapping.TYPE.EAR,
+						false));
+				ACTION_MAPPING.add(new FileMapping(
+						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Entity.java", //$NON-NLS-1$ //$NON-NLS-2$
+						"${" + IParameter.SEAM_PROJECT_SRC_MODEL + "}/${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						FileMapping.TYPE.EAR,
+						false));
+				ACTION_MAPPING.add(new FileMapping(
+						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/EntityHome.java", //$NON-NLS-1$ //$NON-NLS-2$
+						"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						FileMapping.TYPE.EAR,
+						false));
+				ACTION_MAPPING.add(new FileMapping(
+						"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/EntityList.java", //$NON-NLS-1$ //$NON-NLS-2$
+						"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}List.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						FileMapping.TYPE.EAR,
+						false));
 			}
 
 			/*

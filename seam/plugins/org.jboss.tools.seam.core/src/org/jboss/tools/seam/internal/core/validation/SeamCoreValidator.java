@@ -331,9 +331,11 @@ public class SeamCoreValidator extends SeamValidator {
 	private Set<String> getVariablesNameByResource(IPath resourcePath) {
 		Set<ISeamContextVariable> variables = project.getVariablesByPath(resourcePath);
 		Set<String> result = new HashSet<String>();
-		for (ISeamContextVariable variable : variables) {
-			String name = variable.getName();
-			result.add(name);
+		if(variables!=null) {
+			for (ISeamContextVariable variable : variables) {
+				String name = variable.getName();
+				result.add(name);
+			}
 		}
 		return result;
 	}
