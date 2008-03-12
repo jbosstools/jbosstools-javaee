@@ -28,13 +28,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -415,8 +418,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
 	}
 
+	private boolean warning;
+
 	private void validate() {
-		boolean warning = false;
+		warning = false;
 
 		if(!isSeamSupported()) {
 			setValid(true);
@@ -426,7 +431,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 		if(!runtimeIsSelected) {
 			setMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED, IMessageProvider.WARNING);
-			warning = true;
+			setValid(true);
+			setErrorMessage(null);
+			return;
 		} else {
 			String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 			if(SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
@@ -437,9 +444,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
-		if(deployAsEar && !validateProjectName(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)) {
-			String ejbProjectName = getValue(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).trim();
-			setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST, new String[]{ejbProjectName}));
+		if(deployAsEar && !validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST,
+				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)) {
 			return;
 		}
 
@@ -453,27 +459,40 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			}
 		}
 
-		if(!validateSourceFolder(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
-			String modelSourceFolder = getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER).trim();
-			setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST, new String[]{modelSourceFolder}));
+		if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST,
+				ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER,
+				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
+			return;
+		}
+		if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_IS_NOT_VALID,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_HAS_WARNING,
+				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
 			return;
 		}
 
-		if(!validateSourceFolder(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
-			String sourceFolder = getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER).trim();
-			setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST, new String[]{sourceFolder}));
+		if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST,
+				ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER,
+				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
+			return;
+		}
+		if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_IS_NOT_VALID,
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_HAS_WARNING,
+				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
 			return;
 		}
 
 		if(isTestEnabled()) {
-			if(!validateSourceFolder(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)){
-				String sourceFolder = getValue(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).trim();
-				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST, new String[]{sourceFolder}));
+			if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST,
+					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
+					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)){
 				return;
 			}
-			if(!validateProjectName(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT)) {
-				String testProjectName = getValue(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).trim();
-				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, new String[]{testProjectName}));
+			if(!validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT)) {
+				return;
+			}
+			if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_IS_NOT_VALID,
+					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_HAS_WARNING,
+					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)) {
 				return;
 			}
 		}
@@ -485,10 +504,29 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 	}
 
-	private boolean validateProjectName(String editorName) {
+	private boolean validateJavaPackageName(String errorMessageKey, String warningMessageKey, String editorName) {
+		if(editorRegistry.get(editorName).isEnabled()) {
+			String packageName = getValue(editorName).trim();
+			IStatus status = JavaConventions.validatePackageName(packageName, CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
+			if(status.getSeverity()==IStatus.ERROR) {
+				setErrorMessage(NLS.bind(errorMessageKey, new String[]{status.getMessage()}));
+				setValid(false);
+				return false;
+			}
+			if(status.getSeverity()==IStatus.WARNING) {
+				setMessage(NLS.bind(warningMessageKey, new String[]{status.getMessage()}), IMessageProvider.WARNING);
+				warning = true;
+				return true;
+			}
+		}
+		return true;
+	}
+
+	private boolean validateProjectName(String errorMessageKey, String editorName) {
 		String projectName = getValue(editorName).trim();
 		if(projectName.length()>0) {
 			if(!ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).exists()) {
+				setErrorMessage(NLS.bind(errorMessageKey, new String[]{projectName}));
 				setValid(false);
 				return false;
 			}
@@ -496,12 +534,13 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return true;
 	}
 
-	private boolean validateSourceFolder(String sourceFolderEditorName, String packageEditorName) {
+	private boolean validateSourceFolder(String errorMessageKey, String sourceFolderEditorName, String packageEditorName) {
 		String sourceFolder = getValue(sourceFolderEditorName).trim();
 		if(sourceFolder.length()>0) {
 			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolder);
 			if(folder==null || !(folder instanceof IFolder) || !folder.exists()) {
 				editorRegistry.get(packageEditorName).setEnabled(false);
+				setErrorMessage(NLS.bind(errorMessageKey, new String[]{sourceFolder}));
 				setValid(false);
 				return false;
 			} else {
