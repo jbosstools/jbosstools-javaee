@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -120,6 +121,16 @@ public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 			nsIDOMElement visualNode, Object data, String name, String value) {
 
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#setPseudoContent(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, org.mozilla.interfaces.nsIDOMDocument)
+	 */
+	@Override
+	public void setPseudoContent(VpePageContext pageContext,
+			Node sourceContainer, nsIDOMNode visualContainer,
+			nsIDOMDocument visualDocument) {
+		// Empty
 	}
 
 }
