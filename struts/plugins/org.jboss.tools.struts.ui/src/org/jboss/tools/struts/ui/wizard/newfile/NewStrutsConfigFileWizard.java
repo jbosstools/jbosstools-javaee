@@ -10,7 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.wizard.newfile;
 
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.ui.wizard.newfile.*;
+import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
 
 public class NewStrutsConfigFileWizard extends NewFileWizardEx {
 
@@ -24,4 +27,8 @@ public class NewStrutsConfigFileWizard extends NewFileWizardEx {
 		return new NewStrutsConfigFileContext(getVersion());
 	}
 	
+	public void createPageControls(Composite parent) {
+		super.createPageControls(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IStrutsHelpContextIds.NEW_STRUTS_CONFIG);
+	}
 }
