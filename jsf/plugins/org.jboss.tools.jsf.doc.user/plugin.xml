@@ -24,5 +24,9 @@
           file="TilesContextHelp.xml"
           plugin="org.jboss.tools.jst.web.tiles.ui">
     </contexts>
+    <contexts
+          file="VPEContextHelp.xml"
+          plugin="org.jboss.tools.vpe">
+    </contexts>
  </extension>
 </plugin>
