@@ -13,11 +13,14 @@ package org.jboss.tools.struts.ui.wizard.addstruts;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.jst.web.context.ImportWebDirProjectContext;
+import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
 
 public class AddStrutsSupportWizard extends Wizard {
@@ -32,6 +35,11 @@ public class AddStrutsSupportWizard extends Wizard {
 		dialog.setTitle("Struts Project");
 		dialog.setTitleImage(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT).createImage(null));
 		return dialog.open();		
+	}
+	
+	public void createPageControls(Composite parent) {
+		super.createPageControls(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IStrutsHelpContextIds.ADD_STRUTS_SUPPORT);
 	}
 	
 	public AddStrutsSupportWizard(ImportWebDirProjectContext context) {
