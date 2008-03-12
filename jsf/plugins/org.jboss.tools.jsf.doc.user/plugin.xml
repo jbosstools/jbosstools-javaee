@@ -28,5 +28,9 @@
           file="VPEContextHelp.xml"
           plugin="org.jboss.tools.vpe">
     </contexts>
+    <contexts
+          file="PaletteContextHelp.xml"
+          plugin="org.jboss.tools.common.model.ui.templates">
+    </contexts>
  </extension>
 </plugin>
