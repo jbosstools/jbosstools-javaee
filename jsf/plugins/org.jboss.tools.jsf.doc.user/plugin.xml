@@ -20,5 +20,9 @@
           file="JSFContextHelp.xml"
           plugin="org.jboss.tools.jsf.ui">
     </contexts>
+    <contexts
+          file="TilesContextHelp.xml"
+          plugin="org.jboss.tools.jst.web.tiles.ui">
+    </contexts>
  </extension>
 </plugin>
