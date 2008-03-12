@@ -38,7 +38,7 @@ import junit.framework.TestCase;
  * 2. Create N=1000 java files with seam components in the project and refresh it.
  * 3. Reload Seam model and compute times T1 and T2 needed 
  *    to process first K=200 files and last K=200 files.
- * 4. Test files if T2 is 3 or more times larger than T1, 
+ * 4. Test fails if T2 is 3 or more times larger than T1, 
  *    which positively implies N*N dependency.  
  * 
  * @author Viacheslav Kabanovich
