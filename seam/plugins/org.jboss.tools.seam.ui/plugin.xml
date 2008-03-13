@@ -480,13 +480,13 @@
       </command>
       <command
             categoryId="org.eclipse.ui.category.navigate"
-            description="Find Declarations"
+            description="Find Seam Declarations"
             id="org.jboss.tools.seam.ui.find.declarations"
             name="Find Seam Declarations">
       </command>
       <command
             categoryId="org.eclipse.ui.category.navigate"
-            description="Find References"
+            description="Find Seam References"
             id="org.jboss.tools.seam.ui.find.references"
             name="Find Seam References">
       </command>
@@ -498,7 +498,7 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+Z">
       </key>
-      <key
+      <!-- key
             commandId="org.jboss.tools.seam.ui.find.declarations"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+G">
@@ -507,7 +507,7 @@
             commandId="org.jboss.tools.seam.ui.find.references"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+G">
-      </key>
+      </key -->
    </extension>
    
    <extension
@@ -519,4 +519,24 @@
 			class="org.jboss.tools.seam.ui.search.SeamSearchResultPage">
 		</viewPage>
 	</extension>
+	
+	<extension
+         point="org.eclipse.jdt.ui.quickAssistProcessors">
+      <quickAssistProcessor
+            class="org.jboss.tools.seam.ui.actions.SeamFindQuickAssistProcessor"
+            id="org.jboss.tools.seam.ui.seamfindquickassist"
+            name="Seam Find"/>
+   </extension>
+	
+	<!--======================================================================================-->
+	<!-- queryParticipant to participate in java seraches                                     -->
+	<!--======================================================================================-->
+	<!-- extension point="org.eclipse.jdt.ui.queryParticipants">
+		<queryParticipant
+			name="Seam Query Participant"
+			nature="org.eclipse.jdt.core.javanature"
+			class="org.jboss.tools.seam.ui.search.SeamQueryParticipant"
+			id="org.jboss.tools.seam.ui.search.SeamQueryParticipant" />
+	</extension -->
+	
 </plugin>
