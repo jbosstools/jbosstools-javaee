@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jdt.ui.text.java.IInvocationContext;
@@ -20,11 +19,10 @@ import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.part.FileEditorInput;
-import org.hibernate.console.ImageConstants;
-import org.hibernate.eclipse.console.HibernateConsolePlugin;
-import org.hibernate.eclipse.console.utils.EclipseImages;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUiImages;
 
 public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 
@@ -55,19 +53,19 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			String contents = document.get( context.getSelectionOffset(), context.getSelectionLength() );
 			result = new IJavaCompletionProposal[2];			
 			
-			result[0] = new ExternalActionQuickAssistProposal(contents, EclipseImages.getImage(ImageConstants.CRITERIA_EDITOR), "Find Seam Declarations", context) {
+			result[0] = new ExternalActionQuickAssistProposal(contents, SeamUiImages.getImage("find_seam_declarations.gif"), "Find Seam Declarations", context) {
 				public void apply(IDocument target) {
 					new FindSeamDeclarationsAction().run();
 				}
 			};
-			result[1] = new ExternalActionQuickAssistProposal(contents, EclipseImages.getImage(ImageConstants.CRITERIA_EDITOR), "Find Seam References", context) {
+			result[1] = new ExternalActionQuickAssistProposal(contents, SeamUiImages.getImage("find_seam_references.gif"), "Find Seam References", context) {
 				public void apply(IDocument target) {
 					new FindSeamReferencesAction().run();
 				}
 			};
 		}
 		catch (BadLocationException e) {
-			HibernateConsolePlugin.getDefault().logErrorMessage( "Could not get document contents for CriteriaQuickAssist", e );
+			SeamGuiPlugin.getPluginLog().logError( "Could not get document contents for Seam Find Quick Assist", e );
 		}
 		return result;
 	}
