@@ -406,6 +406,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, event
 							.getProperty().toString());
+		} else if(event.getPropertyName().equals(IFacetDataModelProperties.FACET_PROJECT_NAME)) {
+			setCodeGenerationProperties();
 		}
 	}
 
