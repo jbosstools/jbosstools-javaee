@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file-systems application-name="SeamWebWarTestProject"
+ model-entity="FileSystems" VERSION="2.0.0" WORKSPACE_HOME="./WebContent/WEB-INF">
+ <file-system model-entity="FileSystemFolder" location="%workspace.home%" NAME="WEB-INF"/>
+ <file-system model-entity="FileSystemFolder" INFO="Content-Type=Web"
+  location="%workspace.home%/.." NAME="WEB-ROOT"/>
+ <file-system model-entity="FileSystemFolder"
+  location="%workspace.home%/../../src" NAME="src"/>
+ <file-system model-entity="FileSystemFolder" location="%workspace.home%/lib" NAME="lib"/>
+ <file-system model-entity="FileSystemFolder"
+  location="%workspace.home%/classes" NAME="classes"/>
+ <file-system model-entity="FileSystemFolder" location="%eclipse.project%" NAME="SeamWebWarTestProject"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/antlr-2.7.6.jar" NAME="lib-antlr-2.7.6.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/antlr-3.0ea8.jar" NAME="lib-antlr-3.0ea8.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/commons-beanutils-1.7.0.jar" NAME="lib-commons-beanutils-1.7.0.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/commons-collections-3.1.jar" NAME="lib-commons-collections-3.1.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/commons-digester-1.6.jar" NAME="lib-commons-digester-1.6.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/commons-jci-core-1.0-406301.jar" NAME="lib-commons-jci-core-1.0-406301.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/commons-jci-janino-2.4.3.jar" NAME="lib-commons-jci-janino-2.4.3.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/drools-compiler-3.0.5.jar" NAME="lib-drools-compiler-3.0.5.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/drools-core-3.0.5.jar" NAME="lib-drools-core-3.0.5.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/hsqldb.jar" NAME="lib-hsqldb.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/janino-2.4.3.jar" NAME="lib-janino-2.4.3.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam-debug.jar" NAME="lib-jboss-seam-debug.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam-ioc.jar" NAME="lib-jboss-seam-ioc.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam-mail.jar" NAME="lib-jboss-seam-mail.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam-pdf.jar" NAME="lib-jboss-seam-pdf.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam-remoting.jar" NAME="lib-jboss-seam-remoting.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam-ui.jar" NAME="lib-jboss-seam-ui.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jboss-seam.jar" NAME="lib-jboss-seam.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jbpm-3.1.4.jar" NAME="lib-jbpm-3.1.4.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/jsf-facelets.jar" NAME="lib-jsf-facelets.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/oscache-2.3.2.jar" NAME="lib-oscache-2.3.2.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/stringtemplate-2.3b6.jar" NAME="lib-stringtemplate-2.3b6.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_10\lib\ext\dnsns.jar" NAME="lib-dnsns.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_10\lib\ext\localedata.jar" NAME="lib-localedata.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_10\lib\ext\sunjce_provider.jar" NAME="lib-sunjce_provider.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="C:\Program Files\Java\jre1.5.0_10\lib\ext\sunpkcs11.jar" NAME="lib-sunpkcs11.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="Y:\workspaces\runtime-New_configuration\SeamWebWarTestProject\WebContent\WEB-INF\lib\ajax4jsf-1.1.1-SNAPSHOT.jar" NAME="lib-ajax4jsf-1.1.1-SNAPSHOT.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="Y:\jboss-seam-1.2.1.GA\lib\jboss-ejb3-all.jar" NAME="lib-jboss-ejb3-all.jar"/>
+ <file-system model-entity="FileSystemJar"
+  location="%workspace.home%/lib/ajax4jsf-1.1.1-snapshot.jar" NAME="lib-ajax4jsf-1.1.1-snapshot.jar"/>
+ <WEB model-entity="JstWeb" MODEL_PATH="/web.xml" SERVLET_VERSION="2.4">
+  <MODULE model-entity="WebJSFModule" MODEL_PATH="/faces-config.xml"
+   ROOT="WEB-ROOT" SRC="src" URI="/WEB-INF/faces-config.xml"/>
+ </WEB>
+</file-systems>
