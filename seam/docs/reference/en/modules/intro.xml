@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="intro" xreflabel="intro">
+    <?dbhtml filename="intro.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>JBDS</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Introduction</title>
+
+    <section>
+
+        <title>What is Seam?</title>
+        <para>This introduction will help you to understand what is <property>Seam</property>.</para>
+        <para><property>Seam</property> is a fully featured application framework on top of Java EE
+            5. It is also one of the most popular enterprise Java framework today. Seam deeply
+            integrates many other standard-based or open source frameworks (e.g., JSF, EJB3, JMS,
+            Web Services, jBPM, JBoss Rules, Ajax4jsf, RichFaces, Facelets, Spring, iText, Quartz,
+            TestNG, etc.), and provides a single programming model for developers to
+            &quot;drive&quot; those underlying frameworks via simple annotated POJOs (Plain
+            Old Java Objects). It makes life easier for developers to tackle complex enterprise
+            applications with many component frameworks.</para>
+    </section>
+
+    <section>
+        <title>Installation into Eclipse</title>
+
+        <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
+
+        <para>The first thing you should do is to download <ulink
+                url="http://labs.jboss.com/jbossseam/download/index.html">Seam distribution</ulink>
+            and extract it in any folder. Then, simply put /plugins and /features folders
+            from your distribution into the same ones of your eclipse directory. To ensure the
+            eclipse have detected a new plugin run it with -clean option, i.e. eclipse -clean.</para>
+        
+    </section>
+
+    <section>
+        <title>Other relevant resources on the topic</title>
+
+        <para>On JBoss you can find a set of benefits and other extra information on <ulink
+                url="http://www.jboss.com/products/seam">Seam Framework</ulink>.</para>
+
+    </section>
+</chapter>
