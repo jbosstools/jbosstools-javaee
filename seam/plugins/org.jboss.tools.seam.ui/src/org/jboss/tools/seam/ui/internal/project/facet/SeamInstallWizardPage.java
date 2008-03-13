@@ -685,12 +685,14 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 			final String deploymentType = value.toString();
 			if(!ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(deploymentType)) {
-				String runtimeName = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME).toString();
-				IRuntime rt = RuntimeManager.getRuntime(runtimeName);
-				if(!rt.supports(EJB_30) || !rt.supports(EAR_50)) {
-					return ValidatorFactory.createErrormessage(
-						propertyName,
-						NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6 , new String[]{deploymentType.toUpperCase(),runtimeName}));
+				Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
+				if(runtimeName!=null) {
+					IRuntime rt = RuntimeManager.getRuntime(runtimeName.toString());
+					if(!rt.supports(EJB_30) || !rt.supports(EAR_50)) {
+						return ValidatorFactory.createErrormessage(
+							propertyName,
+							NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6 , new String[]{deploymentType.toUpperCase(),runtimeName.toString()}));
+					}
 				}
 			} 
 			return ValidatorFactory.NO_ERRORS;
