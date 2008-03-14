@@ -878,14 +878,14 @@
 
 	<vpe:tag name="h:panelGrid" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<vpe:panelgrid border="{iif(@border='','0','@border')}"
-				style="{@style}" class="{@styleClass}" width="{@width}"
-				frame="{@frame}" rules="{@rules}" columnClasses="{@columnClasses}"
-				footerClass="{@footerClass}" headerClass="{@headerClass}"
-				rowClasses="{@rowClasses}" cellspacing="{@cellspacing}"
+			<vpe:panelgrid border="{iif(@border='','0',@border)}"
+				style="{@style}" class="{@styleClass}" width="{@width}" 
+				dir="{@dir}" frame="{@frame}" rules="{jsfvalue(@rules)}" columnClasses="{@columnClasses}"
+				footerClass="{@footerClass}" headerClass="{@headerClass}"  
+				captionClass="{@captionClass}" captionStyle="{@captionStyle}" rowClasses="{@rowClasses}" cellspacing="{@cellspacing}"
 				cellpadding="{@cellpadding}" bgcolor="{@bgcolor}"
 				title="{tagstring()}" table-size="{@columns}" />
-			<vpe:resize>
+		<vpe:resize>
 				<vpe:width width-attr="width" />
 			</vpe:resize>
 			<vpe:dnd>
