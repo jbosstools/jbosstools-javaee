@@ -1,5 +1,7 @@
 package org.jboss.tools.seam.ui.actions;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -16,12 +18,15 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
+import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
 
 public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
@@ -30,18 +35,41 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 	}
 
 	public boolean hasAssists(IInvocationContext context) throws CoreException {
+		ISeamProject seamProject = getSeamProject(context);
+		if (seamProject==null)
+			return false;
+		
+		IDocument document = getDocument( context.getCompilationUnit() );
+
+		String[] varNames = getVariableNames(seamProject, document, context.getSelectionOffset());
+
+		return (varNames != null && varNames.length != 0);
+	}
+	
+	private ISeamProject getSeamProject(IInvocationContext context) {
 		ICompilationUnit cu = context.getCompilationUnit();
 		if (cu == null)
-			return false;
+			return null;
 
 		IResource javaFile = cu.getResource();
 		if (javaFile == null)
-			return false;
+			return null;
 		
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(javaFile.getProject(), true);
-		return (seamProject!=null);
+		return SeamCorePlugin.getSeamProject(javaFile.getProject(), true);
 	}
-
+	
+	private String[] getVariableNames(ISeamProject seamProject, IDocument document, int offset) {
+		List<ELOperandToken> tokens = FindSeamAction.findTokensAtOffset(
+				document, 
+				offset);
+		
+		if (tokens == null)
+			return null;
+		
+		return FindSeamAction.findVariableNames(seamProject, 
+				document, tokens);
+	}
+	
 	public IJavaCompletionProposal[] getAssists(IInvocationContext context,
 			IProblemLocation[] locations) throws CoreException {
 		
@@ -51,14 +79,46 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 		IDocument document = getDocument( context.getCompilationUnit() );
 		try {
 			String contents = document.get( context.getSelectionOffset(), context.getSelectionLength() );
+			String searchString = "";
+			
+			ISeamProject seamProject = getSeamProject(context);
+			if (seamProject == null)
+				return result;
+			
+			String[] variables = getVariableNames(seamProject, document, context.getSelectionOffset());
+
+			if (variables == null)
+				return result;
+				
+			StringBuffer buf= new StringBuffer();
+			for (int i= 0; i < variables.length; i++) {
+				if (i > 0) {
+					buf.append(", "); //$NON-NLS-1$
+				}
+				buf.append(variables[i]);
+			}
+			searchString = buf.toString();
+
 			result = new IJavaCompletionProposal[2];			
 			
-			result[0] = new ExternalActionQuickAssistProposal(contents, SeamUiImages.getImage("find_seam_declarations.gif"), "Find Seam Declarations", context) {
+			result[0] = new ExternalActionQuickAssistProposal(
+					contents, 
+					SeamUiImages.getImage("find_seam_declarations.gif"), 
+					Messages.format(
+							SeamUIMessages.SeamQuickFixFindDeclarations, 
+							new Object[] {searchString}),
+					context) {
 				public void apply(IDocument target) {
 					new FindSeamDeclarationsAction().run();
 				}
 			};
-			result[1] = new ExternalActionQuickAssistProposal(contents, SeamUiImages.getImage("find_seam_references.gif"), "Find Seam References", context) {
+			result[1] = new ExternalActionQuickAssistProposal(
+					contents, 
+					SeamUiImages.getImage("find_seam_references.gif"), 
+					Messages.format(
+							SeamUIMessages.SeamQuickFixFindReferences, 
+							new Object[] {searchString}),
+					context) {
 				public void apply(IDocument target) {
 					new FindSeamReferencesAction().run();
 				}

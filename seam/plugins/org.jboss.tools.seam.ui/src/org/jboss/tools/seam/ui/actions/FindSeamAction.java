@@ -107,18 +107,12 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (seamProject == null)
 			return;
 
-		int elStart = getELStart(document, selectionOffset);
-		
-		if (elStart == -1) 
-			elStart = selectionOffset;
+		List<ELOperandToken> tokens = findTokensAtOffset(document, selectionOffset);
 
-		SeamELOperandTokenizerForward tokenizer = new SeamELOperandTokenizerForward(document, elStart);
-		List<ELOperandToken> tokens = tokenizer.getTokens();
-
-		if (tokens == null || tokens.size() == 0)
+		if (tokens == null)
 			return; // No EL Operand found
 
-		String[] varNamesToSearch = findVariableNames(seamProject, document, tokens, elStart);
+		String[] varNamesToSearch = findVariableNames(seamProject, document, tokens);
 
 		if (varNamesToSearch != null) {
 			try {
@@ -168,7 +162,19 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}		
 	}
 
-	private String[] findVariableNames(ISeamProject seamProject, IDocument document, List<ELOperandToken> tokens, int elStartOffset) {
+	public static List<ELOperandToken> findTokensAtOffset(IDocument document, int offset) {
+		int elStart = getELStart(document, offset);
+		
+		if (elStart == -1) 
+			elStart = offset;
+	
+		SeamELOperandTokenizerForward tokenizer = new SeamELOperandTokenizerForward(document, elStart);
+		List<ELOperandToken> tokens = tokenizer.getTokens();
+	
+		return (tokens == null || tokens.size() == 0) ? null : tokens;
+	}
+	
+	public static String[] findVariableNames(ISeamProject seamProject, IDocument document, List<ELOperandToken> tokens) {
 		String[] varNames = null;
 		
 		List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(tokens);
@@ -202,8 +208,6 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		
 		return varNames;
 	}
-	
-	
 
 	// ---- IWorkbenchWindowActionDelegate
 	// ------------------------------------------------
@@ -239,7 +243,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 * Scans the document from the offset to the beginning to find start of Seam EL operand
 	 * Returns the start position of first Seam EL operand token 
 	 */
-	private int getELStart(IDocument document, int offset) {
+	private static int getELStart(IDocument document, int offset) {
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(document, offset);
 		List<ELOperandToken> tokens = tokenizer.getTokens();
 
@@ -254,7 +258,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 * Scans the document from the offset to the beginning to find start of Seam EL operand
 	 * Returns the end position of last Seam EL operand token 
 	 */
-	private int getELEnd(IDocument document, int offset) {
+	private static int getELEnd(IDocument document, int offset) {
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizerForward(document, offset);
 		List<ELOperandToken> tokens = tokenizer.getTokens();
 

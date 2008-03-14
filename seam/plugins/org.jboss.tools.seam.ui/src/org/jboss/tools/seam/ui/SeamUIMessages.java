@@ -449,6 +449,11 @@ public class SeamUIMessages extends NLS {
 
 	public static String SeamSearchVisitor_scanning;
 
+	public static String SeamSearch;
+	
+	public static String SeamQuickFixFindDeclarations;
+	public static String SeamQuickFixFindReferences;
+	
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		
