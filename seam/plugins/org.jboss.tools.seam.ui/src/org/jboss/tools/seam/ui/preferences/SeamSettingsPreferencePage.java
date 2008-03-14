@@ -133,6 +133,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				}
 			}
 		});
+		suportSeam = warSeamProject!=null;
 		registerEditor(seamSupportCheckBox, generalGroup);
 
 		IFieldEditor seamRuntimeEditor = 
@@ -294,8 +295,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		registerEditor(testSourceFolderEditor, testGroup);
 		registerEditor(testPackageEditor, testGroup);
 
-		setEnabledSeamSuport(warSeamProject!=null);
 		setRuntimeIsSelected(getSeamRuntimeName().length()>0);
+		setEnabledSeamSuport(isSeamSupported());
 
 		validate();
 
@@ -421,6 +422,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private boolean warning;
 
 	private void validate() {
+
 		warning = false;
 
 		if(!isSeamSupported()) {
@@ -638,8 +640,12 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 	}
 
-	private String getValue(String editorName) {
+	public String getValue(String editorName) {
 		return editorRegistry.get(editorName).getValue().toString();
+	}
+
+	public IFieldEditor getEditor(String editorName) {
+		return editorRegistry.get(editorName);
 	}
 
 	private boolean isSeamSupported() {
@@ -700,7 +706,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private void setEnabledGroups(boolean enabled) {
 		for (Group group : groups) {
-				group.setEnabled(enabled);
+			group.setEnabled(enabled);
 		}
 	}
 

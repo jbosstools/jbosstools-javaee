@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.widget.field.CheckBoxField;
@@ -34,7 +35,6 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 */
 	public CheckBoxFieldEditor(String name, String label, Object defaultValue) {
 		super(name, label, defaultValue);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +42,6 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 */
 	@Override
 	public Object[] getEditorControls(Object composite) {
-		// TODO Auto-generated method stub
 		return new Control[] {createCheckBoxControl((Composite)composite)};
 	}
 
@@ -77,7 +76,6 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 */
 	@Override
 	public boolean isEditable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -85,8 +83,6 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 * @see org.jboss.tools.seam.ui.internal.project.facet.IFieldEditor#save(java.lang.Object)
 	 */
 	public void save(Object object) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -94,13 +90,16 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 */
 	@Override
 	public void setEditable(boolean ediatble) {
-		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void setValue(Object newValue) {
+		((Button)checkBoxControl).setSelection(Boolean.parseBoolean(newValue.toString()));
+		super.setValue(newValue);
 	}
 
 	@Override
 	public void doFillIntoGrid(Object parent) {
-
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -112,8 +111,6 @@ public class CheckBoxFieldEditor extends BaseFieldEditor implements PropertyChan
 	 */
 	@Override
 	public int getNumberOfControls() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
-
 }
