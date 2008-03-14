@@ -68,9 +68,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 		try {
 			SeamSettingsPreferencePage page = (SeamSettingsPreferencePage)dialog.getSelectedPage();
 			IFieldEditor seamSuport = page.getEditor(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT);
-			System.out.println("set true");
-			seamSuport.setValue("true");
-			System.out.println("end");
+			seamSuport.setValue(Boolean.TRUE);
 
 			Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
 			URL seamUrl = null;
@@ -99,7 +97,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 			sessionPackageName.setValue(ACTION_PACKAGE_NAME);
 
 			IFieldEditor createTest = page.getEditor(ISeamFacetDataModelProperties.TEST_CREATING);
-			createTest.setValue("true");
+			createTest.setValue(Boolean.TRUE);
 
 			IFieldEditor testPackageName = page.getEditor(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
 			testPackageName.setValue(TEST_PACKAGE_NAME);
