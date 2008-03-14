@@ -81,13 +81,11 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (viewer == null)
 			return;
 		
-		
 		document = viewer.getDocument();
 		
 		ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		if (selection.isEmpty())
 			return;
-		
 		
 		int selectionOffset = 0;
 		if (selection instanceof ITextSelection) {
@@ -109,45 +107,20 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (seamProject == null)
 			return;
 
-		SeamELCompletionEngine engine= new SeamELCompletionEngine();
-
 		int elStart = getELStart(document, selectionOffset);
 		
 		if (elStart == -1) 
 			elStart = selectionOffset;
-		
+
 		SeamELOperandTokenizerForward tokenizer = new SeamELOperandTokenizerForward(document, elStart);
 		List<ELOperandToken> tokens = tokenizer.getTokens();
 
 		if (tokens == null || tokens.size() == 0)
 			return; // No EL Operand found
-		
-		List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(tokens);
 
-		// Define the Seam project variables to search for declarations 
-		List<ISeamContextVariable> variables = new ArrayList<ISeamContextVariable>();
-		
-		for (List<ELOperandToken> variation : variations) {
-			try {
-				int start = variation.get(0).getStart();
-				int end = variation.get(variation.size() - 1).getStart() + 
-								variation.get(variation.size() - 1).getLength();
-				String variationText = document.get(start, end - start);
-				
-				Set<ISeamContextVariable> vars = seamProject.getVariablesByName(variationText);
-				variables.addAll(vars);
-			} catch (BadLocationException e1) {
-				SeamGuiPlugin.getPluginLog().logError(e1);
-			}
-		}
+		String[] varNamesToSearch = findVariableNames(seamProject, document, tokens, elStart);
 
-		if (variables.size() != 0) {
-			// Some variable/variables are found - perform search for their declarations
-			String[] varNamesToSearch = new String[variables.size()];
-			for (int i = 0; i < variables.size(); i++) {
-				varNamesToSearch[i] = variables.get(i).getName(); 
-			}
-			
+		if (varNamesToSearch != null) {
 			try {
 				performNewSearch(varNamesToSearch, project);
 			} catch (JavaModelException jme) {
@@ -163,7 +136,8 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if ("java".equalsIgnoreCase(file.getFileExtension())) { //$NON-NLS-1$
 			return;
 		}
-		ElVarSearcher varSearcher = new ElVarSearcher(seamProject, file, engine);
+
+		ElVarSearcher varSearcher = new ElVarSearcher(seamProject, file, new SeamELCompletionEngine());
 		List<Var> allVars = ElVarSearcher.findAllVars(viewer, selectionOffset);
 		if (allVars == null || allVars.size() == 0)
 			return;
@@ -194,6 +168,41 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}		
 	}
 
+	private String[] findVariableNames(ISeamProject seamProject, IDocument document, List<ELOperandToken> tokens, int elStartOffset) {
+		String[] varNames = null;
+		
+		List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(tokens);
+
+		// Define the Seam project variables to search for declarations 
+		List<ISeamContextVariable> variables = new ArrayList<ISeamContextVariable>();
+		
+		for (List<ELOperandToken> variation : variations) {
+			try {
+				int start = variation.get(0).getStart();
+				int end = variation.get(variation.size() - 1).getStart() + 
+								variation.get(variation.size() - 1).getLength();
+				String variationText = document.get(start, end - start);
+				
+				Set<ISeamContextVariable> vars = seamProject.getVariablesByName(variationText);
+				if (vars != null)
+					variables.addAll(vars);
+				
+			} catch (BadLocationException e1) {
+				SeamGuiPlugin.getPluginLog().logError(e1);
+			}
+		}
+		
+		if (variables.size() != 0) {
+			// Some variable/variables are found - perform search for their declarations
+			varNames = new String[variables.size()];
+			for (int i = 0; i < variables.size(); i++) {
+				varNames[i] = variables.get(i).getName(); 
+			}
+		}
+		
+		return varNames;
+	}
+	
 	
 
 	// ---- IWorkbenchWindowActionDelegate
