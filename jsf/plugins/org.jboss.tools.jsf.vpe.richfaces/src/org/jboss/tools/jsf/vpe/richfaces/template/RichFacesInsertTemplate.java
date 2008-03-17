@@ -24,6 +24,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -46,6 +47,11 @@ import com.uwyn.jhighlight.renderer.XhtmlRendererFactory;
  */
 public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 
+	private static String RESOURCE_NOT_FOUND_MESSAGE = "Resource was not found.";
+	private static String RESOURCE_READING_ERROR_MESSAGE = "Resource reading error.";
+	private static String HIGHLIGHT_ERROR_MESSAGE = "Error occured during highlight.";
+	private static String ERROR_MESSAGE_STYLE = "color: red; font-weight: bold;";
+	
     private static String SRC_ATTR_NAME = "src";
     private static String HIGHTLIGHT_ATTR_NAME = "highlight";
 
@@ -81,38 +87,38 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 
 	nsIDOMElement div = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+	VpeCreationData vpeCreationData = new VpeCreationData(div);
 
 	String srcValue = ((Element) sourceNode).getAttribute(SRC_ATTR_NAME);
 	String highlightValue = ((Element) sourceNode)
 		.getAttribute(HIGHTLIGHT_ATTR_NAME);
-
-	VpeCreationData vpeCreationData = new VpeCreationData(div);
-
-	IFile iFile = VpeCreatorUtil.getFile(srcValue, pageContext);
 	String finalStr = "";
 	String buf = "";
 
+	// if there is no source show error message 
+	if ((null == srcValue) || ("".equalsIgnoreCase(srcValue))) {
+	    div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
+	    nsIDOMText text = visualDocument.createTextNode(RESOURCE_NOT_FOUND_MESSAGE);
+	    div.appendChild(text);
+	    return vpeCreationData;
+	}
+	
 	try {
+		IFile iFile = VpeCreatorUtil.getFile(srcValue, pageContext);
 	    File file = new File(iFile.getLocation().toOSString());
 	    BufferedReader br = new BufferedReader(new InputStreamReader(
 		    new FileInputStream(file)));
-
 	    while ((buf = br.readLine()) != null)
 		finalStr += buf + "\n";
 
 	} catch (Exception e) {
-	    finalStr = "Resources " + srcValue + " not found.";
-	    div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "color: red; "
-		    + "font-weight: bold;");
-	    nsIDOMText text = visualDocument.createTextNode(finalStr);
+		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
+	    nsIDOMText text = visualDocument.createTextNode(RESOURCE_READING_ERROR_MESSAGE);
 	    div.appendChild(text);
 	    return vpeCreationData;
 	}
 
-	if (!serchInSupportedTypes(highlightValue))
-	    return vpeCreationData;
-
-	if (highlightValue == null) {
+	if ((highlightValue == null) || (!searchInSupportedTypes(highlightValue))){
 	    finalStr = finalStr.replace('\n', ' ');
 	    nsIDOMText text = visualDocument.createTextNode(finalStr);
 	    div.appendChild(text);
@@ -127,6 +133,9 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    Node node = parseTransformString(transformStr);
 	    buildVisualNode(node, div);
 	} catch (IOException e1) {
+		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
+	    nsIDOMText text = visualDocument.createTextNode(HIGHLIGHT_ERROR_MESSAGE);
+	    div.appendChild(text);
 	    return vpeCreationData;
 	}
 	return vpeCreationData;
@@ -210,7 +219,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
      * @return true of highlight value correct
      */
 
-    private boolean serchInSupportedTypes(String highlightValue) {
+    private boolean searchInSupportedTypes(String highlightValue) {
 
 	if (highlightValue == null)
 	    return true;
@@ -279,5 +288,12 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    Element sourceElement, nsIDOMDocument visualDocument,
 	    nsIDOMElement visualNode, Object data, String name, String value) {
 	return true;
+    }
+    
+    @Override
+    public void setSourceAttributeSelection(VpePageContext pageContext,
+	    Element sourceElement, int offset, int length, Object data) {
+	VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
+	sourceBuilder.setSelection(sourceElement, 0, 0);
     }
 }
