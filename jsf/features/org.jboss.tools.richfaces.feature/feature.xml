@@ -218,6 +218,11 @@ Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
 
+   <url>
+      <update label="JBossTools Update Site" url="http://download.jboss.org/jbosstools/updates/stable"/>
+      <discovery label="JBossTools Development Update Site" url="http://download.jboss.org/updates/development"/>
+   </url>
+   
    <requires>
       <import feature="org.jboss.tools.xulrunner.feature" version="1.8.1.3-20070904"/>
    </requires>
