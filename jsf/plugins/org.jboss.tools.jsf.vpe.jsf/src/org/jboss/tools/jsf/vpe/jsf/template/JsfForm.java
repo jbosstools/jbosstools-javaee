@@ -32,6 +32,18 @@ import org.w3c.dom.NodeList;
 public class JsfForm extends VpeAbstractTemplate {
 
 	private static String STYLE_FOR_DIV = "border: 1px dotted #FF6600; padding: 5px;";
+	private static final String DIR_VALUE_RTL = "RTL";
+	private static final String DIR_VALUE_LTR = "LTR";
+	
+	/* Attributes of h:form */
+	private static final String DIR = "dir";
+	private static final String STYLE = "style";
+	private static final String STYLE_CLASS = "styleClass";
+	private static final String CLASS = "class";
+	
+	private String dir;
+	private String style;
+	private String styleClass;
 	
 	/**
 	 * Instantiates a new jsf form.
@@ -45,18 +57,33 @@ public class JsfForm extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element)sourceNode;
+		readAttributes(sourceElement);
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
-		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+		nsIDOMElement dotted_border_div = visualDocument.createElement(HTML.TAG_DIV);
+		nsIDOMElement content_div = visualDocument.createElement(HTML.TAG_DIV);
 		
-		div.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, STYLE_FOR_DIV);
-		td.appendChild(div);
+		if (attrPresents(style)) {
+			content_div.setAttribute(STYLE, style);
+		}
+		if (attrPresents(styleClass)) {
+			content_div.setAttribute(CLASS, styleClass);
+		}
+		if (attrPresents(dir)
+				&& (dir.equalsIgnoreCase(DIR_VALUE_RTL) 
+						|| dir.equalsIgnoreCase(DIR_VALUE_LTR))) {
+			content_div.setAttribute(DIR, dir);
+		} 
+		
+		dotted_border_div.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, STYLE_FOR_DIV);
+		dotted_border_div.appendChild(content_div);
+		td.appendChild(dotted_border_div);
 		tr.appendChild(td);
 		table.appendChild(tr);
 		
 		VpeCreationData creationData = new VpeCreationData(table);
-		VpeChildrenInfo divInfo = new VpeChildrenInfo(div);
+		VpeChildrenInfo divInfo = new VpeChildrenInfo(content_div);
 		creationData.addChildrenInfo(divInfo);
 		
 		for (Node child : getChildren(sourceElement)) {
@@ -92,4 +119,26 @@ public class JsfForm extends VpeAbstractTemplate {
 		return true;
 	}
 
+	/**
+	 * Read attributes from the source element.
+	 * 
+	 * @param sourceNode
+	 *            the source node
+	 */
+	private void readAttributes(Element sourceElement) {
+		style = sourceElement.getAttribute(STYLE);
+		styleClass = sourceElement.getAttribute(STYLE_CLASS);
+		dir = sourceElement.getAttribute(DIR);
+	}
+	
+    /**
+     * Checks is attribute presents.
+     * 
+     * @param attr the attribute
+     * 
+     * @return true, if successful
+     */
+    private boolean attrPresents(String attr) {
+		return ((null != attr) && (!"".equals(attr)));
+	}
 }
