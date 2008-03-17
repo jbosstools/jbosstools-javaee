@@ -47,36 +47,38 @@ import com.uwyn.jhighlight.renderer.XhtmlRendererFactory;
  */
 public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 
-	private static String RESOURCE_NOT_FOUND_MESSAGE = "Resource was not found.";
-	private static String RESOURCE_READING_ERROR_MESSAGE = "Resource reading error.";
-	private static String HIGHLIGHT_ERROR_MESSAGE = "Error occured during highlight.";
-	private static String ERROR_MESSAGE_STYLE = "color: red; font-weight: bold;";
+	private static String RESOURCE_NOT_FOUND_MESSAGE = "Resource was not found."; //$NON-NLS-1$
+	private static String RESOURCE_READING_ERROR_MESSAGE = "Resource reading error."; //$NON-NLS-1$
+	private static String HIGHLIGHT_ERROR_MESSAGE = "Error occured during highlight."; //$NON-NLS-1$
+	private static String ERROR_MESSAGE_STYLE = "color: red; font-weight: bold;"; //$NON-NLS-1$
 	
-    private static String SRC_ATTR_NAME = "src";
-    private static String HIGHTLIGHT_ATTR_NAME = "highlight";
+    private static String SRC_ATTR_NAME = "src"; //$NON-NLS-1$
+    private static String HIGHTLIGHT_ATTR_NAME = "highlight"; //$NON-NLS-1$
 
-    private static String CODE_TAG = "code>";
+    private static String CODE_TAG = "code>"; //$NON-NLS-1$
 
-    private static String CLASS = "class=";
+    private static String CLASS = "class="; //$NON-NLS-1$
 
-    private static String STYLE = "style=";
+    private static String STYLE = "style="; //$NON-NLS-1$
 
-    private static String OPEN_BRACKET = "{";
-    private static String CLOSE_BRACKET = "}";
+    private static String OPEN_BRACKET = "{"; //$NON-NLS-1$
+    private static String CLOSE_BRACKET = "}"; //$NON-NLS-1$
 
-    private static String SPACE = "&nbsp;";
+    private static String SPACE = "&nbsp;"; //$NON-NLS-1$
 
-    private static String SPAN_TAG = "<span style=\"color: rgb(255,255,255)\">_</span>";
+    private static String SPAN_TAG = "<span style=\"color: rgb(255,255,255)\">_</span>"; //$NON-NLS-1$
 
-    private static String EMPTY_STRING = "";
+    private static String EMPTY_STRING = ""; //$NON-NLS-1$
+    private static String UTF8 = "utf-8"; //$NON-NLS-1$
 
-    private static String HTML = "html";
-    private static String XHTML = "xhtml";
-    private static String XML = "xml";
-    private static String JAVA = "java";
-    private static String CPP = "cpp";
-    private static String GROOVY = "groovy";
-    private static String LZX = "lzx";
+    private static String HTML = "html"; //$NON-NLS-1$
+    private static String XHTML = "xhtml"; //$NON-NLS-1$
+    private static String XML = "xml"; //$NON-NLS-1$
+    private static String JAVA = "java"; //$NON-NLS-1$
+    private static String CPP = "cpp"; //$NON-NLS-1$
+    private static String CPLUSPLUS = "c++"; //$NON-NLS-1$
+    private static String GROOVY = "groovy"; //$NON-NLS-1$
+    private static String LZX = "lzx"; //$NON-NLS-1$
 
     private nsIDOMDocument visualDocument;
 
@@ -92,11 +94,11 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	String srcValue = ((Element) sourceNode).getAttribute(SRC_ATTR_NAME);
 	String highlightValue = ((Element) sourceNode)
 		.getAttribute(HIGHTLIGHT_ATTR_NAME);
-	String finalStr = "";
-	String buf = "";
+	String finalStr = ""; //$NON-NLS-1$
+	String buf = ""; //$NON-NLS-1$
 
 	// if there is no source show error message 
-	if ((null == srcValue) || ("".equalsIgnoreCase(srcValue))) {
+	if ((null == srcValue) || ("".equalsIgnoreCase(srcValue))) { //$NON-NLS-1$
 	    div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
 	    nsIDOMText text = visualDocument.createTextNode(RESOURCE_NOT_FOUND_MESSAGE);
 	    div.appendChild(text);
@@ -109,7 +111,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    BufferedReader br = new BufferedReader(new InputStreamReader(
 		    new FileInputStream(file)));
 	    while ((buf = br.readLine()) != null)
-		finalStr += buf + "\n";
+		finalStr += buf + "\n"; //$NON-NLS-1$
 
 	} catch (Exception e) {
 		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
@@ -119,7 +121,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	}
 
 	if ((highlightValue == null) || (!searchInSupportedTypes(highlightValue))){
-	    finalStr = finalStr.replace('\n', ' ');
+	   // finalStr = finalStr.replace('\n', ' ');
 	    nsIDOMText text = visualDocument.createTextNode(finalStr);
 	    div.appendChild(text);
 	    return vpeCreationData;
@@ -128,7 +130,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	Renderer renderer = XhtmlRendererFactory.getRenderer(highlightValue);
 	String transformStr = null;
 	try {
-	    transformStr = renderer.highlight("", finalStr, "utf-8", false);
+	    transformStr = renderer.highlight("", finalStr, UTF8, false); //$NON-NLS-1$
 	    transformStr = convertString(transformStr, highlightValue);
 	    Node node = parseTransformString(transformStr);
 	    buildVisualNode(node, div);
@@ -157,10 +159,10 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    highlightValue = XML;
 	if (highlightValue.equalsIgnoreCase(GROOVY))
 	    highlightValue = JAVA;
-	if (highlightValue.equalsIgnoreCase("c++"))
+	if (highlightValue.equalsIgnoreCase(CPLUSPLUS))
 	    highlightValue = CPP;
 
-	String sym = "." + highlightValue + "_";
+	String sym = "." + highlightValue + "_"; //$NON-NLS-1$ //$NON-NLS-2$
 
 	for (int i = 0; i < str.length();) {
 	    int start = str.indexOf(sym, i);
@@ -205,7 +207,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	try {
 	    builder = fact.newDocumentBuilder();
 	    doc = builder.parse(new StringBufferInputStream(transformString));
-	    node = doc.getElementsByTagName("code").item(0);
+	    node = doc.getElementsByTagName("code").item(0); //$NON-NLS-1$
 	} catch (Exception e) {
 	    return node;
 	}
