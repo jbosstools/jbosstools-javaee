@@ -40,8 +40,8 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	
 	@Override
 	protected void tearDown() throws Exception {
-		ResourcesUtils.deleteProject("TestComponentView");
-		EditorTestHelper.joinBackgroundActivities();
+		//ResourcesUtils.deleteProject("TestComponentView");
+		//EditorTestHelper.joinBackgroundActivities();
 	}
 	
 	public void testOpenSeamComponentDialogSearch() {
@@ -70,14 +70,13 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		dialog.beginTest();
 		if(wait){
 			try{
-				Thread.sleep(30000);
+				EditorTestHelper.joinBackgroundActivities();
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
 		}
 		dialog.endTest();
 		Object[] objects = dialog.getResult();
-		
 		
 		assertNotNull("Search dialog returned null when searching for " + pattern, objects);
 		
