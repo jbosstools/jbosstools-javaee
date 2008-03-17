@@ -14,7 +14,8 @@ import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
+import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -33,10 +34,10 @@ import org.w3c.dom.NodeList;
  * template for radio select item
  * 
  */
-public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
+public class JsfRadioSelectItemTemplate extends AbstractJsfTemplate {
 
 	/* "itemDisabled" attribute of f:selectItem */
-	public static final String ITEM_DISABLED = "itemDisabled";
+	public static final String ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
 
 	// type of input tag
 	private static final String ATTR_TYPE_VALUE = "radio"; //$NON-NLS-1$
@@ -48,13 +49,16 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
 
 	/* "itemLabel" attribute of f:selectItem */
-	private static final String ITEM_LABEL = "itemLabel";
+	private static final String ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
 
 	/* "escape" attribute of f:selectItem */
-	private static final String ESCAPE = "escape";
+	private static final String ESCAPE = "escape"; //$NON-NLS-1$
 
 	/* "dir" attribute of f:selectSelectOneRadio */
-	private static final String DIR = "dir";
+	private static final String DIR = "dir"; //$NON-NLS-1$
+
+	private static final String CONSTANT_TRUE = "true"; //$NON-NLS-1$
+	private static final String CONSTANT_EMPTY = ""; //$NON-NLS-1$
 
 	private String dir;
 	private String escape;
@@ -78,6 +82,7 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 
 		Element element = (Element) sourceNode;
 
+		VpeElementData elementData = new VpeElementData();
 		// create table element
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		boolean disabledItem = ComponentUtil.string2boolean(ComponentUtil
@@ -87,10 +92,10 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 		table.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		nsIDOMElement radio = visualDocument.createElement(HTML.TAG_INPUT);
 		if (disabledItem)
-			radio.setAttribute(ITEM_DISABLED, "true");
+			radio.setAttribute(ITEM_DISABLED, CONSTANT_TRUE);
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 		if (disabledItem)
-			label.setAttribute(ITEM_DISABLED, "true");
+			label.setAttribute(ITEM_DISABLED, CONSTANT_TRUE);
 		table.appendChild(radio);
 		table.appendChild(label);
 
@@ -128,15 +133,13 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 				nsIDOMText text;
 				// if bundleValue differ from value then will be represent
 				// bundleValue, but text will be not edit
-				if (!itemLabel.equals(bundleValue)) {
+				boolean isEditable = itemLabel.equals(bundleValue);
 
-					text = visualDocument.createTextNode(bundleValue);
+				text = visualDocument.createTextNode(bundleValue);
+				// add attribute for ability of editing
 
-				} else {
-
-					text = visualDocument.createTextNode(itemLabel);
-
-				}
+				elementData.addAttributeData(new VpeAttributeData(attr, text,
+						isEditable));
 				label.appendChild(text);
 			} else {
 				// show formatted text
@@ -149,9 +152,12 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 					// add info to creation data
 					labelSpanInfo.addSourceChild(child);
 				}
+				elementData.addAttributeData(new VpeAttributeData(attr, label,
+						false));
 				creationData.addChildrenInfo(labelSpanInfo);
 			}
 		}
+		creationData.setElementData(elementData);
 		return creationData;
 	}
 
@@ -213,7 +219,7 @@ public class JsfRadioSelectItemTemplate extends VpeAbstractTemplate {
 	 * @return true, if successful
 	 */
 	private boolean attrPresents(String attr) {
-		return ((null != attr) && (!"".equals(attr)));
+		return ((null != attr) && (!CONSTANT_EMPTY.equals(attr)));
 	}
 
 }
