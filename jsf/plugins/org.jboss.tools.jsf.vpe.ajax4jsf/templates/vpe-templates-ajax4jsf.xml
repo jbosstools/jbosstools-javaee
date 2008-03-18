@@ -314,9 +314,9 @@
 	     <vpe:template children="yes" file="{@viewId}" class="org.jboss.tools.vpe.editor.template.VpeIncludeTemplate"/>
     </vpe:tag>
     
-    <vpe:tag name="a4j:repeat" case-sensitive="yes">
-	    <vpe:template children="yes" modify="no">
-	    </vpe:template>
+    <vpe:tag name="a4j:repeat" case-sensitive="yes" haveVisualPreview="no">
+	    <vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFReapeatTemplate">
+	   	</vpe:template>
     </vpe:tag>
     
     <vpe:tag name="a4j:portlet" case-sensitive="yes">
