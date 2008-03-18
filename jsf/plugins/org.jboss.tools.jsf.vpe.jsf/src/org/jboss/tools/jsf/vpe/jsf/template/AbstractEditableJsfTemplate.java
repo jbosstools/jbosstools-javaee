@@ -40,8 +40,8 @@ public abstract class AbstractEditableJsfTemplate extends EditableTemplateAdapte
 	static private Map<String, String> attributes = new HashMap<String, String>();
 
 	static {
-		attributes.put("style", HTML.ATTR_STYLE);
-		attributes.put("styleClass", HTML.ATTR_CLASS);
+		attributes.put("style", HTML.ATTR_STYLE); //$NON-NLS-1$
+		attributes.put("styleClass", HTML.ATTR_CLASS); //$NON-NLS-1$
 	}
 
 	/**
