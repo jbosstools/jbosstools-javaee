@@ -633,6 +633,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				getValue(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER));
 		prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, 
 				getValue(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER));
+		prefs.put(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, 
+				getValue(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER));
+
 		try {
 			prefs.flush();
 		} catch (BackingStoreException e) {

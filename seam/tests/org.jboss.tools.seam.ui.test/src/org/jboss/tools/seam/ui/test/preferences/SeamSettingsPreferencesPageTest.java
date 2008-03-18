@@ -125,5 +125,6 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 		assertEquals("Test project property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, ""), PROJECT_NAME);
 		assertEquals("Test package name property is not set", pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""), TEST_PACKAGE_NAME);
 		assertEquals("Test source folder property is not set", pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ""), "/" + PROJECT_NAME + "/src");
+		assertEquals("View folder property is not set", pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), "/" + PROJECT_NAME);
 	}
 }

@@ -87,27 +87,4 @@ public class SeamEARTest extends TestCase {
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
 	}
-	
-	public void testRenameProject() throws CoreException {
-		getSeamProject(projectWAR);
-		ISeamProject seamProjectEJB = getSeamProject(projectEJB);
-
-		String parentName = seamProjectEJB.getParentProjectName();
-
-		RenameSupport support = RenameSupport.create(JavaCore.create(projectWAR), "newName", RenameSupport.UPDATE_REFERENCES);
-		
-		Shell parent = WorkbenchUtils.getActiveShell();
-		IWorkbenchWindow context = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow();
-		try {
-			support.perform(parent, context);
-		} catch (InterruptedException e) {
-			JUnitUtils.fail("Rename failed", e);
-		} catch (InvocationTargetException e) {
-			JUnitUtils.fail("Rename failed", e);
-		}
-		String newParentName = seamProjectEJB.getParentProjectName();
-		System.out.println(parentName);
-		System.out.println(newParentName);
-		assertTrue("", "newName".equals(newParentName));
-	}
 }
