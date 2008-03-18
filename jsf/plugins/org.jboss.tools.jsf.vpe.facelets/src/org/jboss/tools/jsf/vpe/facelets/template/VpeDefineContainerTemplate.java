@@ -65,12 +65,23 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 			if (file != null) {
 				if (!pageContext.getVisualBuilder().isFileInIncludeStack(file)) {
 					registerDefine(pageContext, sourceNode);
-					Document document = VpeCreatorUtil.getDocumentForRead(file, pageContext);
-					VpeCreationData creationData = createInclude(document, visualDocument);
-					creationData.setData(new TemplateFileInfo(file));
-					pageContext.getVisualBuilder().pushIncludeStack(new VpeIncludeInfo((Element)sourceNode, file, document));
-					defineContainer.add(sourceNode);
-					return creationData;
+					Document document = pageContext.getVisualBuilder().getIncludeDocuments().get(file);
+					if (document == null) {
+						document = VpeCreatorUtil.getDocumentForRead(file, pageContext);
+						if (document != null)
+							pageContext.getVisualBuilder().getIncludeDocuments().put(file, document);
+					}
+					//Document document = VpeCreatorUtil.getDocumentForRead(file, pageContext);
+					if (document != null) {
+						VpeCreationData creationData = createInclude(document,
+								visualDocument);
+						creationData.setData(new TemplateFileInfo(file));
+						pageContext.getVisualBuilder().pushIncludeStack(
+								new VpeIncludeInfo((Element) sourceNode, file,
+										document));
+						defineContainer.add(sourceNode);
+						return creationData;
+					}
 				}
 			}
 		}
@@ -225,7 +236,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		if (templateFileInfo != null) {
 			VpeIncludeInfo includeInfo = pageContext.getVisualBuilder().popIncludeStack();
 			if (includeInfo != null) {
-				VpeCreatorUtil.releaseDocumentFromRead(includeInfo.getDocument());
+			//	VpeCreatorUtil.releaseDocumentFromRead(includeInfo.getDocument());
 			}
 		}
 		defineContainer.remove(sourceNode);
