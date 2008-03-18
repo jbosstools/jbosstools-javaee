@@ -167,10 +167,15 @@ public class SeamSearchVisitor {
 		return Status.OK_STATUS;
     }
 
+	private int calculateFiles() {
+		IFile[] files = fCurrentScope.evaluateFilesInScope(fStatus);
+		return (files == null ? 0 : files.length);
+	}
+	
 	public IStatus searchForDeclarations(ISeamProject[] projects, IProgressMonitor monitor) {
 		fProgressMonitor= monitor == null ? new NullProgressMonitor() : monitor;
         fNumberOfScannedFiles= 0;
-        fNumberOfFilesToScan= projects.length;
+        fNumberOfFilesToScan= calculateFiles();
         fCurrentSeamProject= null;
         
         Job monitorUpdateJob= new MonitorUpdateJob();
@@ -205,9 +210,7 @@ public class SeamSearchVisitor {
 	private ElVarSearcher fELVarSearcher;
 	public boolean processSeamReferencesInProject(ISeamProject project) {
 		IFile[] files = fCurrentScope == null ? null :
-					fCurrentScope.evaluateFilesInScope(fStatus);
-		
-		
+				evaluateProjectFilesInScope(project.getProject(), fStatus);
 		
 		fELVarSearcher = new ElVarSearcher(project, fCompletionEngine);
 		fDocumentsInEditors= evalNonFileBufferDocuments();
@@ -705,7 +708,7 @@ public class SeamSearchVisitor {
 	public IStatus searchForReferences(ISeamProject[] projects, IProgressMonitor monitor) {
 		fProgressMonitor= monitor == null ? new NullProgressMonitor() : monitor;
         fNumberOfScannedFiles= 0;
-        fNumberOfFilesToScan= projects.length;
+        fNumberOfFilesToScan= calculateFiles();
         fCurrentSeamProject= null;
         
         Job monitorUpdateJob= new MonitorUpdateJob();
