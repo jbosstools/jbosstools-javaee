@@ -5,11 +5,11 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
@@ -40,8 +40,14 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	
 	@Override
 	protected void tearDown() throws Exception {
-		//ResourcesUtils.deleteProject("TestComponentView");
-		//EditorTestHelper.joinBackgroundActivities();
+		EditorTestHelper.joinBackgroundActivities();
+		if(project != null){
+			project.close(new NullProgressMonitor());
+			project.delete(true, new NullProgressMonitor());
+			project = null;
+			EditorTestHelper.joinBackgroundActivities();
+		}
+		
 	}
 	
 	public void testOpenSeamComponentDialogSearch() {
