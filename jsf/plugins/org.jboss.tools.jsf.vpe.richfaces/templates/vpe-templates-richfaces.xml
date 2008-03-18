@@ -124,7 +124,7 @@
 
 	<vpe:tag name="rich:inputNumberSlider" case-sensitive="yes">
 		<vpe:template children="no" modify="yes"
-			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesInputNumberSliderTemplate">
+			class="org.jboss.tools.jsf.vpe.richfaces.template.InputNumberSliderTemplate">
 			<vpe:resize>
 				<vpe:width width-attr="width" />
 			</vpe:resize>

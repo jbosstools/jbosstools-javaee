@@ -8,7 +8,7 @@ import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-public abstract class AbstractOutputJsfTemplate extends AbstractJsfTemplate {
+public abstract class AbstractOutputJsfTemplate extends AbstractEditableJsfTemplate {
 
 	/**
 	 * name of "value" attribute

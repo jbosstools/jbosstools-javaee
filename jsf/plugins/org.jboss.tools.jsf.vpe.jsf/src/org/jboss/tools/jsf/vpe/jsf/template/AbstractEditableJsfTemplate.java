@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
  * @author Sergey Dzmitrovich
  * 
  */
-public abstract class AbstractJsfTemplate extends EditableTemplateAdapter {
+public abstract class AbstractEditableJsfTemplate extends EditableTemplateAdapter {
 
 	// general jsf attributes
 	static private Map<String, String> attributes = new HashMap<String, String>();
