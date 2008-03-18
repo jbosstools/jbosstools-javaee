@@ -36,15 +36,16 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class PerfomanceTest extends VpeTest {
 
-    public static final String IMPORT_PROJECT_NAME = "perfomanceTest";
+    public static final String IMPORT_PROJECT_NAME = "perfomanceTest"; //$NON-NLS-1$
 
-    private static final String TEST_PAGE_NAME = "employee.xhtml";
-    private static final String TEST_PAGE1_NAME = "home.xhtml";
-    private static final String TEST_PAGE2_NAME = "addEmployee.xhtml";
-    private static final String TEST_PAGE3_NAME = "pdataEdit.xhtml";
+    private static final String TEST_PAGE_NAME = "employee.xhtml"; //$NON-NLS-1$
+    private static final String TEST_PAGE1_NAME = "home.xhtml"; //$NON-NLS-1$
+    private static final String TEST_PAGE2_NAME = "addEmployee.xhtml"; //$NON-NLS-1$
+    private static final String TEST_PAGE3_NAME = "pdataEdit.xhtml"; //$NON-NLS-1$
 
-    private static final String ANY_TAG = "<h:outputText value=\"Any Text\"/>";
-
+    private static final String ANY_TAG = "<h:outputText value=\"Any Text\"/>"; //$NON-NLS-1$
+    private static final int KEY_PRESS_TIME_INTERVAL = 300;
+    
     public PerfomanceTest(String name) {
 	super(name);
 	setCheckWarning(false);
@@ -63,28 +64,35 @@ public class PerfomanceTest extends VpeTest {
 	IFile file = (IFile) TestUtil.getWebContentPath(TEST_PAGE_NAME,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file); //$NON-NLS-1$
 
 	IEditorInput input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	TestUtil.waitForJobs();
 	final JSPMultiPageEditor parts = openEditor(input);
 	TestUtil.delay(1000L);
 	assertNotNull(parts);
-
-	Job job = new UIJob("Test JBIDE-1105") {
+	
+	Job job = new UIJob("Test JBIDE-1105") { //$NON-NLS-1$
 	    @Override
 	    public IStatus runInUIThread(IProgressMonitor monitor) {
 		StyledText styledText = parts.getSourceEditor().getTextViewer()
 			.getTextWidget();
 		String delimiter = styledText.getLineDelimiter();
+		long start;
+		long finish;
 		for (int i = 0; i < 20; i++) {
 		    int offset = styledText.getOffsetAtLine(21);
 		    styledText.setCaretOffset(offset - delimiter.length());
+		    start = System.currentTimeMillis();
 		    styledText.insert(delimiter);
-		    TestUtil.delay(500L);
+		    finish = System.currentTimeMillis();
+		    // Check limit time
+		    assertEquals(
+							"The limit time is expected",true, (finish-start)<KEY_PRESS_TIME_INTERVAL); //$NON-NLS-1$
+		    
 		}
 		return Status.OK_STATUS;
 	    }
@@ -116,11 +124,11 @@ public class PerfomanceTest extends VpeTest {
 	IFile file = (IFile) TestUtil.getWebContentPath(TEST_PAGE1_NAME,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE1_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE1_NAME, file); //$NON-NLS-1$
 
 	IEditorInput input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	JSPMultiPageEditor parts = openEditor(input);
 	assertNotNull(parts);
@@ -133,11 +141,11 @@ public class PerfomanceTest extends VpeTest {
 	file = (IFile) TestUtil.getWebContentPath(TEST_PAGE_NAME,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file); //$NON-NLS-1$
 
 	input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	parts = openEditor(input);
 	assertNotNull(parts);
@@ -147,11 +155,11 @@ public class PerfomanceTest extends VpeTest {
 	file = (IFile) TestUtil.getWebContentPath(TEST_PAGE2_NAME,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE2_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE2_NAME, file); //$NON-NLS-1$
 
 	input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	parts = openEditor(input);
 	assertNotNull(parts);
@@ -161,11 +169,11 @@ public class PerfomanceTest extends VpeTest {
 	file = (IFile) TestUtil.getWebContentPath(TEST_PAGE3_NAME,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE3_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE3_NAME, file); //$NON-NLS-1$
 
 	input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	parts = openEditor(input);
 	assertNotNull(parts);
@@ -191,7 +199,7 @@ public class PerfomanceTest extends VpeTest {
 	TestUtil.waitForJobs();
 	setException(null);
 	// Test page
-	pageTest(TEST_PAGE_NAME, "test - work VPE with large files");
+	pageTest(TEST_PAGE_NAME, "test - work VPE with large files"); //$NON-NLS-1$
 
 	if (getException() != null) {
 	    throw getException();
@@ -210,11 +218,11 @@ public class PerfomanceTest extends VpeTest {
 	IFile file = (IFile) TestUtil.getWebContentPath(pageName,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file); //$NON-NLS-1$
 
 	IEditorInput input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	TestUtil.waitForJobs();
 	final JSPMultiPageEditor parts = openEditor(input);
@@ -226,15 +234,20 @@ public class PerfomanceTest extends VpeTest {
 	    public IStatus runInUIThread(IProgressMonitor monitor) {
 		StyledText styledText = parts.getSourceEditor().getTextViewer()
 			.getTextWidget();
+		long start;
+		long finish;
 		String delimiter = styledText.getLineDelimiter();
 		int offset = styledText.getOffsetAtLine(21);
 		styledText.setCaretOffset(offset);
 		// Add any tag in source
 		for (int i = 0; i < ANY_TAG.length(); i++) {
-		    styledText.insert(String.valueOf(ANY_TAG.charAt(i)));
+			start = System.currentTimeMillis();
+			styledText.insert(String.valueOf(ANY_TAG.charAt(i)));
+		    finish = System.currentTimeMillis();
+		    // Check limit time 
+		    assertEquals("The limit time is expected",true, (finish-start)<KEY_PRESS_TIME_INTERVAL); //$NON-NLS-1$
 		    offset++;
 		    styledText.setCaretOffset(offset);
-		    TestUtil.delay(200);
 		}
 		styledText.insert(delimiter);
 		// Add any text(newline) in text
@@ -243,8 +256,11 @@ public class PerfomanceTest extends VpeTest {
 		    int line = random.nextInt(styledText.getLineCount());
 		    offset = styledText.getOffsetAtLine(line);
 		    styledText.setCaretOffset(offset - delimiter.length());
+		    start = System.currentTimeMillis();
 		    styledText.insert(delimiter);
-		    TestUtil.delay(500L);
+		    finish = System.currentTimeMillis();
+		    // Check limit time
+		    assertEquals("The limit time is expected",true, (finish-start)<KEY_PRESS_TIME_INTERVAL); //$NON-NLS-1$
 		}
 		return Status.OK_STATUS;
 	    }
