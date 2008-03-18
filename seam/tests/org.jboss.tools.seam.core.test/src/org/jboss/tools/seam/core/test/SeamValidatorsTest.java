@@ -62,6 +62,16 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		EditorTestHelper.joinBackgroundActivities();
 	}
+	
+	public void tearDown() throws Exception {
+		if(project != null){
+			EditorTestHelper.joinBackgroundActivities();
+			project.close(new NullProgressMonitor());
+			project.delete(true, new NullProgressMonitor());
+			project = null;
+			EditorTestHelper.joinBackgroundActivities();
+		}
+	}
 
 	private ISeamProject getSeamProject(IProject project) {
 		refreshProject(project);
