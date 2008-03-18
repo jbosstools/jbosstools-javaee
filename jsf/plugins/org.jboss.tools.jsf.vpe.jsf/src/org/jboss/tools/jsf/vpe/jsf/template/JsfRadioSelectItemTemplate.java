@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
  * template for radio select item
  * 
  */
-public class JsfRadioSelectItemTemplate extends AbstractJsfTemplate {
+public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
 
 	/* "itemDisabled" attribute of f:selectItem */
 	public static final String ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
