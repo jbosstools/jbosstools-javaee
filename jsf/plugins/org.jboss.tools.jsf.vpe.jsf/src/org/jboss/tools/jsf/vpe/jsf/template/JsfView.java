@@ -31,7 +31,8 @@ import org.w3c.dom.NodeList;
  */
 public class JsfView extends VpeAbstractTemplate {
 
-	private static String STYLE_FOR_DIV = "border: 1px dotted #FF6600; padding: 5px;";
+	private static String STYLE_FOR_DIV = "border: 1px dotted #FF6600; padding: 5px;"; //$NON-NLS-1$
+	private static String TABLE_WIDTH_STYLE = "width: 100%;"; //$NON-NLS-1$
 	
 	/**
 	 * Instantiates a new jsf view.
@@ -51,6 +52,7 @@ public class JsfView extends VpeAbstractTemplate {
 		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		
+		table.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, TABLE_WIDTH_STYLE);
 		div.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, STYLE_FOR_DIV);
 		td.appendChild(div);
 		tr.appendChild(td);

@@ -31,15 +31,17 @@ import org.w3c.dom.NodeList;
  */
 public class JsfForm extends VpeAbstractTemplate {
 
-	private static String STYLE_FOR_DIV = "border: 1px dotted #FF6600; padding: 5px;";
-	private static final String DIR_VALUE_RTL = "RTL";
-	private static final String DIR_VALUE_LTR = "LTR";
+	private static String STYLE_FOR_DIV = "border: 1px dotted #FF6600; padding: 5px;"; //$NON-NLS-1$
+	private static String TABLE_WIDTH_STYLE = "width: 100%;"; //$NON-NLS-1$
+	
+	private static final String DIR_VALUE_RTL = "RTL"; //$NON-NLS-1$
+	private static final String DIR_VALUE_LTR = "LTR"; //$NON-NLS-1$
 	
 	/* Attributes of h:form */
-	private static final String DIR = "dir";
-	private static final String STYLE = "style";
-	private static final String STYLE_CLASS = "styleClass";
-	private static final String CLASS = "class";
+	private static final String DIR = "dir"; //$NON-NLS-1$
+	private static final String STYLE = "style"; //$NON-NLS-1$
+	private static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
+	private static final String CLASS = "class"; //$NON-NLS-1$
 	
 	private String dir;
 	private String style;
@@ -76,6 +78,7 @@ public class JsfForm extends VpeAbstractTemplate {
 			content_div.setAttribute(DIR, dir);
 		} 
 		
+		table.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, TABLE_WIDTH_STYLE);
 		dotted_border_div.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, STYLE_FOR_DIV);
 		dotted_border_div.appendChild(content_div);
 		td.appendChild(dotted_border_div);
@@ -139,6 +142,6 @@ public class JsfForm extends VpeAbstractTemplate {
      * @return true, if successful
      */
     private boolean attrPresents(String attr) {
-		return ((null != attr) && (!"".equals(attr)));
+		return ((null != attr) && (!"".equals(attr))); //$NON-NLS-1$
 	}
 }
