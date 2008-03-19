@@ -30,6 +30,7 @@ import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamPackage;
@@ -118,6 +119,9 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 			return name; 
 		} else if (element instanceof IRole) {
 			return "" + ((IRole)element).getName(); //$NON-NLS-1$
+		} else if (element instanceof ISeamFactory) {
+			ISeamFactory f = (ISeamFactory)element;
+			return f.getName() + " - " + f.getSourcePath();
 		} else if(element instanceof ISeamJavaSourceReference) {
 			ISeamJavaSourceReference d = (ISeamJavaSourceReference)element;
 			IMember m = d.getSourceMember();
@@ -149,6 +153,8 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 			return SeamUiImages.COMPONENT_IMAGE;
 		} else if(obj instanceof IRole) {
 			return SeamUiImages.ROLE_IMAGE;
+		} else if(obj instanceof ISeamFactory) {
+			return SeamUiImages.FACTORY_IMAGE;
 		} else if(obj instanceof ISeamJavaComponentDeclaration) {
 			ISeamJavaComponentDeclaration d = (ISeamJavaComponentDeclaration)obj;
 			IType type = (IType)d.getSourceMember();

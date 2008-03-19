@@ -37,6 +37,7 @@ public class SeamUiImages {
 	public static final Image JAVA_IMAGE = getImage("view/java.gif"); //$NON-NLS-1$
 	public static final Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif"); //$NON-NLS-1$
 	public static final Image PACKAGE_IMAGE = getImage("view/package.gif"); //$NON-NLS-1$
+	public static final Image FACTORY_IMAGE = getImage("view/factory.gif"); //$NON-NLS-1$
 
 	public static String SEAM_CREATE_PROJECT_ACTION = "view/seam_project_new.gif"; //$NON-NLS-1$
 
