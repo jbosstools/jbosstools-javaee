@@ -17,16 +17,12 @@ import java.util.regex.Pattern;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
-import org.jboss.tools.vpe.editor.mapping.VpeElementData;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,11 +35,6 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
-
-	/**
-	 * name of "param" tag
-	 */
-	private static final String PARAM_NAME = "param"; //$NON-NLS-1$
 
 	/**
 	 * name of "choice"
@@ -81,8 +72,6 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		VpeElementData elementData = new VpeElementData();
-
 		// create span element
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
 
@@ -92,67 +81,8 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 		// copy attributes
 		copyOutputJsfAttributes(span, element);
 
-		// get attribute to represent
-		Attr attr = getOutputAttributeNode(element);
-
-		if (attr != null) {
-
-			// offset of attr
-			int offset = ((IDOMAttr) attr).getValueRegionStartOffset();
-
-			// value of attribute
-			String value = attr.getNodeValue();
-
-			// find parameters and update value
-			String newValue = updateNodeValue(value, getParams(element));
-			// if escape then contents of value (or other attribute) is only
-			// text
-			if (!element.hasAttribute(ESCAPE_ATTR_NAME)
-					|| "true".equalsIgnoreCase(element
-							.getAttribute(ESCAPE_ATTR_NAME))) {
-
-				// get bundle value
-				newValue = ComponentUtil.getBundleValue(pageContext, newValue, offset);
-
-				nsIDOMText text;
-				// if bundleValue differ from value then will be represent
-				// bundleValue, but text will be not edit
-				boolean isEditable = value.equals(newValue);
-
-				text = visualDocument.createTextNode(newValue);
-				// add attribute for ability of editing
-				elementData.addAttributeData(new VpeAttributeData(attr, text,
-						isEditable));
-
-				span.appendChild(text);
-			}
-			// then text can be html code
-			else {
-
-				// create info
-				VpeChildrenInfo spanInfo = new VpeChildrenInfo(span);
-
-				// reparse attribute's value
-				NodeList list = NodeProxyUtil.reparseAttributeValue(newValue,
-						offset);
-
-				// add children to info
-				for (int i = 0; i < list.getLength(); i++) {
-
-					Node child = list.item(i);
-
-					spanInfo.addSourceChild(child);
-				}
-				elementData.addAttributeData(new VpeAttributeData(attr, span,
-						false));
-
-				creationData.addChildrenInfo(spanInfo);
-
-			}
-
-		}
-
-		creationData.setElementData(elementData);
+		processOutputAttribute(pageContext, visualDocument, element, span,
+				creationData);
 
 		return creationData;
 
@@ -166,6 +96,16 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 		return true;
 	}
 
+	@Override
+	protected String prepareAttrValue(VpePageContext pageContext,
+			Element parent, Attr attr) {
+		int offset = ((IDOMAttr) attr).getValueRegionStartOffset();
+
+		String newString = prepareAttrValueByParams(attr.getNodeValue(),
+				getParams(parent));
+		return ComponentUtil.getBundleValue(pageContext, newString, offset);
+	}
+
 	/**
 	 * find message format elements and update value
 	 * 
@@ -173,7 +113,8 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 	 * @param paramList
 	 * @return
 	 */
-	private String updateNodeValue(String nodeValue, List<Element> paramList) {
+	private String prepareAttrValueByParams(String nodeValue,
+			List<Element> paramList) {
 
 		// matcher
 		Matcher matcher = Pattern.compile(MESSAGE_FORMAT_ELEMENTS_PATTERN)
@@ -249,7 +190,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 				if (num < paramList.size()) {
 					// get param's value
-					value = paramList.get(num).getAttribute(VALUE_ATTR_NAME);
+					value = paramList.get(num).getAttribute(JSF.ATTR_VALUE);
 				}
 			} catch (NumberFormatException e) {
 				// illegal param value
@@ -299,7 +240,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 			Node child = nodeList.item(i);
 
-			if (PARAM_NAME.equals(child.getLocalName()))
+			if (JSF.TAG_PARAM.equals(child.getLocalName()))
 				params.add((Element) child);
 
 		}

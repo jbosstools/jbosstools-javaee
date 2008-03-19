@@ -10,21 +10,14 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
-import org.jboss.tools.vpe.editor.mapping.VpeElementData;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMText;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author Sergey Dzmitrovich
@@ -33,11 +26,6 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
-
-	/**
-	 * name of "for" attribute
-	 */
-	protected static final String FOR_ATTR_NAME = "for"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -50,74 +38,18 @@ public class JsfOutputLabelTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		VpeElementData elementData = new VpeElementData();
-
 		// create label element
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 
 		// copy attributes
 		copyOutputJsfAttributes(label, element);
-		copyAttribute(label, element, FOR_ATTR_NAME, HTML.ATTR_FOR);
+		copyAttribute(label, element, JSF.ATTR_FOR, HTML.ATTR_FOR);
 
 		// creation data
 		VpeCreationData creationData = new VpeCreationData(label);
 
-		// get attribute to represent
-		Attr attr = getOutputAttributeNode(element);
-
-		if (attr != null) {
-
-			// if escape then contents of value (or other attribute) is only
-			// text
-			if (!element.hasAttribute(ESCAPE_ATTR_NAME)
-					|| ("true".equalsIgnoreCase(element //$NON-NLS-1$
-							.getAttribute(ESCAPE_ATTR_NAME)))) {
-
-				String value = attr.getNodeValue();
-
-				// get bundle value
-				String bundleValue = ComponentUtil.getBundleValue(pageContext, attr);
-
-				nsIDOMText text;
-				// if bundleValue differ from value then will be represent
-				// bundleValue, but text will be not edit
-				boolean isEditable = value.equals(bundleValue);
-
-				text = visualDocument.createTextNode(bundleValue);
-				// add attribute for ability of editing
-				elementData.addAttributeData(new VpeAttributeData(attr, text,
-						isEditable));
-
-				label.appendChild(text);
-			}
-			// then text can be html code
-			else {
-
-				// create info
-				VpeChildrenInfo labelInfo = new VpeChildrenInfo(label);
-
-				// reparse attribute's value
-				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
-
-				// add children to info
-				for (int i = 0; i < list.getLength(); i++) {
-
-					Node child = list.item(i);
-
-					labelInfo.addSourceChild(child);
-				}
-
-				elementData.addAttributeData(new VpeAttributeData(attr, label,
-						false));
-
-				// add info to creation data
-				creationData.addChildrenInfo(labelInfo);
-
-			}
-
-		}
-
-		creationData.setElementData(elementData);
+		processOutputAttribute(pageContext, visualDocument, element, label,
+				creationData);
 
 		return creationData;
 
