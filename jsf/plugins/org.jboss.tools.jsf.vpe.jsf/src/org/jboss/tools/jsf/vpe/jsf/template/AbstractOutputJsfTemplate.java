@@ -66,11 +66,12 @@ public abstract class AbstractOutputJsfTemplate extends
 
 		Attr outputAttr = getOutputAttributeNode(sourceElement);
 
-		// prepare value
-		String newValue = prepareAttrValue(pageContext, sourceElement,
-				outputAttr);
-
 		if (outputAttr != null) {
+			
+			// prepare value
+			String newValue = prepareAttrValue(pageContext, sourceElement,
+					outputAttr);
+			
 			// if escape then contents of value (or other attribute) is only
 			// text
 			if (!sourceElement.hasAttribute(JSF.ATTR_ESCAPE)
@@ -124,10 +125,9 @@ public abstract class AbstractOutputJsfTemplate extends
 
 			}
 
-			creationData.setElementData(elementData);
-
 		}
-
+		
+		creationData.setElementData(elementData);
 	}
 
 	protected String prepareAttrValue(VpePageContext pageContext,
