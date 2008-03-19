@@ -97,7 +97,7 @@ public abstract class AbstractOutputJsfTemplate extends
 			else {
 
 				// create info
-				VpeChildrenInfo spanInfo = new VpeChildrenInfo(
+				VpeChildrenInfo targetVisualInfo = new VpeChildrenInfo(
 						targetVisualElement);
 
 				// get atribute's offset
@@ -114,13 +114,13 @@ public abstract class AbstractOutputJsfTemplate extends
 					Node child = list.item(i);
 
 					// add info to creation data
-					spanInfo.addSourceChild(child);
+					targetVisualInfo.addSourceChild(child);
 				}
 
 				elementData.addAttributeData(new VpeAttributeData(outputAttr,
 						targetVisualElement, false));
 
-				creationData.addChildrenInfo(spanInfo);
+				creationData.addChildrenInfo(targetVisualInfo);
 
 			}
 

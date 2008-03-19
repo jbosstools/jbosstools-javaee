@@ -34,7 +34,8 @@ import org.w3c.dom.Node;
  * @author Sergey Dzmitrovich
  * 
  */
-public abstract class AbstractEditableJsfTemplate extends EditableTemplateAdapter {
+public abstract class AbstractEditableJsfTemplate extends
+		EditableTemplateAdapter {
 
 	// general jsf attributes
 	static private Map<String, String> attributes = new HashMap<String, String>();
@@ -168,10 +169,25 @@ public abstract class AbstractEditableJsfTemplate extends EditableTemplateAdapte
 					setSourceSelection(pageContext, focusedNode, 0,
 							getLengthNode(focusedNode));
 
-					pageContext.getVisualBuilder().setSelectionRectangle(
-							(nsIDOMElement) mappingRealNode.getVisualElement()
-									.queryInterface(
-											nsIDOMElement.NS_IDOMELEMENT_IID));
+					// visual selection block
+
+					// get visual node
+					focusedVisualNode = getVisualNode(pageContext, focusedNode,
+							mappingRealNode.getElementData());
+
+					// if not find
+					if (focusedVisualNode == null)
+						focusedVisualNode = mappingRealNode.getVisualElement();
+
+					if (focusedVisualNode.getNodeType() != nsIDOMNode.ELEMENT_NODE)
+
+						focusedVisualNode = focusedVisualNode.getParentNode();
+
+					pageContext
+							.getVisualBuilder()
+							.setSelectionRectangle(
+									(nsIDOMElement) focusedVisualNode
+											.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID));
 				}
 
 			}

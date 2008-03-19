@@ -29,4 +29,14 @@ public class JSF {
 
 	public static final String ATTR_FOR = "for"; //$NON-NLS-1$
 
+	public static final String ATTR_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
+
+	public static final String ATTR_DISABLED = "disabled"; //$NON-NLS-1$
+
+	public static final String ATTR_ENABLED_CLASS = "enabledClass"; //$NON-NLS-1$
+
+	public static final String ATTR_DISABLED_CLASS = "disabledClass"; //$NON-NLS-1$
+
+	public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
+
 }

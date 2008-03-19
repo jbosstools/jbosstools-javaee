@@ -12,21 +12,16 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
-import org.jboss.tools.vpe.editor.mapping.VpeElementData;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author sdzmitrovich
@@ -34,7 +29,7 @@ import org.w3c.dom.NodeList;
  * template for radio select item
  * 
  */
-public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
+public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 
 	/* "itemDisabled" attribute of f:selectItem */
 	public static final String ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
@@ -48,20 +43,10 @@ public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
 	// style of span
 	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
 
-	/* "itemLabel" attribute of f:selectItem */
-	private static final String ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
-
-	/* "escape" attribute of f:selectItem */
-	private static final String ESCAPE = "escape"; //$NON-NLS-1$
-
-	/* "dir" attribute of f:selectSelectOneRadio */
-	private static final String DIR = "dir"; //$NON-NLS-1$
-
 	private static final String CONSTANT_TRUE = "true"; //$NON-NLS-1$
 	private static final String CONSTANT_EMPTY = ""; //$NON-NLS-1$
 
 	private String dir;
-	private String escape;
 
 	/**
 	 * 
@@ -82,7 +67,6 @@ public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
 
 		Element element = (Element) sourceNode;
 
-		VpeElementData elementData = new VpeElementData();
 		// create table element
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		boolean disabledItem = ComponentUtil.string2boolean(ComponentUtil
@@ -100,8 +84,7 @@ public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
 		table.appendChild(label);
 
 		if (null != element) {
-			escape = element.getAttribute(ESCAPE);
-			dir = element.getAttribute(DIR);
+			dir = element.getAttribute(JSF.ATTR_DIR);
 		}
 
 		VpeCreationData creationData = new VpeCreationData(table);
@@ -117,47 +100,9 @@ public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
 			radio.setAttribute(HTML.ATTR_DIR, dir);
 		}
 
-		Attr attr = null;
-		if (element.hasAttribute(ITEM_LABEL)) {
-			attr = element.getAttributeNode(ITEM_LABEL);
-		}
+		processOutputAttribute(pageContext, visualDocument, element, label,
+				creationData);
 
-		if (null != attr) {
-			if (null == escape || "true".equalsIgnoreCase(escape)) {
-				// show text as is
-
-				String itemLabel = attr.getNodeValue();
-				String bundleValue = ComponentUtil.getBundleValue(pageContext,
-						attr);
-
-				nsIDOMText text;
-				// if bundleValue differ from value then will be represent
-				// bundleValue, but text will be not edit
-				boolean isEditable = itemLabel.equals(bundleValue);
-
-				text = visualDocument.createTextNode(bundleValue);
-				// add attribute for ability of editing
-
-				elementData.addAttributeData(new VpeAttributeData(attr, text,
-						isEditable));
-				label.appendChild(text);
-			} else {
-				// show formatted text
-				VpeChildrenInfo labelSpanInfo = new VpeChildrenInfo(label);
-				// re-parse attribute's value
-				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
-				// add children to info
-				for (int i = 0; i < list.getLength(); i++) {
-					Node child = list.item(i);
-					// add info to creation data
-					labelSpanInfo.addSourceChild(child);
-				}
-				elementData.addAttributeData(new VpeAttributeData(attr, label,
-						false));
-				creationData.addChildrenInfo(labelSpanInfo);
-			}
-		}
-		creationData.setElementData(elementData);
 		return creationData;
 	}
 
@@ -220,6 +165,21 @@ public class JsfRadioSelectItemTemplate extends AbstractEditableJsfTemplate{
 	 */
 	private boolean attrPresents(String attr) {
 		return ((null != attr) && (!CONSTANT_EMPTY.equals(attr)));
+	}
+
+	@Override
+	protected Attr getOutputAttributeNode(Element element) {
+
+		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL))
+			return element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
+		return null;
+	}
+
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
 	}
 
 }
