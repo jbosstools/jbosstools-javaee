@@ -1100,14 +1100,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		 */
 		@Override
 		public void run() {
+			SeamRuntime selected = runtimes[0];
 			Wizard wiz = new SeamRuntimeEditWizard(
 					(List<SeamRuntime>) getValue(), runtimes[0], added, changed);
 			WizardDialog dialog = new WizardDialog(Display.getCurrent()
 					.getActiveShell(), wiz);
 			dialog.open();
 			tableView.refresh();
-			if (changed.containsValue(runtimes[0])) {
-				SeamRuntime c = findChangedRuntime(runtimes[0]);
+			if (changed.containsValue(selected)) {
+				SeamRuntime c = findChangedRuntime(selected);
 				if (c != null) {
 					tableView.setSelection(new StructuredSelection(c));
 				}
