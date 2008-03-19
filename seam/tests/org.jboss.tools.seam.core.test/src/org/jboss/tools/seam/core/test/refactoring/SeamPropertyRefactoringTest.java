@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
@@ -91,7 +90,23 @@ public class SeamPropertyRefactoringTest extends TestCase {
 	}
 
 	public void testWarProjectRename() throws CoreException {
-		RenameSupport support = RenameSupport.create(JavaCore.create(warProject), "NewWarProjectName", RenameSupport.UPDATE_REFERENCES);
+		renameProject(warProject, "NewWarProjectName");
+
+		String newParentName = seamEjbProject.getParentProjectName();
+		assertEquals("NewWarProjectName", newParentName);
+		newParentName = seamTestProject.getParentProjectName();
+		assertEquals("NewWarProjectName", newParentName);
+	}
+
+	public void testEjbProjectRename() throws CoreException {
+		renameProject(ejbProject, "NewEjbProjectName");
+
+		String newEjbName = SeamCorePlugin.getSeamPreferences(ejbProject).get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, "");
+		assertEquals("NewEjbProjectName", newEjbName);
+	}
+
+	private void renameProject(IProject project, String newProjectName) throws CoreException {
+		RenameSupport support = RenameSupport.create(JavaCore.create(project), newProjectName, RenameSupport.UPDATE_REFERENCES);
 
 		Shell parent = WorkbenchUtils.getActiveShell();
 		IWorkbenchWindow context = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow();
@@ -102,8 +117,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		} catch (InvocationTargetException e) {
 			JUnitUtils.fail("Rename failed", e);
 		}
+
 		EditorTestHelper.joinBackgroundActivities();
-		String newParentName = seamEjbProject.getParentProjectName();
-		assertEquals("NewWarProjectName", newParentName);
 	}
 }
