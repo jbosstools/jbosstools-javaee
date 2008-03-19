@@ -21,6 +21,7 @@ import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.struts.StrutsConstants;
+import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.StrutsPreference;
 import org.jboss.tools.struts.StrutsProjectUtil;
 import org.jboss.tools.struts.StrutsUtils;
@@ -155,7 +156,7 @@ public class ImportProjectWizardContext extends ImportWebDirProjectContext {
 		try {
 			getProjectHandle().refreshLocal(IProject.DEPTH_INFINITE, null);
 		} catch (Exception e) {
-			//ignore
+			StrutsModelPlugin.getPluginLog().logError(e);
 		}		
 	}
 	

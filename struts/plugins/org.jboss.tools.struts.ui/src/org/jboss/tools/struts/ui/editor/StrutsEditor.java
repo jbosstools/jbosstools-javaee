@@ -561,7 +561,7 @@ public class StrutsEditor extends GEFEditor  implements IStrutsModelListener{
 				ex = ee;
 				printer.dispose();
 				d = null;
-				ProblemReportingHelper.reportProblem(ModelUIPlugin.PLUGIN_ID, ee);
+				ModelUIPlugin.getPluginLog().logError(ee);
 			}
 			if(ex==null){
 				d.setPages(new Pages(viewer,new PageFormat(printer,this.getWorkbenchPart().getSite().getShell().getDisplay())));

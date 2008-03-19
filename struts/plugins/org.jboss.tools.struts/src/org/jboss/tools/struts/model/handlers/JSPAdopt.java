@@ -13,6 +13,7 @@ package org.jboss.tools.struts.model.handlers;
 import java.util.*;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.meta.*;
+import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.model.helpers.StrutsProcessStructureHelper;
 
 public class JSPAdopt implements XAdoptManager {
@@ -41,7 +42,7 @@ public class JSPAdopt implements XAdoptManager {
         try { 
         	c = Integer.parseInt(p.getProperty("pos")); 
         } catch (Exception e) {
-        	//ignore
+        	StrutsModelPlugin.getPluginLog().logError(e);
         }
         if(c < 0) return;
         String path = object.getAttributeValue("path");

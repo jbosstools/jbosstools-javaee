@@ -83,7 +83,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 			suspend = false;
 			return false;
 		} catch (DebugException e) {
-			//ignore
+			StrutsDebugPlugin.log(e);
 			return true;
 		}
 	}
@@ -138,7 +138,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 		try {
 			suspendPolicy = getSuspendPolicy();
 		} catch (CoreException e) {
-			//ignore
+			StrutsDebugPlugin.log(e);
 		}
 
 		JDIThread jdiThread = (JDIThread)thread;
@@ -185,7 +185,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				//ignore
+				StrutsDebugPlugin.log(e);
 			}
 		}
 	}
@@ -229,7 +229,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 				try {
 					suspendPolicy = getSuspendPolicy();
 				} catch (CoreException e) {
-					//ignore
+					StrutsDebugPlugin.log(e);
 				}
 				if (suspendPolicy == SUSPEND_VM) {
 					((JDIDebugTarget)thread.getDebugTarget()).resumeQuiet();

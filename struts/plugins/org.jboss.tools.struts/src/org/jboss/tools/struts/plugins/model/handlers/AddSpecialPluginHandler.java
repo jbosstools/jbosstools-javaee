@@ -77,7 +77,7 @@ public class AddSpecialPluginHandler extends AbstractHandler {
         try { 
         	i = Integer.valueOf(action.getProperty("index")).intValue();  //$NON-NLS-1$
         } catch (Exception e) {
-        	//ignore
+        	StrutsModelPlugin.getPluginLog().logError(e);
         }
         if(i < 0) return null;
         XModelObject[] ps = model.getByPath("%Options%/Struts Studio/Automation/Plug-ins Insets").getChildren(); //$NON-NLS-1$

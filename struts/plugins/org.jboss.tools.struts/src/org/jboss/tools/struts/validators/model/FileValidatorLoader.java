@@ -16,6 +16,7 @@ import org.jboss.tools.common.meta.*;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.*;
+import org.jboss.tools.struts.StrutsModelPlugin;
 
 public class FileValidatorLoader extends SimpleWebFileLoader {
 
@@ -54,7 +55,7 @@ class FVLoaderUtil extends XModelObjectLoaderUtil {
     			try { 
     				p = Integer.parseInt(pos); 
     			} catch (Exception e) {
-    				//ignore
+    				StrutsModelPlugin.getPluginLog().logError(e);
     			}
     			if(p < 0) p = 0;
     			o.setAttributeValue("position", "" + p);

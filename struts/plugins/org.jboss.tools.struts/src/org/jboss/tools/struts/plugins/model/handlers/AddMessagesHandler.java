@@ -16,6 +16,7 @@ import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.*;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.struts.StrutsModelPlugin;
 
 public class AddMessagesHandler extends AbstractHandler {
 
@@ -50,7 +51,7 @@ public class AddMessagesHandler extends AbstractHandler {
         try { 
         	i = Integer.valueOf(action.getProperty("index")).intValue(); 
         } catch (Exception e) {
-        	//ignore
+        	StrutsModelPlugin.getPluginLog().logError(e);
         }
         return getTemplate(model, i);
     }
