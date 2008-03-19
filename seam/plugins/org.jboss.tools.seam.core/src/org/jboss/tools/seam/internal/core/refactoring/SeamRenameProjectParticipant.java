@@ -26,10 +26,10 @@ import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
  */
 public class SeamRenameProjectParticipant extends RenameParticipant {
 	public static final String PARTICIPANT_NAME="seam-RenameProjectParticipant";
-	
+
 	IProject project;
 	String oldName;
-	
+
 	public SeamRenameProjectParticipant() {}
 
 	@Override
@@ -42,7 +42,7 @@ public class SeamRenameProjectParticipant extends RenameParticipant {
 		if (!pm.isCanceled()) {
 			String newName = getArguments().getNewName();
 			if(newName == null || newName.trim().length() == 0) return null;
-			CompositeChange change = new CompositeChange("Update Seam projects");
+			CompositeChange change = new CompositeChange("Update Seam Projects");
 			IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 			for (int i = 0; i < ps.length; i++) {
 				SeamRenameProjectChange c = new SeamRenameProjectChange(ps[i], newName, oldName);
@@ -67,5 +67,4 @@ public class SeamRenameProjectParticipant extends RenameParticipant {
 		oldName = project.getName();
 		return true;
 	}
-
 }

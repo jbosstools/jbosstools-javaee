@@ -109,6 +109,11 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String TEST_CREATING = "seam.test.creating"; //$NON-NLS-1$
 
 	/**
+	 * Parent war project for EJB and Test projects.
+	 */
+	String SEAM_PARENT_PROJECT = "seam.parent.project"; //$NON-NLS-1$
+
+	/**
 	 * Ejb project name created from Seam Web Project in EAR deployment configuration
 	 */
 	String SEAM_EJB_PROJECT = "seam.ejb.project"; //$NON-NLS-1$
