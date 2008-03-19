@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
@@ -34,12 +35,19 @@ import org.jboss.tools.test.util.xpl.EditorTestHelper;
  * @author Alexey Kazakov
  */
 public class SeamPropertyRefactoringTest extends TestCase {
-	IProject warProject;
-	IProject ejbProject;
-	IProject testProject;
-	ISeamProject seamWarProject;
-	ISeamProject seamEjbProject;
-	ISeamProject seamTestProject;
+	static String warProjectName = "RefactoringTestProject-war";
+	static String ejbProjectName = "RefactoringTestProject-ejb";
+	static String testProjectName = "RefactoringTestProject-test";
+	static String actionSourceFolderName = "/" + ejbProjectName + "/src";
+	static String modelSourceFolderName = "/" + warProjectName + "/src";
+	static String testSourceFolderName = "/" + testProjectName + "/src";
+	static String viewFolderName = "/" + warProjectName + "/WebContent";
+	static IProject warProject;
+	static IProject ejbProject;
+	static IProject testProject;
+	static ISeamProject seamWarProject;
+	static ISeamProject seamEjbProject;
+	static ISeamProject seamTestProject;
 
 	public SeamPropertyRefactoringTest() {
 		super("Seam Property Refactoring Tests");
@@ -47,65 +55,90 @@ public class SeamPropertyRefactoringTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		if(warProject==null) {
-			IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("RefactoringTestProject-war");
-			assertNotNull("Can't load RefactoringTestProject-war", project);
-			warProject = project.getProject();
-			warProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
-			EditorTestHelper.joinBackgroundActivities();
+			warProject = loadProject(warProjectName);
 		}
-
 		if(ejbProject==null) {
-			IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("RefactoringTestProject-ejb");
-			assertNotNull("Can't load RefactoringTestProject-ejb", project);
-			ejbProject = project.getProject();
-			ejbProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
-			EditorTestHelper.joinBackgroundActivities();
+			ejbProject = loadProject(ejbProjectName);;
 		}
-
 		if(testProject==null) {
-			IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("RefactoringTestProject-test");
-			assertNotNull("Can't load RefactoringTestProject-test", project);
-			testProject = project.getProject();
-			testProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
-			EditorTestHelper.joinBackgroundActivities();
+			testProject = loadProject(testProjectName);
 		}
-
 		if(seamWarProject==null) {
-			seamWarProject = SeamCorePlugin.getSeamProject(warProject, true);
-			assertNotNull("Seam WAR project is null", seamWarProject);
-			EditorTestHelper.joinBackgroundActivities();
+			seamWarProject = loadSeamProject(warProject);
 		}
-
 		if(seamEjbProject==null) {
-			seamEjbProject = SeamCorePlugin.getSeamProject(ejbProject, true);
-			assertNotNull("Seam EJB project is null", seamEjbProject);
-			EditorTestHelper.joinBackgroundActivities();
+			seamEjbProject = loadSeamProject(ejbProject);
 		}
-
 		if(seamTestProject==null) {
-			seamTestProject = SeamCorePlugin.getSeamProject(testProject, true);
-			assertNotNull("Seam test project is null", seamTestProject);
-			EditorTestHelper.joinBackgroundActivities();
+			seamTestProject = loadSeamProject(testProject);
 		}
+	}
+
+	private IProject loadProject(String projectName) throws CoreException {
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(projectName);
+		assertNotNull("Can't load " + projectName, project);
+		IProject result = project.getProject();
+		result.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		EditorTestHelper.joinBackgroundActivities();
+		return result;
+	}
+
+	private ISeamProject loadSeamProject(IProject project) throws CoreException {
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		assertNotNull("Seam project for " + project.getName() + " is null", seamProject);
+		EditorTestHelper.joinBackgroundActivities();
+		return seamProject;
 	}
 
 	public void testWarProjectRename() throws CoreException {
-		renameProject(warProject, "NewWarProjectName");
+		warProjectName = "NewWarProjectName";
+		modelSourceFolderName = "/" + warProjectName + "/src";
+		viewFolderName = "/" + warProjectName + "/WebContent"; 
+		warProject = renameProject(warProject, warProjectName);
+		seamWarProject = SeamCorePlugin.getSeamProject(warProject, true);
 
 		String newParentName = seamEjbProject.getParentProjectName();
-		assertEquals("NewWarProjectName", newParentName);
+		assertEquals(warProjectName, newParentName);
 		newParentName = seamTestProject.getParentProjectName();
-		assertEquals("NewWarProjectName", newParentName);
+		assertEquals(warProjectName, newParentName);
+
+		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
+		String modelSources = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "");
+		assertEquals(modelSourceFolderName, modelSources);
+
+		String viewFolder = pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "");
+		assertEquals(viewFolderName, viewFolder);
 	}
 
 	public void testEjbProjectRename() throws CoreException {
-		renameProject(ejbProject, "NewEjbProjectName");
+		ejbProjectName = "NewEjbProjectName";
+		actionSourceFolderName = "/" + ejbProjectName + "/src";
+		ejbProject = renameProject(ejbProject, ejbProjectName);
+		seamEjbProject = SeamCorePlugin.getSeamProject(ejbProject, true);
 
-		String newEjbName = SeamCorePlugin.getSeamPreferences(ejbProject).get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, "");
-		assertEquals("NewEjbProjectName", newEjbName);
+		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
+		String newEjbName = pref.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, "");
+		assertEquals(ejbProjectName, newEjbName);
+
+		String actionSources = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "");
+		assertEquals(actionSourceFolderName, actionSources);
 	}
 
-	private void renameProject(IProject project, String newProjectName) throws CoreException {
+	public void testTestProjectRename() throws CoreException {
+		testProjectName = "NewTestProjectName";
+		testSourceFolderName = "/" + testProjectName + "/src";
+		testProject = renameProject(testProject, testProjectName);
+		seamTestProject = SeamCorePlugin.getSeamProject(testProject, true);
+
+		String newTestName = SeamCorePlugin.getSeamPreferences(warProject).get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, "");
+		assertEquals(testProjectName, newTestName);
+
+		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
+		String testSources = pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "");
+		assertEquals(testSourceFolderName, testSources);
+	}
+
+	private IProject renameProject(IProject project, String newProjectName) throws CoreException {
 		RenameSupport support = RenameSupport.create(JavaCore.create(project), newProjectName, RenameSupport.UPDATE_REFERENCES);
 
 		Shell parent = WorkbenchUtils.getActiveShell();
@@ -119,5 +152,9 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		}
 
 		EditorTestHelper.joinBackgroundActivities();
+
+		IProject renamedProject = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember(newProjectName);
+		assertNotNull("Can't load renamed project " + newProjectName, renamedProject);
+		return renamedProject;
 	}
 }
