@@ -118,7 +118,8 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 			boolean active = (i == activeId);
 			
 			if(child.getNodeName().endsWith(TAB)) {
-				RichFacesTabTemplate.encodeHeader((Element) child,
+				RichFacesTabTemplate.encodeHeader(creationData,
+						(Element) child,
 						visualDocument, inerTr, active, 
 						ComponentUtil.getAttribute(sourceElement, 
 								ACTIVE_TAB_CLASS),

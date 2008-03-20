@@ -132,8 +132,9 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	 * @param inactiveTabClass
 	 * @param disabledTabClass
 	 */
-	public static void encodeHeader(Element sourceElement, 
-			nsIDOMDocument visualDocument, 
+	public static void encodeHeader(VpeCreationData creationData,
+			Element sourceElement, 
+			nsIDOMDocument visualDocument,
 			nsIDOMElement parentDiv,
 			boolean active,
 			String activeTabClass,
@@ -218,12 +219,19 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		String style = "background-image: url(file:///" + bgImgPath.replace('\\', '/') + ");";
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 		td.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
-		String label = sourceElement.getAttribute(LABEL);
-		if(label==null) {
+		Node labelFacet = ComponentUtil.getFacet(sourceElement, LABEL, true);
+		String labelAttr = sourceElement.getAttribute(LABEL);
+		if (null != labelFacet) {
+			VpeChildrenInfo child = new VpeChildrenInfo(td);
+			child.addSourceChild(labelFacet);
+			creationData.addChildrenInfo(child);
+		} else if (null != labelAttr) {
+			td.appendChild(visualDocument.createTextNode(labelAttr));
+		} else {
 			char space = 160;
-			label = EMPTY + space;
+			labelAttr = EMPTY + space;
+			td.appendChild(visualDocument.createTextNode(labelAttr));
 		}
-		td.appendChild(visualDocument.createTextNode(label));
 		encodeSpacer(mainTr, visualDocument);
 	}
 
