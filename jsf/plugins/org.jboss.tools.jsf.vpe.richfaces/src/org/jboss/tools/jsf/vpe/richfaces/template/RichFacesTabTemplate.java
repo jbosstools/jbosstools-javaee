@@ -34,6 +34,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 
 	private static final String DISABLED = "disabled"; //$NON-NLS-1$
 	private static final String LABEL = "label"; //$NON-NLS-1$
+	private static final String LABEL_WIDTH = "labelWidth"; //$NON-NLS-1$
 	
 	private static final String CSS_HEADER = "rich-tab-header"; //$NON-NLS-1$
 	private static final String CSS_LABEL = "rich-tab-label"; //$NON-NLS-1$
@@ -76,7 +77,6 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	    	nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
 		if(creationData==null) {
-			
 			creationData = new VpeCreationData(td);
 		} else {
 			parentTr.appendChild(td);
@@ -86,7 +86,6 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		}
 //		td.setAttribute("style", "position: relative;");
 		td.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
-		
 
 		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		td.appendChild(table);
@@ -175,7 +174,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-tbtopbrdr"
 				+ SPACE + RichFacesTabPanelTemplate.CSS_SIDE_CELL);
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: "
-				+ ComponentUtil.getAttribute(sourceElement,"labelWidth") + ";");
+				+ ComponentUtil.getAttribute(sourceElement, LABEL_WIDTH) + ";");
 		td.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
 		table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);

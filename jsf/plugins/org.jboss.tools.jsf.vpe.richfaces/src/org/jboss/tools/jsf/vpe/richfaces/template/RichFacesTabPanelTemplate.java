@@ -44,6 +44,9 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private final String HEADER_ALINGMENT = "headerAlignment"; //$NON-NLS-1$
 	private final String HEADER_SPACING = "headerSpacing"; //$NON-NLS-1$
 	private final String SELECTED_TAB = "selectedTab"; //$NON-NLS-1$
+	private final String DIR = "dir"; //$NON-NLS-1$
+	private final String DIR_RTL = "RTL"; //$NON-NLS-1$
+	private final String DIR_LTR = "LTR"; //$NON-NLS-1$
 	
 	private final String CONTENT_CLASS = "contentClass"; //$NON-NLS-1$
 	private final String CONTENT_STYLE = "contentStyle"; //$NON-NLS-1$
@@ -51,7 +54,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private final String ACTIVE_TAB_CLASS = "activeTabClass"; //$NON-NLS-1$
 	private final String INACTIVE_TAB_CLASS = "inactiveTabClass"; //$NON-NLS-1$
 	private final String DISABLED_TAB_CLASS = "disabledTabClass"; //$NON-NLS-1$
-	
 	
 	private final String ZERO = "0"; //$NON-NLS-1$
 	private final String ONE = "1"; //$NON-NLS-1$
@@ -72,6 +74,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		
 		VpeCreationData creationData = new VpeCreationData(table);
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_PATH, RICH_FACES_TAB_PANEL);
+		setDirAttr(table, sourceElement);
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, 
 				ComponentUtil.getAttribute(sourceElement,	HtmlComponentUtil.HTML_STYLECLASS_ATTR)
 				+ SPACE + CSS_PANEL
@@ -261,6 +264,22 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		}
 	  
 		return style;
+	}
+	
+	
+	/**
+	 * Sets the dir attribute to the element.
+	 * 
+	 * @param element the element
+	 * @param dir the dir value
+	 */
+	private void setDirAttr(nsIDOMElement element, Element sourceElement) {
+		String dir = ComponentUtil.getAttribute(sourceElement, DIR);
+		if ((null != dir) && (!EMPTY.equals(dir))){
+			if ((DIR_LTR.equalsIgnoreCase(dir)) || (DIR_RTL.equalsIgnoreCase(dir))) {
+				element.setAttribute(DIR, dir);
+			}
+		}
 	}
 
 	private String getHeaderAlignment(Element sourceElement) {
