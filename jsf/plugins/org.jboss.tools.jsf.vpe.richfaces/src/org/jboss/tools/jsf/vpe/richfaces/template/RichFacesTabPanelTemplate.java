@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -27,47 +28,77 @@ import org.w3c.dom.Node;
 
 public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
+	final static String RICH_FACES_TAB_PANEL = "richFacesTabPanel"; //$NON-NLS-1$
+	final static String CSS_FILE_PATH = "tabPanel/tabPanel.css"; //$NON-NLS-1$
+	final static String SPACER_FILE_PATH = "common/spacer.gif"; //$NON-NLS-1$
+
+	private final String HEADER_ALINGMENT = "headerAlignment"; //$NON-NLS-1$
+	private final String HEADER_SPACING = "headerSpacing"; //$NON-NLS-1$
+	private final String SELECTED_TAB = "selectedTab"; //$NON-NLS-1$
+	
+	private final String CONTENT_CLASS = "contentClass"; //$NON-NLS-1$
+	private final String CONTENT_STYLE = "contentStyle"; //$NON-NLS-1$
+	private final String TAB_CLASS = "tabClass"; //$NON-NLS-1$
+	private final String ACTIVE_TAB_CLASS = "activeTabClass"; //$NON-NLS-1$
+	private final String INACTIVE_TAB_CLASS = "inactiveTabClass"; //$NON-NLS-1$
+	private final String DISABLED_TAB_CLASS = "disabledTabClass"; //$NON-NLS-1$
+	
+	private final String CSS_PANEL = "rich-tabpanel"; //$NON-NLS-1$
+	private final String CSS_CONTENT = "rich-tabpanel-content"; //$NON-NLS-1$
+	private final String CSS_CONTENT_POSITION = "rich-tabpanel-content-position"; //$NON-NLS-1$
+	private final String CSS_SIDE_BORDER = "rich-tabhdr-side-border"; //$NON-NLS-1$
+	private final String CSS_SIDE_CELL = "rich-tabhdr-side-cell"; //$NON-NLS-1$
+	
+	private final String ZERO = "0"; //$NON-NLS-1$
+	private final String ONE = "1"; //$NON-NLS-1$
+	private final String TWO = "2"; //$NON-NLS-1$
+	private final String SPACE = " "; //$NON-NLS-1$
+	private final String EMPTY = ""; //$NON-NLS-1$
+	
+	private final String TAB = ":tab"; //$NON-NLS-1$
+	private final String NAME = "name"; //$NON-NLS-1$
+	
 	private static Map toggleMap = new HashMap();
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element)sourceNode;
 
-		nsIDOMElement table = visualDocument.createElement("table");
+		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		
 		VpeCreationData creationData = new VpeCreationData(table);
-		ComponentUtil.setCSSLink(pageContext, "tabPanel/tabPanel.css", "richFacesTabPanel");
-		table.setAttribute("class", "rich-tabpanel " + ComponentUtil.getAttribute(sourceElement, "styleClass"));
-		table.setAttribute("border", "0");
-		table.setAttribute("cellpadding", "0");
-		table.setAttribute("cellspacing", "0");
-		table.setAttribute("style", getStyle(sourceElement));
+		ComponentUtil.setCSSLink(pageContext, CSS_FILE_PATH, RICH_FACES_TAB_PANEL);
+		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_PANEL + SPACE + ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR));
+		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
+		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, getStyle(sourceElement));
 		
-		nsIDOMElement tbody = visualDocument.createElement("tbody");
+		nsIDOMElement tbody = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 		table.appendChild(tbody);
-		nsIDOMElement tr = visualDocument.createElement("tr");
+		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		tbody.appendChild(tr);
-		nsIDOMElement td = visualDocument.createElement("td");
+		nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tr.appendChild(td);
-		td.setAttribute("align", getHeaderAlignment(sourceElement));
+		td.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, getHeaderAlignment(sourceElement));
 
-		nsIDOMElement inerTable = visualDocument.createElement("table");
+		nsIDOMElement inerTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		td.appendChild(inerTable);
-		inerTable.setAttribute("border", "0");
-		inerTable.setAttribute("cellpadding", "0");
-		inerTable.setAttribute("cellspacing", "0");
+		inerTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+		inerTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
+		inerTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
 
 		// Encode header
-		nsIDOMElement inerTr = visualDocument.createElement("tr");
+		nsIDOMElement inerTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		inerTable.appendChild(inerTr);
-		nsIDOMElement inerTd = visualDocument.createElement("td");
+		nsIDOMElement inerTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		inerTr.appendChild(inerTd);
-		nsIDOMElement img = visualDocument.createElement("img");
+		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		inerTd.appendChild(img);
-		ComponentUtil.setImg(img, "common/spacer.gif");
-		img.setAttribute("width", "2");
-		img.setAttribute("height", "1");
-		img.setAttribute("border", "0");
+		ComponentUtil.setImg(img, SPACER_FILE_PATH);
+		img.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, TWO);
+		img.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
+		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int activeId = getActiveId(sourceElement, children);
@@ -75,45 +106,63 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		for (Node child : children) {
 			boolean active = (i == activeId);
 			
-			if(child.getNodeName().endsWith(":tab")) {
-				RichFacesTabTemplate.encodeHeader((Element)child, visualDocument, inerTr, active, ComponentUtil.getAttribute(sourceElement, "activeTabClass"), ComponentUtil.getAttribute(sourceElement, "inactiveTabClass"), ComponentUtil.getAttribute(sourceElement, "disabledTabClass"), String.valueOf(i));
+			if(child.getNodeName().endsWith(TAB)) {
+				RichFacesTabTemplate.encodeHeader((Element) child,
+						visualDocument, inerTr, active, ComponentUtil
+								.getAttribute(sourceElement, ACTIVE_TAB_CLASS),
+						ComponentUtil.getAttribute(sourceElement,
+								INACTIVE_TAB_CLASS),
+						ComponentUtil.getAttribute(sourceElement,
+								DISABLED_TAB_CLASS), String.valueOf(i));
 				i++;
 				// Add <td><img src="#{spacer}" height="1" alt="" border="0" style="#{this:encodeHeaderSpacing(context, component)}"/></td>
-				nsIDOMElement spaceTd = visualDocument.createElement("td");
+				nsIDOMElement spaceTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 				inerTr.appendChild(spaceTd);
-				nsIDOMElement spaceImg = visualDocument.createElement("img");
+				nsIDOMElement spaceImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 				spaceTd.appendChild(spaceImg);
-				ComponentUtil.setImg(spaceImg, "common/spacer.gif");
-				spaceImg.setAttribute("height", "1");
-				spaceImg.setAttribute("border", "0");
-				String headerSpacing = sourceElement.getAttribute("headerSpacing");
+				ComponentUtil.setImg(spaceImg, SPACER_FILE_PATH);
+				spaceImg.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
+				spaceImg.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+				String headerSpacing = sourceElement.getAttribute(HEADER_SPACING);
 				if(headerSpacing==null) {
-					headerSpacing = "1";
+					headerSpacing = ONE;
 				}
-				spaceImg.setAttribute("style", "width: " + headerSpacing + "px");
+				spaceImg.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: " + headerSpacing + "px"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
-		inerTd = visualDocument.createElement("td");
+		inerTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		inerTr.appendChild(inerTd);
-		img = visualDocument.createElement("img");
+		img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		inerTd.appendChild(img);
-		ComponentUtil.setImg(img, "common/spacer.gif");
-		img.setAttribute("width", "1");
-		img.setAttribute("height", "1");
-		img.setAttribute("border", "0");
+		ComponentUtil.setImg(img, SPACER_FILE_PATH);
+		img.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, ONE);
+		img.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
+		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 
 		// Encode first child tab
-		inerTr = visualDocument.createElement("tr");
+		inerTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		tbody.appendChild(inerTr);
 		children = ComponentUtil.getChildren(sourceElement);
 		i = 0;
 		for (Node child : children) {
 			boolean active = (i == activeId);
-			if(child.getNodeName().endsWith(":tab")) {
+			if(child.getNodeName().endsWith(TAB)) {
 				i++;
 				if (active) {
-					RichFacesTabTemplate.encodeBody(creationData, (Element)child, visualDocument, inerTr, true, ComponentUtil.getAttribute(sourceElement, "tabClass"), ComponentUtil.getAttribute(sourceElement, "activeTabClass"), ComponentUtil.getAttribute(sourceElement, "inactiveTabClass"), ComponentUtil.getAttribute(sourceElement, "disabledTabClass"), ComponentUtil.getAttribute(sourceElement, "contentClass"), ComponentUtil.getAttribute(sourceElement, "contentStyle"));
+					RichFacesTabTemplate.encodeBody(creationData,
+							(Element) child, visualDocument, inerTr, true,
+							ComponentUtil.getAttribute(sourceElement,
+									TAB_CLASS), ComponentUtil.getAttribute(
+									sourceElement, ACTIVE_TAB_CLASS),
+							ComponentUtil.getAttribute(sourceElement,
+									INACTIVE_TAB_CLASS), ComponentUtil
+									.getAttribute(sourceElement,
+											DISABLED_TAB_CLASS),
+							ComponentUtil.getAttribute(sourceElement,
+									CONTENT_CLASS),
+							ComponentUtil.getAttribute(sourceElement,
+									CONTENT_STYLE));
 					break;
 				}
 			}
@@ -131,7 +180,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		}
 
 		if (activeId == -1) {
-			activeId = getTabId(children, sourceElement.getAttribute("selectedTab"));
+			activeId = getTabId(children, sourceElement.getAttribute(SELECTED_TAB));
 		}
 		
 		if (activeId == -1) 
@@ -148,7 +197,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private int getChildrenCount(List<Node> children) {
 		int count = 0;
 		for (Node child : children) {
-			if (child.getNodeName().endsWith(":tab")) {
+			if (child.getNodeName().endsWith(TAB)) {
 				count++;
 			}
 		}
@@ -159,11 +208,11 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		if (tabName == null) return -1;
 		int count = 0;
 		for (Node child : children) {
-			if (child.getNodeName().endsWith(":tab")) {
+			if (child.getNodeName().endsWith(TAB)) {
 				if (!(child instanceof Element))
 					continue;
 				
-				String name = ((Element)child).getAttribute("name");
+				String name = ((Element)child).getAttribute(NAME);
 				if (tabName.equals(name))
 					return count;
 				
@@ -175,20 +224,20 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 
 	private String getStyle(Element sourceElement) {
 	     
-		String widthAttrValue = sourceElement.getAttribute("width");
-		String heightAttrValue = sourceElement.getAttribute("height");
-		String styleAttrValue = sourceElement.getAttribute("style");
-		String style = styleAttrValue != null ? styleAttrValue : "";
+		String widthAttrValue = sourceElement.getAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR);
+		String heightAttrValue = sourceElement.getAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR);
+		String styleAttrValue = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+		String style = styleAttrValue != null ? styleAttrValue : EMPTY;
 
-		if (!ComponentUtil.parameterPresent(styleAttrValue, "width")) {
-			String width = (widthAttrValue != null && widthAttrValue.length() > 0) ? widthAttrValue : "100%";
-			style = ComponentUtil.addParameter(style, "width:" + width);
+		if (!ComponentUtil.parameterPresent(styleAttrValue, HtmlComponentUtil.HTML_WIDTH_ATTR)) {
+			String width = (widthAttrValue != null && widthAttrValue.length() > 0) ? widthAttrValue : "100%"; //$NON-NLS-1$
+			style = ComponentUtil.addParameter(style, "width:" + width); //$NON-NLS-1$
 		}
 
-		if (!ComponentUtil.parameterPresent(styleAttrValue, "height")) {
-			String height = (heightAttrValue != null && heightAttrValue.length() > 0) ? heightAttrValue : "";
+		if (!ComponentUtil.parameterPresent(styleAttrValue, HtmlComponentUtil.HTML_HEIGHT_ATTR)) {
+			String height = (heightAttrValue != null && heightAttrValue.length() > 0) ? heightAttrValue : EMPTY;
 			if (height.length() > 0) {
-				style =ComponentUtil.addParameter(style, "height:" + height);
+				style =ComponentUtil.addParameter(style, "height:" + height); //$NON-NLS-1$
 			}
 		}
 	  
@@ -196,9 +245,9 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	}
 
 	private String getHeaderAlignment(Element sourceElement) {
-		String headerAlignment = sourceElement.getAttribute("headerAlignment");
+		String headerAlignment = sourceElement.getAttribute(HEADER_ALINGMENT);
 		if(headerAlignment==null) {
-			headerAlignment = "left"; 
+			headerAlignment = HtmlComponentUtil.HTML_ALIGN_LEFT_VALUE; 
 		}
 		return headerAlignment;
 	}
