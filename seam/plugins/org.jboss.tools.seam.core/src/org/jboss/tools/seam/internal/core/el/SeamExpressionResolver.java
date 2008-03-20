@@ -84,6 +84,11 @@ public class SeamExpressionResolver {
 	
 	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames, Set<ISeamContextVariable> variables) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
+		if(onlyEqualNames) {
+			variables = project.getVariablesByName(name);
+			if(variables != null) resolvedVariables.addAll(variables);
+			return resolvedVariables;
+		}
 		for (ISeamContextVariable variable : variables) {
 			String n = variable.getName();
 			if(onlyEqualNames) {
@@ -225,8 +230,6 @@ public class SeamExpressionResolver {
 	}
 
 	public static TypeInfoCollector collectTypeInfo(TypeInfoCollector.MemberInfo member) {
-		TypeInfoCollector typeInfo = new TypeInfoCollector(member);
-		typeInfo.collectInfo();
-		return typeInfo;
+		return member.getTypeCollector();
 	}
 }

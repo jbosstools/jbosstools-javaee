@@ -60,6 +60,7 @@ import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
+import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
 /**
  * Validator for Java and XML files.
@@ -365,8 +366,7 @@ public class SeamCoreValidator extends SeamValidator {
 						validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
 						// Save link between component name and all supers of java declaration.
 						try {
-							ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
-							IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getAllSupertypes(type);
+							IType[] superTypes = TypeInfoCollector.getSuperTypes(type).getSuperTypes();
 							for (int i = 0; superTypes != null && i < superTypes.length; i++) {
 								if(!superTypes[i].isBinary()) {
 									IPath path = superTypes[i].getResource().getFullPath();

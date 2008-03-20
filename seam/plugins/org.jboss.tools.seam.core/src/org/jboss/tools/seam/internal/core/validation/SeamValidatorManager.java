@@ -21,6 +21,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
 /**
  * This Manager invokes all dependent seam validators that should be invoked in one job.
@@ -46,6 +47,8 @@ public class SeamValidatorManager implements IValidatorJob {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#validateInJob(org.eclipse.wst.validation.internal.provisional.core.IValidationContext, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
+		TypeInfoCollector.cleanCache();
+
 		SeamValidationHelper coreHelper = (SeamValidationHelper)helper;
 		ISeamProject project = coreHelper.getSeamProject();
 		if(project==null) {

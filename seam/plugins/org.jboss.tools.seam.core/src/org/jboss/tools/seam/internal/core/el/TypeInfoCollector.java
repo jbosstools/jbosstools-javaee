@@ -14,6 +14,7 @@ package org.jboss.tools.seam.internal.core.el;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -172,6 +173,8 @@ public class TypeInfoCollector {
 		private IType fMemberType;
 		private boolean isDataModel;
 		private Type fType;
+		
+		TypeInfoCollector typeInfo;
 
 		protected MemberInfo (
 			IType sourceType,
@@ -290,6 +293,14 @@ public class TypeInfoCollector {
 
 		void setDataModel(boolean isDataModel) {
 			this.isDataModel = isDataModel;
+		}
+		
+		public TypeInfoCollector getTypeCollector() {
+			if(typeInfo == null) {
+				typeInfo = new TypeInfoCollector(this);
+				typeInfo.collectInfo();
+			}
+			return typeInfo;
 		}
 
 		abstract public IJavaElement getJavaElement();
@@ -567,17 +578,50 @@ public class TypeInfoCollector {
 			return false;
 		}
 	}
-
+	
+	public static class SuperTypeInfo {
+		IType type;
+		Set<String> names = new HashSet<String>();
+		IType[] superTypes = new IType[0];
+		
+		SuperTypeInfo(IType type) throws JavaModelException {
+			this.type = type;
+			superTypesCache.put(type, this);
+			ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
+			superTypes = typeHierarchy == null ? null : typeHierarchy.getAllSupertypes(type);
+			if(superTypes != null) for (int i = 0; i < superTypes.length; i++) {
+				names.add(superTypes[i].getFullyQualifiedName());
+			}
+			if(superTypes == null) superTypes = new IType[0];
+		}
+		
+		public Set<String> getNames() {
+			return names;
+		}
+		
+		public IType[] getSuperTypes() {
+			return superTypes;
+		}
+	}
+	
+	static Map<IType, SuperTypeInfo> superTypesCache = new HashMap<IType, SuperTypeInfo>();
+	
+	public static SuperTypeInfo getSuperTypes(IType type) throws JavaModelException {
+		if(type == null) return null;
+		SuperTypeInfo ts = superTypesCache.get(type);
+		if(ts == null) {
+			ts = new SuperTypeInfo(type);
+		}
+		return ts;
+	}
+	
 	public static boolean isInstanceofType(IType type, String qualifiedTypeName) throws JavaModelException {
 		if (qualifiedTypeName == null || type == null) return false;
 		boolean isInstanceofType = qualifiedTypeName.equals(type.getFullyQualifiedName());
 		if (!isInstanceofType) {
-			ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(new NullProgressMonitor());
-			IType[] superTypes = typeHierarchy == null ? null : typeHierarchy.getAllSupertypes(type);
-			for (int i = 0; !isInstanceofType && superTypes != null && i < superTypes.length; i++) {
-				if (qualifiedTypeName.equals(superTypes[i].getFullyQualifiedName())) {
-					return true;
-				}
+			SuperTypeInfo ts = getSuperTypes(type);
+			if(ts != null && ts.getNames().contains(qualifiedTypeName)) {
+				return true;
 			}
 			return false;
 		}
@@ -823,20 +867,35 @@ public class TypeInfoCollector {
 		}	
 		return properties;
 	}
+	
+	static Map<IMember, MemberInfo> memberInfoCacheFalse = new HashMap<IMember, MemberInfo>();
+	static Map<IMember, MemberInfo> memberInfoCacheTrue = new HashMap<IMember, MemberInfo>();
+	
+	public static void cleanCache() {
+		memberInfoCacheFalse.clear();
+		memberInfoCacheTrue.clear();
+		superTypesCache.clear();
+	}
 
 	public static MemberInfo createMemberInfo(IMember member, boolean dataModel) {
+		Map<IMember, MemberInfo> cache = dataModel ? memberInfoCacheTrue : memberInfoCacheFalse;
+		MemberInfo result = cache.get(member);
+		if(result != null) return result;
 		try {
 			if (member instanceof IType)
-				return new TypeInfo((IType)member, null, dataModel);
+				result = new TypeInfo((IType)member, null, dataModel);
 			else if (member instanceof IField)
-				return new FieldInfo((IField)member, null, dataModel);
+				result = new FieldInfo((IField)member, null, dataModel);
 			else if (member instanceof IMethod)
-				return new MethodInfo((IMethod)member, null, dataModel);
+				result = new MethodInfo((IMethod)member, null, dataModel);
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
+		if(result != null) {
+			cache.put(member, result);
+		}
 
-		return null;
+		return result;
 	}
 
 	public static MemberInfo createMemberInfo(IMember member) {
