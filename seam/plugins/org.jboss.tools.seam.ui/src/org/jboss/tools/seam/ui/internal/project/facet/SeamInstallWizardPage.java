@@ -33,6 +33,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.componentcore.internal.util.IModuleConstants;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -554,7 +555,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 			final String deploymentType = value.toString();
 			if(!ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(deploymentType)) {
-				Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
+				Object runtimeName = model.getProperty(IFacetProjectCreationDataModelProperties.FACET_RUNTIME);
 				if(runtimeName!=null) {
 					IRuntime rt = RuntimeManager.getRuntime(runtimeName.toString());
 					if(!rt.supports(EJB_30) || !rt.supports(EAR_50)) {
