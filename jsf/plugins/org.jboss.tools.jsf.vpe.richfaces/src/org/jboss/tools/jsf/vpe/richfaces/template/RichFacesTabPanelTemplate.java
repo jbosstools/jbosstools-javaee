@@ -28,9 +28,18 @@ import org.w3c.dom.Node;
 
 public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
-	final static String RICH_FACES_TAB_PANEL = "richFacesTabPanel"; //$NON-NLS-1$
-	final static String CSS_FILE_PATH = "tabPanel/tabPanel.css"; //$NON-NLS-1$
-	final static String SPACER_FILE_PATH = "common/spacer.gif"; //$NON-NLS-1$
+	public static final String CSS_PANEL = "rich-tabpanel"; //$NON-NLS-1$
+	public static final String CSS_CONTENT = "rich-tabpanel-content"; //$NON-NLS-1$
+	public static final String CSS_CONTENT_POSITION = "rich-tabpanel-content-position"; //$NON-NLS-1$
+	public static final String CSS_SIDE_BORDER = "rich-tabhdr-side-border"; //$NON-NLS-1$
+	public static final String CSS_SIDE_CELL = "rich-tabhdr-side-cell"; //$NON-NLS-1$
+	public static final String CSS_CELL_ACTIVE = "rich-tabhdr-cell-active"; //$NON-NLS-1$
+	public static final String CSS_CELL_INACTIVE = "rich-tabhdr-cell-inactive"; //$NON-NLS-1$
+	public static final String CSS_CELL_DISABLED = "rich-tabhdr-cell-disabled"; //$NON-NLS-1$
+	
+	private static final String RICH_FACES_TAB_PANEL = "richFacesTabPanel"; //$NON-NLS-1$
+	private static final String CSS_FILE_PATH = "tabPanel/tabPanel.css"; //$NON-NLS-1$
+	private static final String SPACER_FILE_PATH = "common/spacer.gif"; //$NON-NLS-1$
 
 	private final String HEADER_ALINGMENT = "headerAlignment"; //$NON-NLS-1$
 	private final String HEADER_SPACING = "headerSpacing"; //$NON-NLS-1$
@@ -43,11 +52,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private final String INACTIVE_TAB_CLASS = "inactiveTabClass"; //$NON-NLS-1$
 	private final String DISABLED_TAB_CLASS = "disabledTabClass"; //$NON-NLS-1$
 	
-	private final String CSS_PANEL = "rich-tabpanel"; //$NON-NLS-1$
-	private final String CSS_CONTENT = "rich-tabpanel-content"; //$NON-NLS-1$
-	private final String CSS_CONTENT_POSITION = "rich-tabpanel-content-position"; //$NON-NLS-1$
-	private final String CSS_SIDE_BORDER = "rich-tabhdr-side-border"; //$NON-NLS-1$
-	private final String CSS_SIDE_CELL = "rich-tabhdr-side-cell"; //$NON-NLS-1$
 	
 	private final String ZERO = "0"; //$NON-NLS-1$
 	private final String ONE = "1"; //$NON-NLS-1$
@@ -68,7 +72,11 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		
 		VpeCreationData creationData = new VpeCreationData(table);
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_PATH, RICH_FACES_TAB_PANEL);
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_PANEL + SPACE + ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR));
+		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, 
+				ComponentUtil.getAttribute(sourceElement,	HtmlComponentUtil.HTML_STYLECLASS_ATTR)
+				+ SPACE + CSS_PANEL
+				+ SPACE + CSS_CONTENT
+				+ SPACE + CSS_CONTENT_POSITION);
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
@@ -108,12 +116,14 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 			
 			if(child.getNodeName().endsWith(TAB)) {
 				RichFacesTabTemplate.encodeHeader((Element) child,
-						visualDocument, inerTr, active, ComponentUtil
-								.getAttribute(sourceElement, ACTIVE_TAB_CLASS),
+						visualDocument, inerTr, active, 
+						ComponentUtil.getAttribute(sourceElement, 
+								ACTIVE_TAB_CLASS),
 						ComponentUtil.getAttribute(sourceElement,
 								INACTIVE_TAB_CLASS),
 						ComponentUtil.getAttribute(sourceElement,
-								DISABLED_TAB_CLASS), String.valueOf(i));
+								DISABLED_TAB_CLASS), 
+								String.valueOf(i));
 				i++;
 				// Add <td><img src="#{spacer}" height="1" alt="" border="0" style="#{this:encodeHeaderSpacing(context, component)}"/></td>
 				nsIDOMElement spaceTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
@@ -152,15 +162,24 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 				if (active) {
 					RichFacesTabTemplate.encodeBody(creationData,
 							(Element) child, visualDocument, inerTr, true,
+							ComponentUtil.getAttribute(sourceElement,	
+									TAB_CLASS)
+									+ SPACE + CSS_SIDE_CELL
+									+ SPACE + CSS_SIDE_BORDER, 
+							ComponentUtil.getAttribute(sourceElement, 
+									ACTIVE_TAB_CLASS)
+									+ SPACE + CSS_CELL_ACTIVE,
 							ComponentUtil.getAttribute(sourceElement,
-									TAB_CLASS), ComponentUtil.getAttribute(
-									sourceElement, ACTIVE_TAB_CLASS),
+									INACTIVE_TAB_CLASS)
+									+ SPACE + CSS_CELL_INACTIVE, 
 							ComponentUtil.getAttribute(sourceElement,
-									INACTIVE_TAB_CLASS), ComponentUtil
-									.getAttribute(sourceElement,
-											DISABLED_TAB_CLASS),
+									DISABLED_TAB_CLASS)
+									+ SPACE + CSS_CELL_DISABLED,
 							ComponentUtil.getAttribute(sourceElement,
-									CONTENT_CLASS),
+									CONTENT_CLASS)
+									+ SPACE + CSS_PANEL
+									+ SPACE + CSS_CONTENT
+									+ SPACE + CSS_CONTENT_POSITION,
 							ComponentUtil.getAttribute(sourceElement,
 									CONTENT_STYLE));
 					break;
@@ -259,4 +278,15 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	public void stopToggling(Node sourceNode) {
 		toggleMap.remove(sourceNode);
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
+	}
+	
 }
