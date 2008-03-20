@@ -15,46 +15,32 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.ltk.core.refactoring.Change;
-import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamRenameProjectChange extends Change {
-	IProject project;
-	String newName;
-	String oldName;
+public class SeamRenameProjectChange extends SeamProjectChange {
 
-	static String[] PROJECT_NAME_PROPERTIES = {
-		ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT,
-		ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
-		ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,
-		ISeamFacetDataModelProperties.SEAM_TEST_PROJECT
-	};
+	protected String newName;
+	protected String oldName;
 
-	static String[] SOURCE_FOLDER_PROPERTIES = {
-		ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER,
-		ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER,
-		ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
-		ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER
-	};
+	private List<String> relevantProjectNameProperties = new ArrayList<String>();
+	private List<String> relevantSourceFolderProperties = new ArrayList<String>();
 
-	List<String> relevantProjectNameProperties = new ArrayList<String>();
-	List<String> relevantSourceFolderProperties = new ArrayList<String>();
-
+	/**
+	 * @param project
+	 * @param newName
+	 * @param oldName
+	 */
 	public SeamRenameProjectChange(IProject project, String newName, String oldName) {
-		this.project = project;
+		super(project);
 		this.newName = newName;
 		this.oldName = oldName;
 		IEclipsePreferences ps = getSeamPreferences();
@@ -63,36 +49,26 @@ public class SeamRenameProjectChange extends Change {
 				relevantProjectNameProperties.add(PROJECT_NAME_PROPERTIES[i]);
 			} 
 		}
-		for (int i = 0; i < SOURCE_FOLDER_PROPERTIES.length; i++) {
-			if(ps.get(SOURCE_FOLDER_PROPERTIES[i], "").startsWith("/" + oldName + "/")) {
-				relevantSourceFolderProperties.add(SOURCE_FOLDER_PROPERTIES[i]);
+		for (int i = 0; i < FOLDER_PROPERTIES.length; i++) {
+			if(ps.get(FOLDER_PROPERTIES[i], "").startsWith("/" + oldName + "/")) {
+				relevantSourceFolderProperties.add(FOLDER_PROPERTIES[i]);
 			} 
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange#isRelevant()
+	 */
+	@Override
 	public boolean isRelevant() {
 		return relevantProjectNameProperties.size() > 0 || relevantSourceFolderProperties.size() > 0;
 	}
 
-	@Override
-	public Object getModifiedElement() {
-		return project;
-	}
-
-	@Override
-	public String getName() {
-		return "Update Seam Project Properties for " + project.getName();
-	}
-
-	@Override
-	public void initializeValidationData(IProgressMonitor pm) {
-	}
-
-	@Override
-	public RefactoringStatus isValid(IProgressMonitor pm) throws CoreException,	OperationCanceledException {
-		return new RefactoringStatus();
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ltk.core.refactoring.Change#perform(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	@Override
 	public Change perform(IProgressMonitor pm) throws CoreException {
 		if(!isRelevant()) return null;
@@ -128,10 +104,5 @@ public class SeamRenameProjectChange extends Change {
 		} finally {
 			pm.done();
 		}
-	}
-
-	public IEclipsePreferences getSeamPreferences() {
-		IScopeContext projectScope = new ProjectScope(project);
-		return projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 }
