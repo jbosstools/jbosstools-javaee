@@ -19,9 +19,9 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
+import org.jboss.tools.common.model.util.TypeInfoCollector;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
-import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
 /**
  * This Manager invokes all dependent seam validators that should be invoked in one job.

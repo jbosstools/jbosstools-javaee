@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -172,18 +173,8 @@ public class JavaScanner implements IFileScanner {
 	}
 	
 	static String getResolvedType(IType type, String n) {
-
-		String[][] rs;
-		try {
-			rs = type.resolveType(n);
-			if(rs != null && rs.length > 0) {
-				return (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1]; //$NON-NLS-1$
-			}
-		} catch (JavaModelException e) {
-			// ignore
-		}
-
-		return n;
+		String result = EclipseJavaUtil.resolveType(type, n);
+		return result == null ? n : result;
 	}
 
 }

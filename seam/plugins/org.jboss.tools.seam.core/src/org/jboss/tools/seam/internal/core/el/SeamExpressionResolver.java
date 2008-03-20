@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
+import org.jboss.tools.common.model.util.TypeInfoCollector;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;

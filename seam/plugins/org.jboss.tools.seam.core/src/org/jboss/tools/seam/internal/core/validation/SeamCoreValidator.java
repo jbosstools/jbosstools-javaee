@@ -34,6 +34,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.model.util.TypeInfoCollector;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
@@ -60,7 +61,6 @@ import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
-import org.jboss.tools.seam.internal.core.el.TypeInfoCollector;
 
 /**
  * Validator for Java and XML files.
