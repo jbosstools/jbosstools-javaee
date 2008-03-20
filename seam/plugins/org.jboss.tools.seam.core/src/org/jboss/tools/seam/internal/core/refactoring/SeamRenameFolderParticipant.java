@@ -29,7 +29,7 @@ import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
  * @author Alexey Kazakov
  */
 public class SeamRenameFolderParticipant extends RenameParticipant {
-	public static final String PARTICIPANT_NAME="seam-RenameSourceFolderParticipant";
+	public static final String PARTICIPANT_NAME="seam-RenameFolderParticipant";
 
 	private IPath oldPath;
 

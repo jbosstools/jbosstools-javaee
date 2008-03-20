@@ -306,8 +306,8 @@
       </renameParticipant>
       <renameParticipant
             class="org.jboss.tools.seam.internal.core.refactoring.SeamRenameFolderParticipant"
-            id="org.jboss.tools.seam.internal.core.refactoring.SeamRenameSourceFolderParticipant"
-            name="seam-RenameSourceFolderParticipant">
+            id="org.jboss.tools.seam.internal.core.refactoring.SeamRenameFolderParticipant"
+            name="seam-RenameFolderParticipant">
          <enablement>
             <with variable="element">
                 <or>
