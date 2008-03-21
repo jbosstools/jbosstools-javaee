@@ -20,12 +20,23 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.corext.refactoring.rename.JavaRenameRefactoring;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenameResourceProcessor;
+import org.eclipse.jdt.internal.corext.refactoring.tagging.INameUpdating;
+import org.eclipse.jdt.internal.corext.refactoring.tagging.IReferenceUpdating;
+import org.eclipse.jdt.internal.corext.refactoring.tagging.ITextUpdating;
+import org.eclipse.jdt.internal.ui.refactoring.RefactoringExecutionHelper;
+import org.eclipse.jdt.internal.ui.refactoring.RefactoringSaveHelper;
+import org.eclipse.jdt.internal.ui.refactoring.reorg.RenameSelectionState;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
+import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -225,7 +236,46 @@ public class SeamPropertyRefactoringTest extends TestCase {
 	}
 
 	private IFolder renameFolder(String folderPath, String newFolderName) throws CoreException {
-		return null;
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
+		assertNotNull("Can't find folder: " + folderPath, resource);
+
+		// init refactoring
+		RenameResourceProcessor processor = new RenameResourceProcessor(resource);
+		JavaRenameRefactoring refactoring = new JavaRenameRefactoring(processor);
+		((INameUpdating)refactoring.getAdapter(INameUpdating.class)).setNewElementName(newFolderName);
+		IReferenceUpdating reference = (IReferenceUpdating)refactoring.getAdapter(IReferenceUpdating.class);
+		if(reference != null) {
+			reference.setUpdateReferences(true);
+		}
+		ITextUpdating text = (ITextUpdating)refactoring.getAdapter(ITextUpdating.class);
+		if(text != null) {
+			text.setUpdateTextualMatches(true);
+		}
+
+		// perform
+		Object[] elements = processor.getElements();
+		RenameSelectionState state = elements.length==1?new RenameSelectionState(elements[0]):null;
+		RefactoringExecutionHelper helper= new RefactoringExecutionHelper(refactoring,
+				RefactoringCore.getConditionCheckingFailedSeverity(),
+				RefactoringSaveHelper.SAVE_ALL,
+				WorkbenchUtils.getActiveShell(),
+				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
+		try {
+			helper.perform(true, true);
+		} catch (InterruptedException e) {
+			JUnitUtils.fail("Exception during perform folder renaming: " + folderPath, e);
+		} catch (InvocationTargetException e) {
+			JUnitUtils.fail("Exception during perform folder renaming: " + folderPath, e);
+		}
+
+		EditorTestHelper.joinBackgroundActivities();
+
+		IPath path = new Path(folderPath);
+		String newFolderPath = path.removeLastSegments(1).append(newFolderName).toString();
+		resource = ResourcesPlugin.getWorkspace().getRoot().findMember(newFolderPath);
+		assertNotNull("Can't find folder: " + newFolderPath, resource);
+
+		return (IFolder)resource;
 	}
 
 	private IProject renameProject(IProject project, String newProjectName) throws CoreException {
