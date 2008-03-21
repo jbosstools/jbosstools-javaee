@@ -249,7 +249,7 @@
 			<vpe:template children="no" modify="yes">
 				<img src="{src(jsfvalue(@value))}" width="{@width}"
 					height="{@height}" class="{@styleClass}" style="{@style}"
-					title="{tagstring()}" alt="{@alt}"/>
+					title="{tagstring()}" alt="{jsfvalue(@alt)}"/>
 				<vpe:dnd>
 					<vpe:drag start-enable="yes" />
 				</vpe:dnd>
@@ -262,7 +262,7 @@
 		<vpe:template children="no" modify="yes">
 			<img src="{src(jsfvalue(@url))}" width="{@width}"
 				height="{@height}" class="{@styleClass}" style="{@style}"
-				title="{tagstring()}" alt="{@alt}"/>
+				title="{tagstring()}" alt="{jsfvalue(@alt)}"/>
 			<vpe:resize>
 				<vpe:width width-attr="width" />
 				<vpe:height height-attr="height" />
