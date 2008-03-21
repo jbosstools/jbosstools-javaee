@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,9 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -64,6 +68,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private final String TAB = ":tab"; //$NON-NLS-1$
 	private final String NAME = "name"; //$NON-NLS-1$
 	
+	private List<nsIDOMElement> storedTabHeaders = new ArrayList<nsIDOMElement>();
 	private static Map toggleMap = new HashMap();
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
@@ -77,9 +82,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		setDirAttr(table, sourceElement);
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, 
 				ComponentUtil.getAttribute(sourceElement,	HtmlComponentUtil.HTML_STYLECLASS_ATTR)
-				+ SPACE + CSS_PANEL
-				+ SPACE + CSS_CONTENT
-				+ SPACE + CSS_CONTENT_POSITION);
+				+ SPACE + CSS_PANEL);
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
@@ -98,6 +101,8 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		inerTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		inerTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
 		inerTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		inerTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
+				CSS_CONTENT + SPACE + CSS_CONTENT_POSITION);
 
 		// Encode header
 		nsIDOMElement inerTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
@@ -118,7 +123,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 			boolean active = (i == activeId);
 			
 			if(child.getNodeName().endsWith(TAB)) {
-				RichFacesTabTemplate.encodeHeader(creationData,
+				nsIDOMElement headerTd = RichFacesTabTemplate.encodeHeader(creationData,
 						(Element) child,
 						visualDocument, inerTr, active, 
 						ComponentUtil.getAttribute(sourceElement, 
@@ -142,6 +147,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 					headerSpacing = ONE;
 				}
 				spaceImg.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: " + headerSpacing + "px"); //$NON-NLS-1$ //$NON-NLS-2$
+				storedTabHeaders.add(headerTd);
 			}
 		}
 
@@ -307,6 +313,70 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
+	}
+	
+	/**
+	 * Is invoked after construction of all child nodes of the current visual node.
+	 * @param pageContext Contains the information on edited page.
+	 * @param sourceNode The current node of the source tree.
+	 * @param visualDocument The document of the visual tree.
+	 * @param data Object <code>VpeCreationData</code>, built by a method <code>create</code>
+	 */
+	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData data) {
+		
+		super.validate(pageContext, sourceNode, visualDocument, data);
+		if ((storedTabHeaders == null) || (storedTabHeaders.size() < 1)){
+			return;
+		}
+		
+		for (nsIDOMElement tab : storedTabHeaders) {
+			String value = tab.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
+			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, value, getChildren(tab));
+			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT, "true", getChildren(tab));
+		}
+		
+	}
+	
+	/**
+	 * 	Sets the attribute to element children 
+	 * @param attrName attribute name
+	 * @param attrValue attribute value
+	 * @param children children
+	 */
+	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMElement> children) {
+		if (children == null || attrName == null || attrValue == null) {
+			return;
+		}
+		for (nsIDOMElement child : children) {
+			child.setAttribute(attrName, attrValue);
+			applyAttributeValueOnChildren(attrName, attrValue, getChildren(child));
+		}
+	}
+	
+	/**
+	 * Gets element children
+	 * @param element the element
+	 * @return children
+	 */
+	private List<nsIDOMElement> getChildren(nsIDOMElement element) {
+		List<nsIDOMElement> result = new ArrayList<nsIDOMElement>();
+		if (element.hasChildNodes()) {
+			nsIDOMNodeList children = element.getChildNodes();
+			if (null != children) {
+				long len = children.getLength();
+				for (int i = 0; i < len; i++) {
+					nsIDOMNode item = children.item(i);
+					try {
+						nsIDOMElement elem = (nsIDOMElement) item
+								.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+						result.add(elem);
+					} catch (XPCOMException ex) {
+						// just ignore this exception
+					}
+				}
+			}
+		}
+		return result;
 	}
 	
 }
