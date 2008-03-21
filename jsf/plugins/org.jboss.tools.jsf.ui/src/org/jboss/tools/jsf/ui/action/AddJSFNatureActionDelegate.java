@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.ui.action;
 
 import org.eclipse.core.resources.IProject;
+import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.eclipse.jface.wizard.IWizard;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
@@ -30,6 +31,7 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 		wizard.setInitialName(project.getName());
 		wizard.setInitialLocation(findWebXML(project.getLocation().toString()));
 		wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
+		wizard.setWindowTitle(WizardKeys.getString("ADD_JSF_NATURE"));
 		return wizard;
 	}
 
