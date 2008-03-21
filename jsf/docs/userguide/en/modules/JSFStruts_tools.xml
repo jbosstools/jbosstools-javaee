@@ -127,7 +127,7 @@
                                 </mediaobject>
                         </figure>
 
-                        <para>The fallowing table lists possible Facelets templates for any JSF
+                        <para>The following table lists possible Facelets templates for any JSF
                                 project and gives a proper description for each one.</para>
                         <table>
                                 <title>Facelets Templates</title>
@@ -708,7 +708,10 @@
                                         </mediaobject>
                                 </figure>
 
-
+                                <para>Once the file have been created, it should be open in a
+                                        special <link
+                                                linkend="GraphicalEditorAndViewingForJSFConfigurationFiles76331"
+                                                >Faces Config Editor</link>.</para>
                         </section>
                         <section id="AddingYourOwnProjectTemplates853">
 
@@ -733,7 +736,7 @@
                                                   project and select <emphasis>
                                                   <property>JBoss Tools JSF > Save As
                                                   Template</property>
-                                                  </emphasis> as template </para>
+                                                  </emphasis></para>
                                         </listitem>
                                 </itemizedlist>
                                 <figure>
@@ -804,14 +807,21 @@
                                         implementation as the project you turned into a
                                 template.</para>
                         </section>
+
+                        <!--para>At this point, you have a fully configured project to </para-->
                 </section>
                 <section id="GraphicalEditorAndViewingForJSFConfigurationFiles76331">
 
                         <title>Graphical Editor and Viewing for JSF Configuration Files</title>
-                        <para><property>JBDS</property> provides a graphical editor for working with
-                                JSF configuration file (<emphasis>
+
+                        <para>First, we should mention that JSF configuration file (<emphasis>
                                         <property>faces-config.xml</property>
-                                </emphasis>). The editor has three main viewers (modes):</para>
+                                </emphasis>) is intended for registering JSF application resources
+                                such as Converters, Validators, Managed Beans and page-to-page
+                                navigation rules.</para>
+                        <para>Now, let&apos;s look at how you can easily configure this file by
+                                means of a special graphical editor. The editor has three main
+                                viewers (modes):</para>
 
                         <itemizedlist>
                                 <listitem>
@@ -829,9 +839,7 @@
 
                         <para>The JSF configuration editor also comes with a very useful <link
                                         linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link>
-                                selection feature. Now let&apos;s dwell on each mode and all
-                                specific functionality which they provide for work with JSF
-                                configuration file.</para>
+                                selection feature.</para>
 
                         <section id="Diagram9553">
 
@@ -1416,7 +1424,7 @@
                                         </imageobject>
                                 </mediaobject>
                         </figure>
-                       
+
                 </section>
 
                 <section id="CreateAndRegisterACustomValidator5632">
@@ -1424,8 +1432,8 @@
                         <title>Create and Register a Custom Validator</title>
 
                         <para>With the help of JBDS it&apos;s also quite easy to develop your
-                                own custom Validators. You should perform the actions similar to previous. Go through the
-                                following steps:</para>
+                                own custom Validators. You should perform the actions similar to
+                                previous. Go through the following steps:</para>
                         <itemizedlist>
                                 <listitem>
                                         <para>In the Project Explorer view open<emphasis>
