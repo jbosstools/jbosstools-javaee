@@ -12,6 +12,7 @@ package org.jboss.tools.struts.ui.model.handlers.project;
 
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.struts.ui.internal.action.CreateProjectAction;
 
@@ -21,7 +22,7 @@ public class CreateEclipseProjectHandler extends AbstractHandler {
 		return true; 
 	}
 	
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		CreateProjectAction action = new CreateProjectAction();
 		action.run();
 	}
