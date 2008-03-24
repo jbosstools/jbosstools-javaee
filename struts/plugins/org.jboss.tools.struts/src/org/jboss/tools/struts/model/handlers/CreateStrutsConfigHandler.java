@@ -75,7 +75,7 @@ public class CreateStrutsConfigHandler extends CreateFileHandler implements Stru
     }
 
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
     	Properties p = extractProperties(data[0]);
 		checkRegister(object, p);
         XUndoManager undo = object.getModel().getUndoManager();
@@ -98,16 +98,16 @@ public class CreateStrutsConfigHandler extends CreateFileHandler implements Stru
         }
     }
     
-    private void checkRegister(XModelObject object, Properties p) throws Exception {
+    private void checkRegister(XModelObject object, Properties p) throws XModelException {
 		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		if(!register) return;
 		XModelObject webxml = WebAppHelper.getWebApp(object.getModel());
-		if(webxml == null) throw new Exception (StrutsUIMessages.MODULE_CANNOT_BE_REGISTERED_ISNOT_FOUND);
-		if("yes".equals(webxml.get("isIncorrect"))) throw new Exception (StrutsUIMessages.MODULE_CANNOT_BE_REGISTERED_IS_INCORRECT); //$NON-NLS-1$ //$NON-NLS-2$
-		if(!webxml.isObjectEditable()) throw new Exception (StrutsUIMessages.MODULE_CANNOT_BE_REGISTERED_IS_READONLY);
+		if(webxml == null) throw new XModelException (StrutsUIMessages.MODULE_CANNOT_BE_REGISTERED_ISNOT_FOUND);
+		if("yes".equals(webxml.get("isIncorrect"))) throw new XModelException (StrutsUIMessages.MODULE_CANNOT_BE_REGISTERED_IS_INCORRECT); //$NON-NLS-1$ //$NON-NLS-2$
+		if(!webxml.isObjectEditable()) throw new XModelException (StrutsUIMessages.MODULE_CANNOT_BE_REGISTERED_IS_READONLY);
     }
 
-    private void register(XModelObject object, Properties prop) throws Exception {
+    private void register(XModelObject object, Properties prop) throws XModelException {
 		String uri = "/WEB-INF/" + FileAnyImpl.toFileName(created);
 		XModelObject m = object.getModel().getByPath("Web/" + module.replace('/', '#'));
     	if(incompleteModules.contains(module)) {

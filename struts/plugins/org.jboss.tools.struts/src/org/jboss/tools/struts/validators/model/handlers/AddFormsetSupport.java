@@ -26,7 +26,7 @@ public class AddFormsetSupport extends SpecialWizardSupport {
         return StrutsUIMessages.LEAVE_FIELDS_EMPTY;
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
         if(CANCEL.equals(name)) {
             setFinished(true);
         } else if(OK.equals(name) || FINISH.equals(name)) {
@@ -35,7 +35,7 @@ public class AddFormsetSupport extends SpecialWizardSupport {
         }
     }
 
-    private void finish() throws Exception {
+    private void finish() throws XModelException {
         Properties p0 = extractStepData(0);
         XModelObject fs = findFormset(getTarget(), p0);
         if(fs != null) {

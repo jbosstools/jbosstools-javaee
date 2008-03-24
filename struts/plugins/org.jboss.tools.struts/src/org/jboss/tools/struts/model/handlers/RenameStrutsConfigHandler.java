@@ -23,7 +23,7 @@ import org.jboss.tools.struts.webprj.model.helpers.sync.StrutsWebHelper;
 
 public class RenameStrutsConfigHandler extends DefaultEditHandler {
 	
-	public void executeHandler(XModelObject object, Properties prop) throws Exception {
+	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
 		WebModulesHelper wh = WebModulesHelper.getInstance(object.getModel());
 		String module = "" + wh.getModuleForConfig(object);
 		XModelObject m = object.getModel().getByPath("Web/" + module.replace('/', '#'));

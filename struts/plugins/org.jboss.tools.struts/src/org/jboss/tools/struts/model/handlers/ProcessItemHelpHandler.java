@@ -19,7 +19,7 @@ public class ProcessItemHelpHandler extends HelpHandler implements StrutsConstan
 
     public ProcessItemHelpHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         String key = object.getModelEntity().getName() + "_" + object.getAttributeValue(ATT_TYPE) + "_" + object.getAttributeValue(ATT_SUBTYPE);
         super.help(object.getModel(), key);
     }

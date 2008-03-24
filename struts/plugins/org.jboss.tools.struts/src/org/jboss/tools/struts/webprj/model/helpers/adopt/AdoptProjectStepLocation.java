@@ -16,6 +16,7 @@ import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 import org.jboss.tools.jst.web.project.helpers.NewWebProjectHelper;
 
@@ -33,7 +34,7 @@ public class AdoptProjectStepLocation extends AWStep {
         return StrutsUIMessages.ENTER_PATH_TO_THE_FOLDER_WHERE_STRUTSCONFIGXML_IS_LOCATED;
     }
 
-    public int onNext() throws Exception {
+    public int onNext() throws XModelException {
         support.extractStepData(id);
         String location = support.getAttributeValue(id, "location"); //$NON-NLS-1$
         File f = new File(location);

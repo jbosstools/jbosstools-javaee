@@ -12,6 +12,8 @@ package org.jboss.tools.struts.webprj.model.helpers.adopt;
 
 import java.io.*;
 
+import org.jboss.tools.common.model.XModelException;
+
 public class AdoptProjectStepFolders extends AWStep {
 
     public String getTitle() {
@@ -24,7 +26,7 @@ public class AdoptProjectStepFolders extends AWStep {
                "Ant Build File";
     }
 
-    protected void validate() throws Exception {
+    protected void validate() throws XModelException {
         String bf = support.getAttributeValue(3, "build");
         File f = new File(bf);
         if(f.isFile()) f = f.getParentFile();

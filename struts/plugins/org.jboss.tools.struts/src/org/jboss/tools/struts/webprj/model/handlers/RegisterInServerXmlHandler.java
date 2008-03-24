@@ -27,7 +27,7 @@ public class RegisterInServerXmlHandler extends AbstractHandler {
         return false;
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.jst.web.ui.wizards.appregister.AppRegisterWizard");
 		if(p == null) p = new Properties();
 		p.setProperty("title", action.getDisplayName());

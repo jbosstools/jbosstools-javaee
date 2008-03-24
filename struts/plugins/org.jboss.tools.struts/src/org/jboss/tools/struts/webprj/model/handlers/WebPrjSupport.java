@@ -29,7 +29,7 @@ public abstract class WebPrjSupport extends SpecialWizardSupport {
         prepareStep(target, getStepId());
     }
     
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
         if (NEXT.equals(name)) {
             int step = getStepId();
             try {
@@ -116,7 +116,7 @@ public abstract class WebPrjSupport extends SpecialWizardSupport {
         return getStep(stepId).prepareStep(object);
     }
     
-    public int doStep(XModelObject object, int stepId) throws Exception {
+    public int doStep(XModelObject object, int stepId) throws XModelException {
         return getStep(stepId).doStep(object);
     }
     
@@ -126,7 +126,7 @@ public abstract class WebPrjSupport extends SpecialWizardSupport {
     
     public interface Step {
         public int prepareStep(XModelObject object);
-        public int doStep(XModelObject object) throws Exception;
+        public int doStep(XModelObject object) throws XModelException;
         public int undoStep(XModelObject object);
         public String getTitle();
         public String[] getActionNames();

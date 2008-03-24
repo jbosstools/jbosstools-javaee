@@ -11,6 +11,7 @@ import org.jboss.tools.struts.model.*;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.*;
 import org.jboss.tools.common.model.XModelBuffer;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.XFileObject;
 import org.jboss.tools.common.model.util.*;
@@ -27,7 +28,7 @@ public class StrutsPasteHandler extends PasteHandler {
 
     Properties _p = null;
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         if (prop == null) prop = new Properties();
         _p = prop;
         if("true".equals(prop.getProperty("secondPass"))) {
@@ -105,7 +106,7 @@ public class StrutsPasteHandler extends PasteHandler {
     }
 
 
-    protected void pasteOnDrop(XModelObject parent, int sourceIndex, Properties p) throws Exception {
+    protected void pasteOnDrop(XModelObject parent, int sourceIndex, Properties p) throws XModelException {
         XModelObject o = parent.getModel().getModelBuffer().source(sourceIndex);
         String gui = p.getProperty("actionSourceGUIComponentID");
         String entity = o.getModelEntity().getName();

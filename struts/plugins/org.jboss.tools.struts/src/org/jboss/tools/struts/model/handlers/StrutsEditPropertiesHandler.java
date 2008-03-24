@@ -23,7 +23,7 @@ public class StrutsEditPropertiesHandler extends AbstractHandler {
         return /*wizard != null &&*/ object != null;
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
 		SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.struts.ui.wizard.editproperties.StrutsEditPropertiesWizard");
         StrutsEditPropertiesContext context = createContext();

@@ -19,7 +19,7 @@ public class DeletePageLinkHandler implements StrutsConstants {
 
     public DeletePageLinkHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(new ReplaceConfirmedLinkHelper().replace(object, "", null)) p.setProperty("consumed", "true");
     }
 

@@ -129,7 +129,7 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
         target.getModel().getOut().println(msg + FindObjectHelper.makeRef(path, className));
     }
     
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
         if (GENERATE.equals(name)) {
             doStep(target, getStepId());
             setStepId(steps.length-2);
@@ -260,11 +260,14 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             if (exc != null) {
                 setStepId(getStepId()+1);
+                if(exc instanceof XModelException) {
+                	throw (XModelException)exc;
+                }
                 if (exc instanceof Exception) {
-                    throw (Exception)exc;
+                    throw new XModelException(exc);
                 }
                 throw new RuntimeException(exc.getMessage());
             }
@@ -299,7 +302,7 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             return 1;
         }
         

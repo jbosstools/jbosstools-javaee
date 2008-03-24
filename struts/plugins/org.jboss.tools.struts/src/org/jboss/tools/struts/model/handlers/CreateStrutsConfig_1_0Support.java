@@ -12,6 +12,7 @@ package org.jboss.tools.struts.model.handlers;
 
 import java.util.Properties;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.files.handlers.*;
 import org.jboss.tools.struts.*;
@@ -20,7 +21,7 @@ import org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems;
 
 public class CreateStrutsConfig_1_0Support extends CreateFileSupport implements StrutsConstants {
 
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		String path = p.getProperty("name");
 		path = revalidatePath(path);

@@ -26,7 +26,7 @@ public class RemoveDependencyHandler extends AbstractHandler {
         return object != null && object.isObjectEditable();
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
         if(p == null) return;
         String nm = p.getProperty("dependency name"); //$NON-NLS-1$

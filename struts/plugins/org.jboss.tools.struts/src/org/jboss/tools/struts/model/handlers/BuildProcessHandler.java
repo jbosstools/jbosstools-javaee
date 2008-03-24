@@ -22,7 +22,7 @@ public class BuildProcessHandler extends DefaultCreateHandler {
     public BuildProcessHandler() {
     }
     
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         XUndoManager undo = object.getModel().getUndoManager();
         XTransactionUndo u = new XTransactionUndo("Build " + DefaultCreateHandler.title(object, false), XTransactionUndo.EDIT);
         undo.addUndoable(u);
@@ -34,7 +34,7 @@ public class BuildProcessHandler extends DefaultCreateHandler {
             object.setModified(true);
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }

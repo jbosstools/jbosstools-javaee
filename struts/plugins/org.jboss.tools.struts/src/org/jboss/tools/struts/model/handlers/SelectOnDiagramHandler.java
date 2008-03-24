@@ -26,7 +26,7 @@ public class SelectOnDiagramHandler extends AbstractHandler implements StrutsCon
         return (object != null && object.isActive());
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         XModelObject item = getItemOnProcess(object);
         if(item == null) return;
         FindObjectHelper.findModelObject(item, FindObjectHelper.IN_EDITOR_ONLY, "Diagram");

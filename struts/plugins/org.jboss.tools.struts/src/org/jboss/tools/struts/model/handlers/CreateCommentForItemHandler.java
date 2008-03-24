@@ -21,7 +21,7 @@ public class CreateCommentForItemHandler extends DefaultCreateHandler implements
 
     public CreateCommentForItemHandler() {}
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         if(!isEnabled(object)) return;
         String entity =  data[0].getModelEntity().getName();
         Properties p = extractProperties(data[0]);

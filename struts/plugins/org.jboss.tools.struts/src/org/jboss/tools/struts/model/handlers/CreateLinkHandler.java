@@ -22,7 +22,7 @@ public class CreateLinkHandler extends DefaultCreateHandler implements StrutsCon
 
     public CreateLinkHandler() {}
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         super.executeHandler(object, prop);
         StrutsProcessImpl pi = (StrutsProcessImpl)object.getParent();
         pi.getHelper().updatePages();

@@ -54,7 +54,7 @@ public class SelectPathSupport extends SpecialWizardSupport {
         return null;
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             setFinished(true);
         } else if(CANCEL.equals(name)) {

@@ -25,7 +25,7 @@ public class OpenTileHandler extends AbstractHandler implements StrutsConstants 
                SUBTYPE_TILE.equals(object.getAttributeValue(ATT_SUBTYPE)));
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         String path = object.getAttributeValue(ATT_PATH);
         XModelObject o = (XModelObject)TilesHelper.getTiles(object).get(path);
         if(o == null) return;

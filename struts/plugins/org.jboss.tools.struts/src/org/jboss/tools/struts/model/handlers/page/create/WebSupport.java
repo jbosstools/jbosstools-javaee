@@ -11,12 +11,13 @@
 package org.jboss.tools.struts.model.handlers.page.create;
 
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.model.XModelException;
 
 public class WebSupport extends SpecialWizardSupport {
 
     public WebSupport() {}
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             setFinished(true);
         } else if(CANCEL.equals(name)) {

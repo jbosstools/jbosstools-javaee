@@ -24,7 +24,7 @@ public class SelectInNavigatorHandler extends AbstractHandler {
         return (object != null && object.isActive() && getItemInConfig(object) != null);
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         XModelObject item = getItemInConfig(object);
         if(item != null) FindObjectHelper.findModelObject(item, FindObjectHelper.EVERY_WHERE);
     }

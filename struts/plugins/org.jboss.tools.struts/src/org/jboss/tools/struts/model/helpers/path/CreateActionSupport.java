@@ -28,7 +28,7 @@ public class CreateActionSupport extends SpecialWizardSupport implements StrutsC
 		return handler.isEnabled(object);
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -41,7 +41,7 @@ public class CreateActionSupport extends SpecialWizardSupport implements StrutsC
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 
-	void execute() throws Exception {
+	void execute() throws XModelException {
 		handler.executeHandler(getTarget(), getProperties());
 	}
 

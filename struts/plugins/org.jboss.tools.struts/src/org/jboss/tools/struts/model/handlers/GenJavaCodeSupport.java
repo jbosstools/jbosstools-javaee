@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -166,7 +167,7 @@ public class GenJavaCodeSupport extends GenBaseSupport {
             return 0;
         }
         
-        public int doStep(XModelObject object) throws Exception {
+        public int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(0);
             actions = "true".equals(p2.getProperty("actions")); //$NON-NLS-1$ //$NON-NLS-2$
             formbeans = "true".equals(p2.getProperty("formbeans")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -208,7 +209,7 @@ public class GenJavaCodeSupport extends GenBaseSupport {
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(1);
             action_base = p2.getProperty("base class"); //$NON-NLS-1$
             ////action_imports = p2.getProperty("imports");
@@ -246,7 +247,7 @@ public class GenJavaCodeSupport extends GenBaseSupport {
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(2);
             formbean_base = p2.getProperty("base class"); //$NON-NLS-1$
             formbean_imports = p2.getProperty("imports"); //$NON-NLS-1$
@@ -282,7 +283,7 @@ public class GenJavaCodeSupport extends GenBaseSupport {
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(3);
             forward_base = p2.getProperty("base class"); //$NON-NLS-1$
             forward_imports = p2.getProperty("imports"); //$NON-NLS-1$
@@ -314,7 +315,7 @@ public class GenJavaCodeSupport extends GenBaseSupport {
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(1);
             exception_base = p2.getProperty("base class"); //$NON-NLS-1$
             exception_imports = p2.getProperty("imports"); //$NON-NLS-1$

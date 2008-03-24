@@ -37,7 +37,7 @@ public class JumpByForwardPathHandler extends AbstractHandler implements StrutsC
                 object.getAttributeValue(attr).length() > 0);
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
         String attr = getJumpAttributeName();
         XModelObject target = findForwardTarget(object, attr);

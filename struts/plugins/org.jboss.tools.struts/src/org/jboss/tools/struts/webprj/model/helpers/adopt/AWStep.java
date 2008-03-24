@@ -11,6 +11,7 @@
 package org.jboss.tools.struts.webprj.model.helpers.adopt;
 
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.model.XModelException;
 
 public abstract class AWStep {
     protected SpecialWizardSupport support;
@@ -36,7 +37,7 @@ public abstract class AWStep {
        context = ((AdoptProjectSupport)support).context();
     }
 
-    public int onNext() throws Exception {
+    public int onNext() throws XModelException {
         support.extractStepData(id);
         validate();
         return id + 1;
@@ -46,9 +47,9 @@ public abstract class AWStep {
 
     public void set() {}
 
-    protected void validate() throws Exception {}
+    protected void validate() throws XModelException {}
 
-    public void action(String name) throws Exception {}
+    public void action(String name) throws XModelException {}
 
     public String getMessage() {
         return null;

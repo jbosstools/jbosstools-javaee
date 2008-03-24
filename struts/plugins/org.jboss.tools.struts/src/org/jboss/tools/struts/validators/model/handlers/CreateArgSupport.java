@@ -32,7 +32,7 @@ public class CreateArgSupport extends SpecialWizardSupport {
         if(n != null) setAttributeValue(0, "name", n);
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             execute();
             setFinished(true);
@@ -45,7 +45,7 @@ public class CreateArgSupport extends SpecialWizardSupport {
        return "true".equals(action.getProperty("edit"));
     }
 
-    private void execute() throws Exception {
+    private void execute() throws XModelException {
         Properties p0 = extractStepData(0);
         if(isEditMode()) {
             DefaultEditHandler.edit(getTarget(), p0, getTarget().isActive());

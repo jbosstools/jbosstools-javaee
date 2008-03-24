@@ -69,7 +69,7 @@ public class CreateWebPrjSupport extends WebPrjSupport {
             return 0;
         }
         
-        public int doStep(XModelObject object) throws Exception {
+        public int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(0);
             String name = p2.getProperty("name"); //$NON-NLS-1$
             String version = p2.getProperty("version"); //$NON-NLS-1$
@@ -134,7 +134,7 @@ public class CreateWebPrjSupport extends WebPrjSupport {
         }
         
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(1);
             String location = p2.getProperty("location"); //$NON-NLS-1$
             String template = p2.getProperty("template"); //$NON-NLS-1$

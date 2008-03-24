@@ -30,11 +30,11 @@ public class RenamePageHandler extends DefaultEditHandler {
         return object.isObjectEditable() && "page".equals(object.getAttributeValue("type")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         Properties p = extractProperties(data[0]);
         String oldpath = object.getAttributeValue("path"); //$NON-NLS-1$
         String path = p.getProperty("path"); //$NON-NLS-1$
-        if(path.equals("/")) throw new Exception("Path is not valid."); //$NON-NLS-1$ //$NON-NLS-2$
+        if(path.equals("/")) throw new XModelException("Path is not valid."); //$NON-NLS-1$ //$NON-NLS-2$
         boolean isTile = oldpath != null && !oldpath.startsWith("/"); //$NON-NLS-1$
         if(!isTile && !path.startsWith("/")) path = "/" + path; //$NON-NLS-1$ //$NON-NLS-2$
         if(path.startsWith("/") && path.indexOf('.') < 0) path += ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$

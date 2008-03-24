@@ -11,6 +11,7 @@
 package org.jboss.tools.struts.model.handlers.page.create;
 
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.model.XModelException;
 
 public class SelectPageSupport extends SpecialWizardSupport {
 
@@ -23,7 +24,7 @@ public class SelectPageSupport extends SpecialWizardSupport {
         if(context != null) setAttributeContext(0, "name", context);
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             extractStepData(0);
             getProperties().setProperty("name", getAttributeValue(0, "name"));

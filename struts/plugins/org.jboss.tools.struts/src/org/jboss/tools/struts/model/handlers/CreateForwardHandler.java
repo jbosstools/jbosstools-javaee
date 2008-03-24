@@ -38,7 +38,7 @@ public class CreateForwardHandler extends CreateConfigElementHandler implements 
         return false;
     }
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         if(!isEnabled(object)) return;
         XUndoManager undo = object.getModel().getUndoManager();
         XTransactionUndo u = new XTransactionUndo("create element in " + DefaultCreateHandler.title(object, false), XTransactionUndo.ADD);
@@ -47,7 +47,7 @@ public class CreateForwardHandler extends CreateConfigElementHandler implements 
             transaction(object, prop);
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }
@@ -87,7 +87,7 @@ public class CreateForwardHandler extends CreateConfigElementHandler implements 
         p.setProperty(ATT_PATH, path);
     }
 
-    protected void transaction(XModelObject object, Properties prop) throws Exception {
+    protected void transaction(XModelObject object, Properties prop) throws XModelException {
         executeHandler0(object, prop);
         Properties p = extractProperties(data[0]);
         String path = p.getProperty(ATT_PATH);

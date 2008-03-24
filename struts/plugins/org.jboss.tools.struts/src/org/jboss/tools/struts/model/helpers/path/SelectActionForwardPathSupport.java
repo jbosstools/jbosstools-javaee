@@ -105,7 +105,7 @@ public class SelectActionForwardPathSupport extends SpecialWizardSupport impleme
                               pkg + "SelectActionForwardPathStep";
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             setFinished(true);
             setStepId(-1);

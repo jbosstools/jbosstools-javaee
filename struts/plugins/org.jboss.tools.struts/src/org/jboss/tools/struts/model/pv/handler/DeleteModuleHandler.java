@@ -29,7 +29,7 @@ import org.jboss.tools.struts.webprj.model.helpers.sync.SyncProjectContext;
 
 public class DeleteModuleHandler extends AbstractHandler {
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		StrutsProjectModule pm = (StrutsProjectModule)object;
 		XModelObject m = pm.getModule();
 		if(m == null) return;

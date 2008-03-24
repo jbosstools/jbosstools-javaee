@@ -20,7 +20,7 @@ public class SetUnknownActionHandler extends AbstractHandler implements StrutsCo
 
     public SetUnknownActionHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
 
         if (object == null) return;
 
@@ -45,7 +45,7 @@ public class SetUnknownActionHandler extends AbstractHandler implements StrutsCo
             }
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }

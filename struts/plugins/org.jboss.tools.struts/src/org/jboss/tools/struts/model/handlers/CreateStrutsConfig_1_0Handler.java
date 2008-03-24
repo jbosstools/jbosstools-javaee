@@ -19,7 +19,7 @@ import org.jboss.tools.common.model.filesystems.impl.CreateFileHandler;
 public class CreateStrutsConfig_1_0Handler extends CreateFileHandler implements StrutsConstants {
 	private XModelObject created = null;
 
-	public void executeHandler(XModelObject object, Properties prop) throws Exception {
+	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
 		try {
 			super.executeHandler(object, prop);
 			if(created != null) {

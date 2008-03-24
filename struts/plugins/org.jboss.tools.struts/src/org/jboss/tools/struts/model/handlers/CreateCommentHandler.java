@@ -22,7 +22,7 @@ public class CreateCommentHandler  extends DefaultCreateHandler implements Strut
 
     public CreateCommentHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         pc = p;
         super.executeHandler(object, p);
 		StrutsProcessStructureHelper.instance.showComments(object);

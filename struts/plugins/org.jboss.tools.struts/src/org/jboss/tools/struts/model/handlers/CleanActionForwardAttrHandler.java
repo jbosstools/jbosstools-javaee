@@ -20,7 +20,7 @@ public class CleanActionForwardAttrHandler extends AbstractHandler implements St
 
     public CleanActionForwardAttrHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         String attr = getAttribute(object);
         if(attr != null) object.getModel().changeObjectAttribute(object, attr, ""); //$NON-NLS-1$
     }

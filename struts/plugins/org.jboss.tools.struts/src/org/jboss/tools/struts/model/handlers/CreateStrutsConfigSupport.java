@@ -13,6 +13,7 @@ package org.jboss.tools.struts.model.handlers;
 import java.util.*;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.files.handlers.*;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
@@ -76,7 +77,7 @@ public class CreateStrutsConfigSupport extends CreateFileSupport implements Stru
 		setAttributeValue(0, "name", namef); //$NON-NLS-1$
 	}
 
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		Properties p0 = extractStepData(0);
 		XUndoManager undo = getTarget().getModel().getUndoManager();
 		XTransactionUndo u = new XTransactionUndo(StrutsUIMessages.CREATE_STRUTS_CONFIG + getTarget().getAttributeValue("element type")+" "+getTarget().getPresentationString(), XTransactionUndo.ADD); //$NON-NLS-2$ //$NON-NLS-3$
@@ -91,7 +92,7 @@ public class CreateStrutsConfigSupport extends CreateFileSupport implements Stru
 		}
 	}
 	
-	private void doExecute(Properties p0) throws Exception {
+	private void doExecute(Properties p0) throws XModelException {
 		Properties p = extractStepData(0);
 		String path = p.getProperty("name"); //$NON-NLS-1$
 		path = revalidatePath(path);
@@ -126,7 +127,7 @@ public class CreateStrutsConfigSupport extends CreateFileSupport implements Stru
 		return null;
 	}
 
-	private void register(XModelObject object, Properties prop) throws Exception {
+	private void register(XModelObject object, Properties prop) throws XModelException {
 		String uri = getURI(object);
 		XModelObject m = object.getModel().getByPath("Web/" + module.replace('/', '#')); //$NON-NLS-1$
 		if(incompleteModules.contains(module)) {

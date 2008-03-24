@@ -34,7 +34,7 @@ public class StrutsDeleteHandler extends DefaultRemoveHandler implements StrutsC
     public StrutsDeleteHandler() {
     }
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
     	// Diagram object may be removed by update. 
     	if(object.getParent() == null) return;
 		XModelObject process = StrutsProcessStructureHelper.instance.getProcess(object);

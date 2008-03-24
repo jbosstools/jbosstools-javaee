@@ -31,7 +31,7 @@ public class AddMessagesHandler extends AbstractHandler {
         return true;
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         XModelObject rso = getTemplate(PreferenceModelUtilities.getPreferenceModel());
         if(rso == null) return;
         String text = rso.getAttributeValue("text");

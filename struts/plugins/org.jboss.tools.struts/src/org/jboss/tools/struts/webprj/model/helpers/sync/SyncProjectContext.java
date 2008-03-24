@@ -32,6 +32,7 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.XFileObject;
 import org.jboss.tools.common.model.undo.XTransactionUndo;
@@ -237,15 +238,15 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         return XModelObjectUtil.getExpandedValue(fs, "location", null) + modelPath; //$NON-NLS-1$
     }
 
-    void addModule(String name, String path) throws Exception {
+    void addModule(String name, String path) throws XModelException {
         File f = new File(path);
-        if(!f.isFile()) throw new Exception("File " + " does not exist."); //$NON-NLS-1$ //$NON-NLS-2$
+        if(!f.isFile()) throw new XModelException("File " + " does not exist."); //$NON-NLS-1$ //$NON-NLS-2$
         String uri = "/WEB-INF/" + f.getName(); //$NON-NLS-1$
         if(name.length() > 0 && !name.startsWith("/")) name = "/" + name; //$NON-NLS-1$ //$NON-NLS-2$
         XModelObject m = (XModelObject)modulesMap.get(name);
         if(m != null) {
 			if("deleted".equals(m.get("state"))) { //$NON-NLS-1$ //$NON-NLS-2$
-        		if(m != null) throw new Exception("Module " + getModuleDisplayName(name) + " exists."); //$NON-NLS-1$ //$NON-NLS-2$
+        		if(m != null) throw new XModelException("Module " + getModuleDisplayName(name) + " exists."); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			checkStrutsConfig(path);
 			XModelObject cc = m.getModel().createModelObject(WebModuleConstants.ENTITY_WEB_CONFIG, null); //$NON-NLS-1$
@@ -258,7 +259,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 					XModelObjectLoaderUtil.mergeAttributes(cc1, cc, false);
 					cc1.set("state", "added"); //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
-					throw new Exception("Configuration file is used."); //$NON-NLS-1$
+					throw new XModelException("Configuration file is used."); //$NON-NLS-1$
 				}
 			} else {
 				m.addChild(cc);
@@ -269,7 +270,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         m = findModuleByPathOnDisk(path);
         if(m != null) {
             if(!"deleted".equals(m.get("state"))) //$NON-NLS-1$ //$NON-NLS-2$
-				throw new Exception("The path is used by another module."); //$NON-NLS-1$
+				throw new XModelException("The path is used by another module."); //$NON-NLS-1$
            	modules.remove(m);
            	modulesMap.remove(name);
         } else {
@@ -329,22 +330,22 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         return null;
     }
 
-    private void checkStrutsConfig(String path) throws Exception {
+    private void checkStrutsConfig(String path) throws XModelException {
         File f = new File(path);
-        if(!f.isFile()) throw new Exception("Path is not a path to a file."); //$NON-NLS-1$
+        if(!f.isFile()) throw new XModelException("Path is not a path to a file."); //$NON-NLS-1$
         String s = FileUtil.readFile(f);
         boolean is11 = s.indexOf(StrutsConstants.DOC_PUBLICID_11) >= 0;
         boolean is12 = s.indexOf(StrutsConstants.DOC_PUBLICID_12) >= 0;
         if(!is11 && !is12)
-          throw new Exception("File is not Struts Configuration 1.1 or 1.2."); //$NON-NLS-1$
+          throw new XModelException("File is not Struts Configuration 1.1 or 1.2."); //$NON-NLS-1$
         String[] es = XMLUtil.getXMLErrors(new StringReader(s), false); //never validate dtd
         if(es != null && es.length > 0) {
           String version = (is11) ? "1.1" : "1.2"; //$NON-NLS-1$ //$NON-NLS-2$
-          throw new Exception("Struts Configuration " + version + " file is not correct:\n" + es[0]); //$NON-NLS-1$ //$NON-NLS-2$
+          throw new XModelException("Struts Configuration " + version + " file is not correct:\n" + es[0]); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
-    public boolean apply() throws Exception {
+    public boolean apply() throws XModelException {
         validateAttributes();
         if(!checkNewPaths()) return false;
         XUndoManager undo = model.getUndoManager();
@@ -354,7 +355,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
             transaction();
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }
@@ -612,21 +613,21 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         return adoptOrCreateFileSystem(name, location, info);
     }
 
-    private void validateAttributes() throws Exception {
+    private void validateAttributes() throws XModelException {
         validateAttr(ATTR_URI);
         validateAttr(ATTR_DISK_PATH);
         validateAttr(ATTR_ROOT);
     }
 
-    private void validateAttr(String attr) throws Exception {
+    private void validateAttr(String attr) throws XModelException {
         Set<String> set = new HashSet<String>();
         for (int i = 0; i < modules.size(); i++) {
             XModelObject o = (XModelObject)modules.get(i);
             if("deleted".equals(o.get("state"))) continue; //$NON-NLS-1$ //$NON-NLS-2$
             String v = o.getAttributeValue(attr);
             if(v == null) continue;
-            if(v.length() == 0) throw new Exception("Attribute '" + attr + "' is required."); //$NON-NLS-1$ //$NON-NLS-2$
-            if(set.contains(v)) throw new Exception("More than one module has '" + attr + "' set to " + v + "."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            if(v.length() == 0) throw new XModelException("Attribute '" + attr + "' is required."); //$NON-NLS-1$ //$NON-NLS-2$
+            if(set.contains(v)) throw new XModelException("More than one module has '" + attr + "' set to " + v + "."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             set.add(v);
         }
     }

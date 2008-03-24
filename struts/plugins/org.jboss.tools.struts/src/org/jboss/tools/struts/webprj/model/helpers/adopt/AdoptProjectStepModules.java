@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.webprj.model.helpers.adopt;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 
 public class AdoptProjectStepModules extends AWStep {
@@ -18,7 +19,7 @@ public class AdoptProjectStepModules extends AWStep {
         return StrutsUIMessages.ADOPT_PROJECTS_TEPMODULES;
     }
 
-    public void validate() throws Exception {
+    public void validate() throws XModelException {
         context.validateModules();
     }
 

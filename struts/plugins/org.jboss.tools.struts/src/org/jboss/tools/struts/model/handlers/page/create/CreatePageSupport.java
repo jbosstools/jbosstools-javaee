@@ -21,6 +21,7 @@ import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.meta.action.impl.WizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.XFileObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
@@ -82,7 +83,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         }
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
         if(FINISH.equals(name)) {
             finish();
             setFinished(true);
@@ -95,7 +96,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         }
     }
 
-    private void callSelector() throws Exception {
+    private void callSelector() throws XModelException {
         String b = getValidatedName(false);
         if(b != null && b.endsWith("/")) b = b.substring(0, b.length() - 1);
         XModelObject so = (b == null || b.length() == 0) ? null : getTarget().getModel().getByPath(b);
@@ -116,7 +117,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         onSelection();
     }
 
-    private void onSelection() throws Exception {
+    private void onSelection() throws XModelException {
         XModelObject so = (XModelObject)getProperties().get("selectedObject");
         if(so != null) {
             String p = XModelObjectLoaderUtil.getResourcePath(so);
@@ -170,7 +171,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         return b;
     }
 
-    private void finish() throws Exception {
+    private void finish() throws XModelException {
         getValidatedName(true);
         extractStepData(getStepId());
         context.update();
@@ -181,7 +182,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
             transaction();
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }

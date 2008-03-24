@@ -13,6 +13,7 @@ package org.jboss.tools.struts.webprj.model.helpers.adopt;
 import java.util.Properties;
 
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.struts.StrutsModelPlugin;
 
 public class AdoptProjectSupport extends SpecialWizardSupport {
@@ -85,7 +86,7 @@ public class AdoptProjectSupport extends SpecialWizardSupport {
                                     new String[]{};
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
         if(FINISH.equals(name)) {
             steps[getStepId()].onNext();
             finish();
@@ -105,7 +106,7 @@ public class AdoptProjectSupport extends SpecialWizardSupport {
         }
     }
 
-    protected void finish() throws Exception {
+    protected void finish() throws XModelException {
     	Properties properties = getProperties(); 
     	if ("yes".equals(properties.getProperty("returnData")))
 			properties.put("context", context);

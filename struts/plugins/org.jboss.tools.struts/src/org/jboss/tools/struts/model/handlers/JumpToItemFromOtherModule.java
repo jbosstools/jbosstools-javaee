@@ -25,7 +25,7 @@ public class JumpToItemFromOtherModule extends AbstractHandler implements Struts
 		StrutsProcessStructureHelper.instance.isItemFromOtherModule(object));
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         XModelObject item = StrutsProcessStructureHelper.instance.findItemInOtherModule(object);
         if(item == null) return;
         if(item instanceof ReferenceObject) {

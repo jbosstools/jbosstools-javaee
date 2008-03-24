@@ -27,7 +27,7 @@ public class CreateValidationFileSupport extends CreateFileSupport {
 //		setAttributeValue(0, "register", (canRegisterInternal()) ? "yes" : "no");
 	}
 	
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		Properties p0 = extractStepData(0);
 		XUndoManager undo = getTarget().getModel().getUndoManager();
 		XTransactionUndo u = new XTransactionUndo("Create tiles " + getTarget().getAttributeValue("element type")+" "+getTarget().getPresentationString(), XTransactionUndo.ADD);
@@ -42,7 +42,7 @@ public class CreateValidationFileSupport extends CreateFileSupport {
 		}
 	}
 	
-	private void doExecute(Properties p0) throws Exception {
+	private void doExecute(Properties p0) throws XModelException {
 		Properties p = extractStepData(0);
 		String path = p.getProperty("name");
 		path = revalidatePath(path);

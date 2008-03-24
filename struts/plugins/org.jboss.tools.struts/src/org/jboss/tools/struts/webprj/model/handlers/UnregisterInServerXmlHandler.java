@@ -13,6 +13,7 @@ package org.jboss.tools.struts.webprj.model.handlers;
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
 import org.jboss.tools.common.meta.action.impl.XActionImpl;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
@@ -35,7 +36,7 @@ public class UnregisterInServerXmlHandler extends AbstractHandler {
 		return object != null && isRegistered(object);
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 //		String name = "/" + object.getAttributeValue("application name");
 		RegistrationHelper.unregister(EclipseResourceUtil.getProject(object));
 	}

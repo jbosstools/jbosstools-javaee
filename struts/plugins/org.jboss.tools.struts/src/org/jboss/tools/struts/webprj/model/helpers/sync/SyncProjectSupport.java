@@ -12,6 +12,7 @@ package org.jboss.tools.struts.webprj.model.helpers.sync;
 
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.struts.StrutsProject;
@@ -60,7 +61,7 @@ public class SyncProjectSupport extends SpecialWizardSupport {
         return new String[]{FINISH, CANCEL, HELP};
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
         if(FINISH.equals(name)) {
 ///            steps[getStepId()].onNext();
             if(!finish()) return;
@@ -76,7 +77,7 @@ public class SyncProjectSupport extends SpecialWizardSupport {
         }
     }
 
-    protected boolean finish() throws Exception {
+    protected boolean finish() throws XModelException {
         return context.apply();
     }
 

@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.DeleteFileHandler;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
@@ -33,7 +34,7 @@ public class DeletePageHandler implements StrutsConstants {
 
     public DeletePageHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         String target = object.getAttributeValue(ATT_NAME);
         if(!object.isActive()) return;
         if(StrutsProcessHelper.getReferers(object.getParent(), target).size() > 0) {

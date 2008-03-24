@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -68,7 +69,7 @@ public class GenExceptionCodeSupport extends GenBaseSupport {
             return 0;
         }
         
-        public synchronized int doStep(XModelObject object) throws Exception {
+        public synchronized int doStep(XModelObject object) throws XModelException {
             Properties p2 = extractStepData(0);
             String oc = object.getAttributeValue(ATT_TYPE);
             String nc = p2.getProperty("exception class");

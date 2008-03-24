@@ -44,7 +44,7 @@ public abstract class RunHandler extends AbstractHandler implements StrutsConsta
         return false;
     }
     
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
         getContext().execute(object);
     }

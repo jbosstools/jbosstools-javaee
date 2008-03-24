@@ -35,7 +35,7 @@ public class AddMessagesThroughStrutsResourcesHandler extends AbstractHandler {
 		return rs != null;
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		XModelObject[] os = OpenMessageResourcesHandler.getResourceObject(object);
 		if(os == null || os.length == 0) return;
 		object = os[0];

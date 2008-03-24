@@ -77,7 +77,7 @@ public class CreateActionForwardSupport extends SpecialWizardSupport implements 
         p.put("tiles", tiles);
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             finish();
             setFinished(true);
@@ -129,7 +129,7 @@ public class CreateActionForwardSupport extends SpecialWizardSupport implements 
         return (a == null || actions == null) ? "" : actions.getModule(a);
     }
 
-    protected void finish() throws Exception {
+    protected void finish() throws XModelException {
         XUndoManager undo = getTarget().getModel().getUndoManager();
         XTransactionUndo u = new XTransactionUndo("create forward in " + DefaultCreateHandler.title(getTarget(), false), XTransactionUndo.ADD);
         undo.addUndoable(u);
@@ -137,7 +137,7 @@ public class CreateActionForwardSupport extends SpecialWizardSupport implements 
             transaction();
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }

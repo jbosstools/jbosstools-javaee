@@ -24,7 +24,7 @@ public class CreateConfigElementHandler extends DefaultCreateHandler implements 
 
     public CreateConfigElementHandler() {}
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         createdObject = null;
         if(!createUnconfirmedAction(object, p)) {
             executeHandler0(object, p);
@@ -34,7 +34,7 @@ public class CreateConfigElementHandler extends DefaultCreateHandler implements 
     
     Properties runProperties = null;
 
-    public void executeHandler0(XModelObject object, Properties p) throws Exception {
+    public void executeHandler0(XModelObject object, Properties p) throws XModelException {
 		runProperties = p;
 		try {
 			super.executeHandler(object, p);
@@ -99,7 +99,7 @@ public class CreateConfigElementHandler extends DefaultCreateHandler implements 
 
     // create unconfirmed action
 
-    private boolean createUnconfirmedAction(XModelObject object, Properties p) throws Exception {
+    private boolean createUnconfirmedAction(XModelObject object, Properties p) throws XModelException {
         if(!"CreateAction".equals(action.getName())) return false;
         Properties p2 = extractProperties(data[0]);
         setOtherProperties(object, p2);

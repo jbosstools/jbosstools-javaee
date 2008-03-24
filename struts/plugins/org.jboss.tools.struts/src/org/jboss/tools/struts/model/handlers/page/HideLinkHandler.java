@@ -28,7 +28,7 @@ public class HideLinkHandler extends AbstractHandler implements StrutsConstants 
         return !pv.equals(object.getAttributeValue(pn));
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
         String pn = action.getProperty("property");
         String pv = action.getProperty("value");

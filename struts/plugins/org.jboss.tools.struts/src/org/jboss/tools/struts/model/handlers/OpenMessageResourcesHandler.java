@@ -33,7 +33,7 @@ public class OpenMessageResourcesHandler extends AbstractHandler {
         return (object != null);
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         String parameter = object.getAttributeValue("parameter");
         if(parameter == null || parameter.length() == 0) return;
         String path = "/" + parameter.replace('.', '/') + ".properties";

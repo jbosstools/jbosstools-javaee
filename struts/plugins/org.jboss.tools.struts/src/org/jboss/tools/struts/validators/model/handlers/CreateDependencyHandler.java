@@ -23,7 +23,7 @@ public class CreateDependencyHandler extends AbstractHandler {
         return object != null && object.isObjectEditable();
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
 		wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.struts.validator.ui.wizard.depends.DependencyWizard");
 		if(wizard==null) throw new NullPointerException("Cannot find wizard class 'org.jboss.tools.struts.validator.ui.wizard.depends.DependencyWizard'.");

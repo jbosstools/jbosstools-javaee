@@ -50,7 +50,7 @@ public class AddSpecialPluginHandler extends AbstractHandler {
 	}
 
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         XModelObject plugin = getPlugin(PreferenceModelUtilities.getPreferenceModel());
         if(plugin == null) return;
         String text = plugin.getAttributeValue("text"); //$NON-NLS-1$
@@ -84,7 +84,7 @@ public class AddSpecialPluginHandler extends AbstractHandler {
         return (i < ps.length) ? ps[i] : null;
     }
 
-    private Element getElement(String text) throws Exception {
+    private Element getElement(String text) {
         StringReader sr = new StringReader(text);
         return XMLUtil.getElement(sr);
     }

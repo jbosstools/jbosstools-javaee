@@ -25,7 +25,7 @@ public class UnlinkHandler extends DefaultEditHandler implements StrutsConstants
     public UnlinkHandler() {
     }
     
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         if (!isEnabled(object)) return;
         String type = object.getAttributeValue(ATT_TYPE);
         if(TYPE_LINK.equals(type) &&

@@ -20,7 +20,7 @@ import org.jboss.tools.struts.webprj.model.helpers.sync.StrutsWebHelper;
 
 public class DeleteStrutsConfigHandler extends DeleteFileHandler {
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		String uri = getURI(object);
 		if(uri == null) return;
 		boolean unregister = false;

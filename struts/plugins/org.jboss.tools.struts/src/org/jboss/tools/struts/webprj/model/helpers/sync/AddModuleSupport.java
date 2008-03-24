@@ -13,6 +13,7 @@ package org.jboss.tools.struts.webprj.model.helpers.sync;
 import java.util.*;
 
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 
 public class AddModuleSupport extends SpecialWizardSupport {
@@ -22,7 +23,7 @@ public class AddModuleSupport extends SpecialWizardSupport {
         context = (SyncProjectContext)p.get("context"); //$NON-NLS-1$
     }
 
-    public void action(String name) throws Exception {
+    public void action(String name) throws XModelException {
 		if(OK.equals(name) || FINISH.equals(name)) {
             finish();
             setFinished(true);
@@ -34,7 +35,7 @@ public class AddModuleSupport extends SpecialWizardSupport {
         }
     }
 
-    protected void finish() throws Exception {
+    protected void finish() throws XModelException {
         Properties p0 = extractStepData(0);
         String name = p0.getProperty("name"); //$NON-NLS-1$
         String path = p0.getProperty("path").replace('\\', '/'); //$NON-NLS-1$

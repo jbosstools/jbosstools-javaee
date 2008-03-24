@@ -43,7 +43,7 @@ public class StrutsMoveHandler extends MoveHandler implements StrutsConstants {
         return TYPE_LINK.equals(tp) && super.isEnabled(object);
     }
 
-    public void executeHandler(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler(XModelObject object, Properties prop) throws XModelException {
         if(!isEnabled(object)) return;
         if(isMoveOfLink(object)) {
             super.executeHandler(object, prop);
@@ -72,7 +72,7 @@ public class StrutsMoveHandler extends MoveHandler implements StrutsConstants {
         return null;
     }
 
-    public void executeTransaction(XModelObject[] ps) throws Exception {
+    public void executeTransaction(XModelObject[] ps) throws XModelException {
         XUndoManager undo = ps[0].getModel().getUndoManager();
         XTransactionUndo u = new XTransactionUndo("move " + DefaultCreateHandler.title(ps[1], false), XTransactionUndo.EDIT);
         undo.addUndoable(u);
@@ -80,7 +80,7 @@ public class StrutsMoveHandler extends MoveHandler implements StrutsConstants {
             transaction(ps);
         } catch (Exception e) {
             undo.rollbackTransactionInProgress();
-            throw e;
+            throw new XModelException(e);
         } finally {
             u.commit();
         }

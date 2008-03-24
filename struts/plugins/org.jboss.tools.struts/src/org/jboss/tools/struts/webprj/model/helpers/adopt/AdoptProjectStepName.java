@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.webprj.model.helpers.adopt;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 
 public class AdoptProjectStepName extends AWStep {
@@ -22,7 +23,7 @@ public class AdoptProjectStepName extends AWStep {
         return ("name".equals(name)) ? "Application Name*" :  "web.xml Location*"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
-    public void validate() throws Exception {
+    public void validate() throws XModelException {
         context.setWebXMLLocation(support.getAttributeValue(id, "web.xml location")); //$NON-NLS-1$
     }
 

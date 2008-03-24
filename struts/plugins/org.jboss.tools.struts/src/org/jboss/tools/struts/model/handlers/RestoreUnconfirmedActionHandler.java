@@ -38,7 +38,7 @@ public class RestoreUnconfirmedActionHandler extends DefaultCreateHandler implem
         return true;
     }
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
         StrutsProcessImpl process = (StrutsProcessImpl)object.getParent();
         XModelObject parent = process.getParent().getChildByPath(ELM_ACTIONMAP);

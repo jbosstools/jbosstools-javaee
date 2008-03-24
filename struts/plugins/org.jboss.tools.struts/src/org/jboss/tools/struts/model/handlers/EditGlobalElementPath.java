@@ -19,7 +19,7 @@ public class EditGlobalElementPath extends CreateForwardHandler {
 
     public EditGlobalElementPath() {}
 
-    public void executeHandler0(XModelObject object, Properties prop) throws Exception {
+    public void executeHandler0(XModelObject object, Properties prop) throws XModelException {
         Properties p = extractProperties(data[0]);
         setOtherProperties(object, p);
         modifyCreatedObject(object);
