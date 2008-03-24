@@ -47,8 +47,6 @@ public class SeamValidatorManager implements IValidatorJob {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#validateInJob(org.eclipse.wst.validation.internal.provisional.core.IValidationContext, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
-		TypeInfoCollector.cleanCache();
-
 		SeamValidationHelper coreHelper = (SeamValidationHelper)helper;
 		ISeamProject project = coreHelper.getSeamProject();
 		if(project==null) {
