@@ -27,7 +27,7 @@ public class HiddenLinksHandler extends AbstractHandler implements JSFConstants 
 
     //! 'short' is equivalent to 'no'
 
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
 		SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.jst.web.ui.wizards.links.HiddenLinksWizard");
         XModelObject[] links = getLinks(object);

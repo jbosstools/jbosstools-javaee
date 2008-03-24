@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model.handlers;
 
 import java.util.*;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.DiscardFileHandler;
 import org.jboss.tools.common.model.loaders.XObjectLoader;
@@ -21,7 +22,7 @@ import org.jboss.tools.jst.web.model.WebProcessLoader;
 
 public class DiscardConfigHandler extends DiscardFileHandler {
 	
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		XModelObject process = JSFProcessStructureHelper.instance.getProcess(object);
 		if(process != null && JSFProcessStructureHelper.instance.isProcessLoaded(process)) {

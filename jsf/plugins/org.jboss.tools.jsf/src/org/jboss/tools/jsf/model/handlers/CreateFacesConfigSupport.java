@@ -51,7 +51,7 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 		}
 	}
 
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		Properties p0 = extractStepData(0);
 		XUndoManager undo = getTarget().getModel().getUndoManager();
 		XTransactionUndo u = new XTransactionUndo("Create faces config in " + getTarget().getAttributeValue("element type")+" "+getTarget().getPresentationString(), XTransactionUndo.ADD);
@@ -66,7 +66,7 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 		}
 	}
 	
-	private void doExecute(Properties p0) throws Exception {
+	private void doExecute(Properties p0) throws XModelException {
 		Properties p = extractStepData(0);
 		String path = p.getProperty("name");
 		path = revalidatePath(path);
@@ -81,7 +81,7 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 		open(file);	
 	}
 
-	private void register(XModelObject object, XModelObject created, Properties prop) throws Exception {
+	private void register(XModelObject object, XModelObject created, Properties prop) throws XModelException {
 		boolean register = "yes".equals(getAttributeValue(0, "register in web.xml"));
 		if(!register) return;
 		String uri = getURI(created);

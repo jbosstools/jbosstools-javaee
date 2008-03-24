@@ -25,7 +25,7 @@ public class SetApplicationHandler extends AbstractHandler {
 		return object != null && object.isObjectEditable();
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		XModelObject child = object.getChildByPath(NAME_APPLICATION);
 		if(child == null) {
 			String childEntity = getApplicationEntity(object);

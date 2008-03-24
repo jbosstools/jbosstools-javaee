@@ -11,10 +11,13 @@
 package org.jboss.tools.jsf.model.handlers.bean;
 
 import java.util.*;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 
 import org.jboss.tools.common.java.generation.*;
 import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -72,7 +75,7 @@ public class AddManagedBeanPropertiesContext {
 		values[i] = v;
 	}
 	
-	public void addProperties(XModelObject bean) throws Exception {
+	public void addProperties(XModelObject bean) throws XModelException, CoreException {
 		List<PropertyData> toGenerate = new ArrayList<PropertyData>();
 		int applyForAll = 0;
 		for (int i = 0; i < names.length; i++) {

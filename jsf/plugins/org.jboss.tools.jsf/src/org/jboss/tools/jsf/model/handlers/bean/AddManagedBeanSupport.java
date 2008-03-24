@@ -11,11 +11,14 @@
 package org.jboss.tools.jsf.model.handlers.bean;
 
 import java.util.*;
+
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.java.generation.*;
 import org.jboss.tools.common.meta.action.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintQClassName;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 
@@ -50,7 +53,7 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 		if(isLight) setAttributeValue(0, "generate source code", "false");
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -74,18 +77,22 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 		return new String[]{BACK, FINISH, CANCEL, HELP};
 	}
 	
-	void execute() throws Exception {
+	void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		String entity = action.getProperty("entity");
 		XModelObject c = XModelObjectLoaderUtil.createValidObject(getTarget().getModel(), entity, p);
-		if(getStepId() == 1) {
-			propertiesContext.addProperties(c);
+		try {
+			if(getStepId() == 1) {
+				propertiesContext.addProperties(c);
+			}
+			if(isGenerationOn()) generate();
+		} catch (CoreException e) {
+			throw new XModelException(e);
 		}
-		if(isGenerationOn()) generate();
 		DefaultCreateHandler.addCreatedObject(getTarget(), c, getProperties());
 	}
 	
-	boolean isGenerationOn() throws Exception {
+	boolean isGenerationOn() throws XModelException {
 		Properties p = extractStepData(0);
 		if(!"true".equals(p.getProperty("generate source code"))) return false;
 		if(!isFieldEditorEnabled(0, "generate source code", p)) return false;
@@ -117,7 +124,7 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 		return true;
 	}
 	
-	void generate() throws Exception {
+	void generate() throws CoreException {
 		Properties input = getGenerateProperties();
 		generator.setInput(input);
 		generator.generate();

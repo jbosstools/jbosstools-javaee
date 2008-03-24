@@ -14,6 +14,7 @@ import java.util.*;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 
 public class AddManagedPropertySafeHandler extends AbstractHandler {
@@ -24,7 +25,7 @@ public class AddManagedPropertySafeHandler extends AbstractHandler {
 		return true;
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		XActionInvoker.invoke("CreateActions.CreateProperty", object, p);
 	}

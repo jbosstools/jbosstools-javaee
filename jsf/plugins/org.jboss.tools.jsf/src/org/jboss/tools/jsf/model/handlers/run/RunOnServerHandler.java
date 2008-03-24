@@ -33,7 +33,7 @@ public class RunOnServerHandler extends AbstractHandler implements JSFConstants 
         return IPathSourceImpl.getPath(object) != null;
     }
     
-    public void executeHandler(XModelObject object, Properties p) throws Exception {
+    public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
         context.execute(object);
 		/*TRIAL_JSF*/

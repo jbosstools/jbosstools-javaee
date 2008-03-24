@@ -136,7 +136,7 @@ public class LibrariesPerformer extends PerformerItem {
 		return l.toArray(new String[0]);
 	}
 	
-	public boolean execute(PerformerContext context) throws Exception {
+	public boolean execute(PerformerContext context) throws XModelException {
 		if(!isSelected()) return true;
 		boolean changed = false;
 		boolean zip = false;
@@ -196,7 +196,11 @@ public class LibrariesPerformer extends PerformerItem {
 			}
 		}
 		if(changed) {
-			libResource.refreshLocal(IResource.DEPTH_INFINITE, null);
+			try {
+				libResource.refreshLocal(IResource.DEPTH_INFINITE, null);
+			} catch (CoreException e) {
+				throw new XModelException(e);
+			}
 			model.save();
 		}
 		if(zip) {

@@ -22,7 +22,7 @@ public class CreateCommentHandler extends DefaultCreateHandler implements JSFCon
 
 	public CreateCommentHandler() {}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		pc = p;
 		/*TRIAL_JSF*/
 		super.executeHandler(object, p);

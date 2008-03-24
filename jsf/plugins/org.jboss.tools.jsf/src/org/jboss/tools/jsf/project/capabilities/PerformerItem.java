@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.project.capabilities;
 
+import org.jboss.tools.common.model.XModelException;
+
 public abstract class PerformerItem implements IPerformerItem {
 	protected IPerformerItem parent;
 	protected boolean selected = true;
@@ -47,7 +49,7 @@ public abstract class PerformerItem implements IPerformerItem {
 		return true;
 	}
 
-	public boolean execute(PerformerContext context) throws Exception {
+	public boolean execute(PerformerContext context) throws XModelException {
 		throw new RuntimeException("Not implemented in " + getClass().getName());
 	}
 

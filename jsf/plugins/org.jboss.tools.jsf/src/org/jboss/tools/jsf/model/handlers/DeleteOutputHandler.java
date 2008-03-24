@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model.handlers;
 
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.JSFPreference;
 import org.jboss.tools.jsf.model.JSFConstants;
@@ -19,7 +20,7 @@ import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
 
 public class DeleteOutputHandler extends DefaultRemoveHandler {
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		XModelObject caseObject = JSFProcessStructureHelper.instance.getReference(object);
 		if(caseObject == null) return;
 		XModelObject group = object.getParent().getParent();

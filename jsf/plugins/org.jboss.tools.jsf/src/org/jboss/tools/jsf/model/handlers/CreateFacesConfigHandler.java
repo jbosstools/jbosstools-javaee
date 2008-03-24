@@ -43,7 +43,7 @@ public class CreateFacesConfigHandler extends CreateFileHandler implements JSFCo
 		return data;
 	}
 
-	public void executeHandler(XModelObject object, Properties prop) throws Exception {
+	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
 		Properties p = extractProperties(data[0]);
 		checkRegister(object, p);
 		/*TRIAL_JSF*/
@@ -66,16 +66,16 @@ public class CreateFacesConfigHandler extends CreateFileHandler implements JSFCo
 		}
 	}
     
-	private void checkRegister(XModelObject object, Properties p) throws Exception {
+	private void checkRegister(XModelObject object, Properties p) throws XModelException {
 		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml"));
 		if(!register) return;
 		XModelObject webxml = WebAppHelper.getWebApp(object.getModel());
-		if(webxml == null) throw new Exception ("Faces config cannot be registered because web.xml is not found.");
-		if("yes".equals(webxml.get("isIncorrect"))) throw new Exception ("Faces config file cannot be registered because web.xml is incorrect.");
-		if(!webxml.isObjectEditable()) throw new Exception ("Faces config file cannot be registered because web.xml is read only.");
+		if(webxml == null) throw new XModelException ("Faces config cannot be registered because web.xml is not found.");
+		if("yes".equals(webxml.get("isIncorrect"))) throw new XModelException ("Faces config file cannot be registered because web.xml is incorrect.");
+		if(!webxml.isObjectEditable()) throw new XModelException ("Faces config file cannot be registered because web.xml is read only.");
 	}
 
-	private void register(XModelObject object, Properties prop) throws Exception {
+	private void register(XModelObject object, Properties prop) throws XModelException {
 		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml"));
 		if(!register) return;
 		String uri = "/WEB-INF/" + FileAnyImpl.toFileName(created);

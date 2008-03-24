@@ -21,14 +21,13 @@ public class AddRuleToGroupHandler extends AbstractHandler implements JSFConstan
 		return object != null && object.isObjectEditable();
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		String path = object.getAttributeValue(ATT_PATH);
 		JSFNavigationModel nm = (JSFNavigationModel)object.getParent().getParent();
 		XModelObject o = object.getModel().createModelObject(ENT_NAVIGATION_RULE, null);
 		o.setAttributeValue(ATT_FROM_VIEW_ID, path);
 		o.setAttributeValue("index", "" + nm.getRuleCount(path));
 		object.getParent().getParent().getChildByPath(FOLDER_NAVIGATION_RULES).addChild(o);
-		/*TRIAL_JSF*/
 	}
-	/*TRIAL_JSF_CLASS*/
+
 }

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model.handlers.bean;
 
 import java.util.*;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.JavaModelException;
@@ -20,6 +21,7 @@ import org.jboss.tools.common.meta.action.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintJavaName;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -71,7 +73,7 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 		if(isLight) setAttributeValue(0, "add java property", "false");
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -86,7 +88,7 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 	
-	void execute() throws Exception {
+	void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		getTarget().setAttributeValue("content-kind", "properties");
 		String entity = action.getProperty("entity");
@@ -94,7 +96,11 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 		DefaultCreateHandler.addCreatedObject(getTarget(), c, getProperties());
 		getProperties().put("created", c);
 		if(!isGenerationOn(p)) return;
-		generate(p);
+		try {
+			generate(p);
+		} catch (CoreException e) {
+			throw new XModelException(e);
+		}
 	}
 
 	boolean isGenerationOn(Properties p) {
@@ -125,7 +131,7 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 		return (m == null) ? null : EclipseJavaUtil.getMemberTypeAsString(m);
 	}
 	
-	void generate(Properties p) throws Exception {
+	void generate(Properties p) throws CoreException {
 		generator.setOwner(classCheck.getExistingClass());
 		String type = p.getProperty("property-class");
 		if(type.length() == 0) type = "String";

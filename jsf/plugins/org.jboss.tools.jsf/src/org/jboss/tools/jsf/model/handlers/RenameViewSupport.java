@@ -20,7 +20,6 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.*;
-import org.jboss.tools.jsf.model.handlers.AddViewSupport.ViewValidator;
 import org.jboss.tools.jsf.model.helpers.*;
 import org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl;
 
@@ -49,7 +48,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		}
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -64,7 +63,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 	
-	void execute() throws Exception {
+	void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		String path = AddViewSupport.revalidatePath(p.getProperty(ATT_FROM_VIEW_ID));
 		if(initialPath.equals(path)) return;
@@ -76,7 +75,11 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 			} else {
 				replace(group, initialPath, path);
 				if(page != null && "true".equals(p.getProperty("rename file")) && isFieldEditorEnabled(0, "rename file", p)) {
-					renameFile(page, path);
+					try {
+						renameFile(page, path);
+					} catch (CoreException e) {
+						throw new XModelException(e);
+					}
 				}
 			}
 		} finally {
@@ -156,7 +159,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		}		
 	}
 	
-	public static void renameFile(XModelObject page, String path) throws Exception {
+	public static void renameFile(XModelObject page, String path) throws XModelException, CoreException {
 		IResource r = (IResource)page.getAdapter(IResource.class);
 		String initialPath = XModelObjectLoaderUtil.getResourcePath(page);
 		String p = r.getFullPath().toString();
@@ -168,12 +171,12 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		page.getModel().update();		
 	}
 	
-	public static void provideParent(IResource resource) throws Exception {
+	public static void provideParent(IResource resource) throws XModelException, CoreException {
 		IResource parent = resource.getParent();
 		if(parent.exists()) return;
 		IFolder folder = resource.getWorkspace().getRoot().getFolder(parent.getFullPath());
 		provideParent(folder);
-		if(!folder.exists()) folder.create(true, true, null);
+		folder.create(true, true, null);
 	}
 	
 	/*

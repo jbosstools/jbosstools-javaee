@@ -32,14 +32,14 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 		return true;
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if (!isEnabled(object)) return;
 		XUndoManager undo = object.getModel().getUndoManager();
 		XTransactionUndo u = new XTransactionUndo("rename " + DefaultCreateHandler.title(object, false), XTransactionUndo.EDIT);
 		undo.addUndoable(u);
 		try {
 			transaction(object, p);
-		} catch (Exception e) {
+		} catch (XModelException e) {
 			undo.rollbackTransactionInProgress();
 			throw e;
 		} finally {
@@ -47,7 +47,7 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 		}
 	}
 
-	protected void transaction(XModelObject object, Properties p) throws Exception {
+	protected void transaction(XModelObject object, Properties p) throws XModelException {
 		IType type = ManagedBeanHelper.getType(object);
 		if(type != null && !type.isBinary()) {
 			RenameManagedBeanClassRunnable r = new RenameManagedBeanClassRunnable(object, type);

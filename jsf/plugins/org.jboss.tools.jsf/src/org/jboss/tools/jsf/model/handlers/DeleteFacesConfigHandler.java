@@ -18,7 +18,7 @@ import org.jboss.tools.jsf.web.JSFWebHelper;
 
 public class DeleteFacesConfigHandler extends DeleteFileHandler {
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		String path = XModelObjectLoaderUtil.getResourcePath(object);
 		if(object.getModel().getByPath("FileSystems/WEB-INF" + path) == object) {
 			path = "/WEB-INF" + path;

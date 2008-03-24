@@ -105,7 +105,7 @@ public class FileAdditionsPerformer extends PerformerItem {
 		return (f == null) ? null : EclipseResourceUtil.getObjectByResource(f);
 	}
 	
-	public boolean execute(PerformerContext context) throws Exception {
+	public boolean execute(PerformerContext context) throws XModelException {
 		if(!isSelected()) return true;
 		for (int i = 0; i < performers.length; i++) {
 			if(performers[i].isSelected()) performers[i].execute(context);		

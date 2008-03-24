@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
@@ -38,7 +39,7 @@ public class AdoptJSFProjectFinisher {
 		this.model = model;
 	}
 	
-    public void execute() throws Exception {
+    public void execute() throws XModelException {
         filesystems.clear();
         workspace = context.getWebInfLocation();
         fss = model.getByPath("FileSystems");

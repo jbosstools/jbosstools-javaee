@@ -24,7 +24,7 @@ public class SetFactoryHandler extends AbstractHandler {
 		return object != null && object.isObjectEditable();
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		XModelObject child = object.getChildByPath(NAME_FACTORY);
 		if(child == null) child = object.getModel().createModelObject(ENTITY_FACTORY, null);
 		long ts = child.getTimeStamp();

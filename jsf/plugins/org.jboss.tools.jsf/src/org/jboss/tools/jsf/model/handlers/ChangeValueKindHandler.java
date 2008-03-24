@@ -49,7 +49,7 @@ public class ChangeValueKindHandler extends AbstractHandler {
 		return object != null && object.isObjectEditable() && isNewValueKind(object, action.getProperty("value-kind"));
 	}
 	
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		if(!checkChangeSignificance(object)) return;
 		String targetValueKind = action.getProperty("value-kind");

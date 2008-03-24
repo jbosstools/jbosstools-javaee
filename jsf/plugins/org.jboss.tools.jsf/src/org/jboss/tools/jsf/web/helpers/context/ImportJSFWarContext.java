@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.web.helpers.context;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebHelper;
@@ -27,11 +28,11 @@ public class ImportJSFWarContext extends ImportWebWarContext {
 		createAllModules();
 	}
 
-	protected void loadWebXML(String body, String location) throws Exception {
+	protected void loadWebXML(String body, String location) throws XModelException {
 		super.loadWebXML(body, location);
 		if(WebAppHelper.findServlet(webxml, "javax.faces.webapp.FacesServlet", null) == null) {
 			String webXMLErrorMessage = "No JSF support found in the project."; 
-			throw new Exception(webXMLErrorMessage);
+			throw new XModelException(webXMLErrorMessage);
 		}
 	}
 

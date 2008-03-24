@@ -49,7 +49,7 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
 		setAttributeValue(0, ATTR_CAPABILITY, options[0]);
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			boolean b = executeWithContext();
 			if(b) setStepId(1);
@@ -65,11 +65,15 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
         return new String[]{CLOSE, HELP};
     }
 
-    protected boolean executeWithContext() throws Exception {
+    protected boolean executeWithContext() throws XModelException {
     	IRunnableContext context = (IRunnableContext)getProperties().get("IRunnableContext");
     	final Executor executor = new Executor();
-    	context.run(false, true, executor);
-    	if(executor.exception != null) throw executor.exception;
+    	try {
+    		context.run(false, true, executor);
+    	} catch (Exception e) {
+    		throw new XModelException(e);
+    	}
+    	if(executor.exception != null) throw new XModelException(executor.exception);
     	getProperties().put("addedCapabilities", (executor.added != null) ? executor.added : new String[0]);
     	return !executor.cancelled;
     }

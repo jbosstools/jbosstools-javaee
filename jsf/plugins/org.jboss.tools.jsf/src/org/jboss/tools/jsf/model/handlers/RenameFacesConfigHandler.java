@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model.handlers;
 import java.util.*;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultEditHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -20,7 +21,7 @@ import org.jboss.tools.jsf.web.JSFWebHelper;
 
 public class RenameFacesConfigHandler extends DefaultEditHandler {
 	
-	public void executeHandler(XModelObject object, Properties prop) throws Exception {
+	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
 		//prompt file object to compute body.
 		((FileAnyImpl)object).getAsText();
 		String oldConfigName = FileAnyImpl.toFileName(object);

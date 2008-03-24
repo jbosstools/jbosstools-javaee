@@ -11,6 +11,8 @@
 package org.jboss.tools.jsf.model.handlers.bean;
 
 import java.util.*;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
@@ -26,7 +28,7 @@ public class DeleteManagedPropertyHandler extends AbstractHandler {
 		return object != null && object.isObjectEditable();
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		ServiceDialog d = object.getModel().getService();
 		IMember member = ManagedBeanHelper.getMember(object);
 		String title = DefaultCreateHandler.title(object, false); 
@@ -45,12 +47,16 @@ public class DeleteManagedPropertyHandler extends AbstractHandler {
 		}
 		DefaultRemoveHandler.removeFromParent(object);
 		if(deleteField) {
-			IMember[] ms = findRelevantMembers(member);
-			for (int i =  0; i < ms.length; i++) ms[i].delete(true, null);
+			try {
+				IMember[] ms = findRelevantMembers(member);
+				for (int i =  0; i < ms.length; i++) ms[i].delete(true, null);
+			} catch (CoreException e) {
+				throw new XModelException(e);
+			}
 		}
 	}
 	
-	private IMember[] findRelevantMembers(IMember member) throws Exception {
+	private IMember[] findRelevantMembers(IMember member) throws CoreException {
 		List<IMember> list = new ArrayList<IMember>();
 		list.add(member);
 		IType type = member.getDeclaringType();

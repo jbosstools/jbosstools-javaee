@@ -12,13 +12,14 @@ package org.jboss.tools.jsf.model.handlers;
 
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.handlers.MoveHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XOrderedObject;
 import org.jboss.tools.jsf.model.ReferenceObjectImpl;
 
 public class OutputMoveHandler extends MoveHandler {
 
-	public void executeHandler(XModelObject object, Properties prop) throws Exception {
+	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
 		if(!isEnabled(object)) return;
 		ReferenceObjectImpl o1 = (ReferenceObjectImpl)object;
 		ReferenceObjectImpl o2 = (ReferenceObjectImpl)object.getModel().getModelBuffer().source();

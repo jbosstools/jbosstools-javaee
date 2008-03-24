@@ -11,6 +11,8 @@
 package org.jboss.tools.jsf.model.handlers.bean;
 
 import java.util.*;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
@@ -29,13 +31,14 @@ public class RenameManagedPropertyHandler extends AbstractHandler {
 		return true;
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		IMember member = ManagedBeanHelper.getMember(object);
 		String name = object.getAttributeValue("property-name");
 		if(member != null) {
 			name = member.getElementName();
 			RenameSupport renameSupport = null;
+			try {
 			if (member instanceof IField) 
 				renameSupport = RenameSupport.create((IField)member, null, RenameSupport.UPDATE_REFERENCES | RenameSupport.UPDATE_GETTER_METHOD | RenameSupport.UPDATE_SETTER_METHOD);
 			else if (member instanceof IMethod)
@@ -44,6 +47,9 @@ public class RenameManagedPropertyHandler extends AbstractHandler {
 
 			Shell shell = ModelPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
 			renameSupport.openDialog(shell);
+			} catch (CoreException e) {
+				throw new XModelException(e);
+			}
 		} else {
 			JSFRenameFieldProcessor processor = new JSFRenameFieldProcessor();
 			processor.setModelObject(object);

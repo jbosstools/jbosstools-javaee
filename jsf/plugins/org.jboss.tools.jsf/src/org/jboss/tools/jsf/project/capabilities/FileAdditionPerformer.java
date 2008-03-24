@@ -71,7 +71,7 @@ public class FileAdditionPerformer extends PerformerItem {
 		return true;
 	}
 	
-	public boolean execute(PerformerContext context) throws Exception {
+	public boolean execute(PerformerContext context) throws XModelException {
 		if(!isSelected()) return true;
 		if(targetAttribute != null && attributeValue != null) {
 			targetObject.getModel().editObjectAttribute(targetObject, targetAttribute, attributeValue);

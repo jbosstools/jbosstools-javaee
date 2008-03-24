@@ -25,7 +25,7 @@ import org.jboss.tools.jsf.model.pv.*;
 
 public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		boolean unregister = false;
 		IFile f = getJavaFile(object);
 		if(f != null) {

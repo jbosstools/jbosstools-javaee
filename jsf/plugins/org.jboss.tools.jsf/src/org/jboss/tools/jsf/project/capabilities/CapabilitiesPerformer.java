@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.project.capabilities;
 
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 
 public class CapabilitiesPerformer extends PerformerItem {
@@ -37,7 +38,7 @@ public class CapabilitiesPerformer extends PerformerItem {
 		return capabilities;
 	}
 
-	public boolean execute(PerformerContext context) throws Exception {
+	public boolean execute(PerformerContext context) throws XModelException {
 		boolean b = true;
 		for (int i = 0; i < capabilities.length; i++) {
 			if(!capabilities[i].isSelected()) continue;

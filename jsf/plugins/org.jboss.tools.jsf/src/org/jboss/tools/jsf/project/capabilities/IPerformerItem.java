@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.project.capabilities;
 
+import org.jboss.tools.common.model.XModelException;
+
 public interface IPerformerItem {
 	public String getDisplayName();
 	public IPerformerItem getParent();
@@ -18,5 +20,5 @@ public interface IPerformerItem {
 	public boolean isSelected();
 	public void setSelected(boolean enabled);	
 	public boolean isEnabled();
-	public boolean execute(PerformerContext context) throws Exception;
+	public boolean execute(PerformerContext context) throws XModelException;
 }

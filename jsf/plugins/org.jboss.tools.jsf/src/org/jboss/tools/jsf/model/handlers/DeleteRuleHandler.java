@@ -29,7 +29,7 @@ public class DeleteRuleHandler extends DefaultRemoveHandler implements JSFConsta
 		return (path == null || path.length() == 0) ? null : object.getModel().getByPath(path);
 	}
 
-	public void executeHandler(XModelObject object, java.util.Properties p) throws Exception {
+	public void executeHandler(XModelObject object, java.util.Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		XModelObject page = getPage(object);
 		if(page == null) {

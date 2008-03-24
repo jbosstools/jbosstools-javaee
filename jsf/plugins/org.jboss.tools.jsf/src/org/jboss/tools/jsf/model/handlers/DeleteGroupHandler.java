@@ -36,7 +36,7 @@ public class DeleteGroupHandler extends AbstractHandler implements JSFConstants 
 		return (path == null || path.length() == 0) ? null : object.getModel().getByPath(path);
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		ReferenceGroupImpl g = (ReferenceGroupImpl)object;
 

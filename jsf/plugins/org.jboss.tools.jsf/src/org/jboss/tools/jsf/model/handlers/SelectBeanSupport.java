@@ -18,6 +18,7 @@ import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.meta.action.impl.XEntityDataImpl;
 import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.pv.JSFProjectBean;
@@ -67,7 +68,7 @@ public class SelectBeanSupport extends SpecialWizardSupport {
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			Properties p = extractStepData(0);
 			getProperties().setProperty(ATTR_SELECTED, p.getProperty(ATTR_SELECTED));

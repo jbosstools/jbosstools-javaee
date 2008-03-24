@@ -32,7 +32,7 @@ public class ChangeToValueSupport extends SpecialWizardSupport {
 		}
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -47,7 +47,7 @@ public class ChangeToValueSupport extends SpecialWizardSupport {
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 	
-	void execute() throws Exception {
+	void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		getTarget().getModel().changeObjectAttribute(getTarget(), "value-kind", "value");
 		getTarget().getModel().changeObjectAttribute(getTarget(), "value", p.getProperty("value"));

@@ -13,12 +13,14 @@ package org.jboss.tools.jsf.model.handlers;
 import java.io.File;
 import java.util.Properties;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.meta.action.impl.WizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
@@ -90,7 +92,7 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		return v;
 	}
 
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -98,12 +100,12 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 			setFinished(true);
 		}
 	}
-	/*TRIAL_JSF_CLASS*/
+
 	public String[] getActionNames(int stepId) {
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
 		Properties p = extractStepData(0);
 		String path = p.getProperty("from-view-id");
@@ -242,7 +244,7 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		return getTarget().getModel().getByPath(path) != null;
 	} 
 	
-	void createFile(String path) throws Exception {
+	void createFile(String path) throws XModelException {
 		if(!canCreateFile(path)) return;
 		String lastCreateFileValue = getAttributeValue(0, "create file");
 		JSFModelPlugin.getDefault().getPluginPreferences().setDefault(LAST_CREATE_FILE_PREFERENCE, lastCreateFileValue);
@@ -250,14 +252,18 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		String template = getAttributeValue(0, "template");
 		if(template != null) template = template.trim();
 		File fs = (File)templates.getPageTemplates().get(template);
-		if(fs == null || !fs.isFile()) throw new Exception(NLS.bind(JSFUIMessages.TEMPLATE_IS_NOT_FOUND, template));
+		if(fs == null || !fs.isFile()) throw new XModelException(NLS.bind(JSFUIMessages.TEMPLATE_IS_NOT_FOUND, template));
 		String location = ((FileSystemImpl)getTarget().getModel().getByPath("FileSystems/WEB-ROOT")).getAbsoluteLocation();
 		location += path;
 		File ft = new File(location);
 		ft.getParentFile().mkdirs();
 		FileUtil.copyFile(fs, ft);
 		getTarget().getModel().update();
-		EclipseResourceUtil.getResource(getTarget()).getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
+		try {
+			EclipseResourceUtil.getResource(getTarget()).getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			throw new XModelException(e);
+		}
 	}
 
 	protected DefaultWizardDataValidator viewValidator = new ViewValidator();

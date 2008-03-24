@@ -39,7 +39,7 @@ public class CapabilityPerformer extends PerformerItem {
 		fileAdditionsPerformer.init(model, capability);
 	}
 	
-	public boolean execute(PerformerContext context) throws Exception {
+	public boolean execute(PerformerContext context) throws XModelException {
 		if(!isSelected()) return true;
 		context.monitor.worked(1);
 		context.monitor.subTask(getDisplayName());

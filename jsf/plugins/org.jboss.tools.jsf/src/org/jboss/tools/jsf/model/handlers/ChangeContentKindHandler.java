@@ -48,7 +48,7 @@ public class ChangeContentKindHandler extends AbstractHandler {
 		return object != null && object.isObjectEditable() && isNewValueKind(object, action.getProperty(ATT_CONTENT_KIND));
 	}
 	
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		if(!checkChangeSignificance(object)) return;
 		String targetValueKind = action.getProperty(ATT_CONTENT_KIND);

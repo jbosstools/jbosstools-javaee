@@ -24,7 +24,7 @@ public class AddCaseToGroupHandler extends AbstractHandler implements JSFConstan
 		return object != null && object.isObjectEditable();
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		p = DefaultCreateHandler.extractProperties(data[0]);
 		String fv = p.getProperty(ATT_TO_VIEW_ID);
 		if(fv.indexOf("*") >= 0 || fv.length() == 0) {

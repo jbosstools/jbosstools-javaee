@@ -41,7 +41,7 @@ public class JSFWatcherContributor implements IWatcherContributor {
 		return null;
 	}
 	
-	private void checkCorrectness() throws Exception {		
+	private void checkCorrectness() throws XModelException {		
 	}
 
 	public void updateProject() {

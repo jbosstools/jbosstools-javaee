@@ -14,6 +14,7 @@ import java.util.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultEditHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 
 public class AddEntrySupport extends SpecialWizardSupport {
@@ -42,7 +43,7 @@ public class AddEntrySupport extends SpecialWizardSupport {
 		}
 	}
 	
-	public void action(String name) throws Exception {
+	public void action(String name) throws XModelException {
 		if(FINISH.equals(name)) {
 			execute();
 			setFinished(true);
@@ -57,7 +58,7 @@ public class AddEntrySupport extends SpecialWizardSupport {
 		return new String[]{FINISH, CANCEL, HELP};
 	}
 	
-	void execute() throws Exception {
+	void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		if(isProperty) {
 			String kind = action.getProperty("value-kind");
