@@ -808,7 +808,9 @@
                                 template.</para>
                         </section>
 
-                        <!--para>At this point, you have a fully configured project to </para-->
+                        <para>At this point, you have a fully configured project and now you can
+                                bring some new logic to it starting from JSF configuration
+                        file.</para>
                 </section>
                 <section id="GraphicalEditorAndViewingForJSFConfigurationFiles76331">
 
@@ -1108,6 +1110,8 @@
                                         file</para>
                                 </listitem>
                         </itemizedlist>
+                        
+                        <para>Thus, in this section we will guides you through all this possibilities.</para>
 
                         <section id="CodeGenerationForManagedBeans421">
 
