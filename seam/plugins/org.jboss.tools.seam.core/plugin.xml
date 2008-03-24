@@ -293,8 +293,8 @@
          point="org.eclipse.ltk.core.refactoring.renameParticipants">
 
       <renameParticipant
-            class="org.jboss.tools.seam.internal.core.refactoring.SeamRenameProjectParticipant"
-            id="org.jboss.tools.seam.internal.core.refactoring.SeamRenameProjectParticipant"
+            class="org.jboss.tools.seam.internal.core.refactoring.SeamProjectRenameParticipant"
+            id="org.jboss.tools.seam.internal.core.refactoring.SeamProjectRenameParticipant"
             name="seam-RenameProjectParticipant">
          <enablement>
             <with variable="element">
@@ -305,13 +305,25 @@
          </enablement>
       </renameParticipant>
       <renameParticipant
-            class="org.jboss.tools.seam.internal.core.refactoring.SeamRenameFolderParticipant"
-            id="org.jboss.tools.seam.internal.core.refactoring.SeamRenameFolderParticipant"
+            class="org.jboss.tools.seam.internal.core.refactoring.SeamFolderRenameParticipant"
+            id="org.jboss.tools.seam.internal.core.refactoring.SeamFolderRenameParticipant"
             name="seam-RenameFolderParticipant">
          <enablement>
             <with variable="element">
                 <or>
                    <instanceof value="org.eclipse.core.resources.IFolder"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+      <renameParticipant
+            class="org.jboss.tools.seam.internal.core.refactoring.SeamJavaPackageRenameParticipant"
+            id="org.jboss.tools.seam.internal.core.refactoring.SeamJavaPackageRenameParticipant"
+            name="seam-JavaPackageRenameParticipant">
+         <enablement>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
                 </or>
             </with>
          </enablement>

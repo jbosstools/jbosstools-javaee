@@ -26,7 +26,7 @@ import org.osgi.service.prefs.BackingStoreException;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamRenameProjectChange extends SeamProjectChange {
+public class SeamProjectRenameChange extends SeamProjectChange {
 
 	protected String newName;
 	protected String oldName;
@@ -39,7 +39,7 @@ public class SeamRenameProjectChange extends SeamProjectChange {
 	 * @param newName
 	 * @param oldName
 	 */
-	public SeamRenameProjectChange(IProject project, String newName, String oldName) {
+	public SeamProjectRenameChange(IProject project, String newName, String oldName) {
 		super(project);
 		this.newName = newName;
 		this.oldName = oldName;
@@ -71,7 +71,9 @@ public class SeamRenameProjectChange extends SeamProjectChange {
 	 */
 	@Override
 	public Change perform(IProgressMonitor pm) throws CoreException {
-		if(!isRelevant()) return null;
+		if(!isRelevant()) {
+			return null;
+		}
 		try {
 			pm.beginTask(getName(), 1);
 
@@ -100,7 +102,7 @@ public class SeamRenameProjectChange extends SeamProjectChange {
 			} catch (BackingStoreException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
-			return new SeamRenameProjectChange(project, oldName, newName);
+			return new SeamProjectRenameChange(project, oldName, newName);
 		} finally {
 			pm.done();
 		}

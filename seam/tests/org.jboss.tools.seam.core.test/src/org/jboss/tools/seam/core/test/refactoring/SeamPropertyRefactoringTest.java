@@ -23,7 +23,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -62,6 +64,9 @@ public class SeamPropertyRefactoringTest extends TestCase {
 	static String testSourceFolderPath = "/" + testProjectName + "/" + testSourceFolderName;
 	static String viewFolderName = "WebContent";
 	static String viewFolderPath = "/" + warProjectName + "/" + viewFolderName;
+	static String actionPackageName = "ejbdemo";
+	static String modelPackageName = "wardemo";
+	static String testPackageName = "testdemo";
 	static IProject warProject;
 	static IProject ejbProject;
 	static IProject testProject;
@@ -115,18 +120,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		updateFields();
 		warProject = renameProject(warProject, warProjectName);
 		seamWarProject = SeamCorePlugin.getSeamProject(warProject, true);
-
-		String newParentName = seamEjbProject.getParentProjectName();
-		assertEquals("WAR project was renamed but parent seam project property for EJB project was not.", warProjectName, newParentName);
-		newParentName = seamTestProject.getParentProjectName();
-		assertEquals("WAR project was renamed but parent seam project property for test project was not.", warProjectName, newParentName);
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-		String modelSources = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "");
-		assertEquals("WAR project was renamed but model source folder property was not.", modelSourceFolderPath, modelSources);
-
-		String viewFolder = pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "");
-		assertEquals("WAR project was renamed but view folder property was not.", viewFolderPath, viewFolder);
+		assertCorrectProperties();
 	}
 
 	public void testEjbProjectRename() throws CoreException {
@@ -134,13 +128,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		updateFields();
 		ejbProject = renameProject(ejbProject, ejbProjectName);
 		seamEjbProject = SeamCorePlugin.getSeamProject(ejbProject, true);
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-		String newEjbName = pref.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, "");
-		assertEquals("EJB project was renamed but property was not.", ejbProjectName, newEjbName);
-
-		String actionSources = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "");
-		assertEquals("EJB project was renamed but action source folder property was not.", actionSourceFolderPath, actionSources);
+		assertCorrectProperties();
 	}
 
 	public void testTestProjectRename() throws CoreException {
@@ -148,53 +136,91 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		updateFields();
 		testProject = renameProject(testProject, testProjectName);
 		seamTestProject = SeamCorePlugin.getSeamProject(testProject, true);
-
-		String newTestName = SeamCorePlugin.getSeamPreferences(warProject).get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, "");
-		assertEquals("Test project was renamed but property was not.", testProjectName, newTestName);
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-		String testSources = pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "");
-		assertEquals("Test project was renamed but test source folder property was not.", testSourceFolderPath, testSources);
+		assertCorrectProperties();
 	}
 
 	public void testActionSourceFolderRename() throws CoreException {
 		actionSourceFolderName = "newActionSrc";
 		renameSourceFolder(actionSourceFolderPath, actionSourceFolderName);
-		updateFields();
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-		String actionSources = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "");
-		assertEquals("Action source folder was renamed but property was not.", actionSourceFolderPath, actionSources);
+		assertCorrectProperties();
 	}
 
 	public void testModelSourceFolderRename() throws CoreException {
 		modelSourceFolderName = "newModelSrc";
 		renameSourceFolder(modelSourceFolderPath, modelSourceFolderName);
-		updateFields();
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-		String modelSources = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "");
-		assertEquals("Model source folder was renamed but property was not.", modelSourceFolderPath, modelSources);
+		assertCorrectProperties();
 	}
 
 	public void testTestSourceFolderRename() throws CoreException {
 		testSourceFolderName = "newTestSrc";
 		renameSourceFolder(testSourceFolderPath, testSourceFolderName);
-		updateFields();
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-		String testSources = pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "");
-		assertEquals("Test source folder was renamed but property was not.", testSourceFolderPath, testSources);
+		assertCorrectProperties();
 	}
 
 	public void testViewFolderRename() throws CoreException {
 		viewFolderName = "newViewFolder";
 		renameFolder(viewFolderPath, viewFolderName);
+		assertCorrectProperties();
+	}
+
+	public void testActionPackageRename() throws CoreException {
+		String oldName = actionPackageName;
+		actionPackageName = "newejbdemo";
+		renamePackage(actionSourceFolderPath, oldName, actionPackageName);
+		assertCorrectProperties();
+	}
+
+	public void testModelPackageRename() throws CoreException {
+		String oldName = modelPackageName;
+		modelPackageName = "newwardemo";
+		renamePackage(modelSourceFolderPath, oldName, modelPackageName);
+		assertCorrectProperties();
+	}
+
+	public void testTestPackageRename() throws CoreException {
+		String oldName = testPackageName;
+		testPackageName = "newtestdemo";
+		renamePackage(testSourceFolderPath, oldName, testPackageName);
+		assertCorrectProperties();
+	}
+
+	private void assertCorrectProperties() {
 		updateFields();
 
 		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
+
+		String parentName = seamEjbProject.getParentProjectName();
+		assertEquals("Parent seam project property for EJB project was not updated.", warProjectName, parentName);
+
+		parentName = seamTestProject.getParentProjectName();
+		assertEquals("Parent seam project property for Test project was not updated.", warProjectName, parentName);
+
+		String ejbName = pref.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, "");
+		assertEquals("EJB project name property was not updated.", ejbProjectName, ejbName);
+
+		String testName = pref.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, "");
+		assertEquals("Test project name property was not updated.", testProjectName, testName);
+
+		String actionSources = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "");
+		assertEquals("Action source folder property was not updated.", actionSourceFolderPath, actionSources);
+
+		String modelSources = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "");
+		assertEquals("Model source folder property was not.", modelSourceFolderPath, modelSources);
+
+		String testSources = pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "");
+		assertEquals("Test source folder property was not updated.", testSourceFolderPath, testSources);
+
 		String viewFolder = pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "");
-		assertEquals("View folder was renamed but property was not.", viewFolderPath, viewFolder);
+		assertEquals("View folder property was not updated.", viewFolderPath, viewFolder);
+
+		String actionPackage = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "");
+		assertEquals("Action package name property was not updated.", actionPackageName, actionPackage);
+
+		String modelPackage = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "");
+		assertEquals("Model package name property was not updated.", modelPackageName, modelPackage);
+
+		String testPackage = pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "");
+		assertEquals("Test package name property was not updated.", testPackageName, testPackage);
 	}
 
 	private void updateFields() {
@@ -276,6 +302,52 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		assertNotNull("Can't find folder: " + newFolderPath, resource);
 
 		return (IFolder)resource;
+	}
+
+	private IPackageFragment renamePackage(String sourceFolderPath, String oldPackageName, String newPackageName) throws CoreException {
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolderPath);
+		assertNotNull("Can't find source folder: " + sourceFolderPath, resource);
+		IProject project = resource.getProject();
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+		assertNotNull("Can't find java project: " + project.getName(), javaProject);
+		IPackageFragmentRoot root = null;
+		try {
+			IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
+			for (int i = 0; i < roots.length; i++) {
+				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE && roots[i].getResource().getFullPath().toString().equals(sourceFolderPath)) {
+					root = roots[i];
+					break;
+				}
+			}
+		} catch (JavaModelException e) {
+			JUnitUtils.fail("Can't find source folder: " + sourceFolderPath, e);
+		}
+		assertNotNull("Can't find source folder: " + sourceFolderPath, root);
+
+		IPackageFragment oldPackage = findPackage(root, oldPackageName);
+		assertNotNull("Can't find package \"" + oldPackageName + "\". So it's impossible to rename it.", oldPackage);
+
+		IJavaElement[] packages = root.getChildren();
+		performRename(RenameSupport.create(oldPackage, newPackageName, RenameSupport.UPDATE_REFERENCES));
+
+		IPackageFragment newPackage = findPackage(root, newPackageName);
+		assertNotNull("Can't find renamed package \"" + newPackageName + "\". It seems this package was not renamed.", newPackage);
+		return null;
+	}
+
+	private IPackageFragment findPackage(IPackageFragmentRoot root, String packageName) {
+		IJavaElement[] packages = null;
+		try {
+			packages = root.getChildren();
+		} catch (JavaModelException e) {
+			JUnitUtils.fail("Can't find package: " + packageName, e);
+		}
+		for (IJavaElement javaElement : packages) {
+			if(javaElement instanceof IPackageFragment && javaElement.getElementName().equals(packageName)) {
+				return (IPackageFragment)javaElement;
+			}
+		}
+		return null;
 	}
 
 	private IProject renameProject(IProject project, String newProjectName) throws CoreException {

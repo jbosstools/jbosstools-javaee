@@ -25,14 +25,14 @@ import org.osgi.service.prefs.BackingStoreException;
 /**
  * @author Alexey Kazakov
  */
-public class SeamRenameFolderChange extends SeamProjectChange {
+public class SeamFolderRenameChange extends SeamProjectChange {
 
 	private IPath oldPath;
 	private IPath newPath;	
 
 	private List<String> relevantProperties = new ArrayList<String>();
 
-	public SeamRenameFolderChange(IProject project, String newName, IPath oldPath) {
+	public SeamFolderRenameChange(IProject project, String newName, IPath oldPath) {
 		super(project);
 		this.oldPath = oldPath;
 		this.newPath = oldPath.removeLastSegments(1).append(newName);
@@ -88,7 +88,7 @@ public class SeamRenameFolderChange extends SeamProjectChange {
 			} catch (BackingStoreException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
-			return new SeamRenameFolderChange(project, oldPath.lastSegment(), newPath);
+			return new SeamFolderRenameChange(project, oldPath.lastSegment(), newPath);
 		} finally {
 			pm.done();
 		}

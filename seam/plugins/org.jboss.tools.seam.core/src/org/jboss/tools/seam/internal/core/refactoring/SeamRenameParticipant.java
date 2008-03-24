@@ -10,12 +10,9 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.Change;
@@ -25,22 +22,23 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 
 /**
- * Updates seam settings of seam projects if somebody renames source folder.
  * @author Alexey Kazakov
  */
-public class SeamRenameFolderParticipant extends RenameParticipant {
-	public static final String PARTICIPANT_NAME="seam-RenameFolderParticipant";
+abstract public class SeamRenameParticipant extends RenameParticipant {
 
-	private IPath oldPath;
-
-	public SeamRenameFolderParticipant() {
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant#checkConditions(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext)
+	 */
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm, CheckConditionsContext context) throws OperationCanceledException {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant#createChange(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		if (!pm.isCanceled()) {
@@ -51,7 +49,7 @@ public class SeamRenameFolderParticipant extends RenameParticipant {
 			CompositeChange change = new CompositeChange("Update Seam Projects");
 			IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 			for (int i = 0; i < ps.length; i++) {
-				SeamRenameFolderChange c = new SeamRenameFolderChange(ps[i], newName, oldPath);
+				SeamProjectChange c = createChange(ps[i], newName);
 				if(c.isRelevant()) change.add(c);
 			}
 			if(change.getChildren().length > 0) {
@@ -61,18 +59,5 @@ public class SeamRenameFolderParticipant extends RenameParticipant {
 		return null;
 	}
 
-	@Override
-	public String getName() {
-		return PARTICIPANT_NAME;
-	}
-
-	@Override
-	protected boolean initialize(Object element) {
-		if(!(element instanceof IFolder)) {
-			return false;
-		}
-		oldPath = ((IResource)element).getFullPath();
-
-		return true;
-	}
+	abstract protected SeamProjectChange createChange(IProject project, String newName);
 }
