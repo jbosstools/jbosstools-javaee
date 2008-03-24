@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.ui.action.handler;
 
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.ui.action.ImportProjectAction;
 
@@ -21,7 +22,7 @@ public class ImportJSFProjectHandler extends AbstractHandler {
 		return true; 
 	}
 	
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		ImportProjectAction action = new ImportProjectAction();
 		action.run();
 	}
