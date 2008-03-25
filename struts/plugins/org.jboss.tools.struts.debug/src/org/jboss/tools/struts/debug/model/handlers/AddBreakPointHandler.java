@@ -20,6 +20,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.struts.StrutsConstants;
 import org.jboss.tools.struts.debug.internal.ActionBreakpoint;
@@ -62,7 +63,7 @@ public class AddBreakPointHandler extends AbstractHandler implements StrutsConst
 		return true;		
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if (!isEnabled(object)) return;
 
 		XModelObject reference = object;
@@ -86,30 +87,33 @@ public class AddBreakPointHandler extends AbstractHandler implements StrutsConst
 		String actionPath = actionObject.getAttributeValue(ATT_PATH);
 
 		IBreakpoint breakpoint = null;
-
-		if (isTilesDefinitionForward) {
-		    String forwardName = reference.getAttributeValue(ATT_NAME);
-		    breakpoint = StrutsDebugModel.getInstance().createActionTilesDefinitionForwardBreakpoint(file, modelPath, actionClassName, actionPath, forwardName);
-		} else if (isAttrForward) {
-			String forwardName = reference.getAttributeValue(ATT_FORWARD);
-			breakpoint = StrutsDebugModel.getInstance().createActionAttrForwardBreakpoint(file, modelPath, actionPath, forwardName);
-		} else if(isAttrInclude) {
-			String includeName = reference.getAttributeValue(ATT_INCLUDE);
-			breakpoint = StrutsDebugModel.getInstance().createActionIncludeBreakpoint(file, modelPath, actionPath, includeName);
-		} else if(isForward) {
-			String forwardName = reference.getAttributeValue(ATT_NAME);
-            breakpoint = StrutsDebugModel.getInstance().createActionForwardBreakpoint(file, modelPath, actionClassName, actionPath, forwardName);
-		} else if (isException)
-			breakpoint = StrutsDebugModel.getInstance().createActionExceptionBreakpoint(
-				file, 
-				modelPath, 
-				actionClassName,
-				actionPath, 
-				reference.getAttributeValue(ATT_TYPE)
-			);
-
-		if (breakpoint != null)
-			DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(breakpoint);
+		try {
+			if (isTilesDefinitionForward) {
+			    String forwardName = reference.getAttributeValue(ATT_NAME);
+			    breakpoint = StrutsDebugModel.getInstance().createActionTilesDefinitionForwardBreakpoint(file, modelPath, actionClassName, actionPath, forwardName);
+			} else if (isAttrForward) {
+				String forwardName = reference.getAttributeValue(ATT_FORWARD);
+				breakpoint = StrutsDebugModel.getInstance().createActionAttrForwardBreakpoint(file, modelPath, actionPath, forwardName);
+			} else if(isAttrInclude) {
+				String includeName = reference.getAttributeValue(ATT_INCLUDE);
+				breakpoint = StrutsDebugModel.getInstance().createActionIncludeBreakpoint(file, modelPath, actionPath, includeName);
+			} else if(isForward) {
+				String forwardName = reference.getAttributeValue(ATT_NAME);
+	            breakpoint = StrutsDebugModel.getInstance().createActionForwardBreakpoint(file, modelPath, actionClassName, actionPath, forwardName);
+			} else if (isException)
+				breakpoint = StrutsDebugModel.getInstance().createActionExceptionBreakpoint(
+					file, 
+					modelPath, 
+					actionClassName,
+					actionPath, 
+					reference.getAttributeValue(ATT_TYPE)
+				);
+	
+			if (breakpoint != null)
+				DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(breakpoint);
+		} catch (CoreException ex) {
+			throw new XModelException(ex);
+		}
 	}
 
 	boolean hasBreakpointMarker(XModelObject object) {

@@ -24,6 +24,7 @@ import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
 import org.jboss.tools.common.meta.action.impl.XEntityDataImpl;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.struts.StrutsConstants;
 import org.jboss.tools.struts.debug.internal.ActionBreakpoint;
@@ -87,7 +88,7 @@ public class ActionBreakPointsHandler extends AbstractHandler implements StrutsC
 		return false;
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		Properties enablement = DefaultCreateHandler.extractProperties(data[0]);
 		applyBreakpointEnablement(object, enablement);
 	}

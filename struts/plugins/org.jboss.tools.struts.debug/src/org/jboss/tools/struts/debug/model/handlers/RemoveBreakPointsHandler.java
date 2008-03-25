@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.struts.debug.internal.ActionBreakpoint;
 import org.jboss.tools.struts.debug.internal.StrutsDebugPlugin;
@@ -31,7 +32,7 @@ public class RemoveBreakPointsHandler extends AddBreakPointHandler {
 		return hasBreakpointMarker(object);
 	}
 
-	public void executeHandler(XModelObject object, Properties p) throws Exception {
+	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if (!isEnabled(object)) return;
 ///		if(object instanceof ReferenceObjectImpl && ((ReferenceObjectImpl)object).getReference() != null) { 
 ///			object = ((ReferenceObjectImpl)object).getReference();
