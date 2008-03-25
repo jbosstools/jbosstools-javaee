@@ -159,18 +159,19 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 
 	private List<IServer> getServers(String runtimeName) {
 		ArrayList<IServer> list = new ArrayList<IServer>();
-		
-		if (runtimeName != null) {
-			IServer[] servers = ServerCore.getServers(); 
-			for (IServer server : servers) { 
-				IRuntime runtime = server.getRuntime(); 
-				if(runtime!=null) { 
-					String serverRuntimeName = runtime.getName(); 
-					if(runtimeName.equals(serverRuntimeName)) { 
-						list.add(server); 
+		if( runtimeName != null ) {
+			if (runtimeName != null) {
+				IServer[] servers = ServerCore.getServers(); 
+				for (IServer server : servers) { 
+					IRuntime runtime = server.getRuntime(); 
+					if(runtime!=null) { 
+						String serverRuntimeName = runtime.getName(); 
+						if(runtimeName.equals(serverRuntimeName)) { 
+							list.add(server); 
+						} 
 					} 
 				} 
-			} 
+			}
 		}
 		return list;
 	}
@@ -230,6 +231,9 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 	}
 	
 	private String getRuntimeName(Object rt) {
+		if( rt == null ) {
+			return null;
+		}
 		String rtName = null;
 		if (rt instanceof org.eclipse.wst.common.project.facet.core.runtime.IRuntime) {
 			rtName = ((org.eclipse.wst.common.project.facet.core.runtime.IRuntime)rt).getName();
