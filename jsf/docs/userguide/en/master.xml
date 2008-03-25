@@ -4,7 +4,6 @@
 
 [
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
-<!ENTITY JSFStrutsTools SYSTEM "modules/JSFStruts_tools.xml">
 <!ENTITY springTools SYSTEM "modules/spring_tools.xml">
 <!ENTITY editors SYSTEM "modules/editors.xml">
 <!ENTITY palette SYSTEM "modules/palette.xml">
@@ -27,7 +26,6 @@
 <toc/>  
     
     &Visual_Web_Tools;
-    &JSFStrutsTools;
     &springTools;
     &editors;
     &palette;
