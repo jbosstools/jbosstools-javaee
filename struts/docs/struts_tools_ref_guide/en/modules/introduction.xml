@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="intoduction">
+    <?dbhtml filename="introduction.html"?>
+    
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+    <title>Introduction</title>
+    
+    <para>If you prefer develop web applications using Struts technology JBoss Developer Studio also meets your needs.
+        
+        JBDS supports the Struts 1.1, 1.2.x versions.</para>
+</chapter>
