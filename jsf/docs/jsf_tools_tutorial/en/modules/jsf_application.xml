@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="jsf_application" xreflabel="jsf_application">
+    <?dbhtml filename="jsf_application.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>JSF application</keyword>
+            <keyword>Java</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Getting Started Guide for
+Creating a JSF Application</title>
+<section id="CreatingAJSFApplication">
+<?dbhtml filename="GettingStartedForCreatingAJSFApplication.html"?>
+<title>Creating a Simple JSF Application</title>
+    <para>We are going to show you how to create a simple <property>JSF application </property>using the JBoss Developer Studio plug-in for Eclipse. The completed application will ask a user to enter a name and click
+a button. The resulting new page will display the familiar message, &quot;Hello &lt;name&gt;!&quot;
+This document will show you how to create such an application from the beginning, along
+the way demonstrating some of the powerful features of JBoss Developer Studio. You will design the
+JSF application and then run the application from inside JBoss Developer Studio.
+We&apos;ll assume that you have already launched Eclipse with JBoss Developer Studio installed and
+also that the JBoss Developer Studio perspective is the current one. (If not, make it active by
+selecting <emphasis><property>Window > Open Perspective > Web Development</property></emphasis> from the menu bar or by selecting <emphasis><property>Window > Open Perspective > Other...</property></emphasis> from the menu bar and then selecting <emphasis><property>Web Development</property></emphasis> from the Select Perspective dialog box.)</para>
+</section>    
+<section id="SettingUpTheProject">
+<?dbhtml filename="SettingUpTheProject.html"?>
+<title>Setting Up the Project</title>    
+<para>We are first going to create a new project for the application.</para>
+<itemizedlist>
+<listitem><para>Go to the menu bar and select <emphasis><property>File > New > Project...</property></emphasis></para></listitem>
+<listitem><para>Select <emphasis><property>JBoss Tools Web > JSF > JSF Project</property></emphasis> in the New Project dialog box</para></listitem>
+<listitem><para>Click <emphasis><property>Next</property></emphasis></para></listitem>
+<listitem><para>Enter &quot;jsfHello&quot; as the project name.</para></listitem>
+    <listitem><para>Leave everything else as is, and click <emphasis><property>Finish</property></emphasis></para></listitem>
+
+</itemizedlist>
+</section>
+<section id="TheJSFApplicationConfigurationFile">
+<?dbhtml filename="TheJSFApplicationConfigurationFile.html"?>
+<title>The JSF Application Configuration File</title>
+<para>A jsfHello node should appear in the upper-left Package Explorer view.</para>
+    <figure>
+        <title>Package Explorer View</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="images/jsf_application/jsf_application_1.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+<itemizedlist continuation="continues">
+    <listitem><para>Click the plus sign next to <emphasis><property>jsfHello</property></emphasis> to reveal the child nodes</para></listitem>
+    <listitem><para>Click the plus sign next to <emphasis><property>WebContent</property></emphasis> under jsfHello</para></listitem>
+    <listitem><para>Click the plus sign next to <emphasis><property>WEB-INF</property></emphasis> under WebContent</para></listitem>
+
+    <listitem><para>Then double-click on the <property>faces-config.xml</property> node to display the JSF application configuration file editor</para></listitem>
+</itemizedlist>
+<figure>
+    <title>Configuration File Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_2.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+</section>
+<section id="AddingNavigationToTheApplication">
+<?dbhtml filename="AddingNavigationToTheApplication.html"?>
+<title>Adding Navigation to the Application</title>
+<para>In our simple application, the flow is defined as a single navigation rule connecting two
+views (presentation files). At this point, we will create the placeholders for the two JSP presentation
+files and then the navigation rule to connect them as views. Later, we will complete
+the coding for the JSP presentation files. With JBoss Developer Studio, we can do all of this in the
+Diagram mode of the configuration file editor.</para>
+<section id="AddingTwoViews(JSPPages)">
+<?dbhtml filename="AddingTwoViews(JSPPages).html"?>
+<title>Adding Two Views (JSP Pages)</title>
+<itemizedlist continuation="continues">
+<listitem><para>Right-click anywhere on the diagram and select <emphasis><property>New View...</property></emphasis> from the pop-up
+menu</para></listitem>
+    <listitem><para>In the dialog box, type <emphasis><property>pages/inputname</property></emphasis> as the value for From-view-id</para></listitem>
+<listitem><para>Leave everything else as is</para></listitem>
+    <listitem><para>Click <emphasis><property>Finish</property></emphasis></para>
+        <para>If you look in the Package Explorer view you should see a <emphasis><property>pages</property></emphasis> folder under WebContent. Opening it 
+will reveal the JSP file you just created</para>
+</listitem>
+<listitem><para>Back on the diagram, right-click anywhere and select <emphasis><property>New View...</property></emphasis> from the pop-up
+menu</para></listitem>
+<listitem><para>In the dialog box, type <emphasis><property>pages/greeting</property></emphasis> as the value for From-view-id</para></listitem>
+<listitem><para>Leave everything else as is</para></listitem>
+    <listitem><para>Click <emphasis><property>Finish</property></emphasis></para></listitem>
+</itemizedlist>
+
+    <section id="CreatingTheTransition(NavigationRule)">
+<?dbhtml filename="CreatingTheTransition(NavigationRule).html"?>
+<title>Creating the Transition (Navigation Rule)</title>
+<itemizedlist continuation="continues">
+<listitem><para>In the diagram, select the connection icon third from the top along the upper left
+side of the diagram</para></listitem>
+</itemizedlist>
+<figure>
+    <title>Connection Icon</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_3.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>to get an arrow cursor with a two-pronged plug at the arrow&apos;s bottom.</para>
+<itemizedlist continuation="continues">
+<listitem><para>Click on the <emphasis><property>pages/inputname</property></emphasis> page icon and then click on the <emphasis><property>pages/greeting</property></emphasis> page icon</para></listitem>
+
+</itemizedlist>
+<para>A transition should appear between the two icons.</para>
+<figure>
+<title>Transition Between Two Icons</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_4.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist continuation="continues">
+<listitem><para>Select <emphasis><property>File > Save</property></emphasis> from the menu bar</para></listitem>
+</itemizedlist>
+</section>
+</section>
+</section>    
+<section id="AddingAManagedBeanToTheApplication">
+<?dbhtml filename="AddingAManagedBeanToTheApplication.html"?>
+<title>Adding a Managed Bean to the Application</title>
+<para>To store data in the application, we will use a managed bean.</para>
+<itemizedlist continuation="continues">
+    <listitem><para>Click on the <emphasis><property>Tree</property></emphasis> tab at the bottom of the editing window</para></listitem>
+    <listitem><para>Select the <emphasis><property>Managed Beans</property></emphasis> node and then click the <emphasis><property>Add...</property></emphasis> button displayed along
+the right side of the editor window</para></listitem>
+    <listitem><para>Type in <emphasis><property>jsfHello.PersonBean</property></emphasis> for Class and <emphasis><property>personBean</property></emphasis> for Name. Leave
+Scope as is and Generate Source Code as is (checked)</para></listitem>
+    <listitem><para>Click <emphasis><property>Finish</property></emphasis></para></listitem>
+    <listitem><para>personBean will now be selected and three sections of information: <emphasis><property>Managed
+        Bean</property></emphasis>, <emphasis><property>Properties</property></emphasis>, and <emphasis><property>Advanced</property></emphasis>, will be displayed about it. Under the Properties
+section, click the <emphasis><property>Add...</property></emphasis> button</para></listitem>
+    <listitem><para>Type in <emphasis><property>name</property></emphasis> for Property-Name. Leave everything else as is. (When Property-
+Class is not filled in, String is the assumed type)</para></listitem>
+    <listitem><para>Click <emphasis><property>Finish</property></emphasis></para></listitem>
+    <listitem><para>Select the <emphasis><property>personBean</property></emphasis> node in the tree</para></listitem>
+</itemizedlist>
+<para>You should see this now:</para>
+<figure>
+<title>Tree View in Config Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_5.png" scale="85"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist continuation="continues">
+<listitem><para>Select <emphasis><property>File > Save</property></emphasis> from the menu bar</para></listitem>
+</itemizedlist>
+    <para>You have now registered the <emphasis><property>managed bean</property></emphasis> and created a <emphasis><property>stub-coded class</property></emphasis> file for it.</para>
+</section>
+<section id="EditingTheJSPViewFiles">
+<?dbhtml filename="EditingTheJSPViewFiles.html"?>
+<title>Editing the JSP View Files</title>
+
+<para>Now we will finish editing the JSP files for our two &quot;views&quot; using JSP Visual Page.</para>
+<section id="Inputname.jsp">
+<title>inputname.jsp</title>
+<itemizedlist continuation="continues">
+    <listitem><para>Click on the <emphasis><property>Diagram</property></emphasis> tab for the configuration file editor</para></listitem>
+<listitem><para>Open the editor for this first JSP file by double-clicking on the <emphasis><property>/pages/inputname.
+jsp</property></emphasis> icon</para></listitem>
+</itemizedlist>
+
+<para>The Visual Page Editor will open in a screen split between source code along the top and 
+a WYSIWIG view along the bottom:</para>
+<figure>
+    <title>Visual Page Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_6.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+    <para>Some JSF code is already in the file, because we have chosen a template to create a page.</para>
+<itemizedlist continuation="continues">
+    <listitem><para>Select the <emphasis><property>Visual</property></emphasis> tab, so we can work with the editor completely in its WYSIWYG
+mode</para></listitem>
+    <listitem><para>To the right of the editor, in the JBoss Tools Palette, expand the <emphasis><property>JSF HTML</property></emphasis> palette folder
+by selecting it</para></listitem>
+</itemizedlist>
+<figure>
+    <title>JBoss Tools Palette</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_7.png" />
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist continuation="continues">
+    <listitem><para>Click on <emphasis><property>form</property></emphasis> within this folder, drag the cursor over to the editor, 
+and drop it inside the red box in the editor</para></listitem>
+
+<listitem><para>Another red box will appear inside the first red box</para></listitem>
+
+<listitem><para>Right-click on the innermost box and select <emphasis role="bold"><property>&lt;h:form&gt;</property></emphasis> Attributes from the menu</para></listitem>
+    <listitem><para>In the value field next to id, type <emphasis><property>greeting</property></emphasis> and click on the <emphasis><property>Close</property></emphasis> button</para></listitem>
+<listitem><para>Type &quot;Please enter name:&quot; inside the boxes</para></listitem>
+    <listitem><para>Select <emphasis><property>inputText</property></emphasis> within the JSF HTML palette folder and drag it into the innermost
+box in the editor after &quot;Please enter name:&quot;</para></listitem>
+    <listitem><para>In the attributes dialog, click in the <emphasis><property>value</property></emphasis> field next to the value attribute and click
+        on the <property>... </property>button</para></listitem>
+    <listitem><para>Then, select the <emphasis><property>Managed Beans > personBean > name</property></emphasis> node and click on the <emphasis><property>Ok</property></emphasis>
+button</para></listitem>
+    <listitem><para>Back in the attributes dialog, select the <emphasis><property>Advanced</property></emphasis> tab, type in <emphasis><property>name</property></emphasis> as the value
+        for the <emphasis role="italic"><property>&quot;id&quot;</property></emphasis> attribute, and then click on the <emphasis><property>Finish</property></emphasis> button</para></listitem>'
+    <listitem><para>Select <emphasis><property>commandButton</property></emphasis> within the JSF HTML palette folder and drag it into the
+innermost box in the editor after the input box</para></listitem>
+    <listitem><para>In the attributes dialog, click in the value field next to the <emphasis role="italic"><property>&quot;action&quot;</property></emphasis> attribute and click on the <property>... </property>button</para></listitem>
+    <listitem><para>Then, select the <emphasis><property>View Actions > greeting</property></emphasis> node and click on the <emphasis><property>OK</property></emphasis> button</para></listitem>
+<listitem><para>Back in the attributes dialog box, type in &quot;Say Hello&quot; as the value for the value
+    attribute (&quot;Say Hello&quot;) and then click on the <emphasis><property>Finish</property></emphasis> button</para></listitem>
+</itemizedlist>
+<para>The source coding should be something like this now:</para>
+<programlisting role="XML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<f:view>
+<h:form id="greeting">
+<para>Please enter a name:</para>
+<h:inputText id="name" value="#{personBean.name}"/>
+<h:commandButton value=" Say Hello " action="greeting"/>
+</h:form>
+</f:view>
+</body>
+</html>
+]]></programlisting>
+<para>The editor should look like this:</para>
+<figure>
+    <title>Visual Page Editor</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_8.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist continuation="continues">
+<listitem><para>Save the file by selecting <emphasis><property>File > Save</property></emphasis> from the menu bar</para></listitem>
+</itemizedlist>
+</section>
+<section id="Greeting.jsp">
+<title>greeting.jsp</title>
+<itemizedlist continuation="continues">
+    <listitem><para>Click on the <emphasis><property>faces-config.xml</property></emphasis> tab to bring the diagram back</para></listitem>
+<listitem><para>Open the editor for the second file by double-clicking on the <emphasis><property>/pages/greeting.jsp</property></emphasis>
+icon</para></listitem>
+    <listitem><para>Select the <emphasis><property>Visual</property></emphasis> tab, so we can work with the editor completely in its WYSIWYG
+mode</para></listitem>
+<listitem><para>Type &quot;Hello &quot;(note space after Hello) into the box</para></listitem>
+    <listitem><para>Select <emphasis><property>outputText</property></emphasis> within the JSF HTML palette folder and drag it into the innermost
+box in the editor after &quot;Hello&quot;</para></listitem>
+    <listitem><para>In the attributes dialog, click in <emphasis><property>value</property></emphasis> field next to the value attribute and click on
+    the <property>...</property> (Browse) button</para></listitem>
+    <listitem><para>Then, select the <emphasis><property>Managed Beans > personBean > name</property></emphasis> node, click on the <emphasis><property>Ok</property></emphasis> button,
+        and then click on the <emphasis><property>Finish</property></emphasis> button</para></listitem>
+    <listitem><para>Right after the output field, type an <emphasis><property>exclamation point</property></emphasis> (<emphasis><property>!</property></emphasis>)</para></listitem>
+</itemizedlist>
+<para>The source coding should be something like this now:</para>
+<programlisting role="XML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<f:view>
+Hello <h:outputText value="#{personBean.name}"/>!
+</f:view>
+</body>
+</html>
+]]></programlisting>
+<itemizedlist continuation="continues">
+<listitem><para>Save the file</para></listitem></itemizedlist>
+</section>
+</section>
+<section id="CreatingTheStartPage">
+<?dbhtml filename="CreatingTheStartPage.html"?>
+<title>Creating the Start Page</title>
+<para>You also need to create a start page as an entry point into the application.</para>
+<itemizedlist continuation="continues">
+<listitem><para>In the Package Explorer view to the left, right-click <emphasis><property>jsfHello > WebContent</property></emphasis> and select
+    <emphasis><property>New > JSP File</property></emphasis></para></listitem>
+    <listitem><para>For Name type in <emphasis><property>index</property></emphasis>, for Template select <emphasis><property>JSPRedirect</property></emphasis> and click <emphasis><property>Finish</property></emphasis></para></listitem>
+</itemizedlist>
+<para>A JSP editor will open up on the newly created file.</para>
+
+<itemizedlist continuation="continues">
+<listitem><para>In the Source part of the split screen, type <emphasis><property>/pages/inputname.jsf</property></emphasis> in between
+the quotes for the page attribute</para></listitem>
+</itemizedlist>
+<para>The source coding should look like this now:</para>
+<programlisting role="XML"><![CDATA[<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head></head>
+<body>
+<jsp:forward page="/pages/inputname.jsf" />
+</body>
+</html>
+]]></programlisting>
+
+<para>Note the <emphasis><property>.jsf</property></emphasis> extension for the file name. This is a mapping defined in the web.xml file 
+for the project for invoking <property>JavaServer Faces</property> when you run the application.</para>
+<itemizedlist continuation="continues">
+<listitem><para>Select<emphasis><property> File > Save</property></emphasis> from the menu bar</para></listitem>
+</itemizedlist>
+</section>
+<section id="RunningTheApplicationJSF">
+<?dbhtml filename="RunningTheApplicationJSF.html"?>
+<title>Running the Application</title>
+<para>Everything is now ready for running our application without having to leave JBoss Developer Studio 
+by using the JBoss engine that comes with the JBoss Developer Studio plug-in. For controlling JBoss server within JBoss Developer Studio there is JBoss Server view:</para>
+<figure>
+    <title>JBoss Server View</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_9.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist continuation="continues">
+<listitem><para>Start up JBoss by clicking on the icon in JBoss Server view. (If JBoss is already running,
+stop it by clicking on the red icon and then start it again. Remember, the JSF run-time requires restarting the servlet engine when any changes have been made.) After the messages in the Console tabbed view stop scrolling, JBoss is available</para></listitem>
+
+<listitem><para>Click the Run icon or right click your project folder and select <emphasis><property>Run As &gt; Run on Server</property></emphasis>:</para></listitem>
+</itemizedlist>
+<figure>
+    <title>Run Icon</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/jsf_application/jsf_application_10.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+    <para>This is the equivalent of launching the browser and typing <emphasis><property>http://localhost:8080/jsfHello</property></emphasis> into your
+    browser. Our <property>JSF application</property> should now appear.</para>
+ </section>
+ 
+ <section id="OtherRelevantResourcesOnTheTopic3">
+<?dbhtml filename="OtherRelevantResourcesOnTheTopic3.html"?>
+<title>Other relevant resources on the topic</title>
+<para>JSF on Sun: <ulink url="http://java.sun.com/javaee/javaserverfaces/">JavaServer Faces Technology</ulink></para>
+<para>Core JSF: <ulink url="http://www.horstmann.com/corejsf/">Core JavaServer Faces</ulink></para>
+<para>API: <ulink url="http://java.sun.com/javaee/javaserverfaces/1.1/docs/api/index.html">JSF API</ulink></para>
+<para>JSF Tags: <ulink url="http://www.horstmann.com/corejsf/jsf-tags.html">JSF Core Tags</ulink></para>
+<para>HTML Tags Reference: <ulink url="http://www.exadel.com/tutorial/jsf/jsftags-guide.html">JSF HTML Tags Reference</ulink></para>
+<para>JSF Central: <ulink url="http://www.jsfcentral.com/">JSF Central - Your JavaServer Faces Community</ulink></para>
+<para>FAQ: <ulink url="http://wiki.java.net/bin/view/Projects/JavaServerFacesSpecFaq">JSF FAQ</ulink></para>
+<para>Download: <ulink url="http://java.sun.com/javaee/javaserverfaces/download.html">JavaServer Faces Technology - Download</ulink></para>
+</section>
+ </chapter>

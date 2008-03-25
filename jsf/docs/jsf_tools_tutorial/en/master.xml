@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"../../../resources/support/docbook-dtd/docbookx.dtd"
+
+[<!ENTITY introduction SYSTEM "modules/introduction.xml">
+<!ENTITY jsf_application SYSTEM "modules/jsf_application.xml">
+]>
+
+<book>
+    
+    <bookinfo>
+        <title>JSF Tools Tutorial</title>
+        
+        <copyright>
+            <year>2007</year>
+            <holder>Red Hat</holder>
+        </copyright>
+
+                  <releaseinfo>
+<para>Version: 1.0.0.GA</para>
+</releaseinfo>
+    </bookinfo>    
+    
+    <toc/>  
+    
+    
+    &introduction;
+    &jsf_application;
+    
+    
+</book>    
