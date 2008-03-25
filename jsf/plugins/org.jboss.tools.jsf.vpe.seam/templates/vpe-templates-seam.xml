@@ -116,7 +116,7 @@
 		<vpe:if test="not(attrpresent('image'))">
 			<vpe:if test="@type=''">
 				<vpe:template children="no" modify="no">
-					<input type="button" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<input type="submit" value="{iif(@value='',' ',@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
