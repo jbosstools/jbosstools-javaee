@@ -31,6 +31,14 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.corext.refactoring.rename.JavaRenameRefactoring;
 import org.eclipse.jdt.internal.corext.refactoring.rename.RenameResourceProcessor;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.IConfirmQuery;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.ICreateTargetQueries;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.ICreateTargetQuery;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.IReorgQueries;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.JavaMoveProcessor;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.ReorgPolicyFactory;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.IReorgPolicy.IMovePolicy;
+import org.eclipse.jdt.internal.corext.refactoring.structure.JavaMoveRefactoring;
 import org.eclipse.jdt.internal.corext.refactoring.tagging.INameUpdating;
 import org.eclipse.jdt.internal.corext.refactoring.tagging.IReferenceUpdating;
 import org.eclipse.jdt.internal.corext.refactoring.tagging.ITextUpdating;
@@ -62,8 +70,9 @@ public class SeamPropertyRefactoringTest extends TestCase {
 	static String actionSourceFolderPath = "/" + ejbProjectName + "/" + actionSourceFolderName;
 	static String modelSourceFolderPath = "/" + warProjectName + "/" + modelSourceFolderName;
 	static String testSourceFolderPath = "/" + testProjectName + "/" + testSourceFolderName;
+	static String viewFolderParentName = "webroot";
 	static String viewFolderName = "WebContent";
-	static String viewFolderPath = "/" + warProjectName + "/" + viewFolderName;
+	static String viewFolderPath = "/" + warProjectName + "/" + viewFolderParentName + "/" + viewFolderName;
 	static String actionPackageName = "ejbdemo";
 	static String modelPackageName = "wardemo";
 	static String testPackageName = "testdemo";
@@ -184,6 +193,12 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		assertCorrectProperties();
 	}
 
+	public void testViewFolderMove() throws CoreException {
+		viewFolderParentName = "testwebroot";
+		moveFolder(viewFolderPath, "/" + warProjectName + "/" + viewFolderParentName);
+		assertCorrectProperties();
+	}
+
 	private void assertCorrectProperties() {
 		updateFields();
 
@@ -227,7 +242,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		actionSourceFolderPath = "/" + ejbProjectName + "/" + actionSourceFolderName;
 		modelSourceFolderPath = "/" + warProjectName + "/" + modelSourceFolderName;
 		testSourceFolderPath = "/" + testProjectName + "/" + testSourceFolderName;
-		viewFolderPath = "/" + warProjectName + "/" + viewFolderName;
+		viewFolderPath = "/" + warProjectName + "/" + viewFolderParentName + "/" + viewFolderName;
 	}
 
 	private IPackageFragmentRoot renameSourceFolder(String folderPath, String newFolderName) throws CoreException {
@@ -369,5 +384,63 @@ public class SeamPropertyRefactoringTest extends TestCase {
 			JUnitUtils.fail("Rename failed", e);
 		}
 		EditorTestHelper.joinBackgroundActivities();
+	}
+
+	private IFolder moveFolder(String folderPath, String destinationFolderPath) throws CoreException {
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
+		assertNotNull("Can't find folder: " + folderPath, resource);
+		IResource destination = ResourcesPlugin.getWorkspace().getRoot().findMember(destinationFolderPath);
+		assertNotNull("Can't find destination folder: " + destinationFolderPath, destination);
+
+		IMovePolicy policy = null;
+		JavaMoveProcessor processor = null;
+		try {
+			policy = ReorgPolicyFactory.createMovePolicy(new IResource[]{resource}, new IJavaElement[0]);
+			processor = new JavaMoveProcessor(policy);
+			processor.setDestination(destination);
+		} catch (JavaModelException e) {
+			JUnitUtils.fail("Exception during perform folder moving: " + folderPath, e);
+		}
+		JavaMoveRefactoring refactoring = new JavaMoveRefactoring(processor);
+		processor.setCreateTargetQueries(new ICreateTargetQueries(){
+			public ICreateTargetQuery createNewPackageQuery() {
+				return null;
+			}
+		});
+		processor.setReorgQueries(new IReorgQueries(){
+			public IConfirmQuery createSkipQuery(String queryTitle, int queryID) {
+				return null;
+			}
+			public IConfirmQuery createYesNoQuery(String queryTitle, boolean allowCancel, int queryID) {
+				return null;
+			}
+			public IConfirmQuery createYesYesToAllNoNoToAllQuery(String queryTitle, boolean allowCancel, int queryID) {
+				return null;
+			}
+		});
+
+		// perform
+		Object[] elements = processor.getElements();
+		RenameSelectionState state = elements.length==1?new RenameSelectionState(elements[0]):null;
+		RefactoringExecutionHelper helper= new RefactoringExecutionHelper(refactoring,
+				RefactoringCore.getConditionCheckingFailedSeverity(),
+				RefactoringSaveHelper.SAVE_ALL,
+				WorkbenchUtils.getActiveShell(),
+				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
+		try {
+			helper.perform(true, true);
+		} catch (InterruptedException e) {
+			JUnitUtils.fail("Exception during perform folder moving: " + folderPath, e);
+		} catch (InvocationTargetException e) {
+			JUnitUtils.fail("Exception during perform folder moving: " + folderPath, e);
+		}
+
+		EditorTestHelper.joinBackgroundActivities();
+
+		String newFolderPath = destination.getFullPath().append(resource.getName()).toString();
+		resource = ResourcesPlugin.getWorkspace().getRoot().findMember(newFolderPath);
+		assertNotNull("Can't find folder: " + newFolderPath, resource);
+
+		return (IFolder)resource;
 	}
 }

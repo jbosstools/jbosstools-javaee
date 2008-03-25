@@ -291,7 +291,6 @@
 
    <extension
          point="org.eclipse.ltk.core.refactoring.renameParticipants">
-
       <renameParticipant
             class="org.jboss.tools.seam.internal.core.refactoring.SeamProjectRenameParticipant"
             id="org.jboss.tools.seam.internal.core.refactoring.SeamProjectRenameParticipant"
@@ -328,7 +327,21 @@
             </with>
          </enablement>
       </renameParticipant>
-
 	</extension>
 
+	<extension
+         point="org.eclipse.ltk.core.refactoring.moveParticipants">
+    <moveParticipant
+          class="org.jboss.tools.seam.internal.core.refactoring.SeamFolderMoveParticipant"
+          id="org.jboss.tools.seam.internal.core.refactoring.SeamFolderMoveParticipant"
+          name="name">
+       <enablement>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IFolder"/>
+                </or>
+            </with>
+       </enablement>
+    </moveParticipant>
+	</extension>
 </plugin>
