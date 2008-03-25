@@ -62,7 +62,7 @@ public abstract class RunHandler extends AbstractHandler implements StrutsConsta
 		XModelObject wr = WebModulesHelper.getInstance(fs.getModel()).getFileSystem("");
         if(wr == null) return false;
         if(wr == fs) return true;
-		Map map = WebModulesHelper.getInstance(fs.getModel()).getWebFileSystems();
+		Map<String,XModelObject> map = WebModulesHelper.getInstance(fs.getModel()).getWebFileSystems();
 		if(!map.containsValue(fs)) return false;
         String p1 = getCanonicalLocation(wr);
         String p2 = getCanonicalLocation(fs);

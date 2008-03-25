@@ -31,8 +31,6 @@ public abstract class StrutsProjectPlugin extends StrutsProjectFolder {
 		isLoading = true;
 		valid = true;
 		try {
-			Map initParams = new HashMap();
-			initParams.clear();
 			WebModulesHelper h = WebModulesHelper.getInstance(getModel());
 			XModelObject[] cs = h.getAllConfigs();
 			Set<String> uris = new TreeSet<String>();

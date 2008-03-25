@@ -43,7 +43,7 @@ public class OpenPageHandler extends DefaultRedirectHandler implements StrutsCon
         
         if(o == null) o = XModelImpl.getByRelativePath(source.getModel(), path);
         if(o == null) return null;
-        Map map = WebModulesHelper.getInstance(source.getModel()).getWebFileSystems();
+        Map<String,XModelObject> map = WebModulesHelper.getInstance(source.getModel()).getWebFileSystems();
         XModelObject fs = o;
         while(fs != null && fs.getFileType() != XModelObject.SYSTEM) fs = fs.getParent();
         return (fs != null && map.containsValue(fs)) ? o : null;

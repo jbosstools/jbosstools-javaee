@@ -18,7 +18,6 @@ import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
-import org.jboss.tools.jst.web.project.helpers.NewWebProjectHelper;
 
 public class AdoptProjectStepLocation extends AWStep {
 

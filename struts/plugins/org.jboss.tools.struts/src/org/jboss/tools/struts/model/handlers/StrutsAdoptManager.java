@@ -11,6 +11,7 @@ import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.model.*;
 import org.jboss.tools.common.meta.*;
 import org.jboss.tools.common.meta.action.*;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.struts.model.handlers.page.create.*;
@@ -89,13 +90,13 @@ public class StrutsAdoptManager implements XAdoptManager, StrutsConstants {
         XAction a = object.getModelEntity().getActionList().getAction("CopyActions.Copy");
         try {
         	a.executeHandler(object, p);
-        } catch (Exception e) {
+        } catch (XModelException e) {
         	StrutsModelPlugin.getPluginLog().logError(e);
         }
         a = target.getModelEntity().getActionList().getAction("CopyActions.Paste");
         try {
         	a.executeHandler(target, p);
-        } catch (Exception e) {
+        } catch (XModelException e) {
         	StrutsModelPlugin.getPluginLog().logError(e);
         }
     }

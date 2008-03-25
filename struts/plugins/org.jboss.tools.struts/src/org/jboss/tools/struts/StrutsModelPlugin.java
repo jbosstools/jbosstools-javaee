@@ -15,7 +15,6 @@ import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.ClassLoaderUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.osgi.framework.BundleContext;
 
 /**
  * @author Eskimo

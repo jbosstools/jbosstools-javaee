@@ -324,9 +324,9 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 		}
 
 		public void changeAllBreakpointStatus(int status, boolean mergeStatuses) {
-			Iterator keys = map.keySet().iterator();
+			Iterator<String> keys = map.keySet().iterator();
 			while(keys.hasNext()) {
-				String key = (String)keys.next();
+				String key = keys.next();
 			    changeAllBreakpointStatus(key, status, mergeStatuses);
 			}
 		}
@@ -344,9 +344,9 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 				return new BreakpointId[0];
 			}
 			ArrayList<BreakpointId> ids = new ArrayList<BreakpointId>(); 
-			Iterator keys = map.keySet().iterator();
+			Iterator<String> keys = map.keySet().iterator();
 			while(keys.hasNext()) {
-				String key = (String)keys.next();
+				String key = keys.next();
 				BreakpointId[] bIds = ((BreakpointsStatus)map.get(key)).getBreakpointIds();
 				for(int i=0; i<bIds.length; i++) {
 					bIds[i].setModelPath(key);
@@ -444,7 +444,7 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 
 		public int getSummaryStatus() {
 			int maxPriority = -1;
-			Iterator keys = markersStatuses.keySet().iterator();
+			Iterator<String> keys = markersStatuses.keySet().iterator();
 			while(keys.hasNext()) {
 				String key = (String)keys.next();
 				Integer status = (Integer)markersStatuses.get(key);
@@ -473,7 +473,7 @@ public class StrutsBreakpointManager implements IBreakpointListener {
 		}
 
 		public void setAllStatusAsInt(int status, boolean mergeStatuses) {
-			Iterator keys = markersStatuses.keySet().iterator();
+			Iterator<String> keys = markersStatuses.keySet().iterator();
 			while(keys.hasNext()) {
 				String key = (String)keys.next();
 				int oldStatus = getStatus(key);

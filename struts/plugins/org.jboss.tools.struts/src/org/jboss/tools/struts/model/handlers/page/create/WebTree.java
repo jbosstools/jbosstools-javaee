@@ -51,10 +51,9 @@ public class WebTree extends DefaultSiftedTree {
         thismodule = (contextProcess == null) ? null : StrutsProcessStructureHelper.instance.getProcessModule(contextProcess);
         Vector<XModelObject> v = new Vector<XModelObject>();
         web = null;
-        Map map = WebModulesHelper.getInstance(model).getWebFileSystems();
-        for (Iterator it = map.keySet().iterator(); it.hasNext();) {
-        	String module = it.next().toString();
-        	XModelObject fs = (XModelObject)map.get(module);
+        Map<String,XModelObject> map = WebModulesHelper.getInstance(model).getWebFileSystems();
+        for (String module: map.keySet()) {
+        	XModelObject fs = map.get(module);
         	if(fs == null) continue;
             boolean isWebroot = (module.length() == 0);
             boolean isThisModule = (thismodule != null && thismodule.length() > 0 && thismodule.equals(module));

@@ -78,9 +78,7 @@ public class StrutsProjectConfiguration extends RegularObjectImpl implements Web
 					list.add(module);
 				}
 			}
-			Iterator it = initParams.keySet().iterator();
-			while(it.hasNext()) {
-				String n = it.next().toString();
+			for (String n: initParams.keySet()) {
 				XModelObject webModule = (XModelObject)initParams.get(n);
 				StrutsProjectModule module = (StrutsProjectModule)getModel().createModelObject("StrutsProjectModule", null);
 				module.setAttributeValue("name", n);

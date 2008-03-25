@@ -16,7 +16,7 @@ public interface UrlPattern {
 	public boolean isActionUrl(String path);
 	public String getActionPath(String url);
 	public String getActionUrl(String path);
-	public String getModule(String path, Set modules, String thisModule);
+	public String getModule(String path, Set<String> modules, String thisModule);
 	public String getContextRelativePath(String path, String module);
 	public String getModuleRelativePath(String path, String module);
 

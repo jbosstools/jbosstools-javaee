@@ -18,7 +18,7 @@ import org.jboss.tools.struts.*;
 import org.jboss.tools.struts.model.helpers.*;
 
 public class SelectActionForwardPathSupport extends SpecialWizardSupport implements StrutsConstants {
-    Set tiles = new TreeSet();
+    Set<String> tiles = new TreeSet<String>();
     ActionsTree actions = null;
     int tools = 6;
 
@@ -43,11 +43,10 @@ public class SelectActionForwardPathSupport extends SpecialWizardSupport impleme
     private void loadTiles() {
         tiles.clear();
         if((tools & 4) != 0) {
-            Set ts = (Set)p.get("tiles");
+            Set<String> ts = (Set)p.get("tiles");
             if(ts != null) tiles.addAll(ts);
         }
         actions = (ActionsTree)p.get("actionsTree");
-//        getProperties().put("tiles", tiles);
     }
 
     private void loadSelection() {

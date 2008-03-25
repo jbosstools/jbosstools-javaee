@@ -37,7 +37,7 @@ public class ValidatorArg11Impl extends RegularObjectImpl {
     	if(pos != null && pos.length() > 0) {
     		try {
     			p = Integer.parseInt(pos);
-    		} catch (Exception e) {
+    		} catch (NumberFormatException e) {
                 StrutsModelPlugin.getPluginLog().logError(e);
     		}
     	}

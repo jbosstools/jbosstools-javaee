@@ -55,7 +55,7 @@ public class AdoptProjectSupport extends SpecialWizardSupport {
         	setAttributeValue(0, "location", presetLocation);
         	try {
 	        	action(NEXT);
-			} catch (Exception e) {
+			} catch (XModelException e) {
 				//obsolete //ignore
 	        	StrutsModelPlugin.getPluginLog().logError(e);
 				return;
@@ -68,7 +68,7 @@ public class AdoptProjectSupport extends SpecialWizardSupport {
 			setAttributeValue(0, "location", presetLocation);
 			try {
 				action(NEXT);
-			} catch (Exception e) {
+			} catch (XModelException e) {
 				//obsolete //ignore
 	        	StrutsModelPlugin.getPluginLog().logError(e);
 				return;

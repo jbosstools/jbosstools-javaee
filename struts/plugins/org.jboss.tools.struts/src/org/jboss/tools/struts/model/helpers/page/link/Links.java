@@ -20,7 +20,7 @@ public class Links {
 	ArrayList<LinksListener> listeners = new ArrayList<LinksListener>();
 	long timeStamp = 0;
 	
-	public Set getTags() {
+	public Set<String> getTags() {
 		return tags;
 	}
 	public String[] getTagsArray() {
@@ -55,9 +55,9 @@ public class Links {
 			link.setReferTo(referTo);			
 			s.add(link);			
 		}
-		Iterator it = _tags.iterator();
+		Iterator<String> it = _tags.iterator();
 		while(it.hasNext()) {
-			String tag = it.next().toString();
+			String tag = it.next();
 			Set<Link> s = (Set<Link>)_links.get(tag);
 			if(s == null) continue;
 			Link[] ls = s.toArray(new Link[0]);

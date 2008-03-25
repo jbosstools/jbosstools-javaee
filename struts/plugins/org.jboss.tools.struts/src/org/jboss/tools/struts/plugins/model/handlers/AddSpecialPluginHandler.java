@@ -73,10 +73,13 @@ public class AddSpecialPluginHandler extends AbstractHandler {
     }
 
     private XModelObject getPlugin(XModel model) {
+    	if(action == null) return null;
+    	String v = action.getProperty("index");
+    	if(v == null || v.length() == 0) return null;
         int i = -1;
         try { 
-        	i = Integer.valueOf(action.getProperty("index")).intValue();  //$NON-NLS-1$
-        } catch (Exception e) {
+        	i = Integer.parseInt(v); 
+        } catch (NumberFormatException e) {
         	StrutsModelPlugin.getPluginLog().logError(e);
         }
         if(i < 0) return null;

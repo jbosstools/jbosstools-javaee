@@ -22,9 +22,8 @@ public class XAttributeConstraintFileSize extends XAttributeConstraintImpl {
             v = value.substring(0, value.length() - 1);
         }
         try {
-            int i = Integer.parseInt(v);
-            return (i >= 0);
-        } catch (Exception e) {
+            return (v.length() > 0 && Integer.parseInt(v) >= 0);
+        } catch (NumberFormatException e) {
         	StrutsModelPlugin.getPluginLog().logError(e);
             return false;
         }

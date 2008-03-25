@@ -103,10 +103,10 @@ public class CreatePageContext implements StrutsConstants {
         if(thisModuleRoot == null) thisModuleRoot = "";
 
         selectedFileSystem = null;
-        Map map = WebModulesHelper.getInstance(process.getModel()).getWebFileSystems();
-		for(Iterator it = map.keySet().iterator(); it.hasNext();) {
-			String module = it.next().toString();
-			XModelObject fs = (XModelObject)map.get(module); 
+        Map<String,XModelObject> map = WebModulesHelper.getInstance(process.getModel()).getWebFileSystems();
+		for(Iterator<String> it = map.keySet().iterator(); it.hasNext();) {
+			String module = it.next();
+			XModelObject fs = map.get(module); 
 			boolean isWebroot = (module.length() == 0);
 			boolean isThisModule = (thisModuleRoot.length() > 0 && thisModuleRoot.equals(module));
 			if(isThisModule) {
@@ -152,10 +152,8 @@ public class CreatePageContext implements StrutsConstants {
     ///
 
     public String setRootByPath(String path) {
-        Iterator it = roots.keySet().iterator();
-        while(it.hasNext()) {
-            String fsp = (String)it.next();
-            String m = (String)roots.get(fsp);
+        for (String fsp: roots.keySet()) {
+            String m = roots.get(fsp);
             if(path.startsWith(m + "/")) {
                 setSelectedFileSystem(process.getModel().getByPath("FileSystems/" + fsp));
                 return path.substring(m.length());

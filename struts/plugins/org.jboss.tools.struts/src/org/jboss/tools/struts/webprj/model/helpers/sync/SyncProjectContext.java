@@ -111,7 +111,8 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
     private boolean updateDescribedModulesInfo() {
         boolean modified = false;
         String[][] ms = AdoptProjectContext.getModules(webxml);
-        Map d = (Map)((HashMap)describedModules).clone();
+        Map<String,String> d = new HashMap<String, String>();
+        d.putAll(describedModules);
         for (int i = 0; i < ms.length; i++) {
             String s = (String)d.remove(ms[i][0]);
             if(s != null && s.equals(ms[i][1])) continue;
@@ -119,7 +120,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
             describedModules.put(ms[i][0], ms[i][1]);
         }
         modified |= d.size() > 0;
-        Iterator it = d.keySet().iterator();
+        Iterator<String> it = d.keySet().iterator();
         if(it==null) return false;
         while(it.hasNext()) describedModules.remove(it.next());
         return modified;
@@ -128,11 +129,11 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
     private boolean updateInstalledModulesInfo() {
         boolean modified = false;
         if(getWebObject() == null) {
-//        	System.out.println("Web object is not found.");
         	return false;
         }
         XModelObject[] cs = web.getChildren(WebModulesHelper.ENT_STRUTS_WEB_MODULE);
-        Map d = (Map)((HashMap)installedModules).clone();
+        Map<String,XModelObject> d = new HashMap<String, XModelObject>();
+        d.putAll(installedModules);
         for (int i = 0; i < cs.length; i++) {
             String n = cs[i].getAttributeValue("name"); //$NON-NLS-1$
             XModelObject c = (XModelObject)d.remove(n);
@@ -141,18 +142,19 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
             installedModules.put(n, cs[i]);
         }
         modified |= d.size() > 0;
-        Iterator it = d.keySet().iterator();
+        Iterator<String> it = d.keySet().iterator();
         while(it.hasNext()) installedModules.remove(it.next());
         return modified;
     }
 
     private void updateModulesInfo() {
         modulesMap.clear();
-        Map d = (Map)((HashMap)installedModules).clone();
-        Iterator it = describedModules.keySet().iterator();
+        Map<String,XModelObject> d = new HashMap<String, XModelObject>();
+        d.putAll(installedModules);
+        Iterator<String> it = describedModules.keySet().iterator();
         while(it.hasNext()) {
-            String n = (String)it.next();
-            String uri = (String)describedModules.get(n);
+            String n = it.next();
+            String uri = describedModules.get(n);
 			WebModuleImpl m = (WebModuleImpl)d.remove(n);
             if(m == null) {
                 m = (WebModuleImpl)adoptContext.createModuleInfo(model, n, uri, webinf, false);
@@ -168,8 +170,8 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         }
         it = d.keySet().iterator();
         while(it.hasNext()) {
-            String n = (String)it.next();
-            XModelObject m = (XModelObject)d.get(n);
+            String n = it.next();
+            XModelObject m = d.get(n);
             setAbsolutePaths(m);
             m = m.copy();
             m.set("state", "deleted"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -313,7 +315,8 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 			try {
 				checkStrutsConfig(path);
 			} catch (Exception e) {
-                StrutsModelPlugin.getPluginLog().logError(e);
+                //Do not log this exception. It is thrown to be showed 
+				//in wizard as user input error.
 				return e.getMessage();
 			}
         }
@@ -377,9 +380,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         ///validateAttributes();
         collectOldFileSystems();
         servlet = StrutsWebHelper.getServlet(webxml);
-        Iterator it = modulesMap.keySet().iterator();
-        while(it.hasNext()) {
-            String n = (String)it.next();
+        for (String n: modulesMap.keySet()) {
 //            String view_n = getModuleDisplayName(n);
             XModelObject o = (XModelObject)modulesMap.get(n);
             if(executeDeleteA(o) == 1) continue;
@@ -396,10 +397,8 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
     }
     
     private boolean checkNewPaths() {
-        Iterator it = modulesMap.keySet().iterator();
         Set<String> checkedPaths = new HashSet<String>();
-        while(it.hasNext()) {
-            String n = (String)it.next();
+        for (String n: modulesMap.keySet()) {
 //            String view_n = getModuleDisplayName(n);
             XModelObject o = (XModelObject)modulesMap.get(n);
 			if("deleted".equals(o.get("state"))) continue; //$NON-NLS-1$ //$NON-NLS-2$
@@ -452,9 +451,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
     }
 
     private void executeDelete() {
-        Iterator it = oldFileSystems.values().iterator();
-        while(it.hasNext()) {
-            XModelObject fs = (XModelObject)it.next();
+        for (XModelObject fs: oldFileSystems.values()) {
             if(fs != null && fs.isActive()) {
             	if("WEB-ROOT".equals(fs.getAttributeValue("name"))) continue; //$NON-NLS-1$ //$NON-NLS-2$
                 DefaultRemoveHandler.removeFromParent(fs);
@@ -462,10 +459,8 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         }
         oldFileSystems.clear();
         newFileSystems.clear();
-        it = modulesMap.keySet().iterator();
-        while(it.hasNext()) {
-            String n = (String)it.next();
-            XModelObject o = (XModelObject)modulesMap.get(n);
+        for (String n: modulesMap.keySet()) {
+            XModelObject o = modulesMap.get(n);
             if("deleted".equals(o.get("state"))) deleteModule(n); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
@@ -640,9 +635,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 		replacedSrc.clear();
         oldFileSystems.clear();
         newFileSystems.clear();
-        Iterator it = installedModules.keySet().iterator();
-        while(it.hasNext()) {
-            String n = (String)it.next();
+        for (String n: installedModules.keySet()) {
             XModelObject m = (XModelObject)installedModules.get(n);
             collectOldFileSystem(m, ATTR_ROOT_FS);
             collectOldFileSystem(m, ATTR_SRC_FS);
@@ -662,7 +655,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 
 
     private void removeObsoleteModules() {
-		Iterator it = installedModules.keySet().iterator();
+		Iterator<String> it = installedModules.keySet().iterator();
 		while(it.hasNext()) {
 			String n = (String)it.next();
 			String uri = (String)describedModules.get(n);
@@ -683,9 +676,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 		removeObsoleteModules();
 		if(describedModules.size() != installedModules.size())
 			return StrutsUIMessages.MODULES_DESCRIBED_IN_WEBXML_ARENT_SYNCHRONIZED;
-		Iterator it = installedModules.keySet().iterator();
-		while(it.hasNext()) {
-			String n = (String)it.next();
+		for (String n: installedModules.keySet()) {
 			String uri = (String)describedModules.get(n);
 			if(uri == null) return NLS.bind(StrutsUIMessages.MODULE_DOESNT_DEFINE_URI,getModuleDisplayName(n));
 			WebModuleImpl m = (WebModuleImpl)installedModules.get(n);

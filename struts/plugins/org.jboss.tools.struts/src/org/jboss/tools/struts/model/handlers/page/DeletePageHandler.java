@@ -23,7 +23,6 @@ import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.undo.XRemoveUndo;
 import org.jboss.tools.common.model.undo.XUndoManager;
 import org.jboss.tools.struts.StrutsConstants;
-import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.StrutsPreference;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 import org.jboss.tools.struts.model.StrutsProcessImpl;
@@ -46,11 +45,7 @@ public class DeletePageHandler implements StrutsConstants {
 			IFile f = getFile(object);
 			boolean deleteFile = true;
         	if(f != null) {
-				try {
-					deleteFile = "yes".equals(StrutsPreference.REMOVE_PAGE_AND_FILE.getValue()); //$NON-NLS-1$
-				} catch (Exception e) {
-					StrutsModelPlugin.getPluginLog().logError(e);
-				}
+				deleteFile = "yes".equals(StrutsPreference.REMOVE_PAGE_AND_FILE.getValue()); //$NON-NLS-1$
 				ServiceDialog d = object.getModel().getService();
 				Properties xp = new Properties();
 				xp.setProperty(ServiceDialog.DIALOG_MESSAGE, StrutsUIMessages.DELETE_PAGE + object.getPresentationString() + "?"); //$NON-NLS-2$
@@ -58,11 +53,7 @@ public class DeletePageHandler implements StrutsConstants {
 				xp.put(ServiceDialog.CHECKED, new Boolean(deleteFile));
 				if(!d.openConfirm(xp)) return;
 				deleteFile = ((Boolean)xp.get(ServiceDialog.CHECKED)).booleanValue();
-				try {
-					StrutsPreference.REMOVE_PAGE_AND_FILE.setValue(deleteFile ? "yes" : "no"); //$NON-NLS-1$ //$NON-NLS-2$
-				} catch (Exception e) {
-					StrutsModelPlugin.getPluginLog().logError(e);
-				}
+				StrutsPreference.REMOVE_PAGE_AND_FILE.setValue(deleteFile ? "yes" : "no"); //$NON-NLS-1$ //$NON-NLS-2$
         	}
             XModelObject parent = object.getParent();
             object.removeFromParent();

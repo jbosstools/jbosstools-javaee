@@ -143,6 +143,31 @@ public class StrutsProcessHelper implements StrutsConstants {
 		}
 	}
 	
+	//Probably, Set is enough, but List worked very long successfully
+	//so let'n not take a risk and use Set for optimizing only.
+	private class Binds {
+		List<XModelObject> list = new ArrayList<XModelObject>();
+		Set<XModelObject> set = new HashSet<XModelObject>();
+		
+		public void add(XModelObject o) {
+			if(set.contains(o)) return;
+			set.add(o);
+			list.add(o);
+			if(set.size() != list.size()) {
+				System.out.println("Panikk: " + set.size() + " " + list.size());
+			}
+		}
+		
+		public int size() {
+			return list.size();
+		}
+		
+		public void clear() {
+			list.clear();
+			set.clear();
+		}
+	}
+	
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
 	private void addTask(Task task) {
@@ -176,7 +201,7 @@ public class StrutsProcessHelper implements StrutsConstants {
     private XModelObject config;
     private Map<String,XModelObject> objects = new HashMap<String,XModelObject>();
     private Map<String,XModelObject> actions = new HashMap<String,XModelObject>();
-    private List<XModelObject> binds = new ArrayList<XModelObject>();
+    private Binds binds = new Binds();
     private Map<String,XModelObject> pages = new HashMap<String,XModelObject>();
     StrutsProcessStructureHelper h = new StrutsProcessStructureHelper();
     boolean is_10 = true;
@@ -242,9 +267,9 @@ public class StrutsProcessHelper implements StrutsConstants {
         XModelObject globalExc = config.getChildByPath(ELM_GLOBALEXC);
         XModelObject actionMap = config.getChildByPath(ELM_ACTIONMAP);
 
-        Map forwMap = getChildren(globalForw);
-        Map excMap = globalExc == null ? new HashMap() : getChildren(globalExc);
-        Map actMap = getChildren(actionMap);
+        Map<String,XModelObject> forwMap = getChildren(globalForw);
+        Map<String,XModelObject> excMap = globalExc == null ? new HashMap<String,XModelObject>() : getChildren(globalExc);
+        Map<String,XModelObject> actMap = getChildren(actionMap);
         
         XModelObject[] children = process.getChildren();
         for (int i = 0; i < children.length; i++) {
@@ -281,17 +306,14 @@ public class StrutsProcessHelper implements StrutsConstants {
             }
         }
         
-        Iterator it = forwMap.values().iterator();
-        while (it.hasNext()) {
-            reloadForwardInternal(process, (XModelObject)it.next(), null);
+        for(XModelObject o: forwMap.values()) {
+            reloadForwardInternal(process, o, null);
         }
-        it = excMap.values().iterator();
-        while (it.hasNext()) {
-            reloadExceptionInternal(process, (XModelObject)it.next(), null);
+        for(XModelObject o: excMap.values()) {
+            reloadExceptionInternal(process, o, null);
         }
-        it = actMap.values().iterator();
-        while (it.hasNext()) {
-            reloadActionInternal(process, (XModelObject)it.next(), null);
+        for(XModelObject o: actMap.values()) {
+            reloadActionInternal(process, o, null);
         }
         cleanObjects();
         resolveInternal();
@@ -319,16 +341,14 @@ public class StrutsProcessHelper implements StrutsConstants {
                 } else {
                     prev.removeFromParent();
                 }
-                //binds.addAll(getReferers(name));
             }
             updateActionInternal(parent, ref, action);
             prev = (XModelObject)objects.put(getLocalPath2(action), action);
             if (prev != null) {
-                //String name = prev.getPathPart();
                 prev.removeFromParent();
-                //binds.addAll(getReferers(parent, name));
             }
-            binds.addAll(getReferers(parent, action.getPathPart()));
+            List<XModelObject> list = getReferers(parent, action.getPathPart());
+            for (XModelObject o: list) addBind(o);
         }
     }
 
@@ -336,6 +356,10 @@ public class StrutsProcessHelper implements StrutsConstants {
         objects.remove(getLocalPath2(action));
         action.removeFromParent();
         updateProcess();
+    }
+    
+    private void addBind(XModelObject o) {
+   		binds.add(o);
     }
 
     private XModelObject createAction(XModelObject parent, XModelObject ref) {
@@ -362,7 +386,7 @@ public class StrutsProcessHelper implements StrutsConstants {
             String subtype = action.getAttributeValue(ATT_SUBTYPE);
             if(!SUBTYPE_UNKNOWN.equals(subtype)) {
             	//6389//
-				List l = getReferers(action.getParent(), action.getPathPart());
+				List<XModelObject> l = getReferers(action.getParent(), action.getPathPart());
 				if(l.size() == 0) {
 					action.removeFromParent();
 					return;
@@ -416,7 +440,7 @@ public class StrutsProcessHelper implements StrutsConstants {
                 ((ReferenceObjectImpl)forward).setReference(ref);
                 action.setAttributeValue(ATT_SUBTYPE, subtype);
             } else {
-                Map refMap = getChildren(ref);
+                Map<String,XModelObject> refMap = getChildren(ref);
                 XModelObject[] localBinds = action.getChildren();
                 for (int j = 0; j < localBinds.length; j++) {
                     String type = localBinds[j].getAttributeValue(ATT_TYPE);
@@ -427,9 +451,7 @@ public class StrutsProcessHelper implements StrutsConstants {
                         reloadExceptionInternal(action, refBind, localBinds[j]);
                     }
                 }
-                Iterator it = refMap.values().iterator();
-                while (it.hasNext()) {
-                    XModelObject refBind = (XModelObject)it.next();
+                for(XModelObject refBind: refMap.values()) {
                     String entity = refBind.getModelEntity().getName();
                     if (entity.startsWith(ENT_FORWARD)) {
                         reloadForwardInternal(action, refBind, null);
@@ -442,7 +464,7 @@ public class StrutsProcessHelper implements StrutsConstants {
         }
         XModelObject[] children = action.getChildren();
         for (int i = 0; i < children.length; i++) {
-            binds.add(children[i]);
+        	addBind(children[i]);
         }
         actions.put(action.getAttributeValue(ATT_PATH), action);
     }
@@ -494,7 +516,7 @@ public class StrutsProcessHelper implements StrutsConstants {
         forward.setAttributeValue(ATT_PATH, ref.getAttributeValue(ATT_PATH));
         forward.setAttributeValue(ATT_TITLE, name);
         ((ReferenceObjectImpl)forward).setReference(ref);
-        binds.add(forward);
+        addBind(forward);
     }
 
     public void reloadException(XModelObject parent, XModelObject ref, XModelObject exception) {
@@ -537,7 +559,7 @@ public class StrutsProcessHelper implements StrutsConstants {
         exception.setAttributeValue(ATT_PATH, ref.getAttributeValue(ATT_PATH));
         exception.setAttributeValue(ATT_TITLE, name.substring(name.lastIndexOf('.')+1));
         ((ReferenceObjectImpl)exception).setReference(ref);
-        binds.add(exception);
+        addBind(exception);
     }
     
 
@@ -546,19 +568,20 @@ public class StrutsProcessHelper implements StrutsConstants {
     }
 
     private void resolveInternal() {
-        Iterator it = binds.iterator();
-        if(!it.hasNext() && urlPattern != null) return;
-
+        if(binds.size() == 0 && urlPattern != null) return;
+        
 		WebModulesHelper wmh = WebModulesHelper.getInstance(process.getModel());
-        Set modules = (is_10) ? new HashSet() : wmh.getModules();
+        Set<String> modules = (is_10) ? new HashSet<String>() : wmh.getModules();
         module = (is_10) ? "" : WebModulesHelper.getInstance(process.getModel()).getModuleForConfig(process.getParent());
         if(module == null) module = "";
         urlPattern = wmh.getUrlPattern(module);
 
+        Iterator<XModelObject> it = binds.list.iterator();
         while (it.hasNext()) {
-            XModelObject bind = (XModelObject)it.next();
+            XModelObject bind = it.next();
             if (!bind.isActive()) {
                 it.remove();
+                binds.set.remove(bind);
                 continue;
             }
             String path = bind.getAttributeValue(ATT_PATH);
@@ -633,7 +656,7 @@ public class StrutsProcessHelper implements StrutsConstants {
     }
     
     public void removeUnconfirmed() {
-    	Set set = getReferredTargets(process);
+    	Set<String> set = getReferredTargets(process);
     	XModelObject[] os = process.getChildren();
     	for (int i = 0; i < os.length; i++) {
 			if(set.contains(os[i].getPathPart())) continue;
@@ -772,7 +795,7 @@ public class StrutsProcessHelper implements StrutsConstants {
     // drop dead objects
     private void cleanObjects() {
         if (!process.isActive()) return;
-        Iterator it = objects.values().iterator();
+        Iterator<XModelObject> it = objects.values().iterator();
         while (it.hasNext()) {
             XModelObject o = (XModelObject)it.next();
             if (!o.isActive()) it.remove();
@@ -859,7 +882,9 @@ public class StrutsProcessHelper implements StrutsConstants {
     private static void fillReferers(List<XModelObject> list, XModelObject obj, String target) {
         XModelObject[] children = obj.getChildren();
         for (int i = 0; i < children.length; i++) {
-            if (target.equals(children[i].getAttributeValue(ATT_TARGET))) list.add(children[i]);
+            if (target.equals(children[i].getAttributeValue(ATT_TARGET))) {
+            	list.add(children[i]);
+            }
             fillReferers(list, children[i], target);
         }
     }
@@ -900,8 +925,8 @@ public class StrutsProcessHelper implements StrutsConstants {
         pu.unlock();
     }
     
-    Map osX = new HashMap();
-    Map gsX = new HashMap();
+    Map<String,XModelObject> osX = new HashMap<String,XModelObject>();
+    Map<String,XModelObject> gsX = new HashMap<String,XModelObject>();
     
     private void prepareMaps() {
         Map<String,XModelObject> os = new HashMap<String,XModelObject>();
@@ -929,9 +954,9 @@ public class StrutsProcessHelper implements StrutsConstants {
 
     private void updatePageInternal(XModelObject page, JSPLinksParser p) {
     	if(urlPattern == null) return;
-    	Map os = osX;
-    	Map gs = gsX;
-    	Set ls = p.getAllLinks();
+    	Map<String,XModelObject> os = osX;
+    	Map<String,XModelObject> gs = gsX;
+    	Set<String> ls = p.getAllLinks();
         XModelObject[] links = page.getChildren();
         for (int i = 0; i < links.length; i++) {
             String path = links[i].getAttributeValue(ATT_PATH);
@@ -951,7 +976,7 @@ public class StrutsProcessHelper implements StrutsConstants {
                         String subtype = trgobj.getAttributeValue(ATT_SUBTYPE);
                         String objpath = trgobj.getAttributeValue(ATT_PATH);
                         if(TYPE_ACTION.equals(type) && SUBTYPE_UNKNOWN.equals(subtype)) {
-                        	List l = getReferers(process, trgobj.getPathPart());
+                        	List<XModelObject> l = getReferers(process, trgobj.getPathPart());
                         	if(l.isEmpty()) {
 								actions.remove(objpath);
 								trgobj.removeFromParent();
@@ -965,18 +990,18 @@ public class StrutsProcessHelper implements StrutsConstants {
                         }
                     }
                 } else if(trg.length() == 0 || process.getChildByPath(trg) == null) {
-                    binds.add(links[i]);
+                	addBind(links[i]);
                 }
             }
         }
-        Iterator it = ls.iterator();
-        while(it.hasNext()) {
-            String path = (String)it.next();
+        for (String path: ls) {
             boolean isForward = p.isForward(path);
             XModelObject target = (isForward) ? (XModelObject)gs.get(path)
                                               : (XModelObject)os.get(path);
             XModelObject link = addLink(page, target, path);
-            if(target == null) binds.add(link);
+            if(target == null) {
+            	addBind(link);
+            }
         }
         if(binds.size() > 0) {
         	resolveInternal();

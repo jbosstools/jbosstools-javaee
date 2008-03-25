@@ -15,6 +15,7 @@ import java.util.*;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
@@ -138,7 +139,7 @@ public class StrutsProjectsRoot extends ExtraRootImpl implements WebProjectNode 
 					}
 				}
 				return 0;
-			} catch (Exception e) {
+			} catch (CoreException e) {
                 StrutsModelPlugin.getPluginLog().logError(e);
 				return 0;
 			}

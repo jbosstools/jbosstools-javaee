@@ -29,10 +29,10 @@ public class StrutsProjectTagLibs extends StrutsProjectResourceBundles {
 
 	protected List<XModelObject> collect(Iterator<XModelObject> rs) {
 		List<XModelObject> list = super.collect(rs);
-		Iterator it = list.iterator();
+		Iterator<XModelObject> it = list.iterator();
 		Set<String> set = new HashSet<String>();
 		while(it.hasNext()) {
-			XModelObject o = (XModelObject)it.next();
+			XModelObject o = it.next();
 			String uri = o.getAttributeValue("uri");
 			if(set.contains(uri)) {
 				it.remove();

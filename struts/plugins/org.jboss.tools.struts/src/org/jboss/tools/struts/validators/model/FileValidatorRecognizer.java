@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.validators.model;
 
+import java.io.IOException;
+
 import org.jboss.tools.common.model.loaders.*;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.struts.StrutsModelPlugin;
@@ -19,7 +21,7 @@ public class FileValidatorRecognizer implements EntityRecognizer, ValidatorConst
         try {
             XMLEntityResolver.registerPublicEntity(DOC_PUBLICID, FileValidatorRecognizer.class, "/meta/validator_1_0.dtd");
             XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, FileValidatorRecognizer.class, "/meta/validator_1_1_3.dtd");
-        } catch (Exception e) {
+        } catch (IOException e) {
             StrutsModelPlugin.getPluginLog().logError(e);
         }
     }

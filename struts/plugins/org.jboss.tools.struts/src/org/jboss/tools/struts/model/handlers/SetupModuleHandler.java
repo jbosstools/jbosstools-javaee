@@ -113,10 +113,10 @@ public class SetupModuleHandler implements StrutsConstants {
     }
 
     public static String getString(Properties props) {
-        Iterator it = props.entrySet().iterator();
+        Iterator<Map.Entry<Object,Object>> it = props.entrySet().iterator();
         String s = "";
         while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry)it.next();
+            Map.Entry<Object,Object> entry = it.next();
             s += (s.length() > 0 ? "," : "") + entry.getKey() + "=" + entry.getValue();
         }
         return s;

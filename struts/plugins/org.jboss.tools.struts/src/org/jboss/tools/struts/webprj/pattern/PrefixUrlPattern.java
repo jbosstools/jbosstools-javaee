@@ -33,7 +33,7 @@ public class PrefixUrlPattern implements UrlPattern {
 		       ? path : (!path.startsWith("/")) ? prefix + path : prefix + path.substring(1);
 	}
 	
-	public String getModule(String path, Set modules, String thisModule) {
+	public String getModule(String path, Set<String> modules, String thisModule) {
 		if(path == null || path.length() < 2 || path.startsWith("//")) return "";
 		int i0 = path.startsWith(prefix) ? prefix.length() : 1;
 		int i = path.indexOf('/', i0);

@@ -32,13 +32,11 @@ public class ResourceMapping {
 			createInfos(modules);
 	}
 	
-	private boolean isUpToDate(Set modules) {
+	private boolean isUpToDate(Set<String> modules) {
 		if(modules.size() != infos.size()) return false;
-		Iterator it = modules.iterator();
 		boolean result = true;
-		while(it.hasNext()) {
-			Object key = it.next();
-			ConfigInfo i = (ConfigInfo)infos.get(key);
+		for (String key: modules) {
+			ConfigInfo i = infos.get(key);
 			if(i == null) {
 				result = false; 
 			} else if(!i.isUpToDate()) {

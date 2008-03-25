@@ -189,9 +189,9 @@ public class TilesStructureHelper extends WebProcessStructureHelper implements S
 		return WebModulesHelper.getInstance(object.getModel()).getUrlPattern(getProcessModule(object));
     }
 
-    public Set getTiles(XModelObject object) {
+    public Set<String> getTiles(XModelObject object) {
         XModelObject process = getProcess(object);
-        if(process == null) return new TreeSet();
+        if(process == null) return new TreeSet<String>();
         StrutsProcessHelper h = StrutsProcessHelper.getHelper(process);
         h.updateTiles();
         return h.getTiles();
@@ -301,13 +301,13 @@ public class TilesStructureHelper extends WebProcessStructureHelper implements S
         if(path == null || !path.startsWith("/")) return null;
         XModelObject o = page.getModel().getByPath(path);
         if(o == null || is10(page.getParent())) return o;
-		Map modules = WebModulesHelper.getInstance(page.getModel()).getWebFileSystems();
+		Map<String,XModelObject> modules = WebModulesHelper.getInstance(page.getModel()).getWebFileSystems();
         if(modules.size() < 2) return o;
         if(path.startsWith("//")) return null;
         String xmodule = getUrlPattern(page).getModule(path, modules.keySet(), null);
         if(xmodule != null && xmodule.length() > 0) return null;
         String module = getProcessModule(page);
-        XModelObject fs = (module == null) ? null : (XModelObject)modules.get(module);
+        XModelObject fs = (module == null) ? null : modules.get(module);
         return (fs == null) ? null : fs.getChildByPath(path.substring(1));
     }
 

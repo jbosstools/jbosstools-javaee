@@ -11,6 +11,7 @@
 package org.jboss.tools.struts;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 
 public class StrutsProjectUtil {
 	public static final String STRUTS_NATURE_ID = StrutsProject.NATURE_ID;
@@ -20,7 +21,7 @@ public class StrutsProjectUtil {
 	public static boolean hasStrutsNature(IProject project) {
 		try {
 			return project != null && project.hasNature(StrutsProjectUtil.STRUTS_NATURE_ID);
-		} catch (Exception e) {
+		} catch (CoreException e) {
             StrutsModelPlugin.getPluginLog().logError(e);
 			return false;
 		}

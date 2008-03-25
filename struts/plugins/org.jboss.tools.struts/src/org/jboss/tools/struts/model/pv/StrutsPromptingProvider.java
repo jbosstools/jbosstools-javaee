@@ -16,7 +16,6 @@ import org.eclipse.core.resources.IFile;
 import org.jboss.tools.common.model.java.handlers.OpenJavaSourceHandler;
 
 import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.model.helpers.open.*;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 
@@ -64,14 +63,10 @@ public class StrutsPromptingProvider implements IWebPromptingProvider {
 			error = h.run(model, forward);
 		} else if(STRUTS_OPEN_LINK_PAGE.equals(id)) {
 			String page = prefix;
-			try {
-				if(new File(page).isFile()) {
-					List<Object> l = new ArrayList<Object>();
-					l.add(page);
-					return l;
-				}
-			} catch (Exception e) {
-	        	StrutsModelPlugin.getPluginLog().logError(e);
+			if(page != null && new File(page).isFile()) {
+				List<Object> l = new ArrayList<Object>();
+				l.add(page);
+				return l;
 			}
 			IFile f = (IFile)properties.get(FILE);
 			OpenLinkPageHelper h = new OpenLinkPageHelper();

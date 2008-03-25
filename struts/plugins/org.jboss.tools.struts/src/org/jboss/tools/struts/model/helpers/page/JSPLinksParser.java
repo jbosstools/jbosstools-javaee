@@ -89,7 +89,7 @@ public class JSPLinksParser {
 
     private void parseAdvanced(int b, int e) {
     	if(links == null) return;
-		Set tags = links.getTags();
+		Set<String> tags = links.getTags();
 		while(b < e) {
 			int i = source.indexOf("<", b);
 			if(i < 0) return;
@@ -251,9 +251,9 @@ public class JSPLinksParser {
         return false;
     }
 
-    private boolean areSetsEqual(Set s1, Set s2) {
+    private boolean areSetsEqual(Set<String> s1, Set<String> s2) {
         if(s1.size() != s2.size()) return false;
-        Iterator it = s1.iterator();
+        Iterator<String> it = s1.iterator();
         while(it.hasNext()) if(!s2.contains(it.next())) return false;
         it = s2.iterator();
         while(it.hasNext()) if(!s1.contains(it.next())) return false;

@@ -35,7 +35,7 @@ public class PostfixUrlPattern implements UrlPattern {
 		return path;
 	}
 	
-	public String getModule(String path, Set modules, String thisModule) {
+	public String getModule(String path, Set<String> modules, String thisModule) {
 		if(path == null || path.length() < 2 || path.startsWith("//")) return "";
 		int i = path.indexOf("/", 1);
 		if(i < 0) return thisModule;

@@ -47,10 +47,13 @@ public class AddMessagesHandler extends AbstractHandler {
     }
 
     private XModelObject getTemplate(XModel model) {
+    	if(action == null) return null;
+    	String v = action.getProperty("index");
+    	if(v == null || v.length() == 0) return null;
         int i = -1;
         try { 
-        	i = Integer.valueOf(action.getProperty("index")).intValue(); 
-        } catch (Exception e) {
+        	i = Integer.parseInt(v); 
+        } catch (NumberFormatException e) {
         	StrutsModelPlugin.getPluginLog().logError(e);
         }
         return getTemplate(model, i);

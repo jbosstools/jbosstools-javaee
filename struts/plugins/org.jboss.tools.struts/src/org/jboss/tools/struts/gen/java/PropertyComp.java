@@ -12,15 +12,13 @@ import java.lang.reflect.Modifier;
  *
  * @author  valera
  */
-public class PropertyComp implements java.util.Comparator {
+public class PropertyComp implements java.util.Comparator<PropertyDesc> {
     
     /** Creates a new instance of PropertyComp */
     public PropertyComp() {
     }
     
-    public int compare(Object o1, Object o2) {
-        PropertyDesc p1 = (PropertyDesc)o1;
-        PropertyDesc p2 = (PropertyDesc)o2;
+    public int compare(PropertyDesc p1, PropertyDesc p2) {
         int res = getWeight(p1) - getWeight(p2);
         if (res != 0) return res;
         return p1.name.compareTo(p2.name);

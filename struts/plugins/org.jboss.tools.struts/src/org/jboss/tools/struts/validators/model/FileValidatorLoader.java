@@ -54,7 +54,7 @@ class FVLoaderUtil extends XModelObjectLoaderUtil {
     			int p = -1;
     			try { 
     				p = Integer.parseInt(pos); 
-    			} catch (Exception e) {
+    			} catch (NumberFormatException e) {
     				StrutsModelPlugin.getPluginLog().logError(e);
     			}
     			if(p < 0) p = 0;

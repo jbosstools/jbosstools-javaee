@@ -114,12 +114,8 @@ public class CreateForwardHandler extends CreateConfigElementHandler implements 
               CreatePageSupport.createFile(fs, jsppath, null);
         }
         setShape(object, prop);
-        try {
         XModelObject process = StrutsProcessStructureHelper.instance.getProcess(object);
         StrutsProcessHelper.getHelper(process).updatePages();
-        } catch (Exception e) {
-        	StrutsModelPlugin.getPluginLog().logError(e);
-        }
     }
 
     private boolean isEqualRoots(String r1, String r2) {

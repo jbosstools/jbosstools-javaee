@@ -49,7 +49,7 @@ public class StrutsDeleteHandler extends DefaultRemoveHandler implements StrutsC
             deletePage.executeHandler(object, prop);
             return;
         }
-        List referers = null;
+        List<XModelObject> referers = null;
         if (object instanceof ReferenceObjectImpl) {
             XModelObject ref = ((ReferenceObjectImpl)object).getReference();
             if (ENT_PROCESSITEM.equals(object.getModelEntity().getName())) {
@@ -82,7 +82,7 @@ public class StrutsDeleteHandler extends DefaultRemoveHandler implements StrutsC
         try {
             if (referers != null && referers.size() > 0) {
                 for (int i = 0; i < referers.size(); i++) {
-                    XModelObject referer = (XModelObject)referers.get(i);
+                    XModelObject referer = referers.get(i);
                     XActionHandler unlink = referer.getModelEntity().getActionList().getAction(UNLINK_ACTION);
                     if (unlink != null && unlink.isEnabled(referer)) {
                         unlink.executeHandler(referer, prop);

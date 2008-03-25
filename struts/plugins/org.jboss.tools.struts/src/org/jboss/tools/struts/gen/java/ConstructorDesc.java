@@ -53,7 +53,7 @@ public class ConstructorDesc {
         return params;
     }
     
-    public Set getExceptions() {
+    public Set<String> getExceptions() {
         return exceptions;
     }
     

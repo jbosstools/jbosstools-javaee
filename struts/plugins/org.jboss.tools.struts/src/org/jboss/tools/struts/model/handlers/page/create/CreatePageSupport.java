@@ -63,7 +63,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         if(context.isPreselected()) {
         	try {
             	onSelection();
-	        } catch (Exception e) {
+	        } catch (XModelException e) {
 	        	StrutsModelPlugin.getPluginLog().logError("Exception caught in CreatePageSupport:reset " + e.getMessage(), e);
 	        }
         } else {
