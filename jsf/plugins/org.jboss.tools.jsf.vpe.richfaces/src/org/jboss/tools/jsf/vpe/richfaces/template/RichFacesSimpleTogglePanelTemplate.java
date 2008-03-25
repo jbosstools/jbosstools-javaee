@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +26,15 @@ import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
+import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
 	private static Map toggleMap = new HashMap();
-	private nsIDOMElement storedSwitchDiv = null;
+	private nsIDOMElement storedHeaderDiv = null;
 	
 	private static final String COLLAPSED_STYLE ="; display: none;";
 	private static final String HEADER_NAME_FACET = "header";
@@ -74,10 +77,9 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 		String markerName = "openMarker";
 		char defaultMarkerCode = 187;
 		boolean opened = getActiveState(sourceElement);
-		switchDiv.setAttribute("vpe-user-toggle-id", (opened ? "false" : "true"));
 		
-		headerDiv.setAttribute("vpe-user-toggle-id", (opened ? "false" : "true"));
-		storedSwitchDiv = switchDiv;
+		headerDiv.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, (opened ? "false" : "true"));
+		storedHeaderDiv = headerDiv;
 		
 		if(opened) {
 			markerName = "closeMarker";
@@ -135,24 +137,54 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate impl
 	 */
 	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData data) {
 		super.validate(pageContext, sourceNode, visualDocument, data);
-		if (storedSwitchDiv == null) return;
-		String value = storedSwitchDiv.getAttribute("vpe-user-toggle-id");
+		if (storedHeaderDiv == null) return;
+		String value = storedHeaderDiv.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
 		if ("true".equals(value) || "false".equals(value)) {
-			applyAttributeValueOnChildren("vpe-user-toggle-id", value, ComponentUtil.getChildren(storedSwitchDiv));
-			applyAttributeValueOnChildren("vpe-user-toggle-lookup-parent", "true", ComponentUtil.getChildren(storedSwitchDiv));
+			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, value, getChildren(storedHeaderDiv));
+			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT, "true", getChildren(storedHeaderDiv));
 		}
 	}
 
-	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMNode> children) {
-		if (children == null || attrName == null || attrValue == null) return;
-		
-		for (nsIDOMNode child : children) {
-			if (child instanceof nsIDOMElement) {
-			    	nsIDOMElement childElement = (nsIDOMElement)child.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-				childElement.setAttribute(attrName, attrValue);
-				applyAttributeValueOnChildren(attrName, attrValue, ComponentUtil.getChildren(childElement));
+	/**
+	 * 	Sets the attribute to element children 
+	 * @param attrName attribute name
+	 * @param attrValue attribute value
+	 * @param children children
+	 */
+	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMElement> children) {
+		if (children == null || attrName == null || attrValue == null) {
+			return;
+		}
+		for (nsIDOMElement child : children) {
+			child.setAttribute(attrName, attrValue);
+			applyAttributeValueOnChildren(attrName, attrValue, getChildren(child));
+		}
+	}
+	
+	/**
+	 * Gets element children
+	 * @param element the element
+	 * @return children
+	 */
+	private List<nsIDOMElement> getChildren(nsIDOMElement element) {
+		List<nsIDOMElement> result = new ArrayList<nsIDOMElement>();
+		if (element.hasChildNodes()) {
+			nsIDOMNodeList children = element.getChildNodes();
+			if (null != children) {
+				long len = children.getLength();
+				for (int i = 0; i < len; i++) {
+					nsIDOMNode item = children.item(i);
+					try {
+						nsIDOMElement elem = (nsIDOMElement) item
+								.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+						result.add(elem);
+					} catch (XPCOMException ex) {
+						// just ignore this exception
+					}
+				}
 			}
 		}
+		return result;
 	}
 	
 	private boolean getActiveState(Element sourceElement) {
