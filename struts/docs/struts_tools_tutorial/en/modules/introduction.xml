@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="introduction" xreflabel="introduction">
+  <?dbhtml filename="introduction.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Developer Studio</keyword>
+      <keyword>Eclipse</keyword>
+      <keyword>Java</keyword>
+      <keyword>JBoss</keyword>
+    </keywordset>
+  </chapterinfo>
+  <title>Introduction</title>
+  <para>The following chapters describe how to deal with classic/old style of Struts development. We
+    recommend users to use <ulink url="../../../seam/en/html/create_new_seam.html">JBoss
+    Seam</ulink> to simplify development, but until then you can read about classical Struts
+    usage here.</para>
+</chapter>

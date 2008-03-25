@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"../../../resources/support/docbook-dtd/docbookx.dtd"
+
+[<!ENTITY introduction SYSTEM "modules/introduction.xml">
+<!ENTITY struts_application  SYSTEM "modules/struts_application.xml">
+<!ENTITY struts_validation  SYSTEM "modules/struts_validation.xml">
+]>
+
+<book>
+    
+    <bookinfo>
+        <title>Struts Tools Tutorial</title>
+        
+        <copyright>
+            <year>2007</year>
+            <holder>Red Hat</holder>
+        </copyright>
+
+                  <releaseinfo>
+<para>Version: 1.0.0.GA</para>
+</releaseinfo>
+    </bookinfo>    
+    
+    <toc/>  
+   
+    &introduction;
+    &struts_application;
+    &struts_validation;
+    
+    
+</book>    
