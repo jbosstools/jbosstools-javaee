@@ -595,7 +595,7 @@ public class SeamCoreValidator extends SeamValidator {
 		if(dataModelName==null) {
 			// here must be the only one @DataModel in the component
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
-			if(dataBinders.size()>1) {
+			if(dataBinders!=null && dataBinders.size()>1) {
 				for (IBijectedAttribute dataBinder : dataBinders) {
 					addError(MULTIPLE_DATA_BINDER_MESSAGE_ID, SeamPreferences.MULTIPLE_DATA_BINDER, dataBinder, declaration.getResource());
 				}
