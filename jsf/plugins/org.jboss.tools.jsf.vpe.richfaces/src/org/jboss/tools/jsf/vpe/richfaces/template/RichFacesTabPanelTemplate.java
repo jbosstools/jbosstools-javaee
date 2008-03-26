@@ -52,6 +52,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private final String DIR_RTL = "RTL"; //$NON-NLS-1$
 	private final String DIR_LTR = "LTR"; //$NON-NLS-1$
 	
+	private final String HEADER_CLASS = "headerClass"; //$NON-NLS-1$
 	private final String CONTENT_CLASS = "contentClass"; //$NON-NLS-1$
 	private final String CONTENT_STYLE = "contentStyle"; //$NON-NLS-1$
 	private final String TAB_CLASS = "tabClass"; //$NON-NLS-1$
@@ -116,16 +117,26 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		img.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
 		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 
+		String headerSpacing = sourceElement.getAttribute(HEADER_SPACING);
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int activeId = getActiveId(sourceElement, children);
 		int i = 0;
 		for (Node child : children) {
 			boolean active = (i == activeId);
-			
 			if(child.getNodeName().endsWith(TAB)) {
+				
+				/*
+				 * Adds spacer before first tab
+				 */
+				if (i == 0) {
+					addSpacer(visualDocument, inerTr, headerSpacing);
+				}
+				
 				nsIDOMElement headerTd = RichFacesTabTemplate.encodeHeader(creationData,
 						(Element) child,
 						visualDocument, inerTr, active, 
+						ComponentUtil.getAttribute(sourceElement, 
+								HEADER_CLASS),
 						ComponentUtil.getAttribute(sourceElement, 
 								ACTIVE_TAB_CLASS),
 						ComponentUtil.getAttribute(sourceElement,
@@ -134,19 +145,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 								DISABLED_TAB_CLASS), 
 								String.valueOf(i));
 				i++;
-				// Add <td><img src="#{spacer}" height="1" alt="" border="0" style="#{this:encodeHeaderSpacing(context, component)}"/></td>
-				nsIDOMElement spaceTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-				inerTr.appendChild(spaceTd);
-				nsIDOMElement spaceImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-				spaceTd.appendChild(spaceImg);
-				ComponentUtil.setImg(spaceImg, SPACER_FILE_PATH);
-				spaceImg.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
-				spaceImg.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-				String headerSpacing = sourceElement.getAttribute(HEADER_SPACING);
-				if(headerSpacing==null) {
-					headerSpacing = ONE;
-				}
-				spaceImg.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: " + headerSpacing + "px"); //$NON-NLS-1$ //$NON-NLS-2$
+				addSpacer(visualDocument, inerTr, headerSpacing);
 				storedTabHeaders.add(headerTd);
 			}
 		}
@@ -199,7 +198,29 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 
 		return creationData;
 	}
-
+	
+	/**
+	 * Adds the spacer.
+	 * Add <td><img src="#{spacer}" height="1" alt="" border="0" style="#{this:encodeHeaderSpacing(context, component)}"/></td>
+	 * 
+	 * @param visualDocument the visual document
+	 * @param parentTr the parent tr
+	 * @param headerSpacing the header spacing
+	 */
+	private void addSpacer(nsIDOMDocument visualDocument, nsIDOMElement parentTr, String headerSpacing) {
+		nsIDOMElement spaceTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		parentTr.appendChild(spaceTd);
+		nsIDOMElement spaceImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		spaceTd.appendChild(spaceImg);
+		ComponentUtil.setImg(spaceImg, SPACER_FILE_PATH);
+		spaceImg.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
+		spaceImg.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+		if(headerSpacing==null) {
+			headerSpacing = ONE;
+		}
+		spaceImg.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: " + headerSpacing + "px"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
 	private int getActiveId(Element sourceElement, List<Node> children) {
 		int activeId = -1;
 		try { 

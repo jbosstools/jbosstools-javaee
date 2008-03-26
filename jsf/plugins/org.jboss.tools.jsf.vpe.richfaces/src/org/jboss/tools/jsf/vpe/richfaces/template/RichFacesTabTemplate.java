@@ -47,6 +47,11 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	private static final String SPACE = " "; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	
+	private static final String HUNDRED_PERCENTS = "100%"; //$NON-NLS-1$
+	private static final String HEIGHT_STYLE_NAME = "height: "; //$NON-NLS-1$
+	private static final String WIDTH_STYLE_NAME = "width: "; //$NON-NLS-1$
+	private static final String STYLE_SEMICOLUMN = "; "; //$NON-NLS-1$
+	
 	/**
 	 * Encode body of tab
 	 * @param creationData
@@ -85,14 +90,14 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			return creationData;
 		}
 //		td.setAttribute("style", "position: relative;");
-		td.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
+		td.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, HUNDRED_PERCENTS);
 
 		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		td.appendChild(table);
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "10");
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
+		table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, HUNDRED_PERCENTS);
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-cntnt-pstn" + SPACE + RichFacesTabPanelTemplate.CSS_CONTENT_POSITION);
 		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "position: relative; z-index: 1;");
 
@@ -106,7 +111,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 				+ SPACE + contentClass);
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
 				ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR)
-				+ "; " +  contentStyle);
+				+ STYLE_SEMICOLUMN +  contentStyle);
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		VpeChildrenInfo bodyInfo = new VpeChildrenInfo(td);
@@ -137,6 +142,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument,
 			nsIDOMElement parentTr,
 			boolean active,
+			String headerClass,
 			String activeTabClass,
 			String inactiveTabClass,
 			String disabledTabClass, 
@@ -155,6 +161,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 					+ SPACE + RichFacesTabPanelTemplate.CSS_CELL_INACTIVE;
 			}
 		}
+		styleClass += SPACE + headerClass;
 		headerTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 		headerTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
@@ -170,17 +177,32 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		table.appendChild(mainTr);
 		encodeSpacer(mainTr, visualDocument);
 
-		headerTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		mainTr.appendChild(headerTd);
-		headerTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-tbtopbrdr"
-				+ SPACE + RichFacesTabPanelTemplate.CSS_SIDE_CELL);
-		headerTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: "
-				+ ComponentUtil.getAttribute(sourceElement, LABEL_WIDTH) + ";");
-		headerTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
+		nsIDOMElement mainTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		mainTr.appendChild(mainTd);
+		mainTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
 		table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		headerTd.appendChild(table);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "height: 100%; width: 100%;");
+		mainTd.appendChild(table);
+		
+		String labelWidth = ComponentUtil.getAttribute(sourceElement, LABEL_WIDTH);
+		String tableStyle = HEIGHT_STYLE_NAME + HUNDRED_PERCENTS + STYLE_SEMICOLUMN;
+		if ((null != labelWidth) && (!EMPTY.equalsIgnoreCase(labelWidth))) {
+			int val = -1;
+			try {
+				val = Integer.parseInt(labelWidth);
+			} catch (NumberFormatException e) {
+				/*
+				 * Ignore
+				 */
+			}
+			if (val > 0) {
+				labelWidth = val + "px";
+			}
+		} else {
+			labelWidth = HUNDRED_PERCENTS;
+		}
+		tableStyle += WIDTH_STYLE_NAME + labelWidth + STYLE_SEMICOLUMN;
+		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
@@ -188,8 +210,8 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 
 		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		table.appendChild(tr);
-		headerTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		tr.appendChild(headerTd);
+		mainTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		tr.appendChild(mainTd);
 
 		styleClass = "dr-tbpnl-tb dr-tbpnl-tb-dsbl"
 			+ SPACE + CSS_HEADER
@@ -215,22 +237,27 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			}
 		}
 
-		headerTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
-		String style = "background-image: url(file:///" + bgImgPath.replace('\\', '/') + ");";
-		headerTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
-		headerTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
+		styleClass += SPACE + "dr-tbpnl-tbtopbrdr" + SPACE
+				+ RichFacesTabPanelTemplate.CSS_SIDE_CELL;
+		mainTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+		String style = "background-image: url(file:///"
+				+ bgImgPath.replace('\\', '/') + ");";
+		mainTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+		
+		
+		mainTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 		Node labelFacet = ComponentUtil.getFacet(sourceElement, LABEL, true);
 		String labelAttr = sourceElement.getAttribute(LABEL);
 		if (null != labelFacet) {
-			VpeChildrenInfo child = new VpeChildrenInfo(headerTd);
+			VpeChildrenInfo child = new VpeChildrenInfo(mainTd);
 			child.addSourceChild(labelFacet);
 			creationData.addChildrenInfo(child);
 		} else if (null != labelAttr) {
-			headerTd.appendChild(visualDocument.createTextNode(labelAttr));
+			mainTd.appendChild(visualDocument.createTextNode(labelAttr));
 		} else {
 			char space = 160;
 			labelAttr = EMPTY + space;
-			headerTd.appendChild(visualDocument.createTextNode(labelAttr));
+			mainTd.appendChild(visualDocument.createTextNode(labelAttr));
 		}
 		encodeSpacer(mainTr, visualDocument);
 		return headerTd;
