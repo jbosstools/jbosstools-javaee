@@ -30,6 +30,7 @@ import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamMessages;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
@@ -184,7 +185,10 @@ public class ClassScanner implements SeamAnnotations {
 		if(name == null || name.length() == 0) {
 			name = m.getName();
 		}
-		SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
+		SeamAnnotatedFactory factory =
+			("org.jboss.seam.international.messages".equals(name) && m.getName().equals("getMessages")) 
+			? new SeamMessages()
+			: new SeamAnnotatedFactory();
 		factory.setParentDeclaration(component);
 		ds.getFactories().add(factory);
 		IMethod im = findIMethod(component, m);

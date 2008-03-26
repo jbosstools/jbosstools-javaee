@@ -42,6 +42,7 @@ import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.SeamAnnotatedFactory;
 import org.jboss.tools.seam.internal.core.SeamComponentMethod;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
+import org.jboss.tools.seam.internal.core.SeamMessages;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
@@ -205,7 +206,10 @@ public class TypeScanner implements SeamAnnotations {
 		if(name == null || name.length() == 0) {
 			name = new String(m.getSelector());
 		}
-		SeamAnnotatedFactory factory = new SeamAnnotatedFactory();
+		SeamAnnotatedFactory factory = 
+			("org.jboss.seam.international.messages".equals(name) && new String(m.getSelector()).equals("getMessages")) 
+			? new SeamMessages()
+			: new SeamAnnotatedFactory();
 		factory.setParentDeclaration(component);
 		factory.setSourcePath(component.getSourcePath());
 		ds.getFactories().add(factory);

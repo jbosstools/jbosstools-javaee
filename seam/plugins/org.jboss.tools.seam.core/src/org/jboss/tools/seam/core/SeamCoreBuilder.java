@@ -12,6 +12,7 @@ package org.jboss.tools.seam.core;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -22,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.util.TypeInfoCollector;
+import org.jboss.tools.seam.internal.core.SeamMessages;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
@@ -116,10 +118,13 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(NLS.bind(SeamCoreMessages.SeamCoreBuilder_1,sp.getProject().getName()), e); //$NON-NLS-1$
 			}
+			
+			sp.postBuild();
 		
 		} finally {
 			sp.fireChanges();
 		}
+		
 		return null;
 	}
 

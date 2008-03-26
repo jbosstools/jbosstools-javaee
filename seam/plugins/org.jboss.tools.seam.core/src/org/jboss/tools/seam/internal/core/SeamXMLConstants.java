@@ -23,6 +23,7 @@ public interface SeamXMLConstants {
 	
 	public String CLS_PROPERTIES = "properties";
 	public String CLS_JAVA = "java";
+	public String CLS_MESSAGES = "messages";
 	
 	public String CLS_MAP = "map";
 	public String CLS_LIST = "list";

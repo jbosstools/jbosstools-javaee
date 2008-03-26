@@ -623,6 +623,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 						d = new SeamXmlFactory();
 					} else if(SeamXMLConstants.CLS_JAVA.equals(cls)) {
 						d = new SeamAnnotatedFactory();
+					} else if(SeamXMLConstants.CLS_MESSAGES.equals(cls)) {
+						d = new SeamMessages();
 					}
 					if(d == null) continue;
 					d.loadXML(cs[j], context);
@@ -647,6 +649,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				statistics.add(new Long(t2 - t1));
 			}
 		}
+		postBuild();
 	}
 	
 	/*
@@ -857,6 +860,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		for (int i = 0; i < factories.length; i++) {
 			AbstractContextVariable loaded = (AbstractContextVariable)factories[i];
 			AbstractContextVariable current = (AbstractContextVariable)currentFactories.remove(loaded.getId());
+			if(current != null && current.getClass() != loaded.getClass()) {
+				this.factories.removeFactory((ISeamFactory)current);
+				current = null;
+			}
 			if(current != null) {
 				List<Change> changes = current.merge(loaded);
 				fireChanges(changes);
@@ -1537,6 +1544,17 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			ds.getImports().addAll(imports.get(s));
 		}
 		return map;
+	}
+	
+	public void postBuild() {
+		Set<ISeamFactory> fff = getFactoriesByName("org.jboss.seam.international.messages");
+		if(fff.size() > 0) {
+			ISeamFactory m = fff.iterator().next();
+			if(m instanceof SeamMessages) {
+				SeamMessages sm = (SeamMessages)m;
+				sm.revalidate();
+			}
+		}
 	}
 	
 	/**
