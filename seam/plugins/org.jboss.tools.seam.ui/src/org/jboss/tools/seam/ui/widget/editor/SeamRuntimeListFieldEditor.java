@@ -53,6 +53,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -98,6 +101,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 	private Composite root = null;
 
+	private ActionPanel actionPanel;
+	
 	private Map<SeamRuntime, SeamRuntime> changed = new HashMap<SeamRuntime, SeamRuntime>();
 
 	private List<SeamRuntime> checkedElements = new ArrayList<SeamRuntime>();
@@ -172,21 +177,33 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	public Object[] getEditorControls(Object composite) {
 
 		root = new Composite((Composite) composite, SWT.NONE);
-		root.setLayout(new GridLayout(GL_COLUMNS, false));
 		GridData gd = new GridData();
 		gd.horizontalAlignment = GridData.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		root.setLayoutData(gd);
 
+		root.setLayout(new FormLayout());
+		createTableView();
+		createActionBar();
+		
+		FormData tableData = new FormData();
+		tableData.left = new FormAttachment(0,5);
+		tableData.right = new FormAttachment(actionPanel, -5);
+		tableData.top = new FormAttachment(0,5);
+		tableData.bottom = new FormAttachment(100,-5);
+		tableView.getControl().setLayoutData(tableData);
+		
+		FormData actionsData = new FormData();
+		actionsData.top = new FormAttachment(0,5);
+		actionsData.bottom = new FormAttachment(100,-5);
+		actionsData.right = new FormAttachment(100,-5);
+		actionPanel.setLayoutData(actionsData);
+		return new Control[] {root};
+	}
+	
+	protected void createTableView() {
 		tableView = CheckboxTableViewer.newCheckList(root, SWT.V_SCROLL
 				| SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE);
-
-		gd = new GridData();
-		gd.heightHint = GL_HINT_HEIGHT;
-		gd.horizontalAlignment = GridData.FILL;
-		gd.grabExcessHorizontalSpace = true;
-
-		tableView.getControl().setLayoutData(gd);
 
 		TableColumn tc1 = new TableColumn(tableView.getTable(), SWT.CENTER);
 		tc1.setWidth(TC_DEFAULT_WIDTH);
@@ -316,10 +333,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				checkedElements.add(rt);
 			}
 		}
-		ActionPanel actionPanel = new ActionPanel(root, new BaseAction[] {
+	}
+	
+	protected void createActionBar() {
+		actionPanel = new ActionPanel(root, new BaseAction[] {
 				new AddAction(), new EditAction(), new RemoveAction()});
 		tableView.addSelectionChangedListener(actionPanel);
-		return new Control[] {root};
 	}
 
 	/**
@@ -866,11 +885,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			super(parent, style);
 			this.actions = actions;
 			setLayout(new GridLayout(1, false));
-			GridData gd = new GridData();
-			gd.horizontalAlignment = GridData.FILL;
-			gd.verticalAlignment = GridData.FILL;
-			gd.grabExcessVerticalSpace = true;
-			setLayoutData(gd);
 			for (BaseAction action : this.actions) {
 				new ActionButton(this, SWT.PUSH, action);
 			}
@@ -912,10 +926,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 */
 	public static class ActionButton implements IPropertyChangeListener {
 
-		private static final int DEFAULT_WIDTH_HINT = 50;
-
 		private Button button;
-
 		private BaseAction action;
 
 		/**
@@ -938,7 +949,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 			gd.horizontalAlignment = GridData.FILL;
 			gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-			gd.widthHint = DEFAULT_WIDTH_HINT;
 			this.button.setLayoutData(gd);
 			this.action.addPropertyChangeListener(this);
 			this.button.setText(action.getText());
