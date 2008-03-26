@@ -186,7 +186,7 @@
                             </emphasis> from the pop-up menu that appears after you right-click on a
                             folder.</para>
                         <figure>
-                            <title>Creating Icons (retake screen with IMPORT ICON!!!)</title>
+                            <title>Creating Icons</title>
                             <mediaobject>
                                 <imageobject>
                                     <imagedata fileref="images/palette/palette_18.png"/>
@@ -392,9 +392,9 @@
             <para>If libraries are not displayed in the palette, check whether they are selected.
                 Click the plus sign to expand the libraries of the group and make sure that a tick
                 is put next to the wanted libraries.</para>
-            <para>(When you deactivate the group(s), the JBoss Palette remembers your last chose.
+           <!-- <para>(When you deactivate the group(s), the JBoss Palette remembers your last chose.
                 The libraries… )</para>
-
+            -->
             <itemizedlist>
                 <listitem>
                     <para>Click <emphasis><property>OK</property>.</emphasis> The new groups will
