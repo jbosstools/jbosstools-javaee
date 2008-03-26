@@ -3,8 +3,13 @@
 "../../resources/support/docbook-dtd/docbookx.dtd"
 
 [
-<!ENTITY intoduction SYSTEM "modules/introduction.xml">
-<!ENTITY jsf_tools SYSTEM "modules/jsf_tools.xml">
+<!ENTITY introduction SYSTEM "modules/introduction.xml">
+<!ENTITY jsf_support SYSTEM "modules/jsf_support.xml">
+<!ENTITY projects SYSTEM "modules/projects.xml">
+<!ENTITY jsf_config_file SYSTEM "modules/jsf_config_file.xml">
+<!ENTITY managed_beans SYSTEM "modules/managed_beans.xml">
+<!ENTITY cust_converters_validators SYSTEM "modules/cust_converters_validators.xml">
+<!ENTITY referenced_beans SYSTEM "modules/referenced_beans.xml">
 <!ENTITY jsf_project_verification SYSTEM "modules/jsf_project_verification.xml">
 ]>
 <book>
@@ -22,6 +27,11 @@
     <toc/>  
     
     &introduction;
-    &jsf_tools;
+    &jsf_support;
+    &projects;
+    &jsf_config_file;
+    &managed_beans;
+    &cust_converters_validators;
+    &referenced_beans;
     &jsf_project_verification;
 </book>    
