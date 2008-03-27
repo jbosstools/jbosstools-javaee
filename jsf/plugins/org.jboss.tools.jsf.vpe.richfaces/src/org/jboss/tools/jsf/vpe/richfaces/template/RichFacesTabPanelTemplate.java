@@ -20,6 +20,7 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -44,6 +45,8 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private static final String RICH_FACES_TAB_PANEL = "richFacesTabPanel"; //$NON-NLS-1$
 	private static final String CSS_FILE_PATH = "tabPanel/tabPanel.css"; //$NON-NLS-1$
 	private static final String SPACER_FILE_PATH = "common/spacer.gif"; //$NON-NLS-1$
+	private static final String INCLUDE_TAG = ":include"; //$NON-NLS-1$
+	private static final String YES = "yes"; //$NON-NLS-1$
 
 	private final String HEADER_ALINGMENT = "headerAlignment"; //$NON-NLS-1$
 	private final String HEADER_SPACING = "headerSpacing"; //$NON-NLS-1$
@@ -123,8 +126,14 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		int i = 0;
 		for (Node child : children) {
 			boolean active = (i == activeId);
+
+			if (child.getNodeName().endsWith(INCLUDE_TAG)) {
+				VpeChildrenInfo vpeChildrenInfo = new VpeChildrenInfo(inerTr);
+				creationData.addChildrenInfo(vpeChildrenInfo);
+				vpeChildrenInfo.addSourceChild(child);
+			}
+			
 			if(child.getNodeName().endsWith(TAB)) {
-				
 				/*
 				 * Adds spacer before first tab
 				 */
@@ -345,6 +354,22 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	 */
 	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData data) {
 		
+		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		ComponentUtil.findAllElementsByName(data.getNode(), elements, HtmlComponentUtil.HTML_TAG_TABLE);
+		for (nsIDOMNode node : elements) {
+			try {
+			nsIDOMElement element = (nsIDOMElement) node.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			if (ComponentUtil.getAttribute(element, RichFacesTabTemplate.TAB_HEADER_ATTR).equalsIgnoreCase(YES)) {
+				element.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+			}
+			if (ComponentUtil.getAttribute(element, RichFacesTabTemplate.TAB_BODY_ATTR).equalsIgnoreCase(YES)) {
+				element.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, HtmlComponentUtil.CSS_DISPLAY+" : "+RichFacesTabTemplate.DISABLED_ELEMENT_STYLE+";");  //$NON-NLS-1$//$NON-NLS-2$
+			}
+			} catch (XPCOMException exeption) {
+				// Ignore
+			}
+		}
+		
 		super.validate(pageContext, sourceNode, visualDocument, data);
 		if ((storedTabHeaders == null) || (storedTabHeaders.size() < 1)){
 			return;
@@ -353,7 +378,9 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		for (nsIDOMElement tab : storedTabHeaders) {
 			String value = tab.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
 			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, value, getChildren(tab));
-			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT, "true", getChildren(tab));
+			applyAttributeValueOnChildren(
+					VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT,
+					"true", getChildren(tab)); //$NON-NLS-1$
 		}
 		
 	}

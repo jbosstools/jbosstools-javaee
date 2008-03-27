@@ -25,6 +25,11 @@ import org.w3c.dom.Node;
 
 public class RichFacesTabTemplate extends VpeAbstractTemplate {
 
+	public static final String TAB_HEADER_ATTR = "tabheaderattr"; //$NON-NLS-1$
+	public static final String YES = "yes"; //$NON-NLS-1$
+	public static final String DISABLED_ELEMENT_STYLE = "none"; //$NON-NLS-1$
+	public static final String TAB_BODY_ATTR = "tabbodyattr"; //$NON-NLS-1$
+	
 	private final static String SPACER_FILE_PATH = "common/spacer.gif"; //$NON-NLS-1$
 	private final static String ACTIVE_BKG_FILE_PATH = "tabPanel/activeBackground.gif"; //$NON-NLS-1$
 	private final static String INACTIVE_BKG_FILE_PATH = "tabPanel/inactiveBackground.gif"; //$NON-NLS-1$
@@ -51,6 +56,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	private static final String HEIGHT_STYLE_NAME = "height: "; //$NON-NLS-1$
 	private static final String WIDTH_STYLE_NAME = "width: "; //$NON-NLS-1$
 	private static final String STYLE_SEMICOLUMN = "; "; //$NON-NLS-1$
+	
 	
 	/**
 	 * Encode body of tab
@@ -95,11 +101,11 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		td.appendChild(table);
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "10");
+		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "10"); //$NON-NLS-1$
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, HUNDRED_PERCENTS);
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-cntnt-pstn" + SPACE + RichFacesTabPanelTemplate.CSS_CONTENT_POSITION);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "position: relative; z-index: 1;");
+		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-cntnt-pstn" + SPACE + RichFacesTabPanelTemplate.CSS_CONTENT_POSITION); //$NON-NLS-1$
+		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "position: relative; z-index: 1;"); //$NON-NLS-1$
 
 		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		table.appendChild(tr);
@@ -107,7 +113,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		tr.appendChild(td);
 		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, 
 				ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR)
-				+ SPACE + "dr-tbpnl-cntnt"
+				+ SPACE + "dr-tbpnl-cntnt" //$NON-NLS-1$
 				+ SPACE + contentClass);
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
 				ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR)
@@ -124,7 +130,29 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	}
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		return encodeBody(null, (Element)sourceNode, visualDocument, null, true, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV); 
+		//table.setAttribute("include-tab", "");
+		VpeCreationData creationData = new VpeCreationData(table);
+		nsIDOMElement headerTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		headerTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+		headerTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
+		headerTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		headerTable.setAttribute(TAB_HEADER_ATTR, YES);
+		headerTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				HtmlComponentUtil.CSS_DISPLAY
+						+ ":" + DISABLED_ELEMENT_STYLE + STYLE_SEMICOLUMN); //$NON-NLS-1$
+		headerTable.appendChild(encodeHeader(creationData, (Element)sourceNode, visualDocument, table, false, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY));
+		nsIDOMElement bodyTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		bodyTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+		bodyTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
+		bodyTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		bodyTable.setAttribute(TAB_BODY_ATTR, YES); 
+		//bodyTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, HtmlComponentUtil.CSS_DISPLAY+" : "+DISABLED_ELEMENT_STYLE+";"); //$NON-NLS-1$ //$NON-NLS-2$
+		table.appendChild(headerTable);
+		table.appendChild(bodyTable);
+		encodeBody(creationData, (Element)sourceNode, visualDocument, bodyTable, true, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+		return creationData;
+
 	}
 
 	/**
@@ -150,14 +178,14 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	    
 		nsIDOMElement headerTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		parentTr.appendChild(headerTd);
-		headerTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "height: 100%; vertical-align: bottom;");
-		String styleClass = "dr-tbpnl-tbcell-dsbl rich-tabhdr-cell-dsbl";
-		if(!"true".equalsIgnoreCase(sourceElement.getAttribute(DISABLED))) {
+		headerTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "height: 100%; vertical-align: bottom;"); //$NON-NLS-1$
+		String styleClass = "dr-tbpnl-tbcell-dsbl rich-tabhdr-cell-dsbl"; //$NON-NLS-1$
+		if(!"true".equalsIgnoreCase(sourceElement.getAttribute(DISABLED))) { //$NON-NLS-1$
 			if(active) {
-				styleClass = "dr-tbpnl-tbcell-act" 
+				styleClass = "dr-tbpnl-tbcell-act"  //$NON-NLS-1$
 					+ SPACE + RichFacesTabPanelTemplate.CSS_CELL_ACTIVE;
 			} else {
-				styleClass = "dr-tbpnl-tbcell-inact"
+				styleClass = "dr-tbpnl-tbcell-inact" //$NON-NLS-1$
 					+ SPACE + RichFacesTabPanelTemplate.CSS_CELL_INACTIVE;
 			}
 		}
@@ -170,7 +198,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
 		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "height : 100%; position : relative; z-index : 2;");
+		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "height : 100%; position : relative; z-index : 2;"); //$NON-NLS-1$
 		table.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
 		nsIDOMElement mainTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
@@ -196,7 +224,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 				 */
 			}
 			if (val > 0) {
-				labelWidth = val + "px";
+				labelWidth = val + "px"; //$NON-NLS-1$
 			}
 		} else {
 			labelWidth = HUNDRED_PERCENTS;
@@ -213,23 +241,23 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		mainTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tr.appendChild(mainTd);
 
-		styleClass = "dr-tbpnl-tb dr-tbpnl-tb-dsbl"
+		styleClass = "dr-tbpnl-tb dr-tbpnl-tb-dsbl" //$NON-NLS-1$
 			+ SPACE + CSS_HEADER
 			+ SPACE + CSS_LABEL
 			+ SPACE + CSS_DISABLED
 			+ SPACE + disabledTabClass;
 		String bgImgPath = ComponentUtil.getAbsoluteResourcePath(INACTIVE_BKG_FILE_PATH);
 
-		if(!"true".equalsIgnoreCase(sourceElement.getAttribute(DISABLED))) {
+		if(!"true".equalsIgnoreCase(sourceElement.getAttribute(DISABLED))) { //$NON-NLS-1$
 			if(active) {
-				styleClass = "dr-tbpnl-tb dr-tbpnl-tb-act"
+				styleClass = "dr-tbpnl-tb dr-tbpnl-tb-act" //$NON-NLS-1$
 					+ SPACE + CSS_HEADER
 					+ SPACE + CSS_LABEL
 					+ SPACE + CSS_ACTIVE
 					+ SPACE + activeTabClass;
 				bgImgPath = ComponentUtil.getAbsoluteResourcePath(ACTIVE_BKG_FILE_PATH);
 			} else {
-				styleClass = "dr-tbpnl-tb dr-tbpnl-tb-inact"
+				styleClass = "dr-tbpnl-tb dr-tbpnl-tb-inact" //$NON-NLS-1$
 					+ SPACE + CSS_HEADER
 					+ SPACE + CSS_LABEL
 					+ SPACE + CSS_INACTIVE
@@ -237,11 +265,11 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			}
 		}
 
-		styleClass += SPACE + "dr-tbpnl-tbtopbrdr" + SPACE
+		styleClass += SPACE + "dr-tbpnl-tbtopbrdr" + SPACE //$NON-NLS-1$
 				+ RichFacesTabPanelTemplate.CSS_SIDE_CELL;
 		mainTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
-		String style = "background-image: url(file:///"
-				+ bgImgPath.replace('\\', '/') + ");";
+		String style = "background-image: url(file:///" //$NON-NLS-1$
+				+ bgImgPath.replace('\\', '/') + ");"; //$NON-NLS-1$
 		mainTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 		
 		
@@ -269,10 +297,10 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	private static void encodeSpacer(nsIDOMElement parentTr, nsIDOMDocument visualDocument) {
 	    	nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		parentTr.appendChild(td);
-		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-tbbrdr"
+		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-tbpnl-tbbrdr" //$NON-NLS-1$
 				+ SPACE + RichFacesTabPanelTemplate.CSS_SIDE_BORDER);
 		String borderImgPath = ComponentUtil.getAbsoluteResourcePath(BORDER_FILE_PATH);
-		String style = "background-image: url(file:///" + borderImgPath.replace('\\', '/') + ");";
+		String style = "background-image: url(file:///" + borderImgPath.replace('\\', '/') + ");"; //$NON-NLS-1$ //$NON-NLS-2$
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		td.appendChild(img);
