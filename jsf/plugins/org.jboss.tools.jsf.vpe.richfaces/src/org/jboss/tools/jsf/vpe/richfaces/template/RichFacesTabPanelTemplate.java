@@ -105,8 +105,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		inerTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		inerTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
 		inerTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
-		inerTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
-				CSS_CONTENT + SPACE + CSS_CONTENT_POSITION);
 
 		// Encode header
 		nsIDOMElement inerTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
@@ -145,13 +143,19 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 						(Element) child,
 						visualDocument, inerTr, active, 
 						ComponentUtil.getAttribute(sourceElement, 
-								HEADER_CLASS),
+								HEADER_CLASS) 
+								+ SPACE 
+								+ ComponentUtil.getAttribute(sourceElement,	
+									TAB_CLASS),
 						ComponentUtil.getAttribute(sourceElement, 
-								ACTIVE_TAB_CLASS),
+								ACTIVE_TAB_CLASS)
+								+ SPACE + CSS_CELL_ACTIVE,
 						ComponentUtil.getAttribute(sourceElement,
-								INACTIVE_TAB_CLASS),
+								INACTIVE_TAB_CLASS)
+								+ SPACE + CSS_CELL_INACTIVE,
 						ComponentUtil.getAttribute(sourceElement,
-								DISABLED_TAB_CLASS), 
+								DISABLED_TAB_CLASS)
+								+ SPACE + CSS_CELL_DISABLED, 
 								String.valueOf(i));
 				i++;
 				addSpacer(visualDocument, inerTr, headerSpacing);
@@ -180,19 +184,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 				if (active) {
 					RichFacesTabTemplate.encodeBody(creationData,
 							(Element) child, visualDocument, inerTr, true,
-							ComponentUtil.getAttribute(sourceElement,	
-									TAB_CLASS)
-									+ SPACE + CSS_SIDE_CELL
-									+ SPACE + CSS_SIDE_BORDER, 
-							ComponentUtil.getAttribute(sourceElement, 
-									ACTIVE_TAB_CLASS)
-									+ SPACE + CSS_CELL_ACTIVE,
-							ComponentUtil.getAttribute(sourceElement,
-									INACTIVE_TAB_CLASS)
-									+ SPACE + CSS_CELL_INACTIVE, 
-							ComponentUtil.getAttribute(sourceElement,
-									DISABLED_TAB_CLASS)
-									+ SPACE + CSS_CELL_DISABLED,
 							ComponentUtil.getAttribute(sourceElement,
 									CONTENT_CLASS)
 									+ SPACE + CSS_PANEL
