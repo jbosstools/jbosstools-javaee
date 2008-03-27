@@ -32,5 +32,6 @@ Require-Bundle:
  org.eclipse.jdt.ui,
  org.eclipse.ui.ide,
  org.eclipse.jface,
- org.eclipse.jdt.core.manipulation
+ org.eclipse.jdt.core.manipulation,
+ org.eclipse.jst.jsf.core
 Provide-Package: org.jboss.tools.seam.core.test

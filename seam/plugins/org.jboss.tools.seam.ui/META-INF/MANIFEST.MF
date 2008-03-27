@@ -54,7 +54,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.ui,
  org.jboss.tools.jst.web,
  org.eclipse.search,
- org.jboss.tools.jst.jsp
+ org.jboss.tools.jst.jsp,
+ org.eclipse.jst.jsf.core
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.actions,

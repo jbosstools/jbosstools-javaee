@@ -39,6 +39,7 @@ import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -55,6 +56,7 @@ import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.el.VariableResolver;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -729,6 +731,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		try {
 			EclipseResourceUtil.removeNatureFromProject(project,
 					ISeamProject.NATURE_ID);
+			DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(null);
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
@@ -737,6 +740,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private void addSeamSupport() {
 		try {
 			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
+			DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(VariableResolver.ID);
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}

@@ -43,7 +43,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.jsf.ui,
  org.jboss.tools.jst.web,
  org.eclipse.ui.editors,
- org.eclipse.wst.sse.ui
+ org.eclipse.wst.sse.ui,
+ org.eclipse.jst.jsf.common,
+ org.eclipse.emf.ecore
 Provide-Package: org.jboss.tools.seam.core,
  org.jboss.tools.seam.internal.core,
  org.jboss.tools.seam.internal.core.scanner,

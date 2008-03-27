@@ -344,4 +344,11 @@
        </enablement>
     </moveParticipant>
 	</extension>
+
+   <extension
+         point="org.eclipse.jst.jsf.core.variableresolver">
+      <variableresolver
+            class="org.jboss.tools.seam.internal.core.el.VariableResolver"
+            id="org.jboss.tools.seam.el.variableresolver"/>
+   </extension>
 </plugin>

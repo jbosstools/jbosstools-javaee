@@ -13,8 +13,6 @@ package org.jboss.tools.seam.core.test;
 import java.io.IOException;
 import java.util.Set;
 
-import junit.framework.TestSuite;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -25,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -32,10 +31,8 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.el.VariableResolver;
 import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
-import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
-import org.jboss.tools.seam.internal.core.validation.SeamValidator;
-import org.jboss.tools.seam.internal.core.validation.SeamValidatorManager;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
@@ -59,6 +56,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			project = setup.importProject();
 		}
 		this.project = project.getProject();
+		DesignTimeApplicationManager.getInstance(this.project).setVariableResolverProvider(VariableResolver.ID);
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		EditorTestHelper.joinBackgroundActivities();
 	}
@@ -84,6 +82,20 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
+	}
+
+	/**
+	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1318
+	 * @throws CoreException 
+	 */
+	public void testJBIDE1318() throws CoreException {
+		IFile testJSP = project.getFile("WebContent/test.jsp");
+		String[] messages = getMarkersMessage(testJSP);
+		StringBuffer error = new StringBuffer("Problem markers were found in WebContent/test.jsp: ");
+		for (int i = 0; i < messages.length; i++) {
+			error.append(messages[i]).append("; ");
+		}
+		assertTrue(error.toString(), messages.length==0);
 	}
 
 	public void testVarAttributes() throws CoreException {
