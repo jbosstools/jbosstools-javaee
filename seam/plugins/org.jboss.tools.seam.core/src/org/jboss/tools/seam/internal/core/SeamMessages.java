@@ -74,8 +74,8 @@ public class SeamMessages extends SeamAnnotatedFactory implements ISeamMessages 
 			IResource r1 = resources.get(s);
 			if(r1 == null || !r2.equals(r1)) return true;
 			long l1 = r1.getLocalTimeStamp();
-			long l2 = timestamps.get(s);
-			if(l1 != l2) return true;
+			Long l2 = timestamps.get(s);
+			if(l2 == null || l1 != l2.longValue()) return true;
 		}
 		
 		return false;		
@@ -100,6 +100,15 @@ public class SeamMessages extends SeamAnnotatedFactory implements ISeamMessages 
 					if(s.getValue() == null) continue;
 					String b = s.getValue().getValue();
 					names.add(b);
+				}
+			} else if(v instanceof ISeamValueString) {
+				ISeamValueString s = (ISeamValueString)v;
+				if(s.getValue() == null) continue;
+				String b = s.getValue().getValue();
+				if(b == null || b.length() == 0) continue;
+				String[] bi = b.split(",");
+				for (int i = 0; i < bi.length; i++) {
+					names.add(bi[i].trim());
 				}
 			}
 		}

@@ -26,6 +26,8 @@ import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.event.ISeamValue;
+import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamValueList;
@@ -37,6 +39,7 @@ import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
+import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 /**
  * @author Viacheslav Kabanovich
@@ -229,6 +232,30 @@ public class XMLScanner implements IFileScanner {
 						vl.addValue(v);
 					}
 					p.setValue(vl);
+					
+					//Sometimes there is an attribute for the same property
+					SeamProperty pa = (SeamProperty)component.getProperty(cname);
+					if(pa != null) {
+						ISeamValue v = pa.getValue();
+						if(v instanceof ISeamValueString) {
+							ISeamValueString s = (ISeamValueString)v;
+							if(s.getValue() != null) {
+								String ss = s.getValue().getValue();
+								if(ss != null && ss.length() > 0) {
+									String[] qs = ss.split(",");
+									for (int i = 0; i < qs.length; i++) {
+										SeamValueString vi = new SeamValueString();
+										vi.setId(pa.getId());
+										ValueInfo info = new ValueInfo();
+										info.setValue(qs[i]);
+										vi.setValue(info);
+										vl.addValue(vi);										
+									}
+								}
+							}
+						}
+					}
+					
 				} else {
 					//this is map value
 					SeamValueMap vm = new SeamValueMap();

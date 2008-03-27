@@ -1547,13 +1547,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	public void postBuild() {
-		Set<ISeamFactory> fff = getFactoriesByName("org.jboss.seam.international.messages");
-		if(fff.size() > 0) {
-			ISeamFactory m = fff.iterator().next();
-			if(m instanceof SeamMessages) {
-				SeamMessages sm = (SeamMessages)m;
-				sm.revalidate();
-			}
+		if(factories.messages != null) {
+			factories.messages.revalidate();
 		}
 	}
 	
@@ -1754,10 +1749,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	class FactoryStorage {
 		protected Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 		Map<IPath, Set<ISeamFactory>> factoriesBySource = new HashMap<IPath, Set<ISeamFactory>>();
+		SeamMessages messages = null;
 
 		public void clear() {
 			allFactories.clear();
 			factoriesBySource.clear();
+			messages = null;
 		}
 
 		public Set<ISeamFactory> getFactoriesBySource(IPath path) {
@@ -1776,6 +1773,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				fs.add(f);
 			}
 			addVariable(f);
+			if(f instanceof SeamMessages) {
+				messages = (SeamMessages)f;
+			}
 		}
 		
 		public void removeFactory(ISeamFactory f) {
@@ -1791,6 +1791,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				}
 			}
 			removeVariable(f);
+			if(f == messages) {
+				messages = null;
+			}
 		}
 
 		public Set<ISeamFactory> removePath(IPath path) {
@@ -1799,6 +1802,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			for (ISeamFactory f: fs) {
 				allFactories.remove(f);
 				removeVariable(f);
+				if(f == messages) messages = null;
 			}
 			factoriesBySource.remove(path);
 			return fs;

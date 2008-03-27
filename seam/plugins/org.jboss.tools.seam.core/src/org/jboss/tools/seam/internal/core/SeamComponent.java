@@ -119,13 +119,15 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		if(javaDeclaration != null) return javaDeclaration.getPrecedence();
 		return 20;
 	}
+	
+	static Set<ISeamComponentMethod> EMPTY = new HashSet<ISeamComponentMethod>();
 
 	/**
 	 * @see org.jboss.tools.seam.core.ISeamComponent#getMethods()
 	 */
 	public Set<ISeamComponentMethod> getMethods() {
 		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
-		return (javaDeclaration == null) ? null : javaDeclaration.getMethods();
+		return (javaDeclaration == null) ? EMPTY : javaDeclaration.getMethods();
 	}
 
 	/**
