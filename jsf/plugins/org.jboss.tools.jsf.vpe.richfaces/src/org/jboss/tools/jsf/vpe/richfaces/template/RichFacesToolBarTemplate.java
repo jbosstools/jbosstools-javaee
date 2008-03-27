@@ -448,11 +448,13 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 			}
 			
 			if (isItemSeparatorExists() && !isLeftItemsExists()) {
+			    if (rightToolBarItems.size() > 0)
 				rightToolBarItems.remove(0);
 			}
 			
 			if (isItemSeparatorExists() && !isRightItemsExists()) {
-				leftToolBarItems.remove(leftToolBarItems.size()-1);
+			   if (leftToolBarItems.size() > 0)
+			       leftToolBarItems.remove(leftToolBarItems.size()-1);
 			}
 		}
 		
