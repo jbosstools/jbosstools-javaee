@@ -35,6 +35,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
+import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo;
 
 /**
  * Utility class used to collect info for EL
@@ -571,7 +572,13 @@ public final class SeamELCompletionEngine {
 				if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
 					// return all the methods + properties
 					for (TypeInfoCollector.MemberInfo mbr : members) {
-						if (mbr.getMemberType() == null) continue;
+						if (mbr instanceof MessagesInfo) {
+							proposals.addAll(((MessagesInfo)mbr).getKeys());
+							continue;
+						}
+						if (mbr.getMemberType() == null) {
+							continue;
+						}
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
 						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
@@ -585,6 +592,10 @@ public final class SeamELCompletionEngine {
 					// return filtered methods + properties 
 					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
 					for (TypeInfoCollector.MemberInfo mbr : members) {
+						if (mbr instanceof MessagesInfo) {
+							proposalsToFilter.addAll(((MessagesInfo)mbr).getKeys());
+							continue;
+						}
 						if (mbr.getMemberType() == null) continue;
 						TypeInfoCollector infos = SeamExpressionResolver.collectTypeInfo(mbr);
 						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {

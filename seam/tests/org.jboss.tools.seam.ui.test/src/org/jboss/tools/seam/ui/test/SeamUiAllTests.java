@@ -34,16 +34,16 @@ public class SeamUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam UI tests");
-//		suite.addTestSuite(OpenSeamComponentDialogTest.class);
-//		suite.addTest(SeamComponentsViewAllTests.suite());
-//		suite.addTestSuite(SeamProjectNewWizardTest.class);
-//		suite.addTestSuite(SeamFormNewWizardTest.class);
-//		suite.addTestSuite(SeamPreferencesPageTest.class);		
-//		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
-//		suite.addTestSuite(SeamELContentAssistTest.class);
-//		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
-//		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
-//		suite.addTestSuite(SeamSettingsPreferencesPageTest.class);
+		suite.addTestSuite(OpenSeamComponentDialogTest.class);
+		suite.addTest(SeamComponentsViewAllTests.suite());
+		suite.addTestSuite(SeamProjectNewWizardTest.class);
+		suite.addTestSuite(SeamFormNewWizardTest.class);
+		suite.addTestSuite(SeamPreferencesPageTest.class);		
+		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
+		suite.addTestSuite(SeamELContentAssistTest.class);
+		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
+		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
+		suite.addTestSuite(SeamSettingsPreferencesPageTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
 		return suite;
 	}

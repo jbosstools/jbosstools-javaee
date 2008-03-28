@@ -30,6 +30,8 @@ import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
+import sun.management.counter.Units;
+
 public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	TestProjectProvider provider = null;
 	boolean makeCopy = false;
@@ -57,6 +59,19 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		if(provider != null) {
 			provider.dispose();
 		}
+	}
+
+	/**
+	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1258
+	 */
+	public void testMessages() {
+		try {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
+			JUnitUtils.fail(e.getMessage(), e);;
+		}
+		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
+		checkProposals("/WebContent/messages.xhtml", 494, new String[]{"messages.Text1", "messages.Text2"}, true);
 	}
 
 	/**

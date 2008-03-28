@@ -12,11 +12,17 @@
 package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.util.TypeInfoCollector;
+import org.jboss.tools.common.model.util.TypeInfoCollector.MemberInfo;
+import org.jboss.tools.common.model.util.TypeInfoCollector.Type;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -26,10 +32,12 @@ import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
+import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * Utility class used to resolve Seam project variables and to get the methods/properties and their presentation strings from type
@@ -158,6 +166,56 @@ public class SeamExpressionResolver {
 	}
 
 	/**
+	 * This object wraps "messages" context variable. 
+	 * @author Alexey Kazakov
+	 */
+	public static class MessagesInfo extends MemberInfo {
+
+		private ISeamMessages messages;
+
+		/**
+		 * @param parentMember
+		 * @param messages
+		 * @throws JavaModelException
+		 */
+		protected MessagesInfo(MemberInfo parentMember, ISeamMessages messages) throws JavaModelException {
+			super(null, null, messages.getName(), 0, null, false, null);
+			IMember member = messages.getSourceMember();
+			IType type = member.getDeclaringType();
+			setSourceType(type);
+			setDeclaringTypeQualifiedName(type==null?null:type.getFullyQualifiedName());
+			setName(messages.getName());
+			setModifiers(type.getFlags());
+			setParentMember(parentMember);
+			setDataModel(false);
+			setType(type==null?null:new Type(null, type));
+			this.messages = messages;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jboss.tools.common.model.util.TypeInfoCollector.MemberInfo#getJavaElement()
+		 */
+		@Override
+		public IJavaElement getJavaElement() {
+			return messages.getSourceMember();
+		}
+
+		/**
+		 * @return property
+		 */
+		public ISeamMessages getMessages() {
+			return messages;
+		}
+
+		/**
+		 * @return keys of resource bundle
+		 */
+		public Collection<String> getKeys() {
+			return messages.getPropertyNames();
+		}
+	}
+
+	/**
 	 * Returns the IMember for the variable specified 
 	 * 
 	 * @param variable
@@ -167,6 +225,15 @@ public class SeamExpressionResolver {
 		TypeInfoCollector.MemberInfo member = null;
 		if(variable instanceof ISeamContextShortVariable) {
 			return getMemberInfoByVariable(((ISeamContextShortVariable)variable).getOriginal(), onlyEqualNames);
+		}
+		if(variable instanceof ISeamMessages) {
+			MemberInfo info = null;;
+			try {
+				info = new MessagesInfo(null, (ISeamMessages)variable);
+			} catch (JavaModelException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+			return info;
 		}
 		if (variable instanceof ISeamComponent) {
 			ISeamComponent component = (ISeamComponent)variable;
