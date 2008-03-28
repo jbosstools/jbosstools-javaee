@@ -49,29 +49,8 @@
 				<input type="submit" value="{jsfvalue(@text)}"
 					disabled="true" class="{@styleClass}" style="{@style}"
 					title="{tagstring()}" />
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:if test="not(attrpresent('image'))">
@@ -87,29 +66,8 @@
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
 					</vpe:resize>
-					<vpe:textFormating>
-						<vpe:format type="UnderlineFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="BoldFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="ItalicFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="FontNameFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="FontSizeFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="BackgroundColorFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="ForegroundColorFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-					</vpe:textFormating>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
 				</vpe:template>
 			</vpe:if>
 			<vpe:if
@@ -125,29 +83,8 @@
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
 					</vpe:resize>
-					<vpe:textFormating>
-						<vpe:format type="UnderlineFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="BoldFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="ItalicFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="FontNameFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="FontSizeFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="BackgroundColorFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-						<vpe:format type="ForegroundColorFormat">
-							<vpe:formatAttribute type="style" />
-						</vpe:format>
-					</vpe:textFormating>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
 				</vpe:template>
 			</vpe:if>
 		</vpe:if>
@@ -163,29 +100,8 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 	</vpe:tag>
@@ -261,29 +177,8 @@
 						<vpe:container-child tag-name="selectItems"/>
 				</vpe:drop>
 			</vpe:dnd>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style"/>
-					</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
     </vpe:tag>
 
@@ -307,30 +202,12 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
 			</vpe:dnd>
-			<vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
 				<vpe:format type="UnderlineFormat" setDefault="true">
 					<vpe:formatAttribute type="style" />
 				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -341,29 +218,8 @@
 				action="{@action}" title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
 			</div>
-			<vpe:textFormating>				
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">				
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 	
@@ -375,29 +231,8 @@
 				action="{@action}" title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
 			</li>
-			<vpe:textFormating>				
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">				
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -407,29 +242,8 @@
 				title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
 			</div>
-			<vpe:textFormating>				
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">				
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -445,29 +259,8 @@
 					title="{tagstring()}">
 					<vpe:value expr="{jsfvalue(@value)}" />
 				</vpe:grid>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="no">
@@ -476,29 +269,8 @@
 				class="{@styleClass}" style="{@style}" title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
 			</vpe:list>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -525,29 +297,8 @@
 				headerClass="{@headerClass}" rowClasses="{@rowClasses}"
 				frame="{@frame}" rules="{@rules}" class="{@styleClass}"
 				style="{@style}" title="{tagstring()}" />
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 	
@@ -563,29 +314,8 @@
 				headerClass="{@headerClass}" rowClasses="{@rowClasses}"
 				frame="{@frame}" rules="{@rules}" class="{@styleClass}"
 				style="{@style}" title="{tagstring()}" />
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 	
@@ -634,29 +364,8 @@
 				title="{tagstring()}">
 				<vpe:value expr="{jsfvalue(@value)}" />
 			</div>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -717,29 +426,8 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:if test="@disabled='true'">
@@ -759,58 +447,16 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="no" modify="yes">
 			<input type="text" value="{jsfvalue(@value)}"
 				class="{@styleClass}" style="{@style}"
 				title="{tagstring()}"  size="{@size}"/>
-			<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>	
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>	
 		</vpe:template>
 	</vpe:tag>
 
@@ -845,29 +491,8 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:if test="@disabled='true'">
@@ -887,29 +512,8 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="no" modify="no">
@@ -925,29 +529,8 @@
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
 			</vpe:resize>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -967,29 +550,8 @@
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
 			</vpe:resize>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -1028,39 +590,6 @@
 					<td><a href="#">25</a></td><td><a href="#">26</a></td><td><a href="#">27</a></td><td><a href="#">28</a></td><td><a href="#">29</a></td><td><a href="#">30</a></td><td class="{@currentDayCellClass}"><a href="#">31</a></td></tr>
 			</table>
 		</vpe:template>
-		<!--vpe:template children="no" modify="no">
-			<div class="{@styleClass}" style="{@style}"
-				title="{tagstring()}">
-				<vpe:value expr="{jsfvalue(@value)}" />
-			</div>
-			<vpe:dnd>
-				<vpe:drag start-enable="yes" />
-				<vpe:drop container="no" />
-			</vpe:dnd>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
-		</vpe:template-->
 	</vpe:tag>
 
 	<vpe:tag name="t:messages">
@@ -1093,30 +622,9 @@
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
 			</vpe:resize>
-			<vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -1161,30 +669,9 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
 					<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="yes">
@@ -1200,30 +687,9 @@
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
 			</vpe:resize>
-			<vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			</vpe:textFormatting>
 		</vpe:template>		
 	</vpe:tag>
 
@@ -1239,29 +705,8 @@
 				border="{@border}" style="background-color:{@bgcolor};{@style}"
 				title="{tagstring()}">
 			</div>
-			<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 	
@@ -1287,29 +732,8 @@
 		</vpe:if>
 		<vpe:template children="yes" modify="no">
 			<div class="{@styleClass}" style="{@style}" />
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -1324,29 +748,8 @@
 				style="background-color:{@bgcolor};{@style}" rendered="{@rendered}"
 				bgcolor="{@bgcolor}">
 			</div>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -1358,29 +761,8 @@
 		</vpe:if>
 		<vpe:template children="yes" modify="no">
 			<vpe:panellayout /> 
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -1418,29 +800,8 @@
     					<vpe:container-child tag-name="selectItems" />
     				</vpe:drop>
     			</vpe:dnd>
-    			<vpe:textFormating>
-    				<vpe:format type="UnderlineFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    				<vpe:format type="BoldFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    				<vpe:format type="ItalicFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    				<vpe:format type="FontNameFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    				<vpe:format type="FontSizeFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    				<vpe:format type="BackgroundColorFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    				<vpe:format type="ForegroundColorFormat">
-    					<vpe:formatAttribute type="style" />
-    				</vpe:format>
-    			</vpe:textFormating>
+    			<vpe:textFormatting use-default-formats="yes">
+    			</vpe:textFormatting>
     		</vpe:template>
     	</vpe:if>
     	<vpe:template children="yes" modify="yes">
@@ -1453,29 +814,8 @@
     				<vpe:container-child tag-name="selectItems" />
     			</vpe:drop>
     		</vpe:dnd>
-    		<vpe:textFormating>
-    			<vpe:format type="UnderlineFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    			<vpe:format type="BoldFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    			<vpe:format type="ItalicFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    			<vpe:format type="FontNameFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    			<vpe:format type="FontSizeFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    			<vpe:format type="BackgroundColorFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    			<vpe:format type="ForegroundColorFormat">
-    				<vpe:formatAttribute type="style" />
-    			</vpe:format>
-    		</vpe:textFormating>
+    		<vpe:textFormatting use-default-formats="yes">
+    		</vpe:textFormatting>
     	</vpe:template>
     </vpe:tag>
 
@@ -1493,57 +833,15 @@
 					<input type="checkbox" disabled="true"
 						style="{@style}" class="{@styleClass}" />
 				</vpe:grid>
-			<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="yes">
 			<vpe:grid layout="{@layout}" border="{@border}"
 				title="{tagstring()}" style="{@style}" class="{@styleClass}" />
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 	
@@ -1590,29 +888,8 @@
 					<vpe:drop container="yes" />
 				</vpe:dnd>
 			</vpe:template>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:if>
 		<vpe:if test="@readonly = 'true'">
 			<vpe:template children="no" modify="no">
@@ -1626,29 +903,8 @@
 					<vpe:drag start-enable="yes" />
 					<vpe:drop container="yes" />
 				</vpe:dnd>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="yes">
@@ -1660,29 +916,8 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />
 			</vpe:dnd>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 
@@ -1722,29 +957,8 @@
 				headerClass="{@headerClass}" rowClasses="{@rowClasses}"
 				frame="{@frame}" rules="{@rules}" class="{@styleClass}"
 				style="{@style}" title="{tagstring()}" />
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
 	
@@ -1930,29 +1144,8 @@
 					<vpe:width width-attr="style.width" />
 					<vpe:height height-attr="style.height" />
 				</vpe:resize>
-				<vpe:textFormating>
-					<vpe:format type="UnderlineFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BoldFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ItalicFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontNameFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="FontSizeFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="BackgroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-					<vpe:format type="ForegroundColorFormat">
-						<vpe:formatAttribute type="style" />
-					</vpe:format>
-				</vpe:textFormating>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
 			</vpe:template>
 	</vpe:tag>
 	
@@ -1990,29 +1183,8 @@
 						<vpe:container-child tag-name="selectItems"/>
 				</vpe:drop>
 			</vpe:dnd>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style"/>
-					</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
     </vpe:tag>
     
@@ -2030,29 +1202,8 @@
 				<vpe:drop container="yes"/>
 			</vpe:dnd>
 			<vpe:breaker type="ignore"/>
-			<vpe:textFormating>
-				<vpe:format type="UnderlineFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BoldFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="ItalicFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontNameFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="FontSizeFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="BackgroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-				<vpe:format type="ForegroundColorFormat">
-					<vpe:formatAttribute type="style"/>
-				</vpe:format>
-			</vpe:textFormating>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
 		</vpe:template>
     </vpe:tag>
 
