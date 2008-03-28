@@ -14,6 +14,8 @@
     
     <title>JSF Project Verification</title>
     
+    <para>In this chapter we&apos;ll discuss a possible verification that you can take advantage of </para>
+    
     <para>JBoss Developer Studio checks for many different rules for a JSF
         project that can be configured by selecting <emphasis>
             <property>Window > Preferences</property>

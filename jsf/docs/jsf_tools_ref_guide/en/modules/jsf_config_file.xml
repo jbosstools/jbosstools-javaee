@@ -34,9 +34,6 @@
 
     <para>They can be selected via the tabs at the bottom of the editor.</para>
 
-    <para>The JSF configuration editor also comes with a very useful <link
-            linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link> selection feature.</para>
-
     <section id="Diagram9553">
 
         <title>Diagram view</title>
@@ -54,6 +51,20 @@
             </mediaobject>
         </figure>
 
+        <para>If your diagram is large, make use of the Outline view. Within  it you can switch to a <emphasis>
+            <property>Diagram Navigator</property>
+        </emphasis> mode by selecting the middle icon at the top of the view window. It allows
+            you to easily move around the diagram. Just move the blue area in any direction, and the
+            diagram on the left will also move:</para>
+        <figure>
+            <title>Outline View for Diagram</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_32.png" scale="60"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
         <para>To create a new page here, you should click the page icon (View Template) on the
             toolbar from the left and then click anywhere on the diagram. A New Page Wizard will
             appear.</para>
@@ -110,7 +121,7 @@
 
         <title>Tree View</title>
 
-        <para>The Tree mode for the editor displays all JSF application artifacts referenced in the
+        <para>The Tree view for the editor displays all JSF application artifacts referenced in the
             configuration file in a tree format. By selecting any node you can see and edit its
             properties which will appear in the right-hand area. For example, a Managed Bean:</para>
         <figure>
@@ -141,14 +152,27 @@
                 </imageobject>
             </mediaobject>
         </figure>
+
+        <para>In the <property>Tree</property> view you can also edit the properties of the selected
+            element with the help of the Properties view as shown below:</para>
+        <figure>
+            <title>Properties View </title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_33.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
     </section>
     <section id="SourceView4643">
 
         <title>Source View</title>
 
-        <para>The Source mode for the editor displays a text view of the JSF configuration file. All
-            three viewers are always synchronized, so any changes made in one of the viewers will
-            immediately appear in the others:</para>
+        <para>Here, we&apos;ll discuss how you can configure your faces-config.xml with the help of Source View.</para>
+        <para>The Source view for the editor displays a text content of the JSF configuration file.
+            It is always synchronized with other two views, so any changes made in one of the views
+            will immediately appear in the other:</para>
         <figure>
             <title>Source View</title>
             <mediaobject>
@@ -158,9 +182,24 @@
             </mediaobject>
         </figure>
 
+
+        <para>You can also work in the Source view with the help of the <emphasis>
+                <property>Outline view</property>.</emphasis> The Outline view shows a tree
+            structure of the JSF configuration file. Simply select any element in the Outline view,
+            and it will jump to the same place in the Source editor, so you can navigate through the
+            source code with Outline view.</para>
+        <figure>
+            <title>Outline View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_31.png" scale="60"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
         <section id="ContentAssist976">
 
-            <title>Code Assist</title>
+            <title>Code Assist and Open On</title>
             <para>Code Assist provides pop-up tip to help you complete your code statements. It
                 allows you to write your code faster and with more accuracy.</para>
             <para>Code assist is always available in the Source mode:</para>
@@ -172,6 +211,10 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+
+            <para>The JSF configuration editor also comes with a very useful <link
+                    linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link> selection feature.</para>
+
         </section>
         <section id="ErrorReporting3324">
 
@@ -200,44 +243,6 @@
                 </mediaobject>
             </figure>
 
-            <para>You can also work in the Source editor with the help of the <emphasis>
-                    <property>Outline view</property>.</emphasis> The Outline views show a tree
-                structure of the JSF configuration file. Simply select any element in the Outline
-                view, and it will jump to the same place in the Source editor, so you can navigate
-                through the source code with Outline view.</para>
-            <figure>
-                <title>Outline View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/jsf_support/jsf_support_31.png" scale="60"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>If your diagram is large, within Outline view you can switch to a <emphasis>
-                    <property>Diagram Navigator</property>
-                </emphasis> mode by selecting the middle icon at the top of the view window. It
-                allows you to easily move around the diagram. Just move the blue area in any
-                direction, and the diagram on the left will also move:</para>
-            <figure>
-                <title>Outline View for Diagram</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/jsf_support/jsf_support_32.png" scale="60"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>You can also edit the properties of the selected element in the
-                <property>Tree</property> mode with the help of the Properties view as shown below:</para>
-            <figure>
-                <title>Properties View </title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/jsf_support/jsf_support_33.png" scale="75"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
         </section>
     </section>
 

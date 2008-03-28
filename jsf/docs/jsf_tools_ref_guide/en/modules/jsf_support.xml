@@ -80,8 +80,9 @@
                                 project with Facelets based on version 1.2 of the JSF Reference
                                 Implementation, i. e. select the <emphasis>
                                         <property>JSF 1.2 with Facelets</property>
-                                </emphasis> in the JSF Environment section of the New JSF Project wizard.</para>
-                        
+                                </emphasis> in the JSF Environment section of the New JSF Project
+                                wizard.</para>
+
                         <figure>
                                 <title>Choosing Facelets Environment</title>
                                 <mediaobject>
@@ -92,9 +93,9 @@
                                         </imageobject>
                                 </mediaobject>
                         </figure>
-                        
-                        <para>Once you&apos;ve selected the
-                                environment, it&apos;s possible to specify the one of three available templates:</para>
+
+                        <para>Once you&apos;ve selected the environment, it&apos;s possible
+                                to specify the one of three available templates:</para>
                         <figure>
                                 <title>Choosing Facelets Template</title>
                                 <mediaobject>
@@ -216,8 +217,9 @@
                 <section>
                         <title>Code assist for Facelets</title>
 
-                        <para>Code assist (Ctrl + Space) for <property>Facelets tags</property> is
-                                available when editing <emphasis>
+                        <para>One more feature which comes with Facelets support is code assist
+                                (Ctrl + Space). It is available for <property>Facelets tags</property>
+                                 while editing <emphasis>
                                         <property>.xhtml</property>
                                 </emphasis> files.</para>
 
@@ -280,7 +282,7 @@
                 </section>
                 <section>
                         <title>Open On feature</title>
-                        <para>JBDS provides Eclipse&apos;s <emphasis>
+                        <para>Finally, JBDS provides Eclipse&apos;s <emphasis>
                                         <property>OpenOn</property>
                                 </emphasis> feature for editing Facelets files. Using this feature,
                                 you can easily navigate between the <property>Facelets

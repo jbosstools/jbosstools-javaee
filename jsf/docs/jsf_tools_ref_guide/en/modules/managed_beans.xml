@@ -103,7 +103,7 @@
                 </mediaobject>
             </figure>
             
-            <para>The generated Java source:</para>
+            <para>The generated Java source should look as follows:</para>
             
             <figure>
                 <title>Java Source Code</title>
@@ -115,6 +115,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+            
             <para>You can also generate source code for properties, also
                 includes <emphasis role="italic">
                     <property>&quot;getter&quot;</property>
@@ -154,9 +155,9 @@
             </figure>
             <para>Once the generation is complete, you can open the file and see
                 the added property with <emphasis role="italic">
-                    <property>&quot;getter&quot;</property>
+                    <property>&quot;get&quot;</property>
                 </emphasis> and <emphasis role="italic">
-                    <property>&quot;setter&quot;</property>
+                    <property>&quot;set&quot;</property>
                 </emphasis> methods:</para>
             <figure>
                 <title>Generated Java Source Code for Property</title>
@@ -169,7 +170,7 @@
                 </mediaobject>
             </figure>
             <para>Thus, we&apos;ve discussed everything which comes to
-                creating a new Managed Bean. Further we will show you how to
+                creating a new Managed Bean. The next section will show you how to
                 add an existing Bean into a JSF configuration file.</para>
         </section>
         <section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
@@ -191,7 +192,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Once the class is set, it&apos;s <emphasis>
+            <para>Once the class is set, its <emphasis>
                 <property>Name</property>
             </emphasis> will be set as well. But you can easily
                 substitute it for the other one. Notice that <emphasis>
@@ -223,10 +224,9 @@
             <para>If you don&apos;t want to add any, just click <emphasis>
                 <property>Finish</property>. </emphasis></para>
         </section>
-        <para>Above-listed steps have demonstrated specifying an existing Bean in
+        <para>Above-listed steps have demonstrated how you can specify an existing Bean in
             the JSF configuration file, i.e. <emphasis>
                 <property>faces-config.xml</property>. </emphasis> In the
-            next section you&apos;ll know how to organize and register a
-            custom Converter to specify your own converting rules.</para>
+            next chapter you&apos;ll know how to organize and register another kind of artifacts.</para>
 
 </chapter>

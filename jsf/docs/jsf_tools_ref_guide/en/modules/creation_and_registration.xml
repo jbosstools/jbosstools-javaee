@@ -16,7 +16,10 @@
         
         <title>Create and Register a Custom Converter</title>
         
-        <para>To create and register a custom converter it&apos;s necessary to
+        <para>With JBDS it&apos;s also possible to create a
+            custom Converter in order to specify your own converting rules. Let&apos;s look at how you can do this.</para>
+            
+            <para>To create and register a custom converter it&apos;s necessary to
             go through the following steps:</para>
         
         <itemizedlist>
@@ -115,9 +118,7 @@
             <listitem>
                 <para>To open a converter class click again on <emphasis>
                     <property>Converter-class</property>
-                </emphasis> link in the Converter section. Now you
-                    are able to add a business logic of converter in the
-                    Java editor.</para>
+                </emphasis> link in the Converter section.</para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -130,7 +131,9 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+        <para>Now you
+            are able to add a business logic of converter in the
+            Java editor.</para>
     </section>
     
     <section id="CreateAndRegisterACustomValidator5632">
@@ -253,7 +256,7 @@
         <title>Create and Register Referenced Beans</title>      
         
         <para>Creation of Referenced Beans is similar to creation of Custom
-            Validator.</para>
+            Validator as well. To perform this, let&apos;s walk through the necessary steps.</para>
         
         <itemizedlist>
             <listitem>
