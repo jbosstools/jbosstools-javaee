@@ -368,7 +368,7 @@
 
                                 <para>Once the file have been created, it should be open in a
                                         special <link
-                                                linkend="GraphicalEditorAndViewingForJSFConfigurationFiles76331"
+                                                linkend="jsf_config_file"
                                                 >Faces Config Editor</link>.</para>
                         </section>
                         <section id="AddingYourOwnProjectTemplates853">

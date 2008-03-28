@@ -8,8 +8,7 @@
 <!ENTITY projects SYSTEM "modules/projects.xml">
 <!ENTITY jsf_config_file SYSTEM "modules/jsf_config_file.xml">
 <!ENTITY managed_beans SYSTEM "modules/managed_beans.xml">
-<!ENTITY cust_converters_validators SYSTEM "modules/cust_converters_validators.xml">
-<!ENTITY referenced_beans SYSTEM "modules/referenced_beans.xml">
+<!ENTITY creation_and_registration SYSTEM "modules/creation_and_registration.xml">
 <!ENTITY jsf_project_verification SYSTEM "modules/jsf_project_verification.xml">
 ]>
 <book>
@@ -31,7 +30,6 @@
     &projects;
     &jsf_config_file;
     &managed_beans;
-    &cust_converters_validators;
-    &referenced_beans;
+    &creation_and_registration;
     &jsf_project_verification;
 </book>    
