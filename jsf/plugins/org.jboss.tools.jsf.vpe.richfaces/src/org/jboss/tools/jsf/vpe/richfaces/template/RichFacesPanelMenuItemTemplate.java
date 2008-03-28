@@ -99,7 +99,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	public static VpeCreationData encode(VpePageContext pageContext,
 			VpeCreationData creationData, Element sourceParentElement,
 			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement parentVisualElement, boolean active) {
+			nsIDOMElement parentVisualElement) {
 
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
 

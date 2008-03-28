@@ -128,23 +128,23 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	public static VpeCreationData encode(VpePageContext pageContext,
 			VpeCreationData creationData, Element sourceParentElement,
 			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement parentVisualElement, boolean expanded,
-			int activeChildId) {
+			nsIDOMElement parentVisualElement, List<String> activeIds,
+			String childId) {
+			
+		/*
+		 * Counts child groups in a parent group 
+		 */
+		int childGroupCount = 1;
 		boolean disabled = false;
 		Element parent = getRichPanelParent(sourceElement);
 
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, NAME_COMPONENT);
-
-		if (expanded == true) {
-			activeChildId = -1;
-		}
-
+		boolean expanded = activeIds.contains(childId);
 		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		parentVisualElement.appendChild(div);
 		div.setAttribute(COMPONENT_ATTR_VPE_SUPPORT, NAME_COMPONENT);
-		div.setAttribute(COMPONENT_ATTR_VPE_USER_TOGGLE_ID, String
-				.valueOf(activeChildId));
+		div.setAttribute(COMPONENT_ATTR_VPE_USER_TOGGLE_ID, childId);
 
 		if ("true".equalsIgnoreCase(sourceParentElement
 				.getAttribute(PANEL_MENU_GROUP_ATTR_DISABLED))) {
@@ -158,7 +158,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		}
 
 		buildTable(pageContext, sourceParentElement, parent, sourceElement,
-				visualDocument, div, expanded, disabled, activeChildId);
+				visualDocument, div, expanded, disabled, childId);
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 
@@ -181,14 +181,15 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 								PANEL_MENU_GROUP_END_TAG)) {
 							RichFacesPanelMenuGroupTemplate.encode(pageContext,
 									creationData, sourceParentElement,
-									(Element) child, visualDocument, div, true,
-									-1);
+									(Element) child, visualDocument, div, activeIds,
+									childId + "-" + childGroupCount);
+									childGroupCount++;
 						} else {
 							RichFacesPanelMenuItemTemplate
 									.encode(pageContext, creationData,
 											sourceParentElement,
 											(Element) child, visualDocument,
-											div, false);
+											div);
 						}
 					}
 
@@ -207,14 +208,13 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 				creationData.addChildrenInfo(childrenInfo);
 			}
 		}
-
 		return creationData;
 	}
 
 	private static final void buildTable(VpePageContext pageContext,
 			Element sourceParentElement, Element parent, Element sourceElement,
 			nsIDOMDocument visualDocument, nsIDOMElement div, boolean expanded,
-			boolean disabled, int activeChildId) {
+			boolean disabled, String activeChildId) {
 		String disabledStyle = sourceElement
 				.getAttribute(PANEL_MENU_GROUP_ATTR_DISABLED_STYLE);
 		String disableClass = null;
@@ -290,7 +290,9 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		setIcon(pageContext, parent, sourceParentElement, sourceElement, img1,
 				img2, expanded, disabled);
 
-		if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
+		if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
+				|| ((parent.getNodeName().endsWith(PANEL_MENU_GROUP_END_TAG)) 
+						&& (sourceElement.getNodeName().endsWith(PANEL_MENU_GROUP_END_TAG)))) {
 			if (styleClass != null
 					&& sourceParentElement
 							.getAttribute(PANEL_MENU_ATTR_TOP_GROUP_CLASS) != null) {

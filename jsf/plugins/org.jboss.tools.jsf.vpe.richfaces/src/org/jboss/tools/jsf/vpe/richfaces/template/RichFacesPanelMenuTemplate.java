@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +46,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup";
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem";
 
-	private static Map toggleMap = new HashMap();
+	private List<String> activeIds = new ArrayList<String>();
 
 	// private static final String DISABLED_STYLE_FOR_TABLE = "color:#B1ADA7";
 
@@ -74,22 +76,18 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 		}
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
-		int activeId = getActiveId(sourceElement, children);
-		int i = 0;
+		int i = 1;
 
 		for (Node child : children) {
-
-			boolean expanded = (i == activeId);
-
 			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
 				RichFacesPanelMenuGroupTemplate.encode(pageContext,
 						vpeCreationData, sourceElement, (Element) child,
-						visualDocument, div, expanded, i);
+						visualDocument, div, getActiveIds(), String.valueOf(i));
 				i++;
 			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
 				RichFacesPanelMenuItemTemplate.encode(pageContext,
 						vpeCreationData, sourceElement, (Element) child,
-						visualDocument, div, expanded);
+						visualDocument, div);
 			} else {
 				nsIDOMElement childDiv = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -104,25 +102,12 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	}
 
 	/**
+	 * Gets the active ids.
 	 * 
-	 * @param sourceElement
-	 * @param children
-	 * @return
+	 * @return the active ids
 	 */
-	private int getActiveId(Element sourceElement, List<Node> children) {
-		int activeId = -1;
-		try {
-			activeId = Integer.valueOf((String) toggleMap.get(sourceElement));
-		} catch (NumberFormatException nfe) {
-			activeId = -1;
-		}
-
-		int count = getChildrenCount(children);
-		if (count - 1 < activeId) {
-			activeId = count - 1;
-		}
-
-		return activeId;
+	private List<String> getActiveIds() {
+		return activeIds;
 	}
 
 	/**
@@ -142,11 +127,24 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
-		toggleMap.put(sourceNode, toggleId);
+		
+		if (activeIds.contains(toggleId)) {
+			activeIds.remove(toggleId);
+			
+			for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
+				String id = iterator.next();
+				if (id.startsWith(toggleId)) {
+					iterator.remove();
+				}
+			}
+		} else{
+			activeIds.add(toggleId);
+		}
+		
 	}
 
 	public void stopToggling(Node sourceNode) {
-		toggleMap.remove(sourceNode);
+		activeIds.clear();
 	}
 
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
