@@ -12,9 +12,6 @@
 
 .dr-pmenu-top-group-div {
 	border-color: #C4C0B9;
-}
-
-.dr-pmenu-top-group-div {
 	border: 1px solid;
 	margin-bottom: 3px;
 	padding: 1px;
@@ -26,6 +23,10 @@
 	margin-bottom: 3px;
 	padding: 1px;
 	border-color: #C4C0B9;
+}
+
+.dr-pmenu-group {
+	cursor: pointer;
 }
 
 .dr-pmenu-top-group {

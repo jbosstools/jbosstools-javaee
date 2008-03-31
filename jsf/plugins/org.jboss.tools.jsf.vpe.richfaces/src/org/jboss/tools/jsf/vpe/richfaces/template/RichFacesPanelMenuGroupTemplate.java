@@ -59,6 +59,8 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	
 	private static final String TRUE = "true"; //$NON-NLS-1$
 	private static final String RIGHT = "right"; //$NON-NLS-1$
+	private static final String SPACE = " "; //$NON-NLS-1$
+	private static final String EMPTY = ""; //$NON-NLS-1$
 	
 	/*
 	 *	rich:panelMenu attributes for groups
@@ -215,24 +217,10 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 			Element sourceParentElement, Element parent, Element sourceElement,
 			nsIDOMDocument visualDocument, nsIDOMElement div, boolean expanded,
 			boolean disabled, String activeChildId) {
-		String disabledStyle = pmg_disabledStyle;
-		String disableClass = null;
-		String style = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-		String styleClass = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
-
-		if (disabledStyle == null){
-			disabledStyle = pm_disabledGroupStyle;
-		}
-
-		if (attrPresents(pmg_disabledClass)) {
-			disableClass = pmg_disabledClass;
-		} else if (attrPresents(pm_disabledGroupClass)) {
-			disableClass = pm_disabledGroupClass;
-		} else {
-			disableClass = "rich-pmenu-group-disabled"; //$NON-NLS-1$
-		}
+		String disabledStyle = EMPTY;
+		String disableClass = EMPTY;
+		String style = EMPTY;
+		String styleClass = EMPTY;
 
 		nsIDOMElement table = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
@@ -284,54 +272,66 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		setIcon(pageContext, parent, sourceParentElement, sourceElement, img1,
 				img2, expanded, disabled);
 
-		if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
-				|| ((parent.getNodeName().endsWith(PANEL_MENU_GROUP_END_TAG)) 
-						&& (sourceElement.getNodeName().endsWith(PANEL_MENU_GROUP_END_TAG)))) {
-			if (styleClass != null
-					&& attrPresents(pm_topGroupClass)) {
+		boolean childOfPanelMenu = parent.getNodeName().endsWith(
+				PANEL_MENU_END_TAG);
+
+		if (childOfPanelMenu) {
+			if (attrPresents(pm_topGroupClass)) {
 				styleClass = "dr-pmenu-group-self-label dr-pmenu-top-group" //$NON-NLS-1$
-						+ " " //$NON-NLS-1$
-						+ pm_topGroupClass;
+						+ SPACE + pm_topGroupClass;
 			} else {
 				styleClass = "dr-pmenu-group-self-label dr-pmenu-top-group"; //$NON-NLS-1$
 			}
-			
-			if (style != null
-					&& attrPresents(pm_topGroupStyle)) {
-				style = pm_topGroupStyle;
-			} else {
-				style = ""; //$NON-NLS-1$
+
+			if (attrPresents(pm_topGroupStyle)) {
+				style += pm_topGroupStyle;
 			}
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					"dr-pmenu-top-group-div"); //$NON-NLS-1$
 		} else {
-			if (styleClass != null
-					&& attrPresents(pm_groupClass)) {
-				styleClass = "dr-pmenu-group-self-label rich-pmenu-group-self-label" //$NON-NLS-1$
-						+ " " //$NON-NLS-1$
-						+ pm_groupClass;
+			if (attrPresents(pm_groupClass)) {
+				styleClass = "dr-pmenu-group-self-label dr-pmenu-group rich-pmenu-group-self-label" //$NON-NLS-1$
+						+ SPACE + pm_groupClass;
 			} else {
-				styleClass = "dr-pmenu-group-self-label rich-pmenu-group-self-label"; //$NON-NLS-1$
+				styleClass = "dr-pmenu-group-self-label dr-pmenu-group rich-pmenu-group-self-label"; //$NON-NLS-1$
 			}
-			if (style != null
-					&& attrPresents(pm_groupStyle)) {
-				style = pm_groupStyle;
-			} else {
-				style = ""; //$NON-NLS-1$
+			if (attrPresents(pm_groupStyle)) {
+				style += pm_groupStyle;
 			}
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					"dr-pmenu-top-self-div"); //$NON-NLS-1$
 		}
 
-		if (disabled) {
-			styleClass = styleClass + " " + disableClass; //$NON-NLS-1$
-
-			if (disabledStyle != null) {
-				style = style + " " + disabledStyle; //$NON-NLS-1$
-			}
+		if (attrPresents(pmg_style)) {
+			style += SPACE + pmg_style;
+		}
+		if (attrPresents(pm_styleClass)) {
+			styleClass += SPACE + pm_styleClass;
+		}
+		if (attrPresents(pmg_styleClass)) {
+			styleClass += SPACE + pmg_styleClass;
 		}
 
-		if (!"".equals(style.trim())) { //$NON-NLS-1$
+		if (disabled) {
+			if (attrPresents(pm_disabledGroupClass)) {
+				disableClass += SPACE + pm_disabledGroupClass;
+			}
+			if (attrPresents(pmg_disabledClass)) {
+				disableClass += SPACE + pmg_disabledClass;
+			} 
+			disableClass += SPACE + "rich-pmenu-group-disabled"; //$NON-NLS-1$
+			styleClass += SPACE + disableClass;
+			
+			if (attrPresents(pm_disabledGroupStyle)) {
+				disabledStyle += pm_disabledGroupStyle;
+			}
+			if (attrPresents(pmg_disabledStyle)) {
+				disabledStyle += pmg_disabledStyle;
+			}
+			style += SPACE + disabledStyle;
+		}
+		
+		if (!EMPTY.equals(style.trim())) {
 			table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 		}
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
@@ -503,6 +503,6 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
      * @return true, if successful
      */
     private static boolean attrPresents(String attr) {
-		return ((null != attr) && (!"".equals(attr))); //$NON-NLS-1$
+		return null != attr;
 	}
 }

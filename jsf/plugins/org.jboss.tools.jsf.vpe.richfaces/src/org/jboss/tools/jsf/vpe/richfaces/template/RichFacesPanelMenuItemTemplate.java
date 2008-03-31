@@ -51,6 +51,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String IMG_SPACER_SRC = "/panelMenuItem/spacer.gif"; //$NON-NLS-1$
 	private static final String STYLE_PATH = "/panelMenuItem/style.css"; //$NON-NLS-1$
 	
+	private static final String TRUE = "true"; //$NON-NLS-1$
 	private static final String NO_SIZE_VALUE = "0"; //$NON-NLS-1$
 	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
 	
@@ -60,6 +61,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	/*
 	 *	rich:panelMenu attributes for items
 	 */ 
+	private static String pm_disabled;
 	private static String pm_iconItem;
 	private static String pm_iconDisabledItem;
 	private static String pm_iconItemPosition;
@@ -179,7 +181,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			if (sourceElement.getParentNode().getNodeName().endsWith(
 					":panelMenu")) { //$NON-NLS-1$
 
-				if ("true".equalsIgnoreCase(pmi_disabled)) { //$NON-NLS-1$
+				if ((TRUE.equalsIgnoreCase(pmi_disabled))
+						|| (TRUE.equalsIgnoreCase(pm_disabled))) {
 					setIcon(pageContext, imgPoints, sourceElement,
 							sourceParentElement, pm_iconTopDisabledItem,
 							pmi_iconDisabled);
@@ -197,7 +200,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 						imgPoints, imgSpacer2);
 
 			} else {
-				if ("true".equalsIgnoreCase(pmi_disabled)) { //$NON-NLS-1$
+				if ((TRUE.equalsIgnoreCase(pmi_disabled))
+						|| (TRUE.equalsIgnoreCase(pm_disabled))) {
 					setIcon(pageContext, imgPoints, sourceElement,
 							sourceParentElement, pm_iconDisabledItem,
 							pmi_iconDisabled);
@@ -324,6 +328,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		/*
 		 *	rich:panelMenu attributes for items
 		 */ 
+		pm_disabled = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED);
 		pm_iconItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM);
 		pm_iconDisabledItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLED_ITEM);
 		pm_iconItemPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM_POSITION);
