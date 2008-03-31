@@ -20,14 +20,10 @@
 }
 
 .rich-tabhdr-side-border {
-	border-top-width: 1px;
-	border-top-style: solid;
 }
 
 .rich-tabhdr-side-cell {
-	border-top-color: #C4C0B9;
-	background-repeat: no-repeat;
-	background-position: top;
+
 }
 
 .rich-tabhdr-cell-active {
@@ -45,6 +41,13 @@
 }
 
 .rich-tab-header {
+	border-style: solid;
+	border-width: 1px 1px 0pt;
+	/*border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #C4C0B9;*/
+	background-repeat: no-repeat;
+	background-position: top;
 	padding: 2px 10px 2px 10px;
 	text-align: center;
 	color: #000000;
@@ -57,10 +60,6 @@ rich-tab-label {
 }
 
 .rich-tab-active {
-	border-width: 1px;
-	border-style: solid;
-	padding: 3px 10px 4px 10px;
-	border-bottom: 0px;
 	background-repeat: repeat-x;
 	background-position: top;
 	cursor: default;
@@ -70,9 +69,6 @@ rich-tab-label {
 }
 
 .rich-tab-inactive {
-	border-width: 1px;
-	border-style: solid;
-	border-bottom: 0px;
 	background-repeat: repeat-x;
 	background-position: top;
 	cursor: default;
@@ -80,9 +76,6 @@ rich-tab-label {
 }
 
 .rich-tab-disabled {
-	border-width: 1px;
-	border-style: solid;
-	border-bottom: 0px;
 	background-repeat: repeat-x;
 	background-position: top;
 	cursor: default;

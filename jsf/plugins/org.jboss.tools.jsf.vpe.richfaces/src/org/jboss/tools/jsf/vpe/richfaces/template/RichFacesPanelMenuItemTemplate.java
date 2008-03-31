@@ -27,65 +27,68 @@ import org.w3c.dom.Node;
 
 public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
-	private static final String STYLE_PATH = "/panelMenuItem/style.css";
+	/*
+	 * rich:panelMenuItem attributes
+	 */
+	private static final String DISABLED = "disabled"; //$NON-NLS-1$
+	private static final String ICON = "icon"; //$NON-NLS-1$
+	private static final String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
+	private static final String ITEM_CLASS = "itemClass"; //$NON-NLS-1$
+	private static final String ITEM_STYLE = "itemStyle"; //$NON-NLS-1$
+	private static final String DISABLED_CLASS = "disabledClass"; //$NON-NLS-1$
+	private static final String DISABLED_STYLE = "disabledStyle"; //$NON-NLS-1$
+	private static final String STYLE = "style"; //$NON-NLS-1$
+	private static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 
-	private static final String PANEL_MENU_ITEM_CLASS = "dr-pmenu-item";
-
-	private static final String NO_SIZE_VALUE = "0";
-
-	private static final String DEFAULT_SIZE_VALUE = "16";
-
-	private static final String PANEL_MENU_NOWARP_CLASS = "dr-pmenu-nowrap";
-
-	private static final String PANEL_MENU_LABLE_CLASS = "dr-pmenu-group-self-label";
-
-	private static final String PANEL_MENU_DIV = "dr-pmenu-top-self-div";
-
-	private static final String PANEL_MENU_ITEM = "panelMenuItem";
-
-	private static final String IMG_POINTS_SRC = "/panelMenuItem/points.gif";
-
-	private static final String IMG_SPACER_SRC = "/panelMenuItem/spacer.gif";
-
-	private static final String EMPTY_DIV_STYLE = "display: none;";
-
-	private static final String DISABLED_CLASS = "dr-pmenu-item-disabled";
-
-	private static final String DISABLED_ITEM_STYLE = "disabledItemStyle";
-
-	private static final String ITEM_CLASS = "itemClass";
-
-	private static final String ICON_ITEM_TOP_POSITION = "iconItemTopPosition";
-
-	private static final String TOP_ITEM_STYLE = "topItemStyle";
-
-	private static final String ICON_TOP_DISABLED_ITEM = "iconTopDisabledItem";
-
-	private static final String DISABLE_ITEM_CLASS = "disableItemClass";
-
-	private static final String ICON_DISABLED_ITEM = "iconDisabledItem";
-
-	private static final String ICON_ITEM_POSITION = "iconItemPosition";
-
-	private static final String ICON_ITEM = "iconItem";
-
-	private static final String ICON_TOP_ITEM = "iconTopItem";
-
-	private static final String TOP_ITEM_CLASS = "topItemClass";
-
-	private static final String ITEM_STYLE = "itemStyle";
-
-	private static final String ICON_DISABLED = "iconDisabled";
-
-	private static final String ICON = "icon";
-
-	private static final String STYLE_CLASS = "styleClass";
-
-	private static final String STYLE = "style";
-
-	private static final String DISABLED = "disabledClass";
-
-	private static final String DISABLED_STYLE = "disabledStyle";
+	
+	private static final String PANEL_MENU_ITEM_CLASS = "dr-pmenu-item"; //$NON-NLS-1$
+	private static final String PANEL_MENU_NOWARP_CLASS = "dr-pmenu-nowrap"; //$NON-NLS-1$
+	private static final String PANEL_MENU_LABLE_CLASS = "dr-pmenu-group-self-label"; //$NON-NLS-1$
+	private static final String PANEL_MENU_DIV = "dr-pmenu-top-self-div"; //$NON-NLS-1$
+	private static final String DISABLED_CLASS_NAME = "dr-pmenu-item-disabled"; //$NON-NLS-1$
+	
+	private static final String IMG_POINTS_SRC = "/panelMenuItem/points.gif"; //$NON-NLS-1$
+	private static final String IMG_SPACER_SRC = "/panelMenuItem/spacer.gif"; //$NON-NLS-1$
+	private static final String STYLE_PATH = "/panelMenuItem/style.css"; //$NON-NLS-1$
+	
+	private static final String NO_SIZE_VALUE = "0"; //$NON-NLS-1$
+	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
+	
+	private static final String PANEL_MENU_ITEM = "panelMenuItem"; //$NON-NLS-1$
+	private static final String EMPTY_DIV_STYLE = "display: none;"; //$NON-NLS-1$
+	
+	/*
+	 *	rich:panelMenu attributes for items
+	 */ 
+	private static String pm_iconItem;
+	private static String pm_iconDisabledItem;
+	private static String pm_iconItemPosition;
+	private static String pm_iconTopItem;
+	private static String pm_iconTopDisabledItem;
+	private static String pm_iconItemTopPosition;
+	
+	/*
+	 *	rich:panelMenu style classes for items
+	 */ 
+	private static String pm_disabledItemClass;
+	private static String pm_disabledItemStyle;
+	private static String pm_topItemClass;
+	private static String pm_topItemStyle;
+	private static String pm_itemClass;
+	private static String pm_itemStyle;
+	
+	/*
+	 * rich:panelMenuItem attributes
+	 */
+	private static String pmi_disabled;
+	private static String pmi_icon;
+	private static String pmi_iconDisabled;
+	private static String pmi_itemClass;
+	private static String pmi_itemStyle;
+	private static String pmi_disabledClass;
+	private static String pmi_disabledStyle;
+	private static String pmi_style;
+	private static String pmi_styleClass;
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -103,8 +106,11 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, PANEL_MENU_ITEM);
 
-		nsIDOMElement parentDiv = visualDocument.createElement("div");
-		parentDiv.setAttribute("CLASS", PANEL_MENU_DIV);
+		readPanelMenuAttributes(sourceParentElement);
+		readPanelMenuItemAttributes(sourceElement);
+		
+		nsIDOMElement parentDiv = visualDocument.createElement("div"); //$NON-NLS-1$
+		parentDiv.setAttribute("CLASS", PANEL_MENU_DIV); //$NON-NLS-1$
 		parentVisualElement.appendChild(parentDiv);
 		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -112,10 +118,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		parentDiv.appendChild(div);
 
 		if (sourceElement.getParentNode().getNodeName().endsWith(
-				":panelMenuGroup")
+				":panelMenuGroup") //$NON-NLS-1$
 				|| (sourceElement.getParentNode().getNodeName()
-						.endsWith(":panelMenu"))) {
-			div.setAttribute("vpeSupport", PANEL_MENU_ITEM);
+						.endsWith(":panelMenu"))) { //$NON-NLS-1$
+			div.setAttribute("vpeSupport", PANEL_MENU_ITEM); //$NON-NLS-1$
 			nsIDOMElement table = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 			div.appendChild(table);
@@ -145,10 +151,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			tdLable.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					PANEL_MENU_LABLE_CLASS);
 			tdLable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-					"element.style");
+					"element.style"); //$NON-NLS-1$
 
-			String value = sourceElement.getAttribute("label");
-			nsIDOMText text = visualDocument.createTextNode(value == null ? ""
+			String value = sourceElement.getAttribute("label"); //$NON-NLS-1$
+			nsIDOMText text = visualDocument.createTextNode(value == null ? "" //$NON-NLS-1$
 					: value);
 
 			tdLable.appendChild(text);
@@ -171,54 +177,41 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 
 			if (sourceElement.getParentNode().getNodeName().endsWith(
-					":panelMenu")) {
+					":panelMenu")) { //$NON-NLS-1$
 
-				if (isDisabledItem(sourceElement.getAttribute("disabled"))) {
+				if ("true".equalsIgnoreCase(pmi_disabled)) { //$NON-NLS-1$
 					setIcon(pageContext, imgPoints, sourceElement,
-							sourceParentElement, ICON_TOP_DISABLED_ITEM,
-							ICON_DISABLED);
-					setItemClassAndStyle(table, sourceParentElement
-							.getAttribute(DISABLE_ITEM_CLASS), sourceElement
-							.getAttribute(DISABLED), DISABLED_CLASS,
-							sourceParentElement
-									.getAttribute(DISABLED_ITEM_STYLE),
-							sourceElement.getAttribute(DISABLED_STYLE));
+							sourceParentElement, pm_iconTopDisabledItem,
+							pmi_iconDisabled);
+					setItemClassAndStyle(table, pm_disabledItemClass,
+							pmi_disabledClass, DISABLED_CLASS_NAME,
+							pm_disabledItemStyle, pmi_disabledStyle);
 				} else {
 					setIcon(pageContext, imgPoints, sourceElement,
-							sourceParentElement, ICON_TOP_ITEM, ICON);
-					setItemClassAndStyle(table, sourceParentElement
-							.getAttribute(TOP_ITEM_CLASS), sourceElement
-							.getAttribute(STYLE_CLASS), PANEL_MENU_ITEM_CLASS,
-							sourceParentElement.getAttribute(TOP_ITEM_STYLE),
-							sourceElement.getAttribute(STYLE));
+							sourceParentElement, pm_iconTopItem, pmi_icon);
+					setItemClassAndStyle(table, pm_topItemClass,
+							pmi_styleClass, PANEL_MENU_ITEM_CLASS,
+							pm_topItemStyle, pmi_style);
 				}
-				setIconPosition(sourceParentElement
-						.getAttribute(ICON_ITEM_TOP_POSITION), td, tdNowrap,
+				setIconPosition(pm_iconItemTopPosition, td, tdNowrap,
 						imgPoints, imgSpacer2);
 
 			} else {
-				if (isDisabledItem(sourceElement.getAttribute("disabled"))) {
+				if ("true".equalsIgnoreCase(pmi_disabled)) { //$NON-NLS-1$
 					setIcon(pageContext, imgPoints, sourceElement,
-							sourceParentElement, ICON_DISABLED_ITEM,
-							ICON_DISABLED);
-					setItemClassAndStyle(table, sourceParentElement
-							.getAttribute(DISABLE_ITEM_CLASS), sourceElement
-							.getAttribute(DISABLED), DISABLED_CLASS,
-							sourceParentElement
-									.getAttribute(DISABLED_ITEM_STYLE),
-							sourceElement.getAttribute(DISABLED_STYLE));
+							sourceParentElement, pm_iconDisabledItem,
+							pmi_iconDisabled);
+					setItemClassAndStyle(table, pm_disabledItemClass,
+							pmi_disabledClass, DISABLED_CLASS_NAME,
+							pm_disabledItemStyle, pmi_disabledStyle);
 				} else {
 					setIcon(pageContext, imgPoints, sourceElement,
-							sourceParentElement, ICON_ITEM, ICON);
-					setItemClassAndStyle(table, sourceParentElement
-							.getAttribute(ITEM_CLASS), sourceElement
-							.getAttribute(STYLE_CLASS), PANEL_MENU_ITEM_CLASS,
-							sourceParentElement.getAttribute(ITEM_STYLE),
-							sourceElement.getAttribute(STYLE));
+							sourceParentElement, pm_iconItem, pmi_icon);
+					setItemClassAndStyle(table, pm_itemClass, pmi_styleClass,
+							PANEL_MENU_ITEM_CLASS, pm_itemStyle, pmi_style);
 				}
-				setIconPosition(sourceParentElement
-						.getAttribute(ICON_ITEM_POSITION), td, tdNowrap,
-						imgPoints, imgSpacer2);
+				setIconPosition(pm_iconItemPosition, td, tdNowrap, imgPoints,
+						imgSpacer2);
 			}
 
 			List<Node> children = ComponentUtil.getChildren(sourceElement);
@@ -227,8 +220,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				VpeChildrenInfo childInfo = new VpeChildrenInfo(tdLable);
 				creationData.addChildrenInfo(childInfo);
 				for (Node child : children) {
-					if (!(child.getNodeName().endsWith(":panelMenuGroup") || child
-							.getNodeName().endsWith(":panelMenu"))) {
+					if (!(child.getNodeName().endsWith(":panelMenuGroup") || child //$NON-NLS-1$
+							.getNodeName().endsWith(":panelMenu"))) { //$NON-NLS-1$
 						childInfo.addSourceChild(child);
 					}
 				}
@@ -246,8 +239,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static void setDefaultImgAttributes(nsIDOMElement element) {
 		element.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
 				DEFAULT_SIZE_VALUE);
-		element.setAttribute("vspace", NO_SIZE_VALUE);
-		element.setAttribute("hspace", NO_SIZE_VALUE);
+		element.setAttribute("vspace", NO_SIZE_VALUE); //$NON-NLS-1$
+		element.setAttribute("hspace", NO_SIZE_VALUE); //$NON-NLS-1$
 		element.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
 				DEFAULT_SIZE_VALUE);
 	}
@@ -257,28 +250,19 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		setDefaultImgAttributes(image);
 	}
 
-	private static boolean isDisabledItem(String disabled) {
-		if ("true".equals(disabled)) {
-			return true;
-		}
-		return false;
-	}
-
 	private static void setIcon(VpePageContext pageContext,
 			nsIDOMElement imgPoints, Element sourceElement,
-			Element parentElement, String parentIconAttribute,
-			String iconAttribute) {
-		String icon = sourceElement.getAttribute(iconAttribute);
-		String parentIcon = parentElement.getAttribute(parentIconAttribute);
-		if (icon == null || icon.length() == 0) {
-			if (!(parentIcon == null || parentIcon.length() == 0)) {
+			Element parentElement, String parentIconPath,
+			String iconPath) {
+		if (iconPath == null || iconPath.length() == 0) {
+			if (!(parentIconPath == null || parentIconPath.length() == 0)) {
 				ComponentUtil.setImgFromResources(pageContext, imgPoints,
-						parentIcon, IMG_SPACER_SRC);
+						parentIconPath, IMG_SPACER_SRC);
 			} else {
 				ComponentUtil.setImg(imgPoints, IMG_POINTS_SRC);
 			}
 		} else {
-			ComponentUtil.setImgFromResources(pageContext, imgPoints, icon,
+			ComponentUtil.setImgFromResources(pageContext, imgPoints, iconPath,
 					IMG_SPACER_SRC);
 		}
 	}
@@ -287,12 +271,12 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMElement right, nsIDOMElement left, nsIDOMElement imgPoints,
 			nsIDOMElement imgSpacer2) {
 		if (!(iconPosition == null)) {
-			if (iconPosition.equals("right")) {
+			if (iconPosition.equals("right")) { //$NON-NLS-1$
 				setItemImage(right, imgPoints);
 			} else {
 				setItemImage(right, imgSpacer2);
 				ComponentUtil.setImg(imgSpacer2, IMG_SPACER_SRC);
-				if (iconPosition.equals("left")) {
+				if (iconPosition.equals("left")) { //$NON-NLS-1$
 					setItemImage(left, imgPoints);
 				}
 			}
@@ -306,7 +290,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static void setItemClassAndStyle(nsIDOMElement table,
 			String parentClass, String itemClass, String defaultClass,
 			String parentStyle, String itemStyle) {
-		String resultClass = "";
+		String resultClass = ""; //$NON-NLS-1$
 		if (!(parentClass == null || parentClass.length() == 0)) {
 			resultClass += parentClass;
 		}
@@ -314,9 +298,9 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			resultClass += itemClass;
 		}
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, defaultClass
-				+ " " + resultClass);
+				+ " " + resultClass); //$NON-NLS-1$
 
-		String resultStyle = "";
+		String resultStyle = ""; //$NON-NLS-1$
 		if (!(parentStyle == null || parentStyle.length() == 0)) {
 			resultStyle += parentStyle;
 		}
@@ -324,5 +308,64 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			resultStyle += itemStyle;
 		}
 		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, resultStyle);
+	}
+	
+	/**
+	 * Read attributes from the source element.
+	 * 
+	 * @param sourceNode the source node
+	 */
+	private static void readPanelMenuAttributes(Element sourceParentElement) {
+		
+		if (null == sourceParentElement) {
+			return;
+		}
+		
+		/*
+		 *	rich:panelMenu attributes for items
+		 */ 
+		pm_iconItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM);
+		pm_iconDisabledItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLED_ITEM);
+		pm_iconItemPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM_POSITION);
+		pm_iconTopItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_TOP_ITEM);
+		pm_iconTopDisabledItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_TOP_DISABLED_ITEM);
+		pm_iconItemTopPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM_TOP_POSITION);
+		
+		/*
+		 *	rich:panelMenu style classes for items
+		 */ 
+		pm_disabledItemClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_ITEM_CLASS);
+		pm_disabledItemStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_ITEM_STYLE);
+		pm_topItemClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_ITEM_CLASS);
+		pm_topItemStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_ITEM_STYLE);
+		pm_itemClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ITEM_CLASS);
+		pm_itemStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ITEM_STYLE);
+	
+	}
+	
+	/**
+	 * Read attributes from the source element.
+	 * 
+	 * @param sourceNode the source node
+	 */
+	private static void readPanelMenuItemAttributes(Element sourceElement) {
+		
+		if (null == sourceElement) {
+			return;
+		}
+		
+		/*
+		 * pich:panelMenuItem attributes
+		 */
+		pmi_disabled = sourceElement.getAttribute(DISABLED);
+		pmi_icon = sourceElement.getAttribute(ICON);
+		pmi_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
+		pmi_itemClass = sourceElement.getAttribute(ITEM_CLASS);
+		pmi_itemStyle = sourceElement.getAttribute(ITEM_STYLE);
+		pmi_disabledClass = sourceElement.getAttribute(DISABLED_CLASS);
+		pmi_disabledStyle = sourceElement.getAttribute(DISABLED_STYLE);
+		pmi_style = sourceElement.getAttribute(STYLE);
+		pmi_styleClass = sourceElement.getAttribute(STYLE_CLASS);
+		
 	}
 }

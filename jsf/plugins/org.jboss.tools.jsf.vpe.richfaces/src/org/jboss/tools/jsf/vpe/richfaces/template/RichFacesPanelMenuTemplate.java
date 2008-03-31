@@ -39,12 +39,60 @@ import org.w3c.dom.Node;
 public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 		VpeToggableTemplate {
 
-	private static final String WIDTH_ATTR_PANELMENU = "width";
-	private static final String STYLE_ATTR_PANELMENU = "style";
-	private static final String STYLECLASS_ATTR_PANELMENU = "styleClass";
+	/*
+	 *	rich:panelMenu attributes for groups
+	 */ 
+	public static final String ICON_GROUP_POSITION = "iconGroupPosition"; //$NON-NLS-1$
+	public static final String ICON_GROUP_TOP_POSITION = "iconGroupTopPosition"; //$NON-NLS-1$
+	public static final String ICON_COLLAPSED_GROUP = "iconCollapsedGroup"; //$NON-NLS-1$
+	public static final String ICON_COLLAPSED_TOP_GROUP = "iconCollapsedTopGroup"; //$NON-NLS-1$
+	public static final String ICON_EXPANDED_GROUP = "iconExpandedGroup"; //$NON-NLS-1$
+	public static final String ICON_EXPANDED_TOP_GROUP = "iconExpandedTopGroup"; //$NON-NLS-1$
+	public static final String ICON_DISABLE_GROUP = "iconDisableGroup"; //$NON-NLS-1$
+	public static final String ICON_TOP_DISABLE_GROUP = "iconTopDisableGroup"; //$NON-NLS-1$
+	
+	/*
+	 *	rich:panelMenu attributes for items
+	 */ 
+	public static final String ICON_ITEM = "iconItem"; //$NON-NLS-1$
+	public static final String ICON_DISABLED_ITEM = "iconDisabledItem"; //$NON-NLS-1$
+	public static final String ICON_ITEM_POSITION = "iconItemPosition"; //$NON-NLS-1$
+	public static final String ICON_TOP_ITEM = "iconTopItem"; //$NON-NLS-1$
+	public static final String ICON_TOP_DISABLED_ITEM = "iconTopDisabledItem"; //$NON-NLS-1$
+	public static final String ICON_ITEM_TOP_POSITION = "iconItemTopPosition"; //$NON-NLS-1$
+	
+	/*
+	 *	rich:panelMenu style classes
+	 */ 
+	public static final String DISABLED = "disabled"; //$NON-NLS-1$
+	public static final String STYLE = "style"; //$NON-NLS-1$
+	public static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
+	
+	/*
+	 *	rich:panelMenu style classes for groups
+	 */ 
+	public static final String DISABLED_GROUP_CLASS = "disabledGroupClass"; //$NON-NLS-1$
+	public static final String DISABLED_GROUP_STYLE = "disabledGroupStyle"; //$NON-NLS-1$
+	public static final String TOP_GROUP_CLASS = "topGroupClass"; //$NON-NLS-1$
+	public static final String TOP_GROUP_STYLE = "topGroupStyle"; //$NON-NLS-1$
+	public static final String GROUP_CLASS = "groupClass"; //$NON-NLS-1$
+	public static final String GROUP_STYLE = "groupStyle"; //$NON-NLS-1$
+	
+	/*
+	 *	rich:panelMenu style classes for items
+	 */ 
+	public static final String DISABLED_ITEM_CLASS = "disabledItemClass"; //$NON-NLS-1$
+	public static final String DISABLED_ITEM_STYLE = "disabledItemStyle"; //$NON-NLS-1$
+	public static final String TOP_ITEM_CLASS = "topItemClass"; //$NON-NLS-1$
+	public static final String TOP_ITEM_STYLE = "topItemStyle"; //$NON-NLS-1$
+	public static final String ITEM_CLASS = "itemClass"; //$NON-NLS-1$
+	public static final String ITEM_STYLE = "itemStyle"; //$NON-NLS-1$
 
-	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup";
-	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem";
+	
+	private static final String WIDTH_ATTR_PANELMENU = "width"; //$NON-NLS-1$
+
+	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup"; //$NON-NLS-1$
+	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
 
 	private List<String> activeIds = new ArrayList<String>();
 
@@ -56,12 +104,12 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 		Element sourceElement = (Element) sourceNode;
 
 		String width = sourceElement.getAttribute(WIDTH_ATTR_PANELMENU);
-		String style = sourceElement.getAttribute(STYLE_ATTR_PANELMENU);
+		String style = sourceElement.getAttribute(STYLE);
 		String styleClass = sourceElement
-				.getAttribute(STYLECLASS_ATTR_PANELMENU);
+				.getAttribute(STYLE_CLASS);
 
 		if (width != null) {
-			style += "" + "; width:" + width;
+			style += "" + "; width:" + width; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
