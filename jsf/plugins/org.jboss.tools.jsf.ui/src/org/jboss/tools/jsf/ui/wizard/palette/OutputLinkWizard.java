@@ -112,5 +112,10 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 			}			
 		}
 	}
+	
+	public void dispose() {
+		getWizardModel().removePropertyChangeListener(this);
+		super.dispose();
+	}
 
 }

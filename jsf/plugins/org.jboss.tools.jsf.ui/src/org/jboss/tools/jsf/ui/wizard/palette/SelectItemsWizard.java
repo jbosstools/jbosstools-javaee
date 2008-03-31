@@ -104,4 +104,9 @@ public class SelectItemsWizard extends Wizard implements PropertyChangeListener,
 					text.toString());
 		}
 	}
+	
+	public void dispose() {
+		getWizardModel().removePropertyChangeListener(this);
+		super.dispose();
+	}
 }

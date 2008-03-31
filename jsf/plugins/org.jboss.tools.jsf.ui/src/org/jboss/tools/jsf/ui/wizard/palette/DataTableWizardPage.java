@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.compare.Splitter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.editor.IPropertyEditor;
 import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
@@ -60,6 +61,8 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 					null);
 
 	XChildrenEditorImpl propertyListEditor = new XChildrenEditorImpl();
+	
+	private PropertyChangeListener pcl,mpcl;
 
 	public void propertyChange(PropertyChangeEvent evt) {
 
@@ -163,10 +166,12 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		if(model == null) model = PreferenceModelUtilities.getPreferenceModel();
 		support.init(model.getRoot(), data);
 		Control c = support.createControl(generalTabContent);
-		support.addPropertyChangeListener(new PCL());
+		pcl = new PCL();
+		support.addPropertyChangeListener(pcl);
 		
 		fWizardModel = getSpecificWizard().getWizardModel();
-		fWizardModel.addPropertyChangeListener(new MPCL());		
+		mpcl = new MPCL();
+		fWizardModel.addPropertyChangeListener(mpcl);		
 		
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
@@ -373,6 +378,18 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		IProject project = file.getProject();
 		IModelNature nature = EclipseResourceUtil.getModelNature(project);
 		return (nature == null) ? null : nature.getModel();
+	}
+
+	public void dispose() {
+		if (pcl !=  null && support != null) {
+			support.removePropertyChangeListener(pcl);
+			pcl=null;
+		}
+		if (mpcl !=  null && fWizardModel != null) {
+			fWizardModel.removePropertyChangeListener(mpcl);
+			mpcl=null;
+		}
+		super.dispose();
 	}
 
 }

@@ -127,4 +127,8 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		}
 	}
 
+	public void dispose() {
+		getWizardModel().removePropertyChangeListener(this);
+		super.dispose();
+	}
 }

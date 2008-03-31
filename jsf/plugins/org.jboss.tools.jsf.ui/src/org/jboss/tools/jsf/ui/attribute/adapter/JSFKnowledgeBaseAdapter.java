@@ -29,8 +29,8 @@ public class JSFKnowledgeBaseAdapter extends DefaultValueAdapter implements IAct
 	}
 
 	public String invoke0(Control control) {
-		ValueHelper h = new ValueHelper();
-		context.put("valueHelper", h);
+		//ValueHelper h = new ValueHelper();
+		//context.put("valueHelper", h);
 		String nodeName = "h:" + attribute.getProperty("nodeName");
 		String attrName = attribute.getProperty("attrName");
 		context.setProperty("nodeName", nodeName);

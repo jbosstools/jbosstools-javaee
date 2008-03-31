@@ -161,4 +161,8 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 		fDropCommand.getProperties().setProperty("start text", text.toString());
 	}
 
+	public void dispose() {
+		getWizardModel().removePropertyChangeListener(this);
+		super.dispose();
+	}
 }
