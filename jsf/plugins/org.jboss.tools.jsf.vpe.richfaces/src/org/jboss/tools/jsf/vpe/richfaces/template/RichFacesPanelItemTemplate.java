@@ -20,12 +20,30 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 
-    private static final String DEFAULT_LABEL = "auto generated label";
+    public final static String CONTENT_CLASS = "contentClass"; //$NON-NLS-1$
+    public final static String CONTENT_STYLE = "contentStyle"; //$NON-NLS-1$
+    public final static String HEADER_CLASS = "headerClass"; //$NON-NLS-1$
+    public final static String HEADER_STYLE = "headerStyle"; //$NON-NLS-1$
+    public final static String HEADER_ACTIVE_CLASS = "headerClassActive"; //$NON-NLS-1$
+    public final static String HEADER_ACTIVE_STYLE = "headerStyleActive"; //$NON-NLS-1$
+
+    private static final String PERCENT_100 = "100%"; //$NON-NLS-1$
+    private static final String DR_PNLBAR_H_RICH_PANELBAR_HEADER = "dr-pnlbar-h rich-panelbar-header "; //$NON-NLS-1$
+    private static final String DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_EXT = " dr-pnlbar rich-panelbar dr-pnlbar-ext "; //$NON-NLS-1$
+    private static final String DR_PNLBAR_C_RICH_PANELBAR_CONTENT = "dr-pnlbar-c rich-panelbar-content "; //$NON-NLS-1$
+    private static final String ZERO = "0"; //$NON-NLS-1$
+    private static final String EMPTY = ""; //$NON-NLS-1$
+    private static final String VPE_USER_TOGGLE_ID = "vpe-user-toggle-id"; //$NON-NLS-1$
+    private static final String LABEL = "label"; //$NON-NLS-1$
+    private static final String DEFAULT_LABEL = "auto generated label"; //$NON-NLS-1$
+    private static final String SPACE = " "; //$NON-NLS-1$
 
     /**
      * 
@@ -46,12 +64,12 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
      * @return
      */
     public static VpeCreationData encode(VpeCreationData creationData,
-	    Element sourceElement, nsIDOMDocument visualDocument,
-	    nsIDOMElement parentVisualElement, boolean active,
-	    String barStyleClass, String barStyle, String barHeaderStyleClass,
-	    String barHeaderStyle, String barHeaderActiveStyleClass,
-	    String barHeaderActiveStyle, String barContentStyleClass,
-	    String barContentStyle, String toggleId) {
+	    VpePageContext pageContext, Element sourceElement,
+	    nsIDOMDocument visualDocument, nsIDOMElement parentVisualElement,
+	    boolean active, String barStyleClass, String barStyle,
+	    String barHeaderStyleClass, String barHeaderStyle,
+	    String barHeaderActiveStyleClass, String barHeaderActiveStyle,
+	    String barContentStyleClass, String barContentStyle, String toggleId) {
 
 	nsIDOMElement div = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -62,36 +80,45 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	    parentVisualElement.appendChild(div);
 	}
 
-	div.setAttribute("class", barStyleClass
-		+ " dr-pnlbar rich-panelbar dr-pnlbar-ext ");
-	div.setAttribute("style", barStyle);
-	div.setAttribute("vpe-user-toggle-id", toggleId);
+	div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, barStyleClass
+		+ DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_EXT);
+	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, barStyle);
+	div.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
 	// Encode Header
-	String headerActivetStyleClass = "dr-pnlbar-h rich-panelbar-header "
-		+ barHeaderActiveStyleClass
-		+ " "
-		+ ComponentUtil
-			.getAttribute(sourceElement, "headerClassActive");
-	String headerActivetStyle = barHeaderStyle
-		+ " "
-		+ ComponentUtil.getAttribute(sourceElement, "headerStyle")
-		+ " "
+	String headerActiveStyle = barHeaderStyle
+		+ SPACE
+		+ ComponentUtil.getAttribute(sourceElement, HEADER_STYLE)
+		+ SPACE
 		+ barHeaderActiveStyle
-		+ " "
+		+ SPACE
 		+ ComponentUtil
-			.getAttribute(sourceElement, "headerStyleActive");
-	String headerStyleClass = "dr-pnlbar-h rich-panelbar-header "
-		+ ComponentUtil.getAttribute(sourceElement, "headerClass")
-		+ barHeaderStyleClass;
-	String headerStyle = barHeaderStyle + " "
-		+ ComponentUtil.getAttribute(sourceElement, "headerStyle");
+			.getAttribute(sourceElement, HEADER_ACTIVE_STYLE);
+	String headerStyle = barHeaderStyle + SPACE
+		+ ComponentUtil.getAttribute(sourceElement, HEADER_STYLE);
+
+	String internContentClass = ComponentUtil.getAttribute(sourceElement,
+		CONTENT_CLASS);
+	String internContentStyle = ComponentUtil.getAttribute(sourceElement,
+		CONTENT_STYLE);
+	String internHeaderClass = ComponentUtil.getAttribute(sourceElement,
+		HEADER_CLASS);
+	String internHeaderActiveClass = ComponentUtil.getAttribute(
+		sourceElement, HEADER_ACTIVE_CLASS);
+
 	if (active) {
-	    encodeHeader(creationData, sourceElement, visualDocument, div,
-		    headerActivetStyleClass, headerActivetStyle, toggleId);
+	    String headerClass = DR_PNLBAR_H_RICH_PANELBAR_HEADER + SPACE
+		    + barHeaderStyleClass + SPACE + internHeaderClass + SPACE
+		    + barHeaderActiveStyleClass + SPACE
+		    + internHeaderActiveClass;
+	    encodeHeader(creationData, pageContext, sourceElement,
+		    visualDocument, div, headerClass, headerActiveStyle,
+		    toggleId);
 	} else {
-	    encodeHeader(creationData, sourceElement, visualDocument, div,
-		    headerStyleClass, headerStyle, toggleId);
+	    String headerClass = DR_PNLBAR_H_RICH_PANELBAR_HEADER + SPACE
+		    + barHeaderStyleClass + SPACE + internHeaderClass;
+	    encodeHeader(creationData, pageContext, sourceElement,
+		    visualDocument, div, headerClass, headerStyle, toggleId);
 	}
 
 	// Encode Body
@@ -102,8 +129,8 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement td2 = visualDocument
 		    .createElement(HtmlComponentUtil.HTML_TAG_TD);
 	    tr2.appendChild(td2);
-	    tr2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
-	    tr2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
+	    tr2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, PERCENT_100);
+	    tr2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, PERCENT_100);
 	    if (creationData == null) {
 		creationData = new VpeCreationData(tr2);
 	    } else {
@@ -114,9 +141,12 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 		    .createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 
 	    td2.appendChild(contentTable);
-	    contentTable.setAttribute("cellpadding", "0");
-	    contentTable.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
-	    contentTable.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
+	    contentTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR,
+		    ZERO);
+	    contentTable.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR,
+		    PERCENT_100);
+	    contentTable.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR,
+		    PERCENT_100);
 
 	    nsIDOMElement tbody = visualDocument
 		    .createElement(HtmlComponentUtil.HTML_TAG_TBODY);
@@ -130,14 +160,12 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 		    .createElement(HtmlComponentUtil.HTML_TAG_TD);
 	    tr.appendChild(td);
 
-	    String tdClass = "dr-pnlbar-c rich-panelbar-content "
-		    + barContentStyleClass + " "
-		    + ComponentUtil.getAttribute(sourceElement, "contentClass");
-	    String tdStyle = barContentStyle + " "
-		    + ComponentUtil.getAttribute(sourceElement, "contentStyle");
+	    String tdClass = DR_PNLBAR_C_RICH_PANELBAR_CONTENT
+		    + barContentStyleClass + SPACE + internContentClass;
+	    String tdStyle = barContentStyle + SPACE + internContentStyle;
 
-	    td.setAttribute("class", tdClass);
-	    td.setAttribute("style", tdStyle);
+	    td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, tdClass);
+	    td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tdStyle);
 
 	    List<Node> children = ComponentUtil
 		    .getChildren(sourceElement, true);
@@ -152,8 +180,9 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-	return encode(null, (Element) sourceNode, visualDocument, null, false,
-		"", "", "", "", "", "", "", "", "0");
+	return encode(null, pageContext, (Element) sourceNode, visualDocument,
+		null, false, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+		EMPTY, ZERO);
     }
 
     /**
@@ -166,27 +195,48 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
      * @param toggleId
      */
     private static void encodeHeader(VpeCreationData vpeCreationData,
-	    Element sourceElement, nsIDOMDocument visualDocument,
-	    nsIDOMElement parentDiv, String styleClass, String style,
-	    String toggleId) {
+	    VpePageContext pageContext, Element sourceElement,
+	    nsIDOMDocument visualDocument, nsIDOMElement parentDiv,
+	    String styleClass, String style, String toggleId) {
 
 	nsIDOMElement div = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 	parentDiv.appendChild(div);
-	div.setAttribute("class", styleClass);
-	div.setAttribute("style", style);
-	div.setAttribute("vpe-user-toggle-id", toggleId);
+	div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+	div.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
-	String label = sourceElement.getAttribute("label");
-	Element facet = ComponentUtil.getFacet(sourceElement, "label");
+	Element facet = ComponentUtil.getFacet(sourceElement, LABEL);
+
 	if (facet == null) {
-	    div.appendChild(visualDocument
-		    .createTextNode((label == null) ? DEFAULT_LABEL : label));
+	    Attr attr = null;
+	    if (sourceElement.hasAttribute(LABEL)) {
+		attr = sourceElement.getAttributeNode(LABEL);
+	    }
+	    if (attr != null) {
+		String itemLabel = attr.getNodeValue();
+		String bundleValue = ComponentUtil.getBundleValue(pageContext,
+			attr);
+		nsIDOMText text;
+		// if bundleValue differ from value then will be represent
+		// bundleValue, but text will be not edit
+		if (!itemLabel.equals(bundleValue)) {
+		    text = visualDocument.createTextNode(bundleValue);
+
+		} else {
+		    text = visualDocument.createTextNode(itemLabel);
+		}
+		div.appendChild(text);
+	    } else {
+		div.appendChild(visualDocument.createTextNode(DEFAULT_LABEL));
+	    }
+
 	} else {
 	    VpeChildrenInfo facetInfo = new VpeChildrenInfo(div);
 	    facetInfo.addSourceChild(facet);
 	    vpeCreationData.addChildrenInfo(facetInfo);
 	}
+
     }
 
 }
