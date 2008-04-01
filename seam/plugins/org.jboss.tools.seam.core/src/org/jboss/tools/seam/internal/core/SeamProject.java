@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -53,6 +54,7 @@ import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.internal.core.el.VariableResolver;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
@@ -91,13 +93,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	{
 		createScopes();
 	}
-	
+
 	ComponentStorage components = new ComponentStorage();
 	FactoryStorage factories = new FactoryStorage();
 	VariablesStorage variables = new VariablesStorage();
-	
+
 	Map<String, ISeamPackage> packages = new HashMap<String, ISeamPackage>();
-	
+
 	List<ISeamProjectChangeListener> listeners = new ArrayList<ISeamProjectChangeListener>();
 
 	SeamValidationContext validationContext;
@@ -112,6 +114,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void configure() throws CoreException {
 		addToBuildSpec(SeamCoreBuilder.BUILDER_ID);
+		DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(VariableResolver.ID);
 	}
 
 	/**
@@ -119,6 +122,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void deconfigure() throws CoreException {
 		removeFromBuildSpec(SeamCoreBuilder.BUILDER_ID);
+		DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(null);
 	}
 
 	/**

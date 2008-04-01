@@ -33,7 +33,6 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
-import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -47,7 +46,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.internal.core.el.VariableResolver;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
@@ -542,7 +540,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		createSeamProjectPreferenes(project, model);
 
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
-		DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(VariableResolver.ID);
 
 		toggleHibernateOnProject(project, consoleName);
 
