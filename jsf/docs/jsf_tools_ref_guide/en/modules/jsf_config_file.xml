@@ -60,7 +60,7 @@
             <title>Outline View for Diagram</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_32.png" scale="60"/>
+                    <imagedata fileref="images/jsf_support/jsf_support_32.png" scale="50"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -192,7 +192,7 @@
             <title>Outline View</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_31.png" scale="60"/>
+                    <imagedata fileref="images/jsf_support/jsf_support_31.png" scale="50"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -207,7 +207,7 @@
                 <title>Code Assist in Source View</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/jsf_support/jsf_support_28.png" scale="75"/>
+                        <imagedata fileref="images/jsf_support/jsf_support_28.png" scale="65"/>
                     </imageobject>
                 </mediaobject>
             </figure>

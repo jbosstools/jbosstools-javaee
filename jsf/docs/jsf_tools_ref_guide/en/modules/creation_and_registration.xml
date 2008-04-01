@@ -36,7 +36,7 @@
             <mediaobject>
                 <imageobject>
                     <imagedata
-                        fileref="images/jsf_support/jsf_support_44.png"
+                        fileref="images/jsf_support/jsf_support_44.png" scale="80"
                     />
                 </imageobject>
             </mediaobject>
@@ -88,7 +88,7 @@
             <mediaobject>
                 <imageobject>
                     <imagedata
-                        fileref="images/jsf_support/jsf_support_46.png"
+                        fileref="images/jsf_support/jsf_support_46.png" scale="80"
                     />
                 </imageobject>
             </mediaobject>

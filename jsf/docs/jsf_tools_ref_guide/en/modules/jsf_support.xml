@@ -209,7 +209,7 @@
                                         <imageobject>
                                                 <imagedata
                                                   fileref="images/jsf_support/jsf_support_4.png"
-                                                  scale="85"/>
+                                                  scale="65"/>
                                         </imageobject>
                                 </mediaobject>
                         </figure>
@@ -229,7 +229,7 @@
                                         <imageobject>
                                                 <imagedata
                                                   fileref="images/jsf_support/jsf_support_5.png"
-                                                  scale="70"/>
+                                                  scale="60"/>
                                         </imageobject>
                                 </mediaobject>
                         </figure>
@@ -245,7 +245,7 @@
                                         <imageobject>
                                                 <imagedata
                                                   fileref="images/jsf_support/jsf_support_6.png"
-                                                  scale="75"/>
+                                                  scale="70"/>
                                         </imageobject>
                                 </mediaobject>
                         </figure>
