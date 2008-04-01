@@ -38,7 +38,14 @@ import org.w3c.dom.Node;
  */
 public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 		VpeToggableTemplate {
-
+	
+	/*
+	 *	rich:panelMenu attributes
+	 */ 
+	public static final String DISABLED = "disabled"; //$NON-NLS-1$
+	public static final String EXPAND_SINGLE = "expandSingle"; //$NON-NLS-1$
+	public static final String WIDTH = "width"; //$NON-NLS-1$
+	
 	/*
 	 *	rich:panelMenu attributes for groups
 	 */ 
@@ -64,7 +71,6 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	/*
 	 *	rich:panelMenu style classes
 	 */ 
-	public static final String DISABLED = "disabled"; //$NON-NLS-1$
 	public static final String STYLE = "style"; //$NON-NLS-1$
 	public static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 	
@@ -88,13 +94,13 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	public static final String ITEM_CLASS = "itemClass"; //$NON-NLS-1$
 	public static final String ITEM_STYLE = "itemStyle"; //$NON-NLS-1$
 
-	
-	private static final String WIDTH_ATTR_PANELMENU = "width"; //$NON-NLS-1$
-
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup"; //$NON-NLS-1$
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
+	private static final String TRUE = "true"; //$NON-NLS-1$
 
 	private List<String> activeIds = new ArrayList<String>();
+	
+	private String expandSingle;
 
 	// private static final String DISABLED_STYLE_FOR_TABLE = "color:#B1ADA7";
 
@@ -103,10 +109,10 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		Element sourceElement = (Element) sourceNode;
 
-		String width = sourceElement.getAttribute(WIDTH_ATTR_PANELMENU);
+		String width = sourceElement.getAttribute(WIDTH);
 		String style = sourceElement.getAttribute(STYLE);
-		String styleClass = sourceElement
-				.getAttribute(STYLE_CLASS);
+		String styleClass = sourceElement.getAttribute(STYLE_CLASS);
+		expandSingle = sourceElement.getAttribute(EXPAND_SINGLE);
 
 		if (width != null) {
 			style += "" + "; width:" + width; //$NON-NLS-1$ //$NON-NLS-2$
@@ -176,19 +182,68 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
 		
-		if (activeIds.contains(toggleId)) {
-			activeIds.remove(toggleId);
-			
-			for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
-				String id = iterator.next();
-				if (id.startsWith(toggleId)) {
-					iterator.remove();
+		/*
+		 * Expand only one group.
+		 */
+		if ((null != expandSingle) && (TRUE.equalsIgnoreCase(expandSingle))) {
+			if (activeIds.contains(toggleId)) {
+				/*
+				 * Close group and its children
+				 */
+				activeIds.remove(toggleId);
+				for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
+					String id = iterator.next();
+					if (id.startsWith(toggleId)) {
+						iterator.remove();
+					}
 				}
+			} else {
+				/*
+				 * Expand new group, close others
+				 */
+				String[] toggleIds = toggleId.split(RichFacesPanelMenuGroupTemplate.GROUP_COUNT_SEPARATOR);
+				if ((null != toggleIds) && (toggleIds.length > 0)) {
+					for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
+						String id = iterator.next();
+						String[] ids = id.split(RichFacesPanelMenuGroupTemplate.GROUP_COUNT_SEPARATOR);
+						if ((null != ids) && (ids.length > 0)) {
+							if (ids.length >= toggleIds.length) {
+								/*
+								 * Remove all ids that are deeper than selected 
+								 * and that are on the same level.
+								 */
+								iterator.remove();
+							} else {
+								/*
+								 * Remove all ids that are not in the selected branch. 
+								 */
+								for (int i = 0; i < ids.length; i++) {
+									if (!ids[i].equalsIgnoreCase(toggleIds[i])) {
+										iterator.remove();
+									}
+								}
+							}
+						}
+					}
+				}
+				activeIds.add(toggleId);
 			}
-		} else{
-			activeIds.add(toggleId);
+		} else {
+			/*
+			 * Expand any number of groups.
+			 */
+			if (activeIds.contains(toggleId)) {
+				activeIds.remove(toggleId);
+				for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
+					String id = iterator.next();
+					if (id.startsWith(toggleId)) {
+						iterator.remove();
+					}
+				}
+			} else {
+				activeIds.add(toggleId);
+			}
 		}
-		
 	}
 
 	public void stopToggling(Node sourceNode) {

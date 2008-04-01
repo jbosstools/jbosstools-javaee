@@ -31,6 +31,8 @@ import org.w3c.dom.Text;
 
 public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
+	public static final String GROUP_COUNT_SEPARATOR = "-"; //$NON-NLS-1$
+
 	/*
 	 * pich:panelMenuGroup attributes
 	 */
@@ -184,7 +186,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 							RichFacesPanelMenuGroupTemplate.encode(pageContext,
 									creationData, sourceParentElement,
 									(Element) child, visualDocument, div, activeIds,
-									childId + "-" + childGroupCount); //$NON-NLS-1$
+									childId + GROUP_COUNT_SEPARATOR + childGroupCount);
 									childGroupCount++;
 						} else {
 							RichFacesPanelMenuItemTemplate

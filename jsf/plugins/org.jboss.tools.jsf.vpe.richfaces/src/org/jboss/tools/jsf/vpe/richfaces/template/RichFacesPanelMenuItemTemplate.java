@@ -33,8 +33,6 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String DISABLED = "disabled"; //$NON-NLS-1$
 	private static final String ICON = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
-	private static final String ITEM_CLASS = "itemClass"; //$NON-NLS-1$
-	private static final String ITEM_STYLE = "itemStyle"; //$NON-NLS-1$
 	private static final String DISABLED_CLASS = "disabledClass"; //$NON-NLS-1$
 	private static final String DISABLED_STYLE = "disabledStyle"; //$NON-NLS-1$
 	private static final String STYLE = "style"; //$NON-NLS-1$
@@ -51,7 +49,11 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String IMG_SPACER_SRC = "/panelMenuItem/spacer.gif"; //$NON-NLS-1$
 	private static final String STYLE_PATH = "/panelMenuItem/style.css"; //$NON-NLS-1$
 	
+	private static final String SPACE = " "; //$NON-NLS-1$
+	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String TRUE = "true"; //$NON-NLS-1$
+	private static final String RIGHT = "right"; //$NON-NLS-1$
+	private static final String LEFT = "left"; //$NON-NLS-1$
 	private static final String NO_SIZE_VALUE = "0"; //$NON-NLS-1$
 	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
 	
@@ -85,8 +87,6 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static String pmi_disabled;
 	private static String pmi_icon;
 	private static String pmi_iconDisabled;
-	private static String pmi_itemClass;
-	private static String pmi_itemStyle;
 	private static String pmi_disabledClass;
 	private static String pmi_disabledStyle;
 	private static String pmi_style;
@@ -156,7 +156,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					"element.style"); //$NON-NLS-1$
 
 			String value = sourceElement.getAttribute("label"); //$NON-NLS-1$
-			nsIDOMText text = visualDocument.createTextNode(value == null ? "" //$NON-NLS-1$
+			nsIDOMText text = visualDocument.createTextNode(value == null ? EMPTY //$NON-NLS-1$
 					: value);
 
 			tdLable.appendChild(text);
@@ -275,12 +275,12 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMElement right, nsIDOMElement left, nsIDOMElement imgPoints,
 			nsIDOMElement imgSpacer2) {
 		if (!(iconPosition == null)) {
-			if (iconPosition.equals("right")) { //$NON-NLS-1$
+			if (iconPosition.equals(RIGHT)) { 
 				setItemImage(right, imgPoints);
 			} else {
 				setItemImage(right, imgSpacer2);
 				ComponentUtil.setImg(imgSpacer2, IMG_SPACER_SRC);
-				if (iconPosition.equals("left")) { //$NON-NLS-1$
+				if (iconPosition.equals(LEFT)) {
 					setItemImage(left, imgPoints);
 				}
 			}
@@ -294,22 +294,25 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static void setItemClassAndStyle(nsIDOMElement table,
 			String parentClass, String itemClass, String defaultClass,
 			String parentStyle, String itemStyle) {
-		String resultClass = ""; //$NON-NLS-1$
+		
+		String resultClass = EMPTY; 
+		if (!(defaultClass == null || defaultClass.length() == 0)) {
+			resultClass += defaultClass;
+		}
 		if (!(parentClass == null || parentClass.length() == 0)) {
-			resultClass += parentClass;
+			resultClass += SPACE + parentClass;
 		}
 		if (!(itemClass == null || itemClass.length() == 0)) {
-			resultClass += itemClass;
+			resultClass += SPACE + itemClass;
 		}
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, defaultClass
-				+ " " + resultClass); //$NON-NLS-1$
+		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, resultClass);
 
-		String resultStyle = ""; //$NON-NLS-1$
+		String resultStyle = EMPTY;
 		if (!(parentStyle == null || parentStyle.length() == 0)) {
 			resultStyle += parentStyle;
 		}
 		if (!(itemStyle == null || itemStyle.length() == 0)) {
-			resultStyle += itemStyle;
+			resultStyle += SPACE + itemStyle;
 		}
 		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, resultStyle);
 	}
@@ -365,8 +368,6 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		pmi_disabled = sourceElement.getAttribute(DISABLED);
 		pmi_icon = sourceElement.getAttribute(ICON);
 		pmi_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
-		pmi_itemClass = sourceElement.getAttribute(ITEM_CLASS);
-		pmi_itemStyle = sourceElement.getAttribute(ITEM_STYLE);
 		pmi_disabledClass = sourceElement.getAttribute(DISABLED_CLASS);
 		pmi_disabledStyle = sourceElement.getAttribute(DISABLED_STYLE);
 		pmi_style = sourceElement.getAttribute(STYLE);
