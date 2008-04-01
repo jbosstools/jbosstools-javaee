@@ -184,13 +184,18 @@ public class SeamExpressionResolver {
 			IMember member = (IMember)getJavaElement();
 			if(member!=null) {
 				IType type = member.getDeclaringType();
-				setSourceType(type);
-				setDeclaringTypeQualifiedName(type==null?null:type.getFullyQualifiedName());
-				setName(messages.getName());
-				setModifiers(type.getFlags());
-				setParentMember(parentMember);
-				setDataModel(false);
-				setType(type==null?null:new Type(null, type));
+				if(member instanceof IType) {
+					type = (IType)member;
+				}
+				if(type!=null) {
+					setSourceType(type);
+					setDeclaringTypeQualifiedName(type==null?null:type.getFullyQualifiedName());
+					setName(messages.getName());
+					setModifiers(type.getFlags());
+					setParentMember(parentMember);
+					setDataModel(false);
+					setType(type==null?null:new Type(null, type));
+				}
 			}
 		}
 
