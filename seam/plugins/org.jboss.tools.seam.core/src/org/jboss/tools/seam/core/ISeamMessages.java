@@ -15,7 +15,7 @@ import java.util.Collection;
 /**
  * @author Viacheslav Kabanovich
  */
-public interface ISeamMessages extends ISeamAnnotatedFactory {
+public interface ISeamMessages extends ISeamContextVariable {
 	
 	/**
 	 * 

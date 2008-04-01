@@ -1374,6 +1374,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return components.getByName(name);
 	}
 	
+	public static String MESSAGES_COMPONENT_NAME = "org.jboss.seam.core.messages";
 	/**
 	 * 
 	 * @param name
@@ -1381,7 +1382,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @return
 	 */
 	SeamComponent newComponent(String name, ScopeType scopeType) {
-		SeamComponent c = new SeamComponent();
+		SeamComponent c = 
+			MESSAGES_COMPONENT_NAME.equals(name) ? new SeamMessagesComponent()
+			: new SeamComponent();
 		c.setName(name);
 		c.setId(name);
 		c.setParent(getScope(scopeType));
@@ -1549,6 +1552,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void postBuild() {
 		if(factories.messages != null) {
 			factories.messages.revalidate();
+		}
+		ISeamComponent m = getComponent(MESSAGES_COMPONENT_NAME);
+		if(m instanceof SeamMessagesComponent) {
+			((SeamMessagesComponent)m).revalidate();
 		}
 	}
 	

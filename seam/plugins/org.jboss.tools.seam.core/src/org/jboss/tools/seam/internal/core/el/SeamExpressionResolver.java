@@ -180,7 +180,7 @@ public class SeamExpressionResolver {
 		 */
 		protected MessagesInfo(MemberInfo parentMember, ISeamMessages messages) throws JavaModelException {
 			super(null, null, messages.getName(), 0, null, false, null);
-			IMember member = messages.getSourceMember();
+			IMember member = (IMember)getJavaElement();
 			IType type = member.getDeclaringType();
 			setSourceType(type);
 			setDeclaringTypeQualifiedName(type==null?null:type.getFullyQualifiedName());
@@ -197,7 +197,14 @@ public class SeamExpressionResolver {
 		 */
 		@Override
 		public IJavaElement getJavaElement() {
-			return messages.getSourceMember();
+			if(messages instanceof ISeamJavaSourceReference) {
+				return ((ISeamJavaSourceReference)messages).getSourceMember();
+			} else if(messages instanceof ISeamComponent) {
+				ISeamComponent c = (ISeamComponent)messages;
+				ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+				if(d != null) return d.getSourceMember();
+			}
+			return null;
 		}
 
 		/**
