@@ -180,16 +180,18 @@ public class SeamExpressionResolver {
 		 */
 		protected MessagesInfo(MemberInfo parentMember, ISeamMessages messages) throws JavaModelException {
 			super(null, null, messages.getName(), 0, null, false, null);
-			IMember member = (IMember)getJavaElement();
-			IType type = member.getDeclaringType();
-			setSourceType(type);
-			setDeclaringTypeQualifiedName(type==null?null:type.getFullyQualifiedName());
-			setName(messages.getName());
-			setModifiers(type.getFlags());
-			setParentMember(parentMember);
-			setDataModel(false);
-			setType(type==null?null:new Type(null, type));
 			this.messages = messages;
+			IMember member = (IMember)getJavaElement();
+			if(member!=null) {
+				IType type = member.getDeclaringType();
+				setSourceType(type);
+				setDeclaringTypeQualifiedName(type==null?null:type.getFullyQualifiedName());
+				setName(messages.getName());
+				setModifiers(type.getFlags());
+				setParentMember(parentMember);
+				setDataModel(false);
+				setType(type==null?null:new Type(null, type));
+			}
 		}
 
 		/* (non-Javadoc)
