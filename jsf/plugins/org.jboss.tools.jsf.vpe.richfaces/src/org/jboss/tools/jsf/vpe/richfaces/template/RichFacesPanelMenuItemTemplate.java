@@ -38,12 +38,26 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String STYLE = "style"; //$NON-NLS-1$
 	private static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 
+	/*
+	 *	rich:panelMenuItem css styles
+	 */ 
+	public static final String CSS_TOP_ITEM = "rich-pmenu-top-item"; //$NON-NLS-1$
+	public static final String CSS_TOP_ITEM_ICON = "rich-pmenu-top-item-icon"; //$NON-NLS-1$
+	public static final String CSS_TOP_ITEM_LABEL = "rich-pmenu-top-item-label"; //$NON-NLS-1$
+	public static final String CSS_ITEM = "rich-pmenu-item"; //$NON-NLS-1$
+	public static final String CSS_ITEM_ICON = "rich-pmenu-item-icon"; //$NON-NLS-1$
+	public static final String CSS_ITEM_LABEL = "rich-pmenu-item-label"; //$NON-NLS-1$
+	public static final String CSS_ITEM_SELECTED = "rich-pmenu-item-selected"; //$NON-NLS-1$
+	public static final String CSS_DISABLED_ELEMENT = "rich-pmenu-disabled-element"; //$NON-NLS-1$
 	
-	private static final String PANEL_MENU_ITEM_CLASS = "dr-pmenu-item"; //$NON-NLS-1$
-	private static final String PANEL_MENU_NOWARP_CLASS = "dr-pmenu-nowrap"; //$NON-NLS-1$
-	private static final String PANEL_MENU_LABLE_CLASS = "dr-pmenu-group-self-label"; //$NON-NLS-1$
-	private static final String PANEL_MENU_DIV = "dr-pmenu-top-self-div"; //$NON-NLS-1$
-	private static final String DISABLED_CLASS_NAME = "dr-pmenu-item-disabled"; //$NON-NLS-1$
+	/*
+	 *	rich:panelMenuItem default css styles
+	 */ 
+	private static final String DR_ITEM_CLASS = "dr-pmenu-item"; //$NON-NLS-1$
+	private static final String DR_NOWARP_CLASS = "dr-pmenu-nowrap"; //$NON-NLS-1$
+	private static final String DR_LABEL_CLASS = "dr-pmenu-group-self-label"; //$NON-NLS-1$
+	private static final String DR_TOP_DIV = "dr-pmenu-top-self-div"; //$NON-NLS-1$
+	private static final String DR_DISABLED_CLASS_NAME = "dr-pmenu-item-disabled"; //$NON-NLS-1$
 	
 	private static final String IMG_POINTS_SRC = "/panelMenuItem/points.gif"; //$NON-NLS-1$
 	private static final String IMG_SPACER_SRC = "/panelMenuItem/spacer.gif"; //$NON-NLS-1$
@@ -112,7 +126,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		readPanelMenuItemAttributes(sourceElement);
 		
 		nsIDOMElement parentDiv = visualDocument.createElement("div"); //$NON-NLS-1$
-		parentDiv.setAttribute("CLASS", PANEL_MENU_DIV); //$NON-NLS-1$
+		parentDiv.setAttribute("CLASS", DR_TOP_DIV); //$NON-NLS-1$
 		parentVisualElement.appendChild(parentDiv);
 		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -129,7 +143,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			div.appendChild(table);
 
 			table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					PANEL_MENU_ITEM_CLASS);
+					DR_ITEM_CLASS);
 			table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR,
 					NO_SIZE_VALUE);
 			table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR,
@@ -145,13 +159,13 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdNowrap);
 			tdNowrap.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					PANEL_MENU_NOWARP_CLASS);
+					DR_NOWARP_CLASS);
 
 			nsIDOMElement tdLable = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdLable);
 			tdLable.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					PANEL_MENU_LABLE_CLASS);
+					DR_LABEL_CLASS);
 			tdLable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 					"element.style"); //$NON-NLS-1$
 
@@ -187,13 +201,13 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 							sourceParentElement, pm_iconTopDisabledItem,
 							pmi_iconDisabled);
 					setItemClassAndStyle(table, pm_disabledItemClass,
-							pmi_disabledClass, DISABLED_CLASS_NAME,
+							pmi_disabledClass, DR_DISABLED_CLASS_NAME,
 							pm_disabledItemStyle, pmi_disabledStyle);
 				} else {
 					setIcon(pageContext, imgPoints, sourceElement,
 							sourceParentElement, pm_iconTopItem, pmi_icon);
 					setItemClassAndStyle(table, pm_topItemClass,
-							pmi_styleClass, PANEL_MENU_ITEM_CLASS,
+							pmi_styleClass, DR_ITEM_CLASS,
 							pm_topItemStyle, pmi_style);
 				}
 				setIconPosition(pm_iconItemTopPosition, td, tdNowrap,
@@ -206,13 +220,13 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 							sourceParentElement, pm_iconDisabledItem,
 							pmi_iconDisabled);
 					setItemClassAndStyle(table, pm_disabledItemClass,
-							pmi_disabledClass, DISABLED_CLASS_NAME,
+							pmi_disabledClass, DR_DISABLED_CLASS_NAME,
 							pm_disabledItemStyle, pmi_disabledStyle);
 				} else {
 					setIcon(pageContext, imgPoints, sourceElement,
 							sourceParentElement, pm_iconItem, pmi_icon);
 					setItemClassAndStyle(table, pm_itemClass, pmi_styleClass,
-							PANEL_MENU_ITEM_CLASS, pm_itemStyle, pmi_style);
+							DR_ITEM_CLASS, pm_itemStyle, pmi_style);
 				}
 				setIconPosition(pm_iconItemPosition, td, tdNowrap, imgPoints,
 						imgSpacer2);

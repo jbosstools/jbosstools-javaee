@@ -93,6 +93,11 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	public static final String TOP_ITEM_STYLE = "topItemStyle"; //$NON-NLS-1$
 	public static final String ITEM_CLASS = "itemClass"; //$NON-NLS-1$
 	public static final String ITEM_STYLE = "itemStyle"; //$NON-NLS-1$
+	
+	/*
+	 *	rich:panelMenu css styles
+	 */ 
+	public static final String CSS_PANEL_MENU = "rich-panel-menu"; //$NON-NLS-1$
 
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup"; //$NON-NLS-1$
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
