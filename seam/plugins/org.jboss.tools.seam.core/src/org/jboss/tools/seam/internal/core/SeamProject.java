@@ -161,6 +161,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		IEclipsePreferences p = getSeamPreferences();
 		return p == null ? null : p.get("seam.parent.project", null);
 	}
+	
+	public ISeamProject getParentProject() {
+		String n = getParentProjectName();
+		if(n == null || n.length() == 0) return null;
+		IProject parent = ResourcesPlugin.getWorkspace().getRoot().getProject(n);
+		return n == null ? null : SeamCorePlugin.getSeamProject(parent, true);
+	}
 
 	public void setRuntimeName(String runtimeName) {
 		if(this.runtimeName == runtimeName) return;
@@ -267,14 +274,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 //			}
 //		});
 	}
+	
+	IEclipsePreferences preferences = null;
 
 	/**
 	 * 
 	 * @return
 	 */
 	public IEclipsePreferences getSeamPreferences() {
-		IScopeContext projectScope = new ProjectScope(project);
-		return projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+		if(preferences == null) {
+			IScopeContext projectScope = new ProjectScope(project);
+			preferences = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+		}
+		return preferences;
 	}
 
 	/**

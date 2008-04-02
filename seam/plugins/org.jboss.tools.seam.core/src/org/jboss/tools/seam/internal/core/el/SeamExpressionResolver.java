@@ -56,6 +56,11 @@ public class SeamExpressionResolver {
 	 */
 	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
 		if (project == null || name == null) return null;
+		
+		ISeamProject parent = project.getParentProject();
+		if(parent != null) {
+			project = parent;
+		}
 /*  
  * JBIDE-670 scope isn't used anymore
  */		

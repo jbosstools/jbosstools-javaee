@@ -35,6 +35,13 @@ public interface ISeamProject extends ISeamElement {
 	 * or null if project has no parent project.
 	 */
 	public String getParentProjectName();
+	
+	/**
+	 * 
+	 * @return parent project or null
+	 * @see getParentProjectName()
+	 */
+	public ISeamProject getParentProject();
 
 	/**
 	 * Returns Seam runtime name.

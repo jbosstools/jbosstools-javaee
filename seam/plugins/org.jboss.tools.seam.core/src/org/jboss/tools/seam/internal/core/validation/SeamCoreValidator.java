@@ -580,6 +580,12 @@ public class SeamCoreValidator extends SeamValidator {
 		if(bijection.isOfType(BijectedAttributeType.IN)) {
 			Set<ISeamContextVariable> variables = project.getVariablesByName(name);
 			if(variables==null || variables.size()<1) {
+				ISeamProject parentProject = project.getParentProject();
+				if(parentProject != null) {
+					variables = parentProject.getVariablesByName(name);
+				}
+			}
+			if(variables==null || variables.size()<1) {
 				// Injection has unknown name. Mark it.
 				IResource declarationResource = declaration.getResource();
 				addError(UNKNOWN_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_VARIABLE_NAME, new String[]{name}, bijection, declarationResource);
