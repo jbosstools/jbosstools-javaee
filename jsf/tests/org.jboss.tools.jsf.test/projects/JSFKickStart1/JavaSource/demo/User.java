@@ -8,23 +8,26 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-package org.jboss.tools.jsf.test;
+package demo;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+/**
+ * Created by JBoss Developer Studio
+ */
+public class User extends BaseBean {
 
-public class JsfAllTests {
-//	public static final String PLUGIN_ID = "org.jboss.tools.jsf";
+	private String name;
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite("Test model loading for JSF projects");
-		
-		suite.addTestSuite(JSFModelTest.class);
-		suite.addTestSuite(ModelFormat_2_0_0_Test.class);
-		suite.addTestSuite(JSFImportTest.class);
-		suite.addTestSuite(JSFBeansTest.class);
-		
-		return suite;
+	/**
+	 * @return User Name
+	 */
+	public String getName() {
+		return name;
 	}
 
+	/**
+	 * @param User Name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 }
