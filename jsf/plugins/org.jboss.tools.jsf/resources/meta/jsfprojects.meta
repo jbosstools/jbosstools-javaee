@@ -74,8 +74,12 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="class name"/>
+   <XModelAttribute name="declaring class"/>
   </XModelAttributes>
   <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=declaring class;property=name"
+    displayName="Open" kind="action" name="Open"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HIDE="always"
      HandlerClassName="%Copy%" ICON="action.copy" displayName="Copy"
@@ -99,15 +103,19 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
+   <XModelAttribute default="property" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
    <XModelAttribute name="name" xmlname="NAME">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="class name"/>
-   <XModelAttribute default="property" loader="ElementType" name="element type">
-    <Editor name="Uneditable"/>
-   </XModelAttribute>
+   <XModelAttribute name="declaring class"/>
   </XModelAttributes>
   <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=declaring class;property=name"
+    displayName="Open" kind="action" name="Open"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HIDE="always"
      HandlerClassName="%Copy%" ICON="action.copy" displayName="Copy"

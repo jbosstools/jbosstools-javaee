@@ -91,9 +91,12 @@ public class JSFProjectBean extends RegularObjectImpl {
 		XModelObject[] cs = getChildren();
 		for (int i = 0; i < cs.length; i++) map.put(cs[i].getPathPart(), cs[i]);
 		if(type != null) {
-			IField[] fs = type.getFields();
+			IType _type = type;
+			while(_type != null) {
+			IField[] fs = _type.getFields();
 			if(fs != null) for (int i = 0; i < fs.length; i++) {
 				String n = fs[i].getElementName();
+				if(properties.contains(n)) continue;
 				JSFProjectBeanMember c = (JSFProjectBeanMember)map.get(n);
 				if(c != null && !c.getModelEntity().getName().equals("JSFProjectBeanProperty")) {
 					c.removeFromParent();
@@ -106,12 +109,13 @@ public class JSFProjectBean extends RegularObjectImpl {
 					c.setType(beans.getType(typeName));
 					if(typeName == null) typeName = "";
 					c.setAttributeValue("class name", typeName);
+					c.setAttributeValue("declaring class", fs[i].getDeclaringType().getFullyQualifiedName());
 				} else {
 					c = createMember(n, fs[i], "JSFProjectBeanProperty"); 
 				}
 				properties.add(n);
 			}
-			IMethod[] ms = type.getMethods();
+			IMethod[] ms = _type.getMethods();
 			if(ms != null) for (int i = 0; i < ms.length; i++) {
 				if(ms[i].isConstructor()) continue;
 				if(!Flags.isPublic(ms[i].getFlags())) continue;				
@@ -141,10 +145,23 @@ public class JSFProjectBean extends RegularObjectImpl {
 					if(typeName == null) typeName = "";
 					c.setAttributeValue("class name", typeName);
 					c.setMember(ms[i]);
+					c.setAttributeValue("declaring class", ms[i].getDeclaringType().getFullyQualifiedName());
 				} else if(!properties.contains(n)) {
-					c = createMember(n, ms[i], entity); 
+					c = createMember(n, ms[i], entity);
 				}
-				if(isProperty) properties.add(n);
+				if(isProperty) {
+					properties.add(n);
+				} else {
+					//add it anyway
+					properties.add(n);
+				}
+			}
+			
+				String sc = _type.getSuperclassName();
+				if(sc == null || sc.length() == 0 || "java.lang.Object".equals(sc)) break;
+				sc = EclipseJavaUtil.resolveType(_type, sc);
+				if(sc == null || sc.length() == 0 || "java.lang.Object".equals(sc)) break;
+				_type = beans.getType(sc);
 			}
 		} else if(beanList.length > 0) {
 			XModelObject[] ps = beanList[0].getChildren();
@@ -174,6 +191,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 		c.setBeans(beans);
 		String className = EclipseJavaUtil.getMemberTypeAsString(member);
 		c.setAttributeValue("class name", (className == null) ? "" : className);
+		c.setAttributeValue("declaring class", member.getDeclaringType().getFullyQualifiedName());
 		c.setType(beans.getType(className));
 		c.setMember(member);
 		if(isLoading) addChild_0(c); else addChild(c);
