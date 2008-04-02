@@ -8,6 +8,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMHTMLTextAreaElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -22,6 +23,9 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 
 		nsIDOMElement textArea = visualDocument
 				.createElement(HTML.TAG_TEXTAREA);
+		((nsIDOMHTMLTextAreaElement) textArea
+				.queryInterface(nsIDOMHTMLTextAreaElement.NS_IDOMHTMLTEXTAREAELEMENT_IID))
+				.setReadOnly(true);
 
 		VpeCreationData creationData = new VpeCreationData(textArea);
 
@@ -32,11 +36,12 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 		copyAttribute(textArea, sourceElement, JSF.ATTR_COLS, HTML.ATTR_COLS);
 
 		VpeElementData elementData = new VpeElementData();
-		nsIDOMNode text =null;
+		nsIDOMNode text = null;
 		if (sourceElement.hasAttribute(JSF.ATTR_VALUE)) {
 
 			Attr attr = sourceElement.getAttributeNode(JSF.ATTR_VALUE);
-			text = visualDocument.createTextNode(sourceElement.getAttribute(JSF.ATTR_VALUE));
+			text = visualDocument.createTextNode(sourceElement
+					.getAttribute(JSF.ATTR_VALUE));
 			elementData.addAttributeData(new VpeAttributeData(attr, textArea,
 					true));
 
