@@ -7,11 +7,15 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
+import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
+import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.TemplateManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -67,11 +71,11 @@ public abstract class AbstractOutputJsfTemplate extends
 		Attr outputAttr = getOutputAttributeNode(sourceElement);
 
 		if (outputAttr != null) {
-			
+
 			// prepare value
 			String newValue = prepareAttrValue(pageContext, sourceElement,
 					outputAttr);
-			
+
 			// if escape then contents of value (or other attribute) is only
 			// text
 			if (!sourceElement.hasAttribute(JSF.ATTR_ESCAPE)
@@ -126,7 +130,7 @@ public abstract class AbstractOutputJsfTemplate extends
 			}
 
 		}
-		
+
 		creationData.setElementData(elementData);
 	}
 
@@ -134,5 +138,102 @@ public abstract class AbstractOutputJsfTemplate extends
 			Element parent, Attr attr) {
 
 		return ComponentUtil.getBundleValue(pageContext, attr);
+	}
+
+	@Override
+	public Node getTargetSourceNodeByVisualNode(VpePageContext pageContext,
+			nsIDOMNode visualNode, VpeElementMapping elementMapping) {
+
+		// try get mapping
+		VpeNodeMapping tempMapping = pageContext.getDomMapping()
+				.getNearElementMapping(visualNode);
+
+		// if mapping is not null
+		if (tempMapping != null) {
+
+			return super.getTargetSourceNodeByVisualNode(pageContext,
+					visualNode, elementMapping);
+		}
+		// can be only for escape=false
+		else {
+
+			tempMapping = pageContext.getDomMapping()
+					.getNearNodeMappingAtVisualNode(visualNode);
+
+			if (tempMapping != null) {
+
+				Node insertedNode = tempMapping.getSourceNode();
+
+				return getTargetSourceNodeBySourcePosition(pageContext,
+						TemplateManagingUtil.getStartOffsetNode(insertedNode),
+						TemplateManagingUtil.getEndOffsetNode(insertedNode));
+
+			}
+		}
+
+		return elementMapping.getSourceNode();
+
+	}
+
+	@Override
+	public nsIDOMNode getTargetVisualNodeByVisualNode(
+			VpePageContext pageContext, nsIDOMNode visualNode,
+			VpeElementMapping elementMapping) {
+		// try get mapping
+		VpeNodeMapping tempMapping = pageContext.getDomMapping()
+				.getNearElementMapping(visualNode);
+
+		// if mapping is not null
+		if (tempMapping != null) {
+
+			return super.getTargetVisualNodeByVisualNode(pageContext,
+					visualNode, elementMapping);
+		}
+		// can be only for escape=false
+		else {
+
+			tempMapping = pageContext.getDomMapping()
+					.getNearNodeMappingAtVisualNode(visualNode);
+
+			if (tempMapping != null) {
+
+				Node insertedNode = tempMapping.getSourceNode();
+
+				Node sourceNode = getTargetSourceNodeBySourcePosition(
+						pageContext, TemplateManagingUtil
+								.getStartOffsetNode(insertedNode),
+						TemplateManagingUtil.getEndOffsetNode(insertedNode));
+				return getTargetVisualNodeBySourceNode(sourceNode,
+						elementMapping);
+
+			}
+		}
+
+		return elementMapping.getVisualNode();
+	}
+
+	@Override
+	protected VpeElementMapping getElmentMapping(VpePageContext pageContext,
+			nsIDOMNode node) {
+		// TODO Auto-generated method stub
+		VpeElementMapping elementMapping = super.getElmentMapping(pageContext,
+				node);
+
+		if (elementMapping == null) {
+			VpeNodeMapping insertedMapping = pageContext.getDomMapping()
+					.getNearNodeMappingAtVisualNode(node);
+			if (insertedMapping != null) {
+				Node insertedNode = insertedMapping.getSourceNode();
+
+				int offset = TemplateManagingUtil
+						.getStartOffsetNode(insertedNode);
+				elementMapping = TemplateManagingUtil
+						.getElementMappingBySourceSelection(pageContext,
+								offset, offset);
+
+			}
+		}
+
+		return elementMapping;
 	}
 }

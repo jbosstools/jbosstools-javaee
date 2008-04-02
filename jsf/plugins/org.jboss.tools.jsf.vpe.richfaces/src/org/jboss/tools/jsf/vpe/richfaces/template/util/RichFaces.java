@@ -24,5 +24,8 @@ public class RichFaces {
 	public static final String ATTR_STYLE = "style"; //$NON-NLS-1$
 	public static final String ATTR_WIDTH = "width"; //$NON-NLS-1$
 	public static final String ATTR_VALUE = "value"; //$NON-NLS-1$
+	public static final String ATTR_INPUT_SIZE = "inputSize"; //$NON-NLS-1$
+	public static final String ATTR_INPUT_CLASS = "inputClass"; //$NON-NLS-1$
+	public static final String ATTR_INPUT_STYLE = "inputStyle"; //$NON-NLS-1$
 
 }

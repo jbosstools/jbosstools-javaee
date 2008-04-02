@@ -39,4 +39,10 @@ public class JSF {
 
 	public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 
+	public static final String ATTR_SIZE = "size"; //$NON-NLS-1$
+
+	public static final String ATTR_ROWS = "rows"; //$NON-NLS-1$
+
+	public static final String ATTR_COLS = "cols"; //$NON-NLS-1$
+
 }

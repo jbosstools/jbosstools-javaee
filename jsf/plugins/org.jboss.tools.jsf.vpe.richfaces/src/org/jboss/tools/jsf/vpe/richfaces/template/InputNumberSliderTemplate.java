@@ -22,14 +22,11 @@ import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.TextUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMHTMLInputElement;
-import org.mozilla.interfaces.nsIDOMKeyEvent;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
-import org.mozilla.interfaces.nsISelection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -79,16 +76,6 @@ public class InputNumberSliderTemplate extends
 	 * "inputPosition" attribute
 	 */
 	private static final String INPUT_POSITION_ATTR = "inputPosition"; //$NON-NLS-1$
-
-	/**
-	 * "inputSize" attribute
-	 */
-	private static final String INPUT_SIZE_ATTR = "inputSize"; //$NON-NLS-1$
-
-	/**
-	 * "inputStyle" attribute
-	 */
-	private static final String INPUT_STYLE_ATTR = "inputStyle"; //$NON-NLS-1$
 
 	/**
 	 * "minValue" attribute
@@ -285,14 +272,14 @@ public class InputNumberSliderTemplate extends
 
 		// create input field
 		nsIDOMElement inputField = visualDocument.createElement(HTML.TAG_INPUT);
-		inputField.setAttribute(HTML.ATTR_TYPE, "text"); //$NON-NLS-1$
+		inputField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
 
 		inputField.setAttribute(HTML.ATTR_SIZE, getNumberValue(sourceElement,
-				INPUT_SIZE_ATTR, INPUT_SIZE_DEFAULT));
+				RichFaces.ATTR_INPUT_SIZE, INPUT_SIZE_DEFAULT));
 
 		inputField.setAttribute(HTML.ATTR_STYLE, ComponentUtil
 				.getBackgoundImgStyle(INPUT_BACKGROUND_IMAGE_PATH)
-				+ getAttribute(sourceElement, INPUT_STYLE_ATTR));
+				+ getAttribute(sourceElement, RichFaces.ATTR_INPUT_STYLE));
 
 		VpeAttributeData attributeData;
 
@@ -327,7 +314,7 @@ public class InputNumberSliderTemplate extends
 
 		nsIDOMHTMLInputElement iDOMInputElement = (nsIDOMHTMLInputElement) inputField
 				.queryInterface(nsIDOMHTMLInputElement.NS_IDOMHTMLINPUTELEMENT_IID);
-		iDOMInputElement.setReadOnly(true);
+		iDOMInputElement.setReadOnly(false);
 
 		inputTd.appendChild(inputField);
 
@@ -593,149 +580,30 @@ public class InputNumberSliderTemplate extends
 		return true;
 	}
 
-	@Override
-	protected boolean handleCharacter(VpePageContext pageContext,
-			nsIDOMKeyEvent keyEvent) {
-
-		// get selection
-		nsISelection selection = getCurrentSelection(pageContext);
-
-		// get visual node which is focused
-		nsIDOMNode visualNode = selection.getFocusNode();
-
-		VpeElementMapping elementMapping = getElmentMapping(pageContext,
-				visualNode);
-
-		if (elementMapping != null) {
-
-			VpeAttributeData attributeData = getAttributeData(pageContext,
-					visualNode, elementMapping.getElementData());
-
-			if ((attributeData != null) && attributeData.isEditable()) {
-
-				if ((attributeData.getSourceAttr() == null)
-						&& (attributeData.getAttributeName() != null)) {
-
-					// get inserted string
-					long charCode = keyEvent.getCharCode();
-					char[] s = new char[1];
-					s[0] = (char) charCode;
-					String str = new String(s);
-					if (TextUtil.containsKey(s[0])) {
-						str = TextUtil.getValue(s[0]);
-					}
-
-					Node node = createAttribute((Element) elementMapping
-							.getSourceNode(), attributeData.getAttributeName(),
-							str);
-
-					setSourceSelection(pageContext, node, 0, 0);
-					return true;
-				} else
-					return super.handleCharacter(pageContext, keyEvent);
-
-			}
-
-		}
-		return false;
-
-	}
-
-	@Override
-	protected boolean handleLeftDelete(VpePageContext pageContext,
-			nsIDOMKeyEvent keyEvent) {
-
-		// get selection
-
-		nsISelection selection = getCurrentSelection(pageContext);
-
-		// get visual node which is focused
-		nsIDOMNode visualNode = selection.getFocusNode();
-
-		VpeElementMapping elementMapping = getElmentMapping(pageContext,
-				visualNode);
-
-		if (elementMapping != null) {
-
-			VpeAttributeData attributeData = getAttributeData(pageContext,
-					visualNode, elementMapping.getElementData());
-
-			if ((attributeData != null) && attributeData.isEditable()) {
-
-				if ((attributeData.getSourceAttr() == null)
-						&& (attributeData.getAttributeName() != null)) {
-
-					Node node = createAttribute((Element) elementMapping
-							.getSourceNode(), attributeData.getAttributeName(),
-							""); //$NON-NLS-1$
-
-					setSourceSelection(pageContext, node, 0, 0);
-					return true;
-				} else
-					return super.handleLeftDelete(pageContext, keyEvent);
-
-			}
-
-		}
-		return false;
-
-	}
-
-	@Override
-	protected boolean handleRightDelete(VpePageContext pageContext,
-			nsIDOMKeyEvent keyEvent) {
-		// get selection
-		nsISelection selection = getCurrentSelection(pageContext);
-
-		// get visual node which is focused
-		nsIDOMNode visualNode = selection.getFocusNode();
-
-		VpeElementMapping elementMapping = getElmentMapping(pageContext,
-				visualNode);
-
-		if (elementMapping != null) {
-
-			VpeAttributeData attributeData = getAttributeData(pageContext,
-					visualNode, elementMapping.getElementData());
-
-			if ((attributeData != null) && attributeData.isEditable()) {
-
-				if ((attributeData.getSourceAttr() == null)
-						&& (attributeData.getAttributeName() != null)) {
-
-					Node node = createAttribute((Element) elementMapping
-							.getSourceNode(), attributeData.getAttributeName(),
-							""); //$NON-NLS-1$
-					setSourceSelection(pageContext, node, 0, 0);
-
-					return true;
-
-				} else
-					return super.handleRightDelete(pageContext, keyEvent);
-
-			}
-
-		}
-		return false;
-
-	}
-
 	/**
 	 * 
-	 * @param sourceElement
-	 * @param attributeName
-	 * @param value
 	 */
-	private Node createAttribute(Element sourceElement, String attributeName,
-			String value) {
+	public Node getTargetSourceNodeByVisualNode(VpePageContext pageContext,
+			nsIDOMNode visualNode, VpeElementMapping elementMapping) {
 
-		if ((sourceElement != null) && (attributeName != null)) {
-			sourceElement.setAttribute(attributeName, value != null ? value
-					: ""); //$NON-NLS-1$
+		// if element is not null
+		if (elementMapping != null) {
 
-			return sourceElement.getAttributeNode(attributeName);
+			// get attributeData
+			VpeAttributeData attributeData = getAttributeData(visualNode,
+					elementMapping.getElementData());
+
+			// attributeData is found
+			if ((attributeData != null)
+					&& (attributeData.getSourceAttr() != null)) {
+				return attributeData.getSourceAttr();
+			} else
+				return elementMapping.getSourceNode();
+
 		}
+
 		return null;
 
 	}
+
 }
