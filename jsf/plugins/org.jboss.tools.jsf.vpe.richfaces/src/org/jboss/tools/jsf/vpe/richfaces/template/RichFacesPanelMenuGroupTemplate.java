@@ -32,6 +32,7 @@ import org.w3c.dom.Text;
 public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	public static final String GROUP_COUNT_SEPARATOR = "-"; //$NON-NLS-1$
+	public static final Map<String, String> DEFAULT_ICON_MAP = new HashMap<String, String>();
 
 	/*
 	 * pich:panelMenuGroup attributes
@@ -69,8 +70,6 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String PANEL_MENU_GROUP_ICON_SPACER_PATH = "/panelMenuGroup/spacer.gif"; //$NON-NLS-1$
 	private static final String STYLE_PATH = "/panelMenuGroup/style.css"; //$NON-NLS-1$
 	private static final String EMPTY_DIV_STYLE = "display: none;"; //$NON-NLS-1$
-	
-	private static final Map<String, String> DEFAULT_ICON_MAP = new HashMap<String, String>();
 	
 	private static final String TRUE = "true"; //$NON-NLS-1$
 	private static final String RIGHT = "right"; //$NON-NLS-1$
@@ -285,11 +284,11 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 		if (childOfPanelMenu) {
 			
+			tableBodyRow.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_TOP_GROUP + SPACE + CSS_GROUP);
 			columnn1_img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_TOP_GROUP_ICON + SPACE + CSS_GROUP_ICON);
-			column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_TOP_GROUP_LABEL + SPACE + CSS_GROUP_LABEL);
+			column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_GROUP_LABEL + SPACE + CSS_TOP_GROUP_LABEL);
 			column3_img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_TOP_GROUP_ICON + SPACE + CSS_GROUP_ICON);
-			styleClass = CSS_TOP_GROUP + SPACE + CSS_GROUP; 
-				
+			
 			if (attrPresents(pm_topGroupClass)) {
 				styleClass = SPACE + pm_topGroupClass;
 			} 
@@ -299,10 +298,10 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_TOP_GROUP_DIV + SPACE + CSS_GROUP_DIV);
 		} else {
 			
+			tableBodyRow.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_GROUP);
 			columnn1_img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_GROUP_ICON);
 			column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_GROUP_LABEL);
 			column3_img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_GROUP_ICON);
-			styleClass = CSS_GROUP; 
 			
 			if (attrPresents(pm_groupClass)) {
 				styleClass = SPACE + pm_groupClass;
@@ -507,13 +506,13 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	
     /**
-     * Checks is attribute presents.
+     * Checks is attribute have some value.
      * 
      * @param attr the attribute
      * 
      * @return true, if successful
      */
     private static boolean attrPresents(String attr) {
-		return null != attr;
+		return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
 	}
 }
