@@ -23,6 +23,14 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 		FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddComponent") //$NON-NLS-1$
 	);
 	
+	static IFormData SEAM_COMPONENT_20_LIST_DEFINITION = new FormData(
+		"Components", //$NON-NLS-1$
+		SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+		new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 40), new FormAttributeData("class", 60)}, //$NON-NLS-1$
+		new String[]{ENT_SEAM_COMPONENT_20},
+		FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddComponent") //$NON-NLS-1$
+	);
+		
 	static IFormData getFactoryList(String entity) {
 		return new FormData(	
 			"Factories", //$NON-NLS-1$
@@ -79,7 +87,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_20)
 		),
-		SEAM_COMPONENT_LIST_DEFINITION,
+		SEAM_COMPONENT_20_LIST_DEFINITION,
 		getFactoryList(ENT_SEAM_FACTORY_20),
 		getEventList(ENT_SEAM_EVENT_20),
 		SEAM_IMPORT_LIST_DEFINITION

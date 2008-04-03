@@ -41,6 +41,23 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 		)
 	};
 	
+	private final static IFormData[] SEAM_COMPONENT_20_DEFINITIONS = new IFormData[] {
+		new FormData(
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_SEAM_COMPONENT"), //$NON-NLS-1$
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_20)
+		),
+		SEAM_PROPERTY_LIST_DEFINITION,
+		new FormData(
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_20)
+		)
+	};
+	
+	final static IFormData SEAM_COMPONENT_20_FORM_DEFINITION = new FormData(
+		ENT_SEAM_COMPONENT_20, new String[]{null}, SEAM_COMPONENT_20_DEFINITIONS);
+
 	final static IFormData SEAM_COMPONENT_FORM_DEFINITION = new FormData(
 		ENT_SEAM_COMPONENT, new String[]{null}, SEAM_COMPONENT_DEFINITIONS);
 
@@ -62,13 +79,13 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 		new FormData(
 			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_SEAM_COMPONENT_2_0_FILE"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
-			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_20)
+			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_FILE_20)
 		),
 		SEAM_PROPERTY_LIST_DEFINITION,
 		new FormData(
 			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
-			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_20)
+			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_FILE_20)
 		)
 	};
 
@@ -76,5 +93,5 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 		ENT_SEAM_COMPONENT_12, new String[]{null}, COMPONENT_FILE_12_DEFINITIONS);
 
 	final static IFormData SEAM_COMPONENT_FILE_20_FORM_DEFINITION = new FormData(
-		ENT_SEAM_COMPONENT_20, new String[]{null}, COMPONENT_FILE_20_DEFINITIONS);
+		ENT_SEAM_COMPONENT_FILE_20, new String[]{null}, COMPONENT_FILE_20_DEFINITIONS);
 }
