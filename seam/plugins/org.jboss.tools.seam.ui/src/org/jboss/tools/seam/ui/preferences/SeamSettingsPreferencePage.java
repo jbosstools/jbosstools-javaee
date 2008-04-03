@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -344,7 +345,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 		if(folder==null) {
 			SeamProjectsSet set = new SeamProjectsSet(project);
-			IFolder f = set.getModelFolder();
+			IContainer f = set.getModelFolder();
 			folder = f!=null?f.getFullPath().toString():"";
 		}
 		return folder;
@@ -357,7 +358,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 		if(folder==null) {
 			SeamProjectsSet set = new SeamProjectsSet(project);
-			IFolder f = set.getActionFolder();
+			IContainer f = set.getActionFolder();
 			folder = f!=null?f.getFullPath().toString():"";
 		}
 		return folder;
@@ -370,7 +371,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 		if(folder==null) {
 			SeamProjectsSet set = new SeamProjectsSet(project);
-			IFolder f = set.getTestsFolder();
+			IContainer f = set.getTestsFolder();
 			folder = f!=null?f.getFullPath().toString():"";
 		}
 		return folder;
@@ -383,7 +384,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 		if(folder==null) {
 			SeamProjectsSet set = new SeamProjectsSet(project);
-			IFolder f = set.getViewsFolder();
+			IContainer f = set.getViewsFolder();
 			folder = f!=null?f.getFullPath().toString():"";
 		}
 		return folder;

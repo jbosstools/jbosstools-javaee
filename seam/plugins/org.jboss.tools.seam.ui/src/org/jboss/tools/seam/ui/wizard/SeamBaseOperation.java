@@ -22,9 +22,10 @@ import org.apache.tools.ant.types.FilterSetCollection;
 import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -62,6 +63,30 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		super(label);
 	}
 
+	private void putResourceLocationProperty(Map<String, Object> vars, String parameterName, IResource resource) {
+		if(resource!=null) {
+			vars.put(parameterName, resource.getLocation().toFile().toString());
+		} else {
+			vars.put(parameterName, "");
+		}
+	}
+
+	private void putResourceLocationProperty(Map<String, Object> vars, String parameterName, String resourcePath) {
+		if(resourcePath!=null) {
+			vars.put(parameterName, resourcePath);
+		} else {
+			vars.put(parameterName, "");
+		}
+	}
+
+	private void putPackageLocationProperty(Map<String, Object> vars, String parameterName, String packageName) {
+		if(packageName!=null) {
+			vars.put(parameterName, packageName.replace('.','/'));
+		} else {
+			vars.put(parameterName, "");
+		}
+	}
+
 	/**
 	 * @see AbstractOperation#execute(IProgressMonitor, IAdaptable)
 	 */
@@ -93,21 +118,22 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
 			String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
 
-			vars.put(IParameter.SEAM_PROJECT_INSTANCE,project);
+			vars.put(IParameter.SEAM_PROJECT_INSTANCE, project);
 			vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
-			vars.put(IParameter.SEAM_PROJECT_LOCATION_PATH,project.getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_PROJECT_WEBCONTENT_PATH,seamPrjSet.getViewsFolder().getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_PROJECT_SRC_ACTION,seamPrjSet.getActionFolder().getLocation().toFile().toString());
-			vars.put(IParameter.SEAM_PROJECT_SRC_MODEL,seamPrjSet.getModelFolder().getLocation().toFile().toString());			
-			vars.put(IParameter.SEAM_EJB_PROJECT_LOCATION_PATH,seamPrjSet.getEjbProject()!=null?seamPrjSet.getEjbProject().getLocation().toFile().toString():"");
-			vars.put(IParameter.SEAM_TEST_PROJECT_LOCATION_PATH,seamPrjSet.getTestProject().getLocation().toFile().toString());
-			vars.put(IParameter.TEST_SOURCE_FOLDER,seamPrjSet.getTestsFolder().getLocation().toFile().toString());
-			vars.put(IParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder.replace('.','/'));
-			vars.put(IParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
-			vars.put(IParameter.TEST_CASES_PACKAGE_PATH, testFolder.replace('.','/'));			
-			vars.put(IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
-			vars.put(IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder.replace('.','/'));			
-			vars.put(IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+
+			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_LOCATION_PATH, project);
+			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_WEBCONTENT_PATH, seamPrjSet.getViewsFolder());
+			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_ACTION, seamPrjSet.getActionFolder());
+			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_MODEL, seamPrjSet.getModelFolder());
+			putResourceLocationProperty(vars, IParameter.SEAM_EJB_PROJECT_LOCATION_PATH, seamPrjSet.getEjbProject());
+			putResourceLocationProperty(vars, IParameter.SEAM_TEST_PROJECT_LOCATION_PATH, seamPrjSet.getTestProject());
+			putResourceLocationProperty(vars, IParameter.TEST_SOURCE_FOLDER, seamPrjSet.getTestsFolder());
+			putPackageLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder);
+			putResourceLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
+			putPackageLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_PATH, testFolder);
+			putResourceLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
+			putPackageLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder);
+			putResourceLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
 
 			List<FileMapping> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
@@ -152,7 +178,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				// ComponentCore is used to handle case when user changes
 				// default WebContent folder to another one in
 				// Web Facet configuration page
-				IFolder viewFolder = seamPrjSet.getViewsFolder();
+				IContainer viewFolder = seamPrjSet.getViewsFolder();
 				if(viewFolder!=null) {
 					IProject prj = seamPrjSet.getWarProject();
 					IVirtualComponent webComp = ComponentCore.createComponent(prj);

@@ -29,14 +29,14 @@ public abstract class SeamProjectChange extends Change {
 
 	protected IProject project;
 
-	protected static String[] PROJECT_NAME_PROPERTIES = {
+	public final static String[] PROJECT_NAME_PROPERTIES = {
 		ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT,
 		ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
 		ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,
 		ISeamFacetDataModelProperties.SEAM_TEST_PROJECT
 	};
 
-	protected static String[] FOLDER_PROPERTIES = {
+	public final static String[] FOLDER_PROPERTIES = {
 		ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER,
 		ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER,
 		ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
