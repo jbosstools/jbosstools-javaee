@@ -11,6 +11,8 @@
 <!ENTITY seam_editors SYSTEM "modules/seam_editors.xml">
 <!ENTITY seam_view SYSTEM "modules/seam_view.xml">
 
+<!--<!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">-->
+
 <!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
 <!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
 <!ENTITY business_application SYSTEM "modules/business_application.xml">
@@ -26,7 +28,7 @@
 	                           <holder>Red Hat</holder>
 	                       </copyright>
           <releaseinfo>
-<para>Version: 2.0.0.GA</para>
+<para>Version: 2.0.1.GA</para>
 </releaseinfo>
     </bookinfo>
 	
@@ -40,6 +42,7 @@
 &generate_entities;
 &seam_editors;
 &seam_view;
+    <!-- &seam_preferences;  -->
 &crud_database_application;
 &crud_application_walkthrough;
 &testng;
