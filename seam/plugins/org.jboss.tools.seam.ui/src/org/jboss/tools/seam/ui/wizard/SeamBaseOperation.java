@@ -144,7 +144,10 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 		} catch (CoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
-		} finally {
+		} catch(Exception e) {
+			result = new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
+		}
+		finally {
 			try {
 				// ComponentCore is used to handle case when user changes
 				// default WebContent folder to another one in
