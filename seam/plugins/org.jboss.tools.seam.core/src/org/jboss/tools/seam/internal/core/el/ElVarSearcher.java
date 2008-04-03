@@ -10,12 +10,17 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.el;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
@@ -79,11 +84,83 @@ public class ElVarSearcher {
 	}
 
 	/**
+	 * @param viewer
+	 * @param offset
+	 * @return
+	 */
+
+	public static Node getNode(IFile file, int offset) {
+		IndexedRegion treeNode = getNodeAt(file, offset);
+		if(treeNode instanceof Node) {
+			return (Node)treeNode;
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the closest IndexedRegion for the offset and viewer allowing
+	 * for differences between viewer offsets and model positions. note: this
+	 * method returns an IndexedRegion for read only
+	 * 
+	 * @param file
+	 *            the file whose document is used to compute the proposals
+	 * @param documentOffset
+	 *            an offset within the document for which completions should
+	 *            be computed
+	 * @return an IndexedRegion
+	 */
+
+	public static IndexedRegion getNodeAt(IFile file, int documentOffset) {
+
+		if (file == null)
+			return null;
+
+		IndexedRegion node = null;
+		IModelManager mm = StructuredModelManager.getModelManager();
+		IStructuredModel model = null;
+		if (mm != null) {
+			try {
+				model = mm.getModelForRead(file);
+			} catch (IOException e) {
+				return null;
+			} catch (CoreException e) {
+				return null;
+			}
+		}
+		try {
+			if (model != null) {
+				int lastOffset = documentOffset;
+				node = model.getIndexedRegion(documentOffset);
+				while (node == null && lastOffset >= 0) {
+					lastOffset--;
+					node = model.getIndexedRegion(lastOffset);
+				}
+			}
+		} finally {
+			if (model != null)
+				model.releaseFromRead();
+		}
+		return node;
+	}
+
+	/**
 	 * @param node
 	 * @return All var/value that can be used in this position and null if can't find anyone.
 	 */
 	public static List<Var> findAllVars(ITextViewer viewer, int offset) {
 		Node node = getNode(viewer, offset);
+		if(node!=null) {
+			return findAllVars(node);
+		}
+		return null;
+	}
+
+	/**
+	 * @param node
+	 * @return All var/value that can be used in this position and null if can't find anyone.
+	 */
+	public static List<Var> findAllVars(IFile file, int offset) {
+		Node node = getNode(file, offset);
 		if(node!=null) {
 			return findAllVars(node);
 		}
@@ -109,6 +186,19 @@ public class ElVarSearcher {
 		}
 		return vars;
 	}
+
+	/**
+	 * @param node
+	 * @return found var/value that can be used in this position and null if can't find anyone.
+	 */
+	public static Var findVar(IFile file, int offset) {
+		Node node = getNode(file, offset);
+		if(node!=null) {
+			return findVar(node);
+		}
+		return null;
+	}
+
 
 	/**
 	 * Finds var/value attribute in node
@@ -310,6 +400,25 @@ public class ElVarSearcher {
 		public int getDeclarationLength() {
 			return declLength;
 		}
-		
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof Var) {
+				Var compare = (Var)obj;
+				String str = getName();
+				if (str != null) {
+					if (!str.equals(compare.getName()))
+						return false;
+				} else {
+					if (compare.getName() != null)
+						return false;
+				}
+				str = getValue();
+				return (str != null ?
+					str.equals(compare.getValue()) :
+					compare.getValue() == null);
+			}
+			return false;
+		}
 	}
 }
