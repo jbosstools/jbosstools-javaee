@@ -204,8 +204,6 @@ public class SeamELOperandTokenizerForward extends SeamELOperandTokenizer {
 					
 				// read the method parameters
 				skipMethodParameters(); // Do not use the return value (not a matter)
-				// broken/unfinished a method - return part of the method
-				releaseChar();
 				return (index - startOfToken> 0 ? new ELOperandToken(startOfToken, index - startOfToken, getCharSequence(startOfToken, index - startOfToken), ELOperandToken.EL_METHOD_TOKEN) : ELOperandToken.EOF);
 			}
 		}
