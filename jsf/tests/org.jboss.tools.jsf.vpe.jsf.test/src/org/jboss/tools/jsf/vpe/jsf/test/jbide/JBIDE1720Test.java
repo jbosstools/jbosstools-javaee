@@ -87,7 +87,7 @@ public class JBIDE1720Test extends VpeTest {
 			assertNotNull(inputElement);
 			String dir = inputElement.getAttribute(HTML.ATTR_DIR);
 			assertNotNull(dir);
-			assertEquals("rtl", dir);
+			assertEquals("ltr", dir);
 
 			String disabled = inputElement.getAttribute(HTML.ATTR_DISABLED);
 			assertNotNull(disabled);
@@ -250,9 +250,7 @@ public class JBIDE1720Test extends VpeTest {
 		assertNotNull("Attribute style is not exist.", style);
 		assertEquals("font-size: large;", style);
 
-		String disabled = select.getAttribute(HTML.ATTR_DISABLED);
-		assertNotNull("Attribute disabled is not exist.", disabled);
-		assertEquals("disabled", disabled);
+
 
 		elements.clear();
 
@@ -266,9 +264,11 @@ public class JBIDE1720Test extends VpeTest {
 			nsIDOMElement inputElement = (nsIDOMElement) elements.get(i)
 					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 			assertNotNull(inputElement);
+
 			String attr = inputElement.getAttribute(HTML.ATTR_CLASS);
 			assertNotNull("Attribute class is not exist in option tag", attr);
 			assertEquals("myStyle", attr);
+
 
 		}
 

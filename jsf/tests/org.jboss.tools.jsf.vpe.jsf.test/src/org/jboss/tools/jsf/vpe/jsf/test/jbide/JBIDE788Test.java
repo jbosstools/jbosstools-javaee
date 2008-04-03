@@ -71,7 +71,7 @@ public class JBIDE788Test extends VpeTest{
 		//Tests CA
 
 		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 514, 3);
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 586, 4);
+		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 586, 5);
 		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 653, 46);
 		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 719, 46);
 		// check exception
