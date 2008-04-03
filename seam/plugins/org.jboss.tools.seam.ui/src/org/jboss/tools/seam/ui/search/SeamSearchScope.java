@@ -1,36 +1,47 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.search;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceProxy;
+import org.eclipse.core.resources.IResourceProxyVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.search.core.text.TextSearchScope;
-import org.eclipse.search.internal.core.text.FilesOfScopeCalculator;
-import org.eclipse.search.internal.core.text.PatternConstructor;
 import org.eclipse.search.internal.ui.Messages;
-import org.eclipse.search.internal.ui.SearchMessages;
-import org.eclipse.search.internal.ui.WorkingSetComparator;
-import org.eclipse.search.internal.ui.util.FileTypeEditor;
 import org.eclipse.search.ui.text.FileTextSearchScope;
-import org.eclipse.ui.IWorkingSet;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
-public class SeamSearchScope extends TextSearchScope {
-	public static final int SEARCH_FOR_DECLARATIONS = 0;
-	public static final int SEARCH_FOR_REFERENCES = 1;
+/**
+ * Seam Search Scope object
+ * 
+ * @author Jeremy
+ *
+ */
+public class SeamSearchScope extends TextSearchScope implements IJavaSearchScope {
+	public static final int SEARCH_FOR_DECLARATIONS = IJavaSearchConstants.DECLARATIONS;
+	public static final int SEARCH_FOR_REFERENCES = IJavaSearchConstants.REFERENCES;
 	
 	private static final String[] FILE_NAMES = new String[] {
 		"*" 
@@ -39,13 +50,48 @@ public class SeamSearchScope extends TextSearchScope {
 	int fLimitTo;
 	String fDescription;
 	FileTextSearchScope fFileTextSearchScope;
+	IJavaSearchScope fJavaSearchScope;
+	
+	/**
+	 * Constructs SeamSearchScope object using a given {@link IJavaSearchScope}
+	 *  
+	 * @param javaScope
+	 * @param limitTo
+	 */
+	public SeamSearchScope(IJavaSearchScope javaScope, int limitTo) {
+		fJavaSearchScope = javaScope;
+		
+		ProjectVisitor projectVisitor = new ProjectVisitor(fJavaSearchScope);
+		try {
+			ResourcesPlugin.getWorkspace().getRoot().accept(projectVisitor, 0);
+		}
+		catch (CoreException e) {
+			e.printStackTrace();
+		}
 
+		IResource[] projects = projectVisitor.getProjects();
+
+		fFileTextSearchScope = FileTextSearchScope.newSearchScope(projects, 
+				FILE_NAMES, true);
+		fDescription = getScopeDescription(projects);
+		fLimitTo = limitTo;
+	}
+	
+	/**
+	 * Constructs SeamSearchScope object using a given {@link IResources} set
+	 *  
+	 * @param javaScope
+	 * @param limitTo
+	 */
 	public SeamSearchScope(IResource[] resources, int limitTo) {
 		fFileTextSearchScope = FileTextSearchScope.newSearchScope(resources, 
 				FILE_NAMES, true);
-
+		fDescription = getScopeDescription(resources);
+		fLimitTo = limitTo;
+	}
+	
+	private String getScopeDescription(IResource[] resources) {
 		String description;
-
 		if (resources.length == 0) {
 			description= SeamUIMessages.SeamSearchScope_scope_empty;
 		} else if (resources.length == 1) {
@@ -58,22 +104,16 @@ public class SeamSearchScope extends TextSearchScope {
 			String label= SeamUIMessages.SeamSearchScope_scope_multiple;
 			description= Messages.format(label, new String[] { resources[0].getName(), resources[1].getName()});
 		}
-
-		fLimitTo = limitTo;
+		return description;
 	}
-	
+
+	/** 
+	 * Returns limitTo flag value
+	 */
 	public int getLimitTo() {
 		return fLimitTo;
 	}
-	
-	public boolean isLimitToDeclarations() {
-		return (SEARCH_FOR_DECLARATIONS == fLimitTo);
-	}
 
-	public boolean isLimitToReferences() {
-		return (SEARCH_FOR_REFERENCES == fLimitTo);
-	}
-	
 	@Override
 	public boolean contains(IResourceProxy proxy) {
 		return fFileTextSearchScope.contains(proxy);
@@ -95,7 +135,7 @@ public class SeamSearchScope extends TextSearchScope {
 	 * @return the description of the scope
 	 */
 	public String getDescription() {
-		return fFileTextSearchScope.getDescription();
+		return fDescription;
 	}
 
 	/**
@@ -104,7 +144,7 @@ public class SeamSearchScope extends TextSearchScope {
 	 * @return the description of the scope
 	 */
 	public String getLimitToDescription() {
-		return isLimitToDeclarations() ?
+		return SeamSearchEngine.isSearchForDeclarations(getLimitTo()) ?
 			SeamUIMessages.SeamSearchScope_scope_LimitToDeclarations : 
 			SeamUIMessages.SeamSearchScope_scope_LimitToReferences;
 	}
@@ -151,6 +191,98 @@ public class SeamSearchScope extends TextSearchScope {
 			}
 		}
 		return (ISeamProject[]) seamProjects.toArray(new ISeamProject[seamProjects.size()]);
+	}
+
+	
+	
+	// visitor that retieves all the files for JavaScope in workspace
+	class ProjectVisitor implements IResourceProxyVisitor {
+		// hash map forces only one of each file
+		private HashMap fProjects = new HashMap();
+		IJavaSearchScope fScope = null;
+
+		public ProjectVisitor(IJavaSearchScope scope) {
+			this.fScope = scope;
+		}
+
+		public boolean visit(IResourceProxy proxy) throws CoreException {
+
+			if(SeamSearchEngine.getInstance().isCanceled())
+				return false;
+			
+			if (proxy.getType() == IResource.PROJECT) {
+
+				IProject project = (IProject)proxy.requestResource();
+				fProjects.put(project.getParent().getFullPath(), project);
+				return true;
+			}
+			if (proxy.getType() == IResource.FILE) {
+				// don't search deeper for files
+				return false;
+			}
+
+			return true;
+		}
+
+		public IProject[] getProjects() {
+			return (IProject[]) fProjects.values().toArray(new IProject[fProjects.size()]);
+		}
+	}
+
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#encloses(java.lang.String)
+	 */
+	public boolean encloses(String resourcePath) {
+		return (fJavaSearchScope == null ? true : fJavaSearchScope.encloses(resourcePath));
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#encloses(org.eclipse.jdt.core.IJavaElement)
+	 */
+	public boolean encloses(IJavaElement element) {
+		return (fJavaSearchScope == null ? true : fJavaSearchScope.encloses(element));
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#enclosingProjectsAndJars()
+	 */
+	public IPath[] enclosingProjectsAndJars() {
+		return (fJavaSearchScope == null ? new IPath[0] : fJavaSearchScope.enclosingProjectsAndJars());
+	}
+
+	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#includesBinaries()
+	 */
+	public boolean includesBinaries() {
+		return (fJavaSearchScope == null ? true : fJavaSearchScope.includesBinaries());
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#includesClasspaths()
+	 */
+	public boolean includesClasspaths() {
+		return (fJavaSearchScope == null ? true : fJavaSearchScope.includesClasspaths());
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#setIncludesBinaries(boolean)
+	 */
+	public void setIncludesBinaries(boolean includesBinaries) {
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.core.search.IJavaSearchScope#setIncludesClasspaths(boolean)
+	 */
+	public void setIncludesClasspaths(boolean includesClasspaths) {
 	}
 
 }

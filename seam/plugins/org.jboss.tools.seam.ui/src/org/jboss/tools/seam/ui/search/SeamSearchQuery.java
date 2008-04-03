@@ -1,64 +1,69 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.search;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.ui.search.ElementQuerySpecification;
-import org.eclipse.jdt.ui.search.IMatchPresentation;
-import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
-import org.eclipse.jdt.ui.search.QuerySpecification;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.search.core.text.TextSearchEngine;
 import org.eclipse.search.core.text.TextSearchMatchAccess;
-import org.eclipse.search.core.text.TextSearchRequestor;
-import org.eclipse.search.core.text.TextSearchScope;
 import org.eclipse.search.internal.core.text.PatternConstructor;
-import org.eclipse.search.internal.core.text.TextSearchVisitor;
 import org.eclipse.search.internal.ui.Messages;
-//import org.eclipse.search.internal.ui.SearchMessages;
 import org.eclipse.search.internal.ui.text.FileMatch;
-import org.eclipse.search.internal.ui.text.FileSearchResult;
 import org.eclipse.search.internal.ui.text.SearchResultUpdater;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.ISearchResult;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
-import org.eclipse.search.ui.text.FileTextSearchScope;
-import org.eclipse.search.ui.text.IFileMatchAdapter;
 import org.eclipse.search.ui.text.Match;
-import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamDeclaration;
-import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.el.ELOperandToken;
+import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
+/**
+ * Seam search query implementation
+ * 
+ * @author Jeremy
+ */
 public class SeamSearchQuery implements ISearchQuery {
-	
-	private final static class SeamSearchResultCollector extends SeamSearchRequestor {
+
+	/**
+	 * Result collector is used be a holder for search results
+	 *  
+	 * @author Jeremy
+	 */
+	public final static class SeamSearchResultCollector extends SeamSearchRequestor {
 		private final AbstractTextSearchResult fResult;
-//		private final boolean fSearchInBinaries;
-		private ArrayList fCachedMatches;
+		private ArrayList<Match> fCachedMatches;
+		private final ISearchRequestor fParentRequestor; 
 		
-		private SeamSearchResultCollector(AbstractTextSearchResult result) {
+		public SeamSearchResultCollector(AbstractTextSearchResult result, ISearchRequestor parentRequestor) {
 			fResult= result;
-//			fSearchInBinaries= searchInBinaries;
-			
+			fParentRequestor = parentRequestor;
 		}
 		
 		public boolean acceptFile(IFile file) throws CoreException {
-//			if (fIsFileSearchOnly) {
-//				fResult.addMatch(new FileMatch(file, 0, 0));
-//			}
 			flushMatches();
 			return true;
 		}
@@ -96,66 +101,162 @@ public class SeamSearchQuery implements ISearchQuery {
 
 		private void flushMatches() {
 			if (!fCachedMatches.isEmpty()) {
-				fResult.addMatches((Match[]) fCachedMatches.toArray(new Match[fCachedMatches.size()]));
+				if (fResult != null) fResult.addMatches((Match[]) fCachedMatches.toArray(new Match[fCachedMatches.size()]));
+				if (fParentRequestor != null) {
+					for (Match match : fCachedMatches) {
+						fParentRequestor.reportMatch(match);
+					}
+				}
 				fCachedMatches.clear();
 			}
 		}
+		
+		public void reportMatch(Match match) {
+			fCachedMatches.add(match);
+		}
+
 	}
 	
+	private List<ELOperandToken> fTokens;
+	private IJavaElement[] fJavaElements;
 	private final SeamSearchScope fScope;
 	private final String[] fVariables;
 	private final Var fVar;
 	private SeamSearchResult fResult;
+	private IFile fSourceFile;
+	private ISearchRequestor fParentRequestor; 
 	
-	public SeamSearchQuery(String[] variables, SeamSearchScope scope) {
-		fVariables = variables;
+	/**
+	 * Constructs Seam search query for a given {@link ELOperandToken} objects list
+	 *  
+	 * @param tokens
+	 * @param sourceFile
+	 * @param scope
+	 */
+	public SeamSearchQuery(List<ELOperandToken> tokens, IFile sourceFile, SeamSearchScope scope) {
+		fTokens = tokens;
+		fJavaElements = null;
+		fSourceFile = sourceFile;
+		fVariables = null;
+		fVar = null;
+		fScope= scope;
+	}
+	
+	/**
+	 * Constructs Seam search query for a given {@link IJavaElement} objects array
+	 * 
+	 * @param javaElements
+	 * @param sourceFile
+	 * @param scope
+	 */
+	public SeamSearchQuery(IJavaElement[] javaElements, IFile sourceFile, SeamSearchScope scope) {
+		fTokens = null;
+		fJavaElements = javaElements;
+		fSourceFile = sourceFile;
+		fVariables = null;
 		fVar = null;
 		fScope= scope;
 	}
 
-	public SeamSearchQuery(Var var, SeamSearchScope scope) {
+	/**
+	 * Constructs Seam search query for a given {@link Var} objects array
+	 * 
+	 * @param var
+	 * @param sourceFile
+	 * @param scope
+	 */
+	public SeamSearchQuery(Var var, IFile sourceFile, SeamSearchScope scope) {
+		fTokens = null;
+		fJavaElements = null;
+		fSourceFile = sourceFile;
 		fVariables = null;
 		fVar = var;
 		fScope= scope;
 	}
+
+	/**
+	 * Sets up a parent ISearchRequestor
+	 * 
+	 * @param requestor
+	 */
+	public void setParentRequestor(ISearchRequestor requestor) {
+		this.fParentRequestor = requestor;
+	}
+
+	/**
+	 * Returns parent requestor
+	 * 
+	 * @return
+	 */
+	public ISearchRequestor getParentRequestor() {
+		return this.fParentRequestor;
+	}
 	
+	/**
+	 * Returns Seam Search Scope
+	 * 
+	 * @return
+	 */
 	public SeamSearchScope getSearchScope() {
 		return fScope;
 	}
 	
+	/**
+	 * @Override
+	 */
 	public boolean canRunInBackground() {
-		return true;
+		return false;
 	}
 
 	
+	/**
+	 * @Override
+	 */
 	public IStatus run(final IProgressMonitor monitor) {
 		AbstractTextSearchResult textResult= (AbstractTextSearchResult) getSearchResult();
 		textResult.removeAll();
 		
-		if (fVariables != null) {
-			Pattern[] searchPatterns = new Pattern[fVariables == null ? 0 : fVariables.length];
-			for (int i = 0; i < searchPatterns.length; i++) { 
-				searchPatterns[i]= getSearchPattern(fVariables[i]);
-			}
-			SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult);
-			return SeamSearchEngine.create().search(fScope, collector, searchPatterns, monitor);
-		} else if (fVar != null) {
-			if (fScope.isLimitToDeclarations()) {
-				textResult.addMatch(new SeamElementMatch((IFile)fScope.getRoots()[0], fVar.getDeclarationOffset(), fVar.getDeclarationLength()));
-			} else {
-				Pattern[] searchPatterns = new Pattern[fVar == null ? 0 : 1];
-				if (searchPatterns.length > 0) {
-					searchPatterns[0]= getSearchPattern(fVar.getName());
-				}
-				SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult);
-				return SeamSearchEngine.create().search(fScope, collector, searchPatterns, monitor);
-				
-			}
-			return Status.OK_STATUS;
+		if (fJavaElements != null) {
+			return queryByJavaElements(textResult, monitor);
+		}
+
+		if (fTokens != null) {
+			return queryByTokens(textResult, monitor);
 		}
 		return Status.OK_STATUS;
 	}
 	
+	private IStatus queryByTokens(AbstractTextSearchResult textResult, 
+			final IProgressMonitor monitor) {
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
+		
+		IProject project = (fSourceFile == null ? null : fSourceFile.getProject());
+
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		if (seamProject == null)
+			return Status.OK_STATUS;
+
+//		List<IJavaElement> elements = engine.getJavaElementsForELOperandTokens(seamProject, fSourceFile, fTokens)
+		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
+		return SeamSearchEngine.getInstance().search(fScope, collector, fSourceFile, fTokens, monitor);
+	}
+
+	private IStatus queryByJavaElements(
+			AbstractTextSearchResult textResult, 
+			final IProgressMonitor monitor) {
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
+		
+		IProject project = (fSourceFile == null ? null : fSourceFile.getProject());
+
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		if (seamProject == null)
+			return Status.OK_STATUS;
+
+//		List<IJavaElement> elements = engine.getJavaElementsForELOperandTokens(seamProject, fSourceFile, fTokens)
+		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
+		return SeamSearchEngine.getInstance().search(fScope, collector, fSourceFile, fJavaElements, monitor);
+	}
+
 	private boolean isScopeAllFileTypes() {
 		String[] fileNamePatterns= fScope.getFileNamePatterns();
 		if (fileNamePatterns == null)
@@ -169,11 +270,18 @@ public class SeamSearchQuery implements ISearchQuery {
 	}
 	
 
+	/**
+	 * @see org.eclipse.search.ui.ISearchQuery#getLabel()
+	 */
 	public String getLabel() {
 		Object[] args= { fScope.getLimitToDescription() };
 		return Messages.format(SeamUIMessages.SeamSearchQuery_label, args);
 	}
-	
+
+	/**
+	 * Returns Search String
+	 * @return
+	 */
 	public String getSearchString() {
 		String searchString = "";
 		if (fVariables != null) {
@@ -190,11 +298,17 @@ public class SeamSearchQuery implements ISearchQuery {
 		}
 		return searchString;
 	}
-	
+
+	/**
+	 * Returns Search Result Label
+	 * 
+	 * @param nMatches
+	 * @return
+	 */
 	public String getResultLabel(int nMatches) {
 		String searchString= getSearchString();
 		if (searchString.length() > 0) {
-			if (fScope.isLimitToDeclarations()) {
+			if (SeamSearchEngine.isSearchForDeclarations(fScope.getLimitTo())) {
 				// search is limited to declarations only
 				if (nMatches == 1) {
 					Object[] args= { searchString, fScope.getDescription(), fScope.getLimitToDescription() };
@@ -203,7 +317,7 @@ public class SeamSearchQuery implements ISearchQuery {
 				Object[] args= { searchString, new Integer(nMatches), fScope.getDescription(), fScope.getLimitToDescription() };
 				return Messages.format(SeamUIMessages.SeamSearchQuery_pluralPatternWithLimitTo, args);
 			}
-			if (fScope.isLimitToReferences()) {
+			if (SeamSearchEngine.isSearchForReferences(fScope.getLimitTo())) {
 				// text search
 				if (isScopeAllFileTypes()) {
 					// search all file extensions
@@ -215,49 +329,30 @@ public class SeamSearchQuery implements ISearchQuery {
 					return Messages.format(SeamUIMessages.SeamSearchQuery_pluralPattern, args); 
 				}
 			}
-/*
- * 
- 			// text search
-			if (isScopeAllFileTypes()) {
-				// search all file extensions
-				if (nMatches == 1) {
-					Object[] args= { searchString, fScope.getDescription() };
-					return Messages.format(SearchMessages.FileSearchQuery_singularLabel, args);
-				}
-				Object[] args= { searchString, new Integer(nMatches), fScope.getDescription() };
-				return Messages.format(SearchMessages.FileSearchQuery_pluralPattern, args); 
-			}
-			// search selected file extensions
-			if (nMatches == 1) {
-				Object[] args= { searchString, fScope.getDescription(), fScope.getFilterDescription() };
-				return Messages.format(SearchMessages.FileSearchQuery_singularPatternWithFileExt, args);
-			}
-			Object[] args= { searchString, new Integer(nMatches), fScope.getDescription(), fScope.getFilterDescription() };
-			return Messages.format(SearchMessages.FileSearchQuery_pluralPatternWithFileExt, args);
-*/
 		}
-/*
- * 
- 		// file search
-		if (nMatches == 1) {
-			Object[] args= { fScope.getFilterDescription(), fScope.getDescription() };
-			return Messages.format(SearchMessages.FileSearchQuery_singularLabel_fileNameSearch, args); 
-		}
-		Object[] args= { fScope.getFilterDescription(), new Integer(nMatches), fScope.getDescription() };
-		return Messages.format(SearchMessages.FileSearchQuery_pluralPattern_fileNameSearch, args); 
-*/
+
 		return "";
 	}
 
-
-	protected Pattern getSearchPattern(String variableName) {
+	/*
+	 * returns a search pattern for a given name
+	 */
+	public static Pattern getSearchPattern(String variableName) {
 		return PatternConstructor.createPattern(variableName, true, false);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.ISearchQuery#canRerun()
+	 */
 	public boolean canRerun() {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.ISearchQuery#getSearchResult()
+	 */
 	public ISearchResult getSearchResult() {
 		if (fResult == null) {
 			fResult= new SeamSearchResult(this);

@@ -1,12 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.search;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.search.core.text.TextSearchRequestor;
+import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 
-public class SeamSearchRequestor extends TextSearchRequestor {
-
+/**
+ * Seam Search Requestor
+ * 
+ * @author Jeremy
+ */
+public class SeamSearchRequestor extends TextSearchRequestor implements ISearchRequestor {
 	/**
 	 * Notification sent before search starts in the given Seam Java Source Reference. This method is called for all Seam Java Source References are contained
 	 * in the search scope.
@@ -37,6 +54,13 @@ public class SeamSearchRequestor extends TextSearchRequestor {
 	 */
 	public boolean acceptSeamDeclarationMatch(ISeamDeclaration element) throws CoreException {
 		return true;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jdt.ui.search.ISearchRequestor#reportMatch(org.eclipse.search.ui.text.Match)
+	 */
+	public void reportMatch(Match match) {
 	}
 
 }

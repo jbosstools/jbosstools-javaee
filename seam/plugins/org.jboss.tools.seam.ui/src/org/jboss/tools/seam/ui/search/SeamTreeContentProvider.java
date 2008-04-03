@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.search;
 
 import java.util.HashMap;
@@ -7,6 +18,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -15,9 +28,15 @@ import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamPackage;
-import org.jboss.tools.seam.core.ISeamScope;
+import org.jboss.tools.seam.core.ISeamProject;
 
+
+/**
+ * Seam tree content provider used in seam search page
+ *  
+ * @author Jeremy
+ *
+ */
 public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearchContentProvider {
 
 	private final Object[] EMPTY_ARR= new Object[0];
@@ -27,11 +46,20 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 	private AbstractTreeViewer fTreeViewer;
 	private Map fChildrenMap;
 	
+	/**
+	 * Constructs SeamTreeContentProvider object
+	 * 
+	 * @param page
+	 */
 	SeamTreeContentProvider(SeamSearchResultPage page, AbstractTreeViewer viewer) {
 		fPage= page;
 		fTreeViewer= viewer;
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 */
 	public Object[] getElements(Object inputElement) {
 		Object[] children= getChildren(inputElement);
 		int elementLimit= getElementLimit();
@@ -46,19 +74,26 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 	private int getElementLimit() {
 		return fPage.getElementLimit().intValue();
 	}
-	
+
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+	 */
 	public void dispose() {
 		// nothing to do
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	 */
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		if (newInput instanceof SeamSearchResult) {
 			initialize((SeamSearchResult) newInput);
 		}
 	}
 	
-
-	protected synchronized void initialize(AbstractTextSearchResult result) {
+	private synchronized void initialize(AbstractTextSearchResult result) {
 		fResult= result;
 		fChildrenMap= new HashMap();
 		if (result != null) {
@@ -69,7 +104,7 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 		}
 	}
 
-	protected void insert(Object child, boolean refreshViewer) {
+	private void insert(Object child, boolean refreshViewer) {
 
 		Object parent= getParent(child);
 		while (parent != null) {
@@ -106,7 +141,7 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 		return children.add(child);
 	}
 
-	protected void remove(Object element, boolean refreshViewer) {
+	private void remove(Object element, boolean refreshViewer) {
 		// precondition here:  fResult.getMatchCount(child) <= 0
 	
 		if (hasChildren(element)) {
@@ -139,6 +174,10 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 		}
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+	 */
 	public Object[] getChildren(Object parentElement) {
 		Set children= (Set) fChildrenMap.get(parentElement);
 		if (children == null)
@@ -146,10 +185,18 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 		return children.toArray();
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+	 */
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.internal.ui.text.IFileSearchContentProvider#elementsChanged(java.lang.Object[])
+	 */
 	public synchronized void elementsChanged(Object[] updatedElements) {
 		for (int i= 0; i < updatedElements.length; i++) {
 			if (fResult.getMatchCount(updatedElements[i]) > 0)
@@ -159,13 +206,21 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 		}
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.internal.ui.text.IFileSearchContentProvider#clear()
+	 */
 	public void clear() {
 		initialize(fResult);
 		fTreeViewer.refresh();
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	 */
 	public Object getParent(Object element) {
-		if (element instanceof IProject)
+		if (element instanceof IProject || element instanceof IJavaProject || element instanceof ISeamProject)
 			return null;
 		if (element instanceof IResource) {
 			IResource resource = (IResource) element;
@@ -174,12 +229,16 @@ public class SeamTreeContentProvider implements ITreeContentProvider, IFileSearc
 		if(element instanceof IRole) {
 			ISeamElement p = ((IRole)element).getParent();
 			return p == null ? p : p.getParent();
-		} else if(element instanceof ISeamElement) {
+		}
+		if(element instanceof ISeamElement) {
 			if(element instanceof ISeamComponent) {
 				ISeamComponent c = (ISeamComponent)element;
 				return c.getSeamProject().getPackage(c);
 			}
 			return ((ISeamElement)element).getParent();
+		}
+		if (element instanceof IJavaElement) {
+			return ((IJavaElement)element).getParent();
 		}
 
 		return null;

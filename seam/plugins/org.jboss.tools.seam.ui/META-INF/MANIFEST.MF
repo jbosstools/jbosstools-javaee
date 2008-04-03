@@ -62,6 +62,7 @@ Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.builder,
  org.jboss.tools.seam.ui.internal.project.facet;x-internal:=true,
  org.jboss.tools.seam.ui.preferences,
+ org.jboss.tools.seam.ui.search,
  org.jboss.tools.seam.ui.text.java;
   uses:="org.eclipse.jface.text,
    org.eclipse.jdt.ui.text.java,

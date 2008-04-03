@@ -448,7 +448,7 @@
          </action>
          <action
                class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction"
-               definitionId="org.jboss.tools.seam.ui.find.declarations"
+					definitionId="org.eclipse.jdt.ui.edit.text.java.search.declarations.in.workspace"
                helpContextId="org.eclipse.jdt.ui.find_declarations_action"
                icon="icons/find_seam_declarations.gif"
                id="findDeclarations"
@@ -459,7 +459,7 @@
          </action>
          <action
                class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction"
-               definitionId="org.jboss.tools.seam.ui.find.references"
+					definitionId="org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace"
                helpContextId="org.eclipse.jdt.ui.find_references_action"
                icon="icons/find_seam_references.gif"
                id="findReferences"
@@ -529,14 +529,14 @@
    </extension>
 	
 	<!--======================================================================================-->
-	<!-- queryParticipant to participate in java seraches                                     -->
+	<!-- queryParticipant to participate in java serches                                     -->
 	<!--======================================================================================-->
-	<!-- extension point="org.eclipse.jdt.ui.queryParticipants">
+	<extension point="org.eclipse.jdt.ui.queryParticipants">
 		<queryParticipant
 			name="Seam Query Participant"
 			nature="org.eclipse.jdt.core.javanature"
 			class="org.jboss.tools.seam.ui.search.SeamQueryParticipant"
 			id="org.jboss.tools.seam.ui.search.SeamQueryParticipant" />
-	</extension -->
+	</extension>
 	
 </plugin>

@@ -1,5 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.actions;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -28,40 +40,45 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.progress.IProgressService;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
+import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
+import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizerForward;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
 
+/**
+ * Base class for Seam Find actions
+ *  
+ * @author Jeremy
+ */
 abstract public class FindSeamAction extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
 
 	protected FindSeamAction() {
 	}
 
+	/**
+	 * 	@Override
+	 */
 	public void run() {
 		runWithEvent(null);
 	}
 	
-	private Shell getShell() {
-		try {
-			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		} catch (Throwable x) {
-			return null;
-		}
-	}
-	
+	/**
+	 * 	@Override
+	 */
 	public void runWithEvent(Event e) {
 		IEditorPart editor = ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (editor == null)
@@ -71,9 +88,19 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		IDocument document = null;
 
 		ISourceViewer viewer = null;
-		
+
+		if (editor instanceof EditorPartWrapper) {
+			editor = ((EditorPartWrapper)editor).getEditor();
+		}
 		if (editor instanceof JSPMultiPageEditor) {
 			viewer = ((JSPMultiPageEditor)editor).getJspEditor().getTextViewer();
+		} else if (editor instanceof XMLTextEditor) {
+			viewer = ((XMLTextEditor)editor).getTextViewer();
+		} else if (editor instanceof MultiPageEditorPart) {
+			IEditorPart activeEditor = getActiveEditor((MultiPageEditorPart)editor);
+			if (activeEditor instanceof AbstractTextEditor) {
+				viewer = getSourceViewer((AbstractTextEditor)activeEditor);
+			}
 		} else if (editor instanceof CompilationUnitEditor) {
 			viewer = ((CompilationUnitEditor)editor).getViewer();
 		}
@@ -83,7 +110,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		
 		document = viewer.getDocument();
 		
-		ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
+		ISelection selection = viewer.getSelectionProvider().getSelection();
 		if (selection.isEmpty())
 			return;
 		
@@ -112,11 +139,21 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (tokens == null)
 			return; // No EL Operand found
 
+		try {
+			performNewSearch(tokens, file);
+		} catch (JavaModelException jme) {
+			SeamGuiPlugin.getPluginLog().logError(jme);
+		} catch (InterruptedException ie) {
+			SeamGuiPlugin.getPluginLog().logError(ie);
+		}
+		return;
+		
+		/*
 		String[] varNamesToSearch = findVariableNames(seamProject, document, tokens);
 
 		if (varNamesToSearch != null) {
 			try {
-				performNewSearch(varNamesToSearch, project);
+				performNewSearch(varNamesToSearch, file);
 			} catch (JavaModelException jme) {
 				SeamGuiPlugin.getPluginLog().logError(jme);
 			} catch (InterruptedException ie) {
@@ -159,10 +196,20 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 			SeamGuiPlugin.getPluginLog().logError(jme);
 		} catch (InterruptedException ie) {
 			SeamGuiPlugin.getPluginLog().logError(ie);
-		}		
+		}
+		*/		
 	}
 
+	 /**
+ 	  * Returns list of Seam ELOperandToken which are placed under the cursor position
+	  * 
+	  * @param document
+	  * @param offset
+	  * @return
+	  */
 	public static List<ELOperandToken> findTokensAtOffset(IDocument document, int offset) {
+		List<ELOperandToken> result = new ArrayList<ELOperandToken>();
+		
 		int elStart = getELStart(document, offset);
 		
 		if (elStart == -1) 
@@ -171,9 +218,38 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		SeamELOperandTokenizerForward tokenizer = new SeamELOperandTokenizerForward(document, elStart);
 		List<ELOperandToken> tokens = tokenizer.getTokens();
 	
-		return (tokens == null || tokens.size() == 0) ? null : tokens;
+		ELOperandToken lastSeparator = null;
+		for (int i = 0; tokens != null && i < tokens.size(); i++) {
+			ELOperandToken token = tokens.get(i);
+			if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+				lastSeparator = token;
+				continue;
+			}
+			if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+					token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
+					token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN) {
+				if (token.getStart() <= offset) {
+					if (lastSeparator != null) 
+						result.add(lastSeparator);
+					result.add(token);
+				} else {
+					// Stop processing. We're not interrested of the rest of tokens
+					break;
+				}
+			}
+		}
+		
+		return result;
 	}
-	
+
+	/**
+	 * Finds the variable names for the selected ELOperandToken tokens
+	 * 
+	 * @param seamProject
+	 * @param document
+	 * @param tokens
+	 * @return
+	 */
 	public static String[] findVariableNames(ISeamProject seamProject, IDocument document, List<ELOperandToken> tokens) {
 		String[] varNames = null;
 		
@@ -209,32 +285,47 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		return varNames;
 	}
 
-	// ---- IWorkbenchWindowActionDelegate
-	// ------------------------------------------------
-
+	// IWorkbenchWindowActionDelegate
+	/**
+	 * @Override 
+	 */
 	public void run(IAction action) {
 		run();
 	}
 
+	/**
+	 * @Override
+	 */
 	public void dispose() {
 		// do nothing.
 	}
 
+	/**
+	 * @Override
+	 */
 	public void init(IWorkbenchWindow window) {
 		// do nothing.
 	}
 
+	/**
+	 * @Override
+	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		// do nothing. Action doesn't depend on selection.
 	}
 	
-	// ---- IActionDelegate2
-	// ------------------------------------------------
+	// IActionDelegate2
 
+	/**
+	 * @Override
+	 */
 	public void runWithEvent(IAction action, Event event) {
 		runWithEvent(event);
 	}
 	
+	/**
+	 * @Override
+	 */
 	public void init(IAction action) {
 		// do nothing.
 	}
@@ -269,24 +360,30 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		return lastToken.getStart() + lastToken.getLength();
 	}
 
-	private SeamSearchQuery createQuery(String[] patterns, IProject root) throws JavaModelException, InterruptedException {
+	private SeamSearchQuery createQuery(List<ELOperandToken> tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
 		
-		SeamSearchScope scope  = new SeamSearchScope(new IProject[] {root}, getLimitTo());
+		SeamSearchScope scope  = new SeamSearchScope(new IProject[] {sourceFile.getProject()}, getLimitTo());
 
-		return new SeamSearchQuery(patterns, scope);
+		return new SeamSearchQuery(tokens, sourceFile, scope);
 	}
 
-	private SeamSearchQuery createQuery(Var var, IFile root) throws JavaModelException, InterruptedException {
+	private SeamSearchQuery createQuery(Var var, IFile sourceFile) throws JavaModelException, InterruptedException {
 		
-		SeamSearchScope scope  = new SeamSearchScope(new IFile[] {root}, getLimitTo());
+		SeamSearchScope scope  = new SeamSearchScope(new IFile[] {sourceFile}, getLimitTo());
 
-		return new SeamSearchQuery(var, scope);
+		return new SeamSearchQuery(var, sourceFile, scope);
 	}
 
+	/**
+	 * Returns the limitTo flag. The possible values are: 
+	 *  - SeamSearchScope.SEARCH_FOR_DECLARATIONS
+	 *  - SeamSearchScope.SEARCH_FOR_REFERENCES
+	 * @return
+	 */
 	abstract protected int getLimitTo();
-	
-	private void performNewSearch(String[] patterns, IProject root) throws JavaModelException, InterruptedException {
-		SeamSearchQuery query= createQuery(patterns, root);
+
+	private void performNewSearch(List<ELOperandToken> tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
+		SeamSearchQuery query= createQuery(tokens, sourceFile);
 		if (query.canRunInBackground()) {
 			/*
 			 * This indirection with Object as parameter is needed to prevent the loading
@@ -310,6 +407,8 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}
 	}
 
+
+	@Deprecated
 	private void performNewLocalSearch(Var var, IFile root) throws JavaModelException, InterruptedException {
 		SeamSearchQuery query= createQuery(var, root);
 		if (query.canRunInBackground()) {
@@ -335,4 +434,67 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}
 	}
 
+
+	/**
+	 * Returns the active editor from active MultipageEditor 
+	 * 
+	 * @param multiPageEditor
+	 * @return
+	 */
+	public static IEditorPart getActiveEditor(MultiPageEditorPart multiPageEditor) {
+		Class editorClass = multiPageEditor.getClass();
+		while (editorClass != null) {
+			try {
+				Method m = editorClass.getDeclaredMethod("getActiveEditor", new Class[] {});
+				
+				if(m != null) {  
+					m.setAccessible(true);
+					Object result = m.invoke(multiPageEditor, new Object[]{});
+					return (result instanceof IEditorPart ? (IEditorPart)result : null);
+				}
+			} catch (NoSuchMethodException ne) {
+			} catch (Exception e) {
+			}
+			editorClass = editorClass.getSuperclass();
+		}
+		return null;
+		
+	}	
+	
+	/**
+	 * Returns the source viewer from AbstractTextEditor 
+	 * 
+	 * @param multiPageEditor
+	 * @return
+	 */
+	public static ISourceViewer getSourceViewer(AbstractTextEditor editor) {
+		Class editorClass = editor.getClass();
+		while (editorClass != null) {
+			try {
+				Method m = editorClass.getDeclaredMethod("getSourceViewer", new Class[] {});
+				
+				if(m != null) {  
+					m.setAccessible(true);
+					Object result = m.invoke(editor, new Object[]{});
+					return (result instanceof ISourceViewer ? (ISourceViewer)result : null);
+				}
+			} catch (NoSuchMethodException ne) {
+			} catch (Exception e) {
+			}
+			editorClass = editorClass.getSuperclass();
+		}
+		return null;
+		
+	}	
+
+	/*
+	 * returns current Shell
+	 */
+	private Shell getShell() {
+		try {
+			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		} catch (Throwable x) {
+			return null;
+		}
+	}
 }

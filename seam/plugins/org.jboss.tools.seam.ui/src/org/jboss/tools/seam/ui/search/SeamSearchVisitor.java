@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.search;
 
 import java.io.IOException;
@@ -5,12 +16,9 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.ITextFileBuffer;
@@ -34,13 +42,20 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.internal.core.JavaModel;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
+import org.eclipse.jdt.internal.ui.search.JavaSearchQuery;
+import org.eclipse.jdt.internal.ui.search.JavaSearchResult;
+import org.eclipse.jdt.internal.ui.search.JavaSearchScopeFactory;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
+import org.eclipse.jdt.ui.search.ElementQuerySpecification;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
@@ -51,13 +66,13 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.search.core.text.TextSearchScope;
 import org.eclipse.search.internal.core.text.DocumentCharSequence;
 import org.eclipse.search.internal.core.text.FileCharSequenceProvider;
-import org.eclipse.search.internal.core.text.FilesOfScopeCalculator;
 import org.eclipse.search.internal.core.text.TextSearchVisitor;
 import org.eclipse.search.internal.core.text.TextSearchVisitor.ReusableMatchAccess;
 import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.search.internal.ui.SearchMessages;
 import org.eclipse.search.internal.ui.SearchPlugin;
 import org.eclipse.search.ui.NewSearchUI;
+import org.eclipse.search.ui.text.Match;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -76,7 +91,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
-import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IOpenableElement;
@@ -85,22 +100,13 @@ import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamDeclaration;
-import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamFactory;
-import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
-import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
-import org.jboss.tools.seam.internal.core.BijectedAttribute;
-import org.jboss.tools.seam.internal.core.Role;
 import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.SeamJavaContextVariable;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ELStringToken;
 import org.jboss.tools.seam.internal.core.el.ELToken;
@@ -120,46 +126,275 @@ import org.jboss.tools.seam.ui.text.java.scanner.JavaAnnotationScanner;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Seam Search Visitor - performs searching on the Seam Projects and their files
+ * 
+ * @author Jeremy
+ *
+ */
 public class SeamSearchVisitor {
-	private final Matcher[] fMatchers;
+	private final SeamVariableMatcher[] fVariableMatchers;
+	private final JavaElementMatcher[] fJavaMatchers;
+	private final VarMatcher[] fVarMatchers;
 	private final SeamSearchRequestor fCollector;
 
 	private final MultiStatus fStatus;
 	private IProgressMonitor fProgressMonitor;
 	private int fNumberOfScannedFiles;
 	private int fNumberOfFilesToScan;
+	private IResource fSearchRoot;
 	private ISeamProject fCurrentSeamProject;
+	
+	
 	private Map fDocumentsInEditors;
 	private final TextSearchVisitor.ReusableMatchAccess fMatchAccess;
-
+	
 	private IFile fCurrentFile;
 	private final FileCharSequenceProvider fFileCharSequenceProvider;
 	private final SeamELCompletionEngine fCompletionEngine;
+
+	interface ISeamMatcher {
+		String getName();
+		boolean match(Object obj);
+		Object getElement();
+	}
 	
+	class VarMatcher implements ISeamMatcher {
+		Var fVar;
+		IFile fFile;
+		
+		VarMatcher(Var var, IFile file) {
+			this.fVar = var;
+			this.fFile = file;
+		}
+		
+		public IFile getFile() {
+			return fFile;
+		}
+		
+		public String getName() {
+			String name = fVar == null ? null : fVar.getName();
+			return name == null ? "<null>" : name;
+		}
+		
+		public boolean match(Object compare) {
+			if (fVar == null)
+				return false;
+			
+			return fVar.equals(compare);
+		}
+
+		public Var getElement() {
+			return fVar;
+		}
+	}
+
+	class SeamVariableMatcher implements ISeamMatcher {
+		ISeamContextVariable fVariable;
+		IProject fProject;
+		
+		SeamVariableMatcher(ISeamContextVariable variable, IProject project) {
+			this.fVariable = variable;
+			this.fProject = project;
+		}
+		
+		public String getName() {
+			String name = fVariable == null ? null : fVariable.getName();
+			return name == null ? "<null>" : name;
+		}
+		
+		public boolean match(Object compare) {
+			if (fVariable == null)
+				return false;
+
+			if (fVariable.equals(compare))
+				return true;
+
+			return fVariable.equals(compare);
+		}
+
+		public ISeamContextVariable getElement() {
+			return fVariable;
+		}
+	}
+
+	class JavaElementMatcher implements ISeamMatcher {
+		IJavaElement fElement;
+		IProject fProject;
+		JavaElementMatcher(IJavaElement javaElement, IProject project) {
+			this.fElement = javaElement;
+			this.fProject = project;
+		}
+		
+		public String getName () {
+			return fElement.getElementName();
+		}
+		
+		public IJavaElement getElement() {
+			return fElement;
+		}
+		
+		public boolean match(Object object) {
+			if (!(object instanceof IJavaElement))
+				return false;
+			
+			IJavaElement compare = (IJavaElement)object;
+				
+			if (fElement.equals(compare))
+				return true;
+			
+			if (fElement.getElementType() != compare.getElementType())
+				return false;
+
+			switch(fElement.getElementType()) {
+			case IJavaElement.FIELD:
+				return matchField((IField)compare);
+			case IJavaElement.METHOD:
+				return matchMethod((IMethod)compare);
+			case IJavaElement.TYPE:
+				return matchType((IType)compare);
+			default:
+				System.out.println("match: UnsupportedType:\n" +
+						fElement.getElementName() + " ==>> " + fElement.getElementType());
+			}
+			return false;
+		}
+		
+		boolean matchType (IType compare) {
+			return internalMatchType((IType)fElement, compare);
+		}
+
+		private boolean internalMatchType (IType type, IType compare) {
+			return EclipseJavaUtil.isDerivedClass(
+					type.getFullyQualifiedName(), 
+					compare.getFullyQualifiedName(), 
+					fProject);
+		}
+		
+		boolean matchField (IField compare) {
+			IField field = (IField)fElement;
+			if (!field.getElementName().equals(compare.getElementName()))
+				return false;
+			
+			if (!internalMatchType(field.getDeclaringType(), compare.getDeclaringType()))
+					return false;
+			
+			try {
+				return field.getTypeSignature().equals(compare.getTypeSignature());
+			} catch (JavaModelException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}			
+		
+		boolean matchMethod (IMethod compare) {
+			IMethod method = (IMethod)fElement;
+			if (!method.getElementName().equals(compare.getElementName()))
+				return false;
+			
+			if (!internalMatchType(method.getDeclaringType(), compare.getDeclaringType()))
+					return false;
+			
+			try {
+				return method.getSignature().equals(compare.getSignature());
+			} catch (JavaModelException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+	}
+	
+	/**
+	 * Constructs SeamSearchVisitor for a given {@link Var} set 
+	 * using a given {@link SeamSearchRequestor} 
+	 * 
+	 * @param collector
+	 * @param vars
+	 * @param file
+	 */
 	public SeamSearchVisitor(SeamSearchRequestor collector,
-			Pattern[] searchPatterns) {
+			Var[] vars, IFile file) {
 		fCollector= collector;
 		fStatus= new MultiStatus(NewSearchUI.PLUGIN_ID, IStatus.OK, SearchMessages.TextSearchEngine_statusMessage, null);
-		fMatchers = new Matcher[searchPatterns == null ? 0 : searchPatterns.length];
-		for (int i = 0; searchPatterns != null && i < searchPatterns.length; i++) {
-			fMatchers[i]= searchPatterns[i].pattern().length() == 0 ? null : searchPatterns[i].matcher(new String());
+		fSearchRoot = file;
+		fJavaMatchers = null;
+		fVariableMatchers = null; 
+		fVarMatchers = new VarMatcher[vars == null ? 0 : vars.length];
+		for (int i = 0; vars != null && i < vars.length; i++) {
+			fVarMatchers[i]= vars[i] == null ? null : new VarMatcher(vars[i], file);
 		}
 		fFileCharSequenceProvider= new FileCharSequenceProvider();
 		fMatchAccess= new ReusableMatchAccess();
 		fCompletionEngine = new SeamELCompletionEngine();
 	}
 
-	SeamSearchScope fCurrentScope = null;
+	/**
+	 * Constructs SeamSearchVisitor for a given {@link IJavaElement} set 
+	 * using a given {@link SeamSearchRequestor} 
+	 * 
+	 * @param collector
+	 * @param elements
+	 * @param project
+	 */
+	public SeamSearchVisitor(SeamSearchRequestor collector,
+			IJavaElement[] elements, IProject project) {
+		fCollector= collector;
+		fStatus= new MultiStatus(NewSearchUI.PLUGIN_ID, IStatus.OK, SearchMessages.TextSearchEngine_statusMessage, null);
+		fSearchRoot = project;
+		fVarMatchers = null;
+		fVariableMatchers = null; 
+		fJavaMatchers = new JavaElementMatcher[elements == null ? 0 : elements.length];
+		for (int i = 0; elements != null && i < elements.length; i++) {
+			fJavaMatchers[i]= elements[i] == null ? null : new JavaElementMatcher(elements[i], project);
+		}
+		fFileCharSequenceProvider= new FileCharSequenceProvider();
+		fMatchAccess= new ReusableMatchAccess();
+		fCompletionEngine = new SeamELCompletionEngine();
+	}
+
+	/**
+	 * Constructs SeamSearchVisitor for a given {@link ISeamContextVariable} set 
+	 * using a given {@link SeamSearchRequestor} 
+
+	 * @param collector
+	 * @param variables
+	 * @param project
+	 */
+	public SeamSearchVisitor(SeamSearchRequestor collector,
+			ISeamContextVariable[] variables, IProject project) {
+		fCollector= collector;
+		fStatus= new MultiStatus(NewSearchUI.PLUGIN_ID, IStatus.OK, SearchMessages.TextSearchEngine_statusMessage, null);
+		fSearchRoot = project;
+		fVarMatchers = null;
+		fJavaMatchers = null;
+		fVariableMatchers = new SeamVariableMatcher[variables == null ? 0 : variables.length];
+		for (int i = 0; variables!= null && i < variables.length; i++) {
+			fVariableMatchers[i]= variables[i] == null ? null : new SeamVariableMatcher(variables[i], project);
+		}
+		fFileCharSequenceProvider= new FileCharSequenceProvider();
+		fMatchAccess= new ReusableMatchAccess();
+		fCompletionEngine = new SeamELCompletionEngine();
+	}
+
+
+	private SeamSearchScope fCurrentScope = null;
+	
+	/**
+	 * Performs search operation using a given scope
+	 * 
+	 * @param scope
+	 * @param monitor
+	 * @return
+	 */
 	public IStatus search(TextSearchScope scope, IProgressMonitor monitor) {
 		try {
 			if (scope instanceof SeamSearchScope) {
 				fCurrentScope = (SeamSearchScope)scope;
-				if (((SeamSearchScope)scope).isLimitToDeclarations()) {
+				if (SeamSearchEngine.isSearchForDeclarations(((SeamSearchScope)scope).getLimitTo())) {
 					return searchForDeclarations(((SeamSearchScope)scope).evaluateSeamProjectsInScope(fStatus), monitor);
 				} else {
 					return searchForReferences(((SeamSearchScope)scope).evaluateSeamProjectsInScope(fStatus), monitor);
 				}
-				
 			}
 		} finally {
 			fCurrentScope = null;
@@ -168,8 +403,18 @@ public class SeamSearchVisitor {
     }
 
 	private int calculateFiles() {
-		IFile[] files = fCurrentScope.evaluateFilesInScope(fStatus);
-		return (files == null ? 0 : files.length);
+		if (fJavaMatchers != null && fJavaMatchers.length > 0) { 
+			IFile[] files = fCurrentScope.evaluateFilesInScope(fStatus);
+			return (files == null ? 0 : files.length);
+		} else if (fVarMatchers != null && fVarMatchers.length > 0) {
+			List<IFile> fileList = new ArrayList<IFile>(fVarMatchers.length);
+			for (int i = 0; i < fVarMatchers.length; i++) {
+				if (fVarMatchers[i] != null && fVarMatchers[i].getFile() != null)
+					fileList.add(fVarMatchers[i].getFile());
+			}
+			return fileList.size();
+		}
+		return 0;
 	}
 	
 	public IStatus searchForDeclarations(ISeamProject[] projects, IProgressMonitor monitor) {
@@ -188,9 +433,12 @@ public class SeamSearchVisitor {
 	            fCollector.beginReporting();
 	            processSeamProjects(projects, true);
 	            return fStatus;
+            } catch (Throwable x) {
+            	x.printStackTrace();
+	            return fStatus;
             } finally {
                 monitorUpdateJob.cancel();
-            }
+            } 
         } finally {
             fProgressMonitor.done();
             fCollector.endReporting();
@@ -208,9 +456,24 @@ public class SeamSearchVisitor {
 	}
 
 	private ElVarSearcher fELVarSearcher;
-	public boolean processSeamReferencesInProject(ISeamProject project) {
-		IFile[] files = fCurrentScope == null ? null :
-				evaluateProjectFilesInScope(project.getProject(), fStatus);
+	private boolean processSeamReferencesInProject(ISeamProject project) {
+		IFile[] files = null;
+		if (fCurrentScope != null) {
+			if ((fJavaMatchers != null && fJavaMatchers.length > 0) ||
+					(fVariableMatchers != null && fVariableMatchers.length > 0)) { 
+				files = evaluateProjectFilesInScope(project.getProject(), fStatus);
+			} else if (fVarMatchers != null && fVarMatchers.length > 0) {
+				List<IFile> fileList = new ArrayList<IFile>(fVarMatchers.length);
+				for (int i = 0; i < fVarMatchers.length; i++) {
+					if (fVarMatchers[i] != null && fVarMatchers[i].getFile() != null)
+						fileList.add(fVarMatchers[i].getFile());
+				}
+				if (fileList.size() > 0) {
+					files = fileList.toArray(new IFile[0]);
+				}
+			}
+			
+		}
 		
 		fELVarSearcher = new ElVarSearcher(project, fCompletionEngine);
 		fDocumentsInEditors= evalNonFileBufferDocuments();
@@ -228,7 +491,9 @@ public class SeamSearchVisitor {
 
 	private boolean processSeamReferencesInFile(IFile file) {
 		try {
-		    if (!fCollector.acceptFile(file) || fMatchers == null) {
+		    if (!fCollector.acceptFile(file) || 
+//		    		fMatchers == null ||
+		    		(fJavaMatchers == null && fVarMatchers == null && fVariableMatchers == null)) {
 		       return true;
 		    }
 		        
@@ -287,7 +552,6 @@ public class SeamSearchVisitor {
 		return true;
 	}
 	
-	
 	private void locateMatches(IFile file, CharSequence searchInput) throws CoreException {
 		fELVarSearcher.setFile(file);
 		if("java".equalsIgnoreCase(file.getFileExtension())) { //$NON-NLS-1$
@@ -297,9 +561,9 @@ public class SeamSearchVisitor {
 		}
 	}
 
-	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
+	private List<Var> fVarListForCurentValidatedNode = new ArrayList<Var>();
 	private void locateMatchesInDom(IFile file, CharSequence content) {
-		varListForCurentValidatedNode.clear();
+		fVarListForCurentValidatedNode.clear();
 		IModelManager manager = StructuredModelManager.getModelManager();
 		if(manager == null) {
 			// this can happen if plugin org.eclipse.wst.sse.core 
@@ -331,7 +595,7 @@ public class SeamSearchVisitor {
 			throws CoreException {
 		Var var = ElVarSearcher.findVar(parent);
 		if(var!=null) {
-			varListForCurentValidatedNode.add(var);
+			fVarListForCurentValidatedNode.add(var);
 		}
 		NodeList children = parent.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
@@ -344,7 +608,7 @@ public class SeamSearchVisitor {
 			locateMatchesInChildNodes(file, curentValidatedNode, content);
 		}
 		if(var!=null) {
-			varListForCurentValidatedNode.remove(var);
+			fVarListForCurentValidatedNode.remove(var);
 		}
 	}
 
@@ -445,26 +709,86 @@ public class SeamSearchVisitor {
 				int offsetOfToken = el.getStart() + token.getStart();
 				SeamELOperandTokenizerForward forwardTokenizer = new SeamELOperandTokenizerForward(operand, 0);
 				List<ELOperandToken>operandTokens = forwardTokenizer.getTokens();
-				List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(operandTokens);
-
-				for (List<ELOperandToken> variation : variations) {
-					int start = variation.get(0).getStart();
-					int end = variation.get(variation.size() - 1).getStart() + 
-									variation.get(variation.size() - 1).getLength();
-					String variationText = operand.substring(start, end);
-					
-					if (!matches(variationText)) 
-						continue;
-
-					int offsetOfOperandToken = offsetOfToken + start;
-					int lengthOfOperandToken = end - start;
-					fMatchAccess.initialize(file, offsetOfOperandToken, lengthOfOperandToken, content);
-					boolean res= fCollector.acceptPatternMatch(fMatchAccess);
-					if (!res) {
-						return; // no further reporting requested
+				if (fJavaMatchers != null) {
+					List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(operandTokens);
+	
+					for (List<ELOperandToken> variation : variations) {
+						List<IJavaElement> elements = null;
+						try {
+							elements = fCompletionEngine.getJavaElementsForELOperandTokens(fCurrentSeamProject, file, variation);
+						} catch (StringIndexOutOfBoundsException e) {
+							SeamGuiPlugin.getPluginLog().logError(e);
+						} catch (BadLocationException e) {
+							SeamGuiPlugin.getPluginLog().logError(e);
+						}
+	
+						if (elements == null || elements.size() == 0) {
+							continue;
+						}
+	
+						for (int i = 0; i < elements.size(); i++) {
+							if (!matches(elements.get(i))) 
+								continue;
+	
+							int start = variation.get(0).getStart();
+							int end = variation.get(variation.size() - 1).getStart() + 
+											variation.get(variation.size() - 1).getLength();
+							String variationText = operand.substring(start, end);
+	
+							int offsetOfOperandToken = offsetOfToken + start;
+							int lengthOfOperandToken = end - start;
+							fMatchAccess.initialize(file, offsetOfOperandToken, lengthOfOperandToken, content);
+							boolean res= fCollector.acceptPatternMatch(fMatchAccess);
+							if (!res) {
+								return; // no further reporting requested
+							}
+						}
 					}
+				} else if (fVariableMatchers != null) {
+					List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(operandTokens);
 					
-					System.out.println("");
+					for (List<ELOperandToken> variation : variations) {
+						Set<ISeamContextVariable> variables = fCurrentSeamProject.getVariablesByName(tokensToString(variation));
+						if (variables == null || variables.size() == 0) {
+							continue;
+						}
+	
+						for (ISeamContextVariable variable : variables) {
+							if (!matches(variable)) 
+								continue;
+	
+							int start = variation.get(0).getStart();
+							int end = variation.get(variation.size() - 1).getStart() + 
+											variation.get(variation.size() - 1).getLength();
+							String variationText = operand.substring(start, end);
+	
+							int offsetOfOperandToken = offsetOfToken + start;
+							int lengthOfOperandToken = end - start;
+							fMatchAccess.initialize(file, offsetOfOperandToken, lengthOfOperandToken, content);
+							boolean res= fCollector.acceptPatternMatch(fMatchAccess);
+							if (!res) {
+								return; // no further reporting requested
+							}
+						}
+					}
+				} else if (fVarMatchers != null) {
+					Var var = fELVarSearcher.findVarForEl(operand, fVarListForCurentValidatedNode, false);
+					if (var != null){
+						if (matches(var)) {
+							String varRefText = operandTokens.get(0).getText();
+							int start = operandTokens.get(0).getStart();
+							int end = operandTokens.get(0).getStart() + 
+										operandTokens.get(0).getLength();
+							int offsetOfVarRefToken = offsetOfToken + start;
+							int lengthOfVarRefToken = end - start;
+							
+							fMatchAccess.initialize(file, offsetOfVarRefToken, lengthOfVarRefToken, content);
+							boolean res= fCollector.acceptPatternMatch(fMatchAccess);
+							if (!res) {
+								return; // no further reporting requested
+							}
+						}
+					}
 				}
 			}
 		}
@@ -473,89 +797,86 @@ public class SeamSearchVisitor {
 	
 	
 	public boolean processSeamDeclarationsInProject(ISeamProject project) {
-		try {
-			Set<ISeamContextVariable> variables = project.getVariables(true);
-			Set<String> namesToExclude = new HashSet<String>();
-			boolean continueSearch = true; // Is to be set to false in case of at least one component or role/out/databinder declaration is found
-			
-			// Search for Seam components and @Name, @Role, @Out/DataBinder  
-			for (ISeamContextVariable variable : variables) {
-				String varName = variable.getName();
-				ISeamContextVariable origin = variable;
-				
-				if (!matches(varName)) 
-					continue;
-
-				if (variable instanceof ISeamContextShortVariable) {
-					variable = ((ISeamContextShortVariable)variable).getOriginal();
+		if (fJavaMatchers != null && fJavaMatchers.length > 0) {
+			JavaSearchScopeFactory factory= JavaSearchScopeFactory.getInstance();
+			IJavaSearchScope scope= factory.createWorkspaceScope(true);
+			String description= factory.getWorkspaceScopeDescription(true);
+			for (int i = 0; i < fJavaMatchers.length; i++) {
+				ElementQuerySpecification elementQuerySpecification = 
+					new ElementQuerySpecification(
+						fJavaMatchers[i].getElement(), 
+						IJavaSearchConstants.DECLARATIONS, 
+						scope, description);		
+				JavaSearchQuery query= new JavaSearchQuery(elementQuerySpecification);
+				query.run(fProgressMonitor);
+				JavaSearchResult result = (JavaSearchResult)query.getSearchResult();
+				Object[] elements = result.getElements();
+				for (int j = 0; elements != null && j < elements.length; j++) {
+					Match[] matches = result.getMatches(elements[j]);
+					for (int k = 0; matches != null && k < matches.length; k++) {
+						fCollector.reportMatch(matches[k]);
+					}
 				}
-				
-				if (variable instanceof SeamComponent) {
-					namesToExclude.add(varName);
-					SeamComponent comp = (SeamComponent)variable;
-					Set<ISeamComponentDeclaration> declarations = comp.getAllDeclarations();
-					for (ISeamComponentDeclaration decl : declarations) {
-						if (decl instanceof ISeamJavaSourceReference) {
-							ISeamJavaSourceReference sourceRef = (ISeamJavaSourceReference)decl;
-							IResource resource = sourceRef.getSourceMember().getResource();
-							IJavaElement sourceMember = sourceRef.getSourceMember();
-							String name = sourceRef.getSourceMember().getElementName();
-							int offset = sourceRef.getStartPosition();
-							int length = sourceRef.getLength();
-							//fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
-							boolean res= fCollector.acceptSeamDeclarationSourceReferenceMatch(sourceRef);
-							if (!res) {
-								return true; // no further reporting requested
-							}
-							continueSearch = false;
-						} else if (decl instanceof IOpenableElement) {
-							IResource resource = decl.getResource();
-							String name = decl.getName();
-							
-							ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
-							int offset = textSourceReference == null ? decl.getStartPosition() : textSourceReference.getStartPosition();
-							int length = textSourceReference == null ? decl.getLength() : textSourceReference.getLength();
-
-							fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
-							boolean res= fCollector.acceptPatternMatch(fMatchAccess);
-							if (!res) {
-								return true; // no further reporting requested
-							}
-							continueSearch = false;
-						}
-					}
-				} else if (variable instanceof IRole) {
-					namesToExclude.add(varName);
-					// add the declaration
-					ISeamDeclaration decl = (ISeamDeclaration)variable;
-					IResource resource = decl.getResource();
-					String name = decl.getName();
+			}
+		}
+		if (fVariableMatchers != null && fVariableMatchers.length > 0) {
+			try {
+				for (int i = 0; i < fVariableMatchers.length; i++) {
+					if (fVariableMatchers[i] == null)
+						continue;
+	
+					ISeamContextVariable variable = fVariableMatchers[i].getElement();
 					
-					ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
-					if (textSourceReference != null) {
-						int offset = textSourceReference.getStartPosition();
-						int length = textSourceReference.getLength();
-						fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
-						boolean res= fCollector.acceptPatternMatch(fMatchAccess);
-						if (!res) {
-							return true; // no further reporting requested
-						}
-						continueSearch = false;
-					}					
-					
-				} else if (variable instanceof IBijectedAttribute) {
-					namesToExclude.add(varName);
-					IBijectedAttribute ba = (IBijectedAttribute)variable;
-					BijectedAttributeType[] types = ba.getTypes();
-					boolean hasDeclarationType = false;
-					for (int i = 0; !hasDeclarationType && types != null && i < types.length; i++) {
-						if (types[i] == BijectedAttributeType.OUT ||
-								types[i] == BijectedAttributeType.DATA_BINDER ||
-								types[i] == BijectedAttributeType.DATA_MODEL_SELECTION) {
-							hasDeclarationType = true;
-						}
+					if (variable instanceof ISeamContextShortVariable) {
+						variable = ((ISeamContextShortVariable)variable).getOriginal();
 					}
-					if (hasDeclarationType) {
+					
+					boolean continueWithFactories = true;
+					if (variable instanceof SeamComponent) {
+						SeamComponent comp = (SeamComponent)variable;
+						Set<ISeamComponentDeclaration> declarations = comp.getAllDeclarations();
+						for (ISeamComponentDeclaration decl : declarations) {
+							if (decl instanceof ISeamJavaSourceReference) {
+								ISeamJavaSourceReference sourceRef = (ISeamJavaSourceReference)decl;
+								IResource resource = sourceRef.getSourceMember().getResource();
+								IJavaElement sourceMember = sourceRef.getSourceMember();
+								String name = sourceRef.getSourceMember().getElementName();
+								int offset = sourceRef.getStartPosition();
+								int length = sourceRef.getLength();
+								//fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
+								boolean res= fCollector.acceptSeamDeclarationSourceReferenceMatch(sourceRef);
+								if (!res) {
+									return true; // no further reporting requested
+								}
+								continueWithFactories = false;
+							} else if (decl instanceof IOpenableElement) {
+								IResource resource = decl.getResource(); 
+								String name = decl.getName();
+								
+								ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
+								if (textSourceReference != null) {
+									int offset = textSourceReference.getStartPosition();
+									int length = textSourceReference.getLength();
+		
+									boolean res= fCollector.acceptSeamDeclarationMatch(decl);
+									if (!res) {
+										return true; // no further reporting requested
+									}
+									continueWithFactories = false;
+								} else {					
+									int offset = decl.getStartPosition();
+									int length = decl.getLength();
+		
+									fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
+									boolean res= fCollector.acceptPatternMatch(fMatchAccess);
+									if (!res) {
+										return true; // no further reporting requested
+									}
+									continueWithFactories = false;
+								}
+							}
+						}
+					} else if (variable instanceof IRole) {
 						// add the declaration
 						ISeamDeclaration decl = (ISeamDeclaration)variable;
 						IResource resource = decl.getResource();
@@ -565,27 +886,47 @@ public class SeamSearchVisitor {
 						if (textSourceReference != null) {
 							int offset = textSourceReference.getStartPosition();
 							int length = textSourceReference.getLength();
-
 							fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
 							boolean res= fCollector.acceptPatternMatch(fMatchAccess);
 							if (!res) {
 								return true; // no further reporting requested
 							}
-							continueSearch = false;
+							continueWithFactories = false;
 						}					
-					}
-				}
-			}
-			if (continueSearch) {
-				// Search for Seam factories 
-				for (ISeamContextVariable variable : variables) {
-					String varName = variable.getName();
-					if (namesToExclude.contains(varName)) // Do not process used names
-						continue;
-					if (!matches(varName)) 
-						continue;
+					} else if (variable instanceof IBijectedAttribute) {
+						IBijectedAttribute ba = (IBijectedAttribute)variable;
+						BijectedAttributeType[] types = ba.getTypes();
+						boolean hasDeclarationType = false;
+						for (int j = 0; !hasDeclarationType && types != null && j < types.length; j++) {
+							if (types[j] == BijectedAttributeType.OUT ||
+									types[j] == BijectedAttributeType.DATA_BINDER ||
+									types[j] == BijectedAttributeType.DATA_MODEL_SELECTION) {
+								hasDeclarationType = true;
+							}
+						}
+						if (hasDeclarationType) {
+							// add the declaration
+							ISeamDeclaration decl = (ISeamDeclaration)variable;
+							IResource resource = decl.getResource();
+							String name = decl.getName();
+							
+							ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
+							if (textSourceReference != null) {
+								int offset = textSourceReference.getStartPosition();
+								int length = textSourceReference.getLength();
 	
-					if (variable instanceof ISeamDeclaration) {
+								fMatchAccess.initialize((IFile)resource, offset, length, (CharSequence)name);
+								boolean res= fCollector.acceptPatternMatch(fMatchAccess);
+								if (!res) {
+									return true; // no further reporting requested
+								}
+								continueWithFactories = false;
+							}					
+						}
+					}
+					
+					// Search for Seam factories
+					if (continueWithFactories && variable instanceof ISeamDeclaration) {
 						ISeamDeclaration decl = (ISeamDeclaration)variable;
 						IResource resource = decl.getResource();
 						String name = decl.getName();
@@ -602,73 +943,19 @@ public class SeamSearchVisitor {
 						}					
 					}
 				}
+			} catch (CoreException ce) {
+				String[] args= { getExceptionMessage(ce), project.getResource().getFullPath().makeRelative().toString()};
+				String message= Messages.format(SearchMessages.TextSearchVisitor_error, args); 
+				fStatus.add(new Status(IStatus.WARNING, NewSearchUI.PLUGIN_ID, IStatus.WARNING, message, ce));
 			}
-		} catch (CoreException ce) {
-			String[] args= { getExceptionMessage(ce), project.getResource().getFullPath().makeRelative().toString()};
-			String message= Messages.format(SearchMessages.TextSearchVisitor_error, args); 
-			fStatus.add(new Status(IStatus.WARNING, NewSearchUI.PLUGIN_ID, IStatus.WARNING, message, ce));
 		}
+		
+
 		if (fProgressMonitor.isCanceled())
 			throw new OperationCanceledException(SearchMessages.TextSearchVisitor_canceled);
 		
 		return true;
-/*		
-		IFile file = null; // was a parameter
-		try {
-		    if (!fCollector.acceptFile(file) || fMatcher == null) {
-		       return true;
-		    }
-		        
-			IDocument document= getOpenDocument(file);
-			
-			if (document != null) {
-				DocumentCharSequence documentCharSequence= new DocumentCharSequence(document);
-				// assume all documents are non-binary
-				locateMatches(file, documentCharSequence);
-			} else {
-				CharSequence seq= null;
-				try {
-					seq= fFileCharSequenceProvider.newCharSequence(file);
-					if (hasBinaryContent(seq, file) && !fCollector.reportBinaryFile(file)) {
-						return true;
-					}
-					locateMatches(file, seq);
-				} catch (FileCharSequenceProvider.FileCharSequenceException e) {
-					e.throwWrappedException();
-				} finally {
-					if (seq != null) {
-						try {
-							fFileCharSequenceProvider.releaseCharSequence(seq);
-						} catch (IOException e) {
-							SearchPlugin.log(e);
-						}
-					}
-				}
-			}
-		} catch (UnsupportedCharsetException e) {
-			String[] args= { getCharSetName(file), file.getFullPath().makeRelative().toString()};
-			String message= Messages.format(SearchMessages.TextSearchVisitor_unsupportedcharset, args); 
-			fStatus.add(new Status(IStatus.WARNING, NewSearchUI.PLUGIN_ID, IStatus.WARNING, message, e));
-		} catch (IOException e) {
-			String[] args= { getExceptionMessage(e), file.getFullPath().makeRelative().toString()};
-			String message= Messages.format(SearchMessages.TextSearchVisitor_error, args); 
-			fStatus.add(new Status(IStatus.WARNING, NewSearchUI.PLUGIN_ID, IStatus.WARNING, message, e));
-		} catch (CoreException e) {
-			String[] args= { getExceptionMessage(e), file.getFullPath().makeRelative().toString()};
-			String message= Messages.format(SearchMessages.TextSearchVisitor_error, args); 
-			fStatus.add(new Status(IStatus.WARNING, NewSearchUI.PLUGIN_ID, IStatus.WARNING, message, e));
-		} catch (StackOverflowError e) {
-			String message= SearchMessages.TextSearchVisitor_patterntoocomplex0;
-			fStatus.add(new Status(IStatus.ERROR, NewSearchUI.PLUGIN_ID, IStatus.ERROR, message, e));
-			return false;
-		} finally {
-			fNumberOfScannedFiles++;
-		}
-		if (fProgressMonitor.isCanceled())
-			throw new OperationCanceledException(SearchMessages.TextSearchVisitor_canceled);
-		
-		return true;
-	*/
+
 	}
 
 	private class MonitorUpdateJob extends Job {
@@ -700,12 +987,24 @@ public class SeamSearchVisitor {
 	}
 	
 	private String getTaskName() {
-    	String taskName= fMatchers[0] == null ? SearchMessages.TextSearchVisitor_filesearch_task_label :  Messages.format(SearchMessages.TextSearchVisitor_textsearch_task_label, fMatchers[0].pattern());
+		ISeamMatcher[] currentMatchers = (fJavaMatchers == null ? fVarMatchers : fJavaMatchers);
+		
+		
+		StringBuffer elements = new StringBuffer();
+		for(int i = 0; currentMatchers != null && i < currentMatchers.length; i++) {
+			if (currentMatchers[i] != null) {
+				if (elements.length() > 0) {
+					elements.append(", ");
+				}
+				elements.append(currentMatchers[i].getName());
+			}
+		}
     	
+		String taskName= elements.length() == 0 ? SearchMessages.TextSearchVisitor_filesearch_task_label :  Messages.format(SearchMessages.TextSearchVisitor_textsearch_task_label, elements.toString());
     	return taskName;
 	}
 	
-	public IStatus searchForReferences(ISeamProject[] projects, IProgressMonitor monitor) {
+	private IStatus searchForReferences(ISeamProject[] projects, IProgressMonitor monitor) {
 		fProgressMonitor= monitor == null ? new NullProgressMonitor() : monitor;
         fNumberOfScannedFiles= 0;
         fNumberOfFilesToScan= calculateFiles();
@@ -730,25 +1029,47 @@ public class SeamSearchVisitor {
         }
 	}
 	
-	
-	
-	private boolean matches(CharSequence searchInput) {
-		try {
-			for (int i = 0; fMatchers != null && i < fMatchers.length; i++) {
-				if (fMatchers[i] == null)
-					continue;
-				fMatchers[i].reset(searchInput);
-				if (fMatchers[i].find() && fMatchers[i].group().equals(searchInput)) {
-					return true;
-				}
+	ISeamMatcher fCurrentMatcher;
+	private boolean matches (IJavaElement element) {
+		fCurrentMatcher = null;
+		for (int i = 0; fJavaMatchers != null && i < fJavaMatchers.length; i++) {
+			if (fJavaMatchers[i] == null)
+				continue;
+			if (fJavaMatchers[i].match(element)) {
+				fCurrentMatcher = fJavaMatchers[i];
+				return true;
 			}
-		} finally {
-//			fMatcher.reset();
 		}
 		return false;
 	}
 	
-	private String getExceptionMessage(Exception e) {
+	private boolean matches (ISeamContextVariable element) {
+		fCurrentMatcher = null;
+		for (int i = 0; fVariableMatchers != null && i < fVariableMatchers.length; i++) {
+			if (fVariableMatchers[i] == null)
+				continue;
+			if (fVariableMatchers[i].match(element)) {
+				fCurrentMatcher = fVariableMatchers[i];
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean matches (Var var) {
+		fCurrentMatcher = null;
+		for (int i = 0; fVarMatchers != null && i < fVarMatchers.length; i++) {
+			if (fVarMatchers[i] == null)
+				continue;
+			if (fVarMatchers[i].match(var)) {
+				fCurrentMatcher = fVarMatchers[i];
+				return true;
+			}
+		}
+		return false;
+	}
+ 	
+	private static String getExceptionMessage(Exception e) {
 		String message= e.getLocalizedMessage();
 		if (message == null) {
 			return e.getClass().getName();
@@ -756,7 +1077,7 @@ public class SeamSearchVisitor {
 		return message;
 	}
 
-	private boolean hasBinaryContent(CharSequence seq, IFile file) throws CoreException {
+	private static boolean hasBinaryContent(CharSequence seq, IFile file) throws CoreException {
 		IContentDescription desc= file.getContentDescription();
 		if (desc != null) {
 			IContentType contentType= desc.getContentType();
@@ -782,7 +1103,7 @@ public class SeamSearchVisitor {
 	/**
 	 * @return returns a map from IFile to IDocument for all open, dirty editors
 	 */
-	private Map evalNonFileBufferDocuments() {
+	private static Map evalNonFileBufferDocuments() {
 		Map result= new HashMap();
 		IWorkbench workbench= SearchPlugin.getDefault().getWorkbench();
 		IWorkbenchWindow[] windows= workbench.getWorkbenchWindows();
@@ -801,7 +1122,7 @@ public class SeamSearchVisitor {
 		return result;
 	}
 
-	private void evaluateTextEditor(Map result, IEditorPart ep) {
+	private static void evaluateTextEditor(Map result, IEditorPart ep) {
 		IEditorInput input= ep.getEditorInput();
 		if (input instanceof IFileEditorInput) {
 			IFile file= ((IFileEditorInput) input).getFile();
@@ -823,7 +1144,18 @@ public class SeamSearchVisitor {
 	}
 
 	private IDocument getOpenDocument(IFile file) {
-		IDocument document= (IDocument) fDocumentsInEditors.get(file);
+		return getOpenDocument(file, fDocumentsInEditors);
+	}
+
+	
+	/**
+	 * Returns the IDocument of file currently opened in an editor 
+	 * @param file
+	 * @param documentsInEditors
+	 * @return
+	 */
+	public static IDocument getOpenDocument(IFile file, Map documentsInEditors) {
+		IDocument document= (IDocument) documentsInEditors.get(file);
 		if (document == null) {
 			ITextFileBufferManager bufferManager= FileBuffers.getTextFileBufferManager();
 			ITextFileBuffer textFileBuffer= bufferManager.getTextFileBuffer(file.getFullPath(), LocationKind.IFILE);
@@ -834,13 +1166,96 @@ public class SeamSearchVisitor {
 		return document;
 	}
 	
-	private String getCharSetName(IFile file) {
+	private static String getCharSetName(IFile file) {
 		try {
 			return file.getCharset();
 		} catch (CoreException e) {
 			return "unknown"; //$NON-NLS-1$
 		}
 	}
+
+	private static boolean acceptPaternMatch(SeamSearchRequestor collector, IFile file, 
+			int offset, int length, CharSequence content) throws CoreException {
+		ReusableMatchAccess matchAccess = new ReusableMatchAccess();
+		
+		matchAccess.initialize(file, offset, length, content);
+		collector.beginReporting();
+		boolean result = collector.acceptPatternMatch(matchAccess);
+		collector.endReporting();
+		
+		return result;
+	}
+
+
+	/**
+	 * Reports a Pattern match to a given {@link SeamSearchRequestor}
+	 * 
+	 * @param collector
+	 * @param file
+	 * @param offset
+	 * @param length
+	 * @return
+	 */
+	public static boolean acceptPaternMatch(SeamSearchRequestor collector, IFile file, int offset, int length) {
+		try {
+			IDocument document= getOpenDocument(file, evalNonFileBufferDocuments());
+			
+			if (document != null) {
+				DocumentCharSequence documentCharSequence= new DocumentCharSequence(document);
+				// assume all documents are non-binary
+				return acceptPaternMatch(collector, file, offset, length, documentCharSequence);
+			} else {
+				FileCharSequenceProvider fileCharSequenceProvider = new FileCharSequenceProvider();
+				CharSequence seq= null;
+				try {
+					seq= fileCharSequenceProvider.newCharSequence(file);
+					if (hasBinaryContent(seq, file) && !collector.reportBinaryFile(file)) {
+						return true;
+					}
+					return acceptPaternMatch(collector, file, offset, length, seq);
+				} catch (FileCharSequenceProvider.FileCharSequenceException e) {
+					e.throwWrappedException();
+				} finally {
+					if (seq != null) {
+						try {
+							fileCharSequenceProvider.releaseCharSequence(seq);
+						} catch (IOException e) {
+							SearchPlugin.log(e);
+						}
+					}
+				}
+			}
+		} catch (UnsupportedCharsetException e) {
+			SearchPlugin.log(e);
+		} catch (IllegalCharsetNameException e) {
+			SearchPlugin.log(e);
+		} catch (IOException e) {
+			SearchPlugin.log(e);
+		} catch (CoreException e) {
+			SearchPlugin.log(e);
+		} catch (StackOverflowError e) {
+		} 
+		return false;
+	}
+
+
+	/**
+	 * Returns the text for a given {@link ELOperandToken} list
+	 * 
+	 * @param tokens
+	 * @return
+	 */
+	public static String tokensToString(List<ELOperandToken> tokens) {
+		StringBuffer text = new StringBuffer();
+		if (tokens != null) { 
+			for (ELOperandToken token : tokens) {
+				text = text.append(token.getText());
+			}
+		}
+		
+		return text.toString();
+	}
+
 
 	/**
 	 * Evaluates all files in this scope.
@@ -852,7 +1267,7 @@ public class SeamSearchVisitor {
 		return new ProjectFilesOfScopeCalculator(project, fCurrentScope, status).process();
 	}
 
-	class ProjectFilesOfScopeCalculator implements IResourceProxyVisitor {
+	private class ProjectFilesOfScopeCalculator implements IResourceProxyVisitor {
 		private final IProject fProject;
 		private final TextSearchScope fScope;
 		private final MultiStatus fStatus;

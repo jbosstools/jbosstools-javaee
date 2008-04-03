@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.actions;
 
 import java.util.List;
@@ -29,11 +40,21 @@ import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
 
+/**
+ * Quick Assist processor. Allows invokation of Find Seam Actions from QuickFix pop-up  
+ * @author Jeremy
+ */
 public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 
+	/**
+	 * Constructs SeamFind
+	 */
 	public SeamFindQuickAssistProcessor() {
 	}
 
+	/**
+	 * @Override
+	 */
 	public boolean hasAssists(IInvocationContext context) throws CoreException {
 		ISeamProject seamProject = getSeamProject(context);
 		if (seamProject==null)
@@ -70,6 +91,9 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 				document, tokens);
 	}
 	
+	/**
+	 * @Override
+	 */
 	public IJavaCompletionProposal[] getAssists(IInvocationContext context,
 			IProblemLocation[] locations) throws CoreException {
 		
@@ -85,17 +109,16 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			if (seamProject == null)
 				return result;
 			
-			String[] variables = getVariableNames(seamProject, document, context.getSelectionOffset());
-
-			if (variables == null)
+			List<ELOperandToken> tokens = FindSeamAction.findTokensAtOffset(
+					document, 
+					context.getSelectionOffset());				
+			if (tokens == null || tokens.size() == 0)
 				return result;
-				
+			
+			
 			StringBuffer buf= new StringBuffer();
-			for (int i= 0; i < variables.length; i++) {
-				if (i > 0) {
-					buf.append(", "); //$NON-NLS-1$
-				}
-				buf.append(variables[i]);
+			for (int i= 0; i < tokens.size(); i++) {
+				buf.append(tokens.get(i).getText()); //$NON-NLS-1$
 			}
 			searchString = buf.toString();
 
@@ -139,6 +162,9 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 		return document;
 	}
 	
+	/**
+	 * Custom Quick Assist Proposal
+	 */
 	public abstract class ExternalActionQuickAssistProposal implements
 			IJavaCompletionProposal {
 		
@@ -185,5 +211,4 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			return proposal.getSelection( document );
 		}
 	}
-
 }

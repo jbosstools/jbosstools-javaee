@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.seam.ui.search;
 
 import java.util.HashMap;
@@ -5,10 +16,8 @@ import java.util.HashMap;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
@@ -17,7 +26,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -27,20 +35,11 @@ import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.search.internal.ui.SearchMessages;
 import org.eclipse.search.internal.ui.text.EditorOpener;
 import org.eclipse.search.internal.ui.text.FileLabelProvider;
-import org.eclipse.search.internal.ui.text.FileSearchPage;
 import org.eclipse.search.internal.ui.text.FileSearchQuery;
-import org.eclipse.search.internal.ui.text.FileTableContentProvider;
-import org.eclipse.search.internal.ui.text.FileTreeContentProvider;
 import org.eclipse.search.internal.ui.text.IFileSearchContentProvider;
 import org.eclipse.search.internal.ui.text.NewTextSearchActionGroup;
-//import org.eclipse.search.internal.ui.text.ReplaceAction2;
 import org.eclipse.search.internal.ui.text.ResourceTransferDragAdapter;
-import org.eclipse.search.internal.ui.text.SortAction;
-import org.eclipse.search.internal.ui.text.TextSearchPage;
-import org.eclipse.search.internal.ui.text.FileSearchPage.DecoratorIgnoringViewerSorter;
 import org.eclipse.search.ui.IContextMenuConstants;
-import org.eclipse.search.ui.ISearchResult;
-import org.eclipse.search.ui.ISearchResultPage;
 import org.eclipse.search.ui.ISearchResultViewPart;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
@@ -49,8 +48,6 @@ import org.eclipse.search.ui.text.Match;
 import org.eclipse.search2.internal.ui.OpenSearchPreferencesAction;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPageLayout;
@@ -59,7 +56,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.IShowInTargetList;
 import org.eclipse.ui.part.ResourceTransfer;
@@ -67,9 +63,15 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 
+/**
+ * Seam Search Result page
+ * 
+ * @author Jeremy
+ *
+ */
 public class SeamSearchResultPage extends AbstractTextSearchViewPage implements IAdaptable {
 	
-	public static class DecoratorIgnoringViewerSorter extends ViewerComparator {
+	static class DecoratorIgnoringViewerSorter extends ViewerComparator {
 		private final ILabelProvider fLabelProvider;
 		
 		public DecoratorIgnoringViewerSorter(ILabelProvider labelProvider) {
@@ -106,15 +108,11 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 	
 	private static final String KEY_SORTING= "org.eclipse.search.resultpage.sorting"; //$NON-NLS-1$
 	private static final String KEY_LIMIT= "org.eclipse.search.resultpage.limit"; //$NON-NLS-1$
-	
 	private static final int DEFAULT_ELEMENT_LIMIT = 1000;
 
 	private ActionGroup fActionGroup;
 	private IFileSearchContentProvider fContentProvider;
 	private int fCurrentSortOrder;
-//	private SortAction fSortByNameAction;
-//	private SortAction fSortByPathAction;
-	
 	private EditorOpener fEditorOpener= new EditorOpener();
 
 		
@@ -125,22 +123,31 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		}
 	};
 
+	/**
+	 * Constructs SeamSearchResultPage object 
+	 */
 	public SeamSearchResultPage() {
-//		fSortByNameAction= new SortAction(SearchMessages.FileSearchPage_sort_name_label, this, FileLabelProvider.SHOW_LABEL_PATH); 
-//		fSortByPathAction= new SortAction(SearchMessages.FileSearchPage_sort_path_label, this, FileLabelProvider.SHOW_PATH_LABEL); 
-
 		setElementLimit(new Integer(DEFAULT_ELEMENT_LIMIT));
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#setElementLimit(java.lang.Integer)
+	 */
 	public void setElementLimit(Integer elementLimit) {
 		super.setElementLimit(elementLimit);
 		int limit= elementLimit.intValue();
 		getSettings().put(KEY_LIMIT, limit);
 	}	
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#getViewer()
+	 */
 	public StructuredViewer getViewer() {
 		return super.getViewer();
 	}
+
 	
 	private void addDragAdapters(StructuredViewer viewer) {
 		Transfer[] transfers= new Transfer[] { ResourceTransfer.getInstance() };
@@ -148,6 +155,10 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		viewer.addDragSupport(ops, transfers, new ResourceTransferDragAdapter(viewer));
 	}	
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#configureTableViewer(org.eclipse.jface.viewers.TableViewer)
+	 */
 	protected void configureTableViewer(TableViewer viewer) {
 		viewer.setUseHashlookup(true);
 		SeamSearchViewLabelProvider innerLabelProvider= new SeamSearchViewLabelProvider(this, FileLabelProvider.SHOW_LABEL_PATH);
@@ -158,6 +169,10 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		addDragAdapters(viewer);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#configureTreeViewer(org.eclipse.jface.viewers.TreeViewer)
+	 */
 	protected void configureTreeViewer(TreeViewer viewer) {
 		viewer.setUseHashlookup(true);
 		SeamSearchViewLabelProvider innerLabelProvider= new SeamSearchViewLabelProvider(this, FileLabelProvider.SHOW_LABEL_PATH);
@@ -168,6 +183,10 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		addDragAdapters(viewer);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#showMatch(org.eclipse.search.ui.text.Match, int, int, boolean)
+	 */
 	protected void showMatch(Match match, int offset, int length, boolean activate) throws PartInitException {
 		if (match.getElement() instanceof ISeamJavaSourceReference) {
 			IJavaElement javaElement = ((ISeamJavaSourceReference)match.getElement()).getSourceMember();
@@ -176,8 +195,6 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 				if (part != null) {
 					JavaUI.revealInEditor(part, (IJavaElement)javaElement);
 				}
-			} catch (PartInitException e) {
-//				SeamExtPlugin.getPluginLog().logError(e);  
 			} catch (JavaModelException e) {
 				// Ignore. It is probably because of Java element is not found 
 			}
@@ -196,6 +213,17 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 					showWithMarker(editor, file, offset, length);
 				}
 			}
+		} else if (match.getElement() instanceof IJavaElement) {
+			IJavaElement javaElement = (IJavaElement)match.getElement();
+			try {
+				IEditorPart part = JavaUI.openInEditor(javaElement);
+				if (part != null) {
+					JavaUI.revealInEditor(part, (IJavaElement)javaElement);
+				}
+			} catch (JavaModelException e) {
+				// Ignore. It is probably because of Java element is not found 
+			}
+
 		}
 	}
 	
@@ -220,62 +248,75 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		}
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#fillContextMenu(org.eclipse.jface.action.IMenuManager)
+	 */
 	protected void fillContextMenu(IMenuManager mgr) {
 		super.fillContextMenu(mgr);
 		addSortActions(mgr);
 		fActionGroup.setContext(new ActionContext(getSite().getSelectionProvider().getSelection()));
 		fActionGroup.fillContextMenu(mgr);
-		FileSearchQuery query= (FileSearchQuery) getInput().getQuery();
-		if (!"".equals(query.getSearchString())) { //$NON-NLS-1$
-//		ReplaceAction2 replaceAction= new ReplaceAction2(this, (IStructuredSelection) getViewer().getSelection());
-//		if (replaceAction.isEnabled())
-//			mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, replaceAction);
-				
-//		ReplaceAction2 replaceAll= new ReplaceAction2(this);
-//		if (replaceAll.isEnabled())
-//			mgr.appendToGroup(IContextMenuConstants.GROUP_REORGANIZE, replaceAll);
-		}
 	}
 	
 	private void addSortActions(IMenuManager mgr) {
 		if (getLayout() != FLAG_LAYOUT_FLAT)
 			return;
 		MenuManager sortMenu= new MenuManager(SearchMessages.FileSearchPage_sort_by_label); 
-//		sortMenu.add(fSortByNameAction);
-//		sortMenu.add(fSortByPathAction);
-		
-//		fSortByNameAction.setChecked(fCurrentSortOrder == fSortByNameAction.getSortOrder());
-//		fSortByPathAction.setChecked(fCurrentSortOrder == fSortByPathAction.getSortOrder());
-		
 		mgr.appendToGroup(IContextMenuConstants.GROUP_VIEWER_SETUP, sortMenu);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#setViewPart(org.eclipse.search.ui.ISearchResultViewPart)
+	 */
 	public void setViewPart(ISearchResultViewPart part) {
 		super.setViewPart(part);
 		fActionGroup= new NewTextSearchActionGroup(part);
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#init(org.eclipse.ui.part.IPageSite)
+	 */
 	public void init(IPageSite site) {
 		super.init(site);
 		IMenuManager menuManager = site.getActionBars().getMenuManager();
 		menuManager.appendToGroup(IContextMenuConstants.GROUP_PROPERTIES, new OpenSearchPreferencesAction());
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#dispose()
+	 */
 	public void dispose() {
 		fActionGroup.dispose();
 		super.dispose();
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#elementsChanged(java.lang.Object[])
+	 */
 	protected void elementsChanged(Object[] objects) {
 		if (fContentProvider != null)
 			fContentProvider.elementsChanged(objects);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#clear()
+	 */
 	protected void clear() {
 		if (fContentProvider != null)
 			fContentProvider.clear();
 	}
 
+	/**
+	 * Sets up a given sort order
+	 * 
+	 * @param sortOrder
+	 */
 	public void setSortOrder(int sortOrder) {
 		fCurrentSortOrder= sortOrder;
 		DecoratingLabelProvider lpWrapper= (DecoratingLabelProvider) getViewer().getLabelProvider();
@@ -284,12 +325,16 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		getSettings().put(KEY_SORTING, fCurrentSortOrder);
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#restoreState(org.eclipse.ui.IMemento)
+	 */
 	public void restoreState(IMemento memento) {
 		super.restoreState(memento);
 		try {
 			fCurrentSortOrder= getSettings().getInt(KEY_SORTING);
 		} catch (NumberFormatException e) {
-//			fCurrentSortOrder= fSortByNameAction.getSortOrder();
+			// Ignore
 		}
 		int elementLimit= DEFAULT_ELEMENT_LIMIT;
 		try {
@@ -307,12 +352,21 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		}
 		setElementLimit(new Integer(elementLimit));
 	}
+	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#saveState(org.eclipse.ui.IMemento)
+	 */
 	public void saveState(IMemento memento) {
 		super.saveState(memento);
 		memento.putInteger(KEY_SORTING, fCurrentSortOrder);
 		memento.putInteger(KEY_LIMIT, getElementLimit().intValue());
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+	 */
 	public Object getAdapter(Class adapter) {
 		if (IShowInTargetList.class.equals(adapter)) {
 			return SHOW_IN_TARGET_LIST;
@@ -320,6 +374,10 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		return null;
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#getLabel()
+	 */
 	public String getLabel() {
 		String label= super.getLabel();
 		StructuredViewer viewer= getViewer();
