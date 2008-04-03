@@ -11,7 +11,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="f:verbatim" case-sensitive="yes">
-		<vpe:if test="(@escape='false')">
+		<vpe:if test="(@escape='false')"> 
 			<vpe:template children="no" modify="yes"
 				class="org.jboss.tools.jsf.vpe.jsf.template.JsfVerbatim">
 				<vpe:dnd>

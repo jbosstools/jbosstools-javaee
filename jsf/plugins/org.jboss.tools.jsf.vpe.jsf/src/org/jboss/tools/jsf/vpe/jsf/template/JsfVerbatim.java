@@ -28,12 +28,6 @@ import org.w3c.dom.NodeList;
  */
 public class JsfVerbatim extends EditableTemplateAdapter {
 
-	/**
-	 * Instantiates a new jsf view.
-	 */
-	public JsfVerbatim() {
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
