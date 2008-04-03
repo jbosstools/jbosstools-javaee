@@ -49,7 +49,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	
     	int i20 = schemaLocation.indexOf("2.0"); //$NON-NLS-1$
     	if(i20 >= 0) {
-    		if(isSingleComponent) return ENT_SEAM_COMPONENT_20;
+    		if(isSingleComponent) return ENT_SEAM_COMPONENT_FILE_20;
     		if(isMultiComponent(body)) return ENT_SEAM_COMPONENTS_20;
     	}
     	

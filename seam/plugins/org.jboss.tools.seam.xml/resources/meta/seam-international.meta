@@ -41,8 +41,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.international.localeSelector" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="locale-string" xmlname="locale-string"/>
    <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
     <Constraint loader="List">
@@ -97,8 +97,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.international.timeZoneSelector" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="time-zone-id" xmlname="time-zone-id"/>
    <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
     <Constraint loader="List">

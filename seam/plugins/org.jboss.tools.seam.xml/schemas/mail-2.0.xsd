@@ -36,7 +36,7 @@
     <xs:attributeGroup name="attlist.meldwareUser">
     	<xs:attribute name="username" type="xs:string" />
     	<xs:attribute name="password" type="xs:string" />
-    	<xs:attribute name="admin" type="xs:boolean" default="false"/>
+    	<xs:attribute name="administrator" type="xs:boolean" default="false"/>
     </xs:attributeGroup>
     <xs:element name="meldware-user">
         <xs:complexType>

@@ -272,8 +272,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     name="component-name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,jndi-name"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
    </XModelAttribute>
@@ -303,6 +303,15 @@
     <Constraint loader="ListString">
      <value name="ISO-8859-1"/>
      <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="startup" xmlname="startup">
+    <Constraint loader="ListString">
+     <value name="default(false)"/>
+     <value name="true"/>
+     <value name="false"/>
     </Constraint>
     <Editor name="ListString"/>
    </XModelAttribute>
@@ -814,7 +823,7 @@
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="components" name="FileSeamComponents20">
   <XChildrenEntities>
-   <XChildEntity name="SeamComponent"/>
+   <XChildEntity name="SeamComponent20"/>
    <XChildEntity name="SeamFactory20"/>
    <XChildEntity name="SeamEvent20"/>
    <XChildEntity name="SeamImport"/>
@@ -903,7 +912,7 @@
      ICON="action.new.struts.webapp.res_ref"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
-     <EntityData EntityName="SeamComponent">
+     <EntityData EntityName="SeamComponent20">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="class" Mandatory="no"/>
      </EntityData>
@@ -967,7 +976,7 @@
      ICON="action.new.struts.webapp.res_ref"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
-     <EntityData EntityName="SeamComponent">
+     <EntityData EntityName="SeamComponent20">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="class" Mandatory="no"/>
      </EntityData>
@@ -1133,8 +1142,8 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="precedence" xmlname="precedence"/>
-   <XModelAttribute PROPERTIES="category=advanced" default="default(true)"
-    name="installed" xmlname="installed">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(true)" name="installed" xmlname="installed">
     <Constraint loader="ListString">
      <value name="default(true)"/>
      <value name="true"/>
@@ -1142,8 +1151,136 @@
     </Constraint>
     <Editor name="ListString"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" default="default(false)"
-    name="auto-create" xmlname="auto-create">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="auto-create" xmlname="auto-create">
+    <Constraint loader="ListString">
+     <value name="default(false)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="jndi-name" xmlname="jndi-name"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Simple Property..." kind="action" name="AddProperty">
+     <EntityData EntityName="SeamProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add List Property..." kind="action" name="AddListProperty">
+     <EntityData EntityName="SeamPropertyList">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Map Property..." kind="action" name="AddMapProperty">
+     <EntityData EntityName="SeamPropertyMap">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.ShowMenuHandler"
+     PROPERTIES="actionList=CreateActions" displayName="Property..."
+     kind="action" name="AddAnyProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+  XMLSUBPATH="component" name="SeamComponent20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamProperty"/>
+   <XChildEntity name="SeamPropertyList"/>
+   <XChildEntity name="SeamPropertyMap"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.component" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="component" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
+   <XModelAttribute PROPERTIES="category=general" name="class" xmlname="class">
+    <Constraint loader="QClassName"/>
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="scope" xmlname="scope">
+    <Constraint loader="List">
+     <value/>
+     <value name="stateless"/>
+     <value name="event"/>
+     <value name="page"/>
+     <value name="conversation"/>
+     <value name="session"/>
+     <value name="business_process"/>
+     <value name="application"/>
+     <value name="STATELESS"/>
+     <value name="EVENT"/>
+     <value name="PAGE"/>
+     <value name="CONVERSATION"/>
+     <value name="SESSION"/>
+     <value name="BUSINESS_PROCESS"/>
+     <value name="APPLICATION"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="precedence" xmlname="precedence"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(true)" name="installed" xmlname="installed">
+    <Constraint loader="ListString">
+     <value name="default(true)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="auto-create" xmlname="auto-create">
+    <Constraint loader="ListString">
+     <value name="default(false)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="startup" xmlname="startup">
     <Constraint loader="ListString">
      <value name="default(false)"/>
      <value name="true"/>
@@ -1354,8 +1491,8 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="method" xmlname="method"/>
-   <XModelAttribute PROPERTIES="category=advanced" default="default(false)"
-    name="auto-create" xmlname="auto-create">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="auto-create" xmlname="auto-create">
     <Constraint loader="ListString">
      <value name="default(false)"/>
      <value name="true"/>
@@ -1407,8 +1544,8 @@
    <XModelAttributeReference
     attributes="name,value,scope,method,auto-create,comment"
     entity="SeamFactory" name="factory"/>
-   <XModelAttribute PROPERTIES="category=advanced" default="default(false)"
-    name="startup" xmlname="startup">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="startup" visibility="false" xmlname="startup">
     <Constraint loader="ListString">
      <value name="default(false)"/>
      <value name="true"/>

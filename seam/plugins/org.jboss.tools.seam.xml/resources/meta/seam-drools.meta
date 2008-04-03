@@ -89,8 +89,8 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="name,class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="configuration-file" xmlname="configuration-file"/>
    <XModelAttribute PROPERTIES="category=advanced" name="config-name" xmlname="config-name"/>
@@ -318,7 +318,7 @@
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Rule Base..." kind="action" name="AddRuleAgent">
+      displayName="Rule Agent..." kind="action" name="AddRuleAgent">
       <EntityData EntityName="SeamDroolsRuleAgent">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="configuration-file" Mandatory="no"/>
@@ -352,7 +352,7 @@
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Rule Base..." kind="action" name="AddRuleAgent">
+      displayName="Rule Agent..." kind="action" name="AddRuleAgent">
       <EntityData EntityName="SeamDroolsRuleAgent">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="configuration-file" Mandatory="no"/>

@@ -84,6 +84,62 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="remoting:remoting-config" name="SeamRemotingConfig20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.remoting.config" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="remoting config" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.remoting.remoting" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="poll-interval" xmlname="poll-interval"/>
+   <XModelAttribute PROPERTIES="category=general" name="poll-timeout" xmlname="poll-timeout"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XEntityExtension name="FileSeamComponents12">
   <XChildrenEntities>
    <XChildEntity name="SeamRemotingConfig"/>
@@ -129,7 +185,7 @@
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents20">
   <XChildrenEntities>
-   <XChildEntity name="SeamRemotingConfig"/>
+   <XChildEntity name="SeamRemotingConfig20"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -139,7 +195,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Config..." kind="action" name="AddRemotingConfig">
-      <EntityData EntityName="SeamRemotingConfig">
+      <EntityData EntityName="SeamRemotingConfig20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="poll-interval" Mandatory="no"/>
        <AttributeData AttributeName="poll-timeout" Mandatory="no"/>
@@ -159,7 +215,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Config..." kind="action" name="AddRemotingConfig">
-      <EntityData EntityName="SeamRemotingConfig">
+      <EntityData EntityName="SeamRemotingConfig20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="poll-interval" Mandatory="no"/>
        <AttributeData AttributeName="poll-timeout" Mandatory="no"/>

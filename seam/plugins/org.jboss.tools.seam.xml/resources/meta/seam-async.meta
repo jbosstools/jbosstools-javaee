@@ -46,8 +46,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.async.dispatcher" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="thread-pool-size" xmlname="thread-pool-size"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -94,8 +94,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.async.dispatcher" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -141,8 +141,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.async.dispatcher" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,jndi-name"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>

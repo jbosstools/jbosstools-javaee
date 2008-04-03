@@ -20,8 +20,9 @@ public interface SeamComponentConstants {
 	public String ENT_SEAM_COMPONENTS_12 = ENT_SEAM_COMPONENTS + "12"; //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENT_12 = "FileSeamComponent" + "12"; //$NON-NLS-1$  //$NON-NLS-2$
 	public String ENT_SEAM_COMPONENTS_20 = ENT_SEAM_COMPONENTS + SUFF_20;
-	public String ENT_SEAM_COMPONENT_20 = "FileSeamComponent" + SUFF_20;  //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENT_FILE_20 = "FileSeamComponent" + SUFF_20;  //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENT = "SeamComponent"; //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENT_20 = ENT_SEAM_COMPONENT + SUFF_20;
 	public String ENT_SEAM_FACTORY = "SeamFactory";  //$NON-NLS-1$
 	public String ENT_SEAM_FACTORY_20 = ENT_SEAM_FACTORY + SUFF_20;
 	

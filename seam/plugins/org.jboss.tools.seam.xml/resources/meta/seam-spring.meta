@@ -152,8 +152,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.async.dispatcher" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,jndi-name"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="task-executor" xmlname="task-executor"/>
    <XModelAttribute PROPERTIES="category=general"
@@ -202,12 +202,12 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.transaction.transaction" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,jndi-name"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="platform-transaction-manager" xmlname="platform-transaction-manager"/>
-   <XModelAttribute PROPERTIES="category=advanced" default="default(true)"
-    name="conversation-context-required" xmlname="conversation-context-required">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(true)" name="conversation-context-required" xmlname="conversation-context-required">
     <Constraint loader="List">
      <value name="default(true)"/>
      <value name="true"/>

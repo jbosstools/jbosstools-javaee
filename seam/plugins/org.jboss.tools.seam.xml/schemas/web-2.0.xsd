@@ -70,6 +70,7 @@
     
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
+        <xs:attribute name="regex-url-pattern" type="xs:string"/>
         <xs:attribute name="disabled" type="xs:string" default="false" />
     </xs:attributeGroup>
     

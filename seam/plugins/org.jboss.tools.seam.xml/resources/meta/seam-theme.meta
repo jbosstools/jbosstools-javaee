@@ -158,8 +158,8 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="name,class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="theme" xmlname="theme"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="available-themes" xmlname="available-themes"/>

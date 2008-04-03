@@ -103,8 +103,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.mail.meldware" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -151,10 +151,19 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.mail.meldwareUser" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="username" xmlname="username"/>
    <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="administrator" xmlname="administrator">
+    <Constraint loader="ListString">
+     <value name="default(false)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -205,7 +214,8 @@
    <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password"/>
    <XModelAttribute PROPERTIES="category=general" name="host" xmlname="host"/>
    <XModelAttribute PROPERTIES="category=general" name="port" xmlname="port"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug" default="default(false)">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="debug" xmlname="debug">
     <Constraint loader="ListString">
      <value name="default(false)"/>
      <value name="true"/>
@@ -213,7 +223,8 @@
     </Constraint>
     <Editor name="ListString"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="ssl" xmlname="ssl" default="default(false)">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="ssl" xmlname="ssl">
     <Constraint loader="List">
      <value name="default(false)"/>
      <value name="true"/>
@@ -226,8 +237,8 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="tls"
-    visibility="false" xmlname="tls" default="default(true)">
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(true)" name="tls" visibility="false" xmlname="tls">
     <Constraint loader="List">
      <value name="default(true)"/>
      <value name="true"/>

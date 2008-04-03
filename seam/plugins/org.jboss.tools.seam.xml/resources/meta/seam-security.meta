@@ -30,6 +30,51 @@
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="security:faces-security-events" name="SeamFacesSecurityEvents20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.security.identity" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="faces security events" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="security:identity" name="SeamSecurityIdentity">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -108,7 +153,10 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create,authenticate-method,remember-me,jaas-config-name,security-rules"
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttributeReference
+    attributes="authenticate-method,remember-me,jaas-config-name,security-rules"
     entity="SeamSecurityIdentity" name="sequrity"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="authenticate-every-request" xmlname="authenticate-every-request">
@@ -119,7 +167,6 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -192,6 +239,7 @@
  <XEntityExtension name="FileSeamComponents20">
   <XChildrenEntities>
    <XChildEntity name="SeamSecurityIdentity20"/>
+   <XChildEntity name="SeamFacesSecurityEvents20"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -205,6 +253,14 @@
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
        <AttributeData AttributeName="remember-me" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Faces Security Events..." kind="action" name="AddFacesSecurityEvents">
+      <EntityData EntityName="FacesSecurityEvents20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
@@ -224,6 +280,14 @@
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
        <AttributeData AttributeName="remember-me" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Faces Security Events..." kind="action" name="AddFacesSecurityEvents">
+      <EntityData EntityName="FacesSecurityEvents20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>

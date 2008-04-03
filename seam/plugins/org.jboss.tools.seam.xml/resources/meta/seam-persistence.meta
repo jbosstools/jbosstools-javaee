@@ -103,8 +103,8 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="persistence-unit-name" xmlname="persistence-unit-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -151,8 +151,8 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="name,class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="filter name" xmlname="persistence:name.#text"/>
    <XModelAttribute PROPERTIES="category=advanced" name="enabled" xmlname="enabled"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -263,8 +263,8 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="cfg-resource-name" xmlname="cfg-resource-name"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -313,8 +313,8 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="entity-manager-factory" xmlname="entity-manager-factory"/>
    <XModelAttribute PROPERTIES="category=general"
@@ -365,8 +365,8 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="session-factory" xmlname="session-factory"/>
    <XModelAttribute PROPERTIES="category=general"
     name="session-factory-jndi-name" xmlname="session-factory-jndi-name"/>

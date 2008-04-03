@@ -52,17 +52,10 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-
-        <xs:attribute name="precedence"/>
-        <xs:attribute name="installed" default="true"/>
-        <xs:attribute name="auto-create" default="false">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="precedence" type="xs:int"/>
+        <xs:attribute name="installed" default="true" type="xs:boolean"/>
+        <xs:attribute name="auto-create" default="false" type="xs:boolean"/>
+        <xs:attribute name="startup" default="false" type="xs:boolean"/>
     </xs:attributeGroup>
     <xs:element name="factory">
         <xs:complexType>
@@ -93,22 +86,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="auto-create">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
-        <xs:attribute name="startup">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="auto-create" type="xs:boolean"/>
     </xs:attributeGroup>
     <xs:element name="property">
         <xs:complexType mixed="true">
