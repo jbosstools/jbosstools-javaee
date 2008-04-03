@@ -852,7 +852,7 @@ public final class SeamELCompletionEngine {
 	}
 
 	/**
-	 * Create the array of suggestions. 
+	 * Create the array of suggestions from {@link ELOperandToken} list. 
 	 * @param project Seam project 
 	 * @param file File 
 	 * @param document 
@@ -860,10 +860,23 @@ public final class SeamELCompletionEngine {
 	 * @param position Offset of the prefix 
 	 */
 	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression) throws BadLocationException, StringIndexOutOfBoundsException {
-		List<IJavaElement> res= new ArrayList<IJavaElement>();
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(expression, expression.length());
 		List<ELOperandToken> tokens = tokenizer.getTokens();
+		return getJavaElementsForELOperandTokens(project, file, tokens);
+	}
 
+	/**
+	 * Create the array of suggestions. 
+	 * @param project Seam project 
+	 * @param file File 
+	 * @param document 
+	 * @param prefix the prefix to search for
+	 * @param position Offset of the prefix 
+	 */
+	public List<IJavaElement> getJavaElementsForELOperandTokens(
+			ISeamProject project, IFile file, 
+			List<ELOperandToken> tokens) throws BadLocationException, StringIndexOutOfBoundsException {
+		List<IJavaElement> res= new ArrayList<IJavaElement>();
 		if (tokens == null || tokens.size() == 0 || tokens.get(tokens.size() - 1).getType() == ELOperandToken.EL_SEPARATOR_TOKEN)
 			return res;
 
