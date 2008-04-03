@@ -23,6 +23,7 @@ import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -148,11 +149,18 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				// ComponentCore is used to handle case when user changes
 				// default WebContent folder to another one in
 				// Web Facet configuration page
-				IProject prj = seamPrjSet.getWarProject();
-				IVirtualComponent webComp = ComponentCore.createComponent(prj);
-				IVirtualFile manifest = webComp.getRootFolder().getFile("/META-INF/MANIFEST.MF");
-				manifest.getUnderlyingFile().getParent().touch(monitor);
-				manifest.getUnderlyingFile().touch(monitor);
+				IFolder viewFolder = seamPrjSet.getViewsFolder();
+				if(viewFolder!=null) {
+					IProject prj = seamPrjSet.getWarProject();
+					IVirtualComponent webComp = ComponentCore.createComponent(prj);
+					if(webComp!=null) {
+						IVirtualFile manifest = webComp.getRootFolder().getFile("/META-INF/MANIFEST.MF");
+						if(manifest!=null) {
+							manifest.getUnderlyingFile().getParent().touch(monitor);
+							manifest.getUnderlyingFile().touch(monitor);
+						}
+					}
+				}
 
 				// to keep workspace in sync				
 				seamPrjSet.refreshLocal(monitor);
