@@ -3,7 +3,8 @@
       id="org.jboss.tools.seam.feature"
       label="SeamTools Feature"
       version="1.0.0"
-      provider-name="RedHat, Inc.">
+      provider-name="RedHat, Inc."
+      plugin="org.jboss.tools.seam.core">
 
    <description url="http://www.jboss.org/tools">
       JBossTools Seam Feature
@@ -222,7 +223,7 @@ litigation.
       <update label="JBossTools Update Site" url="http://download.jboss.org/jbosstools/updates/stable"/>
       <discovery label="JBossTools Development Update Site" url="http://download.jboss.org/updates/development"/>
    </url>
-   
+
    <requires>
       <import feature="org.jboss.tools.richfaces.feature"/>
       <import feature="org.jboss.ide.eclipse.as.feature"/>
