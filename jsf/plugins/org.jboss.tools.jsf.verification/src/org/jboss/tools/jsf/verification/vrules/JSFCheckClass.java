@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.verification.vrules;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.verification.vrules.*;
@@ -30,17 +31,26 @@ public class JSFCheckClass extends JSFDefaultCheck {
 		IType type = object.getModel().getValidType(value);
 		if(type != null) {
 			String mustImpl = null;
-			try { mustImpl = checkImplements(object, type); } catch (Exception e) {}
+			try { 
+				mustImpl = checkImplements(object, type); 
+			} catch (JavaModelException e) {
+				//ignore
+			}
 			if(mustImpl != null) return fireImplements(object, attr, attr, value, mustImpl);
 			String mustExtend = null;
-			try { mustExtend = checkExtends(object, type); } catch (Exception e) {}
+			try { 
+				mustExtend = checkExtends(object, type); 
+			} catch (JavaModelException e) {
+				//ignore
+			}
 			if(mustExtend != null) return fireExtends(object, attr, attr, value, mustExtend);
 			return null;
 		}
 		return fire(object, attr, attr, value);
 	}
 	
-	private String checkImplements(VObject object, IType type) throws Exception {
+	private String checkImplements(VObject object, IType type) throws JavaModelException {
+		if(object == null || type == null) return null;
 		if("java.lang.Class".equals(type.getFullyQualifiedName())) return null;
 		String impl = rule.getProperty("implements");
 		if(impl == null || impl.length() == 0) return null;
@@ -59,7 +69,8 @@ public class JSFCheckClass extends JSFDefaultCheck {
 		return checkImplements(object, type);
 	}
 	
-	private String checkExtends(VObject object, IType type) throws Exception {
+	private String checkExtends(VObject object, IType type) throws JavaModelException {
+		if(object == null || type == null) return null;
 		if(type.isInterface()) return null;
 		if("java.lang.Class".equals(type.getFullyQualifiedName())) return null;
 		String ext = rule.getProperty("extends");
