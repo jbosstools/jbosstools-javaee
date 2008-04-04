@@ -36,7 +36,7 @@ public class JSPAdopt implements XAdoptManager {
                isAdoptableMapEntry(object);
     }
 
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         if(isAdoptableProperty(object)) adoptProperty(target, object, p);
 		else if(isAdoptablePropertyReference(object)) adoptPropertyReference(target, object, p);
 		else if(isAdoptablePage(object)) adoptPage(target, object, p);

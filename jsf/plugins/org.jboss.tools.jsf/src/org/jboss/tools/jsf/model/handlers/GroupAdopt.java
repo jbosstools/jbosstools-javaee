@@ -67,7 +67,7 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		return (case_ != null && rule == null || rule != case_.getParent());
 	}
 
-	public void adopt(XModelObject target, XModelObject object, Properties p) {
+	public void adopt(XModelObject target, XModelObject object, Properties p) throws XModelException {
 		String entity = object.getModelEntity().getName();
 		if(ENT_PROCESS_ITEM_OUTPUT.equals(entity)) {
 			if(move_case) {
@@ -82,21 +82,21 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		else if(ENT_NAVIGATION_CASE.equals(entity)) adoptCase(object, target, p);
 	}
 	
-	protected void adoptOutput(XModelObject source, XModelObject target, Properties p) {
+	protected void adoptOutput(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		ReferenceObjectImpl i = (ReferenceObjectImpl)source;
 		adoptCase(i.getReference(), target, p); 
 	}
 
-	protected void adoptCase(XModelObject source, XModelObject target, Properties p) {
+	protected void adoptCase(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		source.getModel().changeObjectAttribute(source, ATT_TO_VIEW_ID, target.getAttributeValue(ATT_PATH));
 	}
 
-	protected void adoptItem(XModelObject source, XModelObject target, Properties p) {
+	protected void adoptItem(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		ReferenceObjectImpl i = (ReferenceObjectImpl)source;
 		adoptRule(i.getReference(), target, p); 
 	}
 
-	protected void adoptRule(XModelObject source, XModelObject target, Properties p) {
+	protected void adoptRule(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		String path = target.getAttributeValue(ATT_PATH);
 		String n = path;
 		if(n.lastIndexOf('.') > 0) n = n.substring(0, n.lastIndexOf('.'));
@@ -110,7 +110,7 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		DefaultCreateHandler.addCreatedObject(source, cs, p);
 	}
 
-	protected void adoptGroup(XModelObject source, XModelObject target, Properties p) {
+	protected void adoptGroup(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		ReferenceGroupImpl g = (ReferenceGroupImpl)source;
 		XModelObject[] os = g.getReferences();
 		if(os != null && os.length > 0) {
@@ -134,12 +134,12 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		}
 	}
 	
-	void moveOutput(XModelObject source, XModelObject target, Properties p) {
+	void moveOutput(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		ReferenceObjectImpl i = (ReferenceObjectImpl)source;
 		moveCase(i.getReference(), target, p); 
 	}
 
-	void moveCase(XModelObject source, XModelObject target, Properties p) {
+	void moveCase(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		XModelObject rule = null;
 		if(target instanceof ReferenceGroupImpl) {
 			rule = ((ReferenceGroupImpl)target).getReference();

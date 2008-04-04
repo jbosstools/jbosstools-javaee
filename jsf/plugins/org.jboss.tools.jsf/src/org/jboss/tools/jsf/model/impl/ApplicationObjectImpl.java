@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model.impl;
 import java.util.Properties;
 
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.impl.*;
 
@@ -53,7 +54,7 @@ public class ApplicationObjectImpl extends OrderedObjectImpl {
 		return super.setAttributeValue(name, value);
 	}
 	
-	public void onAttributeValueEdit(String name, String oldValue, String newValue) {
+	public void onAttributeValueEdit(String name, String oldValue, String newValue) throws XModelException {
 		if(name != null && ATTR_TO_ENTITY.containsKey(name)) {
 			String entity = ATTR_TO_ENTITY.getProperty(name);
 			XModelObject[] cs = getChildren(entity);

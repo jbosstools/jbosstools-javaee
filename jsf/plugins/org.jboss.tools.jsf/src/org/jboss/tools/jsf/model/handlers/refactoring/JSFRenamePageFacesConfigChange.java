@@ -18,6 +18,7 @@ import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -100,7 +101,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		return null;
 	}
 
-	private void performChangeInFile(XModelObject f) {
+	private void performChangeInFile(XModelObject f) throws XModelException {
 		replaceIcons(f, oldText, newText);
 		XModelObject[] gs = findGroups(f);
 		if(gs.length == 0) return;
@@ -130,7 +131,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 
 	static String[] ICON_ATTRIBUTES = {"small-icon", "large-icon"};
 
-	static void replaceIcons(XModelObject f, String oldText, String newText) {
+	static void replaceIcons(XModelObject f, String oldText, String newText) throws XModelException {
 		if(oldText == null || oldText.length() == 0) return;
 		if(f.getModelEntity().getAttribute(ICON_ATTRIBUTES[0]) != null) {
 			for (int i = 0; i < ICON_ATTRIBUTES.length; i++) {

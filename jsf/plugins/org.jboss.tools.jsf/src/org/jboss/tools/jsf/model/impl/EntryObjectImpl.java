@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.impl;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
 
 public class EntryObjectImpl extends RegularObjectImpl {
@@ -29,7 +30,7 @@ public class EntryObjectImpl extends RegularObjectImpl {
 	
 	String cachedValue = null;
 	
-	protected void onAttributeValueEdit(String name, String oldValue, String newValue) {
+	protected void onAttributeValueEdit(String name, String oldValue, String newValue) throws XModelException {
 		if("null-value".equals(name)) {
 			if("true".equals(newValue)) {
 				cachedValue = getAttributeValue("value");

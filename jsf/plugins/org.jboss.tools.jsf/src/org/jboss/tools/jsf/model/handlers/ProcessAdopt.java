@@ -14,6 +14,7 @@ import java.util.*;
 import org.jboss.tools.common.meta.XAdoptManager;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jsf.JSFPreference;
@@ -22,7 +23,7 @@ import org.jboss.tools.jsf.model.helpers.JSFProcessHelper;
 
 public class ProcessAdopt implements XAdoptManager, JSFConstants {
 
-	public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+	public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
 		if(isAdoptableJSP(target, object)) {
 			adoptJSP(target, object, p);
 		} else if(isAdoptableItem(target, object)) {
@@ -53,7 +54,7 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 		return false;
 	}
 
-	private void adoptJSP(XModelObject target, XModelObject object, Properties p) {
+	private void adoptJSP(XModelObject target, XModelObject object, Properties p) throws XModelException {
 		if (target.getModelEntity().getName().startsWith(ENT_FACESCONFIG)) {
 			target = target.getChildByPath(ELM_PROCESS);
 		}
@@ -66,7 +67,7 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 */
 	}
 
-	private void addRuleByPageAdopt(XModelObject process, XModelObject page, Properties p) {
+	private void addRuleByPageAdopt(XModelObject process, XModelObject page, Properties p) throws XModelException {
 		String path = XModelObjectLoaderUtil.getResourcePath(page);
 		XModelObject group = JSFProcessHelper.getHelper(process).getPage(path);
 		if(group != null) return;

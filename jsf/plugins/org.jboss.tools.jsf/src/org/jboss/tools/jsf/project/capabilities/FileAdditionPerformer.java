@@ -20,7 +20,6 @@ import org.jboss.tools.common.model.loaders.XObjectLoader;
 import org.jboss.tools.common.model.loaders.impl.SerializingLoader;
 import org.jboss.tools.common.model.util.*;
 import org.jboss.tools.common.xml.*;
-import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class FileAdditionPerformer extends PerformerItem {
@@ -186,7 +185,7 @@ public class FileAdditionPerformer extends PerformerItem {
 		}
 	}
 	
-	private void mergeAttributes(XModelObject object, XModelObject update) {
+	private void mergeAttributes(XModelObject object, XModelObject update) throws XModelException {
 		XAttribute[] as = update.getModelEntity().getAttributes();
 		for (int i = 0; i < as.length; i++) {
 			String xml = as[i].getXMLName();
@@ -197,7 +196,7 @@ public class FileAdditionPerformer extends PerformerItem {
 		}
 	}
 	
-	private void mergeChildren(XModelObject object, XModelObject[] update) {
+	private void mergeChildren(XModelObject object, XModelObject[] update) throws XModelException {
 		for (int i = 0; i < update.length; i++) {
 			String pp = update[i].getPathPart();
 			XModelObject c = object.getChildByPath(pp);

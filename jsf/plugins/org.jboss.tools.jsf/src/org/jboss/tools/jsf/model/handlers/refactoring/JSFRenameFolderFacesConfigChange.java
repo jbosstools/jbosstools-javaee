@@ -19,6 +19,7 @@ import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -97,7 +98,7 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 		return null;
 	}
 	
-	private void performChangeInFile(XModelObject f) {
+	private void performChangeInFile(XModelObject f) throws XModelException {
 		XModelObject[] gs = findGroups(f);
 		if(gs.length == 0) return;
 		JSFProcessHelper h = JSFProcessHelper.getHelper(JSFProcessStructureHelper.instance.getProcess(f));

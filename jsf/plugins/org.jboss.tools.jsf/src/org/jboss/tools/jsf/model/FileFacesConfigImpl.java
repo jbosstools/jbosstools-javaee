@@ -97,7 +97,7 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 		return rule;		
 	}
 
-	protected void mergeAll(XModelObject f, boolean update) {
+	protected void mergeAll(XModelObject f, boolean update) throws XModelException {
 		FacesProcessImpl process = (FacesProcessImpl)provideWebProcess();
 		boolean b = (process != null && process.isPrepared);
 		if(b) process.getHelper().addUpdateLock(this);

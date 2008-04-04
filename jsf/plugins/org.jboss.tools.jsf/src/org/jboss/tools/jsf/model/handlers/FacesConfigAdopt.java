@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model.handlers;
 
 import java.util.Properties;
 import org.jboss.tools.common.meta.XAdoptManager;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 
@@ -24,7 +25,7 @@ public class FacesConfigAdopt implements XAdoptManager {
 		return false;
 	}
 
-	public void adopt(XModelObject target, XModelObject object, Properties p) {
+	public void adopt(XModelObject target, XModelObject object, Properties p) throws XModelException {
 		if(jspAdopt.isAdoptablePage(object)) adoptPage(target, object, p);
 		else if(isAdoptableBundle(object)) adoptBundle(target, object, p);
 	}

@@ -47,7 +47,7 @@ public class JSFWebHelper {
 		return getConfigFilesListAsString(webxml, FACES_CONFIG_DATA);
 	}
 	
-	public static void registerFacesConfig(XModel model, String path) {
+	public static void registerFacesConfig(XModel model, String path) throws XModelException {
 		registerConfigFile(model, path, FACES_CONFIG_DATA);
 	}
 
@@ -55,7 +55,7 @@ public class JSFWebHelper {
 		return isConfigFileRegistered(model, path, FACES_CONFIG_DATA);
 	}
 	
-	public static void unregisterFacesConfig(XModel model, String path) {
+	public static void unregisterFacesConfig(XModel model, String path) throws XModelException {
 		unregisterConfigFile(model, path, FACES_CONFIG_DATA);
 	}
 	
@@ -67,7 +67,7 @@ public class JSFWebHelper {
 		return WebAppHelper.findWebAppContextParam(webxml, name);
 	}
 	
-	public static void registerFacesConfigRename(XModel model, String oldConfigName, String newConfigName, String path) {
+	public static void registerFacesConfigRename(XModel model, String oldConfigName, String newConfigName, String path) throws XModelException {
 		registerConfigFileRename(model, oldConfigName, newConfigName, path, FACES_CONFIG_DATA);
 	}
 	
@@ -144,7 +144,7 @@ public class JSFWebHelper {
 		}
 	}
 
-	public static void registerConfigFile(XModel model, String path, ConfigFilesData data) {
+	public static void registerConfigFile(XModel model, String path, ConfigFilesData data) throws XModelException {
 		XModelObject webxml = getWebConfig(model);
 		if(webxml == null) return;
 		XModelObject p = findInitParam(webxml, data.param);
@@ -188,7 +188,7 @@ public class JSFWebHelper {
 		return false;
 	}
 	
-	public static void unregisterConfigFile(XModel model, String path, ConfigFilesData data) {
+	public static void unregisterConfigFile(XModel model, String path, ConfigFilesData data) throws XModelException {
 		XModelObject webxml = getWebConfig(model);
 		if(webxml == null) return;
 		XModelObject p = findInitParam(webxml, data.param);
@@ -203,7 +203,7 @@ public class JSFWebHelper {
 		model.changeObjectAttribute(p, PARAM_VALUE, sb.toString());
 	}
 
-	public static void registerConfigFileRename(XModel model, String oldConfigName, String newConfigName, String path, ConfigFilesData data) {
+	public static void registerConfigFileRename(XModel model, String oldConfigName, String newConfigName, String path, ConfigFilesData data) throws XModelException {
 		XModelObject webxml = getWebConfig(model);
 		if(webxml == null || "yes".equals(webxml.get("isIncorrect"))) return;
 		XModelObject p = findInitParam(webxml, data.param);

@@ -120,6 +120,9 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		f.setUpdateLock();
 		try {
 			f.edit(body, true);
+		} catch (XModelException e) {
+			//TODO throw XModelException
+			throw new RuntimeException(e);
 		} finally {
 			f.releaseUpdateLock();
 		}

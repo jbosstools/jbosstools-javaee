@@ -88,7 +88,7 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 	}
 	
 	
-	private void renameClass(XModelObject object, String qualifiedName) {		
+	private void renameClass(XModelObject object, String qualifiedName) throws XModelException {		
 		object.getModel().changeObjectAttribute(object, "managed-bean-class", qualifiedName);
 	}
 	
@@ -112,7 +112,11 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 						String className = toElement.getElementName();
 						if(className.endsWith(".java")) className = className.substring(0, className.length() - 5);
 						if(packageName.length() > 0) className = packageName + "." + className;
-						renameClass(object, className);
+						try {
+							renameClass(object, className);
+						} catch (XModelException e) {
+							throw new RuntimeException(e);
+						}
 					}
 				} finally {
 					JavaCore.removeElementChangedListener(this);

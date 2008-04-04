@@ -14,7 +14,9 @@ import java.util.Properties;
 import org.jboss.tools.common.meta.action.SpecialWizard;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.jsf.model.pv.JSFProjectTiles;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
@@ -37,6 +39,16 @@ public class TilesFileRegistration implements SpecialWizard {
 
 	public int execute() {
 		if(webxml == null) return 1;
+		try {
+			return doExecute();
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
+			if(p != null) p.put("exception", e);
+			return 1;
+		}
+	}
+	
+	private int doExecute() throws XModelException {
 		if(test) {
 			return test();
 		} else if(path == null && oldPath != null) {
@@ -52,7 +64,7 @@ public class TilesFileRegistration implements SpecialWizard {
 		return 0;
 	}
 	
-	void append() {
+	void append() throws XModelException {
 		XModelObject context = WebAppHelper.findWebAppContextParam(webxml, JSFProjectTiles.TILES_DEFINITIONS_2);
 		if(context != null) {
 			WebAppHelper.appendToWebAppContextParam(webxml, JSFProjectTiles.TILES_DEFINITIONS_2, path);
@@ -62,7 +74,7 @@ public class TilesFileRegistration implements SpecialWizard {
 		}
 	}
 	
-	void replace() {
+	void replace() throws XModelException {
 		XModelObject context = WebAppHelper.findWebAppContextParam(webxml, JSFProjectTiles.TILES_DEFINITIONS_2);
 		String[] s = null;
 		XModelObject servlet = null;
@@ -99,7 +111,7 @@ public class TilesFileRegistration implements SpecialWizard {
 		p.setProperty("success", "true");
 	}
 	
-	int test() {
+	int test() throws XModelException {
 		if(path == null) return 1;
 		XModelObject context = WebAppHelper.findWebAppContextParam(webxml, JSFProjectTiles.TILES_DEFINITIONS_2);
 		String[] s = null;
@@ -118,7 +130,7 @@ public class TilesFileRegistration implements SpecialWizard {
 		return 1;
 	}
 	
-	void remove() {
+	void remove() throws XModelException {
 		replace();
 	}
 	

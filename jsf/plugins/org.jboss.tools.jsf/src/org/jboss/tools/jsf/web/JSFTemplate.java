@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.web;
 
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.jsf.JSFPreference;
 import org.jboss.tools.jst.web.project.helpers.*;
 import org.jboss.tools.jst.web.project.version.*;
@@ -44,7 +46,11 @@ public class JSFTemplate extends AbstractWebProjectTemplate {
 	}
 
 	public void setDefaultTemplate(String template) {
-		JSFPreference.DEFAULT_JSF_PROJECT_TEMPLATE.setValue(template);
+		try {
+			JSFPreference.DEFAULT_JSF_PROJECT_TEMPLATE.setValue(template);
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 	public String getDefaultPageTemplate() {
@@ -53,7 +59,11 @@ public class JSFTemplate extends AbstractWebProjectTemplate {
 	}
 
 	public void setDefaultPageTemplate(String template) {
-		JSFPreference.DEFAULT_JSF_PAGE_TEMPLATE.setValue(template);
+		try {
+			JSFPreference.DEFAULT_JSF_PAGE_TEMPLATE.setValue(template);
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 	protected String getWizardEntitySuffix() {

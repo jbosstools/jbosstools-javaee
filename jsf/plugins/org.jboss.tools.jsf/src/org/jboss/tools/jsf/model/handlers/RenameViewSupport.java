@@ -110,7 +110,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		return true;
 	}
 	
-	public static void replace(ReferenceGroupImpl group, String oldPath, String newPath) {
+	public static void replace(ReferenceGroupImpl group, String oldPath, String newPath) throws XModelException {
 		String pp = NavigationRuleObjectImpl.toNavigationRulePathPart(newPath);
 		boolean isPattern = JSFProcessHelper.isPattern(newPath);
 		XModel model = group.getModel();
@@ -184,7 +184,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 	 * the item will be extracted from this group and added to the other,
 	 * or new group will be created. 
 	 */	
-	private void extract(String oldPath, String newPath) {
+	private void extract(String oldPath, String newPath) throws XModelException {
 		String pp = NavigationRuleObjectImpl.toNavigationRulePathPart(newPath);
 //		boolean isPattern = JSFProcessHelper.isPattern(newPath);
 		XModel model = group.getModel();
