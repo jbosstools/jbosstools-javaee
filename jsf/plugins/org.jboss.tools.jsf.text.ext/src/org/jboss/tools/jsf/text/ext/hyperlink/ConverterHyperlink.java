@@ -68,8 +68,8 @@ public class ConverterHyperlink extends AbstractHyperlink {
 
 	private IRegion getRegion(int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -129,7 +129,7 @@ public class ConverterHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

@@ -36,24 +36,19 @@ public class ForIDHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-		
-		try {
-			String forID = getForId(region);
-			IRegion elementByID = findElementByID(forID);
-			if (elementByID != null) {
-				StructuredSelectionHelper.setSelectionAndRevealInActiveEditor(elementByID);
-			} else {
-				openFileFailed();
-			}
-		} catch (Exception x) {
+		String forID = getForId(region);
+		IRegion elementByID = findElementByID(forID);
+		if (elementByID != null) {
+			StructuredSelectionHelper.setSelectionAndRevealInActiveEditor(elementByID);
+		} else {
 			openFileFailed();
 		}
 	}
 	
 	private IRegion findElementByID (String id) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
@@ -84,9 +79,6 @@ public class ForIDHyperlink extends AbstractHyperlink {
 					}
 				};
 			}
-			return null;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
 			smw.dispose();
@@ -221,7 +213,7 @@ public class ForIDHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

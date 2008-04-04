@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -37,8 +38,8 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -56,9 +57,6 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -116,7 +114,7 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -130,8 +128,8 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -167,9 +165,6 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 					lbTagBasename.getNodeValue().trim().length() == 0) return false;
 			
 			return true;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return false;
 		} finally {
 			smw.dispose();
 		}

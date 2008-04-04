@@ -39,8 +39,8 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 	protected Properties getRequestProperties(IRegion region) {
 		Properties p = new Properties();
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
@@ -67,8 +67,6 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 					}
 				}
 			}
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
 		} finally {
 			smw.dispose();
 		}
@@ -78,8 +76,8 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 
 	protected IRegion getRegion(final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -114,9 +112,6 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 
 			};
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("Error while getting region", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

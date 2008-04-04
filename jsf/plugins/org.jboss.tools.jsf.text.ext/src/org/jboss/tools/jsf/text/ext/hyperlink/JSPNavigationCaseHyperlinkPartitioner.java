@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
 import org.w3c.dom.Attr;
@@ -35,8 +36,8 @@ public class JSPNavigationCaseHyperlinkPartitioner extends AbstractHyperlinkPart
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -52,9 +53,6 @@ public class JSPNavigationCaseHyperlinkPartitioner extends AbstractHyperlinkPart
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -109,7 +107,7 @@ public class JSPNavigationCaseHyperlinkPartitioner extends AbstractHyperlinkPart
 	
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

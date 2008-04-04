@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
@@ -43,8 +44,8 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -60,9 +61,6 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -73,8 +71,8 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
@@ -82,7 +80,7 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {
@@ -92,8 +90,8 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 
 	protected IRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -134,9 +132,6 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			};
 			
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -39,23 +40,18 @@ public class PropertyHyperlink extends AbstractHyperlink {
 		XModel xModel = getXModel();
 		if (xModel == null) return;
 		
-		try {	
-			String propertyName = getPropertyName(region);
-			String beanClassName = getBeanClassName(region);
+		String propertyName = getPropertyName(region);
+		String beanClassName = getBeanClassName(region);
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
-			Properties p = new Properties();
-			p.setProperty("ignoreWarning", "true");
-			p.setProperty("property", propertyName);
-			beanClassName = beanClassName.replace('.', '/') + ".class";
+		Properties p = new Properties();
+		p.setProperty("ignoreWarning", "true");
+		p.setProperty("property", propertyName);
+		beanClassName = beanClassName.replace('.', '/') + ".class";
 			
-			provider.getList(xModel, WebPromptingProvider.JSF_OPEN_CLASS_PROPERTY, beanClassName, p);
-			String error = p.getProperty(WebPromptingProvider.ERROR); 
-			if ( error != null && error.length() > 0) {
-				openFileFailed();
-			}
-		} catch (Exception x) {
+		provider.getList(xModel, WebPromptingProvider.JSF_OPEN_CLASS_PROPERTY, beanClassName, p);
+		String error = p.getProperty(WebPromptingProvider.ERROR); 
+		if ( error != null && error.length() > 0) {
 			openFileFailed();
 		}
 	}
@@ -64,18 +60,14 @@ public class PropertyHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		try {
-			return getRegion(offset);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
-		}
+		return getRegion(offset);
 	}
 	
 	private String getPropertyName(IRegion region) {
+		if(getDocument() == null || region == null) return null;
 		try {
 			return trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		}
@@ -83,8 +75,8 @@ public class PropertyHyperlink extends AbstractHyperlink {
 	
 	private String getBeanClassName(IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -122,7 +114,7 @@ public class PropertyHyperlink extends AbstractHyperlink {
 			beanClassName = trimQuotes(beanClassName);
 			
 			return (beanClassName.length() == 0 ? null : beanClassName);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -132,8 +124,8 @@ public class PropertyHyperlink extends AbstractHyperlink {
 	
 	private IRegion getRegion (int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -193,7 +185,7 @@ public class PropertyHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -202,29 +194,23 @@ public class PropertyHyperlink extends AbstractHyperlink {
 	}
 
 	private String trimQuotes(String word) {
-		try {
-			String attrText = word;
-			int bStart = 0;
-			int bEnd = word.length() - 1;
-			StringBuffer sb = new StringBuffer(attrText);
-
+		String attrText = word;
+		int bStart = 0;
+		int bEnd = word.length() - 1;
+		StringBuffer sb = new StringBuffer(attrText);
 			//find start and end of path property
-			while (bStart < bEnd && 
-					(sb.charAt(bStart) == '\'' || sb.charAt(bStart) == '\"' ||
-							Character.isWhitespace(sb.charAt(bStart)))) { 
-				bStart++;
-			}
-			while (bEnd > bStart && 
-					(sb.charAt(bEnd) == '\'' || sb.charAt(bEnd) == '\"' ||
-							Character.isWhitespace(sb.charAt(bEnd)))) { 
-				bEnd--;
-			}
-			bEnd++;
-			return sb.substring(bStart, bEnd);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return word;
-		}		
+		while (bStart < bEnd && 
+				(sb.charAt(bStart) == '\'' || sb.charAt(bStart) == '\"' ||
+						Character.isWhitespace(sb.charAt(bStart)))) { 
+			bStart++;
+		}
+		while (bEnd > bStart && 
+				(sb.charAt(bEnd) == '\'' || sb.charAt(bEnd) == '\"' ||
+						Character.isWhitespace(sb.charAt(bEnd)))) { 
+			bEnd--;
+		}
+		bEnd++;
+		return sb.substring(bStart, bEnd);
 	}
 
 }

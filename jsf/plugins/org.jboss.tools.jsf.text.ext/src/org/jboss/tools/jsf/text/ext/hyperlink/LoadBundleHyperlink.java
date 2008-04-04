@@ -22,7 +22,6 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
 /**
@@ -52,8 +51,8 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 	
 	private String getBundleBasename(IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -67,9 +66,6 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 					lbTagBasename.getNodeValue().trim().length() == 0) return null;
 			return lbTagBasename.getNodeValue();
 			
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -80,6 +76,8 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 	private static final String PREFIX_SEPARATOR = ":";
 
 	private String getPageLocale(IRegion region) {
+		if(getDocument() == null || region == null) return null;
+
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			TaglibManagerWrapper tmw = new TaglibManagerWrapper();
@@ -117,9 +115,6 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 			String locale = Utils.trimQuotes(((Attr)jsfCoreViewTag.getAttributeNode(LOCALE_ATTRNAME)).getValue());
 			if (locale == null || locale.length() == 0) return null;
 			return locale;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -34,8 +35,8 @@ public class XMLRenderKitHyperlinkPartitioner extends AbstractHyperlinkPartition
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -51,9 +52,6 @@ public class XMLRenderKitHyperlinkPartitioner extends AbstractHyperlinkPartition
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -61,16 +59,11 @@ public class XMLRenderKitHyperlinkPartitioner extends AbstractHyperlinkPartition
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
-
 			Node n = Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
-			
 			return Utils.getParentAxisForNode(xmlDocument, n);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -116,7 +109,7 @@ public class XMLRenderKitHyperlinkPartitioner extends AbstractHyperlinkPartition
 	
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import java.util.*;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Attr;
@@ -37,6 +38,7 @@ import org.jboss.tools.jst.web.tld.VpeTaglibManagerProvider;
 public class BundleHyperlink extends XModelBasedHyperlink {
 
 	private String getBundleProperty(IRegion region) {
+		if(getDocument() == null) return null;
 		try { 
 			String fullText = getDocument().get(region.getOffset(), region.getLength());
 			
@@ -69,7 +71,7 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 				sProp = Utils.trimQuotes(fullText.substring(startProp, endProp));
 			}
 			return sProp;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		}
@@ -78,8 +80,8 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 	
 	private String getBundleBasename(IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -116,7 +118,7 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			if(list2 == null || list2.size() < 1) return null;
 			Map map = (Map)list2.get(0);
 			return (String)map.get(bundleVar);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -188,9 +190,6 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			String locale = Utils.trimQuotes((jsfCoreViewTag.getAttributeNode(LOCALE_ATTRNAME)).getValue());
 			if (locale == null || locale.length() == 0) return null;
 			return locale;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

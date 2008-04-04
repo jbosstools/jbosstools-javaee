@@ -10,11 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
-import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
@@ -32,26 +32,25 @@ public class ForwardHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-	
-		try {
-			String fileName = getFilePath(region);
-			IFile fileToOpen = getFileToOpen(fileName);
-			if (fileToOpen.exists()) {
-				IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		String fileName = getFilePath(region);
+		IFile fileToOpen = getFileToOpen(fileName);
+		if (fileToOpen.exists()) {
+			IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			try {
 				IDE.openEditor(workbenchPage,fileToOpen,true);
-			} else {
-				throw new FileNotFoundException((fileToOpen == null ? "" : fileToOpen.toString()));
+			} catch (CoreException e) {
+				openFileFailed();
 			}
-		} catch (Exception x) {
-			// could not open editor
+		} else {
 			openFileFailed();
 		}
 	}
 	
 	private String getFilePath(IRegion region) {
+		if(getDocument() == null || region == null) return null;
 		try {
 			return getDocument().get(region.getOffset(), region.getLength());
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -61,29 +60,19 @@ public class ForwardHyperlink extends AbstractHyperlink {
 	private IFile getFileToOpen(String fileName) {
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
-		try {	
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
-			if (xModel != null) {
-				List list = provider.getList(xModel, WebPromptingProvider.JSF_GET_PATH, fileName, null);
-				if (list != null && list.size() > 0) {
-					for (Iterator i = list.iterator(); i.hasNext();) {
-						Object o = i.next();
-						if (o instanceof String) {
-							fileName = (String)o;
-							break;
-						}
+		if (xModel != null) {
+			List<Object> list = WebPromptingProvider.getInstance().getList(xModel, WebPromptingProvider.JSF_GET_PATH, fileName, null);
+			if (list != null && list.size() > 0) {
+				for (Object o: list) {
+					if (o instanceof String) {
+						fileName = (String)o;
+						break;
 					}
 				}
 			}
-			// End of Slava's magic
-			return super.getFileFromProject(fileName);
-
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		}
-
+		// End of Slava's magic
+		return super.getFileFromProject(fileName);
 	}
 	
 

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
@@ -49,8 +50,8 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 			return false;
 
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -61,9 +62,6 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 			Element rootElem = xmlnsAttr.getOwnerElement();
 			if (!rootElem.getNodeName().equals("jsp:root")) return false;
 			return true;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return false;
 		} finally {
 			smw.dispose();
 		}
@@ -84,7 +82,7 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {
@@ -128,9 +126,6 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 				}
 			};
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

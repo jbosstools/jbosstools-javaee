@@ -24,7 +24,6 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 
 /**
  * @author Jeremy
@@ -41,8 +40,8 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -60,9 +59,6 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -78,8 +74,8 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 
 	private IHyperlinkRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -122,9 +118,6 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 				}
 			}
 			return null;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -136,18 +129,16 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+		if(document == null || region == null) return false;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
 			Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
 			return (getRegion(document, region.getOffset()) != null);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return false;
 		} finally {
 			smw.dispose();
 		}

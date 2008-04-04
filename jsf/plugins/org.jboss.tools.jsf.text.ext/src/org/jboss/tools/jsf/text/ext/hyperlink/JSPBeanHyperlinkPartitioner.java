@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -42,8 +43,8 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -62,9 +63,6 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -120,7 +118,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -129,12 +127,14 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	}
 
 	public static IHyperlinkRegion getRegionPart(IDocument document, final int offset) {
+		if(document == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
+
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
-			
+
 			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 
 			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
@@ -142,6 +142,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			int start = Utils.getValueStart(n);
 			int end = Utils.getValueEnd(n);
 			if(start < 0 || start > end || start > offset) return null;
+
 			String attrText = document.get(start, end - start);
 
 			StringBuffer sb = new StringBuffer(attrText);
@@ -172,7 +173,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -225,7 +226,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -238,8 +239,8 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -271,7 +272,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			if (beanName == null) return false;
 			
 			return true;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -27,14 +28,14 @@ public class BeanHyperlink extends AbstractHyperlink {
 	protected void doHyperlink(IRegion region) {
 		XModel xModel = getXModel();
 		if (xModel == null || region == null) return;
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
+		region = JSPBeanHyperlinkPartitioner.getRegionPart(getDocument(), region.getOffset());
 		try {	
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-			region = JSPBeanHyperlinkPartitioner.getRegionPart(getDocument(), region.getOffset());
 			if(region == null) return;
 			String beanName = getDocument().get(region.getOffset(), region.getLength());
 			if(beanName == null) return;
 			provider.getList(xModel, WebPromptingProvider.JSF_BEAN_OPEN, beanName, null);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 		}
 	}

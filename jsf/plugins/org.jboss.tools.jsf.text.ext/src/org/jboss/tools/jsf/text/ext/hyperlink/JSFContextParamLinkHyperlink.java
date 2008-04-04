@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 
 import org.w3c.dom.Document;
@@ -27,8 +28,8 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 public class JSFContextParamLinkHyperlink extends JSFLinkHyperlink {
 	protected IRegion getRegion (int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -99,7 +100,7 @@ public class JSFContextParamLinkHyperlink extends JSFLinkHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

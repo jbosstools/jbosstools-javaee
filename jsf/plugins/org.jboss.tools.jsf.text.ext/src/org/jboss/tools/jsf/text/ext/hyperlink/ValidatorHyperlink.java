@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -35,14 +36,15 @@ public class ValidatorHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
+		if(region == null) return;
 		IFile file = getFile();
 		XModel xModel = getXModel(file);			
 		if (xModel == null) return;
 
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 		try {	
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
 			region = getRegion(region.getOffset());
+			if(region == null) return;
 			String validatorID = getDocument().get(region.getOffset(), region.getLength());
 			Properties p = new Properties();
 			p.put(WebPromptingProvider.FILE, file);
@@ -51,7 +53,7 @@ public class ValidatorHyperlink extends AbstractHyperlink {
 			if ( error != null && error.length() > 0) {
 				openFileFailed();
 			}
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 		}
 	}
@@ -127,7 +129,7 @@ public class ValidatorHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

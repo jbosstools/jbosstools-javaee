@@ -21,7 +21,6 @@ import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 import org.jboss.tools.common.text.ext.hyperlink.LinkHyperlink;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
 /**
@@ -52,14 +51,10 @@ public class JSFLinkHyperlink extends LinkHyperlink {
 	
 	protected IFile getFileFromProject(String fileName) {
 		IFile documentFile = getFile();
+		if(documentFile == null) return null;
 		
-		try {	
-			IProject project = documentFile.getProject();
-			return super.getFileFromProject(updateFilenameForModel(fileName, project));
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
-		}
+		IProject project = documentFile.getProject();
+		return super.getFileFromProject(updateFilenameForModel(fileName, project));
 	}
 	
 }

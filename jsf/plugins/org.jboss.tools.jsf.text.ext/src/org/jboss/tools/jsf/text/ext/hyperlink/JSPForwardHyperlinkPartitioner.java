@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
 import org.w3c.dom.Attr;
@@ -37,8 +38,8 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -54,9 +55,6 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -71,8 +69,8 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 	
 	public static IHyperlinkRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -111,7 +109,7 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 	
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -125,8 +123,8 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -162,9 +160,6 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 					lbTagBasename.getNodeValue().trim().length() == 0) return false;
 			
 			return true;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return false;
 		} finally {
 			smw.dispose();
 		}

@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -28,19 +29,20 @@ public class NavigationCaseHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
+		if(region == null) return;
 		IFile file = getFile();
 		XModel xModel = getXModel(file);
 		if (xModel == null) return;
 		
 		try {	
 			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
 			region = JSPNavigationCaseHyperlinkPartitioner.getRegion(getDocument(), region.getOffset());
+			if(region == null) return;
 			String beanName = getDocument().get(region.getOffset(), region.getLength());
 			Properties p = new Properties();
 			p.put(WebPromptingProvider.FILE, file);
 			provider.getList(xModel, WebPromptingProvider.JSF_OPEN_ACTION, beanName, p);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 		}
 	}

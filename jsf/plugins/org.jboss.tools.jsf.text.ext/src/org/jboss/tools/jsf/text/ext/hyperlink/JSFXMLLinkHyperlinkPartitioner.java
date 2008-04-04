@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 
 import org.jboss.tools.jsf.project.JSFNature;
@@ -43,16 +44,17 @@ public class JSFXMLLinkHyperlinkPartitioner extends XMLLinkHyperlinkPartitioner 
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
+			if(project == null || !project.isAccessible()) return false;
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
 				if (project.getNature(JSF_PROJECT_NATURES[i]) != null) 
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {

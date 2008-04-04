@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 
@@ -54,8 +55,8 @@ public class JsfTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeValue
 			return false;
 
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -67,9 +68,6 @@ public class JsfTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeValue
 			if(propStart < 0) return false;
 
 			return true;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return false;
 		} finally {
 			smw.dispose();
 		}
@@ -80,17 +78,18 @@ public class JsfTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeValue
 	 */
 	protected boolean recognizeNature(IDocument document) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
+			if(project == null || !project.isAccessible()) return false;
 
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
 				if (project.getNature(JSF_PROJECT_NATURES[i]) != null) 
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {
@@ -100,8 +99,8 @@ public class JsfTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeValue
 
 	public IRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -135,9 +134,6 @@ public class JsfTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeValue
 				}
 			};
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

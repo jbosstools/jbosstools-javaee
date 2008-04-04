@@ -12,6 +12,8 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
 import org.w3c.dom.Document;
@@ -49,17 +51,18 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 	 */
 	protected boolean recognizeNature(IDocument document) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
+			if(project == null || !project.isAccessible()) return false;
 
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
 				if (project.getNature(JSF_PROJECT_NATURES[i]) != null) 
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {
@@ -81,8 +84,8 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 			return false;
 		
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -111,7 +114,6 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 			if (paramNameNode == null) return false;
 			
 			String paramNameValue = null;
-			try {
 				NodeList list = paramNameNode.getChildNodes();
 				for (int i = 0; paramNameValue == null && list != null && i < list.getLength(); i++) {
 					if (list.item(i) instanceof Text) {
@@ -126,17 +128,13 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 						}
 					}
 				}
-			} 
-			catch (Exception x) {
-				JSFExtensionsPlugin.log("", x);
-			}
 			if (paramNameValue == null) return false;
 			for (int i = 0; i < VALID_CONTEXT_PARAM_NAMES.length; i++) {
 				if (VALID_CONTEXT_PARAM_NAMES[i].equals(paramNameValue)) 
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {

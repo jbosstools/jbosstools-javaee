@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -42,23 +42,17 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
 		if (xModel == null) return;
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 		
-		try {	
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
-			Properties p = getRequestProperties(region);
-			p.put(WebPromptingProvider.FILE, documentFile);
-
-			List list = provider.getList(xModel, WebPromptingProvider.JSF_OPEN_TAG_LIBRARY, p.getProperty("prefix"), p);
-			if (list != null && list.size() >= 1) {
-				openFileInEditor((String)list.get(0));
-				return;
-			}
-			String error = p.getProperty(WebPromptingProvider.ERROR); 
-			if ( error != null && error.length() > 0) {
-				openFileFailed();
-			}
-		} catch (Exception x) {
+		Properties p = getRequestProperties(region);
+		p.put(WebPromptingProvider.FILE, documentFile);
+		List<Object> list = provider.getList(xModel, WebPromptingProvider.JSF_OPEN_TAG_LIBRARY, p.getProperty("prefix"), p);
+		if (list != null && list.size() >= 1) {
+			openFileInEditor((String)list.get(0));
+			return;
+		}
+		String error = p.getProperty(WebPromptingProvider.ERROR); 
+		if ( error != null && error.length() > 0) {
 			openFileFailed();
 		}
 	}
@@ -85,8 +79,8 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 	
 	private String getURI(IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
@@ -111,18 +105,16 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 			if (!tmw.exists()) return null;
 			
 			return tmw.getUri(nodePrefix);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("Error while getting uri from region", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
 	}
 	
 	private String getTagName(IRegion region) {
+		if(region == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -139,9 +131,6 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 			if (tagName.indexOf(':') == -1) return null;
 			
 			return tagName.substring(tagName.indexOf(':') + 1);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -151,18 +140,14 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		try {
-			return getRegion(offset);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
-		}
+		return getRegion(offset);
 	}
 	
 	private String getTagAttributeName(IRegion region) {
+		if(region == null || getDocument() == null) return null;
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		}
@@ -171,8 +156,8 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 	
 	protected IRegion getRegion (int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -232,7 +217,7 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {
@@ -240,14 +225,4 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 		}
 	}
 	
-	protected String getAttributeValue (IDocument document, Node node, String attrName) {
-		try {
-			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
-			return Utils.getTrimmedValue(document, attr);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
-		}
-	}
-
 }

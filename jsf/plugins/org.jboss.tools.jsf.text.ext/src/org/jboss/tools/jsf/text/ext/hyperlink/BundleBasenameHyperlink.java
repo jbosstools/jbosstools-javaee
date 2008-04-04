@@ -12,9 +12,11 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
@@ -39,17 +41,17 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 			IFile fileToOpen = getFileToOpen(fileName, "properties");
 			IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			IDE.openEditor(workbenchPage,fileToOpen,true);
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			// could not open editor
 			openFileFailed();
 		}
 	}
 	
 	private String getBundleBasename(IRegion region) {
-		if(region == null) return null;
+		if(region == null || getDocument() == null) return null;
 		try {
 			return getDocument().get(region.getOffset(), region.getLength());
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		}
@@ -72,7 +74,7 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 				if(file != null && file.exists()) return file;
 			}
 			return null;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		}
@@ -83,18 +85,13 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		try {
-			return getRegion(offset);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
-		}
+		return getRegion(offset);
 	}
 
 	private IRegion getRegion(int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -154,7 +151,7 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

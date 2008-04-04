@@ -12,6 +12,8 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
@@ -45,12 +47,12 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-				Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
+			Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
 			IRegion r = getRegion(document, superRegion.getOffset());
 			if (r == null) return null;
 			
@@ -62,9 +64,6 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -81,11 +80,12 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 			IProject project = documentFile.getProject();
 
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
+				if(!project.isAccessible()) return false;
 				if (project.getNature(JSF_PROJECT_NATURES[i]) != null) 
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {
@@ -95,8 +95,8 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 
 	protected IRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -159,7 +159,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 				}
 			};
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
 		} finally {

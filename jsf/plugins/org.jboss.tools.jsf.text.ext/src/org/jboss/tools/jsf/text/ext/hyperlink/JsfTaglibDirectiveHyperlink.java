@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import java.util.Properties;
 
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -21,7 +20,6 @@ import org.w3c.dom.Node;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
 /**
@@ -37,8 +35,8 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 	protected Properties getRequestProperties(IRegion region) {
 		Properties p = new Properties();
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -49,12 +47,10 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 			
 			Node node = n;
 			
-			String uri = getAttributeValue(getDocument(), node, "uri");
+			String uri = Utils.getAttributeValue(getDocument(), node, "uri");
 			if (uri != null) {
 				p.setProperty("prefix", uri);
 			}
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
 		} finally {
 			smw.dispose();
 		}
@@ -62,20 +58,10 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 		return p;
 	}
 
-	private String getAttributeValue (IDocument document, Node node, String attrName) {
-		try {
-			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
-			return Utils.getTrimmedValue(document, attr);
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
-		}
-	}
-
 	protected IRegion getRegion(final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -112,9 +98,6 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 				}
 			};
 			return region;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
