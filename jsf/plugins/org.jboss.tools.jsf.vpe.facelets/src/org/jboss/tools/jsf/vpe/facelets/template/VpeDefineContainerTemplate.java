@@ -33,6 +33,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeCreatorUtil;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
+import org.jboss.tools.vpe.editor.util.FileUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMAttr;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -296,12 +297,29 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		
 	}
 	
+	@Override
+	public void openIncludeEditor(VpePageContext pageContext,
+			Element sourceElement, Object data) {
+
+		if (data instanceof TemplateFileInfo) {
+			FileUtil.openEditor(((TemplateFileInfo) data).getTemplateFile());
+		}
+	}
+	
 	protected abstract VpeCreationData createStub(String fileName, Node sourceElement, nsIDOMDocument visualDocument);
 
 	static class TemplateFileInfo {
-		IFile templateFile;
+		private IFile templateFile;
 		
 		TemplateFileInfo(IFile templateFile) {
+			this.templateFile = templateFile;
+		}
+
+		public IFile getTemplateFile() {
+			return templateFile;
+		}
+
+		public void setTemplateFile(IFile templateFile) {
 			this.templateFile = templateFile;
 		}
 	}
