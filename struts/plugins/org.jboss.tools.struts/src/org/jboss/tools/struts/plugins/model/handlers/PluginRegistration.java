@@ -16,6 +16,7 @@ import org.jboss.tools.common.meta.action.SpecialWizard;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.struts.webprj.model.helpers.WebModulesHelper;
@@ -41,6 +42,15 @@ public abstract class PluginRegistration implements SpecialWizard {
 
 	public int execute() {
 		if(cfg == null) return 1;
+		try {
+			return doExecute();
+		} catch (XModelException e) {
+			if(p != null) p.put("exception", e);
+			return 1;
+		}
+	}
+	
+	private int doExecute() throws XModelException {
 		if(test) {
 			return test();
 		} else if(path == null && oldPath != null) {
@@ -56,16 +66,16 @@ public abstract class PluginRegistration implements SpecialWizard {
 		return 0;
 	}
 	
-	void append() {
+	void append() throws XModelException {
 		XModelObject plugin = getPlugin(true);
 		XModelObject property = getSetProperty(plugin, true);
 		addPathIfNeeded(property, path);
 	}
 	
-	protected void modifyProperties(XModelObject plugin) {
+	protected void modifyProperties(XModelObject plugin) throws XModelException {
 	}
 	
-	void replace() {
+	void replace() throws XModelException {
 		boolean isDefault = isOldNameDefault();
 		XModelObject plugin = getPlugin(isDefault);
 		if(plugin == null) return;
@@ -73,14 +83,14 @@ public abstract class PluginRegistration implements SpecialWizard {
 		replacePath(property);
 	}
 	
-	void remove() {
+	void remove() throws XModelException {
 		XModelObject plugin = getPlugin(false);
 		if(plugin == null) return;
 		XModelObject property = getSetProperty(plugin, false);
 		replacePath(property);
 	}
 
-	private XModelObject getPlugin(boolean create) {
+	private XModelObject getPlugin(boolean create) throws XModelException {
 		XModelObject plugins = cfg.getChildByPath("plug-ins");
 		XModelObject[] os = plugins.getChildren();
 		for (int i = 0; i < os.length; i++) {
@@ -94,11 +104,11 @@ public abstract class PluginRegistration implements SpecialWizard {
 		return plugin;
 	}
 	
-	private XModelObject getSetProperty(XModelObject plugin, boolean create) {
+	private XModelObject getSetProperty(XModelObject plugin, boolean create) throws XModelException {
 		return getSetProperty(plugin, getSetPropertyName(), create, getDefaultSetPropertyValue());
 	}
 	
-	protected XModelObject getSetProperty(XModelObject plugin, String name, boolean create, String value) {
+	protected XModelObject getSetProperty(XModelObject plugin, String name, boolean create, String value) throws XModelException {
 		XModelObject[] ps = plugin.getChildren();
 		for (int i = 0; i < ps.length; i++) {
 			if(name.equals(ps[i].getAttributeValue("property"))) {
@@ -113,7 +123,7 @@ public abstract class PluginRegistration implements SpecialWizard {
 		return property;
 	}
 	
-	private void addPathIfNeeded(XModelObject property, String path) {
+	private void addPathIfNeeded(XModelObject property, String path) throws XModelException {
 		String value = property.getAttributeValue("value");
 		String[] array = XModelObjectUtil.asStringArray(value);
 		StringBuffer sb = new StringBuffer();
@@ -128,7 +138,7 @@ public abstract class PluginRegistration implements SpecialWizard {
 		property.getModel().changeObjectAttribute(property, "value", value);
 	}
 	
-	private void replacePath(XModelObject property) {
+	private void replacePath(XModelObject property) throws XModelException {
 		String value = property.getAttributeValue("value");
 		String[] s = XModelObjectUtil.asStringArray(value);
 		StringBuffer sb = new StringBuffer();
@@ -154,7 +164,7 @@ public abstract class PluginRegistration implements SpecialWizard {
 		property.getModel().changeObjectAttribute(property, "value", value);
 	}
 	
-	int test() {
+	int test() throws XModelException {
 		if(path == null) return 1;
 		XModelObject plugin = getPlugin(false);
 		if(plugin == null) return 1;

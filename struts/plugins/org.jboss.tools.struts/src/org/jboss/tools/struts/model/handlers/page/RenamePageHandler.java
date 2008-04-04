@@ -85,7 +85,7 @@ public class RenamePageHandler extends DefaultEditHandler {
     	return null;
     }
     
-    public static void changeMatchingAttributesInHierarhy(XModelObject object, String oldpath, String newpath) {
+    public static void changeMatchingAttributesInHierarhy(XModelObject object, String oldpath, String newpath) throws XModelException {
     	RenamePageHandler.changeMatchingAttributes(object, oldpath, newpath);
     	XModelObject[] os = object.getChildrenForSave();
     	for (int i = 0; i < os.length; i++) {
@@ -96,7 +96,7 @@ public class RenamePageHandler extends DefaultEditHandler {
     
 	static String[] PATH_ATTRIBUTES = new String[]{"path", "include", "forward", "input"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     
-	public static void changeMatchingAttributes(XModelObject ref, String oldpath, String path) {
+	public static void changeMatchingAttributes(XModelObject ref, String oldpath, String path) throws XModelException {
 		for (int i = 0; i < PATH_ATTRIBUTES.length; i++) {
 			if(oldpath.equals(ref.getAttributeValue(PATH_ATTRIBUTES[i]))) {
 				ref.getModel().changeObjectAttribute(ref, PATH_ATTRIBUTES[i], path); 

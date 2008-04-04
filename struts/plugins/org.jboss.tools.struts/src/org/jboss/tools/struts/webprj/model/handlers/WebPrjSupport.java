@@ -13,6 +13,7 @@ import org.jboss.tools.common.meta.action.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.*;
 import org.jboss.tools.common.model.*;
+
 import java.util.*;
 
 /**
@@ -90,7 +91,7 @@ public abstract class WebPrjSupport extends SpecialWizardSupport {
         c.setValues(vs);
     }
     
-    protected void changeAttributeValue(XModelObject object, String name, String value) {
+    protected void changeAttributeValue(XModelObject object, String name, String value) throws XModelException {
         object.getModel().changeObjectAttribute(object, name, value);
     }
     

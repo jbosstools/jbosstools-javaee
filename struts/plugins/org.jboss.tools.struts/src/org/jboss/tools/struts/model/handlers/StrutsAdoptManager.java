@@ -26,7 +26,7 @@ public class StrutsAdoptManager implements XAdoptManager, StrutsConstants {
     /** Creates a new instance of StrutsAdoptManager */
     public StrutsAdoptManager() {}
 
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         if(isAdoptableJSP(target, object)) {
             adoptJSP(target, object, p);
         } else if(isAdoptableProcessItem(target, object)) {

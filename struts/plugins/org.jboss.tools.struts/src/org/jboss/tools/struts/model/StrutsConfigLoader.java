@@ -17,6 +17,7 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.*;
 import org.jboss.tools.common.model.filesystems.impl.*;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.*;
 
 import java.io.*;
@@ -142,6 +143,8 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 		f.setUpdateLock();
 		try {
 			f.edit(body, true);
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
 		} finally {
 			f.releaseUpdateLock();
 		}

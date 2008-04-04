@@ -12,6 +12,7 @@ package org.jboss.tools.struts.webprj.model.helpers.sync;
 
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
@@ -22,27 +23,27 @@ public class StrutsWebHelper {
     	return WebAppHelper.findServlet(webxml, ACTION_SERVLET, "action");
     }
 
-    public static XModelObject getServlet(XModelObject webxml) {
+    public static XModelObject getServlet(XModelObject webxml) throws XModelException {
     	return WebAppHelper.findOrCreateServlet(webxml, ACTION_SERVLET, "action", -1);
     }
 
-    public static void revalidateInitParam(XModelObject servlet, String modulename, String uri) {
+    public static void revalidateInitParam(XModelObject servlet, String modulename, String uri) throws XModelException {
     	WebAppHelper.setWebAppInitParam(servlet, "config" + modulename, uri);
     }
 
-    public static void revalidateInitParam(XModel model, String modulename, String uri) {
+    public static void revalidateInitParam(XModel model, String modulename, String uri) throws XModelException {
         XModelObject webxml = WebAppHelper.getWebApp(model);
         if(webxml == null) return;
         XModelObject servlet = getServlet(webxml);
         if(servlet != null) revalidateInitParam(servlet, modulename, uri);
     }
 
-	public static String registerConfig(XModelObject servlet, String modulename, String uri) {
+	public static String registerConfig(XModelObject servlet, String modulename, String uri) throws XModelException {
 		XModelObject init = WebAppHelper.appendToWebAppInitParam(servlet, "config" + modulename, uri);
 		return init == null ? "" : init.getAttributeValue("param-value");
 	}
 
-	public static String registerConfig(XModel model, String modulename, String uri) {
+	public static String registerConfig(XModel model, String modulename, String uri) throws XModelException {
 		XModelObject webxml = WebAppHelper.getWebApp(model);
 		if(webxml == null) return null;
 		XModelObject servlet = getServlet(webxml);
@@ -65,7 +66,7 @@ public class StrutsWebHelper {
 		return false;
 	}
 	
-	public static void unregisterConfig(XModel model, String uri) {
+	public static void unregisterConfig(XModel model, String uri) throws XModelException {
 		XModelObject webxml = WebAppHelper.getWebApp(model);
 		XModelObject servlet = WebAppHelper.findServlet(webxml, ACTION_SERVLET, "action");
 		if(servlet == null) return;

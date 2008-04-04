@@ -34,7 +34,7 @@ public class FormsetAdopt implements XAdoptManager {
         return entity.startsWith(StrutsConstants.ENT_ACTION);
     }
 
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
     	String entity = XModelEntityResolver.resolveEntity(target, ValidatorConstants.ENT_FORM);
         XModelObject o = object.getModel().createModelObject(entity, null);
         String attr = (isAction(object.getModelEntity().getName())) ? "path" : "name";

@@ -148,7 +148,7 @@ public class WebModulesHelper implements WebModuleConstants {
         }
     }
 
-    public XModelObject setModule(XModel model, String oldname, String name, String modelpath, String rootfilesystem) {
+    public XModelObject setModule(XModel model, String oldname, String name, String modelpath, String rootfilesystem) throws XModelException {
         XModelObject web = model.getByPath("Web");
         XModelObject module = (oldname == null || oldname.length() == 0) ? null : web.getChildByPath(oldname);
         if(module == null) module = web.getChildByPath(name);

@@ -138,7 +138,7 @@ public class StrutsPasteHandler extends PasteHandler {
     static String ENT_ACTION_11 = StrutsConstants.ENT_ACTION + StrutsConstants.VER_SUFFIX_11;
     static String ENT_ACTION_12 = StrutsConstants.ENT_ACTION + StrutsConstants.VER_SUFFIX_12;
 
-    protected boolean insertReference(XModelObject parent, String entity, XModelObject o, Properties p) {
+    protected boolean insertReference(XModelObject parent, String entity, XModelObject o, Properties p) throws XModelException {
         if((!entity.equals(ENT_ACTION_11) && !entity.equals(ENT_ACTION_12))
            || o.getParent() == parent) return false;
         XModelObject process = StrutsProcessStructureHelper.instance.getProcess(parent);

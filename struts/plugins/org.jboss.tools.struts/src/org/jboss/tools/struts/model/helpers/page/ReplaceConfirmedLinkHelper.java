@@ -24,7 +24,7 @@ public class ReplaceConfirmedLinkHelper implements StrutsConstants {
 
     public ReplaceConfirmedLinkHelper() {}
 
-    public boolean replace(XModelObject link, String newpath, String attr) {
+    public boolean replace(XModelObject link, String newpath, String attr) throws XModelException {
     	UrlPattern up = StrutsProcessStructureHelper.instance.getUrlPattern(link);
         String jsppath = link.getParent().getAttributeValue(ATT_PATH);
         XModelObject jsp = StrutsProcessStructureHelper.instance.findReferencedJSPInCurrentModule(link.getParent());

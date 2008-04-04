@@ -23,7 +23,7 @@ public class JSPAdopt implements XAdoptManager {
         return isAdoptableAction(object);
     }
 
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         if(isAdoptableAction(object)) adoptAction(target, object, p);
     }
 

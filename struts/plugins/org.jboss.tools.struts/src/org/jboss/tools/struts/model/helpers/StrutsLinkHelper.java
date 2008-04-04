@@ -79,7 +79,7 @@ public class StrutsLinkHelper implements StrutsConstants {
         return LINK_TYPES[targetType][objectType] != U_K;
     }
 
-    public void link(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void link(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         if (target == null || object == null) return;
         XModelObject config = getConfig(target, object);
         if (config == null) return;
@@ -147,7 +147,7 @@ public class StrutsLinkHelper implements StrutsConstants {
         }
     }
     
-    private void redirect_link(XModelObject object, String target, String path, String attr) {
+    private void redirect_link(XModelObject object, String target, String path, String attr) throws XModelException {
         XUndoManager undo = object.getModel().getUndoManager();
         XTransactionUndo u = new XTransactionUndo("redirect " + DefaultCreateHandler.title(object, false), XTransactionUndo.EDIT); //$NON-NLS-1$
         undo.addUndoable(u);
@@ -172,7 +172,7 @@ public class StrutsLinkHelper implements StrutsConstants {
         }
     }
 
-    private void redirect(XModelObject object, String target, String path) {
+    private void redirect(XModelObject object, String target, String path) throws XModelException {
         XUndoManager undo = object.getModel().getUndoManager();
         XTransactionUndo u = new XTransactionUndo("redirect " + DefaultCreateHandler.title(object, false), XTransactionUndo.EDIT); //$NON-NLS-1$
         undo.addUndoable(u);
@@ -198,7 +198,7 @@ public class StrutsLinkHelper implements StrutsConstants {
         }
     }
 
-    private XModelObject createLink(XModelObject page, String target, String path) {
+    private XModelObject createLink(XModelObject page, String target, String path) throws XModelException {
         XModelObject link = findDuplicateLink(page, target, path);
         if(link != null) return link;
         String name = StrutsProcessHelper.createName(page, "link"); //$NON-NLS-1$
@@ -218,7 +218,7 @@ public class StrutsLinkHelper implements StrutsConstants {
         return link;
     }
 
-    private XModelObject createForward(XModelObject action, String path) {
+    private XModelObject createForward(XModelObject action, String path) throws XModelException {
         String name = path.substring(path.lastIndexOf('/')+1);
         int dot = name.indexOf('.');
         if (dot != -1) name = name.substring(0, dot);
@@ -302,7 +302,7 @@ public class StrutsLinkHelper implements StrutsConstants {
         return config;
     }
 
-    private XModelObject findDuplicateLink(XModelObject object, String target, String path) {
+    private XModelObject findDuplicateLink(XModelObject object, String target, String path) throws XModelException {
         if(!TYPE_PAGE.equals(object.getAttributeValue("type"))) return null; //$NON-NLS-1$
         XModelObject[] cs = object.getChildren();
         for (int i = 0; i < cs.length; i++) {

@@ -25,7 +25,7 @@ import org.jboss.tools.struts.model.helpers.*;
 
 public class SetupModuleHandler implements StrutsConstants {
 
-    public static void setupModule(XModelObject object, String module, String fsname) {
+    public static void setupModule(XModelObject object, String module, String fsname) throws XModelException {
         XModel model = object.getModel();
         if (module.length() > 0 && module.charAt(0) != '/') {
             throw new RuntimeException(StrutsUIMessages.MODULE_NAME);
@@ -122,7 +122,7 @@ public class SetupModuleHandler implements StrutsConstants {
         return s;
     }
 
-    private static XModelObject createFileSystem(XModelObject webroot, String module) {
+    private static XModelObject createFileSystem(XModelObject webroot, String module) throws XModelException {
         XModel model = webroot.getModel();
         String mn = module;
         if(mn.startsWith("/")) mn = mn.substring(1);
@@ -143,7 +143,7 @@ public class SetupModuleHandler implements StrutsConstants {
         return fs;
     }
     
-    private static XModelObject createFolder(XModelObject parent, String path) {
+    private static XModelObject createFolder(XModelObject parent, String path) throws XModelException {
     	int i = path.indexOf('/');
     	String part = (i < 0) ? path : path.substring(0, i);
 		XModelObject folder = parent.getChildByPath(part);

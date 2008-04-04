@@ -55,7 +55,7 @@ public class RenameStrutsConfigHandler extends DefaultEditHandler {
 		}
 	}
 	
-	private void renameConfigInWebXML(XModel model, String module, String oldURI, String newURI) {
+	private void renameConfigInWebXML(XModel model, String module, String oldURI, String newURI) throws XModelException {
 		XModelObject webxml = WebAppHelper.getWebApp(model);
 		if(webxml == null) return;
 		XModelObject servlet = StrutsWebHelper.findServlet(webxml);

@@ -8,6 +8,7 @@ package org.jboss.tools.struts.model.handlers;
 
 import org.jboss.tools.struts.model.helpers.*;
 import org.jboss.tools.common.meta.XAdoptManager;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 
 /**
@@ -22,7 +23,7 @@ public class StrutsLinkManager implements XAdoptManager {
     public StrutsLinkManager() {
     }
     
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         helper.link(target, object, p);
     }
     

@@ -24,7 +24,7 @@ public class MessageResourcesFolderAdopt implements XAdoptManager {
         return object != null && "FilePROPERTIES".equals(object.getModelEntity().getName());
     }
 
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         String path = XModelObjectLoaderUtil.getResourcePath(object);
         String ext = ".properties";
         if(path == null || !path.toLowerCase().endsWith(ext) || !path.startsWith("/")) return;

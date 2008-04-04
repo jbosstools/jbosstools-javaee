@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.plugins.model.handlers;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 
 public class TilesFileRegistration extends PluginRegistration {
@@ -22,11 +23,11 @@ public class TilesFileRegistration extends PluginRegistration {
 		return "definitions-config";
 	}
 	
-	protected void modifyProperties(XModelObject plugin) {
+	protected void modifyProperties(XModelObject plugin) throws XModelException {
 		setModuleAwareIfNeeded(plugin);
 	}
 	
-	private void setModuleAwareIfNeeded(XModelObject plugin) {
+	private void setModuleAwareIfNeeded(XModelObject plugin) throws XModelException {
 		XModelObject property = getSetProperty(plugin, "moduleAware", true, null);
 		String value = property.getAttributeValue("value");
 		if(value.length() == 0) {

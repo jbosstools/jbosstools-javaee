@@ -84,7 +84,7 @@ public class LinkRecognizer {
 		links.update(object);
 	}
 	
-	public void restoreDefaults(XModelObject object) {
+	public void restoreDefaults(XModelObject object) throws XModelException {
 		EnginesLoader.merge(object, load(getDefaultValue()));
 	}
 	

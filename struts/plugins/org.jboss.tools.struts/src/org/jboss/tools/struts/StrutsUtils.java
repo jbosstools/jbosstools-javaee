@@ -13,6 +13,7 @@ package org.jboss.tools.struts;
 import java.io.File;
 import java.util.*;
 import org.jboss.tools.common.meta.XAttribute;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.jst.web.project.helpers.*;
@@ -86,7 +87,11 @@ public class StrutsUtils extends AbstractWebProjectTemplate {
 	}
 
 	public void setDefaultTemplate(String template) {
-		StrutsPreference.DEFAULT_PROJECT_TEMPLATE.setValue(template);
+		try {
+			StrutsPreference.DEFAULT_PROJECT_TEMPLATE.setValue(template);
+		} catch (XModelException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	public String getDefaultPageTemplate() {
@@ -95,7 +100,11 @@ public class StrutsUtils extends AbstractWebProjectTemplate {
 	}
 
 	public void setDefaultPageTemplate(String template) {
-		StrutsPreference.DEFAULT_PAGE_TEMPLATE.setValue(template);
+		try {
+			StrutsPreference.DEFAULT_PAGE_TEMPLATE.setValue(template);
+		} catch (XModelException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	protected String getWizardEntitySuffix() {

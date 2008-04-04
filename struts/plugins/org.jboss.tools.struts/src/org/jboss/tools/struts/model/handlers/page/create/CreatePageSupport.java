@@ -222,7 +222,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         createPage(getTarget(), fullpath, getProperties());
     }
 
-    public static XModelObject createPage(XModelObject process, String path, Properties p) {
+    public static XModelObject createPage(XModelObject process, String path, Properties p) throws XModelException {
         XModelObject item = StrutsProcessHelper.createPage(process, path);
         String x = (p == null) ? null : p.getProperty("process.mouse.x");
         String y = (p == null) ? null : p.getProperty("process.mouse.y");
@@ -257,7 +257,7 @@ public class CreatePageSupport extends SpecialWizardSupport {
         createFile(fs, path, body);
     }
 
-    public static void createFile(XModelObject fs, String path, String body) {
+    public static void createFile(XModelObject fs, String path, String body) throws XModelException {
         StringTokenizer st = new StringTokenizer(path, "/");
         int c = st.countTokens(), i = 0;
         while(i < c - 1) {

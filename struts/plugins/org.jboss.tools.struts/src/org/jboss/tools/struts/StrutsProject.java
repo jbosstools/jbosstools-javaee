@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.osgi.framework.Bundle;
 
 import org.jboss.tools.common.model.XModelConstants;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.project.ModelNature;
@@ -54,10 +55,14 @@ public class StrutsProject extends ModelNature implements IProjectNature {
 		if (obsoleteVersion) {
 			Bundle bundle = ModelPlugin.getDefault().getBundle();
 			String version = (String) bundle.getHeaders().get(org.osgi.framework.Constants.BUNDLE_VERSION);
+		try {
 			model.changeObjectAttribute(
 				FileSystemsHelper.getFileSystems(model),
 				XModelConstants.MODEL_VERSION, version
 			);
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
+		}
 			model.save();
 		}
 	}

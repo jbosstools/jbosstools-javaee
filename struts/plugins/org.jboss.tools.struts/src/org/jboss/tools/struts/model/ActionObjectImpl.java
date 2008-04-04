@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.model;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.impl.*;
 
@@ -31,7 +32,7 @@ public class ActionObjectImpl extends OrderedObjectImpl {
         return new OrderedByEntityChildren();
     }
 
-	protected void onAttributeValueEdit(String name, String oldValue, String newValue) {
+	protected void onAttributeValueEdit(String name, String oldValue, String newValue) throws XModelException {
 		if("unknown".equals(name) && "true".equals(newValue)) {
 			if(!isActive()) return;
 			XModelObject[] s = getParent().getChildren(getModelEntity().getName());

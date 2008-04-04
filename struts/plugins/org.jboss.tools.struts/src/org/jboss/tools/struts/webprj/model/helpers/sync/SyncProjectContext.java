@@ -503,7 +503,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         revalidateSrcFileSystem(m);
     }
 
-    private XModelObject createFileSystem(String name, String location, String info) {
+    private XModelObject createFileSystem(String name, String location, String info) throws XModelException {
         XModelObject fs = model.createModelObject("FileSystemFolder", null); //$NON-NLS-1$
         fs.setAttributeValue("name", name); //$NON-NLS-1$
         fs.setAttributeValue("location", location); //$NON-NLS-1$
@@ -513,7 +513,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         return fs;
     }
 
-    private XModelObject adoptOrCreateFileSystem(String name, String location, String info) {
+    private XModelObject adoptOrCreateFileSystem(String name, String location, String info) throws XModelException {
         XModelObject fs = model.getByPath("FileSystems/" + name); //$NON-NLS-1$
         if(fs != null && location.equals(fs.getAttributeValue("location"))) { //$NON-NLS-1$
             if(info != null) model.changeObjectAttribute(fs, "info", info); //$NON-NLS-1$
@@ -544,7 +544,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         m.getModel().changeObjectAttribute(m, ATTR_ROOT_FS, fs.getAttributeValue("name")); //$NON-NLS-1$
     }
 
-    private XModelObject revalidateModuleFileSystem(String name, String location, String info) {
+    private XModelObject revalidateModuleFileSystem(String name, String location, String info) throws XModelException {
         XModelObject fs = (XModelObject)oldFileSystems.get(location);
         if(fs != null && name.equals(fs.getAttributeValue("name"))) { //$NON-NLS-1$
             if(info != null) model.changeObjectAttribute(fs, "info", info); //$NON-NLS-1$
@@ -597,7 +597,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         m.getModel().changeObjectAttribute(m, ATTR_SRC_FS, fs.getAttributeValue("name")); //$NON-NLS-1$
     }
 
-    private XModelObject revalidateSrcFileSystem(String name, String location, String info) {
+    private XModelObject revalidateSrcFileSystem(String name, String location, String info) throws XModelException {
         XModelObject fs = (XModelObject)oldFileSystems.remove(location);
         if(fs != null) {
             newFileSystems.put(location, fs);

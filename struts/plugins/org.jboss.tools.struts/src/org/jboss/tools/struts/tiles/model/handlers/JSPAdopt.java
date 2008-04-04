@@ -22,7 +22,7 @@ public class JSPAdopt implements XAdoptManager {
         return isAdoptableTag(target, object);
     }
 
-    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) {
+    public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
         if(isAdoptableTag(target, object)) adoptTag(target, object, p);
     }
 
