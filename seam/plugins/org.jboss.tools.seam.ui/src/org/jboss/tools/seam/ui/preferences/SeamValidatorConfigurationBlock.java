@@ -35,7 +35,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 
 /**
  * Find in SeamPreferences the instruction to Framework for Severity preferences
@@ -129,6 +128,13 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		}
 	);
 
+	private static SectionDescription SECTION_SETTINGS = new SectionDescription(
+		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_settings,
+		new String[][]{
+			{SeamPreferences.INVALID_PROJECT_SETTINGS, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_invalidSeamProjectSettings_label}
+		}
+	);
+
 	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_COMPONENT,
 		SECTION_ENTITY,
@@ -136,7 +142,8 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 		SECTION_FACTORY,
 		SECTION_BIJECTION, 
 		SECTION_VARIABLE,
-		SECTION_EL
+		SECTION_EL,
+		SECTION_SETTINGS
 	};
 
 	private static final String ERROR = SeamPreferences.ERROR;

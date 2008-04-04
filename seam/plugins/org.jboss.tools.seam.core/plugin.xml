@@ -273,7 +273,7 @@
 		</validator>
 	</extension>
 
-   <extension
+   <!--extension
         point="org.eclipse.wst.validation.validator"
 		id="SeamProjectPropertyValidator"
 		name="Seam Project Property Validator">
@@ -281,18 +281,29 @@
 			<filter objectClass="org.eclipse.core.resources.IFolder" nameFilter="*"/>
 			<filter objectClass="org.eclipse.core.resources.IProject" nameFilter="*"/>
 			<helper	class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper"/>
-			<markerId markerIdValue="seamProblem"/>
+			<markerId markerIdValue="seamProjectProblem"/>
 			<run
          		class="org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator"
          		incremental="true"
          		fullBuild="true"
          	/>
 		</validator>
-	</extension>
+	</extension-->
 
    <extension
          id="seamProblem"
          name="Seam Problem"
+         point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.wst.validation.problemmarker"/>
+		<attribute name="kind"/>
+      	<persistent
+            value="true">
+      	</persistent>
+   </extension>
+
+   <extension
+         id="seamProjectProblem"
+         name="Seam Project Problem"
          point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.wst.validation.problemmarker"/>
 		<attribute name="kind"/>

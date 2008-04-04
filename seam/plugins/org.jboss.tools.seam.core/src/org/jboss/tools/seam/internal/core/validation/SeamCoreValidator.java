@@ -103,7 +103,7 @@ public class SeamCoreValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#isEnabled()
 	 */
 	public boolean isEnabled() {
-		return SeamPreferences.isValidateCore(project);
+		return SeamPreferences.shouldValidateCore(project);
 	}
 
 	/*

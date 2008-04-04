@@ -424,7 +424,6 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private boolean error;
 
 	private void validate() {
-
 		warning = false;
 		error = false;
 
@@ -449,9 +448,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
-		if(deployAsEar && !validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST,
-				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)) {
-//			return;
+		if(deployAsEar) {
+			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST,
+				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
 		}
 
 		String viewFolder = getValue(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).trim();
@@ -463,46 +462,31 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				}
 				error = true;
 				setValid(false);
-//				return;
 			}
 		}
 
-		if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST,
+		validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER,
-				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
-//			return;
-		}
-		if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_IS_NOT_VALID,
+				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
+		validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_IS_NOT_VALID,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_HAS_WARNING,
-				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
-//			return;
-		}
+				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
 
-		if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST,
+		validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST,
 				ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER,
-				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
-//			return;
-		}
-		if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_IS_NOT_VALID,
+				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME);
+		validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_IS_NOT_VALID,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_HAS_WARNING,
-				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
-//			return;
-		}
+				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME);
 
 		if(isTestEnabled()) {
-			if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST,
+			validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST,
 					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
-					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)){
-//				return;
-			}
-			if(!validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT)) {
-//				return;
-			}
-			if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_IS_NOT_VALID,
+					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
+			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
+			validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_IS_NOT_VALID,
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_HAS_WARNING,
-					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)) {
-//				return;
-			}
+					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
 		}
 
 		if(error) {

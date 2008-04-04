@@ -141,6 +141,10 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SeamValidatorConfigurationBlock_pb_unknownElVariablePropertyName_label;
 	public static String SeamValidatorConfigurationBlock_pb_unpairedGetterOrSetter_label;
 
+	//Invalid seam project settings
+	public static String SeamValidatorConfigurationBlock_section_settings;
+	public static String SeamValidatorConfigurationBlock_pb_invalidSeamProjectSettings_label;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamPreferencesMessages.class);
 	}

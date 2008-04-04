@@ -86,7 +86,7 @@ public class SeamELValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#isEnabled()
 	 */
 	public boolean isEnabled() {
-		return SeamPreferences.isValidateEL(project);
+		return SeamPreferences.shouldValidateEL(project);
 	}
 
 	/*

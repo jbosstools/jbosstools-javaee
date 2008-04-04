@@ -34,7 +34,7 @@ import org.eclipse.jdt.core.JavaCore;
  *    where %name% is produced from constant name in SeamPreferences like AAA_BBB_CCC -> aaaBbbCcc.
  *    Put these entries under relevant section. For a new section add constant and property 
  *    SeamValidatorConfigurationBlock_section_%newSectionName%
- * 4) In class org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages
+ * 4) In class org.jboss.tools.seam.ui.preferences.SeamValidatorConfigurationBlock
  *    modify SectionDescription constants, according to instruction there.
  * 
  * @author Viacheslav Kabanovich
@@ -119,6 +119,11 @@ public class SeamPreferences {
 	// If Expression use property of component and this property has only setter(getter) without getter(setter) then mark it.
 	public static final String UNPAIRED_GETTER_OR_SETTER = createSeverityOption("unpairedGetterOrSetter"); //$NON-NLS-1$
 
+	// Seam project settings
+
+	// Mark seam project if it has any invalid seam setting.
+	public static final String INVALID_PROJECT_SETTINGS = createSeverityOption("invalidProjectSettings"); //$NON-NLS-1$
+
 	private static String createSeverityOption(String shortName) {
 		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName; //$NON-NLS-1$
 		severityOptionNames.add(name);
@@ -162,7 +167,7 @@ public class SeamPreferences {
 		return p.get(key, null);
 	}
 
-	public static boolean isValidateCore(ISeamProject project) {
+	public static boolean shouldValidateCore(ISeamProject project) {
 		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, NONUNIQUE_COMPONENT_NAME)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY)) &&
@@ -185,9 +190,13 @@ public class SeamPreferences {
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_VARIABLE_NAME)));
 	}
 
-	public static boolean isValidateEL(ISeamProject project) {
+	public static boolean shouldValidateEL(ISeamProject project) {
 		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_NAME)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_PROPERTY_NAME)) && 
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNPAIRED_GETTER_OR_SETTER)));
+	}
+
+	public static boolean shouldValidateSettings(ISeamProject project) {
+		return !SeamPreferences.IGNORE.equals(getProjectPreference(project, INVALID_PROJECT_SETTINGS));
 	}
 }
