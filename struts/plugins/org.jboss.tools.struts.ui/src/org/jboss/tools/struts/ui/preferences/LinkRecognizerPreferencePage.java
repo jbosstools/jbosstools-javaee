@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.preferences;
 
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.widgets.Composite;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.engines.impl.EnginesLoader;
 import org.jboss.tools.common.model.util.AbstractTableHelper;
@@ -49,13 +51,21 @@ public class LinkRecognizerPreferencePage extends PreferencePage implements IWor
 	}
 
 	public boolean performOk() {
-		EnginesLoader.merge(linkRecognizer.getModelObject(), object);
+		try {
+			EnginesLoader.merge(linkRecognizer.getModelObject(), object);
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
+		}
 		linkRecognizer.save();
 		return true;
 	}
 	
 	protected void performDefaults() {
-		linkRecognizer.restoreDefaults(object);
+		try {
+			linkRecognizer.restoreDefaults(object);
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
+		}
 		linksEditor.update();
 	}
 
