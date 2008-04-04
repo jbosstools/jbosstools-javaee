@@ -152,6 +152,8 @@
    <XModelAttribute default="identity" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.security.identity" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
