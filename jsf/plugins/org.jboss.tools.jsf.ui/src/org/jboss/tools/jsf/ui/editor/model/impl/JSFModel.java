@@ -12,8 +12,6 @@ package org.jboss.tools.jsf.ui.editor.model.impl;
 
 import java.util.*;
 
-import org.xml.sax.*;
-
 import java.beans.*;
 
 import org.eclipse.swt.graphics.Font;
@@ -50,7 +48,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	public JSFModel() {
 		try {
 			setName("Struts Model");
-		} catch (Exception ex) {
+		} catch (PropertyVetoException ex) {
 			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}
@@ -79,7 +77,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		return options;
 	}
 
-	public JSFModel(Object data) throws SAXException, Exception {
+	public JSFModel(Object data) {
 		this();
 		setData(((XModelObject) data).getChildByPath("process"));
 		map.setData((XModelObject) data);
@@ -163,7 +161,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 	XModelTreeListenerSWTSync listener = null;
 
-	public void setData(Object data) throws Exception {
+	public void setData(Object data) {
 		source = (XModelObject) data;
 		if (source == null) {
 			return;
@@ -334,16 +332,16 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 	public void structureChanged(XModelTreeEvent event) {
 		JSFElement element;
+		Object obj = event.getModelObject().getPath();
+		if (obj == null)
+			return;
+		if (map == null)
+			return;
+		element = (JSFElement) map.get(obj);
+		if (element == null) {
+			return;
+		}
 		try {
-			Object obj = event.getModelObject().getPath();
-			if (obj == null)
-				return;
-			if (map == null)
-				return;
-			element = (JSFElement) map.get(obj);
-			if (element == null) {
-				return;
-			}
 			if (event.kind() == XModelTreeEvent.STRUCTURE_CHANGED) {
 				element.structureChanged(event);
 			} else if (event.kind() == XModelTreeEvent.CHILD_ADDED) {
@@ -432,7 +430,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	}
 
 	public class JSFHashtable implements XModelTreeListener {
-		Hashtable<Object, IJSFElement> map = new Hashtable<Object, IJSFElement>();
+		private Hashtable<Object, IJSFElement> map = new Hashtable<Object, IJSFElement>();
 
 		XModelObject source;
 
@@ -473,9 +471,11 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 			if (!source.getAttributeValue("name").equals(name)) {
 				name = source.getAttributeValue("name");
-				Enumeration keys = map.keys();
+				Enumeration<Object> keys = map.keys();
 				while (keys.hasMoreElements()) {
-					path = (String) keys.nextElement();
+					Object key = keys.nextElement();
+					if(!(key instanceof String)) continue;
+					path = (String) key;
 					element = (JSFElement) map.get(path);
 					if (element != null) {
 						if (element.getSource() != null) {

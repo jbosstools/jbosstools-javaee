@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.ui.editor;
 
 import org.jboss.tools.common.editor.AbstractSectionEditor;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.layout.GridData;
@@ -95,7 +96,7 @@ public class FacesConfigGuiEditor extends AbstractSectionEditor {
 			guiControl.layout();
 			wrapper.update();
 			wrapper.layout();
-		} catch (Exception ex) {
+		} catch (CoreException ex) {
 			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}

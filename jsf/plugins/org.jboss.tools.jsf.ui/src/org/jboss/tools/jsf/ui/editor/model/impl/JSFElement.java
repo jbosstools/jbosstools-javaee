@@ -113,14 +113,8 @@ public class JSFElement implements IJSFElement{
 
 	public void updateModelModifiedProperty(Object oldValue, Object newValue) {
 		if (getJSFModel() != null) {
-			try {
-				if (oldValue == null ||!oldValue.equals(newValue))
-					getJSFModel().setModified(true);
-			} catch (Exception exception) {
-				JsfUiPlugin.getPluginLog().logError(exception);
-				if (newValue != null)
-					getJSFModel().setModified(true);
-			}
+			if (oldValue == null || !oldValue.equals(newValue))
+				getJSFModel().setModified(true);
 		}
 	}
 

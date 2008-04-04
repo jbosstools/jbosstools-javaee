@@ -19,6 +19,7 @@ import java.util.Properties;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.editor.ExtendedFieldEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.IPropertyFieldEditor;
+import org.jboss.tools.common.model.ui.attribute.editor.JavaHyperlinkLineFieldEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.PropertyEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.StringButtonFieldEditorEx;
 import org.eclipse.swt.SWT;
@@ -143,20 +144,14 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 				if (controls != null) anyLabel = controls[0];
 			}
 			if (PROPERTY_CLASS.equals(propertyEditor.getAttributeName())) {
-				try {
-					Class wraperClass = Class.forName("org.jboss.tools.common.model.ui.attribute.editor.JavaHyperlinkLineFieldEditor");
-					Constructor wraperConstructor = wraperClass.getConstructor(new Class[]{IWidgetSettings.class});
-					IPropertyFieldEditor wraper = (IPropertyFieldEditor)wraperConstructor.newInstance(new Object[]{settings});
-					ExtendedFieldEditor fe = (ExtendedFieldEditor)wraper;
-					fe.setLabelText(propertyEditor.getLabelText());
-					wraper.setPropertyEditor(propertyEditor);
-					fe.fillIntoGrid(composite, 2);
-					fe.setEnabled(xmo.isAttributeEditable(propertyEditor.getAttributeName()));
-					support.registerFieldEditor(propertyEditor.getAttributeName(), (ExtendedFieldEditor)wraper);
-					anyLabel = fe.getLabelComposite(composite);
-				} catch (Exception e) {
-					JsfUiPlugin.getPluginLog().logError(e);
-				}
+				IPropertyFieldEditor wraper = new JavaHyperlinkLineFieldEditor(settings);
+				ExtendedFieldEditor fe = (ExtendedFieldEditor)wraper;
+				fe.setLabelText(propertyEditor.getLabelText());
+				wraper.setPropertyEditor(propertyEditor);
+				fe.fillIntoGrid(composite, 2);
+				fe.setEnabled(xmo.isAttributeEditable(propertyEditor.getAttributeName()));
+				support.registerFieldEditor(propertyEditor.getAttributeName(), (ExtendedFieldEditor)wraper);
+				anyLabel = fe.getLabelComposite(composite);
 			}
 		}
 

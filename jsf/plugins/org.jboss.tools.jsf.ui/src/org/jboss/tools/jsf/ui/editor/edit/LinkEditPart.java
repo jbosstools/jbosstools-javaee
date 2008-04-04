@@ -27,6 +27,7 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Image;
 
 import org.jboss.tools.common.meta.action.XAction;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
@@ -70,13 +71,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 	public void doDoubleClick(boolean cf) {
 		try {
-			XAction action = DnDUtil.getEnabledAction(
-					(XModelObject) getLinkModel().getSource(), null,
-					"Properties.Properties");
+			XModelObject s = (XModelObject) getLinkModel().getSource();
+			XAction action = DnDUtil.getEnabledAction(s, null, "Properties.Properties");
 			if (action != null)
-				action.executeHandler(
-						(XModelObject) getLinkModel().getSource(), null);
-		} catch (Exception e) {
+				action.executeHandler(s, null);
+		} catch (XModelException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
@@ -86,17 +85,12 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	}
 
 	public void doMouseUp(boolean cf) {
+		if(!(getTarget() instanceof GroupEditPart)) return;
+		GroupEditPart g = (GroupEditPart)getTarget();
 		if (cf && getLink().isShortcut()) {
-			try {
-				((GEFGraphicalViewer) getViewer()).getGEFEditor()
-						.getModelSelectionProvider().setSelection(
-								new StructuredSelection(
-										((GroupEditPart) getTarget())
-												.getGroupModel().getSource()));
-			} catch (Exception ex) {
-				JsfUiPlugin.getPluginLog().logError(ex);
-			}
-			return;
+			((GEFGraphicalViewer) getViewer()).getGEFEditor()
+					.getModelSelectionProvider().setSelection(
+							new StructuredSelection(g.getGroupModel().getSource()));
 		}
 	}
 
