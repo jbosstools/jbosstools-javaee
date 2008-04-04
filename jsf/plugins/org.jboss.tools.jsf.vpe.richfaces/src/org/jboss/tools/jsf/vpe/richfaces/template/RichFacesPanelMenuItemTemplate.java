@@ -69,13 +69,12 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String LEFT = "left"; //$NON-NLS-1$
 	private static final String NO_SIZE_VALUE = "0"; //$NON-NLS-1$
 	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
-	private static final String SRC = "16"; //$NON-NLS-1$
-	private static final String FILE = "16"; //$NON-NLS-1$
 	
 	private static final String COMPONENT_NAME = "panelMenuItem"; //$NON-NLS-1$
 	private static final String PANEL_MENU_END_TAG = ":panelMenu"; //$NON-NLS-1$
 	private static final String PANEL_MENU_GROUP_END_TAG = ":panelMenuGroup"; //$NON-NLS-1$
 	private static final String EMPTY_DIV_STYLE = "display: none;"; //$NON-NLS-1$
+	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
 	
 	/*
 	 *	rich:panelMenu attributes for items
@@ -130,11 +129,14 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		
 		nsIDOMElement parentDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		parentDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, DR_TOP_DIV);
+		parentDiv.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
+		parentDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, MARGIN_TOP);
 		parentVisualElement.appendChild(parentDiv);
 		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		parentDiv.appendChild(div);
-
+		
+		
 		boolean childOfPanelMenu = sourceElement.getParentNode().getNodeName().endsWith(
 				PANEL_MENU_END_TAG);
 		boolean childOfPanelMenuGroup = sourceElement.getParentNode().getNodeName().endsWith(
@@ -250,7 +252,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	}
 	
 	/**
-	 * Gets the specified icon from panelMenu or .panelMenuGroupItem
+	 * Gets the specified icon from panelMenu or panelMenuGroupItem
 	 * 
 	 * @param pm_icon the panelMenu icon attribute
 	 * @param pmi_icon the panelMenuGroupItem icon attribute
@@ -343,60 +345,64 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMElement td2,
 			nsIDOMElement img3) {
 		
-		String tableStyle = EMPTY;
+		String tableStyle = MARGIN_TOP;
 		String tableClass = EMPTY;
-		String trClass = CSS_ITEM;
-		String img1Class = DR_NOWARP_CLASS + SPACE + CSS_ITEM_ICON;
-		String td2Class = CSS_ITEM_LABEL;
-		String img3Class = CSS_ITEM_ICON;
+		String trClass = EMPTY;
+		String img1Class = EMPTY;
+		String td2Class = EMPTY;
+		String img3Class = EMPTY;
 		
-		if (attrPresents(pm_itemClass)) {
-			tableClass += pm_itemClass;
-		}
 		if (attrPresents(pmi_styleClass)) {
-			tableClass += pmi_styleClass;
-		}
-		if (attrPresents(pm_itemStyle)) {
-			tableStyle += pm_itemStyle;
+			tableClass += SPACE + pmi_styleClass;
 		}
 		if (attrPresents(pmi_style)) {
-			tableStyle += pmi_style;
+			tableStyle += SPACE + pmi_style;
 		}
 		
-		if (childOfPanelMenu) {
-			trClass += SPACE + CSS_TOP_ITEM;
-			img1Class += SPACE + CSS_TOP_ITEM_ICON; 
-			td2Class += SPACE + CSS_TOP_ITEM_LABEL; 
-			img3Class += SPACE + CSS_TOP_ITEM_ICON; 
-			if (attrPresents(pm_topItemClass)) {
-				tableClass += pm_topItemClass;
-			}
-			if (attrPresents(pm_topItemStyle)) {
-				tableStyle += pm_topItemStyle;
-			}
-		}
+		tableClass = CSS_ITEM;
 		
 		if ((TRUE.equalsIgnoreCase(pmi_disabled))
 				|| (TRUE.equalsIgnoreCase(pm_disabled))) {
-			trClass += SPACE + CSS_DISABLED_ELEMENT;
-			img1Class += SPACE + CSS_DISABLED_ELEMENT; 
-			td2Class += SPACE + CSS_DISABLED_ELEMENT; 
-			img3Class += SPACE + CSS_DISABLED_ELEMENT; 
+			tableClass += SPACE + CSS_DISABLED_ELEMENT;
 			if (attrPresents(pm_disabledItemClass)) {
-				tableClass += pm_disabledItemClass;
-			}
-			if (attrPresents(pmi_disabledClass)) {
-				tableClass += pmi_disabledClass;
+				tableClass += SPACE + pm_disabledItemClass;
 			}
 			if (attrPresents(pm_disabledItemStyle)) {
-				tableStyle += pm_disabledItemStyle;
+				tableStyle += SPACE + pm_disabledItemStyle;
+			}
+			if (attrPresents(pmi_disabledClass)) {
+				tableClass += SPACE + pmi_disabledClass;
 			}
 			if (attrPresents(pmi_disabledStyle)) {
-				tableStyle += pmi_disabledStyle;
+				tableStyle += SPACE + pmi_disabledStyle;
+			}
+			
+		} else {
+			img1Class = DR_NOWARP_CLASS + SPACE + CSS_ITEM_ICON;
+			td2Class = CSS_ITEM_LABEL;
+			img3Class = CSS_ITEM_ICON;
+			if (attrPresents(pm_itemClass)) {
+				tableClass += SPACE + pm_itemClass;
+			}
+			if (attrPresents(pm_itemStyle)) {
+				tableStyle += SPACE + pm_itemStyle;
+			}
+			if (childOfPanelMenu) {
+				tableClass += SPACE + CSS_TOP_ITEM;
+				img1Class += SPACE + CSS_TOP_ITEM_ICON; 
+				td2Class += SPACE + CSS_TOP_ITEM_LABEL; 
+				img3Class += SPACE + CSS_TOP_ITEM_ICON; 
+				if (attrPresents(pm_topItemClass)) {
+					tableClass += SPACE + pm_topItemClass;
+				}
+				if (attrPresents(pm_topItemStyle)) {
+					tableStyle += SPACE + pm_topItemStyle;
+				}
 			}
 		}
 		
 		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
+		
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, tableClass);
 		tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, trClass);
 		img3.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, img1Class);

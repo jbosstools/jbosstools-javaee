@@ -102,6 +102,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup"; //$NON-NLS-1$
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
 	private static final String TRUE = "true"; //$NON-NLS-1$
+	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
 
 	private List<String> activeIds = new ArrayList<String>();
 	
@@ -125,9 +126,10 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		VpeCreationData vpeCreationData = new VpeCreationData(div);
-
+		div.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
+		
 		if (style != null) {
-			div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+			div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, MARGIN_TOP + style);
 		}
 
 		if (styleClass != null) {
