@@ -33,7 +33,7 @@ public class JSPTokenizer {
 	int start = -1;
 	int end = -1;
 	
-	public Token parse(IDocument document) throws Exception {
+	public Token parse(IDocument document) {
 		selectionStart = 0;
 		selectionEnd = document.getLength();
 		text = document.get();

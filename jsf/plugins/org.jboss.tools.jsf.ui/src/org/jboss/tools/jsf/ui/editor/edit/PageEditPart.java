@@ -24,6 +24,7 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 
 import org.jboss.tools.common.meta.action.XAction;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.figures.PageFigure;
@@ -55,7 +56,7 @@ public class PageEditPart extends JSFEditPart implements EditPartListener, IPage
 			if (action != null)
 				action.executeHandler(
 						(XModelObject) getPageModel().getSource(), null);
-		} catch (Exception e) {
+		} catch (XModelException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}

@@ -17,7 +17,6 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
@@ -25,7 +24,6 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.common.gef.action.ActionRegistrySupport;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.FacesConfigGuiEditor;
 import org.jboss.tools.jsf.ui.editor.actions.JSFCutRetargetAction;
 
@@ -66,7 +64,7 @@ public class JSFMultiPageContributor extends AbstractMultiPageContributor {
 			ActionRegistry registry = null;
 			if(fActiveEditorPart instanceof FacesConfigGuiEditor)
 				registry = (ActionRegistry)part.getAdapter(ActionRegistry.class);
-			Iterator globalActionKeys = registrySupport.getGlobalActionKeys();
+			Iterator<String> globalActionKeys = registrySupport.getGlobalActionKeys();
 			while(globalActionKeys.hasNext()) {
 				String id = (String)globalActionKeys.next();				
 				actionBars.setGlobalActionHandler(id, (registry == null ? null : registry.getAction(id)));
@@ -120,13 +118,9 @@ public class JSFMultiPageContributor extends AbstractMultiPageContributor {
 			actionBars.updateActionBars();
 		}
 
-		try {
-			if(fToggleOccurencesMarkUp != null) {
-				fToggleOccurencesMarkUp.setEditor(getTextEditor(part));
-				fToggleOccurencesMarkUp.update();
-			}
-		} catch (Exception x) {
-			JsfUiPlugin.getPluginLog().logError(x);
+		if(fToggleOccurencesMarkUp != null) {
+			fToggleOccurencesMarkUp.setEditor(getTextEditor(part));
+			fToggleOccurencesMarkUp.update();
 		}
 	
 		updateStatus();

@@ -30,9 +30,9 @@ public class AuxiliaryFileLauncher implements IEditorLauncher {
 		IResource r = file.getParent().findMember(s);
 		if(!(r instanceof IFile) || !r.exists()) return;
 		IWorkbenchPage workbenchPage = ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		try {
+		if(workbenchPage != null) try {
 			workbenchPage.openEditor(new FileEditorInput((IFile)r), "org.jboss.tools.common.model.ui.editor.EditorPartWrapper");			
-		} catch (Exception e) {
+		} catch (PartInitException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}

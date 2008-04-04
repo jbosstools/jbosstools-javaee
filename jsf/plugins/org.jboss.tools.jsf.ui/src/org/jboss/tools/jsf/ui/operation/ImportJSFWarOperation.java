@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.ui.operation;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IResource;
@@ -54,7 +55,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 		if(!warContext.isClassicEclipseProject()) {
 			try {
 				FileUtil.unjar(target, warLocation);
-			} catch (Exception e) {
+			} catch (IOException e) {
 				JsfUiPlugin.getPluginLog().logError(e);
 			}
 			for (int i = 0; i < os.length; i++) {
@@ -66,7 +67,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 			File webContent = new File(target, "WebContent");
 			try {
 				FileUtil.unjar(webContent, warLocation);
-			} catch (Exception e) {
+			} catch (IOException e) {
 				JsfUiPlugin.getPluginLog().logError(e);
 			}
 			for (int i = 0; i < os.length; i++) {

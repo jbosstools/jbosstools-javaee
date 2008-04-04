@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.ui.editor.dnd;
 
 import java.util.Properties;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
 
@@ -40,7 +41,7 @@ public class DndHelper{
 		properties.setProperty("actionSourceGUIComponentID", "editor");
 		try {
 			copy.executeHandler((XModelObject) source, properties);
-		} catch (Exception e) {
+		} catch (XModelException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 			XModelTransferBuffer.getInstance().disable();
 			return false;
@@ -64,7 +65,7 @@ public class DndHelper{
 		}
 		try {
 			DnDUtil.paste((XModelObject) target, properties);
-		} catch (Exception ex) {
+		} catch (XModelException ex) {
 			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}

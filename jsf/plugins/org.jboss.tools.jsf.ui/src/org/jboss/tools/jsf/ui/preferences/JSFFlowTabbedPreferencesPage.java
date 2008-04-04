@@ -14,7 +14,6 @@ import org.jboss.tools.common.model.ui.preferences.*;
 import org.eclipse.ui.*;
 import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintAList;
 import org.jboss.tools.common.model.*;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.web.JSFTemplate;
 
 public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implements IWorkbenchPreferencePage {
@@ -33,12 +32,10 @@ public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 	public void init(IWorkbench workbench)  {}
 	
 	void initTemplateList(XModelObject addView) {
-		try {
-			JSFTemplate templates = new JSFTemplate();
-			XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint();
-			l.setValues(templates.getPageTemplateList());
-		} catch (Exception e) {
-			JsfUiPlugin.getPluginLog().logError(e);
-		}
+		if(addView == null) return;
+		JSFTemplate templates = new JSFTemplate();
+		XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint();
+		l.setValues(templates.getPageTemplateList());
 	}
+
 }

@@ -26,6 +26,7 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 
 import org.jboss.tools.common.meta.action.XAction;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.figures.GroupFigure;
@@ -61,7 +62,7 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 			if (action != null)
 				action.executeHandler((XModelObject) getGroupModel()
 						.getSource(), null);
-		} catch (Exception e) {
+		} catch (XModelException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}

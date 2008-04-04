@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.ui.adopt;
 
 import java.util.*;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.jboss.tools.common.meta.XAdoptManager;
 import org.jboss.tools.common.model.XModelObject;
@@ -33,13 +34,9 @@ public class JSPAdopt implements XAdoptManager {
 	}
 
     protected boolean isAdoptableNature(XModelObject target) {
-        try {
-            String nature = (String)target.getModel().getProperties().get("nature");
-            return JSF_NATURE_STRING.equalsIgnoreCase(nature);
-        } catch (Exception x) {
-        	JsfUiPlugin.getPluginLog().logError("Error in checking nature", x);
-        }
-        return false;
+    	if(target == null) return false;
+        String nature = (String)target.getModel().getProperties().get("nature");
+        return JSF_NATURE_STRING.equalsIgnoreCase(nature);
     }
 
     protected boolean isAdoptableBundle(XModelObject object) {
@@ -56,21 +53,22 @@ public class JSPAdopt implements XAdoptManager {
 		String bundle = getBundle(object.getParent());
 		int pos = -1;
 		try {
-			String s = p.getProperty("pos");
+			String s = p == null ? null : p.getProperty("pos");
 			if(s != null && s.length() > 0) pos = Integer.parseInt(s);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 		SourceViewer viewer = (SourceViewer)p.get("viewer");
-		
-		JSPTokenizer tokenizer = new JSPTokenizer();
-		Token root = null;
-		try {
-			root = tokenizer.parse(viewer.getDocument());
-		} catch (Exception e) {
-			JsfUiPlugin.getPluginLog().logError(e);
+		if(viewer == null) {
+			JsfUiPlugin.getPluginLog().logError("Viewer is null", new NullPointerException("Viewer is null"));
 			return;
 		}
+		if(viewer.getDocument() == null) {
+			return;
+		}
+		
+		JSPTokenizer tokenizer = new JSPTokenizer();
+		Token root = tokenizer.parse(viewer.getDocument());
 		Token t = root.firstChild;
 		while(t != null) {
 			t = t.nextSibling;
@@ -86,7 +84,7 @@ public class JSPAdopt implements XAdoptManager {
 
 		if(prefix.equals("???")) {
 			WebPromptingProvider fProvider = WebPromptingProvider.getInstance();
-			List l = fProvider.getList(target.getModel(), WebPromptingProvider.JSF_REGISTERED_BUNDLES, null, null);
+			List<Object> l = fProvider.getList(target.getModel(), WebPromptingProvider.JSF_REGISTERED_BUNDLES, null, null);
 			int map_index = 1;
 			Map map = l.size() <= map_index ? null : (Map)l.get(map_index);
 			if(map != null && map.containsKey(bundle)) prefix = map.get(bundle).toString();
@@ -102,7 +100,7 @@ public class JSPAdopt implements XAdoptManager {
 			try {
 				viewer.getDocument().replace(bp, 0, loadBundle);
 				if(pos >= bp) pos += loadBundle.length();
-			} catch (Exception e) {
+			} catch (BadLocationException e) {
 				JsfUiPlugin.getPluginLog().logError(e);
 			}
 		}
@@ -115,7 +113,7 @@ public class JSPAdopt implements XAdoptManager {
 			viewer.getDocument().replace(pos, 0, start);
 			viewer.setSelectedRange(pos, 0);
 			viewer.getTextWidget().setFocus();
-		} catch (Exception e) {
+		} catch (BadLocationException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 		p.remove("start text");
@@ -139,14 +137,10 @@ public class JSPAdopt implements XAdoptManager {
 	private int getContextIndex(JSPTokenizer tokenizer, int pos) {
 		if(tokenizer.root == null) return -1;
 		if (tokenizer.isInTagAttributeValue(pos)) return 0;
-		try {
-			Token e = tokenizer.getTokenAt(pos);
-			if(e == null) return -1;
-			if (e.kind == JSPTokenizer.TEXT || (pos == e.off)) {
-				return 1;
-			}
-		} catch (Exception x) {
-			JsfUiPlugin.getPluginLog().logError(x);
+		Token e = tokenizer.getTokenAt(pos);
+		if(e == null) return -1;
+		if (e.kind == JSPTokenizer.TEXT || (pos == e.off)) {
+			return 1;
 		}
 		return -1;
 	}
@@ -163,21 +157,17 @@ public class JSPAdopt implements XAdoptManager {
 
 		int pos = -1;
 		try {
-			String s = p.getProperty("pos");
+			String s = p == null ? null : p.getProperty("pos");
 			if(s != null && s.length() > 0) pos = Integer.parseInt(s);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
 		SourceViewer viewer = (SourceViewer)p.get("viewer");
+		
+		if(viewer == null || viewer.getDocument() == null) return;
 
 		JSPTokenizer tokenizer = new JSPTokenizer();
-		Token root = null;
-		try {
-			root = tokenizer.parse(viewer.getDocument());
-		} catch (Exception e) {
-			JsfUiPlugin.getPluginLog().logError(e);
-			return;
-		}
+		Token root = tokenizer.parse(viewer.getDocument());
 
 		int contextIndex = getContextIndex(tokenizer, pos);
 		String start = bundle;
