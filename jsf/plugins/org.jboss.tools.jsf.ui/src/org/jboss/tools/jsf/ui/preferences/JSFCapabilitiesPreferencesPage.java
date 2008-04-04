@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.preferences;
 
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.*;
@@ -17,6 +18,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.engines.impl.EnginesLoader;
 import org.jboss.tools.common.model.util.AbstractTableHelper;
@@ -182,7 +184,11 @@ public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IW
 
     public boolean performOk() {
     	long ts = capabilities.getTimeStamp();
-    	EnginesLoader.merge(capabilities, copy);
+    	try {
+    		EnginesLoader.merge(capabilities, copy);
+    	} catch (XModelException e) {
+    		ModelPlugin.getPluginLog().logError(e);
+    	}
     	if(ts != capabilities.getTimeStamp()) {
     		capabilities.setModified(ts != capabilities.getTimeStamp());
     		capabilities.save();

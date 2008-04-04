@@ -15,6 +15,7 @@ import java.util.*;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.jboss.tools.common.meta.XAdoptManager;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jsf.project.JSFNature;
@@ -43,7 +44,7 @@ public class JSPAdopt implements XAdoptManager {
         return "FilePROPERTIES".equals(object.getModelEntity().getName());
     }
 
-	public void adopt(XModelObject target, XModelObject object, Properties p) {
+	public void adopt(XModelObject target, XModelObject object, Properties p) throws XModelException {
         if(isAdoptableProperty(object)) adoptProperty(target, object, p);
         if(isAdoptableBundle(object)) adoptBundle(target, object, p);
 	}
