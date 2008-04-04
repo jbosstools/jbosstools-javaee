@@ -11,6 +11,8 @@
 package org.jboss.tools.jsf.model.handlers.bean;
 
 import java.util.Properties;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Display;
@@ -67,12 +69,12 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 		public void run() {
 			try {
 				runInternal();
-			} catch (Exception e) {
+			} catch (CoreException e) {
 				ProblemReportingHelper.reportProblem("org.jboss.tools.jsf", e);
 			}
 		}
 		
-		public void runInternal() throws Exception {
+		public void runInternal() throws CoreException {
 			RenameSupport renameSupport = RenameSupport.create(type, null, RenameSupport.UPDATE_REFERENCES);
 			if (!renameSupport.preCheck().isOK()) return;			
 			IElementChangedListener listener = new JavaElementChangedListener(object, type);

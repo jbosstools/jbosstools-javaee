@@ -20,7 +20,6 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.impl.XModelObjectImpl;
 import org.jboss.tools.common.model.util.*;
-import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class JSFRenameManagedPropertyChange extends TextFileChange {
@@ -73,11 +72,9 @@ public class JSFRenameManagedPropertyChange extends TextFileChange {
 		if(ok) {
 			return super.perform(pm);
 		}
-		try {
+		if(beanProperty != null) {
 			beanProperty.getModel().changeObjectAttribute(beanProperty, "property-name", newName);
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}		
+		}
 		return null;
 	}
 

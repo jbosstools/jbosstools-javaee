@@ -35,7 +35,7 @@ public class JSFWatcherContributor implements IWatcherContributor {
 	public String getError() {
 		try {
 			checkCorrectness();
-		} catch (Exception e) {
+		} catch (XModelException e) {
 			return e.getMessage();
 		}
 		return null;

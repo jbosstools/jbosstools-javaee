@@ -22,7 +22,6 @@ import org.jboss.tools.common.model.filesystems.*;
 import org.jboss.tools.common.model.filesystems.impl.*;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.*;
-import org.jboss.tools.common.xml.SAXValidator;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.*;
 
@@ -33,7 +32,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 	boolean isLight = false;
 
 	public void load(XModelObject object) {
-		String entity = object.getModelEntity().getName();
+//		String entity = object.getModelEntity().getName();
         
 		String body = XModelObjectLoaderUtil.getTempBody(object);
 		
@@ -155,7 +154,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 			XModelObjectLoaderUtil.setTempBody(process, sw.toString());
 			aux.write(object.getParent(), object, process);
 			return true;
-		} catch (Exception exc) {
+		} catch (IOException exc) {
 			JSFModelPlugin.getPluginLog().logError(exc);
 			return false;
 		}
@@ -177,15 +176,18 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
     	? XMLUtil.createDocumentElement(object.getModelEntity().getXMLSubPath())
         : XMLUtil.createDocumentElement(object.getModelEntity().getXMLSubPath(), DOC_QUALIFIEDNAME, publicId, systemId, null);
 		
+		util.setup(null, false);
+        util.saveAttributes(element, object);
+        util.saveChildren(element, object);
+        util.saveFinalComment(element, object);
+        element.removeAttribute("NAME");
+        element.removeAttribute("EXTENSION");
 		try {
-			util.setup(null, false);
-            util.saveAttributes(element, object);
-            util.saveChildren(element, object);
-            util.saveFinalComment(element, object);
-            element.removeAttribute("NAME");
-            element.removeAttribute("EXTENSION");
             return SimpleWebFileLoader.serialize(element, object);
-		} catch (Exception e) {
+		} catch (IOException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+			return null;
+		} catch (XModelException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 			return null;
 		}
@@ -455,11 +457,7 @@ class SFUtil extends XModelObjectLoaderUtil {
 				XMLUtil.createElement(element, "null-value");
 			} else {
 				Element ce = XMLUtil.createElement(element, "value");
-				try {
-					saveAttribute(ce, "#text", cs[i].getAttributeValue("value"));
-				} catch (Exception t) {
-        			JSFModelPlugin.log("Error in saving list entries", t);
-				}
+				saveAttribute(ce, "#text", cs[i].getAttributeValue("value"));
 			}
 		} 
 	}

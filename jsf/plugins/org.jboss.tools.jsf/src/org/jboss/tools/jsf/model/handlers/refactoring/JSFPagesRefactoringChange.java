@@ -16,7 +16,6 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.refactoring.RefactoringHelper;
-import org.jboss.tools.jsf.JSFModelPlugin;
 
 public class JSFPagesRefactoringChange extends CompositeChange {
 	protected String newName;
@@ -28,18 +27,14 @@ public class JSFPagesRefactoringChange extends CompositeChange {
 		this.model = model;
 		this.newName = newName;
 		this.replacements = replacements;
-		try {
-			addChanges();
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
+		addChanges();
 	}
 	
 	public XModel getModel() {
 		return model;
 	}
 	
-	private void addChanges() throws Exception {
+	private void addChanges() {
 		if(model == null) return;
 		XModelObject webRoot = FileSystemsHelper.getWebRoot(model);
 		if(webRoot == null) return;

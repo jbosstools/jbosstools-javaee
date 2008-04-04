@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model.pv;
 import java.util.*;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.model.java.handlers.OpenJavaSourceHandler;
 import org.eclipse.jdt.core.IType;
 
@@ -53,7 +54,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		}
 	}
 	
-	private List<Object> getListInternal(XModel model, String id, String prefix, Properties properties) throws Exception {
+	private List<Object> getListInternal(XModel model, String id, String prefix, Properties properties) throws CoreException {
 		String error = null;
 		if(JSF_BUNDLES.equals(id)) return getBundles(model);
 		if(JSF_REGISTERED_BUNDLES.equals(id)) {
@@ -138,7 +139,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 			list.addAll(map.keySet());
 			return list;
 		}
-		if(error != null) throw new Exception(error);
+		if(error != null) throw new XModelException(error);
 		return EMPTY_LIST;
 	}
 	

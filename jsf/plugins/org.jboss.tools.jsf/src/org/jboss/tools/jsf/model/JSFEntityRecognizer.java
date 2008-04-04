@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model;
 
+import java.io.IOException;
+
 import org.jboss.tools.common.model.loaders.*;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -21,7 +23,7 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
             Class<?> c = JSFEntityRecognizer.class;
             XMLEntityResolver.registerPublicEntity(DOC_PUBLICID, c, "/meta/web-facesconfig_1_0.dtd");
 			XMLEntityResolver.registerPublicEntity(DOC_PUBLICID_11, c, "/meta/web-facesconfig_1_1.dtd");
-        } catch (Exception e) {
+        } catch (IOException e) {
         	JSFModelPlugin.getPluginLog().logError(e);
         }
     }

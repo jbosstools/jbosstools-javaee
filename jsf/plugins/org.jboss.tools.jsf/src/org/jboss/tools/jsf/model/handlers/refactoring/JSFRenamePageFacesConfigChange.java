@@ -21,7 +21,6 @@ import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
-import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.ReferenceGroupImpl;
 import org.jboss.tools.jsf.model.handlers.RenameViewSupport;
@@ -50,11 +49,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		int i = oldText.lastIndexOf("/");
 		newText = oldText.substring(0, i + 1) + newName;
 		replacements.setProperty(oldText, newText);
-		try {
-			addChanges();
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
+		addChanges();
 	}
 
 	public JSFRenamePageFacesConfigChange(XModelObject object, String name, XModelObject newParent) {
@@ -65,14 +60,10 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		String oldText = XModelObjectLoaderUtil.getResourcePath(object);
 		String newText = XModelObjectLoaderUtil.getResourcePath(newParent) + "/" + name;
 		replacements.setProperty(oldText, newText);
-		try {
-			addChanges();
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
+		addChanges();
 	}
 
-	private void addChanges() throws Exception {
+	private void addChanges() {
 		if(object == null) return;
 		XModelObject root = JSFProjectsTree.getProjectsRoot(object.getModel());
 		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration");

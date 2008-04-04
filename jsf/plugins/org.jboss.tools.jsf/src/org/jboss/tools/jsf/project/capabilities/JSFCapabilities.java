@@ -16,8 +16,6 @@ import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.loaders.XObjectLoader;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.*;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
-import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class JSFCapabilities extends ExtraRootImpl {
 	private static final long serialVersionUID = 1L;
@@ -25,11 +23,7 @@ public class JSFCapabilities extends ExtraRootImpl {
 
 	public static JSFCapabilities getInstance() {
 		if(instance == null) {
-			try {
-				createInstance();
-			} catch (Exception t) {
-				ProblemReportingHelper.reportProblem("org.jboss.tools.jsf", JSFUIMessages.CANNOT_LOAD_JSF_CAPABILITIES, t);
-			}
+			createInstance();
 		}
 		return instance;		
 	}

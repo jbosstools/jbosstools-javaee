@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.project.capabilities;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import org.eclipse.core.resources.*;
@@ -188,7 +189,7 @@ public class LibrariesPerformer extends PerformerItem {
 				String webRoot = WebProject.getInstance(model).getWebRootLocation();
 				try {
 					FileUtil.unzip(new File(webRoot), source.getAbsolutePath());
-				} catch (Exception e) {
+				} catch (IOException e) {
 					//ignore
 				}
 				zip = true;
@@ -207,7 +208,7 @@ public class LibrariesPerformer extends PerformerItem {
 			IProject p = EclipseResourceUtil.getProject(model.getRoot());
 			if(p != null) try {
 				p.refreshLocal(IResource.DEPTH_INFINITE, null);
-			} catch (Exception e) {
+			} catch (CoreException e) {
 				//ignore
 			}
 		}

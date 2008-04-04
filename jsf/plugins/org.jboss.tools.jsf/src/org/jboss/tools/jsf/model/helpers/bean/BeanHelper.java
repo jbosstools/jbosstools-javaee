@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model.helpers.bean;
 import java.util.*;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.*;
 
 import org.jboss.tools.common.model.XModelObject;
@@ -53,8 +54,8 @@ public class BeanHelper {
 		IJavaProject p = type.getJavaProject();
 		IType stype = null;
 		try {
-			stype = p.findType(st);
-		} catch (Exception e) {
+			if(p != null) stype = p.findType(st);
+		} catch (JavaModelException e) {
 			//ignore
 		}
 		return (stype == null) ? null : getJavaProperties(stype);
@@ -62,13 +63,10 @@ public class BeanHelper {
 
 	public static IJavaProject getJavaProject(XModelObject context) {
 		if(context == null) return null;
-		try {
-			IProject project = EclipseResourceUtil.getResource(context).getProject();
-			return EclipseResourceUtil.getJavaProject(project);
-		} catch (Exception e) {
-			//ignore
-			return null;
-		}			
+		IResource r = EclipseResourceUtil.getResource(context);
+		if(r == null) return null;
+		IProject project = r.getProject();
+		return EclipseResourceUtil.getJavaProject(project);
 	}
 	
 	public static IMethod findGetter(IType type, String property) throws JavaModelException {

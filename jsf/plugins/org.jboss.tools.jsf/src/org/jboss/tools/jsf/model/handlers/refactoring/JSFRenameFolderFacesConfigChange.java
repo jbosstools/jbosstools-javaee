@@ -21,7 +21,6 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
-import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.ReferenceGroupImpl;
 import org.jboss.tools.jsf.model.handlers.RenameViewSupport;
@@ -58,14 +57,10 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 			parent = parent.getParent();
 		}
 		replacements.setProperty(">" + oldPath, ">" + newPath);
-		try {
-			addChanges();
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
+		addChanges();
 	}
 
-	private void addChanges() throws Exception {
+	private void addChanges() {
 		if(object == null) return;
 		XModelObject root = JSFProjectsTree.getProjectsRoot(object.getModel());
 		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration");

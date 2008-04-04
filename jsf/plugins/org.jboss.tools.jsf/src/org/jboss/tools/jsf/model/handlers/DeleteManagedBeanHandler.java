@@ -63,14 +63,9 @@ public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 		IType type = beans.getType(object.getAttributeValue("managed-bean-class"));
 		if(type == null || type.isBinary()) return null;
 		ICompilationUnit u = type.getCompilationUnit();
-		if(u == null) return null;
-		try {
-			IFile file = ModelPlugin.getWorkspace().getRoot().getFile(u.getPath());
-			return (file == null || !file.exists()) ? null : file;
-		} catch (Exception e) {
-			//ignore
-			return null;
-		}
+		if(u == null || u.getPath() == null) return null;
+		IFile file = ModelPlugin.getWorkspace().getRoot().getFile(u.getPath());
+		return (file == null || !file.isAccessible() || !file.exists()) ? null : file;
 	}
 
 }

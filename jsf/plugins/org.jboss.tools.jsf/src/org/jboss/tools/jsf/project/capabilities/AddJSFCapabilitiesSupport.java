@@ -11,11 +11,11 @@
 package org.jboss.tools.jsf.project.capabilities;
 
 import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.*;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.model.*;
-import org.jboss.tools.jsf.JSFModelPlugin;
 
 public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
 	static String ATTR_CAPABILITY = "capability";
@@ -30,11 +30,7 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
     }
 
     public void reset() {
-		try {
-			performer.init(getTarget().getModel());
-		} catch (Exception e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
+		performer.init(getTarget().getModel());
 		getProperties().put("CapabilitiesPerformer", performer);
 	}
 	
@@ -70,10 +66,12 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
     	final Executor executor = new Executor();
     	try {
     		context.run(false, true, executor);
-    	} catch (Exception e) {
+    	} catch (InvocationTargetException e) {
+    		throw new XModelException(e);
+    	} catch (InterruptedException e) {
     		throw new XModelException(e);
     	}
-    	if(executor.exception != null) throw new XModelException(executor.exception);
+    	if(executor.exception != null) XModelException.rethrow(executor.exception);
     	getProperties().put("addedCapabilities", (executor.added != null) ? executor.added : new String[0]);
     	return !executor.cancelled;
     }
@@ -85,6 +83,11 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
     	
     	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 	    	monitor.beginTask("" + getTitle(), getTaskCount());
+	    	try {
+	    		XJob.waitForJob();
+	    	} catch (InterruptedException e) {
+	    		//ignore 
+	    	}
 	    	PerformerContext context = new PerformerContext(monitor);
 			try {
 				IPerformerItem[] items = performer.getChildren();
