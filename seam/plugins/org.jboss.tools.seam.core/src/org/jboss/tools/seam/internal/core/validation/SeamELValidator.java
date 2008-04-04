@@ -76,7 +76,7 @@ public class SeamELValidator extends SeamValidator {
 	private ElVarSearcher elVarSearcher;
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
-			SeamValidationHelper coreHelper, IReporter reporter,
+			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
 		elVarSearcher = new ElVarSearcher(project, engine);

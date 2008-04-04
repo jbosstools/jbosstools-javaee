@@ -1,34 +1,30 @@
-/******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ /*******************************************************************************
+  * Copyright (c) 2007 Red Hat, Inc.
+  * Distributed under license by Red Hat, Inc. All rights reserved.
+  * This program is made available under the terms of the
+  * Eclipse Public License v1.0 which accompanies this distribution,
+  * and is available at http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  *     Red Hat, Inc. - initial API and implementation
+  ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
@@ -36,16 +32,12 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
-import org.jboss.tools.seam.internal.core.SeamProject;
 
 /**
- * Base Helper for Seam Validators. 
+ * Base Helper for Seam Validators.
  * @author Alexey Kazakov
  */
 public class SeamValidationHelper extends WorkbenchContext {
-
-	protected SeamValidationContext validationContext;
-	protected TextFileDocumentProvider documentProvider = new TextFileDocumentProvider();
 
 	/**
 	 * @return Seam project
@@ -73,7 +65,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 */
 	public IResource getComponentResourceWithName(ISeamElement element) {
 		if(element instanceof ISeamComponent) {
-			Set declarations = ((ISeamComponent)element).getAllDeclarations();
+			Set<ISeamComponentDeclaration> declarations = ((ISeamComponent)element).getAllDeclarations();
 			for (Object o : declarations) {
 				SeamComponentDeclaration d = (SeamComponentDeclaration)o;
 				if(d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME)!=null) {
@@ -101,8 +93,8 @@ public class SeamValidationHelper extends WorkbenchContext {
 		if(element instanceof AbstractContextVariable) {
 			location = ((AbstractContextVariable)element).getLocationFor(attributeName);
 		} else if(element instanceof ISeamComponent) {
-			Set declarations = ((ISeamComponent)element).getAllDeclarations();
-			for (Object d : declarations) {
+			Set<ISeamComponentDeclaration> declarations = ((ISeamComponent)element).getAllDeclarations();
+			for (ISeamComponentDeclaration d : declarations) {
 				location = ((SeamComponentDeclaration)d).getLocationFor(attributeName);
 				if(location!=null) {
 					break;
@@ -240,47 +232,5 @@ public class SeamValidationHelper extends WorkbenchContext {
 			}
 		}
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.wst.validation.internal.operations.WorkbenchContext#registerResource(org.eclipse.core.resources.IResource)
-	 */
-	@Override
-	public void registerResource(IResource resource) {
-		if(resource instanceof IFile) {
-			IFile file = (IFile)resource;
-			if(!file.exists()) {
-				getValidationContext().addRemovedFile(file);
-			} else {
-				getValidationContext().registerFile(file);
-			}
-		}
-	}
-
-	/**
-	 * @return Set of changed resources
-	 */
-	public Set<IFile> getChangedFiles() {
-		Set<IFile> result = new HashSet<IFile>();
-		String[] uris = getURIs();
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		for (int i = 0; i < uris.length; i++) {
-			IFile currentFile = root.getFile(new Path(uris[i]));
-			result.add(currentFile);
-		}
-		result.addAll(getValidationContext().getRemovedFiles());
-		return result;
-	}
-
-	public SeamValidationContext getValidationContext() {
-		if(validationContext==null) {
-			validationContext = ((SeamProject)getSeamProject()).getValidationContext();
-		}
-		return validationContext;
-	}
-	
-	public TextFileDocumentProvider getDocumentProvider(){
-		return documentProvider;
 	}
 }

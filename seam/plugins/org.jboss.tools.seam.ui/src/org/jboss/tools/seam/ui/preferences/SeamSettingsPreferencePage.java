@@ -421,10 +421,12 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private boolean warning;
+	private boolean error;
 
 	private void validate() {
 
 		warning = false;
+		error = false;
 
 		if(!isSeamSupported()) {
 			setValid(true);
@@ -449,55 +451,62 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 		if(deployAsEar && !validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST,
 				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT)) {
-			return;
+//			return;
 		}
 
 		String viewFolder = getValue(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).trim();
 		if(viewFolder.length()>0) {
 			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(viewFolder);
 			if(folder==null || !folder.exists()) {
-				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_VIEW_FOLDER_DOES_NOT_EXIST, new String[]{viewFolder}));
+				if(!error) {
+					setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_VIEW_FOLDER_DOES_NOT_EXIST, new String[]{viewFolder}));
+				}
+				error = true;
 				setValid(false);
-				return;
+//				return;
 			}
 		}
 
 		if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
-			return;
+//			return;
 		}
 		if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_IS_NOT_VALID,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_HAS_WARNING,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)) {
-			return;
+//			return;
 		}
 
 		if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST,
 				ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER,
 				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
-			return;
+//			return;
 		}
 		if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_IS_NOT_VALID,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_HAS_WARNING,
 				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)) {
-			return;
+//			return;
 		}
 
 		if(isTestEnabled()) {
 			if(!validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST,
 					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)){
-				return;
+//				return;
 			}
 			if(!validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT)) {
-				return;
+//				return;
 			}
 			if(!validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_IS_NOT_VALID,
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_HAS_WARNING,
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)) {
-				return;
+//				return;
 			}
+		}
+
+		if(error) {
+			return;
 		}
 
 		setValid(true);
@@ -512,12 +521,17 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			String packageName = getValue(editorName).trim();
 			IStatus status = JavaConventions.validatePackageName(packageName, CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
 			if(status.getSeverity()==IStatus.ERROR) {
-				setErrorMessage(NLS.bind(errorMessageKey, new String[]{status.getMessage()}));
+				if(!error) {
+					setErrorMessage(NLS.bind(errorMessageKey, new String[]{status.getMessage()}));
+				}
+				error = true;
 				setValid(false);
 				return false;
 			}
 			if(status.getSeverity()==IStatus.WARNING) {
-				setMessage(NLS.bind(warningMessageKey, new String[]{status.getMessage()}), IMessageProvider.WARNING);
+				if(!error) {
+					setMessage(NLS.bind(warningMessageKey, new String[]{status.getMessage()}), IMessageProvider.WARNING);
+				}
 				warning = true;
 				return true;
 			}
@@ -529,7 +543,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		String projectName = getValue(editorName).trim();
 		if(projectName.length()>0) {
 			if(!ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).exists()) {
-				setErrorMessage(NLS.bind(errorMessageKey, new String[]{projectName}));
+				if(!error) {
+					setErrorMessage(NLS.bind(errorMessageKey, new String[]{projectName}));
+				}
+				error = true;
 				setValid(false);
 				return false;
 			}
@@ -543,7 +560,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolder);
 			if(folder==null || !(folder instanceof IFolder) || !folder.exists()) {
 				editorRegistry.get(packageEditorName).setEnabled(false);
-				setErrorMessage(NLS.bind(errorMessageKey, new String[]{sourceFolder}));
+				if(!error) {
+					setErrorMessage(NLS.bind(errorMessageKey, new String[]{sourceFolder}));
+				}
+				error = true;
 				setValid(false);
 				return false;
 			} else {
@@ -565,7 +585,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private String getSeamProjectName() {
 		return warProject!=null ? warProject.getName() : project.getName();
 	}
-	
+
 	private String getTestProjectName() {
 		String projectName = "";
 		if(preferences!=null) {

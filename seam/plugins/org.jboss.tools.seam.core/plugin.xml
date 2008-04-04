@@ -260,7 +260,7 @@
                markerIdValue="seamProblem">
          	</markerId>
 			<helper 
-				class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper">
+				class="org.jboss.tools.seam.internal.core.validation.SeamContextValidationHelper">
 			</helper>
 			<run
          		class="org.jboss.tools.seam.internal.core.validation.SeamValidatorManager"
@@ -270,6 +270,23 @@
          	<dependentValidator
                depValValue="true">
          	</dependentValidator>
+		</validator>
+	</extension>
+
+   <extension
+        point="org.eclipse.wst.validation.validator"
+		id="SeamProjectPropertyValidator"
+		name="Seam Project Property Validator">
+		<validator>
+			<filter objectClass="org.eclipse.core.resources.IFolder" nameFilter="*"/>
+			<filter objectClass="org.eclipse.core.resources.IProject" nameFilter="*"/>
+			<helper	class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper"/>
+			<markerId markerIdValue="seamProblem"/>
+			<run
+         		class="org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator"
+         		incremental="true"
+         		fullBuild="true"
+         	/>
 		</validator>
 	</extension>
 

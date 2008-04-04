@@ -55,6 +55,7 @@ import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.el.VariableResolver;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
@@ -71,8 +72,6 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	ClassPath classPath = new ClassPath(this);
 	
 //	boolean useDefaultRuntime = false;
-	
-	String runtimeName = null;
 	
 	Set<IPath> sourcePaths = new HashSet<IPath>();
 	
@@ -136,11 +135,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	public String getRuntimeName() {
-		SeamRuntime runtime = getRuntime();
-		if(runtime!=null) {
-			return runtime.getName();
-		}
-		return runtimeName;
+		IEclipsePreferences p = getSeamPreferences();
+		return p.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, null);
 	}
 
 	/**
@@ -154,6 +150,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
 			return sp == null ? null : sp.getRuntime();
 		}
+		String runtimeName = getRuntimeName();
 		return runtimeName == null ? null : SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName);
 	}
 
@@ -170,17 +167,21 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 
 	public void setRuntimeName(String runtimeName) {
-		if(this.runtimeName == runtimeName) return;
-		if(this.runtimeName != null && this.runtimeName.equals(runtimeName)) return;
-		SeamRuntime d = SeamRuntimeManager.getInstance().getRuntimeForProject(project);
+		IEclipsePreferences prefs = getSeamPreferences();
+		String storedRuntimeName = getRuntimeName();
+		boolean changed = (storedRuntimeName == null) ? runtimeName != null : !storedRuntimeName.equals(runtimeName);
+		if(!changed) return;
 
-		boolean useDefaultRuntime = d != null && d.getName().equals(runtimeName);
-		if(useDefaultRuntime) {
-			this.runtimeName = null;
+		if(runtimeName == null) {
+			prefs.remove(RUNTIME_NAME);
 		} else {
-			this.runtimeName = runtimeName;
+			prefs.put(RUNTIME_NAME, runtimeName);
+		}		
+		try {
+			prefs.flush();
+		} catch (BackingStoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
 		}
-		storeRuntime();
 	}
 
 	/**
@@ -247,34 +248,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		setSourcePath(project.getFullPath());
 		resource = project;
 		classPath.init();
-		loadRuntime();
 //		load();
 	}
 
-	/**
-	 * 
-	 */
-	void loadRuntime() {
-		IEclipsePreferences prefs = getSeamPreferences();
-		if(prefs == null) return;
-		runtimeName = prefs.get(RUNTIME_NAME, null);
-		if(runtimeName != null) {
-		} else {
-			storeRuntime();
-		}
-//		SeamCorePlugin.getDefault().getPluginPreferences().addPropertyChangeListener(new Preferences.IPropertyChangeListener() {
-//			public void propertyChange(Preferences.PropertyChangeEvent event) {
-//				if(SeamProjectPreferences.RUNTIME_LIST.equals(event.getProperty())) {
-//					SeamRuntime d = SeamRuntimeManager.getInstance().getDefaultRuntime();
-//					if(d != null && d.getName().equals(runtimeName)) {
-//						runtimeName = null;
-//						storeRuntime();
-//					}
-//				}
-//			}
-//		});
-	}
-	
 	IEclipsePreferences preferences = null;
 
 	/**
@@ -481,28 +457,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		XMLUtilities.serialize(root, file.getAbsolutePath());
 	}
-	
-	/**
-	 * 
-	 */
-	void storeRuntime() {
-		IEclipsePreferences prefs = getSeamPreferences();
-		String runtimeName = prefs.get(RUNTIME_NAME, null);
-		boolean changed = (this.runtimeName == null) ? runtimeName != null : !this.runtimeName.equals(runtimeName);
-		if(!changed) return;
-		
-		if(this.runtimeName == null) {
-			prefs.remove(RUNTIME_NAME);
-		} else {
-			prefs.put(RUNTIME_NAME, this.runtimeName);
-		}		
-		try {
-			prefs.flush();
-		} catch (BackingStoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
-	}
-	
+
 	/*
 	 * 
 	 */

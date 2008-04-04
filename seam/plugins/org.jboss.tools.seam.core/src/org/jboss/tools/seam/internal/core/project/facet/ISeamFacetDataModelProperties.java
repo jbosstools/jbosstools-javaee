@@ -86,6 +86,11 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String SEAM_SETTINGS_VERSION = "seam.project.settings.version";
 
 	/**
+	 * Seam settings version 1.0.
+	 */
+	String SEAM_SETTINGS_VERSION_1_0 = "1.0";
+
+	/**
 	 * Seam settings version 1.1.
 	 */
 	String SEAM_SETTINGS_VERSION_1_1 = "1.1";

@@ -39,14 +39,14 @@ public abstract class SeamValidator implements ISeamValidator {
 			"org.eclipse.wst.validation", 0, "OK", null); //$NON-NLS-1$ //$NON-NLS-2$
 
 	protected SeamValidatorManager validationManager;
-	protected SeamValidationHelper coreHelper;
+	protected SeamContextValidationHelper coreHelper;
 	protected IReporter reporter;
 	protected SeamValidationContext validationContext;
 	protected ISeamProject project;
 	protected String projectName;
 
 	public SeamValidator(SeamValidatorManager validatorManager,
-			SeamValidationHelper coreHelper, IReporter reporter,
+			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
 		this.validationManager = validatorManager;
 		this.coreHelper = coreHelper;

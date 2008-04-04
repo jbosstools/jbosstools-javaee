@@ -186,7 +186,7 @@ public class SwtFieldEditorFactory implements IFieldEditorFactory {
 				IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 				if (resource!=null) {
 					IProject project = resource.getProject();
-					if (project.getProject().isOpen()) {
+					if (project!=null && project.isOpen()) {
 						IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
 						try {
 							IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();

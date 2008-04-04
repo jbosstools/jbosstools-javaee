@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -118,40 +119,43 @@ public class SeamProjectsSet {
 	 * 
 	 * @return the action folder (this folder is not guaranteed to exist!)
 	 */	
-	public IFolder getActionFolder() {
+	public IContainer getActionFolder() {
 		String folderPath = null;
 		if(prefs!=null) {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
 		}
-		if(folderPath==null) {
+		if(folderPath==null || folderPath.length()==0) {
 			return getSourceFolder();
 		}
 
-		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
+		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
 	/**
 	 *  
 	 * @return the model folder if exists (this folder is not guaranteed to exist!)
 	 */
-	public IFolder getModelFolder() {
+	public IContainer getModelFolder() {
 		String folderPath = null;
 		if(prefs!=null) {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
 		}
-		if(folderPath==null) {
+		if(folderPath==null || folderPath.length()==0) {
 			return getSourceFolder();
 		}
 
-		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
+		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
-	private IFolder getSourceFolder() {
+	private IContainer getSourceFolder() {
 		IFolder webSrcFolder = findWebSrcFolder();
 		if(webSrcFolder!=null) {
 			return webSrcFolder;
 		}
 		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(war);
+		if(javaProject==null) {
+			return war;
+		}
 		try {
 			IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
 			for (int i = 0; i < roots.length; i++) {
@@ -169,12 +173,12 @@ public class SeamProjectsSet {
 	 * Returns web contents folder.
 	 * @return
 	 */
-	public IFolder getViewsFolder() {
+	public IContainer getViewsFolder() {
 		String folderPath = null;
 		if(prefs!=null) {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
 		}
-		if(folderPath==null) {
+		if(folderPath==null || folderPath.length()==0) {
 			IVirtualComponent com = ComponentCore.createComponent(war);
 			if(com!=null) {
 				IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
@@ -182,26 +186,26 @@ public class SeamProjectsSet {
 					return (IFolder)webRootFolder.getUnderlyingFolder();
 				}
 			}
-			return null;
+			return getWarProject();
 		}
 
-		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
+		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
 	/**
 	 * Returns source folder for test cases.
 	 * @return
 	 */
-	public IFolder getTestsFolder() {
+	public IContainer getTestsFolder() {
 		String folderPath = null;
 		if(prefs!=null) {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
 		}
-		if(folderPath==null) {
+		if(folderPath==null || folderPath.length()==0) {
 			return getSourceFolder();
 		}
 
-		return (IFolder)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
+		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
 	public String getEntityPackage(){

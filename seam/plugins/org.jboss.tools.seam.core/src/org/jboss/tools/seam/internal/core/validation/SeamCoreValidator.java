@@ -94,7 +94,7 @@ public class SeamCoreValidator extends SeamValidator {
 	protected static final String VALIDATING_CLASS_MESSAGE_ID = "VALIDATING_CLASS";
 
 	public SeamCoreValidator(SeamValidatorManager validatorManager,
-			SeamValidationHelper coreHelper, IReporter reporter,
+			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
 	}
