@@ -17,8 +17,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
@@ -73,7 +75,13 @@ public class PropertiesScanner implements IFileScanner {
 
 		if(o.getParent() instanceof FolderImpl) {
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
-			if(f != null && f.exists()) ((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+			if(f != null && f.exists()) {
+				try {
+					((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+				} catch (XModelException e) {
+					ModelPlugin.getPluginLog().logError(e);
+				}
+			}
 		}
 		
 		LoadedDeclarations ds = new LoadedDeclarations();

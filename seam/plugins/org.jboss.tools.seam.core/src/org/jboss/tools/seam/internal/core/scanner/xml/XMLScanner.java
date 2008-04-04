@@ -21,8 +21,10 @@ import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -112,7 +114,11 @@ public class XMLScanner implements IFileScanner {
 		if(o.getParent() instanceof FolderImpl) {
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
 			if(f != null && f.exists()) {
-				((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+				try {
+					((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+				} catch (XModelException e) {
+					ModelPlugin.getPluginLog().logError(e);
+				}
 				if(o.getParent() == null) {
 					boolean b = isLikelyComponentSource(f);
 					if(!b) return null;
