@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
 package org.jboss.tools.struts.validator.ui.global;
 
 import java.util.Properties;
@@ -16,6 +6,7 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.ui.swt.util.*;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.ui.editor.DefaultEditorPart;
@@ -213,8 +204,13 @@ class TextAttributeEditor extends ValidatorAttributeEditor {
 	}
 	
 	public void save() {
-		if(object != null && text != null) 
-		  object.getModel().changeObjectAttribute(object, name, "" + text.getText()); //$NON-NLS-1$
+		if(object != null && text != null) {
+			try {
+				object.getModel().changeObjectAttribute(object, name, "" + text.getText()); //$NON-NLS-1$
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -275,6 +271,8 @@ class TextAreaAttributeEditor extends ValidatorAttributeEditor {
 		lock++;
 		try {
 			object.getModel().changeObjectAttribute(object, name, "" + text.getText()); //$NON-NLS-1$
+		} catch (XModelException e) {
+			ModelPlugin.getPluginLog().logError(e);
 		} finally {
 			lock--;
 		}

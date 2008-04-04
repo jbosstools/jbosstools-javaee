@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
 package org.jboss.tools.struts.validator.ui.formset;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.ui.swt.util.*;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.FindObjectHelper;
@@ -184,7 +175,13 @@ class PageAttributeEditor extends FieldAttributeEditor {
 
 	protected void setDefault() {
 		XModelObject o = getModelObject();
-		if(o != null) o.getModel().changeObjectAttribute(o, "page", "");
+		if(o != null) {
+			try {
+				o.getModel().changeObjectAttribute(o, "page", "");
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 
 	protected void overwrite() {
@@ -195,7 +192,11 @@ class PageAttributeEditor extends FieldAttributeEditor {
 		invoke("EditActions.EditPage", ts[0]); 
 		if(t != ts[0].getTimeStamp() && ts[1] != null) {
 			ts[0].setAttributeValue("indexedListProperty", "");
-			DefaultCreateHandler.addCreatedObject(ts[1], ts[2], FindObjectHelper.IN_EDITOR_ONLY);
+			try {
+				DefaultCreateHandler.addCreatedObject(ts[1], ts[2], FindObjectHelper.IN_EDITOR_ONLY);
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
 		}
 	}
 
@@ -217,7 +218,13 @@ class PropertyIndexAttributeEditor extends FieldAttributeEditor {
 
 	protected void setDefault() {
 		XModelObject o = getModelObject();
-		if(o != null) o.getModel().changeObjectAttribute(o, "indexedListProperty", "");
+		if(o != null) {
+			try {
+				o.getModel().changeObjectAttribute(o, "indexedListProperty", "");
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 
 	protected void overwrite() {
@@ -228,7 +235,11 @@ class PropertyIndexAttributeEditor extends FieldAttributeEditor {
 		invoke("EditActions.EditIndex", ts[0]);
 		if(t != ts[0].getTimeStamp() && ts[1] != null) {
 			ts[0].setAttributeValue("page", "");
-			DefaultCreateHandler.addCreatedObject(ts[1], ts[2], FindObjectHelper.IN_EDITOR_ONLY);
+			try {
+				DefaultCreateHandler.addCreatedObject(ts[1], ts[2], FindObjectHelper.IN_EDITOR_ONLY);
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
 		}
 	}
 

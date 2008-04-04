@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
 package org.jboss.tools.struts.validator.ui.formset;
 
 import java.util.ArrayList;
@@ -23,7 +13,9 @@ import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.meta.help.HelpUtil;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.ui.action.CommandBar;
 import org.jboss.tools.common.model.ui.action.CommandBarLayout;
 import org.jboss.tools.common.model.ui.action.CommandBarListener;
@@ -321,8 +313,13 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 
 	private void overwriteObject() {
 		XModelObject[] targets = FieldDataEditor.getTarget(selected);
-		if(targets != null && targets[1] != null)
-		  DefaultCreateHandler.addCreatedObject(targets[1], targets[2], FindObjectHelper.IN_EDITOR_ONLY);
+		if(targets != null && targets[1] != null) {
+			try {
+				DefaultCreateHandler.addCreatedObject(targets[1], targets[2], FindObjectHelper.IN_EDITOR_ONLY);
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
+		}
 		updateInheritance();
 	}
 

@@ -1,18 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
 package org.jboss.tools.struts.validator.ui.formset;
 
 import java.util.Properties;
 import java.util.Set;
 
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.ui.objecteditor.*;
 import org.jboss.tools.struts.validator.ui.formset.model.DependencyModel;
 import org.jboss.tools.struts.validator.ui.formset.model.FModel;
@@ -20,6 +11,7 @@ import org.eclipse.swt.graphics.Color;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 
@@ -82,7 +74,13 @@ public abstract class FieldDataEditor extends XChildrenEditor implements ActionN
 			XModelObject o = helper.getModelObject(xtable.getSelectionIndex());
 			if(o == null) return;
 			if(name.equals(ActionNames.EDIT)) executeEdit(o);
-			else if(name.equals(OVERWRITE)) executeOverwrite();
+			else if(name.equals(OVERWRITE)) {
+				try {
+					executeOverwrite();
+				} catch (XModelException e) {
+					throw new RuntimeException(e.getMessage(), e);
+				}
+			}
 			else if(name.equals(ActionNames.DELETE)) callAction(o, "DeleteActions.Delete");
 			else if(name.equals(DEFAULT)) callAction(o, "DeleteActions.ResetDefault");
 		}
@@ -102,7 +100,7 @@ public abstract class FieldDataEditor extends XChildrenEditor implements ActionN
 		callAction(o, "Properties.Properties");
 	}
 
-	protected void executeOverwrite() {
+	protected void executeOverwrite() throws XModelException {
 		if(helper == null || fmodel == null) return;
 		XModelObject o = helper.getModelObject(xtable.getSelectionIndex());
 		if(o == null) return;
@@ -140,8 +138,13 @@ public abstract class FieldDataEditor extends XChildrenEditor implements ActionN
 			XActionInvoker.invoke(actionpath, target, p);
 		}
 		if(ts == target.getTimeStamp()) return;
-		if(po != null && co != null)
-		  DefaultCreateHandler.addCreatedObject(po, co, FindObjectHelper.IN_EDITOR_ONLY);
+		if(po != null && co != null) {
+			try {
+				DefaultCreateHandler.addCreatedObject(po, co, FindObjectHelper.IN_EDITOR_ONLY);
+			} catch (XModelException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 
 	static XModelObject[] getTarget(FModel pf) {

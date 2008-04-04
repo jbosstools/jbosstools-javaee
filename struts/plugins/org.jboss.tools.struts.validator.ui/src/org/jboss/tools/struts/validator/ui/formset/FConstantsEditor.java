@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
 package org.jboss.tools.struts.validator.ui.formset;
 
 import java.util.*;
@@ -102,7 +92,13 @@ public class FConstantsEditor extends XChildrenEditor implements ActionNames {
 			if(o == null) return;
 			if(name.equals(ActionNames.DELETE)) callAction(o, "DeleteActions.Delete");
 			else if(name.equals(ActionNames.EDIT)) callAction(o, "Properties.Properties");
-			else if(name.equals(OVERWRITE)) executeOverwrite();
+			else if(name.equals(OVERWRITE)) {
+				try {
+					executeOverwrite();
+				} catch (XModelException e) {
+					throw new RuntimeException(e.getMessage(), e);
+				}
+			}
 			else if(name.equals(DEFAULT)) callAction(o, "DeleteActions.ResetDefault");
 		}
 	}
@@ -117,7 +113,7 @@ public class FConstantsEditor extends XChildrenEditor implements ActionNames {
 		if(i >= 0) xtable.setSelection(i);
 	}
 
-	protected void executeOverwrite() {
+	protected void executeOverwrite() throws XModelException {
 		if(helper == null || fmodel == null) return;
 		XModelObject o = helper.getModelObject(xtable.getSelectionIndex());
 		if(o == null) return;
