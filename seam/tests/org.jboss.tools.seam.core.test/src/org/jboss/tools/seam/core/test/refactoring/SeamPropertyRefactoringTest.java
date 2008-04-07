@@ -17,7 +17,6 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -54,6 +53,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.WorkbenchUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
@@ -89,13 +89,13 @@ public class SeamPropertyRefactoringTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		if(warProject==null) {
-			warProject = loadProject(warProjectName);
+			warProject = ProjectImportTestSetup.loadProject(warProjectName);
 		}
 		if(ejbProject==null) {
-			ejbProject = loadProject(ejbProjectName);;
+			ejbProject = ProjectImportTestSetup.loadProject(ejbProjectName);;
 		}
 		if(testProject==null) {
-			testProject = loadProject(testProjectName);
+			testProject = ProjectImportTestSetup.loadProject(testProjectName);
 		}
 		if(seamWarProject==null) {
 			seamWarProject = loadSeamProject(warProject);
@@ -106,15 +106,6 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		if(seamTestProject==null) {
 			seamTestProject = loadSeamProject(testProject);
 		}
-	}
-
-	private IProject loadProject(String projectName) throws CoreException {
-		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(projectName);
-		assertNotNull("Can't load " + projectName, project);
-		IProject result = project.getProject();
-		result.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		EditorTestHelper.joinBackgroundActivities();
-		return result;
 	}
 
 	private ISeamProject loadSeamProject(IProject project) throws CoreException {

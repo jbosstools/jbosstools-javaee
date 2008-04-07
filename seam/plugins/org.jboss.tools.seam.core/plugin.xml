@@ -273,7 +273,7 @@
 		</validator>
 	</extension>
 
-   <!--extension
+   <extension
         point="org.eclipse.wst.validation.validator"
 		id="SeamProjectPropertyValidator"
 		name="Seam Project Property Validator">
@@ -288,7 +288,7 @@
          		fullBuild="true"
          	/>
 		</validator>
-	</extension-->
+	</extension>
 
    <extension
          id="seamProblem"

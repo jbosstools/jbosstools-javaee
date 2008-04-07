@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
@@ -41,6 +40,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public SeamValidatorsTest() {
 		super("Seam Validator Tests");
+	}
+
+	public SeamValidatorsTest(String name) {
+		super(name);
 	}
 
 	protected void setUp() throws Exception {
@@ -827,54 +830,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 	}
 	
-	private int getMarkersNumber(IFile file){
-		try{
-			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-			for(int i=0;i<markers.length;i++){
-				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
-			}
-			return markers.length;
-			
-		}catch(CoreException ex){
-			JUnitUtils.fail("Error in getting problem markers", ex);
-		}
-		return -1;
-	}
-
-	private String[] getMarkersMessage(IFile file){
-		String[] messages = new String[1];
-		messages[0]="";
-		try{
-			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-			messages = new String[markers.length];
-			
-			for(int i=0;i<markers.length;i++){
-				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
-				messages[i] = markers[i].getAttribute(IMarker.MESSAGE, "");
-			}
-		}catch(CoreException ex){
-			JUnitUtils.fail("Error in getting problem markers", ex);
-		}
-		return messages;
-	}
-
-	private int[] getMarkersNumbersOfLine(IFile file){
-		int[] numbers = new int[1];
-		numbers[0]=0;
-		try{
-			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-			numbers = new int[markers.length];
-			
-			for(int i=0;i<markers.length;i++){
-				System.out.println("Marker line number - "+markers[i].getAttribute(IMarker.LINE_NUMBER, 0));
-				numbers[i] = markers[i].getAttribute(IMarker.LINE_NUMBER, 0);
-			}
-		}catch(CoreException ex){
-			JUnitUtils.fail("Error in getting problem markers", ex);
-		}
-		return numbers;
-	}
-
 	private void refreshProject(IProject project){
 		waitForJob();
 	}
