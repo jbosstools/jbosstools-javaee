@@ -103,6 +103,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
 	private static final String TRUE = "true"; //$NON-NLS-1$
 	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
+	private static final String TOP_MENU_ITEM_ID = ""; //$NON-NLS-1$
 
 	private List<String> activeIds = new ArrayList<String>();
 	
@@ -148,7 +149,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
 				RichFacesPanelMenuItemTemplate.encode(pageContext,
 						vpeCreationData, sourceElement, (Element) child,
-						visualDocument, div);
+						visualDocument, div, TOP_MENU_ITEM_ID);
 			} else {
 				nsIDOMElement childDiv = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_DIV);

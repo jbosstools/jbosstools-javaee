@@ -78,6 +78,9 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 
 	private static final String WIDTH_100_PERSENTS = "width: 100%; "; //$NON-NLS-1$
 	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
+	private static final String NO_SIZE_VALUE = "0"; //$NON-NLS-1$
+	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
+	
 	/*
 	 *	rich:panelMenu attributes for groups
 	 */ 
@@ -207,7 +210,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 									.encode(pageContext, creationData,
 											sourceParentElement,
 											(Element) child, visualDocument,
-											div);
+											div, childId);
 						}
 					}
 
@@ -253,6 +256,23 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		nsIDOMElement tableBodyRow = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		table.appendChild(tableBodyRow);
+		
+		/*
+		 * Add indentation for nested gruops
+		 */
+		String[] ids = activeChildId.split(GROUP_COUNT_SEPARATOR);
+		if (ids.length > 1) {
+			for (int i = 1; i <= ids.length - 1; i++) {
+				nsIDOMElement spacerTd = visualDocument
+						.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				nsIDOMElement spacerImg = visualDocument
+						.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+				spacerTd.appendChild(spacerImg);
+				ComponentUtil.setImg(spacerImg, PANEL_MENU_GROUP_ICON_SPACER_PATH);
+				setDefaultImgAttributes(spacerImg);
+				tableBodyRow.appendChild(spacerTd);
+			}
+		}
 
 		nsIDOMElement column1 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
@@ -355,6 +375,15 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
 	}
 
+	private static void setDefaultImgAttributes(nsIDOMElement element) {
+		element.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
+				DEFAULT_SIZE_VALUE);
+		element.setAttribute("vspace", NO_SIZE_VALUE); //$NON-NLS-1$
+		element.setAttribute("hspace", NO_SIZE_VALUE); //$NON-NLS-1$
+		element.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
+				DEFAULT_SIZE_VALUE);
+	}
+	
 	private static final Element getRichPanelParent(Element sourceElement) {
 		Element parent = (Element) sourceElement.getParentNode();
 

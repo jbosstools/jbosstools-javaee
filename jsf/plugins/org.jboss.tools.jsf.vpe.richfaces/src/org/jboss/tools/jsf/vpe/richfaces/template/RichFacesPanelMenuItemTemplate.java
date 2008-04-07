@@ -120,7 +120,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	public static VpeCreationData encode(VpePageContext pageContext,
 			VpeCreationData creationData, Element sourceParentElement,
 			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement parentVisualElement) {
+			nsIDOMElement parentVisualElement, String childId) {
 
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
 
@@ -158,6 +158,30 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMElement tr = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TR);
 			table.appendChild(tr);
+			
+			/*
+			 * Add indentation for nested items
+			 */
+			String[] ids = childId.split(RichFacesPanelMenuGroupTemplate.GROUP_COUNT_SEPARATOR);
+			if (ids.length > 0) {
+				for (int i = 1; i <= ids.length; i++) {
+					/*
+					 * Skip indentation in top menu items
+					 */
+					if (EMPTY.equalsIgnoreCase(ids[0])) {
+						continue;
+					}
+					nsIDOMElement spacerTd = visualDocument
+							.createElement(HtmlComponentUtil.HTML_TAG_TD);
+					nsIDOMElement spacerImg = visualDocument
+							.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					spacerTd.appendChild(spacerImg);
+					ComponentUtil.setImg(spacerImg, IMG_SPACER_SRC);
+					setDefaultImgAttributes(spacerImg);
+					tr.appendChild(spacerTd);
+				}
+			}
+			
 
 			nsIDOMElement tdNowrap = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
