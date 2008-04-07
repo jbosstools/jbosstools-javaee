@@ -8,7 +8,7 @@
     <artifactId>visua-web-tools-guide-${translation}</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jdocbook</packaging>
-    <name>Visual_Web_Tools_Reference_Guide_(${translation})</name>
+    <name>Visual_Web_Tools_Reference_Guide</name>
 
     <build>
         <plugins>

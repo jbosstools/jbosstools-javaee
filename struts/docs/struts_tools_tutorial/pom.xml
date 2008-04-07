@@ -8,7 +8,7 @@
     <artifactId>struts-tools-tutorial-${translation}</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jdocbook</packaging>
-    <name>Struts_Tools_Tutorial_(${translation})</name>
+    <name>Struts_Tools_Tutorial</name>
 
     <build>
         <plugins>
