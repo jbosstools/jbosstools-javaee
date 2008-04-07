@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
