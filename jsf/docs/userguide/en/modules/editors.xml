@@ -429,7 +429,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_21.png"/>
+                                        fileref="images/editors_features/editors_features_21.png" scale="75"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -462,7 +462,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_23.png" />
+                                        fileref="images/editors_features/editors_features_23.png" scale="75"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -476,7 +476,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_24.png"/>
+                                        fileref="images/editors_features/editors_features_24.png" scale="75"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -490,7 +490,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_25.png"/>
+                                        fileref="images/editors_features/editors_features_25.png" scale="60"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -500,7 +500,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_26.png"/>
+                                        fileref="images/editors_features/editors_features_26.png" scale="60"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -513,7 +513,7 @@
                             <mediaobject>
                                 <imageobject>
                                     <imagedata
-                                        fileref="images/editors_features/editors_features_27.png"/>
+                                        fileref="images/editors_features/editors_features_27.png" scale="75"/>
                                 </imageobject>
                             </mediaobject>
                         </figure>
@@ -533,8 +533,7 @@
                         <title>Content Assist for Rich Faces Components</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_29.png"
-                                />
+                                <imagedata fileref="images/editors_features/editors_features_29.png" scale="65"/>
                             </imageobject>
                         </mediaobject>
                     </figure>
@@ -557,7 +556,7 @@
                                     <mediaobject>
                                         <imageobject>
                                             <imagedata
-                                                fileref="images/editors_features/editors_features_30.png"
+                                                fileref="images/editors_features/editors_features_30.png" scale="75"
                                             />
                                         </imageobject>
                                     </mediaobject>
@@ -571,7 +570,7 @@
                         <title>Rich Faces Component</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_31.png"
+                                <imagedata fileref="images/editors_features/editors_features_31.png" scale="75"
                                 />
                             </imageobject>
                         </mediaobject>
