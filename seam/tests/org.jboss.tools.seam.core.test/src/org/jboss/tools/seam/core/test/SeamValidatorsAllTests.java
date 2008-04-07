@@ -23,7 +23,7 @@ public class SeamValidatorsAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-//		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamValidatorsTest.class),"org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject","SeamWebWarTestProject"));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamValidatorsTest.class),"org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject","SeamWebWarTestProject"));
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamProjectPropertyValidatorTest.class),
 				"org.jboss.tools.seam.core.test",
 				new String[]{"projects/RefactoringTestProject-war", "projects/RefactoringTestProject-ejb", "projects/RefactoringTestProject-test"},
