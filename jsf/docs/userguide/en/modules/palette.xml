@@ -9,9 +9,9 @@
         </keywordset>
     </chapterinfo>
     <title>JBoss Tools Palette</title>
-    <para>This chapter will introduce you to the functionality provide by <property>JBoss Tools
-            Palette</property>. Palette allows you to quickly and easily create your JSP or JSF
-        page. Now you can do it more faster without additional knowledge.</para>
+    <para>This chapter will introduce you to the functionality provided by <property>JBoss Tools
+            Palette</property>. The Palette allows you to quickly and easily create your JSP or JSF
+        pages. Now you can do it more faster without additional knowledge.</para>
     <para>The <property>JBoss Tools Palette</property> allows you to:</para>
     <itemizedlist>
         <listitem>
@@ -23,7 +23,7 @@
     </itemizedlist>
     <para>The JBoss Tools Palette contains a developer's project tag libraries and provides
         possibility to add any tag libraries to it. Also you can choose a necessary one from the
-        list of already existent tag libraries:</para>
+        list of already existed tag libraries:</para>
     <itemizedlist>
         <listitem>
             <para>HTML</para>
@@ -51,7 +51,7 @@
         </listitem>
     </itemizedlist>
     <figure>
-        <title>JBoss Tools Palette</title>
+        <title>Default View of The JBoss Tools Palette</title>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="images/palette/palette_1.png"/>
@@ -67,8 +67,8 @@
     <section id="PaletteOptions">
         <?dbhtml filename="PaletteOptions.html"?>
         <title>Palette Options</title>
-        <para>To ease your work, you can configure the Palette for your own, by selecting the
-            corresponding icon on the Palette toolbar.</para>
+        <para>To facilitate your work, you can configure the Palette in your own way, by selecting
+            the corresponding icon on the Palette toolbar.</para>
         <para>There is a possibility to configure the JBoss Tools Palette:</para>
         <itemizedlist>
             <listitem>
@@ -98,7 +98,7 @@
                 new one, as well.</para>
             <para>To open the editor, click on the <emphasis>
                     <property>Palette Editor</property>
-                </emphasis> icon: <itemizedlist>
+                </emphasis> icon: 
                     <figure>
                         <title>Palette Editor Icon</title>
                         <mediaobject>
@@ -132,7 +132,8 @@
                     </figure>
                     <para>The Palette Editor provides the following possibilities when working with
                         existing tags or icons:</para>
-                    <listitem>
+                <itemizedlist>    
+                     <listitem>
                         <para>to work with a set of icons</para>
                         <para><emphasis>
                                 <property>Icons</property>
@@ -296,29 +297,30 @@
                                 </imageobject>
                             </mediaobject>
                         </figure>
-                    </listitem>
-                    <para>After all the attributes are set, click <emphasis>
+                        <para>After all the attributes are set, click <emphasis>
                             <property>Finish</property>
                         </emphasis> button.</para>
-                    <note>
-                        <title>Note:</title>
-                        <para>If you do not choose an icon the default one will be assigned.</para>
-                    </note>
-                    <para>You are allowed to edit or delete the tag . If you&apos;d like to
-                        change the attributes of the tag or choose another icon for it, use the
-                        right editing window of the palette editor or the <emphasis>
-                            <property>Edit...</property>
-                        </emphasis> option from the pop-up menu. In order to remove the tag, right
-                        click on the tag that you wish to remove and chose the <emphasis>
-                            <property>Delete</property>
-                        </emphasis> option or click the <emphasis>
-                            <property>Delete</property>
-                        </emphasis> keyboard button.</para>
-                    <important>
-                        <title>Important:</title>
-                        <para>The removal option is enabled only for custom tags. JBoss Palette tags
-                            can not be removed but can be modified.</para>
-                    </important>
+                        <note>
+                            <title>Note:</title>
+                            <para>If you do not choose an icon the default one will be assigned.</para>
+                        </note>
+                        <para>You are also allowed to edit or delete the tag. If you&apos;d like to
+                            change the attributes of the tag or choose another icon for it, use the
+                            right editing window of the palette editor or the <emphasis>
+                                <property>Edit...</property>
+                            </emphasis> option from the pop-up menu. In order to remove the tag, right
+                            click on the tag that you wish to remove and chose the <emphasis>
+                                <property>Delete</property>
+                            </emphasis> option or click the <emphasis>
+                                <property>Delete</property>
+                            </emphasis> keyboard button.</para>
+                        <important>
+                            <title>Important:</title>
+                            <para>The removal option is enabled only for custom tags. JBoss Palette tags
+                                can not be removed but can be modified.</para>
+                        </important>
+                    </listitem>
+                    
                 </itemizedlist>
             </para>
         </section>
@@ -378,8 +380,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>The name of the elements is compound. The first part is the group’s name and the
-                second is the library’s name.</para>
+            <para>The names of the elements are compound. The first part is the group name and the
+                second is the library name.</para>
         </section>
         <section id="Import">
             <?dbhtml filename="Import.html"?>
@@ -387,7 +389,7 @@
             <para>The Import button lets you add a custom or 3rd party tag library to JBoss Tools
                 Palette. Find out more information on how to add particular tags see the <link
                     linkend="ImportButton521">Adding Custom JSF Tags</link> section.
-               <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
+                <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
         </section>
     </section>
     <section id="UsingThePalette(IncludingOne-ClickTagInsertion)">
@@ -505,7 +507,7 @@
                     </emphasis> are detected, thus just need to set the <emphasis>
                         <property>Group</property>
                     </emphasis> name to which you wish to place this tag library. You can either add
-                   this tag library to an existing Group or just create a new one.</para>
+                    this tag library to an existing Group or just create a new one.</para>
                 <figure>
                     <title>Import Tags From TLD File Form</title>
                     <mediaobject>
