@@ -10,9 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.EditableTemplateAdapter;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.TemplateManagingUtil;
@@ -39,23 +43,52 @@ public class JsfVerbatim extends EditableTemplateAdapter {
 
 		Element element = (Element) sourceNode;
 
+		// create span
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
 
+		// get children
 		NodeList list = element.getChildNodes();
 
-		if (list.getLength() != 0) {
-			Node firstNode = list.item(0);
-			Node lastNode = list.item(list.getLength() - 1);
+		// creation data
+		VpeCreationData creationData = new VpeCreationData(span);
 
-			String text = TemplateManagingUtil.getSourceText(pageContext,
-					((IDOMNode) firstNode).getStartOffset(),
-					((IDOMNode) lastNode).getEndOffset() - 1);
+		// for each child
+		for (int i = 0; i < list.getLength(); i++) {
 
-			span.appendChild(visualDocument.createTextNode(text));
+			Node child = list.item(i);
+
+			// create span for child
+			nsIDOMElement childSpan = visualDocument
+					.createElement(HTML.TAG_SPAN);
+			span.appendChild(childSpan);
+
+			// if child is text or not html tag
+			if ((child.getNodeType() == Node.ELEMENT_NODE && child.getPrefix() != null)
+					|| (child.getNodeType() == Node.TEXT_NODE)) {
+
+				// create children info and add to creationData
+				VpeChildrenInfo childSpanInfo = new VpeChildrenInfo(childSpan);
+				childSpanInfo.addSourceChild(child);
+				creationData.addChildrenInfo(childSpanInfo);
+
+			} else {
+				// get text by positions and add to span
+				String text = TemplateManagingUtil.getSourceText(pageContext,
+						((IDOMNode) child).getStartOffset(), ((IDOMNode) child)
+								.getEndOffset() - 1);
+				span.appendChild(visualDocument.createTextNode(text));
+			}
 
 		}
 
-		VpeCreationData creationData = new VpeCreationData(span);
+		// for case when all children are html tags
+		if ((list.getLength() != 0)
+				&& (creationData.getChildrenInfoList() == null)) {
+			// set empty children info list to visualDomBuilder doesn't
+			// search children himself
+			creationData.setChildrenInfoList(new ArrayList<VpeChildrenInfo>());
+
+		}
 
 		return creationData;
 	}
