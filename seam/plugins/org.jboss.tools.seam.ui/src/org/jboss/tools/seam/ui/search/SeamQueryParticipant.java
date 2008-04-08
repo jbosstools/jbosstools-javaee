@@ -97,37 +97,4 @@ public class SeamQueryParticipant implements IQueryParticipant {
 													seamRequestor);
 		}
 	}
-
-	
-	private IProject getProject(IJavaElement javaElement) {
-		try {
-			return javaElement.getPrimaryElement().getResource().getProject();
-		} catch (Throwable ex) {
-			return null;
-		}
-	}
-	
-	
-	private String getPropertyName (IJavaElement element) {
-		if (element == null || IJavaElement.METHOD != element.getElementType())
-			return null;
-
-		String name = element.getElementName();
-		IMethod method = (IMethod)element;
-		
-		if (!name.startsWith("get") && !name.startsWith("set") && !name.startsWith("is"))
-			return null;
-		
-		
-		if (name.startsWith("get") || name.startsWith("is") ) {
-			// the method is getter only if it has no parameters
-			if (method.getNumberOfParameters() > 0)
-				return null;
-		} 
-		
-		int nameOffset = (name.startsWith("set") || name.startsWith("get") ? 3 : 2);
-		name = name.substring(nameOffset, nameOffset + 1).toLowerCase() + 
-				name.substring(nameOffset + 1);
-		return name;
-	}
 }
