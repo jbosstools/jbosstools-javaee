@@ -15,8 +15,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
@@ -24,12 +22,10 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**
@@ -50,6 +46,21 @@ public class SeamWizardUtils {
 		return getRootSeamProjectName(sel);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public static IProject getCurrentSelectedRootSeamProject() {
+		ISelection sel = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+				.getSelectionService().getSelection();
+		return getRootSeamProject(sel);
+	}
+
+	/**
+	 * 
+	 * @param project
+	 * @return
+	 */
 	public static IProject getRootSeamProject(IProject project) {
 		if (project != null) {
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
@@ -78,7 +89,6 @@ public class SeamWizardUtils {
 	}
 
 	/**
-	 * 
 	 * @param sel
 	 * @return root seam project name based on the passed selection;
 	 *         name of project if selection contains a project which is not a seam project - 
@@ -86,16 +96,31 @@ public class SeamWizardUtils {
 	 *         empty string if selection contains no project
 	 */
 	public static String getRootSeamProjectName(ISelection sel) {
+		IProject project = getRootSeamProject(sel);
+		return project == null ? "" : project.getName();
+	}
+
+	/**
+	 * @param sel
+	 * @return project if selection contains a project which is not a seam project - 
+	 *         in this case it is up to wizard to show what is the problem with the selection;
+	 *         null if selection contains no project
+	 */
+	public static IProject getRootSeamProject(ISelection sel) {
 		IProject initial = getInitialProject(sel);
 		IProject project = getRootSeamProject(initial);
 		if(project == null) {
 			project = initial;
 		}
-		return project == null ? "" : project.getName();
+		return project == null ? null : project;
 	}
 
+	/**
+	 * 
+	 * @param simpleSelection
+	 * @return
+	 */
 	public static IProject getInitialProject(ISelection simpleSelection) {
-
 		IProject project = null;
 		if (simpleSelection != null && !simpleSelection.isEmpty()
 				&& simpleSelection instanceof IStructuredSelection) {
@@ -109,7 +134,7 @@ public class SeamWizardUtils {
 				return resource.getProject();				
 			}
 		}
-		
+
 		if(project==null) {
 			IEditorPart activeEditor = getActivePage().getActiveEditor();
 			if(activeEditor!=null) {
@@ -122,16 +147,15 @@ public class SeamWizardUtils {
 		}
 		return project;
 	}
-	
+
 	private static IWorkbenchPage getActivePage() {
 		IWorkbenchWindow window= getWorkbench().getActiveWorkbenchWindow();
 		if (window == null)
 			return null;
 		return getWorkbench().getActiveWorkbenchWindow().getActivePage();
 	}
-	
+
 	private static IWorkbench getWorkbench() {
         return PlatformUI.getWorkbench();
     }
-	
 }

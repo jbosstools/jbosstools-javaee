@@ -33,6 +33,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -47,6 +48,7 @@ import org.jboss.tools.seam.ui.widget.editor.LabelFieldEditor;
 public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptable, PropertyChangeListener {
 
 	protected final IStructuredSelection initialSelection;
+	protected IProject rootSeamProject;
 
 	/**
 	 * 
@@ -72,7 +74,8 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 
 	protected void createEditors() {
 		addEditors(SeamWizardFactory.createBaseFormFieldEditors(SeamWizardUtils.getRootSeamProjectName(initialSelection)));
-		String selectedProject = SeamWizardUtils.getRootSeamProjectName(initialSelection);
+		rootSeamProject = SeamWizardUtils.getRootSeamProject(initialSelection);
+		String selectedProject = (rootSeamProject == null) ? "" : rootSeamProject.getName();
 		String packageName = getDefaultPackageName(selectedProject);
 		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
 		setSeamProjectNameData(selectedProject);
@@ -290,6 +293,17 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		setPageComplete(true);
 	}
 
+	protected boolean isProjectSettingsOk() {
+		if(rootSeamProject!=null) {
+			IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(rootSeamProject);
+			return SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ""), false) &&
+				SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), false) &&
+				("false".equals(prefs.get(ISeamFacetDataModelProperties.TEST_CREATING, "false").trim()) || (SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ""), false) && SeamProjectPropertyValidator.isProjectNameValid(prefs.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, ""), false))) &&
+				(ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(prefs.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR).trim()) || SeamProjectPropertyValidator.isProjectNameValid(prefs.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ""), false));
+		}
+		return true;
+	}
+
 	/**
 	 * @param project
 	 */
@@ -309,8 +323,12 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 
-		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+		if(errors.size()>0 || !isProjectSettingsOk()) {
+			Object errorMessage = errors.get(IValidator.DEFAULT_ERROR);
+			if(errorMessage==null) {
+				errorMessage = SeamUIMessages.VALIDATOR_INVALID_SETTINGS;
+			}
+			setErrorMessage(errorMessage.toString());
 			setPageComplete(false);
 			IFieldEditor beanEditor = getEditor(IParameter.SEAM_BEAN_NAME);
 			if(beanEditor!=null) {
@@ -321,8 +339,6 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				packageEditor.setEnabled(false);
 			}
 			return false;
-		} else {
-			
 		}
 		return true;
 	}

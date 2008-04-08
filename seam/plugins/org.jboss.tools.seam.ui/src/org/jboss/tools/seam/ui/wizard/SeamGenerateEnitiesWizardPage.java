@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -30,7 +31,10 @@ import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.console.utils.ProjectUtils;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -45,6 +49,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	private IFieldEditor projectEditor;
 	private IFieldEditor configEditor;
 	private RadioField radios;
+	IProject rootSeamProject;
 
 	public SeamGenerateEnitiesWizardPage() {
 		super("seam.generate.entities.page", SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null); //$NON-NLS-1$
@@ -56,7 +61,8 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	 */
 	public void createControl(Composite parent) {
 		setPageComplete(true);
-		String projectName = SeamWizardUtils.getCurrentSelectedRootSeamProjectName();
+		rootSeamProject = SeamWizardUtils.getCurrentSelectedRootSeamProject();
+		String projectName = rootSeamProject==null?"":rootSeamProject.getName();
 		projectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(projectName);
 		projectEditor.addPropertyChangeListener(this);
 		if(projectName!=null && projectName.length()>0) {
@@ -106,6 +112,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		radios.addPropertyChangeListener(this);
 
 		setControl(top);
+		validate();
 	}
 
 	private static String getConsoleConfigurationName(String seamWebProjectName) {
@@ -164,11 +171,44 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		validate();
 	}
 
+	protected boolean isProjectSettingsOk() {
+		if(rootSeamProject!=null) {
+			if(!isValidRuntimeConfigured(rootSeamProject)) {
+				return false;
+			}
+			IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(rootSeamProject);
+			return SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, ""), false) &&
+				SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ""), false) &&
+				SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), false) &&
+				(ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(prefs.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR).trim()) || SeamProjectPropertyValidator.isProjectNameValid(prefs.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ""), false));
+		}
+		return true;
+	}
+
+	/**
+	 * @param project
+	 */
+	protected boolean isValidRuntimeConfigured(IProject project) {
+		Map errors;
+		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
+		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
+		if(errors.size()>0) {
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setPageComplete(false);
+			return false;
+		}
+		return true;
+	}
+
 	private void validate() {
 		Map<String, String> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
 
-		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+		if(errors.size()>0 || !isProjectSettingsOk()) {
+			Object errorMessage = errors.get(IValidator.DEFAULT_ERROR);
+			if(errorMessage==null) {
+				errorMessage = SeamUIMessages.VALIDATOR_INVALID_SETTINGS;
+			}
+			setErrorMessage(errorMessage.toString());
 			setPageComplete(false);
 			return;
 		}

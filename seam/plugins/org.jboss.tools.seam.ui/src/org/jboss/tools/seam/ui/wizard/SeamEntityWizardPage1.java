@@ -19,7 +19,9 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -45,10 +47,11 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	 */
 	@Override
 	protected void createEditors() {
-		addEditor(SeamWizardFactory.createSeamProjectSelectionFieldEditor(SeamWizardUtils.getRootSeamProjectName(initialSelection)));
+		rootSeamProject = SeamWizardUtils.getRootSeamProject(initialSelection);
+		String selectedProject = (rootSeamProject == null) ? "" : rootSeamProject.getName();
+		addEditor(SeamWizardFactory.createSeamProjectSelectionFieldEditor(selectedProject));
 		addEditor(SeamWizardFactory.createSeamEntityClasNameFieldEditor());
 
-		String selectedProject = SeamWizardUtils.getRootSeamProjectName(initialSelection);
 		String packageName = getDefaultPackageName(selectedProject);
 
 		addEditor(SeamWizardFactory.createSeamJavaPackageSelectionFieldEditor(packageName));
@@ -97,6 +100,23 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	@Override
 	protected String getDefaultPackageName(IEclipsePreferences seamFacetPrefs) {
 		return seamFacetPrefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage#isProjectSettingsOk()
+	 */
+	@Override
+	protected boolean isProjectSettingsOk() {
+		if(rootSeamProject!=null) {
+			IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(rootSeamProject);
+			return SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, ""), false) &&
+				SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ""), false) &&
+				SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), false) &&
+				("false".equals(prefs.get(ISeamFacetDataModelProperties.TEST_CREATING, "false").trim()) || (SeamProjectPropertyValidator.isFolderPathValid(prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ""), false) && SeamProjectPropertyValidator.isProjectNameValid(prefs.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, ""), false))) &&
+				(ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(prefs.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR).trim()) || SeamProjectPropertyValidator.isProjectNameValid(prefs.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ""), false));
+		}
+		return true;
 	}
 
 	@Override

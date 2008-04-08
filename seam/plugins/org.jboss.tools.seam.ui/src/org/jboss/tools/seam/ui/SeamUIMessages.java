@@ -409,6 +409,8 @@ public class SeamUIMessages extends NLS {
 	
 	public static String VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS;
 
+	public static String VALIDATOR_INVALID_SETTINGS;
+
 	public static String SEAM_TARGET_SERVER;
 
 	public static String RUNTIME_DELETE_CONFIRM_TITLE;
