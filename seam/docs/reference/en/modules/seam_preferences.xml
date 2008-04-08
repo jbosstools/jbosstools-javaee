@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="seam_preferences" xreflabel="seam_preferences">
+    <?dbhtml filename="seam_preferences.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>Preferences</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Seam Preferences</title>
+
+<para>In this chapter you get to know how Seam preferences can be modified during the development process.</para>
+
+   <section id="gen_pref">
+        <title>General Preferences</title>
+
+<para>Seam preferences can be set using the Seam preference page. Click on <property><emphasis>Window > Preferences > JBoss Tools > Web > Seam</emphasis>.</property></para>
+   
+       <para>On this page you can manage the Seam Runtime. Use the appropriate buttons to <property>Add</property> more runtimes or to <property>Remove</property> those that are not needed.</para>
+   
+       <figure>
+           <title>Seam Preferences Page</title>
+           <mediaobject> 
+               <imageobject>
+                   <imagedata fileref="images/seam_preferences/seam_preferences1.png"/>
+               </imageobject>
+           </mediaobject>
+       </figure>
+       
+       <para>Clicking on <property>Edit</property> button you get the form where you can change the path of Seam runtime home folder, 
+           modify name and version. Press <property>Finish</property> to apply the changes.</para>
+       
+       <figure>
+           <title>Edit Seam Runtime</title>
+           <mediaobject> 
+               <imageobject>
+                   <imagedata fileref="images/seam_preferences/seam_preferences1_2.png"/>
+               </imageobject>
+           </mediaobject>
+       </figure>
+
+<section id="validator_pref">
+
+<title>Validator Preferences</title>
+    
+       <para>Seam preference page includes a subsection <property>Validator</property>.  
+           See <property><emphasis>Window > Preferences > JBoss Tools > Web > Seam > Validator</emphasis>.</property></para>
+       <para>On this page you can choose a severity level for the various Seam validator problems. For example, if you want to ignore the case when component
+       name is duplicated expand the <property>Components</property> node and select <property>Ignore</property> next to <property>Duplicate component name</property>.
+       After that you won't see the error.</para>
+
+
+       <figure>
+           <title>Seam Validator Preference Page</title>
+           <mediaobject> 
+               <imageobject>
+                   <imagedata fileref="images/seam_preferences/seam_preferences1_3.png"/>
+               </imageobject>
+           </mediaobject>
+       </figure>
+
+       <para>In the upper right corner of the page there is a <property>Configure Project Specific</property> link. Clicking on it you get the form where you can
+           choose a project for specific setting. Project specific configuration allows you to have different validator settings for each project. Check the
+           <property>Show only projects with project specific settings</property> if you want to see the projects that have been already set. Click on <property>Ok</property>.</para>
+
+       <figure>
+           <title>Project Specific Configuration</title>
+           <mediaobject> 
+               <imageobject>
+                   <imagedata fileref="images/seam_preferences/seam_preferences1_4.png"/>
+               </imageobject>
+           </mediaobject>
+       </figure>
+
+       <para>You get the validator properties page for chosen project. Check the <property>Enable project specific settings</property> to be able to change the settings.</para>
+
+<note>
+    <title>Note:</title>
+    <para>You can open the same page by right clicking on the needed project in Package Explorer, then <emphasis><property>Properties > Seam Validator</property>.</emphasis></para>
+</note>
+
+       <figure>
+           <title>Validator Properties Page for Chosen Project</title>
+           <mediaobject> 
+               <imageobject>
+                   <imagedata fileref="images/seam_preferences/seam_preferences1_5.png"/>
+               </imageobject>
+           </mediaobject>
+       </figure>
+
+
+</section>
+   </section>
+
+    <section id="project_pref">
+        <title>Project Preferences</title>
+        
+        <para>Once Seam project is created you can modify its settings. Right click on Seam project in Project Explorer and select <emphasis><property>Properties > Seam Settings</property>.</emphasis></para>
+        
+        <figure>
+            <title>Properties for Seam Project</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/seam_preferences2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para></para>
+        
+        
+    </section>
+
+</chapter>
