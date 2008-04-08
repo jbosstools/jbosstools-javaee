@@ -43,7 +43,6 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamELContentAssistTest.class);
 		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
-		suite.addTestSuite(SeamSettingsPreferencesPageTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
 		return suite;
 	}

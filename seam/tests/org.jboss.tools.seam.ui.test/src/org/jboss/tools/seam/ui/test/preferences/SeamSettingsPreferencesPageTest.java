@@ -44,9 +44,9 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 
 	IProject project = null;
 	static String PROJECT_NAME = "TestSeamSettingsPreferencesPage";
-	static String MODEL_PACKAGE_NAME = "org.jboss.model";
-	static String ACTION_PACKAGE_NAME = "org.jboss.action";
-	static String TEST_PACKAGE_NAME = "org.jboss.test";
+	static String MODEL_PACKAGE_NAME = "org.domain." + PROJECT_NAME + ".entity";
+	static String ACTION_PACKAGE_NAME = "org.domain." + PROJECT_NAME + ".session";
+	static String TEST_PACKAGE_NAME = "org.domain." + PROJECT_NAME + ".test";
 	static String RUNTIME_NAME = "Seam 1.2.0 Seam Settings Page Test";
 
 	public SeamSettingsPreferencesPageTest() {
@@ -90,17 +90,8 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 			IFieldEditor viewFolder = page.getEditor(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER);
 			viewFolder.setValue("/" + PROJECT_NAME);
 
-			IFieldEditor modelPackageName = page.getEditor(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
-			modelPackageName.setValue(MODEL_PACKAGE_NAME);
-
-			IFieldEditor sessionPackageName = page.getEditor(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME);
-			sessionPackageName.setValue(ACTION_PACKAGE_NAME);
-
 			IFieldEditor createTest = page.getEditor(ISeamFacetDataModelProperties.TEST_CREATING);
 			createTest.setValue(Boolean.TRUE);
-
-			IFieldEditor testPackageName = page.getEditor(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
-			testPackageName.setValue(TEST_PACKAGE_NAME);
 
 			assertTrue("Settings page is not valid: " + page.getErrorMessage(), page.okToLeave());
 			page.performOk();

@@ -217,7 +217,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, 
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"",
-					getPrefValue(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, ""));
+					getModelPackageName());
 
 		modelSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -243,7 +243,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
 					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, 
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"",
-					getPrefValue(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, ""));	
+					getActionPackageName());	
 
 		actionSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -285,7 +285,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			IFieldEditorFactory.INSTANCE.createBrowsePackageEditor(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, 
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_PACKAGE, sourceFolder!=null?sourceFolder:"", 
-					getPrefValue(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""));
+					getTestPackageName());
 
 		testSourceFolderEditor.addPropertyChangeListener(new PropertyChangeListener(){
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -349,6 +349,39 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			folder = f!=null?f.getFullPath().toString():"";
 		}
 		return folder;
+	}
+
+	private String getModelPackageName() {
+		String name = null;
+		if(preferences!=null) {
+			name = preferences.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, null);
+		}
+		if(name==null) {
+			name = "org.domain." + getSeamProjectName() + ".entity";
+		}
+		return name;
+	}
+
+	private String getActionPackageName() {
+		String name = null;
+		if(preferences!=null) {
+			name = preferences.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, null);
+		}
+		if(name==null) {
+			name = "org.domain." + getSeamProjectName() + ".session";
+		}
+		return name;
+	}
+
+	private String getTestPackageName() {
+		String name = null;
+		if(preferences!=null) {
+			name = preferences.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, null);
+		}
+		if(name==null) {
+			name = "org.domain." + getSeamProjectName() + ".test";
+		}
+		return name;
 	}
 
 	private String getActionSourceFolder() {
@@ -503,6 +536,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private boolean validateJavaPackageName(String errorMessageKey, String warningMessageKey, String editorName) {
 		if(editorRegistry.get(editorName).isEnabled()) {
 			String packageName = getValue(editorName).trim();
+			if(packageName.length()==0) {
+				return true;
+			}
 			IStatus status = JavaConventions.validatePackageName(packageName, CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
 			if(status.getSeverity()==IStatus.ERROR) {
 				if(!error) {
