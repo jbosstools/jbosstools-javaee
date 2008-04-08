@@ -141,6 +141,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
     
 	public boolean saveLayout(XModelObject object) {
 		if(isLight) return true;
+		if(object == null || !object.isActive()) return false;
 		XModelObjectLoaderUtil util = new XModelObjectLoaderUtil();
 		try {
 			XModelObject process = object.getChildByPath(ELM_PROCESS);
