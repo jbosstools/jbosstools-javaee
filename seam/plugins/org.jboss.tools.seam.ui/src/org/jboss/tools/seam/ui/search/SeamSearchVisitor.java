@@ -403,7 +403,8 @@ public class SeamSearchVisitor {
     }
 
 	private int calculateFiles() {
-		if (fJavaMatchers != null && fJavaMatchers.length > 0) { 
+		if ((fJavaMatchers != null && fJavaMatchers.length > 0) ||
+				(fVariableMatchers != null && fVariableMatchers.length > 0)) { 
 			IFile[] files = fCurrentScope.evaluateFilesInScope(fStatus);
 			return (files == null ? 0 : files.length);
 		} else if (fVarMatchers != null && fVarMatchers.length > 0) {
