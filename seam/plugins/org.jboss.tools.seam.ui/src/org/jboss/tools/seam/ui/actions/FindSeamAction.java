@@ -29,14 +29,24 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate2;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPageListener;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWindowListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchListener;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
@@ -64,8 +74,12 @@ import org.jboss.tools.seam.ui.search.SeamSearchScope;
  *  
  * @author Jeremy
  */
-abstract public class FindSeamAction extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
+abstract public class FindSeamAction extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2, ISelectionListener
+{
 
+	/**
+	 * Constructs the Action object
+	 */
 	protected FindSeamAction() {
 	}
 
@@ -75,18 +89,27 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	public void run() {
 		runWithEvent(null);
 	}
-	
-	/**
-	 * 	@Override
-	 */
-	public void runWithEvent(Event e) {
-		IEditorPart editor = ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		if (editor == null)
-			return;
-		
-		IEditorInput input = editor.getEditorInput();
-		IDocument document = null;
 
+	/*
+	 *  Returns editor from a given workbench window
+	 *  
+	 * @param window
+	 * @return
+	 */
+	private IEditorPart getCurrentEditor(IWorkbenchWindow window) {
+		if (window == null || window.getActivePage() == null)
+			return null;
+		
+		return window.getActivePage().getActiveEditor();
+	}
+	
+	/*
+	 * Returns viewer for a given editor
+	 * 
+	 * @param editor
+	 * @return
+	 */
+	private ISourceViewer getEditorViewer(IWorkbenchPart editor) {
 		ISourceViewer viewer = null;
 
 		if (editor instanceof EditorPartWrapper) {
@@ -104,23 +127,59 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		} else if (editor instanceof CompilationUnitEditor) {
 			viewer = ((CompilationUnitEditor)editor).getViewer();
 		}
+		return viewer;
+	}
+	
+	/*
+	 * Returns {@link ITextSelection} for a given viewer 
+	 * 
+	 * @param viewer
+	 * @return
+	 */
+	private ITextSelection getTextSelection(ITextViewer viewer) {
+		if (viewer == null || viewer.getSelectionProvider() == null) 
+				return null;
 		
+		return getTextSelection(viewer.getSelectionProvider().getSelection());
+	}
+
+	/*
+	 * Returns {@link ITextSelection} for a given {@link ISelection}
+	 *  
+	 * @param selection
+	 * @return
+	 */
+	private ITextSelection getTextSelection(ISelection selection) {
+		if (selection == null || selection.isEmpty())
+			return null;
+		
+		if (selection instanceof ITextSelection) {
+			return (ITextSelection)selection;
+		}
+		return null;
+	}
+	
+	/**
+	 * 	@Override
+	 */
+	public void runWithEvent(Event e) {
+		IWorkbenchPart activeWorkbenchPart = getCurrentEditor(getActiveWorkbenchWindow());
+		if (activeWorkbenchPart == null)
+			return;
+		
+		IEditorInput input = (activeWorkbenchPart instanceof IEditorPart ?
+					((IEditorPart)activeWorkbenchPart).getEditorInput() : null);
+		ISourceViewer viewer = getEditorViewer(activeWorkbenchPart);
 		if (viewer == null)
 			return;
-		
-		document = viewer.getDocument();
-		
-		ISelection selection = viewer.getSelectionProvider().getSelection();
-		if (selection.isEmpty())
+
+		ITextSelection selection = getTextSelection(viewer);
+		if (selection == null)
 			return;
+
+		int selectionOffset = selection.getOffset();
 		
-		int selectionOffset = 0;
-		if (selection instanceof ITextSelection) {
-			ITextSelection tSel = (ITextSelection)selection;
-			selectionOffset = tSel.getOffset();
-		} else {
-			return;
-		}
+		IDocument document = viewer.getDocument();
 		
 		IFile file = null;
 		
@@ -147,57 +206,6 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 			SeamGuiPlugin.getPluginLog().logError(ie);
 		}
 		return;
-		
-		/*
-		String[] varNamesToSearch = findVariableNames(seamProject, document, tokens);
-
-		if (varNamesToSearch != null) {
-			try {
-				performNewSearch(varNamesToSearch, file);
-			} catch (JavaModelException jme) {
-				SeamGuiPlugin.getPluginLog().logError(jme);
-			} catch (InterruptedException ie) {
-				SeamGuiPlugin.getPluginLog().logError(ie);
-			}
-			return;
-		}
-
-		// Try to look into "var"/"variable" attributes (if we're in the XML-like document)
-		
-		if ("java".equalsIgnoreCase(file.getFileExtension())) { //$NON-NLS-1$
-			return;
-		}
-
-		ElVarSearcher varSearcher = new ElVarSearcher(seamProject, file, new SeamELCompletionEngine());
-		List<Var> allVars = ElVarSearcher.findAllVars(viewer, selectionOffset);
-		if (allVars == null || allVars.size() == 0)
-			return;
-		
-		int start = tokens.get(0).getStart();
-		int end = tokens.get(tokens.size() - 1).getStart() + 
-						tokens.get(tokens.size() - 1).getLength();
-		
-		String elText;
-		try {
-			elText = document.get(start, end - start);
-		} catch (BadLocationException ble) {
-			SeamGuiPlugin.getPluginLog().logError(ble);
-			return;
-		}
-		if (elText == null || elText.length() == 0)
-			return;
-		
-		Var var = varSearcher.findVarForEl(elText, allVars, false);
-		if (var == null)
-			return;
-		try {
-			performNewLocalSearch(var, file);
-		} catch (JavaModelException jme) {
-			SeamGuiPlugin.getPluginLog().logError(jme);
-		} catch (InterruptedException ie) {
-			SeamGuiPlugin.getPluginLog().logError(ie);
-		}
-		*/		
 	}
 
 	 /**
@@ -304,16 +312,16 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 * @Override
 	 */
 	public void init(IWorkbenchWindow window) {
-		// do nothing.
 	}
 
 	/**
 	 * @Override
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		// do nothing. Action doesn't depend on selection.
+		selectionChanged(getCurrentEditor(getActiveWorkbenchWindow()), selection);
 	}
 	
+
 	// IActionDelegate2
 
 	/**
@@ -323,11 +331,12 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		runWithEvent(event);
 	}
 	
+	IAction fDelegatorAction =null;
 	/**
 	 * @Override
 	 */
 	public void init(IAction action) {
-		// do nothing.
+		fDelegatorAction = action;
 	}
 
 	/* 
@@ -407,34 +416,6 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}
 	}
 
-
-	@Deprecated
-	private void performNewLocalSearch(Var var, IFile root) throws JavaModelException, InterruptedException {
-		SeamSearchQuery query= createQuery(var, root);
-		if (query.canRunInBackground()) {
-			/*
-			 * This indirection with Object as parameter is needed to prevent the loading
-			 * of the Search plug-in: the VM verifies the method call and hence loads the
-			 * types used in the method signature, eventually triggering the loading of
-			 * a plug-in (in this case ISearchQuery results in Search plug-in being loaded).
-			 */
-			SearchUtil.runQueryInBackground(query);
-		} else {
-			IProgressService progressService= PlatformUI.getWorkbench().getProgressService();
-			/*
-			 * This indirection with Object as parameter is needed to prevent the loading
-			 * of the Search plug-in: the VM verifies the method call and hence loads the
-			 * types used in the method signature, eventually triggering the loading of
-			 * a plug-in (in this case it would be ISearchQuery).
-			 */
-			IStatus status= SearchUtil.runQueryInForeground(progressService, query);
-			if (status.matches(IStatus.ERROR | IStatus.INFO | IStatus.WARNING)) {
-				ErrorDialog.openError(getShell(), SearchMessages.Search_Error_search_title, SearchMessages.Search_Error_search_message, status); 
-			}
-		}
-	}
-
-
 	/**
 	 * Returns the active editor from active MultipageEditor 
 	 * 
@@ -488,7 +469,9 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	}	
 
 	/*
-	 * returns current Shell
+	 * Returns current Shell
+	 * 
+	 * @return
 	 */
 	private Shell getShell() {
 		try {
@@ -496,5 +479,79 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		} catch (Throwable x) {
 			return null;
 		}
+	}
+
+//	IWorkbenchPart fActiveWorkbenchPart = null;
+
+	/*
+	 *	Returns the workbench
+	 * 
+	 * @return
+	 */
+	private IWorkbench getWorkbench() {
+		return PlatformUI.getWorkbench();
+	}
+	
+	/*
+	 * Returns active workbench window
+	 * @return
+	 */
+	private IWorkbenchWindow getActiveWorkbenchWindow() {
+		return (getWorkbench() == null ? null : getWorkbench().getActiveWorkbenchWindow());
+	}
+	
+	/*
+	 * Updates availability on the action delegate 
+	 *  
+	 * @param selection
+	 */
+	private void update(ISelection selection) {
+		boolean enabled = false;
+		try {
+			IWorkbenchPart activeWorkbenchPart = getCurrentEditor(getActiveWorkbenchWindow()); 
+			if (!(activeWorkbenchPart instanceof IEditorPart))
+				return;
+			
+			ISourceViewer viewer = getEditorViewer((IEditorPart)activeWorkbenchPart);
+			if (viewer == null)
+				return;
+	
+			enabled = (getTextSelection(selection) != null);
+		} finally {
+			setEnabled(enabled);
+			if (fDelegatorAction != null) {
+				fDelegatorAction.setEnabled(enabled);
+			}
+		}
+	}
+
+	/*
+	 * Updates availability on the action delegate 
+	 *  
+	 * @param part
+	 * @param selection
+	 */
+	private void update(IWorkbenchPart part, ISelection selection) {
+		boolean enabled = false;
+		try {
+			if (!(part instanceof IEditorPart))
+				return;
+			
+			ISourceViewer viewer = getEditorViewer((IEditorPart)part);
+			if (viewer == null)
+				return;
+	
+			enabled = (getTextSelection(selection) != null);
+		} finally {
+			setEnabled(enabled);
+			if (fDelegatorAction != null) {
+				fDelegatorAction.setEnabled(enabled);
+			}
+		}
+	}
+
+	// ISelectionListener
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		update(selection);
 	}
 }
