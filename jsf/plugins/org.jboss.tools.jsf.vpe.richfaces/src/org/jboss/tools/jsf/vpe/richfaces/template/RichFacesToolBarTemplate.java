@@ -28,29 +28,36 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
-	public static final String TAG_NAME = "toolBar";
+	public static final String TAG_NAME = "toolBar"; //$NON-NLS-1$
 	
-	public static final String ITEM_SEPARATOR_NONE = "none";
-	public static final String ITEM_SEPARATOR_LINE = "line";
-	public static final String ITEM_SEPARATOR_GRID = "grid";
-	public static final String ITEM_SEPARATOR_DISC = "disc";
-	public static final String ITEM_SEPARATOR_SQUARE = "square";
+	public static final String ITEM_SEPARATOR_NONE = "none"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_LINE = "line"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_GRID = "grid"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_DISC = "disc"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_SQUARE = "square"; //$NON-NLS-1$
 
-	public static final String ITEM_SEPARATOR_LINE_URL = "toolBar/separatorLine.gif";
-	public static final String ITEM_SEPARATOR_GRID_URL = "toolBar/separatorGrid.gif";
-	public static final String ITEM_SEPARATOR_DISC_URL = "toolBar/separatorDisc.gif";
-	public static final String ITEM_SEPARATOR_SQUARE_URL = "toolBar/separatorSquare.gif";
+	public static final String ITEM_SEPARATOR_LINE_URL = "toolBar/separatorLine.gif"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_GRID_URL = "toolBar/separatorGrid.gif"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_DISC_URL = "toolBar/separatorDisc.gif"; //$NON-NLS-1$
+	public static final String ITEM_SEPARATOR_SQUARE_URL = "toolBar/separatorSquare.gif"; //$NON-NLS-1$
 
-	public static final String EXCEPTION_ATTR_STYLE_VALUE = "color: red; font-weight:bold;";
+	public static final String EXCEPTION_ATTR_STYLE_VALUE = "color: red; font-weight:bold;"; //$NON-NLS-1$
 
-	static final String CONTENTCLASS_ATTR_NAME = "contentClass";
-	static final String CONTENTSTYLE_ATTR_NAME = "contentStyle";
-	static final String STYLECLASS_ATTR_NAME = "styleClass";
-	static final String STYLE_ATTR_NAME = "style";
-	static final String ITEMSEPARATOR_ATTR_NAME = "itemSeparator";
-	static final String SEPARATORCLASS_ATTR_NAME = "separatorClass";
-	static final String WIDTH_ATTR_NAME = "width";
-	static final String HEIGHT_ATTR_NAME = "height";
+	static final String CONTENTCLASS_ATTR_NAME = "contentClass"; //$NON-NLS-1$
+	static final String CONTENTSTYLE_ATTR_NAME = "contentStyle"; //$NON-NLS-1$
+	static final String STYLECLASS_ATTR_NAME = "styleClass"; //$NON-NLS-1$
+	static final String STYLE_ATTR_NAME = "style"; //$NON-NLS-1$
+	static final String ITEMSEPARATOR_ATTR_NAME = "itemSeparator"; //$NON-NLS-1$
+	static final String SEPARATORCLASS_ATTR_NAME = "separatorClass"; //$NON-NLS-1$
+	static final String WIDTH_ATTR_NAME = "width"; //$NON-NLS-1$
+	static final String HEIGHT_ATTR_NAME = "height"; //$NON-NLS-1$
+	
+	private static final String CSS_DR_TOOLBAR_INT = "dr-toolbar-int"; //$NON-NLS-1$
+	private static final String CSS_DR_TOOLBAR_EXT = "dr-toolbar-ext"; //$NON-NLS-1$
+	private static final String CSS_RICH_TOOLBAR = "rich-toolbar"; //$NON-NLS-1$
+	private static final String CSS_RICH_TOOLBAR_ITEM = "rich-toolbar-item"; //$NON-NLS-1$
+	
+	private static final String SPACE = " "; //$NON-NLS-1$
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,  nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = null;
@@ -63,21 +70,22 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 			SourceToolBarItems sourceToolBarItems = new SourceToolBarItems(sourceNode, itemSeparator);
 			String itemSeparatorImageUrl = getSeparatorImageUrlString(sourceToolBarItems.getItemSeparator());
 	
-			ComponentUtil.setCSSLink(pageContext, "toolBar/toolBar.css", "richFacesToolBar");
+			ComponentUtil.setCSSLink(pageContext, "toolBar/toolBar.css", "richFacesToolBar"); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			visualNode = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 	
 			ComponentUtil.correctAttribute(sourceElement, visualNode,
 					WIDTH_ATTR_NAME,
-					HtmlComponentUtil.HTML_WIDTH_ATTR, null, "100%");
+					HtmlComponentUtil.HTML_WIDTH_ATTR, null, "100%"); //$NON-NLS-1$
 			ComponentUtil.correctAttribute(sourceElement, visualNode,
 					HEIGHT_ATTR_NAME,
 					HtmlComponentUtil.HTML_HEIGHT_ATTR, null, null);
 			ComponentUtil.correctAttribute(sourceElement, visualNode,
-					STYLECLASS_ATTR_NAME,
-					HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-ext rich-toolbar", "dr-toolbar-ext rich-toolbar");
+				STYLECLASS_ATTR_NAME, HtmlComponentUtil.HTML_CLASS_ATTR,
+				CSS_DR_TOOLBAR_EXT + SPACE + CSS_RICH_TOOLBAR,
+				CSS_DR_TOOLBAR_EXT + SPACE + CSS_RICH_TOOLBAR);
 			
-			String style = ComponentUtil.getHeaderBackgoundImgStyle() + ";";
+			String style = ComponentUtil.getHeaderBackgoundImgStyle() + ";"; //$NON-NLS-1$
 			ComponentUtil.correctAttribute(sourceElement, visualNode,
 					STYLE_ATTR_NAME,
 					HtmlComponentUtil.HTML_STYLE_ATTR, style, style);
@@ -99,13 +107,15 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 				cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 				if (toolBarItem.isItem()) {
 					ComponentUtil.correctAttribute(sourceElement, cell,
-							CONTENTCLASS_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-int rich-toolbar-item", "dr-toolbar-int rich-toolbar-item");
+						CONTENTCLASS_ATTR_NAME,
+						HtmlComponentUtil.HTML_CLASS_ATTR, 
+						CSS_DR_TOOLBAR_INT + SPACE + CSS_RICH_TOOLBAR_ITEM,
+						CSS_DR_TOOLBAR_INT + SPACE + CSS_RICH_TOOLBAR_ITEM);
 					ComponentUtil.correctAttribute(sourceElement, cell,
 							CONTENTSTYLE_ATTR_NAME,
 							HtmlComponentUtil.HTML_STYLE_ATTR,
-							toolBarItem.isToolBarGroupItem() ? "padding: 0px 0px 0px 0px;" : null,
-							toolBarItem.isToolBarGroupItem() ? "padding: 0px 0px 0px 0px;" : null);
+							toolBarItem.isToolBarGroupItem() ? "padding: 0px 0px 0px 0px;" : null, //$NON-NLS-1$
+							toolBarItem.isToolBarGroupItem() ? "padding: 0px 0px 0px 0px;" : null); //$NON-NLS-1$
 					
 					VpeChildrenInfo childrenInfo = new VpeChildrenInfo(cell);
 					creationData.addChildrenInfo(childrenInfo);
@@ -113,11 +123,13 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 				} else {
 					if (itemSeparatorImageUrl != null) {
 						cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-						cell.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, HtmlComponentUtil.HTML_ALIGN_CENTER_VALUE);
+						cell.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR,
+							HtmlComponentUtil.HTML_ALIGN_CENTER_VALUE);
 						ComponentUtil.correctAttribute(sourceElement, cell,
 								SEPARATORCLASS_ATTR_NAME,
 								HtmlComponentUtil.HTML_CLASS_ATTR, null, null);
-						nsIDOMElement separatorImage = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+						nsIDOMElement separatorImage = visualDocument
+							.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 						ComponentUtil.setImg(separatorImage, itemSeparatorImageUrl);
 						cell.appendChild(separatorImage);
 					}
@@ -128,7 +140,7 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 	
 			// Empty column
 			cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-			cell.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
+			cell.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%"); //$NON-NLS-1$
 			row.appendChild(cell);
 	
 			iterator = sourceToolBarItems.getRightItemsIterator();
@@ -138,12 +150,12 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 				if (toolBarItem.isItem()) {
 					ComponentUtil.correctAttribute(sourceElement, cell,
 							CONTENTCLASS_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-int rich-toolbar-item", "dr-toolbar-int rich-toolbar-item");
+							HtmlComponentUtil.HTML_CLASS_ATTR, CSS_DR_TOOLBAR_INT + SPACE + CSS_RICH_TOOLBAR_ITEM, CSS_DR_TOOLBAR_INT + SPACE + CSS_RICH_TOOLBAR_ITEM);
 					ComponentUtil.correctAttribute(sourceElement, cell,
 							CONTENTSTYLE_ATTR_NAME,
 							HtmlComponentUtil.HTML_STYLE_ATTR,
-							toolBarItem.isToolBarGroupItem() ? "padding: 0px;" : null,
-							toolBarItem.isToolBarGroupItem() ? "padding: 0px;" : null);
+							toolBarItem.isToolBarGroupItem() ? "padding: 0px;" : null, //$NON-NLS-1$
+							toolBarItem.isToolBarGroupItem() ? "padding: 0px;" : null); //$NON-NLS-1$
 					
 					VpeChildrenInfo childrenInfo = new VpeChildrenInfo(cell);
 					creationData.addChildrenInfo(childrenInfo);
@@ -374,7 +386,7 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 			 
 			if (toolBarItem.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) toolBarItem;
-				this.isToolBarGroupItem = element.getNodeName().endsWith(":" + RichFacesToolBarGroupTemplate.TAG_NAME);
+				this.isToolBarGroupItem = element.getNodeName().endsWith(":" + RichFacesToolBarGroupTemplate.TAG_NAME); //$NON-NLS-1$
 				if (isToolBarGroupItem()) {
 					isToolBarItemLocationRight = RichFacesToolBarGroupTemplate
 							.ATTR_LOCATION_RIGHT_VALUE

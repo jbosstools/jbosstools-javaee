@@ -28,13 +28,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
-	public static final String TAG_NAME = "toolBarGroup";
 	
-	public static final String ATTR_ITEMSEPARATOR_NAME = "itemSeparator";
+	public static final String TAG_NAME = "toolBarGroup"; //$NON-NLS-1$
+	public static final String ATTR_ITEMSEPARATOR_NAME = "itemSeparator"; //$NON-NLS-1$
+	public static final String ATTR_LOCATION_NAME = "location"; //$NON-NLS-1$
+	public static final String ATTR_LOCATION_RIGHT_VALUE = "right"; //$NON-NLS-1$
+
+	private static final String TOOLBAR_PARENT_WARNING = "Parent should be toolBar"; //$NON-NLS-1$
 	
-	public static final String ATTR_LOCATION_NAME = "location";
+	private static final String CSS_DR_TOOLBAR_INT = "dr-toolbar-int"; //$NON-NLS-1$
+	private static final String CSS_RICH_TOOLBAR_ITEM = "rich-toolbar-item"; //$NON-NLS-1$
 	
-	public static final String ATTR_LOCATION_RIGHT_VALUE = "right";
+	private static final String SPACE = " "; //$NON-NLS-1$
+	private static final String EMPTY = ""; //$NON-NLS-1$
+	
+	private static final String GROUP_TABLE_STYLE = "border: 0px none; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px; width: 100%; height: 100%"; //$NON-NLS-1$
 	
 	private class SourceToolBarGroupItem {
 		private Node toolBarGroupItem;
@@ -138,8 +146,8 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 		Element sourceElement = (Element)sourceNode;
 		String itemSeparator = sourceElement.getAttribute(ATTR_ITEMSEPARATOR_NAME);
 		
-		if (!sourceNode.getParentNode().getNodeName().endsWith(":" + RichFacesToolBarTemplate.TAG_NAME)) {
-			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument, "Parent should be toolBar");
+		if (!sourceNode.getParentNode().getNodeName().endsWith(":" + RichFacesToolBarTemplate.TAG_NAME)) { //$NON-NLS-1$
+			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument, TOOLBAR_PARENT_WARNING);
 			creationData = new VpeCreationData(visualNode);
 		}  else {
 			itemSeparator = RichFacesToolBarTemplate.checkAndUpdateItemSeparatorName(itemSeparator);
@@ -149,7 +157,7 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 			
 			
 			visualNode = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-			visualNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "border: 0px none; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;");
+			visualNode.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, GROUP_TABLE_STYLE);
 			nsIDOMElement body = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 			nsIDOMElement row = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 			row.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, HtmlComponentUtil.HTML_ATTR_VALIGN_MIDDLE_VALUE);
@@ -162,13 +170,30 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 				
 				nsIDOMElement cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 				if (toolBarGroupItem.isItem()) {
-					ComponentUtil.correctAttribute(sourceElement, cell,
-							RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR, "dr-toolbar-int rich-toolbar-item", "dr-toolbar-int rich-toolbar-item");
-					ComponentUtil.correctAttribute(sourceElement, cell,
-							RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME,
-							HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
-	
+					
+					Node parentNode = sourceElement.getParentNode();
+					
+					String styleClass = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
+					String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+					if (null == styleClass) {
+						styleClass = EMPTY;
+					}
+					if (null == style) {
+						style = EMPTY;
+					}
+					if ((null != parentNode) && (parentNode instanceof Element)) {
+						String contentClass = ((Element)parentNode).getAttribute(RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME);
+						String contentStyle = ((Element)parentNode).getAttribute(RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME);
+						if (null != contentClass) {
+							styleClass += SPACE + contentClass;
+						}
+						if (null != contentStyle) {
+							style += SPACE + contentStyle;
+						}
+					}
+					styleClass += SPACE + CSS_DR_TOOLBAR_INT + SPACE + CSS_RICH_TOOLBAR_ITEM;
+					cell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+					cell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 					VpeChildrenInfo childrenInfo = new VpeChildrenInfo(cell);
 					creationData.addChildrenInfo(childrenInfo);
 					childrenInfo.addSourceChild(toolBarGroupItem.getToolBarGroupItem());
@@ -181,6 +206,7 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 							.getSeparatorImageUrlString(toolBarGroupItem.getItemSeparator());
 					nsIDOMElement separatorImage = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 					ComponentUtil.setImg(separatorImage, separatorImageUrl);
+					visualNode.appendChild(separatorImage);
 					cell.appendChild(separatorImage);
 				}
 				
@@ -202,7 +228,7 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 			return null;
 		}
 
-		String parentNodeName = prefix + ":" + RichFacesToolBarTemplate.TAG_NAME;
+		String parentNodeName = prefix + ":" + RichFacesToolBarTemplate.TAG_NAME; //$NON-NLS-1$
 		
 		Node parent = sourceNode.getParentNode();
 		while (parent != null) {
