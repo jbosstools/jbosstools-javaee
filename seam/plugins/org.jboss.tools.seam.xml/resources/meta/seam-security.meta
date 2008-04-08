@@ -41,6 +41,8 @@
    <XModelAttribute default="faces security events" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.security.facesSecurityEvents" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
@@ -260,7 +262,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Faces Security Events..." kind="action" name="AddFacesSecurityEvents">
-      <EntityData EntityName="FacesSecurityEvents20">
+      <EntityData EntityName="SeamFacesSecurityEvents20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
       </EntityData>
@@ -287,7 +289,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Faces Security Events..." kind="action" name="AddFacesSecurityEvents">
-      <EntityData EntityName="FacesSecurityEvents20">
+      <EntityData EntityName="SeamFacesSecurityEvents20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
       </EntityData>
