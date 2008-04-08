@@ -165,7 +165,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql") //$NON-NLS-1$
 		.include("security\\.drl") //$NON-NLS-1$
-		.include("seam\\.properties") //$NON-NLS-1$
+		//.include("seam\\.properties") //$NON-NLS-1$
 		.include("messages_en\\.properties"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
@@ -297,26 +297,26 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			// ********************************************************************************************
 			// Copy seam project indicator
 			// ********************************************************************************************
-			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), srcFolder, true); //$NON-NLS-1$
 			final IContainer source = srcRootFolder.getUnderlyingFolder();
 
 			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1)+"/action"); //$NON-NLS-1$
 			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1)+"/model"); //$NON-NLS-1$
 
 			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), new Path(webRootFolder.getLocation().lastSegment()+"/WEB-INF/dev")); //$NON-NLS-1$
+			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
 			WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);			
 
 			srcRootFolder.createLink(actionSrcPath, 0, null);
 			srcRootFolder.createLink(modelSrcPath, 0, null);					
 
+			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/");
+			
+			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
+			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder,"src/Authenticator.java"), //$NON-NLS-1$
-					new File(project.getLocation().toFile(),source.getFullPath().removeFirstSegments(1)+"/action/" + model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					new File(actionsSrc, model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/')+"/"+"Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					new FilterSetCollection(filtersFilterSet), true);
-
-			// Needed to make sure /dev is picked up by test, so need seam.properties.
-			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(project.getLocation().toFile(),source.getFullPath().lastSegment()+"/action"), true); //$NON-NLS-1$
 
 			AntCopyUtils.copyFileToFile(
 					persistenceFile,
@@ -396,11 +396,6 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 				AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
 				AntCopyUtils.copyFilesAndFolders(
 						seamGenResFolder,new File(ejb,"ejbModule"),new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, true); //$NON-NLS-1$
-
-				// ********************************************************************************************
-				// Copy seam project indicator
-				// ********************************************************************************************
-				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder,"seam.properties"), new File(ejb,"ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
 
 				// ********************************************************************************************
 				// Copy security.drl to source folder
