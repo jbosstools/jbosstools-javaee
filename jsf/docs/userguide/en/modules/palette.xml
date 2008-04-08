@@ -392,8 +392,8 @@
                 <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
         </section>
     </section>
-    <section id="UsingThePalette(IncludingOne-ClickTagInsertion)">
-        <?dbhtml filename="UsingThePalette(IncludingOne-ClickTagInsertion).html"?>
+    <section id="UsingThePaletteIncludingOneClickTagInsertion">
+        <?dbhtml filename="UsingThePaletteIncludingOneClickTagInsertion.html"?>
         <title>Using the Palette</title>
         <section id="InsertingTagsIntoAJSPFile">
             <?dbhtml filename="InsertingTagsIntoAJSPFile.html"?>

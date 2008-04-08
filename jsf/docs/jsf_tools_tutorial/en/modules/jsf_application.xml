@@ -113,8 +113,8 @@
             two JSP presentation files and then the navigation rule to connect them as views. Later,
             we will complete the coding for the JSP presentation files. With JBoss Developer Studio,
             we can do all of this in the Diagram mode of the configuration file editor.</para>
-        <section id="AddingTwoViews(JSPPages)">
-            <?dbhtml filename="AddingTwoViews(JSPPages).html"?>
+        <section id="AddingTwoViewsJSPPages">
+            <?dbhtml filename="AddingTwoViewsJSPPages.html"?>
             <title>Adding Two Views (JSP Pages)</title>
             <itemizedlist continuation="continues">
                 <listitem>
@@ -159,8 +159,8 @@
                 </listitem>
             </itemizedlist>
 
-            <section id="CreatingTheTransition(NavigationRule)">
-                <?dbhtml filename="CreatingTheTransition(NavigationRule).html"?>
+            <section id="CreatingTheTransitionNavigationRule">
+                <?dbhtml filename="CreatingTheTransitionNavigationRule.html"?>
                 <title>Creating the Transition (Navigation Rule)</title>
                 <itemizedlist continuation="continues">
                     <listitem>
