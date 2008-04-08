@@ -98,8 +98,13 @@
         <title>Project Preferences</title>
         
         <para>Once Seam project is created you can modify its settings. Right click on Seam project in Project Explorer and select <emphasis><property>Properties > Seam Settings</property>.</emphasis></para>
+        <para>This project properties page allows you to have a flexible project layout. It means that you are not restricted with specific project structure. You can use the Seam wizards
+            (New Action, Form, Entity, etc.) on Maven, command line seam-gen or your own project structure. </para>
+        <para>Moreover you are not required to use the Seam New Project wizard to benefit from Seam artifact wizards. You can just enable Seam on your existing project and configure the folders as you want.</para>   
         
-        <figure>
+        <!--  <para>After <property>Seam support</property> is checked</para> -->
+        
+                <figure>
             <title>Properties for Seam Project</title>
             <mediaobject> 
                 <imageobject>
@@ -108,7 +113,17 @@
             </mediaobject>
         </figure>
         
-        <para></para>
+        <para>In Seam Wizards (New Action, Form, Entity, Conversation, Generate Entities) you can get a quick access to project settings
+            using the <property>Settings</property> link in the upper right corner of each wizard.</para>
+        
+        <figure>
+            <title>Settings Link</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/seam_preferences2_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         
         
     </section>
