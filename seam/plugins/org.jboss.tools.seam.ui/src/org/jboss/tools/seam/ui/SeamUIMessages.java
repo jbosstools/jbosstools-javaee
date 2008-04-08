@@ -56,6 +56,8 @@ public class SeamUIMessages extends NLS {
 	public static String OPEN_SEAM_COMPONENT_DIALOG_LOADING;
 
 	public static String OPEN_SEAM_COMPONENT_DIALOG_NAME;
+	
+	public static String OPEN_SEAM_COMPONENT_DIALOG_WAIT;
 
 	public static String SEAM_ACTION_WIZARD_ACTION_CREATING_OPERATION;
 
