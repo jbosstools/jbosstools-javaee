@@ -28,7 +28,6 @@ import org.jboss.tools.seam.core.SeamPreferences;
 
 /**
  * @author Alexey Kazakov
- * 
  */
 public class ValidationErrorManager implements IValidationErrorManager {
 
@@ -41,6 +40,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	protected SeamContextValidationHelper coreHelper;
 	protected IReporter reporter;
 	protected ISeamProject project;
+	protected String markerId;
 
 	/**
 	 * Constructor
@@ -51,11 +51,12 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 */
 	public ValidationErrorManager(IValidator validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
-			ISeamProject project) {
+			ISeamProject project, String markerId) {
 		this.validationManager = validatorManager;
 		this.coreHelper = coreHelper;
 		this.project = project;
 		this.reporter = reporter;
+		this.markerId = markerId;
 	}
 
 	protected String getBaseName() {
@@ -99,6 +100,10 @@ public class ValidationErrorManager implements IValidationErrorManager {
 		addError(messageId, preferenceKey, messageArguments, 0, 0, target);
 	}
 
+	private String getMarkerId() {
+		return markerId;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -120,7 +125,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 
 		IMessage message = new Message(getBaseName(), messageSeverity,
 				messageId, messageArguments, target,
-				ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+				getMarkerId());
 		message.setLength(length);
 		message.setOffset(offset);
 		try {
@@ -169,13 +174,20 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#removeMessagesFromResources(java.util.Set,
-	 *      java.lang.String)
+	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#removeMessagesFromResources(java.util.Set)
 	 */
-	public void removeMessagesFromResources(Set<IResource> resources, String messageGroup) {
+	public void removeMessagesFromResources(Set<IResource> resources) {
 		for (IResource r : resources) {
-			reporter.removeMessageSubset(validationManager, r, messageGroup);
+			reporter.removeMessageSubset(validationManager, r, getMarkerId());
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#removeAllMessagesFromResource(org.eclipse.core.resources.IResource)
+	 */
+	public void removeAllMessagesFromResource(IResource resource) {
+		reporter.removeAllMessages(validationManager, resource);
 	}
 
 	/*

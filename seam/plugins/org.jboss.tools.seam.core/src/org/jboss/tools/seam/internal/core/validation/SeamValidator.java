@@ -35,7 +35,7 @@ public abstract class SeamValidator extends ValidationErrorManager implements IS
 	public SeamValidator(IValidator validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
-		super(validatorManager, coreHelper, reporter, project);
+		super(validatorManager, coreHelper, reporter, project, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		this.validationContext = validationContext;
 		this.projectName = project.getProject().getName();
 	}

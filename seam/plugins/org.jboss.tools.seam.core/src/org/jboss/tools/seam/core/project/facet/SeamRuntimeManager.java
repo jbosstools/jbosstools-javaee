@@ -30,7 +30,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
-import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
 
 /**
  * This class is responsible for managing available SeamRuntime list.
@@ -44,8 +43,6 @@ public class SeamRuntimeManager {
 	private Map<String, SeamRuntime> runtimes = new HashMap<String, SeamRuntime>();
 
 	private SeamRuntime defaultRt = null;
-
-	private SeamRuntimeValidation validator = new SeamRuntimeValidation();
 
 	/**
 	 * Private constructor
@@ -126,7 +123,6 @@ public class SeamRuntimeManager {
 		}
 		runtimes.put(runtime.getName(), runtime);
 		save();
-		validateProjects();
 	}
 
 	/**
@@ -175,7 +171,6 @@ public class SeamRuntimeManager {
 	 */
 	public void removeRuntime(SeamRuntime rt) {
 		runtimes.remove(rt.getName());
-		validateProjects();
 	}
 
 	/**
@@ -320,21 +315,6 @@ public class SeamRuntimeManager {
 			result.add(seamRuntime.getName());
 		}
 		return result;
-	}
-
-	private void validateProjects() {
-		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (int i = 0; i < ps.length; i++) {
-			ISeamProject sp = SeamCorePlugin.getSeamProject(ps[i], false);
-			if (sp == null) {
-				continue;
-			}
-			try {
-				validator.validate(sp);
-			} catch (CoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
-		}
 	}
 
 	/**

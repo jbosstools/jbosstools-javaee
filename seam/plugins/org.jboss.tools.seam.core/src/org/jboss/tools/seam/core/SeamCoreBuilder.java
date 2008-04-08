@@ -12,7 +12,6 @@ package org.jboss.tools.seam.core;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -23,14 +22,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.util.TypeInfoCollector;
-import org.jboss.tools.seam.internal.core.SeamMessages;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
-import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
 
 public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder"; //$NON-NLS-1$
@@ -96,8 +93,6 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			if(sp.getClassPath().update()) {
 				sp.getClassPath().process();
 			}
-
-			new SeamRuntimeValidation().validate(sp);
 
 			TypeInfoCollector.cleanCache();
 

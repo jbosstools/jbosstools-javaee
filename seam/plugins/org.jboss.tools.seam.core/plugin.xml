@@ -280,6 +280,7 @@
 		<validator>
 			<filter objectClass="org.eclipse.core.resources.IFolder" nameFilter="*"/>
 			<filter objectClass="org.eclipse.core.resources.IProject" nameFilter="*"/>
+			<filter objectClass="org.eclipse.core.resources.IFile" nameFilter="org.jboss.tools.seam.core.prefs"/>
 			<helper	class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper"/>
 			<markerId markerIdValue="seamProjectProblem"/>
 			<run

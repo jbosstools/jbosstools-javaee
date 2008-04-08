@@ -59,21 +59,41 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 			pref.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "invalidConnectionName");
 			pref.flush();
 
-			// Force validation.
-			warProject.getFolder("newFolder").create(true, true, null);
-			ejbProject.getFolder("newFolder").create(true, true, null);
-			testProject.getFolder("newFolder").create(true, true, null);
-
 			EditorTestHelper.joinBackgroundActivities();
 		}
 	}
 
 	public void testProjectNameValidation() throws CoreException {
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(ejbProject);
-		System.out.println(pref.get(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, "---"));
-		assertMarkerIsCreated(ejbProject, null, "invalidParentProjectName", -1);
-		assertMarkerIsCreated(testProject, null, "invalidParentProjectName", -1);
-		assertMarkerIsCreated(warProject, null, "invalidEjbProjectName", -1);
-		assertMarkerIsCreated(warProject, null, "invalidTestProjectName", -1);
+		assertMarkerIsCreated(ejbProject, null, ".*invalidParentProjectName.*");
+		assertMarkerIsCreated(testProject, null, ".*invalidParentProjectName.*");
+		assertMarkerIsCreated(warProject, null, ".*invalidEjbProjectName.*");
+		assertMarkerIsCreated(warProject, null, ".*invalidTestProjectName.*");
+	}
+
+	public void testFolderNameValidation() throws CoreException {
+		assertMarkerIsCreated(warProject, null, ".*invalidWebFolderPath.*");
+		assertMarkerIsCreated(warProject, null, ".*invalidModelSrcFolderPath.*");
+		assertMarkerIsCreated(warProject, null, ".*invalidSessionBeanSrcFolderPath.*");
+		assertMarkerIsCreated(warProject, null, ".*invalidTestSrcFolderPath.*");
+	}
+
+	public void testPackageNameValidation() throws CoreException {
+		assertMarkerIsCreated(warProject, null, ".*invalid model package name.*");
+		assertMarkerIsCreated(warProject, null, ".*invalid session bean package name.*");
+		assertMarkerIsCreated(warProject, null, ".*invalid test package name.*");
+	}
+
+	public void testRuntimeNameValidation() throws CoreException {
+		assertMarkerIsCreated(warProject, null, ".*invalidRuntimeName.*");
+	}
+
+	public void testConnectionProfileNameValidation() throws CoreException {
+		assertMarkerIsCreated(warProject, null, ".*invalidConnectionName.*");
+	}
+
+	public static void main(String[] args) {
+		String errorMarker = "Model package name \"invalid model package name\" specified for Seam project \"RefactoringTestProject-war\" is not valid. Please correct this property in \"Seam settings\" page (Project->Properties->Seam Settings).";
+//		String errorMarker = "Main Seam project \"invalidParentProjectName  ";
+		System.out.println(errorMarker.matches(".*invalid model package name.*"));
 	}
 }

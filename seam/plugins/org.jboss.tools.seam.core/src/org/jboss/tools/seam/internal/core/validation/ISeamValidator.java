@@ -23,6 +23,9 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 public interface ISeamValidator {
 
 	public static final String MARKED_SEAM_RESOURCE_MESSAGE_GROUP = "markedSeamResource"; //$NON-NLS-1$
+	public static final String MARKED_SEAM_PROJECT_MESSAGE_GROUP = "markedSeamProject"; //$NON-NLS-1$
+	public static final String SEAM_RESOURCE_MESSAGE_ID = "org.jboss.tools.seam.core.seamProblem"; //$NON-NLS-1$
+	public static final String SEAM_PROJECT_MESSAGE_ID = "org.jboss.tools.seam.core.seamProjectProblem"; //$NON-NLS-1$
 
 	/**
 	 * @return true if validator is enabled.

@@ -83,13 +83,18 @@ public interface IValidationErrorManager {
 	/**
 	 * Removes all markers for the resources
 	 * @param resources
-	 * @param messageGroup
 	 */
-	void removeMessagesFromResources(Set<IResource> resources, String messageGroup);
+	void removeMessagesFromResources(Set<IResource> resources);
 
 	/**
 	 * Sets seam project
 	 * @param project
 	 */
 	void setProject(ISeamProject project);
+
+	/**
+	 * Remove all validation messages for the resource.
+	 * @param resource
+	 */
+	void removeAllMessagesFromResource(IResource resource);
 }

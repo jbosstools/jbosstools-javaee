@@ -29,7 +29,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
-import org.jboss.tools.seam.internal.core.validation.SeamRuntimeValidation;
+import org.jboss.tools.seam.internal.core.validation.ISeamValidator;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
@@ -440,7 +440,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile targetFile = project.getFile(targetPath);
 		targetFile.setContents(newContentFile.getContents(), true, false, new NullProgressMonitor());
 		refreshProject(project);
-		assertMarkerIsCreated(targetFile, SeamRuntimeValidation.MARKER_TYPE, pattern, line);
+		assertMarkerIsCreated(targetFile, ISeamValidator.SEAM_RESOURCE_MESSAGE_ID, pattern, line);
 	}
 	
 	/**
@@ -453,7 +453,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			String pattern, int line) throws CoreException {
 		
 		IFile targetFile = project.getFile(targetPath);
-		assertMarkerIsCreated(targetFile, SeamRuntimeValidation.MARKER_TYPE, pattern, line);
+		assertMarkerIsCreated(targetFile, ISeamValidator.SEAM_RESOURCE_MESSAGE_ID, pattern, line);
 	}
 
 	/**
