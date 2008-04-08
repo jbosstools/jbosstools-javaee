@@ -1283,12 +1283,22 @@ public class SeamSearchVisitor {
 		public boolean visit(IResourceProxy proxy) {
 			if (fScope == null)
 				return false;
+			
 			boolean inScope= fScope.contains(proxy);
 
-			if (inScope && proxy.getType() == IResource.FILE && 
-					fProject == proxy.requestResource().getProject()) {
-				fFiles.add(proxy.requestResource());
+			if (inScope && proxy.getType() == IResource.FILE) {
+				IFile file = (IFile)proxy.requestResource();
+				if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
+					// The resource is out of sync with the file system
+					// Just ignore this resource.
+					return false;
+				}
+				
+				if (fProject == file.getProject()) {
+					fFiles.add(proxy.requestResource());
+				}
 			}
+			
 			return inScope;
 		}
 		

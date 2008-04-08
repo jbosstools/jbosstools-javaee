@@ -51,6 +51,11 @@ public class SeamPathIndexer {
 			if (proxy.getType() == IResource.FILE) {
 
 				IFile file = (IFile)proxy.requestResource();
+				if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
+					// The resource is out of sync with the file system
+					// Just ignore this resource.
+					return false;
+				}
 
 				IContentDescription contentDescription = file.getContentDescription();
 				String ctId = null;
