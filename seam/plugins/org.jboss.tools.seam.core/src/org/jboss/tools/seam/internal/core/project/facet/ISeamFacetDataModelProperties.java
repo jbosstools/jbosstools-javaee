@@ -36,6 +36,8 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 
 	// Seam Preferences names constants
 
+	String SEAM_FACET_ID = "jst.seam";
+
 	/**
 	 * Source folder used session objects: actions, forms, conversations, beans 
 	 * web pages backing beans

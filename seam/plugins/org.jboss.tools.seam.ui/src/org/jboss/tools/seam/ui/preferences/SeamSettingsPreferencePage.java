@@ -48,12 +48,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.dialogs.PropertyPage;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
-import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -787,9 +790,20 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private SeamVersion[] getSeamVersions() {
 		if(warSeamProject != null) {
-			SeamRuntime r = warSeamProject.getRuntime();
-			if(r != null) {
-				return new SeamVersion[]{r.getVersion()};
+			try {
+				IFacetedProject facetedProject = ProjectFacetsManager.create(warSeamProject.getProject());
+				if(facetedProject!=null) {
+					IProjectFacet facet = ProjectFacetsManager.getProjectFacet(ISeamFacetDataModelProperties.SEAM_FACET_ID);
+					IProjectFacetVersion version = facetedProject.getInstalledVersion(facet);
+					if(version!=null) {
+						SeamVersion seamVersion = SeamVersion.findByString(version.getVersionString());
+						if(seamVersion!=null) {
+							return new SeamVersion[]{seamVersion};
+						}
+					}
+				}
+			} catch (CoreException e) {
+				SeamGuiPlugin.getPluginLog().logError(e);
 			}
 			String jarLocation = getJBossSeamJarLocation();
 			if(jarLocation != null) {

@@ -66,4 +66,21 @@ public enum SeamVersion {
 				"Seam version ''{0}'' is not supported", version)); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/**
+	 * Get enumeration by string
+	 * If can't find any version then return null.
+	 * 
+	 * @param version
+	 * 	string representation of version
+	 * @return
+	 * 	version enumeration corresponding to version string
+	 */
+	public static SeamVersion findByString(String version) {
+		if (SEAM_1_2.toString().equals(version)) {
+			return SEAM_1_2;
+		} else if (SEAM_2_0.toString().equals(version)) {
+			return SEAM_2_0;
+		}
+		return null;
+	}
 }
