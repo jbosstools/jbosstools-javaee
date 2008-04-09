@@ -20,14 +20,19 @@
 <book>
     
      <bookinfo>
+         
          <title>Seam Dev Tools Reference Guide</title>
-	                       <copyright>
-			<year>2007</year>
-	                           <holder>Red Hat</holder>
-	                       </copyright>
-          <releaseinfo>
-<para>Version: 2.0.1.GA</para>
-</releaseinfo>
+         
+         <pubdate>April 2008</pubdate>
+         <copyright>
+             <year>2007</year>
+             <year>2008</year>
+             <holder>JBoss, a division of Red Hat Inc.</holder>
+         </copyright>
+         <releaseinfo>
+             <para>Version: 2.0.1.Beta1</para>
+         </releaseinfo>
+         
     </bookinfo>
 	
     
