@@ -12,13 +12,15 @@
     <bookinfo>
         <title>Struts Tools Tutorial</title>
         
+        <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <holder>Red Hat</holder>
+            <year>2008</year>
+            <holder>JBoss, a division of Red Hat Inc.</holder>
         </copyright>
 
                   <releaseinfo>
-<para>Version: 1.0.0.GA</para>
+<para>Version: 2.1.0.Beta1</para>
 </releaseinfo>
     </bookinfo>    
     
