@@ -213,8 +213,8 @@
             </figure>
 
             <para>The JSF configuration editor also comes with a very useful <link
-                    linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link> selection feature.</para>
-
+                linkend="../../../jsf/en/html_single/index.html#OpenOnSelection4Hyperlinknavigation">OpenOn</link> selection feature.</para>
+           
         </section>
         <section id="ErrorReporting3324">
 
@@ -223,7 +223,7 @@
                 error checking. This greatly reduces your development time as it allows you to catch
                 many of the errors during development.</para>
             <para>Errors will be reported by JBoss Developer Studio&apos;s <link
-                    linkend="verif_valid"> verification</link> facility:</para>
+                linkend="../../../jsf/en/html_single/index.html#verif_valid"> verification</link> facility:</para>
             <figure>
                 <title>Error Reporting in Source View</title>
                 <mediaobject>

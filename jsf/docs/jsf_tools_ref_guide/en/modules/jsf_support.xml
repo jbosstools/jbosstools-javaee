@@ -190,7 +190,7 @@
                         <title>Facelets components</title>
 
                         <para>ss</para>
-                        <para>The <link linkend="palette">JBoss Tools Palette</link> comes with the
+                        <para>The <link linkend="../../../jsf/en/html_single/index.html#palette">JBoss Tools Palette</link> comes with the
                                 Facelets components ready to use. A useful tip appears when you
                                 hover the mouse cursor over the tag, the tip includes a detailed
                                 description of the tag component, the syntax and available
