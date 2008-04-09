@@ -61,7 +61,6 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
@@ -176,7 +175,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		IFieldEditor deployTypeEditor = IFieldEditorFactory.INSTANCE.createRadioEditor(
 				ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, 
+				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_DEPLOY_TYPE, 
 				Arrays.asList(new String[] {ISeamFacetDataModelProperties.DEPLOY_AS_WAR.toUpperCase(), ISeamFacetDataModelProperties.DEPLOY_AS_EAR.toUpperCase()}),
 				Arrays.asList(new Object[] {ISeamFacetDataModelProperties.DEPLOY_AS_WAR, ISeamFacetDataModelProperties.DEPLOY_AS_EAR}),
 				getDeployAsValue());

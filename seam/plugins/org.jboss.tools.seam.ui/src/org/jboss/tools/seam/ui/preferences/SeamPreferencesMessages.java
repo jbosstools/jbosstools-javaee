@@ -25,6 +25,8 @@ public class SeamPreferencesMessages extends NLS {
 
 	public static String SEAM_SETTINGS_PREFERENCES_PAGE_DEPLOYMENT;
 
+	public static String SEAM_SETTINGS_PREFERENCES_PAGE_DEPLOY_TYPE;
+
 	public static String SEAM_SETTINGS_PREFERENCES_PAGE_VIEW;
 
 	public static String SEAM_SETTINGS_PREFERENCES_PAGE_MODEL;
