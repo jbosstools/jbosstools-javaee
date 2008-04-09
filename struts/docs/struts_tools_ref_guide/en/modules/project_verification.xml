@@ -13,8 +13,10 @@
     
     <title>Struts Project Verification</title>
     
-    <para>JBoss Tools provide the same functionality for Struts
-        projects. To configure Struts project verification select <emphasis>
+    <para>In this section we&apos;ll consider one more functionality that JBoss Tools provide for Struts
+        projects, namely adjusting projects verification.</para>
+        
+        <para>To configure Struts project verification select <emphasis>
             <property>Window > Preferences</property>
         </emphasis> from the menu bar, select <emphasis>
             <property>JBoss Tools > Web > Verification</property>

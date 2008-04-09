@@ -12,37 +12,27 @@
     </chapterinfo>
 
     <title>Editors</title>
-
+    <para>In this chapter we&apos;ll introduce you to featured graphical editors for specific
+        Struts files such as Struts Configuration files, Tiles files and Struts Validation files.</para>
     <section id="struts_config_editor">
 
         <title>Graphical Editor for Struts Configuration Files</title>
-
-        <para>The Struts configuration file editor has three modes with different representation of <emphasis>
+        <para>First, let&apos;s dwell on the Struts Configuration file editor.</para>
+        <para>This editor  has three views with different representation of <emphasis>
                 <property>struts-config.xml</property>: </emphasis>Diagram, Tree and Source. The
-            modes can be selected via the tabs at the bottom of the editor. Any changes made in one
-            mode are immediately visible when you switch to any other mode.</para>
+            views can be selected via the tabs at the bottom of the editor. Any changes made in one
+            view are immediately visible when you switch to any other view.</para>
 
-        <para>When working in Source view, you always have all the following features available:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Content Assist</para>
-            </listitem>
-            <listitem>
-                <para>Open On Selection</para>
-            </listitem>
-            <listitem>
-                <para>File Folding</para>
-            </listitem>
-        </itemizedlist>
+        <para>Now, we&apos;ll consider every view in more detail.</para>
         <section id="StrutsDiagramMode453">
 
-            <title>Diagram Mode</title>
+            <title>Diagram View</title>
 
-            <para>The Diagram mode graphically displays the Web flow of the application defined in
+            <para>The Diagram view graphically displays the Web flow of the application defined in
                 the Struts configuration file.</para>
 
             <figure>
-                <title>Diagram Mode</title>
+                <title>Diagram View</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/struts/struts_14.png"/>
@@ -50,7 +40,7 @@
                 </mediaobject>
             </figure>
 
-            <para>The Diagram mode allows to edit navigation in your Struts application. Just by
+            <para>The Diagram view allows to edit navigation in your Struts application. Just by
                 right-clicking anywhere on the diagram, you can use a context menu to create the
                 building blocks of a Struts application:</para>
             <itemizedlist>
@@ -106,14 +96,14 @@
         </section>
         <section id="StrutsTreeMode42">
 
-            <title>Tree Mode</title>
+            <title>Tree View</title>
 
-            <para>The Tree mode represents the different elements of the Struts application that are
+            <para>The Tree view represents the different elements of the Struts application that are
                 organized into functional categories on the left-hand side and a form for editing
                 the properties of currently selected items on the right-hand side.</para>
 
             <figure>
-                <title>Tree Mode</title>
+                <title>Tree View</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/struts/struts_17.png"/>
@@ -136,20 +126,33 @@
         </section>
         <section id="StrutsSourceMode9655">
 
-            <title>Source Mode</title>
+            <title>Source View</title>
 
-            <para>In the Source mode, you have complete editing control of the underlying XML
+            <para>In the Source view, you have complete editing control of the underlying XML
                 coding.</para>
 
             <figure>
-                <title>Source Mode</title>
+                <title>Source View</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/struts/struts_19.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-
+            
+            <para>When working in Source view, you always have all the following features available:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Content Assist</para>
+                </listitem>
+                <listitem>
+                    <para>Open On Selection</para>
+                </listitem>
+                <listitem>
+                    <para>File Folding</para>
+                </listitem>
+            </itemizedlist>
+            
             <para>You can take advantage of <link
                     linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</link>.</para>
 
@@ -165,7 +168,7 @@
             <para>The editor will also immediately flag any errors.</para>
 
             <figure>
-                <title>Errors in Source Mode</title>
+                <title>Errors in Source View</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/struts/struts_21.png" scale="85"/>
@@ -194,20 +197,12 @@
     <section id="GraphicalEditorForTilesFiles132">
 
         <title>Graphical Editor for Tiles Files</title>
+        <para>Here, you&apos;ll know how to make use of the special graphical editor for Tiles configuration files.</para>
+        <para>The editor has three main views: Tree, Diagram and Source.
+            The views can be selected via the tabs at the bottom of the editor. Any changes made in
+            one view are immediately visible when you switch to any other view.</para>
 
-        <para>The Tiles configuration file editor has three main modes: Tree, Diagram and Source.
-            The modes can be selected via the tabs at the bottom of the editor. Any changes made in
-            one mode are immediately visible when you switch to any other mode.</para>
-
-        <para>When working in Source view, you always have all following features available:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Content Assist</para>
-            </listitem>
-            <listitem>
-                <para>Open On Selection</para>
-            </listitem>
-        </itemizedlist>
+       <para>Before we consider each view of the editor, let&apos;s look at the way of creating new Tiles files.</para>
         <section id="CreateNewTilesFile1422">
 
             <title>Create New Tiles File</title>
@@ -225,13 +220,13 @@
         </section>
         <section id="StrutsTreeView896">
 
-            <title>Tree Mode</title>
+            <title>Tree View</title>
 
-            <para>The Tree mode represents the different elements of the Tiles file that are
+            <para>The Tree view represents the different elements of the Tiles file that are
                 organized into functional categories on the left-hand side and a form for editing
                 the properties of currently selected items on the right-hand side.</para>
             <figure>
-                <title>Tree Mode</title>
+                <title>Tree View</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/struts/struts_24.png"/>
@@ -252,9 +247,9 @@
         </section>
         <section id="StrutsDiagramView4643">
 
-            <title>Diagram Mode</title>
+            <title>Diagram View</title>
 
-            <para>The Diagram mode allows you to create complex Tiles files in the form of a
+            <para>The Diagram view allows you to create complex Tiles files in the form of a
                 diagram.</para>
             <figure>
                 <title>Diagram Mode</title>
@@ -294,11 +289,22 @@
 
             <title>Source</title>
 
-            <para>The other mode of the <property>Tiles editor</property> is the Source mode that
+            <para>The other view of the <property>Tiles editor</property> is the Source view that
                 gives you full control over the source. Any changes here will immediately appear in
                 other modes when you switch to them.</para>
+            
+            <para>When working in Source view, you always have all following features available:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Content Assist</para>
+                </listitem>
+                <listitem>
+                    <para>Open On Selection</para>
+                </listitem>
+            </itemizedlist>
+            
             <figure>
-                <title>Source Mode</title>
+                <title>Source View</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/struts/struts_29.png"/>
@@ -343,7 +349,9 @@
         <title>Graphical Editor for Struts Validation Files</title>
 
         <para>Providing full support for development Struts applications JBoss Tools comes with a
-            visual validation editor. To create a new validation file, right click any folder in
+            visual validation editor. To open the editor double-click on the validation file or if you don&apos;t have it create a new one.</para>
+            
+            <para>To create a new validation file, right click any folder in
             Project Explorer and select <emphasis>
                 <property>File > New > Other...</property>
             </emphasis>from the context menu and then <emphasis>
@@ -360,10 +368,10 @@
         <para>The validation editor works with five modes: Formsets, Validators, Constants and
             standard Tree and Source that you can easily switch over using tabs at the bottom of the
             editor.</para>
-        <para>The Formsets mode shows forms and their elements on the left side and the dialogue for
+        <para>The Formsets view shows forms and their elements on the left side and the dialogue for
             defining their validation rules on the right side.</para>
         <figure>
-            <title>Formsets Mode</title>
+            <title>Formsets View</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts/struts_34.png"/>
@@ -371,9 +379,9 @@
             </mediaobject>
         </figure>
 
-        <para>The Constants mode let you set constant values for your validation rules.</para>
+        <para>The Constants view let you set constant values for your validation rules.</para>
         <figure>
-            <title>Constansts Mode</title>
+            <title>Constansts View</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts/struts_35.png"/>
@@ -381,9 +389,9 @@
             </mediaobject>
         </figure>
 
-        <para>The validation file can also be viewed in a Tree mode.</para>
+        <para>The validation file can also be viewed in a Tree view.</para>
         <figure>
-            <title>Tree Mode</title>
+            <title>Tree View</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts/struts_36.png"/>
@@ -391,10 +399,10 @@
             </mediaobject>
         </figure>
 
-        <para>At any point you have full control over the source by switching to the Source mode.
-            Any editing in this mode will immediately be available in other modes of the editor.</para>
+        <para>At any point you have full control over the source by switching to the Source view.
+            Any editing in this view will immediately be available in other views of the editor.</para>
         <figure>
-            <title>Source Mode</title>
+            <title>Source View</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts/struts_37.png" scale="85"/>
@@ -405,10 +413,10 @@
         <para>You can also open your own custom or Struts-standard <emphasis>
                 <property>validation-rules.xml</property>
             </emphasis> file.</para>
-        <para>The Validators mode shows the validation rules for a selected validator. You can of
+        <para>The Validators view shows the validation rules for a selected validator. You can of
             course add your own rules.</para>
         <figure>
-            <title>Validators Mode</title>
+            <title>Validators View</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts/struts_38.png" scale="75"/>
