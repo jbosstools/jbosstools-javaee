@@ -163,7 +163,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		registerEditor(projectNameEditor, generalGroup);
 
-		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR);
+		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR, true);
 		registerEditor(connProfileEditor, generalGroup);
 
 		Group deploymentGroup = createGroup(
@@ -434,9 +434,11 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getConnectionProfile() {
-		String defaultDs = SeamProjectPreferences.getStringPreference(
-				SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
-		return getProfileNameList().contains(defaultDs)?defaultDs:""; //$NON-NLS-1$
+		String ds = preferences.get(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, null);
+		if(ds==null) {
+			ds = SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
+		}
+		return (ds!=null && getProfileNameList().contains(ds))?ds:""; //$NON-NLS-1$
 	}
 
 	private String getEjbProjectName() {

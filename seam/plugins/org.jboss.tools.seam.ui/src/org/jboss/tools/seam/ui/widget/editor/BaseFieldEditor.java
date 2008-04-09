@@ -166,6 +166,9 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 		Control[] controls = getSwtControls();
+		if(controls==null) {
+			return;
+		}
 		for(int i=0;i<controls.length;i++) {
 			Control control = controls[i];
 			control.setEnabled(enabled);

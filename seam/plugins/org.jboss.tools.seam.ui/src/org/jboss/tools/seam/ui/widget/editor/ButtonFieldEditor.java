@@ -42,13 +42,16 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 		buttonAction = action;
 		buttonAction.setFieldEditor(this);
 	}
-	
+
 	@Override
 	public void doFillIntoGrid(Object parent) {
 	}
 
 	@Override
 	public Object[] getEditorControls() {
+		if(button==null) {
+			return null;
+		}
 		return new Control[]{button.getControl()};
 	}
 
@@ -68,6 +71,7 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 	public Object[] getEditorControls(Object composite) {
 		if(button==null && composite!=null) {
 			button = new PushButtonField((Composite)composite,buttonAction);
+			setEnabled(isEnabled());
 		}
 		return new Control[]{button.getControl()};
 	}

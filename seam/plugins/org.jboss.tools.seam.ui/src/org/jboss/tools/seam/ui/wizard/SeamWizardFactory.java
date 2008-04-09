@@ -11,6 +11,8 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -174,22 +176,46 @@ public class SeamWizardFactory {
 	/**
 	 * Creates Selection Field of Connection Profiles
 	 * @param defaultValue
+	 * @param canBeEmpty
 	 * @return
 	 */
-	public static IFieldEditor createConnectionProfileSelectionFieldEditor(Object defaultValue, IValidator validator) {
+	public static IFieldEditor createConnectionProfileSelectionFieldEditor(Object defaultValue, IValidator validator, boolean canBeEmpty) {
 		EditConnectionProfileAction editAction = new EditConnectionProfileAction(validator);
 		NewConnectionProfileAction newAction = new NewConnectionProfileAction(validator);
+		List<String> profiles = getConnectionProfileNameList();
+		if(canBeEmpty) {
+			profiles.add(0, "");
+		}
 		IFieldEditor connProfileSelEditor = IFieldEditorFactory.INSTANCE.createComboWithTwoButtons(
 				ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
 				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONNECTION_PROFILE,
-				getConnectionProfileNameList(),
+				profiles,
 				defaultValue,
 				false, editAction,
 				newAction,
 				ValidatorFactory.NO_ERRORS_VALIDATOR);
 		editAction.setEditor(connProfileSelEditor);
 		newAction.setEditor(connProfileSelEditor);
+		final ButtonFieldEditor editButton = (ButtonFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(2);
+		editButton.setEnabled(!"".equals(defaultValue));
+		if(canBeEmpty) {
+			connProfileSelEditor.addPropertyChangeListener(new PropertyChangeListener(){
+				public void propertyChange(PropertyChangeEvent evt) {
+					boolean ediatble = !"".equals(evt.getNewValue());
+					editButton.setEnabled(ediatble);
+				}
+			});
+		}
 		return connProfileSelEditor;
+	}
+
+	/**
+	 * Creates Selection Field of Connection Profiles
+	 * @param defaultValue
+	 * @return
+	 */
+	public static IFieldEditor createConnectionProfileSelectionFieldEditor(Object defaultValue, IValidator validator) {
+		return createConnectionProfileSelectionFieldEditor(defaultValue, validator, false);
 	}
 
 	private static class EditConnectionProfileAction extends ButtonFieldEditor.ButtonPressedAction {
