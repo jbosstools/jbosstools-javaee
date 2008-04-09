@@ -14,12 +14,14 @@
 <book>
     <bookinfo>
         <title>JSF Tools Reference Guide</title>
+        <pubdate>April 2008</pubdate>
         <copyright>
+            <year>2007</year>
             <year>2008</year>
-            <holder>Red Hat</holder>
+            <holder>JBoss, a division of Red Hat Inc.</holder>
         </copyright>
         <releaseinfo>
-            <para>Version: 2.0.1.GA</para>
+            <para>Version: 2.1.0.Beta1</para>
         </releaseinfo>
     </bookinfo>
     
