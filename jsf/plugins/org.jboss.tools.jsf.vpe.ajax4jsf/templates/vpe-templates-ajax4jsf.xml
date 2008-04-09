@@ -63,8 +63,6 @@
 				</vpe:drop>
 			</vpe:dnd>
 			<vpe:textFormatting use-default-formats="yes">
-				<vpe:format type="BlockFormat"
-							handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
 				<vpe:format type="UnderlineFormat" setDefault="true">
 					<vpe:formatAttribute type="style"/>
 				</vpe:format>
