@@ -162,12 +162,30 @@ public class SeamWizardFactory {
 	 * @return Editor to select seam runtime
 	 */
 	public static IFieldEditor createSeamRuntimeSelectionFieldEditor(SeamVersion[] seamVersions, String defaultValue, NewSeamRuntimeAction action) {
+		return createSeamRuntimeSelectionFieldEditor(seamVersions, defaultValue, action, false);
+	}
+
+	/**
+	 * @param seamVersions Array of seam runtime versions. If length == 0 then use all versions
+	 * @param defaultSelection
+	 * @param action
+	 * @param canBeEmpty
+	 * @return Editor to select seam runtime
+	 */
+	public static IFieldEditor createSeamRuntimeSelectionFieldEditor(SeamVersion[] seamVersions, String defaultValue, NewSeamRuntimeAction action, boolean canBeEmpty) {
 		if(seamVersions.length==0) {
 			seamVersions = SeamVersion.ALL_VERSIONS;
 		}
+		List<String> names = getRuntimeNames(seamVersions);
+		if(defaultValue!=null && defaultValue.trim().length()>0 && !names.contains(defaultValue)) {
+			names.add(0, defaultValue);
+		}
+		if(canBeEmpty) {
+			names.add(0, "");
+		}
 		IFieldEditor jBossSeamRuntimeEditor = IFieldEditorFactory.INSTANCE
 		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, getRuntimeNames(seamVersions), 
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, names, 
 				defaultValue, 
 				true, action, (IValidator)null);
 		return jBossSeamRuntimeEditor;
@@ -376,8 +394,18 @@ public class SeamWizardFactory {
 	 * @return Editor to select seam runtime
 	 */
 	public static IFieldEditor createSeamRuntimeSelectionFieldEditor(SeamVersion[] seamVersions, String defaultValue) {
+		return createSeamRuntimeSelectionFieldEditor(seamVersions, defaultValue, false);
+	}
+
+	/**
+	 * @param seamVersions Array of seam runtime versions. If length == 0 then use all versions
+	 * @param defaultSelection
+	 * @param canBeEmpty
+	 * @return Editor to select seam runtime
+	 */
+	public static IFieldEditor createSeamRuntimeSelectionFieldEditor(SeamVersion[] seamVersions, String defaultValue, boolean canBeEmpty) {
 		DefaultNewSeamRuntimeAction action = new DefaultNewSeamRuntimeAction(seamVersions);
-		IFieldEditor jBossSeamRuntimeEditor = createSeamRuntimeSelectionFieldEditor(seamVersions, defaultValue, action);
+		IFieldEditor jBossSeamRuntimeEditor = createSeamRuntimeSelectionFieldEditor(seamVersions, defaultValue, action, canBeEmpty);
 		action.setRuntimeSelectionEditor(jBossSeamRuntimeEditor);
 		return jBossSeamRuntimeEditor;
 	}
@@ -387,10 +415,7 @@ public class SeamWizardFactory {
 	 * @return Editor to select seam runtime of all versions
 	 */
 	public static IFieldEditor createSeamRuntimeSelectionFieldEditor(String defaultValue) {
-		DefaultNewSeamRuntimeAction action = new DefaultNewSeamRuntimeAction(new SeamVersion[0]);
-		IFieldEditor jBossSeamRuntimeEditor = createSeamRuntimeSelectionFieldEditor(new SeamVersion[0], defaultValue, action);
-		action.setRuntimeSelectionEditor(jBossSeamRuntimeEditor);
-		return jBossSeamRuntimeEditor;
+		return createSeamRuntimeSelectionFieldEditor(new SeamVersion[0], defaultValue, false);
 	}
 
 	private static List<String> getRuntimeNames(SeamVersion[] seamVersions) {

@@ -142,7 +142,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		IFieldEditor seamRuntimeEditor = 
 			SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(
 					getSeamVersions(), 
-					getSeamRuntimeName());
+					getSeamRuntimeName(), true);
 		seamRuntimeEditor.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Object value = evt.getNewValue();
