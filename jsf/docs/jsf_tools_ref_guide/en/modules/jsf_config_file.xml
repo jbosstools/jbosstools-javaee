@@ -223,7 +223,7 @@
                 error checking. This greatly reduces your development time as it allows you to catch
                 many of the errors during development.</para>
             <para>Errors will be reported by JBoss Developer Studio&apos;s <link
-                linkend="../../../jsf/en/html_single/index.html#verif_valid"> verification</link> facility:</para>
+                linkend="jsf_project_verification"> verification</link> facility:</para>
             <figure>
                 <title>Error Reporting in Source View</title>
                 <mediaobject>
