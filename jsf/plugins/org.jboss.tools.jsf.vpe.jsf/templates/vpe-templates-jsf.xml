@@ -560,15 +560,15 @@
 
 	<vpe:tag name="h:dataTable" case-sensitive="yes">
 		<vpe:template children="yes" modify="no">
-			<vpe:datatable width="{@width}" bgcolor="{@bgcolor}"
+			<vpe:datatable width="{@width}" height="{@height}" bgcolor="{@bgcolor}"
 				border="{@border}" cellpadding="{@cellpadding}"
 				cellspacing="{@cellspacing}" columnClasses="{@columnClasses}"
 				footerClass="{@footerClass}" headerClass="{@headerClass}"
 				rowClasses="{@rowClasses}" frame="{@frame}" rules="{@rules}"
 				class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:resize>
-				<vpe:width width-attr="style.width" />
-				<vpe:height height-attr="style.height" />
+				<vpe:width width-attr="width" />
+				<vpe:height height-attr="height" />
 			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
