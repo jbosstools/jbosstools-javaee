@@ -97,15 +97,11 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 		
 		progressMonitor.subTask(SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_WAIT);
 		
-		boolean interrupted= true;
-		while (interrupted) {
-			try {
-				Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-				interrupted= false;
-			} catch (InterruptedException e) {
-				interrupted= true;
-			}
-		} 
+		try {
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+		} catch (InterruptedException e) {
+			// do nothing
+		}
 
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 				.getProjects();
