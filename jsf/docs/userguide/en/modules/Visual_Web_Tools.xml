@@ -68,39 +68,39 @@
      <row>
       <entry>JSF and Facelets support</entry>
       <entry>Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#jsf_support">jsf support</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#jsf_support">jsf support</ulink></entry>
      </row>
      
      <row>
       <entry>Flexible and customizable project template management</entry>
       <entry>Jump-start development with out-of-the-box templates or easily customized templates 
        for re-use.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#projects">working with projects</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#projects">working with projects</ulink></entry>
      </row>
      <row>
       <entry>Support for Managed Beans</entry>
       <entry>Adding new managed beans, generating code for attributes, properties and getter/setter methods.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#managed_beans">managed beans</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#managed_beans">managed beans</ulink></entry>
      </row>
      <row>
       <entry>OpenOn</entry>
       <entry>Easy navigation between views and other parts of your projects.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#FaceletsSupport865">facelets support</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#FaceletsSupport865">facelets support</ulink></entry>
      </row>	
      <row>
       <entry>Content Assist</entry>
       <entry>Code completion proposals while working in java, xml, jsp, xhtml, xhtml, seam project and jsf configuration files. Content assist based on project data (dynamic code assist); with graphical editor. Code completion for values from property files, beans attributes and methods, navigation rule outcomes and jsf variables.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#ContentAssist976">content assist</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#ContentAssist976">content assist</ulink></entry>
      </row>
      <row>
       <entry>Support for Custom Converters and Validators</entry>
       <entry>Fast creating of custom converters and validators with tree view of faces-config.xml file.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#CreateAndRegisterACustomConverter94230">converters and validators</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#CreateAndRegisterACustomConverter94230">converters and validators</ulink></entry>
      </row>
      <row>
       <entry>Verification and Validation</entry>
       <entry>All occuring errors will be immediately reported by verification feature, no matter in what view you are working. Constant validation and errors checking allows to catch many of the errors during development process that significantly reduces development time.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#jsf_project_verification">verification and validation</link></entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#jsf_project_verification">verification and validation</ulink></entry>
      
      </row>
      <row>
@@ -111,13 +111,13 @@
      <row>
       <entry>Struts Support</entry>
       <entry>Step-by-step wizards for creating a new struts project with a number of predefined templates, importing existing ones and adding struts capabilities to non-struts web projects.</entry>
-      <entry><link linkend="../../struts_tools_ref_guide/html_single/index.html#projects">struts support</link></entry>
+      <entry><ulink url="../../struts_tools_ref_guide/html_single/index.html#projects">struts support</ulink></entry>
      </row>
      
      <row>
       <entry>Support for JSF and Struts Configuration Files</entry>
       <entry>Working on files using three modes: diagram, tree and source. Synchronization between the modes and full control over the code. Easy moving around the diagram using the Diagram Navigator. Working with struts projects that have multiple modules. Possibility to use Struts configuration file debugger allowing to set break points on struts diagram and then launch the server in debug mode.</entry>
-      <entry><link linkend="../../jsf_tools_ref_guide/html_single/index.html#jsf_config_file">graphical editor for jsf</link> <link linkend="../../struts_tools_ref_guide/html_single/index.html#struts_config_editor">graphical editor for struts</link> </entry>
+      <entry><ulink url="../../jsf_tools_ref_guide/html_single/index.html#jsf_config_file">graphical editor for jsf</ulink> <ulink url="../../struts_tools_ref_guide/html_single/index.html#struts_config_editor">graphical editor for struts</ulink> </entry>
      </row>
      <row>
       <entry>Rich Faces Support</entry>
