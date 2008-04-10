@@ -57,6 +57,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -146,11 +147,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		seamRuntimeEditor.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Object value = evt.getNewValue();
-				if(value.toString().length()>0) {
-					setRuntimeIsSelected(true);
-				} else {
-					setRuntimeIsSelected(false);
-				}
+				setRuntimeIsSelected(value.toString().length()>0);
 			}
 		});
 		registerEditor(seamRuntimeEditor, generalGroup);
@@ -346,11 +343,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			folder = preferences.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
 		}
 		if(folder==null) {
-			SeamProjectsSet set = new SeamProjectsSet(project);
-			IContainer f = set.getModelFolder();
-			folder = f!=null?f.getFullPath().toString():"";
+			folder = getDefaultModelSourceFolder();
 		}
 		return folder;
+	}
+
+	private String getDefaultModelSourceFolder() {
+		SeamProjectsSet set = new SeamProjectsSet(project);
+		IContainer f = set.getModelFolder();
+		return f!=null?f.getFullPath().toString():"";
 	}
 
 	private String getModelPackageName() {
@@ -359,9 +360,13 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			name = preferences.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, null);
 		}
 		if(name==null) {
-			name = "org.domain." + getSeamProjectName() + ".entity";
+			name = getDefaultModelPackageName();
 		}
 		return name;
+	}
+
+	private String getDefaultModelPackageName() {
+		return "org.domain." + getSeamProjectName() + ".entity";
 	}
 
 	private String getActionPackageName() {
@@ -370,9 +375,13 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			name = preferences.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, null);
 		}
 		if(name==null) {
-			name = "org.domain." + getSeamProjectName() + ".session";
+			name = getDefaultActionPackageName();
 		}
 		return name;
+	}
+
+	private String getDefaultActionPackageName() {
+		return "org.domain." + getSeamProjectName() + ".session";
 	}
 
 	private String getTestPackageName() {
@@ -381,9 +390,13 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			name = preferences.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, null);
 		}
 		if(name==null) {
-			name = "org.domain." + getSeamProjectName() + ".test";
+			name = getDefaultTestPackageName();
 		}
 		return name;
+	}
+
+	private String getDefaultTestPackageName() {
+		return "org.domain." + getSeamProjectName() + ".test";
 	}
 
 	private String getActionSourceFolder() {
@@ -392,11 +405,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			folder = preferences.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
 		}
 		if(folder==null) {
-			SeamProjectsSet set = new SeamProjectsSet(project);
-			IContainer f = set.getActionFolder();
-			folder = f!=null?f.getFullPath().toString():"";
+			folder = getDefaultActionSourceFolder();
 		}
 		return folder;
+	}
+
+	private String getDefaultActionSourceFolder() {
+		SeamProjectsSet set = new SeamProjectsSet(project);
+		IContainer f = set.getActionFolder();
+		return f!=null?f.getFullPath().toString():"";
 	}
 
 	private String getTestSourceFolder() {
@@ -405,11 +422,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			folder = preferences.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
 		}
 		if(folder==null) {
-			SeamProjectsSet set = new SeamProjectsSet(project);
-			IContainer f = set.getTestsFolder();
-			folder = f!=null?f.getFullPath().toString():"";
+			folder = getDefaultTestSourceFolder();
 		}
 		return folder;
+	}
+
+	private String getDefaultTestSourceFolder() {
+		SeamProjectsSet set = new SeamProjectsSet(project);
+		IContainer f = set.getTestsFolder();
+		return f!=null?f.getFullPath().toString():"";
 	}
 
 	private String getViewFolder() {
@@ -418,11 +439,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			folder = preferences.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
 		}
 		if(folder==null) {
-			SeamProjectsSet set = new SeamProjectsSet(project);
-			IContainer f = set.getViewsFolder();
-			folder = f!=null?f.getFullPath().toString():"";
+			folder = getDefaultViewFolder();
 		}
 		return folder;
+	}
+
+	private String getDefaultViewFolder() {
+		SeamProjectsSet set = new SeamProjectsSet(project);
+		IContainer f = set.getViewsFolder();
+		return f!=null?f.getFullPath().toString():"";
 	}
 
 	private List<String> getProfileNameList() {
@@ -441,6 +466,11 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			ds = SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
 		}
 		return (ds!=null && getProfileNameList().contains(ds))?ds:""; //$NON-NLS-1$
+	}
+
+	private String getDefaultConnectionProfile() {
+		List<String> names = getProfileNameList();
+		return names.size()>0?names.get(0):"";
 	}
 
 	private String getEjbProjectName() {
@@ -743,7 +773,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private void setEnabledTestGroup() {
-		boolean enabled = isTestEnabled();
+		boolean enabled = isTestEnabled() && isSeamSupported() && runtimeIsSelected;
 		editorRegistry.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setEnabled(enabled);						
@@ -758,6 +788,53 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		for (Group group : groups) {
 			group.setEnabled(enabled);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
+	 */
+	@Override
+	protected void performDefaults() {
+		getEditor(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT).setValue(Boolean.TRUE);
+		getEditor(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).setValue(getDefaultRuntimeName());
+		getEditor(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS).setValue(ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
+		getEditor(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).setValue(getDefaultViewFolder());
+		getEditor(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).setValue(getDefaultConnectionProfile());
+		getEditor(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER).setValue(getDefaultModelSourceFolder());
+		getEditor(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).setValue(getDefaultModelPackageName());
+		getEditor(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER).setValue(getDefaultActionSourceFolder());
+		getEditor(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).setValue(getDefaultActionPackageName());
+		getEditor(ISeamFacetDataModelProperties.TEST_CREATING).setValue(Boolean.TRUE);
+		getEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setValue(project.getName());
+		getEditor(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setValue(getDefaultTestSourceFolder());
+		getEditor(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setValue(getDefaultTestPackageName());
+		setEnabledSeamSuport(true);
+		validate();
+	}
+
+	private String getDefaultRuntimeName() {
+		SeamRuntime runtime = SeamRuntimeManager.getDefaultRuntimeForProject(warProject!=null?warProject:project);
+		if(runtime==null) {
+			List<String> names = getRuntimeNames();
+			if(names.size()>0) {
+				return names.get(0);
+			}
+			return "";
+		}
+		return runtime.getName();
+	}
+
+	private List<String> getRuntimeNames() {
+		SeamVersion[] seamVersions = getSeamVersions();
+		List<String> rtStrings = new ArrayList<String>();
+		for (int i = 0; i < seamVersions.length; i++) {
+			SeamRuntime[] rts = SeamRuntimeManager.getInstance().getRuntimes(seamVersions[i]);
+			for(SeamRuntime seamRuntime : rts) {
+				rtStrings.add(seamRuntime.getName());
+			}
+		}
+		return rtStrings;
 	}
 
 	private void setRuntimeIsSelected(boolean selected) {
