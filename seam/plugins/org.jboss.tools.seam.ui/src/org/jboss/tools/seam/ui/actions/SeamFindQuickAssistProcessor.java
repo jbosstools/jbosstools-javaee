@@ -36,6 +36,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
+import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
@@ -80,7 +81,7 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 	}
 	
 	private String[] getVariableNames(ISeamProject seamProject, IDocument document, int offset) {
-		List<ELOperandToken> tokens = FindSeamAction.findTokensAtOffset(
+		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(
 				document, 
 				offset);
 		
@@ -109,7 +110,7 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			if (seamProject == null)
 				return result;
 			
-			List<ELOperandToken> tokens = FindSeamAction.findTokensAtOffset(
+			List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(
 					document, 
 					context.getSelectionOffset());				
 			if (tokens == null || tokens.size() == 0)

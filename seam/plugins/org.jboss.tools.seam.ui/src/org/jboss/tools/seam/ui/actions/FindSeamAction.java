@@ -193,7 +193,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (seamProject == null)
 			return;
 
-		List<ELOperandToken> tokens = findTokensAtOffset(document, selectionOffset);
+		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, selectionOffset);
 
 		if (tokens == null)
 			return; // No EL Operand found
@@ -206,48 +206,6 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 			SeamGuiPlugin.getPluginLog().logError(ie);
 		}
 		return;
-	}
-
-	 /**
- 	  * Returns list of Seam ELOperandToken which are placed under the cursor position
-	  * 
-	  * @param document
-	  * @param offset
-	  * @return
-	  */
-	public static List<ELOperandToken> findTokensAtOffset(IDocument document, int offset) {
-		List<ELOperandToken> result = new ArrayList<ELOperandToken>();
-		
-		int elStart = getELStart(document, offset);
-		
-		if (elStart == -1) 
-			elStart = offset;
-	
-		SeamELOperandTokenizerForward tokenizer = new SeamELOperandTokenizerForward(document, elStart);
-		List<ELOperandToken> tokens = tokenizer.getTokens();
-	
-		ELOperandToken lastSeparator = null;
-		for (int i = 0; tokens != null && i < tokens.size(); i++) {
-			ELOperandToken token = tokens.get(i);
-			if (token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
-				lastSeparator = token;
-				continue;
-			}
-			if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
-					token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
-					token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN) {
-				if (token.getStart() <= offset) {
-					if (lastSeparator != null) 
-						result.add(lastSeparator);
-					result.add(token);
-				} else {
-					// Stop processing. We're not interrested of the rest of tokens
-					break;
-				}
-			}
-		}
-		
-		return result;
 	}
 
 	/**
@@ -337,36 +295,6 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 */
 	public void init(IAction action) {
 		fDelegatorAction = action;
-	}
-
-	/* 
-	 * Scans the document from the offset to the beginning to find start of Seam EL operand
-	 * Returns the start position of first Seam EL operand token 
-	 */
-	private static int getELStart(IDocument document, int offset) {
-		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(document, offset);
-		List<ELOperandToken> tokens = tokenizer.getTokens();
-
-		if (tokens == null || tokens.size() == 0)
-			return -1;
-		
-		ELOperandToken firstToken = tokens.get(0);
-		return firstToken.getStart();
-	}
-	
-	/* 
-	 * Scans the document from the offset to the beginning to find start of Seam EL operand
-	 * Returns the end position of last Seam EL operand token 
-	 */
-	private static int getELEnd(IDocument document, int offset) {
-		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizerForward(document, offset);
-		List<ELOperandToken> tokens = tokenizer.getTokens();
-
-		if (tokens == null || tokens.size() == 0)
-			return -1;
-		
-		ELOperandToken lastToken = tokens.get(tokens.size() - 1);
-		return lastToken.getStart() + lastToken.getLength();
 	}
 
 	private SeamSearchQuery createQuery(List<ELOperandToken> tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
