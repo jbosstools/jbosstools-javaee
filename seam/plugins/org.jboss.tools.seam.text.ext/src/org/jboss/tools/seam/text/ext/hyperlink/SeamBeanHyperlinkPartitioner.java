@@ -14,7 +14,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
@@ -27,7 +29,11 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.el.ELOperandToken;
+import org.jboss.tools.seam.internal.core.el.ELToken;
+import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
+import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -195,37 +201,12 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 
 			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
 			
-			int start = Utils.getValueStart(n);
-			int end = Utils.getValueEnd(n);
-			if(start < 0 || end < start || start > offset) return null;
+			List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, offset);
+			if (tokens == null || tokens.size() == 0)
+				return null; // No EL Operand found
 
-			String attrText = document.get(start, end - start);
-
-			StringBuffer sb = new StringBuffer(attrText);
-			//find start of bean property
-			int bStart = offset - start;
-			while (bStart >= 0) { 
-				if (!Character.isJavaIdentifierPart(sb.charAt(bStart)) &&
-						sb.charAt(bStart) != '.' && sb.charAt(bStart) != '[' && sb.charAt(bStart) != ']'
-							&& sb.charAt(bStart) != '(' && sb.charAt(bStart) != ')') {
-					bStart++;
-					break;
-				}
-			
-				if (bStart == 0) break;
-				bStart--;
-			}
-			// find end of bean property
-			int bEnd = offset - start;
-			while (bEnd < sb.length()) { 
-				if (!Character.isJavaIdentifierPart(sb.charAt(bEnd)) &&
-						sb.charAt(bEnd) != '.' && sb.charAt(bEnd) != '[' && sb.charAt(bEnd) != ']'
-							&& sb.charAt(bStart) != '(' && sb.charAt(bStart) != ')')					break;
-				bEnd++;
-			}
-			
-			int propStart = bStart + start;
-			int propLength = bEnd - bStart;
+			int propStart = tokens.get(0).getStart();
+			int propLength = tokens.get(tokens.size() - 1).getStart() + tokens.get(tokens.size() - 1).getLength() - propStart; 
 			
 			if (propStart > offset || propStart + propLength < offset) return null;
 			
@@ -285,12 +266,75 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 
 			SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
-			String prefix= engine.getJavaElementExpression(document.get(), region.getOffset(), r);
-			prefix = (prefix == null ? "" : prefix);
+			List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, r.getOffset() + r.getLength());
+			if (tokens == null)
+				return null; // No EL Operand found
 
-			List<IJavaElement> javaElements = engine.getJavaElementsForExpression(
-											seamProject, file, prefix);
+			List<IJavaElement> javaElements = null;
+			try {
+				javaElements = engine.getJavaElementsForELOperandTokens(seamProject, file, tokens);
+			} catch (StringIndexOutOfBoundsException e) {
+				SeamExtPlugin.getPluginLog().logError(e);
+				return null;
+			} catch (BadLocationException e) {
+				SeamExtPlugin.getPluginLog().logError(e);
+				return null;
+			}
 
+			if (javaElements == null || javaElements.size() == 0) {
+				// Try to find a local Var (a pair of variable-value attributes)
+				ElVarSearcher varSearcher = new ElVarSearcher(seamProject, file, new SeamELCompletionEngine());
+				// Find a Var in the EL 
+				int start = tokens.get(0).getStart();
+				int end = tokens.get(tokens.size() - 1).getStart() + 
+								tokens.get(tokens.size() - 1).getLength();
+				
+				StringBuffer elText = new StringBuffer();
+				for (ELOperandToken token : tokens) {
+					if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+							token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
+							token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
+							token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+						elText.append(token.getText());
+					}
+				}
+
+				if (elText.length() == 0)
+					return null;
+				
+				List<Var> allVars= ElVarSearcher.findAllVars(file, start);
+				Var var = varSearcher.findVarForEl(elText.toString(), allVars, true);
+				if (var == null) {
+					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
+					var = ElVarSearcher.findVar(file, tokens.get(0).getStart());
+				}
+				if (var == null)
+					return null;
+
+				String resolvedValue = var.getValue();
+				if (resolvedValue == null || resolvedValue.length() == 0) 
+						return null;
+				if (resolvedValue.startsWith("#{") || resolvedValue.startsWith("${"))
+					resolvedValue = resolvedValue.substring(2);
+				if (resolvedValue.endsWith("}"))
+					resolvedValue = resolvedValue.substring(0, resolvedValue.lastIndexOf("}"));
+				
+				// Replace the Var with its resolved value in tokens (Var is always the first token)
+				elText = new StringBuffer();
+				elText.append(resolvedValue);
+				for (int i = 1; i < tokens.size(); i++) {
+					ELOperandToken token = tokens.get(i);
+					if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
+							token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
+							token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
+							token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
+						elText.append(token.getText());
+					}
+				}
+				
+				javaElements = engine.getJavaElementsForExpression(
+						seamProject, file, elText.toString());
+			}
 			return javaElements;
 		} catch (Exception x) {
 			SeamExtPlugin.getPluginLog().logError(x);
