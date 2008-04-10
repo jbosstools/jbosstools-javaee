@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.el;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -573,7 +574,21 @@ public final class SeamELCompletionEngine {
 					// return all the methods + properties
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr instanceof MessagesInfo) {
-							proposals.addAll(((MessagesInfo)mbr).getKeys());
+							// Surround the "long" keys containing the dots with [' '] 
+							TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+							keys.addAll(((MessagesInfo)mbr).getKeys());
+							Iterator<String> sortedKeys = keys.iterator();
+							while(sortedKeys.hasNext()) {
+								String key = sortedKeys.next();
+								if (key == null || key.length() == 0)
+									continue;
+								if (key.indexOf('.') != -1) {
+									proposals.add("['" + key + "']");
+								} else {
+									proposals.add(key);
+								}
+							}
+//							proposals.addAll(((MessagesInfo)mbr).getKeys());
 							continue;
 						}
 						if (mbr.getMemberType() == null) {
