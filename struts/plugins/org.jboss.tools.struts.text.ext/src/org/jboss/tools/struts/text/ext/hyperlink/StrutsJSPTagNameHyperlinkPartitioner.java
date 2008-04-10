@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
@@ -40,9 +41,10 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
+		if(document == null || superRegion == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -60,9 +62,6 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -73,8 +72,8 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
 
@@ -83,7 +82,7 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {
@@ -93,8 +92,8 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 
 	protected IRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -135,9 +134,6 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 			};
 			
 			return region;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

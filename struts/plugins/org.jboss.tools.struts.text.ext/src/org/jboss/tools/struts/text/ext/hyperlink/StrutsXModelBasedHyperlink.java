@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
@@ -40,13 +41,13 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
 		if (xModel == null) return;
-		try {	
+
 			WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
 			Properties p = getRequestProperties(region);
 			p.put(WebPromptingProvider.FILE, documentFile);
 
-			List list = provider.getList(xModel, getRequestMethod(), p.getProperty("prefix"), p);
+			List<Object> list = provider.getList(xModel, getRequestMethod(), p.getProperty("prefix"), p);
 			if (list != null && list.size() >= 1) {
 				openFileInEditor((String)list.get(0));
 				return;
@@ -55,10 +56,6 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 			if ( error != null && error.length() > 0) {
 				openFileFailed();
 			}
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			openFileFailed();
-		}
 	}
 	
 	protected abstract String getRequestMethod();
@@ -69,18 +66,13 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		try {
-			return getRegion(offset);
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
-		}
+		return getRegion(offset);
 	}
 	
 	protected IRegion getRegion (int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -140,7 +132,7 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
@@ -149,10 +141,11 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 	}
 	
 	protected String getAttributeValue (IDocument document, Node node, String attrName) {
+		if(document == null || node == null || attrName == null) return null;
 		try {
 			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
 			return Utils.getTrimmedValue(document, attr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}

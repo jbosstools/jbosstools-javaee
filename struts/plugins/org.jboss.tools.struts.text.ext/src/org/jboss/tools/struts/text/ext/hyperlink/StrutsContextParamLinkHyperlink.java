@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -24,10 +25,11 @@ import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
  * @author Jeremy
  */
 public class StrutsContextParamLinkHyperlink extends StrutsLinkHyperlink {
+
 	protected IRegion getRegion (int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -77,7 +79,7 @@ public class StrutsContextParamLinkHyperlink extends StrutsLinkHyperlink {
 			if (propStart > offset || propStart + propLength < offset) return null;
 			IRegion region = new HyperlinkRegion(propStart, propLength);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {

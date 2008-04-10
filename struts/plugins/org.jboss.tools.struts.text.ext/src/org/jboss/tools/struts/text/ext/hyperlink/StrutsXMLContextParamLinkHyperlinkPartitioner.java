@@ -12,6 +12,8 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,8 +48,8 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 	 */
 	protected boolean recognizeNature(IDocument document) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
 
@@ -56,7 +58,7 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {
@@ -118,7 +120,6 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 			if (paramNameNode == null) return false;
 			
 			String paramNameValue = null;
-			try {
 				NodeList list = paramNameNode.getChildNodes();
 				for (int i = 0; list != null && i < list.getLength(); i++) {
 					if (list.item(i) instanceof Text) {
@@ -133,9 +134,6 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 						}
 					}
 				}
-			} catch (Exception x) {
-				StrutsExtensionsPlugin.getPluginLog().logError(x);
-			}
 			if (paramNameValue == null) return false;
 			boolean paramNameValueIsCorrect = false;
 			for (int i = 0; i < VALID_INIT_PARAM_NAMES.length; i++) {
@@ -160,8 +158,8 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 			if (servletClassNode == null) return false;
 			
 			String servletClassValue = null;
-			try {
-				NodeList list = servletClassNode.getChildNodes();
+
+				list = servletClassNode.getChildNodes();
 				for (int i = 0; list != null && i < list.getLength(); i++) {
 					if (list.item(i) instanceof Text) {
 						Text text = (Text)list.item(i);
@@ -175,9 +173,7 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 						}
 					}
 				}
-			} catch (Exception x) {
-				StrutsExtensionsPlugin.getPluginLog().logError(x);
-			}
+
 			if (servletClassValue == null) return false;
 			
 			boolean servletClassValueIsCorrect = false;
@@ -188,7 +184,7 @@ public class StrutsXMLContextParamLinkHyperlinkPartitioner extends XMLContextPar
 			}
 
 			return (paramNameValueIsCorrect && servletClassValueIsCorrect);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {

@@ -12,6 +12,8 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
@@ -42,9 +44,10 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
 	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
+		if(document == null || superRegion == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -60,9 +63,6 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -82,7 +82,7 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {
@@ -92,8 +92,8 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 
 	protected IRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -156,7 +156,7 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 				}
 			};
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {

@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
@@ -51,8 +52,8 @@ public class StrutsTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeVa
 			return false;
 
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -60,9 +61,6 @@ public class StrutsTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeVa
 			if (!(n instanceof Attr || n instanceof Node) ) return false;
 
 			return true;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return false;
 		} finally {
 			smw.dispose();
 		}
@@ -82,7 +80,7 @@ public class StrutsTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeVa
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {
@@ -92,8 +90,8 @@ public class StrutsTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeVa
 
 	public IRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -101,7 +99,7 @@ public class StrutsTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeVa
 
 			
 			if (n instanceof Attr) n = ((Attr)n).getOwnerElement();
-			if ((n == null) || !(n instanceof Node)) return null;
+			if ((n == null) || !(n instanceof IDOMNode)) return null;
 			
 			IDOMNode node = (IDOMNode)n;
 			
@@ -129,9 +127,6 @@ public class StrutsTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeVa
 				}
 			};
 			return region;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

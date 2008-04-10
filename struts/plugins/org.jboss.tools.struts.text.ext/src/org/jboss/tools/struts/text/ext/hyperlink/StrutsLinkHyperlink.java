@@ -21,15 +21,11 @@ import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 public class StrutsLinkHyperlink extends LinkHyperlink {
 	
 	protected IFile getFileFromProject(String fileName) {
+		if(fileName == null || fileName.length() == 0) return null;
 		IFile documentFile = getFile();
-		
-		try {	
-			IProject project = documentFile.getProject();
-			return super.getFileFromProject(updateFilenameForModel(fileName, project));
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
-		}
+		if(documentFile == null) return null;
+		IProject project = documentFile.getProject();
+		return super.getFileFromProject(updateFilenameForModel(fileName, project));
 	}
 
 }

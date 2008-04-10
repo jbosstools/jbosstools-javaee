@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 
 import org.jboss.tools.common.text.ext.util.Utils;
@@ -41,9 +42,10 @@ public class StrutsValidationBundleHyperlink extends StrutsXModelBasedHyperlink 
 	}
 	
 	private String getBundle(IRegion region) {
+		if(region == null || getDocument() == null) return null;
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}

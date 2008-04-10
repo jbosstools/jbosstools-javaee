@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
@@ -48,8 +49,8 @@ public class StrutsFormActionHyperlinkPartitioner extends JSPTagAttributeValueHy
 	
 	private boolean checkTypeIsEmpty(IDocument document, IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
@@ -59,7 +60,7 @@ public class StrutsFormActionHyperlinkPartitioner extends JSPTagAttributeValueHy
 			if (typeAttr == null) return true;
 			String typeValue = Utils.getTrimmedValue(document, typeAttr);
 			return (typeValue == null || typeValue.length() == 0);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {

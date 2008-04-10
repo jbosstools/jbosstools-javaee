@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
@@ -38,8 +39,8 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 	protected Properties getRequestProperties(IRegion region) {
 		Properties p = new Properties();
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -54,8 +55,6 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 			if (uri != null) {
 				p.setProperty("prefix", uri);
 			}
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
 		} finally {
 			smw.dispose();
 		}
@@ -64,10 +63,11 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 	}
 
 	private String getAttributeValue (IDocument document, Node node, String attrName) {
+		if(document == null || node == null || attrName == null)return null;
 		try {
 			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
 			return Utils.getTrimmedValue(getDocument(), attr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
@@ -75,8 +75,8 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 
 	protected IRegion getRegion(final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -85,7 +85,7 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 			if (n == null || !(n instanceof Attr || n instanceof Node)) return null;
 			
 			if (n instanceof Attr) n = ((Attr)n).getOwnerElement();
-			if ((n == null) || !(n instanceof Node)) return null;
+			if ((n == null) || !(n instanceof IDOMNode)) return null;
 			
 			IDOMNode node = (IDOMNode)n;
 
@@ -114,9 +114,6 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 				}
 			};
 			return region;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

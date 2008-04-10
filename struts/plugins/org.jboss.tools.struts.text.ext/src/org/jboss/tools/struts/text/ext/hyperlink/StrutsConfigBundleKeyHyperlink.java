@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -47,9 +48,10 @@ public class StrutsConfigBundleKeyHyperlink extends StrutsXModelBasedHyperlink {
 	}
 	
 	private String getBundle(IRegion region) {
+		if(region == null) return "";
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
@@ -58,7 +60,7 @@ public class StrutsConfigBundleKeyHyperlink extends StrutsXModelBasedHyperlink {
 			Attr bundleAttr = (Attr)node.getAttributes().getNamedItem("bundle");
 			if(bundleAttr == null) return "";
 			return Utils.getTrimmedValue(getDocument(), bundleAttr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return "";
 		} finally {
@@ -67,11 +69,12 @@ public class StrutsConfigBundleKeyHyperlink extends StrutsXModelBasedHyperlink {
 	}
 
 	private String getKey(IRegion region) {
+		if(region == null || getDocument() == null) return "";
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
+			return "";
 		}
 	}
 	

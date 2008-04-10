@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -47,8 +48,8 @@ public class StrutsValidationBundleKeyHyperlinkPartitioner extends XMLTagAttribu
 			return false;
 		
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
@@ -61,9 +62,6 @@ public class StrutsValidationBundleKeyHyperlinkPartitioner extends XMLTagAttribu
 				return false;
 
 			return true;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return false;
 		} finally {
 			smw.dispose();
 		}
@@ -71,10 +69,11 @@ public class StrutsValidationBundleKeyHyperlinkPartitioner extends XMLTagAttribu
 	}
 	
 	protected String getAttributeValue (IDocument document, Node node, String attrName) {
+		if(document == null || node == null || attrName == null) return null;
 		try {
 			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
 			return Utils.getTrimmedValue(document, attr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}

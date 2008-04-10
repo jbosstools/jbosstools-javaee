@@ -18,7 +18,6 @@ import org.w3c.dom.Node;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.text.ext.hyperlink.ClassMethodHyperlink;
-import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 
 public class StrutsConfigSetPropertyHyperlink extends ClassMethodHyperlink {
 	private static final String CLASSNAME_ATTRNAME = "className";
@@ -31,9 +30,10 @@ public class StrutsConfigSetPropertyHyperlink extends ClassMethodHyperlink {
 	}
 	
 	protected String getClassName(IRegion region) {
+		if(region == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -45,9 +45,6 @@ public class StrutsConfigSetPropertyHyperlink extends ClassMethodHyperlink {
 			Node parentNode = node.getParentNode();
 			
 			return getAttributeValue(parentNode, CLASSNAME_ATTRNAME);
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

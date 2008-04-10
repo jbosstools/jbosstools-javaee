@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.w3c.dom.Attr;
@@ -55,6 +56,7 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
+		if(region == null) return;
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
 		if (xModel == null) {
@@ -63,8 +65,8 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 		}
 		
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			String forID = getForId(region);
 			String prefix = getPrefix(region);
 			
@@ -95,7 +97,7 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 			p.setProperty(WebPromptingProvider.PROPERTY, getFormBeanProperty(region));
 			p.put(WebPromptingProvider.FILE, documentFile);
 
-			List list = provider.getList(xModel, WebPromptingProvider.STRUTS_OPEN_FORM_BEAN, getFormBeanName(region, n), p);
+			List<Object> list = provider.getList(xModel, WebPromptingProvider.STRUTS_OPEN_FORM_BEAN, getFormBeanName(region, n), p);
 			if (list != null && list.size() >= 1) {
 				openFileInEditor((String)list.get(0));
 				return;
@@ -104,9 +106,6 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 			if ( error != null && error.length() > 0) {
 				openFileFailed();
 			}
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			openFileFailed();
 		} finally {
 			smw.dispose();
 		}
@@ -114,19 +113,21 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	}
 	
 	private String getFormBeanName(IRegion region, Node node) {
+		if(region == null || node == null) return null;
 		try {
 			Attr attr = (Attr)node.getAttributes().getNamedItem("name");
 			return Utils.getTrimmedValue(getDocument(), attr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
 	}
 
 	private String getFormBeanProperty(IRegion region) {
+		if(region == null || getDocument() == null) return "";
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return "";
 		}
@@ -134,8 +135,8 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 
 	private IRegion findElementByIDBackward (String id, int endOffset, String prefix) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
@@ -176,9 +177,6 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 					return "IRegion [" + getOffset() +", " + getLength()+ "]";
 				}
 			};
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -186,55 +184,41 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	
 	private Element findElementByIDBackward(NodeList list, String id, int endOffset, String prefix) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
 			Map trackersMap = JSPRootHyperlinkPartitioner.getTrackersMap(getDocument(), endOffset);
 			XModel xModel = null;
 			TaglibMapping tm = null;
-			try {
-				if(xModel != null) {
-					tm = WebProject.getInstance(xModel).getTaglibMapping();
-				} else {
-					tm = null;
-				}
-			} catch (Exception x) {
-				StrutsExtensionsPlugin.getPluginLog().logError(x);
-				tm = null; // For sure
+			if(xModel != null) {
+				tm = WebProject.getInstance(xModel).getTaglibMapping();
 			}
 
 			for (int i = list.getLength() - 1; list != null && i >= 0; i--) {
 				if(!(list.item(i) instanceof Element)) continue;
-				try {
-					Element element = (Element)list.item(i);
-					int start = Utils.getValueStart(element);
-					if (start < 0 || start >= endOffset) continue;
+				Element element = (Element)list.item(i);
+				int start = Utils.getValueStart(element);
+				if (start < 0 || start >= endOffset) continue;
 					
-					String elementExtracted = JSPRootHyperlinkPartitioner.extractName(element.getNodeName(), trackersMap, tm);
-					if (isInList(elementExtracted, trackersMap, tm, prefix)) {
-						
-						Attr idAttr = (Attr)element.getAttributeNode("id");
-						if (idAttr != null) {
-							String val = Utils.trimQuotes(idAttr.getNodeValue());
-							if (id.equals(val)) {
-								return element;
-							}
+				String elementExtracted = JSPRootHyperlinkPartitioner.extractName(element.getNodeName(), trackersMap, tm);
+				if (isInList(elementExtracted, trackersMap, tm, prefix)) {
+					
+					Attr idAttr = (Attr)element.getAttributeNode("id");
+					if (idAttr != null) {
+						String val = Utils.trimQuotes(idAttr.getNodeValue());
+						if (id.equals(val)) {
+							return element;
 						}
 					}
+				}
 					
-					if (element.hasChildNodes()) {
-						Element child = findElementByIDBackward(element.getChildNodes(), id, endOffset, prefix);
-						if (child != null) return child;
-					}
-				} catch (Exception x) {
-					// Probably not an IDOMElement
-					StrutsExtensionsPlugin.getPluginLog().logError(x);
+				if (element.hasChildNodes()) {
+					Element child = findElementByIDBackward(element.getChildNodes(), id, endOffset, prefix);
+					if (child != null) return child;
 				}
 			}
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
 		} finally {
 			smw.dispose();
 		}
@@ -258,9 +242,10 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	}
 	
 	String getForId(IRegion region) {
+		if(region == null || getDocument() == null) return null;
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
@@ -276,8 +261,8 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 
 	private IRegion getRegion(int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -337,7 +322,7 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
@@ -346,9 +331,10 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	}
 
 	private String getPrefix(IRegion region) {
+		if(region == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -360,9 +346,6 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 			Node node = n;
 			if (node.getNodeName().indexOf(":") == -1) return null;
 			return node.getNodeName().substring(0, node.getNodeName().indexOf(":"));
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

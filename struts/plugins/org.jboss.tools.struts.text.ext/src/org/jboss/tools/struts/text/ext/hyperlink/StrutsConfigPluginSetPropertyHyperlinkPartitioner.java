@@ -12,6 +12,8 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -46,8 +48,8 @@ public class StrutsConfigPluginSetPropertyHyperlinkPartitioner extends XMLTagAtt
 	 */
 	protected boolean recognizeNature(IDocument document) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			IFile documentFile = smw.getFile();
 			IProject project = documentFile.getProject();
 			for (int i = 0; i < STRUTS_PROJECT_NATURES.length; i++) {
@@ -55,7 +57,7 @@ public class StrutsConfigPluginSetPropertyHyperlinkPartitioner extends XMLTagAtt
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {
@@ -75,7 +77,6 @@ public class StrutsConfigPluginSetPropertyHyperlinkPartitioner extends XMLTagAtt
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
-		
 		if (!super.recognize(document, region)) 
 			return false;
 		
@@ -83,8 +84,8 @@ public class StrutsConfigPluginSetPropertyHyperlinkPartitioner extends XMLTagAtt
 			return false;
 
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
 		try {
-			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
@@ -102,19 +103,17 @@ public class StrutsConfigPluginSetPropertyHyperlinkPartitioner extends XMLTagAtt
 				return false;
 
 			return true;
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return false;
 		} finally {
 			smw.dispose();
 		}
 	}
 	
 	private String getAttributeValue (IDocument document, Node node, String attrName) {
+		if(node == null || document == null || attrName == null) return "";
 		try {
 			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
 			return Utils.getTrimmedValue(document, attr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}

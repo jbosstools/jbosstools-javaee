@@ -13,6 +13,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.w3c.dom.Attr;
@@ -53,30 +54,26 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
+		if(region == null) return;
 		
-		try {
-			String forID = getForId(region);
-			String prefix = getPrefix(region);
+		String forID = getForId(region);
+		String prefix = getPrefix(region);
 			
-			IRegion elementByID = findElementByIDBackward(forID, region.getOffset(), prefix);
-			if (elementByID != null) {
-				StructuredSelectionHelper.setSelectionAndRevealInActiveEditor(elementByID);
-				return;
-			}
-			StrutsFormBeanHyperlink openOn = new StrutsFormBeanHyperlink();
-			openOn.setTextViewer(getTextViewer());
-			openOn.setOffset(getOffset());
-			openOn.doHyperlink(region);
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			openFileFailed();
+		IRegion elementByID = findElementByIDBackward(forID, region.getOffset(), prefix);
+		if (elementByID != null) {
+			StructuredSelectionHelper.setSelectionAndRevealInActiveEditor(elementByID);
+			return;
 		}
+		StrutsFormBeanHyperlink openOn = new StrutsFormBeanHyperlink();
+		openOn.setTextViewer(getTextViewer());
+		openOn.setOffset(getOffset());
+		openOn.doHyperlink(region);
 	}
 	
 	private IRegion findElementByIDBackward (String id, int endOffset, String prefix) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
@@ -117,9 +114,6 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 					return "IRegion [" + getOffset() +", " + getLength()+ "]";
 				}
 			};
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -127,8 +121,8 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 	
 	private Element findElementByIDBackward(NodeList list, String id, int endOffset, String prefix) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
@@ -138,34 +132,27 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 
 			for (int i = list.getLength() - 1; list != null && i >= 0; i--) {
 				if(!(list.item(i) instanceof Element)) continue;
-				try {
-					Element element = (Element)list.item(i);
-					int start = Utils.getValueStart(element);
-					if (start < 0 || start >= endOffset) continue;
+				Element element = (Element)list.item(i);
+				int start = Utils.getValueStart(element);
+				if (start < 0 || start >= endOffset) continue;
 					
-					String elementExtracted = JSPRootHyperlinkPartitioner.extractName(element.getNodeName(), trackersMap, tm);
-					if (isInList(elementExtracted, trackersMap, tm, prefix)) {
+				String elementExtracted = JSPRootHyperlinkPartitioner.extractName(element.getNodeName(), trackersMap, tm);
+				if (isInList(elementExtracted, trackersMap, tm, prefix)) {
 						
-						Attr idAttr = element.getAttributeNode("id");
-						if (idAttr != null) {
-							String val = Utils.trimQuotes(idAttr.getNodeValue());
-							if (id.equals(val)) {
-								return element;
-							}
+					Attr idAttr = element.getAttributeNode("id");
+					if (idAttr != null) {
+						String val = Utils.trimQuotes(idAttr.getNodeValue());
+						if (id.equals(val)) {
+							return element;
 						}
 					}
+				}
 					
-					if (element.hasChildNodes()) {
-						Element child = findElementByIDBackward(element.getChildNodes(), id, endOffset, prefix);
-						if (child != null) return child;
-					}
-				} catch (Exception x) {
-					StrutsExtensionsPlugin.getPluginLog().logError(x);
-					// Probably not an IDOMElement
+				if (element.hasChildNodes()) {
+					Element child = findElementByIDBackward(element.getChildNodes(), id, endOffset, prefix);
+					if (child != null) return child;
 				}
 			}
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
 		} finally {
 			smw.dispose();
 		}
@@ -191,7 +178,7 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 	String getForId(IRegion region) {
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
@@ -268,7 +255,7 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
@@ -291,9 +278,6 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 			Node node = n;
 			if (node.getNodeName().indexOf(":") == -1) return null;
 			return node.getNodeName().substring(0, node.getNodeName().indexOf(":"));
-		} catch (Exception x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}

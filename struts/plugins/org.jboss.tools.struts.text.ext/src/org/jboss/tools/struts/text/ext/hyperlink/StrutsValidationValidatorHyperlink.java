@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -43,9 +44,10 @@ public class StrutsValidationValidatorHyperlink extends StrutsXModelBasedHyperli
 	}
 	
 	private String getAttributeValue(IRegion region) {
+		if(region == null || getDocument() == null) return null;
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
@@ -53,8 +55,8 @@ public class StrutsValidationValidatorHyperlink extends StrutsXModelBasedHyperli
 	
 	public IRegion getRegion (int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -117,7 +119,7 @@ public class StrutsValidationValidatorHyperlink extends StrutsXModelBasedHyperli
 			};
 			
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {

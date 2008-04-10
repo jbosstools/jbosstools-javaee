@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -47,18 +48,20 @@ public class StrutsPropertyHyperlink extends StrutsXModelBasedHyperlink {
 	}
 	
 	private String getProperty(IRegion region) {
-		try { 
+		if(region == null || getDocument() == null) return "";
+		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return "";
 		}
 	}
 	
 	private String getFormType(IRegion region) {
+		if(region == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -86,7 +89,7 @@ public class StrutsPropertyHyperlink extends StrutsXModelBasedHyperlink {
 			Attr typeAttr = (Attr)formNode.getAttributes().getNamedItem("type");
 			if (typeAttr == null) return null;
 			return Utils.getTrimmedValue(getDocument(), typeAttr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
@@ -95,9 +98,10 @@ public class StrutsPropertyHyperlink extends StrutsXModelBasedHyperlink {
 	}
 	
 	private String getFormAction (IRegion region) {
+		if(region == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
@@ -125,7 +129,7 @@ public class StrutsPropertyHyperlink extends StrutsXModelBasedHyperlink {
 			Attr actionAttr = (Attr)formNode.getAttributes().getNamedItem("action");
 			if (actionAttr == null) return null;
 			return Utils.getTrimmedValue(getDocument(), actionAttr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {

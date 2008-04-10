@@ -12,6 +12,7 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 
 import java.util.Properties;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -62,9 +63,10 @@ public class StrutsValidationMethodHyperlink0 extends StrutsXModelBasedHyperlink
 	
 	
 	private String getMethodName(IRegion region) {
+		if(region == null || getDocument() == null) return null;
 		try {
 			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
@@ -76,8 +78,8 @@ public class StrutsValidationMethodHyperlink0 extends StrutsXModelBasedHyperlink
 	
 	private String getAttributeValue(IRegion region, String attrName) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
@@ -85,7 +87,7 @@ public class StrutsValidationMethodHyperlink0 extends StrutsXModelBasedHyperlink
 			Node node = ((Attr)n).getOwnerElement();
 			Attr attr = (Attr)node.getAttributes().getNamedItem(attrName);
 			return Utils.getTrimmedValue(getDocument(), attr);
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
