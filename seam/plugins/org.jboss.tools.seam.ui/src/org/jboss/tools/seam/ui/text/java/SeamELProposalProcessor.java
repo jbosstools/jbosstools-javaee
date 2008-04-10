@@ -75,6 +75,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 
 		private final String fString;
 		private final String fPrefix;
+		private final String fNewPrefix;
 		private final int fOffset;
 		private final int fNewPosition;
 
@@ -83,8 +84,13 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		}
 
 		public Proposal(String string, String prefix, int offset, int newPosition) {
+			this(string, prefix, prefix, offset, offset + string.length());
+		}
+
+		public Proposal(String string, String prefix, String newPrefix, int offset, int newPosition) {
 			fString = string;
 			fPrefix = prefix;
+			fNewPrefix = newPrefix;
 			fOffset = offset;
 			fNewPosition = newPosition;
 		}
@@ -136,8 +142,10 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 */
 		public void apply(IDocument document, char trigger, int offset) {
 			try {
+				int docCharsToReplace = (fNewPrefix == null || fPrefix == null) ? 0 :
+					fPrefix.length() - fNewPrefix.length();
 				String replacement= fString.substring(offset - fOffset);
-				document.replace(offset, 0, replacement);
+				document.replace(offset - docCharsToReplace, docCharsToReplace, replacement);
 			} catch (BadLocationException x) {
 				SeamGuiPlugin.getPluginLog().logError(x);
 			}
@@ -293,7 +301,12 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			for (String string : uniqueSuggestions) {
 				if (string.length() >= 0) {
 					string = proposalPrefix + string + proposalSufix;
-					result.add(new Proposal(string, prefix, offset, offset + string.length() - proposalSufix.length()));
+					if (string.startsWith("['") && string.endsWith("']") && prefix != null && prefix.endsWith(".")) {
+						String newPrefix = prefix.substring(0, prefix.length() - 1);
+						result.add(new Proposal(string, prefix, newPrefix, offset, offset - 1 + string.length() - proposalSufix.length()));
+					} else {
+						result.add(new Proposal(string, prefix, offset, offset + string.length() - proposalSufix.length()));
+					}
 				}
 			}
 
