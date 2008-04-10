@@ -153,9 +153,8 @@
                 </listitem>
             </itemizedlist>
             
-            <para>You can take advantage of <link
-                    linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</link>.</para>
-
+            <para>You can take advantage of <ulink
+                    url="../../jsf/html_single/index.html#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</ulink>.</para>
             <figure>
                 <title>Code Assist</title>
                 <mediaobject>
@@ -189,8 +188,8 @@
             </figure>
         </section>
 
-        <para>Find more information about editor features <link linkend="editors_features"
-            >here</link>.</para>
+        <para>Find more information about editor features <ulink url="../../jsf/html_single/index.html#editors_features"
+            >here</ulink>.</para>
 
     </section>
 
@@ -311,8 +310,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Code
-                assist</link> is available in the Source mode.</para>
+            <para><ulink url="../../jsf/html_single/index.html#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Code
+                assist</ulink> is available in the Source mode.</para>
             <figure>
                 <title>Code Assist</title>
                 <mediaobject>

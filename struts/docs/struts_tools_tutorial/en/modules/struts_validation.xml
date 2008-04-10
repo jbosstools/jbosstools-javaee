@@ -262,6 +262,6 @@ org.apache.struts.validator.ValidatorForm
 <section id="OtherResource">
 <?dbhtml filename="OtherResource.html"?>
 <title>Other Resources</title>
-    <para>You can also read <ulink url="../../../../../../jsf/docs/build/userguide/en/html/Struts.html">Struts</ulink> chapter in our &quot;Visual Web Tools&quot; guide for more information on this topic.</para>
+    <para>You can also read <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink> for more information on this topic.</para>
 </section>
 </chapter>

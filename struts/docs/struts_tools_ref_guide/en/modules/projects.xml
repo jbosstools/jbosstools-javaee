@@ -157,7 +157,7 @@
         <title>Importing an Existing Struts Project with Any Structure</title>
 
         <para>For detailed information on migration projects to JBoss Developer Studio see <ulink
-                url="../../../Exadel-migration/en/html_single/index.html">Migration Guide</ulink>.</para>
+                url="../../Exadel-migration/html_single/index.html">Migration Guide</ulink>.</para>
 
     </section>
     <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
@@ -228,7 +228,7 @@
         </figure>
 
         <para>When done, you will see the default Struts module configuration information. See how
-            to Edit <link linkend="SupportForMultipleStrutsModules75">Struts modules</link>.</para>
+            to Edit <link linkend="modules">Struts modules</link>.</para>
 
         <figure>
             <title>Project Configuration Information</title>
