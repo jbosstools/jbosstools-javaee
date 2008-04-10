@@ -541,6 +541,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		if(editorRegistry.get(editorName).isEnabled()) {
 			String packageName = getValue(editorName).trim();
 			if(packageName.length()==0) {
+				setMessage(NLS.bind(warningMessageKey, new String[]{SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_PACKAGE_IS_BLANK}), IMessageProvider.WARNING);
+				warning = true;
 				return true;
 			}
 			IStatus status = JavaConventions.validatePackageName(packageName, CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
