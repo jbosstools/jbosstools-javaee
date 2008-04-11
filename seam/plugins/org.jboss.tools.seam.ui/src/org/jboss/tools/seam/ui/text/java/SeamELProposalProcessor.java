@@ -120,7 +120,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 		 */
 		public String getDisplayString() {
-			return fPrefix + fString;
+			return (fNewPrefix == null ? fPrefix : fNewPrefix) + fString;
 		}
 
 		/*
