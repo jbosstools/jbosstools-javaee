@@ -624,8 +624,10 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			} else if (!seamVersion.matches(version.getValueAsString().replace(
 					".", "\\.") + ".*")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				if(seamVersion.matches(version.getValueAsString().substring(0,1)+".*")) {
-					setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
+					if(!seamVersion.matches(version.getValueAsString().substring(0,1)+"\\.1\\..*"))  {
+						setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
 							+ seamVersion + "'", IMessageProvider.WARNING); //$NON-NLS-1$
+					}
 				} else {
 					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
 							+ seamVersion + "'"); //$NON-NLS-1$
