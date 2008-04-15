@@ -485,6 +485,14 @@ public class ScannerTest extends TestCase {
 		ISeamComponent c = seamProject.getComponent("inner_JBIDE_1374");
 		assertTrue("Component inner_JBIDE_1374 declared in inner static class is not found.", c != null);
 	}
+	
+	public void testInstallWithoutPrecedence_JBIDE_2052() {
+		ISeamProject seamProject = getSeamProject();
+		ISeamComponent c = seamProject.getComponent("installWithoutPrecedence_JBIDE_2052");
+		// actually, exception may happen in building Seam project
+		assertNotNull("Component installWithoutPrecedence_JBIDE_2052 declared in class annotated with @Install(false) is not found.", c);
+		
+	}
 
 	@Override
 	protected void tearDown() throws Exception {
