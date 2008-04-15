@@ -304,13 +304,6 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		return new SeamSearchQuery(tokens, sourceFile, scope);
 	}
 
-	private SeamSearchQuery createQuery(Var var, IFile sourceFile) throws JavaModelException, InterruptedException {
-		
-		SeamSearchScope scope  = new SeamSearchScope(new IFile[] {sourceFile}, getLimitTo());
-
-		return new SeamSearchQuery(var, sourceFile, scope);
-	}
-
 	/**
 	 * Returns the limitTo flag. The possible values are: 
 	 *  - SeamSearchScope.SEARCH_FOR_DECLARATIONS

@@ -120,8 +120,6 @@ public class SeamSearchQuery implements ISearchQuery {
 	private List<ELOperandToken> fTokens;
 	private IJavaElement[] fJavaElements;
 	private final SeamSearchScope fScope;
-	private final String[] fVariables;
-	private final Var fVar;
 	private SeamSearchResult fResult;
 	private IFile fSourceFile;
 	private ISearchRequestor fParentRequestor; 
@@ -137,8 +135,6 @@ public class SeamSearchQuery implements ISearchQuery {
 		fTokens = tokens;
 		fJavaElements = null;
 		fSourceFile = sourceFile;
-		fVariables = null;
-		fVar = null;
 		fScope= scope;
 	}
 	
@@ -153,26 +149,9 @@ public class SeamSearchQuery implements ISearchQuery {
 		fTokens = null;
 		fJavaElements = javaElements;
 		fSourceFile = sourceFile;
-		fVariables = null;
-		fVar = null;
 		fScope= scope;
 	}
 
-	/**
-	 * Constructs Seam search query for a given {@link Var} objects array
-	 * 
-	 * @param var
-	 * @param sourceFile
-	 * @param scope
-	 */
-	public SeamSearchQuery(Var var, IFile sourceFile, SeamSearchScope scope) {
-		fTokens = null;
-		fJavaElements = null;
-		fSourceFile = sourceFile;
-		fVariables = null;
-		fVar = var;
-		fScope= scope;
-	}
 
 	/**
 	 * Sets up a parent ISearchRequestor
@@ -252,7 +231,6 @@ public class SeamSearchQuery implements ISearchQuery {
 		if (seamProject == null)
 			return Status.OK_STATUS;
 
-//		List<IJavaElement> elements = engine.getJavaElementsForELOperandTokens(seamProject, fSourceFile, fTokens)
 		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
 		return SeamSearchEngine.getInstance().search(fScope, collector, fSourceFile, fJavaElements, monitor);
 	}
@@ -284,17 +262,21 @@ public class SeamSearchQuery implements ISearchQuery {
 	 */
 	public String getSearchString() {
 		String searchString = "";
-		if (fVariables != null) {
+		if (fJavaElements != null) {
 			StringBuffer buf= new StringBuffer();
-			for (int i= 0; i < fVariables.length; i++) {
+			for (int i= 0; i < fJavaElements.length; i++) {
 				if (i > 0) {
 					buf.append(", "); //$NON-NLS-1$
 				}
-				buf.append(fVariables[i]);
+				buf.append(fJavaElements[i]);
 			}
 			searchString = buf.toString();
-		} else if (fVar != null) {
-			searchString = fVar.getName();
+		} else if (fTokens != null) {
+			StringBuffer buf= new StringBuffer();
+			for (int i= 0; i < fTokens.size(); i++) {
+				buf.append(fTokens.get(i).getText());
+			}
+			searchString = buf.toString();
 		}
 		return searchString;
 	}
