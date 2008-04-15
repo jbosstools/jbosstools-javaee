@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="menus_and_actions" xreflabel="menus_and_actions">
+    <?dbhtml filename="seam_menus_and_actions.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>JBDS</keyword>
+            <keyword>menus</keyword>
+            <keyword>actions</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Seam Menus and Actions</title>
+    
+    <para>In this chapter we provide the full description of Seam actions that are available from</para>
+        <itemizedlist>
+            <listitem><para>Menu bar</para></listitem>
+            <listitem><para>Toolbar</para></listitem>
+            <listitem><para>Context menus in views.</para></listitem>
+        </itemizedlist>
+  
+
+    <section id="file_menu">
+
+        <title>File Menu Actions</title>
+        
+    </section>
+            
+    <section id="navigate_menu">
+        <title>Navigate Menu Actions</title>
+        
+        <para>The following Seam actions help you to easily navigate through the source code.</para> 
+        
+        <section id="find_seam_ref_decl">
+            
+            <title>Find Seam References/Declarations</title>
+            
+          
+          <!--             <para><property>Find Seam References/Declarations</property> is available for EL expressions in both .java and .xhtml files.</para>
+            <para>Find Seam references and declarations action works as the normal Eclipse Find References/Declarations via Ctrl+G/Ctrl+Shift+G shortcuts. 
+                Furthermore it can be run from the main menu <emphasis><property>Navigate > Find Seam References</property></emphasis> 
+                or <emphasis><property>Navigate > Find Seam Declarations</property></emphasis> and from the appropriate toolbar buttons.</para>
+               <para>If you are looking for a reference to a specific class or method and it is referenced in EL or any other Seam configuration the search list will include it.
+            </para>
+            
+          -->
+            
+            <para>In the main menu bar, click on <emphasis><property>Navigate > Find Seam References</property></emphasis> or <emphasis><property>Find Seam Declarations</property>.</emphasis>
+            These actions are also available from the toolbar, use the appropriate buttons.</para>
+            
+            <table>
+                <title>Find Seam References/Declarations actions</title>
+                <tgroup cols="3">
+                    <colspec colnum="1" colwidth="1*"/>
+                    <colspec colnum="2" colwidth="4*"/>
+                    <colspec colnum="3" colwidth="2*"/>
+                    
+                    
+                    <thead>
+                        <row>
+                            <entry align="center">
+                                <para>Name</para>
+                            </entry>
+                            
+                            <entry align="center">
+                                <para>Function</para>
+                            </entry>
+                            
+                            <entry align="center">
+                                <para>Keyboard Shortcut</para>
+                            </entry>
+                          </row>
+                    </thead>
+                    
+                    <tbody>
+                  
+                        
+                        <row>
+                            <entry>
+                                <para><property>Find Seam References</property></para>
+                                <para><property>Find Seam Declarations</property></para>
+                            </entry>
+                            
+                            <entry>
+                                <para>Find all references and declarations to the selected element. It's available for EL expressions in both .java and .xhtml files.
+                                    Differs from normal Eclipse Find References/Declarations by showing an EL or Seam references in the Search View.
+                                  </para>
+                            </entry>
+                            
+                            <entry>
+                                <para>Ctrl+G</para>
+                                <para>Ctrl+Shift+G</para>
+                                <para>also Ctrl + 1 for .java files</para>
+                                   
+                            </entry>
+                            
+                        </row>
+                    </tbody>
+                </tgroup>
+                </table>
+                                
+                                
+            <para>Look at the screenshot example</para>
+            
+            <figure>
+                <title>Find Seam Declaration for &quot;Identity&quot;</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_menus_and_actions/menus_and_actions1.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <para>You can also use Ctrl + 1 in .java files</para>
+            
+            <figure>
+                <title>Find Seam References for &quot;Identity&quot;</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_menus_and_actions/menus_and_actions2.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+        </section>
+        
+        <section>
+            <title>Open Seam Component</title>
+        
+        <para>In the main menu bar, click on <emphasis><property>Navigate > Open Seam Component</property>.</emphasis>
+        This dialog is also available from the toolbar.</para>
+        
+        <table>
+            <title>Open Seam Components Dialog</title>
+            <tgroup cols="3">
+                <colspec colnum="1" colwidth="1*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                <colspec colnum="3" colwidth="2*"/>
+                
+                
+                <thead>
+                    <row>
+                        <entry align="center">
+                            <para>Name</para>
+                        </entry>
+                        
+                        <entry align="center">
+                            <para>Function</para>
+                        </entry>
+                        
+                        <entry align="center">
+                            <para>Keyboard Shortcut</para>
+                        </entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    
+                    
+                    <row>
+                        <entry>
+                            <para><property>Open Seam Components</property></para>
+                           
+                        </entry>
+                        
+                        <entry>
+                            <para>Brings up the Open Seam Component dialog to open a component in the editor. The Open Seam Component selection dialog 
+                                shows all Seam components existing in the workspace. You can search the components via their short, imported or full name.</para>
+                        </entry>
+                        
+                        <entry>
+                            <para>Ctrl+Shift+Z</para>
+                                                       
+                        </entry>
+                        
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        
+        
+        <figure>
+            <title>Open Seam Components Dialog</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_menus_and_actions/menus_and_actions3.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        </section>
+        
+    </section>        
+
+</chapter>
