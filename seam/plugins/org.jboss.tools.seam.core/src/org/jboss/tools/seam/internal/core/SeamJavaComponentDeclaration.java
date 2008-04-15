@@ -416,7 +416,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public void setPrecedence(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.PRECEDENCE, value);
-		String p = value.getValue();
+		String p = value == null ? null : value.getValue();
 		if(p == null) {
 			setPrecedence(0);
 			return;
