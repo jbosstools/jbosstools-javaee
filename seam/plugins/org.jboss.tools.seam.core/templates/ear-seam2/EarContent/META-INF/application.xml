@@ -16,38 +16,4 @@
    <module>
       <ejb>@projectName@-ejb.jar</ejb>
    </module>
-   
-   <!-- Seam and EL -->
-   <module>
-       <java>jboss-seam.jar</java>
-   </module>   
-   <module>
-	   <java>jboss-el.jar</java>
-   </module>   
-
-   <!-- jBPM -->
-   <module>
-      <java>jbpm-jpdl.jar</java>
-   </module>
-
-   <!-- Drools and dependencies -->
-   <module>
-      <java>drools-core.jar</java>
-   </module>
-   <module>
-      <java>drools-compiler.jar</java>
-   </module>
-   <module>
-      <java>antlr-runtime.jar</java>
-   </module>
-   <module>
-      <java>mvel14.jar</java>
-   </module>
-   
-   <!-- richfaces -->
-   <module>
-	   <java>richfaces-api.jar</java>
-   </module>
-   
-    
 </application>
