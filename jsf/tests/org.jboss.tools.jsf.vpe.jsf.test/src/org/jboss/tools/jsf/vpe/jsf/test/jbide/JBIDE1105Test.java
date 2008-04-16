@@ -71,7 +71,7 @@ public class JBIDE1105Test extends VpeTest {
 		}
 		for (int i = 0; i < 200; i++) {
 		    int offset = styledText.getOffsetAtLine(23);
-		    styledText.setCaretOffset(offset - " Test ".length());
+		    styledText.setCaretOffset(offset - " Test ".length() - delimiter.length());
 		    styledText.insert(" Test ");
 		    TestUtil.delay(50L);
 		}
