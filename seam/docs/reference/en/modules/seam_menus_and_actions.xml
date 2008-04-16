@@ -13,7 +13,7 @@
 
     <title>Seam Menus and Actions</title>
     
-    <para>In this chapter we provide the full description of Seam actions that are available from</para>
+    <para>In this chapter we provide a description of Seam actions that are available from</para>
         <itemizedlist>
             <listitem><para>Menu bar</para></listitem>
             <listitem><para>Toolbar</para></listitem>
@@ -24,6 +24,127 @@
     <section id="file_menu">
 
         <title>File Menu Actions</title>
+        
+        <para>In a Seam perspective, by default there are the following actions in <emphasis><property>File > New</property></emphasis> submenu</para>
+        
+        <table>
+            <title>Seam Actions in the New Submenu</title>
+            <tgroup cols="2">
+                <colspec colnum="1" colwidth="1*"/>
+                <colspec colnum="2" colwidth="4*"/>
+              
+                
+                
+                <thead>
+                    <row>
+                        <entry align="center">
+                            <para>Name</para>
+                        </entry>
+                        
+                        <entry align="center">
+                            <para>Function</para>
+                        </entry>
+                        
+                                      </row>
+                </thead>
+                
+                <tbody>
+                    
+                    
+                    <row>
+                        <entry>
+                            <para><property>Seam Web Project</property></para>
+                         
+                        </entry>
+                        
+                        <entry>
+                            <para>Runs <link linkend="standaloneSeam">New Seam Project</link> wizard for creating a new Seam project
+                            </para>
+                        </entry>
+                      
+                        
+                    </row>
+                    
+                    
+                    <row>
+                        <entry>
+                            <para><property>Seam Action</property></para>
+                            
+                        </entry>
+                        
+                        <entry>
+                            <para>Runs <link linkend="seam_action">New Seam Action</link> wizard for creating a new Seam action
+                            </para>
+                        </entry>
+                        
+                    
+                    </row>
+                    
+                    
+                    
+                    <row>
+                        <entry>
+                            <para><property>Seam Form</property></para>
+                            
+                        </entry>
+                        
+                        <entry>
+                            <para>Runs <link linkend="seam_form">New Seam Form</link> wizard for creating a new Seam form
+                            </para>
+                        </entry>
+                        
+                       
+                    </row>
+                    
+                    
+                    <row>
+                        <entry>
+                            <para><property>Seam Entity</property></para>
+                            
+                        </entry>
+                        
+                        <entry>
+                            <para>Runs <link linkend="seam_entity">New Seam Entity</link> wizard for creating a new Seam entity
+                            </para>
+                        </entry>
+                        
+                       
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <para><property>Seam Conversation</property></para>
+                            
+                        </entry>
+                        
+                        <entry>
+                            <para>Runs <link linkend="seam_conversation">New Seam Conversation</link> wizard for creating a new Seam conversation
+                            </para>
+                        </entry>
+                        
+                        
+                        
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <para><property>Seam Generate Entities</property></para>
+                            
+                        </entry>
+                        
+                        <entry>
+                            <para>Runs <link linkend="generate_entities">Generate Seam Entities</link> wizard</para>
+                        </entry>
+                        
+                       
+                        
+                    </row>
+                    
+                    
+                </tbody>
+            </tgroup>
+        </table>
+        
         
     </section>
             
@@ -45,9 +166,20 @@
             </para>
             
           -->
+        
             
             <para>In the main menu bar, click on <emphasis><property>Navigate > Find Seam References</property></emphasis> or <emphasis><property>Find Seam Declarations</property>.</emphasis>
-            These actions are also available from the toolbar, use the appropriate buttons.</para>
+            These actions are also available from toolbar icons.</para>
+            
+            <figure>
+                <title>Find Seam References and Find Seam Declarations icons</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_menus_and_actions/menus_and_actions0_1.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
             
             <table>
                 <title>Find Seam References/Declarations actions</title>
@@ -125,11 +257,20 @@
             
         </section>
         
-        <section>
+        <section id="open_seam_component">
             <title>Open Seam Component</title>
         
         <para>In the main menu bar, click on <emphasis><property>Navigate > Open Seam Component</property>.</emphasis>
-        This dialog is also available from the toolbar.</para>
+        This dialog is also available from toolbar icon.</para>
+            
+            <figure>
+                <title>Open Seam Components icon</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_menus_and_actions/menus_and_actions3_0.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
         
         <table>
             <title>Open Seam Components Dialog</title>
