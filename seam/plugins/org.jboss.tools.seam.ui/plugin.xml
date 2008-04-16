@@ -454,6 +454,26 @@
                id="findDeclarations"
                label="Find Seam Declarations"
                menubarPath="navigate/open.ext2"
+               tooltip="Find Seam Declarations">
+         </action>
+         <action
+               class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction"
+					definitionId="org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace"
+               helpContextId="org.eclipse.jdt.ui.find_references_action"
+               icon="icons/find_seam_references.gif"
+               id="findReferences"
+               label="Find Seam References"
+               menubarPath="navigate/open.ext2"
+               tooltip="Find Seam References">
+         </action>
+         <!-- action
+               class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction"
+					definitionId="org.eclipse.jdt.ui.edit.text.java.search.declarations.in.workspace"
+               helpContextId="org.eclipse.jdt.ui.find_declarations_action"
+               icon="icons/find_seam_declarations.gif"
+               id="findDeclarations"
+               label="Find Seam Declarations"
+               menubarPath="navigate/open.ext2"
                toolbarPath="org.eclipse.search.searchActionSet/Search"
                tooltip="Find Seam Declarations">
          </action>
@@ -467,7 +487,7 @@
                menubarPath="navigate/open.ext2"
                toolbarPath="org.eclipse.search.searchActionSet/Search"
                tooltip="Find Seam References">
-         </action>
+         </action -->
       </actionSet>
    </extension>
    <extension
