@@ -35,34 +35,6 @@
         <para>After specifying a proper JSF environment all the required libraries for the selected
                 version will be added to your project.</para>
 
-        <!--        
-<section id="AddingSupportForTheOracleADFComponentsLibraryOrAnyOtherSupport64">
-<?dbhtml filename="AddingSupportForTheOracleADFComponentsLibraryOrAnyOtherSupport.html"?>
-<title>Adding Support for the Oracle ADF Components Library or Any Other Support</title>
-
-<para>JBoss Developer Studio is set up to work with the <property>ADF Faces Component Library</property>, but still requires a few extra
- steps to complete the support. First, you will need to download the 2 jar files for the library from the 
- Oracle site down to your system. Then, you just need to follow these steps to add ADF Faces support to your projects:</para>
-
-<itemizedlist>
-        <listitem><para>Select <emphasis><property>Window > Preferences > Red Hat > Library Sets</property></emphasis> from the menu bar.</para></listitem>
-        <listitem><para>Select <emphasis><property>OracleADF</property></emphasis> in the upper pane.</para></listitem>
-        <listitem>Then, click <emphasis><property>Add</property></emphasis> in the lower pane and browse to the location where you have both ADF jar files:
-<itemizedlist>
-        <listitem><para>adf-faces-api-eaXX.jar</para></listitem>
-         <listitem><para>adf-faces-impl-eaXX.jar</para></listitem>
-         </itemizedlist></listitem>
-        <listitem>In Preferences, select <emphasis><property>Custom Capability</property></emphasis>. Notice that Custom Capability ADF has the OracleADF
- library set to which we just added the required Jar libraries. We don&apos;t need to do anything here.</listitem>
-        <listitem><para>Click <emphasis><property>OK</property></emphasis> and then click <emphasis><property>OK</property></emphasis> again.</para></listitem>
-<listitem>After this is done, you can always add in the library files to a project by just right-clicking
- your project and selecting <emphasis><property>JBoss Developer Studio > Add Custom Capability...</property></emphasis> from the context menu and select a needed capability.</listitem>
-</itemizedlist>
-
-<para>You can add any custom capability (support) to your project using Library Sets in the same fashion. </para>
-</section>
--->
-
         <section id="FaceletsSupport865">
 
                 <title>Facelets Support</title>
@@ -189,11 +161,11 @@
                 <section>
                         <title>Facelets components</title>
 
-                        <para>The <ulink url="../../jsf/html_single/index.html#palette">JBoss Tools Palette</ulink> comes with the
-                                Facelets components ready to use. A useful tip appears when you
-                                hover the mouse cursor over the tag, the tip includes a detailed
-                                description of the tag component, the syntax and available
-                                attributes.</para>
+                        <para>The <ulink url="../../jsf/html_single/index.html#palette">JBoss Tools
+                                        Palette</ulink> comes with the Facelets components ready to
+                                use. A useful tip appears when you hover the mouse cursor over the
+                                tag, the tip includes a detailed description of the tag component,
+                                the syntax and available attributes.</para>
 
                         <!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
@@ -217,8 +189,8 @@
                         <title>Code assist for Facelets</title>
 
                         <para>One more feature which comes with Facelets support is code assist
-                                (Ctrl + Space). It is available for <property>Facelets tags</property>
-                                 while editing <emphasis>
+                                (Ctrl + Space). It is available for <property>Facelets
+                                tags</property> while editing <emphasis>
                                         <property>.xhtml</property>
                                 </emphasis> files.</para>
 
