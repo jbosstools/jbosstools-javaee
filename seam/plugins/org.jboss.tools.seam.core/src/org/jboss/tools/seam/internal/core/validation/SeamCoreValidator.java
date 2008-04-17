@@ -359,6 +359,10 @@ public class SeamCoreValidator extends SeamValidator {
 			for (ISeamComponentDeclaration declaration : declarations) {
 				if(declaration instanceof ISeamJavaComponentDeclaration) {
 					ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)declaration;
+
+					//do not check files declared in another project
+					if(jd.getSeamProject() != project) continue;
+
 					IType type = (IType)jd.getSourceMember();
 					boolean sourceJavaDeclaration = !type.isBinary();
 					if(sourceJavaDeclaration) {
@@ -393,7 +397,7 @@ public class SeamCoreValidator extends SeamValidator {
 								// Mark first wrong declaration with that name
 								IResource checkedDeclarationResource = checkedDeclaration.getResource();
 								ISeamTextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-								if(location!=null) {
+								if(!isEmptyLocation(location)) {
 									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, checkedDeclarationResource);
 								}
 								markedDeclarations.add(checkedDeclaration);
@@ -401,7 +405,7 @@ public class SeamCoreValidator extends SeamValidator {
 							// Mark next wrong declaration with that name
 							markedDeclarations.add(javaDeclaration);
 							ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-							if(location!=null) {
+							if(!isEmptyLocation(location)) {
 								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, javaDeclarationResource);
 							}
 						}
@@ -437,10 +441,10 @@ public class SeamCoreValidator extends SeamValidator {
 						if(type==null) {
 							// Mark wrong class name
 							ISeamTextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(ISeamXmlComponentDeclaration.CLASS);
-							if(location==null) {
+							if(isEmptyLocation(location)) {
 								location = ((SeamComponentDeclaration)declaration).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 							}
-							if(location==null) {
+							if(isEmptyLocation(location)) {
 								location = declaration;
 							}
 							addError(UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME, new String[]{className}, location, declaration.getResource());
@@ -470,6 +474,15 @@ public class SeamCoreValidator extends SeamValidator {
 			}
 		}
 	}
+	
+	static boolean isEmptyLocation(ISeamTextSourceReference location) {
+		return (location == null
+			//is dead location, we cannot now change provider to return null
+			//because it may give rise to other errors. 
+			//In the future, null should be returned instead of 'dead' location
+			//and correctly processed
+			|| location.getStartPosition() == 0 && location.getLength() == 0);		
+	}
 
 	private void validateEntityComponent(ISeamComponent component) {
 		if(component.isEntity()) {
@@ -485,7 +498,7 @@ public class SeamCoreValidator extends SeamValidator {
 	private ISeamTextSourceReference getScopeLocation(ISeamComponent component) {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
 		ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_SCOPE);
-		if(location==null) {
+		if(isEmptyLocation(location)) {
 			location = getNameLocation(javaDeclaration);
 		}
 		return location;

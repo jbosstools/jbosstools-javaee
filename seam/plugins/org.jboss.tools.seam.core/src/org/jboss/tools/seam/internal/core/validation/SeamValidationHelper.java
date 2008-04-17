@@ -68,7 +68,8 @@ public class SeamValidationHelper extends WorkbenchContext {
 			Set<ISeamComponentDeclaration> declarations = ((ISeamComponent)element).getAllDeclarations();
 			for (Object o : declarations) {
 				SeamComponentDeclaration d = (SeamComponentDeclaration)o;
-				if(d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME)!=null) {
+				ISeamTextSourceReference location = d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+				if(!SeamCoreValidator.isEmptyLocation(location)) {
 					return d.getResource();
 				}
 			}
@@ -96,14 +97,14 @@ public class SeamValidationHelper extends WorkbenchContext {
 			Set<ISeamComponentDeclaration> declarations = ((ISeamComponent)element).getAllDeclarations();
 			for (ISeamComponentDeclaration d : declarations) {
 				location = ((SeamComponentDeclaration)d).getLocationFor(attributeName);
-				if(location!=null) {
+				if(!SeamCoreValidator.isEmptyLocation(location)) {
 					break;
 				}
 			}
 		} else if(element instanceof SeamComponentDeclaration) {
 			location = ((SeamComponentDeclaration)element).getLocationFor(attributeName);
 		}
-		if(location==null && element instanceof ISeamTextSourceReference) {
+		if(SeamCoreValidator.isEmptyLocation(location) && element instanceof ISeamTextSourceReference) {
 			location = (ISeamTextSourceReference)element;
 		}
 		return location;
