@@ -34,6 +34,7 @@ import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
@@ -492,6 +493,25 @@ public class ScannerTest extends TestCase {
 		// actually, exception may happen in building Seam project
 		assertNotNull("Component installWithoutPrecedence_JBIDE_2052 declared in class annotated with @Install(false) is not found.", c);
 		
+	}
+	
+	public void testLocation_JBIDE_2080() {
+		String EJB = "org.jboss.seam.core.ejb";
+		ISeamProject seamProject = getSeamProject();
+		ISeamComponent c = seamProject.getComponent(EJB);
+		assertNotNull("Component " + EJB + " is not found.", c);
+		Set<ISeamComponentDeclaration> ds = c.getAllDeclarations();
+		ISeamXmlComponentDeclaration xml = null;
+		for (ISeamComponentDeclaration d: ds) {
+			if(d instanceof ISeamXmlComponentDeclaration) {
+				xml = (ISeamXmlComponentDeclaration)d;
+				break;
+			}
+		}
+		assertNotNull("XML declaration for component " + EJB + " is not found in components.xml.", xml);
+		ISeamTextSourceReference location = xml.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+		assertNotNull("Location of declaration of component " + EJB + " in components.xml is not found.", location);
+		assertTrue("Location should not point to 0", location.getStartPosition() > 0 && location.getLength() > 0);
 	}
 
 	@Override
