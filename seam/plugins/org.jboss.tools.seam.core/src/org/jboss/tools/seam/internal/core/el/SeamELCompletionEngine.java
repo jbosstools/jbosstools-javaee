@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -588,7 +589,6 @@ public final class SeamELCompletionEngine {
 									proposals.add(key);
 								}
 							}
-//							proposals.addAll(((MessagesInfo)mbr).getKeys());
 							continue;
 						}
 						if (mbr.getMemberType() == null) {
@@ -598,17 +598,20 @@ public final class SeamELCompletionEngine {
 						if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 							status.setMapOrCollectionOrBundleAmoungTheTokens();
 						}
-						proposals.addAll(infos.getMethodPresentations());
-						proposals.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
+						proposals.addAll(infos.getMethodPresentationStrings());
+						proposals.addAll(infos.getPropertyPresentationStrings(status.getUnpairedGettersOrSetters()));
 					}
 				} else if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
 						token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
 						token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
 					// return filtered methods + properties 
-					Set<String> proposalsToFilter = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
+					Set<TypeInfoCollector.MemberPresentation> proposalsToFilter = new TreeSet<TypeInfoCollector.MemberPresentation>(TypeInfoCollector.MEMBER_PRESENTATION_COMPARATOR); 
 					for (TypeInfoCollector.MemberInfo mbr : members) {
 						if (mbr instanceof MessagesInfo) {
-							proposalsToFilter.addAll(((MessagesInfo)mbr).getKeys());
+							Collection<String> keys = ((MessagesInfo)mbr).getKeys();
+							for (String key : keys) {
+								proposalsToFilter.add(new TypeInfoCollector.MemberPresentation(key, mbr));
+							}
 							continue;
 						}
 						if (mbr.getMemberType() == null) continue;
@@ -620,7 +623,7 @@ public final class SeamELCompletionEngine {
 						proposalsToFilter.addAll(infos.getPropertyPresentations(status.getUnpairedGettersOrSetters()));
 						status.setMemberOfResolvedOperand(mbr);
 					}
-					for (String proposal : proposalsToFilter) {
+					for (TypeInfoCollector.MemberPresentation proposal : proposalsToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
 						String filter = token.getText();
 						if (filter.indexOf('(') != -1) {
@@ -628,8 +631,9 @@ public final class SeamELCompletionEngine {
 						}
 						if(returnEqualedVariablesOnly) {
 							// This is used for validation.
-							if (proposal.equals(filter)) {
-								proposals.add(proposal);
+							if (proposal.getPresentation().equals(filter)) {
+								proposals.add(proposal.getPresentation());
+								status.setMemberOfResolvedOperand(proposal.getMember());
 								if(status.getUnpairedGettersOrSetters()!=null) {
 									TypeInfoCollector.MethodInfo unpirMethod = status.getUnpairedGettersOrSetters().get(filter);
 									status.clearUnpairedGettersOrSetters();
@@ -639,11 +643,9 @@ public final class SeamELCompletionEngine {
 								}
 								break;
 							}
-						} else {
+						} else if (proposal.getPresentation().startsWith(filter)) {
 							// This is used for CA.
-							if (proposal.startsWith(filter)) {
-								proposals.add(proposal.substring(filter.length()));
-							}
+							proposals.add(proposal.getPresentation().substring(filter.length()));
 						}
 					}
 				}

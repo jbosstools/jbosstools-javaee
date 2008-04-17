@@ -10,4 +10,9 @@
 		</h:dataTable>
 	</h:dataTable>
 
+	<h:dataTable value="#{arrayItems}" var="arrayItem">
+		<h:dataTable value="#{arrayItem.list}" var="item">
+			<h:outputText value="#{item.}"/>
+		</h:dataTable>
+	</h:dataTable>
 </html>

@@ -76,6 +76,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 
 	/**
 	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1803
+	 *          http://jira.jboss.com/jira/browse/JBIDE-2007
 	 */
 	public void testVarAttributes() {
 		try {
@@ -96,6 +97,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		EditorTestHelper.joinJobs(1000,10000,500);
 
 		checkProposals("/WebContent/varAttributes.xhtml", 458, new String[]{"test.name"}, false);
+		checkProposals("/WebContent/varAttributes.xhtml", 640, new String[]{"item.name"}, false);
 
 		try{
 			component.setContents(emptyComponent.getContents(), true, false, new NullProgressMonitor());

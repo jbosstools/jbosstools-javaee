@@ -23,6 +23,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.util.TypeInfoCollector;
 import org.jboss.tools.common.model.util.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.util.TypeInfoCollector.Type;
+import org.jboss.tools.common.model.util.TypeInfoCollector.TypeInfo;
+import org.jboss.tools.common.model.util.TypeInfoCollector.TypeMemberInfo;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -174,7 +176,7 @@ public class SeamExpressionResolver {
 	 * This object wraps "messages" context variable. 
 	 * @author Alexey Kazakov
 	 */
-	public static class MessagesInfo extends MemberInfo {
+	public static class MessagesInfo extends TypeMemberInfo {
 
 		private ISeamMessages messages;
 
@@ -184,7 +186,7 @@ public class SeamExpressionResolver {
 		 * @throws JavaModelException
 		 */
 		protected MessagesInfo(MemberInfo parentMember, ISeamMessages messages) throws JavaModelException {
-			super(null, null, messages.getName(), 0, null, false, null);
+			super(null, null, messages.getName(), 0, null, null, false, null);
 			this.messages = messages;
 			IMember member = (IMember)getJavaElement();
 			if(member!=null) {
@@ -198,13 +200,20 @@ public class SeamExpressionResolver {
 					setName(messages.getName());
 					setModifiers(type.getFlags());
 					setParentMember(parentMember);
+					if(parentMember == null || parentMember instanceof TypeMemberInfo) {
+						TypeInfo typeInfo = new TypeInfo(type, null, false);
+						setDeclaratedType(typeInfo);
+					} else {
+						setDeclaratedType((TypeInfo)parentMember);
+					}
 					setDataModel(false);
 					setType(type==null?null:new Type(null, type));
 				}
 			}
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.jboss.tools.common.model.util.TypeInfoCollector.MemberInfo#getJavaElement()
 		 */
 		@Override

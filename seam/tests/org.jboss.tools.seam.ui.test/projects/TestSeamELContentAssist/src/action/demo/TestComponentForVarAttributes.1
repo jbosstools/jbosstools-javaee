@@ -20,7 +20,7 @@ public class TestComponentForVarAttributes {
 	private Map<String, Test> mapItems;
 
     @DataModel
-	private Value[] arrayItems;
+	private InerClass[] arrayItems;
 
     public Test getTest() {
     	return null;
@@ -38,6 +38,15 @@ public class TestComponentForVarAttributes {
 
 	public static class Test {
 		public List<Value> getItems() {
+			return null;
+		}
+	}
+
+	public static class InerClass extends InerSuperClass<Value> {
+	}
+
+	public static class InerSuperClass<E> {
+		public List<E> getList() {
 			return null;
 		}
 	}
