@@ -546,6 +546,7 @@
 				title="{tagstring()}" table-size="{@columns}" />
 		<vpe:resize>
 				<vpe:width width-attr="width" />
+				<vpe:height height-attr="style.height" />
 			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
@@ -568,7 +569,7 @@
 				class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:resize>
 				<vpe:width width-attr="width" />
-				<vpe:height height-attr="height" />
+				<vpe:height height-attr="style.height" />
 			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
@@ -604,14 +605,8 @@
 		<vpe:if test="@name='popup'">
 			<vpe:template children="yes" modify="yes"></vpe:template>
 		</vpe:if>
-		<vpe:if
-			test="parentname()='h:dataTable'|parentname()='t:tree'">
-			<vpe:template children="yes" modify="yes">
-				<vpe:facet />
-			</vpe:template>
-		</vpe:if>
-		<vpe:template children="yes" modify="yes">
-			<div />
+
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfFacet" >
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />
