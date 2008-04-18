@@ -319,7 +319,7 @@
    <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
    		id="seam_el_proposals"
 			name="Seam EL Proposals">
-   	<proposalCategory icon="icons/sample.gif"/>
+   	<proposalCategory icon="icons/seam16.png"/>
  	</extension>
 
 	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
