@@ -51,22 +51,22 @@
                     <formats>
                         <format>
                             <formatName>pdf</formatName>
-                            <stylesheetResource>classpath:/xslt/org/jboss/pdf.xsl</stylesheetResource>
+                            <stylesheetResource>classpath:/xslt/com/jboss/pdf.xsl</stylesheetResource>
                             <finalName>${pom.name}.pdf</finalName>
                         </format>
                         <format>
                             <formatName>html</formatName>
-                            <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
+                            <stylesheetResource>classpath:/xslt/com/jboss/xhtml.xsl</stylesheetResource>
                             <finalName>index.html</finalName>
                         </format>
                         <format>
                             <formatName>html_single</formatName>
-                            <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
+                            <stylesheetResource>classpath:/xslt/com/jboss/xhtml-single.xsl</stylesheetResource>
                             <finalName>index.html</finalName>
                         </format>
                         <format>
                             <formatName>eclipse</formatName>
-                            <stylesheetResource>classpath:/xslt/org/jboss/eclipse.xsl</stylesheetResource>
+                            <stylesheetResource>classpath:/xslt/com/jboss/eclipse.xsl</stylesheetResource>
                             <finalName>index.html</finalName>
                         </format>
                     </formats>
