@@ -62,18 +62,4 @@ public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#setPseudoContent(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode,
-	 *      org.mozilla.interfaces.nsIDOMDocument)
-	 */
-	@Override
-	public void setPseudoContent(VpePageContext pageContext,
-			Node sourceContainer, nsIDOMNode visualContainer,
-			nsIDOMDocument visualDocument) {
-		// Empty
-	}
-
 }
