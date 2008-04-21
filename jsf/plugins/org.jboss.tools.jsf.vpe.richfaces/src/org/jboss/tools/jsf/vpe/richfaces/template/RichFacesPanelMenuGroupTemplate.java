@@ -24,6 +24,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,7 +44,7 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String ICON_EXPANDED = "iconExpanded"; //$NON-NLS-1$
 	private static final String ICON_COLLAPSED = "iconCollapsed"; //$NON-NLS-1$
 	private static final String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
-	private static final String ICON_LABEL = "label"; //$NON-NLS-1$
+	private static final String LABEL = "label"; //$NON-NLS-1$
 	private static final String STYLE = "style"; //$NON-NLS-1$
 	private static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 	
@@ -115,7 +116,6 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 	private static String pmg_iconExpanded;
 	private static String pmg_iconCollapsed;
 	private static String pmg_iconDisabled;
-	private static String pmg_label;
 	private static String pmg_style;
 	private static String pmg_styleClass;
 
@@ -289,8 +289,42 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		tableBodyRow.appendChild(column2);
 		column2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, WIDTH_100_PERSENTS);
 
-		nsIDOMText name = visualDocument.createTextNode(pmg_label);
-		column2.appendChild(name);
+		/*
+		 * Item label routine.
+		 */
+		Attr labelAttr = null;
+		String labelValue = EMPTY;
+		String bundleValue = EMPTY;
+		String resultValue = EMPTY;
+		if (sourceElement.hasAttribute(LABEL)) {
+			labelAttr = sourceElement.getAttributeNode(LABEL);
+		}
+		if (null != labelAttr) {
+			labelValue = labelAttr.getNodeValue();
+			bundleValue = ComponentUtil.getBundleValue(pageContext,
+					labelAttr);
+		}
+		
+		if (attrPresents(labelValue)) {
+			if (attrPresents(bundleValue)) {
+				if (!labelValue.equals(bundleValue)) {
+					resultValue = bundleValue;
+				} else {
+					resultValue = labelValue;
+				}
+			} else {
+				resultValue = labelValue;
+			}
+		} else {
+			if (attrPresents(bundleValue)) {
+				resultValue = bundleValue;
+			} else {
+				resultValue = EMPTY;
+			}
+		}
+		nsIDOMText text = visualDocument.createTextNode(resultValue);
+		
+		column2.appendChild(text);
 		column2.setAttribute(COMPONENT_ATTR_VPE_USER_TOGGLE_ID, activeChildId);
 
 		nsIDOMElement column3 = visualDocument
@@ -536,7 +570,6 @@ public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate {
 		pmg_iconExpanded = sourceElement.getAttribute(ICON_EXPANDED);
 		pmg_iconCollapsed = sourceElement.getAttribute(ICON_COLLAPSED);
 		pmg_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
-		pmg_label = sourceElement.getAttribute(ICON_LABEL);
 		pmg_style = sourceElement.getAttribute(STYLE);
 		pmg_styleClass = sourceElement.getAttribute(STYLE_CLASS);
 	}
