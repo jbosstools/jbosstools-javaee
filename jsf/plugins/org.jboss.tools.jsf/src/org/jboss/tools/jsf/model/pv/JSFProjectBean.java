@@ -121,10 +121,10 @@ public class JSFProjectBean extends RegularObjectImpl {
 				if(!Flags.isPublic(ms[i].getFlags())) continue;				
 				String n = ms[i].getElementName();
 				boolean isProperty = false;
-				if((n.startsWith("get") || n.startsWith("set")) && n.length() > 3) {
+				if((isGetter(ms[i], "get") || isSetter(ms[i])) && n.length() > 3) {
 					n = n.substring(3, 4).toLowerCase() + n.substring(4);
 					isProperty = true;
-				} else if(n.startsWith("is") && n.length() > 2) {
+				} else if(isGetter(ms[i], "is")) {
 					String typeName = EclipseJavaUtil.getMemberTypeAsString(ms[i]);
 					if("boolean".equals(typeName) || "java.lang.Boolean".equals(typeName)) {
 						n = n.substring(2, 3).toLowerCase() + n.substring(3);
@@ -196,6 +196,36 @@ public class JSFProjectBean extends RegularObjectImpl {
 		c.setMember(member);
 		if(isLoading) addChild_0(c); else addChild(c);
 		return c;
+	}
+	
+	private boolean isGetter(IMethod method, String pref) {
+		if(method == null) return false;
+		String name = method.getElementName();
+		if(!name.startsWith(pref) || name.length() <= pref.length()) return false;
+		try {
+			String[] ps = method.getParameterNames();
+			if(ps == null || ps.length != 0) return false;
+			String t = EclipseJavaUtil.getMemberTypeAsString(method);
+			if(t == null || t.equals("void")) return false;
+		} catch (JavaModelException e) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	private boolean isSetter(IMethod method) {
+		if(method == null) return false;
+		String name = method.getElementName();
+		if(!name.startsWith("set") || name.length() <= 3) return false;
+		try {
+			String[] ps = method.getParameterNames();
+			if(ps == null || ps.length != 1) return false;
+		} catch (JavaModelException e) {
+			return false;
+		}
+		
+		return true;
 	}
 
 }
