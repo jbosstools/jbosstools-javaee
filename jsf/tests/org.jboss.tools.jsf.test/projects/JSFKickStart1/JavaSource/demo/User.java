@@ -30,4 +30,16 @@ public class User extends BaseBean {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void getX1() {
+		
+	}
+	
+	public String getX2(int i) {
+		return "";
+	}
+	
+	public void setX3(int i, int j) {
+		
+	}
 }
