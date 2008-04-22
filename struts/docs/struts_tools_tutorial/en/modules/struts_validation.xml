@@ -8,7 +8,7 @@
             <keyword>Struts Validation</keyword>
             </keywordset>
     </chapterinfo>
-<title>Getting Started Struts Validation Examples</title>
+<title>Struts Validation Examples</title>
 
 <para><property>Validation</property> of input is an important part of any Web application. All Apache Jakarta frameworks, 
 including Struts, can use a common Jakarta Validation Framework for streamlining this aspect of Web 
@@ -259,9 +259,4 @@ org.apache.struts.validator.ValidatorForm
 <para>The error message should appear in a refreshed version of the form.</para>
 </section>
 
-<section id="OtherResource">
-<?dbhtml filename="OtherResource.html"?>
-<title>Other Resources</title>
-    <para>You can also read <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink> for more information on this topic.</para>
-</section>
 </chapter>
