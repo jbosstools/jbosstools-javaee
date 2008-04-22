@@ -14,14 +14,12 @@
         <?dbhtml filename="GettingStartedForCreatingAJSFApplication.html"?>
         <title>Creating a Simple JSF Application</title>
         <para>We are going to show you how to create a simple <property>JSF application
-            </property>using the JBoss Developer Studio plug-in for Eclipse. The completed
+            </property>using the Eclipse. The completed
             application will ask a user to enter a name and click a button. The resulting new page
             will display the familiar message, &quot;Hello &lt;name&gt;!&quot; This
             document will show you how to create such an application from the beginning, along the
-            way demonstrating some of the powerful features of JBoss Developer Studio. You will
-            design the JSF application and then run the application from inside JBoss Developer
-            Studio. We&apos;ll assume that you have already launched Eclipse with JBoss
-            Developer Studio installed and also that the JBoss Developer Studio perspective is the
+            way demonstrating some of the powerful features of JBoss Tools. You will
+            design the JSF application. We&apos;ll assume that you have already launched Eclipse and also that the Web Development perspective is the
             current one. (If not, make it active by selecting <emphasis>
                 <property>Window > Open Perspective > Web Development</property>
             </emphasis> from the menu bar or by selecting <emphasis>
@@ -111,8 +109,8 @@
         <para>In our simple application, the flow is defined as a single navigation rule connecting
             two views (presentation files). At this point, we will create the placeholders for the
             two JSP presentation files and then the navigation rule to connect them as views. Later,
-            we will complete the coding for the JSP presentation files. With JBoss Developer Studio,
-            we can do all of this in the Diagram mode of the configuration file editor.</para>
+            we will complete the coding for the JSP presentation files.
+            We can do all of this in the Diagram mode of the configuration file editor.</para>
         <section id="AddingTwoViewsJSPPages">
             <?dbhtml filename="AddingTwoViewsJSPPages.html"?>
             <title>Adding Two Views (JSP Pages)</title>
@@ -588,9 +586,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
     <section id="RunningTheApplicationJSF">
         <?dbhtml filename="RunningTheApplicationJSF.html"?>
         <title>Running the Application</title>
-        <para>Everything is now ready for running our application without having to leave JBoss
-            Developer Studio by using the JBoss engine that comes with the JBoss Developer Studio
-            plug-in. For controlling JBoss server within JBoss Developer Studio there is JBoss
+        <para>Everything is now ready for running our application by using the JBoss engine. For controlling JBoss server there is JBoss
             Server view:</para>
         <figure>
             <title>JBoss Server View</title>

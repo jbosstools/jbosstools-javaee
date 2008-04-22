@@ -13,7 +13,7 @@
 
         <title>JavaServer Faces Support</title>
 
-        <para>With Developer Studio, we don&apos;t lock you into any one <property>JavaServer
+        <para>We don&apos;t lock you into any one <property>JavaServer
                         Faces</property> implementation. You can always select the one which is
                 necessary for you while <link linkend="new_jsf_project">creating a new JSF
                 project</link>, <link linkend="add_jsf_capability">adding JSF capability</link> to
@@ -39,12 +39,11 @@
         <section id="FaceletsSupport865">
 
                 <title>Facelets Support</title>
-                <para>In this section we will focus more on all concepts that JBDS integrates for
+                <para>In this section we will focus more on all concepts that are integrated for
                         working with Facelets.</para>
 
                 <para>The Facelets extends JavaServer Faces by providing a lightweight framework
-                        that radically simplifies the design of presentation pages for JSF. JBoss
-                        Developer Studio provides support for Facelets in a variety of ways that we
+                        that radically simplifies the design of presentation pages for JSF. Facelets can be used in a variety of ways that we
                         will consider further in this section.</para>
 
                 <section>
@@ -254,9 +253,9 @@
                 </section>
                 <section>
                         <title>Open On feature</title>
-                        <para>Finally, JBDS provides Eclipse&apos;s <emphasis>
+                        <para>Finally, Eclipse&apos;s <emphasis>
                                         <property>OpenOn</property>
-                                </emphasis> feature for editing Facelets files. Using this feature,
+                                </emphasis> feature for editing Facelets files is supported. Using this feature,
                                 you can easily navigate between the <property>Facelets
                                 templates</property> and other parts of your projects. Just by
                                 holding down the Control key while hovering the mouse cursor over a

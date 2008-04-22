@@ -14,13 +14,12 @@
 
     <title>Introduction</title>
 
-    <para>JBoss Developer Studio is especially designed for supporting JSF and JSF-related
-        technologies. JBDS provides extensible and exemplary tools for building JSF-based
+    <para>JSF Tools are especially designed for supporting JSF and JSF-related
+        technologies. JSF Tools provide extensible and exemplary tools for building JSF-based
         applications as well as adding JSF capabilities to existing web projects, importing
-        JSF projects (created outside JBDS) and choosing any JSF implementation while
+        JSF projects and choosing any JSF implementation while
         developing JSF application.</para>
     
-    <para>In this guide we provide you with the information on JSF tooling in JBoss Developer Studio
-        which allows you to develop JSF applications much faster and with far fewer
+    <para>In this guide we provide you with the information on JSF tooling which allows you to develop JSF applications much faster and with far fewer
         errors so sparing your time.</para>
 </chapter>

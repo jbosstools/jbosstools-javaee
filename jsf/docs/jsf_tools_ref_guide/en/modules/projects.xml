@@ -12,8 +12,7 @@
     </chapterinfo>
     
     <title>Projects</title>
-                        <para>To take an advantage of JSF support in <property>JBoss Developer
-                                        Studio</property> firstly you should perform one of the next
+                        <para>To take an advantage of JSF firstly you should perform one of the next
                                 steps:</para>
 
                         <itemizedlist>
@@ -41,8 +40,7 @@
 
                                 <para>If you want your project has already contained all JSF
                                         libraries, tag libraries and JSF configuration file, just
-                                        organize a new brand JSF project. <property>JBoss Developer
-                                                Studio</property> allows to do this easily with the
+                                        organize a new brand JSF project. It is possible to do this easily with the
                                         help of the special wizard. To get it, select<emphasis>
                                                 <property> File &gt; New &gt; Project
                                                   &gt; JBoos Tools Web &gt; JSF
@@ -77,10 +75,9 @@
                                         </mediaobject>
                                 </figure>
 
-                                <para><property>JBoss Developer Studio</property> comes with a
-                                        number of predefined project templates that are flexible and
+                                <para>There is a number of predefined project templates that are flexible and
                                         easily customizable. Thus you can pick a different template
-                                        on which the project should be based to. Almost all
+                                        on which the project sImporting Existing hould be based to. Almost all
                                         templates come in two variations: with jsf libraries and
                                         without ones.</para>
                                 <figure>
@@ -245,7 +242,7 @@
                                 <para>At this point you can open <emphasis>
                                                 <property>faces-config.xml</property>
                                         </emphasis> and start working on your application.
-                                                <property>JBDS</property> provides a lot of features
+                                                There are a lot of features
                                         to develop JSF applications. We will describe the features
                                         further.</para>
                         </section>
@@ -254,8 +251,7 @@
 
                                 <title>Importing Existing JSF Projects with Any Structure</title>
 
-                                <para>For detailed information on migration projects to JBoss
-                                        Developer Studio see <ulink
+                                <para>For detailed information on migration projects see <ulink
                                                 url="../../Exadel-migration/html_single/index.html"
                                                 >Migration Guide</ulink>. </para>
 
@@ -264,12 +260,10 @@
 
                                 <title>Adding JSF Capability to Any Existing Eclipse Project</title>
 
-                                <para>With <property>JBoss Developer Studio</property> it&apos;s
-                                        also possible to add <property>JSF capability</property>
+                                <para>It&apos;s also possible to add <property>JSF capability</property>
                                         (JSF libraries, tag libraries) to any existing Eclipse
                                         project in your workspace. After that you&apos;ll be
-                                        able to make use of such <property>JBoss Developer
-                                        Studio</property> editors as JSF configuration editor, JBoss
+                                        able to make use of such editors as JSF configuration editor, JBoss
                                         Tools JSP editor and any others.</para>
                                 <para>Right click the project and select <emphasis>
                                                 <property>JBoss Tools > Add JSF
@@ -305,8 +299,7 @@
 
                                 <para>Make sure to select <emphasis>
                                                 <property>Add Libraries</property>
-                                        </emphasis> for <property>JBoss Developer Studio</property>
-                                        to add all required JSF related libraries to this project.</para>
+                                        </emphasis> to add all required JSF related libraries to this project.</para>
 
                                 <para>The <emphasis>
                                                 <property>Context Path</property>
@@ -377,7 +370,7 @@
                                 <para>Template is a set of files that serve as a basis to facilitate
                                         the creation of a new project. Project templates provide
                                         content and structure for a project.</para>
-                                <para><property>JBoss Developer Studio</property> has a powerful
+                                <para>There is a powerful
                                         templating capability for creating new and importing
                                         existing Struts and JSF projects. This templating facility
                                         has a variety of aspects to consider. But, let&apos;s
