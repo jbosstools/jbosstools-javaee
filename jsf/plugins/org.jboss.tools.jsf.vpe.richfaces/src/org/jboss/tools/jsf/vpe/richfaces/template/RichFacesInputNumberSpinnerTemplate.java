@@ -83,7 +83,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		// create input element
 		nsIDOMElement cellInput = visualDocument.createElement(HTML.TAG_TD);
 		cellInput.setAttribute(HTML.ATTR_CLASS, "ins-dr-spnr-e"); //$NON-NLS-1$
-		cellInput.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_TOP_VALIGN);
+		cellInput.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_TOP_ALIGN);
 		cellInput.appendChild(createInputElement(visualDocument, sourceElement,
 				elementData));
 		row.appendChild(cellInput);
@@ -91,7 +91,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		// create arrows cell
 		nsIDOMElement cellArrows = visualDocument.createElement(HTML.TAG_TD);
 		cellArrows.setAttribute(HTML.ATTR_CLASS, "dr-spnr-b"); //$NON-NLS-1$
-		cellArrows.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_MIDDLE_VALIGN);
+		cellArrows.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_MIDDLE_ALIGN);
 		cellArrows.appendChild(createArrowsElement(visualDocument, sourceNode));
 		row.appendChild(cellArrows);
 

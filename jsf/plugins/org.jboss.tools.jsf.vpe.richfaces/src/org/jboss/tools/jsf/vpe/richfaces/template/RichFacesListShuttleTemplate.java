@@ -18,11 +18,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -36,112 +38,96 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
-	private static final String ATTR_CONTROLS_TYPE = "controlsType";
-	/**
-	 * 
-	 */
-	private static final String ATTR_SHOW_BUTTON_LABELS = "showButtonLabels";
-
 	/**
 	 * source caption key
 	 */
-	private static final String SOURCE_CAPTION = "sourceCaption";
+	private static final String SOURCE_CAPTION = "sourceCaption"; //$NON-NLS-1$
 
 	/**
 	 * target caption key
 	 */
-	private static final String TARGET_CAPTION = "targetCaption";
+	private static final String TARGET_CAPTION = "targetCaption"; //$NON-NLS-1$
 
 	/**
 	 * path to css
 	 */
-	private static final String STYLE_PATH = "shuttle/shuttle.css";
+	private static final String STYLE_PATH = "shuttle/shuttle.css"; //$NON-NLS-1$
 
 	/**
 	 * path to img
 	 */
-	private static final String BUTTON_IMG_PATH = "shuttle/button.gif";
+	private static final String BUTTON_IMG_PATH = "shuttle/button.gif"; //$NON-NLS-1$
 
 	/**
 	 * path to img
 	 */
-	private static final String HEADER_IMG_PATH = "shuttle/header.gif";
+	private static final String HEADER_IMG_PATH = "shuttle/header.gif"; //$NON-NLS-1$
 
 	/**
 	 * default value of width of box(list)
 	 */
-	private static final String DEFAULT_LIST_WIDTH = "140px";
+	private static final String DEFAULT_LIST_WIDTH = "140px"; //$NON-NLS-1$
 
 	/**
 	 * default value of height of box(list)
 	 */
-	private static final String DEFAULT_LIST_HEIGHT = "140px";
-
-	/**
-	 * rowClasses attribute name
-	 */
-	private static final String ATTR_ROW_CLASSES = "rowClasses";
-
-	/**
-	 * columnClasses attribute name
-	 */
-	private static final String ATTR_COLUMN_CLASSES = "columnClasses";
+	private static final String DEFAULT_LIST_HEIGHT = "140px"; //$NON-NLS-1$
 
 	/**
 	 * attribute name of width of source list
 	 */
-	private static final String ATTR_SOURCE_LIST_WIDTH = "sourceListWidth";
+	private static final String ATTR_SOURCE_LIST_WIDTH = "sourceListWidth"; //$NON-NLS-1$
 
 	/**
 	 * attribute name of width of target list
 	 */
-	private static final String ATTR_TARGET_LIST_WIDTH = "targetListWidth";
+	private static final String ATTR_TARGET_LIST_WIDTH = "targetListWidth"; //$NON-NLS-1$
 
 	/**
 	 * attribute name of height of source list
 	 */
-	private static final String ATTR_LISTS_HEIGHT = "listsHeight";
+	private static final String ATTR_LISTS_HEIGHT = "listsHeight"; //$NON-NLS-1$
 
 	/**
 	 * If this attribute in source node is "false", 'Copy All' and 'Remove All'
 	 * controls aren't displayed
 	 */
-	private static final String ATTR_FAST_MOVE_CONTROLS_VIZIBLE = "fastMoveControlsVisible";
+	private static final String ATTR_FAST_MOVE_CONTROLS_VIZIBLE = "fastMoveControlsVisible"; //$NON-NLS-1$
 
 	/**
 	 * If this attribute in source node is "false", 'Top' and 'Bottom' controls
 	 * aren't displayed.
 	 */
-	private static final String ATTR_FAST_ORDER_CONTROLS_VIZIBLE = "fastOrderControlsVisible";
+	private static final String ATTR_FAST_ORDER_CONTROLS_VIZIBLE = "fastOrderControlsVisible"; //$NON-NLS-1$
 
 	/**
 	 * If this attribute in source node is "false", 'Copy' and 'Remove' controls
 	 * aren't displayed
 	 */
-	private static final String ATTR_MOVE_CONTROLS_VIZIBLE = "moveControlsVisible";
+	private static final String ATTR_MOVE_CONTROLS_VIZIBLE = "moveControlsVisible"; //$NON-NLS-1$
 
 	/**
 	 * If this attribute in source node is "false", 'Up' and 'Down' controls
 	 * aren't displayed.
 	 */
-	private static final String ATTR_ORDER_CONTROLS_VIZIBLE = "orderControlsVisible";
+	private static final String ATTR_ORDER_CONTROLS_VIZIBLE = "orderControlsVisible"; //$NON-NLS-1$
 
 	/**
 	 * default button align
 	 */
-	private static final String DEFAULT_BUTTON_ALIGN = "middle";
+	private static final String DEFAULT_BUTTON_ALIGN = HTML.VALUE_MIDDLE_ALIGN;
 
 	/**
 	 * Customizes vertically a position of move/copy controls relatively to
 	 * lists
 	 */
-	private static final String ATTR_MOVE_CONTROLS_VERTICAL_ALIGN = "moveControlsVerticalAlign";
+	private static final String ATTR_MOVE_CONTROLS_VERTICAL_ALIGN = "moveControlsVerticalAlign"; //$NON-NLS-1$
 
 	/**
 	 * 
 	 * Customizes vertically a position of order controls relatively to lists
 	 */
-	private static final String ATTR_ORDER_CONTROLS_VERTICAL_ALIGN = "orderControlsVerticalAlign";
+	private static final String ATTR_ORDER_CONTROLS_VERTICAL_ALIGN = "orderControlsVerticalAlign"; //$NON-NLS-1$
 
 	/**
 	 * button images
@@ -152,16 +138,16 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		buttonImages = new HashMap<String, String>();
 
 		// images of the first set of buttons
-		buttonImages.put("copyAllControl", "shuttle/arrow_copy_all.gif");
-		buttonImages.put("copyControl", "shuttle/arrow_copy.gif");
-		buttonImages.put("removeControl", "shuttle/arrow_remove.gif");
-		buttonImages.put("removeAllControl", "shuttle/arrow_remove_all.gif");
+		buttonImages.put("copyAllControl", "shuttle/arrow_copy_all.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		buttonImages.put("copyControl", "shuttle/arrow_copy.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		buttonImages.put("removeControl", "shuttle/arrow_remove.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		buttonImages.put("removeAllControl", "shuttle/arrow_remove_all.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// images of the second set of buttons
-		buttonImages.put("topControl", "shuttle/arrow_first.gif");
-		buttonImages.put("upControl", "shuttle/arrow_up.gif");
-		buttonImages.put("downControl", "shuttle/arrow_down.gif");
-		buttonImages.put("bottomControl", "shuttle/arrow_last.gif");
+		buttonImages.put("topControl", "shuttle/arrow_first.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		buttonImages.put("upControl", "shuttle/arrow_up.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		buttonImages.put("downControl", "shuttle/arrow_down.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		buttonImages.put("bottomControl", "shuttle/arrow_last.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -174,46 +160,46 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		defaultStyleClasses = new HashMap<String, String>();
 
 		// general style
-		defaultStyleClasses.put("style", "rich-list-shuttle");
+		defaultStyleClasses.put("style", "rich-list-shuttle"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// styles of the lists
-		defaultStyleClasses.put("header", "rich-shuttle-list-header");
-		defaultStyleClasses.put("headerCell", "rich-shuttle-header-tab-cell");
-		defaultStyleClasses.put("list", "rich-shuttle-list-content");
+		defaultStyleClasses.put("header", "rich-shuttle-list-header"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultStyleClasses.put("headerCell", "rich-shuttle-header-tab-cell"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultStyleClasses.put("list", "rich-shuttle-list-content"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// styles of button's block
-		defaultStyleClasses.put("controls", "rich-shuttle-controls");
+		defaultStyleClasses.put("controls", "rich-shuttle-controls"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// styles of the first set of buttons
-		defaultStyleClasses.put("copyAllControl",
-				"rich-shuttle-button rich-shuttle-copyAll");
-		defaultStyleClasses.put("copyControl",
-				"rich-shuttle-button rich-shuttle-copy");
-		defaultStyleClasses.put("removeControl",
-				"rich-shuttle-button rich-shuttle-remove");
-		defaultStyleClasses.put("removeAllControl",
-				"rich-shuttle-button rich-shuttle-removeAll");
+		defaultStyleClasses.put("copyAllControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-copyAll"); //$NON-NLS-1$
+		defaultStyleClasses.put("copyControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-copy"); //$NON-NLS-1$
+		defaultStyleClasses.put("removeControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-remove"); //$NON-NLS-1$
+		defaultStyleClasses.put("removeAllControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-removeAll"); //$NON-NLS-1$
 
 		// styles of the second set of buttons
-		defaultStyleClasses.put("topControl",
-				"rich-shuttle-button rich-shuttle-top");
-		defaultStyleClasses.put("upControl",
-				"rich-shuttle-button rich-shuttle-up");
-		defaultStyleClasses.put("downControl",
-				"rich-shuttle-button rich-shuttle-down");
-		defaultStyleClasses.put("bottomControl",
-				"rich-shuttle-button rich-shuttle-bottom");
+		defaultStyleClasses.put("topControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-top"); //$NON-NLS-1$
+		defaultStyleClasses.put("upControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-up"); //$NON-NLS-1$
+		defaultStyleClasses.put("downControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-down"); //$NON-NLS-1$
+		defaultStyleClasses.put("bottomControl", //$NON-NLS-1$
+				"rich-shuttle-button rich-shuttle-bottom"); //$NON-NLS-1$
 
 		// styles of captions
-		defaultStyleClasses.put("sourceCaption", "rich-shuttle-source-caption");
-		defaultStyleClasses.put("targetCaption", "rich-shuttle-target-caption");
+		defaultStyleClasses.put("sourceCaption", "rich-shuttle-source-caption"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultStyleClasses.put("targetCaption", "rich-shuttle-target-caption"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// styles of rows
-		defaultStyleClasses.put("sourceRow", "rich-shuttle-source-row");
-		defaultStyleClasses.put("targetRow", "rich-shuttle-target-row");
+		defaultStyleClasses.put("sourceRow", "rich-shuttle-source-row"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultStyleClasses.put("targetRow", "rich-shuttle-target-row"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// styles of rows
-		defaultStyleClasses.put("columns", "");
+		defaultStyleClasses.put("columns", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -226,20 +212,20 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		defaultLabels = new HashMap<String, String>();
 
 		// values of the first set of buttons
-		defaultLabels.put("copyAllControl", "Copy all");
-		defaultLabels.put("copyControl", "Copy");
-		defaultLabels.put("removeControl", "Remove");
-		defaultLabels.put("removeAllControl", "Remove All");
+		defaultLabels.put("copyAllControl", "Copy all"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("copyControl", "Copy"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("removeControl", "Remove"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("removeAllControl", "Remove All"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// images of the second set of buttons
-		defaultLabels.put("topControl", "First");
-		defaultLabels.put("upControl", "Up");
-		defaultLabels.put("downControl", "Down");
-		defaultLabels.put("bottomControl", "Last");
+		defaultLabels.put("topControl", "First"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("upControl", "Up"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("downControl", "Down"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("bottomControl", "Last"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// caption labels
-		defaultLabels.put("sourceCaption", "");
-		defaultLabels.put("targetCaption", "");
+		defaultLabels.put("sourceCaption", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultLabels.put("targetCaption", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -250,8 +236,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 	static {
 		fastMoveButtons = new ArrayList<String>();
-		fastMoveButtons.add("copyAllControl");
-		fastMoveButtons.add("removeAllControl");
+		fastMoveButtons.add("copyAllControl"); //$NON-NLS-1$
+		fastMoveButtons.add("removeAllControl"); //$NON-NLS-1$
 	}
 
 	/**
@@ -261,8 +247,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 	static {
 		moveButtons = new ArrayList<String>();
-		moveButtons.add("copyControl");
-		moveButtons.add("removeControl");
+		moveButtons.add("copyControl"); //$NON-NLS-1$
+		moveButtons.add("removeControl"); //$NON-NLS-1$
 	}
 
 	/**
@@ -272,8 +258,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 	static {
 		fastOrderButtons = new ArrayList<String>();
-		fastOrderButtons.add("topControl");
-		fastOrderButtons.add("bottomControl");
+		fastOrderButtons.add("topControl"); //$NON-NLS-1$
+		fastOrderButtons.add("bottomControl"); //$NON-NLS-1$
 
 	}
 
@@ -284,8 +270,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 	static {
 		orderButtons = new ArrayList<String>();
-		orderButtons.add("upControl");
-		orderButtons.add("downControl");
+		orderButtons.add("upControl"); //$NON-NLS-1$
+		orderButtons.add("downControl"); //$NON-NLS-1$
 
 	}
 
@@ -384,12 +370,14 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// prepare data
 		prepareData(sourceElement);
 
-		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "shuttle");
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "shuttle"); //$NON-NLS-1$
 		// create table element
 		nsIDOMElement basicTable = visualDocument.createElement(HTML.TAG_TABLE);
 		// ComponentUtil.copyAttributes(sourceNode, basicTable);
 
-		basicTable.setAttribute("class", styleClasses.get("style"));
+		basicTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get("style")); //$NON-NLS-1$
+		basicTable.setAttribute(HTML.ATTR_STYLE, sourceElement
+				.getAttribute(RichFaces.ATTR_STYLE));
 
 		VpeCreationData creationData = new VpeCreationData(basicTable);
 
@@ -404,9 +392,12 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create source box
 		nsIDOMElement sourceBoxTd = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement sourceBox = createBox(visualDocument, creationData,
-				getChildren(sourceNode), "source");
-		sourceBox.setAttribute(HTML.ATTR_STYLE, "width:" + sourceListsWidth
-				+ ";height:" + listsHeight + ";");
+				getChildren(sourceNode), "source"); //$NON-NLS-1$
+		sourceBox.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH
+				+ VpeStyleUtil.COLON_STRING + sourceListsWidth
+				+ VpeStyleUtil.SEMICOLON_STRING + VpeStyleUtil.PARAMETER_HEIGHT
+				+ VpeStyleUtil.COLON_STRING + listsHeight
+				+ VpeStyleUtil.SEMICOLON_STRING);
 		sourceBoxTd.appendChild(sourceBox);
 
 		// create source buttons
@@ -417,15 +408,19 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		sourceButtonsTd.appendChild(sourceButtonsBlock);
 
 		// set vertical-align attribute for source buttons
-		sourceButtonsTd.setAttribute(HTML.ATTR_STYLE, "vertical-align: "
-				+ sourceButtonsAlign);
+		sourceButtonsTd.setAttribute(HTML.ATTR_STYLE,
+				VpeStyleUtil.PARAMETR_VERTICAL_ALIGN
+						+ VpeStyleUtil.COLON_STRING + sourceButtonsAlign);
 
 		// create target box
 		nsIDOMElement targetBoxTd = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement targetBox = createBox(visualDocument, creationData,
-				getChildren(sourceNode), "target");
-		targetBox.setAttribute(HTML.ATTR_STYLE, "width:" + targetListsWidth
-				+ ";height:" + listsHeight + ";");
+				getChildren(sourceNode), "target"); //$NON-NLS-1$
+		targetBox.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH
+				+ VpeStyleUtil.COLON_STRING + targetListsWidth
+				+ VpeStyleUtil.SEMICOLON_STRING + VpeStyleUtil.PARAMETER_HEIGHT
+				+ VpeStyleUtil.COLON_STRING + listsHeight
+				+ VpeStyleUtil.SEMICOLON_STRING);
 		targetBoxTd.appendChild(targetBox);
 
 		// create target buttons
@@ -436,8 +431,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		targetButtonsTd.appendChild(targetButtonsBlock);
 
 		// set vertical-align attribute for target buttons
-		targetButtonsTd.setAttribute(HTML.ATTR_STYLE, "vertical-align: "
-				+ targetButtonsAlign);
+		targetButtonsTd.setAttribute(HTML.ATTR_STYLE,
+				VpeStyleUtil.PARAMETR_VERTICAL_ALIGN
+						+ VpeStyleUtil.COLON_STRING + targetButtonsAlign);
 
 		// add all blocks to "tr"
 		basicTr.appendChild(sourceBoxTd);
@@ -506,7 +502,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				.createElement(HTML.TAG_TD);
 
 		// set attributes
-		captionLabelTd.setAttribute(HTML.ATTR_COLSPAN, "2");
+		captionLabelTd.setAttribute(HTML.ATTR_COLSPAN, "2"); //$NON-NLS-1$
 		captionLabelTd.setAttribute(HTML.ATTR_CLASS, styleClasses.get(labelId));
 
 		// if facet is defined for this label add facet to "td"
@@ -541,12 +537,12 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			VpeCreationData creationData, List<Node> children, String boxId) {
 
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
-		div.setAttribute(HTML.ATTR_CLASS, styleClasses.get("list"));
+		div.setAttribute(HTML.ATTR_CLASS, styleClasses.get("list")); //$NON-NLS-1$
 		// create table element
 		nsIDOMElement box = visualDocument.createElement(HTML.TAG_TABLE);
-		box.setAttribute("cellspacing", "0");
-		box.setAttribute("cellpadding", "0");
-		box.setAttribute("width", "100%");
+		box.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$ 
+		box.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$ 
+		box.setAttribute(HTML.ATTR_WIDTH, "100%"); //$NON-NLS-1$ 
 		// box.setAttribute("height", listsHeight);
 
 		nsIDOMElement header = createHeader(visualDocument, creationData,
@@ -556,8 +552,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 		// create body for box
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
-		tr.setAttribute(HTML.ATTR_STYLE, "vertical-align:top");
-		tr.setAttribute(HTML.ATTR_CLASS, styleClasses.get(boxId + "Row") + " "
+		tr.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETR_VERTICAL_ALIGN
+				+ VpeStyleUtil.COLON_STRING + HTML.VALUE_TOP_ALIGN);
+		tr.setAttribute(HTML.ATTR_CLASS, styleClasses.get(boxId + "Row") + " " //$NON-NLS-1$ //$NON-NLS-2$
 				+ rowClass);
 
 		// VpeChildrenInfo trInfo = new VpeChildrenInfo(tr);
@@ -566,7 +563,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// add children to "tr" element
 		int columnCount = 0;
 		for (Node child : children) {
-			if ("column".equals(child.getLocalName())) {
+			if (RichFaces.TAG_COLUMN.equals(child.getLocalName())) {
 
 				nsIDOMElement column = visualDocument
 						.createElement(HTML.TAG_TD);
@@ -620,7 +617,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create "div"
 		nsIDOMElement buttonsBlock = visualDocument.createElement(HTML.TAG_DIV);
 		buttonsBlock
-				.setAttribute(HTML.ATTR_CLASS, styleClasses.get("controls"));
+				.setAttribute(HTML.ATTR_CLASS, styleClasses.get("controls")); //$NON-NLS-1$
 
 		for (String buttonId : buttonNames) {
 
@@ -646,7 +643,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			VpeCreationData creationData, String buttonId) {
 
 		nsIDOMElement buttonSpace = visualDocument.createElement(HTML.TAG_DIV);
-		buttonSpace.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-control");
+		buttonSpace.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-control"); //$NON-NLS-1$
 
 		if (facetLabels.containsKey(buttonId)) {
 
@@ -663,7 +660,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			metaButton.setAttribute(HTML.ATTR_STYLE, ComponentUtil
 					.getBackgoundImgStyle(BUTTON_IMG_PATH));
 			metaButton
-					.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-meta-button");
+					.setAttribute(HTML.ATTR_CLASS, "rich-shuttle-meta-button"); //$NON-NLS-1$
 
 			// button represent "div" element
 
@@ -673,13 +670,13 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			nsIDOMElement buttonContent = visualDocument
 					.createElement(HTML.TAG_DIV);
 			buttonContent.setAttribute(HTML.ATTR_CLASS,
-					"rich-shuttle-button-content");
+					"rich-shuttle-button-content"); //$NON-NLS-1$
 
 			nsIDOMElement buttonImage = visualDocument
 					.createElement(HTML.TAG_IMG);
 
-			buttonImage.setAttribute(HTML.ATTR_WIDTH, "15");
-			buttonImage.setAttribute(HTML.ATTR_HEIGHT, "15");
+			buttonImage.setAttribute(HTML.ATTR_WIDTH, "15"); //$NON-NLS-1$
+			buttonImage.setAttribute(HTML.ATTR_HEIGHT, "15"); //$NON-NLS-1$
 			ComponentUtil.setImg(buttonImage, buttonImages.get(buttonId));
 			buttonContent.appendChild(buttonImage);
 
@@ -708,12 +705,12 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// prepare labels
 		Set<String> labelsKeys = defaultLabels.keySet();
 
-		isShowButtonLabels = !"false".equalsIgnoreCase(sourceElement
-				.getAttribute(ATTR_SHOW_BUTTON_LABELS));
+		isShowButtonLabels = !"false".equalsIgnoreCase(sourceElement //$NON-NLS-1$
+				.getAttribute(RichFaces.ATTR_SHOW_BUTTON_LABELS));
 
 		for (String key : labelsKeys) {
 
-			String label = sourceElement.getAttribute(key + "Label");
+			String label = sourceElement.getAttribute(key + "Label"); //$NON-NLS-1$
 
 			if (label != null)
 				labels.put(key, label);
@@ -725,9 +722,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		Set<String> styleClassesKeys = defaultStyleClasses.keySet();
 		for (String key : styleClassesKeys) {
 
-			String styleClass = sourceElement.getAttribute(key + "Class");
+			String styleClass = sourceElement.getAttribute(key + "Class"); //$NON-NLS-1$
 			if (styleClass != null)
-				styleClasses.put(key, defaultStyleClasses.get(key) + " "
+				styleClasses.put(key, defaultStyleClasses.get(key) + " " //$NON-NLS-1$
 						+ styleClass);
 			else
 				styleClasses.put(key, defaultStyleClasses.get(key));
@@ -740,49 +737,51 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 
 			if ((child instanceof Element)
-					&& ("facet".equals(child.getLocalName()))
+					&& (RichFaces.TAG_FACET.equals(child.getLocalName()))
 					&& (defaultLabels.containsKey(((Element) child)
-							.getAttribute("name")))) {
+							.getAttribute(RichFaces.ATTR_NAME)))) {
 
-				facetLabels.put(((Element) child).getAttribute("name"), child);
+				facetLabels.put(((Element) child)
+						.getAttribute(RichFaces.ATTR_NAME), child);
 
 			}
 
 		}
 
 		// get rowClass
-		String rowClasses = sourceElement.getAttribute(ATTR_ROW_CLASSES);
+		String rowClasses = sourceElement
+				.getAttribute(RichFaces.ATTR_ROW_CLASSES);
 
 		// if this attribue exist then
 		if (rowClasses != null) {
-			rowClass = rowClasses.split(",")[0];
+			rowClass = rowClasses.split("[,;]")[0]; //$NON-NLS-1$
 		}
 
 		String columnClassesAtribute = sourceElement
-				.getAttribute(ATTR_COLUMN_CLASSES);
+				.getAttribute(RichFaces.ATTR_COLUMN_CLASSES);
 		if (columnClassesAtribute != null)
-			columnClasses = Arrays.asList(columnClassesAtribute.split(","));
+			columnClasses = Arrays.asList(columnClassesAtribute.split("[,;]")); //$NON-NLS-1$
 		else
 			columnClasses = new ArrayList<String>();
 
 		// if "controlsType" attribute is not "none" (if buttons are visible)
-		if (!"none".equalsIgnoreCase(sourceElement
-				.getAttribute(ATTR_CONTROLS_TYPE))) {
+		if (!"none".equalsIgnoreCase(sourceElement //$NON-NLS-1$
+				.getAttribute(RichFaces.ATTR_CONTROLS_TYPE))) {
 
 			// prepare source buttons
-			if (!"false".equalsIgnoreCase(sourceElement
+			if (!"false".equalsIgnoreCase(sourceElement //$NON-NLS-1$
 					.getAttribute(ATTR_FAST_MOVE_CONTROLS_VIZIBLE)))
 				sourceButtons.addAll(fastMoveButtons);
-			if (!"false".equalsIgnoreCase(sourceElement
+			if (!"false".equalsIgnoreCase(sourceElement //$NON-NLS-1$
 					.getAttribute(ATTR_MOVE_CONTROLS_VIZIBLE)))
 				sourceButtons.addAll(sourceButtons.size() == 0 ? 0 : 1,
 						moveButtons);
 
 			// prepare target buttons
-			if (!"false".equalsIgnoreCase(sourceElement
+			if (!"false".equalsIgnoreCase(sourceElement //$NON-NLS-1$
 					.getAttribute(ATTR_FAST_ORDER_CONTROLS_VIZIBLE)))
 				targetButtons.addAll(fastOrderButtons);
-			if (!"false".equalsIgnoreCase(sourceElement
+			if (!"false".equalsIgnoreCase(sourceElement //$NON-NLS-1$
 					.getAttribute(ATTR_ORDER_CONTROLS_VIZIBLE)))
 				targetButtons.addAll(targetButtons.size() == 0 ? 0 : 1,
 						orderButtons);
@@ -858,8 +857,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 
 			if ((child instanceof Element)
-					&& ("facet".equals(child.getLocalName()))
-					&& (name.equals(((Element) child).getAttribute("name")))) {
+					&& (RichFaces.TAG_FACET.equals(child.getLocalName()))
+					&& (name.equals(((Element) child)
+							.getAttribute(RichFaces.ATTR_NAME)))) {
 
 				facet = (Element) child;
 
@@ -898,7 +898,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	private nsIDOMElement createHeader(nsIDOMDocument visualDocument,
 			VpeCreationData creationData, List<Node> children) {
 
-		if (!haveFacet(children, "header"))
+		if (!haveFacet(children, "header")) //$NON-NLS-1$
 			return null;
 
 		nsIDOMElement header = visualDocument.createElement(HTML.TAG_TR);
@@ -906,26 +906,26 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		header.setAttribute(HTML.ATTR_CLASS, styleClasses.get(header));
 
 		for (Node child : children) {
-			if ("column".equals(child.getLocalName())) {
+			if ("column".equals(child.getLocalName())) { //$NON-NLS-1$
 
 				nsIDOMElement headerCell = visualDocument
 						.createElement(HTML.TAG_TH);
 
-				headerCell.setAttribute("background", "file:///"
+				headerCell.setAttribute("background", "file:///" //$NON-NLS-1$ //$NON-NLS-2$
 						+ ComponentUtil
 								.getAbsoluteResourcePath(HEADER_IMG_PATH));
 
 				// get header classes
-				String headerClass = styleClasses.get("headerCell");
+				String headerClass = styleClasses.get("headerCell"); //$NON-NLS-1$
 
 				if ((child instanceof Element)
-						&& (((Element) child).getAttribute("headerClass")) != null) {
-					headerClass += " "
-							+ ((Element) child).getAttribute("headerClass");
+						&& (((Element) child).getAttribute("headerClass")) != null) { //$NON-NLS-1$
+					headerClass += " " //$NON-NLS-1$
+							+ ((Element) child).getAttribute("headerClass"); //$NON-NLS-1$
 				}
 				headerCell.setAttribute(HTML.ATTR_CLASS, headerClass);
 
-				Element facet = getNodeFacet(child, "header");
+				Element facet = getNodeFacet(child, "header"); //$NON-NLS-1$
 				if (facet != null) {
 					VpeChildrenInfo headerCellInfo = new VpeChildrenInfo(
 							headerCell);
@@ -938,7 +938,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 					nsIDOMElement pre = visualDocument
 							.createElement(HTML.TAG_PRE);
 
-					pre.appendChild(visualDocument.createTextNode(""));
+					pre.appendChild(visualDocument.createTextNode("")); //$NON-NLS-1$
 					headerCell.appendChild(pre);
 
 				}
