@@ -75,9 +75,9 @@
                                         </mediaobject>
                                 </figure>
 
-                                <para>There is a number of predefined project templates that are flexible and
+                                <para>There are a number of predefined project templates that are flexible and
                                         easily customizable. Thus you can pick a different template
-                                        on which the project sImporting Existing hould be based to. Almost all
+                                        on which the projects Importing Existing should be based to. Almost all
                                         templates come in two variations: with jsf libraries and
                                         without ones.</para>
                                 <figure>
@@ -359,7 +359,7 @@
                                         </mediaobject>
                                 </figure>
 
-                                <para>Once the file have been created, it should be open in a
+                                <para>Once the file has been created, it should be open in a
                                         special <link
                                                 linkend="jsf_config_file"
                                                 >Faces Config Editor</link>.</para>

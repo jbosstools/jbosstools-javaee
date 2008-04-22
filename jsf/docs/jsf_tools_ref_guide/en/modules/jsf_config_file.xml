@@ -219,7 +219,7 @@
         <section id="ErrorReporting3324">
 
             <title>Error Reporting</title>
-            <para>When you are developing your project, error checking is iconstantly provided.
+            <para>When you are developing your project, error checking is constantly provided.
                 This greatly reduces your development time as it allows you to catch
                 many of the errors during development.</para>
             <para>Errors will be reported by <link
