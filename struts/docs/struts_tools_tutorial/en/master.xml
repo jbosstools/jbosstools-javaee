@@ -4,7 +4,11 @@
 
 [<!ENTITY introduction SYSTEM "modules/introduction.xml">
 <!ENTITY struts_application  SYSTEM "modules/struts_application.xml">
+<!ENTITY generating_stub  SYSTEM "modules/generating_stub.xml">
+<!ENTITY coding_files  SYSTEM "modules/coding_files.xml">
+<!ENTITY compiling_and_running  SYSTEM "modules/compiling_and_running.xml">
 <!ENTITY struts_validation  SYSTEM "modules/struts_validation.xml">
+<!ENTITY relevant_resources  SYSTEM "modules/relevant_resources.xml">
 ]>
 
 <book>
@@ -28,7 +32,11 @@
    
     &introduction;
     &struts_application;
+    &generating_stub;
+    &coding_files;
+    &compiling_and_running;
     &struts_validation;
+    &relevant_resources;
     
     
 </book>    
