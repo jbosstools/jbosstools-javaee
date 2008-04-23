@@ -313,6 +313,36 @@
       	</persistent>
    </extension>
 
+   <extension
+        point="org.eclipse.wst.validation.validator"
+		id="SeamEarProjectValidator"
+		name="Seam Ear Project Validator">
+		<validator>
+		    <enablement>
+      			<and>
+        			<test property="org.eclipse.wst.common.project.facet.core.projectFacet" value="jst.ear"/>
+				</and>
+			</enablement>
+			<filter objectClass="org.eclipse.core.resources.IFile" nameFilter="application.xml"/>
+			<helper	class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper"/>
+			<markerId markerIdValue="seamEarProjectProblem"/>
+			<run
+         		class="org.jboss.tools.seam.internal.core.validation.SeamEarProjectValidator"
+         		incremental="true"
+         		fullBuild="true"
+         	/>
+		</validator>
+	</extension>
+
+   <extension
+         id="seamEarProjectProblem"
+         name="Seam Ear Project Problem"
+         point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.wst.validation.problemmarker"/>
+		<attribute name="kind"/>
+      	<persistent value="true"/>
+   </extension>
+
 	<extension point="org.jboss.tools.common.model.classes">
 		<xclass id="org.jboss.tools.seam.internal.core.el.SeamPromptingProvider"
 			class="org.jboss.tools.seam.internal.core.el.SeamPromptingProvider"/>
