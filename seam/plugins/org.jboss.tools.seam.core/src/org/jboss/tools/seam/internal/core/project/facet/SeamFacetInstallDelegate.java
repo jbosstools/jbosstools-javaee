@@ -207,7 +207,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql") //$NON-NLS-1$
 		.include("security\\.drl") //$NON-NLS-1$
-		//.include("seam\\.properties") //$NON-NLS-1$
+		.include("seam\\.properties") //$NON-NLS-1$
 		.include("messages_en\\.properties"); //$NON-NLS-1$
 
 	/**
@@ -374,7 +374,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
 			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/");
 			
-			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
+			//AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
 			
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$

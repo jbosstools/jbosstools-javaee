@@ -165,7 +165,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql") //$NON-NLS-1$
 		.include("security\\.drl") //$NON-NLS-1$
-		//.include("seam\\.properties") //$NON-NLS-1$
+		.include("seam\\.properties") //$NON-NLS-1$
 		.include("messages_en\\.properties"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
