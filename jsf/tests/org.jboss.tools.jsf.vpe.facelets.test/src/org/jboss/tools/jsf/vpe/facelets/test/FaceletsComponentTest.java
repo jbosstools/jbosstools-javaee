@@ -93,13 +93,13 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "span" elements
 	TestUtil.findAllElementsByName(node, elements, HTML.TAG_SPAN);
 
-	assertEquals(39, elements.size());
+	assertEquals(3, elements.size());
 
-	nsIDOMElement elementSpan0 = (nsIDOMElement) elements.get(12)
+	nsIDOMElement elementSpan0 = (nsIDOMElement) elements.get(0)
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement elementSpan1 = (nsIDOMElement) elements.get(17)
+	nsIDOMElement elementSpan1 = (nsIDOMElement) elements.get(1)
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement elementSpan2 = (nsIDOMElement) elements.get(25)
+	nsIDOMElement elementSpan2 = (nsIDOMElement) elements.get(2)
 		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 	nsIDOMText text0 = (nsIDOMText) elementSpan0.getFirstChild()
@@ -111,7 +111,8 @@ public class FaceletsComponentTest extends VpeTest {
 
 	assertEquals(DEFINED_CONTENT_IS_NOT_SHOWN, text0.getNodeValue(),
 		"Greeting Page"); //$NON-NLS-1$
-	assertEquals(DEFINED_CONTENT_IS_NOT_SHOWN, text1.getNodeValue(), USER);
+	assertEquals(DEFINED_CONTENT_IS_NOT_SHOWN, text1.getNodeValue(), 
+		USER);
 	assertEquals(DEFINED_CONTENT_IS_NOT_SHOWN, text2.getNodeValue(),
 		"#{person.name}!"); //$NON-NLS-1$
 
@@ -160,9 +161,9 @@ public class FaceletsComponentTest extends VpeTest {
 	// find "div" elements
 	TestUtil.findAllElementsByName(node, elements, HTML.TAG_DIV);
 
-	assertEquals(4, elements.size());
+	assertEquals(1, elements.size());
 
-	nsIDOMElement div = (nsIDOMElement) elements.get(3).queryInterface(
+	nsIDOMElement div = (nsIDOMElement) elements.get(1).queryInterface(
 		nsIDOMElement.NS_IDOMELEMENT_IID);
 
 	String title = div.getAttribute("title"); //$NON-NLS-1$
