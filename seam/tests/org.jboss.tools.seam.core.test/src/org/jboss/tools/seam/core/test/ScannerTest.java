@@ -508,9 +508,11 @@ public class ScannerTest extends TestCase {
 				break;
 			}
 		}
-		assertNotNull("XML declaration for component " + EJB + " is not found in components.xml.", xml);
+		
+		String MY_COMPONENT = "myComponent";
+		assertNotNull("XML declaration for component " + MY_COMPONENT + " is not found in components.xml.", xml);
 		ISeamTextSourceReference location = xml.getLocationFor(ISeamXmlComponentDeclaration.NAME);
-		assertNotNull("Location of declaration of component " + EJB + " in components.xml is not found.", location);
+		assertNotNull("Location of declaration of component " + MY_COMPONENT + " in components.xml is not found.", location);
 		assertTrue("Location should not point to 0", location.getStartPosition() > 0 && location.getLength() > 0);
 	}
 

@@ -29,6 +29,8 @@
  	conversation-timeout="3"
  />
  
+ <core:ejb installed="true"/>
+ 
  <factory name="factory1" scope="conversation"/>
  
 </components>
