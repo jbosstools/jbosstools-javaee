@@ -10,20 +10,41 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.io.IOException;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
-import org.eclipse.jst.j2ee.componentcore.J2EEModuleVirtualArchiveComponent;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.componentcore.resources.IVirtualReference;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * This validator is workaround for bug of WTP 2.0.2
@@ -31,6 +52,9 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Alexey Kazakov
  */
 public class SeamEarProjectValidator implements IValidatorJob {
+
+	protected static final String INVALID_APPLICATION_XML_MESSAGE_ID = "INVALID_APPLICATION_XML"; //$NON-NLS-1$
+
 	private IValidationErrorManager errorManager;
 
 	/* (non-Javadoc)
@@ -44,7 +68,6 @@ public class SeamEarProjectValidator implements IValidatorJob {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#validateInJob(org.eclipse.wst.validation.internal.provisional.core.IValidationContext, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
-	
 		SeamValidationHelper seamHelper = (SeamValidationHelper)helper;
 		IProject project = seamHelper.getProject();
 		if(!project.isAccessible()) {
@@ -66,7 +89,13 @@ public class SeamEarProjectValidator implements IValidatorJob {
 			}
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(folder.getProject(), false);
 			if(seamProject!=null) {
-				validateEar(project, rs);
+				IVirtualFolder earRootFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+				if(earRootFolder!=null) {
+					IFolder f = (IFolder)earRootFolder.getUnderlyingFolder();
+					if(f!=null ) {
+						validateApplicationXml(f.findMember(new Path("META-INF/application.xml")));
+					}
+				}
 				break;
 			}
 		}
@@ -74,12 +103,82 @@ public class SeamEarProjectValidator implements IValidatorJob {
 		return OK_STATUS;
 	}
 
-	private void validateEar(IProject ear, IVirtualReference[] rs) {
-		for (int i = 0; i < rs.length; i++) {
-			IVirtualComponent c = rs[i].getReferencedComponent();
-			if(c != null && c instanceof J2EEModuleVirtualArchiveComponent) {
-				J2EEModuleVirtualArchiveComponent component = (J2EEModuleVirtualArchiveComponent)c;
-				System.out.println(c.getName());
+	private static final String MODULE_NODE_NAME = "module";
+	private static final String JAVA_NODE_NAME = "java";
+	private static final String[] JARS = new String[]{"jboss-seam", "el-ri", "jbpm", "drools-core", "drools-compiler", "janino", "antlr", "commons-jci-core", "commons-jci-janino", "stringtemplate"};
+
+	private void validateApplicationXml(IResource applicationXml) {
+		if(applicationXml==null || !(applicationXml instanceof IFile) || !applicationXml.exists()) {
+			return;
+		}
+		
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if(manager == null) {
+			return;
+		}
+		IStructuredModel model = null;		
+		try {
+			model = manager.getModelForRead((IFile)applicationXml);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				IDOMDocument document = domModel.getDocument();
+				Element root = document.getDocumentElement();
+				if(root==null) {
+					return;
+				}
+				NodeList children = root.getChildNodes();
+				for(int i=0; i<children.getLength(); i++) {
+					Node curentValidatedNode = children.item(i);
+					if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType() && MODULE_NODE_NAME.equals(curentValidatedNode.getNodeName())) {
+						NodeList moduleChildren = curentValidatedNode.getChildNodes();
+						for(int j=0; j<moduleChildren.getLength(); j++) {
+							Node child = moduleChildren.item(j);
+							if(Node.ELEMENT_NODE == child.getNodeType() && JAVA_NODE_NAME.equals(child.getNodeName())) {
+								validateJavaModule(applicationXml, child);								
+							}
+						}
+					}
+				}
+			}
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+        } catch (IOException e) {
+        	SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+		} finally {
+			if (model != null) {
+				model.releaseFromRead();
+			}
+		}
+		return;
+	}
+
+	private void validateJavaModule(IResource file, Node node) {
+		NodeList children = node.getChildNodes();
+		for(int i=0; i<children.getLength(); i++) {
+			Node child = children.item(i);
+			if(Node.TEXT_NODE == child.getNodeType()) {
+				IStructuredDocumentRegion strRegion = ((IDOMNode)child).getFirstStructuredDocumentRegion();
+				ITextRegionList regions = strRegion.getRegions();
+				for(int j=0; j<regions.size(); j++) {
+					ITextRegion region = regions.get(j);
+					if(region.getType() == DOMRegionContext.XML_CONTENT) {
+						String text = strRegion.getFullText(region);
+						int offset = strRegion.getStartOffset() + region.getStart();
+						validateJarName(file, text, offset);
+					}
+				}
+			}
+		}
+	}
+
+	private void validateJarName(IResource file, String text, int offset) {
+		String jarName = text.trim();
+		for(int jarIndex=0; jarIndex<JARS.length; jarIndex++) {
+			if(jarName.startsWith(JARS[jarIndex])) {
+				int position = offset + text.indexOf(jarName);
+				int length = jarName.length();
+				errorManager.addError(INVALID_APPLICATION_XML_MESSAGE_ID, IMessage.HIGH_SEVERITY, new String[]{jarName}, length, position, file);
+				break;
 			}
 		}
 	}

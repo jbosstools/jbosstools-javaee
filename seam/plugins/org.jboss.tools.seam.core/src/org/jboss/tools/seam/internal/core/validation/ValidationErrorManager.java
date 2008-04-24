@@ -91,7 +91,6 @@ public class ValidationErrorManager implements IValidationErrorManager {
 		addError(messageId, preferenceKey, new String[0], location, target);
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#addError(java.lang.String, java.lang.String, java.lang.String[], org.eclipse.core.resources.IResource)
 	 */
@@ -148,6 +147,36 @@ public class ValidationErrorManager implements IValidationErrorManager {
 		if (!ignore) {
 			reporter.addMessage(validationManager, message);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#addError(java.lang.String, int, java.lang.String[], int, int, org.eclipse.core.resources.IResource)
+	 */
+	public void addError(String messageId, int severity, String[] messageArguments, int length, int offset, IResource target) {
+		IMessage message = new Message(getBaseName(), severity,
+				messageId, messageArguments, target,
+				getMarkerId());
+		message.setLength(length);
+		message.setOffset(offset);
+		try {
+			if (coreHelper != null) {
+				coreHelper.getDocumentProvider().connect(target);
+				message.setLineNo(coreHelper.getDocumentProvider().getDocument(
+						target).getLineOfOffset(offset) + 1);
+			}
+		} catch (BadLocationException e) {
+			SeamCorePlugin.getPluginLog().logError(
+					"Exception occurred during error line number calculation",
+					e);
+			return;
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(
+					"Exception occurred during error line number calculation",
+					e);
+			return;
+		}
+		reporter.addMessage(validationManager, message);
 	}
 
 	/*

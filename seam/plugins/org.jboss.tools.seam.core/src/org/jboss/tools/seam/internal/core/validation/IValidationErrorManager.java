@@ -18,7 +18,6 @@ import org.jboss.tools.seam.core.ISeamTextSourceReference;
 
 /**
  * @author Alexey Kazakov
- *
  */
 public interface IValidationErrorManager {
 
@@ -66,6 +65,17 @@ public interface IValidationErrorManager {
 	 */
 	void addError(String messageId, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target);
+
+	/**
+	 * Adds a marker to the resource
+	 * @param messageId
+	 * @param severity
+	 * @param messageArguments
+	 * @param length
+	 * @param offset
+	 * @param target
+	 */
+	void addError(String messageId, int severity, String[] messageArguments, int length, int offset, IResource target);
 
 	/**
 	 * Displays a subtask in the progress view. 
