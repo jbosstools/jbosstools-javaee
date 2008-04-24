@@ -105,7 +105,21 @@ public class SeamEarProjectValidator implements IValidatorJob {
 
 	private static final String MODULE_NODE_NAME = "module";
 	private static final String JAVA_NODE_NAME = "java";
-	private static final String[] JARS = new String[]{"jboss-seam", "el-ri", "jbpm", "drools-core", "drools-compiler", "janino", "antlr", "commons-jci-core", "commons-jci-janino", "stringtemplate"};
+	private static final String[] JARS = new String[]{
+		"jboss-seam",
+		"el-ri",
+		"jbpm",
+		"drools-core",
+		"drools-compiler",
+		"janino",
+		"antlr",
+		"commons-jci-core",
+		"commons-jci-janino",
+		"stringtemplate",
+		"jboss-el",
+		"jbpm-jpdl",
+		"mvel14",
+		"richfaces-api"};
 
 	private void validateApplicationXml(IResource applicationXml) {
 		if(applicationXml==null || !(applicationXml instanceof IFile) || !applicationXml.exists()) {
@@ -149,7 +163,6 @@ public class SeamEarProjectValidator implements IValidatorJob {
 				model.releaseFromRead();
 			}
 		}
-		return;
 	}
 
 	private void validateJavaModule(IResource file, Node node) {
