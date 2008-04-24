@@ -141,9 +141,9 @@ public class SeamEarProjectValidator implements IValidatorJob {
 				}
 			}
 		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+			SeamCorePlugin.getDefault().logError(e);
         } catch (IOException e) {
-        	SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+        	SeamCorePlugin.getDefault().logError(e);
 		} finally {
 			if (model != null) {
 				model.releaseFromRead();
