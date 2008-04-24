@@ -76,7 +76,7 @@ public class JBIDE1730Test extends VpeTest {
 		// find "table" elements
 		TestUtil.findAllElementsByName(node, elements, HTML.TAG_TABLE);
 
-		assertEquals(3, elements.size());
+		assertEquals(4, elements.size());
 
 		nsIDOMElement table = (nsIDOMElement) elements.get(2).queryInterface(
 				nsIDOMElement.NS_IDOMELEMENT_IID);

@@ -76,7 +76,7 @@ public class JBIDE1460Test extends VpeTest {
 	// find "span" elements
 	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
 
-	assertEquals(5, elements.size());
+	assertEquals(1, elements.size());
 
 	nsIDOMNode span = elements.get(2);
 

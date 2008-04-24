@@ -74,9 +74,9 @@ public class JBIDE1615Test extends VpeTest {
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
 	// find "span" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_SPAN);
+	TestUtil.findElementsByName(node, elements, HTML.TAG_TD);
 	
-	assertEquals(31, elements.size());
+	assertEquals(8, elements.size());
 		if (getException() != null) {
 	    throw getException();
 	}
