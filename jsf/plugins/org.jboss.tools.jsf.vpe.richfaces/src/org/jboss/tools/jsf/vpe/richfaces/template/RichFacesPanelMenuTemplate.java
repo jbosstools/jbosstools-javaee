@@ -11,10 +11,7 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -23,11 +20,9 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -36,8 +31,7 @@ import org.w3c.dom.Node;
  * @author ezheleznyakov@exadel.com
  * 
  */
-public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
-		VpeToggableTemplate {
+public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 	
 	/*
 	 *	rich:panelMenu attributes
@@ -101,25 +95,17 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup"; //$NON-NLS-1$
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
-	private static final String TRUE = "true"; //$NON-NLS-1$
 	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
 	private static final String TOP_MENU_ITEM_ID = ""; //$NON-NLS-1$
 
-	private List<String> activeIds = new ArrayList<String>();
-	
-	private String expandSingle;
-
-	// private static final String DISABLED_STYLE_FOR_TABLE = "color:#B1ADA7";
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element) sourceNode;
-
 		String width = sourceElement.getAttribute(WIDTH);
 		String style = sourceElement.getAttribute(STYLE);
 		String styleClass = sourceElement.getAttribute(STYLE_CLASS);
-		expandSingle = sourceElement.getAttribute(EXPAND_SINGLE);
 
 		if (width != null) {
 			style += "" + "; width:" + width; //$NON-NLS-1$ //$NON-NLS-2$
@@ -139,123 +125,22 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int i = 1;
-
+		List<String> expandedIds = new ArrayList<String>();
 		for (Node child : children) {
 			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
-				RichFacesPanelMenuGroupTemplate.encode(pageContext,
-						vpeCreationData, sourceElement, (Element) child,
-						visualDocument, div, getActiveIds(), String.valueOf(i));
+				child.setUserData(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(i), null);
+				child.setUserData(RichFacesPanelMenuGroupTemplate.VPE_EXPANDED_TOGGLE_IDS, expandedIds, null);
 				i++;
-			} else if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
-				RichFacesPanelMenuItemTemplate.encode(pageContext,
-						vpeCreationData, sourceElement, (Element) child,
-						visualDocument, div, TOP_MENU_ITEM_ID);
-			} else {
-				nsIDOMElement childDiv = visualDocument
-						.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-				VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childDiv);
-				div.appendChild(childDiv);
-				childrenInfo.addSourceChild(child);
-				vpeCreationData.addChildrenInfo(childrenInfo);
 			}
+			if (child.getNodeName().endsWith(PANEL_MENU_ITEM_END)) {
+				child.setUserData(RichFacesPanelMenuItemTemplate.VPE_PANEL_MENU_ITEM_ID, TOP_MENU_ITEM_ID, null);
+			}
+			
+			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
+			childrenInfo.addSourceChild(child);
+			vpeCreationData.addChildrenInfo(childrenInfo);
 		}
-
 		return vpeCreationData;
-	}
-
-	/**
-	 * Gets the active ids.
-	 * 
-	 * @return the active ids
-	 */
-	private List<String> getActiveIds() {
-		return activeIds;
-	}
-
-	/**
-	 * 
-	 * @param children
-	 * @return
-	 */
-	private int getChildrenCount(List<Node> children) {
-		int count = 0;
-		for (Node child : children) {
-			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
-			String toggleId) {
-		
-		/*
-		 * Expand only one group.
-		 */
-		if ((null != expandSingle) && (TRUE.equalsIgnoreCase(expandSingle))) {
-			if (activeIds.contains(toggleId)) {
-				/*
-				 * Close group and its children
-				 */
-				activeIds.remove(toggleId);
-				for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
-					String id = iterator.next();
-					if (id.startsWith(toggleId)) {
-						iterator.remove();
-					}
-				}
-			} else {
-				/*
-				 * Expand new group, close others
-				 */
-				String[] toggleIds = toggleId.split(RichFacesPanelMenuGroupTemplate.GROUP_COUNT_SEPARATOR);
-				if ((null != toggleIds) && (toggleIds.length > 0)) {
-					for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
-						String id = iterator.next();
-						String[] ids = id.split(RichFacesPanelMenuGroupTemplate.GROUP_COUNT_SEPARATOR);
-						if ((null != ids) && (ids.length > 0)) {
-							if (ids.length >= toggleIds.length) {
-								/*
-								 * Remove all ids that are deeper than selected 
-								 * and that are on the same level.
-								 */
-								iterator.remove();
-							} else {
-								/*
-								 * Remove all ids that are not in the selected branch. 
-								 */
-								for (int i = 0; i < ids.length; i++) {
-									if (!ids[i].equalsIgnoreCase(toggleIds[i])) {
-										iterator.remove();
-									}
-								}
-							}
-						}
-					}
-				}
-				activeIds.add(toggleId);
-			}
-		} else {
-			/*
-			 * Expand any number of groups.
-			 */
-			if (activeIds.contains(toggleId)) {
-				activeIds.remove(toggleId);
-				for (Iterator<String> iterator = activeIds.iterator(); iterator.hasNext();) {
-					String id = iterator.next();
-					if (id.startsWith(toggleId)) {
-						iterator.remove();
-					}
-				}
-			} else {
-				activeIds.add(toggleId);
-			}
-		}
-	}
-
-	public void stopToggling(Node sourceNode) {
-		activeIds.clear();
 	}
 
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
@@ -263,4 +148,6 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate implements
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
+	
+	
 }

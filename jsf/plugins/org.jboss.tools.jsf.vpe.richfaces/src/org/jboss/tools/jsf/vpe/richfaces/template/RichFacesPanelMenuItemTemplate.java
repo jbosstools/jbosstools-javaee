@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -30,6 +31,8 @@ import org.w3c.dom.Node;
 
 public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
+	public static final String VPE_PANEL_MENU_ITEM_ID = "vpe-panel-menu-item-id"; //$NON-NLS-1$
+	
 	/*
 	 * rich:panelMenuItem attributes
 	 */
@@ -54,6 +57,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	public static final String CSS_ITEM_ICON = "rich-pmenu-item-icon"; //$NON-NLS-1$
 	public static final String CSS_ITEM_LABEL = "rich-pmenu-item-label"; //$NON-NLS-1$
 	public static final String CSS_ITEM_SELECTED = "rich-pmenu-item-selected"; //$NON-NLS-1$
+	public static final String CSS_HOVERED_ELEMENT = "rich-pmenu-hovered-element"; //$NON-NLS-1$
 	public static final String CSS_DISABLED_ELEMENT = "rich-pmenu-disabled-element"; //$NON-NLS-1$
 	
 	/*
@@ -79,7 +83,6 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String COMPONENT_NAME = "panelMenuItem"; //$NON-NLS-1$
 	private static final String PANEL_MENU_END_TAG = ":panelMenu"; //$NON-NLS-1$
 	private static final String PANEL_MENU_GROUP_END_TAG = ":panelMenuGroup"; //$NON-NLS-1$
-	private static final String EMPTY_DIV_STYLE = "display: none; "; //$NON-NLS-1$
 	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
 	private static final String WIDTH_100_PERCENTS = "width: 100%; "; //$NON-NLS-1$
 	
@@ -119,43 +122,35 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
-		nsIDOMElement div = visualDocument
+		nsIDOMElement creationDataDiv = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, EMPTY_DIV_STYLE);
-
-		return new VpeCreationData(div);
-	}
-
-	public static VpeCreationData encode(VpePageContext pageContext,
-			VpeCreationData creationData, Element sourceParentElement,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement parentVisualElement, String childId) {
-
+		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
+		Element itemSourceElement = (Element) sourceNode;
+		String childId = (String) sourceNode.getUserData(VPE_PANEL_MENU_ITEM_ID);
+			
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
 
-		readPanelMenuAttributes(sourceParentElement);
-		readPanelMenuItemAttributes(sourceElement);
+		Element anySuitableParent = getItemParent(itemSourceElement, false);
+		Element panelMenuParent = getItemParent(itemSourceElement, true);
 		
-		nsIDOMElement parentDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		parentDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, DR_TOP_DIV);
-		parentDiv.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
-		parentDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, MARGIN_TOP);
-		parentVisualElement.appendChild(parentDiv);
-		nsIDOMElement div = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		parentDiv.appendChild(div);
+		readPanelMenuAttributes(panelMenuParent);
+		readPanelMenuItemAttributes(itemSourceElement);
 		
+		creationDataDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, DR_TOP_DIV);
+		creationDataDiv.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
+		creationDataDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, MARGIN_TOP);
 		
-		boolean childOfPanelMenu = sourceElement.getParentNode().getNodeName().endsWith(
+		boolean childOfPanelMenu = anySuitableParent.getNodeName().endsWith(
 				PANEL_MENU_END_TAG);
-		boolean childOfPanelMenuGroup = sourceElement.getParentNode().getNodeName().endsWith(
+		boolean childOfPanelMenuGroup = anySuitableParent.getNodeName().endsWith(
 				PANEL_MENU_GROUP_END_TAG);
 		
 		if (childOfPanelMenu || childOfPanelMenuGroup) {
-			div.setAttribute("vpeSupport", COMPONENT_NAME); //$NON-NLS-1$
+			creationDataDiv.setAttribute("vpeSupport", COMPONENT_NAME); //$NON-NLS-1$
+			
 			nsIDOMElement table = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-			div.appendChild(table);
+			creationDataDiv.appendChild(table);
 
 			table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR,
 					NO_SIZE_VALUE);
@@ -212,8 +207,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			String labelValue = EMPTY;
 			String bundleValue = EMPTY;
 			String resultValue = EMPTY;
-			if (sourceElement.hasAttribute(LABEL)) {
-				labelAttr = sourceElement.getAttributeNode(LABEL);
+			if (itemSourceElement.hasAttribute(LABEL)) {
+				labelAttr = itemSourceElement.getAttributeNode(LABEL);
 			}
 			if (null != labelAttr) {
 				labelValue = labelAttr.getNodeValue();
@@ -246,10 +241,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					.createElement(HtmlComponentUtil.HTML_TAG_TD);
 			tr.appendChild(tdRight);
 
-			nsIDOMElement imgPoints = visualDocument
+			nsIDOMElement imgIcon = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-			setDefaultImgAttributes(imgPoints);
-			setIcon(childOfPanelMenu, pageContext, imgPoints);
+			setDefaultImgAttributes(imgIcon);
+			setIcon(childOfPanelMenu, pageContext, imgIcon);
 
 			nsIDOMElement imgSpacer1 = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
@@ -258,10 +253,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 			tdNowrapLeft.appendChild(imgSpacer1);
 
-			nsIDOMElement imgSpacer2 = visualDocument
+			nsIDOMElement imgSpacer = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-			setDefaultImgAttributes(imgSpacer2);
-			ComponentUtil.setImg(imgSpacer2, IMG_SPACER_SRC);
+			setDefaultImgAttributes(imgSpacer);
+			ComponentUtil.setImg(imgSpacer, IMG_SPACER_SRC);
 
 			nsIDOMElement iconCell = tdNowrapLeft;
 			nsIDOMElement emptyCell = tdRight;
@@ -286,23 +281,32 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					emptyCell = tdRight;
 				}
 			}
-			iconCell.appendChild(imgPoints);
-			emptyCell.appendChild(imgSpacer2);
+			iconCell.appendChild(imgIcon);
+			emptyCell.appendChild(imgSpacer);
 			
-			setItemClassAndStyle(childOfPanelMenu, table, tr, iconCell, tdLabel, emptyCell);
+			setItemClassAndStyle(childOfPanelMenu, table, tr, iconCell, imgIcon, tdLabel, emptyCell);
 			
-			List<Node> children = ComponentUtil.getChildren(sourceElement);
-
+			List<Node> children = ComponentUtil.getChildren(itemSourceElement);
+			
+			nsIDOMElement childSpan = visualDocument
+				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childSpan);
+			
 			if (!children.isEmpty()) {
-				VpeChildrenInfo childInfo = new VpeChildrenInfo(tdLabel);
-				creationData.addChildrenInfo(childInfo);
+				childrenInfo = new VpeChildrenInfo(tdLabel);
+				creationData.addChildrenInfo(childrenInfo);
 				for (Node child : children) {
 					if (!(child.getNodeName().endsWith(PANEL_MENU_GROUP_END_TAG) || child 
 							.getNodeName().endsWith(PANEL_MENU_END_TAG))) {
-						childInfo.addSourceChild(child);
+						childrenInfo.addSourceChild(child);
 					}
 				}
 			}
+			
+			if (childrenInfo.getSourceChildren() == null) {
+				creationData.addChildrenInfo(childrenInfo);
+			}
+			
 		}
 		return creationData;
 	}
@@ -366,17 +370,15 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		 * The second array element contains default icon path.
 		 */
 		String[] imgPath = {EMPTY, EMPTY};
-		boolean disabled = (TRUE.equalsIgnoreCase(pmi_disabled))
-			|| (TRUE.equalsIgnoreCase(pm_disabled));
 		
 		if (childOfPanelMenu) {
-			if (disabled) {
+			if (TRUE.equalsIgnoreCase(pmi_disabled)) {
 				imgPath = getSpecifiedIcon(pm_iconTopDisabledItem, pmi_iconDisabled);
 			} else {
 				imgPath = getSpecifiedIcon(pm_iconTopItem, pmi_icon);
 			}
 		} else {
-			if (disabled) {
+			if (TRUE.equalsIgnoreCase(pmi_disabled)) {
 				imgPath = getSpecifiedIcon(pm_iconDisabledItem, pmi_iconDisabled);
 			} else {
 				imgPath = getSpecifiedIcon(pm_iconItem, pmi_icon);
@@ -415,15 +417,19 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMElement table,
 			nsIDOMElement tr,
 			nsIDOMElement iconCell,
+			nsIDOMElement imgIcon,
 			nsIDOMElement labelCell,
 			nsIDOMElement emptyCell) {
 		
 		String tableStyle = MARGIN_TOP;
-		String iconStyle = EMPTY;
+		String iconCellStyle = EMPTY;
+		String labelCellStyle = WIDTH_100_PERCENTS;
+		String emptyCellStyle = EMPTY;
 		
 		String tableClass = EMPTY;
 		String trClass = EMPTY;
 		String iconCellClass = EMPTY;
+		String imgIconClass = EMPTY;
 		String labelCellClass = EMPTY;
 		String emptyCellClass = EMPTY;
 		
@@ -434,12 +440,26 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			tableStyle += SPACE + pmi_style;
 		}
 		
-		tableClass = CSS_ITEM;
+		tableClass += SPACE + CSS_ITEM;
 		
-		if ((TRUE.equalsIgnoreCase(pmi_disabled))
-				|| (TRUE.equalsIgnoreCase(pm_disabled))) {
-			tableClass += SPACE + CSS_DISABLED_ELEMENT;
-			if (attrPresents(pm_disabledItemClass)) {
+		if (TRUE.equalsIgnoreCase(pm_disabled)) {
+			if (childOfPanelMenu) {
+				tableClass += SPACE + CSS_TOP_ITEM;
+				iconCellClass += SPACE + CSS_TOP_ITEM_ICON; 
+				labelCellClass += SPACE + CSS_TOP_ITEM_LABEL; 
+				if (attrPresents(pm_disabledItemClass)) {
+					tableClass += SPACE + pm_disabledItemClass;
+				}
+				if (attrPresents(pm_topItemStyle)) {
+					tableStyle += SPACE + pm_topItemStyle;
+				}
+			}
+		}
+		
+		if (TRUE.equalsIgnoreCase(pmi_disabled)) {
+//			tableClass += SPACE + CSS_DISABLED_ELEMENT;
+			if ((attrPresents(pm_disabledItemClass)) 
+				&& !(TRUE.equalsIgnoreCase(pm_disabled))) {
 				tableClass += SPACE + pm_disabledItemClass;
 			}
 			if (attrPresents(pm_disabledItemStyle)) {
@@ -451,27 +471,25 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			if (attrPresents(pmi_disabledStyle)) {
 				tableStyle += SPACE + pmi_disabledStyle;
 			}
-			
-		} else {
-			iconCellClass = DR_NOWARP_CLASS + SPACE + CSS_ITEM_ICON;
+		} 
+		
+		if (!(TRUE.equalsIgnoreCase(pm_disabled))
+				&& (!(TRUE.equalsIgnoreCase(pmi_disabled)))) {
+//			iconCellClass = DR_NOWARP_CLASS + SPACE + CSS_ITEM_ICON;
+			iconCellClass = DR_NOWARP_CLASS;
+			imgIconClass = CSS_ITEM_ICON;
 			labelCellClass = CSS_ITEM_LABEL;
 			emptyCellClass = DR_NOWARP_CLASS;
 			
 			if (attrPresents(pmi_iconClass)) {
-				iconCellClass += SPACE + pmi_iconClass;
+				imgIconClass += SPACE + pmi_iconClass;
 			}
 			if (attrPresents(pmi_iconStyle)) {
-				iconStyle += SPACE + pmi_iconStyle;
-			}
-			if (attrPresents(pm_itemClass)) {
-				tableClass += SPACE + pm_itemClass;
-			}
-			if (attrPresents(pm_itemStyle)) {
-				tableStyle += SPACE + pm_itemStyle;
+				iconCellStyle += SPACE + pmi_iconStyle;
 			}
 			if (childOfPanelMenu) {
 				tableClass += SPACE + CSS_TOP_ITEM;
-				iconCellClass += SPACE + CSS_TOP_ITEM_ICON; 
+				imgIconClass += SPACE + CSS_TOP_ITEM_ICON; 
 				labelCellClass += SPACE + CSS_TOP_ITEM_LABEL; 
 				if (attrPresents(pm_topItemClass)) {
 					tableClass += SPACE + pm_topItemClass;
@@ -479,18 +497,55 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				if (attrPresents(pm_topItemStyle)) {
 					tableStyle += SPACE + pm_topItemStyle;
 				}
+			} else {
+				if (attrPresents(pm_itemClass)) {
+					tableClass += SPACE + pm_itemClass;
+				}
+				if (attrPresents(pm_itemStyle)) {
+					tableStyle += SPACE + pm_itemStyle;
+				}
 			}
 		}
 		
 		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
-		iconCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, iconStyle);
-		labelCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, WIDTH_100_PERCENTS);
+		iconCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, iconCellStyle);
+		labelCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, labelCellStyle);
+		emptyCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, emptyCellStyle);
 		
 		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, tableClass);
 		tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, trClass);
 		iconCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, iconCellClass);
+		imgIcon.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, imgIconClass);
 		labelCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, labelCellClass);
 		emptyCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, emptyCellClass);
+	}
+	
+	/**
+	 * Gets the panel menu item parent.
+	 * 
+	 * @param sourceItemElement the source item element
+	 * @param findOnlyPanelMenuParent flag to find only panel menu parent
+	 * 
+	 * @return the item parent
+	 */
+	private static final Element getItemParent(Element sourceItemElement,
+			boolean findOnlyPanelMenuParent) {
+		Element parent = (Element) sourceItemElement.getParentNode();
+		while (true) {
+			if (findOnlyPanelMenuParent) {
+				if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
+					break;
+				}
+			} else {
+				if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
+						|| parent.getNodeName().endsWith(
+								PANEL_MENU_GROUP_END_TAG)) {
+					break;
+				}
+			}
+			parent = (Element) parent.getParentNode();
+		}
+		return parent;
 	}
 	
 	/**
@@ -563,4 +618,14 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
     private static boolean attrPresents(String attr) {
 		return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
 	}
+    
+    /* (non-Javadoc)
+     * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#setSourceAttributeSelection(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, int, int, java.lang.Object)
+     */
+    @Override
+    public void setSourceAttributeSelection(VpePageContext pageContext,
+	    Element sourceElement, int offset, int length, Object data) {
+	VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
+	sourceBuilder.setSelection(sourceElement, 0, 0);
+    }
 }
