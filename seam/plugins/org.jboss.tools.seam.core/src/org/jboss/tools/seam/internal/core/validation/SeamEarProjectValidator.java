@@ -40,7 +40,6 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -53,7 +52,8 @@ import org.w3c.dom.NodeList;
  */
 public class SeamEarProjectValidator implements IValidatorJob {
 
-	protected static final String INVALID_APPLICATION_XML_MESSAGE_ID = "INVALID_APPLICATION_XML"; //$NON-NLS-1$
+	protected static final String INVALID_SEAM_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID = "INVALID_SEAM_JAR_MODULE_IN_APPLICATION_XML"; //$NON-NLS-1$
+	protected static final String INVALID_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID = "INVALID_JAR_MODULE_IN_APPLICATION_XML"; //$NON-NLS-1$
 
 	private IValidationErrorManager errorManager;
 
@@ -105,8 +105,8 @@ public class SeamEarProjectValidator implements IValidatorJob {
 
 	private static final String MODULE_NODE_NAME = "module";
 	private static final String JAVA_NODE_NAME = "java";
+	private static final String SEAM_JAR_NAME = "jboss-seam.jar";
 	private static final String[] JARS = new String[]{
-		"jboss-seam",
 		"el-ri",
 		"jbpm",
 		"drools-core",
@@ -187,10 +187,14 @@ public class SeamEarProjectValidator implements IValidatorJob {
 	private void validateJarName(IResource file, String text, int offset) {
 		String jarName = text.trim();
 		for(int jarIndex=0; jarIndex<JARS.length; jarIndex++) {
+			int position = offset + text.indexOf(jarName);
+			int length = jarName.length();
+			if(SEAM_JAR_NAME.equals(jarName)) {
+				errorManager.addError(INVALID_SEAM_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID, IMessage.HIGH_SEVERITY, new String[]{}, length, position, file);
+				break;
+			}
 			if(jarName.startsWith(JARS[jarIndex])) {
-				int position = offset + text.indexOf(jarName);
-				int length = jarName.length();
-				errorManager.addError(INVALID_APPLICATION_XML_MESSAGE_ID, IMessage.HIGH_SEVERITY, new String[]{jarName}, length, position, file);
+				errorManager.addError(INVALID_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID, IMessage.NORMAL_SEVERITY, new String[]{jarName}, length, position, file);
 				break;
 			}
 		}
