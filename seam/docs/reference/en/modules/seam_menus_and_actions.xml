@@ -17,7 +17,7 @@
         <itemizedlist>
             <listitem><para>Menu bar</para></listitem>
             <listitem><para>Toolbar</para></listitem>
-            <listitem><para>Context menus in views.</para></listitem>
+            <listitem><para>Context menus in views</para></listitem>
         </itemizedlist>
   
 
@@ -32,9 +32,7 @@
             <tgroup cols="2">
                 <colspec colnum="1" colwidth="1*"/>
                 <colspec colnum="2" colwidth="4*"/>
-              
-                
-                
+                                              
                 <thead>
                     <row>
                         <entry align="center">
@@ -151,7 +149,7 @@
     <section id="navigate_menu">
         <title>Navigate Menu Actions</title>
         
-        <para>The following Seam actions help you to easily navigate through the source code.</para> 
+        <para>These Seam actions help you to easily navigate through the source code.</para> 
         
         <section id="find_seam_ref_decl">
             
@@ -180,6 +178,7 @@
                 </mediaobject>
             </figure>
             
+            <para>In the table below read a description about the actions.</para>
             
             <table>
                 <title>Find Seam References/Declarations actions</title>
@@ -233,7 +232,7 @@
                 </table>
                                 
                                 
-            <para>Look at the screenshot example</para>
+            <para>You could see the screenshot example below:</para>
             
             <figure>
                 <title>Find Seam Declaration for &quot;Identity&quot;</title>
@@ -244,7 +243,7 @@
                 </mediaobject>
             </figure>
             
-            <para>You can also use Ctrl + 1 in .java files</para>
+            <para>You can also use Ctrl + 1 in .java files to activate the actions:</para>
             
             <figure>
                 <title>Find Seam References for &quot;Identity&quot;</title>
@@ -272,6 +271,8 @@
                 </mediaobject>
             </figure>
         
+            <para>In the table below read a description about the dialog.</para>
+            
         <table>
             <title>Open Seam Components Dialog</title>
             <tgroup cols="3">
@@ -320,6 +321,7 @@
             </tgroup>
         </table>
         
+        <para>Enter a name in the text field and see the results as it shown on screenshot: </para>
         
         <figure>
             <title>Open Seam Components Dialog</title>
