@@ -44,8 +44,7 @@ public class JSFProjectBeanMember extends JSFProjectBean {
 			String t = EclipseJavaUtil.resolveTypeAsString(method.getDeclaringType(), ps[i]);
 			if(t == null || !t.equals(parameters[i])) return false;
 		}
-		if(!returnType.equals(getAttributeValue("class name"))) return false;
+		if(!"any".equals(returnType) && !returnType.equals(getAttributeValue("class name"))) return false;
 		return true;
 	}
-
 }
