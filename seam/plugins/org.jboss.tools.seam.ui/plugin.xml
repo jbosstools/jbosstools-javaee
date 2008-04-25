@@ -446,48 +446,47 @@
                toolbarPath="org.eclipse.search.searchActionSet/Search"
                tooltip="Open Seam Component">
          </action>
+		</actionSet>
+		<actionSet
+			id="org.eclipse.search.seamSearchActionSet"
+	        label="Seam Search"
+			visible="true">
+			<!-- see http://bugs.eclipse.org/bugs/show_bug.cgi?id=15684    -->
+<!-- Note: The menu (re-) definition has to be here due to bug: -->
+<!-- =================================================================== -->
+<!-- Search Menu                                                         -->
+<!-- =================================================================== -->
+         <menu
+               label="%searchMenu.label"
+               path="navigate"
+               id="org.eclipse.search.menu">
+				<groupMarker name="internalDialogGroup"/>   <!-- not to be used by clients  -->
+				<groupMarker name="dialogGroup"/>           <!-- to be used by clients      -->
+         	<separator name="seamSearchMenuActionsGroup"/> <!-- to be used by clients -->
+				<separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
+	         	<separator name="contextMenuActionsGroup"/> <!-- to be used by clients -->
+	         	<separator name="occurencesActionsGroup"/> <!-- to be used by clients -->
+	         	<separator name="extraSearchGroup"/> <!-- to be used by clients -->
+         </menu>
+			
          <action
                class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction"
-					definitionId="org.eclipse.jdt.ui.edit.text.java.search.declarations.in.workspace"
-               helpContextId="org.eclipse.jdt.ui.find_declarations_action"
+					definitionId="org.jboss.tools.seam.ui.find.declarations"
                icon="icons/find_seam_declarations.gif"
                id="findDeclarations"
                label="Find Seam Declarations"
-               menubarPath="navigate/open.ext2"
+               menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
                tooltip="Find Seam Declarations">
          </action>
          <action
                class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction"
-					definitionId="org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace"
-               helpContextId="org.eclipse.jdt.ui.find_references_action"
+					definitionId="org.jboss.tools.seam.ui.find.references"
                icon="icons/find_seam_references.gif"
                id="findReferences"
                label="Find Seam References"
-               menubarPath="navigate/open.ext2"
+               menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
                tooltip="Find Seam References">
          </action>
-         <!-- action
-               class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction"
-					definitionId="org.eclipse.jdt.ui.edit.text.java.search.declarations.in.workspace"
-               helpContextId="org.eclipse.jdt.ui.find_declarations_action"
-               icon="icons/find_seam_declarations.gif"
-               id="findDeclarations"
-               label="Find Seam Declarations"
-               menubarPath="navigate/open.ext2"
-               toolbarPath="org.eclipse.search.searchActionSet/Search"
-               tooltip="Find Seam Declarations">
-         </action>
-         <action
-               class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction"
-					definitionId="org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace"
-               helpContextId="org.eclipse.jdt.ui.find_references_action"
-               icon="icons/find_seam_references.gif"
-               id="findReferences"
-               label="Find Seam References"
-               menubarPath="navigate/open.ext2"
-               toolbarPath="org.eclipse.search.searchActionSet/Search"
-               tooltip="Find Seam References">
-         </action -->
       </actionSet>
    </extension>
    <extension
@@ -499,13 +498,13 @@
             name="Open Seam Component">
       </command>
       <command
-            categoryId="org.eclipse.ui.category.navigate"
+            categoryId="org.eclipse.search.ui.category.search"
             description="Find Seam Declarations"
             id="org.jboss.tools.seam.ui.find.declarations"
             name="Find Seam Declarations">
       </command>
       <command
-            categoryId="org.eclipse.ui.category.navigate"
+            categoryId="org.eclipse.search.ui.category.search"
             description="Find Seam References"
             id="org.jboss.tools.seam.ui.find.references"
             name="Find Seam References">
@@ -518,16 +517,21 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+Z">
       </key>
-      <!-- key
+      <!--             
+      contextId="org.jboss.tools.vpe.editorContext"
+      -->
+      <key
             commandId="org.jboss.tools.seam.ui.find.declarations"
+		      contextId="org.eclipse.wst.sse.ui.structuredTextEditorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+G">
       </key>
       <key
             commandId="org.jboss.tools.seam.ui.find.references"
+		      contextId="org.eclipse.wst.sse.ui.structuredTextEditorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+G">
-      </key -->
+      </key>
    </extension>
    
    <extension

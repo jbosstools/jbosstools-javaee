@@ -53,6 +53,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
@@ -68,6 +69,8 @@ import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
+
+import com.mchange.v2.async.StrandedTaskReporting;
 
 /**
  * Base class for Seam Find actions
@@ -124,7 +127,10 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 			if (activeEditor instanceof AbstractTextEditor) {
 				viewer = getSourceViewer((AbstractTextEditor)activeEditor);
 			}
-		} else if (editor instanceof CompilationUnitEditor) {
+		} else if (editor instanceof AbstractTextEditor ) {
+			viewer = getSourceViewer((AbstractTextEditor)editor);
+		}
+		else if (editor instanceof CompilationUnitEditor) {
 			viewer = ((CompilationUnitEditor)editor).getViewer();
 		}
 		return viewer;
