@@ -163,7 +163,7 @@ public class FaceletsComponentTest extends VpeTest {
 
 	assertEquals(1, elements.size());
 
-	nsIDOMElement div = (nsIDOMElement) elements.get(1).queryInterface(
+	nsIDOMElement div = (nsIDOMElement) elements.get(0).queryInterface(
 		nsIDOMElement.NS_IDOMELEMENT_IID);
 
 	String title = div.getAttribute("title"); //$NON-NLS-1$

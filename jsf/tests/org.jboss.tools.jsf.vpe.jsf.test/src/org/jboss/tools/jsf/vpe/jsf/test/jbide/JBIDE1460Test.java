@@ -78,7 +78,7 @@ public class JBIDE1460Test extends VpeTest {
 
 	assertEquals(1, elements.size());
 
-	nsIDOMNode span = elements.get(2);
+	nsIDOMNode span = elements.get(0);
 
 	nsIDOMNode text = span.getFirstChild();
 	assertEquals(text.getNodeValue().trim(), "#{item.nodes}");
