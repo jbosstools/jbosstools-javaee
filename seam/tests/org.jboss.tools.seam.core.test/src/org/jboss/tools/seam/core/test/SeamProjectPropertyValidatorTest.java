@@ -60,6 +60,7 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 			pref.flush();
 
 			EditorTestHelper.joinBackgroundActivities();
+			EditorTestHelper.runEventQueue(2000);
 		}
 	}
 
