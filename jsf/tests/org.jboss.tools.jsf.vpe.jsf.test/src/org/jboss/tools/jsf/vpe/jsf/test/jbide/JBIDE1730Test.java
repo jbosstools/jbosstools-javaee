@@ -78,7 +78,7 @@ public class JBIDE1730Test extends VpeTest {
 
 		assertEquals(4, elements.size());
 
-		nsIDOMElement table = (nsIDOMElement) elements.get(2).queryInterface(
+		nsIDOMElement table = (nsIDOMElement) elements.get(3).queryInterface(
 				nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		// test border attribute
