@@ -616,7 +616,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="f:view" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes" haveVisualPreview="no"
+		<vpe:template children="yes" modify="yes" hasImaginaryBorder="yes"
 			class="org.jboss.tools.jsf.vpe.jsf.template.JsfView">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
@@ -641,7 +641,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="f:subview" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes" haveVisualPreview="no"
+		<vpe:template children="yes" modify="yes" hasImaginaryBorder="yes"
 			class="org.jboss.tools.jsf.vpe.jsf.template.JsfSubView">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
@@ -666,7 +666,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:form" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes" haveVisualPreview="no"
+		<vpe:template children="yes" modify="yes" hasImaginaryBorder="yes"
 			class="org.jboss.tools.jsf.vpe.jsf.template.JsfForm">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />

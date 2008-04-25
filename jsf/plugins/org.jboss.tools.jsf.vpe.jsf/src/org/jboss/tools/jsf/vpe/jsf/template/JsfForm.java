@@ -31,7 +31,6 @@ import org.w3c.dom.NodeList;
  */
 public class JsfForm extends VpeAbstractTemplate {
 
-	private static String STYLE_FOR_DIV = "border: 1px dotted #FF6600; padding: 5px;"; //$NON-NLS-1$
 	private static String TABLE_WIDTH_STYLE = "width: 100%;"; //$NON-NLS-1$
 	
 	private static final String DIR_VALUE_RTL = "RTL"; //$NON-NLS-1$
@@ -63,7 +62,7 @@ public class JsfForm extends VpeAbstractTemplate {
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
-		nsIDOMElement dotted_border_div = visualDocument.createElement(HTML.TAG_DIV);
+
 		nsIDOMElement content_div = visualDocument.createElement(HTML.TAG_DIV);
 		
 		if (attrPresents(style)) {
@@ -79,9 +78,8 @@ public class JsfForm extends VpeAbstractTemplate {
 		} 
 		
 		table.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, TABLE_WIDTH_STYLE);
-		dotted_border_div.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, STYLE_FOR_DIV);
-		dotted_border_div.appendChild(content_div);
-		td.appendChild(dotted_border_div);
+
+		td.appendChild(content_div);
 		tr.appendChild(td);
 		table.appendChild(tr);
 		
