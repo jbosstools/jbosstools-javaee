@@ -37,15 +37,12 @@ public class JBIDE1479Test extends VpeTest {
 	
 	public static final String TEST_PAGE_NAME = "JBIDE/1479/employee.xhtml"; //$NON-NLS-1$
 	
-	private boolean finished;
-	
 	public JBIDE1479Test(String name) {
 		super(name);
 	}
 	
 	public void testJBIDE1479() throws Throwable {
 		// wait
-		TestUtil.waitForJobs();
 		setException(null);
 		// get test page path
 		final IFile file = (IFile) TestUtil.getComponentPath(
@@ -60,13 +57,9 @@ public class JBIDE1479Test extends VpeTest {
 		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 		
-		TestUtil.waitForJobs();
 		JSPMultiPageEditor  part = openEditor(input);
-		TestUtil.delay(10000L);
+		TestUtil.waitForIdle();
 		assertNotNull(part);
-		final StyledTextContent  content= part.getSourceEditor().getTextViewer().getTextWidget().getContent();
-		
-		finished = false; 
 		
 		Job job = new WorkspaceJob("Test JBIDE-1479"){ //$NON-NLS-1$
 			
@@ -79,21 +72,16 @@ public class JBIDE1479Test extends VpeTest {
                  *  exception, so we just ignore it's.
                  */
                 } 
-                finished = true;
                 return Status.OK_STATUS;
             } 
 		};
 		job.setPriority(Job.SHORT);
 		job.schedule(0L);
-		TestUtil.delay(15000L);
-		TestUtil.waitForJobs();
-        
-		while (!finished) {
-            TestUtil.delay(1000L);
-        } 
-
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-								.closeAllEditors(false);
+		job.join();
+		TestUtil.waitForIdle();
+		TestUtil.delay(1000L);
+		closeEditors();
+		
 /*
  * we ignore this code, because we are testint JBIDE-1479,
  * it's test fot crash of eclipse.And if we modifying content from non-ui thread, we almost

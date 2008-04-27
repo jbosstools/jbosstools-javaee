@@ -20,7 +20,6 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
-import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -259,6 +258,9 @@ public class JBIDE788Test extends VpeTest {
 						.getTextViewer(), position);
 		assertNotNull(results);
 		assertEquals(numberOfProposals, results.length);
+		
+		closeEditors();
+		TestUtil.delay(1000L);
 	}
 
 	/**
@@ -329,6 +331,8 @@ public class JBIDE788Test extends VpeTest {
 			assertEquals(true, displayString.startsWith(partOfString));
 		}
 
+		closeEditors();
+		TestUtil.delay(1000L);
 	}
 
 }

@@ -52,41 +52,32 @@ public class JBIDE1105Test extends VpeTest {
 
 	assertNotNull("Editor input is null", input);
 
-	TestUtil.waitForJobs();
 	final JSPMultiPageEditor parts = openEditor(input);
-	TestUtil.delay(1000L);
+	TestUtil.waitForIdle();
 	assertNotNull(parts);
 
-	Job job = new UIJob("Test JBIDE-1105") {
-	    @Override
-	    public IStatus runInUIThread(IProgressMonitor monitor) {
-		StyledText styledText = parts.getSourceEditor().getTextViewer()
+	StyledText styledText = parts.getSourceEditor().getTextViewer()
 			.getTextWidget();
-		String delimiter = styledText.getLineDelimiter();
-		for (int i = 0; i < 200; i++) {
-		    int offset = styledText.getOffsetAtLine(21);
-		    styledText.setCaretOffset(offset - delimiter.length());
-		    styledText.insert(delimiter);
-		    TestUtil.delay(50L);
-		}
-		for (int i = 0; i < 200; i++) {
-		    int offset = styledText.getOffsetAtLine(23);
-		    styledText.setCaretOffset(offset - " Test ".length() - delimiter.length());
-		    styledText.insert(" Test ");
-		    TestUtil.delay(50L);
-		}
-		return Status.OK_STATUS;
-	    }
-
-	};
-	job.setPriority(Job.SHORT);
-	job.schedule(0L);
+	String delimiter = styledText.getLineDelimiter();
+	for (int i = 0; i < 200; i++) {
+		int offset = styledText.getOffsetAtLine(21);
+		styledText.setCaretOffset(offset - delimiter.length());
+		styledText.insert(delimiter);
+		TestUtil.waitForIdle();
+	}
+	for (int i = 0; i < 200; i++) {
+		int offset = styledText.getOffsetAtLine(23);
+		styledText.setCaretOffset(offset - " Test ".length()
+				- delimiter.length());
+		styledText.insert(" Test ");
+		TestUtil.waitForIdle();
+	}
+	
+	TestUtil.waitForIdle();
 	TestUtil.delay(1000L);
-	TestUtil.waitForJobs();
-
-	PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-		.closeAllEditors(false);
-
+	
+	closeEditors();
+	
 	if (getException() != null) {
 	    throw getException();
 	}
