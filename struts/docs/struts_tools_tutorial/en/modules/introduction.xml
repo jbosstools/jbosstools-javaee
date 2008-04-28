@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="introduction" xreflabel="introduction">
+  <?dbhtml filename="introduction.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Tools</keyword>
+      <keyword>Eclipse</keyword>
+      <keyword>Java</keyword>
+      <keyword>JBoss</keyword>
+    </keywordset>
+  </chapterinfo>
+  <title>Introduction</title>
+  <para>The following chapters describe how to deal with classic/old style of Struts development. We
+    recommend users to use <ulink url="../../seam/html_single/index.html">JBoss Seam</ulink> to
+    simplify development, but until then you can read about classical Struts usage here.</para>
+
+  <para>We are going to show you how to create a simple <emphasis>
+      <property>Struts application</property>
+    </emphasis> using the JBoss Tools. The completed application will ask a user to enter
+    a name and click a button. The resulting new page will display the familiar message,
+    &quot;Hello &lt;name&gt;!&quot;</para>
+  <para>This document will show you how to create such an application from the beginning, along the
+    way demonstrating some of the powerful features of JBoss Tools. With the help of our tutorial you will design the
+    application, generate stub code for the application, fill in the stub coding, compile the
+    application, and finally run it all from inside the Eclipse.</para>
+</chapter>

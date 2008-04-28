@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="intoduction">
+    <?dbhtml filename="introduction.html"?>
+
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Introduction</title>
+
+    <para>If you prefer to develop web applications using Struts technology JBoss Tools also meet
+        your needs. The professional developer toolset provides all necessary editors and wizards
+        for creating Struts resources that enhances the process of building high-quality web applications.</para>
+    <note><para>Note that JBoss Tools support the Struts 1.1, 1.2.x versions.</para></note>
+    
+    <para>In this guide you will learn how to take advantage of Struts support that JBoss Tools provide.</para>
+</chapter>
