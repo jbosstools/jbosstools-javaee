@@ -227,11 +227,10 @@
 	<!-- Проблема с вложенным параметром (31 of 4) -->
 	<vpe:tag name="h:commandLink" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<span class="{@styleClass}"
-				style="color:blue;text-decoration:underline;{@style}"
-				title="{tagstring()}">
-				<vpe:value expr="{jsfvalue(@value)}" />
-			</span>
+			<vpe:a class="{@styleClass}"
+				style="{@style}"
+				title="{tagstring()}"
+				value="{jsfvalue(@value)}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
@@ -277,8 +276,10 @@
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="yes">
-			<a href="javascript:return false;" class="{@styleClass}"
-				style="{@style}" dir="{@dir}" />
+			<vpe:a class="{@styleClass}"
+				style="{@style}"
+				title="{tagstring()}"
+				value="{jsfvalue(@value)}"/>
 			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="UnderlineFormat" setDefault="true">
 					<vpe:formatAttribute type="style" />
