@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="relevant_resources" xreflabel="relevant_resources">
+    <?dbhtml filename="relevant_resources.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>JSF application</keyword>
+            <keyword>Java</keyword>
+        </keywordset>
+    </chapterinfo>
+
+        <title>Other Relevant Resources on the topic</title>
+        <para>JSF on Sun: <ulink url="http://java.sun.com/javaee/javaserverfaces/">JavaServer Faces
+            Technology</ulink></para>
+        <para>Core JSF: <ulink url="http://www.horstmann.com/corejsf/">Core JavaServer Faces</ulink></para>
+        <para>API: <ulink url="http://java.sun.com/javaee/javaserverfaces/1.1/docs/api/index.html"
+            >JSF API</ulink></para>
+        <para>JSF Tags: <ulink url="http://www.horstmann.com/corejsf/jsf-tags.html">JSF Core
+            Tags</ulink></para>
+        <para>HTML Tags Reference: <ulink
+            url="http://www.exadel.com/tutorial/jsf/jsftags-guide.html">JSF HTML Tags
+            Reference</ulink></para>
+        <para>JSF Central: <ulink url="http://www.jsfcentral.com/">JSF Central - Your JavaServer
+            Faces Community</ulink></para>
+        <para>FAQ: <ulink url="http://wiki.java.net/bin/view/Projects/JavaServerFacesSpecFaq">JSF
+            FAQ</ulink></para>
+        <para>Download: <ulink url="http://java.sun.com/javaee/javaserverfaces/download.html"
+            >JavaServer Faces Technology - Download</ulink></para>
+    </chapter>

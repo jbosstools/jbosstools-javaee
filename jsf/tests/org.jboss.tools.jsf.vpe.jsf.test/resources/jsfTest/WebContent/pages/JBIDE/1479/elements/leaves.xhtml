@@ -1,0 +1,146 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<style type="text/css">
+	tr.separator td,tr.separator th {
+		border-bottom:1px solid black;
+	}
+	</style>
+	<a4j:region id="leaveRegion">
+	
+	<a4j:outputPanel id="a4jLeave" layout="block">
+	<table class="list" cellpadding="5" width="100%">
+		<thead>
+			<tr>
+				<th>#{bundle['Leave.start']}</th>
+				<th>#{bundle['Leave.end']}</th>
+				<th>#{bundle['Leave.type']}</th>
+				<th>#{bundle['Leave.adminStatus']}</th>
+				<th>#{bundle['Leave.workingPercent']}</th>
+				<th>#{bundle['Leave.reason']}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList var="leave" rowIndexVar="index" value="#{leaves}">
+			<tbody class="highlight">
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td><h:outputText value="#{leave.start}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+					<td><h:outputText value="#{leave.end}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+					<td><h:outputText value="#{leave.type}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+					<td><h:outputText value="#{leave.adminStatus}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+					<td>#{leave.workingPercent}</td>
+					<td><h:outputText value="#{leave.reason}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+					<td valign="top"><a4j:commandLink
+						action="#{hrActions.editLeave}" immediate="true"
+						 reRender=":#{parentClientId}:a4jLeave" limitToList="true">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editLeave" />
+						<f:param name="editId" value="#{index}" />
+						<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+					</a4j:commandLink></td>
+				</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr><td colspan="7" align="right">
+				<a4j:commandLink immediate="true"
+						rendered="#{hrSession.edits.leave == null}"
+						reRender=":#{parentClientId}:a4jLeave" limitToList="true"
+						action="#{hrActions.addLeave}">
+					<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+					<f:param name="containerToReset" value="editLeave" />
+					<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+				</a4j:commandLink></td>
+			</tr>
+		</tbody>
+	</table>
+	<s:subForm id="editLeave"
+		rendered="#{hrSession.edits.leave != null}">
+		<table style="border:none;">
+			<tr>
+				<td>#{bundle['Leave.start']}</td>
+				<td><t:inputCalendar value="#{hrSession.edits.leave.start}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="lstart">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="lstart" showDetail="true" showSummary="false"/></td>
+				<td>#{bundle['Leave.end']}</td>
+				<td><t:inputCalendar value="#{hrSession.edits.leave.end}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="lend">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="lend" showDetail="true" showSummary="false"/></td>
+				
+				<td rowspan="5" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteLeave}" immediate="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"							
+    						reRender=":#{parentClientId}:a4jLeave" limitToList="true">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['Leave.type']}</td>
+				<td><!-- <h:selectOneMenu value="#{hrSession.edits.leave.type}" id="ltype">
+					<f:selectItems
+						value="#{hrRequest.selectEntries['Leave type']}" />
+				</h:selectOneMenu>-->
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.leave.type}" />
+						<ui:param name="id" value="ltype" />
+						<ui:param name="key" value="Leave type" />
+				</ui:include>
+				<h:message for="ltype" showDetail="true" showSummary="false"/></td>
+				<td>#{bundle['Leave.adminStatus']}</td>
+				<td><!-- <h:selectOneMenu value="#{hrSession.edits.leave.adminStatus}" id="lastatus">
+					<f:selectItems
+						value="#{hrRequest.selectEntries['Administrative state']}" />
+				</h:selectOneMenu>-->
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.leave.adminStatus}" />
+						<ui:param name="id" value="lastatus" />
+						<ui:param name="key" value="Administrative state" />
+				</ui:include>
+				<h:message for="lastatus" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['Leave.workingPercent']}</td>
+				<td colspan="3"><h:inputText value="#{hrSession.edits.leave.workingPercent}" id="lwpercent"/>
+				<h:message for="lwpercent" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['Leave.reason']}</td>
+				<td colspan="3">
+					<!-- <h:selectOneMenu 
+						value="#{hrSession.edits.leave.reason}" cols="50" rows="7" id="lreason">
+						<f:selectItems value="#{hrRequest.selectEntries['Leave reason']}" />
+					</h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.leave.reason}" />
+							<ui:param name="id" value="lreason" />
+							<ui:param name="key" value="Leave reason" />
+					</ui:include>
+					<h:message for="lreason" showDetail="true" showSummary="false"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" align="right">
+					<a4j:commandButton value="Done" action="#{hrActions.doneLeave}"					
+						reRender=":#{parentClientId}:a4jLeave" limitToList="true"
+						actionFor="editLeave" />
+				</td>
+			</tr>
+		</table>
+	</s:subForm>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

@@ -1,0 +1,10 @@
+<contexts>
+	<context id="visual_page_editor" title="Visual Page Editor">
+		<description>Visual Page Editor</description>
+		<topic href="editors.html#visual_page" label="Visual Page Editor"/>
+	</context>
+	<context id="references_to_resources" title="References to Resources">
+		<description>References to Resources Wizard</description>
+		<topic href="editors.html#AdvancedSettings954" label="Advanced Settings"/>
+	</context>
+</contexts>

@@ -1,0 +1,41 @@
+﻿<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<!-- 
+	this.previousSibling.style.setProperty('background-color','#202020',''); 
+	this.previousSibling.style.setProperty('border','1px solid red','');
+	Effect.Fade(this.previousSibling, {endcolor:'#202020'});-->
+	<style>
+		.selectEntryAction {
+			visibility:hidden;
+		}
+		.selectEntry:hover .selectEntryAction, .sehover .selectEntryAction {
+			visibility:visible;
+		}
+	</style>
+	<div class="selectEntry" onmouseover="this.className+=' sehover'" onmouseout="this.className=this.className.replace(new RegExp(' sehover\\b'), '')">
+	<h:selectOneMenu value="#{value}" id="#{id}">
+		<f:selectItem itemLabel="" itemValue="[nothing]" />
+		<f:selectItems value="#{hrRequest.medicalCenters}"/>
+	</h:selectOneMenu>
+	<h:outputLink styleClass="selectEntryAction" target="_blank" value="#{facesContext.externalContext.requestContextPath}/faces/hr/edit/lists/medicalCentersEditor.xhtml">
+		<h:graphicImage url="/images/icon_edit.gif" style="border:none;vertical-align:center;margin-right:1pt"/>
+	</h:outputLink>
+	<a4j:commandLink 
+			styleClass="selectEntryAction" 
+			action="refresh" 
+			immediate="true"
+			reRender="#{id}" 
+			limitToList="true" 
+			onclick="new Effect.Highlight(this.previousSibling.previousSibling, {duration:2,startcolor:'#ffffff',endcolor:'#808080',restorecolor:'#808080'});"
+			> 
+		<h:graphicImage 
+				url="/images/icon_reload.gif" 
+				style="border:none;vertical-align:center;margin-right:1pt"
+				/>
+	</a4j:commandLink>
+	</div>
+</ui:composition>
+</html>

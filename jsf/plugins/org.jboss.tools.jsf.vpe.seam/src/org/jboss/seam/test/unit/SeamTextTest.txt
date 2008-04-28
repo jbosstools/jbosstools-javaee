@@ -1,0 +1,104 @@
++Seam Text!
+This page demonstrates Seam Text.
+
+++Some examples:
+
+Here is some wiki text: 
+*bold* |mono| ~deleted~ _underline_ /italic/ ^super^
+
+This is a new paragraph. (Just leave a blank line.)
+
+*/_Multiple ~tags~ styles_ can be nested!/*
+
+Special characters can be escaped: \| \* \_ 
+
+This is especially useful for HTML: \<notatag\> \&notanentity;
+
+But if we don't want to use escapes in our preformatted
+text, we can wrap it in backwards quotes, and special 
+characters get escaped automagically:
+
+`//This is some code:
+
+<some-tag/>
+"a string" 
+a_variable_name 
+a||b 
+x=y*z/2`
+
+We wrap quoted text in double quotes:
+
+"This is a block quote with /formatting/. The quote can cross multiple 
+lines, but a blank line does not start a new paragraph. If you
+need multiple paragraphs in a quote, you have to use \<p\>."
+
+You can even have "a quote", or `some code` inside
+a regular paragraph!
+
+We use ordinary old HTML for tables: 
+
+<table>
+   <tr><td>foo</td><td>*bar*</td><td>baz</td></tr><tr>
+   <td>fee</td>
+   <td>fi</td>
+   <td>/fo/</td>
+   </tr>
+</table>
+
+And we can use HTML for lists: 
+
+<ol>
+   <li>foo</li>
+   <li>*bar*</li>
+   <li>/baz/</li>
+</ol>
+
+<ul><li>foo</li><li>*bar*</li><li>/baz/</li></ul>
+
+But if the items fit on a line, we can use \#
+for ordered lists:
+
+# item 1
+# item 2
+# item 3
+
+And \= for unordered lists:
+
+= item 1
+= item 2
+= item 3
+
+We use HTML for <a href="http://www.hibernate.org/">links</a>.
+
+Or we can use [a special syntax=>http://jboss.com/products/seam] to
+link to [=>http://jboss.com/products/seam].
+
+And for images: <img src="http://www.hibernate.org/tpl/jboss/img/01_oben_logo.gif"/>
+
+And even for more exotic formatting, for example:
+
+<q>This is a /HTML/ quote with a <a href="http://jboss.org/">link</a>, 
+and a "nested quote" and even `some code` in it.</q>
+
+<p>
+This is a HTML paragraph with some lists:
+
+# item 1
+# item 2
+
+= an item
+= another item
+
+And "a quote" in it.
+</p>
+
+Oh, and one last thing:
+
+"This is a block quote with
+
+= a list,
+= with 2 items
+
+and <i>some HTML</i> formatting and `some code` and
+and <a href="http://jboss.com/products/seam"><i>yet 
+another</i> link</a>."

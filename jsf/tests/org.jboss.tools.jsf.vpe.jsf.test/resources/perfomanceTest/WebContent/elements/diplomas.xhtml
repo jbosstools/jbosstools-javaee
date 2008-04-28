@@ -1,0 +1,110 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<a4j:region id="diplomasRegion">
+	
+	<a4j:outputPanel id="a4jDiplomas" layout="block">
+	<fieldset><legend><h:outputText
+		value="#{bundle['Employee.diplomas']}" /></legend>
+	<table class="list" width="100%">
+		<thead>
+			<tr>
+				<th><h:outputText value="#{bundle['Diploma.title']}" /></th>
+				<th><h:outputText value="#{bundle['Diploma.startDate']}" /></th>
+				<th><h:outputText value="#{bundle['Diploma.endDate']}" /></th>
+				<th><h:outputText value="#{bundle['Diploma.institution']}" /></th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList value="#{hrSession.employee.diplomasArray}"
+				var="diploma" id="diplomas" rowIndexVar="index">
+			<tbody class="highlight">
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td><h:outputText value="#{diploma.title}" /></td>
+					<td><h:outputText value="#{diploma.startDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</h:outputText></td>
+					<td><h:outputText value="#{diploma.endDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</h:outputText></td>
+					<td>#{diploma.institution}</td>
+					<td><a4j:commandLink action="#{hrActions.editDiploma}"
+							immediate="true" reRender=":#{parentClientId}:a4jDiplomas" limitToList="true">
+							<f:param name="editId" value="#{index}" />
+							<f:param name="containerToReset" value="editDiploma" />
+							<f:param name="editId" value="#{index}" />
+							<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+						</a4j:commandLink></td>
+				</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr>
+				<td align="right">
+					<a4j:commandLink immediate="true" rendered="#{hrSession.edits.diploma == null}"
+						action="#{hrActions.addDiploma}" reRender=":#{parentClientId}:a4jDiplomas" limitToList="true">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editDiploma" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td><s:subForm id="editDiploma" rendered="#{hrSession.edits.diploma != null}">
+	
+					<table border="0" width="100%">
+						<tr>
+							<td><h:outputText value="#{bundle['Diploma.title']}" /></td>
+							<td colspan="3"><h:inputText size="70" value="#{hrSession.edits.diploma.title}" id="dtitle"/>
+							<h:message for="dtitle" showDetail="true" showSummary="false"/></td>
+							
+							<td rowspan="3" valign="top">
+								<a4j:commandLink action="#{hrActions.deleteDiploma}" immediate="true"
+									onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+									reRender=":#{parentClientId}:a4jDiplomas" limitToList="true">
+									<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+								</a4j:commandLink>
+							</td>
+						</tr>
+						<tr>
+							<td><h:outputText value="#{bundle['Diploma.startDate']}" /></td>
+							<td><t:inputCalendar
+								value="#{hrSession.edits.diploma.startDate}" popupTodayString=""
+								renderAsPopup="true" renderPopupButtonAsImage="true"
+								popupDateFormat="dd MMMM yyyy" id="dstartdate">
+								
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+							</t:inputCalendar><h:message for="dstartdate" showDetail="true" showSummary="false"/></td>
+							<td><h:outputText value="#{bundle['Diploma.endDate']}" /></td>
+							<td><t:inputCalendar
+								value="#{hrSession.edits.diploma.endDate}" popupTodayString=""
+								renderAsPopup="true" renderPopupButtonAsImage="true"
+								popupDateFormat="dd MMMM yyyy" id="denddate">
+								
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+							</t:inputCalendar><h:message for="denddate" showDetail="true" showSummary="false"/></td>
+						</tr>
+						<tr>
+							<td><h:outputText value="#{bundle['Diploma.institution']}" /></td>
+							<td colspan="3"><h:inputText size="70" value="#{hrSession.edits.diploma.institution}" /></td>
+						</tr>
+					</table>
+					<a4j:commandButton value="Done" action="#{hrActions.doneDiploma}"
+					reRender=":#{parentClientId}:a4jDiplomas" limitToList="true"
+					actionFor="editDiploma" />
+				</s:subForm>  <h:messages showDetail="true"/></td>
+			</tr>
+		</tbody>
+	</table>
+	</fieldset>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3CR3/docbookx.dtd"
+
+[
+<!ENTITY introduction SYSTEM "modules/introduction.xml">
+<!ENTITY jsf_support SYSTEM "modules/jsf_support.xml">
+<!ENTITY projects SYSTEM "modules/projects.xml">
+<!ENTITY jsf_config_file SYSTEM "modules/jsf_config_file.xml">
+<!ENTITY managed_beans SYSTEM "modules/managed_beans.xml">
+<!ENTITY creation_and_registration SYSTEM "modules/creation_and_registration.xml">
+<!ENTITY jsf_project_verification SYSTEM "modules/jsf_project_verification.xml">
+]>
+<book>
+    <bookinfo>
+        <title>JSF Tools Reference Guide</title>
+        <pubdate>April 2008</pubdate>
+        <copyright>
+            <year>2007</year>
+            <year>2008</year>
+            <holder>JBoss, a division of Red Hat Inc.</holder>
+        </copyright>
+        <releaseinfo>
+            <para>Version: 2.1.0.CR1</para>
+        </releaseinfo>
+    </bookinfo>
+    
+    <toc/>  
+    
+    &introduction;
+    &jsf_support;
+    &projects;
+    &jsf_config_file;
+    &managed_beans;
+    &creation_and_registration;
+    &jsf_project_verification;
+</book>    

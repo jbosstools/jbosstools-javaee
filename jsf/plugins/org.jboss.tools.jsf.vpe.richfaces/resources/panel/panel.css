@@ -1,0 +1,28 @@
+.dr-pnl{
+   border-width: 1px;
+   border-style: solid;
+   padding: 1px;
+   background-color: #FFFFFF;
+   border-color: #C4C0B9;
+}
+
+.dr-pnl-h{
+   padding: 2px;
+   border-width: 1px;
+   border-style: solid;
+   background-position: top left;
+   background-repeat: repeat-x;
+   background-color: #D4CFC7;
+   border-color: #D4CFC7;
+   font-size: 11px;
+   color: #000000;
+   font-weight: bold;
+   font-family: Arial, Verdana, sans-serif;
+}
+
+.dr-pnl-b{
+   padding : 10px;
+   font-size: 11px;
+   color: #000000;
+   font-family: Arial, Verdana, sans-serif;
+}
