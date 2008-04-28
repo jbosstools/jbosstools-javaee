@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<toc xmlns="http://www.w3.org/TR/xhtml1/transitional" label="Seam Dev Tools Reference Guide" topic="index.html">
+   <topic label="Introduction" href="intro.html">
+      <topic label="What is Seam?" href="intro.html#d0e30"/>
+      <topic label="Installation into Eclipse" href="intro.html#d0e42"/>
+      <topic label="Other relevant resources on the topic" href="intro.html#d0e52"/>
+   </topic>
+   <topic label="Creating a New Seam Project via the New Seam Project wizard" href="create_new_seam.html">
+      <topic label="Create standalone Seam Web Project" href="create_new_seam.html#standaloneSeam"/>
+      <topic label="Select the Project Facets" href="create_new_seam.html#projectFacets"/>
+      <topic label="How to Configure Web Module Settings" href="create_new_seam.html#configureWebModule"/>
+      <topic label="Adding JSF Capabilities" href="create_new_seam.html#addJSFCapab"/>
+      <topic label="Configure Seam Facet Settings" href="create_new_seam.html#seamFacet"/>
+   </topic>
+   <topic label="Directory Structure of the Generated Project" href="directory_structure.html">
+      <topic label="WAR Deployment" href="directory_structure.html#WAR"/>
+      <topic label="EAR Deployment" href="directory_structure.html#EAR"/>
+   </topic>
+   <topic label="Seam Wizards" href="seam_wizards.html">
+      <topic label="New Seam Action" href="seam_wizards.html#seam_action"/>
+      <topic label="New Seam Form" href="seam_wizards.html#seam_form"/>
+      <topic label="New Seam Conversation" href="seam_wizards.html#seam_conversation"/>
+      <topic label="New Seam Entity" href="seam_wizards.html#seam_entity"/>
+   </topic>
+   <topic label="Seam Generate Entities" href="generate_entities.html"/>
+   <topic label="Seam Editors Features" href="seam_editors.html">
+      <topic label="Content Assist" href="seam_editors.html#ContentAssist"/>
+      <topic label="OpenOn" href="seam_editors.html#OpenOn"/>
+      <topic label="Seam Validation" href="seam_editors.html#SeamValidation"/>
+      <topic label="Structured components.xml Editor" href="seam_editors.html#ComponentsEditor"/>
+   </topic>
+   <topic label="Seam Views" href="seam_view.html">
+      <topic label="Seam Components View" href="seam_view.html#d0e1177"/>
+      <topic label="Project Explorer integration" href="seam_view.html#d0e1270"/>
+   </topic>
+   <topic label="Generate a CRUD Database Application" href="crud_database_application.html">
+      <topic label="What is CRUD?" href="crud_database_application.html#d0e1299"/>
+      <topic label="How to create the CRUD Database Application with Seam" href="crud_database_application.html#d0e1343"/>
+   </topic>
+   <topic label="The CRUD Application Walkthrough" href="crud_application_walkthrough.html">
+      <topic label="Using CRUD Application" href="crud_application_walkthrough.html#d0e1813"/>
+   </topic>
+   <topic label="Using TestNG project" href="testNG.html">
+      <topic label="What is TestNG?" href="testNG.html#d0e1990"/>
+      <topic label="Other relevant resources on the topic" href="testNG.html#OtherRelevantResourcesOnTheTopic5"/>
+      <topic label="How to use the generated Seam-test project to run Seam tests?" href="testNG.html#d0e2051"/>
+   </topic>
+</toc>
