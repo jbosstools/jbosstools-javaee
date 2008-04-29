@@ -452,33 +452,8 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}
 	}
 
-	/*
-	 * Updates availability on the action delegate 
-	 *  
-	 * @param part
-	 * @param selection
-	 */
-	private void update(IWorkbenchPart part, ISelection selection) {
-		boolean enabled = false;
-		try {
-			if (!(part instanceof IEditorPart))
-				return;
-			
-			ISourceViewer viewer = getEditorViewer((IEditorPart)part);
-			if (viewer == null)
-				return;
-	
-			enabled = (getTextSelection(selection) != null);
-		} finally {
-			setEnabled(enabled);
-			if (fDelegatorAction != null) {
-				fDelegatorAction.setEnabled(enabled);
-			}
-		}
-	}
-
 	// ISelectionListener
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		update(selection);
+		update(getTextSelection(getEditorViewer(part)));
 	}
 }
