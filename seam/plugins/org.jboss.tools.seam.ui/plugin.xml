@@ -124,15 +124,6 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.eclipse.ui.resourcePerspective">
-         <view
-               id="org.jboss.tools.seam.ui.views.SeamComponentsNavigator"
-               ratio="0.5"
-               relationship="right"
-               relative="org.eclipse.ui.views.TaskList">
-         </view>
-      </perspectiveExtension>
-      <perspectiveExtension
             targetID="org.jboss.tools.seam.ui.SeamPerspective">
          <newWizardShortcut
                id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard">
