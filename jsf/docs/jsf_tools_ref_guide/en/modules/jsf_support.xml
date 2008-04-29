@@ -161,7 +161,7 @@
                 <section>
                         <title>Facelets components</title>
 
-                        <para>The <ulink url="../../jsf/html_single/index.html#palette">JBoss Tools
+                        <para>The <ulink url="../../../../jsf/publish/en-US/html_single/index.html#palette">JBoss Tools
                                         Palette</ulink> comes with the Facelets components ready to
                                 use. A useful tip appears when you hover the mouse cursor over the
                                 tag, the tip includes a detailed description of the tag component,
