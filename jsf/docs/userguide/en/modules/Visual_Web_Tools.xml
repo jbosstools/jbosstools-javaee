@@ -14,7 +14,7 @@
 
  <para>This guide covers the usage of Visual Web Tools in <property>JBoss Developer
   Studio</property> and <property>JBoss Tools</property>. The difference between these products is
-  that JBoss Tools are just a set of Eclipse plugins and JBoss Developer Studio adds</para>
+  that JBoss Tools are just a set of Eclipse plugins where JBoss Developer Studio adds the following functionality:</para>
  <itemizedlist>
   <listitem>
    <para>an installer</para>
@@ -45,7 +45,7 @@
 
  <section id="key_features">
   <title>Key Features of Visual Web Tools</title>
-  <para>Here is the table of main features of Visual Web Tools:</para>
+  <para>Here is the table of the main features of Visual Web Tools:</para>
 
   <table>
 
@@ -103,7 +103,7 @@
       <entry>OpenOn</entry>
       <entry>Easy navigation between views and other parts of your projects.</entry>
       <entry>
-       <link linkend="OpenOnSelection4Hyperlinknavigation">facelets support</link>
+       <link linkend="OpenOnSelection4Hyperlinknavigation">openOn</link>
       </entry>
      </row>
 
