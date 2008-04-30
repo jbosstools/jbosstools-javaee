@@ -103,7 +103,7 @@
       <entry>OpenOn</entry>
       <entry>Easy navigation between views and other parts of your projects.</entry>
       <entry>
-       <ulink url="../../jsf_tools_ref_guide/html_single/index.html#FaceletsSupport865">facelets
+       <ulink url="OpenOnSelection4Hyperlinknavigation">facelets
         support</ulink>
       </entry>
      </row>
@@ -115,7 +115,7 @@
        graphical editor. Code completion for values from property files, beans attributes and
        methods, navigation rule outcomes and jsf variables.</entry>
       <entry>
-       <ulink url="../../jsf_tools_ref_guide/html_single/index.html#ContentAssist976">content
+       <ulink url="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">content
        assist</ulink>
       </entry>
      </row>

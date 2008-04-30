@@ -12,10 +12,10 @@
     <title>Editors</title>
 
     <para>In previous chapters you had possibility to read about Graphical Editor for 
-        <ulink url="../../jsf_tools_ref_guide/html_single/index.html#jsf_config_file">JSF</ulink> and
-        <ulink url="../../struts_tools_ref_guide/html_single/index.html#struts_config_editor">Struts</ulink> configuration files, 
-        <ulink url="../../struts_tools_ref_guide/html_single/index.html#GraphicalEditorForTilesFiles132">Graphical Editor for Tiles Files</ulink>, 
-        <ulink url="../../struts_tools_ref_guide/html_single/index.html#GraphicalEditorForStrutsValidationFiles86">Graphical Editor for Struts Validation Files</ulink>. 
+        <ulink url="../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html#jsf_config_file">JSF</ulink> and
+        <ulink url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html#struts_config_editor">Struts</ulink> configuration files, 
+        <ulink url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html#GraphicalEditorForTilesFiles132">Graphical Editor for Tiles Files</ulink>, 
+        <ulink url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html#GraphicalEditorForStrutsValidationFiles86">Graphical Editor for Struts Validation Files</ulink>. 
         All these editors have  <link linkend="OpenOnSelection4Hyperlinknavigation"><property>OpenOn</property></link> and 
         <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"><property>Content Assist</property></link> features, 
         they are described more detail in this chapter. In addition you get to know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and source editing
@@ -150,7 +150,7 @@
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <ulink url="../../seam/html_single/index.html#ContentAssist">Seam project files</ulink>
+                                <ulink url="../../../../seam/publish/en-US/html_single/index.html#ContentAssist">Seam project files</ulink>
                             </para>
                            
                         </listitem>
