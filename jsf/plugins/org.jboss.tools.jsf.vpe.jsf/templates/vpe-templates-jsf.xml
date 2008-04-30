@@ -278,8 +278,7 @@
 		<vpe:template children="yes" modify="yes">
 			<vpe:a class="{@styleClass}"
 				style="{@style}"
-				title="{tagstring()}"
-				value="{jsfvalue(@value)}"/>
+				title="{tagstring()}"/>
 			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="UnderlineFormat" setDefault="true">
 					<vpe:formatAttribute type="style" />
