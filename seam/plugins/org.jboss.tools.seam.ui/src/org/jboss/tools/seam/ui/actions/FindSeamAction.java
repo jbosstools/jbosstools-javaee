@@ -32,20 +32,14 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate2;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
@@ -53,8 +47,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.wst.sse.ui.StructuredTextEditor;
-import org.jboss.tools.common.model.ui.ModelUIPlugin;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
@@ -63,14 +55,9 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizer;
-import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizerForward;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
-
-import com.mchange.v2.async.StrandedTaskReporting;
 
 /**
  * Base class for Seam Find actions
@@ -452,33 +439,8 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		}
 	}
 
-	/*
-	 * Updates availability on the action delegate 
-	 *  
-	 * @param part
-	 * @param selection
-	 */
-	private void update(IWorkbenchPart part, ISelection selection) {
-		boolean enabled = false;
-		try {
-			if (!(part instanceof IEditorPart))
-				return;
-			
-			ISourceViewer viewer = getEditorViewer((IEditorPart)part);
-			if (viewer == null)
-				return;
-	
-			enabled = (getTextSelection(selection) != null);
-		} finally {
-			setEnabled(enabled);
-			if (fDelegatorAction != null) {
-				fDelegatorAction.setEnabled(enabled);
-			}
-		}
-	}
-
 	// ISelectionListener
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		update(selection);
+		update(getTextSelection(getEditorViewer(part)));
 	}
 }
