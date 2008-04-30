@@ -77,7 +77,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		private final String fPrefix;
 		private final String fNewPrefix;
 		private final int fOffset;
-		private final int fNewPosition;
+		private int fNewPosition;
 
 		public Proposal(String string, String prefix, int offset) {
 			this(string, prefix, offset, offset + string.length());
@@ -177,6 +177,10 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 */
 		public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 			apply(viewer.getDocument(), trigger, offset);
+			
+			if (fString != null && fString.endsWith("}")) {
+				fNewPosition -= 1;
+			}
 		}
 
 		/*
@@ -230,6 +234,14 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		public boolean isAutoInsertable() {
 			return false;
 		}
+		
+		/**
+		 * Return cursor position of proposal replacement string.
+		 */
+		public int getCursorPosition() {
+			return fNewPosition;
+		}
+
 	}
 
 	private final SeamELCompletionEngine fEngine= new SeamELCompletionEngine();
