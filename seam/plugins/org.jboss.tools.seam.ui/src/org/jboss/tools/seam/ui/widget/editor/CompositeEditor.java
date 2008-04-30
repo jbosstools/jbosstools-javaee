@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -44,9 +46,9 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 			SeamUIMessages.COMPOSITE_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 
 		Composite aComposite = (Composite) parent;
-		Control[] controls = (Control[]) getEditorControls(aComposite);
+		final Control[] controls = (Control[]) getEditorControls(aComposite);
 		GridLayout gl = (GridLayout) ((Composite) parent).getLayout();
-		
+
         for (int i = 0; i < controls.length; i++) {
 			GridData gd = new GridData();
 			gd.horizontalSpan = i == 1 ? gl.numColumns - controls.length + 1 : 1;
@@ -59,7 +61,16 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 
 			controls[i].setLayoutData(gd);
 			controls[i].setEnabled(isEnabled());
-		}
+
+			if(i==0) {
+				controls[i].addDisposeListener(new DisposeListener(){
+					public void widgetDisposed(DisposeEvent e) {
+						dispose();
+						controls[0].removeDisposeListener(this);
+					}
+				});
+			}
+        }
 	}
 
 	List<Control> controls = new ArrayList<Control>();

@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.seam.ui.widget.field.ComboBoxField;
@@ -47,6 +50,13 @@ public class ComboFieldEditor extends BaseFieldEditor implements ITaggedFieldEdi
 		if(comboField == null) {
 			comboField = new ComboBoxField(composite,values,getValue(),editable);
 			comboField.addPropertyChangeListener(this);
+			final Combo combo =comboField.getComboControl();
+			combo.addDisposeListener(new DisposeListener(){
+				public void widgetDisposed(DisposeEvent e) {
+					dispose(e);
+					combo.removeDisposeListener(this);
+				}
+			});
 		} else if(composite!=null) {
 			Assert.isTrue(comboField.getControl().getParent()==composite);
 		}
