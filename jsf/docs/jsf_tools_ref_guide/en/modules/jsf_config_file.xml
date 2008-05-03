@@ -11,7 +11,7 @@
         </keywordset>
     </chapterinfo>
 
-    <title>JSF Configuration File</title>
+    <title>JSF Configuration File Editor</title>
 
     <para>First, we should mention that JSF configuration file (<emphasis>
             <property>faces-config.xml</property>
@@ -51,9 +51,9 @@
             </mediaobject>
         </figure>
 
-        <para>If your diagram is large, make use of the Outline view. Within  it you can switch to a <emphasis>
-            <property>Diagram Navigator</property>
-        </emphasis> mode by selecting the middle icon at the top of the view window. It allows
+        <para>If your diagram is large, make use of the Outline view. Within it you can switch to a <emphasis>
+                <property>Diagram Navigator</property>
+            </emphasis> mode by selecting the middle icon at the top of the view window. It allows
             you to easily move around the diagram. Just move the blue area in any direction, and the
             diagram on the left will also move:</para>
         <figure>
@@ -64,7 +64,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+
         <para>To create a new page here, you should click the page icon (View Template) on the
             toolbar from the left and then click anywhere on the diagram. A New Page Wizard will
             appear.</para>
@@ -169,7 +169,8 @@
 
         <title>Source View</title>
 
-        <para>Here, we&apos;ll discuss how you can configure your faces-config.xml with the help of Source View.</para>
+        <para>Here, we&apos;ll discuss how you can configure your faces-config.xml with the help
+            of Source View.</para>
         <para>The Source view for the editor displays a text content of the JSF configuration file.
             It is always synchronized with other two views, so any changes made in one of the views
             will immediately appear in the other:</para>
@@ -197,9 +198,24 @@
             </mediaobject>
         </figure>
 
+    </section>
+
+    <section id="jsf_editor_features">
+        <title>Editor Features</title>
+        <para>Here we&apos;ll discuss a very important features that JSF configuration file
+            editor provides for work with JSF resources.</para>
+
+        <section id="jsf_openOn">
+            <title>Open On</title>
+            <para>The JSF configuration file editor comes with a very useful OpenOn navigating
+                feature. More fully you can read about it in our <ulink
+                    url="../../../../jsf/publish/en-US/html_single/index.html#OpenOnSelection4Hyperlinknavigation"
+                    >Visual Web Tools Guide</ulink>.</para>
+        </section>
+
         <section id="ContentAssist976">
 
-            <title>Code Assist and Open On</title>
+            <title>Code Assist</title>
             <para>Code Assist provides pop-up tip to help you complete your code statements. It
                 allows you to write your code faster and with more accuracy.</para>
             <para>Code assist is always available in the Source mode:</para>
@@ -212,18 +228,16 @@
                 </mediaobject>
             </figure>
 
-            <para>The JSF configuration editor also comes with a very useful <ulink
-                url="../../../../jsf/publish/en-US/html_single/index.html#OpenOnSelection4Hyperlinknavigation">OpenOn</ulink> selection feature.</para>
-           
         </section>
+
         <section id="ErrorReporting3324">
 
             <title>Error Reporting</title>
-            <para>When you are developing your project, error checking is constantly provided.
-                This greatly reduces your development time as it allows you to catch
-                many of the errors during development.</para>
-            <para>Errors will be reported by <link
-                linkend="jsf_project_verification"> verification</link> facility:</para>
+            <para>When you are developing your project, error checking is constantly provided. This
+                greatly reduces your development time as it allows you to catch many of the errors
+                during development.</para>
+            <para>Errors will be reported by <link linkend="jsf_project_verification">
+                verification</link> facility:</para>
             <figure>
                 <title>Error Reporting in Source View</title>
                 <mediaobject>
@@ -245,6 +259,5 @@
 
         </section>
     </section>
-
 
 </chapter>
