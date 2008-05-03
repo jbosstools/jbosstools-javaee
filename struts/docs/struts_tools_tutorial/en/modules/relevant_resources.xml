@@ -11,7 +11,7 @@
 
         <title>Other Relevant Resources on the topic</title>
 
-    <para>Our reference: <ulink url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html">Struts Tools Reference Guide</ulink></para>
+    <para>Our reference: <ulink url="&strutsreflink;">Struts Tools Reference Guide</ulink></para>
         <para>Apache Struts: <ulink url="http://struts.apache.org/">Struts Technology</ulink></para>
         <para>Struts 2: <ulink url="http://struts.apache.org/2.x/">Apache Struts 2</ulink></para>
         <para>Get Started: <ulink url="http://struts.apache.org/2.x/docs/home.html">Struts Getting

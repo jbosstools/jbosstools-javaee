@@ -157,7 +157,7 @@
         <title>Importing an Existing Struts Project with Any Structure</title>
 
         <para>For detailed information on migration projects to JBoss Developer Studio see <ulink
-            url="../../../../Exadel-migration/publish/en-US/html_single/index.html">Migration Guide</ulink>.</para>
+            url="&migrationlink;">Migration Guide</ulink>.</para>
 
     </section>
     <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
