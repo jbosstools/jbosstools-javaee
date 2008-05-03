@@ -18,7 +18,7 @@
 	</module>
 
 	<module>
-		<java>jboss-seam.jar</java>
+		<ejb>jboss-seam.jar</ejb>
 	</module>
 
 </application>
