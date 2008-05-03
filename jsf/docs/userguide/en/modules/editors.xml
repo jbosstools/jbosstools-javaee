@@ -12,17 +12,17 @@
     <title>Editors</title>
 
     <para>In the <ulink
-        url="../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html"
+        url="&jsfreflink;"
         >JSF Tools Reference Guide</ulink> and <ulink
-            url="../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html"
+            url="&strutsreflink;"
             >Struts Tools Reference Guide</ulink> you had possibility to read about Graphical Editor for <ulink
-            url="../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html#jsf_config_file"
+            url="&jsfreflink;#jsf_config_file"
             >JSF</ulink> and <ulink
-            url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html#struts_config_editor"
+            url="&strutsreflink;#struts_config_editor"
             >Struts</ulink> configuration files, <ulink
-            url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html#GraphicalEditorForTilesFiles132"
+            url="&strutsreflink;#GraphicalEditorForTilesFiles132"
             >Graphical Editor for Tiles Files</ulink>, <ulink
-            url="../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html#GraphicalEditorForStrutsValidationFiles86"
+            url="&strutsreflink;#GraphicalEditorForStrutsValidationFiles86"
             >Graphical Editor for Struts Validation Files</ulink>. All these editors have <link
             linkend="OpenOnSelection4Hyperlinknavigation">
             <property>OpenOn</property>
@@ -166,7 +166,7 @@
                 <listitem>
                     <para>
                         <ulink
-                            url="../../../../seam/publish/en-US/html_single/index.html#ContentAssist"
+                            url="&seamlink;#ContentAssist"
                             >Seam project files</ulink>
                     </para>
 
