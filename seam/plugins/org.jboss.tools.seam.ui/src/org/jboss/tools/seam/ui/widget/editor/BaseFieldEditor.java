@@ -13,14 +13,22 @@ package org.jboss.tools.seam.ui.widget.editor;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Widget;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -31,11 +39,13 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
 public abstract class BaseFieldEditor implements IFieldEditor {
 
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	
+
+	Set<DisposeListener> disposeListeners = new HashSet<DisposeListener>(); 
+
 	private Object value = new Object();
-	
+
 	private String labelText = SeamUIMessages.BASE_FIELD_EDITOR_NO_LABEL;
-	
+
 	private String nameText = null;
 
 	Label labelControl = null;
@@ -64,10 +74,18 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 		Assert.isTrue(parent instanceof Composite, SeamUIMessages.BASE_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
 		Assert.isTrue(((Composite)parent).getLayout() instanceof GridLayout,SeamUIMessages.BASE_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) parent;
-		getEditorControls(aComposite);
+		final Control[] controls = (Control[])getEditorControls(aComposite);
 		GridLayout gl = (GridLayout)((Composite)parent).getLayout();
 
 		doFillIntoGrid(aComposite,gl.numColumns);
+		if(controls.length>0) {
+			controls[0].addDisposeListener(new DisposeListener(){
+				public void widgetDisposed(DisposeEvent e) {
+					dispose();
+					controls[0].removeDisposeListener(this);
+				}
+			});
+		}
 	}
 
 	/**
@@ -84,7 +102,7 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -219,9 +237,10 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 	public String getName() {
 		return nameText;
 	}
-	
-	/**
-	 * 
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditor#dispose()
 	 */
 	public void dispose() {
 		PropertyChangeListener[] listeners = pcs.getPropertyChangeListeners();
@@ -229,6 +248,34 @@ public abstract class BaseFieldEditor implements IFieldEditor {
 			PropertyChangeListener propertyChangeListener = listeners[i];
 			pcs.removePropertyChangeListener(propertyChangeListener);			
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditor#dispose(org.eclipse.swt.events.DisposeEvent)
+	 */
+	public void dispose(DisposeEvent e) {
+		dispose();
+		for (DisposeListener disposeListener : disposeListeners) {
+			disposeListener.widgetDisposed(e);
+		}
+		disposeListeners.clear();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditor#addDisposeListener(org.eclipse.swt.events.DisposeListener)
+	 */
+	public void addDisposeListener(DisposeListener listener) {
+		disposeListeners.add(listener);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.ui.widget.editor.IFieldEditor#removeDisposeListener(org.eclipse.swt.events.DisposeListener)
+	 */
+	public void removeDisposeListener(DisposeListener listener) {
+		disposeListeners.remove(listener);
 	}
 
 	/**

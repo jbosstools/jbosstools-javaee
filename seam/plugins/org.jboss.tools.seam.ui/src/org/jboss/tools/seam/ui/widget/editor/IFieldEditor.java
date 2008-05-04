@@ -12,6 +12,10 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Listener;
+
 public interface IFieldEditor extends INamedElement {
 	
 	/**
@@ -43,6 +47,18 @@ public interface IFieldEditor extends INamedElement {
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * 
+	 * @param listener
+	 */
+	public void addDisposeListener(DisposeListener listener);
+
+	/**
+	 * 
+	 * @param listener
+	 */
+	public void removeDisposeListener(DisposeListener listener);
 
 	/**
 	 * 
@@ -85,6 +101,11 @@ public interface IFieldEditor extends INamedElement {
 	 */
 	public void dispose();
 
+	/**
+	 * 
+	 * @param e
+	 */
+	public void dispose(DisposeEvent e);
 
 	/**
 	 * Sets the application defined property of this editor

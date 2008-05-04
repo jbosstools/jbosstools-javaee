@@ -26,6 +26,8 @@ import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizard;
 import org.eclipse.datatools.connectivity.internal.ui.wizards.NewCPWizardCategoryFilter;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.hibernate.console.ConsoleConfiguration;
@@ -40,6 +42,7 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.ComboFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
@@ -197,7 +200,7 @@ public class SeamWizardFactory {
 	 * @param canBeEmpty
 	 * @return
 	 */
-	public static IFieldEditor createConnectionProfileSelectionFieldEditor(Object defaultValue, IValidator validator, boolean canBeEmpty) {
+	public static IFieldEditor createConnectionProfileSelectionFieldEditor(Object defaultValue, IValidator validator, final boolean canBeEmpty) {
 		EditConnectionProfileAction editAction = new EditConnectionProfileAction(validator);
 		NewConnectionProfileAction newAction = new NewConnectionProfileAction(validator);
 		List<String> profiles = getConnectionProfileNameList();
@@ -224,6 +227,34 @@ public class SeamWizardFactory {
 				}
 			});
 		}
+		final ComboFieldEditor comboEditor = ((ComboFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(1));
+		final IProfileListener profileListener = new IProfileListener() {
+			private void update() {
+				List<String> profiles = getConnectionProfileNameList();
+				if(canBeEmpty) {
+					profiles.add(0, "");
+				}
+				comboEditor.setTags((profiles.toArray(new String[0])));
+			}
+
+			public void profileAdded(IConnectionProfile profile) {
+				update();
+			}
+
+			public void profileChanged(IConnectionProfile profile) {
+				update();
+			}
+
+			public void profileDeleted(IConnectionProfile profile) {
+				update();
+			}
+		};
+		ProfileManager.getInstance().addProfileListener(profileListener);
+		comboEditor.addDisposeListener(new DisposeListener(){
+			public void widgetDisposed(DisposeEvent e) {
+				ProfileManager.getInstance().removeProfileListener(profileListener);
+			}
+		});
 		return connProfileSelEditor;
 	}
 
