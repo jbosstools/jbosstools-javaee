@@ -44,7 +44,7 @@
 
             <title>OpenOn</title>
 
-            <para><property>OpenOn</property> let&apos;s you easily link directly from one resource to another in your
+            <para><property>OpenOn</property> lets you easily link directly from one resource to another in your
                 project without using the Package Explorer view (project tree). With OpenOn, you can
                 simply click on a reference to another file and the file will be opened.</para>
 
@@ -609,18 +609,19 @@
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
-                    component added in JBoss Developer Studio:</para>
+                    component added in <property>JBoss Developer Studio</property>:</para>
                 <orderedlist>
                     <listitem>
                         <para>Create a new xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property>.
-                            </emphasis>For example call it JeniaFaces.xml. The file should be
+                        </emphasis>For example call it <emphasis>
+                            <property> JeniaFaces.xml</property></emphasis>. The file should be
                             written according to <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property>
                             </emphasis></para>
                     </listitem>
                 </orderedlist>
-                <para>Here is how you set what is available for code assist:</para>
+                <para>Follow these steps to set what is available for code assist:</para>
                 <itemizedlist>
                     <listitem>
                         <para>Adds code assist for JSF pre-defined objects, such as value=<emphasis
@@ -635,7 +636,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds bundle resource (property file) <property>code
+                        <para>Add bundle resource (property file) <property>code
                         assist</property>:</para>
                     </listitem>
                 </itemizedlist>
@@ -645,7 +646,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds managed bean property <property>code assist</property>:</para>
+                        <para>Add managed bean property <property>code assist</property>:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -654,7 +655,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds managed bean property but with a specified type:</para>
+                        <para>Add managed bean property but of a specified type:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -665,7 +666,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds managed bean method with a signature:</para>
+                        <para>Add managed bean method with a signature:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -681,35 +682,35 @@
                     <listitem>
                         <para>Add information on your xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property>
-                            </emphasis></para>
-                    </listitem>
-                </orderedlist>
-                <programlisting role="XML"><![CDATA[
+                        </emphasis></para>
+                        <programlisting role="XML"><![CDATA[
          <tld
             jsf="true"
             name="Jenia Faces"
             schema-location="schemas/tld/myJSF.xml"
             uri="http://www.jenia.org/jsf/dataTools"/>]]>
-    </programlisting>
-                <orderedlist continuation="continues">
+                        </programlisting>
+                    </listitem>
+                        
                     <listitem>
                         <para>Restart Eclipse. You should now have code assist for the
                         component.</para>
                     </listitem>
                 </orderedlist>
+                
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
 
             <title>Synchronized Source and Visual Editing</title>
 
-            <para>JBoss Developer Studio offers the flexibility to edit any files in either source
+            <para><property>JBoss Developer Studio</property> offers the flexibility to edit any files in either source
                 or extra visual modes at the same time.</para>
 
-            <para>The project is yours and so is the source. JBoss Developer Studio provides you
+            <para>The project is yours and so is the source. <property>JBoss Developer Studio</property> provides you
                 many different graphical editors to speed your application development. At the same
-                time, you always have full control over all project source files. Any changes you
-                make in the source view, will immediately appear in the graphical view.</para>
+                time, you always have a full control over all project source files. Any changes you
+                make in the source view immediately appear in the graphical view.</para>
 
             <para>The JSF configuration file editor has three views: <property>Diagram</property>,
                     <property>Tree</property> and <property>Source</property>. All views are
@@ -724,7 +725,7 @@
                 </mediaobject>
             </figure>
 
-            <para>The same applies to all other JBoss Developer Studio editors.</para>
+            <para>The same is relevant to all other <property>JBoss Developer Studio</property> editors.</para>
 
             <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source
                 (Source).</para>
@@ -739,8 +740,8 @@
                 </mediaobject>
             </figure>
 
-            <para>JBoss Developer Studio TLD file editor shown in Tree view. At any point you can
-                edit the source by going switching to Source view.</para>
+            <para><property>JBoss Developer Studio</property> TLD file editor is shown in Tree view. At any point you can
+                edit the source by switching to Source view.</para>
             <figure>
                 <title>Two Views are Synchronized</title>
                 <mediaobject>
@@ -756,12 +757,12 @@
     <section id="visual_page">
 
         <title>Visual Page Editor</title>
-        <para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page
+        <para><property>JBoss Developer Studio</property> comes with a powerful and customizable <property>Visual Page
                 Editor</property> (VPE). You can use the Visual Page Editor to develop an
             application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
         <para>Current VPE version has four tabs: Visual/Source, Visual, Source and Preview.</para>
-        <para>Split screen design with instant synchronization between source and visual views:</para>
+        <para>Here is shown a split screen design with instant synchronization between Source and Visual views:</para>
         <figure>
             <title>Visual/Source View</title>
             <mediaobject>
@@ -781,8 +782,11 @@
             </mediaobject>
         </figure>
 
-        <para>Or work just in Source view. Note that selection bar is now available not only in
-            Visual mode but also in Source one:</para>
+        <para>Or work just in Source view.</para>
+        
+        <note><para>Selection bar is now available not only in
+        Visual mode but also in Source one.</para></note>
+        
         <figure>
             <title>Source View</title>
             <mediaobject>
@@ -791,7 +795,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>No matter what view you select, you get full integration with Properties and Outline
+        <para>No matter what view you select, you get a full integration with Properties and Outline
             views:</para>
         <figure>
             <title>Properties And Outline Views</title>
@@ -801,7 +805,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>Preview mode is read-only, it only shows how the page will look like in a browser.</para>
+        <para>Preview mode is read-only, it shows how the page will look like in a browser.</para>
         <figure>
             <title>Preview Mode</title>
             <mediaobject>
