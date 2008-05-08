@@ -27,6 +27,7 @@ import org.eclipse.search.core.text.TextSearchMatchAccess;
 import org.eclipse.search.internal.core.text.PatternConstructor;
 import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.search.internal.ui.text.FileMatch;
+import org.eclipse.search.internal.ui.text.LineElement;
 import org.eclipse.search.internal.ui.text.SearchResultUpdater;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.ISearchResult;
@@ -76,10 +77,67 @@ public class SeamSearchQuery implements ISearchQuery {
 		}
 
 		public boolean acceptPatternMatch(TextSearchMatchAccess matchRequestor) throws CoreException {
-			fCachedMatches.add(new FileMatch(matchRequestor.getFile(), matchRequestor.getMatchOffset(), matchRequestor.getMatchLength()));
+			int matchOffset= matchRequestor.getMatchOffset();
+			
+			LineElement lineElement= getLineElement(matchOffset, matchRequestor);
+			if (lineElement != null)
+				fCachedMatches.add(new FileMatch(matchRequestor.getFile(), matchRequestor.getMatchOffset(), matchRequestor.getMatchLength(),lineElement));
 			return true;
 		}
 
+		private LineElement getLineElement(int offset, TextSearchMatchAccess matchRequestor) {
+			int lineNumber= 1;
+			int lineStart= 0;
+			if (!fCachedMatches.isEmpty()) {
+				// match on same line as last?
+				FileMatch last= (FileMatch) fCachedMatches.get(fCachedMatches.size() - 1);
+				LineElement lineElement= last.getLineElement();
+				if (lineElement.contains(offset)) {
+					return lineElement;
+				}
+				// start with the offset and line information from the last match
+				lineStart= lineElement.getOffset() + lineElement.getLength();
+				lineNumber= lineElement.getLine() + 1;
+			}
+			if (offset < lineStart) {
+				return null; // offset before the last line
+			}
+			
+			int i= lineStart;
+			int contentLength= matchRequestor.getFileContentLength();
+			while (i < contentLength) {
+				char ch= matchRequestor.getFileContentChar(i++);
+				if (ch == '\n' || ch == '\r') {
+					if (ch == '\r' && i < contentLength && matchRequestor.getFileContentChar(i) == '\n') {
+						i++;
+					}
+					if (offset < i) {
+						String lineContent= getContents(matchRequestor, lineStart, i); // include line delimiter
+						return new LineElement(matchRequestor.getFile(), lineNumber, lineStart, lineContent);
+					}
+					lineNumber++;
+					lineStart= i;
+				}
+			}
+			if (offset < i) {
+				String lineContent= getContents(matchRequestor, lineStart, i); // until end of file
+				return new LineElement(matchRequestor.getFile(), lineNumber, lineStart, lineContent);
+			}
+			return null; // offset outside of range
+		}
+		
+		private static String getContents(TextSearchMatchAccess matchRequestor, int start, int end) {
+			StringBuffer buf= new StringBuffer();
+			for (int i= start; i < end; i++) {
+				char ch= matchRequestor.getFileContentChar(i);
+				if (Character.isWhitespace(ch) || Character.isISOControl(ch)) {
+					buf.append(' ');
+				} else {
+					buf.append(ch);
+				}
+			}
+			return buf.toString();
+		}
 		public boolean acceptSeamDeclarationSourceReferenceMatch(ISeamJavaSourceReference element) throws CoreException {
 			fCachedMatches.add(new SeamElementMatch(element));
 			return true;

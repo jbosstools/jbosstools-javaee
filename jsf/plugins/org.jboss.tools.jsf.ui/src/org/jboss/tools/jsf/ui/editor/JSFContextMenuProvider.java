@@ -55,11 +55,7 @@ public class JSFContextMenuProvider	extends org.eclipse.gef.ContextMenuProvider 
 	private void setActionRegistry(ActionRegistry registry) {
 		actionRegistry = registry;
 	}
-
-	private boolean menuExist() {
-		return getMenu() != null && !getMenu().isDisposed();
-	}
-
+	
 	protected void update(boolean force, boolean recursive) {
 		if(!isDirty() && !force) return;
 		if(!menuExist()) return;

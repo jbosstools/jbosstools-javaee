@@ -59,11 +59,7 @@ public class StrutsContextMenuProvider	extends org.eclipse.gef.ContextMenuProvid
 	private void setActionRegistry(ActionRegistry registry) {
 //		actionRegistry = registry;
 	}
-
-	private boolean menuExist() {
-		return getMenu() != null && !getMenu().isDisposed();
-	}
-
+	
 	protected void update(boolean force, boolean recursive) {
 		if(!isDirty() && !force) return;
 		if(!menuExist()) return;
