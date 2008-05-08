@@ -11,50 +11,65 @@
 
     <title>Editors</title>
 
-    <para>In previous chapters you had possibility to read about Graphical Editor for 
-        <ulink url="../../jsf_tools_ref_guide/html_single/index.html#jsf_config_file">JSF</ulink> and
-        <ulink url="../../struts_tools_ref_guide/html_single/index.html#struts_config_editor">Struts</ulink> configuration files, 
-        <ulink url="../../struts_tools_ref_guide/html_single/index.html#GraphicalEditorForTilesFiles132">Graphical Editor for Tiles Files</ulink>, 
-        <ulink url="../../struts_tools_ref_guide/html_single/index.html#GraphicalEditorForStrutsValidationFiles86">Graphical Editor for Struts Validation Files</ulink>. 
-        All these editors have  <link linkend="OpenOnSelection4Hyperlinknavigation"><property>OpenOn</property></link> and 
-        <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"><property>Content Assist</property></link> features, 
-        they are described more detail in this chapter. In addition you get to know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and source editing
-        of Web pages and many <link linkend="more_editors">other editors</link> for different types of files.</para>
+    <para>In the <ulink
+        url="&jsfreflink;"
+        >JSF Tools Reference Guide</ulink> and <ulink
+            url="&strutsreflink;"
+            >Struts Tools Reference Guide</ulink> you had possibility to read about Graphical Editor for <ulink
+            url="&jsfreflink;#jsf_config_file"
+            >JSF</ulink> and <ulink
+            url="&strutsreflink;#struts_config_editor"
+            >Struts</ulink> configuration files, <ulink
+            url="&strutsreflink;#GraphicalEditorForTilesFiles132"
+            >Graphical Editor for Tiles Files</ulink>, <ulink
+            url="&strutsreflink;#GraphicalEditorForStrutsValidationFiles86"
+            >Graphical Editor for Struts Validation Files</ulink>. All these editors have <link
+            linkend="OpenOnSelection4Hyperlinknavigation">
+            <property>OpenOn</property>
+        </link> and <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
+            <property>Content Assist</property>
+        </link> features, which are described in more details in this document. In addition you get to
+        know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and source
+        editing of Web pages and many <link linkend="more_editors">other editors</link> for
+        different types of files.</para>
 
     <section id="editors_features">
-       
+
         <title>Editors Features</title>
         <para>JBoss Developer Studio has powerful editor features that help you easily navigate
             within your application and make use of content and code assist no matter what project
             file (jsp, xhtml, xml, css, etc...) you are working on.</para>
 
         <section id="OpenOnSelection4Hyperlinknavigation">
-         
+
             <title>OpenOn</title>
 
-            <para><property>OpenOn</property> let&apos;s you easily navigate through your
+            <para><property>OpenOn</property> lets you easily link directly from one resource to another in your
                 project without using the Package Explorer view (project tree). With OpenOn, you can
-                simply click on a reference to another file and that file will be opened.</para>
+                simply click on a reference to another file and the file will be opened.</para>
 
             <para>OpenOn is available for the following files:</para>
             <itemizedlist>
                 <listitem>
-                    <para><link linkend="XMLFiles232">XML files</link></para>
+                    <para>
+                        <link linkend="XMLFiles232">XML files</link>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="JSPPages223">JSP/XHTML Pages</link></para>
+                    <para>
+                        <link linkend="JSPPages223">JSP/XHTML Pages</link>
+                    </para>
                 </listitem>
                 <listitem>
                     <para>Java files</para>
                 </listitem>
             </itemizedlist>
             <section id="XMLFiles232">
-              
+
                 <title>XML Files</title>
 
                 <para>Press and hold down the Ctrl key. As you move the mouse cursor over different
-                    file references in the file, they display an underline. When you have the mouse
-                    cursor over the name of the file you want to open, click and the file will open
+                    file references in the file, they display an underline. When you hover the name of the file you want to open, click and the file will open
                     in its own editor. In this example the managed bean NameBean will open.</para>
                 <figure>
                     <title>NameBean Managed Bean</title>
@@ -73,7 +88,7 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>You can also try OpenOn with defined attributes.</para>
+                <para>You can also use OpenOn with defined attributes.</para>
                 <figure>
                     <title>OpenOn With Defined Attributes</title>
                     <mediaobject>
@@ -93,7 +108,7 @@
                 </figure>
             </section>
             <section id="JSPPages223">
-                
+
                 <title>JSP Pages</title>
 
                 <para><property>OpenOn</property> is also very useful in JSP pages. It will allow
@@ -142,175 +157,186 @@
         </section>
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
-         
-                            
-                    <title>Content Assist</title>
-                    <para><property>Content assist</property> is available when working with</para>
-                    
+
+
+            <title>Content Assist</title>
+            <para><property>Content assist</property> is available when working with</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <ulink
+                            url="&seamlink;#ContentAssist"
+                            >Seam project files</ulink>
+                    </para>
+
+                </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="JSFProjectFiles3087">JSF project files</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="StrutsProjectFile46s3">Struts project files</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="JSPPages434">JSP files</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="ContentAssistForRF">RichFaces components</link>
+                    </para>
+                </listitem>
+            </itemizedlist>
+
+
+            <section id="JSFProjectFiles3087">
+
+                <title>JSF Project Files</title>
+
+                <para>When working with JSF project in JBoss Developer Studio, you can use various
+                        <property>Content Assist features</property> while developing:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Content Assist for XML, JSP and JSF configuration files</para>
+                    </listitem>
+                    <listitem>
+                        <para>Content Assist based on project data</para>
+                    </listitem>
+                    <listitem>
+                        <para>Content Assist with graphical JSF editor</para>
+                    </listitem>
+                </itemizedlist>
+                <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
+
+                    <title>Content Assist for XML, JSP and JSF configuration files</title>
+
+                    <para>At any point when working with any XML, JSP and JSF configuration files
+                        Content Assist is available to help you. Simply type <emphasis>
+                            <property>Ctrl-Space</property>
+                        </emphasis> to see what is available.</para>
+
+                    <para>Content Assist for JSF configuration file:</para>
+                    <figure>
+                        <title>Content Assist in JSF Configuration File</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_9.png"
+                                    scale="85"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>Content Assist for JSF JSP file:</para>
+                    <figure>
+                        <title>Content Assist in JSP File</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_10.png"
+                                    scale="85"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>Content Assist for other JSF XML project files (web.xml shown):</para>
+                    <figure>
+                        <title>Content Assist in web.xml File</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_11.png"
+                                    scale="85"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+                <section id="ContentAssistBasedOnProjectData86">
+
+                    <title>Content Assist Based on Project Data</title>
+
+                    <para>JBoss Developer Studio takes Content Assist to the next level. Studio will
+                        constantly scan your project and you will be able to insert code into the
+                        JSP page from your project that includes:</para>
                     <itemizedlist>
                         <listitem>
-                            <para>
-                                <ulink url="../../seam/html_single/index.html#ContentAssist">Seam project files</ulink>
-                            </para>
-                           
+                            <para>Values from Property files</para>
                         </listitem>
                         <listitem>
-                            <para><link linkend="JSFProjectFiles3087">JSF project files</link></para>
+                            <para><emphasis role="italic">
+                                    <property>&quot;Managed beans&quot;</property>
+                                </emphasis> attributes and methods</para>
                         </listitem>
                         <listitem>
-                            <para><link linkend="StrutsProjectFile46s3">Struts project files</link></para>
+                            <para>Navigation Rule Outcomes</para>
                         </listitem>
                         <listitem>
-                            <para><link linkend="JSPPages434">JSP files</link></para>
-                        </listitem>
-                        <listitem>
-                            <para><link linkend="ContentAssistForRF">RichFaces components</link></para>
+                            <para>JSF variables (context, request etc...)</para>
                         </listitem>
                     </itemizedlist>
-           
-                
-                <section id="JSFProjectFiles3087">
- 
-                    <title>JSF Project Files</title>
+                    <para>The figure below shows how to insert message from a Properties files.
+                        You simply put the cursor inside the <emphasis role="italic">
+                            <property>&quot;value&quot;</property>
+                        </emphasis> attribute and press <emphasis>
+                            <property>Ctrl-Space</property>. </emphasis> JBoss Developer Studio will
+                        scan your project and show a list of possible values to insert.</para>
+                    <figure>
+                        <title>Inserting Message</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_12.png"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>In the following screenshot we are inserting a <emphasis role="italic">
+                            <property>&quot;Managed bean&quot;</property>
+                        </emphasis> attribute value. Again, by simply clicking
+                                <emphasis><property>Ctrl-Space</property>,</emphasis> JBoss
+                        Developer Studio will show a list of all possible values that you can
+                        insert.</para>
 
-                    <para>When working with JSF project in JBoss Developer Studio, you can use
-                        various <property>Content Assist features</property> while developing:</para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>Content Assist for XML, JSP and JSF configuration files</para>
-                        </listitem>
-                        <listitem>
-                            <para>Content Assist based on project data</para>
-                        </listitem>
-                        <listitem>
-                            <para>Content Assist with graphical JSF editor</para>
-                        </listitem>
-                    </itemizedlist>
-                    <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
-                       
-                        <title>Content Assist for XML, JSP and JSF configuration files</title>
+                    <para>Once you select a Managed bean, it will show you a list of all available
+                        attributes for the selected Managed bean (userBean).</para>
+                    <figure>
+                        <title>Attributes List</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_13.png"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>Code Assist based on project data will also prompt you for navigation
+                        rules that exist in your JSF configuration file.</para>
+                    <figure>
+                        <title>Code Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_14.png"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+                <section id="ContentAssistWithinJSFGraphicalEditor44">
 
-                        <para>At any point when working with any XML, JSP and JSF configuration
-                            files Content Assist is available to help you. Simply type <emphasis>
-                                <property>Ctrl-Space</property>
-                            </emphasis> to see what is available.</para>
+                    <title>Content Assist within Tree JSF Editor</title>
 
-                        <para>Content Assist for JSF configuration file:</para>
-                        <figure>
-                            <title>Content Assist in JSF Configuration File</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_9.png" scale="85"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>Content Assist for JSF JSP file:</para>
-                        <figure>
-                            <title>Content Assist in JSP File</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_10.png" scale="85"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>Content Assist for other JSF XML project files (web.xml shown):</para>
-                        <figure>
-                            <title>Content Assist in web.xml File</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_11.png" scale="85"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
-                    <section id="ContentAssistBasedOnProjectData86">
-                   
-                        <title>Content Assist Based on Project Data</title>
+                    <para>JBoss Developer Studio also provides Content Assist when working within
+                        the Tree JSF configuration editor. Just click <emphasis>
+                            <property>Ctrl-Space</property>. </emphasis></para>
+                    <figure>
+                        <title>Content Assist in Tree JSF Configuration Editor</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_15.png"
+                                    scale="85"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
 
-                        <para>JBoss Developer Studio takes Content Assist to the next level. Studio
-                            will constantly scan your project and you will be able to insert code
-                            into the JSP page from your project that includes:</para>
-                        <itemizedlist>
-                            <listitem>
-                                <para>Values from Property files</para>
-                            </listitem>
-                            <listitem>
-                                <para><emphasis role="italic">
-                                        <property>&quot;Managed beans&quot;</property>
-                                    </emphasis> attributes and methods</para>
-                            </listitem>
-                            <listitem>
-                                <para>Navigation Rule Outcomes</para>
-                            </listitem>
-                            <listitem>
-                                <para>JSF variables (context, request etc...)</para>
-                            </listitem>
-                        </itemizedlist>
-                        <para>The first screenshot shows how to insert message from a Properties
-                            files. You simply put the cursor inside the <emphasis role="italic">
-                                <property>&quot;value&quot;</property>
-                            </emphasis> attribute and press <emphasis>
-                                <property>Ctrl-Space</property>.
-                            </emphasis> JBoss Developer Studio will scan your project and show a
-                            list of possible values to insert.</para>
-                        <figure>
-                            <title>Inserting Message</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_12.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>In the following screenshot we are inserting a <emphasis role="italic"><property>&quot;Managed bean&quot;</property></emphasis>
-                            attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property>,</emphasis> 
-                            JBoss Developer Studio will show a list of all possible values that you can insert.</para>
-
-                        <para>Once you select a Managed bean, it will show you a list of all
-                            available attributes for the selected Managed bean (userBean).</para>
-                        <figure>
-                            <title>Attributes List</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_13.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>Code Assist based on project data will also prompt you for navigation
-                            rules that exist in your JSF configuration file.</para>
-                        <figure>
-                            <title>Code Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_14.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
-                    <section id="ContentAssistWithinJSFGraphicalEditor44">
-                  
-                        <title>Content Assist within Tree JSF Editor</title>
-
-                        <para>JBoss Developer Studio also provides Content Assist when working
-                            within the Tree JSF configuration editor. Just click <emphasis>
-                                <property>Ctrl-Space</property>.
-                            </emphasis></para>
-                        <figure>
-                            <title>Content Assist in Tree JSF Configuration Editor</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_15.png" scale="85"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        
-                        <!--
+                    <!--
                         
                         <para>If a field contains right class name and you click a link near the
                             field you will come to the file with this class otherwise a new Java
@@ -393,208 +419,209 @@
                         </figure>
                                            
                         -->
-                    </section>
                 </section>
+            </section>
 
-                <section id="StrutsProjectFile46s3">
-                    
-                    <para>Content Assist features are available when you work with Struts projects.</para>
-                    
-                    <title>Struts Project Files</title>
-                    <section id="ContentAssistForStrutsConfigurationFile75">
-                      
-                                           
-                        <title>Content Assist for Struts Configuration File</title>
-                        
-                        <para>Content Assist helps you in Struts Configuration file.</para>
-                        
-                        <figure>
-                            <title>Struts Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_20.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
-                    <section id="ContentAssistForStrutsJSPFile07">
-                    
-                        <title>Content Assist for Struts JSP File</title>
-                        
-                        <para>Using Code Assist in Struts JSP file is shown below.</para>
-                        
-                        <figure>
-                            <title>Struts JSP Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_21.png" scale="75"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
-                </section>
-                <section id="JSPPages434">
-         
-                    <title>JSP Pages</title>
-                    
-                    
-                    <section id="ContentAssistForJSFTags96">
-                    
-                        <title>Content Assist for JSF Tags</title>
-                        <para>JBDS provides full code completion for JSF tags:</para>
+            <section id="StrutsProjectFile46s3">
 
-                        <figure>
-                            <title>JSF Tags Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_22.png" scale="85"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>When the tag is selected the required attributes, if there any, are
-                            already inserted and the cursor is located to the first attribute. As
-                            this point you can ask for attribute proposals.</para>
-                        <figure>
-                            <title>Attributes Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_23.png" scale="75"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
+                <para>Content Assist features are available when you work with Struts projects.</para>
 
-                    </section>
-                    <section id="ContentAssistForJSTLTags6332">
-                  
-                        <title>Content Assist for JSTL Tags</title>
-                        <figure>
-                            <title>JSTL Tags Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_24.png" scale="75"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
-                    <section id="ContentAssistForHTMLTags7454">
-            
-                        <title>Content Assist for HTML Tags</title>
-                        <para>Content assist for HTML tags has the same mechanism as for JSF tags:</para>
-                        <figure>
-                            <title>HTML Tags Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_25.png" scale="60"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>You can use as well attributes proposals for HTML tags:</para>
-                        <figure>
-                            <title>HTML Tags Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_26.png" scale="60"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
-                    <section id="ContentAssistForJavaScriptTags67433">
-                  
-                        <title>Content Assist for JavaScript Tags</title>
-                        <figure>
-                            <title>JavaScript Tags Content Assist</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/editors_features_27.png" scale="75"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                    </section>
+                <title>Struts Project Files</title>
+                <section id="ContentAssistForStrutsConfigurationFile75">
 
-                 
-                </section>
-                <section id="ContentAssistForRF">
-       
-                    <title>Rich Faces components</title>
-                    <para>JBDS indeed provides code completion for Rich Faces framework components.
-                        All you have to do is to install Rich Faces libraries into your project. See
-                            <ulink
-                            url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
-                            >here</ulink> how to install.</para>
+
+                    <title>Content Assist for Struts Configuration File</title>
+
+                    <para>Content Assist helps you in Struts Configuration file.</para>
+
                     <figure>
-                        <title>Content Assist for Rich Faces Components</title>
+                        <title>Struts Content Assist</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_29.png" scale="65"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                    <itemizedlist>
-                        <listitem>
-                            <para>To insert a Rich Faces component on a page expand <emphasis>
-                                    <property>JBoss Rich Faces</property>
-                                </emphasis> group on the palette</para>
-                        </listitem>
-                        <listitem>
-                            <para>Click on some component</para>
-                        </listitem>
-                        <listitem>
-                            <para>Put the needed attributes in the <emphasis>
-                                    <property>Insert Tag</property>
-                                </emphasis> dialog and click <emphasis>
-                                    <property>Finish</property>
-                                </emphasis> button <figure>
-                                    <title>Insert Tag</title>
-                                    <mediaobject>
-                                        <imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/editors_features_30.png" scale="75"
-                                            />
-                                        </imageobject>
-                                    </mediaobject>
-                                </figure>
-                            </para>
-                        </listitem>
-                    </itemizedlist>
-                    <para>The Rich Faces tag will be inserted on your page displayed in source and
-                        visual modes: </para>
-                    <figure>
-                        <title>Rich Faces Component</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_31.png" scale="75"
+                                <imagedata fileref="images/editors_features/editors_features_20.png"
                                 />
                             </imageobject>
                         </mediaobject>
                     </figure>
                 </section>
-           
+                <section id="ContentAssistForStrutsJSPFile07">
+
+                    <title>Content Assist for Struts JSP File</title>
+
+                    <para>Using Code Assist in Struts JSP file is shown below.</para>
+
+                    <figure>
+                        <title>Struts JSP Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_21.png"
+                                    scale="75"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+            </section>
+            <section id="JSPPages434">
+
+                <title>JSP Pages</title>
+
+
+                <section id="ContentAssistForJSFTags96">
+
+                    <title>Content Assist for JSF Tags</title>
+                    <para>JBDS provides full code completion for JSF tags:</para>
+
+                    <figure>
+                        <title>JSF Tags Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_22.png"
+                                    scale="85"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>When the tag is selected the required attributes, if there any, are
+                        already inserted and the cursor is located to the first attribute. At this
+                        point you can ask for attribute proposals.</para>
+                    <figure>
+                        <title>Attributes Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_23.png"
+                                    scale="75"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+
+                </section>
+                <section id="ContentAssistForJSTLTags6332">
+
+                    <title>Content Assist for JSTL Tags</title>
+                    <figure>
+                        <title>JSTL Tags Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_24.png"
+                                    scale="75"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+                <section id="ContentAssistForHTMLTags7454">
+
+                    <title>Content Assist for HTML Tags</title>
+                    <para>Content assist for HTML tags has the same mechanism as for JSF tags:</para>
+                    <figure>
+                        <title>HTML Tags Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_25.png"
+                                    scale="60"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>You can use as well attributes proposals for HTML tags:</para>
+                    <figure>
+                        <title>HTML Tags Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_26.png"
+                                    scale="60"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+                <section id="ContentAssistForJavaScriptTags67433">
+
+                    <title>Content Assist for JavaScript Tags</title>
+                    <figure>
+                        <title>JavaScript Tags Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_27.png"
+                                    scale="75"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+
+
+            </section>
+            <section id="ContentAssistForRF">
+
+                <title>Rich Faces components</title>
+                <para>JBDS indeed provides code completion for Rich Faces framework components. All
+                    you have to do is to install Rich Faces libraries into your project. See <ulink
+                        url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
+                        >here</ulink> how to install it.</para>
+                <figure>
+                    <title>Content Assist for Rich Faces Components</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_29.png"
+                                scale="65"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <itemizedlist>
+                    <listitem>
+                        <para>To insert a Rich Faces component on a page expand <emphasis>
+                                <property>JBoss Rich Faces</property>
+                            </emphasis> group on the palette</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on some component</para>
+                    </listitem>
+                    <listitem>
+                        <para>Put the needed attributes in the <emphasis>
+                                <property>Insert Tag</property>
+                            </emphasis> dialog and click <emphasis>
+                                <property>Finish</property>
+                            </emphasis> button <figure>
+                                <title>Insert Tag</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="images/editors_features/editors_features_30.png"
+                                            scale="75"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>The Rich Faces tag will be inserted on your page displayed in source and
+                    visual modes: </para>
+                <figure>
+                    <title>Rich Faces Component</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_31.png"
+                                scale="75"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+
 
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
-          
+
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
-                    component added in JBoss Developer Studio:</para>
+                    component added in <property>JBoss Developer Studio</property>:</para>
                 <orderedlist>
                     <listitem>
                         <para>Create a new xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property>.
-                            </emphasis>For example call it JeniaFaces.xml. The file should be
+                        </emphasis>For example call it <emphasis>
+                            <property> JeniaFaces.xml</property></emphasis>. The file should be
                             written according to <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property>
                             </emphasis></para>
                     </listitem>
                 </orderedlist>
-                <para>Here is how you set what is available for code assist:</para>
+                <para>Follow these steps to set what is available for code assist:</para>
                 <itemizedlist>
                     <listitem>
                         <para>Adds code assist for JSF pre-defined objects, such as value=<emphasis
@@ -609,7 +636,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds bundle resource (property file) <property>code
+                        <para>Add bundle resource (property file) <property>code
                         assist</property>:</para>
                     </listitem>
                 </itemizedlist>
@@ -619,7 +646,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds managed bean property <property>code assist</property>:</para>
+                        <para>Add managed bean property <property>code assist</property>:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -628,7 +655,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds managed bean property but with a specified type:</para>
+                        <para>Add managed bean property but of a specified type:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -639,7 +666,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds managed bean method with a signature:</para>
+                        <para>Add managed bean method with a signature:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -655,48 +682,50 @@
                     <listitem>
                         <para>Add information on your xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property>
-                            </emphasis></para>
-                    </listitem>
-                </orderedlist>
-                <programlisting role="XML"><![CDATA[
+                        </emphasis></para>
+                        <programlisting role="XML"><![CDATA[
          <tld
             jsf="true"
             name="Jenia Faces"
             schema-location="schemas/tld/myJSF.xml"
             uri="http://www.jenia.org/jsf/dataTools"/>]]>
-    </programlisting>
-                <orderedlist continuation="continues">
+                        </programlisting>
+                    </listitem>
+                        
                     <listitem>
                         <para>Restart Eclipse. You should now have code assist for the
                         component.</para>
                     </listitem>
                 </orderedlist>
+                
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
-            
+
             <title>Synchronized Source and Visual Editing</title>
 
-            <para>JBoss Developer Studio offers the flexibility to edit any files in either source
+            <para><property>JBoss Developer Studio</property> offers the flexibility to edit any files in either source
                 or extra visual modes at the same time.</para>
 
-            <para>The project is yours and so is the source. JBoss Developer Studio provides you
+            <para>The project is yours and so is the source. <property>JBoss Developer Studio</property> provides you
                 many different graphical editors to speed your application development. At the same
-                time, you always have full control over all project source files. Any changes you
-                make in the source view, will immediately appear in the graphical view.</para>
+                time, you always have a full control over all project source files. Any changes you
+                make in the source view immediately appear in the graphical view.</para>
 
-            <para>The JSF configuration file editor has three views: <property>Diagram</property>, <property>Tree</property> and <property>Source</property>. All
-                views are synchronized, you can edit the file in any view.</para>
+            <para>The JSF configuration file editor has three views: <property>Diagram</property>,
+                    <property>Tree</property> and <property>Source</property>. All views are
+                synchronized, you can edit the file in any view.</para>
             <figure>
                 <title>Three Views are Synchronized</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_32.png" scale="75"/>
+                        <imagedata fileref="images/editors_features/editors_features_32.png"
+                            scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-          
-            <para>The same applies to all other JBoss Developer Studio editors.</para>
+
+            <para>The same is relevant to all other <property>JBoss Developer Studio</property> editors.</para>
 
             <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source
                 (Source).</para>
@@ -705,225 +734,227 @@
                 <title>Two Views are Synchronized</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_35.png" scale="75"/>
+                        <imagedata fileref="images/editors_features/editors_features_35.png"
+                            scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-           
-            <para>JBoss Developer Studio TLD file editor shown in Tree view. At any point you can
-                edit the source by going switching to Source view.</para>
+
+            <para><property>JBoss Developer Studio</property> TLD file editor is shown in Tree view. At any point you can
+                edit the source by switching to Source view.</para>
             <figure>
                 <title>Two Views are Synchronized</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_37.png" scale="75"/>
+                        <imagedata fileref="images/editors_features/editors_features_37.png"
+                            scale="75"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-          
+
         </section>
-        </section>
-   <section id="visual_page">
+    </section>
+    <section id="visual_page">
 
         <title>Visual Page Editor</title>
-        <para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page
+        <para><property>JBoss Developer Studio</property> comes with a powerful and customizable <property>Visual Page
                 Editor</property> (VPE). You can use the Visual Page Editor to develop an
             application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
-           <para>Current VPE version has four tabs: Visual/Source, Visual, Source and Preview.</para>
-            <para>Split screen design with instant synchronization between source and visual views:</para>
+        <para>Current VPE version has four tabs: Visual/Source, Visual, Source and Preview.</para>
+        <para>Here is shown a split screen design with instant synchronization between Source and Visual views:</para>
+        <figure>
+            <title>Visual/Source View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>You can also switch to pure Visual design:</para>
+        <figure>
+            <title>Visual View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>Or work just in Source view.</para>
+        
+        <note><para>Selection bar is now available not only in
+        Visual mode but also in Source one.</para></note>
+        
+        <figure>
+            <title>Source View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_3.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>No matter what view you select, you get a full integration with Properties and Outline
+            views:</para>
+        <figure>
+            <title>Properties And Outline Views</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_4.png" scale="65"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>Preview mode is read-only, it shows how the page will look like in a browser.</para>
+        <figure>
+            <title>Preview Mode</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_5.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>Use the graphical toolbar to add inline styling to any tag.</para>
+        <figure>
+            <title>Graphical Toolbar</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_6.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>With just a click or drag-and-drop insert any tags from the palette on to the page you
+            are editing.</para>
+        <figure>
+            <title>Inserting Tags From Palette</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_7.png" scale="80"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <section id="AdvancedSettings954">
+
+            <title>Advanced Settings</title>
+
+            <para>There are three buttons on the <property>Visual Page Editor</property> left side:</para>
+
             <figure>
-                <title>Visual/Source View</title>
+                <title>Visual Page Editor Buttons</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_1.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_8.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
 
-            <para>You can also switch to pure Visual design:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Preferences</para>
+                </listitem>
+            </itemizedlist>
+            <para>Provides quick access to Visual Page Editor preferences.</para>
             <figure>
-                <title>Visual View</title>
+                <title>Visual Page Editor Preferences Window</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_2.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_9.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
+            <itemizedlist>
+                <listitem>
+                    <para>Refresh</para>
+                </listitem>
+            </itemizedlist>
+            <para>Refresh displaying information with this button.</para>
 
-            <para>Or work just in Source view. Note that selection bar is now available not only in
-                Visual mode but also in Source one:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Page Design Options</para>
+                </listitem>
+            </itemizedlist>
+            <para>This button leads to page design options.</para>
             <figure>
-                <title>Source View</title>
+                <title>Page Design Options</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_3.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_10.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>No matter what view you select, you get full integration with Properties and
-                Outline views:</para>
-            <figure>
-                <title>Properties And Outline Views</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4.png" scale="65"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Preview mode is read-only, it only shows how the page will look like in a browser.</para>
-            <figure>
-                <title>Preview Mode</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_5.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Use the graphical toolbar to add inline styling to any tag.</para>
-            <figure>
-                <title>Graphical Toolbar</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_6.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>With just a click or drag-and-drop insert any tags from the palette on to the page
-                you are editing.</para>
-            <figure>
-                <title>Inserting Tags From Palette</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_7.png" scale="80"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+            <para>This dialog let&apos;s you set resources which are usually only resolved in
+                runtime. To set a stylesheet, click <emphasis>
+                    <property>Add</property>
+                </emphasis> (for CSS File Path section) and add your stylesheet. It works when CSS
+                is defined on your page in the following way:</para>
 
-            <section id="AdvancedSettings954">
-              
-                <title>Advanced Settings</title>
-
-                <para>There are three buttons on the <property>Visual Page Editor</property> left
-                    side:</para>
-
-                <figure>
-                    <title>Visual Page Editor Buttons</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_8.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>Preferences</para>
-                    </listitem>
-                </itemizedlist>
-                <para>Provides quick access to Visual Page Editor preferences.</para>
-                <figure>
-                    <title>Visual Page Editor Preferences Window</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_9.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <itemizedlist>
-                    <listitem>
-                        <para>Refresh</para>
-                    </listitem>
-                </itemizedlist>
-                <para>Refresh displaying information with this button.</para>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>Page Design Options</para>
-                    </listitem>
-                </itemizedlist>
-                <para>This button leads to page design options.</para>
-                <figure>
-                    <title>Page Design Options</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_10.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>This dialog let&apos;s you set resources which are usually only resolved
-                    in runtime. To set a stylesheet, click <emphasis>
-                        <property>Add</property>
-                    </emphasis> (for CSS File Path section) and add your stylesheet. It works when
-                    CSS is defined on your page in the following way:</para>
-
-                <para>Code:</para>
-                <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
+            <para>Code:</para>
+            <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
     href="#{facesContext.externalContext.requestContextPath}/style.css"/>
 ]]></programlisting>
 
-                <para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t
-                    know what requestContextPath in design time is.</para>
+            <para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t know
+                what requestContextPath in design time is.</para>
 
-                <para>The next section (URI), let&apos;s you add URI taglibs if you are using
-                    includes so that the editor knows where to find the tag libraries.</para>
+            <para>The next section (URI), let&apos;s you add URI taglibs if you are using
+                includes so that the editor knows where to find the tag libraries.</para>
 
-                <para>The first two sections let you define actual runtime folders. Here is an
-                    example.</para>
+            <para>The first two sections let you define actual runtime folders. Here is an example.</para>
 
-                <para>Let&apos;s say you have the following project structure:</para>
+            <para>Let&apos;s say you have the following project structure:</para>
 
-                <programlisting role="XML"><![CDATA[WebContent/
+            <programlisting role="XML"><![CDATA[WebContent/
   pages/
     img/
        a.gif
     header.jsp
   main.jsp
 ]]></programlisting>
-                <para>header.jsp content:</para>
-                <programlisting role="XML"><![CDATA[My Header
+            <para>header.jsp content:</para>
+            <programlisting role="XML"><![CDATA[My Header
 <img src="img/a.gif"/>
 ]]></programlisting>
-                <para>main.jsp:</para>
-                <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
+            <para>main.jsp:</para>
+            <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
 ]]></programlisting>
-                <para> When you open <emphasis>
-                        <property>main.jsp</property>
-                    </emphasis> in Visual Page Editor, it will not be able to resolve the image from
-                    the header, however, it will work fine in runtime. To fix this in design time,
-                    click the <emphasis>
-                        <property>Page Design Options</property>
-                    </emphasis> button and set <emphasis>
-                        <property>Actual Run-Time Relative</property>
-                    </emphasis> Folder to <emphasis>
-                        <property>&lt;project&gt;WebContent > pages</property>
-                    </emphasis> and you will see the image appear.</para>
-                <para/>
-                <itemizedlist>
-                    <listitem>
-                        <para>Hide Selection bar</para>
-                    </listitem>
-                </itemizedlist>
-                <para> By clicking on the component in Visual view or selecting a code snippet in
-                    Source mode you can see the tags tree. If you want to hide the selection bar,
-                    use the &quot;Hide Selection Bar&quot; button on the lower right side.</para>
+            <para> When you open <emphasis>
+                    <property>main.jsp</property>
+                </emphasis> in Visual Page Editor, it will not be able to resolve the image from the
+                header, however, it will work fine in runtime. To fix this in design time, click the <emphasis>
+                    <property>Page Design Options</property>
+                </emphasis> button and set <emphasis>
+                    <property>Actual Run-Time Relative</property>
+                </emphasis> Folder to <emphasis>
+                    <property>&lt;project&gt;WebContent > pages</property>
+                </emphasis> and you will see the image appear.</para>
+            <para/>
+            <itemizedlist>
+                <listitem>
+                    <para>Hide Selection bar</para>
+                </listitem>
+            </itemizedlist>
+            <para> By clicking on the component in Visual view or selecting a code snippet in Source
+                mode you can see the tags tree. If you want to hide the selection bar, use the
+                &quot;Hide Selection Bar&quot; button on the lower right side.</para>
 
-                <figure>
-                    <title>Selection Bar</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_11.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
-        
+            <figure>
+                <title>Selection Bar</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_11.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+
 
         <section id="SetupnotesforLinu895x">
-   
+
             <title>Setup notes for Linux</title>
             <section id="HowToStartTheVisualPageEditorUnderLinux85">
-              
+
                 <title>How to Start the Visual Page Editor under Linux</title>
 
                 <para>Linux users may need to do the following to get the Visual Editor to work
@@ -984,7 +1015,7 @@
         </section>
 
         <section id="JSPsyntaxvalidation84">
-    
+
             <title>JSP syntax validation</title>
             <para>When working in JBoss Tools JSP editor you are constantly provided with feedback
                 and contextual error checking as you type.</para>
@@ -1031,7 +1062,7 @@
 -->
 
         <section id="PageEditorWithPreview53">
-         
+
             <title>JSP Page Preview</title>
 
             <para>JBoss Developer Studio comes with JSP design-time preview features. When designing
@@ -1049,19 +1080,19 @@
                 </listitem>
             </itemizedlist>
 
-            <para>The preview features are available with Visual
-                    Page Editor.</para>
+            <para>The preview features are available with Visual Page Editor.</para>
         </section>
-        
+
     </section>
 
     <section id="more_editors">
 
         <title>More Editors</title>
-        
-        <para>Besides Visual Page Editor JBDS is supplied with a huge range of various editors for different file types: properties, TLD, web.xml, tiles, and so on.</para>
+
+        <para>Besides Visual Page Editor JBDS is supplied with a huge range of various editors for
+            different file types: properties, TLD, web.xml, tiles, and so on.</para>
         <section id="GraphicalPropertiesEditor">
-           
+
             <title>Graphical Properties Editor</title>
 
             <para><property>The Properties editor</property> allows you to work in two different
@@ -1104,7 +1135,7 @@
         </section>
 
         <section id="GraphicalTLDEditor">
-     
+
             <title>Graphical TLD Editor</title>
 
             <para><property>The TLD editor</property> comes with same features you will find in all
@@ -1119,7 +1150,7 @@
                 </listitem>
             </itemizedlist>
             <section id="TreeView2">
-        
+
                 <title>Tree view</title>
 
                 <figure>
@@ -1132,7 +1163,7 @@
                 </figure>
             </section>
             <section id="SourceView1">
-               
+
                 <title>Source view</title>
 
                 <para>You can easily switch from Tree to Source by selecting the Source tab at the
@@ -1195,7 +1226,7 @@
 
 
         <section id="GraphicalWebApplicationFileEditor">
-          
+
             <title>Graphical Web Application File (web.xml) Editor</title>
 
             <para>The Web Application File editor comes with the same features you will find in all
@@ -1233,7 +1264,7 @@
                 </figure>
             </section>
             <section id="SourceView2">
-              
+
                 <title>Source View</title>
 
                 <para>Switch to the <property>Source viewer </property>to edit the web.xml file by
@@ -1249,7 +1280,7 @@
                 </figure>
             </section>
             <section id="ContentAssist">
-               
+
                 <title>Content Assist</title>
 
                 <para>Content assist is available in the Source viewer. Simply click <emphasis>
@@ -1260,13 +1291,14 @@
                     <title>Content Assist</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_13.png" scale="85"/>
+                            <imagedata fileref="images/more_editors/more_editors_13.png" scale="85"
+                            />
                         </imageobject>
                     </mediaobject>
                 </figure>
             </section>
             <section id="ErrorCheckingAndValidation">
-               
+
                 <title>Errors Checking and Validation</title>
 
                 <para>If errors occur anywhere in the file, small red dots will appear next to the
@@ -1283,9 +1315,9 @@
                 </figure>
             </section>
         </section>
-         
+
         <section id="CSSEditor">
-         
+
             <title>CSS Editor</title>
 
             <para>The <property>CSS editor</property> comes with the same features you will find in
@@ -1312,7 +1344,7 @@
                 </mediaobject>
             </figure>
 
-      <!--    <para>You can also use the Outline view next to the editor to navigate through the CSS
+            <!--    <para>You can also use the Outline view next to the editor to navigate through the CSS
                 file:</para>
 
             <figure>
@@ -1339,7 +1371,7 @@
 
         </section>
         <section id="JavaScriptEditor">
-           
+
             <title>JavaScript Editor</title>
 
             <para>The <property>JavaScript editor</property> includes a Preview viewer and a Source
@@ -1367,7 +1399,7 @@
             </figure>
 
         </section>
-       <!-- <section id="ImageViewer">
+        <!-- <section id="ImageViewer">
           
             <title>Image Viewer</title>
             <para>This simple image viewer allows you to view GIF and JPEG files individually in a
@@ -1384,7 +1416,7 @@
 
         </section> -->
         <section id="XSDEditor">
-        
+
             <title>XSD Editor</title>
 
             <para>JBoss Developer Studio comes with an <property>XSD Editor</property> for XML
@@ -1468,7 +1500,7 @@
 
         </section>
         <section id="SupportforXMLSchema">
-       
+
             <title>Support for XML Schema</title>
 
             <para>JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:</para>

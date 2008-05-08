@@ -252,8 +252,7 @@
                                 <title>Importing Existing JSF Projects with Any Structure</title>
 
                                 <para>For detailed information on migration projects see <ulink
-                                                url="../../Exadel-migration/html_single/index.html"
-                                                >Migration Guide</ulink>. </para>
+                                        url="&migrationlink;">Migration Guide</ulink>. </para>
 
                         </section>
                         <section id="add_jsf_capability">

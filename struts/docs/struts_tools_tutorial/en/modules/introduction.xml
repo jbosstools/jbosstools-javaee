@@ -11,7 +11,7 @@
   </chapterinfo>
   <title>Introduction</title>
   <para>The following chapters describe how to deal with classic/old style of Struts development. We
-    recommend users to use <ulink url="../../seam/html_single/index.html">JBoss Seam</ulink> to
+    recommend users to use <ulink url="&seamlink;">JBoss Seam</ulink> to
     simplify development, but until then you can read about classical Struts usage here.</para>
 
   <para>We are going to show you how to create a simple <emphasis>
@@ -23,4 +23,13 @@
     way demonstrating some of the powerful features of JBoss Tools. With the help of our tutorial you will design the
     application, generate stub code for the application, fill in the stub coding, compile the
     application, and finally run it all from inside the Eclipse.</para>
+  
+  <section>
+    <title>Other relevant resources on the topic</title>
+    
+    <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
+    <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+    
+  </section>
+  
 </chapter>

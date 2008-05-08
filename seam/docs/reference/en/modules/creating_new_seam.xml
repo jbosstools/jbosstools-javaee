@@ -156,7 +156,7 @@
                 <property>Default Configuration for jBoss 4.2 Runtime</property>
             </emphasis> allows you later to specify your own set of facets for adding extra
             functionality to your project. For more details about facets, see next section. Besides,
-            we suggest that you look through our <ulink url="../../as/html_single/index.html">AS manager guide</ulink> to find out more about runtimes
+            we suggest that you look through our <ulink url="&aslink;">AS manager guide</ulink> to find out more about runtimes
             and servers.</para>
 
         <para>Having all necessary options arranged, click on <emphasis>

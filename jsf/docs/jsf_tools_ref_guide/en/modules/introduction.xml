@@ -14,12 +14,99 @@
 
     <title>Introduction</title>
 
-    <para>JSF Tools are especially designed for supporting JSF and JSF-related
-        technologies. JSF Tools provide extensible and exemplary tools for building JSF-based
-        applications as well as adding JSF capabilities to existing web projects, importing
-        JSF projects and choosing any JSF implementation while
-        developing JSF application.</para>
-    
-    <para>In this guide we provide you with the information on JSF tooling which allows you to develop JSF applications much faster and with far fewer
-        errors so sparing your time.</para>
+    <para>JSF Tools are especially designed for supporting JSF and JSF-related technologies. JSF
+        Tools provide extensible and exemplary tools for building JSF-based applications as well as
+        adding JSF capabilities to existing web projects, importing JSF projects and choosing any
+        JSF implementation while developing JSF application.</para>
+
+    <para>In this guide we provide you with the information on JSF tooling which allows you to
+        develop JSF applications much faster and with far fewer errors so sparing your time.</para>
+
+    <section id="jsf_key_features">
+        <title>Key Features of JSF Tools</title>
+
+        <para>Here, we provide you with a key functionality which is integrated in JSF tooling.</para>
+
+        <table>
+            <title>Key Functionality for JSF Tools</title>
+            <tgroup cols="3">
+
+                <colspec colnum="1" colwidth="2*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                <colspec colnum="3" colwidth="2*"/>
+
+                <thead>
+                    <row>
+                        <entry>Feature</entry>
+                        <entry>Benefit</entry>
+                        <entry>Chapter</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    
+                    <row>
+                        <entry>JSF and Facelets support</entry>
+                        <entry>Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</entry>
+                        <entry><link linkend="jsf_support">jsf support</link></entry>
+                    </row>
+
+                    <row>
+                        <entry>Flexible and customizable project template management</entry>
+                        <entry>Jump-start development with out-of-the-box templates or easily
+                            customized templates for re-use.</entry>
+                        <entry>
+                            <link linkend="projects">projects</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry>Support for JSF Configuration File</entry>
+                        <entry>Working on file using three modes: diagram, tree and source.
+                            Synchronization between the modes and full control over the code. Easy
+                            moving around the diagram using the Diagram Navigator.</entry>
+                        <entry>
+                            <link linkend="jsf_config_file"
+                                >graphical editor for jsf</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry>Support for Managed Beans</entry>
+                        <entry>Adding new managed beans, generating code for attributes, properties
+                            and getter/setter methods.</entry>
+                        <entry>
+                            <link linkend="managed_beans">managed beans</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry>Support for Custom Converters and Validators</entry>
+                        <entry>Fast creating of custom converters and validators with tree view of
+                            faces-config.xml file.</entry>
+                        <entry>
+                            <link linkend="creation_and_registration">converters and validators</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry>Verification and Validation</entry>
+                        <entry>All occuring errors will be immediately reported by verification
+                            feature, no matter in what view you are working. Constant validation and
+                            errors checking allows to catch many of the errors during development
+                            process that significantly reduces development time.</entry>
+                        <entry>
+                            <link linkend="jsf_project_verification">verification and
+                            validation</link>
+                        </entry>
+
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </section>
+    <section>
+        <title>Other relevant resources on the topic</title>
+        <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
+        <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+    </section>
 </chapter>

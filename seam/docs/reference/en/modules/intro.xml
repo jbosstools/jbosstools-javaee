@@ -38,8 +38,9 @@
     <section>
         <title>Other relevant resources on the topic</title>
 
-        <para>On JBoss you can find a set of benefits and other extra information on <ulink
-                url="http://www.jboss.com/products/seam">Seam Framework</ulink>.</para>
+        <para>The <ulink url="http://seamframework.org/">Seam Framework</ulink> - Next generation enterprise Java development.</para>
+        <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
+        <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
 
     </section>
 </chapter>
