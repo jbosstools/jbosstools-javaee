@@ -10,11 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.views.actions;
 
+import org.eclipse.jdt.ui.actions.JdtActionConstants;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionContext;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.navigator.CommonActionProvider;
 import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.jboss.tools.seam.core.IOpenableElement;
@@ -57,6 +60,7 @@ public class SeamActionProvider extends CommonActionProvider {
 			if(element instanceof IOpenableElement) {
 				SeamOpenAction action = new SeamOpenAction((IOpenableElement)element);
 				actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, action);
+				actionBars.setGlobalActionHandler(JdtActionConstants.OPEN, action);
 			}
 
 		}
