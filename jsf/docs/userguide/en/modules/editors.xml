@@ -757,11 +757,11 @@
     <section id="visual_page">
 
         <title>Visual Page Editor</title>
-        <para><property>JBoss Developer Studio</property> comes with a powerful and customizable <property>Visual Page
+        <para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page
                 Editor</property> (VPE). You can use the Visual Page Editor to develop an
             application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
-        <para>Current VPE version has four tabs: Visual/Source, Visual, Source and Preview.</para>
+        <para>Current VPE version has two tabs: <property>Visual/Source</property> and <property>Preview</property>.</para>
         <para>Here is shown a split screen design with instant synchronization between Source and Visual views:</para>
         <figure>
             <title>Visual/Source View</title>
@@ -772,9 +772,9 @@
             </mediaobject>
         </figure>
 
-        <para>You can also switch to pure Visual design:</para>
+        <para>Preview view is read-only, it shows how the page will look like in a browser.</para>
         <figure>
-            <title>Visual View</title>
+            <title>Preview View</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/visual_page/visual_page_2.png"/>
@@ -782,54 +782,41 @@
             </mediaobject>
         </figure>
 
-        <para>Or work just in Source view.</para>
-        
-        <note><para>Selection bar is now available not only in
-        Visual mode but also in Source one.</para></note>
-        
+        <para>The Visual Page Editor has a split pane with toggle buttons for quickly moving between source, visual or source/visual modes instead of multiple tabs.</para>
+        <para>You can use Shift + F6 and Alt + Shift + F6 as shortcuts to toggle between the various states of the split pane.</para>
+            
+            <tip>
+                <title>Tip:</title>
+                <para>When editing large documents hiding the visual part will speed up the editing.</para>
+            </tip>
+
         <figure>
-            <title>Source View</title>
+            <title>Split Pane in VPE</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/visual_page/visual_page_3.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
+
         <para>No matter what view you select, you get a full integration with Properties and Outline
             views:</para>
         <figure>
-            <title>Properties And Outline Views</title>
+            <title>Integration with Properties and Outline Views</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_4.png" scale="65"/>
+                    <imagedata fileref="images/visual_page/visual_page_4.png" scale="75"/>
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>Preview mode is read-only, it shows how the page will look like in a browser.</para>
-        <figure>
-            <title>Preview Mode</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_5.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>Use the graphical toolbar to add inline styling to any tag.</para>
-        <figure>
-            <title>Graphical Toolbar</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_6.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>With just a click or drag-and-drop insert any tags from the palette on to the page you
-            are editing.</para>
+        
+        <para>The VPE allows you to insert any tags from the palette to the page you
+            are editing with just a click or drag-and-drop.</para>
         <figure>
             <title>Inserting Tags From Palette</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_7.png" scale="80"/>
+                    <imagedata fileref="images/visual_page/visual_page_5.png" scale="80"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -837,45 +824,44 @@
         <section id="AdvancedSettings954">
 
             <title>Advanced Settings</title>
-
-            <para>There are three buttons on the <property>Visual Page Editor</property> left side:</para>
+            
+            <para>In the visual part of VPE there is a graphical toolbar, use it to add inline styling to any tag. The toolbar can be hidden by clicking on 
+            arrow sign in the upper left corner.</para>
+            
+            <figure>
+                <title>Text Formatting</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_6.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+           
+            <para>In the left vertical pane there are three buttons: Preferences, Refresh, Page Design Options.</para>
 
             <figure>
                 <title>Visual Page Editor Buttons</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_8.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_7.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
 
-            <itemizedlist>
-                <listitem>
-                    <para>Preferences</para>
-                </listitem>
-            </itemizedlist>
-            <para>Provides quick access to Visual Page Editor preferences.</para>
-            <figure>
+            <para><property>Preferences</property> button provides a quick access to Visual Page Editor preferences.</para>
+          
+              <figure>
                 <title>Visual Page Editor Preferences Window</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/visual_page_9.png"/>
                     </imageobject>
                 </mediaobject>
-            </figure>
-            <itemizedlist>
-                <listitem>
-                    <para>Refresh</para>
-                </listitem>
-            </itemizedlist>
-            <para>Refresh displaying information with this button.</para>
+              </figure>
+     
+            <para>Clicking on <property>Refresh</property> button you refresh the displaying information.</para>
 
-            <itemizedlist>
-                <listitem>
-                    <para>Page Design Options</para>
-                </listitem>
-            </itemizedlist>
-            <para>This button leads to page design options.</para>
+            <para><property>Page Design Options</property> button leads to page design options.</para>
             <figure>
                 <title>Page Design Options</title>
                 <mediaobject>
@@ -930,13 +916,11 @@
                     <property>&lt;project&gt;WebContent > pages</property>
                 </emphasis> and you will see the image appear.</para>
             <para/>
-            <itemizedlist>
-                <listitem>
-                    <para>Hide Selection bar</para>
-                </listitem>
-            </itemizedlist>
+       
+            <para>At the bottom of VPE there is a <property>Selection bar</property>.</para>
+       
             <para> By clicking on the component in Visual view or selecting a code snippet in Source
-                mode you can see the tags tree. If you want to hide the selection bar, use the
+                mode you see the tags tree. If you want to hide the selection bar, use the
                 &quot;Hide Selection Bar&quot; button on the lower right side.</para>
 
             <figure>
@@ -953,14 +937,15 @@
         <section id="SetupnotesforLinu895x">
 
             <title>Setup notes for Linux</title>
+           
+            <para>Linux users may need to do the following to get the Visual Editor to work
+            correctly on their machines.</para>
+            
             <section id="HowToStartTheVisualPageEditorUnderLinux85">
-
+                
                 <title>How to Start the Visual Page Editor under Linux</title>
 
-                <para>Linux users may need to do the following to get the Visual Editor to work
-                    correctly on their machines.</para>
-
-                <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
+                                <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
                     contained in the compat-libstdc++-33.i386 package.</para>
 
                 <itemizedlist>
