@@ -767,7 +767,7 @@
             <title>Visual/Source View</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_1.png"/>
+                    <imagedata fileref="images/visual_page/visual_page_1.png" scale="95"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -805,7 +805,7 @@
             <title>Integration with Properties and Outline Views</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_4.png" scale="75"/>
+                    <imagedata fileref="images/visual_page/visual_page_4.png" scale="55"/>
                 </imageobject>
             </mediaobject>
         </figure>
