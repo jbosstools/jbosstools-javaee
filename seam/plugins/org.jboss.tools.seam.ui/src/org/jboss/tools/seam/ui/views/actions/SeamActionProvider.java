@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.views.actions;
 
+import org.eclipse.jdt.ui.actions.JdtActionConstants;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -57,6 +58,7 @@ public class SeamActionProvider extends CommonActionProvider {
 			if(element instanceof IOpenableElement) {
 				SeamOpenAction action = new SeamOpenAction((IOpenableElement)element);
 				actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, action);
+				actionBars.setGlobalActionHandler(JdtActionConstants.OPEN, action);
 			}
 
 		}
