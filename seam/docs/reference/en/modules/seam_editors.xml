@@ -88,7 +88,7 @@
             on your project which will execute all the active WTP validations.</para>
     </section>
     
-    <section id="ComponentsEditor"> <!-- mark as updated -->
+    <section id="ComponentsEditor" revisionflag="changed"> 
         <title>Structured components.xml Editor</title>
    
         <para>When editing <property>components.xml</property> a structured tree editor is available in addition to pure source editing.
