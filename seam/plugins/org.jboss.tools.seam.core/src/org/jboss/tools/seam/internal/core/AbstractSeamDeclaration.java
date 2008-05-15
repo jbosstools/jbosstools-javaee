@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamDeclaration;
@@ -146,6 +148,17 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		} else {
 			context.remove(SeamXMLConstants.KEY_MODEL_OBJECT);
 		}
+	}
+	
+	public Object getAdapter(Class cls) {
+		if(cls == IFile.class) {
+			if(getResource() instanceof IFile) {
+				return (IFile)getResource();
+			}
+		} else if(cls == IResource.class) {
+			return getResource();
+		}
+		return null;
 	}
 
 }

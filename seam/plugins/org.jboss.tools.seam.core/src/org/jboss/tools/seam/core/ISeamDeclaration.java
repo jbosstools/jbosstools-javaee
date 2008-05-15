@@ -10,10 +10,12 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.eclipse.core.runtime.IAdaptable;
+
 /**
  * @author Viacheslav Kabanovich
  */
-public interface ISeamDeclaration extends ISeamElement {
+public interface ISeamDeclaration extends ISeamElement, IAdaptable {
 	
 	/**
 	 * @return name of this declaration

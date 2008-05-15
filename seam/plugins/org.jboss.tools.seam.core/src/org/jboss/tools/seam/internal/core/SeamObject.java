@@ -204,4 +204,7 @@ public class SeamObject implements ISeamElement {
 		}
 	}
 
+	public Object getAdapter(Class cls) {
+		return null;
+	}
 }
