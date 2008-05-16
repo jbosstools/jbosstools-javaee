@@ -15,6 +15,20 @@
             label="Seam Gen Action Set"
             visible="true">
          <menu
+               label="%RunMenu.label"
+               path="additions"
+               id="org.eclipse.ui.run">
+            <separator
+                  name="breakpointGroup">
+            </separator>
+            <groupMarker
+                  name="lineBreakpointGroup">
+            </groupMarker>
+            <groupMarker
+                  name="emptyBreakpointGroup">
+            </groupMarker>
+         </menu>
+         <menu
                id="seamgenMenu"
                label="Seam &amp;Gen"
                path="org.eclipse.ui.run/additions">
