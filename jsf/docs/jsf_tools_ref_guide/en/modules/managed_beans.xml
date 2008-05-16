@@ -138,9 +138,9 @@
             <para>When the form is open make sure that all the check boxes are
                 selected:</para>
             <itemizedlist>
-                <listitem>Add Java property</listitem>
-                <listitem>Generate Getter</listitem>
-                <listitem>Generate Setter</listitem>
+                <listitem><para>Add Java property</para></listitem>
+                <listitem><para>Generate Getter</para></listitem>
+                <listitem><para>Generate Setter</para></listitem>
             </itemizedlist>
             <para/>
             <figure>
