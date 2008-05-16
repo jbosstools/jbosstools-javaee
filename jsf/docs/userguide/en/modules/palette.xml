@@ -324,7 +324,7 @@
                 </itemizedlist>
             </para>
         </section>
-        <section id="Show/Hide">
+        <section id="show_hide">
             <?dbhtml filename="Show/Hide.html"?>
             <title>Show/Hide</title>
             <para><emphasis>
