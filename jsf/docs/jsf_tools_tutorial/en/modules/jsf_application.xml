@@ -65,7 +65,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Click the plus sign next to <emphasis>
                         <property>jsfHello</property>

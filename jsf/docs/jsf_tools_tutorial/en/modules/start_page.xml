@@ -11,7 +11,7 @@
 
         <title>Creating the Start Page</title>
         <para>You also need to create a start page as an entry point into the application.</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>In the Package Explorer view to the left, right-click <emphasis>
                     <property>jsfHello > WebContent</property>
@@ -31,7 +31,7 @@
         </itemizedlist>
         <para>A JSP editor will open up on the newly created file.</para>
         
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>In the Source part of the split screen, type <emphasis>
                     <property>/pages/inputname.jsf</property>
@@ -53,7 +53,7 @@
         </emphasis> extension for the file name. This is a mapping defined in the web.xml file
             for the project for invoking <property>JavaServer Faces</property> when you run the
             application.</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Select<emphasis>
                     <property> File > Save</property>

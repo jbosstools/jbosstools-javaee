@@ -20,7 +20,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Start up JBoss by clicking on the icon in JBoss Server view. (If JBoss is
                     already running, stop it by clicking on the red icon and then start it again.

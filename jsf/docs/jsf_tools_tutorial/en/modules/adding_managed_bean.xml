@@ -11,7 +11,7 @@
 
         <title>Adding a Managed Bean to the Application</title>
         <para>To store data in the application, we will use a managed bean.</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Click on the <emphasis>
                     <property>Tree</property>
@@ -74,7 +74,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Select <emphasis>
                     <property>File > Save</property>

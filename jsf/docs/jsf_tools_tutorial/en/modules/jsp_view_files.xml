@@ -15,7 +15,7 @@
             JSP Visual Page.</para>
         <section id="Inputname.jsp">
             <title>inputname.jsp</title>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Click on the <emphasis>
                         <property>Diagram</property>
@@ -40,7 +40,7 @@
             </figure>
             <para>Some JSF code is already in the file, because we have chosen a template to create
                 a page.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Select the <emphasis>
                         <property>Visual</property>
@@ -61,7 +61,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Click on <emphasis>
                         <property>form</property>
@@ -116,7 +116,8 @@
                     </emphasis> attribute, and then click on the <emphasis>
                         <property>Finish</property>
                     </emphasis> button</para>
-                </listitem>' <listitem>
+                </listitem>
+                <listitem>
                     <para>Select <emphasis>
                         <property>commandButton</property>
                     </emphasis> within the JSF HTML palette folder and drag it into the
@@ -171,7 +172,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Save the file by selecting <emphasis>
                         <property>File > Save</property>
@@ -181,7 +182,7 @@
         </section>
         <section id="Greeting.jsp">
             <title>greeting.jsp</title>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Click on the <emphasis>
                         <property>faces-config.xml</property>
@@ -245,7 +246,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
 </body>
 </html>
 ]]></programlisting>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Save the file</para>
                 </listitem>
