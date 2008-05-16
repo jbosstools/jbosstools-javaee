@@ -1,0 +1,4 @@
+#Tue May 13 16:27:35 MSD 2008
+default.configuration=seam_ear-ejb
+eclipse.preferences.version=1
+hibernate3.enabled=true

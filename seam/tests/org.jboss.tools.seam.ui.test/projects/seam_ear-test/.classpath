@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="test-src"/>
+	<classpathentry kind="src" path="embedded-ejb"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-api-1.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
+<classpathentry kind="lib" path="/seam_ear/WebContent"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/seam_ear"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/seam_ear-ejb"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,4 @@
+#Tue May 13 16:28:50 MSD 2008
+default.configuration=seam_war
+eclipse.preferences.version=1
+hibernate3.enabled=true

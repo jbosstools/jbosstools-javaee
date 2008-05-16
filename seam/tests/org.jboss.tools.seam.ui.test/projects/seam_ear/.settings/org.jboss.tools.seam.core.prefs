@@ -1,0 +1,17 @@
+#Tue May 13 16:27:34 MSD 2008
+action.package=org.domain.seam_ear.session
+action.sources=/seam_ear-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=org.domain.seam_ear.entity
+model.sources=/seam_ear-ejb/ejbModule
+seam.ear.project=seam_ear-ear
+seam.ejb.project=seam_ear-ejb
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/seam_ear/WebContent
+seam.runtime.name=Seam 1.2.AP
+seam.test.creating=true
+seam.test.project=seam_ear-test
+test.package=org.domain.seam_ear.test
+test.sources=/seam_ear-test/test-src
