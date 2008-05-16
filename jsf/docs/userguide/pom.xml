@@ -21,18 +21,18 @@
                     <dependency>
                         <groupId>com.jboss</groupId>
                         <artifactId>jbossent-docbook-xslt</artifactId>
-                        <version>1.0.0.Beta1</version>
+                        <version>1.0.0</version>
                     </dependency>
                     <dependency>
                         <groupId>com.jboss</groupId>
                         <artifactId>jbossent-jdocbook-style</artifactId>
-                        <version>1.0.0.Beta1</version>
+                        <version>1.0.0</version>
                         <type>jdocbook-style</type>
                     </dependency>
                     <dependency>
                         <groupId>org.jboss</groupId>
                         <artifactId>jbossorg-jdocbook-style</artifactId>
-                        <version>1.1.0.Beta1</version>
+                        <version>1.1.0</version>
                         <type>jdocbook-style</type>
                     </dependency>
                 </dependencies>
