@@ -3,7 +3,8 @@
       id="org.jboss.tools.richfaces.feature"
       label="RichFaces VPE Feature"
       version="2.0.0"
-      provider-name="JBoss, a division of Red Hat">
+      provider-name="JBoss, a division of Red Hat"
+      plugin="org.jboss.tools.vpe">
 
    <description url="http://www.jboss.org/tools">
       JBossTools RichFaces feature
