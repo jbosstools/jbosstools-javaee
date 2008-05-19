@@ -148,7 +148,9 @@ public class ValidationErrorManager implements IValidationErrorManager {
 					e);
 			return;
 		} finally {
-			coreHelper.getDocumentProvider().disconnect(target);
+			if(coreHelper!=null) {
+				coreHelper.getDocumentProvider().disconnect(target);
+			}
 		}
 
 		reporter.addMessage(validationManager, message);
