@@ -184,11 +184,10 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+            
+            <para>Find more information about editor features <ulink url="&jsflink;#editors_features"
+                >here</ulink>.</para>
         </section>
-
-        <para>Find more information about editor features <ulink url="&jsflink;#editors_features"
-            >here</ulink>.</para>
-
     </section>
 
     <section id="GraphicalEditorForTilesFiles132">
