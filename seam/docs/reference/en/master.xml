@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
-"../../resources/support/docbook-dtd/docbookx.dtd"
+"http://www.oasis-open.org/docbook/xml/4.3CR3/docbookx.dtd"
 
 
 [<!ENTITY intro SYSTEM "modules/intro.xml">
@@ -47,7 +47,7 @@
              <holder>JBoss, a division of Red Hat Inc.</holder>
          </copyright>
          <releaseinfo>
-             <para>Version: 2.1.0.CR1</para>
+             Version: 2.1.0.CR1
          </releaseinfo>
          
     </bookinfo>
@@ -68,7 +68,5 @@
 &crud_application_walkthrough;
 &testng;
     <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
-
-
-
+    
 </book>    

@@ -16,7 +16,7 @@
    <section id="gen_pref">
         <title>General Preferences</title>
 
-<para>Seam preferences can be set using the Seam preference page. Click on <property><emphasis>Window > Preferences > JBoss Tools > Web > Seam</emphasis>.</property></para>
+       <para>Seam preferences can be set using the Seam preference page. Click on <emphasis><property>Window > Preferences > JBoss Tools > Web > Seam</property>.</emphasis></para>
    
        <para>On this page you can manage the Seam Runtime. Use the appropriate buttons to <property>Add</property> more runtimes or to <property>Remove</property> those that are not needed.</para>
    
@@ -46,7 +46,7 @@
 <title>Validator Preferences</title>
     
        <para>Seam preference page includes a subsection <property>Validator</property>.  
-           See <property><emphasis>Window > Preferences > JBoss Tools > Web > Seam > Validator</emphasis>.</property></para>
+           See <emphasis><property>Window > Preferences > JBoss Tools > Web > Seam > Validator</property>.</emphasis></para>
        <para>On this page you can choose a severity level for the various Seam validator problems. For example, if you want to ignore the case when component
        name is duplicated expand the <property>Components</property> node and select <property>Ignore</property> next to <property>Duplicate component name</property>.
        After that you won't see the error.</para>
