@@ -14,7 +14,7 @@
             placeholders from previous steps, and a new start JSP page we will have to create.</para>
         <section id="JavaStubClasses">
             <title>Java Stub Classes</title>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>To finish the two Java classes, switch to the <emphasis>
                             <property>Package Explorer</property>
@@ -25,7 +25,7 @@
             </itemizedlist>
             <section id="GetNameForm.java">
                 <title>GetNameForm.java</title>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Double-click <emphasis>
                                 <property>GetNameForm.java</property>
@@ -45,7 +45,7 @@
      private String greetName = "";
 ]]></programlisting>
 
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Inside the reset method, delete the TO DO and throw lines and
                         add:</para>
@@ -55,7 +55,7 @@
      this.greetName = "";
 ]]></programlisting>
 
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Inside the validate method, delete the TO DO and throw lines and
                         add:</para>
@@ -65,7 +65,7 @@
      return errors;
 ]]></programlisting>
 
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Right-click and select <emphasis>
                                 <property>Source > Generate Getters and Setters...</property>
@@ -128,7 +128,7 @@ public class GetNameForm extends org.apache.struts.action.ActionForm
 }
 ]]></programlisting>
 
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Save the file</para>
                     </listitem>
@@ -136,7 +136,7 @@ public class GetNameForm extends org.apache.struts.action.ActionForm
             </section>
             <section id="GreetingAction.java">
                 <title>GreetingAction.java</title>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Open GreetingAction.java for editing</para>
                     </listitem>
@@ -183,7 +183,7 @@ public class GreetingAction extends org.apache.struts.action.Action
 	}
 }
 ]]></programlisting>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Save the file</para>
                     </listitem>
@@ -202,7 +202,7 @@ public class GreetingAction extends org.apache.struts.action.Action
                 <para>In this page, the user will enter any name and click the <emphasis>
                         <property>submit</property>
                     </emphasis> button. Then, the greeting action will be called through the form.</para>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>inputname.jsp</property>
@@ -225,10 +225,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                     </listitem>
                     <listitem>
                         <para>Then type this text on a new line just below this line:</para>
+                        <programlisting role="XML"><![CDATA[Input name:
+                        ]]></programlisting>
                     </listitem>
-
-                    <programlisting role="XML"><![CDATA[Input name:
-]]></programlisting>
 
                     <listitem>
                         <para>Select the <emphasis>
@@ -260,7 +259,7 @@ public class GreetingAction extends org.apache.struts.action.Action
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>In the Insert Tag dialog box, type in name for property and select <emphasis>
                                 <property>Finish</property>
@@ -301,7 +300,7 @@ public class GreetingAction extends org.apache.struts.action.Action
             <section id="greeting.jsp">
                 <title>greeting.jsp</title>
                 <para>Next, we will fill in the result page.</para>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>greeting.jsp</property>
@@ -325,7 +324,7 @@ public class GreetingAction extends org.apache.struts.action.Action
                 <para>To complete editing of this file, we will use macros from the JBoss Tools
                     Palette. This palette is a view that should be available to the right of the
                     editing area.</para>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>Struts Common</property>
@@ -341,7 +340,7 @@ public class GreetingAction extends org.apache.struts.action.Action
                 <programlisting role="JAVA"><![CDATA[
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 ]]></programlisting>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>Struts Bean</property>
@@ -380,7 +379,7 @@ public class GreetingAction extends org.apache.struts.action.Action
                 <title>index.jsp</title>
                 <para>Finally, we will need to create and edit an index.jsp page. This page will use
                     a Struts forward to simply redirect us to the getName global forward.</para>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>In the Web Projects view, right-click on <emphasis>
                                 <property>StrutsHello > WEB-ROOT(WebContent)</property>
@@ -424,7 +423,7 @@ public class GreetingAction extends org.apache.struts.action.Action
                 <programlisting role="JAVA"><![CDATA[<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <logic:redirect forward="getName"/>
 ]]></programlisting>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>To save all the edits to files, select <emphasis>
                                 <property>File>Save All</property>

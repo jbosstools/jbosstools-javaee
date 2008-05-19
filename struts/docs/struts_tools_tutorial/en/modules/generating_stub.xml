@@ -15,7 +15,7 @@
                 <property>/greeting</property>
             </emphasis> mapping along with a FormBean. To aid in the coding phase, JBoss Developer
             Studio can generate Java class stubs for all of the components shown in the diagram.</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Switch back to the diagram, by selecting the <emphasis>
                     <property>Diagram</property>
@@ -36,7 +36,7 @@
         <para>Generated classes: 2</para>
         <para>Actions: 1</para>
         <para>Form beans: 1</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Click <emphasis>
                     <property>Finish</property>

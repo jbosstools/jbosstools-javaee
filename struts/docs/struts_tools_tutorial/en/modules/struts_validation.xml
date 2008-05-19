@@ -86,7 +86,7 @@ server side validation. You need to enable validation as a part of the project, 
 <title>Client-Side Validation</title>
 <para>Client-side <property>validation</property> uses a scripting language (like JavaScript) running in the client browser to actually do the <property>validation</property>. In a Struts application using the <property>Validation</property> Framework, however, you don&apos;t actually have to do any of the script coding. The <property>Validation</property> Framework handles this.</para>
 <para>To see how this works in our application, you&apos;ll just need to make a couple of modifications to one of the JSP files.</para>
-<itemizedlist continuation="continues">
+<itemizedlist>
 <listitem><para>Double-click inputname.jsp under <emphasis><property>StrutsHello > WEB-ROOT(WebContent) > pages</property></emphasis> to open it for editing</para></listitem>
 <listitem><para>Find the  tag near the top and hit Return to make a new line under it</para></listitem>
     <listitem><para>In the JBoss Tools Palette view to the right, open the Struts HTML folder and click on the javascript tag</para></listitem>
@@ -123,7 +123,7 @@ server side validation. You need to enable validation as a part of the project, 
 </body>
 </html:html>
 ]]></programlisting>
-<itemizedlist continuation="continues">
+<itemizedlist>
 <listitem><para>Select<emphasis><property> File > Save </property></emphasis>from the menu bar</para></listitem>
 <listitem><para>Start JBoss Application Server by clicking on its icon (a right-pointing arrow) in the toolbar</para></listitem>
 <listitem><para>Click the Run icon or right click your project folder and select <emphasis><property>Run As &gt; Run on Server</property></emphasis></para></listitem>
@@ -148,7 +148,7 @@ server side validation. You need to enable validation as a part of the project, 
 <section id="EditingTheJSPFile">
 <?dbhtml filename="EditingTheJSPFile.html"?>
 <title>Editing the JSP File</title>
-<itemizedlist continuation="continues">
+<itemizedlist>
 <listitem><para>Reopen inputname.jsp for editing</para></listitem>
 <listitem><para>Delete the <emphasis role="italic"><property>&quot;onsubmit&quot;</property></emphasis> attribute in the <emphasis role="bold"><property>&lt;html:form&gt;</property></emphasis> element that you put in for client-side validation</para></listitem>
 
@@ -186,7 +186,7 @@ server side validation. You need to enable validation as a part of the project, 
 <section id="EditingTheAction">
 <?dbhtml filename="EditingTheAction.html"?>
 <title>Editing the Action</title>
-<itemizedlist continuation="continues">
+<itemizedlist>
 <listitem><para>In the Web Projects view, expand the node under the <emphasis><property>StrutsHello > Configuration > default > struts-config.xml > action-mappings</property></emphasis> node, right-click the <emphasis><property>/greeting</property></emphasis> action, and then select <emphasis><property>Properties...</property></emphasis>from the context menu</para></listitem>
 
     <listitem><para>In the Edit Properties window, insert the cursor into the value column for the input property and click on the <property>...</property> button</para></listitem>
@@ -198,7 +198,7 @@ server side validation. You need to enable validation as a part of the project, 
 <?dbhtml filename="EditingTheFormBean.html"?>
 
 <title>Editing the Form Bean</title>
-<itemizedlist continuation="continues">
+<itemizedlist>
 <listitem><para>Right-click the <emphasis><property>/greeting</property></emphasis> action again and select Open Form-bean Source to open the GetNameForm.java file for editing</para></listitem>
 <listitem><para>Change the class that it extends from: <emphasis><property>org.apache.struts.action.ActionForm</property></emphasis> to <emphasis><property>org.apache.struts.validator.ValidatorForm</property></emphasis></para></listitem>
 <listitem><para>Comment out a validate method</para></listitem>
@@ -250,7 +250,7 @@ org.apache.struts.validator.ValidatorForm
     }
 ]]></programlisting>
 
-<itemizedlist continuation="continues">
+<itemizedlist>
 <listitem><para>Select <emphasis><property>File > Save All </property></emphasis>from the menu bar</para></listitem>
 <listitem><para>Reload the application into JBoss AS by clicking on the &quot;Change Time Stamp&quot; icon (a finger pointing with a little star) in the toolbar</para></listitem>
 <listitem><para>Run the application</para></listitem>
