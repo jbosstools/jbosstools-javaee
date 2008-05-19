@@ -14,7 +14,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	private static final String SEAM_EAR_PROJECTNAME = "seam_ear";
 	private static final String SEAM_EAR_EJB_PROJECTNAME = "seam_ear-ejb";
 	private static final String SEAM_EAR_TEST_PROJECTNAME = "seam_ear-test";
-	private IProject earProject = null;
+	protected IProject earProject = null;
 	private IProject earEjbProject = null;
 	private IProject testProject = null;
 	private ISeamProject seamEarProject = null;

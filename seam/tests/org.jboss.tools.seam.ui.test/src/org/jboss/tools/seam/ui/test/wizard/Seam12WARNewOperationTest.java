@@ -13,7 +13,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 	private static final String SEAM_WAR_PROJECTNAME = "seam_war";
 	private static final String SEAM_WAR_TEST_PROJECTNAME = "seam_war-test";
-	private IProject warProject = null;
+	protected IProject warProject = null;
 	private IProject testProject = null;
 	private ISeamProject seamWarProject = null;
 	private ISeamProject seamTestProject = null;
