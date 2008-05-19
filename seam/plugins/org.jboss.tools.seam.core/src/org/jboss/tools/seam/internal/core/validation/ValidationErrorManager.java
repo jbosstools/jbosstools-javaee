@@ -122,6 +122,10 @@ public class ValidationErrorManager implements IValidationErrorManager {
 			ignore = true;
 		}
 
+		if (ignore) {
+			return;
+		}
+
 		IMessage message = new Message(getBaseName(), messageSeverity,
 				messageId, messageArguments, target,
 				getMarkerId());
@@ -143,10 +147,13 @@ public class ValidationErrorManager implements IValidationErrorManager {
 					"Exception occurred during error line number calculation",
 					e);
 			return;
+		} finally {
+			if(coreHelper!=null) {
+				coreHelper.getDocumentProvider().disconnect(target);
+			}
 		}
-		if (!ignore) {
-			reporter.addMessage(validationManager, message);
-		}
+
+		reporter.addMessage(validationManager, message);
 	}
 
 	/*
