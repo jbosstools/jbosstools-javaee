@@ -679,15 +679,16 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private void storeSettigs() {
-		IScopeContext projectScope = new ProjectScope(project);
-		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+		IEclipsePreferences prefs = preferences;
+		if(prefs==null) {
+			IScopeContext projectScope = new ProjectScope(project);
+			prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+		}
 
 		prefs.put(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, 
 				ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_1);
-
 		prefs.put(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
 				getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
-
 		prefs.put(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, 
 				getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME));
 		prefs.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, 
