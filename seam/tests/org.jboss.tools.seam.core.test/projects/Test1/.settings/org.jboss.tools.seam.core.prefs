@@ -1,0 +1,33 @@
+#Tue Aug 28 17:17:17 MSD 2007
+FacetDataModelProvider.NOTIFICATION_OPERATION=org.eclipse.wst.common.frameworks.internal.datamodel.DataModelPausibleOperationImpl@15619c
+FacetInstallDataModelProvider.MASTER_PROJECT_DM=IDataModel, provider\=org.eclipse.jst.j2ee.internal.web.archive.operations.WebFacetProjectCreationDataModelProvider@d9c11d
+IDataModelProperties.ALLOW_EXTENSIONS=true
+IDataModelProperties.RESTRICT_EXTENSIONS=[]
+IFacetDataModelProperties.FACET_ACTION=INSTALL[jst.seam 1.2]
+IFacetDataModelProperties.FACET_ID=jst.seam
+IFacetDataModelProperties.FACET_PROJECT_NAME=Test1
+IFacetDataModelProperties.FACET_TYPE=INSTALL
+IFacetDataModelProperties.FACET_VERSION_STR=1.2
+IFacetDataModelProperties.SHOULD_EXECUTE=true
+IFacetDataModelPropeties.FACET_VERSION=Seam Facet 1.2
+action.package=org.domain.Test1.session
+catalog.property=
+database.drop=false
+database.exists=false
+database.type=HSQL
+driver.file=[Ljava.lang.String;@fd2de7
+eclipse.preferences.version=1
+hibernate.connection.driver_class=org.hsqldb.jdbcDriver
+hibernate.connection.password=
+hibernate.connection.url=jdbc\:hsqldb\:MyDB
+hibernate.connection.username=sa
+hibernate.dialect=org.hibernate.dialect.HSQLDialect
+jboss.home=Jboss_AS_HOME
+model.package=org.domain.Test1.entity
+project.name=Test1
+schema.property=
+seam.jbossas.home.folder=C\:\\Downloads\\JBoss\\Seam\\jboss-seam\\jboss-seam-1.2.1.GA
+seam.project.connection.profile=test
+seam.project.deployment.type=ear
+seam.project.web.root.folder=
+test.package=org.domain.Test1.test

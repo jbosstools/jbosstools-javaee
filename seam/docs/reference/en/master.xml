@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"../../resources/support/docbook-dtd/docbookx.dtd"
+
+
+[<!ENTITY intro SYSTEM "modules/intro.xml">
+<!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
+<!ENTITY directory_structure SYSTEM "modules/directory_structure.xml">
+<!ENTITY menus_and_actions SYSTEM "modules/seam_menus_and_actions.xml">
+<!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
+<!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
+<!ENTITY seam_editors SYSTEM "modules/seam_editors.xml">
+<!ENTITY seam_view SYSTEM "modules/seam_view.xml">
+ <!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">
+<!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
+<!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
+<!ENTITY business_application SYSTEM "modules/business_application.xml">
+<!ENTITY testng SYSTEM "modules/testng.xml">
+
+<!ENTITY seamlink "../../../../seam/publish/en-US/html_single/index.html">
+<!ENTITY aslink "../../../../as/publish/en-US/html_single/index.html">
+<!ENTITY esblink "../../../../esb_ref_guide/publish/en-US/html_single/index.html">
+<!ENTITY gsglink "../../../../GettingStartedGuide/publish/en-US/html_single/index.html">
+<!ENTITY hibernatelink "../../../../hibernatetools/publish/en-US/html_single/index.html">
+<!ENTITY jbpmlink "../../../../jbpm/publish/en-US/html_single/index.html">
+<!ENTITY jsflink "../../../../jsf/publish/en-US/html_single/index.html">
+<!ENTITY jsfreflink "../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html">
+<!ENTITY jsftutoriallink "../../../../jsf_tools_tutorial/publish/en-US/html_single/index.html">
+<!ENTITY strutsreflink "../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html">
+<!ENTITY strutstutoriallink "../../../../struts_tools_tutorial/publish/en-US/html_single/index.html">                         
+
+
+]>
+<book>
+    
+     <bookinfo>
+         
+         <title>Seam Dev Tools Reference Guide</title>
+         
+         <pubdate>April 2008</pubdate>
+         <copyright>
+             <year>2007</year>
+             <year>2008</year>
+             <holder>JBoss, a division of Red Hat Inc.</holder>
+         </copyright>
+         <releaseinfo>
+             <para>Version: 2.1.0.CR1</para>
+         </releaseinfo>
+         
+    </bookinfo>
+	
+    
+    <toc/>  
+
+&intro;
+&creating_new_seam;
+&directory_structure;
+&menus_and_actions;
+&seam_wizards;
+&generate_entities;
+&seam_editors;
+&seam_view;
+&seam_preferences;
+&crud_database_application;
+&crud_application_walkthrough;
+&testng;
+    <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
+
+
+
+</book>    

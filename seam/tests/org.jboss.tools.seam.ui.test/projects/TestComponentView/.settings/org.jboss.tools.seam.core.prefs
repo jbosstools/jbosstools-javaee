@@ -1,0 +1,9 @@
+#Fri Dec 21 18:35:09 MSK 2007
+action.package=demo
+eclipse.preferences.version=1
+model.package=demo
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=war
+seam.runtime.name=Seam12RT
+seam.test.project=
+test.package=demo
