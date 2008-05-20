@@ -34,7 +34,7 @@ public class ForwardHyperlink extends AbstractHyperlink {
 	protected void doHyperlink(IRegion region) {
 		String fileName = getFilePath(region);
 		IFile fileToOpen = getFileToOpen(fileName);
-		if (fileToOpen.exists()) {
+		if (fileToOpen != null && fileToOpen.exists()) {
 			IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			try {
 				IDE.openEditor(workbenchPage,fileToOpen,true);
