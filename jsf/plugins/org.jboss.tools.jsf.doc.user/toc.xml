@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<toc xmlns="http://www.w3.org/TR/xhtml1/transitional" label="Visual Web Tools Reference Guide" topic="index.html">
+   <topic label="Visual Web Tools" href="Visual_Web_Tools.html">
+      <topic label="Key Features of Visual Web Tools" href="Visual_Web_Tools.html#key_features"/>
+   </topic>
+   <topic label="JSF and Struts Tools" href="JSFStrutsTools.html">
+      <topic label="JavaServer Faces Support" href="JSFStrutsTools.html#JSF_support">
+         <topic label="Support for JSF Environments: JSF-RI, MyFaces, Facelets or any Custom" href="JSFStrutsTools.html#SupportForJSFEnvironmentsJSF_RIMyFacesFaceletsShaleOrAnyCustom442"/>
+         <topic label="Facelets Support" href="JSFStrutsTools.html#FaceletsSupport865">
+            <topic label="Relevant Resources Links" href="JSFStrutsTools.html#d0e451"/>
+         </topic>
+         <topic label="Working with Projects" href="JSFStrutsTools.html#WorkingWithProjects7844">
+            <topic label="Creating a New JSF Project" href="JSFStrutsTools.html#CreatingANewJSFProject96"/>
+            <topic label="Importing Existing JSF Projects with Any Structure" href="JSFStrutsTools.html#ImportingExsJSFProjWithAnyStr74447"/>
+            <topic label="Adding JSF Capability to Any Existing Eclipse Project" href="JSFStrutsTools.html#AddingJSFCapabilityToAnyExistingEclipseProject"/>
+            <topic label="Adding Your Own Project Templates" href="JSFStrutsTools.html#AddingYourOwnProjectTemplates853"/>
+         </topic>
+         <topic label="Graphical Editor and Viewing for JSF Configuration Files" href="JSFStrutsTools.html#GraphicalEditorAndViewingForJSFConfigurationFiles76331">
+            <topic label="Diagram" href="JSFStrutsTools.html#Diagram9553"/>
+            <topic label="Creating New View (Page)" href="JSFStrutsTools.html#CreatingNewViewPage85"/>
+            <topic label="Tree View" href="JSFStrutsTools.html#TreeView11123"/>
+            <topic label="Source View" href="JSFStrutsTools.html#SourceView4643"/>
+            <topic label="Code Assist" href="JSFStrutsTools.html#ContentAssist976"/>
+            <topic label="Error Reporting" href="JSFStrutsTools.html#ErrorReporting3324"/>
+         </topic>
+         <topic label="Managed Beans" href="JSFStrutsTools.html#ManagedBeans96453">
+            <topic label="Code Generation for Managed Beans" href="JSFStrutsTools.html#CodeGenerationForManagedBeans421"/>
+            <topic label="Add Existing Java Beans to a JSF Configuration File" href="JSFStrutsTools.html#AddExistingJavaBeansToAJSFConfigurationFile74332"/>
+         </topic>
+         <topic label="Create and Register a Custom Converter" href="JSFStrutsTools.html#CreateAndRegisterACustomConverter94230"/>
+         <topic label="Create and Register a Custom Validator" href="JSFStrutsTools.html#CreateAndRegisterACustomValidator5632"/>
+         <topic label="Create and Register Referenced Beans" href="JSFStrutsTools.html#CreateAndRegisterReferencedBeans64322"/>
+         <topic label="Relevant Resources Links" href="JSFStrutsTools.html#d0e1678"/>
+      </topic>
+      <topic label="Struts support" href="JSFStrutsTools.html#Struts_support">
+         <topic label="Working with Projects" href="JSFStrutsTools.html#WorkingWithStrutsProjects866">
+            <topic label="Creating a New Struts Project" href="JSFStrutsTools.html#CreatingANewStrutsProjec745t"/>
+            <topic label="Importing an Existing Struts Project with Any Structure" href="JSFStrutsTools.html#ImportingAnExistingStrutsProjectWithAnyStructure9653"/>
+            <topic label="Adding Struts Capability to an Existing Web Application" href="JSFStrutsTools.html#AddingStrutsCapabilityToAnExistingWebApplication532"/>
+         </topic>
+         <topic label="Graphical Editor for Struts Configuration Files" href="JSFStrutsTools.html#GraphicalEditorForStrutsConfigurationFiles564">
+            <topic label="Diagram Mode" href="JSFStrutsTools.html#StrutsDiagramMode453"/>
+            <topic label="Tree Mode" href="JSFStrutsTools.html#StrutsTreeMode42"/>
+            <topic label="Source Mode" href="JSFStrutsTools.html#StrutsSourceMode9655"/>
+         </topic>
+         <topic label="Graphical Editor for Tiles Files" href="JSFStrutsTools.html#GraphicalEditorForTilesFiles132">
+            <topic label="Create New Tiles File" href="JSFStrutsTools.html#CreateNewTilesFile1422"/>
+            <topic label="Tree Mode" href="JSFStrutsTools.html#StrutsTreeView896"/>
+            <topic label="Diagram Mode" href="JSFStrutsTools.html#StrutsDiagramView4643"/>
+            <topic label="Source" href="JSFStrutsTools.html#StrutsSource75"/>
+         </topic>
+         <topic label="Graphical Editor for Struts Validation Files" href="JSFStrutsTools.html#GraphicalEditorForStrutsValidationFiles86"/>
+         <topic label="Support for Multiple Struts Modules" href="JSFStrutsTools.html#SupportForMultipleStrutsModules75">
+            <topic label="When Importing a Struts Project" href="JSFStrutsTools.html#WhenImportingAStrutsProject432"/>
+            <topic label="Editing Modules in an Existing Project" href="JSFStrutsTools.html#EditingModulesInAnExistingProject1"/>
+            <topic label="Adding New Modules" href="JSFStrutsTools.html#AddingNewModules1"/>
+         </topic>
+         <topic label="Code Generation for Action, FormBean, Forward and Exception Classes" href="JSFStrutsTools.html#CodeGenerationForActionFormBeanForwardAndExceptionClasses1"/>
+         <topic label="Struts Configuration File Debugger" href="JSFStrutsTools.html#StrutsConfigurationFileDebugger097"/>
+         <topic label="Customizable Page Links Recognizer" href="JSFStrutsTools.html#CustomizablePageLinksRecognizer1"/>
+         <topic label="Relevant Resources Links" href="JSFStrutsTools.html#d0e2461"/>
+      </topic>
+      <topic label="Verification and Validation" href="JSFStrutsTools.html#verif_valid">
+         <topic label="JSF Project Verification" href="JSFStrutsTools.html#JSFProjectVerification754"/>
+         <topic label="Struts Project Verification" href="JSFStrutsTools.html#strutsprojectverification783643"/>
+      </topic>
+   </topic>
+   <topic label="Spring Tools" href="springTools.html">
+      <topic label="Spring IDE guide" href="springTools.html#d0e2665">
+         <topic label="Add Spring Project Nature" href="springTools.html#d0e2676"/>
+         <topic label="Create New Spring Project" href="springTools.html#d0e2680"/>
+         <topic label="Add References To Other Spring Projects" href="springTools.html#d0e2684"/>
+         <topic label="Add Spring Beans Config Files" href="springTools.html#d0e2688"/>
+         <topic label="Create Spring Beans Config Sets" href="springTools.html#d0e2692"/>
+         <topic label="Open Spring Explorer" href="springTools.html#d0e2696"/>
+         <topic label="Validate Spring Beans Config" href="springTools.html#d0e2700"/>
+         <topic label="Open Spring Beans Graph" href="springTools.html#d0e2704"/>
+         <topic label="Search Spring Beans" href="springTools.html#d0e2708"/>
+      </topic>
+   </topic>
+   <topic label="Editors" href="editors.html">
+      <topic label="Editors Features" href="editors.html#editors_features">
+         <topic label="OpenOn" href="editors.html#OpenOnSelection4Hyperlinknavigation">
+            <topic label="XML Files" href="editors.html#XMLFiles232"/>
+            <topic label="JSP Pages" href="editors.html#JSPPages223"/>
+         </topic>
+         <topic label="Content Assist" href="editors.html#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
+            <topic label="JSF Project Files" href="editors.html#JSFProjectFiles3087">
+               <topic label="Content Assist for XML, JSP and JSF configuration files" href="editors.html#ContentAssistForXMLJSPAndJSFConfigurationFiles865"/>
+               <topic label="Content Assist Based on Project Data" href="editors.html#ContentAssistBasedOnProjectData86"/>
+               <topic label="Content Assist within Tree JSF Editor" href="editors.html#ContentAssistWithinJSFGraphicalEditor44"/>
+            </topic>
+            <topic label="Struts Project Files" href="editors.html#StrutsProjectFile46s3">
+               <topic label="Content Assist for Struts Configuration File" href="editors.html#ContentAssistForStrutsConfigurationFile75"/>
+               <topic label="Content Assist for Struts JSP File" href="editors.html#ContentAssistForStrutsJSPFile07"/>
+            </topic>
+            <topic label="JSP Pages" href="editors.html#JSPPages434">
+               <topic label="Content Assist for JSF Tags" href="editors.html#ContentAssistForJSFTags96"/>
+               <topic label="Content Assist for JSTL Tags" href="editors.html#ContentAssistForJSTLTags6332"/>
+               <topic label="Content Assist for HTML Tags" href="editors.html#ContentAssistForHTMLTags7454"/>
+               <topic label="Content Assist for JavaScript Tags" href="editors.html#ContentAssistForJavaScriptTags67433"/>
+            </topic>
+            <topic label="Rich Faces components" href="editors.html#ContentAssistForRF"/>
+            <topic label="Adding dynamic code assist to custom components that were added to JBoss&#xA;                    Tools Palette" href="editors.html#AddingDynamicCodeAssistToCustomComponents8745"/>
+         </topic>
+         <topic label="Synchronized Source and Visual Editing" href="editors.html#FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74"/>
+      </topic>
+      <topic label="Visual Page Editor" href="editors.html#visual_page">
+         <topic label="Advanced Settings" href="editors.html#AdvancedSettings954"/>
+         <topic label="Setup notes for Linux" href="editors.html#SetupnotesforLinu895x">
+            <topic label="How to Start the Visual Page Editor under Linux" href="editors.html#HowToStartTheVisualPageEditorUnderLinux85"/>
+         </topic>
+         <topic label="JSP syntax validation" href="editors.html#JSPsyntaxvalidation84"/>
+         <topic label="JSP Page Preview" href="editors.html#PageEditorWithPreview53"/>
+      </topic>
+      <topic label="More Editors" href="editors.html#more_editors">
+         <topic label="Graphical Properties Editor" href="editors.html#GraphicalPropertiesEditor"/>
+         <topic label="Graphical TLD Editor" href="editors.html#GraphicalTLDEditor">
+            <topic label="Tree view" href="editors.html#TreeView2"/>
+            <topic label="Source view" href="editors.html#SourceView1"/>
+         </topic>
+         <topic label="Graphical Web Application File (web.xml) Editor" href="editors.html#GraphicalWebApplicationFile(web.xml)Editor">
+            <topic label="Tree View" href="editors.html#TreeView1"/>
+            <topic label="Source View" href="editors.html#SourceView2"/>
+            <topic label="Content Assist" href="editors.html#ContentAssist"/>
+            <topic label="Errors Checking and Validation" href="editors.html#ErrorCheckingAndValidation"/>
+         </topic>
+         <topic label="CSS Editor" href="editors.html#CSSEditor"/>
+         <topic label="JavaScript Editor" href="editors.html#JavaScriptEditor"/>
+         <topic label="XSD Editor" href="editors.html#XSDEditor"/>
+         <topic label="Support for XML Schema" href="editors.html#SupportforXMLSchema"/>
+      </topic>
+   </topic>
+   <topic label="JBoss Tools Palette" href="palette.html">
+      <topic label="Using the Palette" href="palette.html#UsingThePalette(IncludingOne-ClickTagInsertion)">
+         <topic label="JBoss Tools Palette" href="palette.html#RedHatPalette"/>
+         <topic label="Inserting Tags into a JSP File" href="palette.html#InsertingTagsIntoAJSPFile"/>
+         <topic label="Adding Custom JSF Tags to the JBoss Tools Palette" href="palette.html#AddingCustomJSFTagsToTheRedHatPalette7433">
+            <topic label="Drag-and-Drop" href="palette.html#Drag_and_Drop65332"/>
+            <topic label="Import Button" href="palette.html#ImportButton521"/>
+         </topic>
+      </topic>
+      <topic label="Palette Options" href="palette.html#PaletteOptions">
+         <topic label="Palette Editor" href="palette.html#PaletteEditor"/>
+         <topic label="Show/Hide" href="Hide"/>
+         <topic label="Import" href="palette.html#Import"/>
+      </topic>
+      <topic label="Rich Faces Support" href="palette.html#RichFacesSupport"/>
+   </topic>
+   <topic label="Web Projects View" href="web_projects.html">
+      <topic label="Project Organization" href="web_projects.html#ProjectOrganization"/>
+      <topic label="Drag and Drop" href="web_projects.html#DragAndDrop">
+         <topic label="For a Property" href="web_projects.html#ForAProperty"/>
+         <topic label="For Managed Bean Attributes" href="web_projects.html#ForManagedBeanAttributes"/>
+         <topic label="Navigation Rules" href="web_projects.html#NavigationRules"/>
+         <topic label="For a Tag Library File Declaration" href="web_projects.html#ForATagLibraryFileDeclaration"/>
+         <topic label="For JSP Pages" href="web_projects.html#ForJSPPages"/>
+      </topic>
+      <topic label="Developing the Application" href="web_projects.html#DevelopingTheApplication"/>
+      <topic label="Expanding Tag Library Files" href="web_projects.html#ExpandingTagLibraryFiles"/>
+      <topic label="Drag and Drop Tag Libraries on to JBoss Tools Palette" href="web_projects.html#DragAndDropTagLibrariesOnToRedHatPalette"/>
+      <topic label="Create and Import JSF and Struts Projects" href="web_projects.html#CreateAndImportJSFAndStrutsProjects"/>
+   </topic>
+   <topic label="JBoss Tools Preferences" href="preferences.html">
+      <topic label="CodeAssist" href="preferences.html#CodeAssist"/>
+      <topic label="Editors" href="preferences.html#Editors"/>
+      <topic label="JBoss Servers" href="preferences.html#JBossServers"/>
+      <topic label="JSF" href="preferences.html#JSF"/>
+      <topic label="JSF Flow Diagram" href="preferences.html#JSFFlowDiagram"/>
+      <topic label="JSF Page" href="preferences.html#JSFPage"/>
+      <topic label="JSF Propject" href="preferences.html#JSFPropject"/>
+      <topic label="Packaging Archives" href="preferences.html#PackagingArchives"/>
+      <topic label="Plug-in Insets" href="preferences.html#Plug-inInsets"/>
+      <topic label="Resource Insets" href="preferences.html#ResourceInsets"/>
+      <topic label="Seam" href="preferences.html#Seam"/>
+      <topic label="Seam Validator" href="preferences.html#SeamValidator"/>
+      <topic label="Struts" href="preferences.html#Struts"/>
+      <topic label="Struts Automatic" href="preferences.html#StrutsAutomatic"/>
+      <topic label="Struts Customization" href="preferences.html#StrutsCustomization"/>
+      <topic label="Struts Flow Diagram" href="preferences.html#StrutsFlowDiagram"/>
+      <topic label="Struts Pages" href="preferences.html#StrutsPages"/>
+      <topic label="Struts Project" href="preferences.html#StrutsProject"/>
+      <topic label="Struts Support" href="preferences.html#StrutsSupport"/>
+      <topic label="Title Diagram" href="preferences.html#TitleDiagram"/>
+      <topic label="Verification" href="preferences.html#Verification"/>
+      <topic label="View" href="preferences.html#View"/>
+      <topic label="Visual Page Editor" href="preferences.html#VisualPageEditor2"/>
+      <topic label="XDoclet" href="preferences.html#XDoclet"/>
+      <topic label="XDoclet Templates" href="preferences.html#XDocletTemplates"/>
+      <topic label="XDoclets Variables" href="preferences.html#XDocletsVariables"/>
+      <topic label="Changing Default Environment During Project Creation" href="preferences.html#ChangingDefaultEnvironmentDuringProjectCreation"/>
+      <topic label="Changing Default Project Template During Project Creation" href="preferences.html#ChangingDefaultProjectTemplateDuringProjectCreatio8n"/>
+   </topic>
+</toc>

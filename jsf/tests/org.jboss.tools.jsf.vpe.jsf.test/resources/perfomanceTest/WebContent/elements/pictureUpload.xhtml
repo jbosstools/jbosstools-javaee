@@ -1,0 +1,16 @@
+﻿<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:t="http://myfaces.apache.org/tomahawk"
+	  xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<ui:composition>
+
+			<h:graphicImage url="picture.xhtml" rendered="#{not empty wrapper.employee.picture}"/>
+			<h:graphicImage url="/images/avatar.png" rendered="#{empty wrapper.employee.picture}"/>
+			<rich:simpleTogglePanel switchType="client"	opened="false" label="#{bundle['Employee.picture.upload.label']}">
+			#{bundle['Employee.picture.upload.details']}<br/>
+			<t:inputFileUpload value="#{wrapper.pictureUploaded}" id="upload"/><br/>
+			<t:commandButton value="#{bundle['Employee.picture.upload.button']}" action="#{wrapper.uploadPicture}"/>
+			</rich:simpleTogglePanel>
+</ui:composition>
+</html>

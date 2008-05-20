@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.3"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.vpe.templates">
+      <templates
+            decsription="VPE templates for MyFaces support"
+            name="Apache MyFaces"
+            path="templates/vpe-templates-myfaces.xml">
+      </templates>
+   </extension>
+
+</plugin>

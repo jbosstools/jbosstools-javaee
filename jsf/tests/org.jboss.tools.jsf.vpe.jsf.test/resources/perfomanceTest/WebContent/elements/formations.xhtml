@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<style type="text/css">
+	tr.separator td,tr.separator th {
+		border-bottom:1px solid black;
+	}
+	</style>
+	<a4j:region id="formationRegion">
+	
+	<a4j:outputPanel id="a4jformation" layout="block">
+	<table class="list" width="100%">
+		<thead>
+			<tr>
+				<th><h:outputText value="#{bundle['Formation.name']}" /></th>
+				<th><h:outputText value="#{bundle['Formation.reason']}" /></th>
+				<th><h:outputText value="#{bundle['Formation.startDate']}" /></th>
+				<th><h:outputText value="#{bundle['Formation.totalDays']}" /></th>
+				<th><h:outputText value="#{bundle['Formation.location']}" /></th>
+				<th></th>
+			</tr>
+			<tr>
+				<th colspan="5"><h:outputText value="#{bundle['Formation.note']}" /></th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList id="formations" var="formation" rowIndexVar="index" value="#{formations}">
+	    	<tbody class="highlight">
+	    		<tr class="#{(index%2)==0?'even':'odd'}">
+					<td><h:outputText value="#{formation.name}" /></td>
+					<td><h:outputText value="#{formation.reason}" /></td>
+					<td><h:outputText value="#{formation.startDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+					<td><h:outputText value="#{formation.totalDays}"/></td>
+					<td><h:outputText value="#{formation.location}" /></td>
+					<td rowspan="2" valign="top">
+							<a4j:commandLink action="#{hrActions.editFormation}"
+								immediate="true" reRender=":#{parentClientId}:a4jformation" limitToList="true">
+								<f:actionListener type="be.rmi.intranet.listener.ContainerReset"/>
+								<f:param name="containerToReset" value="editFormation" />
+								<f:param name="editId" value="#{index}" />
+								<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+							</a4j:commandLink>
+					</td>
+	    		</tr>
+	    		<tr class="#{(index%2)==0?'even':'odd'} separator">
+					<td colspan="5"><h:outputText value="#{formation.note}" /></td>
+	    		</tr>
+	    	</tbody>
+    	</t:dataList>
+    	<tbody>
+    		<tr>
+    			<td colspan="6" align="right">
+	    			<a4j:commandLink immediate="true"  rendered="#{hrSession.edits.formation == null}"
+	    				reRender=":#{parentClientId}:a4jformation" limitToList="true"
+						action="#{hrActions.addFormation}">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editFormation" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+    			</td>
+   			</tr>
+		</tbody>
+	</table>
+	
+    <s:subForm id="editFormation" rendered="#{hrSession.edits.formation != null}">    
+    	<fieldset>
+    	<table border="0" width="100%">
+    		<tr>
+				<td><h:outputText value="#{bundle['Formation.name']}" /></td>
+				<td><h:inputText value="#{hrSession.edits.formation.name}" id="fname"/><h:message for="fname" showDetail="true" showSummary="false"/></td>
+				<td><h:outputText value="#{bundle['Formation.reason']}" /></td>
+				<td><h:inputText value="#{hrSession.edits.formation.reason}" id="freason"/><h:message for="freason" showDetail="true" showSummary="false"/></td>
+				
+				<td rowspan="4" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteFormation}" immediate="true"
+							reRender=":#{parentClientId}:a4jformation" limitToList="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td><h:outputText value="#{bundle['Formation.startDate']}" /></td>
+				<td><t:inputCalendar value="#{hrSession.edits.formation.startDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="fstartdate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar><h:message for="fstartdate" showDetail="true" showSummary="false"/></td>
+				<td><h:outputText value="#{bundle['Formation.totalDays']}" /></td>
+				<td><h:inputText value="#{hrSession.edits.formation.totalDays}" id="ftotaldays"/>
+				<h:message for="ftotaldays" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td valign="top"><h:outputText value="#{bundle['Formation.location']}" /></td>
+				<td colspan="3"><h:inputTextarea value="#{hrSession.edits.formation.location}" cols="50" rows="3" id="flocation"/>
+				<h:message for="flocation" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td valign="top"><h:outputText value="#{bundle['Formation.note']}" /></td>
+				<td colspan="3"><h:inputTextarea value="#{hrSession.edits.formation.note}" cols="50" rows="3" id="fnote"/>
+				<h:message for="fnote" showDetail="true" showSummary="false"/></td>
+			</tr>
+    	</table>
+		<a4j:commandButton value="Done" action="#{hrActions.doneFormation}"
+			reRender=":#{parentClientId}:a4jformation" limitToList="true"
+			actionFor="editFormation" />
+    	</fieldset>
+   	</s:subForm>
+   	</a4j:outputPanel>
+   	</a4j:region>
+</ui:composition>
+</html>
