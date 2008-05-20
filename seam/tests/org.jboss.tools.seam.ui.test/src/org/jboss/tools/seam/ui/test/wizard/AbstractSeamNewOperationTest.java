@@ -102,13 +102,13 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		assertNotNull("Resource isn't created: " + path, resource);
 		assertTrue("Resource isn't created: " + path, resource.exists());
 
-		IMarker[] markers = null;
+		int maxSevarityMarkersCount = -1;
 		try {
-			markers = resource.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			maxSevarityMarkersCount = resource.findMaxProblemSeverity(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
 		} catch (CoreException e) {
 			JUnitUtils.fail(e.getMessage(), e);
 		}
-		assertFalse("At least one problem markar exists on resource: " + path, (markers != null && markers.length > 0));
+		assertFalse("At least one problem marker exists on resource: " + path, (maxSevarityMarkersCount >= 0));
 	}
 
 	
@@ -224,6 +224,8 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		} catch (Exception e) {
 			JUnitUtils.fail(e.getMessage(), e);
 		}
+
+		assertNewFormFilesAreCreatedSuccessfully(registry);
 	}
 	/**
 	 * Test Seam Action for http://jira.jboss.com/jira/browse/JBIDE-2004
@@ -242,6 +244,13 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		registry.createData();
 		registry.fillDataDefaults(SEAM_CONVERSATION_COMPONENT_NAME, getProject().getName());
 		performOperation(CREATE_SEAM_CONVERSATION, registry);
+		try {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
+			JUnitUtils.fail(e.getMessage(), e);
+		}
+
+		assertNewConversationFilesAreCreatedSuccessfully(registry);
 	}
 	
 	/**
@@ -258,12 +267,36 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		
 		setUpSeamProjects();
 
-		AdaptableRegistry registry = new AdaptableRegistry();
+		AdaptableRegistry registry = new AdaptableRegistry() {
+			protected void fillDataDefaults(String componentName, String projectName) {
+				super.fillDataDefaults(componentName, projectName);
+				setDefaultValue(IParameter.SEAM_PACKAGE_NAME, getEntityBeanPackageName(getSeamFacetPreferences(projectName)));
+			}
+
+		};
 		registry.createData();
 		registry.fillDataDefaults(SEAM_ENTITY_COMPONENT_NAME, getProject().getName());
 		performOperation(CREATE_SEAM_ENTITY, registry);
+		try {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
+			JUnitUtils.fail(e.getMessage(), e);
+		}
+
+		assertNewEntityFilesAreCreatedSuccessfully(registry);
 	}
-	
+
+	protected IEclipsePreferences getSeamFacetPreferences(String selectedProject) {
+		if(selectedProject!=null && selectedProject.length()>0) {
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(selectedProject);
+			if(project!=null) {
+				return SeamCorePlugin.getSeamPreferences(project);
+			}
+		}
+
+		return null;
+	}
+
 	protected String getDefaultPackageName(String selectedProject) {
 		String packageName = "";
 		if(selectedProject!=null && selectedProject.length()>0) {
@@ -339,7 +372,7 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 			add(SeamWizardFactory.createSeamMethodNameFieldEditor());
 			add(SeamWizardFactory.createSeamMasterPageNameFieldEditor());	
 			add(SeamWizardFactory.createSeamPageNameFieldEditor());	
-			
+			add(SeamWizardFactory.createSeamEntityClasNameFieldEditor());	
 			IProject rootSeamProject = SeamWizardUtils.getRootSeamProject(getProject());
 			String selectedProject = (rootSeamProject == null) ? "" : rootSeamProject.getName();
 			String packageName = getDefaultPackageName(selectedProject);
@@ -352,6 +385,7 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 			setDefaultValue(IParameter.SEAM_COMPONENT_NAME, valueU); //$NON-NLS-1$
 			setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, valueU); //$NON-NLS-1$
 			setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean"); //$NON-NLS-1$
+			setDefaultValue(IParameter.SEAM_ENTITY_CLASS_NAME, valueU); //$NON-NLS-1$
 			setDefaultValue(IParameter.SEAM_METHOD_NAME, valueL); //$NON-NLS-1$
 			setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
 			setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL); //$NON-NLS-1$

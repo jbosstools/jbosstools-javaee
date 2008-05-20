@@ -132,13 +132,13 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		IContainer seamProjectWebContentFolder = seamPrjSet.getViewsFolder();
 		
 		String seamPageName = data.getValue(IParameter.SEAM_PAGE_NAME);
-		String seamLocalInterfaceName = data.getValue(IParameter.SEAM_LOCAL_INTERFACE_NAME);
-
-		IResource localInterfaceJava = seamProjectSrcActionFolder.findMember(
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
-		assertResourceIsCreatedAndHasNoProblems(localInterfaceJava, 
+		String seamBeanName = data.getValue(IParameter.SEAM_BEAN_NAME);
+		
+		IResource seamBeanJava = seamProjectSrcActionFolder.findMember(
+				sessionBeanPackagePath + "/" + seamBeanName + ".java");
+		assertResourceIsCreatedAndHasNoProblems(seamBeanJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+				sessionBeanPackagePath + "/" + seamBeanName + ".java");
 		
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
@@ -171,6 +171,18 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		String seamMasterPageName = data.getValue(IParameter.SEAM_MASTER_PAGE_NAME);
 		String seamEntityClassName = data.getValue(IParameter.SEAM_ENTITY_CLASS_NAME);
 		
+		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
+				seamPageName + ".xhtml");
+		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
+				seamProjectWebContentFolder.toString() + "/" +
+				seamPageName + ".xhtml");
+		
+		IResource seamMasterPageNameXhtml = seamProjectWebContentFolder.findMember(
+				seamMasterPageName + ".xhtml");
+		assertResourceIsCreatedAndHasNoProblems(seamMasterPageNameXhtml, 
+				seamProjectWebContentFolder.toString() + "/" +
+				seamMasterPageName + ".xhtml");
+		
 		IResource entityClassJava = seamProjectSrcModelFolder.findMember(
 				entityBeanPackagePath + "/" + seamEntityClassName + ".java");
 		assertResourceIsCreatedAndHasNoProblems(entityClassJava, 
@@ -188,18 +200,6 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		assertResourceIsCreatedAndHasNoProblems(entityListJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamEntityClassName + "List.java");
-		
-		IResource seamMasterPageNameXhtml = seamProjectWebContentFolder.findMember(
-				seamMasterPageName + ".xhtml");
-		assertResourceIsCreatedAndHasNoProblems(seamMasterPageNameXhtml, 
-				seamProjectWebContentFolder.toString() + "/" +
-				seamMasterPageName + ".xhtml");
-		
-		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
-				seamPageName + ".xhtml");
-		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
-				seamProjectWebContentFolder.toString() + "/" +
-				seamPageName + ".xhtml");
 		
 /*		
 		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/

@@ -42,7 +42,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 			earProject = ProjectImportTestSetup.loadProject(SEAM_EAR_PROJECTNAME);
 		}
 		if(earEjbProject==null) {
-			earProject = ProjectImportTestSetup.loadProject(SEAM_EAR_EJB_PROJECTNAME);
+			earEjbProject = ProjectImportTestSetup.loadProject(SEAM_EAR_EJB_PROJECTNAME);
 		}
 		if(testProject==null) {
 			testProject = ProjectImportTestSetup.loadProject(SEAM_EAR_TEST_PROJECTNAME);
@@ -93,52 +93,58 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		String seamLocalInterfaceName = data.getValue(IParameter.SEAM_LOCAL_INTERFACE_NAME);
 		String seamBeanName = data.getValue(IParameter.SEAM_BEAN_NAME);
 
-		IResource localInterfaceJava = seamProjectSrcActionFolder.findMember(
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
-		assertResourceIsCreatedAndHasNoProblems(localInterfaceJava, 
-				seamProjectSrcActionFolder.toString() + "/" +
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
-		
+//
+//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource beanJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
 		assertResourceIsCreatedAndHasNoProblems(beanJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
 
+//
+//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
+		IResource localInterfaceJava = seamProjectSrcActionFolder.findMember(
+				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+		assertResourceIsCreatedAndHasNoProblems(localInterfaceJava, 
+				seamProjectSrcActionFolder.toString() + "/" +
+				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+		
+//				
+//		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
+//		${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
+//		${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource localInterfaceTestJava = testSourceFolder.findMember(
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
 		assertResourceIsCreatedAndHasNoProblems(localInterfaceTestJava, 
 				testSourceFolder.toString() + "/" +
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
+
+//		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
+//		${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
+//		${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource localInterfaceTestXml = testSourceFolder.findMember(
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
 		assertResourceIsCreatedAndHasNoProblems(localInterfaceTestXml, 
 				testSourceFolder.toString() + "/" +
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
+
+//		
+//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
 		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
-		
-/*		
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
-			${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
-			${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
-			${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
-			${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-			${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-*/
 	}
 
 	@Override
@@ -155,34 +161,37 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		String seamLocalInterfaceName = data.getValue(IParameter.SEAM_LOCAL_INTERFACE_NAME);
 		String seamBeanName = data.getValue(IParameter.SEAM_BEAN_NAME);
 
+//
+//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource beanJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
 		assertResourceIsCreatedAndHasNoProblems(beanJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
-		
+
+//
+//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource localInterfaceJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
 		assertResourceIsCreatedAndHasNoProblems(localInterfaceJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
 		
+//		
+//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
 		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
-		
-/*		
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-			${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-*/
 	}
 
 	@Override
@@ -201,71 +210,62 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		String seamMasterPageName = data.getValue(IParameter.SEAM_MASTER_PAGE_NAME);
 		String seamEntityClassName = data.getValue(IParameter.SEAM_ENTITY_CLASS_NAME);
 		
+//
+//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + IParameter.SEAM_PAGE_NAME +"}.xhtml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
+				seamPageName + ".xhtml");
+		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
+				seamProjectWebContentFolder.toString() + "/" +
+				seamPageName + ".xhtml");
+
+//
+//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		IResource seamMasterPageNameXhtml = seamProjectWebContentFolder.findMember(
+				seamMasterPageName + ".xhtml");
+		assertResourceIsCreatedAndHasNoProblems(seamMasterPageNameXhtml, 
+				seamProjectWebContentFolder.toString() + "/" +
+				seamMasterPageName + ".xhtml");
+
+//
+//		"${" + IParameter.SEAM_PROJECT_SRC_MODEL + "}/
+//		${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource entityClassJava = seamProjectSrcModelFolder.findMember(
 				entityBeanPackagePath + "/" + seamEntityClassName + ".java");
 		assertResourceIsCreatedAndHasNoProblems(entityClassJava, 
 				seamProjectSrcModelFolder.toString() + "/" +
 				entityBeanPackagePath + "/" + seamEntityClassName + ".java");
 		
+//		
+//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource entityHomeJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamEntityClassName + "Home.java");
 		assertResourceIsCreatedAndHasNoProblems(entityHomeJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamEntityClassName + "Home.java");
-		
+
+//
+//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
+//		${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}List.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
 		IResource entityListJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamEntityClassName + "List.java");
 		assertResourceIsCreatedAndHasNoProblems(entityListJava, 
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamEntityClassName + "List.java");
-		
-		IResource seamMasterPageNameXhtml = seamProjectWebContentFolder.findMember(
-				seamMasterPageName + ".xhtml");
-		assertResourceIsCreatedAndHasNoProblems(seamMasterPageNameXhtml, 
-				seamProjectWebContentFolder.toString() + "/" +
-				seamMasterPageName + ".xhtml");
-		
-		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
-				seamPageName + ".xhtml");
-		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
-				seamProjectWebContentFolder.toString() + "/" +
-				seamPageName + ".xhtml");
-		
-/*		
-		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-			${" + IParameter.SEAM_PAGE_NAME +"}.xhtml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-			${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		"${" + IParameter.SEAM_PROJECT_SRC_MODEL + "}/
-			${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}List.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-*/
 	}
 
 	@Override
 	void assertNewFormFilesAreCreatedSuccessfully(AdaptableRegistry data) {
 		assertNewActionFilesAreCreatedSuccessfully(data);
-/*		
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
-			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-			${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
-			${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
-			${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
-			${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
-			${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-			${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-*/				
 	}
 }
