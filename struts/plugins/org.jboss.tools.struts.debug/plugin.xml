@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.debug.core.breakpoints">
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionBreakpoint" id="strutsActionBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionConditionBreakpoint" id="strutsActionConditionBreakpointMarker" markerType="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionEnterBreakpoint" id="strutsActionEnterBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionEnterBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionAttrForwardBreakpoint" id="strutsActionAttrForwardBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionAttrForwardBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionIncludeBreakpoint" id="strutsActionIncludeBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionIncludeBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionForwardBreakpoint" id="strutsActionForwardBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionForwardBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionTilesDefinitionForwardBreakpoint" id="strutsActionTilesDefinitionForwardBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionTilesDefinitionForwardBreakpointMarker"/>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionExceptionBreakpoint" id="strutsActionExceptionBreakpoint" markerType="org.jboss.tools.struts.debug.strutsActionExceptionBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.GlobalForwardBreakpoint" id="strutsGlobalForwardBreakpoint" markerType="org.jboss.tools.struts.debug.strutsGlobalForwardBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.TilesDefinitionGlobalForwardBreakpoint" id="strutsTilesDefinitionGlobalForwardBreakpoint" markerType="org.jboss.tools.struts.debug.strutsTilesDefinitionGlobalForwardBreakpointMarker"/>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.GlobalExceptionBreakpoint" id="strutsGlobalExceptionBreakpoint" markerType="org.jboss.tools.struts.debug.strutsGlobalExceptionBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.PageEnterBreakpoint" id="strutsPageEnterBreakpoint" markerType="org.jboss.tools.struts.debug.strutsPageEnterBreakpointMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionFormPopulateBreakpoint" id="actionFormPopulateBreakpoint" markerType="org.jboss.tools.struts.debug.actionFormPopulateMarker">
+      </breakpoint>
+      <breakpoint class="org.jboss.tools.struts.debug.internal.ActionFormValidateBreakpoint" id="actionFormValidateBreakpoint" markerType="org.jboss.tools.struts.debug.actionFormValidateMarker">
+      </breakpoint>
+   </extension>
+   <extension id="strutsActionBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.jdt.debug.javaMethodBreakpointMarker">
+      </super>
+      <super type="org.jboss.tools.common.model.modelBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+   <extension id="strutsActionConditionBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+      <attribute name="org.jboss.tools.struts.debug.actionConditionBreakpointManager">
+      </attribute>
+   </extension>
+   <extension id="strutsActionEnterBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath">
+      </attribute>
+      <attribute name="org.jboss.tools.struts.debug.actionTypeName">
+      </attribute>
+   </extension>
+   <extension id="strutsActionAttrForwardBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker"/>
+      <persistent value="true"/>
+      <attribute name="org.jboss.tools.struts.debug.forwardName"/>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath"/>
+   </extension>
+   <extension id="strutsActionIncludeBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker"/>
+      <persistent value="true"/>
+      <attribute name="org.jboss.tools.struts.debug.includeName"/>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath"/>
+   </extension>
+   <extension id="strutsActionForwardBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+      <attribute name="org.jboss.tools.struts.debug.forwardName">
+      </attribute>
+      <attribute name="org.jboss.tools.struts.debug.actionTypeName">
+      </attribute>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath">
+      </attribute>
+   </extension>
+   <extension id="strutsActionTilesDefinitionForwardBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionForwardBreakpointMarker"/>
+      <persistent value="true"/>
+   </extension>
+   <extension id="strutsActionExceptionBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+      <attribute name="org.jboss.tools.struts.debug.exceptionTypeName">
+      </attribute>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath">
+      </attribute>
+   </extension>
+   <extension id="strutsGlobalForwardBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionForwardBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+   <extension id="strutsTilesDefinitionGlobalForwardBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionTilesDefinitionForwardBreakpointMarker"/>
+      <persistent value="true"/>
+   </extension>
+   <extension id="strutsGlobalExceptionBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionExceptionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+   <extension id="strutsPageEnterBreakpointMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.common.model.modelBreakpointMarker">
+      </super>
+      <super type="org.jboss.tools.jst.web.debug.jspLineBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+   <extension id="actionFormPopulateMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath">
+      </attribute>
+   </extension>
+   <extension id="actionFormValidateMarker" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.struts.debug.strutsActionConditionBreakpointMarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+      <attribute name="org.jboss.tools.struts.debug.actionMappingPath">
+      </attribute>
+   </extension>
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/struts_bp.meta">
+      </meta>
+   </extension>
+
+
+   <extension
+         point="org.jboss.tools.common.model.resourceMapping">
+      <mapping
+          loader="org.jboss.tools.struts.debug"
+          priority="1"
+          kind="class"
+          paths=".struts.debug."
+      />
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.struts.debug.model.handlers.ActionBreakPointsHandler"
+			class="org.jboss.tools.struts.debug.model.handlers.ActionBreakPointsHandler"/>
+		<xclass id="org.jboss.tools.struts.debug.model.handlers.AddBreakPointHandler"
+			class="org.jboss.tools.struts.debug.model.handlers.AddBreakPointHandler"/>
+		<xclass id="org.jboss.tools.struts.debug.model.handlers.AddBreakPointToGlobalHandler"
+			class="org.jboss.tools.struts.debug.model.handlers.AddBreakPointToGlobalHandler"/>
+		<xclass id="org.jboss.tools.struts.debug.model.handlers.DisableBreakPointHandler"
+			class="org.jboss.tools.struts.debug.model.handlers.DisableBreakPointHandler"/>
+		<xclass id="org.jboss.tools.struts.debug.model.handlers.EnableBreakPointHandler"
+			class="org.jboss.tools.struts.debug.model.handlers.EnableBreakPointHandler"/>
+		<xclass id="org.jboss.tools.struts.debug.model.handlers.RemoveBreakPointsHandler"
+			class="org.jboss.tools.struts.debug.model.handlers.RemoveBreakPointsHandler"/>
+   </extension>
+
+</plugin>

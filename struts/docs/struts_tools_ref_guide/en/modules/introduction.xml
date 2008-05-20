@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="intoduction">
+    <?dbhtml filename="introduction.html"?>
+
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Introduction</title>
+
+    <para>If you prefer to develop web applications using Struts technology JBoss Tools also meet
+        your needs. The professional developer toolset provides all necessary editors and wizards
+        for creating Struts resources that enhances the process of building high-quality web
+        applications.</para>
+    <note>
+        <para>Note that JBoss Tools support the Struts 1.1, 1.2.x versions.</para>
+    </note>
+
+    <para>In this guide you will learn how to take advantage of Struts support that <property>JBoss Tools</property>
+        provide.</para>
+
+    <section id="struts_key_features">
+        <title>Key Features of Struts Tools</title>
+
+        <para>For a start, we propose you to look through the table of main features of Struts
+            Tools:</para>
+
+        <table>
+
+            <title>Key Functionality for Struts Tools</title>
+            <tgroup cols="3">
+
+                <colspec colnum="1" colwidth="2*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                <colspec colnum="3" colwidth="2*"/>
+
+                <thead>
+                    <row>
+                        <entry>Feature</entry>
+                        <entry>Benefit</entry>
+                        <entry>Chapter</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry><para>Struts Support</para></entry>
+                        <entry><para>Step-by-step wizards for creating a new struts project with a number
+                            of predefined templates, importing existing ones and adding struts
+                            capabilities to non-struts web projects.</para></entry>
+                        <entry>
+                            <link linkend="projects">struts support</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry><para>Support for Struts Configuration File</para></entry>
+                        <entry><para>Working on file using three modes: diagram, tree and source.
+                            Synchronization between the modes and full control over the code. Easy
+                            moving around the diagram using the Diagram Navigator. Working with
+                            struts projects that have multiple modules. Possibility to use Struts
+                            configuration file debugger allowing to set break points on struts
+                            diagram and then launch the server in debug mode.</para></entry>
+                        <entry>
+                            <link linkend="struts_config_editor">graphical editor for struts</link>
+                            <link linkend="config_file_debugger">configuration file debugger</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry><para>Support for Struts modules</para></entry>
+                        <entry><para>A Struts module (struts-config.xml) is automatically created while
+                            creating a new project. There is also possibility to add new ones or edit
+                            already existing modules in your existing project or while importing Struts project.</para></entry>
+                        <entry>
+                            <link linkend="modules">modules</link>
+                        </entry>
+                    </row>
+
+                    <row>
+                        <entry><para>Verification and Validation</para></entry>
+                        <entry><para>All occuring errors will be immediately reported by verification
+                            feature, no matter in what view you are working. Constant validation and
+                            errors checking allows to catch many of the errors during development
+                            process that significantly reduces development time.</para></entry>
+                        <entry>
+                            <link linkend="project_verification">verification and validation</link>
+                        </entry>
+
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+
+    </section>
+    
+    <section>
+        <title>Other relevant resources on the topic</title>
+        
+        <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
+        <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+        
+    </section>
+    
+</chapter>
