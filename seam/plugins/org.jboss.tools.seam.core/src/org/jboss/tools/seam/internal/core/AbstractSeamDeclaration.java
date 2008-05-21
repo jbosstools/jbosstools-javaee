@@ -153,10 +153,16 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 	public Object getAdapter(Class cls) {
 		if(cls == IFile.class) {
 			if(getResource() instanceof IFile) {
-				return (IFile)getResource();
+				IFile f = (IFile)getResource();
+				if(f != null && f.exists()) {
+					return f;
+				}
 			}
 		} else if(cls == IResource.class) {
-			return getResource();
+			IResource r = getResource();
+			if(r != null && r.exists()) {
+				return r;
+			}
 		}
 		return null;
 	}
