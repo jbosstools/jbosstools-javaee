@@ -8,20 +8,22 @@
 
 <itemizedlist>
 <listitem><para>Visualize the project better because the project artifacts for JSF and Struts projects are organized and displayed by function.</para></listitem>
-<listitem> Select these kinds of items to drag and drop into JSP pages:
-<itemizedlist>
-<listitem><para>JSF managed bean attributes</para></listitem>
+<listitem>
+    <para>Select these kinds of items to drag and drop into JSP pages:</para>
+     <itemizedlist>
+     <listitem><para>JSF managed bean attributes</para></listitem>
 <listitem><para>JSF navigation rules outcomes</para></listitem>
 <listitem><para>Property file values</para></listitem>
 <listitem><para>Tag library files</para></listitem>
 <listitem><para>Tags from tag libraries</para></listitem>
 <listitem><para>JSP page links</para></listitem>
-</itemizedlist></listitem>
+</itemizedlist>
+</listitem>
 <listitem><para>Use context menus to develop the application (all create and edit functions are available)</para></listitem>
 <listitem><para>Use icon shortcuts to create and import JSF and Struts projects</para></listitem>
 <listitem><para>Expand and inspect tag library files</para></listitem>
-    <listitem><link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Select custom and third-party tag libraries to drag and drop onto 
-the JBoss Tools Palette</link></listitem>
+<listitem><para><link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Select custom and third-party tag libraries to drag and drop onto 
+the JBoss Tools Palette</link></para></listitem>
 </itemizedlist>
 
 <section id="ProjectOrganization">

@@ -19,7 +19,7 @@
         <section id="AddingTwoViewsJSPPages">
             <?dbhtml filename="AddingTwoViewsJSPPages.html"?>
             <title>Adding Two Views (JSP Pages)</title>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Right-click anywhere on the diagram and select <emphasis>
                         <property>New View...</property>
@@ -66,7 +66,7 @@
     <section id="CreatingTheTransitionNavigationRule">
         <?dbhtml filename="CreatingTheTransitionNavigationRule.html"?>
         <title>Creating the Transition (Navigation Rule)</title>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>In the diagram, select the connection icon third from the top along
                     the upper left side of the diagram</para>
@@ -81,7 +81,7 @@
             </mediaobject>
         </figure>
         <para>to get an arrow cursor with a two-pronged plug at the arrow&apos;s bottom.</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Click on the <emphasis>
                     <property>pages/inputname</property>
@@ -100,7 +100,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Select <emphasis>
                     <property>File > Save</property>

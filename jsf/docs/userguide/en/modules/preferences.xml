@@ -16,32 +16,32 @@
     <para>From this screen, you can select these more specific sets of <property>JBoss Tools preferences</property>:</para>
 
         <itemizedlist>
-        <listitem><link linkend="CodeAssist">Code Assist</link></listitem>
-        <listitem><link linkend="Editors">Editors</link></listitem>
-        <listitem><link linkend="JBossServers">JBoss Servers</link></listitem>
-        <listitem><link linkend="JSF">JSF</link></listitem>
-        <listitem><link linkend="JSFFlowDiagram">JSF Flow Diagram</link></listitem>
-        <listitem><link linkend="JSFPage">JSF Page</link></listitem>
-        <listitem><link linkend="JSFPropject">JSF Propject</link></listitem>
-        <listitem><link linkend="PackagingArchives">Packaging Archives</link></listitem>
-        <listitem><link linkend="Plug-inInsets">Plug-in Insets</link></listitem>
-        <listitem><link linkend="ResourceInsets">Resource Insets</link></listitem>
-        <listitem><link linkend="Seam">Seam</link></listitem>
-        <listitem><link linkend="SeamValidator">Seam Validator</link></listitem>
-        <listitem><link linkend="Struts">Struts</link></listitem>
-        <listitem><link linkend="StrutsAutomatic">Struts Automatic</link></listitem>
-        <listitem><link linkend="StrutsCustomization">Struts Customization</link></listitem>
-        <listitem><link linkend="StrutsFlowDiagram">Struts Flow Diagram</link></listitem>
-         <listitem><link linkend="StrutsPages">Struts Pages</link></listitem>
-         <listitem><link linkend="StrutsProject">Struts Project</link></listitem>
-         <listitem><link linkend="StrutsSupport">Struts Support</link></listitem>
-         <listitem><link linkend="TitleDiagram">Title Diagram</link></listitem>
-         <listitem><link linkend="Verification">Verification</link></listitem>
-         <listitem><link linkend="View">View</link></listitem>
-         <listitem><link linkend="VisualPageEditor2">Visual Page Editor</link></listitem>
-         <listitem><link linkend="XDoclet">XDoclet</link></listitem>
-         <listitem><link linkend="XDocletTemplates">XDoclet Templets</link></listitem>
-         <listitem><link linkend="XDocletsVariables">XDoclets Variables</link></listitem>  
+        <listitem><para><link linkend="CodeAssist">Code Assist</link></para></listitem>
+        <listitem><para><link linkend="Editors">Editors</link></para></listitem>
+        <listitem><para><link linkend="JBossServers">JBoss Servers</link></para></listitem>
+        <listitem><para><link linkend="JSF">JSF</link></para></listitem>
+        <listitem><para><link linkend="JSFFlowDiagram">JSF Flow Diagram</link></para></listitem>
+        <listitem><para><link linkend="JSFPage">JSF Page</link></para></listitem>
+        <listitem><para><link linkend="JSFPropject">JSF Propject</link></para></listitem>
+        <listitem><para><link linkend="PackagingArchives">Packaging Archives</link></para></listitem>
+        <listitem><para><link linkend="Plug-inInsets">Plug-in Insets</link></para></listitem>
+        <listitem><para><link linkend="ResourceInsets">Resource Insets</link></para></listitem>
+        <listitem><para><link linkend="Seam">Seam</link></para></listitem>
+        <listitem><para><link linkend="SeamValidator">Seam Validator</link></para></listitem>
+        <listitem><para><link linkend="Struts">Struts</link></para></listitem>
+        <listitem><para><link linkend="StrutsAutomatic">Struts Automatic</link></para></listitem>
+        <listitem><para><link linkend="StrutsCustomization">Struts Customization</link></para></listitem>
+        <listitem><para><link linkend="StrutsFlowDiagram">Struts Flow Diagram</link></para></listitem>
+         <listitem><para><link linkend="StrutsPages">Struts Pages</link></para></listitem>
+         <listitem><para><link linkend="StrutsProject">Struts Project</link></para></listitem>
+         <listitem><para><link linkend="StrutsSupport">Struts Support</link></para></listitem>
+         <listitem><para><link linkend="TitleDiagram">Title Diagram</link></para></listitem>
+         <listitem><para><link linkend="Verification">Verification</link></para></listitem>
+         <listitem><para><link linkend="View">View</link></para></listitem>
+         <listitem><para><link linkend="VisualPageEditor2">Visual Page Editor</link></para></listitem>
+         <listitem><para><link linkend="XDoclet">XDoclet</link></para></listitem>
+         <listitem><para><link linkend="XDocletTemplates">XDoclet Templets</link></para></listitem>
+         <listitem><para><link linkend="XDocletsVariables">XDoclets Variables</link></para></listitem>  
         </itemizedlist>
         
        <section id="CodeAssist">

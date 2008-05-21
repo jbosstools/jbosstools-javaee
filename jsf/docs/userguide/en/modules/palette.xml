@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="palette" xreflabel="palette">
+<chapter id="palette" xreflabel="palette" revisionflag="changed"> 
     <?dbhtml filename="palette.html"?>
     <chapterinfo>
         <keywordset>
@@ -324,7 +324,7 @@
                 </itemizedlist>
             </para>
         </section>
-        <section id="Show/Hide">
+        <section id="show_hide">
             <?dbhtml filename="Show/Hide.html"?>
             <title>Show/Hide</title>
             <para><emphasis>
