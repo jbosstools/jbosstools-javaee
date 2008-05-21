@@ -324,8 +324,4 @@ public class SeamExpressionResolver {
 		}
 		return member;
 	}
-
-	public static TypeInfoCollector collectTypeInfo(TypeInfoCollector.MemberInfo member) {
-		return member.getTypeCollector();
-	}
 }
