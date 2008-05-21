@@ -64,7 +64,7 @@
         </itemizedlist>
         <para>A &quot;StrutsHello&quot; node should appear in the upper-left Package
             Explorer view.</para>
-        <itemizedlist continuation="continues">
+        <itemizedlist>
             <listitem>
                 <para>Click the plus sign next to <emphasis>
                     <property>StrutsHello</property>
@@ -103,7 +103,7 @@
                 them in the diagram. We will write the code a little bit later.</para>
             <section id="CreatingthePagePlaceholders">
                 <title>Creating the Page Placeholders</title>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Bring the Web Projects view to the front of the Package Explorer view
                             by selecting the <emphasis>
@@ -163,7 +163,7 @@
             <section id="PlacingthePagePlaceholders">
                 <title>Placing the Page Placeholders</title>
                 <para>Lets now place the two pages just created on the diagram.</para>
-                <itemizedlist continuation="continues">
+                <itemizedlist>
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>struts-config.xml</property>
@@ -176,12 +176,12 @@
                             </emphasis> page in the Web Projects view, drag it onto the diagram, and
                             drop it</para>
                     </listitem>
-                    <listitem>Click on the <emphasis>
+                    <listitem><para>Click on the <emphasis>
                             <property>greeting.jsp</property>
                         </emphasis> page in the Web Projects view, drag it onto the diagram, and
                         drop it to the right of the <emphasis>
                             <property>/pages/inputname.jsp</property>
-                        </emphasis> icon with some extra space</listitem>
+                        </emphasis> icon with some extra space</para></listitem>
                 </itemizedlist>
                 <para>You should now have two JSP pages in the diagram.</para>
             </section>
@@ -190,7 +190,7 @@
             <title>Creating an Action Mappings</title>
             <para>Using a context menu on the diagram, we are next going to create an Action
                 mapping.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Right-click between the two icons and select <emphasis>
                             <property>Add > Action</property>
@@ -201,6 +201,7 @@
                 </listitem>
             </itemizedlist>
             <table>
+                <title>Action values</title>
                 <tgroup cols="2">
                     <tbody>
                         <row>
@@ -228,7 +229,7 @@
             </table>
             <para>(&quot;GetNameForm&quot; is the name for a form bean that we will create
                 later.)</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Click <emphasis>
                             <property>Finish</property>
@@ -247,7 +248,7 @@
         <section id="CreatingaLink">
             <title>Creating a Link</title>
             <para>Let&apos;s now create a link from the inputname.jsp page to the action.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>On the left-hand side of the diagram in the column of icons, click on this
                         icon:</para>
@@ -261,7 +262,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>In the connect-the-components mode you are in now, click on the <emphasis>
                             <property>/pages/inputname.jsp</property>
@@ -275,7 +276,7 @@
         <section id="CreatingaForward">
             <title>Creating a Forward</title>
             <para>Next, we are going to create a forward for the action.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>On the left-hand side of the diagram in the column of icons, click on this
                         icon, again:</para>
@@ -289,7 +290,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <itemizedlist continuation="continues">> <listitem>
+            <itemizedlist>
+                <listitem>
                     <para>Click on the <emphasis>
                             <property>/greeting</property>
                         </emphasis> action icon in the diagram and then click on the <emphasis>
@@ -328,7 +330,7 @@
         <section id="CreatingaGlobalForward">
             <title>Creating a Global Forward</title>
             <para>One last component that we need to create in the diagram is a global forward.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Somewhere in the top-left corner of diagram, right-click and select <emphasis>
                             <property> Add > Global Forward...</property>
@@ -367,7 +369,7 @@
             </itemizedlist>
             <para>A forward object now appears on the diagram and also in the global-forwards folder
                 in the Outline view.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Tidy up the diagram, by clicking and dragging around each icon, so that
                         the diagram looks something like this:</para>
@@ -385,7 +387,7 @@
         <section id="CreatingaFormBean">
             <title>Creating a Form Bean</title>
             <para>One last thing that we need to do is to create a form bean.</para>
-            <itemizedlist continuation="continues">
+            <itemizedlist>
                 <listitem>
                     <para>Switch to the Tree viewer in the editor for the struts-config.xml file, by
                         selecting the <emphasis>

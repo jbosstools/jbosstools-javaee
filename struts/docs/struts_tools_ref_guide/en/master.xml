@@ -13,23 +13,27 @@
 <!ENTITY project_verification SYSTEM "modules/project_verification.xml">
 <!ENTITY rel_resources_links SYSTEM "modules/rel_resources_links.xml">
 
-<!ENTITY seamlink "../../../../seam/publish/en-US/html_single/index.html">
-<!ENTITY aslink "../../../../as/publish/en-US/html_single/index.html">
-<!ENTITY esblink "../../../../esb_ref_guide/publish/en-US/html_single/index.html">
-<!ENTITY gsglink "../../../../GettingStartedGuide/publish/en-US/html_single/index.html">
-<!ENTITY hibernatelink "../../../../hibernatetools/publish/en-US/html_single/index.html">
-<!ENTITY jbpmlink "../../../../jbpm/publish/en-US/html_single/index.html">
-<!ENTITY jsflink "../../../../jsf/publish/en-US/html_single/index.html">
-<!ENTITY jsfreflink "../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html">
-<!ENTITY jsftutoriallink "../../../../jsf_tools_tutorial/publish/en-US/html_single/index.html">
-<!ENTITY strutsreflink "../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html">
-<!ENTITY strutstutoriallink "../../../../struts_tools_tutorial/publish/en-US/html_single/index.html">    
-<!ENTITY migrationlink "../../../../Exadel-migration/publish/en-US/html_single/index.html">                     
+<!ENTITY seamlink "../../../../seam/html_single/index.html">
+<!ENTITY aslink "../../../../as/html_single/index.html">
+<!ENTITY esblink "../../../../esb_ref_guide/html_single/index.html">
+<!ENTITY gsglink "../../../../GettingStartedGuide/html_single/index.html">
+<!ENTITY hibernatelink "../../../../hibernatetools/html_single/index.html">
+<!ENTITY jbpmlink "../../../../jbpm/html_single/index.html">
+<!ENTITY jsflink "../../../../jsf/html_single/index.html">
+<!ENTITY jsfreflink "../../../../jsf_tools_ref_guide/html_single/index.html">
+<!ENTITY jsftutoriallink "../../../../jsf_tools_tutorial/html_single/index.html">
+<!ENTITY strutsreflink "../../../../struts_tools_ref_guide/html_single/index.html">
+<!ENTITY strutstutoriallink "../../../../struts_tools_tutorial/html_single/index.html">    
+<!ENTITY migrationlink "../../../../Exadel-migration/html_single/index.html">                     
 
 ]>
 <book>
     <bookinfo>
         <title>Struts Tools Reference Guide</title>
+        
+        <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
+        <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
+        <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
         
         <pubdate>April 2008</pubdate>
         <copyright>
@@ -38,7 +42,7 @@
             <holder>JBoss, a division of Red Hat Inc.</holder>
         </copyright>
         <releaseinfo>
-            <para>Version: 2.1.0.CR1</para>
+           Version: 2.1.0.CR1
         </releaseinfo>
     </bookinfo>
     
