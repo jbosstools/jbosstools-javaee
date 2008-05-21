@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="editors">
+    <?dbhtml filename="editors.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>Struts Tools</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Editors</title>
+    <para>In this chapter we&apos;ll introduce you to featured graphical editors for specific
+        Struts files such as Struts Configuration files, Tiles files and Struts Validation files.</para>
+    <section id="struts_config_editor">
+
+        <title>Graphical Editor for Struts Configuration Files</title>
+        <para>First, let&apos;s dwell on the Struts Configuration file editor.</para>
+        <para>This editor  has three views with different representation of <emphasis>
+                <property>struts-config.xml</property>: </emphasis>Diagram, Tree and Source. The
+            views can be selected via the tabs at the bottom of the editor. Any changes made in one
+            view are immediately visible when you switch to any other view.</para>
+
+        <para>Now, we&apos;ll consider every view in more detail.</para>
+        <section id="StrutsDiagramMode453">
+
+            <title>Diagram View</title>
+
+            <para>The Diagram view graphically displays the Web flow of the application defined in
+                the Struts configuration file.</para>
+
+            <figure>
+                <title>Diagram View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_14.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>The Diagram view allows to edit navigation in your Struts application. Just by
+                right-clicking anywhere on the diagram, you can use a context menu to create the
+                building blocks of a Struts application:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Actions</para>
+                </listitem>
+                <listitem>
+                    <para>Global forwards</para>
+                </listitem>
+                <listitem>
+                    <para>Global exceptions</para>
+                </listitem>
+                <listitem>
+                    <para>JSP Pages</para>
+                </listitem>
+            </itemizedlist>
+
+            <figure>
+                <title>Diagram Context Menu</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_15.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>Along the upper-left side of the editor is a stack of seven icons for changing the
+                behavior of the cursor in the diagram. </para>
+
+            <figure>
+                <title>Editor Icons</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_16.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>The first icon switches to the default regular selection cursor, the second to the
+                marquee selection cursor and the third to the new connection cursor. The last four
+                icons switch the cursor to an insert cursor for each type of Struts build block
+                listed above (and in the order listed).</para>
+
+            <para>For instance, clicking on the first of these four icons (the one with the gears)
+                will switch the cursor to insert actions. Clicking anywhere in the diagram with this
+                cursor has the same effect as right-click and selecting <emphasis>
+                    <property>Add > Action...</property>
+                </emphasis> from the context menu with the regular cursor active. It&apos;s just
+                more efficient to use this cursor if you&apos;re adding more than one action at
+                once.</para>
+
+
+        </section>
+        <section id="StrutsTreeMode42">
+
+            <title>Tree View</title>
+
+            <para>The Tree view represents the different elements of the Struts application that are
+                organized into functional categories on the left-hand side and a form for editing
+                the properties of currently selected items on the right-hand side.</para>
+
+            <figure>
+                <title>Tree View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_17.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>You can also right-click on any node in the category tree and perform appropriate
+                operations through a context menu. For instance, by right-clicking on the
+                action-mappings category node, you can add new actions to the application.</para>
+
+            <figure>
+                <title>Tree Context Menu</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_18.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section id="StrutsSourceMode9655">
+
+            <title>Source View</title>
+
+            <para>In the Source view, you have complete editing control of the underlying XML
+                coding.</para>
+
+            <figure>
+                <title>Source View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_19.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <para>When working in Source view, you always have all the following features available:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Content Assist</para>
+                </listitem>
+                <listitem>
+                    <para>Open On Selection</para>
+                </listitem>
+                <listitem>
+                    <para>File Folding</para>
+                </listitem>
+            </itemizedlist>
+            <para>You can take advantage of <ulink url="&jsflink;#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</ulink>.</para>
+            <figure>
+                <title>Code Assist</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_20.png" scale="85"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>The editor will also immediately flag any errors.</para>
+
+            <figure>
+                <title>Errors in Source View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_21.png" scale="85"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>Finally, you can use the Outline view with the editor to easily navigate through
+                the file.</para>
+
+            <figure>
+                <title>Outline View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_22.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <para>Find more information about editor features <ulink url="&jsflink;#editors_features"
+                >here</ulink>.</para>
+        </section>
+    </section>
+
+    <section id="GraphicalEditorForTilesFiles132">
+
+        <title>Graphical Editor for Tiles Files</title>
+        <para>Here, you&apos;ll know how to make use of the special graphical editor for Tiles configuration files.</para>
+        <para>The editor has three main views: Tree, Diagram and Source.
+            The views can be selected via the tabs at the bottom of the editor. Any changes made in
+            one view are immediately visible when you switch to any other view.</para>
+
+       <para>Before we consider each view of the editor, let&apos;s look at the way of creating new Tiles files.</para>
+        <section id="CreateNewTilesFile1422">
+
+            <title>Create New Tiles File</title>
+
+            <para>To create new Tiles files, right click any folder and select <emphasis>
+                    <property>New &gt; Tiles File</property>. </emphasis></para>
+            <figure>
+                <title>Creating a New Tiles File</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_23.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section id="StrutsTreeView896">
+
+            <title>Tree View</title>
+
+            <para>The Tree view represents the different elements of the Tiles file that are
+                organized into functional categories on the left-hand side and a form for editing
+                the properties of currently selected items on the right-hand side.</para>
+            <figure>
+                <title>Tree View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_24.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>To edit the file, simply right click any node and select among the available
+                actions.</para>
+            <figure>
+                <title>Editing in Tiles Editor</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_25.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section id="StrutsDiagramView4643">
+
+            <title>Diagram View</title>
+
+            <para>The Diagram view allows you to create complex Tiles files in the form of a
+                diagram.</para>
+            <figure>
+                <title>Diagram Mode</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_26.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>To create new definitions, simply right click anywhere in the diagram.</para>
+            <figure>
+                <title>Creating New Definition</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_27.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>You can also use the Diagram toolbar to make editing easier.</para>
+            <figure>
+                <title>Diagram Toolbar</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_28.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para> It contains four icons for changing the cursor state. The first one is the
+                default cursor state for selecting existing nodes. The second icon is marquee
+                selector. The third is used for creating new connections and the last one is for
+                adding definition template to the content.</para>
+        </section>
+        <section id="StrutsSource75">
+
+            <title>Source</title>
+
+            <para>The other view of the <property>Tiles editor</property> is the Source view that
+                gives you full control over the source. Any changes here will immediately appear in
+                other modes when you switch to them.</para>
+            
+            <para>When working in Source view, you always have all following features available:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Content Assist</para>
+                </listitem>
+                <listitem>
+                    <para>Open On Selection</para>
+                </listitem>
+            </itemizedlist>
+            
+            <figure>
+                <title>Source View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_29.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para><ulink url="&jsflink;#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Code
+                assist</ulink> is available in the Source mode.</para>
+            <figure>
+                <title>Code Assist</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_30.png" scale="85"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Any errors are immediately reported as shown below:</para>
+            <figure>
+                <title>Errors Reporting</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_31.png" scale="75"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>You can also use the Outline view together with the editor&apos;s Source mode.
+                It provides an easier navigation through the file.</para>
+            <figure>
+                <title>Outline View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts/struts_32.png" scale="85"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+    </section>
+
+    <section id="GraphicalEditorForStrutsValidationFiles86">
+
+        <title>Graphical Editor for Struts Validation Files</title>
+
+        <para>Providing full support for development Struts applications JBoss Tools comes with a
+            visual validation editor. To open the editor double-click on the validation file or if you don&apos;t have it create a new one.</para>
+            
+            <para>To create a new validation file, right click any folder in
+            Project Explorer and select <emphasis>
+                <property>File > New > Other...</property>
+            </emphasis>from the context menu and then <emphasis>
+                <property>JBoss Tools Web > Struts > Validation File</property>. </emphasis></para>
+        <figure>
+            <title>Creating New Validation File</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_33.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>The validation editor works with five modes: Formsets, Validators, Constants and
+            standard Tree and Source that you can easily switch over using tabs at the bottom of the
+            editor.</para>
+        <para>The Formsets view shows forms and their elements on the left side and the dialogue for
+            defining their validation rules on the right side.</para>
+        <figure>
+            <title>Formsets View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_34.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>The Constants view let you set constant values for your validation rules.</para>
+        <figure>
+            <title>Constansts View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_35.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>The validation file can also be viewed in a Tree view.</para>
+        <figure>
+            <title>Tree View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_36.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>At any point you have full control over the source by switching to the Source view.
+            Any editing in this view will immediately be available in other views of the editor.</para>
+        <figure>
+            <title>Source View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_37.png" scale="85"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>You can also open your own custom or Struts-standard <emphasis>
+                <property>validation-rules.xml</property>
+            </emphasis> file.</para>
+        <para>The Validators view shows the validation rules for a selected validator. You can of
+            course add your own rules.</para>
+        <figure>
+            <title>Validators View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_38.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>Here are the validation rules shown in the Source mode.</para>
+        <figure>
+            <title>Validation Rules</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_39.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+</chapter>
