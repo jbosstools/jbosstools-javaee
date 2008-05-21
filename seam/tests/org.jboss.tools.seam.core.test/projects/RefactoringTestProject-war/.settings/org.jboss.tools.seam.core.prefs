@@ -1,0 +1,16 @@
+#Tue Mar 18 20:57:26 MSK 2008
+action.package=ejbdemo
+action.sources=/RefactoringTestProject-ejb/src
+eclipse.preferences.version=1
+model.package=wardemo
+model.sources=/RefactoringTestProject-war/src
+seam.ejb.project=RefactoringTestProject-ejb
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/RefactoringTestProject-war/webroot/WebContent
+seam.runtime.name=jboss-seam-2.0.0.GA
+seam.test.creating=true
+seam.test.project=RefactoringTestProject-test
+test.package=testdemo
+test.sources=/RefactoringTestProject-test/src

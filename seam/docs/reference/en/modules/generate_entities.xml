@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="generate_entities" xreflabel="generate_entities"> 
+    <?dbhtml filename="generate_entities.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>JBDS</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Seam Generate Entities</title>
+    
+    <para>The main purpose of this chapter is to tell you about Seam Generate Entities.</para>
+    <para>Generate Entities is available directly from within Eclipse using Hibernate Tools plugin for the standard seam-gen generation.</para>
+    <para>Generate Entities generates a set of CRUD Seam components and web pages based on existing tables in a database or on existing entities in your application.</para>
+    
+    
+    <figure>
+        <title>Generate Seam Entities Wizard</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="images/generate_entities/generate_entities1.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    <para>In the Generate Seam Entities wizard there are two generation modes: Reverse Engineer from database
+        and Use existing entities.</para>
+        
+    <para>The <property>Reverse Engineer from database</property> mode can be described in four steps:</para>
+    <orderedlist>
+        <listitem><para>The wizard gets in database, extracts the tables and 
+            their connections</para></listitem>
+        <listitem><para>On basis of this metainfomation the Entity classes are generated into 
+            <property>org.domain.project.entity</property> package</para></listitem>
+        <listitem><para>For the entities from step 2 the classes <property>EntityList</property> and <property>EntityHome</property> are generated
+            into <property>org.domain.project.session</property> package</para></listitem>
+        <listitem><para>The xhtml pages are generated.</para></listitem>
+    </orderedlist>
+    <para>
+        Checking the <property>Use existing entities</property> mode the wizard executes only 3 and 4 steps. It generates missing classes and
+        xhtml pages. 
+    </para>
+    
+    <para>Read the <link linkend="crud_database_application">Generate a CRUD Database Application</link> chapter in order to see how the <property>Generate Seam Entities</property> wizard can be used.</para>
+    
+    
+  </chapter>
+

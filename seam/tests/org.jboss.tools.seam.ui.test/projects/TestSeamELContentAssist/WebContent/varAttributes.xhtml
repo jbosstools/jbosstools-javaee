@@ -1,0 +1,18 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:dataTable value="#{mapItems}" var="mapItem">
+		<h:dataTable value="#{mapItem.value.items}" var="test">
+			<h:outputText value="#{test.}"/>
+		</h:dataTable>
+	</h:dataTable>
+
+	<h:dataTable value="#{arrayItems}" var="arrayItem">
+		<h:dataTable value="#{arrayItem.list}" var="item">
+			<h:outputText value="#{item.}"/>
+		</h:dataTable>
+	</h:dataTable>
+</html>

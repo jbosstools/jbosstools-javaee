@@ -1,0 +1,74 @@
+<contexts>
+	<context id="new_seam_project" title="New Seam Project">
+		<description>New Seam Project Wizard</description>
+		<topic href="create_new_seam.html#standaloneSeam" label="Create standalone Seam Web Project"/>
+		<topic href="create_new_seam.html#projectFacets" label="Select the Project Facets"/>
+		<topic href="create_new_seam.html#configureWebModule" label="How to Configure Web Module Settings"/>
+		<topic href="create_new_seam.html#addJSFCapab" label="Adding JSF Capabilities"/>
+		<topic href="create_new_seam.html#seamFacet" label="Configure Seam Facet Settings"/>
+		<topic href="crud_database_application.html#d0e1343" label="How to create the CRUD Database Application with Seam"/>
+	</context>
+	<context id="new_seam_action" title="New Seam Action">
+		<description>New Seam Action Wizard</description>
+		<topic href="seam_wizards.html#seam_action" label="New Seam Action"/>
+		<topic href="testNG.html#d0e2051" label="How to use the generated Seam-test project to run Seam tests?"/>
+	</context>
+	<context id="new_seam_form" title="New Seam Form">
+		<description>New Seam Form Wizard</description>
+		<topic href="seam_wizards.html#seam_form" label="New Seam Form"/>
+	</context>
+	<context id="new_seam_conversation" title="New Seam Conversation">
+		<description>New Seam Conversation Wizard</description>
+		<topic href="seam_wizards.html#seam_conversation" label="New Seam Conversation"/>
+	</context>
+	<context id="new_seam_entity" title="New Seam Entity">
+		<description>New Seam Entity Wizard</description>
+		<topic href="seam_wizards.html#seam_entity" label="New Seam Entity"/>
+	</context>
+	<context id="generate_seam_entities" title="Generate Seam Entities">
+		<description>Generate Seam Entities Wizard</description>
+		<topic href="generate_entities.html" label="Seam Generate Entities"/>
+		<topic href="crud_database_application.html#d0e1343" label="How to create the CRUD Database Application with Seam"/>
+	</context>
+	<context id="new_server_runtime" title="New Server Runtime">
+		<description>New Server Runtime Wizard</description>
+		<topic href="create_new_seam.html#standaloneSeam" label="Create standalone Seam Web Project"/>
+	</context>
+	<context id="new_server" title="New Server">
+		<description>New Server Wizard</description>
+		<topic href="create_new_seam.html#standaloneSeam" label="Create standalone Seam Web Project"/>
+	</context>
+	<context id="create_jsf_implementation_library" title="Create JSF Implementation Library">
+		<description>Create JSF Implementation Library Wizard</description>
+		<topic href="create_new_seam.html#addJSFCapab" label="Adding JSF Capabilities"/>
+	</context>
+	<context id="new_seam_runtime" title="New Seam Runtime">
+		<description>New Seam Runtime Wizard</description>
+		<topic href="create_new_seam.html#seamFacet" label="Configure Seam Facet Settings"/>
+	</context>
+	<context id="new_connection_profile" title="New Connection Profile">
+		<description>New Connection Profile Wizard</description>
+		<topic href="create_new_seam.html#seamFacet" label="Configure Seam Facet Settings"/>
+		<topic href="crud_database_application.html#d0e1343" label="How to create the CRUD Database Application with Seam"/>
+	</context>
+	<context id="hsqldb_database" title="HSQLDB Database">
+		<description>HSQLDB Database Wizard</description>
+		<topic href="create_new_seam.html#seamFacet" label="Configure Seam Facet Settings"/>
+	</context>
+	<context id="new_jdbc_connection_profile" title="New JDBC Connection Profile">
+		<description>New JDBC Connection Profile Wizard</description>
+		<topic href="crud_database_application.html#d0e1343" label="How to create the CRUD Database Application with Seam"/>
+	</context>
+	<context id="driver_definitions" title="Driver Definitions">
+		<description>Driver Definitions Wizard</description>
+		<topic href="crud_database_application.html#d0e1343" label="How to create the CRUD Database Application with Seam"/>
+	</context>
+	<context id="edit_driver_definition" title="Edit Driver Definition">
+		<description>Edit Driver Definition Wizard</description>
+		<topic href="crud_database_application.html#d0e1343" label="How to create the CRUD Database Application with Seam"/>
+	</context>
+	<context id="run_on_server" title="Run On Server">
+		<description>Run On Server Wizard</description>
+		<topic href="crud_application_walkthrough.html#d0e1813" label="Using CRUD Application"/>
+	</context>
+</contexts>
