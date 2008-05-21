@@ -1,0 +1,78 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<ui:composition>
+	<table border="0" width="100%">
+		<tr>
+			<td><h:outputText value="#{bundle['NextOfKin.partnerName']}"/></td>
+			<td><h:inputText value="#{nok.partnerName}" /></td>
+			<td><h:outputText value="#{bundle['NextOfKin.relationship']}"/></td>
+			<td><!-- <h:selectOneMenu value="#{nok.relationship}" id="nrelation">
+		              <f:selectItems value="#{hrRequest.selectEntries['Relationship']}"/>
+		            </h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{nok.relationship}" />
+							<ui:param name="id" value="nrelation" />
+							<ui:param name="key" value="Relationship" />
+					</ui:include>
+		            <h:message for="nrelation" showDetail="true" showSummary="false"/></td>
+		</tr>
+		<tr>
+			<td><h:outputText value="#{bundle['NextOfKin.marriageDate']}"/></td>
+			<td><t:inputCalendar
+							value="#{nok.marriageDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="nmdate">
+							
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</t:inputCalendar><h:message for="nmdate" showDetail="true" showSummary="false"/></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><h:outputText value="#{bundle['NextOfKin.haardToelage']}"/></td>
+			<td><h:selectBooleanCheckbox value="#{nok.haardToelage}" id="nhtage"></h:selectBooleanCheckbox>
+			<h:message for="nhtage" showDetail="true" showSummary="false"/></td>
+			<td><h:outputText value="#{bundle['NextOfKin.haardToelageDate']}"/></td>
+			<td><t:inputCalendar
+							value="#{nok.haardToelageDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="nhtdate">
+							
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</t:inputCalendar><h:message for="nhtdate" showDetail="true" showSummary="false"/></td>
+		</tr>
+		<tr>
+			<td><h:outputText value="#{bundle['NextOfKin.standplaatsToelage']}"/></td>
+			<td><h:selectBooleanCheckbox value="#{nok.standplaatsToelage}" id="nstoelage"></h:selectBooleanCheckbox>
+			<h:message for="nstoelage" showDetail="true" showSummary="false"/></td>
+			<td><h:outputText value="#{bundle['NextOfKin.standplaatsToelageDate']}"/></td>
+			<td><t:inputCalendar
+							value="#{nok.standplaatsToelageDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="nstoeDate">
+							
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</t:inputCalendar><h:message for="nstoeDate" showDetail="true" showSummary="false"/></td>
+		</tr>
+		<tr>
+			<td colspan="4">
+			<fieldset>
+				<legend><h:outputText value="#{bundle['NextOfKin.address']}"/></legend>
+			<ui:include src="address.xhtml">
+				<ui:param name="address" value="#{nok.address}" />
+			</ui:include>
+			</fieldset>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><h:outputText value="#{bundle['NextOfKin.note']}"/></td>
+			<td colspan="3">
+			<h:inputTextarea value="#{nok.note}" cols="40" rows="8" id="nnote"/>
+			<h:message for="nnote" showDetail="true" showSummary="false"/>
+			</td>
+		</tr>
+	</table>
+</ui:composition>
+</html>

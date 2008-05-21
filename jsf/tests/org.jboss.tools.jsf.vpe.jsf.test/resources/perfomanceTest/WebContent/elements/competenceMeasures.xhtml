@@ -1,0 +1,410 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<style type="text/css">
+	tr.separator td,tr.separator th {
+		border-bottom:1px solid black;
+	}
+	</style>
+	<a4j:region id="compRegion">
+	
+	<a4j:outputPanel id="a4jComp" layout="block">
+	<table class="list" width="100%">
+		<thead></thead>
+		<t:dataList id="measures" var="measure" rowIndexVar="index"
+			value="#{competenceMeasures}">
+			<tbody class="highlight">
+			<tr class="#{(index%2)==0?'even':'odd'}" width="100%">
+				<td>#{bundle['CompetenceMeasure.name']}</td>
+				<td>#{measure.name}</td>
+				<td>#{bundle['CompetenceMeasure.reference']}</td>
+				<td>#{measure.reference}</td>
+				<td rowspan="11" valign="top"><a4j:commandLink 
+					action="#{hrActions.editCompetenceMeasure}" immediate="true"
+					reRender=":#{parentClientId}:a4jComp" limitToList="true">
+					<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+					<f:param name="containerToReset" value="editCompetenceMeasure" />
+					<f:param name="editId" value="#{index}" />
+					<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+				</a4j:commandLink></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.organismApplyDate']}</td>
+				<td><h:outputText value="#{measure.organismApplyDate}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+				<td>#{bundle['CompetenceMeasure.IRMApplyDate']}</td>
+				<td><h:outputText value="#{measure.IRMApplyDate}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.validityStart']}</td>
+				<td><h:outputText value="#{measure.validityStart}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+				<td>#{bundle['CompetenceMeasure.validityEnd']}</td>
+				<td><h:outputText value="#{measure.validityEnd}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.level']}</td>
+				<td>#{measure.level}</td>
+				<td>#{bundle['CompetenceMeasure.premium']}</td>
+				<td><h:outputText value="#{measure.premium}">
+					<f:converter converterId="SelectConverter" />
+				</h:outputText></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td valign="top">#{bundle['CompetenceMeasure.competenceMeasureTests']}</td>
+
+				<td colspan="3" valign="top">
+				<table class="list" style="border-spacing: 0px;">
+					<!-- <tr>
+							<th>#{bundle['CompetenceMeasureTest.date']}</th>
+							<th>#{bundle['CompetenceMeasureTest.score']}</th>
+							<th>#{bundle['CompetenceMeasureTest.result']}</th>
+						</tr> -->
+					<t:dataList rowIndexVar="index2" var="test"
+						value="#{measure.competenceMeasureTestsArray}">
+						<tr class="#{((index2+index)%2)==0?'odd':'even'}">
+							<td><h:outputText value="#{test.date}">
+								<f:convertDateTime pattern="dd MMMM yyyy"
+									timeZone="Europe/Paris" />
+							</h:outputText></td>
+							<td>#{test.score}</td>
+							<td><h:outputText value="#{test.result}">
+								<f:converter converterId="SelectConverter" />
+							</h:outputText></td>
+						</tr>
+					</t:dataList>
+				</table>
+				</td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.evolution']}</td>
+				<td><h:outputText value="#{measure.evolution}">
+					<f:converter converterId="SelectConverter" />
+				</h:outputText></td>
+				<td>#{bundle['CompetenceMeasure.scoreTotal']}</td>
+				<td>#{measure.scoreTotal}</td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.pvDate']}</td>
+				<td><h:outputText value="#{measure.pvDate}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+				<td>#{bundle['CompetenceMeasure.nextDate']}</td>
+				<td><h:outputText value="#{measure.nextDate}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.nextSalaryScale']}</td>
+				<td>#{measure.nextSalaryScale}</td>
+				<td>#{bundle['CompetenceMeasure.nextSalaryScaleDate']}</td>
+				<td><h:outputText value="#{measure.nextSalaryScaleDate}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.location']}</td>
+				<td>#{measure.location}</td>
+				<td>#{bundle['CompetenceMeasure.duration']}</td>
+				<td>#{measure.duration}</td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td>#{bundle['CompetenceMeasure.testNumber']}</td>
+				<td>#{measure.testNumber}</td>
+				<td colspan="2"></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td valign="top">#{bundle['CompetenceMeasure.note']}</td>
+				<td colspan="3">#{measure.note}</td>
+			</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr>
+				<td colspan="5" align="right">
+					<a4j:commandLink immediate="true"
+						rendered="#{hrSession.edits.competenceMeasure == null}"
+						reRender=":#{parentClientId}:a4jComp" limitToList="true"
+						action="#{hrActions.addCompetenceMeasure}">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editCompetenceMeasure" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<s:subForm id="editCompetenceMeasure"
+		rendered="#{hrSession.edits.competenceMeasure != null}">
+		<fieldset>
+		<table style="border-spacing: 0px;" width="100%">
+			<tr>
+				<td>#{bundle['CompetenceMeasure.name']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.name}" id="cmname"/>
+					<h:message for="cmname" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.reference']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.reference}" id="mref"/>
+					<h:message for="mref" showDetails="true" showSummary="false"/></td>
+				
+				<td rowspan="10" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteCompetenceMeasure}" immediate="true"
+							reRender=":#{parentClientId}:a4jComp" limitToList="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.organismApplyDate']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.organismApplyDate}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmoadate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmoadate" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.IRMApplyDate']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.IRMApplyDate}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmiadate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmiadate" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.validityStart']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.validityStart}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmvstart">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmvstart" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.validityEnd']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.validityEnd}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmvend">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmvend" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.level']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.level}" id="cmlevel"/>
+					<h:message for="cmlevel" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.premium']}</td>
+				<td><!-- <h:selectOneMenu
+					value="#{hrSession.edits.competenceMeasure.premium}" id="cmpremium">
+					<f:selectItems
+						value="#{hrRequest.selectEntries['Competence premium']}" />
+				</h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.competenceMeasure.premium}" />
+						<ui:param name="id" value="cmpremium" />
+						<ui:param name="key" value="Competence premium" />
+					</ui:include>
+					<h:message for="cmpremium" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td valign="top">#{bundle['CompetenceMeasure.competenceMeasureTests']}</td>
+				<td colspan="3" valign="top">
+				<a4j:region>
+				<a4j:outputPanel id="tests">
+				<table class="list">
+					<thead>
+						<tr>
+							<th>#{bundle['CompetenceMeasureTest.date']}</th>
+							<th>#{bundle['CompetenceMeasureTest.score']}</th>
+							<th>#{bundle['CompetenceMeasureTest.result']}</th>
+							<th></th>
+						</tr>
+					</thead>
+					<t:dataList rowIndexVar="index2" var="test"
+						value="#{hrSession.edits.competenceMeasure.competenceMeasureTestsArray}">
+						<tbody class="highlight">
+							<tr class="#{((index2+index)%2)==0?'odd':'even'}">
+								<td><h:outputText value="#{test.date}">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</h:outputText></td>
+								<td>#{test.score}</td>
+								<td><h:outputText value="#{test.result}">
+									<f:converter converterId="SelectConverter" />
+								</h:outputText></td>
+								<td><a4j:commandLink
+									action="#{hrActions.editCompetenceMeasureTest}" immediate="true"
+									reRender=":#{parentClientId}:editCompetenceMeasure:tests" limitToList="true">
+									<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+									<f:param name="containerToReset"
+										value="editCompetenceMeasureTest" />
+									<f:param name="editId" value="#{index2}" />
+									<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+								</a4j:commandLink></td>
+							</tr>
+						</tbody>
+					</t:dataList>
+					<tbody>
+						<tr>
+							<td colspan="3"></td>
+							<td><a4j:commandLink immediate="true"
+								rendered="#{hrSession.edits.competenceMeasureTest == null}"
+								reRender=":#{parentClientId}:editCompetenceMeasure:tests" limitToList="true"
+								action="#{hrActions.addCompetenceMeasureTest}">
+								<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+								<f:param name="containerToReset"
+									value="editCompetenceMeasureTest" />
+								<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+							</a4j:commandLink></td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<td colspan="4"><s:subForm id="editCompetenceMeasureTest"
+								rendered="#{hrSession.edits.competenceMeasureTest != null}">
+								<fieldset>
+								<table style="border-spacing: 0px;">
+									<tr>
+										<td>#{bundle['CompetenceMeasureTest.date']}</td>
+										<td><t:inputCalendar
+											value="#{hrSession.edits.competenceMeasureTest.date}"
+											popupTodayString="" renderAsPopup="true"
+											renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmtdate">
+											<f:convertDateTime pattern="dd MMMM yyyy"
+												timeZone="Europe/Paris" />
+										</t:inputCalendar><h:message for="cmtdate" showDetails="true" showSummary="false"/></td>
+										
+										<td rowspan="3" valign="top">
+											<a4j:commandLink action="#{hrActions.deleteCompetenceMeasureTest}" immediate="true"
+												onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+												reRender=":#{parentClientId}:editCompetenceMeasure:tests" limitToList="true">
+												<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+											</a4j:commandLink>
+										</td>
+									</tr>
+									<tr>
+										<td>#{bundle['CompetenceMeasureTest.score']}</td>
+										<td><h:inputText
+											value="#{hrSession.edits.competenceMeasureTest.score}" maxlength="50" id="cmtscore"></h:inputText>
+											<h:message for="cmtscore" showDetails="true" showSummary="false"/></td>
+									</tr>
+									<tr>
+										<td>#{bundle['CompetenceMeasureTest.result']}</td>
+										<td><!-- <h:selectOneMenu
+											value="#{hrSession.edits.competenceMeasureTest.result}" id="cmtresult">
+											<f:selectItems
+												value="#{hrRequest.selectEntries['Exam result']}" />
+										</h:selectOneMenu> -->
+											<ui:include src="selectEntry.xhtml">
+												<ui:param name="value" value="#{hrSession.edits.competenceMeasureTest.result}" />
+												<ui:param name="id" value="cmtresult" />
+												<ui:param name="key" value="Exam result" />
+											</ui:include>
+										<h:message for="cmtresult" showDetails="true" showSummary="false"/></td>
+									</tr>
+	
+								</table>
+								<a4j:commandButton value="Done"
+									action="#{hrActions.clearCompetenceMeasureTestEdit}"
+									reRender=":#{parentClientId}:editCompetenceMeasure:tests" limitToList="true"
+									actionFor="editCompetenceMeasureTest" /></fieldset>
+							</s:subForm></td>
+						</tr>
+					</tbody>
+				</table>
+				</a4j:outputPanel>
+				</a4j:region>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.evolution']}</td>
+				<td><!-- <h:selectOneMenu
+					value="#{hrSession.edits.competenceMeasure.evolution}" id="cmevolution">
+					<f:selectItems
+						value="#{hrRequest.selectEntries['Competence evolution']}" />
+				</h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.competenceMeasure.evolution}" />
+						<ui:param name="id" value="cmevolution" />
+						<ui:param name="key" value="Competence evolution" />
+					</ui:include>
+					<h:message for="cmevolution" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.scoreTotal']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.scoreTotal}" id="cmscoretotal"/>
+					<h:message for="cmscoretotal" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.pvDate']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.pvDate}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmpvdate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmpvdate" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.nextDate']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.nextDate}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmnextdate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmnextdate" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.nextSalaryScale']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.nextSalaryScale}" id="cmnextsalary"/>
+					<h:message for="cmnextsalary" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.nextSalaryScaleDate']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.competenceMeasure.nextSalaryScaleDate}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="cmnextsalarydate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="cmnextsalarydate" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.location']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.location}" id="cmlocation"/>
+					<h:message for="cmlocation" showDetails="true" showSummary="false"/></td>
+				<td>#{bundle['CompetenceMeasure.duration']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.duration}" id="cmduration"/>
+					<h:message for="cmduration" showDetails="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['CompetenceMeasure.testNumber']}</td>
+				<td><h:inputText
+					value="#{hrSession.edits.competenceMeasure.testNumber}" id="cmtestnumber"/>
+					<h:message for="cmtestnumber" showDetails="true" showSummary="false"/></td>
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td valign="top">#{bundle['CompetenceMeasure.note']}</td>
+				<td colspan="3"><h:inputTextarea
+					value="#{hrSession.edits.competenceMeasure.note}" cols="50"
+					rows="5" id="cmnote"/>
+					<h:message for="cmnote" showDetails="true" showSummary="false"/></td>
+			</tr>
+		</table>
+		<a4j:commandButton value="Done" action="#{hrActions.doneCompetenceMeasure}"
+			reRender=":#{parentClientId}:a4jComp" limitToList="true"
+			actionFor="editCompetenceMeasure" /></fieldset>
+	</s:subForm>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

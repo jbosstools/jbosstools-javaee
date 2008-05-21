@@ -1,0 +1,165 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<a4j:region id="careerRegion">
+	
+	<a4j:outputPanel id="a4jCareer" layout="block">
+	<table class="list" cellpadding="5" width="100%">
+		<thead></thead>
+		<t:dataList var="rank" rowIndexVar="index" value="#{ranks}">
+			<tbody class="highlight">
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td><h:outputText value="#{bundle['CareerRank.start']}" /></td>
+				<td><h:outputText value="#{rank.start}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+				<td><h:outputText value="#{bundle['CareerRank.end']}" /></td>
+				<td><h:outputText value="#{rank.end}">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</h:outputText></td>
+				<td rowspan="5" valign="top"><a4j:commandLink action="#{hrActions.editCareerRank}" immediate="true"
+						reRender=":#{parentClientId}:a4jCareer" limitToList="true">
+					<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+					<f:param name="containerToReset" value="editCareerRank" />
+					<f:param name="editId" value="#{index}" />
+					<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+				</a4j:commandLink></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td><h:outputText
+					value="#{bundle['CareerRank.grade']}" /></td>
+				<td><h:outputText value="#{rank.grade}"><f:converter converterId="NamedIdConverter" /></h:outputText></td>
+				<td><h:outputText value="#{bundle['CareerRank.level']}" /></td>
+				<td><h:outputText value="#{rank.level}" /></td>
+				
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td><h:outputText
+					value="#{bundle['CareerRank.functionClass']}" /></td>
+				<td colspan="3"><b>#{rank.functionClass.code}</b>&#xA0;<h:outputText value="#{rank.functionClass}"><f:converter converterId="NamedIdConverter" /></h:outputText></td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td><h:outputText value="#{bundle['CareerRank.careerPath']}" />
+				</td>
+				<td colspan="3">
+					<h:outputText value="#{rank.careerPath}">
+						<f:converter converterId="SelectConverter" />
+					</h:outputText>
+				</td>
+			</tr>
+			<tr class="#{(index%2)==0?'even':'odd'}">
+				<td><h:outputText
+					value="#{bundle['CareerRank.functionFamily']}" /></td>
+				<td colspan="3"><b>#{rank.functionFamily.pdata}</b>&#xA0;<h:outputText value="#{rank.functionFamily}"><f:converter converterId="NamedIdConverter" /></h:outputText></td>
+			</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr><td colspan="5" align="right"><a4j:commandLink immediate="true"
+					rendered="#{hrSession.edits.careerRank == null}"
+					reRender=":#{parentClientId}:a4jCareer" limitToList="true"
+					action="#{hrActions.addCareerRank}">
+				<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+				<f:param name="containerToReset" value="editCareerRank" />
+				<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+				</a4j:commandLink></td>
+			</tr>
+		</tbody>
+	</table>
+	<s:subForm id="editCareerRank"
+		rendered="#{hrSession.edits.careerRank != null}">
+		<table style="border:none;">
+			<tr>
+				<td><h:outputText value="#{bundle['CareerRank.start']}" /></td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.careerRank.start}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy" id="rankstart">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="rankstart" showDetails="true" showSummary="false"/></td>
+				<td><h:outputText value="#{bundle['CareerRank.end']}" /></td>
+				<td><t:inputCalendar value="#{hrSession.edits.careerRank.end}"
+					popupTodayString="" renderAsPopup="true"
+					renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy" id="rankend">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="rankend" showDetails="true" showSummary="false"/></td>
+				<td rowspan="3" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteCareerRank}" immediate="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+							reRender=":#{parentClientId}:a4jCareer" limitToList="true">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['CareerRank.grade']}</td>
+				<td colspan="3">
+					<!-- <h:selectOneMenu value="#{hrSession.edits.careerRank.grade}" id="rankgrade">
+						<f:selectItem itemValue="[nothing]" itemLabel=""/>
+						<f:selectItems value="#{hrRequest.grades}"/>
+					</h:selectOneMenu>
+					<h:outputLink value="#{facesContext.externalContext.requestContextPath}/faces/hr/edit/lists/gradesEditor.xhtml" target="_blank" ><h:graphicImage value="/images/icon_edit.gif"/></h:outputLink>-->
+					
+					<ui:include src="selectGrade.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.careerRank.grade}" />
+							<ui:param name="id" value="rankgrade" />
+					</ui:include>
+                  <h:message for="rankgrade" showDetails="true" showSummary="false"/>
+				</td>
+			</tr>
+			<tr>
+				<td><h:outputText
+					value="#{bundle['CareerRank.functionClass']}" /></td>
+				<td colspan="3">
+					<ui:include src="selectFunctionClass.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.careerRank.functionClass}" />
+							<ui:param name="id" value="functionClass" />
+					</ui:include>
+					<h:message for="functionClass" showDetails="true" showSummary="false"/>
+				</td>
+			</tr>
+			<tr>
+				<td><h:outputText value="#{bundle['CareerRank.careerPath']}" />
+				</td>
+				<td colspan="3">
+					<!-- <h:selectOneMenu  value="#{hrSession.edits.careerRank.careerPath}" id="careerPath">
+						<f:selectItem itemValue="[nothing]" itemLabel=""/>
+						<f:selectItems value="#{hrRequest.selectEntries['Career path']}"/>
+					</h:selectOneMenu> -->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.careerRank.careerPath}" />
+							<ui:param name="id" value="careerPath" />
+							<ui:param name="key" value="Career path" />
+					</ui:include>
+					<h:message for="careerPath" showDetails="true" showSummary="false"/>
+              </td>
+			</tr>
+			<tr>
+				<td><h:outputText
+					value="#{bundle['CareerRank.functionFamily']}" /></td>
+				<td colspan="3">
+					<!-- <h:selectOneMenu  value="#{hrSession.edits.careerRank.functionFamily}" id="functionFamily">
+						<f:selectItem itemValue="[nothing]" itemLabel=""/>
+						<f:selectItems value="#{hrRequest.selectEntries['Function family']}"/>
+					</h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.careerRank.functionFamily}" />
+							<ui:param name="id" value="functionFamily" />
+							<ui:param name="key" value="Function family" />
+					</ui:include>
+					<h:message for="functionFamily" showDetails="true" showSummary="false"/>
+				</td>
+			</tr>
+		</table>
+		<a4j:commandButton value="Done" action="#{hrActions.doneCareerRank}"
+			actionFor="editCareerRank"
+			reRender=":#{parentClientId}:a4jCareer" limitToList="true" />
+	</s:subForm>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

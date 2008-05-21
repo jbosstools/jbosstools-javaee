@@ -1,0 +1,6 @@
+<contexts>
+	<context id="tiles_editor" title="Tiles Editor">
+		<description>Tiles Editor</description>
+		<topic href="JSFStrutsTools.html#GraphicalEditorForTilesFiles132" label="Graphical Editor for Tiles Files"/>
+	</context>
+</contexts>

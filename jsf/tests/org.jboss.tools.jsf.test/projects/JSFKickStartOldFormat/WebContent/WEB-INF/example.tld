@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+ <description>JSTL 1.1 i18n-capable formatting library</description>
+ <display-name>Example</display-name>
+ <tlib-version>1.1</tlib-version>
+ <short-name>example</short-name>
+ <uri>example</uri>
+ <validator>
+  <description>Validator Example.</description>
+  <validator-class>org.example.Validator1</validator-class>
+  <init-param>
+   <param-name>p1</param-name>
+   <param-value>v1</param-value>
+  </init-param>
+ </validator>
+ <listener>
+  <listener-class>org.example.Listener1</listener-class>
+ </listener>
+ <tag>
+  <description>Tag Example.</description>
+  <display-name>Tag 1</display-name>
+  <name>tag1</name>
+  <tag-class>org.example.Tag1</tag-class>
+  <body-content>empty</body-content>
+  <variable>
+   <name-given>var1</name-given>
+   <variable-class>java.lang.String</variable-class>
+   <scope>AT_BEGIN</scope>
+  </variable>
+  <attribute>
+   <description>Attribute Example.</description>
+   <name>a1</name>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+  <attribute>
+   <name>a2</name>
+   <fragment>true</fragment>
+  </attribute>
+ </tag>
+ <function>
+  <description>Function Example.</description>
+  <name>f1</name>
+  <function-class>java.lang.String</function-class>
+  <function-signature>x()</function-signature>
+ </function>
+</taglib>

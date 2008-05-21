@@ -1,0 +1,76 @@
+﻿<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition>
+<table style="border:none;">
+  <tr>
+    <td>
+      <h:outputText value="#{bundle['Address.number']}"/>
+    </td>
+    <td>
+      <h:inputText value="#{address.number}" size="3" id="addressnumber"/>
+      <h:message for="addressnumber" showDetails="true" showSummary="false"/>
+    </td>
+    <td>
+      #{bundle['Address.street']}
+    </td>
+    <td>
+      <h:inputText value="#{address.street}" size="50" id="street"/>
+      <h:message for="street" showDetails="true" showSummary="false"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h:outputText value="#{bundle['Address.zip']}"/>
+    </td>
+    <td>
+      <h:inputText value="#{address.zip}" size="5" id="zip"/>
+      <h:message for="zip" showDetails="true" showSummary="false"/>
+    </td>
+    <td>
+      <h:outputText value="#{bundle['Address.city']}"/>
+    </td>
+    <td>
+      <h:inputText value="#{address.city}" size="48" id="city"/>
+      <h:message for="city" showDetails="true" showSummary="false"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h:outputText value="#{bundle['Address.country']}"/>
+    </td>
+    <td colspan="3">
+      <h:selectOneMenu value="#{address.country}" id="country">
+        <f:selectItems value="#{hrRequest.countries}"/>
+      </h:selectOneMenu>
+      <h:message for="country" showDetails="true" showSummary="false"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h:outputText value="#{bundle['Address.phone']}"/>
+    </td>
+    <td>
+      <h:inputText value="#{address.phone}" size="15" id="phone"/>
+      <h:message for="phone" showDetails="true" showSummary="false"/>
+    </td>
+    <td>
+      <h:outputText value="#{bundle['Address.gsm']}"/>
+    </td>
+    <td>
+      <h:inputText value="#{address.gsm}" size="15" id="gsm"/>
+      <h:message for="gsm" showDetails="true" showSummary="false"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h:outputText value="#{bundle['Address.fax']}"/>
+    </td>
+    <td colspan="3">
+      <h:inputText value="#{address.fax}" size="15" id="fax"/>
+      <h:message for="fax" showDetails="true" showSummary="false"/>
+    </td>
+  </tr>
+</table>
+</ui:composition>
+</html>
