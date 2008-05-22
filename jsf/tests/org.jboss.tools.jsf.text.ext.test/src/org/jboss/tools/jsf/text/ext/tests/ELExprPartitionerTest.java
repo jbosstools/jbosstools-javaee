@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.ITypedRegion;
@@ -38,6 +39,7 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class ELExprPartitionerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -71,10 +73,10 @@ public class ELExprPartitionerTest extends TestCase {
 
 	public void testELExprPartitioner() {
 		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (CoreException e) {
+			assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
+		}
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 
 		IFile jspFile = project.getFile(PAGE_NAME);
@@ -144,18 +146,19 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList.add(new Region(639, 1));
 		regionList.add(new Region(722, 1));
 		regionList.add(new Region(831, 1));
-		regionList.add(new Region(887, 1));
 		regionList.add(new Region(933, 1));
 		regionList.add(new Region(990, 1));
 		regionList.add(new Region(1058, 1));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
-		
+
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
 			TestData testData = new TestData(document, i);
 			boolean recognized = elPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
 			if (recognized) {
 				String childPartitionType = elPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
+//				if (childPartitionType != null)
+//					System.out.println("#" + i + " partitionType: " + childPartitionType);
 
 				if (childPartitionType != null) {
 					ArrayList test = (ArrayList)recognitionTest.get(childPartitionType);
@@ -194,7 +197,7 @@ public class ELExprPartitionerTest extends TestCase {
 		}
 
 		assertTrue("Wrong recognized region count: " + counter  
-				+ " (must be 138)" , (counter == 138));
+				+ " (must be 137)" , (counter == 137));
 
 		model.releaseFromEdit();
 
