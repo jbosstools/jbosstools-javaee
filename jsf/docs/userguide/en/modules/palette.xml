@@ -565,21 +565,21 @@
     </section>
     <section id="RichFacesSupport">
         <?dbhtml filename="RichFacesSupport.html"?>
-        <title>Rich Faces Support</title>
+        <title>RichFaces Support</title>
         <para>JBoss Developer Studio comes with a tight integration with <emphasis>
-                <property>Rich Faces</property>
-            </emphasis> component framework. Rich Faces and Ajax4jsf in JBoss Tools Palette always
+                <property>RichFaces</property>
+            </emphasis> component framework. RichFaces and Ajax4jsf in JBoss Tools Palette always
             exist, this palette is not dynamic and is not changed from file to file. JBoss Tools
-            Palette supports only the last version of the Rich Faces components. <tip>
+            Palette supports only the last version of the RichFaces components. <tip>
                 <title>Tip:</title>
-                <para>If you&apos;d like to know the last version of Rich Faces component
+                <para>If you&apos;d like to know the last version of RichFaces component
                     framework see <ulink url="http://labs.jboss.com/jbossrichfaces/">JBoss
                     RichFaces</ulink> site.</para>
-            </tip>Rich Faces components, as well, as <emphasis>
+            </tip>RichFaces components, as well, as <emphasis>
                 <property>Ajax4jsf</property>
             </emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
         <figure>
-            <title>Rich Faces Components</title>
+            <title>RichFaces Components</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/palette/palette_13.png"/>
