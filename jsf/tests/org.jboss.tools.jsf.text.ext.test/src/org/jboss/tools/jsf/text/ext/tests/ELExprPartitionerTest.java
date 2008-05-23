@@ -38,6 +38,8 @@ import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
+import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class ELExprPartitionerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -70,11 +72,10 @@ public class ELExprPartitionerTest extends TestCase {
 	}
 
 	public void testELExprPartitioner() {
-		try {
-			XJob.waitForJob();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
+		try { EditorTestHelper.joinBackgroundActivities(); } 
+		catch (Exception e) { 
+			assertNull("An exception caught: " + e.getMessage(), e);
+		}
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 
 		IFile jspFile = project.getFile(PAGE_NAME);
@@ -91,7 +92,6 @@ public class ELExprPartitionerTest extends TestCase {
 		} catch (Exception x) {
 			exception = x;
 			x.printStackTrace();
-			
 		}
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
@@ -144,7 +144,6 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList.add(new Region(639, 1));
 		regionList.add(new Region(722, 1));
 		regionList.add(new Region(831, 1));
-		regionList.add(new Region(887, 1));
 		regionList.add(new Region(933, 1));
 		regionList.add(new Region(990, 1));
 		regionList.add(new Region(1058, 1));
@@ -194,7 +193,7 @@ public class ELExprPartitionerTest extends TestCase {
 		}
 
 		assertTrue("Wrong recognized region count: " + counter  
-				+ " (must be 138)" , (counter == 138));
+				+ " (must be 137)" , (counter == 137));
 
 		model.releaseFromEdit();
 
