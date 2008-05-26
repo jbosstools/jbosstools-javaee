@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/seam-pages.meta"/>
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.keys">
+      <keys path="help/keys-seam-pages.properties">
+      </keys>
+   </extension>
+
+   	<extension
+		point="org.eclipse.wst.xml.core.catalogContributions">
+		<catalogContribution id="default">
+		</catalogContribution>
+	</extension>	
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.pages.xml.model.FileSeamPagesImpl"
+			class="org.jboss.tools.seam.pages.xml.model.FileSeamPagesImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPagesFileLoader"
+			class="org.jboss.tools.seam.pages.xml.model.SeamPagesFileLoader"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPages12FileLoader"
+			class="org.jboss.tools.seam.pages.xml.model.SeamPages12FileLoader"/>
+
+		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPageFileLoader"
+			class="org.jboss.tools.seam.pages.xml.model.SeamPageFileLoader"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPage12FileLoader"
+			class="org.jboss.tools.seam.pages.xml.model.SeamPage12FileLoader"/>
+
+		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPagesEntityRecognizer"
+			class="org.jboss.tools.seam.pages.xml.model.SeamPagesEntityRecognizer"/>
+
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageNavigationImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageNavigationImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageRuleImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageRuleImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageRedirectImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageRedirectImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageHTTPErrorImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageHTTPErrorImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"/>
+	</extension>
+
+ <extension point="org.eclipse.wst.xml.core.catalogContributions">
+      <catalogContribution id="default">
+         <public 
+         	publicId="-//JBoss/Seam Pages Configuration DTD 1.2//EN" 
+         	uri="dtds/pages-1.2.dtd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pages-2.0.xsd" 
+            uri="schemas/pages-2.0.xsd"/>
+
+      </catalogContribution>
+   </extension>
+</plugin>
