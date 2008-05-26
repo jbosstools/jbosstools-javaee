@@ -49,7 +49,7 @@ public class SeamUiPagesPlugin extends AbstractUIPlugin {
 	}
 	
 	public static void log(Throwable ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, SeamUIPagesMessages.getString("SEAM_XML_UI_PLUGIN_NO_MESSAGES"), ex)); //$NON-NLS-1$
+		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, SeamUIPagesMessages.SEAM_UI_PAGES_PLUGIN_NO_MESSAGES, ex)); //$NON-NLS-1$
 	}
 
 	public static Shell getShell() {
