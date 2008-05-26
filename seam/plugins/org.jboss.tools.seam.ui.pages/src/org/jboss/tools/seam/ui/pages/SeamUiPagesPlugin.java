@@ -14,9 +14,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
-public class SeamUiPagesPlugin extends AbstractUIPlugin {
+public class SeamUiPagesPlugin extends BaseUIPlugin {
 	public static String PLUGIN_ID = "org.jboss.tools.seam.xml.ui"; //$NON-NLS-1$
 	static SeamUiPagesPlugin INSTANCE = null;
 

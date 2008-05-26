@@ -4,7 +4,12 @@ Bundle-Name: %pluginName
 Bundle-ClassPath: seam-ui-pages.jar
 Bundle-Activator: org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin
 Bundle-Vendor: %providerName
-Provide-Package: org.jboss.tools.seam.ui.pages
+Provide-Package: org.jboss.tools.seam.ui.pages,
+ org.jboss.tools.seam.ui.pages.editor
+Export-Package: org.jboss.tools.seam.ui.pages,
+ org.jboss.tools.seam.ui.pages.editor,
+ org.jboss.tools.seam.ui.pages.editor.edit,
+ org.jboss.tools.seam.ui.pages.editor.model
 Bundle-SymbolicName: org.jboss.tools.seam.ui.pages;singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.jface.text,
@@ -30,6 +35,6 @@ Require-Bundle: org.eclipse.jface.text,
  org.jboss.tools.common.text.xml,
  org.jboss.tools.jst.web,
  org.jboss.tools.jst.web.ui,
- org.jboss.tools.seam.xml
+ org.jboss.tools.seam.pages.xml
 Bundle-Version: 2.0.0
 
