@@ -427,7 +427,7 @@
             </figure>
 
             <tip>
-                <title>Tipe:</title>
+                <title>Tip:</title>
                 <para>if you place the cursor over any tag, a balloon hint is shown with all the
                         <emphasis role="italic">
                         <property>&quot;tag&quot;</property>
@@ -570,7 +570,8 @@
                 <property>RichFaces</property>
             </emphasis> component framework. RichFaces and Ajax4jsf in JBoss Tools Palette always
             exist, this palette is not dynamic and is not changed from file to file. JBoss Tools
-            Palette supports only the last version of the RichFaces components. <tip>
+            Palette supports only the last version of the RichFaces components.
+            <tip>
                 <title>Tip:</title>
                 <para>If you&apos;d like to know the last version of RichFaces component
                     framework see <ulink url="http://labs.jboss.com/jbossrichfaces/">JBoss

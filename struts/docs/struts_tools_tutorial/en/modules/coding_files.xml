@@ -239,7 +239,8 @@ public class GreetingAction extends org.apache.struts.action.Action
                                 <property>Struts Form</property>
                             </emphasis> library, select <emphasis>
                                 <property>text</property>
-                            </emphasis>, and drag it onto the box <note>
+                            </emphasis>, and drag it onto the box
+                            <note>
                                 <title>Note:</title>
                                 <para>By default there are only four groups on the JBoss Tools
                                     Palette. If you wish to make some group visible click the <emphasis>
