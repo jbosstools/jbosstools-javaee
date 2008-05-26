@@ -31,12 +31,13 @@
     <ICON name="attribute" path="images/jsf/attribute.gif"/>
     <ICON name="data-source" path="images/struts/data_source.gif"/>
     <ICON name="exception" path="images/struts/exception.gif"/>
-    <ICON name="facet" path="images/jsf/facet.gif"/>
     <ICON name="file" path="images/jsf/jsf-config.gif"/>
     <ICON name="navigation" path="images/struts/action_mappings.gif"/>
     <ICON name="page" path="images/struts/plug_in.gif"/>
     <ICON name="pages" path="images/struts/plug_in_folder.gif"/>
     <ICON name="property" path="images/java/property.gif"/>
+    <ICON name="redirect" path="images/jsf/transition.gif"/>
+    <ICON name="render" path="images/jsf/renderer.gif"/>
     <ICON name="rule" path="images/struts/action.gif"/>
    </GROUP>
   </GROUP>
@@ -1529,7 +1530,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.rule" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -1607,7 +1608,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.rule" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -1728,7 +1729,7 @@
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.attribute" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -1773,7 +1774,7 @@
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.attribute" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -1875,7 +1876,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.redirect" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -1941,7 +1942,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.redirect" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -2006,7 +2007,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.render" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -2115,7 +2116,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.rule" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -2184,7 +2185,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.rule" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
