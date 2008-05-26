@@ -538,7 +538,7 @@
                         <title>JavaScript Tags Content Assist</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_27.png"
+                                <imagedata fileref="images/ediors_features/editors_features_27.png"
                                     scale="75"/>
                             </imageobject>
                         </mediaobject>
@@ -549,13 +549,13 @@
             </section>
             <section id="ContentAssistForRF">
 
-                <title>Rich Faces components</title>
-                <para>JBDS indeed provides code completion for Rich Faces framework components. All
-                    you have to do is to install Rich Faces libraries into your project. See <ulink
+                <title>RichFaces components</title>
+                <para>JBDS indeed provides code completion for RichFaces framework components. All
+                    you have to do is to install RichFaces libraries into your project. See <ulink
                         url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
                         >here</ulink> how to install it.</para>
                 <figure>
-                    <title>Content Assist for Rich Faces Components</title>
+                    <title>Content Assist for RichFaces Components</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/editors_features/editors_features_29.png"
@@ -565,8 +565,8 @@
                 </figure>
                 <itemizedlist>
                     <listitem>
-                        <para>To insert a Rich Faces component on a page expand <emphasis>
-                                <property>JBoss Rich Faces</property>
+                        <para>To insert a RichFaces component on a page expand <emphasis>
+                                <property>JBoss RichFaces</property>
                             </emphasis> group on the palette</para>
                     </listitem>
                     <listitem>
@@ -590,10 +590,10 @@
                         </para>
                     </listitem>
                 </itemizedlist>
-                <para>The Rich Faces tag will be inserted on your page displayed in source and
+                <para>The RichFaces tag will be inserted on your page displayed in source and
                     visual modes: </para>
                 <figure>
-                    <title>Rich Faces Component</title>
+                    <title>RichFaces Component</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/editors_features/editors_features_31.png"
