@@ -12,13 +12,13 @@ package org.jboss.tools.jsf.model.handlers;
 
 import org.jboss.tools.common.meta.action.impl.handlers.*;
 import org.jboss.tools.common.model.*;
-import org.jboss.tools.jsf.model.*;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 
 public class JSFItemRegirectHandler extends DefaultRedirectHandler {
 
 	protected XModelObject getTrueSource(XModelObject source) {
-		if(!(source instanceof ReferenceObjectImpl)) return null;
-		ReferenceObjectImpl r = (ReferenceObjectImpl)source;
+		if(!(source instanceof ReferenceObject)) return null;
+		ReferenceObject r = (ReferenceObject)source;
 		return r.getReference();
 	}
 
