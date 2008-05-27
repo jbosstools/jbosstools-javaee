@@ -32,6 +32,7 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     public String getEntityName(String ext, String body) {
         if(body == null) return null;
     	if(body.indexOf(PUBLIC_ID_12) >= 0) {
+    		if(body.indexOf("<page") > 0 && body.indexOf("<pages") < 0) return ENT_FILE_SEAM_PAGE_12;
     		return ENT_FILE_SEAM_PAGES_12;
     	}
     	if(!isPagesSchema(body)) {

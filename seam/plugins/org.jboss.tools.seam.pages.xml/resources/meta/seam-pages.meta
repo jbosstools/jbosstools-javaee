@@ -5,8 +5,8 @@
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
  <MAPPINGS>
   <MAPPING name="FileVersions">
-   <PAIR name="SeamPage_1.2" value="FileSeamPages12"/>
-   <PAIR name="SeamPage_2.0" value="FileSeamPages20"/>
+   <PAIR name="SeamPage_1.2" value="FileSeamPage12"/>
+   <PAIR name="SeamPage_2.0" value="FileSeamPage20"/>
    <PAIR name="SeamPages1.2" value="FileSeamPages12"/>
    <PAIR name="SeamPages2.0" value="FileSeamPages20"/>
   </MAPPING>
@@ -384,6 +384,21 @@
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="no conversation view id" xmlname="no-conversation-view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="login view id" xmlname="login-view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -532,8 +547,9 @@
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttributeReference attributes="no conversation view id"
-    entity="SeamPage12" name="page"/>
+   <XModelAttributeReference
+    attributes="no conversation view id,login view id"
+    entity="FileSeamPages12" name="page2"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -685,8 +701,16 @@
    <XModelAttribute default="page" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;category=general" name="view id" xmlname="view-id"/>
-   <XModelAttribute TRIM="no" name="action" visibility="false" xmlname="action"/>
+   <XModelAttribute PROPERTIES="category=general;id=true" name="view id" xmlname="view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" TRIM="no"
+    name="action" xmlname="action"/>
    <XModelAttribute PROPERTIES="category=advanced" name="switch" xmlname="switch">
     <Constraint loader="ListString">
      <value/>
@@ -696,7 +720,13 @@
     <Editor name="ListString"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="no conversation view id" xmlname="no-conversation-view-id"/>
+    name="no conversation view id" xmlname="no-conversation-view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     default="default(false)" name="conversation required" xmlname="conversation-required">
     <Constraint loader="ListString">
@@ -1494,6 +1524,7 @@
      displayName="Page..." kind="action" name="AddPage">
      <EntityData EntityName="SeamPage12">
       <AttributeData AttributeName="view id"/>
+      <AttributeData AttributeName="action" Mandatory="no"/>
      </EntityData>
     </XActionItem>
    </XActionItem>
@@ -1544,6 +1575,7 @@
      displayName="Page..." kind="action" name="AddPage">
      <EntityData EntityName="SeamPage20">
       <AttributeData AttributeName="view id"/>
+      <AttributeData AttributeName="action" Mandatory="no"/>
      </EntityData>
     </XActionItem>
    </XActionItem>
@@ -2227,7 +2259,14 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" default="target" name="name" visibility="false"/>
-   <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id"/>
+   <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -2293,7 +2332,14 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" default="target" name="name" visibility="false"/>
-   <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id"/>
+   <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -2358,7 +2404,14 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" default="target" name="name" visibility="false"/>
-   <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id"/>
+   <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>

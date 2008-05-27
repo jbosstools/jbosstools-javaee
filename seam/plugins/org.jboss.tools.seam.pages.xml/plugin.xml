@@ -18,6 +18,8 @@
 	</extension>	
 
 	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.pages.xml.model.FileSeamPageImpl"
+			class="org.jboss.tools.seam.pages.xml.model.FileSeamPageImpl"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.FileSeamPagesImpl"
 			class="org.jboss.tools.seam.pages.xml.model.FileSeamPagesImpl"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPagesFileLoader"

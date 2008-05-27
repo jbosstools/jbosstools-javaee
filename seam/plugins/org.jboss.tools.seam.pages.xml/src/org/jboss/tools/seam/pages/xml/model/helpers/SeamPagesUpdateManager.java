@@ -6,7 +6,7 @@ import org.jboss.tools.jst.web.model.helpers.WebProcessUpdateManager;
 public class SeamPagesUpdateManager extends WebProcessUpdateManager {
 
     public static synchronized SeamPagesUpdateManager getInstance(XModel model) {
-    	SeamPagesUpdateManager instance = (SeamPagesUpdateManager)model.getManager("JSFUpdateManager");
+    	SeamPagesUpdateManager instance = (SeamPagesUpdateManager)model.getManager("SeamPagesUpdateManager");
         if (instance == null) {
         	instance = new SeamPagesUpdateManager();
         	model.addManager("SeamPagesUpdateManager", instance);

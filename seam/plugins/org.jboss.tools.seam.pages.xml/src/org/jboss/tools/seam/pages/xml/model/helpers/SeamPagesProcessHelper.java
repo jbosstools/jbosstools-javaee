@@ -300,7 +300,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		for (int i = 0; i < cases.length && i < outputs.length; i++) {
 			ReferenceObject r = (ReferenceObject)outputs[i];
 			if(r.getReference() == cases[i]) continue;
-			String pp = cases[i].getPathPart();
+			String pp = cases[i].getAttributeValue(ATTR_VIEW_ID);
 			String id = outputs[i].getAttributeValue(ATTR_ID);
 			if(!pp.equals(id)) return false;			
 		}
@@ -309,7 +309,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 	
 	private XModelObject createOutput(XModelObject item, XModelObject rulecase) {
 		XModelObject output = item.getModel().createModelObject(ENT_PROCESS_ITEM_OUTPUT, null);
-		output.setAttributeValue(ATTR_ID, rulecase.getPathPart());
+		output.setAttributeValue(ATTR_ID, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		output.setAttributeValue(ATTR_PATH, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		String name = XModelObjectUtil.createNewChildName("output", item);
 		output.setAttributeValue(ATTR_NAME, name);
@@ -321,7 +321,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		if(output.isUpToDate()) return;
 		output.notifyUpdate();
 		XModelObject rulecase = output.getReference();		
-		output.setAttributeValue(ATTR_ID, rulecase.getPathPart());
+		output.setAttributeValue(ATTR_ID, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		String path = rulecase.getAttributeValue(ATTR_VIEW_ID);
 		output.setAttributeValue(ATTR_PATH, path);
 //		String title = SeamPagesProcessStructureHelper.createItemOutputPresentation(rulecase);
