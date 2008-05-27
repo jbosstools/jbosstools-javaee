@@ -1,12 +1,16 @@
 package org.jboss.tools.seam.pages.xml.model.helpers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.XModelObjectUtil;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.jst.web.model.helpers.autolayout.AutoLayout;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems;
@@ -115,7 +119,6 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		XModelObject target = rule.getChildByPath("target");
 		if(target == null) return;
 		String tvi = target.getAttributeValue(ATTR_VIEW_ID);
-		if(tvi == null) tvi = target.getAttributeValue("error code");
 		if(tvi == null) return;
 		String ppt = toNavigationRulePathPart(tvi);
 		targets.put(ppt, getTemplate());							
@@ -193,12 +196,143 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		}
 	}
 
-	private void updatePageItem(XModelObject g) {
-		
+	private void updatePageItem(ReferenceObjectImpl item) {
+		if(item.isUpToDate()) return;
+		item.notifyUpdate();
+		XModelObject sourcePage = item.getReference();		
+		item.setAttributeValue(ATTR_ID, sourcePage.getPathPart());
+		item.setAttributeValue(ATTR_PATH, sourcePage.getAttributeValue(ATTR_VIEW_ID));
+		XModelObject[] cs = getPageTargets(sourcePage);		
+		updateOutputs(item, cs);
+	}
+
+	private XModelObject[] getPageTargets(XModelObject o) {
+		XModelObject[] ns = o.getChildren();
+		List<XModelObject> result = null;
+		for (int i = 0; i < ns.length; i++) {
+			String entity = ns[i].getModelEntity().getName();
+			if(!entity.startsWith(ENT_NAVIGATION)) continue;
+			if(entity.startsWith(ENT_NAVIGATION_RULE)) {
+				XModelObject t = getTargetChild(ns[i]);
+				if(t != null) {
+					if(result == null) result = new ArrayList<XModelObject>();
+					result.add(t);
+				}
+			} else {
+				XModelObject[] rs = ns[i].getChildren();
+				for (int k = 0; k < rs.length; k++) {
+					XModelObject t = getTargetChild(rs[k]);
+					if(t != null) {
+						if(result == null) result = new ArrayList<XModelObject>();
+						result.add(t);
+					}
+				}
+			}
+		}
+		return result == null ? new XModelObject[0]
+		             : result.toArray(new XModelObject[0]);
 	}
 	
-	private void updateExceptionItem(XModelObject g) {
-		
+	private void updateExceptionItem(ReferenceObjectImpl item) {
+		if(item.isUpToDate()) return;
+		item.notifyUpdate();
+		XModelObject exc = item.getReference();		
+		item.setAttributeValue(ATTR_ID, exc.getPathPart());
+		item.setAttributeValue(ATTR_PATH, exc.getAttributeValue(ATTR_VIEW_ID));
+		XModelObject t = getTargetChild(exc);
+		XModelObject[] cs = t == null ? new XModelObject[0] : new XModelObject[]{t};		
+		updateOutputs(item, cs);
+	}
+
+	private XModelObject getTargetChild(XModelObject o) {
+		XModelObject t = o.getChildByPath("target");
+		if(t == null || t.getModelEntity().getAttribute(ATTR_VIEW_ID) == null) return null;
+		return t;		
+	}
+	
+	private void updateOutputs(ReferenceObjectImpl item, XModelObject[] cases) {
+		XModelObject[] os = item.getChildren();
+		if(isOutputOrderUpToDate(cases, os)) {
+			updateOutputs_1(item, cases, os);
+		} else {
+			updateOutputs_2(item, cases, os);
+		}
+	}
+
+	private void updateOutputs_1(ReferenceObjectImpl item, XModelObject[] cases, XModelObject[] outputs) {
+		int c = 0;
+		for (int i = 0; i < cases.length; i++) {
+			XModelObject output = null;
+			if(c < outputs.length) {
+				output = outputs[c]; 
+			} else {
+				output = createOutput(item, cases[i]);
+			}
+			ReferenceObjectImpl r = (ReferenceObjectImpl)output;
+			r.setReference(cases[i]);
+			updateOutput(r);
+			++c;
+		}
+		for (int i = c; i < outputs.length; i++) outputs[i].removeFromParent();
+	}
+
+	private void updateOutputs_2(ReferenceObjectImpl item, XModelObject[] cases, XModelObject[] outputs) {
+		Map<String,XModelObject> map = new HashMap<String,XModelObject>();
+		for (int i = 0; i < outputs.length; i++) {
+			XModelObject output = outputs[i];
+			output.removeFromParent();
+			map.put(output.getAttributeValue(ATTR_ID), output);			
+		}
+		for (int i = 0; i < cases.length; i++) {
+			XModelObject output = map.get(cases[i].getPathPart());
+			if(output == null) {
+				output = createOutput(item, cases[i]);
+			} else {
+				item.addChild(output);
+			}
+			ReferenceObjectImpl r = (ReferenceObjectImpl)output;
+			r.setReference(cases[i]);
+			updateOutput(r);
+		}
+	}
+	
+	private boolean isOutputOrderUpToDate(XModelObject[] cases, XModelObject[] outputs) {
+		for (int i = 0; i < cases.length && i < outputs.length; i++) {
+			ReferenceObject r = (ReferenceObject)outputs[i];
+			if(r.getReference() == cases[i]) continue;
+			String pp = cases[i].getPathPart();
+			String id = outputs[i].getAttributeValue(ATTR_ID);
+			if(!pp.equals(id)) return false;			
+		}
+		return true;
+	}
+	
+	private XModelObject createOutput(XModelObject item, XModelObject rulecase) {
+		XModelObject output = item.getModel().createModelObject(ENT_PROCESS_ITEM_OUTPUT, null);
+		output.setAttributeValue(ATTR_ID, rulecase.getPathPart());
+		output.setAttributeValue(ATTR_PATH, rulecase.getAttributeValue(ATTR_VIEW_ID));
+		String name = XModelObjectUtil.createNewChildName("output", item);
+		output.setAttributeValue(ATTR_NAME, name);
+		item.addChild(output);
+		return output;
+	}
+	
+	private void updateOutput(ReferenceObjectImpl output) {
+		if(output.isUpToDate()) return;
+		output.notifyUpdate();
+		XModelObject rulecase = output.getReference();		
+		output.setAttributeValue(ATTR_ID, rulecase.getPathPart());
+		String path = rulecase.getAttributeValue(ATTR_VIEW_ID);
+		output.setAttributeValue(ATTR_PATH, path);
+//		String title = SeamPagesProcessStructureHelper.createItemOutputPresentation(rulecase);
+//		output.setAttributeValue("title", title);
+		XModelObject g = findGroupByPath(path);
+		String target = (g == null) ? "" : g.getPathPart();
+		output.setAttributeValue(ATTR_TARGET, target);
+	}
+	
+	private XModelObject findGroupByPath(String path) {
+		return getPage(path);
 	}
 	
 	public void autolayout() {

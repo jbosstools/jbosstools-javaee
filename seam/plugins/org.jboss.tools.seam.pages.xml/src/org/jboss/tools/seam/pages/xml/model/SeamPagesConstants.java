@@ -35,6 +35,8 @@ public interface SeamPagesConstants {
 	public String ATTR_PATH = "path"; //$NON-NLS-1$
 	public String ATTR_VALUE = "value"; //$NON-NLS-1$
 	public String ATTR_TYPE = "type"; //$NON-NLS-1$
+	public String ATTR_TARGET = "target"; //$NON-NLS-1$
+	public String ATTR_ID = "id"; //$NON-NLS-1$
 
 	public String ATTR_VIEW_ID = "view id"; //$NON-NLS-1$
 	
