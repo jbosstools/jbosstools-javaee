@@ -110,11 +110,11 @@ import org.jboss.tools.common.model.XModelTransferBuffer;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.edit.GraphicalPartFactory;
-import org.jboss.tools.seam.ui.pages.editor.model.IPagesModel;
-import org.jboss.tools.seam.ui.pages.editor.model.IPagesModelListener;
 
-public class PagesEditor extends GEFEditor implements IPagesModelListener{
+public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 	
 
@@ -177,7 +177,7 @@ public class PagesEditor extends GEFEditor implements IPagesModelListener{
 		}
 	}
 
-	private IPagesModel model;
+	private PagesModel model;
 
 	public PagesEditor(IEditorInput input) {
 		super(input);
@@ -286,7 +286,7 @@ public class PagesEditor extends GEFEditor implements IPagesModelListener{
 	}
 
 	public void dispose() {
-		model.removeModelListener(this);
+		//model.removeModelListener(this);
 		super.dispose();
 	}
 
@@ -348,7 +348,7 @@ public class PagesEditor extends GEFEditor implements IPagesModelListener{
 		return sharedKeyHandler;
 	}
 
-	public IPagesModel getPagesModel() {
+	public PagesModel getPagesModel() {
 		return model;
 	}
 
@@ -507,9 +507,9 @@ public class PagesEditor extends GEFEditor implements IPagesModelListener{
 
 	static private boolean switchToSelectionTool = false;
 
-	public void setJSFModel(IPagesModel diagram) {
+	public void setJSFModel(PagesModel diagram) {
 		model = diagram;
-		model.addModelListener(this);
+		//model.addModelListener(this);
 		//switchToSelectionTool = model.getOptions().switchToSelectionTool();
 	}
 
