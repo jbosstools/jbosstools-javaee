@@ -22,6 +22,10 @@ import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
+import org.jboss.tools.seam.ui.test.wizard.Seam12EARNewOperationTest;
+import org.jboss.tools.seam.ui.test.wizard.Seam12WARNewOperationTest;
+import org.jboss.tools.seam.ui.test.wizard.Seam20EARNewOperationTest;
+import org.jboss.tools.seam.ui.test.wizard.Seam20WARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -34,6 +38,7 @@ public class SeamUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam UI tests");
+
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTestSuite(SeamProjectNewWizardTest.class);
@@ -44,6 +49,11 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
+
+		suite.addTestSuite(Seam12EARNewOperationTest.class);
+		suite.addTestSuite(Seam12WARNewOperationTest.class);
+		suite.addTestSuite(Seam20EARNewOperationTest.class);
+		suite.addTestSuite(Seam20WARNewOperationTest.class);
 		return suite;
 	}
 }
