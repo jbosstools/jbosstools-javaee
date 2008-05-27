@@ -12,6 +12,9 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 
 
 public class GraphicalPartFactory implements EditPartFactory {
@@ -19,14 +22,12 @@ public class GraphicalPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart child = null;
 
-//		if (model instanceof ILink)
-//			child = new LinkEditPart();
-//		else if (model instanceof IPage)
-//			child = new PageEditPart();
-//		else if (model instanceof IGroup)
-//			child = new GroupEditPart();
-//		else if (model instanceof IJSFModel)
-//			child = new JSFDiagramEditPart();
+		if (model instanceof PagesModel)
+			child = new PagesDiagramEditPart();
+		else if (model instanceof Page)
+			child = new PageEditPart();
+		else if (model instanceof Link)
+			child = new LinkEditPart();
 
 		if (child != null)
 			child.setModel(model);

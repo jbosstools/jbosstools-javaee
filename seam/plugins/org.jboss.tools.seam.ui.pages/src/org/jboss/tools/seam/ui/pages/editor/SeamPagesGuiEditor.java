@@ -22,9 +22,11 @@ import org.jboss.tools.common.model.ui.editor.IModelObjectEditorInput;
 import org.jboss.tools.jst.web.model.WebProcess;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 
 public class SeamPagesGuiEditor extends AbstractSectionEditor {
-    private FakePageEditor gui = null;
+    private PagesEditor gui = null;
 	private IModelObjectEditorInput input;
 	private boolean isInitialized = false;
 	private XModelObject installedProcess = null;
@@ -42,7 +44,7 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		super.dispose();
 	}
 	
-    public FakePageEditor getGUI(){
+    public PagesEditor getGUI(){
     	return gui;
     }
 
@@ -82,7 +84,9 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		if(f == null) return;
 		try {
 			f.autolayout();
-            gui = new FakePageEditor(input);
+            gui = new PagesEditor(input);
+            PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
+            gui.setJSFModel(model);
 //            model = new JSFModel(f.getParent());
 //            model.updateLinks();
 

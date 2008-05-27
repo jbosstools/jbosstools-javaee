@@ -36,7 +36,7 @@ public class SeamPagesEditor extends ObjectMultiPageEditor {
 	protected void doCreatePages() {
 		if (isAppropriateNature() || true /* JBIDE-541 */) {
 			//TODO restore
-//			createGuiPage();
+			createGuiPage();
 			treeFormPage = createTreeFormPage();
 			//TODO use constant
 			treeFormPage.setTitle("Seam Pages Editor"); 

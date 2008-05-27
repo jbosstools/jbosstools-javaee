@@ -22,6 +22,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.*;
+import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 
 abstract public class PagesEditPart extends
 		org.eclipse.gef.editparts.AbstractGraphicalEditPart implements
@@ -40,41 +41,16 @@ abstract public class PagesEditPart extends
 			return;
 		super.activate();
 	}
-
+	
 	/**
 	 * 
-	 * @param cf
+	 * @return
 	 */
-	public void doDoubleClick(boolean cf) { }
+	protected NodeFigure getNodeFigure() {
+		return (NodeFigure) getFigure();
+	}
 
-	/**
-	 * 
-	 * @param cf
-	 */
-	public void doMouseUp(boolean cf) {	}
-
-	/**
-	 * 
-	 * @param cf
-	 */
-	public void doMouseDown(boolean cf) { }
-
-	/**
-	 * 
-	 * @param cf
-	 */
-	public void doMouseHover(boolean cf) { }
-
-	/**
-	 * 
-	 */
-	public void doControlUp() { }
-
-	/**
-	 * 
-	 */
-	public void doControlDown() { }
-
+	
 	/**
 	 * 
 	 */
