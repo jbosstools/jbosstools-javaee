@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.pages.xml.model;
 
-import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 
@@ -30,8 +29,4 @@ public class SeamPageFileLoader extends SimpleWebFileLoader {
     	return false;
     }
 
-    public String serializeObject(XModelObject object) {
-        return super.serializeObject(object);
-    }
-    
 }

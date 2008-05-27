@@ -10,11 +10,51 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.pages.xml.model;
 
-import org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl;
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.impl.OrderedByEntityChildren;
+import org.jboss.tools.common.model.impl.RegularChildren;
+import org.jboss.tools.common.model.loaders.XObjectLoader;
+import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
+import org.jboss.tools.jst.web.model.AbstractWebFileImpl;
+import org.jboss.tools.jst.web.model.WebProcessLoader;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
 
-public class FileSeamPagesImpl extends SimpleFileImpl {
+public class FileSeamPagesImpl extends AbstractWebFileImpl implements SeamPagesConstants {
 	private static final long serialVersionUID = 1L;
 	
 	public FileSeamPagesImpl() {}
+
+	protected RegularChildren createChildren() {
+		return new OrderedByEntityChildren();
+	}
+
+	protected String getProcessEntity() {
+		return "SeamPagesProcess";
+	}
+
+	protected boolean hasDTD() {
+		return SeamPagesConstants.ENT_FILE_SEAM_PAGES_12.equals(getModelEntity().getName());
+	}
+
+	protected void mergeAll(XModelObject f, boolean update) throws XModelException {
+		SeamPagesProcessImpl process = (SeamPagesProcessImpl)provideWebProcess();
+		boolean b = (process != null && process.isPrepared());
+		if(b) process.getHelper().addUpdateLock(this);
+		merge(f, !update);
+		if(b) {
+			process.getHelper().removeUpdateLock(this);
+			process.getHelper().updateProcess();
+		}
+
+		if(process != null) {
+			if(!process.isPrepared()/* || update*/ || isForceLoadOn()) {
+				XObjectLoader loader = XModelObjectLoaderUtil.getObjectLoader(this);
+				((WebProcessLoader)loader).reloadProcess(this);
+			}
+			if(process.isPrepared())
+				process.autolayout();
+		}
+	}
 
 }

@@ -13,6 +13,7 @@ package org.jboss.tools.seam.pages.xml.model;
 public interface SeamPagesConstants {
 	public String PUBLIC_ID_12 = "-//JBoss/Seam Pages Configuration DTD 1.2//EN"; //$NON-NLS-1$
 	public String SYSTEM_ID_12 = "http://jboss.com/products/seam/pages-1.2.dtd"; //$NON-NLS-1$
+	public String DOC_QUALIFIEDNAME = "pages";
 	
 	public String SUFF_12 = "12"; //$NON-NLS-1$
 	public String SUFF_20 = "20"; //$NON-NLS-1$
@@ -28,5 +29,16 @@ public interface SeamPagesConstants {
 	
 	public String ATTR_NAME = "name"; //$NON-NLS-1$
 	public String ATTR_VALUE = "value"; //$NON-NLS-1$
+	
+	public String FOLDER_CONVERSATIONS = "Conversations";
+	public String FOLDER_PAGES = "Pages";
+	public String FOLDER_EXCEPTIONS = "Exceptions";
+
+	public String ELM_PROCESS = "process";
+
+
+    public String TYPE_PAGE = "page";
+    public String TYPE_EXCEPTION = "exception";
+    public String SUBTYPE_UNKNOWN = "unknown";
 
 }

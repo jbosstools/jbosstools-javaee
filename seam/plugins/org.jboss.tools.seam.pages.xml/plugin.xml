@@ -43,6 +43,11 @@
 			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageHTTPErrorImpl"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"
 			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"/>
+
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"/>
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">

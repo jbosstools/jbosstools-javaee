@@ -20,6 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamPagesConstants {
+	static String[] folders = new String[]{"Conversations", "Pages", "Exceptions"};
 	
 	public SeamPagesLoaderUtil() {}
 
@@ -63,8 +64,16 @@ public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamP
 	public boolean saveChildren(Element element, XModelObject o) {
 		String entity = o.getModelEntity().getName();
     	String childrenLoader = o.getModelEntity().getProperty("childrenLoader"); //$NON-NLS-1$
-
-		return super.saveChildren(element, o);
+    	if(o.getFileType() == XModelObject.FILE) {
+			for (int i = 0; i < folders.length; i++) {
+				XModelObject c = o.getChildByPath(folders[i]);
+				if(c != null) super.saveChildren(element, c);
+			}
+			super.saveChildren(element, o);
+			return true;
+		} else {
+			return super.saveChildren(element, o);
+		}
 	}
     
     private boolean savePropertyMapChildren(Element element, XModelObject o) {
@@ -80,7 +89,15 @@ public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamP
 
     public void loadChildren(Element element, XModelObject o) {
 //    	String entity = o.getModelEntity().getName();
-   		super.loadChildren(element, o);
+    	if(o.getFileType() == XModelObject.FILE) {
+			super.loadChildren(element, o);
+			for (int i = 0; i < folders.length; i++) {
+				XModelObject c = o.getChildByPath(folders[i]);
+				if(c != null) super.loadChildren(element, c);
+			}
+		} else {
+			super.loadChildren(element, o);
+		}
     }
     
     protected String getChildEntity(XModelEntity entity, Element e) {
