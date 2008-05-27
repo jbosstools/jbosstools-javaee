@@ -92,8 +92,8 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 
 //			gui.setJSFModel(model);
 
-//			gui.init((IEditorSite)getSite(), (IEditorInput)input);
-//			gui.createPartControl(guiControl);
+			gui.init((IEditorSite)getSite(), (IEditorInput)input);
+			gui.createPartControl(guiControl);
 			control = guiControl.getChildren()[0];
 			control.setLayoutData(new GridData(GridData.FILL_BOTH));
 			guiControl.layout();

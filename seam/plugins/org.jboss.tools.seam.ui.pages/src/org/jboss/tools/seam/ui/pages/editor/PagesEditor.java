@@ -373,21 +373,21 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 				.setUserModificationPermission(PaletteSeparator.PERMISSION_NO_MODIFICATION);
 		entries.add(sep); //$NON-NLS-1$
 
-//		connectionCreationTool = new GEFConnectionCreationToolEntry(
-//				FacesConfigEditorMessages.JSFDIAGRAM_CREATE_NEW_CONNECTION,
-//				FacesConfigEditorMessages.JSFDIAGRAM_CREATE_NEW_CONNECTION,
-//				null, ImageDescriptor.createFromFile(PagesEditor.class,
-//						"icons/transition.gif"),//$NON-NLS-1$
-//				null//$NON-NLS-1$
-//		) {
-//			protected void dragFinished() {
-//				XModelTransferBuffer.getInstance().disable();
-//			}
-//		};
-//		connectionCreationTool.setUnloadWhenFinished(switchToSelectionTool);
-//		entries.add(connectionCreationTool);
-//
-//		entries.add(sep);
+		connectionCreationTool = new GEFConnectionCreationToolEntry(
+				"New Link",
+				"New Link",
+				null, ImageDescriptor.createFromFile(PagesEditor.class,
+						"icons/transition.gif"),//$NON-NLS-1$
+				null//$NON-NLS-1$
+		) {
+			protected void dragFinished() {
+				XModelTransferBuffer.getInstance().disable();
+			}
+		};
+		connectionCreationTool.setUnloadWhenFinished(switchToSelectionTool);
+		entries.add(connectionCreationTool);
+
+		entries.add(sep);
 
 //		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
 //				FacesConfigEditorMessages.JSFDIAGRAM_VIEW_TEMPLATE,
@@ -399,7 +399,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 //		);
 //		entries.add(combined);
 //
-//		controlGroup.addAll(entries);
+		controlGroup.addAll(entries);
 		return controlGroup;
 	}
 	public void gotoMarker(IMarker marker) {
