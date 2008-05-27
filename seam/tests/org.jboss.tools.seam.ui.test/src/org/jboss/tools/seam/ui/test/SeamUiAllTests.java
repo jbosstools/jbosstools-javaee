@@ -51,22 +51,10 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
 
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(Seam12EARNewOperationTest.class),
-					"org.jboss.tools.seam.ui.test",
-					new String[]{"projects/seam_ear", "projects/seam_ear-ejb", "projects/seam_ear-test"},
-					new String[]{"seam_ear", "seam_ear-ejb", "seam_ear-test"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(Seam12WARNewOperationTest.class),
-				"org.jboss.tools.seam.ui.test",
-				new String[]{"projects/seam_war", "projects/seam_war-test"},
-				new String[]{"seam_war", "seam_war-test"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(Seam20EARNewOperationTest.class),
-				"org.jboss.tools.seam.ui.test",
-				new String[]{"projects/seam_ear", "projects/seam_ear-ejb", "projects/seam_ear-test"},
-				new String[]{"seam_ear", "seam_ear-ejb", "seam_ear-test"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(Seam20WARNewOperationTest.class),
-				"org.jboss.tools.seam.ui.test",
-				new String[]{"projects/seam_war", "projects/seam_war-test"},
-				new String[]{"seam_war", "seam_war-test"}));
+		suite.addTestSuite(Seam12EARNewOperationTest.class);
+		suite.addTestSuite(Seam12WARNewOperationTest.class);
+		suite.addTestSuite(Seam20EARNewOperationTest.class);
+		suite.addTestSuite(Seam20WARNewOperationTest.class);
 
 		return suite;
 	}

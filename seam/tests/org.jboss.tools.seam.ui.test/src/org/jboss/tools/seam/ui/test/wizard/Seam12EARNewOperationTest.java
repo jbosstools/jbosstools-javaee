@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.wizard;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -17,16 +19,22 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	private static final String SEAM_EAR_PROJECTNAME = "seam_ear";
 	private static final String SEAM_EAR_EJB_PROJECTNAME = "seam_ear-ejb";
+	private static final String SEAM_EAR_EAR_PROJECTNAME = "seam_ear-ear";
 	private static final String SEAM_EAR_TEST_PROJECTNAME = "seam_ear-test";
-	protected IProject earProject = null;
-	private IProject earEjbProject = null;
-	private IProject testProject = null;
+	protected static IProject earProject = null;
+	private static IProject earEjbProject = null;
+	private static IProject earEarProject = null;
+	private static IProject testProject = null;
 	private ISeamProject seamEarProject = null;
 	private ISeamProject seamEarEjbProject = null;
 	private ISeamProject seamTestProject = null;
@@ -38,11 +46,31 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		
+		File folder = getSeamHomeFolder(getSeamRTName());
+		assertNotNull("An error occured while getting the SEAM HOME folder for: " + getSeamRTName(), folder);
+		
+		SeamRuntimeManager.getInstance().addRuntime(getSeamRTName(), folder.getAbsolutePath(), getSeamRTVersion(getSeamRTName()), true);
+		SeamRuntime sr = SeamRuntimeManager.getInstance().findRuntimeByName(getSeamRTName());
+		assertNotNull("An error occured while getting the SEAM RUN-TIME for: " + getSeamRTName(), sr);
+
+		if (earProject == null && earEjbProject == null && earEarProject == null && testProject == null)
+			createSeamEarProject(SEAM_EAR_PROJECTNAME);
+		
+		try {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
+			JUnitUtils.fail(e.getMessage(), e);
+		}
+
 		if(earProject==null) {
 			earProject = ProjectImportTestSetup.loadProject(SEAM_EAR_PROJECTNAME);
 		}
 		if(earEjbProject==null) {
 			earEjbProject = ProjectImportTestSetup.loadProject(SEAM_EAR_EJB_PROJECTNAME);
+		}
+		if(earEarProject==null) {
+			earEarProject = ProjectImportTestSetup.loadProject(SEAM_EAR_EAR_PROJECTNAME);
 		}
 		if(testProject==null) {
 			testProject = ProjectImportTestSetup.loadProject(SEAM_EAR_TEST_PROJECTNAME);
@@ -54,9 +82,21 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 			seamEarEjbProject = loadSeamProject(earEjbProject);
 		}
 		if(seamTestProject==null) {
-			seamTestProject = loadSeamProject(earProject);
+			seamTestProject = loadSeamProject(testProject);
 		}
 	}
+	
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		earProject = null;
+		earEjbProject = null;
+		earEarProject = null;
+		testProject = null;
+		seamEarProject = null;
+		seamEarEjbProject = null;
+		seamTestProject = null;
+	}
+
 	
 	protected IProject getProject() {
 		return earProject;
@@ -66,6 +106,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	void assertProjectsAreCreated() {
 		assertTrue("Test project \"" + SEAM_EAR_PROJECTNAME + "\" is not loaded", (earProject != null));
 		assertTrue("Test project \"" + SEAM_EAR_EJB_PROJECTNAME + "\" is not loaded", (earEjbProject != null));
+		assertTrue("Test project \"" + SEAM_EAR_EAR_PROJECTNAME + "\" is not loaded", (earEarProject != null));
 		assertTrue("Test project \"" + SEAM_EAR_TEST_PROJECTNAME + "\" is not loaded", (testProject != null));
 		assertTrue("Test Seam project \"" + SEAM_EAR_PROJECTNAME + "\" is not loaded", (seamEarProject != null));
 		assertTrue("Test Seam project \"" + SEAM_EAR_EJB_PROJECTNAME + "\" is not loaded", (seamEarEjbProject != null));
@@ -74,7 +115,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 
 	@Override
 	void setUpSeamProjects() {
-		setUpSeamProject(earProject, AbstractSeamNewOperationTest.SEAM_1_2);
+		setUpSeamProject(earProject);
 	}
 
 	@Override
@@ -267,5 +308,10 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	@Override
 	void assertNewFormFilesAreCreatedSuccessfully(AdaptableRegistry data) {
 		assertNewActionFilesAreCreatedSuccessfully(data);
+	}
+
+	@Override
+	protected String getSeamRTName() {
+		return AbstractSeamNewOperationTest.SEAM_1_2;
 	}
 }

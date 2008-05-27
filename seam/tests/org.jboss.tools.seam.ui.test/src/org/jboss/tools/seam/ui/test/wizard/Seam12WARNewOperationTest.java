@@ -11,6 +11,8 @@
 
 package org.jboss.tools.seam.ui.test.wizard;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -18,8 +20,13 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 	private static final String SEAM_WAR_PROJECTNAME = "seam_war";
@@ -36,6 +43,22 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		File folder = getSeamHomeFolder(getSeamRTName());
+		assertNotNull("An error occured while getting the SEAM HOME folder for: " + getSeamRTName(), folder);
+		
+		SeamRuntimeManager.getInstance().addRuntime(getSeamRTName(), folder.getAbsolutePath(), getSeamRTVersion(getSeamRTName()), true);
+		SeamRuntime sr = SeamRuntimeManager.getInstance().findRuntimeByName(getSeamRTName());
+		assertNotNull("An error occured while getting the SEAM RUN-TIME for: " + getSeamRTName(), sr);
+
+		createSeamWarProject(SEAM_WAR_PROJECTNAME);
+		
+		try {
+			EditorTestHelper.joinBackgroundActivities();
+		} catch (Exception e) {
+			JUnitUtils.fail(e.getMessage(), e);
+		}
+
 		if(warProject==null) {
 			warProject = ProjectImportTestSetup.loadProject(SEAM_WAR_PROJECTNAME);
 		}
@@ -46,7 +69,7 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 			seamWarProject = loadSeamProject(warProject);
 		}
 		if(seamTestProject==null) {
-			seamTestProject = loadSeamProject(warProject);
+			seamTestProject = loadSeamProject(testProject);
 		}
 	}
 	
@@ -64,8 +87,13 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 
 	@Override
 	void setUpSeamProjects() {
-		setUpSeamProject(warProject, AbstractSeamNewOperationTest.SEAM_1_2);
+		setUpSeamProject(warProject);
 	}
+
+	protected String getSeamRTName() {
+		return AbstractSeamNewOperationTest.SEAM_1_2;
+	}
+	
 
 	@Override
 	void assertNewActionFilesAreCreatedSuccessfully(AdaptableRegistry data) {

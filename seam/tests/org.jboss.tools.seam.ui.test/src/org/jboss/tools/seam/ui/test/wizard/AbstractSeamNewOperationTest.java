@@ -12,8 +12,12 @@ package org.jboss.tools.seam.ui.test.wizard;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -36,12 +40,19 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
@@ -76,15 +87,50 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 	private static final IUndoableOperation CREATE_SEAM_CONVERSATION = new SeamConversationCreateOperation();
 	private static final IUndoableOperation CREATE_SEAM_ENTITY = new SeamEntityCreateOperation();
 
-	
+	protected final Set<IResource> resourcesToCleanup = new HashSet<IResource>();
+
+	protected static final IProjectFacetVersion dynamicWebVersion;
+	protected static final IProjectFacetVersion javaVersion;
+	protected static final IProjectFacetVersion javaFacesVersion;
+	private static final IProjectFacet seamFacet;
+
+	static {
+		javaVersion = ProjectFacetsManager.getProjectFacet("jst.java").getVersion("5.0");
+		dynamicWebVersion = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("2.5");
+		javaFacesVersion = ProjectFacetsManager.getProjectFacet("jst.jsf").getVersion("1.2");
+		seamFacet = ProjectFacetsManager.getProjectFacet("jst.seam");
+	}
+
 	public AbstractSeamNewOperationTest() {
 	}
 	
 	protected void setUp() throws Exception {
 		super.setUp();
+		try { EditorTestHelper.joinBackgroundActivities(); } 
+		catch (Exception e) { JUnitUtils.fail(e.getMessage(), e); }
+		EditorTestHelper.runEventQueue(3000);
 	}
 
 	protected void tearDown() throws Exception {
+		// Wait until all jobs is finished to avoid delete project problems
+		EditorTestHelper.joinBackgroundActivities();
+		EditorTestHelper.runEventQueue(3000);
+		Exception last = null;
+		for (IResource r : this.resourcesToCleanup) {
+			try {
+				System.out.println("Deleting " + r);
+				r.delete(true, null);
+			} catch(Exception e) {
+				System.out.println("Error deleting " + r);
+				e.printStackTrace();
+				last = e;
+			}
+		}
+
+		if(last!=null) throw last;
+
+		resourcesToCleanup.clear();
+		
 		super.tearDown();
 	}
 
@@ -120,20 +166,13 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		return seamProject;
 	}
 
-	protected void setUpSeamProject(IProject project, String seamRTName) {
-		File folder = getSeamHomeFolder(seamRTName);
-		assertNotNull("An error occured while getting the SEAM HOME folder for: " + seamRTName, folder);
-		
-		SeamRuntimeManager.getInstance().addRuntime(seamRTName, folder.getAbsolutePath(), getSeamRTVersion(seamRTName), true);
-		SeamRuntime sr = SeamRuntimeManager.getInstance().findRuntimeByName(seamRTName);
-		assertNotNull("An error occured while getting the SEAM RUNTIME for: " + seamRTName, sr);
-
+	protected void setUpSeamProject(IProject project) {
 		IScopeContext projectScope = new ProjectScope(project);
 		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 		assertNotNull("An error occured while getting the preferences for project: " + project.getName(), prefs);
 
 		prefs.put(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, 
-				seamRTName);
+				getSeamRTName());
 		
 		try {
 			prefs.flush();
@@ -141,6 +180,96 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 			JUnitUtils.fail(e.getMessage(), e);
 		}
 	}
+	
+	protected IFacetedProject createSeamWarProject(String name) throws CoreException {
+		final IFacetedProject fproj = createSeamProject(name, createSeamDataModel("war"));
+		
+		final IProject proj = fproj.getProject();
+
+		assertNotNull(proj);
+		assertTrue(proj.exists());
+
+		assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
+		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+		this.addResourceToCleanup(testProject);
+		this.addResourceToCleanup(proj);		
+
+		return fproj;
+	}
+	
+	protected IDataModel createSeamDataModel(String deployType) {
+		IDataModel config = (IDataModel) new SeamFacetInstallDataModelProvider().create();
+		config.setStringProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, getSeamRTName());
+		config.setBooleanProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS, true);
+		config.setBooleanProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY, false);
+		config.setStringProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, deployType);
+		config.setStringProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.session.beans");
+		config.setStringProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.entity.beans");
+		config.setStringProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.test.beans");
+		config.setStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "noop-connection");
+		config.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH, new String[] { "noop-driver.jar" });
+		return config;
+	}
+
+	protected IFacetedProject createSeamProject(String baseProjectName, IDataModel config) throws CoreException {
+		final IFacetedProject fproj = ProjectFacetsManager.create(baseProjectName, null,
+				null);
+	
+		installDependentFacets(fproj);
+//		new SeamFacetPreInstallDelegate().execute(fproj.getProject(), getSeamFacetVersion(), config, null);
+		fproj.installProjectFacet(getSeamFacetVersion(getSeamRTName()), config, null);
+		
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(fproj.getProject());
+		assertTrue(seamProjectsSet.getActionFolder().exists());
+		assertTrue(seamProjectsSet.getModelFolder().exists());
+		
+		return fproj;
+	}
+	
+	protected void installDependentFacets(final IFacetedProject fproj) throws CoreException {
+		fproj.installProjectFacet(javaVersion, null, null);
+		fproj.installProjectFacet(dynamicWebVersion, null, null);
+		fproj.installProjectFacet(javaFacesVersion, null, null);
+	}
+
+	protected IProjectFacetVersion getSeamFacetVersion(String seamRTName) {
+		assertTrue("Wrong SEAM run-time name is specified: " + seamRTName, 
+				(SEAM_1_2.equals(seamRTName) || SEAM_2_0.equals(seamRTName)));
+		if (SEAM_1_2.equals(seamRTName)) {
+			return seamFacet.getVersion("1.2");
+		} else if (SEAM_2_0.equals(seamRTName)) {
+			return seamFacet.getVersion("2.0");
+		}
+		return null;
+	}
+
+	protected final void addResourceToCleanup(final IResource resource) {
+		this.resourcesToCleanup.add(resource);
+	}
+
+	protected IFacetedProject createSeamEarProject(String name) throws CoreException {
+		final IFacetedProject fproj = createSeamProject(name, createSeamDataModel("ear"));
+		
+		final IProject proj = fproj.getProject();
+		assertNotNull(proj);
+		
+		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+		IProject ejbProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ejb");
+		IProject earProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ear");
+		
+		this.resourcesToCleanup.add(proj);
+		this.resourcesToCleanup.add(testProject);
+		this.resourcesToCleanup.add(ejbProject);
+		this.resourcesToCleanup.add(earProject);
+
+		assertTrue(proj.exists());
+		assertTrue(testProject.exists());
+		assertTrue(ejbProject.exists());
+		assertTrue(earProject.exists());
+		
+		return fproj;
+	}
+
 	
 	protected File getSeamHomeFolder(String seamRTName) {
 		if (SEAM_1_2.equals(seamRTName)) {
@@ -160,7 +289,9 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		return null;
 	}
 
-	
+
+	abstract protected String getSeamRTName() ;
+
 	protected String getPackagePath(String packageName) {
 		return (packageName == null ? "" : packageName.replace('.', '/'));
 	}

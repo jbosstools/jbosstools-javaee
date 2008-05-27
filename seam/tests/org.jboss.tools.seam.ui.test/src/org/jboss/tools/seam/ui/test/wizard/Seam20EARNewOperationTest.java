@@ -13,6 +13,11 @@ package org.jboss.tools.seam.ui.test.wizard;
 public class Seam20EARNewOperationTest extends Seam12EARNewOperationTest {
 	@Override
 	void setUpSeamProjects() {
-		setUpSeamProject(earProject, AbstractSeamNewOperationTest.SEAM_2_0);
+		setUpSeamProject(earProject);
+	}
+	
+	@Override
+	protected String getSeamRTName() {
+		return AbstractSeamNewOperationTest.SEAM_2_0;
 	}
 }
