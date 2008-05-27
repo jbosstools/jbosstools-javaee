@@ -102,6 +102,31 @@ public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamP
     
     protected String getChildEntity(XModelEntity entity, Element e) {
     	String n = e.getNodeName();
+    	if("page".equals(entity.getXMLSubPath())) {
+    		String suff = (entity.getName().endsWith(SUFF_12))
+    			? SUFF_12
+    			: (entity.getName().endsWith(SUFF_20))
+    			? SUFF_20
+    			: null;
+    		if(suff == null) {
+    			System.out.println("Unknown suffix in seam page entity " + entity.getName());
+    			suff = SUFF_20;
+    		}
+    		if("navigation".equals(n)) {
+    			NodeList nl = e.getChildNodes();
+    			for (int i = 0; i < nl.getLength(); i++) {
+    				Node ni = nl.item(i);
+    				if(ni.getNodeType() == Node.ELEMENT_NODE) {
+    					if(ni.getNodeName().equals("rule")) {
+    						return ENT_NAVIGATION + suff;
+    					} else {
+    						return ENT_NAVIGATION_RULE + suff;
+    					}
+    				}
+    			}
+   				return ENT_NAVIGATION + suff;
+    		}
+    	}
 
     	return super.getChildEntity(entity, e);
     }

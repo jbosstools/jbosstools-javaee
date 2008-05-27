@@ -674,6 +674,7 @@
    <XChildEntity name="SeamPageIn"/>
    <XChildEntity name="SeamPageAction"/>
    <XChildEntity name="SeamPageNavigation12"/>
+   <XChildEntity name="SeamPageNavigationRule12"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -786,6 +787,7 @@
    <XChildEntity maxCount="1" name="SeamPageRaiseEvent20"/>
    <XChildEntity name="SeamPageAction"/>
    <XChildEntity name="SeamPageNavigation20"/>
+   <XChildEntity name="SeamPageNavigationRule20"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -1747,16 +1749,6 @@
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%EntityOrdered%"
   XMLSUBPATH="navigation" name="SeamPageNavigation12">
   <XChildrenEntities>
-   <XChildEntity maxCount="1" name="SeamPageBeginConversation"/>
-   <XChildEntity maxCount="1" name="SeamPageEndConversation"/>
-   <XChildEntity maxCount="1" name="SeamPageStartTask"/>
-   <XChildEntity maxCount="1" name="SeamPageBeginTask"/>
-   <XChildEntity maxCount="1" name="SeamPageEndTask"/>
-   <XChildEntity maxCount="1" name="SeamPageCreateProcess"/>
-   <XChildEntity maxCount="1" name="SeamPageResumeProcess"/>
-   <XChildEntity name="SeamPageOut"/>
-   <XChildEntity maxCount="1" name="SeamPageRender"/>
-   <XChildEntity maxCount="1" name="SeamPageRedirect12"/>
    <XChildEntity name="SeamPageRule12"/>
   </XChildrenEntities>
   <XEntityRenderer>
@@ -1774,18 +1766,10 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;generate=true" name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Out..." kind="action" name="AddOut">
-     <EntityData EntityName="SeamPageOut">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="scope" Mandatory="no"/>
-      <AttributeData AttributeName="value"/>
-     </EntityData>
-    </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Add Rule..." kind="action" name="AddRule">
@@ -1824,17 +1808,6 @@
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%EntityOrdered%"
   XMLSUBPATH="navigation" name="SeamPageNavigation20">
   <XChildrenEntities>
-   <XChildEntity maxCount="1" name="SeamPageBeginConversation"/>
-   <XChildEntity maxCount="1" name="SeamPageEndConversation"/>
-   <XChildEntity maxCount="1" name="SeamPageStartTask"/>
-   <XChildEntity maxCount="1" name="SeamPageBeginTask"/>
-   <XChildEntity maxCount="1" name="SeamPageEndTask"/>
-   <XChildEntity maxCount="1" name="SeamPageCreateProcess"/>
-   <XChildEntity maxCount="1" name="SeamPageResumeProcess"/>
-   <XChildEntity name="SeamPageOut"/>
-   <XChildEntity maxCount="1" name="SeamPageRaiseEvent20"/>
-   <XChildEntity maxCount="1" name="SeamPageRender"/>
-   <XChildEntity maxCount="1" name="SeamPageRedirect20"/>
    <XChildEntity name="SeamPageRule20"/>
   </XChildrenEntities>
   <XEntityRenderer>
@@ -1852,6 +1825,145 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;generate=true" name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Rule..." kind="action" name="AddRule">
+     <EntityData EntityName="SeamPageRule20">
+      <AttributeData AttributeName="if outcome" Mandatory="no"/>
+      <AttributeData AttributeName="if" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPageNavigationImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%EntityOrdered%"
+  XMLSUBPATH="navigation" name="SeamPageNavigationRule12">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamPageBeginConversation"/>
+   <XChildEntity maxCount="1" name="SeamPageEndConversation"/>
+   <XChildEntity maxCount="1" name="SeamPageStartTask"/>
+   <XChildEntity maxCount="1" name="SeamPageBeginTask"/>
+   <XChildEntity maxCount="1" name="SeamPageEndTask"/>
+   <XChildEntity maxCount="1" name="SeamPageCreateProcess"/>
+   <XChildEntity maxCount="1" name="SeamPageResumeProcess"/>
+   <XChildEntity name="SeamPageOut"/>
+   <XChildEntity maxCount="1" name="SeamPageRender"/>
+   <XChildEntity maxCount="1" name="SeamPageRedirect12"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam-pages.rule" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="navigation" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    name="from action" xmlname="from-action"/>
+   <XModelAttribute PROPERTIES="category=general" name="evaluate" xmlname="evaluate"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;generate=true" name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Out..." kind="action" name="AddOut">
+     <EntityData EntityName="SeamPageOut">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="scope" Mandatory="no"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPageNavigationImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%EntityOrdered%"
+  XMLSUBPATH="navigation" name="SeamPageNavigationRule20">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamPageBeginConversation"/>
+   <XChildEntity maxCount="1" name="SeamPageEndConversation"/>
+   <XChildEntity maxCount="1" name="SeamPageStartTask"/>
+   <XChildEntity maxCount="1" name="SeamPageBeginTask"/>
+   <XChildEntity maxCount="1" name="SeamPageEndTask"/>
+   <XChildEntity maxCount="1" name="SeamPageCreateProcess"/>
+   <XChildEntity maxCount="1" name="SeamPageResumeProcess"/>
+   <XChildEntity name="SeamPageOut"/>
+   <XChildEntity maxCount="1" name="SeamPageRaiseEvent20"/>
+   <XChildEntity maxCount="1" name="SeamPageRender"/>
+   <XChildEntity maxCount="1" name="SeamPageRedirect20"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam-pages.rule" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="navigation" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    name="from action" xmlname="from-action"/>
+   <XModelAttribute PROPERTIES="category=general" name="evaluate" xmlname="evaluate"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;generate=true" name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">

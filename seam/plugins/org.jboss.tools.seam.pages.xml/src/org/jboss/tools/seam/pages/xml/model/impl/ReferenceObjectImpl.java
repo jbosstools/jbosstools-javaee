@@ -18,45 +18,49 @@ import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 
 public class ReferenceObjectImpl extends OrderedObjectImpl implements ReferenceObject, SeamPagesConstants {
 	private static final long serialVersionUID = 2473449103657311162L;
-    protected XModelObject reference;
-    protected long referenceTimeStamp = -1;
+	protected XModelObject reference;
+	protected long referenceTimeStamp = -1;
 
-    public ReferenceObjectImpl() {}
+	public ReferenceObjectImpl() {}
 
-    public XModelObject getReference() {
-        return reference;
-    }
+	public XModelObject getReference() {
+		return reference;
+	}
 
-    public void setReference(XModelObject reference) {
-    	if(this.reference != reference) {
+	public void setReference(XModelObject reference) {
+		if(this.reference != reference) {
 			referenceTimeStamp = -1;
-    	}
+		}
         this.reference = reference;
         if(reference != null) {
-            String shape = get("SHAPE");
-            if(shape != null && shape.length() > 0) reference.set("_shape", shape);
+        	String shape = get("SHAPE");
+        	if(shape != null && shape.length() > 0) reference.set("_shape", shape);
         }
-    }
-    
-    public boolean isUpToDate() {
-    	return reference == null || reference.getTimeStamp() == referenceTimeStamp;
-    }
-    
-    public void notifyUpdate() {
+	}
+
+	public boolean isUpToDate() {
+		return reference == null || reference.getTimeStamp() == referenceTimeStamp;
+	}
+
+	public void notifyUpdate() {
 		referenceTimeStamp = (reference == null) ? -1 : reference.getTimeStamp();
-    }
+	}
 
-    public String getPresentationString() {
-        String title = (reference != null) ? reference.getPresentationString() :
-/*                  (TYPE_ACTION.equals(getAttributeValue(ATT_TYPE)) ||
-                   TYPE_PAGE.equals(getAttributeValue(ATT_TYPE))
-                  ) ? getAttributeValue(ATT_PATH) : */
+	public String getPresentationString() {
+		String title = (reference != null) ? reference.getPresentationString() :
+				TYPE_PAGE.equals(getAttributeValue(ATTR_TYPE))
+				|| TYPE_EXCEPTION.equals(getAttributeValue(ATTR_TYPE))
+				? getAttributeValue(ATTR_PATH) : 
 					getAttributeValue("title");
-        if(title == null) title = getAttributeValue(ATTR_NAME);
-        return "" + title;
-    }
+		if(title == null) title = getAttributeValue(ATTR_NAME);
+		return "" + title;
+	}
 
-    public String getMainIconName() {
+	public String getMainIconName() {
+		
+		if(reference != null && TYPE_EXCEPTION.equals(getAttributeValue(ATTR_TYPE))) {
+			return reference.getMainIconName();
+		}
 /*
         String type = getAttributeValue(ATT_TYPE);
         if(type == null || type.length() == 0) return super.getMainIconName();

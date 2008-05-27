@@ -1,14 +1,13 @@
 package org.jboss.tools.seam.pages.xml.model.impl;
 
 import org.jboss.tools.common.model.impl.CustomizedObjectImpl;
+import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 
 public class SeamPageNavigationImpl extends CustomizedObjectImpl {
 	private static final long serialVersionUID = 1L;
 
 	public String getPathPart() {
-    	String v1 = getAttributeValue("from action");
-    	String v2 = getAttributeValue("evaluation");
-    	return "" + v1 + ":" + v2;
+    	return "navigation" + ":" + get(XModelObjectLoaderUtil.ATTR_ID_NAME);
     }
 
 	public String getPresentationString() {

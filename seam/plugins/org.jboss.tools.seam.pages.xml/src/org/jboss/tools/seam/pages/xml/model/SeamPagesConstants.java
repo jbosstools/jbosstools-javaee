@@ -19,26 +19,36 @@ public interface SeamPagesConstants {
 	public String SUFF_20 = "20"; //$NON-NLS-1$
 	public String ENT_FILE_SEAM_PAGES = "FileSeamPages"; //$NON-NLS-1$
 	public String ENT_FILE_SEAM_PAGES_12 = ENT_FILE_SEAM_PAGES + SUFF_12;
-	public String ENT_FILE_SEAM_PAGE_12 = "FileSeamPage" + SUFF_12;
+	public String ENT_FILE_SEAM_PAGE = "FileSeamPage";
+	public String ENT_FILE_SEAM_PAGE_12 = ENT_FILE_SEAM_PAGE + SUFF_12;
 	public String ENT_FILE_SEAM_PAGES_20 = ENT_FILE_SEAM_PAGES + SUFF_20;
-	public String ENT_FILE_SEAM_PAGE_20 = "FileSeamPage" + SUFF_20;  //$NON-NLS-1$
+	public String ENT_FILE_SEAM_PAGE_20 = ENT_FILE_SEAM_PAGE + SUFF_20;  //$NON-NLS-1$
 
 	public String ENT_SEAM_PAGE = "SeamPage"; //$NON-NLS-1$
 	public String ENT_SEAM_PAGE_12 = ENT_SEAM_PAGE + SUFF_12;
 	public String ENT_SEAM_PAGE_20 = ENT_SEAM_PAGE + SUFF_20;
 	
-	public String ATTR_NAME = "name"; //$NON-NLS-1$
-	public String ATTR_VALUE = "value"; //$NON-NLS-1$
+	public String ENT_NAVIGATION = "SeamPageNavigation";
+	public String ENT_NAVIGATION_RULE = "SeamPageNavigationRule";
 	
-	public String FOLDER_CONVERSATIONS = "Conversations";
-	public String FOLDER_PAGES = "Pages";
-	public String FOLDER_EXCEPTIONS = "Exceptions";
+	public String ATTR_NAME = "name"; //$NON-NLS-1$
+	public String ATTR_PATH = "path"; //$NON-NLS-1$
+	public String ATTR_VALUE = "value"; //$NON-NLS-1$
+	public String ATTR_TYPE = "type"; //$NON-NLS-1$
 
-	public String ELM_PROCESS = "process";
+	public String ATTR_VIEW_ID = "view id"; //$NON-NLS-1$
+	
+	public String FOLDER_CONVERSATIONS = "Conversations"; //$NON-NLS-1$
+	public String FOLDER_PAGES = "Pages"; //$NON-NLS-1$
+	public String FOLDER_EXCEPTIONS = "Exceptions"; //$NON-NLS-1$
 
+	public String ELM_PROCESS = "process"; //$NON-NLS-1$
+	public String ENT_PROCESS = "SeamPagesProcess"; //$NON-NLS-1$
+	public String ENT_PROCESS_ITEM = "SeamPagesProcessItem"; //$NON-NLS-1$
+	public String ENT_PROCESS_ITEM_OUTPUT = "SeamPagesProcessItemOutput"; //$NON-NLS-1$
 
-    public String TYPE_PAGE = "page";
-    public String TYPE_EXCEPTION = "exception";
-    public String SUBTYPE_UNKNOWN = "unknown";
+    public String TYPE_PAGE = "page"; //$NON-NLS-1$
+    public String TYPE_EXCEPTION = "exception"; //$NON-NLS-1$
+    public String SUBTYPE_UNKNOWN = "unknown"; //$NON-NLS-1$
 
 }
