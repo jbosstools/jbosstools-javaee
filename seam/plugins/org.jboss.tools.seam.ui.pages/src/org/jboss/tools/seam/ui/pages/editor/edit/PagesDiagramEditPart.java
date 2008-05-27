@@ -22,12 +22,12 @@ import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.tools.DeselectAllTracker;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.figures.DiagramFigure;
-import org.jboss.tools.seam.ui.pages.editor.model.IPagesModel;
-import org.jboss.tools.seam.ui.pages.editor.model.IPagesModelListener;
 
 public class PagesDiagramEditPart extends ContainerEditPart implements
-		LayerConstants, IPagesModelListener {
+		LayerConstants, PagesModelListener {
 	/*
 	 * 
 	 */
@@ -64,7 +64,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 */
 	public void setModel(Object model) {
 		super.setModel(model);
-		((IPagesModel) model).addModelListener(this);
+		//((PagesModel) model).addModelListener(this);
 		//gridVisual = getPagesModel().getOptions().isGridVisible();
 		//gridVisualStep = getPagesModel().getOptions().getVisualGridStep();
 	}
@@ -72,8 +72,8 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	/**
 	 * 
 	 */
-	public IPagesModel getPagesModel() {
-		return (IPagesModel) getModel();
+	public PagesModel getPagesModel() {
+		return (PagesModel) getModel();
 	}
 
 	/**
