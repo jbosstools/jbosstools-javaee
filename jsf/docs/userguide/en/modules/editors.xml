@@ -550,7 +550,7 @@
             <section id="ContentAssistForRF">
 
                 <title>RichFaces components</title>
-                <para>JBDS indeed provides code completion for RichFaces framework components. All
+                <para>JBDS indeed provides code completion for <ulink url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework components. All
                     you have to do is to install RichFaces libraries into your project. See <ulink
                         url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
                         >here</ulink> how to install it.</para>

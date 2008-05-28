@@ -570,7 +570,7 @@
                 <property>RichFaces</property>
             </emphasis> component framework. RichFaces and Ajax4jsf in JBoss Tools Palette always
             exist, this palette is not dynamic and is not changed from file to file. JBoss Tools
-            Palette supports only the last version of the RichFaces components.
+            Palette supports only the last version of the <ulink url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> components.
             <tip>
                 <title>Tip:</title>
                 <para>If you&apos;d like to know the last version of RichFaces component

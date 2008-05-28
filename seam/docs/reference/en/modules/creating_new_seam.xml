@@ -280,7 +280,7 @@
         </figure>
 
         <para>In the Component Libraries section of the wizard you can also add <property>Component
-                Libraries</property> (e.g. Richfaces). Just click on <emphasis>
+            Libraries</property> (e.g. <ulink url="http://www.jboss.org/jbossrichfaces">Richfaces</ulink>). Just click on <emphasis>
                 <property>New</property>
             </emphasis> button. Appeared dialog will ask you to type the Library name, supported
             version and add necessary jar's. Press <emphasis>
