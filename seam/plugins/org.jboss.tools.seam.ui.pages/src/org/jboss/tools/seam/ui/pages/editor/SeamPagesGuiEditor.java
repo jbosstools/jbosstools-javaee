@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jboss.tools.common.editor.AbstractSectionEditor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -23,22 +26,27 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.editor.IModelObjectEditorInput;
 import org.jboss.tools.jst.web.model.WebProcess;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 
 public class SeamPagesGuiEditor extends AbstractSectionEditor {
     private PagesEditor gui = null;
 	private IModelObjectEditorInput input;
 	private boolean isInitialized = false;
 	private XModelObject installedProcess = null;
-//	private JSFModel model;
+	private PagesModel model;
 
 	public void dispose() {
-//		if(model == null) return; 
+		if(model == null) return; 
 //		model.dispose();
-//		model = null;
+		model = null;
 		gui.dispose();
 		disposeGui();
 		gui = null;
@@ -88,10 +96,8 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		try {
 			f.autolayout();
             gui = new PagesEditor(input);
-            PagesModel model = getFakeModel();
+            PagesModel model = createModel(); //getFakeModel();
             gui.setPagesModel(model);
-//            model = new JSFModel(f.getParent());
-//            model.updateLinks();
 
 			gui.init((IEditorSite)getSite(), (IEditorInput)input);
 			gui.createPartControl(guiControl);
@@ -115,6 +121,75 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		page.setLocation(new Point(10,10));
 		page.setSize(new Dimension(100,100));
 		model.getChildren().add(page);
+		return model;
+	}
+
+	private PagesModel createModel() {
+		PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
+		Map<XModelObject, PagesElement> elements = new HashMap<XModelObject, PagesElement>();
+		SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+		XModelObject[] is = h.getItems(installedProcess);
+		for (int i = 0; i < is.length; i++) {
+			String type = is[i].getAttributeValue(SeamPagesConstants.ATTR_TYPE);
+			if(SeamPagesConstants.TYPE_PAGE.equals(type)) {
+				Page page = PagesFactory.eINSTANCE.createPage();
+				page.setName(h.getPageTitle(is[i]));
+				int[] shape = h.asIntArray(is[i], "shape");
+				if(shape != null && shape.length >= 2) {
+					page.setLocation(new Point(shape[0],shape[1]));
+				}
+				if(shape != null && shape.length >= 4) {
+					page.setSize(new Dimension(shape[2],shape[3]));
+				}
+				//TODO pass is[i] to page
+				model.getChildren().add(page);
+				elements.put(is[i], page);
+			} else if(SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
+				PgException exc = PagesFactory.eINSTANCE.createPgException();
+				exc.setName(h.getPageTitle(is[i]));
+				int[] shape = h.asIntArray(is[i], "shape");
+				if(shape != null && shape.length >= 2) {
+					exc.setLocation(new Point(shape[0],shape[1]));
+				}
+				if(shape != null && shape.length >= 4) {
+					exc.setSize(new Dimension(shape[2],shape[3]));
+				}
+				model.getChildren().add(exc);
+			} else {
+				//TODO
+			}
+		}
+
+		for (int i = 0; i < is.length; i++) {
+			String type = is[i].getAttributeValue(SeamPagesConstants.ATTR_TYPE);
+			if(SeamPagesConstants.TYPE_PAGE.equals(type)
+				|| SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
+				PagesElement from = elements.get(is[i]);
+				if(from == null) {
+					//TODO report failure
+					continue;
+				}
+				XModelObject[] os = h.getOutputs(is[i]);
+				for (int j = 0; j < os.length; j++) {
+					XModelObject t = h.getItemOutputTarget(os[j]);
+					if(t == null) {
+						//TODO report failure
+						continue;
+					}
+					PagesElement to = elements.get(t);
+					if(to == null) {
+						//TODO report failure
+						continue;
+					}
+					Link link = PagesFactory.eINSTANCE.createLink();
+					link.setFromElement(from);
+					link.setToElement(to);
+					link.setName(h.getItemOutputPresentation(os[j]));
+					link.setShortcut(h.isShortcut(os[j]));
+				}
+			}
+		}
+
 		return model;
 	}
 
