@@ -143,26 +143,7 @@
     <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Param..." kind="action" name="AddParam">
-     <EntityData EntityName="SeamPageParam12">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="value" Mandatory="no"/>
-     </EntityData>
-    </XActionItem>
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add In..." kind="action" name="AddIn">
-     <EntityData EntityName="SeamPageIn">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="scope" Mandatory="no"/>
-      <AttributeData AttributeName="value"/>
-     </EntityData>
-    </XActionItem>
-   </XActionItem>
+   <XActionItemReference entity="SeamPage12" name="CreateActions" path="CreateActions"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -195,14 +176,9 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" group="1" kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
-     displayName="Properties..." kind="action" name="Properties"/>
-   </XActionItem>
-   <XActionItem kind="list" name="VerifyActions">
-    <XActionItem kind="list" name="StaticActions"/>
-   </XActionItem>
+   <XActionItemReference entity="SeamPage12" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="SeamPage12" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamPage12" name="VerifyActions" path="VerifyActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -306,17 +282,7 @@
     <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Param..." kind="action" name="AddParam">
-     <EntityData EntityName="SeamPageParam20">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="value" Mandatory="no"/>
-     </EntityData>
-    </XActionItem>
-   </XActionItem>
+   <XActionItemReference entity="SeamPage20" name="CreateActions" path="CreateActions"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -349,14 +315,9 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" group="1" kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
-     displayName="Properties..." kind="action" name="Properties"/>
-   </XActionItem>
-   <XActionItem kind="list" name="VerifyActions">
-    <XActionItem kind="list" name="StaticActions"/>
-   </XActionItem>
+   <XActionItemReference entity="SeamPage12" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="SeamPage12" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamPage12" name="VerifyActions" path="VerifyActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -512,14 +473,9 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HIDE="always" HandlerClassName="%Properties%"
-     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
-   </XActionItem>
-   <XActionItem kind="list" name="VerifyActions">
-    <XActionItem kind="list" name="StaticActions"/>
-   </XActionItem>
+   <XActionItemReference entity="FileSeamPages12" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileSeamPages12" name="Properties" path="Properties"/>
+   <XActionItemReference entity="FileSeamPages12" name="VerifyActions" path="VerifyActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -665,14 +621,9 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HIDE="always" HandlerClassName="%Properties%"
-     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
-   </XActionItem>
-   <XActionItem kind="list" name="VerifyActions">
-    <XActionItem kind="list" name="StaticActions"/>
-   </XActionItem>
+   <XActionItemReference entity="FileSeamPages20" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileSeamPages20" name="Properties" path="Properties"/>
+   <XActionItemReference entity="FileSeamPages20" name="VerifyActions" path="VerifyActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -759,10 +710,10 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem kind="list" name="CreateActions">
+   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Param..." kind="action" name="AddParam">
+     displayName="Param..." kind="action" name="AddParam">
      <EntityData EntityName="SeamPageParam12">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
@@ -770,7 +721,7 @@
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add In..." kind="action" name="AddIn">
+     displayName="In..." kind="action" name="AddIn">
      <EntityData EntityName="SeamPageIn">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -779,7 +730,15 @@
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Navigation..." kind="action" name="AddNavigation">
+     displayName="Action..." kind="action" name="AddAction">
+     <EntityData EntityName="SeamPageAction">
+      <AttributeData AttributeName="execute"/>
+      <AttributeData AttributeName="if" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Navigation..." kind="action" name="AddNavigation">
      <EntityData EntityName="SeamPageNavigation12">
       <AttributeData AttributeName="from action" Mandatory="no"/>
       <AttributeData AttributeName="evaluate" Mandatory="no"/>
@@ -789,7 +748,7 @@
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
      ICON="action.empty"
      PROPERTIES="validator.add=true;entity=SeamPageNavigationRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12"
-     WizardClassName="%Default%" displayName="Add Navigation Rule..."
+     WizardClassName="%Default%" displayName="Navigation Rule..."
      kind="action" name="AddRule">
      <EntityData EntityName="AddSeamPageRule">
       <AttributeData AttributeName="kind" Mandatory="no"/>
@@ -856,10 +815,10 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem kind="list" name="CreateActions">
+   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Param..." kind="action" name="AddParam">
+     displayName="Param..." kind="action" name="AddParam">
      <EntityData EntityName="SeamPageParam20">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
@@ -867,7 +826,7 @@
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add In..." kind="action" name="AddIn">
+     displayName="In..." kind="action" name="AddIn">
      <EntityData EntityName="SeamPageIn">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -876,7 +835,15 @@
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Navigation..." kind="action" name="AddNavigation">
+     displayName="Action..." kind="action" name="AddAction">
+     <EntityData EntityName="SeamPageAction">
+      <AttributeData AttributeName="execute"/>
+      <AttributeData AttributeName="if" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Navigation..." kind="action" name="AddNavigation">
      <EntityData EntityName="SeamPageNavigation20">
       <AttributeData AttributeName="from action" Mandatory="no"/>
       <AttributeData AttributeName="evaluate" Mandatory="no"/>
@@ -886,7 +853,7 @@
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
      ICON="action.empty"
      PROPERTIES="validator.add=true;entity=SeamPageNavigationRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20"
-     WizardClassName="%Default%" displayName="Add Navigation Rule..."
+     WizardClassName="%Default%" displayName="Navigation Rule..."
      kind="action" name="AddRule">
      <EntityData EntityName="AddSeamPageRule">
       <AttributeData AttributeName="kind" Mandatory="no"/>
@@ -2476,7 +2443,7 @@
      displayName="Add Message..." kind="action" name="AddMessage">
      <EntityData EntityName="SeamPageMessage">
       <AttributeData AttributeName="message"/>
-      <AttributeData AttributeName="severety" Mandatory="no"/>
+      <AttributeData AttributeName="severity" Mandatory="no"/>
      </EntityData>
     </XActionItem>
    </XActionItem>

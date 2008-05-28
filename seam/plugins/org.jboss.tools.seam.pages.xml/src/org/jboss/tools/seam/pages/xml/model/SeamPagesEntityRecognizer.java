@@ -31,57 +31,40 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
 
     public String getEntityName(String ext, String body) {
         if(body == null) return null;
-    	if(body.indexOf(PUBLIC_ID_12) >= 0) {
-    		if(body.indexOf("<page") > 0 && body.indexOf("<pages") < 0) return ENT_FILE_SEAM_PAGE_12;
-    		return ENT_FILE_SEAM_PAGES_12;
-    	}
-    	if(!isPagesSchema(body)) {
-    		return null;
-    	}
-    	
-    	int i = body.indexOf("xsi:schemaLocation"); //$NON-NLS-1$
-    	if(i < 0) return null;
-    	int j = body.indexOf("\"", i); //$NON-NLS-1$
-    	if(j < 0) return null;
-    	int k = body.indexOf("\"", j + 1); //$NON-NLS-1$
-    	if(k < 0) return null;
-    	String schemaLocation = body.substring(j + 1, k);
-    	boolean isSinglePage = isSinglePage(body);
-    	
-    	int i20 = schemaLocation.indexOf("2.0"); //$NON-NLS-1$
-    	if(i20 >= 0) {
-    		if(isSinglePage) return ENT_FILE_SEAM_PAGE_20;
-    		if(isMultiPage(body)) return ENT_FILE_SEAM_PAGES_20;
-    	}
-    	
-        return null;
-    }
-    
-    private boolean isPagesSchema(String body) {
-    	int i = body.indexOf("<pages"); //$NON-NLS-1$
-    	if(i < 0) return false;
-    	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
-    	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/pages\"") > 0; //$NON-NLS-1$
-    }
-    
-    private boolean isMultiPage(String body) {
-    	int i = body.indexOf("<pages"); //$NON-NLS-1$
-    	if(i < 0) return false;
-    	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
-    	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/pages\"") > 0; //$NON-NLS-1$
+        Parser p = new Parser(body);
+        if(!p.recognized) {
+        	return null;
+        } else if(p.is12) {
+        	return p.isSingle ? ENT_FILE_SEAM_PAGE_12 : ENT_FILE_SEAM_PAGES_12;
+        } else {
+        	return p.isSingle ? ENT_FILE_SEAM_PAGE_20 : ENT_FILE_SEAM_PAGES_20;
+        }
     }
 
-    private boolean isSinglePage(String body) {
-    	int i = body.indexOf("<page"); //$NON-NLS-1$
-    	int is = body.indexOf("<pages"); //$NON-NLS-1$
-    	if(i < 0 || is >= 0) return false;
-    	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
-    	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/pages\"") > 0; //$NON-NLS-1$
+    class Parser {
+    	boolean recognized = false;
+    	boolean is12 = false;
+    	boolean isSingle = false;
+
+    	Parser(String body) {
+    		int i = body.indexOf("<page"); //$NON-NLS-1$
+    		if(i < 0) return;
+    		int i2 = body.indexOf("<pages"); //$NON-NLS-1$
+    		if(i2 < 0) {
+    			isSingle = true; 
+    		}
+    		if(body.indexOf(PUBLIC_ID_12) >= 0) {
+    			is12 = true;
+    		} else {
+    	    	int j = body.indexOf(">", i); //$NON-NLS-1$
+    	    	if(j < 0) return;
+    	    	String s = body.substring(i, j);
+    	    	if(s.indexOf("\"http://jboss.com/products/seam/pages\"") < 0) { //$NON-NLS-1$
+    	    		return;
+    	    	}
+    		}
+    		recognized = true;
+    	}
     }
+    
 }
