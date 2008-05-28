@@ -132,6 +132,14 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 
 		int start = 0;
 		
+		if (exc != null) {
+			g.setBackgroundColor(exceptionBackgroundColor);
+			g.setForegroundColor(exceptionForegroundColor);
+		} else {
+			g.setBackgroundColor(lightGrayColor);
+		}
+		
+		g.fillRectangle(0, 0, r.width, r.height);
 
 		g.setBackgroundColor(whiteColor);
 
@@ -140,13 +148,14 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 		if (icon != null)
 			g.drawImage(icon, start + 4, 2);
 		
-
-		if (exc != null /*&& group.isConfirmed()*/) {
-			g.setBackgroundColor(exceptionBackgroundColor);
-			g.setForegroundColor(exceptionForegroundColor);
-		} else {
-			g.setBackgroundColor(lightGrayColor);
+		if(exc != null){
+			g.setFont(exceptionFont);
+			if(exc.getName() != null)
+				g.drawString(exc.getName(), 27, 3);
+			else
+				g.drawString("Exception", 27, 3);
 		}
+		
 
 	}
 

@@ -10,7 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.figures.xpl.BaseNodeFigure;
 import org.jboss.tools.common.model.ui.ModelUIImages;
@@ -54,6 +56,8 @@ public class NodeFigure extends
 	public static final Color exceptionBackgroundColor = new Color(null, 0xff, 0xe3, 0xe7);
 	
 	public static final Color exceptionForegroundColor = new Color(null, 0x99, 0x07, 0x02);
+	
+	public static final Font exceptionFont = new Font(null, "default", 8, SWT.BOLD);
 
 	public static final Image errorIcon = ModelUIImages
 			.getImage("error_co.gif");

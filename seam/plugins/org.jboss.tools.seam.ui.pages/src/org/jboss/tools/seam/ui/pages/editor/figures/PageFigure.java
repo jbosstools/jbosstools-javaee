@@ -143,6 +143,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		if (group != null) {
 //			setIcon(group.getImage());
 			setPath(group.getName());
+			init(group.getOutputLinks().size());
 		}
 
 		setOpaque(false);
