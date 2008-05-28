@@ -33,6 +33,7 @@
     <ICON name="data-source" path="images/struts/data_source.gif"/>
     <ICON name="exception" path="images/struts/exception.gif"/>
     <ICON name="file" path="images/jsf/jsf-config.gif"/>
+    <ICON name="message" path="images/webxml/message.gif"/>
     <ICON name="navigation" path="images/struts/action_mappings.gif"/>
     <ICON name="page" path="images/struts/plug_in.gif"/>
     <ICON name="pages" path="images/struts/plug_in_folder.gif"/>
@@ -776,6 +777,25 @@
       <AttributeData AttributeName="value"/>
      </EntityData>
     </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Navigation..." kind="action" name="AddNavigation">
+     <EntityData EntityName="SeamPageNavigation12">
+      <AttributeData AttributeName="from action" Mandatory="no"/>
+      <AttributeData AttributeName="evaluate" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
+     ICON="action.empty"
+     PROPERTIES="validator.add=true;entity=SeamPageNavigationRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12"
+     WizardClassName="%Default%" displayName="Add Navigation Rule..."
+     kind="action" name="AddRule">
+     <EntityData EntityName="AddSeamPageRule">
+      <AttributeData AttributeName="kind" Mandatory="no"/>
+      <AttributeData AttributeName="view id"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
@@ -825,7 +845,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="component" loader="ElementType" name="element type">
+   <XModelAttribute default="page" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
@@ -852,6 +872,25 @@
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
       <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Navigation..." kind="action" name="AddNavigation">
+     <EntityData EntityName="SeamPageNavigation20">
+      <AttributeData AttributeName="from action" Mandatory="no"/>
+      <AttributeData AttributeName="evaluate" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
+     ICON="action.empty"
+     PROPERTIES="validator.add=true;entity=SeamPageNavigationRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20"
+     WizardClassName="%Default%" displayName="Add Navigation Rule..."
+     kind="action" name="AddRule">
+     <EntityData EntityName="AddSeamPageRule">
+      <AttributeData AttributeName="kind" Mandatory="no"/>
+      <AttributeData AttributeName="view id"/>
      </EntityData>
     </XActionItem>
    </XActionItem>
@@ -1262,7 +1301,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="class" xmlname="class">
     <Constraint loader="QClassName"/>
-    <Editor name="AccessibleJava2"/>
+    <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
@@ -1313,7 +1352,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="class" xmlname="class">
     <Constraint loader="QClassName"/>
-    <Editor name="AccessibleJava2"/>
+    <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
@@ -1418,12 +1457,15 @@
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%"
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"
      ICON="action.new.struts.webapp.res_ref"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Exception..." kind="action" name="AddException">
-     <EntityData EntityName="SeamPageException12">
+     PROPERTIES="validator.add=true;entity=SeamPageException12;childEntity=SeamPageRedirect12"
+     WizardClassName="%Default%"
+     displayName="Exception With Redirect..." kind="action" name="AddException">
+     <EntityData EntityName="AddSeamPageException">
       <AttributeData AttributeName="class"/>
+      <AttributeData AttributeName="view id"/>
      </EntityData>
     </XActionItem>
    </XActionItem>
@@ -1468,12 +1510,15 @@
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%"
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"
      ICON="action.new.struts.webapp.res_ref"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Exception..." kind="action" name="AddException">
-     <EntityData EntityName="SeamPageException20">
+     PROPERTIES="validator.add=true;entity=SeamPageException20;childEntity=SeamPageRedirect20"
+     WizardClassName="%Default%"
+     displayName="Exception With Redirect..." kind="action" name="AddException">
+     <EntityData EntityName="AddSeamPageException">
       <AttributeData AttributeName="class"/>
+      <AttributeData AttributeName="view id"/>
      </EntityData>
     </XActionItem>
    </XActionItem>
@@ -1726,11 +1771,11 @@
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.message" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="conversation" loader="ElementType" name="element type">
+   <XModelAttribute default="message" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="message" xmlname="#text"/>
@@ -1802,10 +1847,14 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Rule..." kind="action" name="AddRule">
-     <EntityData EntityName="SeamPageRule12">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
+     ICON="action.empty"
+     PROPERTIES="validator.add=true;entity=SeamPageRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12"
+     WizardClassName="%Default%" displayName="Add Rule..." kind="action" name="AddRule">
+     <EntityData EntityName="AddSeamPageRule">
+      <AttributeData AttributeName="kind" Mandatory="no"/>
+      <AttributeData AttributeName="view id"/>
       <AttributeData AttributeName="if outcome" Mandatory="no"/>
       <AttributeData AttributeName="if" Mandatory="no"/>
      </EntityData>
@@ -1861,10 +1910,14 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Rule..." kind="action" name="AddRule">
-     <EntityData EntityName="SeamPageRule20">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
+     ICON="action.empty"
+     PROPERTIES="validator.add=true;entity=SeamPageRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20"
+     WizardClassName="%Default%" displayName="Add Rule..." kind="action" name="AddRule">
+     <EntityData EntityName="AddSeamPageRule">
+      <AttributeData AttributeName="kind" Mandatory="no"/>
+      <AttributeData AttributeName="view id"/>
       <AttributeData AttributeName="if outcome" Mandatory="no"/>
       <AttributeData AttributeName="if" Mandatory="no"/>
      </EntityData>
