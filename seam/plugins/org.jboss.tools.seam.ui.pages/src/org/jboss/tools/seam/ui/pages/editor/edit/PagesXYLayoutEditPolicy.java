@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -29,7 +30,10 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.handles.ResizeHandle;
 import org.eclipse.gef.requests.CreateRequest;
 import org.jboss.tools.seam.ui.pages.editor.commands.SetConstraintCommand;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
+import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
+import org.jboss.tools.seam.ui.pages.editor.figures.PageFeedbackFigure;
 
 /**
  * 
@@ -76,42 +80,42 @@ public class PagesXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	}
 
 	class CustomPolicy extends NonResizableEditPolicy {
-//		protected IFigure createDragSourceFeedbackFigure() {
-//			GroupEditPart part = (GroupEditPart) getHost();
-//			IFigure child = getCustomFeedbackFigure(part.getModel());
-//			addFeedback(child);
-//			Rectangle childBounds = part.getFigure().getBounds().getCopy();
-//			IFigure walker = part.getFigure().getParent();
-//
-//			while (walker != ((GraphicalEditPart) part.getParent()).getFigure()) {
-//				walker.translateToParent(childBounds);
-//				walker = walker.getParent();
-//			}
-//
-//			child.setBounds(childBounds);
-//
-//			return child;
-//		}
+		protected IFigure createDragSourceFeedbackFigure() {
+			PagesEditPart part = (PagesEditPart) getHost();
+			IFigure child = getCustomFeedbackFigure(part.getModel());
+			addFeedback(child);
+			Rectangle childBounds = part.getFigure().getBounds().getCopy();
+			IFigure walker = part.getFigure().getParent();
+
+			while (walker != ((GraphicalEditPart) part.getParent()).getFigure()) {
+				walker.translateToParent(childBounds);
+				walker = walker.getParent();
+			}
+
+			child.setBounds(childBounds);
+
+			return child;
+		}
 
 		protected IFigure getFeedbackLayer() {
 			return getLayer(LayerConstants.SCALED_FEEDBACK_LAYER);
 		}
 
-//		protected IFigure getCustomFeedbackFigure(Object modelPart) {
-//			IFigure figure;
-//
-//			if (modelPart instanceof IGroup)
-//				figure = new GroupFeedbackFigure();
-//			else {
-//				figure = new RectangleFigure();
-//				((RectangleFigure) figure).setXOR(true);
-//				((RectangleFigure) figure).setFill(true);
-//				figure.setBackgroundColor(NodeFigure.ghostFillColor);
-//				figure.setForegroundColor(NodeFigure.whiteColor);
-//			}
-//
-//			return figure;
-//		}
+		protected IFigure getCustomFeedbackFigure(Object modelPart) {
+			IFigure figure;
+
+			if (modelPart instanceof Page)
+				figure = new PageFeedbackFigure();
+			else {
+				figure = new RectangleFigure();
+				((RectangleFigure) figure).setXOR(true);
+				((RectangleFigure) figure).setFill(true);
+				figure.setBackgroundColor(NodeFigure.ghostFillColor);
+				figure.setForegroundColor(NodeFigure.whiteColor);
+			}
+
+			return figure;
+		}
 
 		protected List createSelectionHandles() {
 			List<Handle> list = new ArrayList<Handle>();

@@ -19,6 +19,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.jboss.tools.common.model.ui.dnd.DnDUtil;
 import org.eclipse.gef.*;
 import org.eclipse.gef.requests.DropRequest;
@@ -32,7 +35,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
-public class PageEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener {
+public class PageEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
 	private PageFigure fig = null;
 
 	private boolean single = true;
@@ -149,7 +152,7 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 	protected void refreshVisuals() {
 		Point loc = getPageModel().getLocation();
-		size = new Dimension(49, 40);
+		size = new Dimension(50, 40);
 		loc.x -= loc.x % 8;
 		loc.y -= loc.y % 8;
 
@@ -199,5 +202,44 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 		}
 	}
+	
+	/**
+	 * @see org.eclipse.gef.EditPart#activate()
+	 */
+	public void activate() {
+		if (isActive())
+			return;
+		((Notifier) getModel()).eAdapters().add(this);
+		super.activate();
+	}
+	
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public void notifyChanged(Notification notification) {
+		refresh();
+		refreshVisuals();
+	}
+	/**
+	 * )
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	 */
+	public Notifier getTarget() {
 
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+	 */
+	public boolean isAdapterForType(Object type) {
+		return false;
+	}
+
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
+	public void setTarget(Notifier newTarget) {
+	}
 }
