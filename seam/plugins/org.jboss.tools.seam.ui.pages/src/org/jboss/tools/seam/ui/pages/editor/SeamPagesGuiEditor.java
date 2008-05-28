@@ -96,7 +96,7 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		try {
 			f.autolayout();
             gui = new PagesEditor(input);
-            PagesModel model = createModel(); //getFakeModel();
+            model = createModel(); //getFakeModel();
             gui.setPagesModel(model);
 
 			gui.init((IEditorSite)getSite(), (IEditorInput)input);
@@ -154,7 +154,10 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 				if(shape != null && shape.length >= 4) {
 					exc.setSize(new Dimension(shape[2],shape[3]));
 				}
+				//TODO pass is[i] to exc
 				model.getChildren().add(exc);
+				//maybe we need other map for exceptions?
+				elements.put(is[i], exc);
 			} else {
 				//TODO
 			}
