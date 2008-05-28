@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.jboss.tools.seam.ui.pages/src"
+    modelPluginID="org.jboss.tools.seam.ui.pages" modelName="Pages" importerID="org.eclipse.emf.importer.java"
+    complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>@model</foreignModel>
+  <genPackages prefix="Pages" basePackage="org.jboss.tools.seam.ui.pages.editor.ecore"
+      disposableProviderFactory="true" ecorePackage="pages.ecore#/">
+    <genDataTypes ecoreDataType="pages.ecore#//Point"/>
+    <genDataTypes ecoreDataType="pages.ecore#//Dimension"/>
+    <genClasses ecoreClass="pages.ecore#//Link">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Link/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pages.ecore#//Link/fromElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pages.ecore#//Link/toElement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Link/shortcut"/>
+    </genClasses>
+    <genClasses ecoreClass="pages.ecore#//Page">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Page/paramsVisible"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pages.ecore#//PagesElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//PagesElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//PagesElement/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//PagesElement/size"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pages.ecore#//PagesElement/children"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pages.ecore#//PagesElement/parent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pages.ecore#//PagesElement/inputLinks"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pages.ecore#//PagesElement/outputLinks"/>
+    </genClasses>
+    <genClasses ecoreClass="pages.ecore#//PagesModel"/>
+    <genClasses ecoreClass="pages.ecore#//Param">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Param/value"/>
+    </genClasses>
+    <genClasses ecoreClass="pages.ecore#//PgException"/>
+  </genPackages>
+</genmodel:GenModel>
