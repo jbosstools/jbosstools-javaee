@@ -397,7 +397,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			if (RichFacesPanelMenuGroupTemplate.DEFAULT_ICON_MAP.containsKey(imgPath[0])) {
 				ComponentUtil.setImg(img, imgPath[1]);
 			} else {
-				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(imgPath[0], pageContext);
+				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(imgPath[0], pageContext, true);
 				img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, imgFullPath);
 			}
 		}

@@ -527,7 +527,7 @@ VpeToggableTemplate {
 					ComponentUtil.setImg(imgIcon, pathIconDisabled);
 				} else {
 					String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
-							pathIconDisabled, pageContext);
+							pathIconDisabled, pageContext, true);
 					imgIcon.setAttribute(HtmlComponentUtil.HTML_ATR_SRC,
 							imgFullPath);
 				}
@@ -543,7 +543,7 @@ VpeToggableTemplate {
 						ComponentUtil.setImg(imgIcon, pathIconExpanded);
 					} else {
 						String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
-								pathIconExpanded, pageContext);
+								pathIconExpanded, pageContext, true);
 						imgIcon.setAttribute(HtmlComponentUtil.HTML_ATR_SRC,
 								imgFullPath);
 					}
@@ -558,7 +558,7 @@ VpeToggableTemplate {
 						ComponentUtil.setImg(imgIcon, pathIconCollapsed);
 					} else {
 						String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
-								pathIconCollapsed, pageContext);
+								pathIconCollapsed, pageContext, true);
 						imgIcon.setAttribute(HtmlComponentUtil.HTML_ATR_SRC,
 								imgFullPath);
 					}
