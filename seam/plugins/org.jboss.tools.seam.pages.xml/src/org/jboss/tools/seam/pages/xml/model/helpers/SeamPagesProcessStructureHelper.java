@@ -6,7 +6,11 @@ import org.jboss.tools.jst.web.model.helpers.WebProcessStructureHelper;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 
 public class SeamPagesProcessStructureHelper extends WebProcessStructureHelper implements SeamPagesConstants {
-	SeamPagesProcessStructureHelper instance = new SeamPagesProcessStructureHelper();
+	public static SeamPagesProcessStructureHelper instance = new SeamPagesProcessStructureHelper();
+
+	public static SeamPagesProcessStructureHelper getInstance() {
+		return instance;
+	}
 
 	public XModelObject getParentProcess(XModelObject element) {
 		XModelObject p = element;
