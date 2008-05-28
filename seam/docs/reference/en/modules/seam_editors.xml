@@ -103,8 +103,11 @@
             </mediaobject>
         </figure>
      
-        <para>Notice that <property>components.xml</property> and other xml files can be viewed and edited directly in the Project Explorer and Properties sheet without opening the components.xml editor.</para>
-     
+     <note>
+         <title>Note:</title>
+    
+        <para>You can view and edit <property>components.xml</property> and other xml files directly in the Project Explorer and Properties sheet without opening the components.xml editor.</para>
+      </note>
         <figure>
             <title>component.xml Editor</title>
             <mediaobject> 
