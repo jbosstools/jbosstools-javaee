@@ -26,15 +26,6 @@ public interface PagesFactory extends EFactory {
 	PagesFactory eINSTANCE = org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Exception</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Exception</em>'.
-	 * @generated
-	 */
-	org.jboss.tools.seam.ui.pages.editor.ecore.pages.Exception createException();
-
-	/**
 	 * Returns a new object of class '<em>Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,6 +60,15 @@ public interface PagesFactory extends EFactory {
 	 * @generated
 	 */
 	Param createParam();
+
+	/**
+	 * Returns a new object of class '<em>Pg Exception</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Pg Exception</em>'.
+	 * @generated
+	 */
+	PgException createPgException();
 
 	/**
 	 * Returns the package supported by this factory.

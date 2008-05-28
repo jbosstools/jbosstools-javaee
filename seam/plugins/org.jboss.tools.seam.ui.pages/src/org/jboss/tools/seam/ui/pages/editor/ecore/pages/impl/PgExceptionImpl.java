@@ -8,25 +8,25 @@ package org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Model</b></em>'.
+ * An implementation of the model object '<em><b>Pg Exception</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class PagesModelImpl extends PagesElementImpl implements PagesModel {
+public class PgExceptionImpl extends PagesElementImpl implements PgException {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PagesModelImpl() {
+	protected PgExceptionImpl() {
 		super();
 	}
 
@@ -37,7 +37,7 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return PagesPackage.Literals.PAGES_MODEL;
+		return PagesPackage.Literals.PG_EXCEPTION;
 	}
 
-} //PagesModelImpl
+} //PgExceptionImpl

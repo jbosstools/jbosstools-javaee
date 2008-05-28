@@ -68,7 +68,62 @@ public interface PagesPackage extends EPackage {
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPagesElement()
 	 * @generated
 	 */
-	int PAGES_ELEMENT = 3;
+	int PAGES_ELEMENT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl <em>Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getLink()
+	 * @generated
+	 */
+	int LINK = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>From Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__FROM_ELEMENT = 1;
+
+	/**
+	 * The feature id for the '<em><b>To Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__TO_ELEMENT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Shortcut</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__SHORTCUT = 3;
+
+	/**
+	 * The number of structural features of the '<em>Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_FEATURE_COUNT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -143,143 +198,6 @@ public interface PagesPackage extends EPackage {
 	int PAGES_ELEMENT_FEATURE_COUNT = 7;
 
 	/**
-	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.ExceptionImpl <em>Exception</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.ExceptionImpl
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getException()
-	 * @generated
-	 */
-	int EXCEPTION = 0;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__NAME = PAGES_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__LOCATION = PAGES_ELEMENT__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Size</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__SIZE = PAGES_ELEMENT__SIZE;
-
-	/**
-	 * The feature id for the '<em><b>Children</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__CHILDREN = PAGES_ELEMENT__CHILDREN;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__PARENT = PAGES_ELEMENT__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Input Links</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__INPUT_LINKS = PAGES_ELEMENT__INPUT_LINKS;
-
-	/**
-	 * The feature id for the '<em><b>Output Links</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
-
-	/**
-	 * The number of structural features of the '<em>Exception</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXCEPTION_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl <em>Link</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getLink()
-	 * @generated
-	 */
-	int LINK = 1;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK__NAME = 0;
-
-	/**
-	 * The feature id for the '<em><b>From Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK__FROM_ELEMENT = 1;
-
-	/**
-	 * The feature id for the '<em><b>To Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK__TO_ELEMENT = 2;
-
-	/**
-	 * The feature id for the '<em><b>Shortcut</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK__SHORTCUT = 3;
-
-	/**
-	 * The number of structural features of the '<em>Link</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK_FEATURE_COUNT = 4;
-
-	/**
 	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageImpl <em>Page</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -287,7 +205,7 @@ public interface PagesPackage extends EPackage {
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPage()
 	 * @generated
 	 */
-	int PAGE = 2;
+	int PAGE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -378,7 +296,7 @@ public interface PagesPackage extends EPackage {
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPagesModel()
 	 * @generated
 	 */
-	int PAGES_MODEL = 4;
+	int PAGES_MODEL = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -460,7 +378,7 @@ public interface PagesPackage extends EPackage {
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getParam()
 	 * @generated
 	 */
-	int PARAM = 5;
+	int PARAM = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -544,6 +462,88 @@ public interface PagesPackage extends EPackage {
 	int PARAM_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl <em>Pg Exception</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPgException()
+	 * @generated
+	 */
+	int PG_EXCEPTION = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__NAME = PAGES_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__LOCATION = PAGES_ELEMENT__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__SIZE = PAGES_ELEMENT__SIZE;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__CHILDREN = PAGES_ELEMENT__CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__PARENT = PAGES_ELEMENT__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Input Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__INPUT_LINKS = PAGES_ELEMENT__INPUT_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Output Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
+
+	/**
+	 * The number of structural features of the '<em>Pg Exception</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '<em>Point</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -563,16 +563,6 @@ public interface PagesPackage extends EPackage {
 	 */
 	int DIMENSION = 7;
 
-
-	/**
-	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Exception <em>Exception</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Exception</em>'.
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.Exception
-	 * @generated
-	 */
-	EClass getException();
 
 	/**
 	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link <em>Link</em>}'.
@@ -768,6 +758,16 @@ public interface PagesPackage extends EPackage {
 	EAttribute getParam_Value();
 
 	/**
+	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException <em>Pg Exception</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Pg Exception</em>'.
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException
+	 * @generated
+	 */
+	EClass getPgException();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.draw2d.geometry.Point <em>Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -811,16 +811,6 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 */
 	interface Literals {
-		/**
-		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.ExceptionImpl <em>Exception</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.ExceptionImpl
-		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getException()
-		 * @generated
-		 */
-		EClass EXCEPTION = eINSTANCE.getException();
-
 		/**
 		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl <em>Link</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -974,6 +964,16 @@ public interface PagesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARAM__VALUE = eINSTANCE.getParam_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl <em>Pg Exception</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl
+		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPgException()
+		 * @generated
+		 */
+		EClass PG_EXCEPTION = eINSTANCE.getPgException();
 
 		/**
 		 * The meta object literal for the '<em>Point</em>' data type.
