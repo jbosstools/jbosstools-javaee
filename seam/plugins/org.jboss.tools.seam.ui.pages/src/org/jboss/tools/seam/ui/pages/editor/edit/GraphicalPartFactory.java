@@ -22,6 +22,7 @@ public class GraphicalPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart child = null;
 
+		//System.out.println("createEditPart model - "+model);
 		if (model instanceof PagesModel)
 			child = new PagesDiagramEditPart();
 		else if (model instanceof Page)
@@ -31,6 +32,8 @@ public class GraphicalPartFactory implements EditPartFactory {
 
 		if (child != null)
 			child.setModel(model);
+		
+		//System.out.println("editPart - "+child);
 		return child;
 	}
 

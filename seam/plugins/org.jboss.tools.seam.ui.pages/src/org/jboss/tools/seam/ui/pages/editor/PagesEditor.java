@@ -113,6 +113,7 @@ import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.edit.GraphicalPartFactory;
+import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
 
 public class PagesEditor extends GEFEditor implements PagesModelListener{
 
@@ -120,17 +121,17 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 	protected void createPaletteViewer(Composite parent) {
 		PaletteViewer viewer = new PaletteViewer();
-//		JSFPaletteViewerPreferences prefs = new JSFPaletteViewerPreferences(
-//				this);
-//		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_COLUMNS, false);
-//		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_LIST, false);
-//		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_ICONS, false);
-//		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_DETAILS, false);
-//		prefs.setLayoutSetting(PaletteViewerPreferences.LAYOUT_LIST);
+		PagesPaletteViewerPreferences prefs = new PagesPaletteViewerPreferences(
+				this);
+		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_COLUMNS, false);
+		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_LIST, false);
+		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_ICONS, false);
+		prefs.setUseLargeIcons(PaletteViewerPreferences.LAYOUT_DETAILS, false);
+		prefs.setLayoutSetting(PaletteViewerPreferences.LAYOUT_LIST);
 		viewer.createControl(parent);
 		setPaletteViewer(viewer);
-//		setPaletteLayout(prefs, loadPaletteSize());
-//		paletteViewer.setPaletteViewerPreferences(prefs);
+		setPaletteLayout(prefs, loadPaletteSize());
+		paletteViewer.setPaletteViewerPreferences(prefs);
 
 		configurePaletteViewer();
 		hookPaletteViewer();
@@ -507,7 +508,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 	static private boolean switchToSelectionTool = false;
 
-	public void setJSFModel(PagesModel diagram) {
+	public void setPagesModel(PagesModel diagram) {
 		model = diagram;
 		//model.addModelListener(this);
 		//switchToSelectionTool = model.getOptions().switchToSelectionTool();

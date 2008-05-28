@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -28,8 +27,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.handles.ResizeHandle;
-import org.eclipse.gef.internal.ui.palette.editparts.GroupEditPart;
 import org.eclipse.gef.requests.CreateRequest;
+import org.jboss.tools.seam.ui.pages.editor.commands.SetConstraintCommand;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 
 /**
  * 
@@ -42,23 +42,21 @@ public class PagesXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 * 
 	 */
 	protected Command createAddCommand(EditPart childEditPart, Object constraint) {
-//		SetConstraintCommand setConstraint = new SetConstraintCommand();
-//		setConstraint.setLocation((Rectangle) constraint);
-//		setConstraint.setPart((IJSFElement) childEditPart.getModel());
-//		setConstraint.setLabel(JSFUIMessages.REPARENTING_JSFSUBPART);
-//		setConstraint.setDebugLabel("LogicXYEP setConstraint");//$NON-NLS-1$*/
-//		return setConstraint;
-		return null;
+		SetConstraintCommand setConstraint = new SetConstraintCommand();
+		setConstraint.setLocation((Rectangle) constraint);
+		setConstraint.setPart((PagesElement) childEditPart.getModel());
+		setConstraint.setLabel("Reparent");
+		setConstraint.setDebugLabel("LogicXYEP setConstraint");//$NON-NLS-1$*/
+		return setConstraint;
 	}
 
 	protected Command createChangeConstraintCommand(EditPart child,
 			Object constraint) {
-//		SetConstraintCommand locationCommand = new SetConstraintCommand();
-//		locationCommand.setShell(child.getViewer().getControl().getShell());
-//		locationCommand.setPart((IJSFElement) child.getModel());
-//		locationCommand.setLocation((Rectangle) constraint);
-//		return locationCommand;
-		return null;
+		SetConstraintCommand locationCommand = new SetConstraintCommand();
+		locationCommand.setShell(child.getViewer().getControl().getShell());
+		locationCommand.setPart((PagesElement) child.getModel());
+		locationCommand.setLocation((Rectangle) constraint);
+		return locationCommand;
 	}
 
 	protected EditPolicy createChildEditPolicy(EditPart child) {

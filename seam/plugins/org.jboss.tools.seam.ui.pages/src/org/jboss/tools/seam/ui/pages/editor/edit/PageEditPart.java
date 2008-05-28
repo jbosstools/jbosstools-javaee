@@ -149,6 +149,7 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 	protected void refreshVisuals() {
 		Point loc = getPageModel().getLocation();
+		size = new Dimension(49, 40);
 		loc.x -= loc.x % 8;
 		loc.y -= loc.y % 8;
 

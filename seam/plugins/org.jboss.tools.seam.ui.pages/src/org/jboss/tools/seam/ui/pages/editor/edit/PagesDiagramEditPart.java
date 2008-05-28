@@ -214,9 +214,9 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	/**
 	 * 
 	 */
-//	protected List getModelChildren() {
-//		return getPagesModel().getGroupList().getElements();
-//	}
+	protected List getModelChildren() {
+		return getPagesModel().getChildren();
+	}
 
 	/**
 	 * 

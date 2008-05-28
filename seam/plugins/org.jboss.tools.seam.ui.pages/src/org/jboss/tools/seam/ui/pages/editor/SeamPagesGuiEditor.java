@@ -12,6 +12,8 @@ package org.jboss.tools.seam.ui.pages.editor;
 
 import org.jboss.tools.common.editor.AbstractSectionEditor;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.layout.GridData;
@@ -22,6 +24,7 @@ import org.jboss.tools.common.model.ui.editor.IModelObjectEditorInput;
 import org.jboss.tools.jst.web.model.WebProcess;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 
@@ -85,12 +88,10 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		try {
 			f.autolayout();
             gui = new PagesEditor(input);
-            PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
-            gui.setJSFModel(model);
+            PagesModel model = getFakeModel();
+            gui.setPagesModel(model);
 //            model = new JSFModel(f.getParent());
 //            model.updateLinks();
-
-//			gui.setJSFModel(model);
 
 			gui.init((IEditorSite)getSite(), (IEditorInput)input);
 			gui.createPartControl(guiControl);
@@ -105,6 +106,16 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		} catch (CoreException ex) {
 			SeamUiPagesPlugin.getDefault().logError(ex);
 		}
+	}
+	
+	private PagesModel getFakeModel(){
+		PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
+		Page page = PagesFactory.eINSTANCE.createPage();
+		page.setName("page1");
+		page.setLocation(new Point(10,10));
+		page.setSize(new Dimension(100,100));
+		model.getChildren().add(page);
+		return model;
 	}
 
 	public Object getAdapter(Class adapter) {
