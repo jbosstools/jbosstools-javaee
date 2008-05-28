@@ -50,6 +50,10 @@ public class NodeFigure extends
 	public static final Color borderColor = new Color(null, 0x86, 0x7d, 0x51);
 
 	public final static Color ghostFillColor = new Color(null, 31, 31, 31);
+	
+	public static final Color exceptionBackgroundColor = new Color(null, 0xff, 0xe3, 0xe7);
+	
+	public static final Color exceptionForegroundColor = new Color(null, 0x99, 0x07, 0x02);
 
 	public static final Image errorIcon = ModelUIImages
 			.getImage("error_co.gif");

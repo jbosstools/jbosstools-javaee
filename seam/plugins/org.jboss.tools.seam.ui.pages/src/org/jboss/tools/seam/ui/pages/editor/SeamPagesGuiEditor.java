@@ -116,10 +116,23 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 	
 	private PagesModel getFakeModel(){
 		PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
+		
+		Link link = PagesFactory.eINSTANCE.createLink();
+		
+		link.setName("page1");
+		
+		PgException ex = PagesFactory.eINSTANCE.createPgException();
+		ex.setName("Exception");
+		ex.setLocation(new Point(10,100));
+		ex.setSize(new Dimension(300,21));
+		ex.getOutputLinks().add(link);
+		model.getChildren().add(ex);
+		
 		Page page = PagesFactory.eINSTANCE.createPage();
 		page.setName("page1");
-		page.setLocation(new Point(10,10));
+		page.setLocation(new Point(500,150));
 		page.setSize(new Dimension(100,100));
+		page.getInputLinks().add(link);
 		model.getChildren().add(page);
 		return model;
 	}

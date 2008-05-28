@@ -113,6 +113,7 @@ import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.edit.GraphicalPartFactory;
+import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
 import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
 
 public class PagesEditor extends GEFEditor implements PagesModelListener{
@@ -420,10 +421,10 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 //						(TransferDropTargetListener) new JSFTemplateTransferDropTargetListener(
 //								getGraphicalViewer()));
 
-//		((ConnectionLayer) ((ScalableFreeformRootEditPart) getGraphicalViewer()
-//				.getRootEditPart())
-//				.getLayer(ScalableFreeformRootEditPart.CONNECTION_LAYER))
-//				.setConnectionRouter(new JSFConnectionRouter());
+		((ConnectionLayer) ((ScalableFreeformRootEditPart) getGraphicalViewer()
+				.getRootEditPart())
+				.getLayer(ScalableFreeformRootEditPart.CONNECTION_LAYER))
+				.setConnectionRouter(new PagesConnectionRouter());
 		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
 				Boolean.TRUE);
 		getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
