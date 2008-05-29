@@ -117,13 +117,22 @@ public interface PagesPackage extends EPackage {
 	int LINK__SHORTCUT = 3;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__DATA = 4;
+
+	/**
 	 * The number of structural features of the '<em>Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_FEATURE_COUNT = 4;
+	int LINK_FEATURE_COUNT = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -664,6 +673,17 @@ public interface PagesPackage extends EPackage {
 	EAttribute getLink_Shortcut();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link#getData <em>Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Data</em>'.
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link#getData()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EAttribute getLink_Data();
+
+	/**
 	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page <em>Page</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -908,6 +928,14 @@ public interface PagesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LINK__SHORTCUT = eINSTANCE.getLink_Shortcut();
+
+		/**
+		 * The meta object literal for the '<em><b>Data</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LINK__DATA = eINSTANCE.getLink_Data();
 
 		/**
 		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageImpl <em>Page</em>}' class.

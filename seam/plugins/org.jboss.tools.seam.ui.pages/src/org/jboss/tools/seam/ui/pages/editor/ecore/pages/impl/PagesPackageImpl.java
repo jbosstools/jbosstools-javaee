@@ -207,6 +207,15 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLink_Data() {
+		return (EAttribute)linkEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getPage() {
 		return pageEClass;
 	}
@@ -388,6 +397,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		createEReference(linkEClass, LINK__FROM_ELEMENT);
 		createEReference(linkEClass, LINK__TO_ELEMENT);
 		createEAttribute(linkEClass, LINK__SHORTCUT);
+		createEAttribute(linkEClass, LINK__DATA);
 
 		pageEClass = createEClass(PAGE);
 		createEAttribute(pageEClass, PAGE__PARAMS_VISIBLE);
@@ -453,6 +463,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		initEReference(getLink_FromElement(), this.getPagesElement(), this.getPagesElement_OutputLinks(), "fromElement", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLink_ToElement(), this.getPagesElement(), this.getPagesElement_InputLinks(), "toElement", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLink_Shortcut(), ecorePackage.getEBoolean(), "shortcut", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLink_Data(), ecorePackage.getEJavaObject(), "data", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pageEClass, Page.class, "Page", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPage_ParamsVisible(), ecorePackage.getEBoolean(), "paramsVisible", null, 0, 1, Page.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

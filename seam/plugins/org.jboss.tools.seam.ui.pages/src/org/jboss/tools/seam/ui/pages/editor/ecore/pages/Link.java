@@ -74,4 +74,19 @@ public interface Link extends EObject {
 	 */
 	void setShortcut(boolean value);
 
+	/**
+	 * returns data of link
+	 * @model
+	 */
+	public Object getData();
+
+	/**
+	 * Sets the value of the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link#getData <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Data</em>' attribute.
+	 * @see #getData()
+	 * @generated
+	 */
+	void setData(Object value);
 }

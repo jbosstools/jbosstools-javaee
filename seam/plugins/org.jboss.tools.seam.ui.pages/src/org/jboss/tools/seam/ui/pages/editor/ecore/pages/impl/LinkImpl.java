@@ -30,6 +30,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl#getFromElement <em>From Element</em>}</li>
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl#getToElement <em>To Element</em>}</li>
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl#isShortcut <em>Shortcut</em>}</li>
+ *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.LinkImpl#getData <em>Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -95,6 +96,26 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * @ordered
 	 */
 	protected boolean shortcut = SHORTCUT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getData() <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getData()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Object DATA_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getData() <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getData()
+	 * @generated
+	 * @ordered
+	 */
+	protected Object data = DATA_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -282,6 +303,27 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Object getData() {
+		return data;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setData(Object newData) {
+		Object oldData = data;
+		data = newData;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PagesPackage.LINK__DATA, oldData, data));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -331,6 +373,8 @@ public class LinkImpl extends EObjectImpl implements Link {
 				return basicGetToElement();
 			case PagesPackage.LINK__SHORTCUT:
 				return isShortcut() ? Boolean.TRUE : Boolean.FALSE;
+			case PagesPackage.LINK__DATA:
+				return getData();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -354,6 +398,9 @@ public class LinkImpl extends EObjectImpl implements Link {
 				return;
 			case PagesPackage.LINK__SHORTCUT:
 				setShortcut(((Boolean)newValue).booleanValue());
+				return;
+			case PagesPackage.LINK__DATA:
+				setData(newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -379,6 +426,9 @@ public class LinkImpl extends EObjectImpl implements Link {
 			case PagesPackage.LINK__SHORTCUT:
 				setShortcut(SHORTCUT_EDEFAULT);
 				return;
+			case PagesPackage.LINK__DATA:
+				setData(DATA_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -399,6 +449,8 @@ public class LinkImpl extends EObjectImpl implements Link {
 				return toElement != null;
 			case PagesPackage.LINK__SHORTCUT:
 				return shortcut != SHORTCUT_EDEFAULT;
+			case PagesPackage.LINK__DATA:
+				return DATA_EDEFAULT == null ? data != null : !DATA_EDEFAULT.equals(data);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -417,6 +469,8 @@ public class LinkImpl extends EObjectImpl implements Link {
 		result.append(name);
 		result.append(", shortcut: ");
 		result.append(shortcut);
+		result.append(", data: ");
+		result.append(data);
 		result.append(')');
 		return result.toString();
 	}
