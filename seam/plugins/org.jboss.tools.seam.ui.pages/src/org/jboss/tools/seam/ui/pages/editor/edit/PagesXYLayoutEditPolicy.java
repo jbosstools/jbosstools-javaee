@@ -32,6 +32,8 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.jboss.tools.seam.ui.pages.editor.commands.SetConstraintCommand;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFeedbackFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFeedbackFigure;
 
@@ -106,6 +108,8 @@ public class PagesXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 			if (modelPart instanceof Page)
 				figure = new PageFeedbackFigure();
+			else if (modelPart instanceof PgException)
+				figure = new ExceptionFeedbackFigure();
 			else {
 				figure = new RectangleFigure();
 				((RectangleFigure) figure).setXOR(true);
