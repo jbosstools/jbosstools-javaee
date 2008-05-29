@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -63,4 +64,26 @@ public class NodeFigure extends
 			.getImage("error_co.gif");
 
 	public static final int LINK_HEIGHT = 16;
+	
+	public String dottedString(String str, int availTextWidth, Font font){
+		if(str == null) str = "";
+		String text = new String(str);
+
+		int tWidth = FigureUtilities.getTextExtents(text, font).width;
+
+		if (tWidth > availTextWidth) {
+			  String clipString = "...";
+			  int totalWidth;
+			  int clipWidth = FigureUtilities.getTextExtents(clipString, font).width;;
+			  int nChars;
+			  for(nChars = 1; nChars < text.length(); nChars++) {
+				 totalWidth = FigureUtilities.getTextExtents(text.substring(0,nChars), font).width+clipWidth;
+				 if (totalWidth > availTextWidth) {
+					break;
+				 }
+			  }
+			  text = text.substring(0, nChars) + clipString;
+		 }
+	   	 return text;
+	}
 }

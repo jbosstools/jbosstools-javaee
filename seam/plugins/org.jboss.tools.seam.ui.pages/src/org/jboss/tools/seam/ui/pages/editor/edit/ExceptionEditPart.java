@@ -15,6 +15,7 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -35,6 +36,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
+import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
 public class ExceptionEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
@@ -150,7 +152,10 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 
 	protected void refreshVisuals() {
 		Point loc = getExceptionModel().getLocation();
-		size = new Dimension(150, 21);
+		String text = getExceptionModel().getName();
+		if(text == null) text="Exception";
+		int width = 30+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
+		size = new Dimension(width, 21);
 		loc.x -= loc.x % 8;
 		loc.y -= loc.y % 8;
 
