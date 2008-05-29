@@ -33,6 +33,7 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
 public class PageEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
@@ -152,7 +153,12 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 	protected void refreshVisuals() {
 		Point loc = getPageModel().getLocation();
-		size = new Dimension(50, 40);
+		int height = 23 + getPageModel().getOutputLinks().size()*NodeFigure.LINK_HEIGHT;
+		
+		if(getPageModel().getOutputLinks().size() == 0)
+			height = 23+NodeFigure.LINK_HEIGHT;
+		
+		size = new Dimension(50, height);
 		loc.x -= loc.x % 8;
 		loc.y -= loc.y % 8;
 
