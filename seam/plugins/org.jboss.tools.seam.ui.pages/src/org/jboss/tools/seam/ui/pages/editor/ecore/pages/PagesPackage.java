@@ -189,13 +189,22 @@ public interface PagesPackage extends EPackage {
 	int PAGES_ELEMENT__OUTPUT_LINKS = 6;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGES_ELEMENT__DATA = 7;
+
+	/**
 	 * The number of structural features of the '<em>Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PAGES_ELEMENT_FEATURE_COUNT = 7;
+	int PAGES_ELEMENT_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageImpl <em>Page</em>}' class.
@@ -269,6 +278,15 @@ public interface PagesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PAGE__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE__DATA = PAGES_ELEMENT__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Params Visible</b></em>' attribute.
@@ -362,6 +380,15 @@ public interface PagesPackage extends EPackage {
 	int PAGES_MODEL__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGES_MODEL__DATA = PAGES_ELEMENT__DATA;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -442,6 +469,15 @@ public interface PagesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PARAM__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAM__DATA = PAGES_ELEMENT__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -533,6 +569,15 @@ public interface PagesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PG_EXCEPTION__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PG_EXCEPTION__DATA = PAGES_ELEMENT__DATA;
 
 	/**
 	 * The number of structural features of the '<em>Pg Exception</em>' class.
@@ -725,6 +770,17 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPagesElement_OutputLinks();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement#getData <em>Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Data</em>'.
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement#getData()
+	 * @see #getPagesElement()
+	 * @generated
+	 */
+	EAttribute getPagesElement_Data();
 
 	/**
 	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel <em>Model</em>}'.
@@ -936,6 +992,14 @@ public interface PagesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PAGES_ELEMENT__OUTPUT_LINKS = eINSTANCE.getPagesElement_OutputLinks();
+
+		/**
+		 * The meta object literal for the '<em><b>Data</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PAGES_ELEMENT__DATA = eINSTANCE.getPagesElement_Data();
 
 		/**
 		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesModelImpl <em>Model</em>}' class.

@@ -95,4 +95,20 @@ public interface PagesElement extends EObject {
 	 * @model type="Link" opposite ="fromElement"
 	 */
 	public EList<Link> getOutputLinks();
+	
+	/**
+	 * returns data of element
+	 * @model
+	 */
+	public Object getData();
+
+	/**
+	 * Sets the value of the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement#getData <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Data</em>' attribute.
+	 * @see #getData()
+	 * @generated
+	 */
+	void setData(Object value);
 }
