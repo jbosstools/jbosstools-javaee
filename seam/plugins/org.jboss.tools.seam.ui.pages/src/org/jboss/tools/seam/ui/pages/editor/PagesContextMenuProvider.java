@@ -107,7 +107,7 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 			LinkEditPart part = (LinkEditPart)selected;
 			Object partModel = part.getModel();
 			if(partModel instanceof Link) {
-//				return (XModelObject)((Link)partModel).getData();
+				return (XModelObject)((Link)partModel).getData();
 			}
 		}
 

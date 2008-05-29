@@ -25,8 +25,6 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.FreeformViewport;
@@ -108,6 +106,9 @@ import org.jboss.tools.common.model.XModelTransferBuffer;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.dnd.FileTransferDropTargetListener;
+import org.jboss.tools.seam.ui.pages.editor.dnd.PagesTemplateTransferDropTargetListener;
+import org.jboss.tools.seam.ui.pages.editor.dnd.XModelTransferDropTargetListener;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
@@ -121,8 +122,6 @@ import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
 
 public class PagesEditor extends GEFEditor implements PagesModelListener{
-
-	
 
 	protected void createPaletteViewer(Composite parent) {
 		PaletteViewer viewer = new PaletteViewer();
@@ -414,16 +413,16 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	protected void initializeGraphicalViewer() {
 		getGraphicalViewer().setContents(getPagesModel());
 
-//		getGraphicalViewer().addDropTargetListener(
-//				new XModelTransferDropTargetListener(this));
-//
-//		getGraphicalViewer().addDropTargetListener(
-//				new FileTransferDropTargetListener(this));
+		getGraphicalViewer().addDropTargetListener(
+				new XModelTransferDropTargetListener(this));
 
-//		getGraphicalViewer()
-//				.addDropTargetListener(
-//						(TransferDropTargetListener) new JSFTemplateTransferDropTargetListener(
-//								getGraphicalViewer()));
+		getGraphicalViewer().addDropTargetListener(
+				new FileTransferDropTargetListener(this));
+
+		getGraphicalViewer()
+				.addDropTargetListener(
+						(TransferDropTargetListener) new PagesTemplateTransferDropTargetListener(
+								getGraphicalViewer()));
 
 		((ConnectionLayer) ((ScalableFreeformRootEditPart) getGraphicalViewer()
 				.getRootEditPart())
@@ -620,8 +619,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 			LinkEditPart part = (LinkEditPart) selected;
 			Object partModel = part.getModel();
 			if (partModel instanceof Link) {
-//TODO
-//				return (XModelObject) ((Link) partModel).getSource();
+				return (XModelObject) ((Link)partModel).getData();
 			}
 		}
 
