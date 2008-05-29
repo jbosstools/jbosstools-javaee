@@ -14,9 +14,24 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.*;
-import org.eclipse.gef.*;
-
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FreeformViewport;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.gef.AccessibleEditPart;
+import org.eclipse.gef.CompoundSnapToHelper;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.SnapToGuides;
+import org.eclipse.gef.SnapToHelper;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.tools.DeselectAllTracker;
@@ -27,7 +42,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.figures.DiagramFigure;
 
 public class PagesDiagramEditPart extends ContainerEditPart implements
-		LayerConstants, PagesModelListener {
+		LayerConstants, PagesModelListener, Adapter {
 	/*
 	 * 
 	 */
@@ -249,4 +264,52 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		}
 		return super.getAdapter(adapter);
 	}
+	
+	/**
+	 * @see org.eclipse.gef.EditPart#activate()
+	 */
+	public void activate() {
+		if (isActive())
+			return;
+		((Notifier) getModel()).eAdapters().add(this);
+		super.activate();
+	}
+	
+	public void deactivate(){
+		if (!isActive())
+			return;
+		((Notifier) getModel()).eAdapters().remove(this);
+		super.deactivate();
+	}
+	
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public void notifyChanged(Notification notification) {
+		refresh();
+		refreshVisuals();
+	}
+	/**
+	 * )
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	 */
+	public Notifier getTarget() {
+
+		return null;
+	}
+
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+	 */
+	public boolean isAdapterForType(Object type) {
+		return false;
+	}
+
+	/**
+	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
+	public void setTarget(Notifier newTarget) {
+	}
+
 }

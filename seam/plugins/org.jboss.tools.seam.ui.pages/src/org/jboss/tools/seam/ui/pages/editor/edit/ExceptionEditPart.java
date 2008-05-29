@@ -211,6 +211,13 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 		super.activate();
 	}
 	
+	public void deactivate(){
+		if (!isActive())
+			return;
+		((Notifier) getModel()).eAdapters().remove(this);
+		super.deactivate();
+	}
+	
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */

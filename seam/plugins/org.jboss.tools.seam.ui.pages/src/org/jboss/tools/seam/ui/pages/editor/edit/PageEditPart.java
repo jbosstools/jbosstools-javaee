@@ -213,6 +213,13 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 		super.activate();
 	}
 	
+	public void deactivate(){
+		if (!isActive())
+			return;
+		((Notifier) getModel()).eAdapters().remove(this);
+		super.deactivate();
+	}
+	
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
