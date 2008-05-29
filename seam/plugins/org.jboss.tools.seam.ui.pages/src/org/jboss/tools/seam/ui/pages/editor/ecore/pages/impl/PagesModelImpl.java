@@ -167,6 +167,7 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 					return;
 				}
 				Link link = PagesFactory.eINSTANCE.createLink();
+				link.setData(os[j]);
 				link.setFromElement(from);
 				link.setToElement(to);
 				link.setName(h.getItemOutputPresentation(os[j]));
