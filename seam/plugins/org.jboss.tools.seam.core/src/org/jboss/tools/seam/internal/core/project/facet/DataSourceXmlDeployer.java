@@ -10,16 +10,21 @@
  ******************************************************************************/
 package org.jboss.tools.seam.internal.core.project.facet;
 
+import java.util.ArrayList;
+
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.wst.server.core.IModule;
 import org.eclipse.wst.server.core.IServer;
-import org.eclipse.wst.server.core.model.ServerBehaviourDelegate;
+import org.eclipse.wst.server.core.IServerWorkingCopy;
+import org.eclipse.wst.server.core.IServer.IOperationListener;
 import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
 import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -70,14 +75,17 @@ public class DataSourceXmlDeployer extends Job {
 		IPath append = projectPath.append(deploy); //$NON-NLS-1$
 
 		if (SingleDeployableFactory.makeDeployable(append)) {
-
-			IModule module = SingleDeployableFactory.findModule(append);
-
-			// custom API to deploy / publish only one module.
-			IStatus t = deployer.publishOneModule(IServer.PUBLISH_FULL,
-					new IModule[] { module }, ServerBehaviourDelegate.ADDED,
-					monitor);
-			return t;
+			try {
+				IModule module = SingleDeployableFactory.findModule(append);
+				IServerWorkingCopy copy = s.createWorkingCopy();
+				copy.modifyModules(new IModule[]{module}, new IModule[0], new NullProgressMonitor());
+				IServer saved = copy.save(false, new NullProgressMonitor());
+				saved.publish(IServer.PUBLISH_INCREMENTAL, new NullProgressMonitor());
+			} catch( CoreException ce ) {
+				return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID, 
+						SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_COULD_NOT_DEPLOY_DATASOURCE + append, ce);
+			}
+			return Status.OK_STATUS;
 		} else {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
 					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_COULD_NOT_DEPLOY_DATASOURCE + append); //$NON-NLS-1$
