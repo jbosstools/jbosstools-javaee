@@ -4,7 +4,8 @@ Bundle-Name: Richfaces Test Plug-in
 Bundle-SymbolicName: org.jboss.tools.jsf.vpe.richfaces.test;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.jsf.vpe.richfaces.test.RichFacesTestPlugin
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: org.jboss.tools.jsf.vpe.richfaces,
+ org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.vpe,
  org.junit,
@@ -15,6 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
+ org.jboss.tools.jsf.vpe.richfaces,
  org.mozilla.xpcom,
  org.jboss.tools.vpe.ui.test
 Eclipse-LazyStart: true

@@ -49,6 +49,14 @@ public class RichFacesAllTests {
 	suite.addTestSuite(Jbide1682Test.class);
 	suite.addTestSuite(Jbide1548Test.class);
 	suite.addTestSuite(JBIDE1713Test.class);
+	//
+    suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
+    suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
+    suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
+    suite.addTestSuite(RichFacesProgressBarTemplateTestCase.class);
+    suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
+    suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
+    suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
 	// $JUnit-END$
 
 	List<ImportBean> projectToImport = new ArrayList<ImportBean>();
