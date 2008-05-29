@@ -151,6 +151,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 			top.setLayoutData(new GridData(GridData.FILL_BOTH));
 			createProjectGroup(top);
 			createServerTargetComposite(top);
+			createPrimaryFacetComposite(top);
 			createSeamServerTargetComposite(top);
 	        createPresetPanel(top);
 	        return top;
