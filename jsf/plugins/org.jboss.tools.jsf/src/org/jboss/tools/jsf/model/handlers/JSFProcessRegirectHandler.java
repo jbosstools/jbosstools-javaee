@@ -12,12 +12,12 @@ package org.jboss.tools.jsf.model.handlers;
 
 import org.jboss.tools.common.meta.action.impl.handlers.*;
 import org.jboss.tools.common.model.*;
-import org.jboss.tools.jsf.model.*;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 
 public class JSFProcessRegirectHandler extends DefaultRedirectHandler {
 
 	protected XModelObject getTrueSource(XModelObject source) {
-		FacesProcessImpl r = (FacesProcessImpl)source;
+		ReferenceObject r = (ReferenceObject)source;
 		return r.getReference();
 	}
 

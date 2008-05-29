@@ -15,7 +15,7 @@ import org.jboss.tools.common.model.impl.*;
 import org.jboss.tools.jsf.model.helpers.*;
 import org.jboss.tools.jst.web.model.*;
 
-public class FacesProcessImpl extends OrderedObjectImpl implements WebProcess, JSFConstants {
+public class FacesProcessImpl extends OrderedObjectImpl implements WebProcess, ReferenceObject, JSFConstants {
 	private static final long serialVersionUID = 1981573715076399163L;
 	protected XModelObject reference;
 	protected JSFProcessHelper phelper = new JSFProcessHelper(this);
