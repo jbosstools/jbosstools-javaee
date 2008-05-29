@@ -16,12 +16,26 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+/**
+ * The Class AbstractRichFacesTemplate.
+ */
 public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
+    
+    /** The source style. */
+    protected String sourceStyle;
+    
+    /** The source style class. */
+    protected String sourceStyleClass;
+    
+    /** The source width. */
+    protected String sourceWidth;
+	
 	/**
-	 * Getting value attribute by name
+	 * Getting value attribute by name.
 	 * 
-	 * @param nameAttr
-	 *            name of attribute
+	 * @param sourceNode the source node
+	 * @param nameAttr name of attribute
+	 * 
 	 * @return value of attribute
 	 */
 	public String getAttribute(String nameAttr, Node sourceNode) {
@@ -38,11 +52,11 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	}
 	
 	/**
+	 * Checks if is empty attribute.
 	 * 
-	 * @param nameAttr
-	 *            name of attribute
-	 * @param sourceNode
-	 *            The current node of the source tree.
+	 * @param sourceNode The current node of the source tree.
+	 * @param nameAttr name of attribute
+	 * 
 	 * @return True if value of attribute is empty or attribute dont exist
 	 */
 	public boolean isEmptyAttribute(String nameAttr, Node sourceNode) {
@@ -52,10 +66,11 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	}
 	
 	/**
+	 * Parses the style.
 	 * 
-	 * @param sourceNode
-	 *            The current node of the source tree.
-	 * @return
+	 * @param sourceNode The current node of the source tree.
+	 * 
+	 * @return the string
 	 */
 	public String parseStyle(Node sourceNode) {
 		String style = getAttribute("style", sourceNode);
@@ -75,9 +90,10 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	}
 
 	/**
+	 * Parses the style width.
 	 * 
-	 * @param sourceNode
-	 *            The current node of the source tree.
+	 * @param sourceNode The current node of the source tree.
+	 * 
 	 * @return width value
 	 */
 	public String parseStyleWidth(Node sourceNode) {

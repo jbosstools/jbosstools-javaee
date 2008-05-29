@@ -1,0 +1,78 @@
+.rich-list-picklist {
+	moz-user-select: -moz-none;
+}
+.rich-picklist-list {
+	background-color:#FFFFFF;
+	border-style:none;
+	border-width:0pt;
+}
+.rich-picklist-target-items {
+	BORDER-RIGHT: #c4c0c9 1px solid;
+	BORDER-TOP: #c4c0c9 1px solid;
+	BORDER-LEFT: #c4c0c9 1px solid;
+	BORDER-BOTTOM: #c4c0c9 1px solid;
+	BACKGROUND-COLOR: #fff
+}
+
+.rich-picklist-source-items {
+	BORDER-RIGHT: #c4c0c9 1px solid;
+	BORDER-TOP: #c4c0c9 1px solid;
+	BORDER-LEFT: #c4c0c9 1px solid;
+	BORDER-BOTTOM: #c4c0c9 1px solid;
+	BACKGROUND-COLOR: #fff
+}
+
+.rich-picklist-controls {
+	PADDING-RIGHT: 8px;
+	PADDING-LEFT: 8px;
+	PADDING-BOTTOM: 5px;
+	PADDING-TOP: 0px
+}
+
+.rich-picklist-list-content {
+	overflow:auto;
+}
+
+.rich-picklist-control-button-class {
+	BORDER-RIGHT: 1px solid;
+	BORDER-TOP: 1px solid;
+	MARGIN-BOTTOM: 3px;
+	BORDER-LEFT: 1px solid;
+	BORDER-BOTTOM: 1px solid;
+	BORDER-LEFT-COLOR: #c4c0c9;
+	BORDER-BOTTOM-COLOR: #c4c0c9;
+	BORDER-TOP-COLOR: #c4c0c9;
+	BORDER-RIGHT-COLOR: #c4c0c9
+}
+
+.rich-list-picklist-button {
+	color: #000000;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	cursor: pointer;
+}
+.rich-list-picklist-button-content{
+	PADDING-RIGHT: 4px;	
+	PADDING-LEFT: 1px;	
+	PADDING-BOTTOM: 0px;	
+	PADDING-TOP: 0px;	
+	WHITE-SPACE: nowrap;	
+	TEXT-ALIGN: left;
+	FONT-SIZE: 11px;	
+	FONT-FAMILY: Arial,Verdana,sans-serif
+ 
+}
+.rich-list-picklist-button-content IMG {	
+	VERTICAL-ALIGN: middle;	
+	MARGIN-RIGHT: 2px
+}
+.rich-picklist-internal-tab {
+width:100%;
+}
+
+.rich-picklist-source-cell, .rich-picklist-target-cell, .rich-picklist-source-cell *, .rich-picklist-target-cell * {
+color:#000000;
+font-family:Arial,Verdana,sans-serif;
+font-size:11px;
+white-space:nowrap;
+}

@@ -1,0 +1,22 @@
+.rich-progress-bar-block {
+	white-space: nowrap;
+}
+
+.rich-progress-bar-width {
+	width: 200px;
+}
+
+.rich-progress-bar-shell {
+	border: 1px solid;
+	margin-bottom: 2px;
+}
+
+.rich-progress-bar-height {
+	height: 13px;
+}
+
+.rich-progress-bar-uploaded {
+	background-repeat: repeat-x;
+	background-color: #E79A00;
+	background-image: url(upload_status.gif);
+}

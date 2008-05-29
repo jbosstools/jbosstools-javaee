@@ -1,0 +1,84 @@
+.rich-inplace-changed {
+	background-color: #F1F1F1;
+	background-image: url(red_arrow.gif);
+	border-bottom-color: #000000;
+	background-position: left top;
+	background-repeat: no-repeat;
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+}
+
+.rich-inplace-view {
+	border:0px;
+	background-color: #F1F1F1;
+	border-bottom-color: #000000;
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	
+	white-space: nowrap;
+}
+
+.rich-inplace-edit {
+	
+}
+
+input.rich-inplace-field {
+	border-style: inset;
+	border-width: 1px;
+	left: 0pt;
+	margin: 0pt;
+	padding: 0pt;
+	position: relative;
+	top: 0pt;
+	background-color: #FEFFDA;
+	background-image: url(spacer.gif);
+	border-color: #C4C0B9;
+}
+
+.rich-inplace-input-controls-set {
+	white-space: nowrap;
+	z-index: 3;
+}
+
+.rich-inplace-shadow {
+	font-size: 11px;
+	position: absolute;
+}
+
+.rich-inplace-shadow-tl {
+	background-position: left top;
+	background-repeat: repeat-x;
+	border: 0pt none !important; .
+	background-image: url(bg_shadow.png);
+}
+
+.rich-inplace-shadow-tr {
+	background-position: right top;
+	background-repeat: repeat-x;
+	border: 0pt none !important;
+	background-image: url(bg_shadow.png);
+}
+
+.rich-inplace-shadow-bl {
+	background-position: left bottom;
+	background-repeat: repeat-x;
+	border: 0pt none !important;
+	background-image: url(bg_shadow.png);
+}
+
+.rich-inplace-shadow-br {
+	background-position: right bottom;
+	background-repeat: repeat-x;
+	border: 0pt none !important;
+	background-image: url(bg_shadow.png);
+}
+
+.rich-inplace-control {
+	background-position: center top;
+	background-repeat: repeat-x;
+	border-style: outset;
+	border-width: 1px;
+	margin: 0pt;
+	padding: 0pt;
+}
+
