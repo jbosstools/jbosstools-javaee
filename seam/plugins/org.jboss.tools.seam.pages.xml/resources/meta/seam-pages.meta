@@ -757,6 +757,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -862,6 +869,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -1962,6 +1976,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -2032,6 +2053,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -2313,6 +2341,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -2388,6 +2423,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -2454,6 +2496,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -2567,6 +2616,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -2636,6 +2692,13 @@
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
+    ICON="action.empty" displayName="Select on Diagram" kind="action" name="Select"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
