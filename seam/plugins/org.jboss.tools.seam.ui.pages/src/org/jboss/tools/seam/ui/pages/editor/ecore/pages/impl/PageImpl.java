@@ -6,12 +6,16 @@
  */
 package org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl;
 
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 
@@ -163,4 +167,25 @@ public class PageImpl extends PagesElementImpl implements Page {
 		return result.toString();
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void dataChanged() {
+		XModelObject item = getModelObject();
+		SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+
+		setName(h.getPageTitle(item));
+		int[] shape = h.asIntArray(item, "shape");
+		if(shape != null && shape.length >= 2) {
+			setLocation(new Point(shape[0],shape[1]));
+		} else {
+			setLocation(new Point(0,0));
+		}
+		if(shape != null && shape.length >= 4) {
+			setSize(new Dimension(shape[2],shape[3]));
+		}
+		
+	}
 } //PageImpl

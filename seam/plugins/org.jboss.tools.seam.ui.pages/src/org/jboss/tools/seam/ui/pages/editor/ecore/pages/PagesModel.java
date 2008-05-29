@@ -14,4 +14,6 @@ public interface PagesModel extends PagesElement {
 
 	public void load();
 
+	public void dispose();
+
 }

@@ -11,9 +11,12 @@ import java.util.Map;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
@@ -47,7 +50,14 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	Map<XModelObject, PagesElement> elements = null;
+	Map<String, PagesElement> elementsByPath = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	XModelTreeListener modelListener = new ML();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -73,15 +83,26 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-
 	public PagesElement findElement(Object data) {
 		if(data instanceof XModelObject) {
-			PagesElement result = elements.get(data);
-			//Check null and something else
+			data = ((XModelObject)data).getPath();
+		}
+		if(data instanceof String) {
+			PagesElement result = elementsByPath.get(data);
 			return result;
 		}
 		return null;
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	void addElement(XModelObject data, PagesElement element) {
+		elementsByPath.put(data.getPath(), element);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -91,72 +112,161 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 		XModelObject installedProcess = (XModelObject)getData();
 		if(installedProcess == null) return;
 		
-		elements = new HashMap<XModelObject, PagesElement>();
+		elementsByPath = new HashMap<String, PagesElement>();
+		addElement(installedProcess, this);
 		XModelObject[] is = h.getItems(installedProcess);
 		for (int i = 0; i < is.length; i++) {
-			String type = is[i].getAttributeValue(SeamPagesConstants.ATTR_TYPE);
-			if(SeamPagesConstants.TYPE_PAGE.equals(type)) {
-				Page page = PagesFactory.eINSTANCE.createPage();
-				page.setName(h.getPageTitle(is[i]));
-				int[] shape = h.asIntArray(is[i], "shape");
-				if(shape != null && shape.length >= 2) {
-					page.setLocation(new Point(shape[0],shape[1]));
-				}
-				if(shape != null && shape.length >= 4) {
-					page.setSize(new Dimension(shape[2],shape[3]));
-				}
-				page.setData(is[i]);
-				getChildren().add(page);
-				elements.put(is[i], page);
-			} else if(SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
-				PgException exc = PagesFactory.eINSTANCE.createPgException();
-				exc.setName(is[i].getPresentationString());
-				int[] shape = h.asIntArray(is[i], "shape");
-				if(shape != null && shape.length >= 2) {
-					exc.setLocation(new Point(shape[0],shape[1]));
-				}
-				if(shape != null && shape.length >= 4) {
-					exc.setSize(new Dimension(shape[2],shape[3]));
-				}
-				exc.setData(is[i]);
-				getChildren().add(exc);
-				//maybe we need other map for exceptions?
-				elements.put(is[i], exc);
-			} else {
-				//TODO
-			}
+			addItem(is[i]);
 		}
 
 		for (int i = 0; i < is.length; i++) {
-			String type = is[i].getAttributeValue(SeamPagesConstants.ATTR_TYPE);
-			if(SeamPagesConstants.TYPE_PAGE.equals(type)
-				|| SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
-				PagesElement from = elements.get(is[i]);
-				if(from == null) {
+			addItemLinks(is[i]);
+		}
+		installedProcess.getModel().removeModelTreeListener(modelListener);
+		installedProcess.getModel().addModelTreeListener(modelListener);
+	}
+
+	private void addItem(XModelObject item) {
+		String type = item.getAttributeValue(SeamPagesConstants.ATTR_TYPE);
+		if(SeamPagesConstants.TYPE_PAGE.equals(type)) {
+			Page page = PagesFactory.eINSTANCE.createPage();
+			page.setData(item);
+			page.dataChanged();
+			addElement(item, page);
+			getChildren().add(page);
+		} else if(SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
+			PgException exc = PagesFactory.eINSTANCE.createPgException();
+			exc.setData(item);
+			exc.dataChanged();
+			addElement(item, exc);
+			getChildren().add(exc);
+		} else {
+			//TODO
+		}
+	}
+
+	private void addItemLinks(XModelObject item) {
+		String type = item.getAttributeValue(SeamPagesConstants.ATTR_TYPE);
+		if(SeamPagesConstants.TYPE_PAGE.equals(type)
+			|| SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
+			PagesElement from = findElement(item);
+			if(from == null) {
+				//TODO report failure
+				return;
+			}
+			XModelObject[] os = h.getOutputs(item);
+			for (int j = 0; j < os.length; j++) {
+				XModelObject t = h.getItemOutputTarget(os[j]);
+				if(t == null) {
 					//TODO report failure
-					continue;
+					return;
 				}
-				XModelObject[] os = h.getOutputs(is[i]);
-				for (int j = 0; j < os.length; j++) {
-					XModelObject t = h.getItemOutputTarget(os[j]);
-					if(t == null) {
-						//TODO report failure
-						continue;
-					}
-					PagesElement to = elements.get(t);
-					if(to == null) {
-						//TODO report failure
-						continue;
-					}
-					Link link = PagesFactory.eINSTANCE.createLink();
-					link.setFromElement(from);
-					link.setToElement(to);
-					link.setName(h.getItemOutputPresentation(os[j]));
-					link.setShortcut(h.isShortcut(os[j]));
+				PagesElement to = findElement(t);
+				if(to == null) {
+					//TODO report failure
+					return;
 				}
+				Link link = PagesFactory.eINSTANCE.createLink();
+				link.setFromElement(from);
+				link.setToElement(to);
+				link.setName(h.getItemOutputPresentation(os[j]));
+				link.setShortcut(h.isShortcut(os[j]));
 			}
 		}
+	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void update() {
+		XModelObject installedProcess = (XModelObject)getData();
+		if(installedProcess == null) return;
+
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void dispose() {
+		XModelObject installedProcess = (XModelObject)getData();
+		if(installedProcess == null) return;
+		installedProcess.getModel().removeModelTreeListener(modelListener);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	class ML implements XModelTreeListener {
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated NOT
+		 */
+		public void nodeChanged(XModelTreeEvent event) {
+			if(getData() == null) return;
+			XModelObject installedProcess = (XModelObject)getData();
+			if(!event.getModelObject().getPath().startsWith(installedProcess.getPath())) {
+				return;
+			}
+			PagesElement item = findElement(event.getModelObject());
+			if(item != null) {
+				item.dataChanged();
+			}
+			//TODO update link
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated NOT
+		 */
+		public void structureChanged(XModelTreeEvent event) {
+			if(getData() == null) return;
+			XModelObject installedProcess = (XModelObject)getData();
+			XModelObject target = event.getModelObject();
+			if(!target.getPath().startsWith(installedProcess.getPath())) {
+				return;
+			}
+			if(event.kind() == XModelTreeEvent.CHILD_ADDED) {
+				XModelObject added = (XModelObject)event.getInfo();
+				if(target == installedProcess) {
+					addItem(added);
+					addItemLinks(added);
+				} else {
+					PagesElement item = findElement(target);
+					//TODO
+				}
+			} else if(event.kind() == XModelTreeEvent.CHILD_REMOVED) {
+				if(target == installedProcess) {
+					PagesElement removed = findElement(event.getInfo());
+					if(removed != null) {
+						elementsByPath.remove(event.getInfo());
+						Link[] ls = removed.getOutputLinks().toArray(new Link[0]);
+						for (int i = 0; i < ls.length; i++) {
+							ls[i].setFromElement(null);
+							ls[i].setToElement(null);
+						}
+						ls = removed.getInputLinks().toArray(new Link[0]);
+						for (int i = 0; i < ls.length; i++) {
+							ls[i].setFromElement(null);
+							ls[i].setToElement(null);
+						}
+						getChildren().remove(removed);
+					}
+				} else {
+					
+				}
+			}
+			update();
+		}
+		
 	}
 
 } //PagesModelImpl
