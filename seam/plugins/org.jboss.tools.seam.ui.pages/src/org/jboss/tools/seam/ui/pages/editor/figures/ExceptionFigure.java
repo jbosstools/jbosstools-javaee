@@ -101,6 +101,7 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 
 			c = new FixedConnectionAnchor(this);
 			c.offsetV = 10;
+			c.offsetH = -1;
 			c.leftToRight = false;
 			connectionAnchors.put("1_OUT", c);
 			outputConnectionAnchors.addElement(c);
@@ -130,8 +131,6 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 		Rectangle r = getBounds().getCopy();
 		g.translate(r.getLocation());
 
-		int start = 0;
-		
 		if (exc != null) {
 			g.setBackgroundColor(exceptionBackgroundColor);
 			g.setForegroundColor(exceptionForegroundColor);
@@ -139,14 +138,14 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 			g.setBackgroundColor(lightGrayColor);
 		}
 		
-		g.fillRectangle(0, 0, r.width, r.height);
+		g.fillRectangle(1, 1, r.width-2, r.height-2);
 
 		g.setBackgroundColor(whiteColor);
 
-		g.fillRectangle(start + 1, 1, 22, 19);
+		g.fillRectangle(1, 1, 22, 19);
 
 		if (icon != null)
-			g.drawImage(icon, start + 4, 2);
+			g.drawImage(icon, 4, 2);
 		
 		if(exc != null){
 			g.setFont(exceptionFont);
