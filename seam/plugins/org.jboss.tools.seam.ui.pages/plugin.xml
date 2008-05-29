@@ -19,5 +19,9 @@
       </xmlEditor>
    </extension>
 
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
+			class="org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"/>
+   </extension>
 
 </plugin>

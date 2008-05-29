@@ -139,73 +139,8 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 
 	private PagesModel createModel() {
 		PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
-		Map<XModelObject, PagesElement> elements = new HashMap<XModelObject, PagesElement>();
-		SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
-		XModelObject[] is = h.getItems(installedProcess);
-		for (int i = 0; i < is.length; i++) {
-			String type = is[i].getAttributeValue(SeamPagesConstants.ATTR_TYPE);
-			if(SeamPagesConstants.TYPE_PAGE.equals(type)) {
-				Page page = PagesFactory.eINSTANCE.createPage();
-				page.setName(h.getPageTitle(is[i]));
-				int[] shape = h.asIntArray(is[i], "shape");
-				if(shape != null && shape.length >= 2) {
-					page.setLocation(new Point(shape[0],shape[1]));
-				}
-				if(shape != null && shape.length >= 4) {
-					page.setSize(new Dimension(shape[2],shape[3]));
-				}
-				//TODO pass is[i] to page
-				model.getChildren().add(page);
-				elements.put(is[i], page);
-			} else if(SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
-				PgException exc = PagesFactory.eINSTANCE.createPgException();
-				exc.setName(h.getPageTitle(is[i]));
-				int[] shape = h.asIntArray(is[i], "shape");
-				if(shape != null && shape.length >= 2) {
-					exc.setLocation(new Point(shape[0],shape[1]));
-				}
-				if(shape != null && shape.length >= 4) {
-					exc.setSize(new Dimension(shape[2],shape[3]));
-				}
-				//TODO pass is[i] to exc
-				model.getChildren().add(exc);
-				//maybe we need other map for exceptions?
-				elements.put(is[i], exc);
-			} else {
-				//TODO
-			}
-		}
-
-		for (int i = 0; i < is.length; i++) {
-			String type = is[i].getAttributeValue(SeamPagesConstants.ATTR_TYPE);
-			if(SeamPagesConstants.TYPE_PAGE.equals(type)
-				|| SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
-				PagesElement from = elements.get(is[i]);
-				if(from == null) {
-					//TODO report failure
-					continue;
-				}
-				XModelObject[] os = h.getOutputs(is[i]);
-				for (int j = 0; j < os.length; j++) {
-					XModelObject t = h.getItemOutputTarget(os[j]);
-					if(t == null) {
-						//TODO report failure
-						continue;
-					}
-					PagesElement to = elements.get(t);
-					if(to == null) {
-						//TODO report failure
-						continue;
-					}
-					Link link = PagesFactory.eINSTANCE.createLink();
-					link.setFromElement(from);
-					link.setToElement(to);
-					link.setName(h.getItemOutputPresentation(os[j]));
-					link.setShortcut(h.isShortcut(os[j]));
-				}
-			}
-		}
-
+		model.setData(installedProcess);
+		model.load();
 		return model;
 	}
 

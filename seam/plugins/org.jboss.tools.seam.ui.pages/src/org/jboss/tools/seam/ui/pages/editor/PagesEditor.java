@@ -50,7 +50,6 @@ import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -104,16 +103,21 @@ import org.jboss.tools.common.gef.action.IDiagramSelectionProvider;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.editor.xpl.DefaultPaletteCustomizer;
 import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
-import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.edit.GraphicalPartFactory;
+import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
+import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
+import org.jboss.tools.seam.ui.pages.editor.edit.PagesEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
+import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
 
 public class PagesEditor extends GEFEditor implements PagesModelListener{
@@ -540,62 +544,60 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 			if (viewer == null)
 				return null;
 			XModelObject o = getTarget(viewer.getSelection());
-			XModelObject ref = null;//JSFProcessStructureHelper.instance
-					//.getReference(o);
+			XModelObject ref = SeamPagesProcessStructureHelper.instance.getReference(o);
 			return ref;
 		}
 
-//		public void scroll(FreeformViewport vp, GroupFigure figure) {
-//			int delta;
-//			int SCROLL_MARGIN = 20;
-//
-//			Point origin = vp.getViewLocation();
-//
-//			if ((figure.getLocation().x - SCROLL_MARGIN) < origin.x) {
-//				delta = origin.x - (figure.getLocation().x - SCROLL_MARGIN);
-//				origin.x -= delta;
-//			} else if ((figure.getLocation().x + figure.getSize().width + SCROLL_MARGIN) > (origin.x + vp
-//					.getSize().width)) {
-//				delta = figure.getLocation().x + figure.getSize().width
-//						+ SCROLL_MARGIN - (origin.x + vp.getSize().width);
-//				origin.x += delta;
-//			}
-//
-//			if ((figure.getLocation().y - SCROLL_MARGIN) < origin.y) {
-//				delta = origin.y - (figure.getLocation().y - SCROLL_MARGIN);
-//				origin.y -= delta;
-//			} else if ((figure.getLocation().y + figure.getSize().height + SCROLL_MARGIN) > (origin.y + vp
-//					.getSize().height)) {
-//				delta = figure.getLocation().y + figure.getSize().height
-//						+ SCROLL_MARGIN - (origin.y + vp.getSize().height);
-//				origin.y += delta;
-//			}
-//			if (origin.x != vp.getViewLocation().x
-//					|| origin.y != vp.getViewLocation().y)
-//				vp.setViewLocation(origin);
-//		}
+		public void scroll(FreeformViewport vp, NodeFigure figure) {
+			int delta;
+			int SCROLL_MARGIN = 20;
+
+			Point origin = vp.getViewLocation();
+
+			if ((figure.getLocation().x - SCROLL_MARGIN) < origin.x) {
+				delta = origin.x - (figure.getLocation().x - SCROLL_MARGIN);
+				origin.x -= delta;
+			} else if ((figure.getLocation().x + figure.getSize().width + SCROLL_MARGIN) > (origin.x + vp
+					.getSize().width)) {
+				delta = figure.getLocation().x + figure.getSize().width
+						+ SCROLL_MARGIN - (origin.x + vp.getSize().width);
+				origin.x += delta;
+			}
+
+			if ((figure.getLocation().y - SCROLL_MARGIN) < origin.y) {
+				delta = origin.y - (figure.getLocation().y - SCROLL_MARGIN);
+				origin.y -= delta;
+			} else if ((figure.getLocation().y + figure.getSize().height + SCROLL_MARGIN) > (origin.y + vp
+					.getSize().height)) {
+				delta = figure.getLocation().y + figure.getSize().height
+						+ SCROLL_MARGIN - (origin.y + vp.getSize().height);
+				origin.y += delta;
+			}
+			if (origin.x != vp.getViewLocation().x
+					|| origin.y != vp.getViewLocation().y)
+				vp.setViewLocation(origin);
+		}
 
 		protected void setSelectedModelObject(XModelObject object) {
-//			IJSFElement element = getPagesModel().findElement(object.getPath());
-//			if (element == null)
-//				return;
-//			EditPart part = (EditPart) viewer.getEditPartRegistry()
-//					.get(element);
-//			if (part != null) {
-//				viewer.setSelection(new StructuredSelection(part));
-//				JSFDiagramEditPart diagram = (JSFDiagramEditPart) getScrollingGraphicalViewer()
-//						.getRootEditPart().getChildren().get(0);
-//				FreeformViewport vp = diagram.getFreeformViewport();
-//				if (vp != null && part instanceof GroupEditPart) {
-//					GroupFigure fig = (GroupFigure) ((GroupEditPart) part)
-//							.getFigure();
-//					if (fig.getLocation().x == 0 && fig.getLocation().y == 0) {
-//						fig.setLocation(((GroupEditPart) part).getGroupModel()
-//								.getPosition());
-//					}
-//					scroll(vp, fig);
-//				}
-//			}
+			PagesElement element = getPagesModel().findElement(object);
+			if (element == null)
+				return;
+			EditPart part = (EditPart) viewer.getEditPartRegistry()
+					.get(element);
+			if (part != null) {
+				viewer.setSelection(new StructuredSelection(part));
+				PagesDiagramEditPart diagram = (PagesDiagramEditPart) getScrollingGraphicalViewer()
+						.getRootEditPart().getChildren().get(0);
+				FreeformViewport vp = diagram.getFreeformViewport();
+				if (vp != null && part instanceof PagesEditPart) {
+					PagesEditPart pagesPart = (PagesEditPart) part;
+					NodeFigure fig = (NodeFigure)pagesPart.getFigure();
+					if (fig.getLocation().x == 0 && fig.getLocation().y == 0) {
+						fig.setLocation( ((PagesElement)pagesPart.getModel()).getLocation());
+					}
+					scroll(vp, fig);
+				}
+			}
 		}
 
 	}
@@ -607,20 +609,21 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	}
 
 	private XModelObject getTarget(Object selected) {
-//		if (selected instanceof JSFEditPart) {
-//			JSFEditPart part = (JSFEditPart) selected;
-//			Object partModel = part.getModel();
-//			if (partModel instanceof IJSFElement) {
-//				return (XModelObject) ((IJSFElement) partModel).getSource();
-//			}
-//		}
-//		if (selected instanceof LinkEditPart) {
-//			LinkEditPart part = (LinkEditPart) selected;
-//			Object partModel = part.getModel();
-//			if (partModel instanceof IJSFElement) {
-//				return (XModelObject) ((IJSFElement) partModel).getSource();
-//			}
-//		}
+		if (selected instanceof PagesEditPart) {
+			PagesEditPart part = (PagesEditPart) selected;
+			Object partModel = part.getModel();
+			if (partModel instanceof PagesElement) {
+				return (XModelObject) ((PagesElement) partModel).getData();
+			}
+		}
+		if (selected instanceof LinkEditPart) {
+			LinkEditPart part = (LinkEditPart) selected;
+			Object partModel = part.getModel();
+			if (partModel instanceof Link) {
+//TODO
+//				return (XModelObject) ((Link) partModel).getSource();
+			}
+		}
 
 		return null;
 	}

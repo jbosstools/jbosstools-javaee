@@ -8,5 +8,10 @@ package org.jboss.tools.seam.ui.pages.editor.ecore.pages;
  * 
  * @model
  */
-public interface PagesModel extends PagesElement{
+public interface PagesModel extends PagesElement {
+
+	public PagesElement findElement(Object data);
+
+	public void load();
+
 }
