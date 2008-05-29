@@ -1654,8 +1654,10 @@
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
-    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
-     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Redirect%"
+     ICON="action.delete"
+     PROPERTIES="sourcepath=..;actionpath=DeleteActions/Delete"
+     displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
@@ -2320,8 +2322,10 @@
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
-    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
-     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Redirect%"
+     ICON="action.delete"
+     PROPERTIES="sourcepath=..;actionpath=DeleteActions/Delete"
+     displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
@@ -2393,8 +2397,10 @@
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
-    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
-     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Redirect%"
+     ICON="action.delete"
+     PROPERTIES="sourcepath=..;actionpath=DeleteActions/Delete"
+     displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
@@ -2457,8 +2463,10 @@
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
-    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
-     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Redirect%"
+     ICON="action.delete"
+     PROPERTIES="sourcepath=..;actionpath=DeleteActions/Delete"
+     displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
@@ -2708,7 +2716,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity
-  AdoptManagerClass="org.jboss.tools.jsf.model.handlers.ProcessAdopt"
+  AdoptManagerClass="org.jboss.tools.seam.pages.xml.model.handlers.ProcessAdopt"
   ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl" name="SeamPagesProcess">
   <XChildrenEntities>
    <XChildEntity name="SeamPagesProcessItem"/>
@@ -2755,7 +2763,7 @@
    <XActionItem HIDE="disabled"
     HandlerClassName="org.jboss.tools.jst.web.model.handlers.FindItemOnDiagramHandler"
     ICON="action.empty"
-    PROPERTIES="help=JSFProcess_SelectItem;wizard=org.jboss.tools.jsf.ui.editor.wizard.SelectItemWizard"
+    PROPERTIES="help=JSFProcess_SelectItem;wizard=org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
     displayName="Select Element" kind="action" name="SelectItem"/>
    <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jst.web.model.handlers.ShowHideCommentsHandler"
@@ -2787,6 +2795,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity
+  AdoptManagerClass="org.jboss.tools.seam.pages.xml.model.handlers.PageAdopt"
   ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"
   XMLSUBPATH="PROCESS-ITEM" name="SeamPagesProcessItem">
   <XChildrenEntities>
@@ -2798,7 +2807,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="navigation-rule" loader="ElementType" name="element type">
+   <XModelAttribute default="page" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="name" xmlname="NAME">
@@ -2837,10 +2846,18 @@
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
      ICON="action.new.jsf.case"
      PROPERTIES="actionpath=CreateActions/CreateCase"
-     WizardClassName="%Default%" displayName="Case..." kind="action" name="CreateCase"/>
+     WizardClassName="%Default%" displayName="Rule..." kind="action" name="CreateRule"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.struts.model.handlers.CreateCommentForItemHandler"
+     ICON="action.empty" WizardClassName="%OneParameter%"
+     displayName="Create Comment..." kind="action" name="CreateComment">
+     <EntityData EntityName="JSFProcessComment">
+      <AttributeData AttributeName="comment"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.jsf.model.handlers.OpenPageHandler"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
     ICON="action.empty" PROPERTIES="actionpath=Open"
     displayName="Open Page" kind="action" name="OpenPage"/>
    <XActionItem kind="list" name="EditActions">
@@ -2916,7 +2933,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="navigation-case" loader="ElementType" name="element type">
+   <XModelAttribute default="rule" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="name" xmlname="NAME">
@@ -2964,7 +2981,7 @@
     HandlerClassName="org.jboss.tools.jsf.model.handlers.AutolayoutTransitionHandler"
     ICON="action.empty" displayName="Auto Layout" kind="action" name="Autolayout"/>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.jsf.model.handlers.OpenPageHandler"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
     ICON="action.empty" PROPERTIES="actionpath=Open"
     displayName="Open Page" kind="action" name="OpenPage"/>
    <XActionItem kind="list" name="RunActions">
@@ -3013,7 +3030,7 @@
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteOutputHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.DeleteOutputHandler"
      ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem displayName="move" kind="list" name="MoveActions">

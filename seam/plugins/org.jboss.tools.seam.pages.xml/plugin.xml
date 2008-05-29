@@ -56,6 +56,14 @@
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.ProcessAdopt"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.ProcessAdopt"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.PageAdopt"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.PageAdopt"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.DeleteOutputHandler"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.DeleteOutputHandler"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"/>
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">

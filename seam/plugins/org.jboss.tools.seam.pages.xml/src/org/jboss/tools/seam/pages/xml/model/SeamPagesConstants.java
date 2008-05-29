@@ -30,7 +30,11 @@ public interface SeamPagesConstants {
 	
 	public String ENT_NAVIGATION = "SeamPageNavigation";
 	public String ENT_NAVIGATION_RULE = "SeamPageNavigationRule";
-	
+
+	public String ENT_RULE = "SeamPageRule";
+	public String ENT_RULE_12 = "SeamPageRule" + SUFF_12;
+	public String ENT_RULE_20 = "SeamPageRule" + SUFF_20;
+
 	public String ATTR_NAME = "name"; //$NON-NLS-1$
 	public String ATTR_PATH = "path"; //$NON-NLS-1$
 	public String ATTR_VALUE = "value"; //$NON-NLS-1$
@@ -53,4 +57,8 @@ public interface SeamPagesConstants {
     public String TYPE_EXCEPTION = "exception"; //$NON-NLS-1$
     public String SUBTYPE_UNKNOWN = "unknown"; //$NON-NLS-1$
 
+	//common struts & jsf constants //TODO compare to JSF, move to common	
+	public static final String ENT_FILEJSP        = "FileJSP";
+	public static final String ENT_FILEHTML       = "FileHTML";
+	public static final String ENT_FILEXHTML       = "FileXHTML";
 }
