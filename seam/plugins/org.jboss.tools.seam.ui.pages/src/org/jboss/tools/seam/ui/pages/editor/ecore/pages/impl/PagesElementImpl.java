@@ -43,6 +43,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesElementImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesElementImpl#getInputLinks <em>Input Links</em>}</li>
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesElementImpl#getOutputLinks <em>Output Links</em>}</li>
+ *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesElementImpl#getData <em>Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -148,6 +149,26 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 	 * @ordered
 	 */
 	protected EList<Link> outputLinks;
+
+	/**
+	 * The default value of the '{@link #getData() <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getData()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Object DATA_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getData() <em>Data</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getData()
+	 * @generated
+	 * @ordered
+	 */
+	protected Object data = DATA_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -332,6 +353,27 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Object getData() {
+		return data;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setData(Object newData) {
+		Object oldData = data;
+		data = newData;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PagesPackage.PAGES_ELEMENT__DATA, oldData, data));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -393,6 +435,8 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 				return getInputLinks();
 			case PagesPackage.PAGES_ELEMENT__OUTPUT_LINKS:
 				return getOutputLinks();
+			case PagesPackage.PAGES_ELEMENT__DATA:
+				return getData();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -430,6 +474,9 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 				getOutputLinks().clear();
 				getOutputLinks().addAll((Collection<? extends Link>)newValue);
 				return;
+			case PagesPackage.PAGES_ELEMENT__DATA:
+				setData(newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -463,6 +510,9 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 			case PagesPackage.PAGES_ELEMENT__OUTPUT_LINKS:
 				getOutputLinks().clear();
 				return;
+			case PagesPackage.PAGES_ELEMENT__DATA:
+				setData(DATA_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -489,6 +539,8 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 				return inputLinks != null && !inputLinks.isEmpty();
 			case PagesPackage.PAGES_ELEMENT__OUTPUT_LINKS:
 				return outputLinks != null && !outputLinks.isEmpty();
+			case PagesPackage.PAGES_ELEMENT__DATA:
+				return DATA_EDEFAULT == null ? data != null : !DATA_EDEFAULT.equals(data);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -509,6 +561,8 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 		result.append(location);
 		result.append(", size: ");
 		result.append(size);
+		result.append(", data: ");
+		result.append(data);
 		result.append(')');
 		return result.toString();
 	}

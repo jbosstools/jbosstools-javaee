@@ -297,6 +297,15 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPagesElement_Data() {
+		return (EAttribute)pagesElementEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getPagesModel() {
 		return pagesModelEClass;
 	}
@@ -391,6 +400,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		createEReference(pagesElementEClass, PAGES_ELEMENT__PARENT);
 		createEReference(pagesElementEClass, PAGES_ELEMENT__INPUT_LINKS);
 		createEReference(pagesElementEClass, PAGES_ELEMENT__OUTPUT_LINKS);
+		createEAttribute(pagesElementEClass, PAGES_ELEMENT__DATA);
 
 		pagesModelEClass = createEClass(PAGES_MODEL);
 
@@ -455,6 +465,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		initEReference(getPagesElement_Parent(), this.getPagesElement(), this.getPagesElement_Children(), "parent", null, 0, 1, PagesElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPagesElement_InputLinks(), this.getLink(), this.getLink_ToElement(), "inputLinks", null, 0, -1, PagesElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPagesElement_OutputLinks(), this.getLink(), this.getLink_FromElement(), "outputLinks", null, 0, -1, PagesElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPagesElement_Data(), ecorePackage.getEJavaObject(), "data", null, 0, 1, PagesElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pagesModelEClass, PagesModel.class, "PagesModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
