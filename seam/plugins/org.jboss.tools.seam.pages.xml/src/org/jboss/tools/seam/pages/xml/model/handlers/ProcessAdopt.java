@@ -102,13 +102,18 @@ public class ProcessAdopt implements XAdoptManager, SeamPagesConstants {
 	}
 	
 	private boolean isAdoptableItem(XModelObject target, XModelObject object) {
-		return ENT_PROCESS.equals(object.getModelEntity().getName());
+		return ENT_PROCESS_ITEM.equals(object.getModelEntity().getName());
 	}
 	
 	private void adoptItem(XModelObject target, XModelObject object, Properties p) {
 //		String path = object.getAttributeValue(ATT_PATH);
 		p.put("sample", object);
-		XActionInvoker.invoke("CreateActions.AddRule", target, p);
+		String type = object.getAttributeValue(ATTR_TYPE);
+		if(TYPE_PAGE.equals(type)) {
+			XActionInvoker.invoke("CreateActions.AddPage", target, p);
+		} else {
+			//TODO
+		}
 	}
 
 }
