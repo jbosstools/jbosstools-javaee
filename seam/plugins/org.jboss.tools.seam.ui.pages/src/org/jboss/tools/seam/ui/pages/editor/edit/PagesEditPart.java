@@ -22,6 +22,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.*;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 
 abstract public class PagesEditPart extends
@@ -42,6 +43,10 @@ abstract public class PagesEditPart extends
 		super.activate();
 	}
 	
+	public PagesElement getElementModel(){
+		return (PagesElement)getModel();
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -56,8 +61,8 @@ abstract public class PagesEditPart extends
 	 */
 	protected void createEditPolicies() {
 //		installEditPolicy(EditPolicy.COMPONENT_ROLE, new JSFElementEditPolicy());
-//		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-//				new JSFNodeEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+				new PagesNodeEditPolicy());
 	}
 
 	/**
@@ -124,6 +129,15 @@ abstract public class PagesEditPart extends
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		refreshVisuals();
+	}
+	
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
+	final protected String mapConnectionAnchorToTerminal(ConnectionAnchor c) {
+		return getNodeFigure().getConnectionAnchorName(c);
 	}
 
 	/**
