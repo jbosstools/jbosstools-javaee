@@ -362,4 +362,9 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		int i = pathpart.lastIndexOf(':');
 		return (i < 0) ? pathpart : pathpart.substring(0, i);
 	}
+
+	public static boolean isPattern(String path) {
+		return path != null && (path.length() == 0 || path.indexOf('*') >= 0);
+	}
+
 }

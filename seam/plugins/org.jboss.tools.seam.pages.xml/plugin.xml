@@ -66,6 +66,9 @@
 			class="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"/>
+
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"/>
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">

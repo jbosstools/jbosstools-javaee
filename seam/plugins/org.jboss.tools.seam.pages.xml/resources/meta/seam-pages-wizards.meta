@@ -89,4 +89,30 @@
   <XActionItem kind="list"/>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity name="SeamPagesAddViewWizard">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes>
+   <XModelAttribute name="view id">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
+   <XModelAttribute default="true" name="create file">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="CheckBox"/>
+   </XModelAttribute>
+   <XModelAttribute name="template">
+    <Constraint loader="ListString"/>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list"/>
+  <XDependencies/>
+ </XModelEntity>
 </XModelEntityGroup>

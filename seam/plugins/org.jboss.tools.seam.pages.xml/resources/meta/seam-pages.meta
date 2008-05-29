@@ -2809,7 +2809,17 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
+     PROPERTIES="support=org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
+     displayName="New Page..." kind="action" name="AddPage">
+     <EntityData EntityName="SeamPagesAddViewWizard">
+      <AttributeData AttributeName="view id" Mandatory="no"/>
+      <AttributeData AttributeName="create file" Mandatory="no"/>
+      <AttributeData AttributeName="template" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"
     ICON="action.empty" WizardClassName="%OneParameter%"
