@@ -14,6 +14,7 @@ import java.util.*;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.struts.model.*;
 
 public class SelectInNavigatorHandler extends AbstractHandler {
@@ -30,8 +31,8 @@ public class SelectInNavigatorHandler extends AbstractHandler {
     }
 
     public static XModelObject getItemInConfig(XModelObject object) {
-        if(!(object instanceof ReferenceObjectImpl)) return null;
-        ReferenceObjectImpl ro = (ReferenceObjectImpl)object;
+        if(!(object instanceof ReferenceObject)) return null;
+        ReferenceObject ro = (ReferenceObject)object;
         return ro.getReference();
     }
 
