@@ -15,6 +15,7 @@ import org.eclipse.gef.EditPartFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 
 
@@ -30,6 +31,10 @@ public class GraphicalPartFactory implements EditPartFactory {
 			child = new PageEditPart();
 		else if (model instanceof PgException)
 			child = new ExceptionEditPart();
+		else if (model instanceof PageWrapper)
+			child = new ParamListEditPart();
+		else if (model instanceof Param)
+			child = new ParamEditPart();
 		else if (model instanceof Link)
 			child = new LinkEditPart();
 
