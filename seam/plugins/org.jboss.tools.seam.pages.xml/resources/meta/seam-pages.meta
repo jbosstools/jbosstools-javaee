@@ -17,6 +17,7 @@
    <PAIR name="SeamPageTask" value="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"/>
   </MAPPING>
   <MAPPING name="Recognizers">
+   <PAIR name="spdia$3" value="org.jboss.tools.seam.pages.xml.model.AuxEntityRecognizer"/>
    <PAIR name="xml$39" value="org.jboss.tools.seam.pages.xml.model.SeamPagesEntityRecognizer"/>
   </MAPPING>
  </MAPPINGS>

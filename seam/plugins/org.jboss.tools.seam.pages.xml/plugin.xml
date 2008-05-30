@@ -35,6 +35,8 @@
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.SeamPagesEntityRecognizer"
 			class="org.jboss.tools.seam.pages.xml.model.SeamPagesEntityRecognizer"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.AuxEntityRecognizer"
+			class="org.jboss.tools.seam.pages.xml.model.AuxEntityRecognizer"/>
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageNavigationImpl"
 			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageNavigationImpl"/>
