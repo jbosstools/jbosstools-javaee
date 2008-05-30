@@ -13,6 +13,9 @@ package org.jboss.tools.seam.ui.pages.editor.dnd;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.requests.CreationFactory;
+import org.jboss.tools.seam.ui.pages.editor.ExceptionTemplate;
+import org.jboss.tools.seam.ui.pages.editor.PageTemplate;
+import org.jboss.tools.seam.ui.pages.editor.TemplateConstants;
 
 public class PagesTemplateTransferDropTargetListener extends TemplateTransferDropTargetListener {
 
@@ -21,16 +24,26 @@ public class PagesTemplateTransferDropTargetListener extends TemplateTransferDro
 	}
 
 	protected CreationFactory getFactory(Object template) {
-		return new JSFTemplateFactory();
+		return new JSFTemplateFactory((String)template);
 	}
 
 	class JSFTemplateFactory implements CreationFactory {
+		String template;
+
+		JSFTemplateFactory(String template) {
+			this.template = template;
+		}
+
 		public Object getNewObject() {
 			return "view";
 		}
 
 		public Object getObjectType() {
-			return String.class;
+			if(TemplateConstants.TEMPLATE_EXCEPTION.equals(template))
+				return ExceptionTemplate.class;
+			else if(TemplateConstants.TEMPLATE_PAGE.equals(template))
+				return PageTemplate.class;
+			else return String.class;
 		}
 	}
 
