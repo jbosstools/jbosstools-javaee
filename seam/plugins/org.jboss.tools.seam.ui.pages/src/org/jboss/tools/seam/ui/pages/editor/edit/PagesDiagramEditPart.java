@@ -129,7 +129,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new JSFDiagramEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PagesDiagramEditPolicy());
 	}
 
 	/**

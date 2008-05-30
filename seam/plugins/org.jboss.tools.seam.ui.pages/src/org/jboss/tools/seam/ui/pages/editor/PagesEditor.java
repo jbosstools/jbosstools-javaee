@@ -48,6 +48,7 @@ import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -394,19 +395,30 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 		entries.add(sep);
 
-//		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
-//				FacesConfigEditorMessages.JSFDIAGRAM_VIEW_TEMPLATE,
-//				FacesConfigEditorMessages.JSFDIAGRAM_VIEW_TEMPLATE,
-//				TemplateConstants.TEMPLATE_VIEW,
-//				new SimpleFactory(String.class), ImageDescriptor
-//						.createFromFile(PagesEditor.class, "icons/view.gif"),
-//				null//$NON-NLS-1$
-//		);
-//		entries.add(combined);
-//
+		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
+				SeamUIPagesMessages.PAGES_DIAGRAM_VIEW_TEMPLATE,
+				SeamUIPagesMessages.PAGES_DIAGRAM_VIEW_TEMPLATE,
+				TemplateConstants.TEMPLATE_PAGE,
+				new SimpleFactory(PageTemplate.class), ImageDescriptor
+						.createFromFile(PagesEditor.class, "icons/view.gif"),
+				null//$NON-NLS-1$
+		);
+		entries.add(combined);
+
+		combined = new CombinedTemplateCreationEntry(
+				SeamUIPagesMessages.PAGES_DIAGRAM_EXCEPTION_TEMPLATE,
+				SeamUIPagesMessages.PAGES_DIAGRAM_EXCEPTION_TEMPLATE,
+				TemplateConstants.TEMPLATE_EXCEPTION,
+				new SimpleFactory(ExceptionTemplate.class), ImageDescriptor
+						.createFromFile(PagesEditor.class, "icons/exception.gif"),
+				null//$NON-NLS-1$
+		);
+		entries.add(combined);
+
 		controlGroup.addAll(entries);
 		return controlGroup;
 	}
+
 	public void gotoMarker(IMarker marker) {
 	}
 
