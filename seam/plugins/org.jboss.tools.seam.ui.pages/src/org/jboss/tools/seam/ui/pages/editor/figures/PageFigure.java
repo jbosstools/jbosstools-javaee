@@ -22,6 +22,7 @@ import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageEditPart;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
+import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
 public class PageFigure extends NodeFigure implements HandleBounds,
 		FigureListener {
@@ -70,7 +71,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 	}
 
 	public void setIcon(Image i) {
-		//icon = PrintIconHelper.getPrintImage(i);
+		icon = PrintIconHelper.getPrintImage(i);
 	}
 
 	public void addNotify() {

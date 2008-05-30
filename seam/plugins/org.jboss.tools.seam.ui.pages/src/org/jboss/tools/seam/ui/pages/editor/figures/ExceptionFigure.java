@@ -25,6 +25,7 @@ import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 import org.jboss.tools.seam.ui.pages.editor.edit.ExceptionEditPart;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
+import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
 public class ExceptionFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
@@ -44,9 +45,8 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 	}
 
 	public void setIcon(Image i) {
-		//icon = PrintIconHelper.getPrintImage(i);
+		icon = PrintIconHelper.getPrintImage(i);
 	}
-
 
 	public void init(int number) {
 		FixedConnectionAnchor c;
@@ -85,6 +85,10 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 
 	public ExceptionFigure(PgException group) {
 		this.exc = group;
+
+		if (group != null) {
+			setIcon(group.getImage());
+		}
 
 		setOpaque(false);
 		setLayoutManager(new XYLayout());
