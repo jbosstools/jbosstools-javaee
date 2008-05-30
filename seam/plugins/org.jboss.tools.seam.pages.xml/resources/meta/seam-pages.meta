@@ -2925,7 +2925,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
      ICON="action.new.jsf.case"
-     PROPERTIES="actionpath=CreateActions/CreateCase"
+     PROPERTIES="actionpath=CreateActions/AddNavigationRule"
      WizardClassName="%Default%" displayName="Rule..." kind="action" name="CreateRule"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.struts.model.handlers.CreateCommentForItemHandler"
