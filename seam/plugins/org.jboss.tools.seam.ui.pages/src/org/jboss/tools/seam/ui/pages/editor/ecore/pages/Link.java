@@ -89,4 +89,6 @@ public interface Link extends EObject {
 	 * @generated
 	 */
 	void setData(Object value);
+
+	public void dataChanged();
 }

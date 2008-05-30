@@ -292,11 +292,14 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 			if(!event.getModelObject().getPath().startsWith(installedProcess.getPath())) {
 				return;
 			}
-			PagesElement item = findElement(event.getModelObject());
+			PagesElement item = findElement(event.getInfo().toString());
 			if(item != null) {
 				item.dataChanged();
 			}
-			//TODO update link
+			Link link = findLink(event.getInfo().toString());
+			if(link != null) {
+				link.dataChanged();
+			}
 		}
 
 		/**
@@ -323,7 +326,6 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 				if(target == installedProcess) {
 					PagesElement removed = findElement(event.getInfo());
 					if(removed != null) {
-
 						Link[] ls = removed.getOutputLinks().toArray(new Link[0]);
 						for (int i = 0; i < ls.length; i++) {
 							ls[i].setFromElement(null);

@@ -15,8 +15,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 
 /**
@@ -473,6 +476,35 @@ public class LinkImpl extends EObjectImpl implements Link {
 		result.append(data);
 		result.append(')');
 		return result.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void dataChanged() {
+		if(data instanceof XModelObject) {
+			XModelObject object = (XModelObject)data;
+			PagesModel pagesModel = null;
+			if(getFromElement() != null) {
+				pagesModel = getFromElement().getPagesModel();
+			} else if(getToElement() != null) {
+				pagesModel = getToElement().getPagesModel();
+			} else {
+				return;
+			}
+			SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+			XModelObject t = h.getItemOutputTarget(object);
+			if(t != null) {
+				PagesElement to = pagesModel.findElement(t);
+				if(to != getToElement()) {
+					setToElement(to);
+				}
+			}
+			setName(h.getItemOutputPresentation(object));
+			setShortcut(h.isShortcut(object));
+		}
 	}
 
 } //LinkImpl

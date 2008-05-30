@@ -617,9 +617,7 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 				Link link = PagesFactory.eINSTANCE.createLink();
 				pagesModel.bindLink(childData, link);
 				link.setFromElement(from);
-				link.setToElement(to);
-				link.setName(h.getItemOutputPresentation(object));
-				link.setShortcut(h.isShortcut(object));
+				link.dataChanged();
 			}
 		}
 
