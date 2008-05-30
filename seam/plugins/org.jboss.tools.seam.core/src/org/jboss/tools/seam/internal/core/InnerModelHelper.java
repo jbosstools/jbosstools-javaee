@@ -11,8 +11,11 @@
 
 package org.jboss.tools.seam.internal.core;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -23,7 +26,9 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
+import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.model.util.XModelObjectUtil;
 
 public class InnerModelHelper {
 	
@@ -35,11 +40,7 @@ public class InnerModelHelper {
 		XModelObject webinf = model.getByPath("FileSystems/WEB-INF"); //$NON-NLS-1$
 		if(webinf != null) return model;
 		
-		IPath webInfPath = null;
-		
-		if(ComponentCore.createComponent(project)!=null) {
-			webInfPath = getWebInfPath(project);
-		}		
+		IPath webInfPath = getWebInfPath(project);
 		
 		if(webInfPath == null) return model;
 		
@@ -54,9 +55,12 @@ public class InnerModelHelper {
 		webinf.setAttributeValue("location", XModelConstants.WORKSPACE_REF); //$NON-NLS-1$
 		fs.addChild(webinf);
 		
+		String webInfLocation = XModelObjectUtil.expand(XModelConstants.WORKSPACE_REF, model, null);
+		String webRootLocation = getWebRootPath(project, webInfLocation);
+		
 		XModelObject webroot = model.createModelObject("FileSystemFolder", null); //$NON-NLS-1$
 		webroot.setAttributeValue("name", "WEB-ROOT"); //$NON-NLS-1$ //$NON-NLS-2$
-		webroot.setAttributeValue("location", XModelConstants.WORKSPACE_REF + "/.."); //$NON-NLS-1$ //$NON-NLS-2$
+		webroot.setAttributeValue("location", webRootLocation); //$NON-NLS-1$ //$NON-NLS-2$
 		fs.addChild(webroot);
 		
 		XModelObject lib = model.createModelObject("FileSystemFolder", null); //$NON-NLS-1$
@@ -69,10 +73,39 @@ public class InnerModelHelper {
 
 	//Taken from J2EEUtils and modified
 	public static IPath getWebInfPath(IProject project) {		
-		IVirtualComponent component = ComponentCore.createComponent(project);		
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		if(component == null) return null;
 		IVirtualFolder webInfDir = component.getRootFolder().getFolder(new Path("/WEB-INF"));
 		IPath modulePath = webInfDir.getWorkspaceRelativePath();
 		return (!webInfDir.exists()) ? null : modulePath;
+	}
+
+	static String getWebRootPath(IProject project, String webInfLocation) {
+		String webRootLocation = XModelConstants.WORKSPACE_REF + "/..";
+		
+		IPath wrp = ProjectHome.getFirstWebContentPath(project);
+		IPath wip = ProjectHome.getWebInfPath(project);
+
+		if(wrp == null || wip == null) {
+			return webRootLocation;
+		}
+		
+		IResource wrpc = ResourcesPlugin.getWorkspace().getRoot().findMember(wrp);
+		IResource wipc = ResourcesPlugin.getWorkspace().getRoot().findMember(wip);
+		if(wrpc != null && wipc != null && wipc.isLinked()) {
+			IPath p = wrpc.getLocation();
+			if(p != null) {
+				try {
+					webRootLocation = p.toFile().getCanonicalPath().replace('\\', '/');
+				} catch (IOException e) {
+				}
+				String relative = org.jboss.tools.common.util.FileUtil.getRelativePath(webInfLocation, webRootLocation);
+				if(relative != null) {
+					webRootLocation = XModelConstants.WORKSPACE_REF + relative;
+				}
+			}
+		}
+		return webRootLocation;
 	}
 
 }
