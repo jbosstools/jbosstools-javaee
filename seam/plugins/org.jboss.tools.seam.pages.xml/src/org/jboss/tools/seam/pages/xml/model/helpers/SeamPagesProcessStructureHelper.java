@@ -1,5 +1,8 @@
 package org.jboss.tools.seam.pages.xml.model.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.jst.web.model.helpers.WebProcessStructureHelper;
@@ -57,6 +60,21 @@ public class SeamPagesProcessStructureHelper extends WebProcessStructureHelper i
 			return ((ReferenceObject)diagramObject).getReference();
 		}
 		return null; 
+	}
+
+	public String[][] getParams(XModelObject item) {
+		XModelObject o = getReference(item);
+		if(o == null) return new String[0][];
+		XModelObject[] os = o.getChildren();
+		List<String[]> list = new ArrayList<String[]>();
+		for (int i = 0; i < os.length; i++) {
+			if(os[i].getModelEntity().getName().startsWith(ENT_PARAM)) {
+				String n = os[i].getAttributeValue(ATTR_NAME);
+				String v = os[i].getAttributeValue(ATTR_VALUE);
+				list.add(new String[]{n, v});
+			}
+		}
+		return list.toArray(new String[0][]);
 	}
 	
 }

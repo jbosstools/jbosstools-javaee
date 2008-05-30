@@ -2911,6 +2911,7 @@
     </Constraint>
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute name="params"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"

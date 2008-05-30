@@ -202,6 +202,12 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		XModelObject sourcePage = item.getReference();		
 		item.setAttributeValue(ATTR_ID, sourcePage.getPathPart());
 		item.setAttributeValue(ATTR_PATH, sourcePage.getAttributeValue(ATTR_VIEW_ID));
+		String[][] params = SeamPagesProcessStructureHelper.getInstance().getParams(item);
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < params.length; i++) {
+			sb.append(params[i][0]).append('=').append(params[i][1]).append(';');
+		}
+		item.setAttributeValue("params", sb.toString());
 		XModelObject[] cs = getPageTargets(sourcePage);		
 		updateOutputs(item, cs);
 	}
