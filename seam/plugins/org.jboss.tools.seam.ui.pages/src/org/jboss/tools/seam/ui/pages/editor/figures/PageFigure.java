@@ -117,13 +117,12 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 	public void addConnectionAnchor(int number) {
 		FixedConnectionAnchor c;
-		if (number == 1)
-			return;
+		//if (number == 1)
+			//return;
 		c = new FixedConnectionAnchor(this);
-		c.offsetV = 32 + LINK_HEIGHT * (number - 1);
-		// c.offsetH = -1;
+		c.offsetV = 32 + LINK_HEIGHT * number;
 		c.leftToRight = false;
-		connectionAnchors.put(number + "_OUT", c);
+		connectionAnchors.put((number + 1) + "_OUT", c);
 		outputConnectionAnchors.addElement(c);
 	}
 
@@ -164,7 +163,14 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 		}
 	}
-
+	public ConnectionAnchor getConnectionAnchor(String terminal) {
+		ConnectionAnchor anchor = (ConnectionAnchor)connectionAnchors.get(terminal);
+		while(anchor == null){
+			addConnectionAnchor(outputConnectionAnchors.size());
+			anchor = (ConnectionAnchor)connectionAnchors.get(terminal);
+		}
+		return anchor;
+	}
 	/**
 	 * @see org.eclipse.gef.handles.HandleBounds#getHandleBounds()
 	 */
@@ -261,6 +267,8 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 		g.fillPolygon(shadowPointlist);
 		g.fillPolygon(shadow2Pointlist);
+		
+		
 	}
 
 	class GroupBorder extends LineBorder {

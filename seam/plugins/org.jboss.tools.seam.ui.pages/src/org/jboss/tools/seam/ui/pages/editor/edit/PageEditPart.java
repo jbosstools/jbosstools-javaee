@@ -39,12 +39,6 @@ import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 public class PageEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
 	private PageFigure fig = null;
 
-	private boolean single = true;
-
-	public boolean isSingle() {
-		return single;
-	}
-
 	public void doControlUp() {
 	}
 
@@ -181,20 +175,14 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connEditPart) {
-		if (single) {
 			Link link = (Link) connEditPart.getModel();
 			int index = getPageModel().getOutputLinks().indexOf(link);
 			return getNodeFigure().getConnectionAnchor((index + 1) + "_OUT");
-		} else
-			return super.getSourceConnectionAnchor(connEditPart);
 	}
 
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		if (single) {
 			Point pt = new Point(((DropRequest) request).getLocation());
 			return getNodeFigure().getSourceConnectionAnchorAt(pt);
-		} else
-			return super.getSourceConnectionAnchor(request);
 	}
 
 	protected List getModelChildren() {
