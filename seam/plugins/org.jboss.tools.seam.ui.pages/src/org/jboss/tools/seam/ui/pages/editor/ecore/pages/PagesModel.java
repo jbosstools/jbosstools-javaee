@@ -12,6 +12,12 @@ public interface PagesModel extends PagesElement {
 
 	public PagesElement findElement(Object data);
 
+	public void bindElement(Object data, PagesElement element);
+
+	public Link findLink(Object data);
+
+	public void bindLink(Object data, Link link);
+
 	public void load();
 
 	public void dispose();

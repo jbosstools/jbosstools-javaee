@@ -113,4 +113,9 @@ public interface PagesElement extends EObject {
 	void setData(Object value);
 
 	public void dataChanged();
+
+	public PagesModel getPagesModel();
+
+	public void childAdded(Object childData);
+
 }

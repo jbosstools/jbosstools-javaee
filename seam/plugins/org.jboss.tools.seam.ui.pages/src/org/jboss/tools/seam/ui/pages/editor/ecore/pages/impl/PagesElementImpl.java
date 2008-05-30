@@ -26,8 +26,12 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 
 /**
@@ -573,8 +577,52 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public PagesModel getPagesModel() {
+		return parent == null ? null : parent.getPagesModel();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public void dataChanged() {
 		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void childAdded(Object childData) {
+		PagesModel pagesModel = getPagesModel();
+		if(pagesModel == null) return;
+
+		if(childData instanceof XModelObject) {
+			SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+			XModelObject object = (XModelObject)childData;
+			if(object.getModelEntity().getName().equals(SeamPagesConstants.ENT_PROCESS_ITEM_OUTPUT)) {
+				PagesElement from = this; //pagesModel.findElement(object);
+				XModelObject t = h.getItemOutputTarget(object);
+				if(t == null) {
+					//report
+					return;
+				}
+				PagesElement to = pagesModel.findElement(t);
+				if(to == null) {
+					//TODO report failure
+					return;
+				}
+				Link link = PagesFactory.eINSTANCE.createLink();
+				pagesModel.bindLink(childData, link);
+				link.setFromElement(from);
+				link.setToElement(to);
+				link.setName(h.getItemOutputPresentation(object));
+				link.setShortcut(h.isShortcut(object));
+			}
+		}
+
 	}
 
 	/**
