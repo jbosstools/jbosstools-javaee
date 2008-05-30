@@ -185,9 +185,9 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 			return getNodeFigure().getSourceConnectionAnchorAt(pt);
 	}
 
-	protected List getModelChildren() {
-		return getPageModel().getChildren();
-	}
+//	protected List getModelChildren() {
+//		return getPageModel().getChildren();
+//	}
 
 	protected void refreshChildren() {
 		super.refreshChildren();
