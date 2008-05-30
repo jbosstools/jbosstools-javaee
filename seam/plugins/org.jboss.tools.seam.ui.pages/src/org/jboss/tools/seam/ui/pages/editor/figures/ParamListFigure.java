@@ -22,10 +22,8 @@ import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.GEFGraphicalViewer;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageWrapper;
 import org.jboss.tools.seam.ui.pages.editor.edit.ParamListEditPart;
-import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 
 public class ParamListFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
@@ -49,40 +47,6 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 	}
 
 
-	public void init(int number) {
-		FixedConnectionAnchor c;
-		if (number == 0)
-			number = 1;
-		for (int i = 0; i < number; i++) {
-			c = new FixedConnectionAnchor(this);
-			c.offsetV = 32 + LINK_HEIGHT * i;
-			c.leftToRight = false;
-			connectionAnchors.put((i + 1) + "_OUT", c);
-			outputConnectionAnchors.addElement(c);
-		}
-	}
-
-	public void addConnectionAnchor(int number) {
-		FixedConnectionAnchor c;
-		if (number == 1)
-			return;
-		c = new FixedConnectionAnchor(this);
-		c.offsetV = 32 + LINK_HEIGHT * (number - 1);
-		// c.offsetH = -1;
-		c.leftToRight = false;
-		connectionAnchors.put(number + "_OUT", c);
-		outputConnectionAnchors.addElement(c);
-	}
-
-	public void removeConnectionAnchor() {
-		if (outputConnectionAnchors.size() == 1)
-			return;
-		outputConnectionAnchors.remove(outputConnectionAnchors.size() - 1);
-	}
-
-	public void removeAllConnectionAnchor() {
-		outputConnectionAnchors.removeAllElements();
-	}
 
 	public ParamListFigure(PageWrapper paramList) {
 		this.paramList = paramList;
@@ -116,21 +80,11 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 		Rectangle r = getBounds().getCopy();
 		g.translate(r.getLocation());
 
-		if (paramList != null) {
-			g.setBackgroundColor(exceptionBackgroundColor);
-			g.setForegroundColor(exceptionForegroundColor);
-		} else {
-			g.setBackgroundColor(lightGrayColor);
-		}
+		g.setXORMode(true);
+		
+		g.setBackgroundColor(lightGrayColor);
 		
 		g.fillRectangle(1, 1, r.width-2, r.height-2);
-
-		g.setBackgroundColor(whiteColor);
-
-		g.fillRectangle(1, 1, 22, 19);
-
-		if (icon != null)
-			g.drawImage(icon, 4, 2);
 	}
 
 	class GroupBorder extends LineBorder {
@@ -144,18 +98,12 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 			int width = r.width - 1;
 			int height = r.height - 1;
 			
-			if (paramList != null)
-				graphics.setForegroundColor(blackColor);
-			else
-				graphics.setForegroundColor(darkGrayColor);
+			graphics.setForegroundColor(darkGrayColor);
 
 			graphics.drawLine(1, 0, width-1, 0);
 			graphics.drawLine(0, 1, 0, height - 1);
 			graphics.drawLine(1, height, width-1, height);
 			graphics.drawLine(width, 1, width, height - 1);
-			graphics.drawLine(23 , 0, 23, height);
-			
-
 	}
 
 	public void mouseDoubleClicked(MouseEvent me) {
