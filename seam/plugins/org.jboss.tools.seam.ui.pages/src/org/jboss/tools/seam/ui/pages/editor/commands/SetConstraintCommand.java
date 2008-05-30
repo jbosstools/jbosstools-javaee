@@ -27,16 +27,14 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 		oldSize = part.getSize();
 		oldPos = part.getLocation();
 		
-		part.setLocation(newPos);
-		part.setSize(newSize);
+		part.changeLocationAndSize(newPos, newSize);
 	}
 
 	public void setShell(Shell shell) {
 	}
 
 	public void redo() {
-		part.setSize(newSize);
-		part.setLocation(newPos);
+		part.changeLocationAndSize(newPos, newSize);
 	}
 
 	public void setLocation(Rectangle r) {
@@ -57,8 +55,7 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 	}
 
 	public void undo() {
-		part.setSize(oldSize);
-		part.setLocation(oldPos);
+		part.changeLocationAndSize(oldPos, oldSize);
 	}
 
 }

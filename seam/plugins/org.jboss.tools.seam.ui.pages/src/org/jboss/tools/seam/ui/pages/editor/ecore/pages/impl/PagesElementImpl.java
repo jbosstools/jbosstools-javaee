@@ -25,9 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
@@ -234,6 +236,44 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 		location = newLocation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PagesPackage.PAGES_ELEMENT__LOCATION, oldLocation, location));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void changeLocationAndSize(Point location, Dimension size) {
+		setLocation(location);
+		setSize(size);
+		commitShapeToData();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	protected void commitShapeToData() {
+		Point location = getLocation();
+		Dimension size = getSize();
+		String shape = "";
+		if(location != null) {
+			shape = "" + location.x + "," + location.y;
+		} else {
+			shape = "0,0";
+		}
+		if(size != null) {
+			shape += "," + size.width + "," + size.height;
+		}
+		XModelObject o = getModelObject();
+		if(o != null && o.getModelEntity().getAttribute("shape") != null) {
+			try {
+				o.getModel().changeObjectAttribute(o, "shape", shape);
+			} catch (XModelException e) {
+				SeamUiPagesPlugin.getDefault().logError(e);
+			}
+		}
 	}
 
 	/**

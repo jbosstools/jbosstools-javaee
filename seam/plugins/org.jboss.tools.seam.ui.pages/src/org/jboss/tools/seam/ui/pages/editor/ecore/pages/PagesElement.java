@@ -118,4 +118,5 @@ public interface PagesElement extends EObject {
 
 	public void childAdded(Object childData);
 
+	public void changeLocationAndSize(Point location, Dimension size);
 }

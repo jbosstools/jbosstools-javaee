@@ -180,44 +180,58 @@ public class PageImpl extends PagesElementImpl implements Page {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	int updatelock = 0;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public void dataChanged() {
+		if(updatelock > 0) return;
+		updatelock++;
+		try {
 		XModelObject item = getModelObject();
-		SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+			SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper
+					.getInstance();
 
-		setName(h.getPageTitle(item));
-		int[] shape = h.asIntArray(item, "shape");
-		if(shape != null && shape.length >= 2) {
-			setLocation(new Point(shape[0],shape[1]));
-		} else {
-			setLocation(new Point(0,0));
-		}
-		if(shape != null && shape.length >= 4) {
-			setSize(new Dimension(shape[2],shape[3]));
-		}
-
-		String newParams = item.getAttributeValue("params");
-		if(newParams == null) newParams = "";
-		if(!params.equals(newParams)) {
-			params = newParams;
-			String[][] ps1 = h.getParams(item);
-			List<Param> ps2 = getParams();
-			for (int i = 0; i < ps1.length && i < ps2.size(); i++) {
-				Param p = ps2.get(i);
-				p.setName(ps1[i][0]);
-				p.setValue(ps1[i][1]);
+			setName(h.getPageTitle(item));
+			int[] shape = h.asIntArray(item, "shape");
+			if (shape != null && shape.length >= 2) {
+				setLocation(new Point(shape[0], shape[1]));
+			} else {
+				setLocation(new Point(0, 0));
 			}
-			if(ps1.length > ps2.size()) {
-				for (int i = ps2.size(); i < ps1.length; i++) {
-					Param p = PagesFactory.eINSTANCE.createParam();
+			if (shape != null && shape.length >= 4) {
+				setSize(new Dimension(shape[2], shape[3]));
+			}
+
+			String newParams = item.getAttributeValue("params");
+			if (newParams == null)
+				newParams = "";
+			if (!params.equals(newParams)) {
+				params = newParams;
+				String[][] ps1 = h.getParams(item);
+				List<Param> ps2 = getParams();
+				for (int i = 0; i < ps1.length && i < ps2.size(); i++) {
+					Param p = ps2.get(i);
 					p.setName(ps1[i][0]);
 					p.setValue(ps1[i][1]);
-					getChildren().add(p);
 				}
-			} else if(ps1.length < ps2.size()) {
-				for (int i = ps1.length; i < ps2.size(); i++) {
-					getChildren().remove(ps2.get(i));
+				if (ps1.length > ps2.size()) {
+					for (int i = ps2.size(); i < ps1.length; i++) {
+						Param p = PagesFactory.eINSTANCE.createParam();
+						p.setName(ps1[i][0]);
+						p.setValue(ps1[i][1]);
+						getChildren().add(p);
+					}
+				} else if (ps1.length < ps2.size()) {
+					for (int i = ps1.length; i < ps2.size(); i++) {
+						getChildren().remove(ps2.get(i));
+					}
 				}
 			}
+		} finally {
+			updatelock--;
 		}
 	}
 
