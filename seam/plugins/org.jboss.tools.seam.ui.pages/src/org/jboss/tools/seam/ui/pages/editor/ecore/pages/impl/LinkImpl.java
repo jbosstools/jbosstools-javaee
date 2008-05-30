@@ -495,6 +495,9 @@ public class LinkImpl extends EObjectImpl implements Link {
 				return;
 			}
 			SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+			setName(h.getItemOutputPresentation(object));
+			setShortcut(h.isShortcut(object));
+
 			XModelObject t = h.getItemOutputTarget(object);
 			if(t != null) {
 				PagesElement to = pagesModel.findElement(t);
@@ -502,8 +505,6 @@ public class LinkImpl extends EObjectImpl implements Link {
 					setToElement(to);
 				}
 			}
-			setName(h.getItemOutputPresentation(object));
-			setShortcut(h.isShortcut(object));
 		}
 	}
 

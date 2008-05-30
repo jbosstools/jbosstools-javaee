@@ -15,6 +15,9 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.*;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.jboss.tools.common.model.ui.dnd.DnDUtil;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPart;
@@ -56,6 +59,9 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	private GEFLabel pathLabel;
 
 	public void activate() {
+		if (!isActive()) {
+			((Notifier) getModel()).eAdapters().add(adapter);
+		}
 		super.activate();
 		addEditPartListener(this);
 	}
@@ -138,6 +144,9 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	public void deactivate() {
 		removeEditPartListener(this);
 		//getLink().removePropertyChangeListener(this);
+		if (isActive()) {
+			((Notifier) getModel()).eAdapters().remove(this);
+		}
 		super.deactivate();
 	}
 
@@ -242,6 +251,45 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			((GEFRootEditPart) getParent()).setToFront(this);
 
 		}
+	}
+
+	Adapter adapter = new AdapterImpl();
+
+	class AdapterImpl implements Adapter {
+
+		/**
+		 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 */
+		public void notifyChanged(Notification notification) {
+			pathLabel.setText(getLinkModel().getName());
+			//TODO for shortCut
+			refresh();
+			refreshVisuals();
+		}
+
+		/**
+		 * )
+		 * 
+		 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+		 */
+		public Notifier getTarget() {
+
+			return null;
+		}
+
+		/**
+		 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+		 */
+		public boolean isAdapterForType(Object type) {
+			return false;
+		}
+
+		/**
+		 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+		 */
+		public void setTarget(Notifier newTarget) {
+		}
+	
 	}
 
 }
