@@ -201,9 +201,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 	}
 	
 	private String getShape() {
-		String x = getProperties().getProperty("process.mouse.x");
-		String y = getProperties().getProperty("process.mouse.y");
-		return (x == null || y == null) ? null : x + "," + y + ",0,0";		
+		return AddExceptionHandler.getShape(getProperties());
 	}
 	
 	public static String revalidatePath(String path) {

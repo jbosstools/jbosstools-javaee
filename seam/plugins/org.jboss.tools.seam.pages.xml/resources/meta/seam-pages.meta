@@ -2819,6 +2819,11 @@
       <AttributeData AttributeName="template" Mandatory="no"/>
      </EntityData>
     </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"
+     ICON="action.empty"
+     PROPERTIES="actionpath=CreateActions/AddException"
+     displayName="New Exception..." kind="action" name="AddException"/>
    </XActionItem>
    <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"
