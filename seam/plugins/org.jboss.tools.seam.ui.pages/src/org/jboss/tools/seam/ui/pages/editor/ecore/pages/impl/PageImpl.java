@@ -6,6 +6,9 @@
  */
 package org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
@@ -17,7 +20,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,6 +38,9 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
  * @generated
  */
 public class PageImpl extends PagesElementImpl implements Page {
+
+	private String params = "";
+
 	/**
 	 * The default value of the '{@link #isParamsVisible() <em>Params Visible</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -186,7 +194,42 @@ public class PageImpl extends PagesElementImpl implements Page {
 		if(shape != null && shape.length >= 4) {
 			setSize(new Dimension(shape[2],shape[3]));
 		}
+
+		String newParams = item.getAttributeValue("params");
+		if(newParams == null) newParams = "";
+		if(!params.equals(newParams)) {
+			params = newParams;
+			String[][] ps1 = h.getParams(item);
+			List<Param> ps2 = getParams();
+			for (int i = 0; i < ps1.length && i < ps2.size(); i++) {
+				Param p = ps2.get(i);
+				p.setName(ps1[i][0]);
+				p.setValue(ps1[i][1]);
+			}
+			if(ps1.length > ps2.size()) {
+				for (int i = ps2.size(); i < ps1.length; i++) {
+					Param p = PagesFactory.eINSTANCE.createParam();
+					p.setName(ps1[i][0]);
+					p.setValue(ps1[i][1]);
+					getChildren().add(p);
+				}
+			} else if(ps1.length < ps2.size()) {
+				for (int i = ps1.length; i < ps2.size(); i++) {
+					getChildren().remove(ps2.get(i));
+				}
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	List<Param> getParams() {
+		List<Param> ps = new ArrayList<Param>();
 		
+		return ps;
 	}
 
 } //PageImpl
