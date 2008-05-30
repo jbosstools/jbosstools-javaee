@@ -7,12 +7,11 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -22,21 +21,25 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.jboss.tools.common.model.ui.dnd.DnDUtil;
-import org.eclipse.gef.*;
+import org.eclipse.gef.AccessibleEditPart;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.DropRequest;
+import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
-
-import org.jboss.tools.common.meta.action.XAction;
-import org.jboss.tools.common.model.XModelException;
-import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
-public class PageEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
+public class PageEditPart extends PagesEditPart implements
+		PropertyChangeListener, EditPartListener, Adapter {
 	private PageFigure fig = null;
 
 	public void doControlUp() {
@@ -72,8 +75,6 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 		return true;
 	}
 
-
-
 	private void refreshTargetLink(Link link) {
 		if (link == null)
 			return;
@@ -83,7 +84,6 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 			return;
 		gep.refreshTargetConnections();
 	}
-
 
 	protected AccessibleEditPart createAccessible() {
 		return new AccessibleGraphicalEditPart() {
@@ -106,14 +106,28 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 		return getPageModel().getOutputLinks();
 	}
 
+	public void performRequest(Request req) {
+		if (RequestConstants.REQ_OPEN.equals(req.getType())) {
+			SelectionRequest request = (SelectionRequest) req;
+			Point mouseLocation = request.getLocation()
+				.translate(-getGroupFigure().getLocation().x,
+							-getGroupFigure().getLocation().y);
+			if (mouseLocation.x < 16 && mouseLocation.y > getGroupFigure().getSize().height-16) {
+				getPageModel().setParamsVisible(!getPageModel().isParamsVisible());
+				refresh();
+				fig.repaint();
+			}
+		}
+	}
+
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
-		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
-		//installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-		//		new PageEditPolicy());
+		// installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
+		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
+		// installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
+		// new PageEditPolicy());
 	}
 
 	/**
@@ -143,15 +157,14 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 	Dimension size;
 
-	
-
 	protected void refreshVisuals() {
 		Point loc = getPageModel().getLocation();
-		int height = 23 + getPageModel().getOutputLinks().size()*NodeFigure.LINK_HEIGHT;
-		
-		if(getPageModel().getOutputLinks().size() == 0)
-			height = 23+NodeFigure.LINK_HEIGHT;
-		
+		int height = 23 + getPageModel().getOutputLinks().size()
+				* NodeFigure.LINK_HEIGHT;
+
+		if (getPageModel().getOutputLinks().size() == 0)
+			height = 23 + NodeFigure.LINK_HEIGHT;
+
 		size = new Dimension(50, height);
 		loc.x -= loc.x % 8;
 		loc.y -= loc.y % 8;
@@ -175,19 +188,19 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connEditPart) {
-			Link link = (Link) connEditPart.getModel();
-			int index = getPageModel().getOutputLinks().indexOf(link);
-			return getNodeFigure().getConnectionAnchor((index + 1) + "_OUT");
+		Link link = (Link) connEditPart.getModel();
+		int index = getPageModel().getOutputLinks().indexOf(link);
+		return getNodeFigure().getConnectionAnchor((index + 1) + "_OUT");
 	}
 
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-			Point pt = new Point(((DropRequest) request).getLocation());
-			return getNodeFigure().getSourceConnectionAnchorAt(pt);
+		Point pt = new Point(((DropRequest) request).getLocation());
+		return getNodeFigure().getSourceConnectionAnchorAt(pt);
 	}
 
-//	protected List getModelChildren() {
-//		return getPageModel().getChildren();
-//	}
+	// protected List getModelChildren() {
+	// return getPageModel().getChildren();
+	// }
 
 	protected void refreshChildren() {
 		super.refreshChildren();
@@ -196,7 +209,7 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 
 		}
 	}
-	
+
 	/**
 	 * @see org.eclipse.gef.EditPart#activate()
 	 */
@@ -206,14 +219,14 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 		((Notifier) getModel()).eAdapters().add(this);
 		super.activate();
 	}
-	
-	public void deactivate(){
+
+	public void deactivate() {
 		if (!isActive())
 			return;
 		((Notifier) getModel()).eAdapters().remove(this);
 		super.deactivate();
 	}
-	
+
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
@@ -221,6 +234,7 @@ public class PageEditPart extends PagesEditPart implements PropertyChangeListene
 		refresh();
 		refreshVisuals();
 	}
+
 	/**
 	 * )
 	 * 

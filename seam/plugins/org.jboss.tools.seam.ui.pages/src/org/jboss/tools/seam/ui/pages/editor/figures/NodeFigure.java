@@ -58,6 +58,11 @@ public class NodeFigure extends
 	
 	public static final Color exceptionForegroundColor = new Color(null, 0x99, 0x07, 0x02);
 	
+	public static final Color button1Color = new Color(null, 0xff, 0xf6, 0xc8);
+	public static final Color button2Color = new Color(null, 0x98, 0x99, 0x98);
+	public static final Color button3Color = new Color(null, 0xff, 0xe8, 0x79);
+	public static final Color button4Color = new Color(null, 0xdb, 0xc7, 0x68);
+	
 	public static final Font exceptionFont = new Font(null, "default", 8, SWT.BOLD);
 
 	public static final Image errorIcon = ModelUIImages

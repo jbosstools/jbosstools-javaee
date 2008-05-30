@@ -268,7 +268,54 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		g.fillPolygon(shadowPointlist);
 		g.fillPolygon(shadow2Pointlist);
 		
-		
+		if(page.getChildren().size() != 0){
+			if(page.isParamsVisible()){
+				g.setForegroundColor(blackColor);
+				g.drawLine(4, height-13, 11, height-13);
+				g.drawLine(4, height-13, 4, height-6);
+				
+				g.drawLine(6, height-9, 10, height-9);
+				
+				g.setForegroundColor(button2Color);
+				g.drawLine(12, height-13, 12, height-5);
+				g.drawLine(4, height-5, 12, height-5);
+				
+				g.setForegroundColor(button3Color);
+				g.setBackgroundColor(button3Color);
+				g.drawLine(5, height-4, 13, height-4);
+				g.drawLine(13, height-4, 13, height-12);
+				g.fillRectangle(6, height-11, 5, 2);
+				g.fillRectangle(6, height-8, 5, 2);
+				
+				g.setForegroundColor(button4Color);
+				g.drawLine(5, height-7, 5, height-12);
+				g.drawLine(5, height-12, 10, height-12);
+			}else{
+				
+				g.setForegroundColor(button2Color);
+				g.drawLine(4, height-13, 11, height-13);
+				g.drawLine(4, height-13, 4, height-6);
+				
+				g.setForegroundColor(blackColor);
+				
+				g.drawLine(6, height-9, 10, height-9);
+				g.drawLine(8, height-11, 8, height-7);
+				
+				g.drawLine(12, height-13, 12, height-5);
+				g.drawLine(4, height-5, 12, height-5);
+				
+				g.setForegroundColor(button3Color);
+				g.drawLine(5, height-4, 13, height-4);
+				g.drawLine(13, height-4, 13, height-12);
+				
+				g.drawLine(6, height-6, 11, height-6);
+				g.drawLine(11, height-6, 11, height-12);
+				
+				g.setForegroundColor(whiteColor);
+				g.drawLine(5, height-6, 5, height-12);
+				g.drawLine(5, height-12, 11, height-12);
+			}
+		}
 	}
 
 	class GroupBorder extends LineBorder {
@@ -279,7 +326,6 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		public void paint(IFigure figure, Graphics graphics, Insets insets) {
 			Rectangle r = getPaintRectangle(figure, insets).getCopy();
 			graphics.translate(r.getLocation());
-			int start = 0;
 			int width = r.width - 1;
 			int height = r.height - 1;
 			
@@ -288,14 +334,14 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			else
 				graphics.setForegroundColor(darkGrayColor);
 
-			graphics.drawLine(start + 1, 0, width - 15, 0);
-			graphics.drawLine(start, 1, start, height - 2);
-			graphics.drawLine(start + 1, height - 1, width - 2, height - 1);
+			graphics.drawLine(1, 0, width - 15, 0);
+			graphics.drawLine(0, 1, 0, height - 2);
+			graphics.drawLine(1, height - 1, width - 2, height - 1);
 			graphics.drawLine(width - 1, 14, width - 1, height - 2);
 			graphics.drawLine(width - 15, 0, width - 1, 14);
 
-			graphics.drawLine(start, 1, start + 1, 0);
-			graphics.drawLine(start, height - 2, start + 1, height - 1);
+			graphics.drawLine(0, 1, 1, 0);
+			graphics.drawLine(0, height - 2, 1, height - 1);
 			graphics.drawLine(width - 2, height - 1, width - 1, height - 2);
 
 			graphics.drawLine(width - 15, 0, width - 14, 4);
@@ -304,16 +350,9 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 			graphics.drawLine(width - 18, 10, width - 1, 14);
 
-			graphics.drawLine(start + 23, 0, start + 23, 19);
-			graphics.drawLine(start, 20, start + 22, 20);
-			graphics.drawLine(start + 22, 20, start + 23, 19);
-
-			
-			if (page != null /*&& group.isConfirmed()*/)
-				graphics.setForegroundColor(borderColor);
-			else
-				graphics.setForegroundColor(darkGrayColor);
-
+			graphics.drawLine(23, 0, 23, 19);
+			graphics.drawLine(0, 20, 22, 20);
+			graphics.drawLine(22, 20, 23, 19);
 	}
 
 	public void mouseDoubleClicked(MouseEvent me) {
