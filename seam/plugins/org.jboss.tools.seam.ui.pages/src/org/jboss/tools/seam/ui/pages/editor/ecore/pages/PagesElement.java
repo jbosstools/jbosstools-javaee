@@ -6,6 +6,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * @author daniel
@@ -95,6 +96,8 @@ public interface PagesElement extends EObject {
 	 * @model type="Link" opposite ="fromElement"
 	 */
 	public EList<Link> getOutputLinks();
+
+	public Image getImage();
 	
 	/**
 	 * returns data of element
