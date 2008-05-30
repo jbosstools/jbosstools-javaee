@@ -313,6 +313,11 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		output.setAttributeValue(ATTR_PATH, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		String name = XModelObjectUtil.createNewChildName("output", item);
 		output.setAttributeValue(ATTR_NAME, name);
+
+		ReferenceObjectImpl r = (ReferenceObjectImpl)output;
+		r.setReference(rulecase);
+		updateOutput(r);
+
 		item.addChild(output);
 		return output;
 	}
