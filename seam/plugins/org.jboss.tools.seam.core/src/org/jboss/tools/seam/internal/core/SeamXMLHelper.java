@@ -49,6 +49,7 @@ public class SeamXMLHelper implements SeamXMLConstants {
 	public static void saveModelObject(Element element, XModelObject object, Properties context) {
 		if(object == null) return;
 		String path = object.getPath();
+		if(path == null) return;
 		XModelObject base = (XModelObject)context.get(SeamXMLConstants.KEY_MODEL_OBJECT);
 		if(base != null && base.getModel() == object.getModel()) {
 			String basePath = base.getPath();
