@@ -1,0 +1,303 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<style type="text/css">
+	tr.separator td,tr.separator th {
+		border-bottom:1px solid black;
+	}
+	tr.small td, tr.small th, td.small {
+		font-size:smaller;
+	}
+	</style>
+	<a4j:region id="workAccidentRegion">
+	
+	<a4j:outputPanel id="a4jWorkAccident" layout="block">
+	<table class="list" width="100%">
+		<thead>
+			<tr>
+				<th>#{bundle['WorkAccident.number']}</th>
+				<th>#{bundle['WorkAccident.type']}</th>
+				<th>#{bundle['WorkAccident.date']}</th>
+				<th>#{bundle['WorkAccident.illness']}</th>
+				<th colspan="6"></th>
+			</tr>
+			<tr class="separator small">
+				<th colspan="3"></th>
+				<th>#{bundle['Illness.kind']}</th>
+				<th>#{bundle['Illness.startDate']}</th>
+				<th>#{bundle['Illness.endDate']}</th>
+				<th>#{bundle['Illness.workingDays']}</th>
+				<th>#{bundle['Illness.calendarDays']}</th>
+				<th>#{bundle['Illness.document']}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList id="accidents" var="accident" rowIndexVar="index" value="#{accidents}">
+			<tbody class="highlight">
+	    		<tr class="#{(index%2)==0?'even':'odd'}">
+	    			<td>#{accident.number}</td>
+	    			<td>
+	    				<h:outputText value="#{accident.type}">
+	    					<f:converter converterId="SelectConverter" />
+	    				</h:outputText>
+	    				<h:outputText value=" (#{bundle['WorkAccident.thirdPartyCaused']})" rendered="#{accident.thirdPartyCaused}"/>
+	    			</td>	    		
+	    			<td><h:outputText value="#{accident.date}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+	    			<td class="small"><h:outputText value="#{accident.illness.kind}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+	    			<td class="small"><h:outputText value="#{accident.illness.startDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+	    			<td class="small"><h:outputText value="#{accident.illness.endDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+	    			<td class="small">#{accident.illness.workingDays}</td>
+	    			<td class="small">#{accident.illness.calendarDays}</td>
+	    			<td class="small">[document here later...]</td>
+					<td valign="top">
+							<a4j:commandLink action="#{hrActions.editWorkAccident}"
+								immediate="true" reRender=":#{parentClientId}:a4jWorkAccident" limitToList="true" >
+								<f:actionListener type="be.rmi.intranet.listener.ContainerReset"/>
+								<f:param name="containerToReset" value="editWorkAccident" />
+								<f:param name="editId" value="#{index}" />
+								<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+							</a4j:commandLink>
+					</td>
+	    		</tr>
+	    	</tbody>
+		</t:dataList>
+		<tbody>
+	    	<tr>
+	    		<td colspan="9" align="right">    		
+					<a4j:commandLink id="addWorkAccident" immediate="true" rendered="#{hrSession.edits.workAccident == null}"
+						action="#{hrActions.addWorkAccident}" reRender="a4jWorkAccident" limitToList="true" >
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editWorkAccident" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+	    		</td>
+	    	</tr>
+    	</tbody>
+	</table>
+	<s:subForm id="editWorkAccident" rendered="#{hrSession.edits.workAccident != null}">    
+    	<fieldset>
+    	<table border="0" width="100%">
+    		<tr>
+    			<td>#{bundle['WorkAccident.number']}</td>
+    			<td>
+					<h:inputText id="number" value="#{hrSession.edits.workAccident.number}"></h:inputText>
+					<h:message for="number" showDetails="true" showSummary="false"/>
+				</td>
+				
+				<td rowspan="9" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteWorkAccident}" immediate="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+							reRender=":#{parentClientId}:a4jWorkAccident" limitToList="true" >
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['WorkAccident.type']}</td>
+    			<td>
+    				<!-- <h:selectOneMenu value="#{hrSession.edits.workAccident.type}" id="watype">
+						<f:selectItems
+						value="#{hrRequest.selectEntries['Accident type']}" />
+					</h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.workAccident.type}" />
+							<ui:param name="id" value="watype" />
+							<ui:param name="key" value="Accident type" />
+					</ui:include>
+					<h:message for="watype" showDetails="true" showSummary="false"/>
+				</td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['WorkAccident.lesions']}</td>
+    			<td>
+    			<a4j:outputPanel id="a4jlesions" layout="block">
+    			<table class="list">
+					<thead>
+						<tr>
+							<th>#{bundle['WorkAccidentLesion.type']}</th>
+							<th>#{bundle['WorkAccidentLesion.location']}</th>
+							<th></th>
+						</tr>
+					</thead>
+    				<t:dataList rowIndexVar="index2" var="lesion"
+						value="#{hrSession.edits.workAccident.lesionsArray}">
+						<tbody class="highlight">
+							<tr class="#{((index2+index)%2)==0?'odd':'even'}">
+								<td>
+									<h:outputText value="#{lesion.type}">
+										<f:converter converterId="SelectConverter" />
+									</h:outputText>
+								</td>
+								<td>
+									<h:outputText value="#{lesion.location}">
+										<f:converter converterId="SelectConverter" />
+									</h:outputText>
+								</td>
+								<td><a4j:commandLink
+									action="#{hrActions.editWorkAccidentLesion}" immediate="true"
+									reRender=":#{parentClientId}:editWorkAccident:a4jlesions" limitToList="true">
+									<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+									<f:param name="containerToReset"
+										value="editWorkAccidentLesion" />
+									<f:param name="editId" value="#{index2}" />
+									<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+								</a4j:commandLink></td>
+							</tr>
+						</tbody>
+					</t:dataList>
+					<tbody>
+						<tr>
+							<td colspan="2"></td>
+							<td><a4j:commandLink immediate="true"
+								rendered="#{hrSession.edits.workAccidentLesion == null}"
+								action="#{hrActions.addWorkAccidentLesion}"
+								reRender="a4jlesions" limitToList="true">
+								<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+								<f:param name="containerToReset"
+									value="editWorkAccidentLesion" />
+								<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+							</a4j:commandLink></td>
+						</tr>
+					</tbody>
+					<s:subForm id="editWorkAccidentLesion"
+								rendered="#{hrSession.edits.workAccidentLesion != null}">
+						<tbody class="edit">
+							<tr>
+								<td>#{bundle['WorkAccidentLesion.type']}</td>
+								<td>
+				    				<!-- <h:selectOneMenu value="#{hrSession.edits.workAccidentLesion.type}" id="lesiontype">
+										<f:selectItems
+										value="#{hrRequest.selectEntries['Lesion type']}" />
+									</h:selectOneMenu>-->
+									<ui:include src="selectEntry.xhtml">
+											<ui:param name="value" value="#{hrSession.edits.workAccidentLesion.type}" />
+											<ui:param name="id" value="lesiontype" />
+											<ui:param name="key" value="Lesion type" />
+									</ui:include>
+									<h:message for="lesiontype" showDetail="true" showSummary="false"/>
+								</td>
+								<td rowspan="2" valign="top">
+										<a4j:commandLink action="#{hrActions.deleteWorkAccidentLesion}" immediate="true"
+											onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+											reRender=":#{parentClientId}:editWorkAccident:a4jlesions" limitToList="true">
+											<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+										</a4j:commandLink>
+								</td>
+							</tr>
+							<tr>
+								<td>#{bundle['WorkAccidentLesion.location']}</td>
+								<td>
+				    				<!-- <h:selectOneMenu value="#{hrSession.edits.workAccidentLesion.location}" id="lesionloc">
+										<f:selectItems
+										value="#{hrRequest.selectEntries['Lesion localisation']}" />
+									</h:selectOneMenu>-->
+									<ui:include src="selectEntry.xhtml">
+											<ui:param name="value" value="#{hrSession.edits.workAccidentLesion.location}" />
+											<ui:param name="id" value="lesionloc" />
+											<ui:param name="key" value="Lesion localisation" />
+									</ui:include>
+									<h:message for="lesionloc" showDetail="true" showSummary="false"/>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<a4j:commandButton value="Done"
+										action="#{hrActions.clearWorkAccidentLesionEdit}"
+										actionFor="editWorkAccidentLesion" 
+										reRender=":#{parentClientId}:editWorkAccident:a4jlesions" limitToList="true"/>
+								</td>
+							</tr>
+						</tbody>
+					</s:subForm>
+    			</table>
+    				
+    			</a4j:outputPanel>
+				</td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['WorkAccident.date']}</td>
+    			<td><t:inputCalendar value="#{hrSession.edits.workAccident.date}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="wadate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar><h:message for="wadate" showDetails="true" showSummary="false"/>
+				</td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['WorkAccident.illness']}</td>
+    			<td><h:selectOneMenu value="#{hrSession.edits.workAccident.illness}" id="waillness">
+    				<f:selectItem itemLabel="" itemValue="[nothing]"/>
+					<f:selectItems
+						value="#{hrRequest.illnesses}" />
+				</h:selectOneMenu>
+				<a4j:commandLink action="dumb"
+								immediate="true" reRender="waillness" limitToList="true" >
+								[refresh]
+				</a4j:commandLink>
+				<h:message for="waillness" showDetails="true" showSummary="false"/></td>
+    		</tr>
+    		<tr>
+    			<td>#{bundle['WorkAccident.thirdPartyCaused']}</td>
+    			<td>
+    				<h:selectBooleanCheckbox value="#{hrSession.edits.workAccident.thirdPartyCaused}" id="thirdParty"></h:selectBooleanCheckbox>
+					<h:message for="thirdParty" showDetails="true" showSummary="false"/>
+				</td>
+    		</tr>
+    		<tr>
+				<td>#{bundle['WorkAccident.thirdPartyLastname']}</td>
+				<td>
+					<h:inputText value="#{hrSession.edits.workAccident.thirdPartyLastname}" id="thirdPartyLastname"/>
+					<h:message for="thirdPartyLastname" showDetails="true" showSummary="false"/>
+				</td>
+    		</tr>
+    		<tr>
+				<td>#{bundle['WorkAccident.thirdPartyFirstname']}</td>
+				<td>
+					<h:inputText value="#{hrSession.edits.workAccident.thirdPartyFirstname}" id="thirdPartyFirstname"/>
+					<h:message for="thirdPartyFirstname" showDetails="true" showSummary="false"/>
+				</td>
+    		</tr>
+    		<tr>
+				<td>#{bundle['WorkAccident.thirdPartyAddress']}</td>
+				<td>
+					<ui:include src="address.xhtml">
+						<ui:param name="address" value="#{hrSession.edits.workAccident.thirdPartyAddress}" />
+					</ui:include>
+				</td>
+    		</tr>
+    		<tr>
+				<td>#{bundle['WorkAccident.thirdPartyPolicy']}</td>
+				<td>
+					<h:inputText value="#{hrSession.edits.workAccident.thirdPartyPolicy}" id="thirdPartyPolicy"/>
+					<h:message for="thirdPartyPolicy" showDetails="true" showSummary="false"/>
+				</td>
+    		</tr>
+    		<tr>
+				<td>#{bundle['WorkAccident.thirdPartyInsurance']}</td>
+				<td>
+					<h:inputText value="#{hrSession.edits.workAccident.thirdPartyInsurance}" id="thirdPartyInsurance"/>
+					<h:message for="thirdPartyInsurance" showDetails="true" showSummary="false"/>
+				</td>
+			</tr>
+			
+			
+    	</table>
+		<a4j:commandButton value="Done" action="#{hrActions.doneWorkAccident}"
+			actionFor="editWorkAccident" reRender=":#{parentClientId}:a4jWorkAccident" limitToList="true"/>
+    	</fieldset>
+   	</s:subForm>
+   	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>		

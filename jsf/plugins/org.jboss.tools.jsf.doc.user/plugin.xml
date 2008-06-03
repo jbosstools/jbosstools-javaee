@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<extension point="org.eclipse.help.toc">
+		<toc
+        file="toc.xml"
+        primary="true"/>
+	</extension>
+ <extension
+       point="org.eclipse.help.contexts">
+    <contexts
+          file="StrutsContextHelp.xml"
+          plugin="org.jboss.tools.struts.ui">
+    </contexts>
+    <contexts
+          file="StrutsContextHelp.xml"
+          plugin="org.jboss.tools.struts">
+    </contexts>
+    <contexts
+          file="JSFContextHelp.xml"
+          plugin="org.jboss.tools.jsf.ui">
+    </contexts>
+    <contexts
+          file="TilesContextHelp.xml"
+          plugin="org.jboss.tools.jst.web.tiles.ui">
+    </contexts>
+    <contexts
+          file="VPEContextHelp.xml"
+          plugin="org.jboss.tools.vpe">
+    </contexts>
+    <contexts
+          file="PaletteContextHelp.xml"
+          plugin="org.jboss.tools.common.model.ui.templates">
+    </contexts>
+ </extension>
+</plugin>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="adding_managed_bean" xreflabel="adding_managed_bean">
+    <?dbhtml filename="adding_managed_bean.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>JSF application</keyword>
+            <keyword>Java</keyword>
+        </keywordset>
+    </chapterinfo>
+
+        <title>Adding a Managed Bean to the Application</title>
+        <para>To store data in the application, we will use a managed bean.</para>
+        <itemizedlist>
+            <listitem>
+                <para>Click on the <emphasis>
+                    <property>Tree</property>
+                </emphasis> tab at the bottom of the editing window</para>
+            </listitem>
+            <listitem>
+                <para>Select the <emphasis>
+                    <property>Managed Beans</property>
+                </emphasis> node and then click the <emphasis>
+                    <property>Add...</property>
+                </emphasis> button displayed along the right side of the editor window</para>
+            </listitem>
+            <listitem>
+                <para>Type in <emphasis>
+                    <property>jsfHello.PersonBean</property>
+                </emphasis> for Class and <emphasis>
+                    <property>personBean</property>
+                </emphasis> for Name. Leave Scope as is and Generate Source Code as is
+                    (checked)</para>
+            </listitem>
+            <listitem>
+                <para>Click <emphasis>
+                    <property>Finish</property>
+                </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>personBean will now be selected and three sections of information: <emphasis>
+                    <property>Managed Bean</property>
+                </emphasis>, <emphasis>
+                    <property>Properties</property>
+                </emphasis>, and <emphasis>
+                    <property>Advanced</property>
+                </emphasis>, will be displayed about it. Under the Properties section, click the <emphasis>
+                    <property>Add...</property>
+                </emphasis> button</para>
+            </listitem>
+            <listitem>
+                <para>Type in <emphasis>
+                    <property>name</property>
+                </emphasis> for Property-Name. Leave everything else as is. (When Property-
+                    Class is not filled in, String is the assumed type)</para>
+            </listitem>
+            <listitem>
+                <para>Click <emphasis>
+                    <property>Finish</property>
+                </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Select the <emphasis>
+                    <property>personBean</property>
+                </emphasis> node in the tree</para>
+            </listitem>
+        </itemizedlist>
+        <para>You should see this now:</para>
+        <figure>
+            <title>Tree View in Config Editor</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_application/jsf_application_5.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <itemizedlist>
+            <listitem>
+                <para>Select <emphasis>
+                    <property>File > Save</property>
+                </emphasis> from the menu bar</para>
+            </listitem>
+        </itemizedlist>
+        <para>You have now registered the <emphasis>
+            <property>managed bean</property>
+        </emphasis> and created a <emphasis>
+            <property>stub-coded class</property>
+        </emphasis> file for it.</para>
+    
+    </chapter>

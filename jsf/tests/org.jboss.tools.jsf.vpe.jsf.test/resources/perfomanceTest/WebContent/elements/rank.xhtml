@@ -1,0 +1,36 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<ui:composition>
+	<table>
+		<tr>
+			<td>Van:</td>
+			<td><t:inputDate type="date" popupCalendar="true"
+				value="#{simpleBean.date}" /></td>
+			<td>Tot:</td>
+			<td><t:inputDate type="date" popupCalendar="true"
+				value="#{simpleBean.date}" /></td>
+		</tr>
+		<tr>
+			<td>Status:</td>
+			<td><h:inputText value=""/></td>
+			<td>Rank:</td>
+			<td><h:inputText value=""/></td>
+		</tr>
+		<tr>
+			<td>Level:</td>
+			<td><h:inputText value=""/></td>
+			<td>Salary Scale:</td>
+			<td><h:inputText value=""/></td>
+		</tr>
+		<tr>
+			<td>Next Rank/Scale:</td>
+			<td><h:inputText value=""/></td>
+			<td>Date Next Rank/Scale:</td>
+			<td><t:inputDate type="date" popupCalendar="true"
+				value="#{simpleBean.date}" /></td>
+		</tr>
+	</table>
+</ui:composition>
+</html>

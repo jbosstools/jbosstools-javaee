@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.vpe.templates">
+      <templates
+            default="false"
+            name="Facelets"
+            path="templates/vpe-templates-facelets.xml"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,78 @@
+<!DOCTYPE data SYSTEM "pdata.dtd">
+<data xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<ui:composition>
+  <h:panelGroup rendered="#{(not empty employee.administrativeState) or (not empty employee.administrativeState.pdata) or (employee.administrativeState.pdata ne '?')}">
+      <record>
+      
+      	<abo_sncb_nmbs>#{employee.transportation.usingTrain? '1' : '0'}</abo_sncb_nmbs>
+        <abo_stib_mivb>#{employee.transportation.usingStib? '1' : '0'}</abo_stib_mivb>
+        <abo_tec>#{employee.transportation.usingTec? '1' : '0'}</abo_tec>
+        <abs_reason_code>#{(empty employee.current.leave.reason)? '0' : employee.current.leave.reason.pdata}<!-- default 0, current leave's reason code --></abs_reason_code>
+        <activity_perc>#{employee.workingPercent}</activity_perc>
+        <addr_box></addr_box>
+        <addr_box2></addr_box2>
+        <addr_number>#{employee.home.number}</addr_number>
+        <addr_number2>#{employee.home.number}</addr_number2>
+        <addr_street>#{employee.home.street}</addr_street>
+        <addr_street2>#{employee.home.street}</addr_street2>
+        <admin_pos_code>#{employee.administrativeState.pdata}</admin_pos_code>
+        <alloc_comp>#{empty employee.current.competenceMeasure.premium? '0': '1'}</alloc_comp>
+        <anci_pec>#{employee.current.wageSeniority}</anci_pec>
+        <birthdate><h:outputText value="#{employee.birthDate}"><f:convertDateTime timeZone="Europe/Paris" pattern="yyyyMMdd"/></h:outputText></birthdate>
+        <h:panelGroup rendered="#{not empty employee.current.contract}">
+	        <contractcat_code>#{employee.current.contract.contractCategory.pdata}</contractcat_code>        
+	        <contractdurday>#{employee.current.contract.durationDays gt 0 ? employee.current.contract.durationDays : '0'}</contractdurday>
+	        <contractduryear>#{employee.current.contract.durationYears gt 0 ? employee.current.contract.durationYears : '0'}</contractduryear>
+	        <contract_id>#{employee.current.contract.reference}</contract_id>
+	        <cont_dur_code>#{employee.current.contract.contractualType.pdata}</cont_dur_code>
+	        <cont_reason_code>#{employee.current.contract.reason.pdata}</cont_reason_code>
+        </h:panelGroup>
+
+        <country_code>#{employee.home.country.nationalRegisterCode}</country_code>
+        <country_code2>#{employee.home.country.nationalRegisterCode}</country_code2>
+        <date_start_serve><h:outputText value="#{employee.inDate}"><f:convertDateTime timeZone="Europe/Paris" pattern="yyyy-MM-dd"/></h:outputText></date_start_serve>        
+        <disabled>#{employee.PData.handicap.pdata!=0? '1' : '0'}</disabled>
+        <disease_remain>#{employee.sickDayInBank}</disease_remain>
+        <disease_total>#{employee.sickDayForAge}</disease_total>
+        <email>#{employee.email}</email>
+        <expertechel_code>#{employee.expertSalaryScale.pdata}</expertechel_code>
+        <family_code>#{employee.current.careerRank.functionFamily.pdata}</family_code>
+        <fax>#{employee.officeAddress.fax}</fax>
+        <financesrc_code>#{employee.current.contract.budgetSource.pdata}</financesrc_code>
+        <firstname>#{employee.firstname}</firstname>
+        <frame_code>#{not empty employee.frame ? employee.frame.pdata : '-'}</frame_code>
+        <grade_code>#{employee.current.careerRank.grade.pdata}</grade_code>
+        <gsm>#{employee.officeAddress.gsm}</gsm>
+        <handicap_code>#{employee.PData.handicap.pdata}</handicap_code>
+        <identification>#{employee.nationalRegisterNumber}<!-- HR at kmi use national register number as file id --></identification>
+        <integration_grant>#{employee.PData.integrationGrant? 1 : 0}</integration_grant>
+        <language>#{employee.language.pdata}</language>
+        <lastname>#{employee.lastname}</lastname>
+        <manager_grant>#{employee.PData.managerGrant? 1 : 0}</manager_grant>
+        <nationality_code>#{employee.nationality.nationalRegisterCode}</nationality_code>
+        <nrnumber>#{employee.nationalRegisterNumber}</nrnumber>
+        <nrn_etab>#{employee.locationUnit.pdata}</nrn_etab>
+        <office>#{employee.officeLocation}</office>
+        <phone>#{employee.officeAddress.phone}</phone>
+        <postal_code>#{employee.home.zip}</postal_code>
+        <postal_code2>#{employee.home.zip}</postal_code2>
+        <prepension><!-- TODO detect employee status = prepension --></prepension>
+        <prime_ling_code>#{employee.bilingualPremium.pdata}</prime_ling_code>
+        <project_grant>#{employee.PData.projectGrant? 1 : 0}</project_grant>
+        <refund_agdet_code>#{employee.PData.agdet.pdata}</refund_agdet_code>
+        <salary_scale_code>#{employee.current.salaryRank.scale}</salary_scale_code>
+        <selection_code>#{empty employee.PData.selorCode.pdata? 0 : employee.PData.selorCode.pdata}</selection_code>
+        <sex>#{employee.gender.pdata}</sex>
+        <status_code>#{employee.PData.status.pdata}</status_code>
+        <status_repl>#{employee.replacement.pdata}</status_repl>
+        <superior_grant>#{employee.PData.superiorGrant? 1 : 0}</superior_grant>
+        <taskperm_code>#{employee.missionDuration.pdata}</taskperm_code>
+        <workplace_postal_code>#{employee.officeAddress.zip}</workplace_postal_code>
+      	
+      </record>
+    </h:panelGroup>
+</ui:composition>
+</data>

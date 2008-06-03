@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+.dr-div-heigth {
+ height : 20px;}
+ .dr-div-width {
+ width : 400px;}
+.dr-dscr-button {
+background-color:#F1EEE9;
+border:1px solid #C0C0C0;
+cursor:pointer;
+font-family:verdana;
+font-size:11px;
+width:25px;
+}
+.dr-dscr-inact {
+border-top:2px solid #D4CFC7;
+color: #D4CFC7;
+cursor:pointer;
+font-family:verdana;
+font-size:11px;
+width:25px;
+}
+.dr-dscr-act {
+border-top:2px solid #000000;
+color:#000000;
+font-family:verdana;
+font-size:11px;
+width:25px;
+}
+.dr-dscr-t {
+background-color:#FFFFFF;
+border:1px solid #C0C0C0;
+}
+.dr-tbpnl-cntnt {
+border-style:solid;
+color:#000000;
+font-family:verdana;
+font-size:11px;
+}
+

@@ -1,0 +1,144 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<a4j:region id="circleRegion">
+	
+	<a4j:outputPanel id="a4jCircle" layout="block">
+	<table class="list" width="100%">
+		<thead></thead>
+		<t:dataList var="circle" rowIndexVar="index" value="#{developmentCircles}">
+			<tbody class="highlight">
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.functionChiefName']}</td>
+					<td colspan="3">#{circle.functionChiefName}</td>
+					<td rowspan="7" valign="top"><a4j:commandLink
+						action="#{hrActions.editDevelopmentCircle}" immediate="true"
+						reRender=":#{parentClientId}:a4jCircle" limitToList="true">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editDevelopmentCircle" />
+						<f:param name="editId" value="#{index}" />					
+						<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+					</a4j:commandLink></td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.duration']}</td>
+					<td colspan="3">#{circle.duration}</td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.planningMeetingDate']}</td>
+					<td><h:outputText value="#{circle.planningMeetingDate}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.functionMeetingDate']}</td>
+					<td><h:outputText value="#{circle.functionMeetingDate}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.workingMeetingDate']}</td>
+					<td><h:outputText value="#{circle.workingMeetingDate}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.evaluationMeetingDate']}</td>
+					<td><h:outputText value="#{circle.evaluationMeetingDate}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>#{bundle['DevelopmentCircle.result']}</td>
+					<td>#{circle.result}</td>
+				</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr>
+				<td colspan="5" align="right">
+					<a4j:commandLink immediate="true"
+							rendered="#{hrSession.edits.developmentCircle == null}"
+							reRender=":#{parentClientId}:a4jCircle" limitToList="true"
+							action="#{hrActions.addDevelopmentCircle}">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editDevelopmentCircle" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<s:subForm id="editDevelopmentCircle"
+		rendered="#{hrSession.edits.developmentCircle != null}">
+		<fieldset>
+		<table>
+			<tr>
+				<td>#{bundle['DevelopmentCircle.functionChiefName']}</td>
+				<td colspan="3">
+					<h:selectOneMenu id="chief" value="#{hrSession.edits.developmentCircle.functionChiefName}">
+						<f:selectItem itemLabel="" itemValue="[nothing]"/>
+						<f:selectItems value="#{hrRequest.employees}"/>
+					</h:selectOneMenu>
+					<h:message for="chief"/>
+				</td>
+				
+				<td rowspan="7" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteDevelopmentCircle}" immediate="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false"
+							reRender=":#{parentClientId}:a4jCircle" limitToList="true">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['DevelopmentCircle.duration']}</td>
+				<td colspan="3"><h:inputText value="#{hrSession.edits.developmentCircle.duration}" size="80"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['DevelopmentCircle.planningMeetingDate']}</td>
+				<td><t:inputCalendar value="#{hrSession.edits.developmentCircle.planningMeetingDate}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy" id="pmdate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="pmdate" showDetail="true" showSummary="false"/></td>
+				<td rowspan="4" valign="top">#{bundle['DevelopmentCircle.result']}</td>
+				<td rowspan="4" valign="top"><h:inputTextarea value="#{hrSession.edits.developmentCircle.result}" cols="50" rows="7" id="dcresult"/>
+				<h:message for="dcresult" showDetail="true" showSummary="false"/>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['DevelopmentCircle.functionMeetingDate']}</td>
+				<td><t:inputCalendar value="#{hrSession.edits.developmentCircle.functionMeetingDate}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy" id="fmdate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="fmdate" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['DevelopmentCircle.workingMeetingDate']}</td>
+				<td><t:inputCalendar value="#{hrSession.edits.developmentCircle.workingMeetingDate}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy" id="wmdate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="wmdate" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td>#{bundle['DevelopmentCircle.evaluationMeetingDate']}</td>
+				<td><t:inputCalendar value="#{hrSession.edits.developmentCircle.evaluationMeetingDate}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy" id="emdate">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar><h:message for="emdate" showDetail="true" showSummary="false"/></td>
+			</tr>
+			<tr>
+				<td colspan="4">
+		<a4j:commandButton value="Done" action="#{hrActions.doneDevelopmentCircle}"
+			actionFor="editDevelopmentCircle"
+			reRender=":#{parentClientId}:a4jCircle" limitToList="true" /></td>
+			</tr>
+		</table>
+		</fieldset>
+	</s:subForm>
+	</a4j:outputPanel>
+	</a4j:region>
+
+</ui:composition>
+</html>

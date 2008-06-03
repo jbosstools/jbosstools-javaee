@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vpe:templates>
+	<vpe:template-taglib uri="http://jboss.com/products/seam/taglib"
+		prefix="s" />
+
+	<vpe:tag name="s:validateAll" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="border: 1px dashed #2A7F00" />
+		</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="s:decorate" case-sensitive="yes">
+			<vpe:template children="yes" modify="yes" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets" class="org.jboss.tools.jsf.vpe.facelets.template.VpeDecorateTemplate">
+			</vpe:template>
+	</vpe:tag>
+	
+	<vpe:tag name="s:label" case-sensitive="yes">
+	    <vpe:template children="yes" modify="yes">
+			<label style="{@style}" class="{@styleClass}" title="{tagstring()}" for="{@for}">
+				<vpe:value expr="{jsfvalue(@value)}"/>
+			</label>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes"/>
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="outputText"/>
+				</vpe:drop>
+			</vpe:dnd>
+		    <vpe:textFormatting use-default-formats="yes">
+				<vpe:format type="BlockFormat" addChildren="deny" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+			</vpe:textFormatting>
+	    </vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:message" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+		    <span class="{@styleClass}" style="{@style}">
+				Error Messages
+		    </span>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no"/>
+			</vpe:dnd>
+			<vpe:textFormatting use-default-formats="yes">
+				<vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler"/>
+			</vpe:textFormatting>
+	    </vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="s:formattedText" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamFormattedTextTemplate">
+			<div style="{@style}" class="{@styleClass}"
+				title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</div>
+		</vpe:template>
+	</vpe:tag>
+
+
+	<vpe:tag name="s:span" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span style="{@style}" class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:div" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="{@style}" class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+    <vpe:tag name="s:button" case-sensitive="yes">
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="@type=''">
+				<vpe:template children="no" modify="no">
+					<input type="submit" value="{iif(@value='',' ',jsfvalue(@value))}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes"/>
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+			<vpe:if test="(@type='button')|(@type='reset')|(@type='submit')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes"/>
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
+
+	<vpe:tag name="s:link" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="{@styleClass}"
+				style="color:blue;text-decoration:underline;{@style}"
+				title="{tagstring()}">
+				<vpe:value expr="{@value}" />
+			</span>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:fileUpload" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<div class="{@styleClass}" onclick="{@onclick}"
+				 rendered="{@rendered}" title="{tagstring()}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+				<input type="file" style="{@style}" />
+			</div>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
+		</vpe:template>
+	</vpe:tag>
+	
+</vpe:templates>

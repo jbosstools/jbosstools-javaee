@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<head>
+</head>
+<body>
+	<!-- Drop Down Menu,Menu Group, Menu Item, Menu Separator -->
+	<rich:dropDownMenu value="File">
+		<rich:menuItem submitMode="ajax" value="New">
+		</rich:menuItem>
+		<rich:menuItem submitMode="ajax" value="Open" />
+		<rich:menuGroup value="Save As...">
+			<rich:menuItem submitMode="ajax" value="Text File" />
+			<rich:menuItem submitMode="ajax" value="PDF File" />
+		</rich:menuGroup>
+		<rich:menuItem submitMode="ajax" value="Close" />
+		<rich:menuSeparator id="menuSeparator11" />
+		<rich:menuItem submitMode="ajax" value="Exit" />
+	</rich:dropDownMenu>
+</body>
+</html>
