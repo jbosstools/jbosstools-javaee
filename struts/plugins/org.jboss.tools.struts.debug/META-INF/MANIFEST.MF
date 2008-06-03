@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Eclipse-LazyStart: true
+Bundle-Name: Red Hat Struts Debugger
+Bundle-ClassPath: strutsdebug.jar
+Bundle-Activator: org.jboss.tools.struts.debug.internal.StrutsDebugPlugin
+Bundle-Vendor: %providerName
+Bundle-SymbolicName: org.jboss.tools.struts.debug; singleton:=true
+Bundle-Localization: plugin
+Provide-Package: org.jboss.tools.struts.debug.internal,
+ org.jboss.tools.struts.debug.internal.action,
+ org.jboss.tools.struts.debug.internal.actions,
+ org.jboss.tools.struts.debug.internal.condition,
+ org.jboss.tools.struts.debug.internal.step,
+ org.jboss.tools.struts.debug.model.handlers
+Require-Bundle: org.eclipse.ui.workbench,
+ org.eclipse.jface,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.debug.core,
+ org.eclipse.debug.ui,
+ org.eclipse.core.resources,
+ org.jboss.tools.common,
+ org.jboss.tools.common.model,
+ org.jboss.tools.common.model.ui,
+ org.jboss.tools.jst.web,
+ org.jboss.tools.struts,
+ org.eclipse.jdt.debug,
+ org.eclipse.debug.core,
+ org.eclipse.jdt.core,
+ org.jboss.tools.jst.web.debug,
+ org.jboss.tools.jst.web.debug.ui,
+ org.jboss.tools.struts.ui
+Bundle-Version: 2.0.0
+

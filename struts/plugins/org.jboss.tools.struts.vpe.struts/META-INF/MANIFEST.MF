@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundleName
+Bundle-SymbolicName: org.jboss.tools.struts.vpe.struts;singleton:=true
+Bundle-Version: 2.1.0
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.jboss.tools.vpe
+Eclipse-LazyStart: false
+Bundle-Vendor: %vendorName
+Bundle-Localization: plugin

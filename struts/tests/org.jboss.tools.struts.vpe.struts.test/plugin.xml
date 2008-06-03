@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.3"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.vpe.ui.tests">
+      <tests
+            description="Unit tests for Struts support in VPE"
+            name="Struts Tests"
+            testSuite="org.jboss.tools.struts.vpe.struts.test.StrutsAllTests">
+      </tests>
+   </extension>
+
+</plugin>
