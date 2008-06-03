@@ -36,6 +36,7 @@ import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
@@ -104,6 +105,7 @@ import org.jboss.tools.common.gef.editor.xpl.DefaultPaletteCustomizer;
 import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
@@ -590,7 +592,13 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 		}
 
 		protected void setSelectedModelObject(XModelObject object) {
-			PagesElement element = getPagesModel().findElement(object);
+			if(object == null) return;
+			EObject element = getPagesModel().findElement(object);
+			
+			if(element == null) {
+				element = getPagesModel().findLink(object);
+			}
+			
 			if (element == null)
 				return;
 			EditPart part = (EditPart) viewer.getEditPartRegistry()

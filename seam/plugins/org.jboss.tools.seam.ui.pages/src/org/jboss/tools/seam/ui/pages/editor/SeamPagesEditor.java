@@ -11,6 +11,7 @@ import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.ui.editor.EditorDescriptor;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 
 public class SeamPagesEditor extends ObjectMultiPageEditor {
@@ -35,11 +36,9 @@ public class SeamPagesEditor extends ObjectMultiPageEditor {
 
 	protected void doCreatePages() {
 		if (isAppropriateNature() || true /* JBIDE-541 */) {
-			//TODO restore
 			createGuiPage();
 			treeFormPage = createTreeFormPage();
-			//TODO use constant
-			treeFormPage.setTitle("Seam Pages Editor"); 
+			treeFormPage.setTitle(SeamUIPagesMessages.SEAM_PAGES_EDITOR_TITLE); 
 //			treeFormPage.addFilter(constraint);
 			treeFormPage.initialize(getModelObject());
 			addFormPage(treeFormPage);
@@ -61,7 +60,7 @@ public class SeamPagesEditor extends ObjectMultiPageEditor {
 			guiEditor = new SeamPagesGuiEditor();
 			guiEditor.init(getEditorSite(), getEditorInput());
 			int index = addPage(guiEditor, input);
-			setPageText(index, "Diagram"); 
+			setPageText(index, SeamUIPagesMessages.SEAM_PAGES_EDITOR_DIAGRAM_TAB); 
 			guiEditor.setInput(input);
 			selectionProvider.setHost(guiEditor.getSelectionProvider());		
 			guiEditor.addErrorSelectionListener(createErrorSelectionListener());

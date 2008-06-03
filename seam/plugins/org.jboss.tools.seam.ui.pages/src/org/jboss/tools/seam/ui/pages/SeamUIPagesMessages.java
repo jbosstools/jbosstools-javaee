@@ -22,6 +22,10 @@ public class SeamUIPagesMessages extends NLS{
 
 	public static String PAGES_DIAGRAM_VIEW_TEMPLATE;
 	public static String PAGES_DIAGRAM_EXCEPTION_TEMPLATE;
+
+	public static String SEAM_PAGES_EDITOR_TITLE;
+	public static String SEAM_PAGES_EDITOR_SOURCE_TAB;
+	public static String SEAM_PAGES_EDITOR_DIAGRAM_TAB;
 	
 	public static ResourceBundle getResourceBundle() {
 		try {
