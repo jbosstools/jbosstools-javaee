@@ -476,13 +476,18 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 				return false;
 
 			if ('"' == doc.getChar(offset) || '\'' == doc.getChar(offset)) {
-				int backslashCount = 0;
-				while (doc.getChar(offset - 1 - backslashCount) == '\\') {
-					backslashCount++;
-				}
-				if (backslashCount%2 == 0)
-					return false;
-			}
+                int backslashCount = 0;
+                while (doc.getChar(offset - 1 - backslashCount) == '\\') {
+                    backslashCount++;
+                }
+                // Added by estherbin
+                // JBIDE-2227
+                if ((backslashCount > 0) && (backslashCount % 2 == 0)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
 
 			if ('{' == doc.getChar(offset) &&
 					(offset - 1) >= 0 && 
