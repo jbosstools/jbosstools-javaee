@@ -1,0 +1,6 @@
+#Tue Oct 23 14:08:40 MSD 2007
+action.package=demo
+eclipse.preferences.version=1
+model.package=demo
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=war

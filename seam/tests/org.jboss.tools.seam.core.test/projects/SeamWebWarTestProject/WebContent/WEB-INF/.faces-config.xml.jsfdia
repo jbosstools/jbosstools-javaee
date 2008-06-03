@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS ENTITY="JSFProcess">
+ <PROCESS-ITEM ENTITY="JSFProcessGroup" NAME="rules:#n.jsp"
+  PATH="/n.jsp" SHAPE="256,33,0,0" persistent="true"/>
+ <PROCESS-ITEM ENTITY="JSFProcessGroup" NAME="rules:" SHAPE="32,129,0,0" persistent="true"/>
+ <PROCESS-ITEM ENTITY="JSFProcessGroup" NAME="rules:#r.jsp"
+  PATH="/r.jsp" SHAPE="32,241,0,0" persistent="true"/>
+ <PROCESS-ITEM ENTITY="JSFProcessGroup" NAME="rules::-1"
+  SHAPE="240,257,0,0" persistent="true"/>
+</PROCESS>

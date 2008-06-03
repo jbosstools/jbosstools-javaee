@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://jboss.com/products/seam/core" xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.2.xsd"/>
+
+    <xs:element name="actor">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="0" maxOccurs="1" ref="core:id"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="core:group-actor-ids"/>
+            </xs:choice>
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.actor"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="group-actor-ids" type="components:multiValuedProperty"/>
+    <xs:attributeGroup name="attlist.actor">
+        <xs:attribute name="group-actor-ids"> </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:element name="dispatcher">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
+            <xs:attributeGroup ref="core:attlist.dispatcher"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.dispatcher"> </xs:attributeGroup>
+
+    <xs:element name="transactionListener">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
+            <xs:attributeGroup ref="core:attlist.transactionListener"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.transactionListener"> </xs:attributeGroup>
+
+    <xs:element name="ejb">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.ejb"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
+
+    <xs:element name="init">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.init"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.init">
+        <xs:attribute name="debug">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="jndi-pattern"/>
+        <xs:attribute name="client-side-conversations">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="my-faces-lifecycle-bug">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="user-transaction-name"/>
+    </xs:attributeGroup>
+
+    <xs:element name="jbpm">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="core:process-definitions"/>
+                <xs:element ref="core:pageflow-definitions"/>
+            </xs:choice>
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.jbpm"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="process-definitions" type="components:multiValuedProperty"/>
+    <xs:element name="pageflow-definitions" type="components:multiValuedProperty"/>
+    <xs:attributeGroup name="attlist.jbpm"> </xs:attributeGroup>
+
+    <xs:element name="locale-selector">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.localeSelector"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.localeSelector">
+        <xs:attribute name="locale-string"/>
+        <xs:attribute name="cookie-enabled">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:element name="manager">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.manager"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.manager">
+        <xs:attribute name="concurrent-request-timeout" type="xs:integer"/>
+        <xs:attribute name="conversation-timeout" type="xs:integer"/>
+        <xs:attribute name="conversation-id-parameter"/>
+        <xs:attribute name="parent-conversation-id-parameter"/>
+        <xs:attribute name="conversation-is-long-running-parameter"/>
+    </xs:attributeGroup>
+
+    <xs:element name="microcontainer">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.microcontainer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.microcontainer"> </xs:attributeGroup>
+
+    <xs:element name="pages">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pages"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pages">
+        <xs:attribute name="no-conversation-view-id"/>
+        <xs:attribute name="login-view-id"/>
+        <xs:attribute name="http-port" type="xs:integer"/>
+        <xs:attribute name="https-port" type="xs:integer"/>
+    </xs:attributeGroup>
+
+    <xs:element name="pojo-cache">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pojoCache"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pojoCache">
+        <xs:attribute name="cfg-resource-name"/>
+    </xs:attributeGroup>
+
+    <xs:element name="resource-bundle">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="core:bundle-names"/>
+            </xs:choice>
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.resourceBundle"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="bundle-names" type="components:multiValuedProperty"/>
+    <xs:attributeGroup name="attlist.resourceBundle">
+        <xs:attribute name="bundle-names"> </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:element name="time-zone-selector">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.timeZoneSelector"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.timeZoneSelector">
+        <xs:attribute name="time-zone-id"/>
+        <xs:attribute name="cookie-enabled">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:element name="managed-persistence-context">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:filters"/>
+            </xs:sequence>
+            <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.ManagedPersistenceContext">
+        <xs:attribute name="entity-manager-factory"/>
+        <xs:attribute name="persistence-unit-jndi-name"/>
+    </xs:attributeGroup>
+
+    <xs:element name="managed-hibernate-session">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:filters"/>
+            </xs:sequence>
+            <xs:attributeGroup ref="core:attlist.ManagedHibernateSession"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="filters" type="components:multiValuedProperty"/>
+    <xs:attributeGroup name="attlist.ManagedHibernateSession">
+        <xs:attribute name="session-factory"/>
+        <xs:attribute name="session-factory-jndi-name"/>
+    </xs:attributeGroup>
+
+    <xs:element name="hibernate-session-factory">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="mappingClasses" type="components:multiValuedProperty"/>
+                <xs:element name="mappingFiles" type="components:multiValuedProperty"/>
+                <xs:element name="mappingJars" type="components:multiValuedProperty"/>
+                <xs:element name="mappingPackages" type="components:multiValuedProperty"/>
+                <xs:element name="mappingResources" type="components:multiValuedProperty"/>
+                <xs:element name="cfg-properties" type="components:mapProperty"/>
+            </xs:choice>
+            <xs:attributeGroup ref="core:attlist.HibernateSessionFactory"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.HibernateSessionFactory">
+        <xs:attribute name="cfg-resource-name"/>
+    </xs:attributeGroup>
+
+    <xs:element name="entity-manager-factory">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element name="persistence-unit-properties" type="components:mapProperty"/>
+            </xs:sequence>
+            <xs:attributeGroup ref="core:attlist.EntityManagerFactory"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.EntityManagerFactory">
+        <xs:attribute name="persistence-unit-name"/>
+    </xs:attributeGroup>
+
+    <xs:element name="filter">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element minOccurs="0" name="name" type="xs:string"/>
+                <xs:element minOccurs="0" name="parameters" type="components:mapProperty"/>
+            </xs:sequence>
+            <xs:attributeGroup ref="core:attlist.filter"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.filter">
+        <xs:attribute name="enabled"/>
+    </xs:attributeGroup>
+
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+
+</xs:schema>
