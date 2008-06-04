@@ -1,0 +1,34 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+    <h:messages styleClass="message"/>
+    
+    <h:form id="login">
+    
+        <rich:panel>
+            <f:facet name="header">Login</f:facet>
+    
+            <p>Please login using any username and password</p>
+            
+          
+            
+        </rich:panel>
+            
+        <div class="actionButtons">
+            <h:commandButton value="Login" action="#{identity.login}"/>
+            <s:button view="/home.xhtml" value="Home Button" />
+				<s:link view="/home.xhtml" value="Home Link" />
+        </div>
+    </h:form>
+
+ </ui:define> 
+</ui:composition>
