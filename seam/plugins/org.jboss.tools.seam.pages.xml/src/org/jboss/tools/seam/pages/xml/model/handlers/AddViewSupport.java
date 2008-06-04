@@ -234,7 +234,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		return isCorrectPath(path) && !fileExists(path);
 	}
 	
-	static String FORBIDDEN_INDICES = "\"\n\t*\\:<>?|";
+	static String FORBIDDEN_INDICES = "\"\n\t\\:<>?|"; //* is allowed anywhere
 	
 	static boolean isCorrectPath(String path) {
 		if(path == null || path.equals("/") || path.indexOf("//") >= 0) return false;
