@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterSet;
@@ -33,6 +34,11 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
+import org.eclipse.jst.javaee.core.DisplayName;
+import org.eclipse.jst.javaee.core.JavaeeFactory;
+import org.eclipse.jst.javaee.web.Filter;
+import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.javaee.web.WebFactory;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -55,6 +61,16 @@ import org.osgi.service.prefs.Preferences;
  * @author eskimo 
  */
 public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
+
+	private static final String JAVAX_FACES_STATE_SAVING_METHOD = "javax.faces.STATE_SAVING_METHOD";
+
+	private static final String CLIENT = "client";
+
+	private static final String ORG_JBOSS_SEAM_WEB_SEAM_FILTER = "org.jboss.seam.web.SeamFilter";
+
+	private static final String BLUE_SKY = "blueSky";
+
+	private static final String ORG_AJAX4JSF_SKIN = "org.ajax4jsf.SKIN";
 
 	/**
 	 *
@@ -104,6 +120,18 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
 	    // el-ri needed for JBIDE-939
 	    .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
+
+	private static final String ORG_AJAX4JSF_FILTER_NAME = "ajax4jsf";
+
+	private static final String ORG_AJAX4JSF_FILTER_CLASS = "org.ajax4jsf.Filter";
+
+	private static final String ORG_AJAX4JSF_FILTER_DISPLAY_NAME = "Ajax4jsf Filter";
+
+	private static final String ORG_AJAX4JSF_FILTER_MAPPING = "*.seam";
+
+	private static final String ORG_JBOSS_SEAM_UI_SEAMFACELETVIEWHANDLER = "org.jboss.seam.ui.facelet.SeamFaceletViewHandler";
+
+	private static final String ORG_AJAX4JSF_VIEW_HANDLERS = "org.ajax4jsf.VIEW_HANDLERS";
 
 	/**
 	 * 
@@ -195,7 +223,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	 */
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF") //$NON-NLS-1$
-		.include("WEB-INF/web\\.xml") //$NON-NLS-1$
+		//.include("WEB-INF/web\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/jboss-web\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/faces-config\\.xml") //$NON-NLS-1$
@@ -321,6 +349,8 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		// *******************************************************************
 		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
 
+		configureWebXml(project);
+		
 		AntCopyUtils.copyFileToFile(
 				componentsFile,
 				new File(webInfFolder, "components.xml"), //$NON-NLS-1$
@@ -725,5 +755,59 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			monitor.worked(1);
 			return false;
 		}
+	}
+
+	@Override
+	protected void configure(WebApp webApp) {
+		// Ajax4jsf (must come first!)
+		// FIXME supposing that the Ajax4jsf filter must come before the Seam filter
+		createOrUpdateFilter(webApp,
+				ORG_AJAX4JSF_FILTER_NAME,
+				ORG_AJAX4JSF_FILTER_CLASS,
+				ORG_AJAX4JSF_FILTER_DISPLAY_NAME);
+		// FIXME not sure if this filter has to have the same mapping as Faces Servlet  
+		createOrUpdateFilterMapping(webApp,
+				ORG_AJAX4JSF_FILTER_NAME,
+				ORG_AJAX4JSF_FILTER_MAPPING);
+		
+		createOrUpdateContextParam(webApp, ORG_AJAX4JSF_VIEW_HANDLERS,
+				ORG_JBOSS_SEAM_UI_SEAMFACELETVIEWHANDLER);
+		createOrUpdateContextParam(webApp, ORG_AJAX4JSF_SKIN,
+				BLUE_SKY);
+		// Seam
+		createOrUpdateListener(webApp,
+				ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER);
+		createOrUpdateFilter(webApp,
+				ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME,
+				ORG_JBOSS_SEAM_WEB_SEAM_FILTER);
+		createOrUpdateFilterMapping(webApp,
+				ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME,
+				ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_MAPPING_VALUE);
+		createOrUpdateServlet(webApp,
+				ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET,
+				ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME);
+		createOrUpdateServletMapping(webApp,
+				ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME,
+				ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_VALUE);
+		// Facelets development mode (disable in production)
+		createOrUpdateContextParam(webApp, FACELETS_DEVELOPMENT, "true");
+		// JSF
+		createOrUpdateContextParam(webApp, JAVAX_FACES_STATE_SAVING_METHOD,
+				CLIENT);
+		createOrUpdateContextParam(webApp, JAVAX_FACES_DEFAULT_SUFFIX,
+				JAVAX_FACES_DEFAULT_SUFFIX_VALUE);
+		// other JSF artifacts have been configured by the JSF facet
+
+		// Security
+		addSecurityConstraint(webApp);
+	}
+
+	private void createOrUpdateFilter(WebApp webApp, String name,
+			String className, String displayName) {
+		createOrUpdateFilter(webApp,name,className);
+		Filter filter = (Filter) getFilterByName(webApp,name);
+		DisplayName displayNameObj = JavaeeFactory.eINSTANCE.createDisplayName();
+		displayNameObj.setValue(displayName);
+		filter.getDisplayNames().add(displayNameObj);
 	}
 }
