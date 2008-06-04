@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -34,7 +36,24 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jdt.internal.ui.jarpackagerfat.FatJarAntExporter;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
+import org.eclipse.jst.j2ee.model.IModelProvider;
+import org.eclipse.jst.j2ee.model.ModelProviderManager;
+import org.eclipse.jst.javaee.core.DisplayName;
+import org.eclipse.jst.javaee.core.JavaeeFactory;
+import org.eclipse.jst.javaee.core.Listener;
+import org.eclipse.jst.javaee.core.ParamValue;
+import org.eclipse.jst.javaee.core.UrlPatternType;
+import org.eclipse.jst.javaee.web.AuthConstraint;
+import org.eclipse.jst.javaee.web.Filter;
+import org.eclipse.jst.javaee.web.FilterMapping;
+import org.eclipse.jst.javaee.web.SecurityConstraint;
+import org.eclipse.jst.javaee.web.Servlet;
+import org.eclipse.jst.javaee.web.ServletMapping;
+import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.javaee.web.WebFactory;
+import org.eclipse.jst.javaee.web.WebResourceCollection;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -53,6 +72,23 @@ import org.osgi.service.prefs.Preferences;
 
 // TODO: why not just *one* global filter set to avoid any missing names ? (assert for it in our unittests!
 public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
+
+	public static String ORG_RICHFACES_SKIN = "org.richfaces.SKIN"; //$NON-NLS-1$
+	public static String ORG_RICHFACES_SKIN_VALUE = "@skin@"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER = "org.jboss.seam.servlet.SeamListener"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER = "org.jboss.seam.servlet.SeamFilter"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME = "Seam Filter"; //$NON-NLS-1$
+	//public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_MAPPING = "Seam Filter"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_MAPPING_VALUE = "/*"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET = "org.jboss.seam.servlet.SeamResourceServlet"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME = "Seam Resource Servlet"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_VALUE = "/seam/resource/*"; //$NON-NLS-1$
+	public static String FACELETS_DEVELOPMENT = "facelets.DEVELOPMENT"; //$NON-NLS-1$
+	public static String JAVAX_FACES_DEFAULT_SUFFIX = "javax.faces.DEFAULT_SUFFIX"; //$NON-NLS-1$
+	public static String JAVAX_FACES_DEFAULT_SUFFIX_VALUE = ".xhtml"; //$NON-NLS-1$
+	public static String RESTRICT_RAW_XHTML = "Restrict raw XHTML Documents"; //$NON-NLS-1$
+	public static String XHTML = "XHTML"; //$NON-NLS-1$
+	public static String WEB_RESOURCE_COLLECTION_PATTERN = "*.xhtml"; //$NON-NLS-1$
 
 	public static String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
@@ -156,7 +192,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF") //$NON-NLS-1$
-		.include("WEB-INF/web\\.xml") //$NON-NLS-1$
+		//.include("WEB-INF/web\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/jboss-web\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/faces-config\\.xml") //$NON-NLS-1$
@@ -259,6 +295,8 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		// *******************************************************************
 		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
 
+		configureWebXml(project);
+		
 		AntCopyUtils.copyFileToFile(
 				componentsFile,
 				new File(webInfFolder,"components.xml"), //$NON-NLS-1$
@@ -509,6 +547,252 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		IProject testProjectToBeImported = wsRoot.getProject(project.getName()+"-test");
 		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath+"/"+project.getName()+"-test", project.getName()+"-test");
 		toggleHibernateOnProject(testProjectToBeImported, consoleName);
+	}
+
+	private void configureWebXml(final IProject project) {
+		IModelProvider modelProvider = ModelProviderManager
+				.getModelProvider(project);
+		Object modelObject = modelProvider.getModelObject();
+		if (!(modelObject instanceof WebApp)) {
+			// TODO log
+			return;
+		}
+		IPath modelPath = new Path("WEB-INF").append("web.xml"); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean exists = project.getProjectRelativePath().append(modelPath)
+				.toFile().exists();
+		if (!exists) {
+			modelPath = IModelProvider.FORCESAVE;
+		}
+		modelProvider.modify(new Runnable() {
+
+			public void run() {
+				IModelProvider modelProvider = ModelProviderManager
+						.getModelProvider(project);
+				Object modelObject = modelProvider.getModelObject();
+				if (!(modelObject instanceof WebApp)) {
+					// TODO log
+					return;
+				}
+				WebApp webApp = (WebApp) modelObject;
+				// Ajax4jsf
+				createOrUpdateContextParam(webApp, ORG_RICHFACES_SKIN,
+						ORG_RICHFACES_SKIN_VALUE);
+				// Seam
+				createOrUpdateListener(webApp,
+						ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER);
+				createOrUpdateFilter(webApp,
+						ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME,
+						ORG_JBOSS_SEAM_SERVLET_SEAMFILTER);
+				createOrUpdateFilterMapping(webApp,
+						ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME,
+						ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_MAPPING_VALUE);
+				createOrUpdateServlet(webApp,
+						ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET,
+						ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME);
+				createOrUpdateServletMapping(webApp,
+						ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME,
+						ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_VALUE);
+				// Facelets development mode (disable in production)
+				createOrUpdateContextParam(webApp, FACELETS_DEVELOPMENT, "true");
+				// JSF
+				createOrUpdateContextParam(webApp, JAVAX_FACES_DEFAULT_SUFFIX,
+						JAVAX_FACES_DEFAULT_SUFFIX_VALUE);
+				// other JSF artifacts have been configured by the JSF facet
+
+				// Security
+				addSecurityConstraint(webApp);
+			}
+
+		}, modelPath);
+
+	}
+
+	private void addSecurityConstraint(WebApp webApp) {
+		
+		SecurityConstraint securityConstraint = WebFactory.eINSTANCE.createSecurityConstraint();
+		DisplayName displayName = JavaeeFactory.eINSTANCE.createDisplayName();
+		displayName.setValue(RESTRICT_RAW_XHTML);
+		securityConstraint.getDisplayNames().add(displayName);
+		
+		WebResourceCollection webResourceCollection = WebFactory.eINSTANCE.createWebResourceCollection();
+		webResourceCollection.setWebResourceName(XHTML);
+		UrlPatternType urlPattern = JavaeeFactory.eINSTANCE.createUrlPatternType();
+		urlPattern.setValue(WEB_RESOURCE_COLLECTION_PATTERN);
+		webResourceCollection.getUrlPatterns().add(urlPattern);
+		
+		AuthConstraint authConstraint = WebFactory.eINSTANCE.createAuthConstraint();
+		securityConstraint.setAuthConstraint(authConstraint);
+		
+		securityConstraint.getWebResourceCollections().add(webResourceCollection);
+		webApp.getSecurityConstraints().add(securityConstraint);
+	}
+
+	private void createOrUpdateServletMapping(WebApp webApp, String name, String value) {
+		if (name == null || value == null)
+			return;
+		
+		List servletMappings = webApp.getServletMappings();
+		boolean added = false;
+		for (Iterator iterator = servletMappings.iterator(); iterator.hasNext();) {
+			ServletMapping servletMapping = (ServletMapping) iterator.next();
+			if (servletMapping != null && name.equals(servletMapping.getServletName())) {
+				added = true;
+				// FIXME
+			}
+		}
+		if (!added) {
+			ServletMapping mapping = WebFactory.eINSTANCE.createServletMapping();
+			Servlet servlet = findServletByName(webApp, name);
+			if (servlet != null) {
+				mapping.setServletName(servlet.getServletName());
+				UrlPatternType urlPattern = JavaeeFactory.eINSTANCE.createUrlPatternType();
+				urlPattern.setValue(value);
+				mapping.getUrlPatterns().add(urlPattern);
+				webApp.getServletMappings().add(mapping);
+			}
+		}
+	}
+	
+	private Servlet findServletByName(WebApp webApp, String name) {
+		Iterator it = webApp.getServlets().iterator();
+		while (it.hasNext()) {
+			Servlet servlet = (Servlet) it.next();
+			if (servlet.getServletName() != null
+					&& servlet.getServletName().trim().equals(name)) {
+				return servlet;
+			}
+		}
+		return null;
+	}
+
+	private void createOrUpdateServlet(WebApp webApp, String servletClass, String servletName) {
+		if (servletClass == null || servletName == null)
+			return;
+		
+		List servlets = webApp.getServlets();
+		boolean added = false;
+		for (Iterator iterator = servlets.iterator(); iterator.hasNext();) {
+			Servlet servlet = (Servlet) iterator.next();
+			if (servletName.equals(servlet.getServletName())) {
+				servlet.setServletName(servletName);
+				added=true;
+				break;
+			}
+		}
+		if (!added) {
+			Servlet servlet = WebFactory.eINSTANCE.createServlet();
+			servlet.setServletName(servletName);
+			servlet.setServletClass(servletClass);
+			webApp.getServlets().add(servlet);
+		}
+	}
+
+	private void createOrUpdateFilterMapping(WebApp webApp, String mapping, String value) {
+		if (mapping == null || value == null)
+			return;
+		List filterMappings = webApp.getFilterMappings();
+		boolean added = false;
+		for (Iterator iterator = filterMappings.iterator(); iterator.hasNext();) {
+			FilterMapping filterMapping = (FilterMapping) iterator.next();
+			String filterName = filterMapping.getFilterName();
+			List filters = webApp.getFilters();
+			for (Iterator iterator2 = filters.iterator(); iterator2.hasNext();) {
+				Filter filter = (Filter) iterator2.next();
+				if (filter != null && filterName != null && filterName.equals(filter.getFilterName())) {
+					// FIXME
+					added = true;
+					break;
+				}
+			}
+			if (added)
+				break;
+		}
+		if (!added) {
+			FilterMapping filterMapping = WebFactory.eINSTANCE.createFilterMapping();
+			Filter filter = (Filter) getFilterByName(webApp, mapping);
+			if (filter != null) {
+				filterMapping.setFilterName(filter.getFilterName());
+				UrlPatternType urlPattern = JavaeeFactory.eINSTANCE.createUrlPatternType();
+				urlPattern.setValue(value);
+				filterMapping.getUrlPatterns().add(urlPattern);
+				
+				webApp.getFilterMappings().add(filterMapping);
+			}
+		}
+	}
+
+	private Object getFilterByName(WebApp webApp, String name) {
+		if (webApp == null || name == null)
+			return null;
+		List filters = webApp.getFilters();
+		for (Iterator iterator = filters.iterator(); iterator.hasNext();) {
+			Filter filter = (Filter) iterator.next();
+			if (filter != null && name.equals(filter.getFilterName()))
+				return filter;
+		}
+
+		return null;
+	}
+	private void createOrUpdateFilter(WebApp webApp, String name, String clazz) {
+		if (name == null || clazz == null)
+			return;
+		List filters = webApp.getFilters();
+		boolean added = false;
+		for (Iterator iterator = filters.iterator(); iterator.hasNext();) {
+			Filter filter = (Filter) iterator.next();
+			if (filter != null && name.endsWith(filter.getFilterName())) {
+				filter.setFilterName(name);
+				filter.setFilterClass(clazz);
+				added = true;
+				break;
+			}
+		}
+		if (!added) {
+			Filter filter = WebFactory.eINSTANCE.createFilter();
+			filter.setFilterName(name);
+			filter.setFilterClass(clazz);
+			webApp.getFilters().add(filter);
+		}
+	}
+
+	private void createOrUpdateListener(WebApp webApp, String name) {
+		if (name == null)
+			return;
+		List listeners = webApp.getListeners();
+		boolean added = false;
+		for (Iterator iterator = listeners.iterator(); iterator.hasNext();) {
+			Listener listener = (Listener) iterator.next();
+			if (listener != null && name.equals(listener.getListenerClass())) {
+				listener.setListenerClass(name);
+				added = true;
+			}
+		}
+		if (!added) {
+			Listener listener = JavaeeFactory.eINSTANCE.createListener();
+			listener.setListenerClass(name);
+			webApp.getListeners().add(listener);
+		}
+	}
+
+	private void createOrUpdateContextParam(WebApp webApp, String name,String value) {
+		if (name == null || value == null)
+			return;
+		List paramValues = webApp.getContextParams();
+		boolean added = false;
+		for (Iterator iterator = paramValues.iterator(); iterator.hasNext();) {
+			ParamValue paramValue = (ParamValue) iterator.next();
+			if (paramValue != null && name.equals(paramValue.getParamName())) {
+				paramValue.setParamValue(value);
+				added = true;
+				break;
+			}	
+		}
+		if (!added) {
+			ParamValue paramValue = JavaeeFactory.eINSTANCE.createParamValue();
+			paramValue.setParamName(name);
+			paramValue.setParamValue(value);
+			webApp.getContextParams().add(paramValue);
+		}
 	}
 
 	public static boolean isWarConfiguration(IDataModel model) {
