@@ -36,7 +36,7 @@
     <ICON name="file" path="images/jsf/jsf-config.gif"/>
     <ICON name="message" path="images/webxml/message.gif"/>
     <ICON name="navigation" path="images/struts/action_mappings.gif"/>
-    <ICON name="page" path="images/struts/plug_in.gif"/>
+    <ICON name="page" path="plugin:org.jboss.tools.seam.pages.xml:images/pages/page.gif"/>
     <ICON name="pages" path="images/struts/plug_in_folder.gif"/>
     <ICON name="property" path="images/java/property.gif"/>
     <ICON name="redirect" path="images/jsf/transition.gif"/>
@@ -647,7 +647,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.page" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -808,7 +808,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.component" type="main"/>
+    <ICON info="main.seam-pages.page" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -2882,7 +2882,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.file.jsp_file" type="main"/>
+    <ICON info="main.seam-pages.page" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
