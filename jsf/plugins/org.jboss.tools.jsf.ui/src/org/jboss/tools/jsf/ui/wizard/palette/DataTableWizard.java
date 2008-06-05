@@ -101,7 +101,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		
 		String value = null;
 		if (page2.getValue().length() > 0) {
-			value  = page2.getValue().substring(2,page2.getValue().length()-1);
+			value  = page2.getValue();
 		}
 		String var = null;
 		if (page2.getVar().length() > 0) {
