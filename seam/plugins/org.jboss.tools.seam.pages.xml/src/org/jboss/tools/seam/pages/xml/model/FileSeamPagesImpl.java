@@ -30,7 +30,7 @@ public class FileSeamPagesImpl extends AbstractWebFileImpl implements SeamPagesC
 	}
 
 	protected String getProcessEntity() {
-		return "SeamPagesProcess";
+		return SeamPagesConstants.ENT_DIAGRAM;
 	}
 
 	protected boolean hasDTD() {

@@ -715,16 +715,16 @@
   <XActionItem kind="list">
    <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Param..." kind="action" name="AddParam">
+     PROPERTIES="validator.add=true;key=SeamPage_AddParam"
+     WizardClassName="%Default%" displayName="Param..." kind="action" name="AddParam">
      <EntityData EntityName="SeamPageParam12">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="In..." kind="action" name="AddIn">
+     PROPERTIES="validator.add=true;key=SeamPage_AddIn"
+     WizardClassName="%Default%" displayName="In..." kind="action" name="AddIn">
      <EntityData EntityName="SeamPageIn">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -732,16 +732,17 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Action..." kind="action" name="AddAction">
+     PROPERTIES="validator.add=true;key=SeamPage_AddAction"
+     WizardClassName="%Default%" displayName="Action..." kind="action" name="AddAction">
      <EntityData EntityName="SeamPageAction">
       <AttributeData AttributeName="execute"/>
       <AttributeData AttributeName="if" Mandatory="no"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Navigation..." kind="action" name="AddNavigation">
+     PROPERTIES="validator.add=true;key=SeamPage_AddNavigation"
+     WizardClassName="%Default%" displayName="Navigation..."
+     kind="action" name="AddNavigation">
      <EntityData EntityName="SeamPageNavigation12">
       <AttributeData AttributeName="from action" Mandatory="no"/>
       <AttributeData AttributeName="evaluate" Mandatory="no"/>
@@ -750,7 +751,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
      ICON="action.empty"
-     PROPERTIES="validator.add=true;entity=SeamPageNavigationRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12"
+     PROPERTIES="validator.add=true;entity=SeamPageNavigationRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12;key=SeamPage_AddRule"
      WizardClassName="%Default%" displayName="Navigation Rule..."
      kind="action" name="AddRule">
      <EntityData EntityName="AddSeamPageRule">
@@ -827,16 +828,16 @@
   <XActionItem kind="list">
    <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Param..." kind="action" name="AddParam">
+     PROPERTIES="validator.add=true;key=SeamPage_AddParam"
+     WizardClassName="%Default%" displayName="Param..." kind="action" name="AddParam">
      <EntityData EntityName="SeamPageParam20">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="In..." kind="action" name="AddIn">
+     PROPERTIES="validator.add=true;key=SeamPage_AddIn"
+     WizardClassName="%Default%" displayName="In..." kind="action" name="AddIn">
      <EntityData EntityName="SeamPageIn">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -844,16 +845,17 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Action..." kind="action" name="AddAction">
+     PROPERTIES="validator.add=true;key=SeamPage_AddAction"
+     WizardClassName="%Default%" displayName="Action..." kind="action" name="AddAction">
      <EntityData EntityName="SeamPageAction">
       <AttributeData AttributeName="execute"/>
       <AttributeData AttributeName="if" Mandatory="no"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Navigation..." kind="action" name="AddNavigation">
+     PROPERTIES="validator.add=true;key=SeamPage_AddNavigation"
+     WizardClassName="%Default%" displayName="Navigation..."
+     kind="action" name="AddNavigation">
      <EntityData EntityName="SeamPageNavigation20">
       <AttributeData AttributeName="from action" Mandatory="no"/>
       <AttributeData AttributeName="evaluate" Mandatory="no"/>
@@ -862,7 +864,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
      ICON="action.empty"
-     PROPERTIES="validator.add=true;entity=SeamPageNavigationRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20"
+     PROPERTIES="validator.add=true;entity=SeamPageNavigationRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20;key=SeamPage_AddRule"
      WizardClassName="%Default%" displayName="Navigation Rule..."
      kind="action" name="AddRule">
      <EntityData EntityName="AddSeamPageRule">
@@ -1836,7 +1838,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
      ICON="action.empty"
-     PROPERTIES="validator.add=true;entity=SeamPageRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12"
+     PROPERTIES="validator.add=true;entity=SeamPageRule12;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect12;key=SeamPage_AddRule"
      WizardClassName="%Default%" displayName="Add Rule..." kind="action" name="AddRule">
      <EntityData EntityName="AddSeamPageRule">
       <AttributeData AttributeName="kind" Mandatory="no"/>
@@ -1899,7 +1901,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
      ICON="action.empty"
-     PROPERTIES="validator.add=true;entity=SeamPageRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20"
+     PROPERTIES="validator.add=true;entity=SeamPageRule20;renderEntity=SeamPageRender;redirectEntity=SeamPageRedirect20;key=SeamPage_AddRule"
      WizardClassName="%Default%" displayName="Add Rule..." kind="action" name="AddRule">
      <EntityData EntityName="AddSeamPageRule">
       <AttributeData AttributeName="kind" Mandatory="no"/>
@@ -1969,8 +1971,8 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Out..." kind="action" name="AddOut">
+     PROPERTIES="validator.add=true;key=SeamPageRule_AddOut"
+     WizardClassName="%Default%" displayName="Add Out..." kind="action" name="AddOut">
      <EntityData EntityName="SeamPageOut">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -2046,8 +2048,8 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Out..." kind="action" name="AddOut">
+     PROPERTIES="validator.add=true;key=SeamPageRule_AddOut"
+     WizardClassName="%Default%" displayName="Add Out..." kind="action" name="AddOut">
      <EntityData EntityName="SeamPageOut">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -2335,8 +2337,9 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Param..." kind="action" name="AddParam">
+     PROPERTIES="validator.add=true;key=SeamPage_AddParam"
+     WizardClassName="%Default%" displayName="Add Param..."
+     kind="action" name="AddParam">
      <EntityData EntityName="SeamPageParam12">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
@@ -2417,8 +2420,9 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Param..." kind="action" name="AddParam">
+     PROPERTIES="validator.add=true;key=SeamPage_AddParam"
+     WizardClassName="%Default%" displayName="Add Param..."
+     kind="action" name="AddParam">
      <EntityData EntityName="SeamPageParam20">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="value" Mandatory="no"/>
@@ -2609,8 +2613,8 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Out..." kind="action" name="AddOut">
+     PROPERTIES="validator.add=true;key=SeamPageRule_AddOut"
+     WizardClassName="%Default%" displayName="Add Out..." kind="action" name="AddOut">
      <EntityData EntityName="SeamPageOut">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -2685,8 +2689,8 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Out..." kind="action" name="AddOut">
+     PROPERTIES="validator.add=true;key=SeamPageRule_AddOut"
+     WizardClassName="%Default%" displayName="Add Out..." kind="action" name="AddOut">
      <EntityData EntityName="SeamPageOut">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="scope" Mandatory="no"/>
@@ -2782,7 +2786,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity
-  AdoptManagerClass="org.jboss.tools.seam.pages.xml.model.handlers.ProcessAdopt"
+  AdoptManagerClass="org.jboss.tools.seam.pages.xml.model.handlers.DiagramAdopt"
   ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl" name="SeamPagesDiagram">
   <XChildrenEntities>
    <XChildEntity name="SeamPagesDiagramItem"/>
@@ -2927,7 +2931,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
      ICON="action.new.jsf.case"
-     PROPERTIES="actionpath=CreateActions/AddNavigationRule"
+     PROPERTIES="actionpath=CreateActions/AddRule"
      WizardClassName="%Default%" displayName="Rule..." kind="action" name="CreateRule"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.struts.model.handlers.CreateCommentForItemHandler"

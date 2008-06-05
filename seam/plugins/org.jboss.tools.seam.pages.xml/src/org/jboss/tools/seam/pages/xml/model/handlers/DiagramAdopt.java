@@ -20,7 +20,7 @@ import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 
-public class ProcessAdopt implements XAdoptManager, SeamPagesConstants {
+public class DiagramAdopt implements XAdoptManager, SeamPagesConstants {
 
 	public void adopt(XModelObject target, XModelObject object, java.util.Properties p) throws XModelException {
 		if(isAdoptableJSP(target, object)) {
