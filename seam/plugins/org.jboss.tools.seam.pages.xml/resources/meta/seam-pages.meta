@@ -10,7 +10,9 @@
    <PAIR name="SeamPages1.2" value="FileSeamPages12"/>
    <PAIR name="SeamPages2.0" value="FileSeamPages20"/>
   </MAPPING>
-  <MAPPING name="FilteredTreeConstraints"/>
+  <MAPPING name="FilteredTreeConstraints">
+   <PAIR name="FileSystems$144" value="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesFilteredTreeConstraint"/>
+  </MAPPING>
   <MAPPING name="FilteredTrees"/>
   <MAPPING name="Handlers"/>
   <MAPPING name="Implementations">
