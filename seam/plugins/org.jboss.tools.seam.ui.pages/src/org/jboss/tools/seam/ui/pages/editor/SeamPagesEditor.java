@@ -11,12 +11,13 @@ import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.ui.editor.EditorDescriptor;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesFilteredTreeConstraint;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 
 public class SeamPagesEditor extends ObjectMultiPageEditor {
 	protected SeamPagesGuiEditor guiEditor;
-//	protected FacesConfigFilteredTreeConstraint constraint = new FacesConfigFilteredTreeConstraint();
+	protected SeamPagesFilteredTreeConstraint constraint = new SeamPagesFilteredTreeConstraint();
 	
 	protected Composite createPageContainer(Composite parent) {
 		Composite composite = super.createPageContainer(parent);
@@ -25,9 +26,8 @@ public class SeamPagesEditor extends ObjectMultiPageEditor {
 	}
 	
 	public SeamPagesEditor() {
-//		constraint.setEditorEnvironment(true);
-//		FacesConfigFilteredTreeConstraint constraint2 = new FacesConfigFilteredTreeConstraint();
-//		outline.addFilter(constraint2);
+		SeamPagesFilteredTreeConstraint constraint2 = new SeamPagesFilteredTreeConstraint();
+		outline.addFilter(constraint2);
 	}
 
 	protected boolean isWrongEntity(String entity) {
@@ -39,7 +39,7 @@ public class SeamPagesEditor extends ObjectMultiPageEditor {
 			createGuiPage();
 			treeFormPage = createTreeFormPage();
 			treeFormPage.setTitle(SeamUIPagesMessages.SEAM_PAGES_EDITOR_TITLE); 
-//			treeFormPage.addFilter(constraint);
+			treeFormPage.addFilter(constraint);
 			treeFormPage.initialize(getModelObject());
 			addFormPage(treeFormPage);
 		}
