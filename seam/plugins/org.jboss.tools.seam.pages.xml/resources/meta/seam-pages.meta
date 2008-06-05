@@ -332,7 +332,7 @@
    <XChildEntity maxCount="1" name="SeamPageFolderConversation" required="yes"/>
    <XChildEntity maxCount="1" name="SeamPageFolderPage12" required="yes"/>
    <XChildEntity maxCount="1" name="SeamPageFolderException12" required="yes"/>
-   <XChildEntity maxCount="1" name="SeamPagesProcess" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPagesDiagram" required="yes"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -490,7 +490,7 @@
    <XChildEntity maxCount="1" name="SeamPageFolderConversation" required="yes"/>
    <XChildEntity maxCount="1" name="SeamPageFolderPage20" required="yes"/>
    <XChildEntity maxCount="1" name="SeamPageFolderException20" required="yes"/>
-   <XChildEntity maxCount="1" name="SeamPagesProcess" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPagesDiagram" required="yes"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -2781,9 +2781,9 @@
  </XModelEntity>
  <XModelEntity
   AdoptManagerClass="org.jboss.tools.seam.pages.xml.model.handlers.ProcessAdopt"
-  ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl" name="SeamPagesProcess">
+  ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl" name="SeamPagesDiagram">
   <XChildrenEntities>
-   <XChildEntity name="SeamPagesProcessItem"/>
+   <XChildEntity name="SeamPagesDiagramItem"/>
    <XChildEntity name="JSFProcessComment"/>
   </XChildrenEntities>
   <XEntityRenderer>
@@ -2837,7 +2837,7 @@
    <XActionItem
     HandlerClassName="org.jboss.tools.jst.web.model.handlers.AutolayoutWebProcessHandler"
     ICON="action.empty"
-    PROPERTIES="items-class=org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"
+    PROPERTIES="items-class=org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"
     displayName="Auto Layout" kind="action" name="AutoLayout"/>
    <XActionItem HIDE="disabled"
     HandlerClassName="org.jboss.tools.jst.web.model.handlers.FindItemOnDiagramHandler"
@@ -2876,9 +2876,9 @@
  <XModelEntity
   AdoptManagerClass="org.jboss.tools.seam.pages.xml.model.handlers.PageAdopt"
   ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"
-  XMLSUBPATH="PROCESS-ITEM" name="SeamPagesProcessItem">
+  XMLSUBPATH="item" name="SeamPagesDiagramItem">
   <XChildrenEntities>
-   <XChildEntity name="SeamPagesProcessItemOutput"/>
+   <XChildEntity name="SeamPagesDiagramItemOutput"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -3005,7 +3005,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"
-  XMLSUBPATH="PROCESS-ITEM-OUTPUT" name="SeamPagesProcessItemOutput">
+  XMLSUBPATH="output" name="SeamPagesDiagramItemOutput">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>

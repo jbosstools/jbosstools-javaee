@@ -16,7 +16,7 @@ import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 
 public class SelectOnDiagramHandler extends AbstractHandler implements SeamPagesConstants {
 
@@ -33,28 +33,28 @@ public class SelectOnDiagramHandler extends AbstractHandler implements SeamPages
     			|| entity.startsWith(SeamPagesConstants.ENT_RULE)) {
     		object = object.getChildByPath("target");
     	}
-        XModelObject item = getItemOnProcess(object);
+        XModelObject item = getItemOnDiagram(object);
         if(item == null) return;
         FindObjectHelper.findModelObject(item, FindObjectHelper.IN_EDITOR_ONLY, "Diagram");
         FindObjectHelper.findModelObject(object, FindObjectHelper.IN_EDITOR_ONLY);
     }
 
-    public static XModelObject getItemOnProcess(XModelObject object) {
+    public static XModelObject getItemOnDiagram(XModelObject object) {
         if(object == null) return null;
-        XModelObject process = SeamPagesProcessStructureHelper.instance.getProcess(object);
-        return (process == null) ? null : getItemOnProcess(process, object);
+        XModelObject diagram = SeamPagesDiagramStructureHelper.instance.getProcess(object);
+        return (diagram == null) ? null : getItemOnDiagram(diagram, object);
     }
 
-    public static XModelObject getItemOnProcess(XModelObject processObject, XModelObject object) {
-        if(processObject instanceof ReferenceObject) {
-            if(((ReferenceObject)processObject).getReference() == object) return processObject;
+    public static XModelObject getItemOnDiagram(XModelObject diagramObject, XModelObject object) {
+        if(diagramObject instanceof ReferenceObject) {
+            if(((ReferenceObject)diagramObject).getReference() == object) return diagramObject;
         }
-        return getItemOnProcess(processObject.getChildren(), object);
+        return getItemOnDiagram(diagramObject.getChildren(), object);
     }
 
-    public static XModelObject getItemOnProcess(XModelObject[] processObjects, XModelObject object) {
-        for (int i = 0; i < processObjects.length; i++) {
-            XModelObject cr = getItemOnProcess(processObjects[i], object);
+    public static XModelObject getItemOnDiagram(XModelObject[] diagramObjects, XModelObject object) {
+        for (int i = 0; i < diagramObjects.length; i++) {
+            XModelObject cr = getItemOnDiagram(diagramObjects[i], object);
             if(cr != null) return cr;
         }
     	return null;

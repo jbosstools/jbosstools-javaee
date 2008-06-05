@@ -28,7 +28,7 @@ import org.jboss.tools.common.model.util.EntityXMLRegistration;
 import org.jboss.tools.common.model.util.XMLUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jst.web.model.WebProcessLoader;
-import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -105,9 +105,9 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 	}
     
 	public void reloadProcess(XModelObject object) {
-		SeamPagesProcessImpl process = (SeamPagesProcessImpl)object.getChildByPath(ELM_PROCESS);
-		if(process == null) return;
-		process.setReference(object);
+		SeamPagesDiagramImpl diagram = (SeamPagesDiagramImpl)object.getChildByPath(ELM_DIAGRAM);
+		if(diagram == null) return;
+		diagram.setReference(object);
 		if(!object.isActive()) return;
 		String bodyAux = (object.getParent() == null ? null : aux.read(object.getParent(), object));
 		if (bodyAux != null) {
@@ -115,11 +115,11 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 			if (doc2 == null) {
 				//JSFModelPlugin.log("Unable to parse aux body of "+object.getPath());
 			} else {
-				util.load(doc2.getDocumentElement(), process);
+				util.load(doc2.getDocumentElement(), diagram);
 			}
 		}
-		process.setReference(null);
-		process.firePrepared();
+		diagram.setReference(null);
+		diagram.firePrepared();
 	}
     
 	public boolean update(XModelObject object) throws XModelException {
@@ -154,16 +154,16 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 		if(object == null || !object.isActive()) return false;
 		XModelObjectLoaderUtil util = new XModelObjectLoaderUtil();
 		try {
-			XModelObject process = object.getChildByPath(ELM_PROCESS);
-			if(process == null) return true;
-			process.setModified(true);
-			Element element = XMLUtil.createDocumentElement("PROCESS");
-			util.saveAttributes(element, process);
-			util.saveChildren(element, process);
+			XModelObject diagram = object.getChildByPath(ELM_DIAGRAM);
+			if(diagram == null) return true;
+			diagram.setModified(true);
+			Element element = XMLUtil.createDocumentElement("diagram");
+			util.saveAttributes(element, diagram);
+			util.saveChildren(element, diagram);
 			StringWriter sw = new StringWriter();
 			XModelObjectLoaderUtil.serialize(element, sw);
-			XModelObjectLoaderUtil.setTempBody(process, sw.toString());
-			aux.write(object.getParent(), object, process);
+			XModelObjectLoaderUtil.setTempBody(diagram, sw.toString());
+			aux.write(object.getParent(), object, diagram);
 			return true;
 		} catch (IOException exc) {
 			ModelPlugin.getPluginLog().logError(exc);

@@ -33,7 +33,7 @@ import org.jboss.tools.jst.web.project.helpers.AbstractWebProjectTemplate;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLMessages;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLPlugin;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 
 public class AddViewSupport extends SpecialWizardSupport implements SeamPagesConstants {
 	public static String JSF_ADD_VIEW_PATH = ""; //preference name
@@ -115,8 +115,8 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		createFile(path);
 
 		XModelObject m = getTarget().getParent().getChildByPath(FOLDER_PAGES);
-		String pp = SeamPagesProcessHelper.toNavigationRulePathPart(path);
-		boolean isPattern = SeamPagesProcessHelper.isPattern(path);
+		String pp = SeamPagesDiagramHelper.toNavigationRulePathPart(path);
+		boolean isPattern = SeamPagesDiagramHelper.isPattern(path);
 		boolean existsR = m.getChildByPath(path) != null; // m.getRuleCount(path) != 0;
 		boolean existsV = findView(path) != null;
 		
@@ -146,9 +146,9 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 			m.setModified(true);
 			created = getTarget().getChildByPath(pp);
 		} else {
-			created = getTarget().getModel().createModelObject(SeamPagesConstants.ENT_PROCESS_ITEM, null);
+			created = getTarget().getModel().createModelObject(SeamPagesConstants.ENT_DIAGRAM_ITEM, null);
 			String ppi = pp;
-//			if(exists && SeamPagesProcessHelper.isPattern(path)) {
+//			if(exists && SeamPagesDiagramHelper.isPattern(path)) {
 //				int index = -1;
 //				while(getTarget().getChildByPath(ppi + ":" + index) != null) index--;
 //				ppi = ppi + ":" + index;
@@ -177,10 +177,10 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 	}
 	
 	private XModelObject findView(String path) {
-		String pp = SeamPagesProcessHelper.toNavigationRulePathPart(path);
+		String pp = SeamPagesDiagramHelper.toNavigationRulePathPart(path);
 		XModelObject o = getTarget().getChildByPath(pp);
 		if(o != null) return o;
-		if(!SeamPagesProcessHelper.isPattern(path)) return null;
+		if(!SeamPagesDiagramHelper.isPattern(path)) return null;
 		XModelObject[] cs = getTarget().getChildren();
 		for (int i = 0; i < cs.length; i++) {
 			String p = cs[i].getPathPart();
@@ -312,9 +312,9 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 			if(message != null) return;
 
 			boolean doNotCreateEmptyRule = false; //"yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
-			String pp = SeamPagesProcessHelper.toNavigationRulePathPart(path);
+			String pp = SeamPagesDiagramHelper.toNavigationRulePathPart(path);
 			boolean exists = getTarget().getChildByPath(pp) != null;
-			if(doNotCreateEmptyRule && exists /*&& !SeamPagesProcessHelper.isPattern(path)*/) {
+			if(doNotCreateEmptyRule && exists /*&& !SeamPagesDiagramHelper.isPattern(path)*/) {
 				message = "View exists."; //JSFUIMessages.THE_VIEW_EXISTS;
 			}
 			

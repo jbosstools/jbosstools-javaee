@@ -23,8 +23,8 @@ public class OpenPageHandler extends DefaultRedirectHandler implements SeamPages
 			|| entity.startsWith(ENT_RULE)) {
 			source = source.getChildByPath("target");
 			attr = ATTR_VIEW_ID;
-		} else if(ENT_PROCESS_ITEM.equals(entity) ||
-		          ENT_PROCESS_ITEM_OUTPUT.equals(entity)) {
+		} else if(ENT_DIAGRAM_ITEM.equals(entity) ||
+		          ENT_DIAGRAM_ITEM_OUTPUT.equals(entity)) {
 			attr = ATTR_PATH;
 		}
 		if(attr == null) return null;

@@ -8,26 +8,26 @@ import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.jst.web.model.helpers.WebProcessStructureHelper;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 
-public class SeamPagesProcessStructureHelper extends WebProcessStructureHelper implements SeamPagesConstants {
-	public static SeamPagesProcessStructureHelper instance = new SeamPagesProcessStructureHelper();
+public class SeamPagesDiagramStructureHelper extends WebProcessStructureHelper implements SeamPagesConstants {
+	public static SeamPagesDiagramStructureHelper instance = new SeamPagesDiagramStructureHelper();
 
-	public static SeamPagesProcessStructureHelper getInstance() {
+	public static SeamPagesDiagramStructureHelper getInstance() {
 		return instance;
 	}
 
 	public XModelObject getParentProcess(XModelObject element) {
 		XModelObject p = element;
 		while(p != null && p.getFileType() == XModelObject.NONE &&
-			  !ENT_PROCESS.equals(p.getModelEntity().getName())) p = p.getParent();
+			  !ENT_DIAGRAM.equals(p.getModelEntity().getName())) p = p.getParent();
 		return p;
 	}
 
 	public XModelObject[] getItems(XModelObject process) {
-		return process.getChildren(ENT_PROCESS_ITEM);
+		return process.getChildren(ENT_DIAGRAM_ITEM);
 	}
 
 	public XModelObject[] getOutputs(XModelObject item) {
-		return item.getChildren(ENT_PROCESS_ITEM_OUTPUT);
+		return item.getChildren(ENT_DIAGRAM_ITEM_OUTPUT);
 	}
 
 	public String getPath(XModelObject element) {

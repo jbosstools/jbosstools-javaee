@@ -49,8 +49,8 @@
 		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"
 			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPageTaskImpl"/>
 
-		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl"
-			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl"
+			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"
 			class="org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl"/>
 
@@ -71,6 +71,10 @@
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"/>
+
+		<xclass id="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"
+			class="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"/>
+
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">

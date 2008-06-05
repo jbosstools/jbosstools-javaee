@@ -18,7 +18,7 @@ import org.jboss.tools.common.model.loaders.XObjectLoader;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jst.web.model.AbstractWebFileImpl;
 import org.jboss.tools.jst.web.model.WebProcessLoader;
-import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 
 public class FileSeamPagesImpl extends AbstractWebFileImpl implements SeamPagesConstants {
 	private static final long serialVersionUID = 1L;
@@ -38,13 +38,13 @@ public class FileSeamPagesImpl extends AbstractWebFileImpl implements SeamPagesC
 	}
 
 	protected void mergeAll(XModelObject f, boolean update) throws XModelException {
-		SeamPagesProcessImpl process = (SeamPagesProcessImpl)provideWebProcess();
+		SeamPagesDiagramImpl process = (SeamPagesDiagramImpl)provideWebProcess();
 		boolean b = (process != null && process.isPrepared());
 		if(b) process.getHelper().addUpdateLock(this);
 		merge(f, !update);
 		if(b) {
 			process.getHelper().removeUpdateLock(this);
-			process.getHelper().updateProcess();
+			process.getHelper().updateDiagram();
 		}
 
 		if(process != null) {

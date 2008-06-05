@@ -52,10 +52,10 @@ public interface SeamPagesConstants {
 	public String FOLDER_PAGES = "Pages"; //$NON-NLS-1$
 	public String FOLDER_EXCEPTIONS = "Exceptions"; //$NON-NLS-1$
 
-	public String ELM_PROCESS = "process"; //$NON-NLS-1$
-	public String ENT_PROCESS = "SeamPagesProcess"; //$NON-NLS-1$
-	public String ENT_PROCESS_ITEM = "SeamPagesProcessItem"; //$NON-NLS-1$
-	public String ENT_PROCESS_ITEM_OUTPUT = "SeamPagesProcessItemOutput"; //$NON-NLS-1$
+	public String ELM_DIAGRAM = "process"; //$NON-NLS-1$
+	public String ENT_DIAGRAM = "SeamPagesDiagram"; //$NON-NLS-1$
+	public String ENT_DIAGRAM_ITEM = "SeamPagesDiagramItem"; //$NON-NLS-1$
+	public String ENT_DIAGRAM_ITEM_OUTPUT = "SeamPagesDiagramItemOutput"; //$NON-NLS-1$
 
     public String TYPE_PAGE = "page"; //$NON-NLS-1$
     public String TYPE_EXCEPTION = "exception"; //$NON-NLS-1$

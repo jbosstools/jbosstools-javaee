@@ -15,33 +15,33 @@ import org.jboss.tools.jst.web.model.helpers.autolayout.AutoLayout;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems;
 import org.jboss.tools.seam.pages.xml.model.impl.ReferenceObjectImpl;
-import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 
-public class SeamPagesProcessHelper implements SeamPagesConstants {
-	private XModelObject process;
+public class SeamPagesDiagramHelper implements SeamPagesConstants {
+	private XModelObject diagram;
 	private static XModelObject TEMPLATE;
 	private XModelObject config;
 	private Map<String,XModelObject> pageItems = new HashMap<String,XModelObject>();
 	private Map<String,XModelObject> exceptionItems = new HashMap<String,XModelObject>();
 	private Map<String,XModelObject> targets = new HashMap<String,XModelObject>();
 
-	public SeamPagesProcessHelper(XModelObject process) {
-		this.process = process;
+	public SeamPagesDiagramHelper(XModelObject diagram) {
+		this.diagram = diagram;
 	}
 
-	public static SeamPagesProcessHelper getHelper(XModelObject process) {
-		return ((SeamPagesProcessImpl)process).getHelper();
+	public static SeamPagesDiagramHelper getHelper(XModelObject diagram) {
+		return ((SeamPagesDiagramImpl)diagram).getHelper();
 	}
 
 	private synchronized void reset() {
 		pageItems.clear();
 		exceptionItems.clear();
 		targets.clear();
-		this.config = process.getParent();
+		this.config = diagram.getParent();
 	}
 
 	public void restoreRefs() {
-		((SeamPagesProcessImpl)process).setReference(process.getParent());
+		((SeamPagesDiagramImpl)diagram).setReference(diagram.getParent());
 	}
 	
 	Set<Object> updateLocks = new HashSet<Object>();
@@ -58,17 +58,17 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		updateLocks.remove(lock);
 	}
 
-	public void updateProcess() {
+	public void updateDiagram() {
 		if(isUpdateLocked()) return;
 		addUpdateLock(this);
 		try {
-			updateProcess0();
+			updateDiagram0();
 		} finally {
 			removeUpdateLock(this);
 		}
 	}
 
-	private void updateProcess0() {
+	private void updateDiagram0() {
 		reset();
 		XModelObject[] sourcePages = config.getChildByPath(FOLDER_PAGES).getChildren();
 
@@ -125,27 +125,27 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 	}
 
 	private XModelObject getTemplate() {
-		if(TEMPLATE == null && process != null) {
-			TEMPLATE = process.getModel().createModelObject(ENT_PROCESS_ITEM, null);
+		if(TEMPLATE == null && diagram != null) {
+			TEMPLATE = diagram.getModel().createModelObject(ENT_DIAGRAM_ITEM, null);
 		}
 		return TEMPLATE;
 	}
 	
 	public XModelObject findOrCreateItem(String path, String pp, String type) {
 		if(pp == null) pp = toNavigationRulePathPart(path);
-		XModelObject g = process.getChildByPath(pp);
+		XModelObject g = diagram.getChildByPath(pp);
 		if(g == null) {
-			g = process.getModel().createModelObject(ENT_PROCESS_ITEM, null);
+			g = diagram.getModel().createModelObject(ENT_DIAGRAM_ITEM, null);
 			g.setAttributeValue(ATTR_NAME, pp);
 			g.setAttributeValue(ATTR_PATH, path);
 			g.setAttributeValue(ATTR_TYPE, type);
-			process.addChild(g);
+			diagram.addChild(g);
 		}
 		return g;
 	}
 	
 	private void removeObsoletePageItems() {
-		XModelObject[] ps = process.getChildren(ENT_PROCESS_ITEM);
+		XModelObject[] ps = diagram.getChildren(ENT_DIAGRAM_ITEM);
 		for (int i = 0; i < ps.length; i++) {
 			String path = ps[i].getPathPart();
 			String type = ps[i].getAttributeValue(ATTR_TYPE);
@@ -157,7 +157,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 	}
 
 	private void removeObsoleteExceptionItems() {
-		XModelObject[] ps = process.getChildren(ENT_PROCESS_ITEM);
+		XModelObject[] ps = diagram.getChildren(ENT_DIAGRAM_ITEM);
 		for (int i = 0; i < ps.length; i++) {
 			String path = ps[i].getPathPart();
 			String type = ps[i].getAttributeValue(ATTR_TYPE);
@@ -202,7 +202,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		XModelObject sourcePage = item.getReference();		
 		item.setAttributeValue(ATTR_ID, sourcePage.getPathPart());
 		item.setAttributeValue(ATTR_PATH, sourcePage.getAttributeValue(ATTR_VIEW_ID));
-		String[][] params = SeamPagesProcessStructureHelper.getInstance().getParams(item);
+		String[][] params = SeamPagesDiagramStructureHelper.getInstance().getParams(item);
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < params.length; i++) {
 			sb.append(params[i][0]).append('=').append(params[i][1]).append(';');
@@ -314,7 +314,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 	}
 	
 	private XModelObject createOutput(XModelObject item, XModelObject rulecase) {
-		XModelObject output = item.getModel().createModelObject(ENT_PROCESS_ITEM_OUTPUT, null);
+		XModelObject output = item.getModel().createModelObject(ENT_DIAGRAM_ITEM_OUTPUT, null);
 		output.setAttributeValue(ATTR_ID, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		output.setAttributeValue(ATTR_PATH, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		String name = XModelObjectUtil.createNewChildName("output", item);
@@ -335,7 +335,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 		output.setAttributeValue(ATTR_ID, rulecase.getAttributeValue(ATTR_VIEW_ID));
 		String path = rulecase.getAttributeValue(ATTR_VIEW_ID);
 		output.setAttributeValue(ATTR_PATH, path);
-//		String title = SeamPagesProcessStructureHelper.createItemOutputPresentation(rulecase);
+//		String title = SeamPagesDiagramStructureHelper.createItemOutputPresentation(rulecase);
 //		output.setAttributeValue("title", title);
 		XModelObject g = findGroupByPath(path);
 		String target = (g == null) ? "" : g.getPathPart();
@@ -349,7 +349,7 @@ public class SeamPagesProcessHelper implements SeamPagesConstants {
 	public void autolayout() {
 		AutoLayout auto = new AutoLayout();
 		auto.setItems(new SeamPagesItems());
-		auto.setProcess(process);
+		auto.setProcess(diagram);
 	}
 	
 	public XModelObject getPage(String path) {

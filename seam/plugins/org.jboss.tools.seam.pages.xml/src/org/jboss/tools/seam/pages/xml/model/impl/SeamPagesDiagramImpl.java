@@ -5,13 +5,13 @@ import org.jboss.tools.common.model.impl.OrderedObjectImpl;
 import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.jst.web.model.WebProcess;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesUpdateHelper;
 
-public class SeamPagesProcessImpl extends OrderedObjectImpl implements WebProcess, ReferenceObject, SeamPagesConstants {
+public class SeamPagesDiagramImpl extends OrderedObjectImpl implements WebProcess, ReferenceObject, SeamPagesConstants {
 	private static final long serialVersionUID = 1981573715076399163L;
 	protected XModelObject reference;
-	protected SeamPagesProcessHelper phelper = new SeamPagesProcessHelper(this);
+	protected SeamPagesDiagramHelper phelper = new SeamPagesDiagramHelper(this);
 	protected SeamPagesUpdateHelper uhelper = null;
 	protected boolean isPrepared = false;
 
@@ -44,7 +44,7 @@ public class SeamPagesProcessImpl extends OrderedObjectImpl implements WebProces
 		if (isPrepared && reference == null && isActive()) {
 			restoreRefs();
 			registerListener();
-			updateProcess();
+			updateDiagram();
 		}
 	}
     
@@ -52,8 +52,8 @@ public class SeamPagesProcessImpl extends OrderedObjectImpl implements WebProces
 		phelper.restoreRefs();
 	}
     
-	protected void updateProcess() {
-		phelper.updateProcess();
+	protected void updateDiagram() {
+		phelper.updateDiagram();
 	}
     
 	protected void registerListener() {
@@ -69,7 +69,7 @@ public class SeamPagesProcessImpl extends OrderedObjectImpl implements WebProces
 		}
 	}
     
-	public SeamPagesProcessHelper getHelper() {
+	public SeamPagesDiagramHelper getHelper() {
 		return phelper;
 	}
 

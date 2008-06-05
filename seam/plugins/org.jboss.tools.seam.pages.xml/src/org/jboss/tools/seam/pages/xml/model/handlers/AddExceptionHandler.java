@@ -6,7 +6,7 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 
 public class AddExceptionHandler extends DefaultCreateHandler {
 
@@ -18,7 +18,7 @@ public class AddExceptionHandler extends DefaultCreateHandler {
     	XModelObject created = (XModelObject)prop.get("created");
     	if(created == null) return;
     	String path = created.getPathPart();
-    	XModelObject item = SeamPagesProcessStructureHelper.getInstance().getProcess(object).getChildByPath(path);
+    	XModelObject item = SeamPagesDiagramStructureHelper.getInstance().getProcess(object).getChildByPath(path);
 		String shape = getShape(prop);
 		if(item != null && shape != null) {
 			item.setAttributeValue("shape", shape);
@@ -35,8 +35,8 @@ public class AddExceptionHandler extends DefaultCreateHandler {
 	}
 
 	public static String getShape(Properties p) {
-		String x = p.getProperty("process.mouse.x");
-		String y = p.getProperty("process.mouse.y");
+		String x = p.getProperty("mouse.x");
+		String y = p.getProperty("mouse.y");
 		return (x == null || y == null) ? null : x + "," + y + ",0,0";		
 	}
 	

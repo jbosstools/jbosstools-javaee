@@ -18,7 +18,7 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 
 public class ProcessAdopt implements XAdoptManager, SeamPagesConstants {
 
@@ -46,16 +46,16 @@ public class ProcessAdopt implements XAdoptManager, SeamPagesConstants {
 		if (ADOPTABLE_JSP.indexOf("." + entity + ".") >= 0) {
 			String path = XModelObjectLoaderUtil.getResourcePath(object);
 			if (target.getModelEntity().getName().startsWith(ENT_FILE_SEAM_PAGES)) {
-				target = target.getChildByPath(ELM_PROCESS);
+				target = target.getChildByPath(ELM_DIAGRAM);
 			}
-			return SeamPagesProcessHelper.getHelper(target).getPage(path) == null;
+			return SeamPagesDiagramHelper.getHelper(target).getPage(path) == null;
 		}
 		return false;
 	}
 
 	private void adoptJSP(XModelObject target, XModelObject object, Properties p) throws XModelException {
 		if (target.getModelEntity().getName().startsWith(ENT_FILE_SEAM_PAGES)) {
-			target = target.getChildByPath(ELM_PROCESS);
+			target = target.getChildByPath(ELM_DIAGRAM);
 		}
 		addRuleByPageAdopt(target, object, p);
 /*		
@@ -68,10 +68,10 @@ public class ProcessAdopt implements XAdoptManager, SeamPagesConstants {
 
 	private void addRuleByPageAdopt(XModelObject process, XModelObject page, Properties p) throws XModelException {
 		String path = XModelObjectLoaderUtil.getResourcePath(page);
-		XModelObject pageItem = SeamPagesProcessHelper.getHelper(process).getPage(path);
+		XModelObject pageItem = SeamPagesDiagramHelper.getHelper(process).getPage(path);
 		if(pageItem != null) return;
 		boolean doNotCreateEmptyRule = false; //or read preferences, compare JSF
-		pageItem = SeamPagesProcessHelper.getHelper(process).findOrCreateItem(path, null, TYPE_PAGE);
+		pageItem = SeamPagesDiagramHelper.getHelper(process).findOrCreateItem(path, null, TYPE_PAGE);
 		setShape(pageItem, p);
 		if(doNotCreateEmptyRule) {
 			pageItem.setAttributeValue("persistent", "true");
@@ -94,15 +94,15 @@ public class ProcessAdopt implements XAdoptManager, SeamPagesConstants {
 	}
 	
 	public static void setShape(XModelObject group, Properties p) {
-		String x = (p == null) ? null : p.getProperty("process.mouse.x");
-		String y = (p == null) ? null : p.getProperty("process.mouse.y");
+		String x = (p == null) ? null : p.getProperty("mouse.x");
+		String y = (p == null) ? null : p.getProperty("mouse.y");
 		if(x != null && y != null) {
 			group.setAttributeValue("shape", "" + x + "," + y + ",0,0");
 		}
 	}
 	
 	private boolean isAdoptableItem(XModelObject target, XModelObject object) {
-		return ENT_PROCESS_ITEM.equals(object.getModelEntity().getName());
+		return ENT_DIAGRAM_ITEM.equals(object.getModelEntity().getName());
 	}
 	
 	private void adoptItem(XModelObject target, XModelObject object, Properties p) {

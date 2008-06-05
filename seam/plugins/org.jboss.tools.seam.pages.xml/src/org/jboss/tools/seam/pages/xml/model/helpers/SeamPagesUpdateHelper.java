@@ -4,26 +4,26 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.jst.web.model.helpers.WebProcessUpdateHelper;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 
 public class SeamPagesUpdateHelper implements WebProcessUpdateHelper {
 	private XModelObject config;
-	private SeamPagesProcessImpl process;
-	private SeamPagesProcessHelper helper;
+	private SeamPagesDiagramImpl diagram;
+	private SeamPagesDiagramHelper helper;
 
-	public SeamPagesUpdateHelper(SeamPagesProcessImpl process) {
-		this.process = process;
-		this.helper = process.getHelper();
-		this.config = process.getParent();
-		SeamPagesUpdateManager.getInstance(process.getModel()).register(config.getPath(), this);
+	public SeamPagesUpdateHelper(SeamPagesDiagramImpl diagram) {
+		this.diagram = diagram;
+		this.helper = diagram.getHelper();
+		this.config = diagram.getParent();
+		SeamPagesUpdateManager.getInstance(diagram.getModel()).register(config.getPath(), this);
 	}
 	
 	public void unregister() {
-		SeamPagesUpdateManager.getInstance(process.getModel()).unregister(config.getPath(), this);
+		SeamPagesUpdateManager.getInstance(diagram.getModel()).unregister(config.getPath(), this);
 	}
     
 	public boolean isActive() {
-		return process.isActive();
+		return diagram.isActive();
 	}
 
 	public void nodeChanged(XModelTreeEvent event, String localPath) {
@@ -32,7 +32,7 @@ public class SeamPagesUpdateHelper implements WebProcessUpdateHelper {
 		} else if(localPath.startsWith(SeamPagesConstants.FOLDER_PAGES)
 				|| localPath.startsWith(SeamPagesConstants.FOLDER_EXCEPTIONS)
 		) {
-			helper.updateProcess();
+			helper.updateDiagram();
 		}
 	}
 
@@ -41,7 +41,7 @@ public class SeamPagesUpdateHelper implements WebProcessUpdateHelper {
 		if(localPath.startsWith(SeamPagesConstants.FOLDER_PAGES)
 				|| localPath.startsWith(SeamPagesConstants.FOLDER_EXCEPTIONS)
 		) {
-			helper.updateProcess();
+			helper.updateDiagram();
 			if(!helper.isUpdateLocked()) {
 				helper.autolayout();
 			}

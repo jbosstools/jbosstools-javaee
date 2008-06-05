@@ -24,13 +24,13 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 
 	public boolean isAdoptable(XModelObject target, XModelObject object) {
 		String entity = object.getModelEntity().getName();
-		if(ENT_PROCESS_ITEM_OUTPUT.equals(entity)) {
+		if(ENT_DIAGRAM_ITEM_OUTPUT.equals(entity)) {
 			if(move_case) {
 				return canMoveCase(target, object);
 			}
 			return canBeOutputTarget(target);
 		} 
-		if(ENT_PROCESS_ITEM.equals(entity)) {
+		if(ENT_DIAGRAM_ITEM.equals(entity)) {
 			return canBeOutputTarget(target);
 		}
 		if(entity.startsWith(ENT_SEAM_PAGE)) {
@@ -65,14 +65,14 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 
 	public void adopt(XModelObject target, XModelObject object, Properties p) throws XModelException {
 		String entity = object.getModelEntity().getName();
-		if(ENT_PROCESS_ITEM_OUTPUT.equals(entity)) {
+		if(ENT_DIAGRAM_ITEM_OUTPUT.equals(entity)) {
 			if(move_case) {
 				moveOutput(object, target, p);
 			} else {
 				adoptOutput(object, target, p);
 			}
 		}
-		else if(ENT_PROCESS_ITEM.equals(entity)) adoptItem(object, target, p);
+		else if(ENT_DIAGRAM_ITEM.equals(entity)) adoptItem(object, target, p);
 		else if(entity.startsWith(ENT_SEAM_PAGE)) adoptSeamPage(object, target, p);
 	}
 	
