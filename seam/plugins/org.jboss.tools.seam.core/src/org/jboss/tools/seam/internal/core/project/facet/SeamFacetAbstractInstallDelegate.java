@@ -62,7 +62,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 										IDelegate,ISeamFacetDataModelProperties {
 
 	public static String ORG_RICHFACES_SKIN = "org.richfaces.SKIN";
-	public static String ORG_RICHFACES_SKIN_VALUE = "@skin@";
+	public static String ORG_RICHFACES_SKIN_VALUE = "blueSky";
 	public static String ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER = "org.jboss.seam.servlet.SeamListener";
 	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER = "org.jboss.seam.servlet.SeamFilter";
 	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME = "Seam Filter";
