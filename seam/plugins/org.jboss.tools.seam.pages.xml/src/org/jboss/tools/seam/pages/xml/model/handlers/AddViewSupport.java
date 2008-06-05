@@ -208,18 +208,22 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		if(path != null) path = path.trim();
 		if(path == null || path.length() == 0) return path;
 		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
-		if(path.indexOf('*') >= 0) return path;
+		if(hasWildCard(path)) return path;
 		if(path.indexOf('.') < 0 && !path.endsWith("/")) {
 			path += getExtension();
 		}
 		return path;
+	}
+
+	static boolean hasWildCard(String path) {
+		return path.indexOf('*') >= 0 || path.indexOf("#{") >= 0;
 	}
 	
 	String revalidatePath(String path, String template) {
 		if(path != null) path = path.trim();
 		if(path == null || path.length() == 0) return path;
 		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
-		if(path.indexOf('*') >= 0) return path;
+		if(hasWildCard(path)) return path;
 		if(path.indexOf('.') < 0 && !path.endsWith("/")) {
 			path += getExtension(template);
 		}
@@ -230,7 +234,8 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		XModelObject fs = getTarget().getModel().getByPath("FileSystems/WEB-ROOT");
 		if(fs == null) return false;
 		path = revalidatePath(path, getAttributeValue(0, "template"));
-		if(path == null || path.length() == 0 || path.indexOf('*') >= 0) return false;
+		if(path == null || path.length() == 0 
+			|| hasWildCard(path)) return false;
 		return isCorrectPath(path) && !fileExists(path);
 	}
 	

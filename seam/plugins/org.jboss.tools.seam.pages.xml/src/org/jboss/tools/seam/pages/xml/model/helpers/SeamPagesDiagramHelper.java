@@ -364,18 +364,55 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	}
 
 	public static String toNavigationRulePathPart(String path) {
-		return "" + path.replace('/', '#');
+		return "" + encode(path);
 	}
 	
 	public static String toFromViewId(String pathpart) {
-		if(!pathpart.startsWith("rules:")) return pathpart.replace('#', '/');
-		pathpart = pathpart.substring(6).replace('#', '/');
+		if(!pathpart.startsWith("rules:")) return decode(pathpart);
+		pathpart = decode(pathpart.substring(6));
 		int i = pathpart.lastIndexOf(':');
 		return (i < 0) ? pathpart : pathpart.substring(0, i);
 	}
 
 	public static boolean isPattern(String path) {
 		return path != null && (path.length() == 0 || path.indexOf('*') >= 0);
+	}
+
+	static String encode(String s) {
+		StringBuffer result = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if(c == '/') {
+				result.append("#x");
+			} else if(c == '#') {
+				result.append("##");
+			} else {
+				result.append(c);
+			}
+		}
+		return result.toString();
+	}
+
+	static String decode(String s) {
+		StringBuffer result = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if(c == '#') {
+				char c1 = i + 1 < s.length() ? s.charAt(i + 1) : '\0';
+				if(c1 == 'x') {
+					result.append('/');
+					i++;
+				} else if(c1 == '#') {
+					result.append("#");
+					i++;
+				} else {
+					result.append("#");
+				}
+			} else {
+				result.append(c);
+			}
+		}
+		return result.toString();
 	}
 
 }
