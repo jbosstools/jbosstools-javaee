@@ -30,7 +30,7 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
@@ -651,9 +651,9 @@ public abstract class PagesElementImpl extends EObjectImpl implements PagesEleme
 		if(pagesModel == null) return;
 
 		if(childData instanceof XModelObject) {
-			SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+			SeamPagesDiagramStructureHelper h = SeamPagesDiagramStructureHelper.getInstance();
 			XModelObject object = (XModelObject)childData;
-			if(object.getModelEntity().getName().equals(SeamPagesConstants.ENT_PROCESS_ITEM_OUTPUT)) {
+			if(object.getModelEntity().getName().equals(SeamPagesConstants.ENT_DIAGRAM_ITEM_OUTPUT)) {
 				PagesElement from = this; //pagesModel.findElement(object);
 				XModelObject t = h.getItemOutputTarget(object);
 				if(t == null) {

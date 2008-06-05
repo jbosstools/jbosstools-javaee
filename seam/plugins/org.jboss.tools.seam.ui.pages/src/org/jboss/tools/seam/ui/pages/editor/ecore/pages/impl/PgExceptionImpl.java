@@ -11,7 +11,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
 
@@ -51,7 +51,7 @@ public class PgExceptionImpl extends PagesElementImpl implements PgException {
 	 */
 	public void dataChanged() {
 		XModelObject item = getModelObject();
-		SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+		SeamPagesDiagramStructureHelper h = SeamPagesDiagramStructureHelper.getInstance();
 		
 		setName(item.getPresentationString());
 		int[] shape = h.asIntArray(item, "shape");

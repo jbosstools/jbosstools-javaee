@@ -19,7 +19,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.event.XModelTreeListener;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
@@ -44,7 +44,7 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+	SeamPagesDiagramStructureHelper h = SeamPagesDiagramStructureHelper.getInstance();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -187,15 +187,15 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 	 * @generated NOT
 	 */
 	public void load() {
-		XModelObject installedProcess = (XModelObject)getData();
-		if(installedProcess == null) return;
+		XModelObject diagramXML = (XModelObject)getData();
+		if(diagramXML == null) return;
 		
 		elementsByPath = new HashMap<String, PagesElement>();
 		linksByPath = new HashMap<String, Link>();
 
-		addElement(installedProcess, this);
+		addElement(diagramXML, this);
 
-		XModelObject[] is = h.getItems(installedProcess);
+		XModelObject[] is = h.getItems(diagramXML);
 		for (int i = 0; i < is.length; i++) {
 			addItem(is[i]);
 		}
@@ -203,8 +203,8 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 		for (int i = 0; i < is.length; i++) {
 			addItemLinks(is[i]);
 		}
-		installedProcess.getModel().removeModelTreeListener(modelListener);
-		installedProcess.getModel().addModelTreeListener(modelListener);
+		diagramXML.getModel().removeModelTreeListener(modelListener);
+		diagramXML.getModel().addModelTreeListener(modelListener);
 	}
 
 	/**
@@ -269,9 +269,9 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 	 * @generated NOT
 	 */
 	public void dispose() {
-		XModelObject installedProcess = (XModelObject)getData();
-		if(installedProcess == null) return;
-		installedProcess.getModel().removeModelTreeListener(modelListener);
+		XModelObject diagramXML = (XModelObject)getData();
+		if(diagramXML == null) return;
+		diagramXML.getModel().removeModelTreeListener(modelListener);
 	}
 
 	/**
@@ -288,8 +288,8 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 		 */
 		public void nodeChanged(XModelTreeEvent event) {
 			if(getData() == null) return;
-			XModelObject installedProcess = (XModelObject)getData();
-			if(!event.getModelObject().getPath().startsWith(installedProcess.getPath())) {
+			XModelObject diagramXML = (XModelObject)getData();
+			if(!event.getModelObject().getPath().startsWith(diagramXML.getPath())) {
 				return;
 			}
 			PagesElement item = findElement(event.getInfo().toString());
@@ -309,21 +309,21 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 		 */
 		public void structureChanged(XModelTreeEvent event) {
 			if(getData() == null) return;
-			XModelObject installedProcess = (XModelObject)getData();
+			XModelObject diagramXML = (XModelObject)getData();
 			XModelObject target = event.getModelObject();
-			if(!target.getPath().startsWith(installedProcess.getPath())) {
+			if(!target.getPath().startsWith(diagramXML.getPath())) {
 				return;
 			}
 			if(event.kind() == XModelTreeEvent.CHILD_ADDED) {
 				XModelObject added = (XModelObject)event.getInfo();
-				if(target == installedProcess) {
+				if(target == diagramXML) {
 					childAdded(added);
 				} else {
 					PagesElement item = findElement(target);
 					item.childAdded(added);
 				}
 			} else if(event.kind() == XModelTreeEvent.CHILD_REMOVED) {
-				if(target == installedProcess) {
+				if(target == diagramXML) {
 					PagesElement removed = findElement(event.getInfo());
 					if(removed != null) {
 						Link[] ls = removed.getOutputLinks().toArray(new Link[0]);

@@ -17,12 +17,12 @@ import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 public class SelectItemWizardView extends SelectWebProcessItemWizardView {
 	
 	protected String getItemEntity() {
-		return SeamPagesConstants.ENT_PROCESS_ITEM;
+		return SeamPagesConstants.ENT_DIAGRAM_ITEM;
 	}
 
 	protected String getKey(XModelObject o) {
 		String entity = o.getModelEntity().getName();
-		if(entity.equals(SeamPagesConstants.ENT_PROCESS_ITEM))
+		if(entity.equals(SeamPagesConstants.ENT_DIAGRAM_ITEM))
 			return o.getAttributeValue(SeamPagesConstants.ATTR_PATH);
 		String key = o.getParent().getAttributeValue(SeamPagesConstants.ATTR_PATH) + ":" + o.getPresentationString();
 		return key;

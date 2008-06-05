@@ -78,8 +78,8 @@ public class PagesDiagramEditPolicy extends RootComponentEditPolicy{
 		public void execute(){
 			Properties properties = new Properties();
 			if(location != null){
-			   properties.put("process.mouse.x","" + location.x);
-			   properties.put("process.mouse.y","" + location.y);
+			   properties.put("mouse.x","" + location.x);
+			   properties.put("mouse.y","" + location.y);
 			}
 
 			XActionInvoker.invoke("CreateActions.AddException", (XModelObject)((PagesModel)getDiagramEditPart().getModel()).getData(),properties);
@@ -110,8 +110,8 @@ public class PagesDiagramEditPolicy extends RootComponentEditPolicy{
 		public void execute(){
 			Properties properties = new Properties();
 			if(location != null) {
-			   properties.put("process.mouse.x","" + location.x);
-			   properties.put("process.mouse.y","" + location.y);
+			   properties.put("mouse.x","" + location.x);
+			   properties.put("mouse.y","" + location.y);
 			}
 
 			XActionInvoker.invoke("CreateActions.AddPage", (XModelObject)((PagesModel)getDiagramEditPart().getModel()).getData(),properties);

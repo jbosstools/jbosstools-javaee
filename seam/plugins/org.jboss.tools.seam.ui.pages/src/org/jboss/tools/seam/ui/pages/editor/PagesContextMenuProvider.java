@@ -73,8 +73,8 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 			if(lastDownEvent != null) {
 				Point point = new Point(lastDownEvent.x, lastDownEvent.y); 
 				((PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0)).getFigure().translateToRelative(point);
-				p.setProperty("process.mouse.x", "" + point.x);
-				p.setProperty("process.mouse.y", "" + point.y);
+				p.setProperty("mouse.x", "" + point.x);
+				p.setProperty("mouse.y", "" + point.y);
 				lastDownEvent = null;
 			}
 			XModelObjectActionList list = new XModelObjectActionList(object.getModelEntity().getActionList(), object, getTargets(ss), new Object[]{object, p});

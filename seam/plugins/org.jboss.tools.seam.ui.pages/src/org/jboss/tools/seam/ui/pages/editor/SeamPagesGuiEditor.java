@@ -26,8 +26,8 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.editor.IModelObjectEditorInput;
 import org.jboss.tools.jst.web.model.WebProcess;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
-import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesProcessImpl;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
@@ -40,7 +40,7 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
     private PagesEditor gui = null;
 	private IModelObjectEditorInput input;
 	private boolean isInitialized = false;
-	private XModelObject installedProcess = null;
+	private XModelObject diagramXML = null;
 	private PagesModel model;
 
 	public void dispose() {
@@ -51,7 +51,7 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		disposeGui();
 		gui = null;
 		input = null;
-		installedProcess = null;
+		diagramXML = null;
 		super.dispose();
 	}
 	
@@ -72,11 +72,11 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		return (gui == null) ? null : gui.getModelSelectionProvider();
 	}
 
-	protected XModelObject getInstalledObject() {
-		return installedProcess;
+	protected XModelObject getDiagramXML() {
+		return diagramXML;
 	}
 	
-	private WebProcess findInstalledObject() {
+	private WebProcess findDiagramXML() {
 		XModelObject o1 = input.getXModelObject();
 		if(o1 == null) return null;
 		XModelObject c = o1.getChildByPath("process");
@@ -86,11 +86,11 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 	}
 	
 	protected void updateGui() {
-		WebProcess f = findInstalledObject();
-		if(f != installedProcess) disposeGui();
+		WebProcess f = findDiagramXML();
+		if(f != diagramXML) disposeGui();
 		else if(isInitialized) return;
 		isInitialized = true;
-		installedProcess = f;
+		diagramXML = f;
 		guiControl.setVisible(f != null);
 		if(f == null) return;
 		try {
@@ -116,7 +116,7 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 	
 	private PagesModel createModel() {
 		PagesModel model = PagesFactory.eINSTANCE.createPagesModel();
-		model.setData(installedProcess);
+		model.setData(diagramXML);
 		model.load();
 		return model;
 	}

@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
@@ -494,7 +494,7 @@ public class LinkImpl extends EObjectImpl implements Link {
 			} else {
 				return;
 			}
-			SeamPagesProcessStructureHelper h = SeamPagesProcessStructureHelper.getInstance();
+			SeamPagesDiagramStructureHelper h = SeamPagesDiagramStructureHelper.getInstance();
 			setName(h.getItemOutputPresentation(object));
 			setShortcut(h.isShortcut(object));
 

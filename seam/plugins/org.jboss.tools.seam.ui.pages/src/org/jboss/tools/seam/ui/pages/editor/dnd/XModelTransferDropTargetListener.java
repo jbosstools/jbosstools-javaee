@@ -96,8 +96,8 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 				event.currentDataType)) {
 			Properties properties = new Properties();
 			if (point != null) {
-				properties.put("process.mouse.x", "" + point.x);
-				properties.put("process.mouse.y", "" + point.y);
+				properties.put("mouse.x", "" + point.x);
+				properties.put("mouse.y", "" + point.y);
 			}
 
 			XActionInvoker

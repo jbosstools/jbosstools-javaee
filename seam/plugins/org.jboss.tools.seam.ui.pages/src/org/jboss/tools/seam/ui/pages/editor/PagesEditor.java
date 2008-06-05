@@ -106,7 +106,7 @@ import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
-import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesProcessStructureHelper;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.dnd.FileTransferDropTargetListener;
@@ -557,7 +557,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 			if (viewer == null)
 				return null;
 			XModelObject o = getTarget(viewer.getSelection());
-			XModelObject ref = SeamPagesProcessStructureHelper.instance.getReference(o);
+			XModelObject ref = SeamPagesDiagramStructureHelper.instance.getReference(o);
 			return ref;
 		}
 
