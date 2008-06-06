@@ -84,7 +84,7 @@ public class PagesNodeEditPolicy extends
 		}
 		ConnectionCommand command = new ConnectionCommand();
 		command.setLink(null);
-		command.setSource((PageEditPart) getPagesEditPart());
+		command.setSource((PagesEditPart) getPagesEditPart());
 		ConnectionAnchor ancor = getPagesEditPart().getSourceConnectionAnchor(
 				request);
 		command.setSourceTerminal(getPagesEditPart()
