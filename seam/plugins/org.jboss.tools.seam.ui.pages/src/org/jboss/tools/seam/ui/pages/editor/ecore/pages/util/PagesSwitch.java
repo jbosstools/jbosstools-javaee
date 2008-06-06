@@ -121,7 +121,7 @@ public class PagesSwitch<T> {
 				return result;
 			}
 			case PagesPackage.PG_EXCEPTION: {
-				PgException pgException = (PgException)theEObject;
+				PageException pgException = (PageException)theEObject;
 				T result = casePgException(pgException);
 				if (result == null) result = casePagesElement(pgException);
 				if (result == null) result = defaultCase(theEObject);
@@ -217,7 +217,7 @@ public class PagesSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePgException(PgException object) {
+	public T casePgException(PageException object) {
 		return null;
 	}
 

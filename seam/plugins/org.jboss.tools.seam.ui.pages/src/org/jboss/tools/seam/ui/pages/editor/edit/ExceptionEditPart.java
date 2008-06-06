@@ -10,9 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FigureUtilities;
@@ -23,24 +22,23 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.jboss.tools.common.model.ui.dnd.DnDUtil;
-import org.eclipse.gef.*;
+import org.eclipse.gef.AccessibleEditPart;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
-
-import org.jboss.tools.common.meta.action.XAction;
-import org.jboss.tools.common.model.XModelException;
-import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
-import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
 public class ExceptionEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
-	private ExceptionFigure fig = null;
+	private NodeFigure fig = null;
 
 	private boolean single = true;
 
@@ -142,8 +140,8 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 	 * 
 	 * @return Model of this as an LED.
 	 */
-	public PgException getExceptionModel() {
-		return (PgException) getModel();
+	public PageException getExceptionModel() {
+		return (PageException) getModel();
 	}
 
 	Dimension size;
@@ -154,15 +152,24 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 		Point loc = getExceptionModel().getLocation();
 		String text = getExceptionModel().getName();
 		if(text == null) text="Exception";
-		int width = 30+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
-		size = new Dimension(width, 21);
-		loc.x -= loc.x % 8;
-		loc.y -= loc.y % 8;
+		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
+		size = new Dimension(width, getVisualHeight());
+		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
+	}
+
+	
+
+	private int getVisualHeight() {
+		return 21;
+	}
+
+	private int getIconWidth() {
+		return 30;
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(

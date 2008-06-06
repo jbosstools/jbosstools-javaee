@@ -166,8 +166,7 @@ public class PageEditPart extends PagesEditPart implements
 			height = 23 + NodeFigure.LINK_HEIGHT;
 
 		size = new Dimension(50, height);
-		loc.x -= loc.x % 8;
-		loc.y -= loc.y % 8;
+		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
 

@@ -24,7 +24,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 
 /**
  * <!-- begin-user-doc -->
@@ -483,7 +483,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		initEClass(paramEClass, Param.class, "Param", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParam_Value(), ecorePackage.getEString(), "value", null, 0, 1, Param.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(pgExceptionEClass, PgException.class, "PgException", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(pgExceptionEClass, PageException.class, "PgException", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize data types
 		initEDataType(pointEDataType, Point.class, "Point", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

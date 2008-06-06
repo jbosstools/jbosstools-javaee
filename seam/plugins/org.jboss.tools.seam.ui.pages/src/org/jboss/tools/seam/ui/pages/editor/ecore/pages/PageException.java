@@ -7,6 +7,6 @@ package org.jboss.tools.seam.ui.pages.editor.ecore.pages;
  * 
  * @model
  */
-public interface PgException extends PagesElement{
+public interface PageException extends PagesElement{
 
 }

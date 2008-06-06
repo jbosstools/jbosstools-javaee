@@ -34,7 +34,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 
 public class SeamPagesGuiEditor extends AbstractSectionEditor {
     private PagesEditor gui = null;

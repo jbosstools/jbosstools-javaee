@@ -102,48 +102,14 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			label.setLocation(new Point(getLocation().x - 5,
 					getLocation().y - 20));
 	}
-
-	public void init(int number) {
-		FixedConnectionAnchor c;
-		if (number == 0)
-			number = 1;
-		for (int i = 0; i < number; i++) {
-			c = new FixedConnectionAnchor(this);
-			c.offsetV = 32 + LINK_HEIGHT * i;
-			c.leftToRight = false;
-			connectionAnchors.put((i + 1) + "_OUT", c);
-			outputConnectionAnchors.addElement(c);
-		}
-	}
-
-	public void addConnectionAnchor(int number) {
-		FixedConnectionAnchor c;
-		//if (number == 1)
-			//return;
-		c = new FixedConnectionAnchor(this);
-		c.offsetV = 32 + LINK_HEIGHT * number;
-		c.leftToRight = false;
-		connectionAnchors.put((number + 1) + "_OUT", c);
-		outputConnectionAnchors.addElement(c);
-	}
-
-	public void removeConnectionAnchor() {
-		if (outputConnectionAnchors.size() == 1)
-			return;
-		outputConnectionAnchors.remove(outputConnectionAnchors.size() - 1);
-	}
-
-	public void removeAllConnectionAnchor() {
-		outputConnectionAnchors.removeAllElements();
-	}
-
+		
 	public PageFigure(Page group) {
 		this.page = group;
 
 		if (group != null) {
 			setIcon(group.getImage());
 			setPath(group.getName());
-			init(group.getOutputLinks().size());
+			initConnectionAnchors(group.getOutputLinks().size());
 		}
 
 		setOpaque(false);

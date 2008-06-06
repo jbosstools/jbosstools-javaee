@@ -26,7 +26,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 
 /**
  * <!-- begin-user-doc -->
@@ -233,7 +233,7 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 			page.dataChanged();
 			getChildren().add(page);
 		} else if(SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
-			PgException exc = PagesFactory.eINSTANCE.createPgException();
+			PageException exc = PagesFactory.eINSTANCE.createPgException();
 			bindElement(item, exc);
 			exc.dataChanged();
 			getChildren().add(exc);

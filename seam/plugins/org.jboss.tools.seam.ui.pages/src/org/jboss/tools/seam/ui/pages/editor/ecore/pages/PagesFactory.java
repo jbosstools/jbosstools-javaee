@@ -68,7 +68,7 @@ public interface PagesFactory extends EFactory {
 	 * @return a new object of class '<em>Pg Exception</em>'.
 	 * @generated
 	 */
-	PgException createPgException();
+	PageException createPgException();
 
 	/**
 	 * Returns the package supported by this factory.

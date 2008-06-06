@@ -507,10 +507,10 @@ public interface PagesPackage extends EPackage {
 	int PARAM_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl <em>Pg Exception</em>}' class.
+	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl <em>Pg Exception</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPgException()
 	 * @generated
 	 */
@@ -834,11 +834,11 @@ public interface PagesPackage extends EPackage {
 	EAttribute getParam_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException <em>Pg Exception</em>}'.
+	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException <em>Pg Exception</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Pg Exception</em>'.
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException
 	 * @generated
 	 */
 	EClass getPgException();
@@ -1058,10 +1058,10 @@ public interface PagesPackage extends EPackage {
 		EAttribute PARAM__VALUE = eINSTANCE.getParam_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl <em>Pg Exception</em>}' class.
+		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl <em>Pg Exception</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PgExceptionImpl
+		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl
 		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPgException()
 		 * @generated
 		 */

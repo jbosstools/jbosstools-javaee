@@ -33,6 +33,6 @@
     <genClasses ecoreClass="pages.ecore#//Param">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Param/value"/>
     </genClasses>
-    <genClasses ecoreClass="pages.ecore#//PgException"/>
+    <genClasses ecoreClass="pages.ecore#//PageException"/>
   </genPackages>
 </genmodel:GenModel>

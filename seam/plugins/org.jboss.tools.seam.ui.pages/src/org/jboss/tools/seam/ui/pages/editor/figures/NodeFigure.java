@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.figures.xpl.BaseNodeFigure;
 import org.jboss.tools.common.model.ui.ModelUIImages;
+import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 
 public class NodeFigure extends
 		BaseNodeFigure {
@@ -90,5 +91,32 @@ public class NodeFigure extends
 			  text = text.substring(0, nChars) + clipString;
 		 }
 	   	 return text;
+	}
+
+	final public void initConnectionAnchors(int numberOfAnchors) {
+		if (numberOfAnchors == 0)
+			numberOfAnchors = 1;
+		for (int i = 0; i < numberOfAnchors; i++) {
+			addConnectionAnchor(i);
+		}
+	}
+
+	final public void addConnectionAnchor(int index) {
+		FixedConnectionAnchor c;
+		c = new FixedConnectionAnchor(this);
+		c.offsetV = 32 + LINK_HEIGHT * index;
+		c.leftToRight = false;
+		connectionAnchors.put((index + 1) + "_OUT", c);
+		outputConnectionAnchors.addElement(c);
+	}
+
+	final public void removeConnectionAnchor() {
+		if (outputConnectionAnchors.size() == 1)
+			return;
+		outputConnectionAnchors.remove(outputConnectionAnchors.size() - 1);
+	}
+
+	final public void removeAllConnectionAnchor() {
+		outputConnectionAnchors.removeAllElements();
 	}
 }

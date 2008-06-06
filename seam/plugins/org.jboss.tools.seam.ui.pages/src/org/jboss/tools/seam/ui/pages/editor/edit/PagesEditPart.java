@@ -273,4 +273,14 @@ abstract public class PagesEditPart extends
 		connection.setTarget(null);
 		primRemoveTargetConnection(connection);
 	}
+	
+	
+	/** Adjust the location to lock into a Grid  
+	 *  TODO: I don't think the editPart should have to do this ? 
+	 **/
+	protected void adjustForGrid(Point loc) {
+		loc.x -= loc.x % 8;
+		loc.y -= loc.y % 8;
+	}
+	
 }

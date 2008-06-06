@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,13 +24,13 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
  *
  * @generated
  */
-public class PgExceptionImpl extends PagesElementImpl implements PgException {
+public class PageExceptionImpl extends PagesElementImpl implements PageException {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PgExceptionImpl() {
+	protected PageExceptionImpl() {
 		super();
 	}
 

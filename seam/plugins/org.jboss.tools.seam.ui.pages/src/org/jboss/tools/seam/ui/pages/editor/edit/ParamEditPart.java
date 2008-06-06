@@ -34,7 +34,7 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.ParamFigure;
@@ -154,15 +154,22 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 		Point loc = getExceptionModel().getLocation();
 		String text = getExceptionModel().getName();
 		if(text == null) text="Exception";
-		int width = 30+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
-		size = new Dimension(width, 21);
-		loc.x -= loc.x % 8;
-		loc.y -= loc.y % 8;
+		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
+		size = new Dimension(width, getVisualHeight());
+		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
+	}
+
+	private int getVisualHeight() {
+		return 21;
+	}
+
+	private int getIconWidth() {
+		return 30;
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(

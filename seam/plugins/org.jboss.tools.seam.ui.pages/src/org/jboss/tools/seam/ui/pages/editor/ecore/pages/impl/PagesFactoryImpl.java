@@ -153,8 +153,8 @@ public class PagesFactoryImpl extends EFactoryImpl implements PagesFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PgException createPgException() {
-		PgExceptionImpl pgException = new PgExceptionImpl();
+	public PageException createPgException() {
+		PageExceptionImpl pgException = new PageExceptionImpl();
 		return pgException;
 	}
 

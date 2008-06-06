@@ -33,7 +33,7 @@ import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PgException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.ParamListFigure;
@@ -144,8 +144,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	protected void refreshVisuals() {
 		Point loc = new Point(1,1);
 		size = new Dimension(10, 10);
-		loc.x -= loc.x % 8;
-		loc.y -= loc.y % 8;
+		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
 

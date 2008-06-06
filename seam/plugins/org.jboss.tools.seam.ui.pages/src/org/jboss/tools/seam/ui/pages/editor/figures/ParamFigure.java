@@ -47,42 +47,6 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 		//icon = PrintIconHelper.getPrintImage(i);
 	}
 
-
-	public void init(int number) {
-		FixedConnectionAnchor c;
-		if (number == 0)
-			number = 1;
-		for (int i = 0; i < number; i++) {
-			c = new FixedConnectionAnchor(this);
-			c.offsetV = 32 + LINK_HEIGHT * i;
-			c.leftToRight = false;
-			connectionAnchors.put((i + 1) + "_OUT", c);
-			outputConnectionAnchors.addElement(c);
-		}
-	}
-
-	public void addConnectionAnchor(int number) {
-		FixedConnectionAnchor c;
-		if (number == 1)
-			return;
-		c = new FixedConnectionAnchor(this);
-		c.offsetV = 32 + LINK_HEIGHT * (number - 1);
-		// c.offsetH = -1;
-		c.leftToRight = false;
-		connectionAnchors.put(number + "_OUT", c);
-		outputConnectionAnchors.addElement(c);
-	}
-
-	public void removeConnectionAnchor() {
-		if (outputConnectionAnchors.size() == 1)
-			return;
-		outputConnectionAnchors.remove(outputConnectionAnchors.size() - 1);
-	}
-
-	public void removeAllConnectionAnchor() {
-		outputConnectionAnchors.removeAllElements();
-	}
-
 	public ParamFigure(Param group) {
 		this.exc = group;
 

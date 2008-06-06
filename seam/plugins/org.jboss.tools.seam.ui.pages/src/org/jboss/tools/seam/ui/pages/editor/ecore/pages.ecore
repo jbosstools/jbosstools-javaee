@@ -33,7 +33,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Param" eSuperTypes="#//PagesElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PgException" eSuperTypes="#//PagesElement"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Point" instanceClassName="org.eclipse.draw2d.geometry.Point"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Dimension" instanceClassName="org.eclipse.draw2d.geometry.Dimension"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PageException" eSuperTypes="#//PagesElement"/>
 </ecore:EPackage>

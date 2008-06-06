@@ -56,6 +56,13 @@ public class FigureFactory {
 		conn.setConnectionRouter(new PagesConnectionRouter());
 		conn.setForegroundColor(selectedColor);
 
+		PolygonDecoration decor = new PolygonDecoration();
+		decor.setBackgroundColor(NodeFigure.whiteColor);
+		decor.setTemplate(TRIANGLE_TIP);
+		decor.setScale(1, 1);
+
+		conn.setTargetDecoration(decor);
+
 		return conn;
 	}
 }
