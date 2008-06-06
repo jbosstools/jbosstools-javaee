@@ -66,19 +66,19 @@ public class DiagramAdopt implements XAdoptManager, SeamPagesConstants {
 */
 	}
 
-	private void addRuleByPageAdopt(XModelObject process, XModelObject page, Properties p) throws XModelException {
+	private void addRuleByPageAdopt(XModelObject diagram, XModelObject page, Properties p) throws XModelException {
 		String path = XModelObjectLoaderUtil.getResourcePath(page);
-		XModelObject pageItem = SeamPagesDiagramHelper.getHelper(process).getPage(path);
+		XModelObject pageItem = SeamPagesDiagramHelper.getHelper(diagram).getPage(path);
 		if(pageItem != null) return;
 		boolean doNotCreateEmptyRule = false; //or read preferences, compare JSF
-		pageItem = SeamPagesDiagramHelper.getHelper(process).findOrCreateItem(path, null, TYPE_PAGE);
+		pageItem = SeamPagesDiagramHelper.getHelper(diagram).findOrCreateItem(path, null, TYPE_PAGE);
 		setShape(pageItem, p);
 		if(doNotCreateEmptyRule) {
 			pageItem.setAttributeValue("persistent", "true");
 			pageItem.setModified(true);
 		} else {
-			XModelObject pages = process.getParent().getChildByPath(FOLDER_PAGES);
-			String suffix = getPageSuffix(process.getParent().getModelEntity().getName());
+			XModelObject pages = diagram.getParent().getChildByPath(FOLDER_PAGES);
+			String suffix = getPageSuffix(diagram.getParent().getModelEntity().getName());
 			XModelObject rule = pages.getModel().createModelObject(ENT_SEAM_PAGE + suffix, null);
 			rule.setAttributeValue(ATTR_VIEW_ID, path);
 			DefaultCreateHandler.addCreatedObject(pages, rule, p);

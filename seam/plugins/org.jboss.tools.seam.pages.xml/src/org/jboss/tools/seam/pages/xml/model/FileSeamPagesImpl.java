@@ -38,22 +38,22 @@ public class FileSeamPagesImpl extends AbstractWebFileImpl implements SeamPagesC
 	}
 
 	protected void mergeAll(XModelObject f, boolean update) throws XModelException {
-		SeamPagesDiagramImpl process = (SeamPagesDiagramImpl)provideWebProcess();
-		boolean b = (process != null && process.isPrepared());
-		if(b) process.getHelper().addUpdateLock(this);
+		SeamPagesDiagramImpl diagram = (SeamPagesDiagramImpl)provideWebProcess();
+		boolean b = (diagram != null && diagram.isPrepared());
+		if(b) diagram.getHelper().addUpdateLock(this);
 		merge(f, !update);
 		if(b) {
-			process.getHelper().removeUpdateLock(this);
-			process.getHelper().updateDiagram();
+			diagram.getHelper().removeUpdateLock(this);
+			diagram.getHelper().updateDiagram();
 		}
 
-		if(process != null) {
-			if(!process.isPrepared()/* || update*/ || isForceLoadOn()) {
+		if(diagram != null) {
+			if(!diagram.isPrepared()/* || update*/ || isForceLoadOn()) {
 				XObjectLoader loader = XModelObjectLoaderUtil.getObjectLoader(this);
 				((WebProcessLoader)loader).reloadProcess(this);
 			}
-			if(process.isPrepared())
-				process.autolayout();
+			if(diagram.isPrepared())
+				diagram.autolayout();
 		}
 	}
 

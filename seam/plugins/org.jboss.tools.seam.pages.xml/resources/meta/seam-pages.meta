@@ -3148,7 +3148,7 @@
      <XActionItem displayName="Seam" kind="list" name="Seam">
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
-       PROPERTIES="entity=FileSeamPages12;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=SeamPages"
+       PROPERTIES="entity=FileSeamPages12;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.seam.pages.xml.model.handlers.CreateSeamPagesSupport;extension=xml;entityVersion=SeamPages"
        displayName="Seam Pages File..." kind="action" name="CreateFileSeamPages">
        <EntityData EntityName="NewFileWizard">
         <AttributeData AttributeName="folder"/>
@@ -3188,7 +3188,7 @@
      <XActionItem displayName="Seam" kind="list" name="Seam">
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
-       PROPERTIES="entity=FileSeamPages12;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=SeamPages"
+       PROPERTIES="entity=FileSeamPages12;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.seam.pages.xml.model.handlers.CreateSeamPagesSupport;extension=xml;entityVersion=SeamPages"
        displayName="Seam Pages File..." kind="action" name="CreateFileSeamPages">
        <EntityData EntityName="NewFileWizard">
         <AttributeData AttributeName="folder"/>

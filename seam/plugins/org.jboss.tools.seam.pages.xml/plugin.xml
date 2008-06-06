@@ -57,6 +57,8 @@
 		<xclass id="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesFilteredTreeConstraint"
 			class="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesFilteredTreeConstraint"/>
 
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.CreateSeamPagesSupport"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.CreateSeamPagesSupport"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddRuleHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"

@@ -22,8 +22,8 @@ public class SeamPagesDiagramStructureHelper extends WebProcessStructureHelper i
 		return p;
 	}
 
-	public XModelObject[] getItems(XModelObject process) {
-		return process.getChildren(ENT_DIAGRAM_ITEM);
+	public XModelObject[] getItems(XModelObject diagram) {
+		return diagram.getChildren(ENT_DIAGRAM_ITEM);
 	}
 
 	public XModelObject[] getOutputs(XModelObject item) {
