@@ -112,7 +112,7 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 			g.drawImage(icon, 4, 2);
 		
 		if(exc != null){
-			g.setFont(exceptionFont);
+			g.setFont(nodeLabelFont);
 			if(exc.getName() != null)
 				g.drawString(exc.getName(), 27, 3);
 			else

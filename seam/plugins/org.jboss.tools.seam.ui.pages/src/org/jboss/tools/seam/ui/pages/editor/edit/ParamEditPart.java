@@ -154,7 +154,7 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 		Point loc = getExceptionModel().getLocation();
 		String text = getExceptionModel().getName();
 		if(text == null) text="Param";
-		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
+		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.nodeLabelFont).width; 
 		size = new Dimension(width, getVisualHeight());
 		adjustForGrid(loc);
 

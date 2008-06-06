@@ -66,7 +66,7 @@ public class NodeFigure extends
 	public static final Color button3Color = new Color(null, 0xff, 0xe8, 0x79);
 	public static final Color button4Color = new Color(null, 0xdb, 0xc7, 0x68);
 	
-	public static final Font exceptionFont = new Font(null, "default", 8, SWT.BOLD);
+	public static final Font nodeLabelFont = new Font(null, "default", 10, SWT.BOLD); // TODO: use preference font mechanism for this
 
 	public static final Image errorIcon = ModelUIImages
 			.getImage("error_co.gif");

@@ -162,7 +162,7 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 	protected void refreshVisuals() {
 		Point loc = getExceptionModel().getLocation();
 		String text = getExceptionReadOnlyLabel();
-		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
+		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.nodeLabelFont).width; 
 		size = new Dimension(width, getVisualHeight());
 		adjustForGrid(loc);
 

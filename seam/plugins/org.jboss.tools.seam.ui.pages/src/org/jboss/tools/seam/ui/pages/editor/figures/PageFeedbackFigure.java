@@ -33,7 +33,7 @@ public class PageFeedbackFigure extends PageFigure {
 		
 		g.fillRectangle(start+1,1,22,19);
 
-		g.fillPolygon(fillPointlist);
+		//g.fillPolygon(fillPointlist);
 	}
 
 }

@@ -165,7 +165,7 @@ public class PageEditPart extends PagesEditPart implements
 		if (getPageModel().getOutputLinks().size() == 0)
 			height = 23 + NodeFigure.LINK_HEIGHT;
 
-		size = new Dimension(50, height);
+		size = new Dimension(getFigure().getPreferredSize().width, height);
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);

@@ -12,6 +12,8 @@ package org.jboss.tools.seam.ui.pages.editor.figures;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.draw2d.*;
 import org.eclipse.draw2d.geometry.*;
@@ -34,7 +36,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 	private Label label = null;
 
-	PointList fillPointlist, fill2Pointlist, shadowPointlist, shadow2Pointlist;
+	//PointList fillPointlist, fill2Pointlist, shadowPointlist, shadow2Pointlist;
 
 	String path;
 
@@ -47,6 +49,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 	public void setBounds(Rectangle rect) {
 		super.setBounds(rect);
 		resizeFigure();
+		
 	}
 
 	public void setConstraint(IFigure child, Object constraint) {
@@ -65,9 +68,15 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		if (label != null) {
 			//label.setFont(group.getJSFModel().getOptions().getViewPathFont());
 			label.setSize(label.getPreferredSize());
-			label.setLocation(new Point(getLocation().x - 5, getLocation().y
-					- (12 + 10)));
+			label.setLocation(getLabelPosition());
 		}
+	}
+
+	private Point getLabelPosition() {
+		//return new Point(getLocation().x - 5, getLocation().y
+			//	- (12 + 10));
+		return new Point((getInsetX()*3)+ icon.getBounds().width + getLocation().x , getLocation().y + getInsetY());
+
 	}
 
 	public void setIcon(Image i) {
@@ -78,15 +87,14 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		if (page == null)
 			return;
 		label = new Label(path);
-		//label.setFont(group.getJSFModel().getOptions().getViewPathFont());
+		label.setFont(nodeLabelFont);
 		getParent().add(label);
 		label.setForegroundColor(ColorConstants.black);
 		label.setOpaque(false);
 		label.setText(path);
 		label.setVisible(true);
 		label.setSize(label.getPreferredSize());
-		label.setLocation(new Point(getLocation().x - 5, getLocation().y
-				- (12 + 10)));
+		label.setLocation(getLabelPosition());
 		//label.addMouseListener(this);
 	}
 
@@ -99,8 +107,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 	public void figureMoved(IFigure source) {
 		if (page != null)
-			label.setLocation(new Point(getLocation().x - 5,
-					getLocation().y - 20));
+			label.setLocation(getLabelPosition());
 	}
 		
 	public PageFigure(Page group) {
@@ -149,7 +156,9 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		return SIZE;
+		return new Dimension(icon.getBounds().width
+				             + label.getBounds().width
+				             + 40 /** the bend corner width */, label.getBounds().height);
 	}
 
 	int width, height;
@@ -163,39 +172,39 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		height = getSize().height - 1;
 		
 
-		fillPointlist = new PointList();
-
-		fillPointlist.addPoint(start, 20);
-		fillPointlist.addPoint(start + 23, 20);
-		fillPointlist.addPoint(start + 23, 0);
-		fillPointlist.addPoint(width - 15, 0);
-		fillPointlist.addPoint(width - 1, 14);
-		fillPointlist.addPoint(width - 1, height - 1);
-		fillPointlist.addPoint(start, height - 1);
-
-		
-
-		shadowPointlist = new PointList();
-
-		shadowPointlist.addPoint(width - 15, 0);
-		shadowPointlist.addPoint(width - 14, 4);
-		shadowPointlist.addPoint(width - 15, 7);
-		shadowPointlist.addPoint(width - 18, 10);
-		shadowPointlist.addPoint(width - 1, 14);
-
-		shadowPointlist.addPoint(width - 9, 14);
-		shadowPointlist.addPoint(width - 16, 13);
-
-		shadowPointlist.addPoint(width - 21, 11);
-		shadowPointlist.addPoint(width - 18, 8);
-		shadowPointlist.addPoint(width - 16, 4);
-
-		shadow2Pointlist = new PointList();
-
-		shadow2Pointlist.addPoint(width - 15, 0);
-		shadow2Pointlist.addPoint(width - 1, 14);
-		shadow2Pointlist.addPoint(width - 3, 14);
-		shadow2Pointlist.addPoint(width - 15, 2);
+//		fillPointlist = new PointList();
+//
+//		fillPointlist.addPoint(start, 20);
+//		fillPointlist.addPoint(start + 23, 20);
+//		fillPointlist.addPoint(start + 23, 0);
+//		fillPointlist.addPoint(width - 15, 0);
+//		fillPointlist.addPoint(width - 1, 14);
+//		fillPointlist.addPoint(width - 1, height - 1);
+//		fillPointlist.addPoint(start, height - 1);
+//
+//		
+//
+//		shadowPointlist = new PointList();
+//
+//		shadowPointlist.addPoint(width - 15, 0);
+//		shadowPointlist.addPoint(width - 14, 4);
+//		shadowPointlist.addPoint(width - 15, 7);
+//		shadowPointlist.addPoint(width - 18, 10);
+//		shadowPointlist.addPoint(width - 1, 14);
+//
+//		shadowPointlist.addPoint(width - 9, 14);
+//		shadowPointlist.addPoint(width - 16, 13);
+//
+//		shadowPointlist.addPoint(width - 21, 11);
+//		shadowPointlist.addPoint(width - 18, 8);
+//		shadowPointlist.addPoint(width - 16, 4);
+//
+//		shadow2Pointlist = new PointList();
+//
+//		shadow2Pointlist.addPoint(width - 15, 0);
+//		shadow2Pointlist.addPoint(width - 1, 14);
+//		shadow2Pointlist.addPoint(width - 3, 14);
+//		shadow2Pointlist.addPoint(width - 15, 2);
 	}
 
 	/**
@@ -211,29 +220,39 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 
 		g.setBackgroundColor(whiteColor);
 
-		g.fillRectangle(start + 1, 1, 22, 19);
+		g.fillRectangle(start + 1, 1, 22, 190); // fill left part
 
+		// drawIcon
 		if (icon != null)
-			g.drawImage(icon, start + 4, 2);
-		
+			g.drawImage(icon, start + getInsetX(), getInsetY());
 
+		
+		//color the page 
 		if (page != null /*&& group.isConfirmed()*/) {
-			g.setBackgroundColor(yellowColor);
+			g.setBackgroundColor(new Color(null, 0xff, 0xff, 0xc2));			
 		} else {
 			g.setBackgroundColor(lightGrayColor);
 		}
-
-		g.fillPolygon(fillPointlist);
 		
-
-		if (page != null /*&& group.isConfirmed()*/) {
-			g.setBackgroundColor(orangeColor);
+		Rectangle boundingRect = new Rectangle(22, 1, r.width, r.height);
+		if(g instanceof ScaledGraphics) {
+			// scaled graphcis does not support gradients ;(			
+			g.fillRectangle(boundingRect);
 		} else {
-			g.setBackgroundColor(lightGrayColor);
-		}
+			Display display = Display.getCurrent();
+			
 
-		g.fillPolygon(shadowPointlist);
-		g.fillPolygon(shadow2Pointlist);
+			Point topLeft = boundingRect.getTopLeft();
+			Point bottomRight = boundingRect.getBottomRight();
+
+			Pattern pattern = new Pattern(display, topLeft.x, topLeft.y,
+					bottomRight.x, bottomRight.y,
+					ColorConstants.white, g.getBackgroundColor());
+			g.setBackgroundPattern(pattern);
+			g.fillRectangle(boundingRect);
+			g.setBackgroundPattern(null);		
+			pattern.dispose();
+		}
 		
 		if(page.getChildren().size() != 0){
 			if(page.isParamsVisible()){
@@ -242,7 +261,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 				g.drawLine(4, height-13, 4, height-6);
 				
 				g.drawLine(6, height-9, 10, height-9);
-				
+	 			
 				g.setForegroundColor(button2Color);
 				g.drawLine(12, height-13, 12, height-5);
 				g.drawLine(4, height-5, 12, height-5);
@@ -285,6 +304,17 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		}
 	}
 
+	/** distance from e.g. icon to border Y-axis*/
+	private int getInsetY() {
+		return 2;
+	}
+
+	/** distance from e.g. icon to border X-axis*/
+	private int getInsetX() {
+		return 4;
+	}
+
+	/** the one drawing the "bend corner rectangle" **/
 	class GroupBorder extends LineBorder {
 		public GroupBorder(Color color) {
 			super(color);
@@ -301,7 +331,13 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			else
 				graphics.setForegroundColor(darkGrayColor);
 
-			graphics.drawLine(1, 0, width - 15, 0);
+			graphics.drawLine(1, 0, width-1, 0);
+			graphics.drawLine(0, 1, 0, height - 1);
+			graphics.drawLine(1, height, width-1, height);
+			graphics.drawLine(width, 1, width, height - 1);
+			graphics.drawLine(23 , 0, 23, height); 
+
+			/*graphics.drawLine(1, 0, width - 15, 0);
 			graphics.drawLine(0, 1, 0, height - 2);
 			graphics.drawLine(1, height - 1, width - 2, height - 1);
 			graphics.drawLine(width - 1, 14, width - 1, height - 2);
@@ -315,11 +351,11 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			graphics.drawLine(width - 14, 4, width - 15, 7);
 			graphics.drawLine(width - 15, 7, width - 18, 10);
 
-			graphics.drawLine(width - 18, 10, width - 1, 14);
+			graphics.drawLine(width - 18, 10, width - 1, 14);*/
 
-			graphics.drawLine(23, 0, 23, 19);
+			/*graphics.drawLine(23, 0, 23, 19);
 			graphics.drawLine(0, 20, 22, 20);
-			graphics.drawLine(22, 20, 23, 19);
+			graphics.drawLine(22, 20, 23, 19);*/
 	}
 
 	public void mouseDoubleClicked(MouseEvent me) {
