@@ -82,13 +82,14 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 				return template.trim().substring(i);
 			}
 		}
-		return getExtension();
+		//Let user specify extension
+		return ""; //getExtension();
 	}
 
 	public static String getExtension() {
 		XModelObject addView = getPreferenceObject();
 		String v = (addView == null) ? "" : addView.getAttributeValue("Extension");
-		if(v == null || v.length() == 0) return ".jsp";
+		if(v == null || v.length() == 0) return ".xhtml";
 		if(!v.startsWith(".")) v = "." + v;
 		return v;
 	}
@@ -215,19 +216,19 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		return path;
 	}
 
-	static boolean hasWildCard(String path) {
-		return path.indexOf('*') >= 0 || path.indexOf("#{") >= 0;
-	}
-	
 	String revalidatePath(String path, String template) {
 		if(path != null) path = path.trim();
 		if(path == null || path.length() == 0) return path;
 		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
 		if(hasWildCard(path)) return path;
 		if(path.indexOf('.') < 0 && !path.endsWith("/")) {
-			path += getExtension(template);
+			path += template == null ? "" : getExtension(template);
 		}
 		return path;
+	}
+	
+	static boolean hasWildCard(String path) {
+		return path.indexOf('*') >= 0 || path.indexOf("#{") >= 0;
 	}
 	
 	public boolean canCreateFile(String path) {
@@ -236,7 +237,12 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		path = revalidatePath(path, getAttributeValue(0, "template"));
 		if(path == null || path.length() == 0 
 			|| hasWildCard(path)) return false;
-		return isCorrectPath(path) && !fileExists(path);
+		//extension must be available
+		int m = path.lastIndexOf('.');
+		if(m < 0 || m >= path.length() - 1) return false;
+
+		return isCorrectPath(path) && !fileExists(path)
+			&& path.lastIndexOf('.') < path.length() - 1;
 	}
 	
 	static String FORBIDDEN_INDICES = "\"\n\t\\:<>?|"; //* is allowed anywhere
