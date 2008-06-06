@@ -12,6 +12,8 @@ package org.jboss.tools.seam.ui.pages.editor.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
+import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Color;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
@@ -22,13 +24,32 @@ public class FigureFactory {
 	public static final Color selectedColor = new Color(null, 0x44, 0xa9, 0xf3);
 	public static final Color highlightColor = ColorConstants.black;
 
+	public static final PointList TRIANGLE_TIP = new PointList();
+
+	static {
+		TRIANGLE_TIP.addPoint(0, 0);
+		TRIANGLE_TIP.addPoint(-1, -1);
+		TRIANGLE_TIP.addPoint(-7, -4);
+		TRIANGLE_TIP.addPoint(-8, -4);
+		TRIANGLE_TIP.addPoint(-8, 4);
+		TRIANGLE_TIP.addPoint(0, 0);
+	}
+
 	public static ConnectionFigure createNewBendableWire(LinkEditPart part,
 			Link link) {
 		ConnectionFigure conn = new ConnectionFigure(part);
 		conn.setForegroundColor(normalColor);
+
+		PolygonDecoration decor = new PolygonDecoration();
+		decor.setBackgroundColor(NodeFigure.whiteColor);
+		decor.setTemplate(TRIANGLE_TIP);
+		decor.setScale(1, 1);
+
+		conn.setTargetDecoration(decor);
+
 		return conn;
 	}
-
+	
 	public static ConnectionFigure createNewLink(Link link) {
 
 		ConnectionFigure conn = new ConnectionFigure();
