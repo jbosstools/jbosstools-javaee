@@ -101,8 +101,7 @@ public class RichFacesProgressBarTemplateTestCase extends CommonRichFacesTestCas
      * Test simple.
      */
     public void testSimple() {
-        baseTest(SIMPLE_PAGE, CHECK_BASE_STYLE, "text-align: left;", STYLE_CLASS_2,VpeStyleUtil.PARAMETER_WIDTH
-                + VpeStyleUtil.COLON_STRING + PERCENTAGES);
+        baseTest(SIMPLE_PAGE, CHECK_BASE_STYLE, "height: 13px; text-align: left;", STYLE_CLASS_2,"height: 13px; width: 60%;d");
     }
 
     /**

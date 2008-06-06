@@ -36,6 +36,9 @@ import org.w3c.dom.Node;
  */
 public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
 
+    /** The Constant DEFAULT_HEIGHT. */
+    private static final String DEFAULT_HEIGHT = " height:13px;";
+
     /** The Constant CSS_EXTENSION. */
     private static final String CSS_EXTENSION = "progressBar";
 
@@ -111,7 +114,7 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
                 }
             }
         }
-
+//
 //        DOMTreeDumper dump = new DOMTreeDumper();
 //        dump.dumpToStream(System.err, progressDiv);
 
@@ -140,8 +143,8 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
      * Checks if is recreate at attr change.
      * 
      * @param sourceElement the source element
-     * @param value the value
      * @param visualDocument the visual document
+     * @param value the value
      * @param visualNode the visual node
      * @param data the data
      * @param pageContext the page context
@@ -163,6 +166,9 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
     private void prepareData(Element source) {
         this.styleClass = ComponentUtil.getAttribute(source, RichFaces.ATTR_STYLE_CLASS);
         this.style = ComponentUtil.getAttribute(source, HTML.ATTR_STYLE);
+        if (ComponentUtil.isBlank(this.style)) {
+            this.style = DEFAULT_HEIGHT;
+        }
 
     }
 
