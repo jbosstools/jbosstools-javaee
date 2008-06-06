@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import javax.swing.text.StyleConstants.ColorConstants;
+
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -57,7 +59,7 @@ public class NodeFigure extends
 	
 	public static final Color exceptionBackgroundColor = new Color(null, 0xff, 0xe3, 0xe7);
 	
-	public static final Color exceptionForegroundColor = new Color(null, 0x99, 0x07, 0x02);
+	public static final Color exceptionForegroundColor = blackColor; //new Color(null, 0x99, 0x07, 0x02);
 	
 	public static final Color button1Color = new Color(null, 0xff, 0xf6, 0xc8);
 	public static final Color button2Color = new Color(null, 0x98, 0x99, 0x98);

@@ -19,11 +19,14 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.edit.ExceptionEditPart;
+import org.jboss.tools.seam.ui.pages.editor.figures.xpl.CompressNameUtil;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
@@ -118,15 +121,24 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 		
 		if(exc != null){
 			g.setFont(exceptionFont);
-			if(exc.getName() != null)
-				g.drawString(exc.getName(), 27, 3);
-			else
-				g.drawString("Exception", 27, 3);
+			g.drawString(getExceptionReadOnlyLabel(), 27, 3);			
 		}
 		
 
 	}
 
+	/** This returns the label to use when rendering the Exception in a readonly view.
+	 *  Converts org.model.Exception to o.m.Exception to save visual space 
+	 **/
+	String getExceptionReadOnlyLabel() {
+		if(exc==null || exc.getName() == null) {
+			return "Unknown Exception";
+		} else {
+			return CompressNameUtil.getCompressedName(exc.getName());
+		}
+	}
+	
+		
 	class GroupBorder extends LineBorder {
 		public GroupBorder(Color color) {
 			super(color);

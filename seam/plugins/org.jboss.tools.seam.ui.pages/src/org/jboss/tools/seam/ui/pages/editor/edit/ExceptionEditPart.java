@@ -36,6 +36,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
+import org.jboss.tools.seam.ui.pages.editor.figures.xpl.CompressNameUtil;
 
 public class ExceptionEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
 	private NodeFigure fig = null;
@@ -148,10 +149,19 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 
 	
 
+	/** This returns the label to use when rendering the Exception in a readonly view.
+	 *  Converts org.model.Exception to o.m.Exception to save visual space 
+	 **/
+	String getExceptionReadOnlyLabel() {
+		if(getElementModel()==null || getElementModel().getName() == null) {
+			return "Unknown Exception";
+		} else {
+			return CompressNameUtil.getCompressedName(getElementModel().getName());
+		}
+	}
 	protected void refreshVisuals() {
 		Point loc = getExceptionModel().getLocation();
-		String text = getExceptionModel().getName();
-		if(text == null) text="Exception";
+		String text = getExceptionReadOnlyLabel();
 		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.exceptionFont).width; 
 		size = new Dimension(width, getVisualHeight());
 		adjustForGrid(loc);

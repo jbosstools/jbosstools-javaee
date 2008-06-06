@@ -116,7 +116,7 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 			if(exc.getName() != null)
 				g.drawString(exc.getName(), 27, 3);
 			else
-				g.drawString("Exception", 27, 3);
+				g.drawString("Param", 27, 3);
 		}
 		
 
