@@ -22,6 +22,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	private static XModelObject TEMPLATE;
 	private XModelObject config;
 	private Map<String,XModelObject> pageItems = new HashMap<String,XModelObject>();
+	private Set<String> pageViewIds = new HashSet<String>();
 	private Map<String,XModelObject> exceptionItems = new HashMap<String,XModelObject>();
 	private Map<String,XModelObject> targets = new HashMap<String,XModelObject>();
 
@@ -35,6 +36,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 
 	private synchronized void reset() {
 		pageItems.clear();
+		pageViewIds.clear();
 		exceptionItems.clear();
 		targets.clear();
 		this.config = diagram.getParent();
@@ -79,6 +81,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			XModelObject g = findOrCreateItem(view, pp, TYPE_PAGE);
 			((ReferenceObjectImpl)g).setReference(sourcePages[i]);
 			pageItems.put(pp, g);
+			pageViewIds.add(view);
 			XModelObject[] ns = sourcePages[i].getChildren();
 			for (int j = 0; j < ns.length; j++) {
 				String entity = ns[j].getModelEntity().getName();
@@ -106,9 +109,9 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		Iterator<String> it = pageItems.keySet().iterator();
 		while(it.hasNext()) targets.remove(it.next());
 
-		removeObsoletePageItems();
 		removeObsoleteExceptionItems();
 		createPageItems();
+		removeObsoletePageItems();
 		updatePageItems();
 		updateExceptionItems();
 		
@@ -120,8 +123,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		if(target == null) return;
 		String tvi = target.getAttributeValue(ATTR_VIEW_ID);
 		if(tvi == null) return;
-		String ppt = toNavigationRulePathPart(tvi);
-		targets.put(ppt, getTemplate());							
+		targets.put(toNavigationRulePathPart(tvi), getTemplate());							
 	}
 
 	private XModelObject getTemplate() {
@@ -150,7 +152,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			String path = ps[i].getPathPart();
 			String type = ps[i].getAttributeValue(ATTR_TYPE);
 			if(!TYPE_PAGE.equals(type)) continue;
-			if(!pageItems.containsKey(path) && !targets.containsKey(path)) {
+			if(!pageItems.containsKey(path) && targets.get(path) != ps[i]) {
 				ps[i].removeFromParent();
 			}
 		}
@@ -172,7 +174,8 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		String[] paths = (String[])targets.keySet().toArray(new String[0]);
 		for (int i = 0; i < paths.length; i++) {
 			String fvi = toFromViewId(paths[i]);
-			XModelObject g = findOrCreateItem(fvi, paths[i], TYPE_PAGE);
+			fvi = findBestMatch(fvi);
+			XModelObject g = findOrCreateItem(fvi, toNavigationRulePathPart(fvi), TYPE_PAGE);
 			targets.put(paths[i], g);			
 		}
 	}
@@ -197,7 +200,8 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	}
 
 	private void updatePageItem(ReferenceObjectImpl item) {
-		if(item.isUpToDate()) return;
+		if(item.getReference() == null) return;
+//		if(item.isUpToDate()) return;
 		item.notifyUpdate();
 		XModelObject sourcePage = item.getReference();		
 		item.setAttributeValue(ATTR_ID, sourcePage.getPathPart());
@@ -329,7 +333,8 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	}
 	
 	private void updateOutput(ReferenceObjectImpl output) {
-		if(output.isUpToDate()) return;
+		if(output.getReference() == null) return;
+//		if(output.isUpToDate()) return;
 		output.notifyUpdate();
 		XModelObject rulecase = output.getReference();		
 		output.setAttributeValue(ATTR_ID, rulecase.getAttributeValue(ATTR_VIEW_ID));
@@ -337,13 +342,9 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		output.setAttributeValue(ATTR_PATH, path);
 //		String title = SeamPagesDiagramStructureHelper.createItemOutputPresentation(rulecase);
 //		output.setAttributeValue("title", title);
-		XModelObject g = findGroupByPath(path);
+		XModelObject g = getPage(findBestMatch(path));
 		String target = (g == null) ? "" : g.getPathPart();
 		output.setAttributeValue(ATTR_TARGET, target);
-	}
-	
-	private XModelObject findGroupByPath(String path) {
-		return getPage(path);
 	}
 	
 	public void autolayout() {
@@ -361,6 +362,27 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 
 	public void updatePages() {
 		//TODO
+	}
+
+	public String findBestMatch(String viewId) {
+		if(viewId == null || pageViewIds.contains(viewId)) {
+			return viewId;
+		}
+		String best = viewId;
+		int match = 0;
+		for (String v: pageViewIds) {
+			int i = v.indexOf('*');
+			if(i < 0) continue;
+			String head = v.substring(0, i);
+			String tail = v.substring(i + 1);
+			int m = head.length() + tail.length();
+			if(m > viewId.length() || m <= match) continue;
+			if(head.length() > 0 && !viewId.startsWith(head)) continue;
+			if(tail.length() > 0 && !viewId.endsWith(tail)) continue;
+			best = v;
+			match = m;			
+		}
+		return best;
 	}
 
 	public static String toNavigationRulePathPart(String path) {
