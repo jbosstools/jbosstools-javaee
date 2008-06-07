@@ -2948,10 +2948,10 @@
     displayName="Open Page" kind="action" name="OpenPage"/>
    <XActionItem kind="list" name="EditActions">
     <XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
-     PROPERTIES="support=org.jboss.tools.jsf.model.handlers.RenameViewSupport;validator.edit=true"
+     PROPERTIES="support=org.jboss.tools.seam.pages.xml.model.handlers.RenameViewSupport"
      displayName="Rename..." kind="action" name="Rename">
-     <EntityData EntityName="JSFNavigationRuleRename">
-      <AttributeData AttributeName="from-view-id" Mandatory="no"/>
+     <EntityData EntityName="SeamPageRename">
+      <AttributeData AttributeName="view id" Mandatory="no"/>
       <AttributeData AttributeName="rename file" Mandatory="no"/>
      </EntityData>
     </XActionItem>

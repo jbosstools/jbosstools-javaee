@@ -241,7 +241,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		int m = path.lastIndexOf('.');
 		if(m < 0 || m >= path.length() - 1) return false;
 
-		return isCorrectPath(path) && !fileExists(path)
+		return isCorrectPath(path) && path.indexOf('*') < 0 && !fileExists(path)
 			&& path.lastIndexOf('.') < path.length() - 1;
 	}
 	
@@ -251,7 +251,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		if(path == null || path.equals("/") || path.indexOf("//") >= 0) return false;
 		if(path.endsWith("/") || path.indexOf("../") >= 0) return false;
 		if(path.endsWith("..")) return false;
-		if(path.equals("*")) return true;
+		if(path.endsWith("*")) return true;
 		for (int i = 0; i < FORBIDDEN_INDICES.length(); i++) {
 			if(path.indexOf(FORBIDDEN_INDICES.charAt(i)) >= 0) {
 				return false;

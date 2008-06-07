@@ -76,6 +76,8 @@
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.RenameViewSupport"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.RenameViewSupport"/>
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"
 			class="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"/>
