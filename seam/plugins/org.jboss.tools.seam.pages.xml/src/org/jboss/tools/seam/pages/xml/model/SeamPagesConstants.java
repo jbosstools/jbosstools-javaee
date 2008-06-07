@@ -31,6 +31,8 @@ public interface SeamPagesConstants {
 	public String ENT_NAVIGATION = "SeamPageNavigation";
 	public String ENT_NAVIGATION_RULE = "SeamPageNavigationRule";
 
+	public String ENT_EXCEPTION = "SeamPageException";
+
 	public String ENT_RULE = "SeamPageRule";
 	public String ENT_RULE_12 = "SeamPageRule" + SUFF_12;
 	public String ENT_RULE_20 = "SeamPageRule" + SUFF_20;

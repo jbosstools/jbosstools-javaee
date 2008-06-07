@@ -15,8 +15,10 @@ import org.jboss.tools.common.meta.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 
 public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 	
@@ -40,7 +42,7 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 	}
 	
 	private boolean canBeOutputTarget(XModelObject group) {
-		String path = group.getAttributeValue("path");
+		String path = group.getAttributeValue(ATTR_PATH);
 		if(path == null) path = group.getAttributeValue(ATTR_VIEW_ID);
 		if(path == null) return false;
 		if(path.length() == 0 || path.indexOf("*") >= 0) return false;
@@ -60,7 +62,10 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 		} else {
 			rule = target;
 		}
-		return (case_ != null && rule == null || rule != case_.getParent());
+		if(case_ == null || case_.getParent().getModelEntity().getName().startsWith(ENT_EXCEPTION)) {
+			return false;
+		}
+		return (rule == null || !case_.getPath().startsWith(rule.getPath()));
 	}
 
 	public void adopt(XModelObject target, XModelObject object, Properties p) throws XModelException {
@@ -71,9 +76,11 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 			} else {
 				adoptOutput(object, target, p);
 			}
+		} else if(ENT_DIAGRAM_ITEM.equals(entity)) {
+			adoptItem(object, target, p);
+		} else if(entity.startsWith(ENT_SEAM_PAGE)) {
+			adoptSeamPage(object, target, p);
 		}
-		else if(ENT_DIAGRAM_ITEM.equals(entity)) adoptItem(object, target, p);
-		else if(entity.startsWith(ENT_SEAM_PAGE)) adoptSeamPage(object, target, p);
 	}
 	
 	protected void adoptOutput(XModelObject source, XModelObject target, Properties p) throws XModelException {
@@ -88,7 +95,12 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 
 	protected void adoptItem(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		ReferenceObject i = (ReferenceObject)source;
-		adoptSeamPage(i.getReference(), target, p); 
+		if(i.getReference() == null) {
+			XModelObject rule = createRule(target, i.getAttributeValue(ATTR_PATH));
+			adoptSeamPage(rule, target, p);
+		} else {
+			adoptSeamPage(i.getReference(), target, p);
+		}
 	}
 
 	protected void adoptSeamPage(XModelObject source, XModelObject target, Properties p) throws XModelException {
@@ -119,15 +131,29 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 		if(target instanceof ReferenceObject) {
 			rule = ((ReferenceObject)target).getReference();
 			if(rule == null) {
-//				JSFNavigationModel nm = (JSFNavigationModel)JSFProcessStructureHelper.instance.getParentFile(target);
-//				String path = target.getAttributeValue(ATT_PATH);
-//				rule = nm.addRule(path);
+				String path = target.getAttributeValue(ATTR_PATH);
+				rule = createRule(target, path);
 			}
 		} else {
 			rule = target;
 		}
 		if(rule == null || source.getParent() == rule) return;
+		source = source.getParent();
+		if(source.getModelEntity().getName().startsWith(ENT_RULE)) {
+			//no!
+			source = source.getParent();
+		}
 		DefaultRemoveHandler.removeFromParent(source);
 		DefaultCreateHandler.addCreatedObject(rule, source, p);
+	}
+
+	XModelObject createRule(XModelObject o, String path) throws XModelException {
+		XModelObject file = SeamPagesDiagramStructureHelper.instance.getParentFile(o);
+		XModelObject pages = file.getChildByPath(FOLDER_PAGES);
+		String childEntity = pages.getModelEntity().getChildren()[0].getName();
+		XModelObject rule = pages.getModel().createModelObject(childEntity, null);
+		rule.setAttributeValue(ATTR_VIEW_ID, path);
+		DefaultCreateHandler.addCreatedObject(pages, rule, FindObjectHelper.IN_EDITOR_ONLY);
+		return rule;
 	}
 }
