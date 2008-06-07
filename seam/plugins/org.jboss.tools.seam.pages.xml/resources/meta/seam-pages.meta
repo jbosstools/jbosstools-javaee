@@ -2995,11 +2995,6 @@
      ICON="action.delete" PROPERTIES="actionpath=DeleteActions/Delete"
      displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
-   <XActionItem displayName="move" kind="list" name="MoveActions">
-    <XActionItem HIDE="always"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.OutputMoveHandler"
-     ICON="action.empty" displayName="Move" kind="action" name="Move"/>
-   </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
