@@ -16,13 +16,14 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XOrderedObject;
 import org.jboss.tools.jsf.model.ReferenceObjectImpl;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 
 public class OutputMoveHandler extends MoveHandler {
 
 	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
-		if(!isEnabled(object)) return;
-		ReferenceObjectImpl o1 = (ReferenceObjectImpl)object;
-		ReferenceObjectImpl o2 = (ReferenceObjectImpl)object.getModel().getModelBuffer().source();
+		if(!isEnabled(object)) return;int ii = 0;
+		ReferenceObject o1 = (ReferenceObject)object;
+		ReferenceObject o2 = (ReferenceObject)object.getModel().getModelBuffer().source();
 		XModelObject r1 = o1.getReference();
 		XModelObject r2 = o2.getReference();
 

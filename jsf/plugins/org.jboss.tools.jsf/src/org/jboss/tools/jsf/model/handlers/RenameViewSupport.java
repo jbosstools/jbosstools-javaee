@@ -22,12 +22,13 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.*;
 import org.jboss.tools.jsf.model.helpers.*;
 import org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 
 public class RenameViewSupport extends SpecialWizardSupport implements JSFConstants {
 	String initialPath;
 	ReferenceGroupImpl group;
 	XModelObject page;
-	ReferenceObjectImpl item;
+	ReferenceObject item;
 
 	public void reset() {
 		initGroup();
@@ -44,7 +45,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 			group = (ReferenceGroupImpl)getTarget();
 		} else if(ENT_PROCESS_ITEM.equals(entity)) {
 			group = (ReferenceGroupImpl)getTarget().getParent();
-			if(group.getChildren().length > 1) item = (ReferenceObjectImpl)getTarget();
+			if(group.getChildren().length > 1) item = (ReferenceObject)getTarget();
 		}
 	}
 
@@ -149,7 +150,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 				XModelObject[] os = is[j].getChildren(ENT_PROCESS_ITEM_OUTPUT);
 				for (int k = 0; k < os.length ; k++) {
 					if(!oldPath.equals(os[k].getAttributeValue(ATT_PATH))) continue;
-					ReferenceObjectImpl output = (ReferenceObjectImpl)os[k];
+					ReferenceObject output = (ReferenceObject)os[k];
 					XModelObject c = output.getReference();
 					if(c != null) {
 						model.changeObjectAttribute(c, ATT_TO_VIEW_ID, newPath);

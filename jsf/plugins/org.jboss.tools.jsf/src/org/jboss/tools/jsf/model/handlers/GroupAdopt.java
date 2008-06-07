@@ -17,6 +17,7 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.model.*;
 import org.jboss.tools.jsf.model.helpers.*;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 
 public class GroupAdopt implements XAdoptManager, JSFConstants {
 	
@@ -54,7 +55,7 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 	private boolean canMoveCase(XModelObject target, XModelObject object) {
 		XModelObject case_ = null;
 		if(object instanceof ReferenceObjectImpl) {
-			case_ = ((ReferenceObjectImpl)object).getReference();
+			case_ = ((ReferenceObject)object).getReference();
 		} else {
 			case_ = object;
 		}
@@ -83,7 +84,7 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 	}
 	
 	protected void adoptOutput(XModelObject source, XModelObject target, Properties p) throws XModelException {
-		ReferenceObjectImpl i = (ReferenceObjectImpl)source;
+		ReferenceObject i = (ReferenceObject)source;
 		adoptCase(i.getReference(), target, p); 
 	}
 
@@ -92,7 +93,7 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 	}
 
 	protected void adoptItem(XModelObject source, XModelObject target, Properties p) throws XModelException {
-		ReferenceObjectImpl i = (ReferenceObjectImpl)source;
+		ReferenceObject i = (ReferenceObject)source;
 		adoptRule(i.getReference(), target, p); 
 	}
 
@@ -135,7 +136,7 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 	}
 	
 	void moveOutput(XModelObject source, XModelObject target, Properties p) throws XModelException {
-		ReferenceObjectImpl i = (ReferenceObjectImpl)source;
+		ReferenceObject i = (ReferenceObject)source;
 		moveCase(i.getReference(), target, p); 
 	}
 

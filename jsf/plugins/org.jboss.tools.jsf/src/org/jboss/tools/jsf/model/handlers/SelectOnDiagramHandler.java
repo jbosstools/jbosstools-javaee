@@ -16,6 +16,7 @@ import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.jsf.model.*;
 import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 
 public class SelectOnDiagramHandler extends AbstractHandler implements JSFConstants {
 
@@ -43,8 +44,8 @@ public class SelectOnDiagramHandler extends AbstractHandler implements JSFConsta
         	ReferenceGroupImpl g = (ReferenceGroupImpl)processObject;
         	XModelObject[] rs = g.getReferences();
         	if(rs != null && rs.length == 1 && rs[0] == object) return g;
-        } else if(processObject instanceof ReferenceObjectImpl) {
-            if(((ReferenceObjectImpl)processObject).getReference() == object) return processObject;
+        } else if(processObject instanceof ReferenceObject) {
+            if(((ReferenceObject)processObject).getReference() == object) return processObject;
         }
         return getItemOnProcess(processObject.getChildren(), object);
     }
