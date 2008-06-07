@@ -126,8 +126,8 @@ public class PageEditPart extends PagesEditPart implements
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 		// installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
 		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
-		// installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-		// new PageEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
+				new PageEditPolicy());
 	}
 
 	/**

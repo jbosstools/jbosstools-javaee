@@ -28,6 +28,8 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.handles.ConnectionHandle;
 import org.eclipse.gef.tools.ConnectionEndpointTracker;
+import org.jboss.tools.seam.ui.pages.editor.dnd.DndHelper;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
 
@@ -160,7 +162,7 @@ public class LinkEndpointEditPolicy
 		public void mouseDown(MouseEvent me, EditPartViewer epv) {
 			super.mouseDown(me, epv);
 			removeJSFHandles();
-			//DndHelper.drag(((ILink) getHost().getModel()).getSource());
+			DndHelper.drag(((Link) getHost().getModel()).getData());
 		}
 
 		public void mouseUp(MouseEvent me, EditPartViewer epv) {
@@ -170,7 +172,7 @@ public class LinkEndpointEditPolicy
 		}
 
 		protected boolean handleNativeDragFinished(DragSourceEvent event) {
-			//DndHelper.dragEnd();
+			DndHelper.dragEnd();
 			return false;
 		}
 	}

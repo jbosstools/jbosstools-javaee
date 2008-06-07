@@ -11,42 +11,41 @@
 package org.jboss.tools.seam.ui.pages.editor.commands;
 
 import org.eclipse.gef.commands.Command;
+
 import org.jboss.tools.seam.pages.xml.model.handlers.PageAdopt;
 import org.jboss.tools.seam.ui.pages.editor.dnd.DndHelper;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 
-
-public class ReconnectSourceLinkCommand	extends Command{
+public class ReconnectSourceLinkCommand2 extends Command{
 	
-		static Link child = null;
+	static Page page = null;
 	
-	public ReconnectSourceLinkCommand(){
-		super("ReconnectSourceLinkCommand");
+	public ReconnectSourceLinkCommand2(){
+		super("ReconnectSourceLinkCommand2");
 	}
 	
-	public void setLink(Link child) {
-		ReconnectSourceLinkCommand.child= child;
+	public void setPage(Page page){
+		ReconnectSourceLinkCommand2.page = page;
 	}
-
 	public boolean canExecute() {
 		PageAdopt.move_case = true;
 		try {
-			return DndHelper.isDropEnabled(child.getData());
+			return DndHelper.isDropEnabled(page.getData());
 		} finally {
 			PageAdopt.move_case = false;
 		}
 	}
 	
-	public void execute() {
-		if(child != null) {
+	public void execute(){
+		if(page != null) {
 			PageAdopt.move_case = true;
 			try {
-				DndHelper.drop(child.getData());
+				DndHelper.drop(page.getData());
 			} finally {
 				PageAdopt.move_case = false;
 			}
 		}
-		child = null;
+		page = null;
 	}
 	
 	public boolean canUndo() {

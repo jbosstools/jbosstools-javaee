@@ -7,8 +7,10 @@
 package org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -327,16 +329,29 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 					PagesElement removed = findElement(event.getInfo());
 					if(removed != null) {
 						Link[] ls = removed.getOutputLinks().toArray(new Link[0]);
+						Set<Link> r = new HashSet<Link>();
 						for (int i = 0; i < ls.length; i++) {
 							ls[i].setFromElement(null);
 							ls[i].setToElement(null);
+							r.add(ls[i]);
 						}
 						ls = removed.getInputLinks().toArray(new Link[0]);
 						for (int i = 0; i < ls.length; i++) {
-							ls[i].setFromElement(null);
+//							ls[i].setFromElement(null);
 							ls[i].setToElement(null);
+//							r.add(ls[i]);
+						}
+						if(!r.isEmpty()) {
+							Iterator<Link> it = linksByPath.values().iterator();
+							while(it.hasNext()) {
+								Link l = it.next();
+								if(r.contains(l)) {
+									it.remove();
+								}
+							}
 						}
 						getChildren().remove(removed);
+						
 					}
 				} else if(findElement(target) != null) {
 					Link removed = findLink(event.getInfo());
