@@ -18,13 +18,12 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PrinterGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 
 
 
 public class DiagramFigure extends FreeformLayer implements IFigure {
-	public static final Color lightGrayColor = new Color(null, 0xf1, 0xf1, 0xf1);
+	
 	private PagesDiagramEditPart editPart;
 	
 	public DiagramFigure(PagesDiagramEditPart editPart) {
@@ -45,7 +44,7 @@ public class DiagramFigure extends FreeformLayer implements IFigure {
 
 		if (editPart.isGridVisible() && !(g instanceof PrinterGraphics)) {
 			g.setLineStyle(Graphics.LINE_DOT);
-			g.setForegroundColor(lightGrayColor);
+			g.setForegroundColor(NodeFigure.lightGrayColor);
 			g.setBackgroundColor(ColorConstants.white);
 			for (int i = 0; i < width; i += editPart.getVisualGridStep()) {
 				g.drawLine(i, 0, i, height - 1);
