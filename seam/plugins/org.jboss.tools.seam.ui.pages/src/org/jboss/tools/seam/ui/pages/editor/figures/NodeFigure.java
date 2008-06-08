@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
-import javax.swing.text.StyleConstants.ColorConstants;
 
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.swt.SWT;

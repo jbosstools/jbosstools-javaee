@@ -14,6 +14,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.jdt.internal.ui.preferences.formatter.BlankLinesTabPage;
 import org.eclipse.swt.graphics.Color;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
@@ -38,13 +39,14 @@ public class FigureFactory {
 	public static ConnectionFigure createNewBendableWire(LinkEditPart part,
 			Link link) {
 		ConnectionFigure conn = new ConnectionFigure(part);
-		conn.setForegroundColor(normalColor);
+		conn.setForegroundColor(NodeFigure.blackColor);
 
 		PolygonDecoration decor = new PolygonDecoration();
-		decor.setBackgroundColor(NodeFigure.whiteColor);
+		
+		decor.setBackgroundColor(NodeFigure.blackColor);
 		decor.setTemplate(TRIANGLE_TIP);
 		decor.setScale(1, 1);
-
+		decor.setForegroundColor(NodeFigure.blackColor);
 		conn.setTargetDecoration(decor);
 
 		return conn;
