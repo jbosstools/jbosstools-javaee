@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram model-entity="SeamPagesDiagram">
+ <item ID="#wiki.xhtml" NAME="#xwiki.xhtml" PATH="/wiki.xhtml"
+  SHAPE="832,33,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/docDisplay_#{skin}.xhtml" NAME="output"
+   PATH="/docDisplay_#{skin}.xhtml" TARGET="#xdocDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output1"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#docDisplay*" NAME="#xdocDisplay*" PATH="/docDisplay*"
+  SHAPE="560,17,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#docHistory*" NAME="#xdocHistory*" PATH="/docHistory*"
+  SHAPE="32,17,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/docDisplay_#{skin}.xhtml" NAME="output"
+   PATH="/docDisplay_#{skin}.xhtml" TARGET="#xdocDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/wiki.xhtml" NAME="output1" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/message.xhtml" NAME="output2" PATH="/message.xhtml"
+   TARGET="#x*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/docEdit_#{skin}.xhtml" NAME="output3"
+   PATH="/docEdit_#{skin}.xhtml" TARGET="#xdocEdit*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#docEdit*" NAME="#xdocEdit*" PATH="/docEdit*"
+  SHAPE="304,241,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/docDisplay_#{skin}" NAME="output1"
+   PATH="/docDisplay_#{skin}" TARGET="#xdocDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output2"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output3"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#dirDisplay*" NAME="#xdirDisplay*" PATH="/dirDisplay*"
+  SHAPE="1104,225,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#dirEdit*" NAME="#xdirEdit*" PATH="/dirEdit*"
+  SHAPE="560,433,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output1"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output2"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output3"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#fileEdit*" NAME="#xfileEdit*" PATH="/fileEdit*"
+  SHAPE="560,641,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output1"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/dirDisplay_#{skin}.xhtml" NAME="output2"
+   PATH="/dirDisplay_#{skin}.xhtml" TARGET="#xdirDisplay*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#tagDisplay*" NAME="#xtagDisplay*" PATH="/tagDisplay*"
+  SHAPE="32,1105,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#search*" NAME="#xsearch*" PATH="/search*"
+  SHAPE="560,225,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#adminHome*" NAME="#xadminHome*" PATH="/adminHome*"
+  SHAPE="240,1121,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userRegister*" NAME="#xuserRegister*" PATH="/userRegister*"
+  SHAPE="304,833,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/userHome_#{skin}.xhtml" NAME="output"
+   PATH="/userHome_#{skin}.xhtml" TARGET="#xuserHome*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/wiki.xhtml" NAME="output1" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#userHome*" NAME="#xuserHome*" PATH="/userHome*"
+  SHAPE="560,817,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/wiki.xhtml" NAME="output1" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#userList*" NAME="#xuserList*" PATH="/userList*"
+  SHAPE="448,1105,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#confirmRegistration.xhtml"
+  NAME="#xconfirmRegistration.xhtml" PATH="/confirmRegistration.xhtml"
+  SHAPE="560,961,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/wiki.xhtml" NAME="output1" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#*" NAME="#x*" PATH="/*" SHAPE="304,33,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/wiki.xhtml" NAME="output" PATH="/wiki.xhtml"
+   TARGET="#xwiki.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/search_#{skin}.xhtml" NAME="output1"
+   PATH="/search_#{skin}.xhtml" TARGET="#xsearch*" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/message.xhtml" NAME="output2" PATH="/message.xhtml"
+   TARGET="#x*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#docHistory_d.xhtml" NAME="#xdocHistory_d.xhtml"
+  PATH="/docHistory_d.xhtml" SHAPE="656,1121,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#docEdit_d.xhtml" NAME="#xdocEdit_d.xhtml"
+  PATH="/docEdit_d.xhtml" SHAPE="864,1105,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#dirEdit_d.xhtml" NAME="#xdirEdit_d.xhtml"
+  PATH="/dirEdit_d.xhtml" SHAPE="1072,1121,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#fileEdit_d.xhtml" NAME="#xfileEdit_d.xhtml"
+  PATH="/fileEdit_d.xhtml" SHAPE="32,1217,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#search_d.xhtml" NAME="#xsearch_d.xhtml"
+  PATH="/search_d.xhtml" SHAPE="240,1233,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#adminHome_d.xhtml" NAME="#xadminHome_d.xhtml"
+  PATH="/adminHome_d.xhtml" SHAPE="448,1217,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userRegister_d.xhtml" NAME="#xuserRegister_d.xhtml"
+  PATH="/userRegister_d.xhtml" SHAPE="656,1233,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userHome_d.xhtml" NAME="#xuserHome_d.xhtml"
+  PATH="/userHome_d.xhtml" SHAPE="864,1217,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userList_d.xhtml" NAME="#xuserList_d.xhtml"
+  PATH="/userList_d.xhtml" SHAPE="1072,1233,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#docHistory_m.xhtml" NAME="#xdocHistory_m.xhtml"
+  PATH="/docHistory_m.xhtml" SHAPE="32,1329,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#docEdit_m.xhtml" NAME="#xdocEdit_m.xhtml"
+  PATH="/docEdit_m.xhtml" SHAPE="240,1345,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#dirEdit_m.xhtml" NAME="#xdirEdit_m.xhtml"
+  PATH="/dirEdit_m.xhtml" SHAPE="448,1329,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#fileEdit_m.xhtml" NAME="#xfileEdit_m.xhtml"
+  PATH="/fileEdit_m.xhtml" SHAPE="656,1345,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#search_m.xhtml" NAME="#xsearch_m.xhtml"
+  PATH="/search_m.xhtml" SHAPE="864,1329,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#adminHome_m.xhtml" NAME="#xadminHome_m.xhtml"
+  PATH="/adminHome_m.xhtml" SHAPE="1072,1345,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userRegister_m.xhtml" NAME="#xuserRegister_m.xhtml"
+  PATH="/userRegister_m.xhtml" SHAPE="32,1441,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userHome_m.xhtml" NAME="#xuserHome_m.xhtml"
+  PATH="/userHome_m.xhtml" SHAPE="240,1457,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#userList_m.xhtml" NAME="#xuserList_m.xhtml"
+  PATH="/userList_m.xhtml" SHAPE="448,1441,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="org.jboss.seam.framework.EntityNotFoundException"
+  NAME="org.jboss.seam.framework.EntityNotFoundException"
+  SHAPE="656,1457,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem"/>
+ <item ID="org.jboss.seam.security.AuthorizationException"
+  NAME="org.jboss.seam.security.AuthorizationException"
+  SHAPE="32,225,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/message.xhtml" NAME="output" PATH="/message.xhtml"
+   TARGET="#x*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.OptimisticLockException"
+  NAME="javax.persistence.OptimisticLockException" SHAPE="32,433,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/message.xhtml" NAME="output" PATH="/message.xhtml"
+   TARGET="#x*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item SHAPE="32,641,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/message.xhtml" NAME="output" PATH="/message.xhtml"
+   TARGET="#x*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+</diagram>
