@@ -288,4 +288,12 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         this.controlsVerticalPositions.put("center", "100px");
     }
 
+    /**
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssStylesControlSuffix()
+     */
+    @Override
+    protected String getCssStylesControlSuffix() {
+        return this.getCssStylesSuffix();
+    }
+
 }

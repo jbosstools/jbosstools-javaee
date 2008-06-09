@@ -18,6 +18,7 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -68,6 +69,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
             innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + ";");
             innerInput1.setAttribute(HTML.ATTR_TYPE, "text");
             innerInput1.setAttribute("autocomplete", "off");
+           
             if (showControls) {
                 rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument));
             }
@@ -76,15 +78,24 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
             innerInput1.setAttribute(HTML.ATTR_TYPE, "button");
         }
         data = new VpeCreationData(rootSpan);
-//        final DOMTreeDumper dumper = new DOMTreeDumper();
+        final DOMTreeDumper dumper = new DOMTreeDumper();
 
         if (!isToggle) {
-
-            rootSpan.appendChild(visualDocument.createTextNode(getValue()));
+            final String value = getValue();
+            
+            if (value.equals(DEFAULT_NULL_VALUE)) {
+                final nsIDOMElement pre = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+                
+                pre.appendChild(visualDocument.createTextNode("aaaa"));
+                pre.setAttribute(HTML.ATTR_STYLE,"width:100px;");
+                rootSpan.appendChild(pre);
+            } else {
+                rootSpan.appendChild(visualDocument.createTextNode(value));
+            }
         } else {
             innerInput1.setAttribute(HTML.ATTR_VALUE, this.sourceValue);
         }
-//        dumper.dumpToStream(System.err, rootSpan);
+        dumper.dumpToStream(System.err, rootSpan);
 
         return data;
     }
@@ -160,6 +171,14 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         this.controlsHorizontalPositions.put("right", this.inputWidth);
         super.prepareData(source);
 
+    }
+
+    /**
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssStylesControlSuffix()
+     */
+    @Override
+    public String getCssStylesControlSuffix() {
+        return "-input";
     }
 
 }

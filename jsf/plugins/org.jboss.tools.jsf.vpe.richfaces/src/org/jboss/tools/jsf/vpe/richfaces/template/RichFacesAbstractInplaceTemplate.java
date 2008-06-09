@@ -336,57 +336,6 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 
     }
 
-    /**
-     * Removes the attribute.
-     * 
-     * @param sourceElement the source element
-     * @param visualDocument the visual document
-     * @param visualNode the visual node
-     * @param data the data
-     * @param pageContext the page context
-     * @param name the name
-     */
-    @Override
-    public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode,
-            Object data, String name) {
-        super.removeAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name);
-        final nsIDOMElement span = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-
-        if (RichFaces.ATTR_STYLE_CLASS.equals(name)) {
-            span.setAttribute(HTML.ATTR_CLASS, DEFAULT_NULL_VALUE);
-        } else if (RichFaces.ATTR_VALUE.equals(name)) {
-            span.removeChild(span.getFirstChild());
-            span.appendChild(visualDocument.createTextNode(DEFAULT_NULL_VALUE));
-        }
-
-    }
-
-    /**
-     * Sets the attribute.
-     * 
-     * @param sourceElement the source element
-     * @param value the value
-     * @param visualDocument the visual document
-     * @param visualNode the visual node
-     * @param data the data
-     * @param pageContext the page context
-     * @param name the name
-     */
-    @Override
-    public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode,
-            Object data, String name, String value) {
-        super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
-
-        final nsIDOMElement span = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-        if (RichFaces.ATTR_VALUE.equals(name)) {
-            final nsIDOMText text = visualDocument.createTextNode(((value == null) || (value.length() == 0) ? DEFAULT_NULL_VALUE : value));
-
-            span.removeChild(span.getFirstChild());
-            span.appendChild(text);
-        } else if (RichFaces.ATTR_STYLE_CLASS.equals(name)) {
-            span.setAttribute(HTML.ATTR_CLASS, ((value == null) || (value.length() == 0) ? RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS : value));
-        }
-    }
 
     /**
      * Sets the up img.
@@ -457,6 +406,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 
     }
     
+    protected abstract String getCssStylesControlSuffix(); 
+    
 
     /**
      * Creates the controls div.
@@ -470,13 +421,13 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected nsIDOMElement createControlsDiv(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
         final nsIDOMElement element = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
-        element.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-controls-set");
+        element.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesControlSuffix()+"-controls-set");
         element.setAttribute(HTML.ATTR_STYLE, "position: absolute; top: " + controlsVerticalPositions.get(this.controlsVerticalPosition)
                 + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";");
 
         final nsIDOMElement divShadov = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
-        divShadov.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssExtension()+"-shadow");
+        divShadov.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow");
         final nsIDOMElement divShadovTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
         divShadovTable.setAttribute(HTML.ATTR_CELLPADDING, "0");
         divShadovTable.setAttribute(HTML.ATTR_CELLSPACING, "0");
