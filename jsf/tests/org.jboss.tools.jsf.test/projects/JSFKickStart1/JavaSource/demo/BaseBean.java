@@ -6,6 +6,8 @@ public class BaseBean {
 		return "";
 	}
 	
-	public void fuck() {}
+	public void action1() {
+		
+	}
 
 }
