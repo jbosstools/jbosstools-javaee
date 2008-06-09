@@ -95,7 +95,7 @@ public class RichFacesInplaceInputTemplateTestCase extends CommonRichFacesTestCa
      * @throws Throwable the throwable
      */
     public void testInplaceInputWithoutAttributes() throws CoreException, Throwable {
-        baseCheck(TEMPLATE_WITH_EMPTY_TAG, NULL, RICH_INPLACE_VIEW);
+        baseCheck(TEMPLATE_WITH_EMPTY_TAG, null, RICH_INPLACE_VIEW);
 
     }
 
