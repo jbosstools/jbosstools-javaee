@@ -106,6 +106,7 @@ import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
@@ -593,6 +594,19 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 		protected void setSelectedModelObject(XModelObject object) {
 			if(object == null) return;
+
+			// Make projection to diagram XML if necessary.
+			XModelObject diagramXML = (XModelObject)getPagesModel().getData();
+			if(diagramXML == null) return;
+			XModelObject fileXML = diagramXML.getParent();
+			if(fileXML == null || !object.getPath().startsWith(fileXML.getPath())) {
+				return;
+			}
+			if(!diagramXML.getPath().startsWith(object.getPath())) {
+				object = SelectOnDiagramHandler.getItemOnDiagram(object);
+				if(object == null) return;
+			}
+			
 			EObject element = getPagesModel().findElement(object);
 			
 			if(element == null) {
