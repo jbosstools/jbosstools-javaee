@@ -31,13 +31,13 @@ import org.w3c.dom.Node;
  * @author mareshkau
  *
  */
-public class JBIDE1494 extends VpeTest{
+public class JBIDE1494Test extends VpeTest{
 
     public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
     private static final String TEST_PAGE_NAME = "JBIDE/1494/JBIDE-1494.xhtml"; //$NON-NLS-1$
     
-	public JBIDE1494(String name) {
+	public JBIDE1494Test(String name) {
 		super(name);
 	}
 	
