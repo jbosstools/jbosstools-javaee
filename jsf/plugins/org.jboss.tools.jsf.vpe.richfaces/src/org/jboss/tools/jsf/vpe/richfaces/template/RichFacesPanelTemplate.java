@@ -87,7 +87,7 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		// FIX for JBIDE-1213 (Max Areshkau)
 		if(data.getNode()!=null) {
 			String bodyClass = ((Element)sourceNode).getAttribute("bodyClass");
-			applyStylesToTable(data.getNode(), bodyClass);
+			//applyStylesToTable(data.getNode(), bodyClass);
 		}
 	}
 	
