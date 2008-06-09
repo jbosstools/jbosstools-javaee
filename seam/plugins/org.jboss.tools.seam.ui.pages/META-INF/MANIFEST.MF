@@ -5,7 +5,19 @@ Bundle-ClassPath: seam-ui-pages.jar
 Bundle-Activator: org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin
 Bundle-Vendor: %providerName
 Provide-Package: org.jboss.tools.seam.ui.pages,
- org.jboss.tools.seam.ui.pages.editor
+ org.jboss.tools.seam.ui.pages.editor,
+ org.jboss.tools.seam.ui.pages.editor.commands,
+ org.jboss.tools.seam.ui.pages.editor.dnd,
+ org.jboss.tools.seam.ui.pages.editor.ecore.pages,
+ org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl,
+ org.jboss.tools.seam.ui.pages.editor.ecore.pages.util,
+ org.jboss.tools.seam.ui.pages.editor.edit,
+ org.jboss.tools.seam.ui.pages.editor.edit.xpl,
+ org.jboss.tools.seam.ui.pages.editor.figures,
+ org.jboss.tools.seam.ui.pages.editor.figures.xpl,
+ org.jboss.tools.seam.ui.pages.editor.palette,
+ org.jboss.tools.seam.ui.pages.editor.print,
+ org.jboss.tools.seam.ui.pages.editor.wizard
 Export-Package: org.jboss.tools.seam.ui.pages,
  org.jboss.tools.seam.ui.pages.editor,
  org.jboss.tools.seam.ui.pages.editor.edit
