@@ -359,41 +359,41 @@
 	
 	<!-- Test Managed Beans -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="managed-bean"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user"/>
 		<property name="attributeName" value="managed-bean-class"/>
-		<property name="attributeValue" value="demo.NameBean"/>
+		<property name="attributeValue" value="demo.User"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user"/>
 		<property name="attributeName" value="managed-bean-scope"/>
 		<property name="attributeValue" value="session"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user"/>
 		<property name="attributeName" value="description"/>
 		<property name="attributeValue" value="Input Value Holder"/>
 	</test>
 	
 	<!-- Test Managed Property -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean/userName"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user/name"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="managed-property"/>
 	</test>
 	
 	<!-- Test list-values -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean/aliases/Entries"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user/aliases/Entries"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="list-entries"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Managed Beans/nameBean/aliases/Entries"/>
+		<property name="path" value="/faces-config.xml/Managed Beans/user/aliases/Entries"/>
 		<property name="attributeName" value="value-class"/>
 		<property name="attributeValue" value="java.lang.String"/>
 	</test>
