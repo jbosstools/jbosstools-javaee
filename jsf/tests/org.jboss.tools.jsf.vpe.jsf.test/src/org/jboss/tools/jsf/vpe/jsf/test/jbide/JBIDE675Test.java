@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import junit.framework.Test;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
@@ -93,6 +95,8 @@ public class JBIDE675Test extends VpeTest {
 					.trim());
 
 			styledText.insert("t");
+			TestUtil.delay(450);
+			TestUtil.waitForJobs();
 		}
 		if(getException()!=null) {
 			throw getException();
@@ -154,6 +158,8 @@ public class JBIDE675Test extends VpeTest {
 					.trim());
 
 			styledText.insert("t");
+			TestUtil.delay(450);
+			TestUtil.waitForJobs();
 		}
 		if(getException()!=null) {
 			throw getException();
@@ -183,6 +189,8 @@ public class JBIDE675Test extends VpeTest {
 
 			styledText.setCaretOffset(285);
 			styledText.insert("<test></test>");
+			TestUtil.delay(450);
+			TestUtil.waitForJobs();
 			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(part
 					.getSourceEditor().getTextViewer(), 290);
 			Node node = (Node) treeNode;
