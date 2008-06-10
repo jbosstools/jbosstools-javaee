@@ -279,6 +279,7 @@
 		<vpe:template children="yes" modify="yes">
 			<vpe:a class="{@styleClass}"
 				style="{@style}"
+				dir="{@dir}"
 				title="{tagstring()}"/>
 			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="UnderlineFormat" setDefault="true">
