@@ -10,6 +10,7 @@ Bundle-Localization: plugin
 Provide-Package: org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.pages.xml.model,
  org.jboss.tools.seam.pages.xml.model.helpers,
+ org.jboss.tools.seam.pages.xml.model.handlers,
  org.jboss.tools.seam.pages.xml.model.impl
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ui.ide,
