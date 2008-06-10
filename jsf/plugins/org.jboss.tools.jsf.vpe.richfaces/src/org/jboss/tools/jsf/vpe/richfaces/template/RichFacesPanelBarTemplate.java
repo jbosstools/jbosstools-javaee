@@ -113,13 +113,15 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
      * @return
      */
     private String height(Element sourceElement) {
-	String height = sourceElement
-		.getAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR);
-	if (height == null || height.length() == 0) {
+        String height = sourceElement.getAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR);
+        if (height == null || height.length() == 0) {
 
-	    height = PERCENT_100;
-	}
-	return "height: " + height + SEMI_COLON; //$NON-NLS-1$
+            height = PERCENT_100;
+        }
+        // added by estherbin fix not worked junit JBIDE1713Test
+        final Integer iHeight = ComponentUtil.parseWidthHeightValue(height);
+
+        return "height: " + String.valueOf(iHeight) + ComponentUtil.PX_SUFFIX + SEMI_COLON; //$NON-NLS-1$
     }
 
     /**
@@ -128,12 +130,14 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
      * @return
      */
     public String width(Element sourceElement) {
-	String width = sourceElement
-		.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
-	if (width == null || width.length() == 0) {
-	    width = PERCENT_100;
-	}
-	return "width: " + width + SEMI_COLON; //$NON-NLS-1$
+        String width = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+        if (width == null || width.length() == 0) {
+            width = PERCENT_100;
+        }
+        // added by estherbin fix not worked junit JBIDE1713Test
+        final Integer iWidth = ComponentUtil.parseWidthHeightValue(width);
+        
+        return "width: " + String.valueOf(iWidth) + ComponentUtil.PX_SUFFIX + SEMI_COLON; //$NON-NLS-1$
     }
 
     /**
