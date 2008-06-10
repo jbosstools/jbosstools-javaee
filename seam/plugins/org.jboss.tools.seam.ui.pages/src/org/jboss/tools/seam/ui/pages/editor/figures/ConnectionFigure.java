@@ -7,16 +7,18 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
 import org.eclipse.draw2d.AnchorListener;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.swt.graphics.Color;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 
@@ -89,8 +91,21 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 	Point beg = new Point(0, 0), end = new Point(0, 0);
 	Point corner = new Point(0, 0);
 	boolean horiz;
+	private boolean selected;
+
+	@Override
+	public void setForegroundColor(Color fg) {
+		// TODO Auto-generated method stub
+		super.setForegroundColor(fg);
+	}
 
 	protected void outlineShape(Graphics g) {
+
+		if(selected) {
+			g.setForegroundColor(FigureFactory.selectedColor);
+		} else {
+			g.setForegroundColor(getForegroundColor());
+		}
 		points = getPoints();
 		point = points.getPoint(0);
 		beg.x = point.x;
@@ -162,4 +177,9 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 		}
 	}
 
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+		repaint();
+	}
 }

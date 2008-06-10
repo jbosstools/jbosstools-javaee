@@ -7,7 +7,7 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
 import java.util.ArrayList;
@@ -30,29 +30,30 @@ import org.eclipse.gef.handles.ConnectionHandle;
 import org.eclipse.gef.tools.ConnectionEndpointTracker;
 import org.jboss.tools.seam.ui.pages.editor.dnd.DndHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
 
 public class LinkEndpointEditPolicy
 	extends org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy {
-	private List JSFhandles = null;
+	private List handles = null;
 
 	private void addJSFHandles() {
 		removeJSFHandles();
-		JSFhandles = createJSFHandles();
+		handles = createHandles();
 		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
-		for (int i = 0; i < JSFhandles.size(); i++)
-			layer.add((IFigure) JSFhandles.get(i));
+		for (int i = 0; i < handles.size(); i++)
+			layer.add((IFigure) handles.get(i));
 
 	}
 
 	private void removeJSFHandles() {
-		if (JSFhandles == null)
+		if (handles == null)
 			return;
 		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
-		for (int i = 0; i < JSFhandles.size(); i++)
-			layer.remove((IFigure) JSFhandles.get(i));
-		JSFhandles = null;
+		for (int i = 0; i < handles.size(); i++)
+			layer.remove((IFigure) handles.get(i));
+		handles = null;
 	}
 
 	protected void addSelectionHandles() {
@@ -60,17 +61,17 @@ public class LinkEndpointEditPolicy
 		super.addSelectionHandles();
 		addJSFHandles();
 
-		getConnectionFigure().setForegroundColor(FigureFactory.selectedColor);
+		getConnectionFigure().setSelected(true);
 	}
 
-	protected PolylineConnection getConnectionFigure() {
-		return (PolylineConnection) ((GraphicalEditPart) getHost()).getFigure();
+	protected ConnectionFigure getConnectionFigure() {
+		return (ConnectionFigure) ((GraphicalEditPart) getHost()).getFigure();
 	}
 
 	protected void removeSelectionHandles() {
 		super.removeSelectionHandles();
 		removeJSFHandles();
-		getConnectionFigure().setForegroundColor(FigureFactory.normalColor);
+		getConnectionFigure().setSelected(false);
 	}
 
 	protected List createSelectionHandles() {
@@ -80,7 +81,7 @@ public class LinkEndpointEditPolicy
 		return list;
 	}
 
-	protected List createJSFHandles() {
+	protected List createHandles() {
 		List<AbstractHandle> list = new ArrayList<AbstractHandle>();
 		PolylineConnection conn = getConnectionFigure();
 		boolean flag = true;
