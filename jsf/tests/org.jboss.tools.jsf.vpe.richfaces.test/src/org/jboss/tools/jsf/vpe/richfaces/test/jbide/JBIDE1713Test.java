@@ -107,7 +107,7 @@ public class JBIDE1713Test extends VpeTest {
 		String activeToggleClass = activeToggle.getAttribute(HTML.ATTR_CLASS);
 		assertNotNull(activeToggleClass);
 		assertEquals(
-				"dr-pnlbar-h rich-panelbar-header myHeaderStyleActive myHeaderStyleActive",
+				"dr-pnlbar-h rich-panelbar-header myHeaderStyle1 myHeaderStyle myHeaderStyleActive1 myHeaderStyleActive",
 				activeToggleClass);
 
 		String activeToggleStyle = activeToggle.getAttribute(HTML.ATTR_STYLE);
@@ -136,7 +136,7 @@ public class JBIDE1713Test extends VpeTest {
 				.getAttribute(HTML.ATTR_CLASS);
 		assertNotNull(activeContentClass);
 		assertEquals(
-				"dr-pnlbar-c rich-panelbar-content myContentStyle myContentStyle",
+				"dr-pnlbar-c rich-panelbar-content myContentStyle1 myContentStyle",
 				activeContentClass);
 
 		// check facet
