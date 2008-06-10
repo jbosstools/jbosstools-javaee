@@ -15,6 +15,10 @@ public class SeamPagesDiagramStructureHelper extends WebProcessStructureHelper i
 		return instance;
 	}
 
+	public XModelObject getDiagram(XModelObject object) {
+		return getProcess(object);
+	}
+
 	public XModelObject getParentProcess(XModelObject element) {
 		XModelObject p = element;
 		while(p != null && p.getFileType() == XModelObject.NONE &&

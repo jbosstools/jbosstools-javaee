@@ -76,7 +76,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements SeamPages
 		Properties p = extractStepData(0);
 		String path = AddViewSupport.revalidatePath(p.getProperty(ATTR_VIEW_ID));
 		if(initialPath.equals(path)) return;
-		SeamPagesDiagramHelper h = SeamPagesDiagramHelper.getHelper(SeamPagesDiagramStructureHelper.instance.getProcess(item));
+		SeamPagesDiagramHelper h = SeamPagesDiagramHelper.getHelper(SeamPagesDiagramStructureHelper.instance.getDiagram(item));
 		h.addUpdateLock(this);
 		try {
 			replace(item, initialPath, path);

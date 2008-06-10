@@ -62,7 +62,7 @@ public class SelectOnDiagramHandler extends AbstractHandler implements SeamPages
 			//or should we return object itself, if params are displayed by diagram?
 			return getItemOnDiagram(object.getParent());
 		}
-		XModelObject diagram = SeamPagesDiagramStructureHelper.instance.getProcess(object);
+		XModelObject diagram = SeamPagesDiagramStructureHelper.instance.getDiagram(object);
 		return (diagram == null) ? null : getItemOnDiagram(diagram, object);
 	}
 

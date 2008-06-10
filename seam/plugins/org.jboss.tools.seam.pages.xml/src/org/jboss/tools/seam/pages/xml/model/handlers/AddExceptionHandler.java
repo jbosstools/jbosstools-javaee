@@ -18,7 +18,7 @@ public class AddExceptionHandler extends DefaultCreateHandler {
     	XModelObject created = (XModelObject)prop.get("created");
     	if(created == null) return;
     	String path = created.getPathPart();
-    	XModelObject item = SeamPagesDiagramStructureHelper.getInstance().getProcess(object).getChildByPath(path);
+    	XModelObject item = SeamPagesDiagramStructureHelper.getInstance().getDiagram(object).getChildByPath(path);
 		String shape = getShape(prop);
 		if(item != null && shape != null) {
 			item.setAttributeValue("shape", shape);
