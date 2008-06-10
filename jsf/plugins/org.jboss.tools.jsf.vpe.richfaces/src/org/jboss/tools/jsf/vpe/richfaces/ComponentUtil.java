@@ -46,23 +46,17 @@ import org.w3c.dom.Text;
 public class ComponentUtil {
 
 
-    /**
-     * 
-     */
+    /** The Constant EMPTY_SELECT_ITEM_VALUE. */
     private static final String EMPTY_SELECT_ITEM_VALUE = "<f:selectItem/>";
 
-    /**
-     * 
-     */
+    /** The Constant EMPTY_SELECT_ITEMS_VALUE. */
     private static final String EMPTY_SELECT_ITEMS_VALUE = "<f:selectItems/>";
 
-    /**
-     * 
-     */
+    /** The Constant SELECT_ITEMS. */
     private static final String SELECT_ITEMS = "selectItems";
 
     /** The Constant PX_SUFFIX. */
-    private static final String PX_SUFFIX = "px";
+    public static final String PX_SUFFIX = "px";
 
     /** The Constant SELECT_ITEM. */
     private static final String SELECT_ITEM = "selectItem";
@@ -218,8 +212,8 @@ public class ComponentUtil {
     /**
      * Returns all child source elements of component but facets.
      * 
-     * @param sourceElement the source element
      * @param returnTextNodes return child text nodes and elements or elements only;
+     * @param sourceElement the source element
      * 
      * @return the children
      */
@@ -379,8 +373,8 @@ public class ComponentUtil {
     /**
      * Returns value of attribute.
      * 
-     * @param sourceElement the source element
      * @param attributeName the attribute name
+     * @param sourceElement the source element
      * 
      * @return the attribute
      */
@@ -395,8 +389,8 @@ public class ComponentUtil {
     /**
      * Returns value of attribute.
      * 
-     * @param sourceElement the source element
      * @param attributeName the attribute name
+     * @param sourceElement the source element
      * 
      * @return the attribute
      */
@@ -529,8 +523,8 @@ public class ComponentUtil {
      * @param sourceNode the source node
      * @param htmlAttrName the html attr name
      * @param defValue the def value
-     * @param attrName the attr name
      * @param prefValue the pref value
+     * @param attrName the attr name
      */
     public static void correctAttribute(Element sourceNode, nsIDOMElement visualNode, String attrName, String htmlAttrName,
             String prefValue, String defValue) {
@@ -706,8 +700,11 @@ public class ComponentUtil {
     }
     
     /**
-     * @param e
-     * @return
+     * Gets the select item value.
+     * 
+     * @param e the e
+     * 
+     * @return the select item value
      */
     public static String getSelectItemValue(Element e) {
         String value = e.getAttribute(RichFaces.ATTR_SELECT_ITEM_LABEL);
