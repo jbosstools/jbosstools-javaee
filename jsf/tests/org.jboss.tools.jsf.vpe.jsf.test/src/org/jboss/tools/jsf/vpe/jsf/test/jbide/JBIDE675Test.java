@@ -10,11 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
-import junit.framework.Test;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
@@ -218,6 +217,9 @@ public class JBIDE675Test extends VpeTest {
 			assertNotNull(node.getNodeName());
 			assertEquals(textNode.getNodeValue().trim(), node.getNodeName()
 					.trim());
+			if(getException()!=null) {
+				throw getException();
+			}
 	}
 
 	public void testClosePageWhenBackgroundJobIsRun() throws Throwable {
@@ -243,7 +245,18 @@ public class JBIDE675Test extends VpeTest {
 
 		StyledText styledText = part.getSourceEditor().getTextViewer()
 				.getTextWidget();
-
-		
+		styledText.setCaretOffset(951);
+		styledText.insert("<a"); //$NON-NLS-1$
+		styledText.setCaretOffset(953);
+		for(int i=0;i<30;i++) {		
+			styledText.insert(""+i); //$NON-NLS-1$
+		}
+		TestUtil.delay(450);
+		part.close(false);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeEditor(part, false);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(true);
+		if(getException()!=null) {
+			throw getException();
+		}
 	}
 }
