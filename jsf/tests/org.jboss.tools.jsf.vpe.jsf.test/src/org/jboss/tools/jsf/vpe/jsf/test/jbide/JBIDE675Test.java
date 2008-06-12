@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
@@ -261,6 +260,56 @@ public class JBIDE675Test extends VpeTest {
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				
+				 part.close(false);
+				 part.dispose();
+				return Status.OK_STATUS;
+			}};
+			job.setPriority(Job.SHORT);
+			job.schedule(900);
+		TestUtil.delay(450);
+		if(getException()!=null) {
+			throw getException();
+		}
+	}
+		/**
+		 * test Visual Editor Refresh method
+		 * @throws Throwable
+		 */
+	public  void testVisualEditorRefreshAdnCloseWhenUIJobIsRunning() throws Throwable {
+		TestUtil.waitForJobs();
+		
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		// Tests CA
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/675/employee.xhtml", //$NON-NLS-1$
+				IMPORT_PROJECT_NAME);
+		assertNotNull("Could not open specified file " + "JBIDE/675/employee.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
+
+		IEditorInput input = new FileEditorInput(file);
+
+		assertNotNull("Editor input is null", input); //$NON-NLS-1$
+
+		// open and get editor
+		final JSPMultiPageEditor part = openEditor(input);
+
+		StyledText styledText = part.getSourceEditor().getTextViewer()
+				.getTextWidget();
+		styledText.setCaretOffset(951);
+		styledText.insert("<a"); //$NON-NLS-1$
+		styledText.setCaretOffset(953);
+		for(int i=0;i<100;i++) {		
+			styledText.insert(""+i); //$NON-NLS-1$
+			TestUtil.delay(30);
+		}
+		Job job = new UIJob("Close editor Job"){ //$NON-NLS-1$
+
+			@Override
+			public IStatus runInUIThread(IProgressMonitor monitor) {
+				
+				 part.getVisualEditor().getController().visualRefresh();
 				 part.close(false);
 				 part.dispose();
 				return Status.OK_STATUS;
