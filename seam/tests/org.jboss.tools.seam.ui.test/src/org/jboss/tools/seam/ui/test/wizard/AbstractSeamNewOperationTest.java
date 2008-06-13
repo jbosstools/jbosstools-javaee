@@ -73,9 +73,7 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 	protected static final String SEAM_2_0 = "Seam 2.0.0";
 
 	protected static final String SEAM_1_2_HOME = "jbosstools.test.seam.1.2.1.eap.home";
-	protected static final String SEAM_2_0_HOME = "jbosstools.test.seam.2.0.0.home";
-	protected static final String SEAM_1_2_HOME_DEFAULT = "F:/jbdevstudio-ga/jboss-eap/seam";
-	protected static final String SEAM_2_0_HOME_DEFAULT = "E:/Java/JBoss/Seam/jboss-seam-2.0.1.GA";
+	protected static final String SEAM_2_0_HOME = "jbosstools.test.seam.2.0.1.GA.home";
 	
 	private static final String SEAM_ACTION_COMPONENT_NAME = "TestAction";
 	private static final String SEAM_FORM_COMPONENT_NAME = "TestForm";
@@ -272,12 +270,15 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 
 	
 	protected File getSeamHomeFolder(String seamRTName) {
+		File seamHome = null;
 		if (SEAM_1_2.equals(seamRTName)) {
-			return new File(System.getProperty(SEAM_1_2_HOME, SEAM_1_2_HOME_DEFAULT));
+			seamHome =  new File(System.getProperty(SEAM_1_2_HOME));
+			
 		} else if (SEAM_2_0.equals(seamRTName)) {
-			return new File(System.getProperty(SEAM_2_0_HOME, SEAM_2_0_HOME_DEFAULT));
+			seamHome = new File(System.getProperty(SEAM_2_0_HOME));
 		}
-		return null;
+		
+		return seamHome;
 	}
 
 	protected SeamVersion getSeamRTVersion(String seamRTName) {
