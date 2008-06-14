@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.test;
 
+import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -23,6 +25,7 @@ public class JsfAllTests {
 		suite.addTestSuite(ModelFormat_2_0_0_Test.class);
 		suite.addTestSuite(JSFImportTest.class);
 		suite.addTestSuite(JSFBeansTest.class);
+		suite.addTestSuite(JSFPromptingProviderTest.class);
 		
 		return suite;
 	}

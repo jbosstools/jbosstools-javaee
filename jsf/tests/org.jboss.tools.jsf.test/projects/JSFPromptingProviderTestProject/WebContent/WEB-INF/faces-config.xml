@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+ <managed-bean>
+  <managed-bean-name>mbean1</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean1</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>property1</property-name>
+   <property-class>java.lang.String</property-class>
+   <value>"property1 value"</value>
+  </managed-property>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean2</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean2</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean3</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean3</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean4</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean4</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean5</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean5</managed-bean-class>
+  <managed-bean-scope>application</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean6</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean6</managed-bean-class>
+  <managed-bean-scope>application</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean7</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean7</managed-bean-class>
+  <managed-bean-scope>none</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mbean8</managed-bean-name>
+  <managed-bean-class>org.jboss.tools.jsf.test.ManagedBean8</managed-bean-class>
+  <managed-bean-scope>none</managed-bean-scope>
+ </managed-bean>
+ <referenced-bean id="refbean1">
+  <description>refbean1 description text</description>
+  <display-name>Referenced Bean 1 (org.jboss.tools.jsf.test.RefBean1)</display-name>
+  <icon>
+   <small-icon>refbean-small.gif</small-icon>
+   <large-icon>regbeann-large.gif</large-icon>
+  </icon>
+  <referenced-bean-name>refbean1</referenced-bean-name>
+  <referenced-bean-class>org.jboss.tools.jsf.test.RefBean1</referenced-bean-class>
+ </referenced-bean>
+ <referenced-bean>
+  <referenced-bean-name>refbean2</referenced-bean-name>
+  <referenced-bean-class>org.jboss.tools.jsf.test.RefBean2</referenced-bean-class>
+ </referenced-bean>
+</faces-config>

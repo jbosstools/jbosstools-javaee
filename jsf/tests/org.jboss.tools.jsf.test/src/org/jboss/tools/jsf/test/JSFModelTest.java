@@ -36,11 +36,7 @@ public class JSFModelTest extends TestCase {
 	public void setUp() throws Exception {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStart1", false); 
 		project = provider.getProject();
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 	}
 	
 	public void testModelExists() {
@@ -56,6 +52,7 @@ public class JSFModelTest extends TestCase {
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
 		StringBuffer sb = new StringBuffer();
 		int errorCount = 0;
+		
 		if(tests != null) for (int i = 0; i < tests.size(); i++) {
 			TestDescription t = tests.get(i);
 			String path = t.getProperty("path");
