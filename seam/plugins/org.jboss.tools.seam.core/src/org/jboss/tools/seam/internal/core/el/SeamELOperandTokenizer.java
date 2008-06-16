@@ -293,6 +293,9 @@ public class SeamELOperandTokenizer {
 					if ((backSlashCount/2)*2 == backSlashCount) {
 						return;
 					}
+				} else {
+					releaseChar(); // Return the last non-slash char to the buffer
+					return;
 				}
 			}
 			ch = readCharBackward();
