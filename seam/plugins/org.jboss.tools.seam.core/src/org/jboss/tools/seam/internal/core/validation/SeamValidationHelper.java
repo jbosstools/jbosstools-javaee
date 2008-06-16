@@ -16,7 +16,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
@@ -168,7 +170,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 			return null;
 		}
 		String className = fileName.substring(0, firstDot);		
-		IProject p = getProject().getProject();
+		IProject p = getProject();
 		try {
 			IJavaProject jp = EclipseResourceUtil.getJavaProject(p);
 			IPackageFragment packageFragment = jp.findPackageFragment(componentXmlFile.getFullPath().removeLastSegments(1));
@@ -183,33 +185,41 @@ public class SeamValidationHelper extends WorkbenchContext {
 	}
 
 	/**
-	 * Find setter for property
+	 * Find a setter or a field for a property.
 	 * @param type
 	 * @param propertyName
-	 * @return
+	 * @return IMethod (setter) or IFiled (field)
 	 */
-	public IMethod findSetter(IType type, String propertyName) {
+	public IMember findProperty(IType type, String propertyName) {
 		if(propertyName == null || propertyName.length()==0) {
 			return null;
 		}
-		String firstLetter = propertyName.substring(0, 1).toUpperCase();
-		String nameWithoutFirstLetter = propertyName.substring(1);
-		String setterName = "set" + firstLetter + nameWithoutFirstLetter; //$NON-NLS-1$
 		try {
-			return findSetterInHierarchy(type, setterName);
+			return findPropertyInHierarchy(type, propertyName);
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
 		return null;
 	}
 
-	private IMethod findSetterInHierarchy(IType type, String setterName) throws JavaModelException {
+	private IMember findPropertyInHierarchy(IType type, String propertyName) throws JavaModelException {
+		String firstLetter = propertyName.substring(0, 1).toUpperCase();
+		String nameWithoutFirstLetter = propertyName.substring(1);
+		String setterName = "set" + firstLetter + nameWithoutFirstLetter; //$NON-NLS-1$
+
 		IMethod[] methods = type.getMethods();
 		for (int i = 0; i < methods.length; i++) {
 			if(methods[i].getElementName().equals(setterName) && methods[i].getParameterNames().length==1) {
 				return methods[i];
 			}
 		}
+		IField[] fields = type.getFields();
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i].getElementName().equals(propertyName)) {
+				return fields[i];
+			}
+		}
+
 		String superclassName = type.getSuperclassName();
 		if(superclassName!=null) {
 			String[][] packages = type.resolveType(superclassName);
@@ -224,9 +234,9 @@ public class SeamValidationHelper extends WorkbenchContext {
 					String qName = packageName + packages[i][1];
 					IType superclass = type.getJavaProject().findType(qName);
 					if(superclass!=null) {
-						IMethod method = findSetterInHierarchy(superclass, setterName);
-						if(method!=null) {
-							return method;
+						IMember property = findPropertyInHierarchy(superclass, propertyName);
+						if(property!=null) {
+							return property;
 						}
 					}
 				}
