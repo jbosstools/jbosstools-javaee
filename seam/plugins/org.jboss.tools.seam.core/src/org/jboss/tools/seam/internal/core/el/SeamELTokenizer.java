@@ -225,8 +225,8 @@ public class SeamELTokenizer {
 	 */
 	private ELToken readStringToken() {
 		fState = STATE_STRING;
+		int ch = readNextChar(); // skip first '
 		int startOfToken = index;
-		int ch;
 		while((ch = readNextChar()) != -1) {
 			if (ch==STRING_SYMBOL) {
 				break;
