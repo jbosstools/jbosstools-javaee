@@ -90,6 +90,8 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			String valText = (n instanceof IDOMAttr)? 
 							((IDOMAttr)n).getValueRegionText():
 								((IDOMText)n).getData();
+			if (valText == null) 
+				return null;
 
 			int startBracket = 0;
 			int exprStart = 0;
