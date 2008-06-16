@@ -23,12 +23,10 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -465,7 +463,7 @@ public class SeamCoreValidator extends SeamValidator {
 						if(name==null) {
 							return;
 						}
-						boolean ok = type.isBinary() || coreHelper.findSetter(type, name)!=null;
+						boolean ok = type.isBinary() || coreHelper.findProperty(type, name)!=null;
 						if(!ok) {
 							addError(UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID, SeamPreferences.UNKNOWN_COMPONENT_PROPERTY, new String[]{type.getElementName(), componentName, name}, property, declaration.getResource());
 						}
