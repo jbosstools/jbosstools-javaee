@@ -44,7 +44,7 @@ public class JBide2227TestCase extends VpeTest {
     private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT";
 
     /** The Constant IMPORT_PROJECT_NAME. */
-    private static final String IMPORT_PROJECT_NAME = "TestSeamELContentAssist";
+    public static final String IMPORT_PROJECT_NAME = "TestSeamELContentAssist";
 
     /** The Constant PAGE_1. */
     private static final String PAGE_1 = "/WebContent/jbide2227/withEl.xhtml";
