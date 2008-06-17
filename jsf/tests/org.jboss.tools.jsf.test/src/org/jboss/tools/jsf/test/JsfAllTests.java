@@ -25,7 +25,7 @@ public class JsfAllTests {
 		suite.addTestSuite(ModelFormat_2_0_0_Test.class);
 		suite.addTestSuite(JSFImportTest.class);
 		suite.addTestSuite(JSFBeansTest.class);
-		//suite.addTestSuite(JSFPromptingProviderTest.class);
+		suite.addTestSuite(JSFPromptingProviderTest.class);
 		
 		return suite;
 	}
