@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -28,6 +31,7 @@ import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
+import org.jboss.tools.seam.internal.core.SeamProject;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -55,6 +59,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		cleanCachedProjects();
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 	}
 	
 	static void cleanCachedProjects() {
@@ -76,11 +81,33 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		
 	}
 
+	IResourceChangeListener resourceChangeListener = new RCL();
+
+	class RCL implements IResourceChangeListener {
+
+		public void resourceChanged(IResourceChangeEvent event) {
+			if(event.getType() == IResourceChangeEvent.PRE_DELETE
+				|| event.getType() == IResourceChangeEvent.PRE_CLOSE) {
+				IResource r = event.getResource();
+				if(r instanceof IProject) {
+					IProject p = (IProject)r;
+					SeamProject sp = (SeamProject)getSeamProject(p, false);
+					if(sp != null) {
+						sp.clearStorage();
+					}
+				}
+			}
+			
+		}
+		
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 		plugin = null;
 		super.stop(context);
 	}
