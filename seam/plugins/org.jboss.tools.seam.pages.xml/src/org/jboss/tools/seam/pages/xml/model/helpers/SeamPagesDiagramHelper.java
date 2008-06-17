@@ -188,6 +188,10 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		gs = (ReferenceObjectImpl[])targets.values().toArray(new ReferenceObjectImpl[0]);
 		for (int i = 0; i < gs.length; i++) {
 			gs[i].setReference(null);
+			XModelObject[] os = gs[i].getChildren(ENT_DIAGRAM_ITEM_OUTPUT);
+			for (int j = 0; j < os.length; j++) {
+				gs[i].removeChild(os[j]);
+			}
 			updatePageItem(gs[i]);
 		}
 	}
