@@ -113,7 +113,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void configure() throws CoreException {
 		addToBuildSpec(SeamCoreBuilder.BUILDER_ID);
-		DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(VariableResolver.ID);
+		DesignTimeApplicationManager dtAppManager = DesignTimeApplicationManager.getInstance(project);
+		if(dtAppManager!=null)
+			DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(VariableResolver.ID);
 	}
 
 	/**
