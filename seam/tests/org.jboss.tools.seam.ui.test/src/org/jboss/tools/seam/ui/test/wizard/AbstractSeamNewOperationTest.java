@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.ui.IWorkbench;
@@ -117,6 +118,7 @@ abstract public class AbstractSeamNewOperationTest extends TestCase {
 		for (IResource r : this.resourcesToCleanup) {
 			try {
 				System.out.println("Deleting " + r);
+				((IProject)r).close(null);
 				r.delete(true, null);
 			} catch(Exception e) {
 				System.out.println("Error deleting " + r);
