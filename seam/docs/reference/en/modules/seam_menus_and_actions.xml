@@ -38,7 +38,7 @@
         <table>
             <title>Seam Actions in the New Submenu</title>
             <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
+                <colspec colnum="1" align="left" colwidth="1*"/>
                 <colspec colnum="2" colwidth="4*"/>
 
                 <thead>
@@ -192,7 +192,7 @@
             <table>
                 <title>Find Seam References/Declarations actions</title>
                 <tgroup cols="3">
-                    <colspec colnum="1" colwidth="1*"/>
+                    <colspec colnum="1" align="left" colwidth="1*"/>
                     <colspec colnum="2" colwidth="4*"/>
                     <colspec colnum="3" colwidth="2*"/>
 
@@ -295,7 +295,7 @@
             <table>
                 <title>Open Seam Components Dialog</title>
                 <tgroup cols="3">
-                    <colspec colnum="1" colwidth="1*"/>
+                    <colspec colnum="1" align="left" colwidth="1*"/>
                     <colspec colnum="2" colwidth="4*"/>
                     <colspec colnum="3" colwidth="2*"/>
 

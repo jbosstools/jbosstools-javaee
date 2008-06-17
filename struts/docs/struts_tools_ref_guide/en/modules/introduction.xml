@@ -36,7 +36,7 @@
             <title>Key Functionality for Struts Tools</title>
             <tgroup cols="3">
 
-                <colspec colnum="1" colwidth="2*"/>
+                <colspec colnum="1" align="left" colwidth="2*"/>
                 <colspec colnum="2" colwidth="4*"/>
                 <colspec colnum="3" colwidth="2*"/>
 
