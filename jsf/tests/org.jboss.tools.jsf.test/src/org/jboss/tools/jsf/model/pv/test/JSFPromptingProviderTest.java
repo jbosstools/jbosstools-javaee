@@ -139,7 +139,7 @@ public class JSFPromptingProviderTest extends TestCase {
 			provider.getList(model, WebPromptingProvider.JSF_BEAN_OPEN, object.toString(), null);
 			IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 			assertNotNull(editor);
-			assertTrue(editor.getClass().getName().endsWith("JavaEditor"));
+			assertTrue(editor.getClass().getName().endsWith("CompilationUnitEditor"));
 			// TODO check that right java class opened
 		}
 			
