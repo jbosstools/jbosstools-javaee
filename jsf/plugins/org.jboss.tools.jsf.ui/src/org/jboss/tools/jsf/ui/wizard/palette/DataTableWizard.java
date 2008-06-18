@@ -102,8 +102,13 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		String value = null;
 		if (page2.getValue().trim().length() > 0) {
 			value = page2.getValue().trim();
-			if(value.startsWith("#{")) value = value.substring(2);
-			if(value.endsWith("}")) value = value.substring(0, value.length() - 1);
+			if(value.startsWith("#{")
+				|| value.startsWith("${")) {
+				value = value.substring(2);
+			}
+			if(value.endsWith("}")) {
+				value = value.substring(0, value.length() - 1);
+			}
 		}
 		String var = null;
 		if (page2.getVar().length() > 0) {
