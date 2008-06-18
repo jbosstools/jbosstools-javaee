@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -39,6 +40,7 @@ import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.AbstractTableHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagAttributesComposite.AttributeDescriptorValue;
@@ -195,6 +197,27 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 
 		return generalTabContent;
 	}
+
+	public void validate() throws ValidationException {
+		super.validate();
+		String value = getValue();
+		if(value != null) value = value.trim();
+		if(value != null && value.length() > 0) {
+			try {
+				boolean b1 = value.matches("[#\\$]\\{[^#\\$\\}\\{]*\\}");
+				if(!b1) {
+					throw new ValidationException("Value must be set with Expression Language.");
+				}
+				boolean b2 = value.matches("[#\\$]\\{[^#\\$\\}\\{\\.]+(\\.[^#\\$\\}\\{\\.]+)*\\}");
+				if(!b2) {
+					throw new ValidationException("Expression Language in Value is not correct.");
+				}
+			} catch (PatternSyntaxException e) {
+				JsfUiPlugin.getPluginLog().logError(e);
+			}
+		}
+	}
+
 	boolean flag = false;	
 
 	class PCL implements PropertyChangeListener {

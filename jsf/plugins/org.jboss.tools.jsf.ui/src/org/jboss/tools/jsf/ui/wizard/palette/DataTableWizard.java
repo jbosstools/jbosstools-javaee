@@ -95,13 +95,15 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	
 	public void fillColumn(){
 		Properties properties = fDropCommand.getProperties();
-		String[] vs =  page2.getSelectedProperties();
+		String[] vs = page2.getSelectedProperties();
 		StringBuffer text = new StringBuffer();
 		text.append(properties.getProperty("start text"));
 		
 		String value = null;
-		if (page2.getValue().length() > 0) {
-			value  = page2.getValue();
+		if (page2.getValue().trim().length() > 0) {
+			value = page2.getValue().trim();
+			if(value.startsWith("#{")) value = value.substring(2);
+			if(value.endsWith("}")) value = value.substring(0, value.length() - 1);
 		}
 		String var = null;
 		if (page2.getVar().length() > 0) {
@@ -131,4 +133,5 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		getWizardModel().removePropertyChangeListener(this);
 		super.dispose();
 	}
+
 }
