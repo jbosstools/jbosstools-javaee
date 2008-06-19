@@ -10,6 +10,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -42,17 +43,10 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		return new TestSuite(SeamELContentAssistTest.class);
 	}
 
-	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy); 
+	public void setUp() throws CoreException {
+		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy);
 		project = provider.getProject();
-		Throwable exception = null;
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+		project.refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
 
 	protected void tearDown() throws Exception {
@@ -65,11 +59,6 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1258
 	 */
 	public void testMessages() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);;
-		}
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 		checkProposals("/WebContent/messages.xhtml", 494, new String[]{"messages.Text1", "messages.Text2"}, true);
 	}
@@ -79,11 +68,6 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	 *          http://jira.jboss.com/jira/browse/JBIDE-2007
 	 */
 	public void testVarAttributes() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 
 		IFile component = project.getFile("src/action/demo/TestComponentForVarAttributes.java");

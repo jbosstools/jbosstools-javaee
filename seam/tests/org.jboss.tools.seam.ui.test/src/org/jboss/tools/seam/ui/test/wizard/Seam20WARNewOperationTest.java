@@ -11,6 +11,11 @@
 package org.jboss.tools.seam.ui.test.wizard;
 
 public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
+	public Seam20WARNewOperationTest(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	void setUpSeamProjects() {
 		setUpSeamProject(warProject);
@@ -18,6 +23,6 @@ public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
 	
 	@Override
 	protected String getSeamRTName() {
-		return AbstractSeamNewOperationTest.SEAM_2_0;
+		return AbstractSeamNewOperationTest.SEAM_2_0_0;
 	}
 }

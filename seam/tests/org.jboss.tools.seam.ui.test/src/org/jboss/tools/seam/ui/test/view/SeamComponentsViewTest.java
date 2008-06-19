@@ -142,7 +142,7 @@ public class SeamComponentsViewTest extends TestCase {
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Expected package 'myPackage' was not found it tree",
 				seamPackage!=null);
-		
+		EditorTestHelper.runEventQueue(1000);
 		component = findSeamComponent(seamPackage, "myPackage.myTextComponent");
 		assertTrue("Expected component 'myPackage.myTextComponent' not found " +
 				"after renaming",component!=null);
@@ -534,6 +534,7 @@ public class SeamComponentsViewTest extends TestCase {
 			count++;
 			if(count > NUMBER_OF_REFRESHES) break;
 		}
+		EditorTestHelper.runEventQueue(1000);
 	}
 	
 }

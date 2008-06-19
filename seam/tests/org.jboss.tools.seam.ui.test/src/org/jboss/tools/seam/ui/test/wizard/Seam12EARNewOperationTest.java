@@ -27,6 +27,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
+
 	private static final String SEAM_EAR_PROJECTNAME = "seam_ear";
 	private static final String SEAM_EAR_EJB_PROJECTNAME = "seam_ear-ejb";
 	private static final String SEAM_EAR_EAR_PROJECTNAME = "seam_ear-ear";
@@ -39,11 +40,11 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	private ISeamProject seamEarEjbProject = null;
 	private ISeamProject seamTestProject = null;
 
-	
-	public Seam12EARNewOperationTest() {
-		super();
+	public Seam12EARNewOperationTest(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
 	}
-
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 		
@@ -312,6 +313,6 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 
 	@Override
 	protected String getSeamRTName() {
-		return AbstractSeamNewOperationTest.SEAM_1_2;
+		return AbstractSeamNewOperationTest.SEAM_1_2_0;
 	}
 }

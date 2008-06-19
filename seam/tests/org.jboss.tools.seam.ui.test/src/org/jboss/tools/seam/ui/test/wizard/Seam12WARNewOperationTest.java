@@ -37,8 +37,8 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 	private ISeamProject seamTestProject = null;
 
 	
-	public Seam12WARNewOperationTest() {
-		super();
+	public Seam12WARNewOperationTest(String name) {
+		super(name);
 	}
 
 	protected void setUp() throws Exception {
@@ -91,7 +91,7 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 	}
 
 	protected String getSeamRTName() {
-		return AbstractSeamNewOperationTest.SEAM_1_2;
+		return AbstractSeamNewOperationTest.SEAM_1_2_0;
 	}
 	
 

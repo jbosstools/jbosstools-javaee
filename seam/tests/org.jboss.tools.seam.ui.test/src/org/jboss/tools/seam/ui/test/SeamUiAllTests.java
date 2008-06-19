@@ -14,7 +14,6 @@ package org.jboss.tools.seam.ui.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.seam.core.test.refactoring.SeamPropertyRefactoringTest;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1645Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;

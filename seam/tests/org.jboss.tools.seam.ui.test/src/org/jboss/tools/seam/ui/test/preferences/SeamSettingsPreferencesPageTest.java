@@ -103,7 +103,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
 		assertNotNull("Can't load seam project. It seems seam nature was not added to rpoject by seam settings page.", seamProject);
-
+		
 		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(project);
 		assertEquals("Seam settings version 1.1 property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, ""), ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_1);
 		assertEquals("Seam runtime property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, ""), RUNTIME_NAME);
@@ -117,5 +117,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 		assertEquals("Test package name property is not set", pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""), TEST_PACKAGE_NAME);
 		assertEquals("Test source folder property is not set", pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ""), "/" + PROJECT_NAME + "/src");
 		assertEquals("View folder property is not set", pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), "/" + PROJECT_NAME);
+		
+		assertTrue("Seam Nature was not enabled for project \"" + project.getName() + "\"",project.hasNature(ISeamProject.NATURE_ID));
 	}
 }

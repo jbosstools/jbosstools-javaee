@@ -77,9 +77,7 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * 
 	 */
 	public void testSeamProjectNewWizardInstanceIsCreated() {
-		IWizardPage projectFacetsWizPg = wizard.getNextPage(startSeamPrjWzPg);
-		assertNotNull("Cannot create select facets wizard page",projectFacetsWizPg);
-		IWizardPage webModuleWizPg = wizard.getNextPage(projectFacetsWizPg);
+		IWizardPage webModuleWizPg = wizard.getNextPage(startSeamPrjWzPg);
 		assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
 		IWizardPage jsfCapabilitiesWizPg = wizard.getNextPage(webModuleWizPg);
 		assertNotNull("Cannot create JSF capabilities wizard page",jsfCapabilitiesWizPg);
