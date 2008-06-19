@@ -210,7 +210,15 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 
 class SFUtil extends XModelObjectLoaderUtil {
 
-	static String[] folders = new String[]{"Components", "Converters", "Managed Beans", "Navigation Rules", "Referenced Beans", "Render Kits", "Validators", "Extensions"};
+	static String[] folders = new String[]{
+		JSFConstants.FOLDER_COMPONENTS, 
+		JSFConstants.FOLDER_CONVERTERS, 
+		JSFConstants.FOLDER_MANAGED_BEANS, 
+		JSFConstants.FOLDER_NAVIGATION_RULES, 
+		JSFConstants.FOLDER_REFENCED_BEANS, 
+		JSFConstants.FOLDER_RENDER_KITS, 
+		JSFConstants.FOLDER_VALIDATORS, 
+		JSFConstants.FOLDER_EXTENSIONS};
 
 	protected Set<String> getAllowedChildren(XModelEntity entity) {
 		Set<String> children = super.getAllowedChildren(entity);

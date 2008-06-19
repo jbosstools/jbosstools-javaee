@@ -23,6 +23,7 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 
 public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode {
@@ -168,8 +169,8 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 
 }
 class BeanConstants {
-	static BeanConstants MANAGED_BEAN_CONSTANTS = new BeanConstants("Managed Beans", "managed-bean-name", "managed-bean-class");
-	static BeanConstants REFERENCED_BEAN_CONSTANTS = new BeanConstants("Referenced Beans", "referenced-bean-name", "referenced-bean-class");
+	static final BeanConstants MANAGED_BEAN_CONSTANTS = new BeanConstants(JSFConstants.FOLDER_MANAGED_BEANS, "managed-bean-name", "managed-bean-class");
+	static final BeanConstants REFERENCED_BEAN_CONSTANTS = new BeanConstants(JSFConstants.FOLDER_REFENCED_BEANS, "referenced-bean-name", "referenced-bean-class");
 
 	String folder;
 	String nameAttribute;

@@ -32,7 +32,14 @@ public interface JSFConstants {
 	public static final String ENT_PROCESS_ITEM_OUTPUT = "JSFProcessItemOutput";
 	
 	public static final String FOLDER_NAVIGATION_RULES = "Navigation Rules";	
-
+	public static final String FOLDER_MANAGED_BEANS = "Managed Beans";
+	public static final String FOLDER_REFENCED_BEANS = "Referenced Beans";
+	public static final String FOLDER_COMPONENTS = "Components";
+	public static final String FOLDER_CONVERTERS = "Converters";
+	public static final String FOLDER_RENDER_KITS = "Render Kits";
+	public static final String FOLDER_VALIDATORS = "Validators";
+	public static final String FOLDER_EXTENSIONS = "Extensions";
+	
 	public static final String ATT_ID             = "id";
 	public static final String ATT_NAME           = "name";
 	public static final String ATT_PATH           = "path";
