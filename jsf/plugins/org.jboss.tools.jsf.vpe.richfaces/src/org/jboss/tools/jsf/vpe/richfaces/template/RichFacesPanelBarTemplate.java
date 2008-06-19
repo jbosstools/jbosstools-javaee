@@ -119,9 +119,16 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
             height = PERCENT_100;
         }
         // added by estherbin fix not worked junit JBIDE1713Test
-        final Integer iHeight = ComponentUtil.parseWidthHeightValue(height);
-
-        return "height: " + String.valueOf(iHeight) + ComponentUtil.PX_SUFFIX + SEMI_COLON; //$NON-NLS-1$
+        Integer iHeight =  null;
+        //Added by estherbin
+        //fix http://jira.jboss.com/jira/browse/JBIDE-2366
+        try {
+            iHeight = ComponentUtil.parseWidthHeightValue(height);
+        } catch (NumberFormatException e) {
+            height = PERCENT_100;
+        }
+        
+        return "height: " + getValue(height, iHeight); //$NON-NLS-1$
     }
 
     /**
@@ -135,9 +142,28 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements
             width = PERCENT_100;
         }
         // added by estherbin fix not worked junit JBIDE1713Test
-        final Integer iWidth = ComponentUtil.parseWidthHeightValue(width);
+        Integer iWidth = null;
         
-        return "width: " + String.valueOf(iWidth) + ComponentUtil.PX_SUFFIX + SEMI_COLON; //$NON-NLS-1$
+        //Added by estherbin
+        //http://jira.jboss.com/jira/browse/JBIDE-2366
+        try {
+            iWidth = ComponentUtil.parseWidthHeightValue(width);
+        } catch (NumberFormatException e) {
+            width = PERCENT_100;
+        }
+        
+        return "width: " + getValue(width,iWidth); //$NON-NLS-1$
+    }
+
+    private String getValue(String width, Integer iWidth) {
+        String rst = "";
+
+        if (width.equals(PERCENT_100)) {
+            rst = width + SEMI_COLON;
+        } else {
+            rst = String.valueOf(iWidth) + ComponentUtil.PX_SUFFIX + SEMI_COLON;
+        }
+        return rst;
     }
 
     /**
