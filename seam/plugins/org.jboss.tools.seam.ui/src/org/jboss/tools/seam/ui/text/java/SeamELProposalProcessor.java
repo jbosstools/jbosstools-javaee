@@ -71,6 +71,9 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 	private static final ICompletionProposal[] NO_PROPOSALS= new ICompletionProposal[0];
 	private static final IContextInformation[] NO_CONTEXTS= new IContextInformation[0];
 
+	public static final String EL_END_EXPRESSION = "}";
+    public static final String EL_START_EXPRESSION = "#{";
+	
 	public static final class Proposal implements ICompletionProposal, ICompletionProposalExtension, ICompletionProposalExtension2, ICompletionProposalExtension3, ICompletionProposalExtension4 {
 
 		private final String fString;
