@@ -39,7 +39,13 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	protected static final IWorkspace ws = ResourcesPlugin.getWorkspace();
 	
 	private SeamRuntime seamRuntime;
+	
 	protected static final String SEAM_1_2_0 = "Seam 1.2.0";
+	protected static final String SEAM_2_0_0 = "Seam 2.0.0";
+	
+	protected static final String SEAM_1_2_HOME = "jbosstools.test.seam.1.2.1.eap.home";
+	protected static final String SEAM_2_0_HOME = "jbosstools.test.seam.2.0.1.GA.home";
+	
 	protected static final IProjectFacetVersion seamFacetVersion;
 	protected static final IProjectFacetVersion dynamicWebVersion;
 	protected static final IProjectFacetVersion javaVersion;

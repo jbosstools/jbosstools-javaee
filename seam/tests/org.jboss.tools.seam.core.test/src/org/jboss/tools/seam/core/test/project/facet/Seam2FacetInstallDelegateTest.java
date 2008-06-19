@@ -38,8 +38,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	IFacetedProject warProject;
 	IFacetedProject earProject;
 	
-	
-	
 	private IProjectFacet seam2Facet;
 	private IProjectFacetVersion seam2FacetVersion;
 	
@@ -47,7 +45,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		super(name);
 	}
 
-	
 	@Override
 	protected void setUp() throws Exception {
 		assertSeamHomeAvailable();
@@ -73,7 +70,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	
 	@Override
 	protected File getSeamHomeFolder() {
-		return new File(System.getProperty("jbosstools.test.seam.2.0.0.home", "/home/max/work/products/jboss-seam-2.0.0.GA"));
+		return new File(System.getProperty("jbosstools.test.seam.2.0.1.GA.home"));
 	}
 	
 	@Override
