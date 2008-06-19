@@ -73,11 +73,7 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * 
 	 */
 	public void propertyChanged(DataModelEvent event) {
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-				validateUntillError();
-			}
-		});
+		validateUntillError();
 	}
 	
 	/**
