@@ -435,7 +435,7 @@
 			</vpe:template>
 		</vpe:if>
 		<vpe:if
-			test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')">
+			test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
 			<vpe:template children="yes" modify="yes"
 				class="org.jboss.tools.jsf.vpe.jsf.template.JsfOptionSelectItemTemplate">
 			</vpe:template>
@@ -502,7 +502,8 @@
 						hasinparents('h:selectManyListbox')|
 						hasinparents('h:selectOneMenu')|
 						hasinparents('h:selectManyMenu')|
-						hasinparents('x:selectOneMenu')">
+						hasinparents('x:selectOneMenu')|
+						hasinparents('rich:pickList')">
 <!-- Gavr -->
 			<vpe:template children="no" modify="yes">
 				<option value="{@itemValue}" title="{tagstring()}">
