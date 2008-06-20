@@ -46,7 +46,6 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 	}
 
 	public void setUp() throws Exception {
-		//provider = new TestProjectProvider("", null, PROJECT_NAME, makeCopy);
 		project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestSeamELContentAssist", new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
@@ -95,8 +94,8 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 		HashMap<Object, ArrayList> recognitionTest = new HashMap<Object, ArrayList>();
 		
 		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(1754, 12));
-		regionList.add(new Region(1809, 12));
+		regionList.add(new Region(1888, 11));
+		regionList.add(new Region(1943, 11));
 		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK", regionList);
 		
 		int counter = 0;
@@ -104,10 +103,11 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 			TestData testData = new TestData(document, i);
 			
 			String[] partitionTypes = detector.getPartitionTypes(document, i);
+
 			boolean recognized = false;
 			
 			if (partitionTypes != null && partitionTypes.length > 0) {
-				recognized = ("org.eclipse.jst.jsp.core.jspsource".equals(partitionTypes[0]));
+				recognized = ("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK".equals(partitionTypes[0]));
 			}
 
 			if (recognized) {
@@ -116,8 +116,8 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 			
 			if (recognized) {
 				String childPartitionType = seamViewPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
-				if (childPartitionType != null)
-					System.out.println("position #" + i + " partitionType: " + childPartitionType);
+//				if (childPartitionType != null)
+//					System.out.println("position #" + i + " partitionType: " + childPartitionType);
 
 				if (childPartitionType != null) {
 					ArrayList test = (ArrayList)recognitionTest.get(childPartitionType);
@@ -151,7 +151,7 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 						r = (Region)regions.next();
 						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
 							testResult = true;
-						System.out.println(testData.getHyperlinkRegion().toString());
+//						System.out.println(testData.getHyperlinkRegion().toString());
 					}
 				}
 				assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
@@ -159,7 +159,7 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 			}
 		}
 		
-		assertEquals("Wrong recognized region count", 24 , counter);
+		assertEquals("Wrong recognized region count", 22 , counter);
 
 		model.releaseFromEdit();
 
