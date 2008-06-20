@@ -24,6 +24,10 @@ import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 public class JBide2277Test extends CommonContentAssistantTestCase {
     protected static final String JBIDE_2277_PAGE="/WebContent/jbide2277/jbide2277.xhtml";
     
+	public static final String EL_END_EXPRESSION = "}";
+    public static final String EL_START_EXPRESSION = "#{";
+	
+
     public static Test suite() {
         return new TestSuite(JBide2277Test.class);
     }
@@ -51,7 +55,7 @@ public class JBide2277Test extends CommonContentAssistantTestCase {
         String prevDisplay = "";
         for (ICompletionProposal p : rst) {
             //Check stars with  #{
-            assertTrue(p.getDisplayString().startsWith(SeamELProposalProcessor.EL_START_EXPRESSION));
+            assertTrue(p.getDisplayString().startsWith(EL_START_EXPRESSION));
             
             //Check alphabetical order
             
