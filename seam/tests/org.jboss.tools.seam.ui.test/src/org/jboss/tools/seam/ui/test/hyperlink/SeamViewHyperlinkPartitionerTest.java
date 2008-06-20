@@ -11,8 +11,10 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.ITypedRegion;
@@ -44,7 +46,6 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 	}
 
 	public void setUp() throws Exception {
-		//provider = new TestProjectProvider("", null, PROJECT_NAME, makeCopy);
 		project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestSeamELContentAssist", new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
@@ -55,13 +56,10 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 		}
 	}
 
-	public void testSeamViewPartitioner() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Waiting for the jobs to complete has failed.");
-		} 
+	public void testSeamViewPartitioner() throws CoreException {
+
+		EditorTestHelper.joinBackgroundActivities();
+
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 
 		IFile jspFile = project.getFile(PAGE_NAME);
@@ -73,48 +71,31 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 		
 		IDocumentProvider documentProvider = null;
 		Throwable exception = null;
-		try {
-			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-			
-		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
-		assertTrue("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", (documentProvider != null));
+		documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
+		assertNotNull("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", documentProvider);
 
-		try {
-			documentProvider.connect(editorInput);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-			assertTrue("The document provider is not able to be initialized with the editor input", false);
-		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+
+		documentProvider.connect(editorInput);
 		
 		IDocument document = documentProvider.getDocument(editorInput);
 
 		assertTrue("The document for the file \"" + PAGE_NAME + "\" is not loaded", (document != null));
 		
-		IStructuredModel model = null;
-		if (document instanceof IStructuredDocument) {
-			// corresponding releaseFromEdit occurs in
-			// dispose()
-			model = StructuredModelManager.getModelManager().getModelForEdit((IStructuredDocument) document);
-			EditorModelUtil.addFactoriesTo(model);
-		}
-
+		assertTrue("Document should be instance of IStructuredDocument",document instanceof IStructuredDocument);
+		IStructuredModel model = StructuredModelManager.getModelManager().getModelForEdit((IStructuredDocument) document);
 		assertTrue("The document model for the file \"" + PAGE_NAME + "\" is not loaded", (model != null));
-
+		
+		EditorModelUtil.addFactoriesTo(model);
+		
 		SeamViewHyperlinkPartitioner seamViewPartitioner = new SeamViewHyperlinkPartitioner();
 
 		TestHyperlinkDetector detector = new TestHyperlinkDetector();
 		HashMap<Object, ArrayList> recognitionTest = new HashMap<Object, ArrayList>();
 		
 		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(1754, 12));
-		regionList.add(new Region(1809, 12));
+		regionList.add(new Region(1888, 11));
+		regionList.add(new Region(1943, 11));
 		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK", regionList);
 		
 		int counter = 0;
@@ -122,6 +103,7 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 			TestData testData = new TestData(document, i);
 			
 			String[] partitionTypes = detector.getPartitionTypes(document, i);
+
 			boolean recognized = false;
 			
 			if (partitionTypes != null && partitionTypes.length > 0) {
@@ -169,15 +151,15 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 						r = (Region)regions.next();
 						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
 							testResult = true;
+//						System.out.println(testData.getHyperlinkRegion().toString());
 					}
 				}
 				assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
-						+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , (testResult == false));
+						+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "] in file \"" + PAGE_NAME + "\"" , (testResult == false));
 			}
 		}
 		
-		assertTrue("Wrong recognized region count: " + counter  
-				+ " (must be 24)" , (counter == 24));
+		assertEquals("Wrong recognized region count", 22 , counter);
 
 		model.releaseFromEdit();
 
@@ -209,7 +191,9 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 				region = (document instanceof IDocumentExtension3 ? 
 						((IDocumentExtension3)document).getDocumentPartitioner("org.eclipse.wst.sse.core.default_structured_text_partitioning").getPartition(offset) : 
 						document.getDocumentPartitioner().getPartition(offset)); 
-			} catch (Exception x) {}
+			} catch (Exception x) {
+				x.printStackTrace();
+			}
 			
 			return region;
 		}
@@ -235,7 +219,13 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
                     return region.getOffset();
                 }
                 public String toString() {
-                	return "[" + getOffset() + "-" + (getOffset() + getLength() - 1) + ":" + getType() + ":" + getContentType() +  "]";
+                	try {
+						return document.get(getOffset(), getLength()) + " [" + getOffset() + "-" + (getOffset() + getLength() - 1) + ":" + getType() + ":" + getContentType() +  "]";
+					} catch (BadLocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return "";
                 }
             };
 		}
