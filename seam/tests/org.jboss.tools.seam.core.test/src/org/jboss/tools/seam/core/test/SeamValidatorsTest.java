@@ -60,7 +60,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		EditorTestHelper.joinBackgroundActivities();
 	}
-	
+
 	public void tearDown() throws Exception {
 		if(project != null){
 			EditorTestHelper.joinBackgroundActivities();
@@ -90,12 +90,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	 */
 	public void testJBIDE1318() throws CoreException {
 		IFile testJSP = project.getFile("WebContent/test.jsp");
-		String[] messages = getMarkersMessage(testJSP);
-		StringBuffer error = new StringBuffer("Problem markers were found in WebContent/test.jsp: ");
-		for (int i = 0; i < messages.length; i++) {
-			error.append(messages[i]).append("; ");
-		}
-		assertTrue(error.toString(), messages.length==0);
+		assertMarkerIsNotCreated(testJSP, null, "actor cannot be resolved");
 	}
 
 	public void testVarAttributes() throws CoreException {
