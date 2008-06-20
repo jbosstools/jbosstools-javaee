@@ -30,7 +30,7 @@
  <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
   LOCATION="%redhat.workspace%/lib/standard.jar" NAME="lib-standard.jar"/>
  <FILESYSTEM ENTITY="FileSystemFolder"
-  LOCATION="%eclipse.project%" NAME="JSFKickStart1"/>
+  LOCATION="%eclipse.project%" NAME="JSFKickStartOldFormat"/>
  <WEB ENTITY="JstWeb" MODEL_PATH="/web.xml" SERVLET_VERSION="2.4">
   <MODULE ENTITY="WebJSFModule" MODEL_PATH="/faces-config.xml"
    ROOT="WEB-ROOT" SRC="src" URI="/WEB-INF/faces-config.xml"/>

@@ -27,7 +27,7 @@ public class JSFBeansTest extends TestCase {
 	public JSFBeansTest() {}
 
 	public void setUp() throws CoreException {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStart1", false);
+		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStartOldFormat", false);
 		project = provider.getProject();
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 	}

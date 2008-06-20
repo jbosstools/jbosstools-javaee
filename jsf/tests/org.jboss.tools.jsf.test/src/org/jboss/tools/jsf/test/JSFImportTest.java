@@ -25,7 +25,7 @@ public class JSFImportTest extends TestCase {
 	File projectLocation = null;
 
 	public void setUp() throws Exception {
-		init("org.jboss.tools.jsf.test", "/projects", "JSFKickStart1");
+		init("org.jboss.tools.jsf.test", "/projects", "JSFKickStartOldFormat");
 	}
 	
 	public void testImportWithoutLinks() {
@@ -46,7 +46,7 @@ public class JSFImportTest extends TestCase {
 			JUnitUtils.fail("Error in import operation", ex);
 		}
 		
-		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject("JSFKickStart1");
+		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject("JSFKickStartOldFormat");
 		assertTrue("Project was not loaded", p != null);
 		
 		File f = new File(p.getLocation().toFile(), ".project");
