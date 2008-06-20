@@ -290,7 +290,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertFalse("Problem marker 'Component class does not contain setter for property' not found' not found' not found", number == 0);
 		
 		messages = getMarkersMessage(componentsFile);
-		assertTrue("Problem marker 'Component class does not contain setter for property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not contain setter for property \"abc\"".equals(messages[0]));
+		assertTrue("Problem marker 'Component class does not have a setter or a field for the property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not have a setter or a field for the property \"abc\"".equals(messages[0]));
 		
 		lineNumbers = getMarkersNumbersOfLine(componentsFile);
 		
