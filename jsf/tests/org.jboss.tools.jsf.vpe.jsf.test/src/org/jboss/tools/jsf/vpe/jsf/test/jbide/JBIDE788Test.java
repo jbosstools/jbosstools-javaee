@@ -52,12 +52,9 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		baseCheckofCA(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml",
-				395, 185);
-		baseCheckofCA(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml",
-				503, 125);
-		baseCheckofCA(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml",
-				567, 199);
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","p",382);  
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","sessionScop", 504);
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","h",488);
 
 		// check exception
 		if (getException() != null) {
@@ -76,10 +73,18 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 514, 3);
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 586, 5);
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 653, 46);
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml", 719, 46);
+		ICompletionProposal[] rst = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",585,false);
+		assertNotNull(rst);
+		assertTrue("Length should be greater that 5",rst.length > 5);
+		boolean isFound = false;
+		for(ICompletionProposal c:rst){
+		    if(c.getDisplayString().contains("c:")){
+		        isFound = true;
+		    }
+		}
+		assertTrue("Should be found ",isFound);
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","p",589);
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","msg",534);
 		// check exception
 		if (getException() != null) {
 
@@ -99,8 +104,8 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml",
-				1245, 13);
+		ICompletionProposal[] rst = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",1245);
+		assertNotNull(rst);
 
 		// check exception
 		if (getException() != null) {
@@ -120,8 +125,8 @@ public class JBIDE788Test extends VpeTest {
 		// set exception
 		setException(null);
 		// Tests CA
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml",
-				1200, 112);
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","p",1203);
+		
 
 		// check exception
 		if (getException() != null) {
@@ -272,67 +277,75 @@ public class JBIDE788Test extends VpeTest {
 	 * @param numberOfProposals
 	 * @throws CoreException
 	 */
-	private void checkOfCAByStartString(String caName, String testPagePath,
-			String partOfString, int position) throws CoreException {
-		// get test page path
-		IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
-				IMPORT_PROJECT_NAME);
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+    private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
+            String partOfString, int position) throws CoreException {
+        return this.checkOfCAByStartString(caName, testPagePath, partOfString, position,true);
+        
+    }
+	
+	
+	private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
+            String partOfString, int position,boolean isCheck) throws CoreException {
+        // get test page path
+        IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
+                IMPORT_PROJECT_NAME);
+        assertNotNull("Could not open specified file " + file.getFullPath(),
+                file);
 
-		IEditorInput input = new FileEditorInput(file);
+        IEditorInput input = new FileEditorInput(file);
 
-		assertNotNull("Editor input is null", input);
+        assertNotNull("Editor input is null", input);
 
-		// open and get editor
-		JSPMultiPageEditor part = openEditor(input);
+        // open and get editor
+        JSPMultiPageEditor part = openEditor(input);
 
-		// insert string
-		part.getSourceEditor().getTextViewer().getTextWidget()
-				.replaceTextRange(position, 0, partOfString);
+        // insert string
+        part.getSourceEditor().getTextViewer().getTextWidget()
+                .replaceTextRange(position, 0, partOfString);
 
-		int newPosition = position + partOfString.length();
+        int newPosition = position + partOfString.length();
 
-		// sets cursor position
-		part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
-				newPosition);
-		TestUtil.waitForJobs();
-		TestUtil.delay(2000);
-		SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
-				.getSourceEditor()).getSourceViewerConfigurationForTest();
-		// errase errors which can be on start of editor(for example xuklunner
-		// not found)
-		setException(null);
-		StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration) sourceViewerConfiguration;
-		IContentAssistant iContentAssistant = stvc
-				.getContentAssistant((ISourceViewer) part.getSourceEditor()
-						.getAdapter(ISourceViewer.class));
-		assertNotNull(iContentAssistant);
-		IContentAssistProcessor iContentAssistProcessor = iContentAssistant
-				.getContentAssistProcessor(caName);
-		assertNotNull(iContentAssistProcessor);
-		ICompletionProposal[] results = iContentAssistProcessor
-				.computeCompletionProposals(part.getSourceEditor()
-						.getTextViewer(), newPosition);
+        // sets cursor position
+        part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
+                newPosition);
+        TestUtil.waitForJobs();
+        TestUtil.delay(2000);
+        SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
+                .getSourceEditor()).getSourceViewerConfigurationForTest();
+        // errase errors which can be on start of editor(for example xuklunner
+        // not found)
+        setException(null);
+        StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration) sourceViewerConfiguration;
+        IContentAssistant iContentAssistant = stvc
+                .getContentAssistant((ISourceViewer) part.getSourceEditor()
+                        .getAdapter(ISourceViewer.class));
+        assertNotNull(iContentAssistant);
+        IContentAssistProcessor iContentAssistProcessor = iContentAssistant
+                .getContentAssistProcessor(caName);
+        assertNotNull(iContentAssistProcessor);
+        ICompletionProposal[] results = iContentAssistProcessor
+                .computeCompletionProposals(part.getSourceEditor()
+                        .getTextViewer(), newPosition);
 
-		// remove inserted string
-		part.getSourceEditor().getTextViewer().getTextWidget()
-				.replaceTextRange(position, partOfString.length(), "");
+        // remove inserted string
+        part.getSourceEditor().getTextViewer().getTextWidget()
+                .replaceTextRange(position, partOfString.length(), "");
 
-		assertNotNull(results);
+        assertNotNull(results);
+        if (isCheck) {
+            for (int i = 0; i < results.length; i++) {
 
-		for (int i = 0; i < results.length; i++) {
+                String displayString = ((ICompletionProposal) results[i]).getDisplayString();
+                assertNotNull(displayString);
 
-			String displayString = ((ICompletionProposal) results[i])
-					.getDisplayString();
-			assertNotNull(displayString);
+                System.out.print("\n" + displayString);
+                assertEquals(true, displayString.startsWith(partOfString));
+            }
+        }
 
-			System.out.print("\n" + displayString);
-			assertEquals(true, displayString.startsWith(partOfString));
-		}
-
-		closeEditors();
-		TestUtil.delay(1000L);
+        closeEditors();
+        TestUtil.delay(1000L);
+        return results;
 	}
 
 }
