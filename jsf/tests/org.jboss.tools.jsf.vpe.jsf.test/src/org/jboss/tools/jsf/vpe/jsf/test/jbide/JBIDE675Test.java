@@ -51,7 +51,7 @@ public class JBIDE675Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
-	public void _testBaseTextInputOnPage() throws Throwable {
+	public void testBaseTextInputOnPage() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
 		// set exception
@@ -112,7 +112,7 @@ public class JBIDE675Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
-	public void _testBaseTagInputOnPage() throws Throwable {
+	public void testBaseTagInputOnPage() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
 		// set exception
@@ -171,7 +171,7 @@ public class JBIDE675Test extends VpeTest {
 		}
 	}
 
-	public void _testInsertTagOnPage() throws Throwable {
+	public void testInsertTagOnPage() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
 		// set exception
