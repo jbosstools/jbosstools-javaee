@@ -25,13 +25,19 @@ public class JBIDE2297Test extends VpeTest{
 
 	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
-	private static final String TEST_PAGE_NAME = "JBIDE/2297/JBIDE-2297.xhtml"; //$NON-NLS-1$
+	private static final String TEST_PAGE_NAME1 = "JBIDE/2297/JBIDE-2297.xhtml"; //$NON-NLS-1$
 
+	private static final String TEST_PAGE_NAME2 ="JBIDE/2297/limitedEntry.jsp"; //$NON-NLS-1$
+	
 	public JBIDE2297Test(String name) {
 		super(name);
 	}
 	
 	public void testJBIDE2297() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,IMPORT_PROJECT_NAME)); 
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME1,IMPORT_PROJECT_NAME)); 
+	}
+	
+	public void testJBIDE2297_jsp() throws Throwable {
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME2,IMPORT_PROJECT_NAME)); 
 	}
 }
