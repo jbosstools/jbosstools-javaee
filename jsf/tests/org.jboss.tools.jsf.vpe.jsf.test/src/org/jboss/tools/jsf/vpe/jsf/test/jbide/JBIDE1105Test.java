@@ -53,13 +53,13 @@ public class JBIDE1105Test extends VpeTest {
 	StyledText styledText = parts.getSourceEditor().getTextViewer()
 			.getTextWidget();
 	String delimiter = styledText.getLineDelimiter();
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 10; i++) {
 		int offset = styledText.getOffsetAtLine(21);
 		styledText.setCaretOffset(offset - delimiter.length());
 		styledText.insert(delimiter);
 		TestUtil.waitForIdle();
 	}
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 10; i++) {
 		int offset = styledText.getOffsetAtLine(23);
 		styledText.setCaretOffset(offset - " Test ".length()
 				- delimiter.length());
