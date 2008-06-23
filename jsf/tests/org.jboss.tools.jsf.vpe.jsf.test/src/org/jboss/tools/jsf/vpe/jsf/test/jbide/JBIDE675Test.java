@@ -309,13 +309,13 @@ public class JBIDE675Test extends VpeTest {
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				
-				 part.getVisualEditor().getController().visualRefresh();
 				 part.close(false);
 				 part.dispose();
 				return Status.OK_STATUS;
 			}};
 			job.setPriority(Job.SHORT);
 			job.schedule(900);
+		part.getVisualEditor().getController().visualRefresh();	
 		TestUtil.delay(450);
 		if(getException()!=null) {
 			throw getException();

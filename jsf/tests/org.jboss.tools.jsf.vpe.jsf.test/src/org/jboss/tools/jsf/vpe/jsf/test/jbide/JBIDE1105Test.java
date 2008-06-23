@@ -24,9 +24,9 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE1105Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 	
-	private static final String TEST_PAGE_NAME="JBIDE/1105/employee.xhtml";
+	private static final String TEST_PAGE_NAME="JBIDE/1105/employee.xhtml"; //$NON-NLS-1$
 	
 	public JBIDE1105Test(String name) {
 		super(name);
@@ -40,11 +40,11 @@ public class JBIDE1105Test extends VpeTest {
 	IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file);
+	assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file); //$NON-NLS-1$
 
 	IEditorInput input = new FileEditorInput(file);
 
-	assertNotNull("Editor input is null", input);
+	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
 	final JSPMultiPageEditor parts = openEditor(input);
 	TestUtil.waitForIdle();
@@ -61,9 +61,9 @@ public class JBIDE1105Test extends VpeTest {
 	}
 	for (int i = 0; i < 10; i++) {
 		int offset = styledText.getOffsetAtLine(23);
-		styledText.setCaretOffset(offset - " Test ".length()
+		styledText.setCaretOffset(offset - " Test ".length() //$NON-NLS-1$
 				- delimiter.length());
-		styledText.insert(" Test ");
+		styledText.insert(" Test "); //$NON-NLS-1$
 		TestUtil.waitForIdle();
 	}
 	
