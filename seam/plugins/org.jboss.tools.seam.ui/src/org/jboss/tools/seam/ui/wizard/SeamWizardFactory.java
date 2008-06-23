@@ -230,11 +230,15 @@ public class SeamWizardFactory {
 		final ComboFieldEditor comboEditor = ((ComboFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(1));
 		final IProfileListener profileListener = new IProfileListener() {
 			private void update() {
-				List<String> profiles = getConnectionProfileNameList();
+				final List<String> profiles = getConnectionProfileNameList();
 				if(canBeEmpty) {
 					profiles.add(0, "");
 				}
-				comboEditor.setTags((profiles.toArray(new String[0])));
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						comboEditor.setTags((profiles.toArray(new String[0])));
+					}
+				});
 			}
 
 			public void profileAdded(IConnectionProfile profile) {
