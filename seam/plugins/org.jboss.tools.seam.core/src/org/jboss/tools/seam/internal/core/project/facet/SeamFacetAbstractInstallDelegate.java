@@ -303,14 +303,14 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			return;
 		List filterMappings = webApp.getFilterMappings();
 		boolean added = false;
-		for (Iterator iterator = filterMappings.iterator(); iterator.hasNext();) {
+		/*for (Iterator iterator = filterMappings.iterator(); iterator.hasNext();) {
 			FilterMapping filterMapping = (FilterMapping) iterator.next();
 			String filterName = filterMapping.getFilterName();
 			List filters = webApp.getFilters();
 			for (Iterator iterator2 = filters.iterator(); iterator2.hasNext();) {
 				Filter filter = (Filter) iterator2.next();
 				if (filter != null && filterName != null
-						&& filterName.equals(filter.getFilterName())) {
+						&& mapping.equals(filter.getFilterName())) {
 					// FIXME
 					added = true;
 					break;
@@ -318,7 +318,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 			if (added)
 				break;
-		}
+		}*/
 		if (!added) {
 			FilterMapping filterMapping = WebFactory.eINSTANCE
 					.createFilterMapping();
