@@ -80,7 +80,7 @@
                </requires>
                <requires
                      facet="jst.java"
-                     version="5.0">
+                     version="[5.0">
                </requires>
             </and>
          </constraint>
