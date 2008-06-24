@@ -16,7 +16,7 @@
         
         <title>Create and Register a Custom Converter</title>
         
-        <para><!-- With JBDS -->It&apos;s also possible to create a
+        <para>It&apos;s also possible to create a
             custom Converter in order to specify your own converting rules. Let&apos;s look at how you can do this.</para>
             
             <para>To create and register a custom converter it&apos;s necessary to
@@ -141,8 +141,8 @@
         <title>Create and Register a Custom Validator</title>
         
         <para>It&apos;s also quite easy to develop your
-            own custom Validators. You should perform the actions similar to
-            previous. Go through the following steps:</para>
+            own custom Validators. You should perform the actions similar to the 
+            previous one. Go through the following steps:</para>
         <itemizedlist>
             <listitem>
                 <para>In the Project Explorer view open<emphasis>

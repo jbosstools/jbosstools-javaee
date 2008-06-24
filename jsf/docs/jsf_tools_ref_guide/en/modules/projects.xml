@@ -38,7 +38,7 @@
 
                                 <title>Creating a New JSF Project</title>
 
-                                <para>If you want your project has already contained all JSF
+                                <para>If you want your project to already contain all JSF
                                         libraries, tag libraries and JSF configuration file, just
                                         organize a new brand JSF project. It is possible to do this easily with the
                                         help of the special wizard. To get it, select<emphasis>
@@ -75,9 +75,9 @@
                                         </mediaobject>
                                 </figure>
 
-                                <para>There are a number of predefined project templates that are flexible and
+                                <para>There is a number of predefined project templates that are flexible and
                                         easily customizable. Thus you can pick a different template
-                                        on which the projects Importing Existing should be based to. Almost all
+                                        on which the projects Importing Existing should be based on. Almost all
                                         templates come in two variations: with jsf libraries and
                                         without ones.</para>
                                 <figure>
@@ -192,8 +192,7 @@
                                 <para>On the next screen select what <emphasis>
                                                 <property>Servlet version</property>
                                         </emphasis> to use and whether to register this application
-                                        with JBoss AS (or other server) for running and testing of
-                                        your application.</para>
+                                        with JBoss AS (or other server) for running and testing your application.</para>
 
                                 <para>The <emphasis>
                                                 <property>Context Path</property>
@@ -251,8 +250,8 @@
 
                                 <title>Importing Existing JSF Projects with Any Structure</title>
 
-                                <para>For detailed information on migration projects see <ulink
-                                        url="&migrationlink;">Migration Guide</ulink>. </para>
+                                <para>For detailed information on migration of JSF projects into a workspace see <ulink
+                                        url="&migrationlink;#jsf_struts">Migration Guide</ulink>.</para>
 
                         </section>
                         <section id="add_jsf_capability">
@@ -339,7 +338,7 @@
                                 <note>
                                         <title>Note:</title>
                                         <para>Some application servers provide their own jsf
-                                                implementation libraries. So, to avoid conflicts you
+                                                implementation libraries. Thus, to avoid conflicts you
                                                 should not add jsf libraries while adding jsf
                                                 capabilities.</para>
                                 </note>
@@ -358,7 +357,7 @@
                                         </mediaobject>
                                 </figure>
 
-                                <para>Once the file has been created, it should be open in a
+                                <para>Once the file has been created, it should be opened in a
                                         special <link
                                                 linkend="jsf_config_file"
                                                 >Faces Config Editor</link>.</para>
@@ -366,7 +365,7 @@
                         <section id="AddingYourOwnProjectTemplates853">
 
                                 <title>Adding Your Own Project Templates</title>
-                                <para>Template is a set of files that serve as a basis to facilitate
+                                <para>Template is a set of files that is served as a basis to facilitate
                                         the creation of a new project. Project templates provide
                                         content and structure for a project.</para>
                                 <para>There is a powerful
@@ -404,7 +403,7 @@
                                                 <para>In the first dialog box, you can choose a name
                                                   for the template (defaults to the project
                                                   name) and confirm what run-time
-                                                  implementation of the project&apos;s
+                                                  implementation of the project
                                                   technology will be used</para>
                                         </listitem>
 

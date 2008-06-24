@@ -85,7 +85,7 @@
 
         <para>A transition will appear between the two pages:</para>
         <figure>
-            <title>Transition Between JSP Pages</title>
+            <title>Transition between JSP Pages</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_support/jsf_support_22.png"/>
@@ -109,7 +109,7 @@
             mouse cursor over the last black dot (on the target page). The mouse cursor will change
             to a big +. At this point, drag the line to a new target page:</para>
         <figure>
-            <title>Editing Transition Between Views</title>
+            <title>Editing Transition between Views</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_support/jsf_support_24.png"/>
