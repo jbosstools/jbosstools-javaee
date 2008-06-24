@@ -10,16 +10,26 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FigureListener;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.LineBorder;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
+import org.eclipse.draw2d.ScaledGraphics;
+import org.eclipse.draw2d.XYLayout;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.draw2d.*;
-import org.eclipse.draw2d.geometry.*;
-
-import org.eclipse.gef.handles.HandleBounds;
-
 import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageEditPart;
@@ -27,8 +37,8 @@ import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
 public class PageFigure extends NodeFigure implements HandleBounds,
-		FigureListener {
-	private static final Dimension SIZE = new Dimension(56, 100);
+		FigureListener, MouseListener {
+	//private static final Dimension SIZE = new Dimension(56, 100);
 
 	private Image icon = null;
 
@@ -95,13 +105,13 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		label.setVisible(true);
 		label.setSize(label.getPreferredSize());
 		label.setLocation(getLabelPosition());
-		//label.addMouseListener(this);
+		label.addMouseListener(this);
 	}
 
 	public void removeNotify() {
 		if (page == null)
 			return;
-		//label.removeMouseListener(this);
+		label.removeMouseListener(this);
 		getParent().remove(label);
 	}
 
@@ -167,7 +177,7 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		if (width == getSize().width && height == getSize().height)
 			return;
 
-		int start = 0;
+		//int start = 0;
 		width = getSize().width - 1;
 		height = getSize().height - 1;
 		
@@ -235,6 +245,9 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		}
 		
 		Rectangle boundingRect = new Rectangle(22, 1, r.width, r.height);
+		
+		//g.fillRectangle(boundingRect);
+		
 		if(g instanceof ScaledGraphics) {
 			// scaled graphcis does not support gradients ;(			
 			g.fillRectangle(boundingRect);
@@ -358,6 +371,10 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			graphics.drawLine(22, 20, 23, 19);*/
 	}
 
+	
+
+
+}
 	public void mouseDoubleClicked(MouseEvent me) {
 	}
 
@@ -368,6 +385,6 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		}
 	}
 
-
-}
+	public void mouseReleased(MouseEvent me) {
+	}
 }
