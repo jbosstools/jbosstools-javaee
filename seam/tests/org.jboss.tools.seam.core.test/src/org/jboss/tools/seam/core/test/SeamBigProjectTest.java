@@ -18,7 +18,9 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.common.test.util.TestProjectProvider;
@@ -57,6 +59,8 @@ public class SeamBigProjectTest extends TestCase {
 		SeamBigProjectGenerator g = new SeamBigProjectGenerator();
 		g.generate(folder, template);
 		EditorTestHelper.joinBackgroundActivities();
+		//To ensure that the project is built.
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 	}
 	
 	private File getTemplateFile() {
