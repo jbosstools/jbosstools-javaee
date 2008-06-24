@@ -88,7 +88,10 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	}
 	
 	protected void tearDown() throws Exception {
+		EditorTestHelper.closeAllEditors();
+		
 		super.tearDown();
+		
 		earProject = null;
 		earEjbProject = null;
 		earEarProject = null;

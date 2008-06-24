@@ -22,7 +22,6 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -73,6 +72,18 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		}
 	}
 	
+	
+	protected void tearDown() throws Exception {
+		EditorTestHelper.closeAllEditors();
+		
+		super.tearDown();
+		
+		warProject = null;
+		testProject = null;
+		seamWarProject = null;
+		seamTestProject = null;
+	}
+
 	protected IProject getProject() {
 		return warProject;
 	}
