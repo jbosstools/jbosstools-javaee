@@ -99,7 +99,8 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 		tr.appendChild(td);
 		td.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, getHeaderAlignment(sourceElement));
-
+		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, ComponentUtil
+				.getAttribute(sourceElement, HEADER_CLASS));
 		nsIDOMElement inerTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		td.appendChild(inerTable);
 		inerTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
@@ -139,13 +140,12 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 					addSpacer(visualDocument, inerTr, headerSpacing);
 				}
 				
-				nsIDOMElement headerTd = RichFacesTabTemplate.encodeHeader(creationData,
+				nsIDOMElement headerTd = RichFacesTabTemplate.encodeHeader(
+						pageContext,
+						creationData,
 						(Element) child,
-						visualDocument, inerTr, active, 
-						ComponentUtil.getAttribute(sourceElement, 
-								HEADER_CLASS) 
-								+ SPACE 
-								+ ComponentUtil.getAttribute(sourceElement,	
+						visualDocument, inerTr, active,
+								ComponentUtil.getAttribute(sourceElement,	
 									TAB_CLASS),
 						ComponentUtil.getAttribute(sourceElement, 
 								ACTIVE_TAB_CLASS)

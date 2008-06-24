@@ -60,6 +60,7 @@ rich-tab-label {
 }
 
 .rich-tab-active {
+	background-image: url(active.gif);
 	background-repeat: repeat-x;
 	background-position: top;
 	cursor: default;
@@ -69,6 +70,7 @@ rich-tab-label {
 }
 
 .rich-tab-inactive {
+	background-image: url(inactive.gif);
 	background-repeat: repeat-x;
 	background-position: top;
 	cursor: default;
@@ -76,6 +78,7 @@ rich-tab-label {
 }
 
 .rich-tab-disabled {
+	background-image: url(disabled.gif);
 	background-repeat: repeat-x;
 	background-position: top;
 	cursor: default;

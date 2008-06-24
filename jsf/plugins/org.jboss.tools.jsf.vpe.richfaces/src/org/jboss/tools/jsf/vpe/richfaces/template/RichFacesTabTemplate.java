@@ -20,6 +20,8 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -31,8 +33,6 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	public static final String TAB_BODY_ATTR = "tabbodyattr"; //$NON-NLS-1$
 	
 	private final static String SPACER_FILE_PATH = "common/spacer.gif"; //$NON-NLS-1$
-	private final static String ACTIVE_BKG_FILE_PATH = "tabPanel/activeBackground.gif"; //$NON-NLS-1$
-	private final static String INACTIVE_BKG_FILE_PATH = "tabPanel/inactiveBackground.gif"; //$NON-NLS-1$
 	private final static String BORDER_FILE_PATH = "tabPanel/border.gif"; //$NON-NLS-1$
 	
 	private final static String VPE_USER_TOGGLE_ID = "vpe-user-toggle-id"; //$NON-NLS-1$
@@ -115,7 +115,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
 				ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR)
 				+ STYLE_SEMICOLUMN +  contentStyle);
-
+		
 		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		VpeChildrenInfo bodyInfo = new VpeChildrenInfo(td);
 		for (Node child : children) {
@@ -138,7 +138,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		headerTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 				HtmlComponentUtil.CSS_DISPLAY
 						+ ":" + DISABLED_ELEMENT_STYLE + STYLE_SEMICOLUMN); //$NON-NLS-1$
-		headerTable.appendChild(encodeHeader(creationData, (Element)sourceNode, visualDocument, table, false, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY));
+		headerTable.appendChild(encodeHeader(pageContext, creationData, (Element)sourceNode, visualDocument, table, false, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY));
 		nsIDOMElement bodyTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 		bodyTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
 		bodyTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
@@ -162,7 +162,9 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	 * @param inactiveTabClass
 	 * @param disabledTabClass
 	 */
-	public static nsIDOMElement encodeHeader(VpeCreationData creationData,
+	public static nsIDOMElement encodeHeader(
+			VpePageContext pageContext,
+			VpeCreationData creationData,
 			Element sourceElement, 
 			nsIDOMDocument visualDocument,
 			nsIDOMElement parentTr,
@@ -240,7 +242,6 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			+ SPACE + CSS_LABEL
 			+ SPACE + CSS_DISABLED
 			+ SPACE + disabledTabClass;
-		String bgImgPath = ComponentUtil.getAbsoluteResourcePath(INACTIVE_BKG_FILE_PATH);
 
 		if(!TRUE.equalsIgnoreCase(sourceElement.getAttribute(DISABLED))) {
 			if(active) {
@@ -248,7 +249,6 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 					+ SPACE + CSS_LABEL
 					+ SPACE + CSS_ACTIVE
 					+ SPACE + activeTabClass;
-				bgImgPath = ComponentUtil.getAbsoluteResourcePath(ACTIVE_BKG_FILE_PATH);
 			} else {
 				styleClass = CSS_HEADER
 					+ SPACE + CSS_LABEL
@@ -256,27 +256,25 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 					+ SPACE + inactiveTabClass;
 			}
 		}
-
-		styleClass += SPACE + headerClass;
+		String tabStyleClass = ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR);
+		styleClass += SPACE + headerClass + SPACE + tabStyleClass;
 		mainTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
-		String style = "background-image: url(file:///" //$NON-NLS-1$
-				+ bgImgPath.replace('\\', '/') + ");"; //$NON-NLS-1$
-		mainTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
-		
 		
 		mainTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 		Node labelFacet = ComponentUtil.getFacet(sourceElement, LABEL, true);
-		String labelAttr = sourceElement.getAttribute(LABEL);
 		if (null != labelFacet) {
 			VpeChildrenInfo child = new VpeChildrenInfo(mainTd);
 			child.addSourceChild(labelFacet);
 			creationData.addChildrenInfo(child);
-		} else if (null != labelAttr) {
-			mainTd.appendChild(visualDocument.createTextNode(labelAttr));
+		} else if (sourceElement.hasAttribute(LABEL)) {
+			Attr labelAttr = sourceElement.getAttributeNode(LABEL);
+			if (null != labelAttr) {
+				String bundleValue = ComponentUtil.getBundleValue(pageContext, labelAttr);
+				mainTd.appendChild(visualDocument.createTextNode(bundleValue));
+			}
 		} else {
 			char space = 160;
-			labelAttr = EMPTY + space;
-			mainTd.appendChild(visualDocument.createTextNode(labelAttr));
+			mainTd.appendChild(visualDocument.createTextNode(EMPTY + space));
 		}
 		encodeSpacer(mainTr, visualDocument);
 		return headerTd;
