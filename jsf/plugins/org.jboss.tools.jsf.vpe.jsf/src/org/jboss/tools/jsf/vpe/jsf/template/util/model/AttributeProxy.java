@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.vpe.jsf.template.util.model;
 
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;

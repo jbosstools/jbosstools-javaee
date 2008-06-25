@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.tools.vpe.editor.template.EditableTemplateAdapter;
+import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -25,8 +25,7 @@ import org.w3c.dom.Element;
  * @author Sergey Dzmitrovich
  * 
  */
-public abstract class AbstractEditableJsfTemplate extends
-		EditableTemplateAdapter {
+public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate {
 
 	// general jsf attributes
 	static private Map<String, String> attributes = new HashMap<String, String>();

@@ -4,15 +4,18 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
+import org.jboss.tools.vpe.editor.mapping.AttributeData;
+import org.jboss.tools.vpe.editor.mapping.NodeData;
+import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.TemplateManagingUtil;
+import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -66,7 +69,7 @@ public abstract class AbstractOutputJsfTemplate extends
 			nsIDOMDocument visualDocument, Element sourceElement,
 			nsIDOMElement targetVisualElement, VpeCreationData creationData) {
 
-		VpeElementData elementData = new VpeElementData();
+		VpeElementProxyData elementData = new VpeElementProxyData();
 
 		Attr outputAttr = getOutputAttributeNode(sourceElement);
 
@@ -92,8 +95,8 @@ public abstract class AbstractOutputJsfTemplate extends
 				text = visualDocument.createTextNode(newValue);
 				// add attribute for ability of editing
 
-				elementData.addAttributeData(new VpeAttributeData(outputAttr,
-						text, isEditable));
+				elementData.addNodeData(new AttributeData(outputAttr, text,
+						isEditable));
 
 				targetVisualElement.appendChild(text);
 
@@ -110,8 +113,8 @@ public abstract class AbstractOutputJsfTemplate extends
 						.getValueRegionStartOffset();
 
 				// reparse attribute's value
-				NodeList list = NodeProxyUtil.reparseAttributeValue(newValue,
-						offset);
+				NodeList list = NodeProxyUtil.reparseAttributeValue(
+						elementData, newValue, offset + 1);
 
 				// add children to info
 				for (int i = 0; i < list.getLength(); i++) {
@@ -122,7 +125,7 @@ public abstract class AbstractOutputJsfTemplate extends
 					targetVisualInfo.addSourceChild(child);
 				}
 
-				elementData.addAttributeData(new VpeAttributeData(outputAttr,
+				elementData.addNodeData(new AttributeData(outputAttr,
 						targetVisualElement, false));
 
 				creationData.addChildrenInfo(targetVisualInfo);
@@ -140,114 +143,79 @@ public abstract class AbstractOutputJsfTemplate extends
 		return ComponentUtil.getBundleValue(pageContext, attr);
 	}
 
-	@Override
-	public Node getTargetSourceNodeByVisualNode(VpePageContext pageContext,
-			nsIDOMNode visualNode, VpeElementMapping elementMapping) {
-
-		// try get mapping
-		VpeNodeMapping tempMapping = pageContext.getDomMapping()
-				.getNearElementMapping(visualNode);
-
-		// if mapping is not null
-		if (tempMapping != null) {
-
-			return super.getTargetSourceNodeByVisualNode(pageContext,
-					visualNode, elementMapping);
-		}
-		// can be only for escape=false
-		else {
-
-			tempMapping = pageContext.getDomMapping()
-					.getNearNodeMappingAtVisualNode(visualNode);
-
-			if (tempMapping != null) {
-
-				Node insertedNode = tempMapping.getSourceNode();
-
-				return getTargetSourceNodeBySourcePosition(pageContext,
-						TemplateManagingUtil.getStartOffsetNode(insertedNode),
-						TemplateManagingUtil.getEndOffsetNode(insertedNode));
-
-			}
-		}
-
-		return elementMapping.getSourceNode();
-
-	}
-
-	@Override
-	public nsIDOMNode getTargetVisualNodeByVisualNode(
-			VpePageContext pageContext, nsIDOMNode visualNode,
-			VpeElementMapping elementMapping) {
-		// try get mapping
-		VpeNodeMapping tempMapping = pageContext.getDomMapping()
-				.getNearElementMapping(visualNode);
-
-		// if mapping is not null
-		if (tempMapping != null) {
-
-			return super.getTargetVisualNodeByVisualNode(pageContext,
-					visualNode, elementMapping);
-		}
-		// can be only for escape=false
-		else {
-
-			tempMapping = pageContext.getDomMapping()
-					.getNearNodeMappingAtVisualNode(visualNode);
-
-			if (tempMapping != null) {
-
-				Node insertedNode = tempMapping.getSourceNode();
-
-				Node sourceNode = getTargetSourceNodeBySourcePosition(
-						pageContext, TemplateManagingUtil
-								.getStartOffsetNode(insertedNode),
-						TemplateManagingUtil.getEndOffsetNode(insertedNode));
-				return getTargetVisualNodeBySourceNode(sourceNode,
-						elementMapping);
-
-			}
-		}
-
-		return elementMapping.getVisualNode();
-	}
-
-	@Override
-	protected VpeElementMapping getElmentMapping(VpePageContext pageContext,
-			nsIDOMNode node) {
-		// TODO Auto-generated method stub
-		VpeElementMapping elementMapping = super.getElmentMapping(pageContext,
-				node);
-
-		if (elementMapping == null) {
-			VpeNodeMapping insertedMapping = pageContext.getDomMapping()
-					.getNearNodeMappingAtVisualNode(node);
-			if (insertedMapping != null) {
-				Node insertedNode = insertedMapping.getSourceNode();
-
-				int offset = TemplateManagingUtil
-						.getStartOffsetNode(insertedNode);
-				elementMapping = TemplateManagingUtil
-						.getElementMappingBySourceSelection(pageContext,
-								offset, offset);
-
-			}
-		}
-
-		return elementMapping;
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#setPseudoContent(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode,
-	 *      org.mozilla.interfaces.nsIDOMDocument)
+	 * @see
+	 * org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#setPseudoContent
+	 * (org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node,
+	 * org.mozilla.interfaces.nsIDOMNode, org.mozilla.interfaces.nsIDOMDocument)
 	 */
 	@Override
 	public void setPseudoContent(VpePageContext pageContext,
 			Node sourceContainer, nsIDOMNode visualContainer,
 			nsIDOMDocument visualDocument) {
 		// Empty
+	}
+
+	@Override
+	public NodeData getNodeData(nsIDOMNode node, VpeElementData elementData,
+			VpeDomMapping domMapping) {
+		// TODO Auto-generated method stub
+		NodeData nodeData = super.getNodeData(node, elementData, domMapping);
+		if (nodeData == null) {
+
+			VpeNodeMapping nodeMapping = domMapping.getNodeMapping(node);
+
+			if (nodeMapping != null) {
+				if (nodeMapping.getType() == VpeNodeMapping.ELEMENT_MAPPING) {
+					nodeData = super.getNodeData(node,
+							((VpeElementMapping) nodeMapping).getElementData(),
+							domMapping);
+				} else if (nodeMapping.getType() == VpeNodeMapping.TEXT_MAPPING) {
+					nodeData = new NodeData(nodeMapping.getSourceNode(), node,
+							true);
+				}
+			}
+		}
+		return nodeData;
+	}
+
+	@Override
+	public nsIDOMNode getVisualNodeByBySourcePosition(
+			VpeElementMapping elementMapping, int focusPosition,
+			int anchorPosition, VpeDomMapping domMapping) {
+		nsIDOMNode node = null;
+
+		if ((elementMapping.getElementData() instanceof VpeElementProxyData)
+				&& (((VpeElementProxyData) elementMapping.getElementData())
+						.getNodelist() != null)) {
+
+			VpeElementProxyData elementProxyData = (VpeElementProxyData) elementMapping
+					.getElementData();
+
+			Node sourceNode = NodeProxyUtil.findNodeByPosition(elementProxyData
+					.getNodelist(), focusPosition, anchorPosition);
+
+			VpeNodeMapping nodeMapping = NodesManagingUtil.getNodeMapping(
+					domMapping, sourceNode);
+
+			if (nodeMapping != null) {
+
+				if (nodeMapping.getType() == VpeNodeMapping.ELEMENT_MAPPING) {
+					node = super.getVisualNodeByBySourcePosition(
+							(VpeElementMapping) nodeMapping, focusPosition,
+							anchorPosition, domMapping);
+				} else {
+					node = nodeMapping.getVisualNode();
+				}
+			}
+		}
+
+		if (node == null) {
+			node = super.getVisualNodeByBySourcePosition(elementMapping,
+					focusPosition, anchorPosition, domMapping);
+		}
+		return node;
 	}
 }
