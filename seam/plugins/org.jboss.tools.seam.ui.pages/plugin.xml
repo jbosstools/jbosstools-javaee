@@ -14,7 +14,7 @@
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
             entities="FileSeamPage12,FileSeamPage20" 
-            icon="images/xstudio/editors/seam-components.gif" 
+            icon="images/xstudio/editors/seam-pages.gif" 
             name="Seam Page">
       </xmlEditor>
    </extension>
