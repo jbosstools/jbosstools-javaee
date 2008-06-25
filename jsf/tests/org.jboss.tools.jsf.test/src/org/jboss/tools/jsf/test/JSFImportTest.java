@@ -40,7 +40,7 @@ public class JSFImportTest extends TestCase {
 		context.setWebXmlLocation(webxml.getAbsolutePath());
 		context.setProjectName(projectLocation.getName());
 		context.setApplicationName(projectLocation.getName());
-		//context.setLinkingToProjectOutsideWorkspace(false);
+		context.setLinkingToProjectOutsideWorkspace(false);
 		
 		
 		JSFProjectAdoptOperation operation = new JSFProjectAdoptOperation(context);
