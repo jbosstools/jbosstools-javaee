@@ -48,7 +48,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		File folder = getSeamHomeFolder(getSeamRTName());
+		File folder = getSeamHomeFolder();
 		assertNotNull("An error occured while getting the SEAM HOME folder for: " + getSeamRTName(), folder);
 		
 		SeamRuntimeManager.getInstance().addRuntime(getSeamRTName(), folder.getAbsolutePath(), getSeamRTVersion(getSeamRTName()), true);

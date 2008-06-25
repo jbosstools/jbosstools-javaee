@@ -10,16 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.wizard;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.IOperationHistory;
@@ -35,26 +30,19 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamProjectsSet;
-import org.jboss.tools.seam.core.project.facet.SeamRuntime;
-import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.core.test.project.facet.AbstractSeamFacetTest;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
@@ -162,7 +150,7 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		}
 		return null;
 	}
-
+/*
 	protected File getSeamHomeFolder(String seamRTName) {
 		File seamHome = null;
 		if (AbstractSeamFacetTest.SEAM_1_2_0.equals(seamRTName)) {
@@ -174,7 +162,7 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		
 		return seamHome;
 	}
-
+*/
 	protected SeamVersion getSeamRTVersion(String seamRTName) {
 		if (AbstractSeamFacetTest.SEAM_1_2_0.equals(seamRTName)) {
 			return SeamVersion.SEAM_1_2;
