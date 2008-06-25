@@ -458,10 +458,12 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 				} else {
 					filterSet.addFilter("driverJar", ""); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(seamGenResFolder);
+				
+				File ejbTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb");
+				AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(ejbTemplateDir);
 
 				AntCopyUtils.copyFilesAndFolders(
-						new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb"),  //$NON-NLS-1$
+						ejbTemplateDir,  //$NON-NLS-1$
 						ejb, new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
 						new FilterSetCollection(filterSet), true);
 
