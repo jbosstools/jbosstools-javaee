@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.EditableTemplateAdapter;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
  * @author Sergey Dzmitrovich
  * 
  */
-public class JsfVerbatim extends VpeAbstractTemplate {
+public class JsfVerbatim extends EditableTemplateAdapter {
 
 	/*
 	 * (non-Javadoc)

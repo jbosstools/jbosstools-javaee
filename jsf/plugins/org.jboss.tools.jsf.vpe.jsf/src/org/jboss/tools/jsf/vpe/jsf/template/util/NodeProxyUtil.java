@@ -23,27 +23,20 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.model.ElementProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeListImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.TextProxy;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
-import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class NodeProxyUtil {
 
-	static public NodeList reparseAttributeValue(VpeElementProxyData data,
-			String attrString, int offset) {
+	static public NodeList reparseAttributeValue(String attrString, int offset) {
 		IStructuredDocument newStructuredDocument = StructuredDocumentFactory
 				.getNewStructuredDocumentInstance(new JSPSourceParser());
 
 		newStructuredDocument.set(attrString);
 
 		IDOMModel modelForJSP = new DOMModelForJSP();
-
 		modelForJSP.setStructuredDocument(newStructuredDocument);
-
-		// data.setModel(modelForJSP);
-		// data.setOffset(offset);
 
 		IDOMDocument document = modelForJSP.getDocument();
 
@@ -51,17 +44,14 @@ public class NodeProxyUtil {
 
 		NodeList adaptersList = getNodeAdapterList(list, offset);
 
-		data.setNodelist(adaptersList);
-
 		return adaptersList;
 
 	}
 
-	static public NodeList reparseAttributeValue(VpeElementProxyData data,
-			Attr attr) {
+	static public NodeList reparseAttributeValue(Attr attr) {
 
-		return reparseAttributeValue(data, attr.getValue(), ((IDOMAttr) attr)
-				.getValueRegionStartOffset() + 1);
+		return reparseAttributeValue(attr.getValue(), ((IDOMAttr) attr)
+				.getValueRegionStartOffset());
 
 	}
 
@@ -91,46 +81,6 @@ public class NodeProxyUtil {
 		}
 
 		return newNodeList;
-
-	}
-
-	/**
-	 * 
-	 * @param nodeList
-	 * @param focusPosition
-	 * @param anchorPosition
-	 * @return
-	 */
-	static public Node findNodeByPosition(NodeList nodeList, int focusPosition,
-			int anchorPosition) {
-
-		if (anchorPosition < focusPosition) {
-			focusPosition = anchorPosition;
-			anchorPosition = focusPosition;
-		}
-
-		for (int i = 0; i < nodeList.getLength(); i++) {
-
-			Node child = nodeList.item(i);
-
-			Node result = null;
-			if (child.hasChildNodes()) {
-
-				result = findNodeByPosition(child.getChildNodes(),
-						focusPosition, anchorPosition);
-			}
-
-			if (result != null)
-				return result;
-
-			if ((focusPosition >= (NodesManagingUtil.getStartOffsetNode(child)))
-					&& (anchorPosition <= (NodesManagingUtil
-							.getEndOffsetNode(child))))
-
-				return child;
-		}
-
-		return null;
 
 	}
 

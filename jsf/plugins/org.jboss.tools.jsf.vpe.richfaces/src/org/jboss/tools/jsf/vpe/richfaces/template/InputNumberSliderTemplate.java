@@ -17,8 +17,7 @@ import java.util.Set;
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.AttributeData;
-import org.jboss.tools.vpe.editor.mapping.NodeData;
+import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -282,24 +281,24 @@ public class InputNumberSliderTemplate extends
 				.getBackgoundImgStyle(INPUT_BACKGROUND_IMAGE_PATH)
 				+ getAttribute(sourceElement, RichFaces.ATTR_INPUT_STYLE));
 
-		NodeData attributeData;
+		VpeAttributeData attributeData;
 
 		if (sourceElement.hasAttribute(RichFaces.ATTR_VALUE)) {
 
 			inputField.setAttribute(HTML.ATTR_VALUE, sourceElement
 					.getAttribute(RichFaces.ATTR_VALUE));
 
-			attributeData = new NodeData(sourceElement
+			attributeData = new VpeAttributeData(sourceElement
 					.getAttributeNode(RichFaces.ATTR_VALUE), inputField);
 
 		} else {
 			inputField.setAttribute(HTML.ATTR_VALUE, ""); //$NON-NLS-1$
 
-			attributeData = new AttributeData(RichFaces.ATTR_VALUE,
+			attributeData = new VpeAttributeData(RichFaces.ATTR_VALUE,
 					inputField);
 		}
 
-		elementData.addNodeData(attributeData);
+		elementData.addAttributeData(attributeData);
 
 		// get class attribute
 		String inputClass = null;
@@ -419,14 +418,14 @@ public class InputNumberSliderTemplate extends
 		if (isShowBoundaryValues(sourceElement)) {
 
 			nsIDOMText minValueText;
-			NodeData minValueData;
+			VpeAttributeData minValueData;
 			if (sourceElement.hasAttribute(MIN_VALUE_ATTR)) {
 
 				// create minValue text
 				minValueText = visualDocument.createTextNode(sourceElement
 						.getAttribute(MIN_VALUE_ATTR));
 
-				minValueData = new NodeData(sourceElement
+				minValueData = new VpeAttributeData(sourceElement
 						.getAttributeNode(MIN_VALUE_ATTR), minValueText);
 
 			} else {
@@ -434,23 +433,23 @@ public class InputNumberSliderTemplate extends
 				// create minValue text
 				minValueText = visualDocument.createTextNode(MIN_VALUE_DEFAULT);
 
-				minValueData = new AttributeData(MIN_VALUE_ATTR,
+				minValueData = new VpeAttributeData(MIN_VALUE_ATTR,
 						minValueText);
 
 			}
 			// add text to td
 			minValueTd.appendChild(minValueText);
-			elementData.addNodeData(minValueData);
+			elementData.addAttributeData(minValueData);
 
 			nsIDOMText maxValueText;
-			NodeData maxValueData;
+			VpeAttributeData maxValueData;
 			if (sourceElement.hasAttribute(MAX_VALUE_ATTR)) {
 
 				// create minValue text
 				maxValueText = visualDocument.createTextNode(sourceElement
 						.getAttribute(MAX_VALUE_ATTR));
 
-				maxValueData = new NodeData(sourceElement
+				maxValueData = new VpeAttributeData(sourceElement
 						.getAttributeNode(MAX_VALUE_ATTR), maxValueText);
 
 			} else {
@@ -458,13 +457,13 @@ public class InputNumberSliderTemplate extends
 				// create minValue text
 				maxValueText = visualDocument.createTextNode(MAX_VALUE_DEFAULT);
 
-				maxValueData = new AttributeData(MAX_VALUE_ATTR,
+				maxValueData = new VpeAttributeData(MAX_VALUE_ATTR,
 						maxValueText);
 
 			}
 			// add text to td
 			maxValueTd.appendChild(maxValueText);
-			elementData.addNodeData(maxValueData);
+			elementData.addAttributeData(maxValueData);
 		}
 
 		valuesBlock.appendChild(minValueTd);
@@ -579,6 +578,32 @@ public class InputNumberSliderTemplate extends
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
+	}
+
+	/**
+	 * 
+	 */
+	public Node getTargetSourceNodeByVisualNode(VpePageContext pageContext,
+			nsIDOMNode visualNode, VpeElementMapping elementMapping) {
+
+		// if element is not null
+		if (elementMapping != null) {
+
+			// get attributeData
+			VpeAttributeData attributeData = getAttributeData(visualNode,
+					elementMapping.getElementData());
+
+			// attributeData is found
+			if ((attributeData != null)
+					&& (attributeData.getSourceAttr() != null)) {
+				return attributeData.getSourceAttr();
+			} else
+				return elementMapping.getSourceNode();
+
+		}
+
+		return null;
+
 	}
 
 }

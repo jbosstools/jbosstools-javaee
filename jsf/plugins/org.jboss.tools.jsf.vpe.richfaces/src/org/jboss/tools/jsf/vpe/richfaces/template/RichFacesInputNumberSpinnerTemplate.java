@@ -14,8 +14,7 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.AttributeData;
-import org.jboss.tools.vpe.editor.mapping.NodeData;
+import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -188,10 +187,10 @@ public class RichFacesInputNumberSpinnerTemplate extends
 				.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 
 		if ((sourceElement).hasAttribute(RichFaces.ATTR_VALUE)) {
-			elementData.addNodeData(new NodeData(sourceElement
+			elementData.addAttributeData(new VpeAttributeData(sourceElement
 					.getAttributeNode(RichFaces.ATTR_VALUE), inputElement, true));
 		} else {
-			elementData.addNodeData(new AttributeData(
+			elementData.addAttributeData(new VpeAttributeData(
 					RichFaces.ATTR_VALUE, inputElement, true));
 		}
 
