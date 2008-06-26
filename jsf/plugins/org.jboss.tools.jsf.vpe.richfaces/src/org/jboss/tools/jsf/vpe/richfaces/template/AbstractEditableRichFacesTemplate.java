@@ -10,11 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-import org.jboss.tools.vpe.editor.template.EditableTemplateAdapter;
+import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.w3c.dom.Element;
 
 public abstract class AbstractEditableRichFacesTemplate extends
-		EditableTemplateAdapter {
+		VpeAbstractTemplate {
 
 	public String getAttribute(Element sourceElement, String attributeName) {
 

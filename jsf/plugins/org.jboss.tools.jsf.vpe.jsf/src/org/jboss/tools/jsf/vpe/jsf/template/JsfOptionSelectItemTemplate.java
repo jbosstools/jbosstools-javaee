@@ -12,9 +12,9 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
-import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
+import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -30,7 +30,7 @@ import org.w3c.dom.NodeList;
  * @author dmaliarevich
  * 
  */
-public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
+public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /*VpeAbstractTemplate*/ {
 
 	public static final String ITEM_DISABLED = "itemDisabled";
 
@@ -86,7 +86,9 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 		if (element.hasAttribute(ITEM_LABEL)) {
 			attr = element.getAttributeNode(ITEM_LABEL);
 		}
-
+		
+		VpeElementProxyData elementData = new VpeElementProxyData();
+		
 		if (null != attr) {
 			if (null == escape || "true".equalsIgnoreCase(escape)) {
 				// show text as is
@@ -101,13 +103,19 @@ public class JsfOptionSelectItemTemplate extends VpeAbstractTemplate {
 
 				} else {
 					text = visualDocument.createTextNode(itemLabel);
+					
+					elementData.addNodeData(new AttributeData(attr,
+							option, true));
+					creationData.setElementData(elementData);
 				}
+				
+				
 				option.appendChild(text);
 			} else {
 				// show formatted text
 				VpeChildrenInfo spanInfo = new VpeChildrenInfo(option);
 				// re-parse attribute's value
-				NodeList list = NodeProxyUtil.reparseAttributeValue(attr);
+				NodeList list = NodeProxyUtil.reparseAttributeValue(elementData,attr);
 				// add children to info
 				for (int i = 0; i < list.getLength(); i++) {
 					Node child = list.item(i);

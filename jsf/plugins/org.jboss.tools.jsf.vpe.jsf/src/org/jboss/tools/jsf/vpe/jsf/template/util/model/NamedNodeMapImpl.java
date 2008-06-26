@@ -13,10 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template.util.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.wst.xml.core.internal.document.AttrImpl;
-import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

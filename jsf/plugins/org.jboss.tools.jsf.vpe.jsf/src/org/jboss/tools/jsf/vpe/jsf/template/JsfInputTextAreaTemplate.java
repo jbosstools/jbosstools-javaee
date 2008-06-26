@@ -2,7 +2,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.mapping.VpeAttributeData;
+import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -42,12 +42,12 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 			Attr attr = sourceElement.getAttributeNode(JSF.ATTR_VALUE);
 			text = visualDocument.createTextNode(sourceElement
 					.getAttribute(JSF.ATTR_VALUE));
-			elementData.addAttributeData(new VpeAttributeData(attr, textArea,
+			elementData.addNodeData(new AttributeData(attr, textArea,
 					true));
 
 		} else {
 			text = visualDocument.createTextNode(""); //$NON-NLS-1$
-			elementData.addAttributeData(new VpeAttributeData(JSF.ATTR_VALUE,
+			elementData.addNodeData(new AttributeData(JSF.ATTR_VALUE,
 					textArea, true));
 
 		}

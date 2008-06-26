@@ -24,11 +24,9 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
 public class NodeProxy implements IDOMNode {
@@ -314,7 +312,7 @@ public class NodeProxy implements IDOMNode {
 	}
 
 	public int getStartOffset() {
-		return ((IDOMNode) basicNode).getStartOffset()+ basicOffset;
+		return ((IDOMNode) basicNode).getStartOffset() + basicOffset;
 	}
 
 	public void addAdapter(INodeAdapter adapter) {
