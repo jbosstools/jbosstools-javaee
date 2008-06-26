@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
+		id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlinkPartitioner"
+		name="org.jboss.tools.common.text.ext.jsf.facelets.hyperlinkPartitioner">
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsExprHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_ROOT" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_ROOT" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.ExprHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsTemplateHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFJSPLinkHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:composition/template/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:decorate/template/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:include/src/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:composition/template/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:decorate/template/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:include/src/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsAttributeValueWithExprHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsAttributeValueWithExprHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/id/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/binding/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/rendered/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:define/name/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:fragment/id/" /> 
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:fragment/binding/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:insert/name/" />
+
+        			<axis path="*/[http://java.sun.com/jsf/facelets]:param/name/" /> 
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:param/value/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/id/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/binding/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/rendered/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:define/name/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:fragment/id/" /> 
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:fragment/binding/" />
+
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:insert/name/" />
+
+        			<axis path="*/[http://java.sun.com/jsf/facelets]:param/name/" /> 
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:param/value/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsAttributeValueWithNoExprHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsAttributeValueWithNoExprHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/hotkey/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/hotkey/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+	</extension>	
+</plugin>

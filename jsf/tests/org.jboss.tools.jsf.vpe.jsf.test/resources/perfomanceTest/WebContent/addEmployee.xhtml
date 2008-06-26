@@ -1,0 +1,153 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:i="http://www.meteo.be/Intranet-Jsf">
+<ui:composition template="../hr-layout.xhtml">
+	<ui:param name="title" value="Add Employee" />
+	<ui:define name="leftBar"><ui:include src="../hr-actions.xhtml"/></ui:define>
+	<ui:define name="content">
+	
+	<f:loadBundle basename="resources.hr" var="bundle" />
+		<h1>Add employee</h1>
+		<h:form id="addForm">
+			<table>
+				<tr>
+					<td style="vertical-align:top">
+						<i:eidReader value="Read Card --&gt;" scriptVar="myreader" id="reader"/>
+					</td>
+					<td style="vertical-align:top">
+							<table>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.idCardNumber']}" for="cardNumber"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.cardNumber}" id="cardNumber"/><h:message for="cardNumber"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.nationalRegisterNumber']}" for="natNumber"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.nationalNumber}" id="natNumber"/><h:message for="natNumber"/>
+									</td>
+								</tr>
+								<!-- <tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.login']}" for="login"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.login}" id="login"/><h:message for="login"/>
+									</td>
+								</tr> -->
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.firstname']}" for="firstname1"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.firstname}" id="firstname1" required="true"/><h:message for="firstname1"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.lastname']}" for="name"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.name}" id="name" required="true"/><h:message for="name"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.gender']}" for="gender"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.gender}" id="gender" maxlength="1" size="1"/><h:message for="gender"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.birthDate']}" for="birthDate"/>
+									</td>
+									<td><t:inputCalendar id="birthDate"
+										value="#{eIDEmployee.birthDate}" popupTodayString=""
+										renderAsPopup="true" renderPopupButtonAsImage="true"
+										popupDateFormat="yyyyMMdd">
+											<f:convertDateTime pattern="yyyyMMdd"
+												timeZone="Europe/Paris" />
+										</t:inputCalendar>
+										<h:message for="birthDate"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.birthPlace']}" for="birthPlace"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.birthPlace}" id="birthPlace"/><h:message for="birthPlace"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Employee.nationality']}" for="nationality"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.nationality}" id="nationality" size="3" maxlength="3"/>(ISO-3 or ISO-2 code, Belgium=BEL or BE)<h:message for="nationality"/>
+									</td>
+								</tr>
+								<tr><th colspan="2">#{bundle['Employee.home']}</th></tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Address.street']}" for="street"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.street}" id="street"/><h:message for="street"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Address.number']}" for="number"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.number}" id="number"/><h:message for="number"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Address.zip']}" for="zip"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.zip}" id="zip"/><h:message for="zip"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Address.city']}" for="town"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.town}" id="town"/><h:message for="town"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="#{bundle['Address.country']}" for="country"/>
+									</td>
+									<td>
+										<h:inputText value="#{eIDEmployee.country}" id="country" size="3" maxlength="3"/>(ISO-3 or ISO-2 code, Belgium=BEL or BE)<h:message for="country"/>
+									</td>
+								</tr>
+							</table>
+							<h:inputHidden value="#{eIDEmployee.picture}" id="picture"/><h:message for="picture"/>
+							<h:commandButton action="#{eIDEmployee.createEmployee}" value="#{bundle['menu.employee.add']}"></h:commandButton>
+					</td>
+				</tr>
+			</table>
+		</h:form>
+		<h:messages/>
+	</ui:define>
+</ui:composition>
+</html>

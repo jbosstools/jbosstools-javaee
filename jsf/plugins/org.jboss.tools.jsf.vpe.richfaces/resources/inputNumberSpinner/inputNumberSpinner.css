@@ -1,0 +1,47 @@
+.ins-input {
+    border: 1px;
+    padding: 0px 0px 0px 3px;
+    background: none transparent scroll repeat 0% 0%;
+    margin-top: 1px;
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    height: 14px;
+    
+    
+}
+
+.ins-dr-spnr-e{
+	background-color : #ffffff;
+    padding: 0px;
+    margin: 0px;    
+    background-position: left top;
+    background-repeat: repeat-x;
+    border-left: #000000 1px solid;
+    border-top: #000000 1px solid;
+    border-bottom: #b0b0b0 1px solid;
+    border-right: #b0b0b0 1px solid;	
+}
+
+.dr-spnr-bn {
+	border: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-right-value: 0px;
+	margin-left-value: 0px;
+	
+}
+
+.dr-spnr-b {
+		width: 14px;
+		border: 1px;
+	    background-image: url(background-arrows.jpg);
+        border-style: solid;
+        padding: 0px;
+        margin: 0px;
+        background-position: left top;
+        background-repeat: repeat-x;
+        font-size: 0px;
+        background-color:#D4CFC7;
+        border-color:#D4CFC7;
+}

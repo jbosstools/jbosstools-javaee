@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FILESYSTEMS APPLICATION_NAME="example_1_2_w_f" ENTITY="FileSystems"
+ VERSION="2.0.0.GA" WORKSPACE_HOME="./WebContent/WEB-INF">
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%workspace.home%" NAME="WEB-INF"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" INFO="Content-Type=Web"
+  LOCATION="%workspace.home%/.." NAME="WEB-ROOT"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%workspace.home%/../../JavaSource" NAME="src"/>
+ <FILESYSTEM ENTITY="FileSystemFolder" LOCATION="%workspace.home%/lib" NAME="lib"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%workspace.home%/classes" NAME="classes"/>
+ <FILESYSTEM ENTITY="FileSystemFolder"
+  LOCATION="%workspace.home%/../../ant" NAME="build"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/jsf-tlds.jar" NAME="lib-jsf-tlds.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/commons-collections.jar" NAME="lib-commons-collections.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/commons-digester.jar" NAME="lib-commons-digester.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/common-annotations.jar" NAME="lib-common-annotations.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/standard.jar" NAME="lib-standard.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/jstl.jar" NAME="lib-jstl.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/commons-logging.jar" NAME="lib-commons-logging.jar"/>
+ <FILESYSTEM ENTITY="FileSystemJar" INFO="hidden=yes"
+  LOCATION="%workspace.home%/lib/commons-beanutils.jar" NAME="lib-commons-beanutils.jar"/>
+ <WEB ENTITY="JstWeb" MODEL_PATH="/web.xml" SERVLET_VERSION="2.5">
+  <MODULE ENTITY="WebJSFModule" MODEL_PATH="/faces-config.xml"
+   ROOT="WEB-ROOT" SRC="src" URI="/WEB-INF/faces-config.xml"/>
+ </WEB>
+</FILESYSTEMS>

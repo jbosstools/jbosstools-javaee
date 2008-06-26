@@ -1,0 +1,14 @@
+<contexts>
+	<context id="palette_editor" title="Palette Editor">
+		<description>Palette Editor</description>
+		<topic href="palette.html" label="JBoss Tools Palette"/>
+	</context>
+	<context id="insert_tag" title="Insert Tag">
+		<description>Insert Tag Wizard</description>
+		<topic href="palette.html#InsertingTagsIntoAJSPFile" label="Inserting Tags into a JSP File"/>
+	</context>
+	<context id="import_tags_from_tld_file" title="Import Tags from TLD File">
+		<description>Import Tags from TLD File Wizard</description>
+		<topic href="palette.html#AddingCustomJSFTagsToTheRedHatPalette7433" label="Adding Custom JSF Tags to the JBoss Tools Palette"/>
+	</context>
+</contexts>

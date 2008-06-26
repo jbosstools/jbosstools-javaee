@@ -1,0 +1,55 @@
+.dr-pnlbar{
+	border: 1px solid;
+	padding: 1px;
+	border-color: #D4CFC7;
+}
+.dr-pnlbar-ext{
+	border-bottom: 0px !important;
+	background-color: #FFFFFF;
+}
+.dr-pnlbar-h{
+	border: 0px solid red;
+	padding: 0px 1px 1px 5px;
+	cursor: pointer;
+	background-position: top left;
+	background-repeat: repeat-x;
+	vertical-align: middle;
+	color: #000000;
+	background-color: #D4CFC7;
+	background-image: url(background.gif);
+	background-position :  left top;
+	background-repeat: repeat-x;
+	font-size: 11px;
+	font-weight: bold;
+	font-family: Arial, Verdana, sans-serif;
+}
+
+.dr-pnlbar-h-act{
+	border: 0px solid red;
+	padding: 0px 1px 1px 5px;
+	cursor: pointer;
+	background-color: #D4CFC7;
+	background-image: url(background.gif);
+	background-position: top left;
+	background-repeat: repeat-x;
+	vertical-align: middle;
+	color: #000000;
+	background-color: #D4CFC7;
+	font-size: 11px;
+	font-weight: bold;
+	font-family: Arial, Verdana, sans-serif;
+}
+
+.dr-pnlbar-c{
+	padding: 10px;
+	text-align: left;
+	vertical-align: top;
+	color: #000000;
+}
+
+.dr-pnlbar-b{
+	border-top-width: 0px !important;
+	border-left-width: 0px !important;
+	border-right-width: 0px !important;
+	padding : 0px;
+}

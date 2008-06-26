@@ -1,0 +1,310 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+
+	<a4j:region id="contractRegion">
+	
+	<a4j:outputPanel id="a4jContract" layout="block">
+	<table class="list" cellpadding="5" width="100%">
+		<thead>
+			<tr>
+		    	<th><h:outputText value="#{bundle['Contract.reference']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.function']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.startDate']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.endDate']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.workPermitStart']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.workPermitEnd']}" /></th>
+		    	<th></th>
+	    	</tr>
+			<tr>
+		    	<th><h:outputText value="#{bundle['Contract.project']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.projectBudget']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.remainingProjectBudget']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.financedBy']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.comptabilitySection']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.budgetSource']}" /></th>
+		    	<th></th>
+	    	</tr>
+			<tr>
+		    	<th colspan="3" align="center"><h:outputText value="#{bundle['Contract.reason']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.type']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.contractCategory']}" /></th>
+		    	<th><h:outputText value="#{bundle['Contract.workExperienceGiven']}" /></th>
+		    	<th></th>
+	    	</tr>
+    	</thead>
+    	<t:dataList id="contracts" var="contract" rowIndexVar="index" value="#{contracts}">
+    		<tbody class="highlight">
+	    		<tr class="#{(index%2)==0?'even':'odd'}">
+	    			<td>
+		    			<h:outputText id="type" value="#{contract.reference}"/>
+			        </td>
+			        <td><h:outputText id="function" value="#{contract.function}"/></td>
+					<td>
+						<h:outputText value="#{contract.startDate}">
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</h:outputText>
+					</td>
+					<td>
+						<h:outputText value="#{contract.endDate}">
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</h:outputText>
+					</td>
+					<td>
+						<h:outputText value="#{contract.workPermitStart}">
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</h:outputText>
+					</td>
+					<td>
+						<h:outputText value="#{contract.workPermitEnd}">
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+						</h:outputText>
+					</td>
+					<td rowspan="3" valign="top">
+							<a4j:commandLink action="#{hrActions.editContract}"
+								immediate="true"
+						        reRender=":#{parentClientId}:a4jContract" limitToList="true">
+								<f:actionListener type="be.rmi.intranet.listener.ContainerReset"/>
+								<f:param name="containerToReset" value="editContract" />
+								<f:param name="editId" value="#{index}" />
+								<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+							</a4j:commandLink>
+					</td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td>
+						<h:outputText id="project" value="#{contract.project.proj_name}"/>
+					</td>
+					<td>
+						<h:outputText id="budget" value="#{contract.projectBudget}"/>
+					</td>
+					<td>
+						<h:outputText id="remainingBudget" value="#{contract.remainingProjectBudget}"/>
+					</td>
+					<td>
+						<h:outputText id="financedBy" value="#{contract.financedBy}"/>
+					</td>
+					<td>
+		    			<h:outputText id="comptabilitySection" value="#{contract.comptabilitySection}"><f:converter converterId="SelectConverter" /></h:outputText>
+					</td>
+					<td>
+						<h:outputText id="budgetSource" value="#{contract.budgetSource}"><f:converter converterId="SelectConverter" /></h:outputText>
+					</td>
+				</tr>
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td colspan="3">
+						<h:outputText id="reason" value="#{contract.reason}"><f:converter converterId="SelectConverter" /></h:outputText>
+					</td>
+					<td>
+						<h:outputText id="type" value="#{contract.type}"><f:converter converterId="SelectConverter" /></h:outputText>
+					</td>
+					<td>
+						<h:outputText id="category" value="#{contract.contractCategory}"><f:converter converterId="SelectConverter" /></h:outputText>
+					</td>
+					<td colspan="2">
+						<h:outputText id="workExperienceGiven" value="#{contract.workExperienceGiven}"/>
+					</td>
+				</tr>	
+	    	</tbody>
+    	</t:dataList>
+    	<tbody>
+	    	<tr>
+		    	<td colspan="7">
+					<a4j:commandLink immediate="true"
+						rendered="#{hrSession.edits.contract == null}"
+						action="#{hrActions.addContract}"
+						reRender=":#{parentClientId}:a4jContract" limitToList="true">
+						<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+						<f:param name="containerToReset" value="editContract" />
+						<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+	    	</tr>
+    	</tbody>
+    </table>
+    <s:subForm id="editContract" rendered="#{hrSession.edits.contract != null}">
+    	<fieldset>
+    	<table border="0" width="100%">
+    		<tr>
+	    		<td>
+	    			<h:outputText value="#{bundle['Contract.reference']}"/>
+					<h:inputText value="#{hrSession.edits.contract.reference}" id="creference"/>
+			        <h:message for="creference" showDetail="true" showSummary="false"/>
+			        
+			        
+	    			<h:outputText value="#{bundle['Contract.type']}" />
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.contract.type}" />
+							<ui:param name="id" value="ctype" />
+							<ui:param name="key" value="Contract type" />
+					</ui:include>
+			        <h:message for="ctype" showDetail="true" showSummary="false"/>
+		        </td>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.function']}" />
+					<h:inputText value="#{hrSession.edits.contract.function}" id="cfunction"/>
+					<h:message for="cfunction" showDetail="true" showSummary="false"/>
+				</td>
+				
+				<td rowspan="7" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteContract}" immediate="true"
+							reRender=":#{parentClientId}:a4jContract" limitToList="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					#{bundle['Contract.reason']}
+	    			<!-- <h:selectOneMenu value="#{hrSession.edits.contract.reason}" id="creason">
+			              <f:selectItems value="#{hrRequest.selectEntries['Contract reason']}"/>
+			        </h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.contract.reason}" />
+							<ui:param name="id" value="creason" />
+							<ui:param name="key" value="Contract reason" />
+					</ui:include>
+			        <h:message for="creason" showDetail="true" showSummary="false"/>
+				</td>
+				<td>
+					#{bundle['Contract.contractCategory']}
+	    			<!-- <h:selectOneMenu value="#{hrSession.edits.contract.contractCategory}" id="ccategory">
+			              <f:selectItems value="#{hrRequest.selectEntries['Contract category']}"/>
+			        </h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.contract.contractCategory}" />
+							<ui:param name="id" value="ccategory" />
+							<ui:param name="key" value="Contract category" />
+					</ui:include>
+			        <h:message for="ccategory" showDetail="true" showSummary="false"/>
+				</td>
+			</tr>
+			<tr>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.startDate']}" />
+		    		<t:inputCalendar
+							value="#{hrSession.edits.contract.startDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="cstartdate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar>
+					<h:message for="cstartdate" showDetail="true" showSummary="false"/>
+		    	</td>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.endDate']}" />
+		    		<t:inputCalendar
+							value="#{hrSession.edits.contract.endDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="cenddate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar>
+					<h:message for="cenddate" showDetail="true" showSummary="false"/>
+				</td>
+			</tr>
+			<tr>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.workPermitStart']}" />
+		    		<t:inputCalendar
+							value="#{hrSession.edits.contract.workPermitStart}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="cworkstart">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar>
+					<h:message for="cworkstart" showDetail="true" showSummary="false"/>
+	    		</td>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.workPermitEnd']}" />
+		    		<t:inputCalendar
+							value="#{hrSession.edits.contract.workPermitEnd}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="cworkend">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar>
+					<h:message for="cworkend" showDetail="true" showSummary="false"/>
+	    		</td>
+    		</tr>
+    		<tr>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.project']}" />
+		    		<h:selectOneMenu id="cproject" value="#{hrSession.edits.contract.project}">
+		    			<f:selectItem itemValue="[nothing]" itemLabel=""/>
+		    			<f:selectItems value="#{hrRequest.projectItems}"/>
+		    		</h:selectOneMenu>
+					<a4j:commandLink action="dumb"
+							immediate="true" reRender="cproject" limitToList="true" >
+						<h:graphicImage 
+								url="/images/icon_reload.gif" 
+								style="border:none;vertical-align:center;margin-right:1pt"
+						/>
+					</a4j:commandLink>
+					<h:message for="cproject" showDetail="true" showSummary="false"/>
+		    	</td>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.workExperienceGiven']}" />
+		    		<h:inputText value="#{hrSession.edits.contract.workExperienceGiven}" id="cworkexp"/>
+		    		<h:message for="cworkexp" showDetail="true" showSummary="false"/>
+	    		</td>
+	    	</tr>
+	    	<tr>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.projectBudget']}" />
+		    		<h:inputText value="#{hrSession.edits.contract.projectBudget}" id="cprojbudget"/>
+		    		<h:message for="cprojbudget" showDetail="true" showSummary="false"/>
+	    		</td>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.remainingProjectBudget']}" />
+		    		<h:inputText value="#{hrSession.edits.contract.remainingProjectBudget}" id="cremainbudget"/>
+		    		<h:message for="cremainbudget" showDetail="true" showSummary="false"/>
+	    		</td>
+	    	</tr>
+	    	<tr>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.financedBy']}" />
+		    		<h:inputText value="#{hrSession.edits.contract.financedBy}" id="cfinby"/>
+		    		<h:message for="cfinby" showDetail="true" showSummary="false"/>
+	    		</td>
+	    		<td>
+	    			#{bundle['Contract.budgetSource']}
+	    			<!-- <h:selectOneMenu value="#{hrSession.edits.contract.budgetSource}" id="cbsource">
+			              <f:selectItems value="#{hrRequest.selectEntries['Budget source']}"/>
+			        </h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.contract.budgetSource}" />
+							<ui:param name="id" value="cbsource" />
+							<ui:param name="key" value="Budget source" />
+					</ui:include>
+			        <h:message for="cbsource" showDetail="true" showSummary="false"/>
+	    		</td>
+    		</tr>
+    		<tr>
+		    	<td>
+		    		<h:outputText value="#{bundle['Contract.comptabilitySection']}" />
+	    			<!-- <h:selectOneMenu value="#{hrSession.edits.contract.comptabilitySection}" id="ccsection">
+			              <f:selectItems value="#{hrRequest.selectEntries['Comptability section']}"/>
+			        </h:selectOneMenu>-->
+					<ui:include src="selectEntry.xhtml">
+							<ui:param name="value" value="#{hrSession.edits.contract.comptabilitySection}" />
+							<ui:param name="id" value="ccsection" />
+							<ui:param name="key" value="Comptability section" />
+					</ui:include>
+			        <h:message for="ccsection" showDetail="true" showSummary="false"/>
+	    		</td>
+	    		<td>
+	    		</td>
+	    	</tr>
+    	</table>
+				<a4j:commandButton value="Done" action="#{hrActions.doneContract}"
+				reRender=":#{parentClientId}:a4jContract" limitToList="true"
+				actionFor="editContract" />
+		</fieldset>
+    </s:subForm>
+    </a4j:outputPanel>
+    </a4j:region>
+</ui:composition>
+</html>

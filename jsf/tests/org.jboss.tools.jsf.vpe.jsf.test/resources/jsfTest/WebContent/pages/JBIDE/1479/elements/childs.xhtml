@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<a4j:region id="childrenRegion">
+	
+	<a4j:outputPanel id="a4jChildren" layout="block">
+	<fieldset><legend><h:outputText
+		value="#{bundle['Employee.children']}" /></legend>
+	<table border="0" width="100%" class="list">
+		<thead>
+			<tr>
+				<th><h:outputText value="#{bundle['Child.firstName']}" /></th>
+				<th><h:outputText value="#{bundle['Child.lastName']}" /></th>
+				<th><h:outputText value="#{bundle['Child.birthDate']}" /></th>
+				<th><h:outputText value="#{bundle['Child.allocation']}" /></th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList value="#{hrSession.employee.childrenArray}"
+				var="child" id="childs" rowIndexVar="index">
+			<tbody class="highlight">
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td><h:outputText value="#{child.firstName}" /></td>
+					<td><h:outputText value="#{child.lastName}" /></td>
+					<td><h:outputText value="#{child.birthDate}">
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+					</h:outputText></td>
+					<td><h:graphicImage url="/images/icon_checked.png" rendered="#{child.allocation}"/></td>
+					<td><a4j:commandLink action="#{hrActions.editChild}"
+							reRender=":#{parentClientId}:a4jChildren" limitToList="true"
+							immediate="true">
+							<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+							<f:param name="containerToReset" value="editChild" />
+							<f:param name="editId" value="#{index}" />
+							<h:graphicImage url="/images/icon_edit.gif" style="border:none"/>
+						</a4j:commandLink></td>
+				</tr>
+			</tbody>
+		</t:dataList>
+		<tr>
+			<td align="right" colspan="5"><a4j:commandLink immediate="true"
+				rendered="#{hrSession.edits.child == null}"
+				reRender=":#{parentClientId}:a4jChildren" limitToList="true"
+				action="#{hrActions.addChild}">
+				<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+				<f:param name="containerToReset" value="editChild" />
+				<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+			</a4j:commandLink></td>
+		</tr>
+		<tr>
+			<td colspan="5"><s:subForm id="editChild"
+				rendered="#{hrSession.edits.child != null}">
+
+				<table border="0" width="100%">
+					<tr>
+						<td><h:outputText value="#{bundle['Child.firstName']}" /></td>
+						<td><h:inputText value="#{hrSession.edits.child.firstName}" id="firstname"/><h:message for="firstname" showDetails="true" showSummary="false"/></td>
+						<td><h:outputText value="#{bundle['Child.lastName']}" /></td>
+						<td><h:inputText value="#{hrSession.edits.child.lastName}" id="lastname"/><h:message for="lastname" showDetails="true" showSummary="false"/></td>
+						<td rowspan="3" valign="top">
+							<a4j:commandLink action="#{hrActions.deleteChild}" immediate="true"
+							reRender=":#{parentClientId}:a4jChildren" limitToList="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false">
+								<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+							</a4j:commandLink>
+						</td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{bundle['Child.birthDate']}" /></td>
+						<td><t:inputCalendar
+							value="#{hrSession.edits.child.birthDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="birthdate">
+
+							<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+						</t:inputCalendar><h:message for="birthdate" showDetails="true" showSummary="false"/></td>
+						<td>Leeftijd kind huidig jaar:</td>
+						<td><h:outputText value="#{hrSession.edits.child.age}" /></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{bundle['Child.allocation']}" /></td>
+						<td><h:selectBooleanCheckbox
+							value="#{hrSession.edits.child.allocation}" /></td>
+						<td colspan="2"></td>
+					</tr>
+					<tr>
+						<td colspan="5" align="right"><a4j:commandButton value="Done"
+							reRender=":#{parentClientId}:a4jChildren" limitToList="true"
+							action="#{hrActions.clearEdits}" actionFor="doneChild" /></td>
+					</tr>
+				</table>
+
+			</s:subForm> <h:messages showDetail="true" /></td>
+		</tr>
+	</table>
+	</fieldset>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

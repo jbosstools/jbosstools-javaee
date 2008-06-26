@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3CR3/docbookx.dtd"
+
+[
+<!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
+<!ENTITY springTools SYSTEM "modules/spring_tools.xml">
+<!ENTITY editors SYSTEM "modules/editors.xml">
+<!ENTITY palette SYSTEM "modules/palette.xml">
+<!ENTITY web_projects SYSTEM "modules/web_projects.xml">
+<!ENTITY preferences SYSTEM "modules/preferences.xml">
+
+<!ENTITY seamlink "../../../../seam/publish/en-US/html_single/index.html">
+<!ENTITY aslink "../../../../as/publish/en-US/html_single/index.html">
+<!ENTITY esblink "../../../../esb_ref_guide/publish/en-US/html_single/index.html">
+<!ENTITY gsglink "../../../../GettingStartedGuide/publish/en-US/html_single/index.html">
+<!ENTITY hibernatelink "../../../../hibernatetools/publish/en-US/html_single/index.html">
+<!ENTITY jbpmlink "../../../../jbpm/publish/en-US/html_single/index.html">
+<!ENTITY jsflink "../../../../jsf/publish/en-US/html_single/index.html">
+<!ENTITY jsfreflink "../../../../jsf_tools_ref_guide/publish/en-US/html_single/index.html">
+<!ENTITY jsftutoriallink "../../../../jsf_tools_tutorial/publish/en-US/html_single/index.html">
+<!ENTITY strutsreflink "../../../../struts_tools_ref_guide/publish/en-US/html_single/index.html">
+<!ENTITY strutstutoriallink "../../../../struts_tools_tutorial/publish/en-US/html_single/index.html">                         
+
+]>
+<book>
+    <bookinfo>
+        <title>Visual Web Tools Reference Guide</title>
+        
+        <pubdate>April 2008</pubdate>
+        <copyright>
+            <year>2007</year>
+            <year>2008</year>
+            <holder>JBoss, a division of Red Hat Inc.</holder>
+        </copyright>
+        <releaseinfo>
+            Version: 1.1.0.GA
+           </releaseinfo>
+    </bookinfo>
+    
+<toc/>  
+    
+    &Visual_Web_Tools;
+    &springTools;
+    &editors;
+    &palette;
+    &web_projects;	
+    &preferences;
+</book>    

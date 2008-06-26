@@ -1,0 +1,858 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<ui:composition template="hr-layout.xhtml">
+	<ui:param name="title" value="Edit Employee" />
+	<ui:define name="leftBar">
+		<ui:include src="../hr-actions.xhtml" />
+	</ui:define>
+	<ui:define name="content">
+		<f:loadBundle basename="resources.hr" var="bundle" />
+		<h1>Add/Edit Employee datas</h1>
+		<br />
+		<!-- <a href="javascript:showListEditor('http://localhost:8080/intranet/faces/hr/edit/lists/gradesEditor.xhtml',function(){alert('Hello');})">[?]</a><br/> -->
+		<h:form acceptcharset="UTF-8" id="employeeForm"
+			rendered="#{hrSession.employee != null}"
+			enctype="multipart/form-data">
+			<!-- <ui:include src="lists/listEditor.xhtml">
+					<ui:param name="wrapper" value="#{hrSession.employeeWrapper}" />
+					<ui:param name="parentClientId" value="employeeForm"/>
+	</ui:include> -->
+			<a4j:poll action="ajaxRefresh" id="refresh" reRender="refresh"
+				limitToList="true" interval="60000">
+			</a4j:poll>
+			<s:subForm id="mainSubForm">
+				<table>
+					<tr>
+						<td>#{bundle['Employee.firstname']}</td>
+						<td><h:inputText id="firstname"
+							value="#{hrSession.employee.firstname}" size="50" /><h:message
+							for="firstname" showDetails="true" showSummary="false" /></td>
+					</tr>
+					<tr>
+						<td>#{bundle['Employee.lastname']}</td>
+						<td><h:inputText id="lastname"
+							value="#{hrSession.employee.lastname}" size="50" /><h:message
+							for="lastname" showDetails="true" showSummary="false" /></td>
+					</tr>
+				</table>
+				<t:panelTabbedPane width="100%" serverSideTabSwitch="false"
+					id="tabbedPane">
+					<t:panelTab label="#{bundle['main']}" processValidators="true"
+						id="main">
+						<table border="0" width="100%">
+							<tr>
+								<td>#{bundle['Employee.language']}</td>
+								<td><!-- <h:selectOneMenu value="#{hrSession.employee.language}" id="language">
+						<f:selectItems value="#{hrRequest.selectEntries['Language']}"/>
+					</h:selectOneMenu> --> <ui:include src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.language}" />
+									<ui:param name="id" value="language" />
+									<ui:param name="key" value="Language" />
+								</ui:include> <h:message for="language" showDetail="true" showSummary="false" />
+								</td>
+								<td>#{bundle['Employee.gender']}</td>
+								<td><!-- <h:selectOneMenu value="#{hrSession.employee.gender}" id="gender">
+						<f:selectItems value="#{hrRequest.selectEntries['Gender']}"/>
+					</h:selectOneMenu> --> <ui:include src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.gender}" />
+									<ui:param name="id" value="gender" />
+									<ui:param name="key" value="Gender" />
+								</ui:include> <h:message for="gender" showDetail="true" showSummary="false" />
+								</td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.formulation']}</td>
+								<td><!-- <h:selectOneMenu value="#{hrSession.employee.formulation}" id="formulation">
+						<f:selectItems value="#{hrRequest.selectEntries['Formulation']}" />
+					</h:selectOneMenu> --> <ui:include src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.formulation}" />
+									<ui:param name="id" value="formulation" />
+									<ui:param name="key" value="Formulation" />
+								</ui:include> <h:message for="formulation" showDetail="true"
+									showSummary="false" /></td>
+								<td>#{bundle['Employee.title']}</td>
+								<td><!-- <h:selectOneMenu value="#{hrSession.employee.title}" id="title">
+						<f:selectItems value="#{hrRequest.selectEntries['Title']}" />
+					</h:selectOneMenu> --> <ui:include src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.title}" />
+									<ui:param name="id" value="title" />
+									<ui:param name="key" value="Title" />
+								</ui:include> <h:message for="title" showDetail="true" showSummary="false" />
+								</td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.section']}</td>
+								<td colspan="3"><h:selectOneMenu
+									value="#{hrSession.employee.section}" id="section">
+									<f:selectItems value="#{hrRequest.sections}" />
+								</h:selectOneMenu> <h:message for="section" showDetail="true" showSummary="false" />
+								</td>
+							</tr>
+						</table>
+						<rich:panel><f:facet name="header">#{bundle['Employee.officeAddress']}</f:facet>
+						<table border="0" width="100%">
+							<tr>
+								<td rowspan="4" style="text-align:center">#{bundle['Employee.picture']}<br />
+								<s:subForm id="pictureForm">
+									<ui:include src="elements/pictureUpload.xhtml">
+										<ui:param name="wrapper" value="#{hrSession.employeeWrapper}" />
+										<ui:param name="parentClientId"
+											value="employeeForm:mainSubForm:main:pictureForm" />
+									</ui:include>
+								</s:subForm></td>
+								<td valign="top" colspan="3"><ui:include 
+									src="elements/address.xhtml">
+									<ui:param name="address"
+										value="#{hrSession.employee.officeAddress}" />
+								</ui:include></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.email']}</td>
+								<td><h:inputText value="#{hrSession.employee.email}"
+									id="email" required="true" /> <h:message for="email"
+									showDetail="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.login']}</td>
+								<td><h:inputText id="login"
+									value="#{hrSession.employee.login}" style="text-align:right" />@oma.be
+								<h:message for="login" showDetail="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.locationUnit']}</td>
+								<td><!-- <h:selectOneMenu value="#{hrSession.employee.locationUnit}" id="locationUnit">
+						<f:selectItems value="#{hrRequest.selectEntries['Location unit']}"/>
+					</h:selectOneMenu> --> <ui:include src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.locationUnit}" />
+									<ui:param name="id" value="locationUnit" />
+									<ui:param name="key" value="Location unit" />
+								</ui:include> <h:message for="locationUnit" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+						</table>
+						</rich:panel>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['private']}" processValidators="true"
+						id="private">
+						<table width="100%" border="0">
+							<tr>
+								<td>#{bundle['Employee.birthDate']}</td>
+								<td><t:inputCalendar id="birthdate"
+									value="#{hrSession.employee.birthDate}" popupTodayString=""
+									renderAsPopup="true" renderPopupButtonAsImage="true"
+									popupDateFormat="dd MMMM yyyy">
+										<f:convertDateTime pattern="dd MMMM yyyy"
+											timeZone="Europe/Paris" />
+									</t:inputCalendar>
+									<h:message for="birthdate"
+									showDetail="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.age']}</td>
+								<td><h:outputText value="#{hrSession.employee.age}"
+									id="age" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.birthPlace']}</td>
+								<td><h:inputText id="birthplace"
+									value="#{hrSession.employee.birthPlace}" /> <h:message
+									for="birthplace" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.nationality']}</td>
+								<td><h:selectOneMenu
+									value="#{hrSession.employee.nationality}" id="nationality">
+									<f:selectItems value="#{hrRequest.countries}" />
+								</h:selectOneMenu> <h:message for="nationality" showDetails="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.nationalRegisterNumber']}</td>
+								<td><h:inputText
+									value="#{hrSession.employee.nationalRegisterNumber}" id="nrn" />
+								<h:message for="nrn" showDetail="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.idCardNumber']}</td>
+								<td><h:inputText value="#{hrSession.employee.idCardNumber}"
+									id="idCard" /> <h:message for="idCard" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td colspan="4">
+								<rich:panel><f:facet name="header">#{bundle['Employee.home']}</f:facet>
+								<ui:include src="elements/address.xhtml">
+									<ui:param name="address" value="#{hrSession.employee.home}" />
+								</ui:include> #{bundle['Employee.lastHomeMove']} <t:inputCalendar
+									value="#{hrSession.employee.lastHomeMove}" popupTodayString=""
+									renderAsPopup="true" renderPopupButtonAsImage="true"
+									popupDateFormat="dd MMMM yyyy" id="lastHomeMove">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar> <h:message for="lastHomeMove" showDetails="true"
+									showSummary="false" /></rich:panel>
+								</td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.bankAccountNumber']}</td>
+								<td colspan="3"><h:inputText
+									value="#{hrSession.employee.bankAccountNumber}"
+									id="bankAccount" /> <h:message for="bankAccount"
+									showDetail="true" showSummary="false" /></td>
+							</tr>
+						</table>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['administrative']}"
+						processValidators="true" id="administrative">
+						<rich:panel><f:facet name="header">Status</f:facet>
+						<table border="0">
+							<tr>
+								<td colspan="2"><!-- <h:selectOneMenu value="#{hrSession.employee.status1}" id="status1">
+								<f:selectItems value="#{hrRequest.selectEntries['Emp status 1']}"/>
+							</h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.status1}" />
+									<ui:param name="id" value="status1" />
+									<ui:param name="key" value="Emp status 1" />
+								</ui:include> <h:message for="status1" showDetail="true" showSummary="false" />
+								</td>
+								<td colspan="2"><!-- <h:selectOneMenu value="#{hrSession.employee.status2}" id="status2">
+								<f:selectItems value="#{hrRequest.selectEntries['Emp status 2']}"/>
+							</h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.status2}" />
+									<ui:param name="id" value="status2" />
+									<ui:param name="key" value="Emp status 2" />
+								</ui:include> <h:message for="status2" showDetail="true" showSummary="false" />
+								</td>
+							</tr>
+							<tr>
+								<td>#{bundle['PData.status']}</td>
+								<td colspan="3"><!-- <h:selectOneMenu id="pdataStatus" value="#{hrSession.employee.PData.status}">
+								<f:selectItem itemValue="[nothing]" itemLabel=""/>
+								<f:selectItems value="#{hrRequest.selectEntries['Status']}"/>
+							</h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.PData.status}" />
+									<ui:param name="id" value="pdataStatus" />
+									<ui:param name="key" value="Status" />
+								</ui:include> <h:message for="pdataStatus" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.administrativeState']}</td>
+								<td><!-- <h:selectOneMenu id="administrativeState" value="#{hrSession.employee.administrativeState}">
+								<f:selectItems value="#{hrRequest.selectEntries['Administrative state']}"/>
+							</h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.administrativeState}" />
+									<ui:param name="id" value="administrativeState" />
+									<ui:param name="key" value="Administrative state" />
+								</ui:include> <h:message for="administrativeState" showDetail="true"
+									showSummary="false" /></td>
+								<td colspan="2"><h:selectBooleanCheckbox
+									value="#{hrSession.employee.scientific}" id="scientific" />
+								#{bundle['Employee.scientific']} <h:message for="scientific"
+									showDetail="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.projects']}:</td>
+								<td colspan="3">#{bundle['hint.pickList']} <s:selectManyPicklist
+									id="projects" value="#{hrSession.employee.projectsArray}">
+									<f:selectItems value="#{hrRequest.projectItems}" />
+								</s:selectManyPicklist> <h:messages for="projects" /></td>
+							</tr>
+
+						</table>
+						</rich:panel>
+						<rich:panel><f:facet name="header">#{bundle['Employee.functionGroups']}</f:facet>
+						<h:dataTable value="#{functionGroup.functionGroups}" var="fg">
+							<h:column>
+								<h:outputText value="#{fg}">
+									<f:converter converterId="NamedIdConverter" />
+								</h:outputText>
+							</h:column>
+							<h:column>
+								<h:selectOneMenu
+									value="#{hrSession.employee.functionGroups[fg]}">
+									<f:converter converterId="abstractId" />
+									<f:selectItem itemLabel="" itemValue="[nothing]"/>
+									<f:selectItems value="#{functionGroup.functionItems}" />
+								</h:selectOneMenu>
+							</h:column>
+						</h:dataTable></rich:panel>
+						<rich:panel><f:facet name="header">Rank</f:facet>
+						<table border="0">
+							<tr>
+								<td>#{bundle['Employee.workingPercent']}</td>
+								<td><h:inputText
+									value="#{hrSession.employee.workingPercent}"
+									id="workingPercent">
+									<f:validateLongRange minimum="0" maximum="100" />
+								</h:inputText> <h:message for="workingPercent" showDetail="true"
+									showSummary="false" /></td>
+								<td>#{bundle['Employee.salaryScale']}</td>
+								<td><h:inputText value="#{hrSession.employee.salaryScale}"
+									id="salaryScale" /> <h:message for="salaryScale"
+									showDetail="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.expertSalaryScale']}</td>
+								<td colspan="3"><!-- <h:selectOneMenu id="expertSalaryScale" value="#{hrSession.employee.expertSalaryScale}">
+								<f:selectItems value="#{hrRequest.selectEntries['Expert salary scale']}"/>
+							</h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.expertSalaryScale}" />
+									<ui:param name="id" value="expertSalaryScale" />
+									<ui:param name="key" value="Expert salary scale" />
+								</ui:include> <h:message for="expertSalaryScale" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+						</table>
+						</rich:panel>
+						<table border="0">
+							<tr>
+								<td>#{bundle['Employee.bilingualPremium']}</td>
+								<td colspan="3"><!-- <h:selectOneMenu id="bilingualPremium" value="#{hrSession.employee.bilingualPremium}">
+			              <f:selectItems value="#{hrRequest.selectEntries['Bilingual premium']}"/>
+			            </h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.bilingualPremium}" />
+									<ui:param name="id" value="bilingualPremium" />
+									<ui:param name="key" value="Bilingual premium" />
+								</ui:include> <h:message for="bilingualPremium" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.bilingualScale']}</td>
+								<td><h:inputText size="10" id="bilingualScale"
+									value="#{hrSession.employee.bilingualScale}" /><h:message
+									for="bilingualScale" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.missionDuration']}</td>
+								<td><!-- <h:selectOneMenu id="missionDuration" value="#{hrSession.employee.missionDuration}">
+			              <f:selectItems value="#{hrRequest.selectEntries['Mission duration']}"/>
+			            </h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value"
+										value="#{hrSession.employee.missionDuration}" />
+									<ui:param name="id" value="missionDuration" />
+									<ui:param name="key" value="Mission duration" />
+								</ui:include> <h:message for="missionDuration" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.officeLocation']}</td>
+								<td><h:inputText id="officeLocation"
+									value="#{hrSession.employee.officeLocation}" /><h:message
+									for="officeLocation" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.officeKeyNumber']}</td>
+								<td><h:inputText id="officeKey"
+									value="#{hrSession.employee.officeKeyNumber}" /><h:message
+									for="officeKey" showDetails="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.trap']}</td>
+								<td><!-- <h:selectOneMenu id="trap" value="#{hrSession.employee.trap}">
+		              <f:selectItems value="#{hrRequest.selectEntries['Trap']}"/>
+		            </h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.trap}" />
+									<ui:param name="id" value="trap" />
+									<ui:param name="key" value="Trap" />
+								</ui:include> <h:message for="trap" showDetail="true" showSummary="false" />
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.badgeNumber']}</td>
+								<td><h:inputText id="badgeNumber"
+									value="#{hrSession.employee.badgeNumber}" /><h:message
+									for="badgeNumber" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.timeclockCode']}</td>
+								<td><h:inputText id="badgeNumber"
+									value="#{hrSession.employee.timeclockCode}" /><h:message
+									for="badgeNumber" showDetails="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.adminNumber']}</td>
+								<td><h:inputText id="adminNumber"
+									value="#{hrSession.employee.adminNumber}" /><h:message
+									for="adminNumber" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.frame']}</td>
+								<td><!-- <h:selectOneMenu id="adminNumber" value="#{hrSession.employee.frame}">
+		            		<f:selectItems value="#{hrRequest.selectEntries['Frame']}"/>
+		            	</h:selectOneMenu> --> <ui:include
+									src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.frame}" />
+									<ui:param name="id" value="frame" />
+									<ui:param name="key" value="Frame" />
+								</ui:include> <h:message for="frame" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.IBGBadgeNumber']}</td>
+								<td><h:inputText id="ibg"
+									value="#{hrSession.employee.IBGBadgeNumber}" /><h:message
+									for="ibg" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.dimonia']}</td>
+								<td><h:inputText id="dimonia"
+									value="#{hrSession.employee.dimonia}" /><h:message for="ibg"
+									showDetails="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.phoneActivityCode']}</td>
+								<td><h:inputText id="phoneActivity"
+									value="#{hrSession.employee.phoneActivityCode}" /><h:message
+									for="phoneActivity" showDetails="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.replacement']}</td>
+								<td><ui:include src="elements/selectEntry.xhtml">
+									<ui:param name="value" value="#{hrSession.employee.replacement}" />
+									<ui:param name="id" value="replacement" />
+									<ui:param name="key" value="Replacement status" />
+								</ui:include> <h:message for="replacement" showDetail="true" showSummary="false" /></td>
+							</tr>
+							<!-- 
+				<tr>
+					<td>#{bundle['Employee.lifeClass']}</td>
+					<td>
+						<h:selectOneMenu value="#{hrSession.employee.lifeClass}" id="lifeClass">
+							<f:selectItems value="#{hrRequest.lifeClasses}"/>
+							<f:converter converterId="NullableLong" />
+						</h:selectOneMenu>
+						<h:message for="lifeClass" showDetails="true" showSummary="false"/></td>
+					<td>#{bundle['Employee.lifeClassDate']}</td>
+					<td><t:inputCalendar value="#{hrSession.employee.lifeClassDate}" popupTodayString=""
+							renderAsPopup="true" renderPopupButtonAsImage="true"
+							popupDateFormat="dd MMMM yyyy" id="lifeclassDate">		
+						<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris"/>
+					</t:inputCalendar><h:message for="lifeclassDate" showDetails="true" showSummary="false"/></td>
+				</tr>-->
+							<tr>
+								<td>#{bundle['Employee.lifeClassDate18']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.lifeClassDate18}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="lifeclassDate18">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar><h:message for="lifeclassDate18" showDetails="true"
+									showSummary="false" /></td>
+								<td>#{bundle['Employee.lifeClassDate23']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.lifeClassDate23}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="lifeclassDate23">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar><h:message for="lifeclassDate23" showDetails="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.lifeClassDate20']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.lifeClassDate20}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="lifeclassDate20">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar><h:message for="lifeclassDate20" showDetails="true"
+									showSummary="false" /></td>
+								<td>#{bundle['Employee.lifeClassDate24']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.lifeClassDate24}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="lifeclassDate24">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar><h:message for="lifeclassDate24" showDetails="true"
+									showSummary="false" /></td>
+							</tr>
+
+							<tr>
+								<td>#{bundle['Employee.lifeClassDate21']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.lifeClassDate21}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="lifeclassDate21">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar><h:message for="lifeclassDate21" showDetails="true"
+									showSummary="false" /></td>
+								<td colspan="2"></td>
+							</tr>
+							<tr>
+								<td colspan="4"><ui:include src="elements/diplomas.xhtml">
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:administrative" />
+								</ui:include></td>
+							</tr>
+							<tr>
+								<td colspan="4">
+								<rich:panel><f:facet name="header">#{bundle['Employee.PData']}</f:facet>
+								<table width="100%">
+									<tr>
+										<td>#{bundle['PData.selorCode']}</td>
+										<td colspan="3">
+										<ui:include
+											src="elements/selectEntry.xhtml">
+											<ui:param name="value"
+												value="#{hrSession.employee.PData.selorCode}" />
+											<ui:param name="id" value="selorCode" />
+											<ui:param name="key" value="Selor code" />
+										</ui:include> <h:message for="selorCode" showDetail="true"
+											showSummary="false" /></td>
+									</tr>
+									<tr>
+										<td>#{bundle['PData.handicap']}</td>
+										<td colspan="3">
+										 <ui:include
+											src="elements/selectEntry.xhtml">
+											<ui:param name="value"
+												value="#{hrSession.employee.PData.handicap}" />
+											<ui:param name="id" value="handicap" />
+											<ui:param name="key" value="Handicap" />
+										</ui:include> <h:message for="handicap" showDetail="true"
+											showSummary="false" /></td>
+									</tr>
+									<tr>
+										<td>#{bundle['PData.agdet']}</td>
+										<td colspan="3">
+										<ui:include
+											src="elements/selectEntry.xhtml">
+											<ui:param name="value"
+												value="#{hrSession.employee.PData.agdet}" />
+											<ui:param name="id" value="agdet" />
+											<ui:param name="key" value="Agdet" />
+										</ui:include> <h:message for="agdet" showDetail="true" showSummary="false" />
+										</td>
+									</tr>
+									<tr>
+										<td><h:selectBooleanCheckbox value="#{hrSession.employee.PData.managerGrant}" id="managerGrant"/>#{bundle['PData.managerGrant']}?</td>
+										<td><h:selectBooleanCheckbox value="#{hrSession.employee.PData.superiorGrant}" id="superiorGrant"/>#{bundle['PData.superiorGrant']}?</td>
+										<td><h:selectBooleanCheckbox value="#{hrSession.employee.PData.integrationGrant}" id="integrationGrant"/>#{bundle['PData.integrationGrant']}?</td>
+										<td><h:selectBooleanCheckbox value="#{hrSession.employee.PData.projectGrant}" id="projectGrant"/>#{bundle['PData.projectGrant']}?</td>
+									</tr>
+								</table>
+								</rich:panel>
+								</td>
+							</tr>
+							<tr>
+								<td valign="top">#{bundle['Employee.note']}</td>
+								<td colspan="3"><h:inputTextarea id="note"
+									value="#{hrSession.employee.note}" rows="7" cols="80" /><h:message
+									for="note" showDetails="true" showSummary="false" /></td>
+							</tr>
+						</table>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['family']}" processValidators="true"
+						id="family">
+		    #{bundle['Employee.maritalStatus']}
+		    <!-- <h:selectOneMenu id="maritalStatus" value="#{hrSession.employee.maritalStatus}">
+            	<f:selectItems value="#{hrRequest.selectEntries['Marital status']}"/>
+            </h:selectOneMenu> -->
+						<ui:include src="elements/selectEntry.xhtml">
+							<ui:param name="value"
+								value="#{hrSession.employee.maritalStatus}" />
+							<ui:param name="id" value="maritalStatus" />
+							<ui:param name="key" value="Marital status" />
+						</ui:include>
+						<h:message for="maritalStatus" showDetail="true"
+							showSummary="false" />
+						<br />
+						<rich:panel><f:facet name="header">#{bundle['Employee.nextOfKin']}</f:facet>
+						<ui:include src="elements/nok.xhtml">
+							<ui:param name="nok" value="#{hrSession.employee.nextOfKin}" />
+						</ui:include></rich:panel>
+						<!-- derived Hoeveel kinderen? <h:inputText value="" size="2" disabled="true"/><br/> -->
+						<ui:include src="elements/childs.xhtml">
+							<ui:param name="parentClientId"
+								value="employeeForm:mainSubForm:family" />
+						</ui:include>
+						<!--  <t:inputHtml addKupuLogo="false" value="" allowEditSource="false" allowExternalLinks="false"></t:inputHtml>  -->
+					</t:panelTab>
+					<t:panelTab label="#{bundle['Employee.transportation']}"
+						processValidators="true" id="transportation">
+						<h:selectBooleanCheckbox id="driveAuthorization"
+							value="#{hrSession.employee.driveAuthorization}" />
+		    #{bundle['Employee.driveAuthorization']}
+			<h:message for="driveAuthorization" showDetail="true"
+							showSummary="false" />
+						<ui:include src="elements/transportation.xhtml">
+							<ui:param name="transport"
+								value="#{hrSession.employee.transportation}" />
+						</ui:include>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['leaves']}" processValidators="true"
+						id="leaves">
+						<t:panelTabbedPane id="panel" serverSideTabSwitch="false"
+							style="width:100%">
+							<t:panelTab label="#{bundle['Employee.leaves']}"
+								processValidators="true" id="leaves">
+								<ui:include src="elements/leaves.xhtml">
+									<ui:param name="leaves"
+										value="#{hrSession.employee.leavesArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:leaves:leaves" />
+								</ui:include>
+							</t:panelTab>
+							<t:panelTab label="#{bundle['Employee.illnesses']}"
+								processValidators="true" id="illnesses">
+								<table>
+									<tr>
+										<td>#{bundle['Employee.medicalNumber']}</td>
+										<td><h:inputText
+											value="#{hrSession.employee.medicalNumber}" /></td>
+										<td>#{bundle['Employee.medicalCenter']}</td>
+										<td>
+											<ui:include src="elements/selectMedicalCenter.xhtml">
+												<ui:param name="id" value="medicalCenter"/>
+												<ui:param name="value" value="#{hrSession.employee.medicalCenter}"/>
+											</ui:include>
+											<h:message for="medicalCenter" showDetail="true"
+											showSummary="false" /></td>
+									</tr>
+									<tr>
+										<td>#{bundle['Employee.sickDayInBank']}</td>
+										<td><h:inputText
+											value="#{hrSession.employee.sickDayInBank}"
+											id="sickDayInBank" /> <h:message for="sickDayInBank"
+											showDetail="true" showSummary="false" /></td>
+										<td>#{bundle['Employee.sickDayForAge']}</td>
+										<td><h:inputText id="sickDayForAge"
+											value="#{hrSession.employee.sickDayForAge}" /> <h:message
+											for="sickDayForAge" showDetail="true" showSummary="false" /></td>
+									</tr>
+									<tr>
+										<td>#{bundle['Employee.sickDayYearSpent']}</td>
+										<td><h:inputText id="sickDayYearSpent"
+											value="#{hrSession.employee.sickDayYearSpent}" /> <h:message
+											for="sickDayYearSpent" showDetail="true" showSummary="false" />
+										</td>
+										<td>#{bundle['Employee.sickDayYearLeft']}</td>
+										<td><h:inputText id="sickDayYearLeft"
+											value="#{hrSession.employee.sickDayYearLeft}" /> <h:message
+											for="sickDayYearLeft" showDetail="true" showSummary="false" />
+										</td>
+									</tr>
+									<tr>
+										<td>#{bundle['Employee.illnessContact1']}</td>
+										<td>
+											<ui:include src="elements/selectSecretariat.xhtml">
+												<ui:param name="id" value="illness1"/>
+												<ui:param name="value" value="#{hrSession.employee.illnessContact1}"/>
+											</ui:include><h:message for="illness1" showDetail="true"
+											showSummary="false" /></td>
+										<td>#{bundle['Employee.illnessContact2']}</td>
+										<td>
+											<ui:include src="elements/selectSecretariat.xhtml">
+												<ui:param name="id" value="illness2"/>
+												<ui:param name="value" value="#{hrSession.employee.illnessContact2}"/>
+											</ui:include>
+											<h:message for="illness2" showDetail="true"
+											showSummary="false" /></td>
+									</tr>
+								</table>
+								<rich:panel><f:facet name="header">#{bundle['Employee.illnesses']}</f:facet>
+								<ui:include src="elements/illnesses.xhtml">
+									<ui:param name="illnesses"
+										value="#{hrSession.employee.illnessesArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:leaves:illnesses" />
+								</ui:include></rich:panel>
+							</t:panelTab>
+							<t:panelTab label="#{bundle['Employee.workAccidents']}"
+								processValidators="true" id="workAccidents">
+								<ui:include src="elements/workAccidents.xhtml">
+									<ui:param name="accidents"
+										value="#{hrSession.employee.workAccidentsArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:leaves:workAccidents" />
+								</ui:include>
+							</t:panelTab>
+						</t:panelTabbedPane>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['Employee.contracts']}"
+						processValidators="true" id="contracts">
+						<ui:include src="elements/contracts.xhtml">
+							<ui:param name="contracts"
+								value="#{hrSession.employee.contractsArray}" />
+							<ui:param name="parentClientId"
+								value="employeeForm:mainSubForm:contracts" />
+						</ui:include>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['Employee.cumuls']}"
+						processValidators="true" id="cumuls">
+						<ui:include src="elements/cumuls.xhtml">
+							<ui:param name="cumuls" value="#{hrSession.employee.cumulsArray}" />
+							<ui:param name="parentClientId"
+								value="employeeForm:mainSubForm:cumuls" />
+						</ui:include>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['career']}" processValidators="true"
+						id="career">
+						<table width="100%">
+							<tr>
+								<td>#{bundle['Employee.firstJobDate']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.firstJobDate}" popupTodayString=""
+									renderAsPopup="true" renderPopupButtonAsImage="true"
+									popupDateFormat="dd MMMM yyyy" id="firstJobDate">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar> <h:message for="firstJobDate" showDetail="true"
+									showSummary="false" /></td>
+								<td>#{bundle['Employee.workedOnPatrimonium']}</td>
+								<td><h:selectBooleanCheckbox id="patrimonium"
+									value="#{hrSession.employee.workedOnPatrimonium}" /> <h:message
+									for="patrimonium" showDetail="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.inDate']}</td>
+								<td><t:inputCalendar value="#{hrSession.employee.inDate}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="inDate">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar> <h:message for="inDate" showDetail="true" showSummary="false" />
+								</td>
+								<td>#{bundle['Employee.outDate']}</td>
+								<td><t:inputCalendar value="#{hrSession.employee.outDate}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="outDate">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar> <h:message for="outDate" showDetail="true" showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.salaryInDate']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.salaryInDate}" popupTodayString=""
+									renderAsPopup="true" renderPopupButtonAsImage="true"
+									popupDateFormat="dd MMMM yyyy" id="salaryInDate">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar> <h:message for="salaryInDate" showDetail="true"
+									showSummary="false" /></td>
+								<td>#{bundle['Employee.nominationDate']}</td>
+								<td><t:inputCalendar
+									value="#{hrSession.employee.nominationDate}"
+									popupTodayString="" renderAsPopup="true"
+									renderPopupButtonAsImage="true" popupDateFormat="dd MMMM yyyy"
+									id="nominationDate">
+									<f:convertDateTime pattern="dd MMMM yyyy"
+										timeZone="Europe/Paris" />
+								</t:inputCalendar> <h:message for="nominationDate" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+							<tr>
+								<td>#{bundle['Employee.rankBeforeReform']}</td>
+								<td><h:inputText
+									value="#{hrSession.employee.rankBeforeReform}" id="oldRank" />
+								<h:message for="oldRank" showDetail="true" showSummary="false" /></td>
+								<td>#{bundle['Employee.newRank']}</td>
+								<td><h:inputText value="#{hrSession.employee.newRank}"
+									id="newRank" /> <h:message for="newRank" showDetail="true"
+									showSummary="false" /></td>
+							</tr>
+						</table>
+						<t:panelTabbedPane id="ranks" serverSideTabSwitch="false"
+							style="width:100%">
+
+							<t:panelTab label="#{bundle['Employee.careerRanks']}"
+								processValidators="true" id="rank">
+								<ui:include src="elements/careerRanks.xhtml">
+									<ui:param name="ranks"
+										value="#{hrSession.employee.careerRanksArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:career:rank" />
+								</ui:include>
+							</t:panelTab>
+							<t:panelTab label="#{bundle['Employee.salaryRanks']}"
+								processValidators="true" id="salary">
+								<ui:include src="elements/salaryRanks.xhtml">
+									<ui:param name="ranks"
+										value="#{hrSession.employee.salaryRanksArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:career:salary" />
+								</ui:include>
+							</t:panelTab>
+							<t:panelTab label="#{bundle['Employee.developmentCircles']}"
+								processValidators="true" id="circles">
+								<ui:include src="elements/developmentCircles.xhtml">
+									<ui:param name="developmentCircles"
+										value="#{hrSession.employee.developmentCirclesArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:career:circles" />
+								</ui:include>
+							</t:panelTab>
+
+							<t:panelTab label="#{bundle['Employee.decorations']}"
+								processValidators="true" id="decoration">
+								<ui:include src="elements/decorations.xhtml">
+									<ui:param name="decorations"
+										value="#{hrSession.employee.decorationsArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:career:decoration" />
+								</ui:include>
+							</t:panelTab>
+						</t:panelTabbedPane>
+					</t:panelTab>
+					<t:panelTab label="#{bundle['knowledge']}" id="know">
+						<t:panelTabbedPane width="100%" serverSideTabSwitch="false">
+							<t:panelTab label="#{bundle['Employee.competenceMeasures']}"
+								processValidators="true" id="compMeasure">
+								<ui:include src="elements/competenceMeasures.xhtml">
+									<ui:param name="competenceMeasures"
+										value="#{hrSession.employee.competenceMeasuresArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:know:compMeasure" />
+								</ui:include>
+							</t:panelTab>
+							<t:panelTab label="#{bundle['Employee.promotionExams']}"
+								processValidators="true" id="prom">
+								<ui:include src="elements/promotionExams.xhtml">
+									<ui:param name="promotionExams"
+										value="#{hrSession.employee.promotionExamsArray}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:know:prom" />
+								</ui:include>
+							</t:panelTab>
+							<t:panelTab label="#{bundle['Employee.formations']}"
+								processValidators="true" id="formation">
+								<ui:include src="elements/formations.xhtml">
+									<ui:param name="formations"
+										value="#{hrSession.employee.formations}" />
+									<ui:param name="parentClientId"
+										value="employeeForm:mainSubForm:know:formation" />
+								</ui:include>
+							</t:panelTab>
+						</t:panelTabbedPane>
+					</t:panelTab>
+				</t:panelTabbedPane>
+				<rich:toolBar itemSeparator="disc">
+					<h:commandLink action="#{hrActions.saveEmployee}" value="#{bundle['actions.save']}"/>
+					<h:commandLink action="#{hrActions.storeEmployee}" value="#{bundle['actions.saveAndContinue']}"/>
+					<h:commandLink action="validate" value="#{bundle['actions.validate']}"/>
+					<h:commandLink action="#{hrActions.resetEmployee}" immediate="true" value="#{bundle['actions.cancel']}"/>
+				</rich:toolBar>
+			</s:subForm>
+			<h:messages showSummary="false" showDetail="true" />
+		</h:form>
+		<a4j:log level="WARN" popup="false" width="400" height="200" />
+	</ui:define>
+</ui:composition>
+</html>
