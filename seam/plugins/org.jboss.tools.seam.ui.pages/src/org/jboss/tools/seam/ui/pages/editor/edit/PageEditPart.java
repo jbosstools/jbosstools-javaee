@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -159,13 +160,15 @@ public class PageEditPart extends PagesEditPart implements
 
 	protected void refreshVisuals() {
 		Point loc = getPageModel().getLocation();
-		int height = 23 + getPageModel().getOutputLinks().size()
+		int height = getVisualHeight() + getPageModel().getOutputLinks().size()
 				* NodeFigure.LINK_HEIGHT;
 
 		if (getPageModel().getOutputLinks().size() == 0)
-			height = 23 + NodeFigure.LINK_HEIGHT;
+			height = getVisualHeight() + NodeFigure.LINK_HEIGHT;
 
-		size = new Dimension(getFigure().getPreferredSize().width, height);
+		int width = getIconWidth()+FigureUtilities.getTextExtents(getPageModel().getName(), NodeFigure.nodeLabelFont).width;
+		
+		size = new Dimension(width, height);
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
@@ -173,6 +176,15 @@ public class PageEditPart extends PagesEditPart implements
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
 	}
+	
+	private int getVisualHeight() {
+		return 23;
+	}
+
+	private int getIconWidth() {
+		return 30;
+	}
+
 
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connEditPart) {

@@ -12,13 +12,9 @@ package org.jboss.tools.seam.ui.pages.editor.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -30,23 +26,18 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
-import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageEditPart;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
-public class PageFigure extends NodeFigure implements HandleBounds,
-		FigureListener, MouseListener {
-	//private static final Dimension SIZE = new Dimension(56, 100);
+public class PageFigure extends NodeFigure implements HandleBounds{
+	private static final Dimension SIZE = new Dimension(56, 100);
 
 	private Image icon = null;
 
 	public Page page;
 
-	private Label label = null;
-
-	//PointList fillPointlist, fill2Pointlist, shadowPointlist, shadow2Pointlist;
 
 	String path;
 
@@ -56,85 +47,26 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 		editPart = part;
 	}
 
-	public void setBounds(Rectangle rect) {
-		super.setBounds(rect);
-		resizeFigure();
-		
-	}
-
 	public void setConstraint(IFigure child, Object constraint) {
 		super.setConstraint(child, constraint);
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-		if (label != null) {
-			label.setText(path);
-			label.setSize(label.getPreferredSize());
-		}
-	}
-
-	public void refreshFont() {
-		if (label != null) {
-			//label.setFont(group.getJSFModel().getOptions().getViewPathFont());
-			label.setSize(label.getPreferredSize());
-			label.setLocation(getLabelPosition());
-		}
-	}
-
-	private Point getLabelPosition() {
-		//return new Point(getLocation().x - 5, getLocation().y
-			//	- (12 + 10));
-		return new Point((getInsetX()*3)+ icon.getBounds().width + getLocation().x , getLocation().y + getInsetY());
-
 	}
 
 	public void setIcon(Image i) {
 		icon = PrintIconHelper.getPrintImage(i);
 	}
 
-	public void addNotify() {
-		if (page == null)
-			return;
-		label = new Label(path);
-		label.setFont(nodeLabelFont);
-		getParent().add(label);
-		label.setForegroundColor(ColorConstants.black);
-		label.setOpaque(false);
-		label.setText(path);
-		label.setVisible(true);
-		label.setSize(label.getPreferredSize());
-		label.setLocation(getLabelPosition());
-		label.addMouseListener(this);
-	}
-
-	public void removeNotify() {
-		if (page == null)
-			return;
-		label.removeMouseListener(this);
-		getParent().remove(label);
-	}
-
-	public void figureMoved(IFigure source) {
-		if (page != null)
-			label.setLocation(getLabelPosition());
-	}
 		
 	public PageFigure(Page group) {
 		this.page = group;
 
 		if (group != null) {
 			setIcon(group.getImage());
-			setPath(group.getName());
 			initConnectionAnchors(group.getOutputLinks().size());
 		}
 
 		setOpaque(false);
 		setLayoutManager(new XYLayout());
 
-		resizeFigure();
-		addFigureListener(this);
-		//addKeyListener(this);
 		setBorder(new GroupBorder(blackColor));
 
 		if (group != null) {
@@ -166,56 +98,11 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		return new Dimension(icon.getBounds().width
-				             + label.getBounds().width
-				             + 40 /** the bend corner width */, label.getBounds().height);
+		return SIZE;
 	}
 
-	int width, height;
+	//int width, height;
 
-	private void resizeFigure() {
-		if (width == getSize().width && height == getSize().height)
-			return;
-
-		//int start = 0;
-		width = getSize().width - 1;
-		height = getSize().height - 1;
-		
-
-//		fillPointlist = new PointList();
-//
-//		fillPointlist.addPoint(start, 20);
-//		fillPointlist.addPoint(start + 23, 20);
-//		fillPointlist.addPoint(start + 23, 0);
-//		fillPointlist.addPoint(width - 15, 0);
-//		fillPointlist.addPoint(width - 1, 14);
-//		fillPointlist.addPoint(width - 1, height - 1);
-//		fillPointlist.addPoint(start, height - 1);
-//
-//		
-//
-//		shadowPointlist = new PointList();
-//
-//		shadowPointlist.addPoint(width - 15, 0);
-//		shadowPointlist.addPoint(width - 14, 4);
-//		shadowPointlist.addPoint(width - 15, 7);
-//		shadowPointlist.addPoint(width - 18, 10);
-//		shadowPointlist.addPoint(width - 1, 14);
-//
-//		shadowPointlist.addPoint(width - 9, 14);
-//		shadowPointlist.addPoint(width - 16, 13);
-//
-//		shadowPointlist.addPoint(width - 21, 11);
-//		shadowPointlist.addPoint(width - 18, 8);
-//		shadowPointlist.addPoint(width - 16, 4);
-//
-//		shadow2Pointlist = new PointList();
-//
-//		shadow2Pointlist.addPoint(width - 15, 0);
-//		shadow2Pointlist.addPoint(width - 1, 14);
-//		shadow2Pointlist.addPoint(width - 3, 14);
-//		shadow2Pointlist.addPoint(width - 15, 2);
-	}
 
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
@@ -265,6 +152,11 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			g.fillRectangle(boundingRect);
 			g.setBackgroundPattern(null);		
 			pattern.dispose();
+		}
+		
+		if(page != null){
+			g.setFont(nodeLabelFont);
+			g.drawString(page.getName(), 27, 3);			
 		}
 		
 		if(page.getChildren().size() != 0){
@@ -349,42 +241,10 @@ public class PageFigure extends NodeFigure implements HandleBounds,
 			graphics.drawLine(1, height, width-1, height);
 			graphics.drawLine(width, 1, width, height - 1);
 			graphics.drawLine(23 , 0, 23, height); 
-
-			/*graphics.drawLine(1, 0, width - 15, 0);
-			graphics.drawLine(0, 1, 0, height - 2);
-			graphics.drawLine(1, height - 1, width - 2, height - 1);
-			graphics.drawLine(width - 1, 14, width - 1, height - 2);
-			graphics.drawLine(width - 15, 0, width - 1, 14);
-
-			graphics.drawLine(0, 1, 1, 0);
-			graphics.drawLine(0, height - 2, 1, height - 1);
-			graphics.drawLine(width - 2, height - 1, width - 1, height - 2);
-
-			graphics.drawLine(width - 15, 0, width - 14, 4);
-			graphics.drawLine(width - 14, 4, width - 15, 7);
-			graphics.drawLine(width - 15, 7, width - 18, 10);
-
-			graphics.drawLine(width - 18, 10, width - 1, 14);*/
-
-			/*graphics.drawLine(23, 0, 23, 19);
-			graphics.drawLine(0, 20, 22, 20);
-			graphics.drawLine(22, 20, 23, 19);*/
 	}
 
 	
 
 
 }
-	public void mouseDoubleClicked(MouseEvent me) {
-	}
-
-	public void mousePressed(MouseEvent me) {
-		if (me.button == 3) {
-			((GEFGraphicalViewer) editPart.getViewer()).setNoDeselect();
-			editPart.getViewer().select(editPart);
-		}
-	}
-
-	public void mouseReleased(MouseEvent me) {
-	}
 }
