@@ -244,6 +244,7 @@ public class PageEditPart extends PagesEditPart implements
 	public void notifyChanged(Notification notification) {
 		refresh();
 		refreshVisuals();
+		((PagesDiagramEditPart)getParent().getRoot().getViewer().getEditPartRegistry().get(getPageModel().getParent())).refresh();
 	}
 
 	/**

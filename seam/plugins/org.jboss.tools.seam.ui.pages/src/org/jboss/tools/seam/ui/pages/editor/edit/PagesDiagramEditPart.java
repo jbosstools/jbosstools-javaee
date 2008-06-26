@@ -37,6 +37,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.tools.DeselectAllTracker;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.figures.DiagramFigure;
@@ -230,7 +231,19 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 * 
 	 */
 	protected List getModelChildren() {
-		return getPagesModel().getChildren();
+		ArrayList list = new ArrayList();
+		for(int i = 0; i < getPagesModel().getChildren().size(); i++){
+			list.add(getPagesModel().getChildren().get(i));
+			
+			if(getPagesModel().getChildren().get(i) instanceof Page){
+				Page page = (Page)getPagesModel().getChildren().get(i);
+				if(page.getChildren().size() > 0 && page.isParamsVisible()){
+					PageWrapper wrapper = new PageWrapper(page);
+					list.add(wrapper);
+				}
+			}
+		}
+		return list;
 	}
 
 	/**

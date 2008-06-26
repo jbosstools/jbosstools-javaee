@@ -14,7 +14,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -52,7 +51,7 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 		this.paramList = paramList;
 
 		setOpaque(false);
-		setLayoutManager(new XYLayout());
+		setLayoutManager(new ParamListLayout());
 
 		setBorder(new GroupBorder(blackColor));
 	}
@@ -77,12 +76,11 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
 	 */
 	protected void paintFigure(Graphics g) {
+		//g.setXORMode(true);
+		g.setBackgroundColor(lightGrayColor);
+		
 		Rectangle r = getBounds().getCopy();
 		g.translate(r.getLocation());
-
-		g.setXORMode(true);
-		
-		g.setBackgroundColor(lightGrayColor);
 		
 		g.fillRectangle(1, 1, r.width-2, r.height-2);
 	}

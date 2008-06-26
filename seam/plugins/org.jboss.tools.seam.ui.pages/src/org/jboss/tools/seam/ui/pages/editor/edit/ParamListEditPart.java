@@ -14,7 +14,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -24,72 +23,22 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.ConnectionEditPart;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
-import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.ParamListFigure;
 
-public class ParamListEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
+public class ParamListEditPart extends PagesEditPart implements PropertyChangeListener, Adapter {
 	private ParamListFigure fig = null;
 
 	private boolean single = true;
 
 	public boolean isSingle() {
 		return single;
-	}
-
-	public void doControlUp() {
-	}
-
-	public void doControlDown() {
-	}
-
-	public void doMouseHover(boolean cf) {
-	}
-
-	public void childAdded(EditPart child, int index) {
-	}
-
-	public void partActivated(EditPart editpart) {
-	}
-
-	public void partDeactivated(EditPart editpart) {
-	}
-
-	public void removingChild(EditPart child, int index) {
-	}
-
-	public void selectedStateChanged(EditPart editpart) {
-		if (this.getSelected() == EditPart.SELECTED_PRIMARY) {
-			((PagesDiagramEditPart) ParamListEditPart.this.getParent())
-					.setToFront(this);
-
-		}
-	}
-
-	public boolean isGroupListenerEnable() {
-		return true;
-	}
-
-
-
-	private void refreshTargetLink(Link link) {
-		if (link == null)
-			return;
-		ParamListEditPart gep = (ParamListEditPart) getViewer().getEditPartRegistry()
-				.get(link.getToElement());
-		if (gep == null)
-			return;
-		gep.refreshTargetConnections();
 	}
 
 
@@ -107,7 +56,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	}
 
 	protected void createEditPolicies() {
-		super.createEditPolicies();
+		//super.createEditPolicies();
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
@@ -142,14 +91,19 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	
 
 	protected void refreshVisuals() {
-		Point loc = new Point(1,1);
-		size = new Dimension(10, 10);
+		Point loc = getExceptionModel().getPage().getLocation().getCopy();
+		loc.y += 25+getExceptionModel().getPage().getOutputLinks().size()*NodeFigure.LINK_HEIGHT;
+		size = new Dimension(200, getExceptionModel().getPage().getChildren().size()*19);
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
+		
+		((PagesDiagramEditPart) ParamListEditPart.this.getParent())
+		.setToFront(this);
+		
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(
@@ -178,7 +132,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	protected void refreshChildren() {
 		super.refreshChildren();
 		for (int i = 0; i < getChildren().size(); i++) {
-			((ParamListEditPart) getChildren().get(i)).refresh();
+			((ParamEditPart) getChildren().get(i)).refresh();
 
 		}
 	}
@@ -189,14 +143,14 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	public void activate() {
 		if (isActive())
 			return;
-		((Notifier) getModel()).eAdapters().add(this);
+		((Notifier) getExceptionModel().getPage()).eAdapters().add(this);
 		super.activate();
 	}
 	
 	public void deactivate(){
 		if (!isActive())
 			return;
-		((Notifier) getModel()).eAdapters().remove(this);
+		((Notifier) getExceptionModel().getPage()).eAdapters().remove(this);
 		super.deactivate();
 	}
 	
