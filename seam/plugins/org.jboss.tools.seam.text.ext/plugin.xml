@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
+		id="org.jboss.tools.seam.text.ext.hyperlinkPartitioner"
+		name="org.jboss.tools.seam.text.ext.hyperlinkPartitioner">
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlinkPartitioner"
+         	class="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+		</hyperlinkPartitioner>
+		<hyperlinkPartitioner 
+	         id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner1"
+   	      class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
+
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         	</contentType>
+		</hyperlinkPartitioner>
+		
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner"
+         	class="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+		
+   </extension>
+   
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlink"
+		id="org.jboss.tools.seam.text.ext.hyperlink"
+		name="org.jboss.tools.seam.text.ext.hyperlink">
+
+		<hyperlink 
+			class="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlink" 
+			id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
+		<hyperlink 
+			class="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlink" 
+	  		id="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
+   </extension>
+
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.seam.text.ext.hyperlink.SeamELInJavaStringHyperlinkDetector"
+            id="org.jboss.tools.seam.text.ext.hyperlink.SeamELInJavaStringHyperlinkDetector"
+            name="%SeamELInJavaStringHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+
+
+</plugin>

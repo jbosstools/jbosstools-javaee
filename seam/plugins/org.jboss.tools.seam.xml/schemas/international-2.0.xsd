@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://jboss.com/products/seam/international" xmlns:international="http://jboss.com/products/seam/international"
+    xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.0.xsd"/>
+
+    <xs:element name="locale-selector">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="international:attlist.localeSelector"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.localeSelector">
+        <xs:attribute name="locale-string"/>
+        <xs:attribute name="cookie-max-age"/>
+        <xs:attribute name="cookie-enabled">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:element name="time-zone-selector">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="international:attlist.timeZoneSelector"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.timeZoneSelector">
+        <xs:attribute name="time-zone-id"/>
+        <xs:attribute name="cookie-max-age"/>
+        <xs:attribute name="cookie-enabled">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+</xs:schema>

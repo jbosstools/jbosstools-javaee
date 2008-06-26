@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file-systems VERSION="2.0.0" application-name="Test1"
+ model-entity="FileSystems" workspace-home="./WebContent/WEB-INF">
+ <file-system NAME="WEB-INF" location="%workspace.home%" model-entity="FileSystemFolder"/>
+ <file-system NAME="WEB-ROOT" info="Content-Type=Web"
+  location="%workspace.home%/.." model-entity="FileSystemFolder"/>
+ <file-system NAME="src" location="%workspace.home%/../../src" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib" location="%workspace.home%/lib" model-entity="FileSystemFolder"/>
+ <file-system NAME="classes" location="%workspace.home%/classes" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib-ajax4jsf-1.1.1-SNAPSHOT.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\ajax4jsf-1.1.1-SNAPSHOT.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-beanutils-1.7.0.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-beanutils-1.7.0.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-collections-3.1.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-collections-3.1.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-digester-1.6.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\commons-digester-1.6.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam-debug.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-debug.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam-ioc.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-ioc.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam-mail.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-mail.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam-pdf.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-pdf.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam-remoting.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-remoting.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam-ui.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jboss-seam-ui.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jsf-facelets.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\jsf-facelets.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-oscache-2.3.2.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1\WebContent\WEB-INF\lib\oscache-2.3.2.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-seam.jar"
+  location="C:\exadel-projects\rhds\tests\org.jboss.tools.seam.core.test\projects\Test1-ear\EarContent\jboss-seam.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-ajax4jsf-1.1.1-snapshot.jar"
+  location="%workspace.home%/lib/ajax4jsf-1.1.1-snapshot.jar" model-entity="FileSystemJar"/>
+ <web SERVLET_VERSION="2.4" model-entity="JstWeb" model-path="/web.xml">
+  <module URI="/WEB-INF/faces-config.xml" model-entity="WebJSFModule"
+   model-path="/faces-config.xml" src="src" web-root="WEB-ROOT"/>
+ </web>
+</file-systems>
