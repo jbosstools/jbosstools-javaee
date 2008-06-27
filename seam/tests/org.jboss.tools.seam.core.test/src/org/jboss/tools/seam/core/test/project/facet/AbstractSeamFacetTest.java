@@ -220,7 +220,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		File folder = getSeamHomeFolder();
 		
 		assertNotNull("seam home folder was null!", folder);
-		assertTrue(folder.getName() + " does not exist", folder.exists());
+		assertTrue(folder.getAbsolutePath() + " does not exist", folder.exists());
 		
 		System.out.println("Listing " + folder);
 		File[] list = folder.listFiles();
