@@ -1022,9 +1022,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			for (SeamComponent c: sc) {
 				c.removeDeclaration(d);
 				changes = Change.addChange(changes, new Change(c, null, d, null));
+				Set<ISeamComponentDeclaration> ds = c.getAllDeclarations();
+				if(ds.size() == 1) {
+					ISeamComponentDeclaration d1 = ds.iterator().next();
+					if(d1 instanceof ISeamJavaComponentDeclaration 
+						&& !c.getName().equals(d1.getName())) {
+						c.removeDeclaration(d1);
+						changes = Change.addChange(changes, new Change(c, null, d1, null));
+					}
+				}
 				if(isComponentEmpty(c)) {
 					changes = removeEmptyComponent(c);
 				}
+				
 			}
 		}
 		fireChanges(changes);
