@@ -10,5 +10,13 @@
 
 <ui:define name="body">
 
+    <h:messages globalOnly="true" styleClass="message"/>
+
+    <rich:panel>
+    #{authenticator.foo1} #{authenticator.foo2} 
+    <f:facet name="header">Welcome!</f:facet>
+    <p>This empty shell application includes:</p>
+    </rich:panel>
+
 </ui:define> 
 </ui:composition>

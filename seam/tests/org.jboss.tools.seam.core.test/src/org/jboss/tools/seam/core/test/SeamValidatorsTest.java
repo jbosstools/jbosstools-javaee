@@ -90,6 +90,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	 * @throws CoreException 
 	 */
 	public void testJBIDE1318() throws CoreException {
+		getSeamProject(project);
 		IFile testJSP = project.getFile("WebContent/test.jsp");
 		assertMarkerIsNotCreated(testJSP, null, "actor cannot be resolved");
 	}
@@ -122,8 +123,16 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
+		IFile jbide1631XHTMLFileWithFoo = project.getFile("WebContent/JBIDE-1631.1");
+		try{
+			jbide1631XHTMLFile.setContents(jbide1631XHTMLFileWithFoo.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'JBIDE-1631.xhtml' content to " +
+					"'JBIDE-1631.1'", ex);
+		}
+		refreshProject(project);
 		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
-		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 17 );
+		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 16 );
 	}
 
 	public void testComponentsValidator() {
