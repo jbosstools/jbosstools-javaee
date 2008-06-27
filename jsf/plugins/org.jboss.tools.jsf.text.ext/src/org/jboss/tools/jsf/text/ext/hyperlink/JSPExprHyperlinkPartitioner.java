@@ -101,8 +101,9 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 				if (v == -1) v = valText.indexOf("${", startBracket + exprLength);
 				if (v == -1) return null;
 				startBracket = v;
-
+				
 				int endBracket = valText.indexOf("}", startBracket + 2);
+				
 				exprStart = valStart + startBracket + 2;
 				int exprEnd = (endBracket == -1 ? valEnd - 1: valStart + endBracket);
 				int lineBreaker = valText.indexOf('\n', startBracket + 2);
@@ -110,8 +111,9 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 				if (lineBreaker != -1 && lineBreaker + valStart < exprEnd) exprEnd = valStart + lineBreaker;
 				if (lineBreaker1 != -1 && lineBreaker1 + valStart < exprEnd) exprEnd =  valStart + lineBreaker1;
 				exprLength = exprEnd - exprStart;
-				
-				if (exprStart <= offset && exprEnd >= offset) {
+				if(exprLength==0) { 
+					return null;
+				} else if (exprStart <= offset && exprEnd >= offset) {
 					int start = exprStart;
 					int length = exprLength;
 	
