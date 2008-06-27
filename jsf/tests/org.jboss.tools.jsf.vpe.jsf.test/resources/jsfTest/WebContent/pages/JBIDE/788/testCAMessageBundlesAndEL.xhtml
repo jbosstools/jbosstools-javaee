@@ -6,27 +6,22 @@
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:s="http://jboss.com/products/seam/taglib">
 
-   		<f:loadBundle basename="resources" var="msg" />
-
+   		<f:loadBundle basename="demo.resources" var="msg" />
    		<ui:composition template="./templates/common.xhtml">
-						
+						${msg.
 			<ui:define name="pageTitle">JSF 1.2 and Facelets under Tomcat. KickStart Application</ui:define>
   
 			<ui:define name="pageHeader">JSF 1.2 Hello Application</ui:define>
 
-			<ui:define name="body">
+			<ui:define name="body"> 
 				<h:message showSummary="true" showDetail="false" style="color: red; font-weight: bold;" for="name" />
 				<form jsfc="h:form" id="helloForm">
 					${msg.prompt}
 					<input label="Name" jsfc="h:inputText" required="true" id="name" value="#{person.name}" />
 					<input  type="submit" jsfc="h:commandButton" id="submit"
 						action="greeting" value="Say Hello" />
-					<h:outputText value="#{person.name}" />
 				</form>
-				
-				<form  jsfc="#{p" id="Test Form"> 
-				<h:outputText value="" />		
-				</form>		
+		
 			</ui:define>
 		</ui:composition>
 </html>

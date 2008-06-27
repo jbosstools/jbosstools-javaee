@@ -16,10 +16,14 @@
 		<title></title>
 	</head>
 	<body>
+	<f:loadBundle basename="demo.resources" var="msg" />
+	
 		<f:view>
+		<h:outputText value="#{msg.}" />
 			<H1> CA Test Page </H1> Test
 			
-			<h:outputText value="Test" />
+			<h:outputText value="#{msg.header}" />
+			<
 		</f:view>
 	</body>	
 </html>  

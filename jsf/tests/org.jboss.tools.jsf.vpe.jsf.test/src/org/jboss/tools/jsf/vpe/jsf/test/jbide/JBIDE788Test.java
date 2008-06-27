@@ -20,6 +20,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
+import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -32,9 +33,9 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE788Test extends VpeTest {
 
-	private static final String IMPORT_PROJECT_NAME = "jsfTest";
+	private static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
-	private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT";
+	private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT"; //$NON-NLS-1$
 
 	public JBIDE788Test(String name) {
 		super(name);
@@ -52,9 +53,9 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","p",382);  
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","sessionScop", 504);
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","h",488);
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","s:validateFormat",359);    //$NON-NLS-1$//$NON-NLS-2$
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","rich:validateA", 427); //$NON-NLS-1$ //$NON-NLS-2$
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","c:otherwi",493);  //$NON-NLS-1$//$NON-NLS-2$
 
 		// check exception
 		if (getException() != null) {
@@ -73,40 +74,30 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		ICompletionProposal[] rst = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",585,false);
-		assertNotNull(rst);
-		assertTrue("Length should be greater that 5",rst.length > 5);
-		boolean isFound = false;
-		for(ICompletionProposal c:rst){
-		    if(c.getDisplayString().contains("c:")){
-		        isFound = true;
-		    }
+		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",545,false); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNotNull(results);
+		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
+		boolean isMatches=true;
+		for (ICompletionProposal completionProposal : results) {
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+			
+			if(!displayString.startsWith("msg.")) { //$NON-NLS-1$
+				isMatches=false;
+			}
+			
 		}
-		assertTrue("Should be found ",isFound);
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","p",589);
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","msg",534);
-		// check exception
-		if (getException() != null) {
-
-			throw getException();
+		assertTrue("String not matches", isMatches); //$NON-NLS-1$
+		
+		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",511,false);  //$NON-NLS-1$//$NON-NLS-2$
+		assertNotNull(results);
+		isMatches = false;
+		for(ICompletionProposal completionProposal : results) {
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+			if(displayString.contains("temp")) { //$NON-NLS-1$
+				isMatches=true;
+			}
 		}
-	}
-
-	/**
-	 * Tests CA for Messages Bundles and EL Values
-	 * 
-	 * @throws Throwable
-	 */
-	public void testCAforMessageBundlesAndELExpressions() throws Throwable {
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
-		// Tests CA
-
-		ICompletionProposal[] rst = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",1245);
-		assertNotNull(rst);
-
+		assertTrue("String not matches", isMatches); //$NON-NLS-1$
 		// check exception
 		if (getException() != null) {
 
@@ -125,9 +116,10 @@ public class JBIDE788Test extends VpeTest {
 		// set exception
 		setException(null);
 		// Tests CA
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","p",1203);
+//		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","p",1203);  //$NON-NLS-1$//$NON-NLS-2$
 		
-
+		//TODO Max Areshkau  Repair when this functionality will be workd
+		fail("This functionality doesn't works now"); //$NON-NLS-1$
 		// check exception
 		if (getException() != null) {
 
@@ -147,10 +139,20 @@ public class JBIDE788Test extends VpeTest {
 		// set exception
 		setException(null);
 		// Tests CA
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAforHtml.html", 39, 79);
+		ICompletionProposal[] results =checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforHtml.html", "", 42,false);  //$NON-NLS-1$//$NON-NLS-2$
 
-		// cursor will set after "<" simbol
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforHtml.html", "a", 26);
+		assertNotNull(results);
+		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
+		boolean isMatches=true;
+		for (ICompletionProposal completionProposal : results) {
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+			
+			if(!displayString.startsWith("ta")) { //$NON-NLS-1$
+				isMatches=false;
+			}
+			
+		}
+		assertTrue("Proposals doesn't match to entered string",isMatches); //$NON-NLS-1$
 
 		// check exception
 		if (getException() != null) {
@@ -170,12 +172,19 @@ public class JBIDE788Test extends VpeTest {
 		// set exception
 		setException(null);
 		// Tests CA
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAforJSP.jsp", 1000, 110);
 
 		// cursor will set after "outputText" tag
-		// checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforJSP.jsp", "s",
-		// 1032);
+		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforJSP.jsp", "h:outp",1139,false); //$NON-NLS-1$ //$NON-NLS-2$
 
+		for (ICompletionProposal completionProposal : results) {
+
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+			 
+			if(completionProposal instanceof AutoContentAssistantProposal) {
+				
+				assertTrue(displayString.startsWith("h:outp")) ; //$NON-NLS-1$
+			}
+		}
 		// check exception
 		if (getException() != null) {
 
@@ -193,15 +202,13 @@ public class JBIDE788Test extends VpeTest {
 		TestUtil.waitForJobs();
 		// set exception
 		setException(null);
-		// Tests CA
-		baseCheckofCA(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", 745, 96);
 
 		// cursor will set after "<" simbol
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", "c",
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", "c", //$NON-NLS-1$ //$NON-NLS-2$
 				687);
 
 		// cursor will set after "outputText" tag
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", "s",
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", "s",  //$NON-NLS-1$//$NON-NLS-2$
 				778);
 
 		// check exception
@@ -209,63 +216,6 @@ public class JBIDE788Test extends VpeTest {
 
 			throw getException();
 		}
-	}
-
-	/**
-	 * Perfoms base test of ca, compare number of proposals which what returned
-	 * by ca with etalon
-	 * 
-	 * @param caName -
-	 *            content assistent name
-	 * @param testPagePath -
-	 *            test page
-	 * @param position -
-	 *            position on test page
-	 * @param numberOfProposals -
-	 *            standard number of proposals
-	 * @throws CoreException
-	 */
-	private void baseCheckofCA(String caName, String testPagePath,
-			int position, int numberOfProposals) throws CoreException {
-		// get test page path
-		IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
-				IMPORT_PROJECT_NAME);
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
-
-		IEditorInput input = new FileEditorInput(file);
-
-		assertNotNull("Editor input is null", input);
-
-		// open and get editor
-		JSPMultiPageEditor part = openEditor(input);
-
-		// sets cursor position
-		part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
-				position);
-		TestUtil.waitForJobs();
-		TestUtil.delay(2000);
-		SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
-				.getSourceEditor()).getSourceViewerConfigurationForTest();
-		// errase errors which can be on start of editor(for example xuklunner
-		// not found)
-		setException(null);
-		StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration) sourceViewerConfiguration;
-		IContentAssistant iContentAssistant = stvc
-				.getContentAssistant((ISourceViewer) part.getSourceEditor()
-						.getAdapter(ISourceViewer.class));
-		assertNotNull(iContentAssistant);
-		IContentAssistProcessor iContentAssistProcessor = iContentAssistant
-				.getContentAssistProcessor(caName);
-		assertNotNull(iContentAssistProcessor);
-		ICompletionProposal[] results = iContentAssistProcessor
-				.computeCompletionProposals(part.getSourceEditor()
-						.getTextViewer(), position);
-		assertNotNull(results);
-		assertEquals(numberOfProposals, results.length);
-		
-		closeEditors();
-		TestUtil.delay(1000L);
 	}
 
 	/**
@@ -282,19 +232,28 @@ public class JBIDE788Test extends VpeTest {
         return this.checkOfCAByStartString(caName, testPagePath, partOfString, position,true);
         
     }
-	
+	/**
+	 * 
+	 * @param caName
+	 * @param testPagePath
+	 * @param partOfString
+	 * @param position
+	 * @param isCheck
+	 * @return
+	 * @throws CoreException
+	 */
 	
 	private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
             String partOfString, int position,boolean isCheck) throws CoreException {
         // get test page path
         IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
                 IMPORT_PROJECT_NAME);
-        assertNotNull("Could not open specified file " + file.getFullPath(),
+        assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
                 file);
 
         IEditorInput input = new FileEditorInput(file);
 
-        assertNotNull("Editor input is null", input);
+        assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
         // open and get editor
         JSPMultiPageEditor part = openEditor(input);
@@ -309,7 +268,7 @@ public class JBIDE788Test extends VpeTest {
         part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
                 newPosition);
         TestUtil.waitForJobs();
-        TestUtil.delay(2000);
+        TestUtil.delay(1000);
         SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
                 .getSourceEditor()).getSourceViewerConfigurationForTest();
         // errase errors which can be on start of editor(for example xuklunner
@@ -329,16 +288,15 @@ public class JBIDE788Test extends VpeTest {
 
         // remove inserted string
         part.getSourceEditor().getTextViewer().getTextWidget()
-                .replaceTextRange(position, partOfString.length(), "");
+                .replaceTextRange(position, partOfString.length(), ""); //$NON-NLS-1$
 
         assertNotNull(results);
+        assertTrue("Number of ca proposals shouldn't be a null",results.length>0); //$NON-NLS-1$
         if (isCheck) {
             for (int i = 0; i < results.length; i++) {
 
                 String displayString = ((ICompletionProposal) results[i]).getDisplayString();
                 assertNotNull(displayString);
-
-                System.out.print("\n" + displayString);
                 assertEquals(true, displayString.startsWith(partOfString));
             }
         }
