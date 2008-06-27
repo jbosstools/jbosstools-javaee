@@ -111,7 +111,9 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 				if (lineBreaker1 != -1 && lineBreaker1 + valStart < exprEnd) exprEnd =  valStart + lineBreaker1;
 				exprLength = exprEnd - exprStart;
 				
-				if (exprStart <= offset && exprEnd >= offset) {
+				if(exprLength==0) { 
+					return null;
+				} else if (exprStart <= offset && exprEnd >= offset) {
 					int start = exprStart;
 					int length = exprLength;
 	
