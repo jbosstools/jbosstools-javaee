@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory name="r2">
+  <property name="p1">v1</property>
+  <property name="p">v</property>
+  <mapping class="c"/>
+  <mapping class="m"/>
+  <collection-cache collection="cc" usage="read-only"/>
+  <class-cache class="y" include="all" usage="read-only"/>
+  <collection-cache collection="m" usage="read-only"/>
+  <event type="create">
+   <listener class="oo3" type="merge"/>
+  </event>
+  <listener class="p" type="create-onflush"/>
+  <listener class="h" type="post-update"/>
+ </session-factory>
+ <security context="">
+  <grant actions="1" entity-name="1" role="g"/>
+ </security>
+</hibernate-configuration>

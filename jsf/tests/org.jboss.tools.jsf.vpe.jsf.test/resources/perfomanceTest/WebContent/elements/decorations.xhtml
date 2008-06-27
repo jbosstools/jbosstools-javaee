@@ -1,0 +1,105 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+<ui:composition>
+	<a4j:region id="decorationRegion">
+	
+	<a4j:outputPanel id="a4jDecorations" layout="block">
+	<table class="list" width="100%" cellpadding="5">
+		<thead>
+			<tr>
+				<th>#{bundle['Decoration.date']}</th>
+				<th>#{bundle['Decoration.kind']}</th>
+				<th>#{bundle['Decoration.decorationClass']}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<t:dataList var="deco" rowIndexVar="index" value="#{decorations}">
+			<tbody class="highlight">
+				<tr class="#{(index%2)==0?'even':'odd'}">
+					<td><h:outputText value="#{deco.date}"><f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" /></h:outputText></td>
+					<td><h:outputText value="#{deco.kind}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+					<td><h:outputText value="#{deco.decorationClass}"><f:converter converterId="SelectConverter" /></h:outputText></td>
+					<td><a4j:commandLink action="#{hrActions.editDecoration}" immediate="true"
+							reRender=":#{parentClientId}:a4jDecorations" limitToList="true">
+							<f:param name="editId" value="#{index}" />
+							<f:param name="containerToReset" value="editDecoration" />
+							<h:graphicImage url="/images/icon_edit.gif" style="border:none" />
+						</a4j:commandLink></td>
+				</tr>
+			</tbody>
+		</t:dataList>
+		<tbody>
+			<tr>
+				<td colspan="4" align="right"><a4j:commandLink immediate="true"
+							rendered="#{hrSession.edits.decoration == null}"
+							reRender=":#{parentClientId}:a4jDecorations" limitToList="true"
+							action="#{hrActions.addDecoration}">
+					<f:actionListener type="be.rmi.intranet.listener.ContainerReset" />
+					<f:param name="containerToReset" value="editDecoration" />
+					<h:graphicImage url="/images/icon_create.gif" style="border:none"/>
+				</a4j:commandLink></td>
+			</tr>
+		</tbody>
+	</table>
+	<s:subForm id="editDecoration"
+		rendered="#{hrSession.edits.decoration != null}">
+		<fieldset>
+		<table style="border:none;">
+			<tr>
+				<td>#{bundle['Decoration.date']}</td>
+				<td><t:inputCalendar
+					value="#{hrSession.edits.decoration.date}" popupTodayString=""
+					renderAsPopup="true" renderPopupButtonAsImage="true"
+					popupDateFormat="dd MMMM yyyy">
+					<f:convertDateTime pattern="dd MMMM yyyy" timeZone="Europe/Paris" />
+				</t:inputCalendar></td>
+				
+				<td rowspan="4" valign="top">
+					<a4j:commandLink action="#{hrActions.deleteDecoration}" immediate="true"
+							reRender=":#{parentClientId}:a4jDecorations" limitToList="true"
+							onclick="if (!confirm('#{bundle['Interface.confirmDelete']}')) return false">
+						<h:graphicImage url="/images/icon_delete.gif" style="border:none"/>
+					</a4j:commandLink>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['Decoration.kind']}</td>
+				<td>
+				
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.decoration.kind}" />
+						<ui:param name="id" value="decoration_kind" />
+						<ui:param name="key" value="Decoration kind" />
+				</ui:include>
+				</td>
+			</tr>
+			<tr>
+				<td>#{bundle['Decoration.decorationClass']}</td>
+				<td>
+				
+				<ui:include src="selectEntry.xhtml">
+						<ui:param name="value" value="#{hrSession.edits.decoration.decorationClass}" />
+						<ui:param name="id" value="decoration_class" />
+						<ui:param name="key" value="Decoration class" />
+				</ui:include>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:commandButton value="Done" action="#{hrActions.doneDecoration}"
+							reRender=":#{parentClientId}:a4jDecorations" limitToList="true"
+							actionFor="editDecoration"
+							onclick="new Effect.Highlight('#{parentClientId}:a4jDecorations', {duration:2,startcolor:'#ffffff',endcolor:'#808080',restorecolor:'#808080'});" />
+				</td>
+			</tr>
+		</table>
+		</fieldset>
+	</s:subForm>
+	</a4j:outputPanel>
+	</a4j:region>
+</ui:composition>
+</html>

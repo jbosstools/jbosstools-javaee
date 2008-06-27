@@ -1,0 +1,44 @@
+<!DOCTYPE pages PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+          "http://jboss.com/products/seam/pages-1.1.dtd">
+
+<pages>
+
+    <page view-id="/comment.xhtml">   
+      <restrict/>
+     
+      <param name="name" value="#{selectedMember.memberName}"/>
+      <param name="blogId" value="#{selectedBlog.blogId}"/>
+     
+      <navigation from-action="#{blog.saveComment}">
+        <redirect view-id="/blogentry.xhtml"/>
+      </navigation>
+    </page>
+   
+    <page view-id="/register.xhtml">
+      <navigation from-action="#{register.next}">
+        <rule if="#{not register.verified}">
+          <redirect view-id="/register.xhtml"/>
+        </rule>
+     
+        <rule if="#{register.verified}">
+          <redirect view-id="/register2.xhtml"/>
+        </rule>
+      </navigation>
+    </page>
+   
+     
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/register.xhtml">
+            <message >You must be a member to use this feature</message>
+        </redirect>
+    </exception>
+ 
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/security_error.xhtml">
+            <message >You do not have permission to do this</message>
+        </redirect>
+    </exception>
+
+</pages> 

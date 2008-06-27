@@ -1,0 +1,40 @@
+<contexts>
+	<context id="struts_config_editor" title="Struts Config Editor">
+		<description>Struts Config Editor</description>
+		<topic href="JSFStrutsTools.html#GraphicalEditorForStrutsConfigurationFiles564" label="Graphical Editor for Struts Configuration Files"/>
+		<topic href="struts_application.html" label="Getting Started Guide for Creating a Struts Application"/>
+	</context>
+	<context id="add_formset" title="New Seam Project">
+		<description>Add Formset Wizard</description>
+		<topic href="struts_validation.html#DefiningTheValidationRule" label="Defining the Validation Rule"/>
+	</context>
+	<context id="new_struts_project" title="New Struts Project">
+		<description>New Struts Project Wizard</description>
+		<topic href="JSFStrutsTools.html#CreatingANewStrutsProjec745t" label="Creating a New Struts Project"/>
+	</context>
+	<context id="import_struts_project" title="Import Struts Project">
+		<description>Import Struts Project Wizard</description>
+		<topic href="JSFStrutsTools.html#ImportingAnExistingStrutsProjectWithAnyStructure9653" label="Importing an Existing Struts Project with Any Structure"/>
+		<topic href="JSFStrutsTools.html#WhenImportingAStrutsProject432" label="When Importing a Struts Project"/>
+	</context>
+	<context id="add_struts_support" title="Add Struts Support">
+		<description>Add Struts Support Wizard</description>
+		<topic href="JSFStrutsTools.html#AddingStrutsCapabilityToAnExistingWebApplication532" label="Adding Struts Capability to an Existing Web Application"/>
+	</context>
+	<context id="validation_editor" title="Validation Editor">
+		<description>Validation Editor</description>
+		<topic href="JSFStrutsTools.html#GraphicalEditorForStrutsValidationFiles86" label="Graphical Editor for Struts Validation Files"/>
+	</context>
+	<context id="modules_configuration" title="Modules Configuration">
+		<description>Modules Configuration Wizard</description>
+		<topic href="JSFStrutsTools.html#EditingModulesInAnExistingProject1" label="Editing Modules in an Existing Project"/>
+	</context>
+	<context id="new_struts_config" title="New Struts Config">
+		<description>New Struts Config Wizard</description>
+		<topic href="JSFStrutsTools.html#AddingNewModules1" label="Adding New Modules"/>
+	</context>
+	<context id="java_code_generation" title="Java Code Generation">
+		<description>Java Code Generation Wizard</description>
+		<topic href="JSFStrutsTools.html#CodeGenerationForActionFormBeanForwardAndExceptionClasses1" label="Code Generation for Action, FormBean, Forward and Exception Classes"/>
+	</context>
+</contexts>

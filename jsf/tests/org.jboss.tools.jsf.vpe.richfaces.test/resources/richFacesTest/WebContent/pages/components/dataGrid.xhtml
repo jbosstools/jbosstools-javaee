@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<head>
+</head>
+<body>
+		<!-- Data Grid -->
+	<rich:panel>
+		<f:facet name="header">
+			<h:outputText value="Car Store"></h:outputText>
+		</f:facet>
+		<h:form>
+			<rich:dataGrid columns="2" elements="12">
+				<rich:panel>
+					<f:facet name="header">
+						<h:outputText value="Car"></h:outputText>
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:outputText value="Price:"></h:outputText>
+						<h:outputText value="30000" />
+						<h:outputText value="Mileage:"></h:outputText>
+						<h:outputText value="345345345" />
+						<h:outputText value="VIN:"></h:outputText>
+						<h:outputText value="HKFFGHGKHJKLJ" />
+						<h:outputText value="Stock:"></h:outputText>
+						<h:outputText value="GHKFGH" />
+					</h:panelGrid>
+				</rich:panel>
+			</rich:dataGrid>
+		</h:form>
+	</rich:panel>
+</body>
+</html>

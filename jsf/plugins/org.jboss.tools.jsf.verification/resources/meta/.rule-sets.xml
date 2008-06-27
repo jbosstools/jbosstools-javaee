@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rule-sets>
+ <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+  description="JSF Rules" name="JSF Rules"
+  url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Navigation Rules" name="Check Navigation Rules"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckFromViewId"
+    category="jsf" description="Check that from-view-id starts with slash"
+    entities="JSFNavigationRule" name="Check from-view-id attribute">
+    <result-template
+     description="Check that from-view-id starts with slash"
+     id="from-view-id" message-id="jsf.slash" name="Check from-view-id attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckFromViewIdExists"
+    category="jsf" description="Check that from-view-id references to existent resource"
+    entities="JSFNavigationRule" name="Check that from-view-id references to existent resource">
+    <result-template
+     description="Check that from-view-id references to existent resource"
+     id="from-view-id" message-id="jsf.path.exists" name="Check that from-view-id references to existent resource"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdSlash"
+    category="jsf" description="Check that to-view-id starts with slash"
+    entities="JSFNavigationCase" name="Check to-view-id attribute">
+    <result-template
+     description="Check that to-view-id starts with slash"
+     id="to-view-id" message-id="jsf.slash" name="Check to-view-id attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdEmpty"
+    category="jsf" description="Check that to-view-id is not empty"
+    entities="JSFNavigationCase" name="Check that to-view-id is not empty">
+    <result-template
+     description="Check that to-view-id is not empty"
+     id="to-view-id" message-id="jsf.empty" name="Check thet to-view-id attribute is not empty"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdStar"
+    category="jsf" description="Check that to-view-id does not contain *"
+    entities="JSFNavigationCase" name="Check that to-view-id does not contain *">
+    <result-template
+     description="Check that to-view-id does not contain *"
+     id="to-view-id" message-id="jsf.star" name="Check that to-view-id does not contain *"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.toview.JSFCheckToViewIdExists"
+    category="jsf" description="Check that to-view-id references to existent resource"
+    entities="JSFNavigationCase" name="Check that to-view-id references to existent resource">
+    <result-template
+     description="Check that to-view-id references to existent resource"
+     id="to-view-id" message-id="jsf.path.exists" name="Check that to-view-id references to existent resource"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Faces Config Application Attributes" name="Check Faces Config Application Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check listener-class attribute"
+    entities="JSFApplication" name="Check action-listener attribute"
+    properties="attribute=action-listener,implements=javax.faces.event.ActionListener">
+    <result-template
+     description="Check that attribute action-listener references existent java class"
+     id="action-listener" message-id="jsf.class.exists" name="Check action-listener attribute"/>
+    <result-template
+     description="Check that action-listener implements javax.faces.event.ActionListener"
+     id="action-listener.implements" message-id="jsf.class.implements" name="Check action-listener attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check navigation-handler attribute"
+    entities="JSFApplication" name="Check navigation-handler attribute"
+    properties="attribute=navigation-handler,extends=javax.faces.application.NavigationHandler">
+    <result-template
+     description="Check that attribute navigation-handler references existent java class"
+     id="navigation-handler" message-id="jsf.class.exists" name="Check navigation-handler attribute"/>
+    <result-template
+     description="Check that attribute navigation-handler extends javax.faces.application.NavigationHandler"
+     id="navigation-handler.extends" message-id="jsf.class.extends" name="Check navigation-handler attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check view-handler attribute"
+    entities="JSFApplication" name="Check view-handler attribute"
+    properties="attribute=view-handler,extends=javax.faces.application.ViewHandler">
+    <result-template
+     description="Check that attribute view-handler references existent java class"
+     id="view-handler" message-id="jsf.class.exists" name="Check view-handler attribute"/>
+    <result-template
+     description="Check that attribute view-handler extends javax.faces.application.ViewHandler"
+     id="view-handler.extends" message-id="jsf.class.extends" name="Check view-handler attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check state-manager attribute"
+    entities="JSFApplication" name="Check state-manager attribute"
+    properties="attribute=state-manager,extends=javax.faces.application.StateManager">
+    <result-template
+     description="Check that attribute state-manager references existent java class"
+     id="state-manager" message-id="jsf.class.exists" name="Check state-manager attribute"/>
+    <result-template
+     description="Check that attribute state-manager extends javax.faces.application.StateManager"
+     id="state-manager.extends" message-id="jsf.class.extends" name="Check state-manager attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check property-resolver attribute"
+    entities="JSFPropertyResolver" name="Check property-resolver attribute"
+    properties="attribute=property-resolver,objectAttribute=class name,extends=javax.faces.el.PropertyResolver">
+    <result-template
+     description="Check that attribute property-resolver references existent java class"
+     id="property-resolver" message-id="jsf.class.exists" name="Check property-resolver attribute"/>
+    <result-template
+     description="Check that attribute property-resolver extends javax.faces.el.PropertyResolver"
+     id="property-resolver.extends" message-id="jsf.class.extends" name="Check property-resolver attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check variable-resolver"
+    entities="JSFVariableResolver" name="Check variable-resolver attribute"
+    properties="attribute=variable-resolver,objectAttribute=class name,extends=javax.faces.el.VariableResolver">
+    <result-template
+     description="Check that attribute variable-resolver references existent java class"
+     id="variable-resolver" message-id="jsf.class.exists" name="Check variable-resolver"/>
+    <result-template
+     description="Check that attribute variable-resolver extends javax.faces.el.VariableResolver"
+     id="variable-resolver.extends" message-id="jsf.class.extends" name="Check variable-resolver"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Faces Config Converter Attributes" name="Check Faces Config Converter Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check converter-for-class attribute"
+    entities="JSFConverter" name="Check converter-for-class attribute"
+    properties="attribute=converter-for-class">
+    <result-template
+     description="Check that attribute converter-for-class references existent java class"
+     id="converter-for-class" message-id="jsf.class.exists" name="Check converter-for-class attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check converter-class attribute"
+    entities="JSFConverter" name="Check converter-class attribute"
+    properties="attribute=converter-class,implements=javax.faces.convert.Converter">
+    <result-template
+     description="Check that attribute converter-class references existent java class"
+     id="converter-class" message-id="jsf.class.exists" name="Check converter-class attribute"/>
+    <result-template
+     description="Check that attribute converter-class implements javax.faces.convert.Converter"
+     id="converter-class.implements" message-id="jsf.class.implements" name="Check converter-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Faces Config Component Attributes" name="Check Faces Config Component Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check component-class attribute"
+    entities="JSFComponent,JSFComponent11" name="Check component-class attribute"
+    properties="attribute=component-class,extends=javax.faces.component.UIComponent">
+    <result-template
+     description="Check that attribute component-class references existent java class"
+     id="component-class" message-id="jsf.class.exists" name="Check component-class attribute"/>
+    <result-template
+     description="Check that attribute component-class extends javax.faces.component.UIComponent"
+     id="component-class.extends" message-id="jsf.class.extends" name="Check component-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Faces Config Factory Attributes" name="Check Faces Config Factory Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check application-factory attribute"
+    entities="JSFFactory" name="Check application-factory attribute"
+    properties="attribute=application-factory,extends=javax.faces.application.ApplicationFactory">
+    <result-template
+     description="Check that attribute application-factory references existent java class"
+     id="application-factory" message-id="jsf.class.exists" name="Check application-factory attribute"/>
+    <result-template
+     description="Check that attribute application-factory extends javax.faces.application.ApplicationFactory"
+     id="application-factory.extends" message-id="jsf.class.extends" name="Check application-factory attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check faces-context-factory attribute"
+    entities="JSFFactory" name="Check faces-context-factory attribute"
+    properties="attribute=faces-context-factory,extends=javax.faces.context.FacesContextFactory">
+    <result-template
+     description="Check that attribute faces-context-factory references existent java class"
+     id="faces-context-factory" message-id="jsf.class.exists" name="Check faces-context-factory attribute"/>
+    <result-template
+     description="Check that attribute faces-context-factory extends javax.faces.context.FacesContextFactory"
+     id="faces-context-factory.extends" message-id="jsf.class.extends" name="Check faces-context-factory attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check lifecycle-factory attribute"
+    entities="JSFFactory" name="Check lifecycle-factory attribute"
+    properties="attribute=lifecycle-factory,extends=javax.faces.lifecycle.LifecycleFactory">
+    <result-template
+     description="Check that attribute lifecycle-factory references existent java class"
+     id="lifecycle-factory" message-id="jsf.class.exists" name="Check lifecycle-factory attribute"/>
+    <result-template
+     description="Check that attribute lifecycle-factory extends javax.faces.lifecycle.LifecycleFactory"
+     id="lifecycle-factory.extends" message-id="jsf.class.extends" name="Check lifecycle-factory attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check render-kit-factory attribute"
+    entities="JSFFactory" name="Check render-kit-factory attribute"
+    properties="attribute=render-kit-factory,extends=javax.faces.render.RenderKitFactory">
+    <result-template
+     description="Check that attribute render-kit-factory references existent java class"
+     id="render-kit-factory" message-id="jsf.class.exists" name="Check render-kit-factory attribute"/>
+    <result-template
+     description="Check that attribute render-kit-factory extends javax.faces.render.RenderKitFactory"
+     id="render-kit-factory.extends" message-id="jsf.class.extends" name="Check render-kit-factory attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check List Entries Attributes" name="Check List Entries Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check value-class attribute"
+    entities="JSFListEntries" name="Check value-class attribute"
+    properties="attribute=value-class">
+    <result-template
+     description="Check that attribute value-class references existent java class"
+     id="value-class" message-id="jsf.class.exists" name="Check value-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Map Entries Attributes" name="Check Map Entries Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check key-class attribute"
+    entities="JSFMapEntries" name="Check key-class attribute"
+    properties="attribute=key-class">
+    <result-template
+     description="Check that attribute key-class references existent java class"
+     id="key-class" message-id="jsf.class.exists" name="Check key-class attribute"/>
+   </rule>
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check value-class attribute"
+    entities="JSFMapEntries" name="Check value-class attribute"
+    properties="attribute=value-class">
+    <result-template
+     description="Check that attribute value-class references existent java class"
+     id="value-class" message-id="jsf.class.exists" name="Check value-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Managed Bean Attributes" name="Check Managed Bean Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check managed-bean-class attribute"
+    entities="JSFManagedBean" name="Check managed-bean-class attribute"
+    properties="attribute=managed-bean-class">
+    <result-template
+     description="Check that attribute managed-bean-class references existent java class"
+     id="managed-bean-class" message-id="jsf.class.exists" name="Check managed-bean-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Managed Property Attributes" name="Check Managed Property Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check property-class attribute"
+    entities="JSFManagedProperty" name="Check property-class attribute"
+    properties="attribute=property-class,allow-primitive=true">
+    <result-template
+     description="Check that attribute property-class references existent java class"
+     id="property-class" message-id="jsf.class.exists" name="Check property-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Phase Listener Attributes" name="Check Phase Listener Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check phase-listener attribute"
+    entities="JSFPhaseListener" name="Check phase-listener attribute"
+    properties="attribute=phase-listener,implements=javax.faces.event.PhaseListener">
+    <result-template
+     description="Check that attribute phase-listener references existent java class"
+     id="phase-listener" message-id="jsf.class.exists" name="Check phase-listener attribute"/>
+    <result-template
+     description="Check that attribute phase-listener implements javax.faces.event.PhaseListener"
+     id="phase-listener.implements" message-id="jsf.class.implements" name="Check phase-listener attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Referenced Bean Attributes" name="Check Referenced Bean Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check referenced-bean-class attribute"
+    entities="JSFReferencedBean" name="Check referenced-bean-class attribute"
+    properties="attribute=referenced-bean-class">
+    <result-template
+     description="Check that attribute referenced-bean-class references existent java class"
+     id="referenced-bean-class" message-id="jsf.class.exists" name="Check referenced-bean-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Render Kit Attributes" name="Check Render Kit Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check render-kit-class attribute"
+    entities="JSFRenderKit" name="Check render-kit-class attribute"
+    properties="attribute=render-kit-class,extends=javax.faces.render.RenderKit">
+    <result-template
+     description="Check that attribute render-kit-class references existent java class"
+     id="render-kit-class" message-id="jsf.class.exists" name="Check render-kit-class attribute"/>
+    <result-template
+     description="Check that attribute render-kit-class extends javax.faces.render.RenderKit"
+     id="render-kit-class.extends" message-id="jsf.class.extends" name="Check render-kit-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Renderer Attributes" name="Check Renderer Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check renderer-class attribute"
+    entities="JSFRenderer" name="Check renderer-class attribute"
+    properties="attribute=renderer-class,extends=javax.faces.render.Renderer">
+    <result-template
+     description="Check that attribute renderer-class references existent java class"
+     id="renderer-class" message-id="jsf.class.exists" name="Check renderer-class attribute"/>
+    <result-template
+     description="Check that attribute renderer-class extends javax.faces.render.Renderer"
+     id="renderer-class.extends" message-id="jsf.class.extends" name="Check renderer-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Validator Attributes" name="Check Validator Attributes"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+   <rule action="org.jboss.tools.jsf.verification.vrules.JSFCheckClass"
+    category="jsf" description="Check validator-class attribute"
+    entities="JSFValidator" name="Check validator-class attribute"
+    properties="attribute=validator-class,implements=javax.faces.validator.Validator">
+    <result-template
+     description="Check that attribute validator-class references existent java class"
+     id="validator-class" message-id="jsf.class.exists" name="Check validator-class attribute"/>
+    <result-template
+     description="Check that attribute validator-class implements javax.faces.validator.Validator"
+     id="validator-class.implements" message-id="jsf.class.implements" name="Check validator-class attribute"/>
+   </rule>
+  </rule-set>
+
+  <rule-set bundle="org.jboss.tools.jsf.verification.vrules.jsfrules"
+   description="Check Web Descriptor" name="Check Web Descriptor"
+   url="http://www.redhat.com" vendor="Red Hat Inc" version="1.0">
+
+    <rule action="org.jboss.tools.jsf.verification.vrules.CheckContextParam"
+     category="web.location" description="Check that paths in context param javax.faces.CONFIG_FILES references to existent resources"
+     entities="WebAppContextParam" name="Check context param javax.faces.CONFIG_FILES attribute">
+     <result-template
+      description="Check that paths in context param javax.faces.CONFIG_FILES references to existent resources"
+      id="config.exists" message-id="jsf.path.exists" name="Check faces config path in context param"/>
+     <result-template
+      description="Check that paths in context param javax.faces.CONFIG_FILES references to valid faces config files"
+      id="config.valid" message-id="jsf.config.valid" name="Check faces config path in context param"/>
+    </rule>
+
+
+  </rule-set>
+
+ </rule-set>
+
+</rule-sets>

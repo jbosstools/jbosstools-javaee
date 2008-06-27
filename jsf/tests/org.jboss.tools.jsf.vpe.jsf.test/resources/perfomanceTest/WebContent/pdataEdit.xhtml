@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<ui:composition>
+	<body>
+		    
+  <rich:panel id="panel">
+	    <f:facet name="header">#{hrRequest.employeeById[param.employeeId].fullname}</f:facet>
+  		<h:panelGroup rendered="#{empty hrRequest.employeeById[param.employeeId].nationality.nationalRegisterCode}">
+			<h:outputFormat value="#{bundle['PData.error.required.nationality']}" class="warning" />
+			<h:selectOneMenu value="#{hrRequest.employeeById[param.employeeId].nationality}" id="nationality">
+									<f:selectItems value="#{hrRequest.countries}" />
+								</h:selectOneMenu> <h:message for="nationality" showDetails="true"
+									showSummary="false" />
+			<br/>
+		</h:panelGroup>
+  		<h:panelGroup rendered="#{empty hrRequest.employeeById[param.employeeId].nationalRegisterNumber}">
+			<h:outputFormat value="#{bundle['PData.error.required.nrn']}" class="warning" />
+			<h:inputText value="#{hrRequest.employeeById[param.employeeId].idCardNumber}" id="idCard" />
+			<h:message for="idCard" showDetail="true" showSummary="false" />
+			<br/>
+		</h:panelGroup>
+  		<h:panelGroup rendered="#{(hrRequest.employeeById[param.employeeId].PData.status.pdata eq '30' or hrRequest.employeeById[param.employeeId].PData.status.pdata eq '31' or hrRequest.employeeById[param.employeeId].PData.status.pdata eq '32') and empty hrRequest.employeeById[param.employeeId].current.contract.reason.pdata}">
+			<h:outputFormat value="#{bundle['PData.error.required.contractReason']}" class="warning" />
+			<h:panelGroup rendered="#{ not empty hrRequest.employeeById[param.employeeId].current.contract}">
+				(#{bundle['Contract.reference']} #{hrRequest.employeeById[param.employeeId].current.contract.reference})
+				<ui:include src="elements/selectEntry.xhtml">
+						<ui:param name="value" value="#{hrRequest.employeeById[param.employeeId].current.contract.reason}" />
+						<ui:param name="id" value="creason" />
+						<ui:param name="key" value="Contract reason" />
+				</ui:include>
+		        <h:message for="creason" showDetail="true" showSummary="false"/>
+            </h:panelGroup>
+            <h:outputText value="#{bundle['PData.error.required.contractReason.nocontract']}" rendered="#{empty hrRequest.employeeById[param.employeeId].current.contract}" />
+			<br/>
+		</h:panelGroup>
+  		<h:panelGroup rendered="#{empty hrRequest.employeeById[param.employeeId].current.careerRank.grade.pdata}" id="gradeGroup1">
+			<h:outputFormat value="#{bundle['PData.error.required.grade']}" class="warning" />
+			<h:panelGroup rendered="#{ not empty hrRequest.employeeById[param.employeeId].current.careerRank}">
+				<ui:include src="elements/selectGrade.xhtml">
+					<ui:param name="value" value="#{hrRequest.employeeById[param.employeeId].current.careerRank.grade}" />
+					<ui:param name="id" value="rankgrade" />
+				</ui:include>
+                <h:message for="rankgrade" showDetails="true" showSummary="false"/>
+             </h:panelGroup>
+             <h:outputText value="#{bundle['PData.error.required.grade.norank']}" rendered="#{empty hrRequest.employeeById[param.employeeId].current.careerRank}" />
+			<br/>
+		</h:panelGroup>
+		<a4j:commandLink limitToList="true" action="#{hrActions.saveEmployeeById}" reRender=":pdata:employeeList,:pdataEdit" oncomplete="javascript:Richfaces.hideModalPanel('pdataEdit')">
+			<f:param name="employeeId" value="#{param.employeeId}"/>
+			Sauver			
+		</a4j:commandLink>
+		</rich:panel>
+	</body>
+</ui:composition>
+</html>

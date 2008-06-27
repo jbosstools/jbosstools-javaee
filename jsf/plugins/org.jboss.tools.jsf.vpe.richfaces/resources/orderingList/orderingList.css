@@ -1,0 +1,135 @@
+.dr-buttons-border {
+	border:1px solid;
+	margin-bottom:3px;	
+	border-color: #000000
+}
+
+.rich-ordering-list-caption {
+	white-space: normal; 
+	word-wrap: break-word; 
+	font-weight: bold; 
+	font-size:12px;
+}
+
+/* BUTTONS DIV */
+.rich-ordering-list-button-valign {
+	vertical-align:middle;
+}
+
+.rich-ordering-list-button-layout {
+	padding:15px 8px 15px 0pt;
+}
+
+.rich-ordering-controls {
+	font-family:Arial,Verdana,sans-serif;
+	margin-bottom:2px;
+	 background-repeat: repeat-x;
+}
+.rich-ordering-control-top {
+	
+}	
+.rich-ordering-control-bottom {
+	
+}	
+.rich-ordering-control-up {
+	
+}
+.rich-ordering-control-down {
+	
+}
+
+.rich-ordering-list-button {
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	cursor: pointer;
+}
+
+.rich-ordering-list-button-content {
+	font-family:Arial,Verdana,sans-serif;
+	padding:0pt 4px 0pt 1px;
+	font-size:11px;
+	text-align:left;
+	white-space:nowrap;
+	/*border-width:0px;*/
+}
+
+a.rich-ordering-list-button-selection:visited, a.rich-ordering-list-button-selection:link, a.rich-ordering-list-button-a-disabled:visited, a.rich-ordering-list-button-a-disabled:link {
+	text-decoration:none;
+}
+
+
+.rich-ordering-list-button-content img {
+	margin-right:2px;
+	vertical-align:middle;
+}
+*/
+
+/* TABLE CONTENT */
+
+.rich-ordering-list-body {
+	/*border:0pt solid;*/
+}
+
+.rich-ordering-list-output {
+	font-family:Arial,Verdana,sans-serif;
+	border-color:#C0C0C0;
+	border-width:1px;
+	width: 100%;
+}
+
+.rich-ordering-list-content {
+	font-family:Arial,Verdana,sans-serif;
+	overflow:hidden;
+	width:100%;
+}
+.rich-ordering-list-header {
+	font-family:Arial,Verdana,sans-serif;
+	overflow:hidden;
+	width:100%;
+	font-size:11px;
+	text-align: center;
+}
+
+.rich-ordering-list-footer {
+	font-family:Arial,Verdana,sans-serif;
+	overflow:hidden;
+	width:100%;
+	font-size:11px;
+	text-align: center;
+}
+
+.rich-ordering-list-table-header {
+	 background-repeat: repeat-x;
+}
+
+.rich-ordering-list-table-header-cell{
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	text-align: center;
+}
+
+.rich-ordering-list-table-footer {
+	background-repeat: repeat-x;
+}
+
+.rich-ordering-list-table-footer-cell{
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	text-align: center;
+}
+
+.rich-ordering-list-items {
+	width:100%;
+}
+
+.rich-ordering-list-row {
+	font-size:11px;
+}
+
+.rich-ordering-list-cell {
+	font-family:Arial,Verdana,sans-serif;
+	font-size:11px;
+	white-space:normal;
+	text-align: center;
+	width: 100%;
+}
