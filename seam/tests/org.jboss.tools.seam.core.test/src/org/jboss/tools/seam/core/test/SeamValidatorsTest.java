@@ -367,47 +367,52 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		// Duplicate @Create method
 		System.out.println("Test - Duplicate @Create method");
-		
+
 		final String NEW_CONTENT_FILE_NAME7 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.7";
-	
+
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME7, ".*@Create.*\"createMethod\".*", 36);
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME, ".*@Create.*\"createMethod2\".*", 41);
-		
-		
-		
+
 		// Duplicate @Unwrap method
 		System.out.println("Test - Duplicate @Unwrap method");
-		
+
 		final String NEW_CONTENT_FILE_NAME8 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.8";
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME8, ".*@Unwrap.*\"unwrapMethod\".*", 40);
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME, ".*@Unwrap.*\"unwrapMethod2\".*", 45);
-		
-		
+
+		IFile componentsFileWithoutSTComponent = project.getFile("WebContent/WEB-INF/components.5");
+		try {
+			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, new NullProgressMonitor());
+		} catch(Exception ex) {
+			JUnitUtils.fail("Error in changing 'components.xml' content to " +
+					"'components.5'", ex);
+		}
+		refreshProject(project);
+
 		// Only component class can have @Destroy method
 		System.out.println("Test - Only component class can have @Destroy method");
-		
+
 		final String NEW_CONTENT_FILE_NAME9 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.9";
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME9, ".*@Destroy.*\"destroyMethod\".*", 25);
-		
-		
+
 		// Only component class can have @Create method
 		System.out.println("Test - Only component class can have @Create method");
-		
+
 		final String NEW_CONTENT_FILE_NAME10 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.10";
-		
+
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME10, ".*@Create.*\"createMethod\".*", 25);
-		
+
 		// Only component class can have @Unwrap method
 		System.out.println("Test - Only component class can have @Unwrap method");
-		
+
 		final String NEW_CONTENT_FILE_NAME11 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.11";
-	
+
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME11, "Only component class can have @Unwrap method \"unwrapMethod\"", 26);
 		
@@ -430,6 +435,13 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,"Duplicate @Remove method \"removeMethod2\"", 22);
 
+		IFile componentsFileWithSTComponent = project.getFile("WebContent/WEB-INF/components.2");
+		try {
+			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, new NullProgressMonitor());
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'components.xml' content to " +
+					"'components.6'", ex);
+		}
 	}
 
 	/**
