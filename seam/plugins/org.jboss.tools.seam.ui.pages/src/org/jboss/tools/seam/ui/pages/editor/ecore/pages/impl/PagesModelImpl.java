@@ -291,11 +291,27 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 		public void nodeChanged(XModelTreeEvent event) {
 			if(getData() == null) return;
 			XModelObject diagramXML = (XModelObject)getData();
-			if(!event.getModelObject().getPath().startsWith(diagramXML.getPath())) {
+			String newPath = event.getModelObject().getPath();
+			if(!newPath.startsWith(diagramXML.getPath())) {
 				return;
 			}
-			PagesElement item = findElement(event.getInfo().toString());
+			String oldPath = event.getInfo().toString();
+			
+			PagesElement item = findElement(oldPath);
 			if(item != null) {
+				if(!oldPath.equals(newPath)){
+					elementsByPath.remove(oldPath);
+					elementsByPath.put(newPath, item);
+					String[] keys = (String[])linksByPath.keySet().toArray(new String[0]);
+					for (int i = 0; i < keys.length; i++) {
+						if(keys[i].startsWith(oldPath + "/")) {
+							Link o = linksByPath.get(keys[i]);
+							if(o == null) continue;
+							String key = newPath + keys[i].substring(oldPath.length());
+							linksByPath.put(key, o);
+						}
+					}
+				}
 				item.dataChanged();
 			}
 			Link link = findLink(event.getInfo().toString());
