@@ -57,8 +57,7 @@ public class Seam20EARNewOperationTest extends Seam12EARNewOperationTest {
 	
 	@Override
 	protected File getSeamHomeFolder() {
-		return new File(System.getProperty(SEAM_2_0_HOME),
-				"E:/Java/JBoss/Seam/jboss-seam-2.0.1.GA");
+		return new File(System.getProperty(SEAM_2_0_HOME));
 	}
 
 	@Override
