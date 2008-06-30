@@ -1758,6 +1758,8 @@
 			class="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.JSPAdopt"
 			class="org.jboss.tools.jsf.model.handlers.JSPAdopt"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.RemoveJSFNatureContribution"
+			class="org.jboss.tools.jsf.model.handlers.RemoveJSFNatureContribution"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
 			class="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.OpenPageHandler"

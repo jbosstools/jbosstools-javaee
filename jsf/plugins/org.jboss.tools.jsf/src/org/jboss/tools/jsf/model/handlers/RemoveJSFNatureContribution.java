@@ -1,0 +1,45 @@
+package org.jboss.tools.jsf.model.handlers;
+
+import org.jboss.tools.common.meta.action.SpecialWizard;
+import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
+
+public class RemoveJSFNatureContribution implements SpecialWizard {
+	XModel model = null;
+
+	public void setObject(Object object) {
+		if(object instanceof XModel) {
+			model = (XModel)object;
+		}
+	}
+
+	public int execute() {
+		if(model == null) return 1;
+		XModelObject webxml = WebAppHelper.getWebApp(model);
+		XModelObject servlet = WebAppHelper.findServlet(webxml,
+				JSFConstants.FACES_SERVLET_CLASS, "Faces Config");
+		String servletName = servlet == null ? null : servlet.getAttributeValue("servlet-name");
+		XModelObject mapping = WebAppHelper.findServletMapping(webxml, servletName);
+
+		if(servlet != null) {
+			DefaultRemoveHandler.removeFromParent(servlet);
+		}
+		if(mapping != null) {
+			DefaultRemoveHandler.removeFromParent(mapping);
+		}
+		XModelObject folder = webxml.getChildByPath("Context Params");
+		XModelObject[] params = folder.getChildren();
+		for (int i = 0; i < params.length; i++) {
+			String name = params[i].getAttributeValue("param-name");
+			if(name != null && name.startsWith("javax.faces.")) {
+				DefaultRemoveHandler.removeFromParent(params[i]);
+			}
+		}
+		
+		return 0;
+	}
+
+}
