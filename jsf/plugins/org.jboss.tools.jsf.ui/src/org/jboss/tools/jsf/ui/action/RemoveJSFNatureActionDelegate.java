@@ -10,11 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.action;
 
+import java.util.Properties;
+
+import org.jboss.tools.jsf.model.handlers.RemoveJSFNatureContribution;
 import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.common.meta.action.SpecialWizard;
 import org.jboss.tools.common.model.ui.action.file.RemoveModelNatureActionDelegate;
 
 public class RemoveJSFNatureActionDelegate extends RemoveModelNatureActionDelegate {
 	protected String getModelNatureName() {
 		return JSFNature.NATURE_ID;
 	}
+
+	protected void initProperties(Properties p) {
+		super.initProperties(p);
+		SpecialWizard w = new RemoveJSFNatureContribution();
+		p.put("contribution", w);
+	}
+	
 }
