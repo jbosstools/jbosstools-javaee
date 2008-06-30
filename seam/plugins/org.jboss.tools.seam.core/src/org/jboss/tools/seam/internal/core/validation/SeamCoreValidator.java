@@ -135,6 +135,7 @@ public class SeamCoreValidator extends SeamValidator {
 							if(linkedResources!=null) {
 								resources.addAll(linkedResources);
 							}
+							resources.addAll(getAllResourceOfComponent(currentFile.getFullPath()));
 						}
 					}
 					resources.add(currentFile.getFullPath());
@@ -162,7 +163,7 @@ public class SeamCoreValidator extends SeamValidator {
 			// Remove markers from collected source file
 			IFile sourceFile = root.getFile(linkedResource);
 			reporter.removeMessageSubset(validationManager, sourceFile, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-			validateComponent(linkedResource, checkedComponents);
+			validateComponent(linkedResource, checkedComponents, newResources);
 			validateFactory(linkedResource, markedDuplicateFactoryNames);
 		}
 
@@ -313,8 +314,12 @@ public class SeamCoreValidator extends SeamValidator {
 		}
 	}
 
-	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents) {
+	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents, Set<IPath> unnamedResources) {
 		Set<ISeamComponent> components = project.getComponentsByPath(sourceFilePath);
+		if(components.size()==0) {
+			unnamedResources.add(sourceFilePath);
+			return;
+		}
 		for (ISeamComponent component : components) {
 			// Don't validate one component twice.
 			if(!checkedComponents.contains(component)) {
@@ -334,6 +339,21 @@ public class SeamCoreValidator extends SeamValidator {
 			for (ISeamContextVariable variable : variables) {
 				String name = variable.getName();
 				result.add(name);
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * Collect all resources of all declarations of all components which is declared in the source.
+	 */
+	private Set<IPath> getAllResourceOfComponent(IPath sourceComponentFilePath) {
+		Set<IPath> result = new HashSet<IPath>();
+		Set<ISeamComponent> components = project.getComponentsByPath(sourceComponentFilePath);
+		for (ISeamComponent component : components) {
+			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
+			for (ISeamComponentDeclaration seamComponentDeclaration : declarations) {
+				result.add(seamComponentDeclaration.getResource().getFullPath());
 			}
 		}
 		return result;
