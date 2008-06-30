@@ -276,7 +276,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		RenameResourceProcessor processor = new RenameResourceProcessor(resource);
 		RenameRefactoring refactoring = new RenameRefactoring(processor);
 		INameUpdating nameUpdateingAdapter = ((INameUpdating)refactoring.getAdapter(INameUpdating.class));
-		assertNotNull("Cannot get IUnameUpdating adapter for renaming '" +resource.getFullPath().toString() + "'",nameUpdateingAdapter);
+		assertNotNull("Cannot get INameUpdating adapter for renaming '" +resource.getFullPath().toString() + "'",nameUpdateingAdapter);
 		nameUpdateingAdapter.setNewElementName(newFolderName);
 		IReferenceUpdating reference = (IReferenceUpdating)refactoring.getAdapter(IReferenceUpdating.class);
 		if(reference != null) {
