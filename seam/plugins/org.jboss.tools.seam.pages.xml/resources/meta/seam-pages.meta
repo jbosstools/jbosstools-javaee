@@ -2991,7 +2991,7 @@
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.DeletePageItemHandler"
      ICON="action.delete" PROPERTIES="actionpath=DeleteActions/Delete"
      displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>

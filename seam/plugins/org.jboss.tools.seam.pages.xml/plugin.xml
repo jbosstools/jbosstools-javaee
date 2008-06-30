@@ -73,6 +73,8 @@
 			class="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.DeletePageItemHandler"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.DeletePageItemHandler"/>
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"/>
