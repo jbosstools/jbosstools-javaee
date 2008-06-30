@@ -56,5 +56,6 @@ public interface JSFConstants {
 	public static final String ENT_FILEXHTML       = "FileXHTML";
 	
 	public static final String EMPTY_NAVIGATION_RULE_NAME = "[any]";
-	
+
+	public static final String FACES_SERVLET_CLASS = "javax.faces.webapp.FacesServlet";
 }

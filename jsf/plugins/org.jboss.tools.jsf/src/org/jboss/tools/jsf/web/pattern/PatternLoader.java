@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.web.pattern;
 import java.util.ArrayList;
 
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jst.web.browser.wtp.RunOnServerContext;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
@@ -65,7 +66,7 @@ public class PatternLoader {
     }
     
     String getFacesServletName(XModelObject webxml) {
-    	XModelObject s = WebAppHelper.findServlet(webxml, "javax.faces.webapp.FacesServlet", null);
+    	XModelObject s = WebAppHelper.findServlet(webxml, JSFConstants.FACES_SERVLET_CLASS, null);
     	return (s != null) ? s.getAttributeValue("servlet-name") : "FacesServlet";
     }
     
