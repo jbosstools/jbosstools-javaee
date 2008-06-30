@@ -5,7 +5,7 @@
    <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
       <xmlEditor 
             class="org.jboss.tools.seam.ui.pages.editor.SeamPagesEditor" 
-            contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
+            contributorClass="org.jboss.tools.seam.ui.pages.editor.PagesMultiPageContributor" 
             entities="FileSeamPages12,FileSeamPages20" 
             icon="images/xstudio/editors/seam-pages.gif" 
             name="Seam Pages">
