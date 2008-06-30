@@ -115,7 +115,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		addToBuildSpec(SeamCoreBuilder.BUILDER_ID);
 		DesignTimeApplicationManager dtAppManager = DesignTimeApplicationManager.getInstance(project);
 		if(dtAppManager!=null)
-			DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(VariableResolver.ID);
+			dtAppManager.setVariableResolverProvider(VariableResolver.ID);
 	}
 
 	/**
@@ -123,7 +123,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void deconfigure() throws CoreException {
 		removeFromBuildSpec(SeamCoreBuilder.BUILDER_ID);
-		DesignTimeApplicationManager.getInstance(project).setVariableResolverProvider(null);
+		DesignTimeApplicationManager dtAppManager = DesignTimeApplicationManager.getInstance(project);
+		if(dtAppManager!=null) {
+			dtAppManager.setVariableResolverProvider(null);
+		}
 	}
 
 	/**
