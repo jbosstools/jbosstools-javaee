@@ -34,6 +34,11 @@ import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.common.meta.action.XAction;
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.ui.dnd.DnDUtil;
+import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
@@ -63,7 +68,7 @@ public class PageEditPart extends PagesEditPart implements
 
 	public void removingChild(EditPart child, int index) {
 	}
-
+	
 	public void selectedStateChanged(EditPart editpart) {
 		if (this.getSelected() == EditPart.SELECTED_PRIMARY) {
 			((PagesDiagramEditPart) PageEditPart.this.getParent())
@@ -117,6 +122,17 @@ public class PageEditPart extends PagesEditPart implements
 				getPageModel().setParamsVisible(!getPageModel().isParamsVisible());
 				refresh();
 				fig.repaint();
+			}else{
+				try {
+					XAction action = DnDUtil.getEnabledAction(
+							(XModelObject) getPageModel().getData(), null,
+							"OpenPage");
+					if (action != null)
+						action.executeHandler((XModelObject) getPageModel()
+								.getData(), null);
+				} catch (XModelException e) {
+					SeamUiPagesPlugin.log(e);
+				}
 			}
 		}
 	}
