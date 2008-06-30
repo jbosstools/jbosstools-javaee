@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
  * 
  * @author sdzmitrovich
  * 
- *         test for http://jira.jboss.com/jira/browse/JBIDE-1718
+ *         http://jira.jboss.com/jira/browse/JBIDE-2362
  * 
  */
 public class JsfJbide2362Test extends VpeTest {
