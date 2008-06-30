@@ -211,7 +211,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
 		if(hasWildCard(path)) return path;
 		if(path.indexOf('.') < 0 && !path.endsWith("/")) {
-			path += getExtension();
+//			path += getExtension();
 		}
 		return path;
 	}
