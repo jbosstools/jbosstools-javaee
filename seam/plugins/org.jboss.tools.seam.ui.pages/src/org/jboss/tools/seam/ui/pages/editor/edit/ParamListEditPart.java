@@ -98,11 +98,13 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 
 		Rectangle r = new Rectangle(loc, size);
 
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
+		if(getParent() != null){
+			((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
 		
-		((PagesDiagramEditPart) ParamListEditPart.this.getParent())
-		.setToFront(this);
+			((PagesDiagramEditPart) ParamListEditPart.this.getParent())
+				.setToFront(this);
+		}
 		
 	}
 
