@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
@@ -53,9 +54,9 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","s:validateFormat",359);    //$NON-NLS-1$//$NON-NLS-2$
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","rich:validateA", 427); //$NON-NLS-1$ //$NON-NLS-2$
-		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","c:otherwi",493);  //$NON-NLS-1$//$NON-NLS-2$
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","s:validateFormat",11,2);    //$NON-NLS-1$//$NON-NLS-2$
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","rich:validateA", 14,14); //$NON-NLS-1$ //$NON-NLS-2$
+		checkOfCAByStartString(CA_NAME, "JBIDE/788/TestChangeUriInInnerNodes.xhtml","c:otherwi",18,6);  //$NON-NLS-1$//$NON-NLS-2$
 
 		// check exception
 		if (getException() != null) {
@@ -74,7 +75,7 @@ public class JBIDE788Test extends VpeTest {
 		setException(null);
 		// Tests CA
 
-		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",545,false); //$NON-NLS-1$ //$NON-NLS-2$
+		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",11,31,false); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull(results);
 		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
 		boolean isMatches=true;
@@ -87,8 +88,8 @@ public class JBIDE788Test extends VpeTest {
 			
 		}
 		assertTrue("String not matches", isMatches); //$NON-NLS-1$
-		
-		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",511,false);  //$NON-NLS-1$//$NON-NLS-2$
+		//TODO Max Areshkau This functionality doesn't works now,
+		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,41,false);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
 		isMatches = false;
 		for(ICompletionProposal completionProposal : results) {
@@ -139,7 +140,7 @@ public class JBIDE788Test extends VpeTest {
 		// set exception
 		setException(null);
 		// Tests CA
-		ICompletionProposal[] results =checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforHtml.html", "", 42,false);  //$NON-NLS-1$//$NON-NLS-2$
+		ICompletionProposal[] results =checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforHtml.html", "", 5, 13,false);  //$NON-NLS-1$//$NON-NLS-2$
 
 		assertNotNull(results);
 		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
@@ -174,7 +175,7 @@ public class JBIDE788Test extends VpeTest {
 		// Tests CA
 
 		// cursor will set after "outputText" tag
-		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforJSP.jsp", "h:outp",1139,false); //$NON-NLS-1$ //$NON-NLS-2$
+		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforJSP.jsp", "h:outp",26,14,false); //$NON-NLS-1$ //$NON-NLS-2$
 
 		for (ICompletionProposal completionProposal : results) {
 
@@ -205,11 +206,11 @@ public class JBIDE788Test extends VpeTest {
 
 		// cursor will set after "<" simbol
 		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", "c", //$NON-NLS-1$ //$NON-NLS-2$
-				687);
+				15,12);
 
 		// cursor will set after "outputText" tag
 		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforXHTML.xhtml", "s",  //$NON-NLS-1$//$NON-NLS-2$
-				778);
+				19,43);
 
 		// check exception
 		if (getException() != null) {
@@ -223,13 +224,14 @@ public class JBIDE788Test extends VpeTest {
 	 * @param caName
 	 * @param testPagePath
 	 * @param partOfString
-	 * @param position
-	 * @param numberOfProposals
+	 * @param lineIndex
+	 * @param linePosition
+	 * @return
 	 * @throws CoreException
 	 */
     private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
-            String partOfString, int position) throws CoreException {
-        return this.checkOfCAByStartString(caName, testPagePath, partOfString, position,true);
+            String partOfString, int lineIndex, int linePosition) throws CoreException {
+        return this.checkOfCAByStartString(caName, testPagePath, partOfString, lineIndex, linePosition,true);
         
     }
 	/**
@@ -237,14 +239,15 @@ public class JBIDE788Test extends VpeTest {
 	 * @param caName
 	 * @param testPagePath
 	 * @param partOfString
-	 * @param position
+	 * @param lineIndex
+	 * @param linePosition
 	 * @param isCheck
 	 * @return
 	 * @throws CoreException
 	 */
 	
 	private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
-            String partOfString, int position,boolean isCheck) throws CoreException {
+            String partOfString, int lineIndex, int linePosition,boolean isCheck) throws CoreException {
         // get test page path
         IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
                 IMPORT_PROJECT_NAME);
@@ -257,6 +260,8 @@ public class JBIDE788Test extends VpeTest {
 
         // open and get editor
         JSPMultiPageEditor part = openEditor(input);
+        
+        int position = getLinePositionOffcet(part.getSourceEditor().getTextViewer(), lineIndex, linePosition);
 
         // insert string
         part.getSourceEditor().getTextViewer().getTextWidget()
@@ -267,6 +272,7 @@ public class JBIDE788Test extends VpeTest {
         // sets cursor position
         part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
                 newPosition);
+        
         TestUtil.waitForJobs();
         TestUtil.delay(1000);
         SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
@@ -289,7 +295,6 @@ public class JBIDE788Test extends VpeTest {
         // remove inserted string
         part.getSourceEditor().getTextViewer().getTextWidget()
                 .replaceTextRange(position, partOfString.length(), ""); //$NON-NLS-1$
-
         assertNotNull(results);
         assertTrue("Number of ca proposals shouldn't be a null",results.length>0); //$NON-NLS-1$
         if (isCheck) {
@@ -305,5 +310,46 @@ public class JBIDE788Test extends VpeTest {
         TestUtil.delay(1000L);
         return results;
 	}
-
+	/**
+	 * Utility function which is used to calculate offcet in document by line number and character position
+	 * 
+	 * @param textViewer
+	 * @param lineIndex
+	 * @param linePosition
+	 * @return offcet in document
+	 * @throws IllegalArgumentException
+	 */
+	private static final int getLinePositionOffcet(ITextViewer textViewer, int lineIndex, int linePosition) throws IllegalArgumentException {
+		
+		int resultOffcet = 0;
+		
+		if(textViewer==null) {
+				
+				throw new IllegalArgumentException("Text viewer shouldn't be a null"); //$NON-NLS-1$
+		}	
+		//lineIndex-1 becose calculating of line begibns in eclipse from one, but should be form zero
+		resultOffcet=textViewer.getTextWidget().getOffsetAtLine(lineIndex-1);
+		//here we get's tabs length
+		//for more example you can see code org.eclipse.ui.texteditor.AbstractTextEditor@getCursorPosition() and class $PositionLabelValue
+		int tabWidth = textViewer.getTextWidget().getTabs();
+		int characterOffset=0;
+		String currentString = textViewer.getTextWidget().getLine(lineIndex-1);
+		int pos=1;
+		for (int i= 0; (i < currentString.length())&&(pos<linePosition); i++) {
+			if ('\t' == currentString.charAt(i)) {
+				
+				characterOffset += (tabWidth == 0 ? 0 : 1);
+				pos+=tabWidth;
+			}else{
+				pos++;
+				characterOffset++;
+			}
+		}
+		resultOffcet+=characterOffset;
+		if(textViewer.getTextWidget().getLineAtOffset(resultOffcet)!=(lineIndex-1)) {
+				
+				throw new IllegalArgumentException("Incorrect character position in line"); //$NON-NLS-1$
+		}
+		return resultOffcet;
+	}
 }
