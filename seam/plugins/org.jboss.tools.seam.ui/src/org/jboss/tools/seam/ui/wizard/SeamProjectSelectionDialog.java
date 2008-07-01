@@ -61,12 +61,13 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 				ArrayList<IProject> seamProjects = new ArrayList<IProject>();
 				for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 					try {
-						if((allowAllProjects || (check != null && check.getSelection())) 
+						if(project.isAccessible() && (
+								(allowAllProjects || (check != null && check.getSelection())) 
 							|| (project.hasNature(ISeamProject.NATURE_ID) 
 								&& SeamCorePlugin.getSeamPreferences(project)!=null
 								&& project.getAdapter(IFacetedProject.class)!=null
 								&& ((IFacetedProject)project.getAdapter(IFacetedProject.class)).hasProjectFacet(ProjectFacetsManager.getProjectFacet("jst.web"))
-								&& !"".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, "")))) { //$NON-NLS-1$
+								&& !"".equals(SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))))) { //$NON-NLS-1$
 							seamProjects.add(project);
 						}
 					} catch (CoreException e) {
