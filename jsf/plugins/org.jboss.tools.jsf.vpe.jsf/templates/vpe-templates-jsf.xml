@@ -725,6 +725,10 @@
 	<vpe:tag name="f:convertDateTime">
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
+	
+	<vpe:tag name="f:converter">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
 
 	<vpe:tag name="f:convertNumber">
 		<vpe:template children="no" modify="no" />
