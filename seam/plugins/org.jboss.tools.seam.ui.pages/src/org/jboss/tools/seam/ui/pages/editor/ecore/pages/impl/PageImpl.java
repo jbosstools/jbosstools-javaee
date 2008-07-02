@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
@@ -242,7 +243,10 @@ public class PageImpl extends PagesElementImpl implements Page {
 	 */
 	List<Param> getParams() {
 		List<Param> ps = new ArrayList<Param>();
-		
+		for(PagesElement p:getChildren()){
+			if(p instanceof Param)
+				ps.add((Param)p);
+		}
 		return ps;
 	}
 
