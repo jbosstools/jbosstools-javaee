@@ -48,6 +48,14 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		return SIZE;
 	}
+	
+	private int getTextWidth(){
+		return 90;
+	}
+	
+	private int getTextInset(){
+		return 5;
+	}
 
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
@@ -55,19 +63,26 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 	protected void paintFigure(Graphics g) {
 		Rectangle r = getBounds().getCopy();
 		g.translate(r.getLocation());
+		
+		String name;
+		if(exc.getName() != null){
+			name = dottedString(exc.getName(), getTextWidth()-getTextInset(), nameParamFont);
+			name += ":";
+		}else
+			name = "Param:";
+		
+		String value;
+		if(exc.getValue() != null){
+			value = dottedString(exc.getValue(), getTextWidth()-getTextInset(), valueParamFont);
+		}else
+			value = "value";
 
 		if(exc != null){
 			g.setFont(nameParamFont);
-			if(exc.getName() != null)
-				g.drawString(exc.getName()+":", 5, 1);
-			else
-				g.drawString("Param:", 5, 1);
+			g.drawString(name, getTextInset(), 1);
 			
 			g.setFont(valueParamFont);
-			if(exc.getValue() != null)
-				g.drawString(exc.getValue(), 105, 1);
-			else
-				g.drawString("value", 105, 1);
+			g.drawString(value, getTextWidth()+3*getTextInset(), 1);
 
 		}
 		

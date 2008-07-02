@@ -152,10 +152,7 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 
 	protected void refreshVisuals() {
 		Point loc = new Point(1,1);
-		String text = getExceptionModel().getName();
-		if(text == null) text="Param";
-		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.nodeLabelFont).width; 
-		size = new Dimension(width, getVisualHeight());
+		size = new Dimension(200, getVisualHeight());
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
@@ -166,10 +163,6 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 
 	private int getVisualHeight() {
 		return 21;
-	}
-
-	private int getIconWidth() {
-		return 30;
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(
