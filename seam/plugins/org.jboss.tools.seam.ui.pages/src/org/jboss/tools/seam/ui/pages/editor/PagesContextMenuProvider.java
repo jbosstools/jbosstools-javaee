@@ -29,6 +29,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesEditPart;
+import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
 
 public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvider {
 	private ActionRegistry actionRegistry;
@@ -108,6 +109,13 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 			Object partModel = part.getModel();
 			if(partModel instanceof Link) {
 				return (XModelObject)((Link)partModel).getData();
+			}
+		}
+		if(selected instanceof ParamEditPart) {
+			ParamEditPart part = (ParamEditPart)selected;
+			Object partModel = part.getExceptionModel().getPagesModel();
+			if(partModel instanceof PagesElement) {
+				return (XModelObject)((PagesElement)partModel).getData();
 			}
 		}
 

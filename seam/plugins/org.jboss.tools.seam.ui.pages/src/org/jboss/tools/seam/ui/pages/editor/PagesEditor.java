@@ -121,6 +121,7 @@ import org.jboss.tools.seam.ui.pages.editor.edit.GraphicalPartFactory;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesEditPart;
+import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
@@ -656,7 +657,13 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 				return (XModelObject) ((Link)partModel).getData();
 			}
 		}
-
+		if(selected instanceof ParamEditPart) {
+			ParamEditPart part = (ParamEditPart)selected;
+			Object partModel = part.getExceptionModel().getPagesModel();
+			if(partModel instanceof PagesElement) {
+				return (XModelObject)((PagesElement)partModel).getData();
+			}
+		}
 		return null;
 	}
 

@@ -29,11 +29,8 @@ public class PageFeedbackFigure extends PageFigure {
 
 		Rectangle r = getBounds().getCopy();
 		g.translate(r.getLocation());
-		int start=0;
 		
-		g.fillRectangle(start+1,1,22,19);
-
-		//g.fillPolygon(fillPointlist);
+		g.fillRectangle(1,1,r.width-2,r.height-2);
 	}
 
 }
