@@ -133,26 +133,26 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		
 		Rectangle boundingRect = new Rectangle(22, 1, r.width, r.height);
 		
-		//g.fillRectangle(boundingRect);
+		g.fillRectangle(boundingRect);
 		
-		if(g instanceof ScaledGraphics) {
-			// scaled graphcis does not support gradients ;(			
-			g.fillRectangle(boundingRect);
-		} else {
-			Display display = Display.getCurrent();
-			
-
-			Point topLeft = boundingRect.getTopLeft();
-			Point bottomRight = boundingRect.getBottomRight();
-
-			Pattern pattern = new Pattern(display, topLeft.x, topLeft.y,
-					bottomRight.x, bottomRight.y,
-					ColorConstants.white, g.getBackgroundColor());
-			g.setBackgroundPattern(pattern);
-			g.fillRectangle(boundingRect);
-			g.setBackgroundPattern(null);		
-			pattern.dispose();
-		}
+//		if(g instanceof ScaledGraphics) {
+//			// scaled graphcis does not support gradients ;(			
+//			g.fillRectangle(boundingRect);
+//		} else {
+//			Display display = Display.getCurrent();
+//			
+//
+//			Point topLeft = boundingRect.getTopLeft();
+//			Point bottomRight = boundingRect.getBottomRight();
+//
+//			Pattern pattern = new Pattern(display, topLeft.x, topLeft.y,
+//					bottomRight.x, bottomRight.y,
+//					ColorConstants.white, g.getBackgroundColor());
+//			g.setBackgroundPattern(pattern);
+//			g.fillRectangle(boundingRect);
+//			g.setBackgroundPattern(null);		
+//			pattern.dispose();
+//		}
 		
 		if(page != null){
 			g.setFont(nodeLabelFont);

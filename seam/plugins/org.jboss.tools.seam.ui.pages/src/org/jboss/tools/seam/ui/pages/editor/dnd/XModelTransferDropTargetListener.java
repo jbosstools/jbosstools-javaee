@@ -89,8 +89,9 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 						event.y);
 		Point point = new Point(parentPoint.x, parentPoint.y);
 
-		((PagesDiagramEditPart) editor.getScrollingGraphicalViewer()
-				.getRootEditPart().getChildren().get(0)).getFigure()
+		PagesDiagramEditPart part = (PagesDiagramEditPart) editor.getScrollingGraphicalViewer()
+				.getRootEditPart().getChildren().get(0);
+		part.getFigure()
 				.translateToRelative(point);
 		if (TemplateTransfer.getInstance().isSupportedType(
 				event.currentDataType)) {
@@ -99,6 +100,7 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 				properties.put("mouse.x", "" + point.x);
 				properties.put("mouse.y", "" + point.y);
 			}
+			properties.put("diagramEditPart", part);
 
 			XActionInvoker
 					.invoke("CreateActions.AddPage", (XModelObject) editor

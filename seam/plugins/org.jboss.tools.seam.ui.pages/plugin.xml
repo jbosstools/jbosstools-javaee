@@ -22,6 +22,10 @@
 	<extension point="org.jboss.tools.common.model.classes">
 		<xclass id="org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
 			class="org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"/>
+		<xclass id="org.jboss.tools.seam.ui.pages.editor.commands.AddPageOnDiagramHandler"
+			class="org.jboss.tools.seam.ui.pages.editor.commands.AddPageOnDiagramHandler"/>
+		<xclass id="org.jboss.tools.seam.ui.pages.editor.commands.AddExceptionOnDiagramHandler"
+			class="org.jboss.tools.seam.ui.pages.editor.commands.AddExceptionOnDiagramHandler"/>
    </extension>
 
 </plugin>

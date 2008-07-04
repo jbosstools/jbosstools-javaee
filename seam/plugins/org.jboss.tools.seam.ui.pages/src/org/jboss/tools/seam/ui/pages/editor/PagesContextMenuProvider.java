@@ -66,14 +66,17 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 		IStructuredSelection ss = (IStructuredSelection)s;
 		XModelObject object = SelectionUtil.getTarget(ss.getFirstElement());
 		if(object != null) {
+			PagesDiagramEditPart part = (PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0);
 			Properties p = new Properties();
 			if(lastDownEvent != null) {
 				Point point = new Point(lastDownEvent.x, lastDownEvent.y); 
-				((PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0)).getFigure().translateToRelative(point);
+				part.getFigure().translateToRelative(point);
 				p.setProperty("mouse.x", "" + point.x);
 				p.setProperty("mouse.y", "" + point.y);
 				lastDownEvent = null;
 			}
+			p.put("diagramEditPart", part);
+
 			XModelObjectActionList list = new XModelObjectActionList(object.getModelEntity().getActionList(), object, SelectionUtil.getTargets(ss), new Object[]{object, p});
 			Menu menu = getMenu();
 			list.createMenu(menu);
