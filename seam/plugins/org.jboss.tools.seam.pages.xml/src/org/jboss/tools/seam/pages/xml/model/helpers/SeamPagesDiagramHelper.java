@@ -252,7 +252,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		item.notifyUpdate();
 		XModelObject exc = item.getReference();		
 		item.setAttributeValue(ATTR_ID, exc.getPathPart());
-		item.setAttributeValue(ATTR_PATH, exc.getAttributeValue(ATTR_VIEW_ID));
+		item.setAttributeValue(ATTR_PATH, exc.getAttributeValue("class"));
 		XModelObject t = getTargetChild(exc);
 		XModelObject[] cs = t == null ? new XModelObject[0] : new XModelObject[]{t};		
 		updateOutputs(item, cs);
