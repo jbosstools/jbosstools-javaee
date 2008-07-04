@@ -24,12 +24,8 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
-import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
-import org.jboss.tools.seam.ui.pages.editor.edit.PagesEditPart;
-import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
+import org.jboss.tools.seam.ui.pages.editor.edit.SelectionUtil;
 
 public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvider {
 	private ActionRegistry actionRegistry;
@@ -68,7 +64,7 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 		ISelection s = getViewer().getSelection();
 		if(s.isEmpty() || !(s instanceof IStructuredSelection)) return;
 		IStructuredSelection ss = (IStructuredSelection)s;
-		XModelObject object = getTarget(ss.getFirstElement());
+		XModelObject object = SelectionUtil.getTarget(ss.getFirstElement());
 		if(object != null) {
 			Properties p = new Properties();
 			if(lastDownEvent != null) {
@@ -78,48 +74,11 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 				p.setProperty("mouse.y", "" + point.y);
 				lastDownEvent = null;
 			}
-			XModelObjectActionList list = new XModelObjectActionList(object.getModelEntity().getActionList(), object, getTargets(ss), new Object[]{object, p});
+			XModelObjectActionList list = new XModelObjectActionList(object.getModelEntity().getActionList(), object, SelectionUtil.getTargets(ss), new Object[]{object, p});
 			Menu menu = getMenu();
 			list.createMenu(menu);
 			list.removeLastSeparator(menu);
 		}
 	}
 	
-	private XModelObject[] getTargets(IStructuredSelection ss) {
-		if(ss.size() < 2) return null;
-		Iterator it = ss.iterator();
-		ArrayList<XModelObject> l = new ArrayList<XModelObject>();
-		while(it.hasNext()) {
-			XModelObject o = getTarget(it.next());
-			if(o != null) l.add(o);		
-		}
-		return l.toArray(new XModelObject[0]);
-	}
-	
-	private XModelObject getTarget(Object selected) {
-		if(selected instanceof PagesEditPart) {
-			PagesEditPart part = (PagesEditPart)selected;
-			Object partModel = part.getModel();
-			if(partModel instanceof PagesElement) {
-				return (XModelObject)((PagesElement)partModel).getData();
-			}
-		}
-		if(selected instanceof LinkEditPart) {
-			LinkEditPart part = (LinkEditPart)selected;
-			Object partModel = part.getModel();
-			if(partModel instanceof Link) {
-				return (XModelObject)((Link)partModel).getData();
-			}
-		}
-		if(selected instanceof ParamEditPart) {
-			ParamEditPart part = (ParamEditPart)selected;
-			Object partModel = part.getParamModel().getPagesModel();
-			if(partModel instanceof PagesElement) {
-				return (XModelObject)((PagesElement)partModel).getData();
-			}
-		}
-
-		return null;
-	}
-
 }

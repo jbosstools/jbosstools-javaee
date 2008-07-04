@@ -28,24 +28,16 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.FreeformViewport;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.PrinterGraphics;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
-import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
-import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -60,7 +52,6 @@ import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.PaletteContextMenuProvider;
@@ -79,14 +70,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.printing.PrintDialog;
-import org.eclipse.swt.printing.Printer;
-import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -105,7 +90,7 @@ import org.jboss.tools.common.gef.editor.xpl.DefaultPaletteCustomizer;
 import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
-import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
@@ -113,15 +98,13 @@ import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.dnd.FileTransferDropTargetListener;
 import org.jboss.tools.seam.ui.pages.editor.dnd.PagesTemplateTransferDropTargetListener;
 import org.jboss.tools.seam.ui.pages.editor.dnd.XModelTransferDropTargetListener;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.edit.GraphicalPartFactory;
-import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesEditPart;
-import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
+import org.jboss.tools.seam.ui.pages.editor.edit.SelectionUtil;
 import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
@@ -559,6 +542,10 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 			if (viewer == null)
 				return null;
 			XModelObject o = getTarget(viewer.getSelection());
+			if(!(o instanceof ReferenceObject)) {
+				//Case of param object which does not have wrapper in diagram model.
+				return o;
+			}
 			XModelObject ref = SeamPagesDiagramStructureHelper.instance.getReference(o);
 			return ref;
 		}
@@ -639,32 +626,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	private XModelObject getTarget(ISelection ss) {
 		if (ss.isEmpty() || !(ss instanceof StructuredSelection))
 			return null;
-		return getTarget(((StructuredSelection) ss).getFirstElement());
-	}
-
-	private XModelObject getTarget(Object selected) {
-		if (selected instanceof PagesEditPart) {
-			PagesEditPart part = (PagesEditPart) selected;
-			Object partModel = part.getModel();
-			if (partModel instanceof PagesElement) {
-				return (XModelObject) ((PagesElement) partModel).getData();
-			}
-		}
-		if (selected instanceof LinkEditPart) {
-			LinkEditPart part = (LinkEditPart) selected;
-			Object partModel = part.getModel();
-			if (partModel instanceof Link) {
-				return (XModelObject) ((Link)partModel).getData();
-			}
-		}
-		if(selected instanceof ParamEditPart) {
-			ParamEditPart part = (ParamEditPart)selected;
-			Object partModel = part.getParamModel().getPagesModel();
-			if(partModel instanceof PagesElement) {
-				return (XModelObject)((PagesElement)partModel).getData();
-			}
-		}
-		return null;
+		return SelectionUtil.getTarget(((StructuredSelection) ss).getFirstElement());
 	}
 
 	protected void hookGraphicalViewer() {
