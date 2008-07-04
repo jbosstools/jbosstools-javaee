@@ -87,11 +87,11 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 				String entity = ns[j].getModelEntity().getName();
 				if(!entity.startsWith(ENT_NAVIGATION)) continue;
 				if(entity.startsWith(ENT_NAVIGATION_RULE)) {
-					addTarget(ns[j]);
+					addTarget(ns[j], true);
 				} else {
 					XModelObject[] rs = ns[j].getChildren();
 					for (int k = 0; k < rs.length; k++) {
-						addTarget(rs[k]);
+						addTarget(rs[k], true);
 					}
 				}
 			}
@@ -103,7 +103,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			XModelObject g = findOrCreateItem(code, code, TYPE_EXCEPTION);
 			((ReferenceObjectImpl)g).setReference(sourceExceptions[i]);
 			exceptionItems.put(code, g);
-			addTarget(sourceExceptions[i]);
+			addTarget(sourceExceptions[i], false);
 		}
 
 		Iterator<String> it = pageItems.keySet().iterator();
@@ -118,11 +118,12 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		updatePages();
 	}
 
-	private void addTarget(XModelObject rule) {
+	private void addTarget(XModelObject rule, boolean addEmpty) {
 		XModelObject target = rule.getChildByPath("target");
 		if(target == null) return;
 		String tvi = target.getAttributeValue(ATTR_VIEW_ID);
 		if(tvi == null) return;
+		if(!addEmpty && tvi.length() == 0) return;
 		targets.put(toNavigationRulePathPart(tvi), getTemplate());							
 	}
 
@@ -254,7 +255,13 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		item.setAttributeValue(ATTR_ID, exc.getPathPart());
 		item.setAttributeValue(ATTR_PATH, exc.getAttributeValue("class"));
 		XModelObject t = getTargetChild(exc);
-		XModelObject[] cs = t == null ? new XModelObject[0] : new XModelObject[]{t};		
+		XModelObject[] cs = t == null ? new XModelObject[0] : new XModelObject[]{t};
+		if(cs.length == 1) {
+			String path = t.getAttributeValue(ATTR_VIEW_ID);
+			if(path == null || path.length() == 0) {
+				cs = new XModelObject[0];
+			}
+		}
 		updateOutputs(item, cs);
 	}
 

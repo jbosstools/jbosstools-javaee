@@ -110,7 +110,7 @@ public class DiagramAdopt implements XAdoptManager, SeamPagesConstants {
 		p.put("sample", object);
 		String type = object.getAttributeValue(ATTR_TYPE);
 		if(TYPE_PAGE.equals(type)) {
-			XActionInvoker.invoke("CreateActions.AddPage", target, p);
+			XActionInvoker.invoke("CreateActions.AddPageWizard", target, p);
 		} else {
 			//TODO
 		}

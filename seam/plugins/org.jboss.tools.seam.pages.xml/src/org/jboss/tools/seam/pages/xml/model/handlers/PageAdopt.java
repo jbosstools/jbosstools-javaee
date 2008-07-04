@@ -105,9 +105,16 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 
 	protected void adoptSeamPage(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		String path = target.getAttributeValue(ATTR_PATH);
-		String n = path;
-		if(n.lastIndexOf('.') > 0) n = n.substring(0, n.lastIndexOf('.'));
-		if(n.lastIndexOf('/') >= 0) n = n.substring(n.lastIndexOf('/') + 1);
+		if(source != null && source.getModelEntity().getName().startsWith(ENT_EXCEPTION)) {
+			XModelObject redirect = source.getChildByPath("target");
+			if(redirect != null) {
+				redirect.getModel().editObjectAttribute(redirect, ATTR_VIEW_ID, path);
+				return;
+			}
+		}
+//		String n = path;
+//		if(n.lastIndexOf('.') > 0) n = n.substring(0, n.lastIndexOf('.'));
+//		if(n.lastIndexOf('/') >= 0) n = n.substring(n.lastIndexOf('/') + 1);
 		String suffix = DiagramAdopt.getPageSuffix(source.getModelEntity().getName());
 		XModelObject cs = source.getModel().createModelObject(ENT_NAVIGATION_RULE + suffix, null);
 		XModelObject redirect = source.getModel().createModelObject("SeamPageRedirect" + suffix, null);

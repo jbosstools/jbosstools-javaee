@@ -20,7 +20,7 @@ import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 public class SeamPagesPageRefUpdateManager implements XModelTreeListener, Runnable, SeamPagesConstants {
 
     public static SeamPagesPageRefUpdateManager getInstance(XModel model) {
-		SeamPagesPageRefUpdateManager instance = (SeamPagesPageRefUpdateManager)model.getManager("JSFPageUpdateManager");
+		SeamPagesPageRefUpdateManager instance = (SeamPagesPageRefUpdateManager)model.getManager("SeamPagesPageRefUpdateManager");
         if(instance == null) {
             instance = new SeamPagesPageRefUpdateManager();
             instance.model = model;
