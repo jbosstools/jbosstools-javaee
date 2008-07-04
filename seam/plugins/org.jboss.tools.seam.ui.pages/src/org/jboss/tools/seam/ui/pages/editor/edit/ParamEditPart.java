@@ -13,8 +13,6 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -23,20 +21,13 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.AccessibleEditPart;
-import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
-import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
-import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.ParamFigure;
 
 public class ParamEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
@@ -70,29 +61,12 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 	}
 
 	public void selectedStateChanged(EditPart editpart) {
-		if (this.getSelected() == EditPart.SELECTED_PRIMARY) {
-			((PagesDiagramEditPart) ParamEditPart.this.getParent())
-					.setToFront(this);
-
-		}
+		fig.repaint();
 	}
 
 	public boolean isGroupListenerEnable() {
 		return true;
 	}
-
-
-
-	private void refreshTargetLink(Link link) {
-		if (link == null)
-			return;
-		ParamEditPart gep = (ParamEditPart) getViewer().getEditPartRegistry()
-				.get(link.getToElement());
-		if (gep == null)
-			return;
-		gep.refreshTargetConnections();
-	}
-
 
 	protected AccessibleEditPart createAccessible() {
 		return new AccessibleGraphicalEditPart() {
@@ -179,6 +153,7 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 		if (isActive())
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
+		addEditPartListener(this);
 		super.activate();
 	}
 	
@@ -186,6 +161,7 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 		if (!isActive())
 			return;
 		((Notifier) getModel()).eAdapters().remove(this);
+		removeEditPartListener(this);
 		super.deactivate();
 	}
 	

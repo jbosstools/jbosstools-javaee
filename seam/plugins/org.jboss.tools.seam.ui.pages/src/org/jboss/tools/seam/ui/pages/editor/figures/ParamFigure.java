@@ -10,10 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.handles.HandleBounds;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
 import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
@@ -64,6 +66,15 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 		Rectangle r = getBounds().getCopy();
 		g.translate(r.getLocation());
 		
+		if (editPart.getSelected() == EditPart.SELECTED_PRIMARY
+				|| editPart.getSelected() == EditPart.SELECTED) {
+			    g.setBackgroundColor(ColorConstants.white);
+			    g.fillRectangle(1, 1, r.width-2, r.height-2);
+			    
+		} else {
+		    g.setBackgroundColor(lightGrayColor);
+		    g.fillRectangle(1, 1, r.width-2, r.height-2);
+		}
 		String name;
 		if(param.getName() != null){
 			name = dottedString(param.getName(), getTextWidth()-getTextInset(), nameParamFont);
