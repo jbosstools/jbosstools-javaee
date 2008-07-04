@@ -60,7 +60,6 @@ abstract public class PagesEditPart extends
 	 * 
 	 */
 	protected void createEditPolicies() {
-//		installEditPolicy(EditPolicy.COMPONENT_ROLE, new JSFElementEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new PagesNodeEditPolicy());
 	}

@@ -113,7 +113,7 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 		}
 		if(selected instanceof ParamEditPart) {
 			ParamEditPart part = (ParamEditPart)selected;
-			Object partModel = part.getExceptionModel().getPagesModel();
+			Object partModel = part.getParamModel().getPagesModel();
 			if(partModel instanceof PagesElement) {
 				return (XModelObject)((PagesElement)partModel).getData();
 			}

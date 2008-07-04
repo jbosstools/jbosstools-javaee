@@ -13,26 +13,21 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.jboss.tools.common.model.ui.dnd.DnDUtil;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Image;
-
-import org.jboss.tools.common.meta.action.XAction;
-import org.jboss.tools.common.model.XModelException;
-import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
@@ -86,12 +81,13 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			return null;
 		ConnectionFigure conn = FigureFactory.createNewBendableWire(this,
 				getLink());
-//		PointList list = getLink().getPointList();
-//		if (list.size() > 0) {
-//			conn.setManual(true);
-//			conn.setOldPoints(list.getFirstPoint(), list.getLastPoint());
-//			conn.setPoints(list);
-//		}
+		PointList list = getLink().getPointList();
+		if (list.size() > 0) {
+			conn.setManual(true);
+			conn.setOldPoints(list.getFirstPoint(), list.getLastPoint());
+			conn.setPoints(list);
+			//conn.repaint();
+		}
 
 		pathLabel = new GEFLabel(getLink().getName(),
 				FigureFactory.normalColor);
@@ -134,11 +130,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 	public void save() {
 		PointList list = ((ConnectionFigure) getFigure()).getPoints();
-		//getLink().savePointList(list);
+		getLink().savePointList(list);
 	}
 
 	public void clear() {
-		//getLink().clearPointList();
+		getLink().clearPointList();
 	}
 
 	public void deactivate() {
@@ -222,15 +218,15 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			refresh();
 		}
 
-//		if (getLinkFigure().isManual()
-//				&& getLink().getPathFromModel().equals("")) {
-//			getLinkFigure().setManual(false);
-//			refresh();
-//		} else if (!getLinkFigure().isManual()
-//				&& !getLink().getPathFromModel().equals("")) {
-//			getLinkFigure().setManual(true);
-//			refresh();
-//		}
+		if (getLinkFigure().isManual()
+				&& getLink().getPathFromModel().equals("")) {
+			getLinkFigure().setManual(false);
+			refresh();
+		} else if (!getLinkFigure().isManual()
+				&& !getLink().getPathFromModel().equals("")) {
+			getLinkFigure().setManual(true);
+			refresh();
+		}
 
 	}
 

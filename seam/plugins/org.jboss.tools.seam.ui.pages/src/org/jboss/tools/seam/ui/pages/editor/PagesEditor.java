@@ -659,7 +659,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 		}
 		if(selected instanceof ParamEditPart) {
 			ParamEditPart part = (ParamEditPart)selected;
-			Object partModel = part.getExceptionModel().getPagesModel();
+			Object partModel = part.getParamModel().getPagesModel();
 			if(partModel instanceof PagesElement) {
 				return (XModelObject)((PagesElement)partModel).getData();
 			}

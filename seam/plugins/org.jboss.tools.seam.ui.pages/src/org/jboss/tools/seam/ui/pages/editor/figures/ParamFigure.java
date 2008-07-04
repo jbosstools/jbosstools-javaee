@@ -21,7 +21,7 @@ import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
 public class ParamFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
 
-	public Param exc;
+	public Param param;
 
 	ParamEditPart editPart;
 
@@ -30,7 +30,7 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 	}
 
 	public ParamFigure(Param group) {
-		this.exc = group;
+		this.param = group;
 
 		setOpaque(true);
 	}
@@ -65,19 +65,19 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 		g.translate(r.getLocation());
 		
 		String name;
-		if(exc.getName() != null){
-			name = dottedString(exc.getName(), getTextWidth()-getTextInset(), nameParamFont);
+		if(param.getName() != null){
+			name = dottedString(param.getName(), getTextWidth()-getTextInset(), nameParamFont);
 			name += ":";
 		}else
 			name = "Param:";
 		
 		String value;
-		if(exc.getValue() != null){
-			value = dottedString(exc.getValue(), getTextWidth()-getTextInset(), valueParamFont);
+		if(param.getValue() != null){
+			value = dottedString(param.getValue(), getTextWidth()-getTextInset(), valueParamFont);
 		}else
 			value = "value";
 
-		if(exc != null){
+		if(param != null){
 			g.setFont(nameParamFont);
 			g.drawString(name, getTextInset(), 1);
 			

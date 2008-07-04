@@ -15,8 +15,6 @@ import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
@@ -28,18 +26,19 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.handles.ConnectionHandle;
 import org.eclipse.gef.tools.ConnectionEndpointTracker;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.events.MouseEvent;
 import org.jboss.tools.seam.ui.pages.editor.dnd.DndHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
-import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
 
 public class LinkEndpointEditPolicy
 	extends org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy {
 	private List handles = null;
 
-	private void addJSFHandles() {
-		removeJSFHandles();
+	private void addPagesHandles() {
+		removePagesHandles();
 		handles = createHandles();
 		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
 		for (int i = 0; i < handles.size(); i++)
@@ -47,7 +46,7 @@ public class LinkEndpointEditPolicy
 
 	}
 
-	private void removeJSFHandles() {
+	private void removePagesHandles() {
 		if (handles == null)
 			return;
 		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
@@ -59,7 +58,7 @@ public class LinkEndpointEditPolicy
 	protected void addSelectionHandles() {
 
 		super.addSelectionHandles();
-		addJSFHandles();
+		addPagesHandles();
 
 		getConnectionFigure().setSelected(true);
 	}
@@ -70,7 +69,7 @@ public class LinkEndpointEditPolicy
 
 	protected void removeSelectionHandles() {
 		super.removeSelectionHandles();
-		removeJSFHandles();
+		removePagesHandles();
 		getConnectionFigure().setSelected(false);
 	}
 
@@ -162,14 +161,14 @@ public class LinkEndpointEditPolicy
 
 		public void mouseDown(MouseEvent me, EditPartViewer epv) {
 			super.mouseDown(me, epv);
-			removeJSFHandles();
+			removePagesHandles();
 			DndHelper.drag(((Link) getHost().getModel()).getData());
 		}
 
 		public void mouseUp(MouseEvent me, EditPartViewer epv) {
 			super.mouseUp(me, epv);
 			if (getHost().getSelected() != EditPart.SELECTED_NONE)
-				addJSFHandles();
+				addPagesHandles();
 		}
 
 		protected boolean handleNativeDragFinished(DragSourceEvent event) {

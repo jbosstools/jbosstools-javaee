@@ -116,9 +116,9 @@ public class PageEditPart extends PagesEditPart implements
 		if (RequestConstants.REQ_OPEN.equals(req.getType())) {
 			SelectionRequest request = (SelectionRequest) req;
 			Point mouseLocation = request.getLocation()
-				.translate(-getGroupFigure().getLocation().x,
-							-getGroupFigure().getLocation().y);
-			if (mouseLocation.x < 16 && mouseLocation.y > getGroupFigure().getSize().height-16) {
+				.translate(-getPageFigure().getLocation().x,
+							-getPageFigure().getLocation().y);
+			if (mouseLocation.x < 16 && mouseLocation.y > getPageFigure().getSize().height-16) {
 				getPageModel().setParamsVisible(!getPageModel().isParamsVisible());
 				refresh();
 				fig.repaint();
@@ -141,8 +141,6 @@ public class PageEditPart extends PagesEditPart implements
 		super.createEditPolicies();
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		// installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
-		// installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
 				new PageEditPolicy());
 	}
@@ -159,7 +157,7 @@ public class PageEditPart extends PagesEditPart implements
 		return fig;
 	}
 
-	public PageFigure getGroupFigure() {
+	public PageFigure getPageFigure() {
 		return (PageFigure) getFigure();
 	}
 
@@ -224,10 +222,6 @@ public class PageEditPart extends PagesEditPart implements
 		Point pt = new Point(((DropRequest) request).getLocation());
 		return getNodeFigure().getSourceConnectionAnchorAt(pt);
 	}
-
-	// protected List getModelChildren() {
-	// return getPageModel().getChildren();
-	// }
 
 	protected void refreshChildren() {
 		super.refreshChildren();

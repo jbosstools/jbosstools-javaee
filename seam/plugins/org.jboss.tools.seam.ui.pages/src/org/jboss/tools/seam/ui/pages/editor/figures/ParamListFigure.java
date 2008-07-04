@@ -13,21 +13,16 @@ package org.jboss.tools.seam.ui.pages.editor.figures;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
-import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
-import org.jboss.tools.common.gef.GEFGraphicalViewer;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageWrapper;
 import org.jboss.tools.seam.ui.pages.editor.edit.ParamListEditPart;
 
 public class ParamListFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
-
-	private Image icon = null;
 
 	public PageWrapper paramList;
 
@@ -40,12 +35,6 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 	public void setConstraint(IFigure child, Object constraint) {
 		super.setConstraint(child, constraint);
 	}
-
-	public void setIcon(Image i) {
-		//icon = PrintIconHelper.getPrintImage(i);
-	}
-
-
 
 	public ParamListFigure(PageWrapper paramList) {
 		this.paramList = paramList;
@@ -102,18 +91,7 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 			graphics.drawLine(0, 1, 0, height - 1);
 			graphics.drawLine(1, height, width-1, height);
 			graphics.drawLine(width, 1, width, height - 1);
-	}
-
-	public void mouseDoubleClicked(MouseEvent me) {
-	}
-
-	public void mousePressed(MouseEvent me) {
-		if (me.button == 3) {
-			((GEFGraphicalViewer) editPart.getViewer()).setNoDeselect();
-			editPart.getViewer().select(editPart);
 		}
+
 	}
-
-
-}
 }

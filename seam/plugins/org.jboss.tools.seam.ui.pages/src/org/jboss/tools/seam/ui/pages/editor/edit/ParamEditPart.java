@@ -108,21 +108,16 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 	}
 
 	protected List getModelTargetConnections() {
-		return getExceptionModel().getInputLinks();
+		return getParamModel().getInputLinks();
 	}
 
 	protected List getModelSourceConnections() {
-		return getExceptionModel().getOutputLinks();
+		return getParamModel().getOutputLinks();
 	}
 
 	protected void createEditPolicies() {
-		super.createEditPolicies();
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
-		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
-		//installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-		//		new PageEditPolicy());
 	}
 
 	/**
@@ -132,7 +127,7 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 	 */
 
 	protected IFigure createFigure() {
-		fig = new ParamFigure(getExceptionModel());
+		fig = new ParamFigure(getParamModel());
 		((ParamFigure) fig).setEditPart(this);
 		return fig;
 	}
@@ -142,7 +137,7 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 	 * 
 	 * @return Model of this as an LED.
 	 */
-	public Param getExceptionModel() {
+	public Param getParamModel() {
 		return (Param) getModel();
 	}
 
@@ -165,37 +160,8 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 		return 21;
 	}
 
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connEditPart) {
-		ConnectionAnchor anc = getNodeFigure().getConnectionAnchor("1_IN");
-		return anc;
-	}
-
-	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		Point pt = new Point(((DropRequest) request).getLocation());
-		return getNodeFigure().getTargetConnectionAnchorAt(pt);
-	}
-
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connEditPart) {
-		if (single) {
-			Link link = (Link) connEditPart.getModel();
-			int index = getExceptionModel().getOutputLinks().indexOf(link);
-			return getNodeFigure().getConnectionAnchor((index + 1) + "_OUT");
-		} else
-			return super.getSourceConnectionAnchor(connEditPart);
-	}
-
-	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		if (single) {
-			Point pt = new Point(((DropRequest) request).getLocation());
-			return getNodeFigure().getSourceConnectionAnchorAt(pt);
-		} else
-			return super.getSourceConnectionAnchor(request);
-	}
-
 	protected List getModelChildren() {
-		return getExceptionModel().getChildren();
+		return getParamModel().getChildren();
 	}
 
 	protected void refreshChildren() {

@@ -304,18 +304,18 @@ public void route(Connection conn) {
 		return;
 	}
 		
-//	if(((ConnectionFigure)conn).isManual()){
-//		if(conn.getPoints().size() < 4){
-//			PointList list = ((ConnectionFigure)conn).getLinkModel().getPointList();
-//			((ConnectionFigure)conn).setOldPoints(list.getFirstPoint(), list.getLastPoint());
-//			conn.setPoints(list);
-//		}
-//		if(hold((ConnectionFigure)conn)) return;
-//		else{
-//			((ConnectionFigure)conn).setManual(false);
-//			((ConnectionFigure)conn).clear();
-//		}
-//	}
+	if(((ConnectionFigure)conn).isManual()){
+		if(conn.getPoints().size() < 4){
+			PointList list = ((ConnectionFigure)conn).getLinkModel().getPointList();
+			((ConnectionFigure)conn).setOldPoints(list.getFirstPoint(), list.getLastPoint());
+			conn.setPoints(list);
+		}
+		if(hold((ConnectionFigure)conn)) return;
+		else{
+			((ConnectionFigure)conn).setManual(false);
+			((ConnectionFigure)conn).clear();
+		}
+	}
 	int i;
 	Point startPoint = getStartPoint(conn);
 	conn.translateToRelative(startPoint);

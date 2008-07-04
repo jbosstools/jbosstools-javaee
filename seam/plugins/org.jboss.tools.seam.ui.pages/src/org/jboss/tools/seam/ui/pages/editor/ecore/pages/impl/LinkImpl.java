@@ -6,6 +6,8 @@
  */
 package org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl;
 
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -16,6 +18,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jst.web.model.helpers.WebProcessStructureHelper;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
@@ -507,5 +510,67 @@ public class LinkImpl extends EObjectImpl implements Link {
 			}
 		}
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	private final static String PROPERTY_SHAPE = "shape";
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public PointList getPointList() {
+		int[] path = null;
 
+		path = SeamPagesDiagramStructureHelper.instance.asIntArray((XModelObject)getData(), PROPERTY_SHAPE);
+
+		PointList list = new PointList();
+
+		if (path.length < 4)
+			return list;
+
+		for (int i = 0; i < path.length; i += 2) {
+			list.addPoint(path[i], path[i + 1]);
+		}
+
+		return list;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void savePointList(PointList list) {
+		String value = "";
+		for (int i = 0; i < list.size(); i++) {
+			if (i != 0)
+				value += ",";
+			Point p = list.getPoint(i);
+			value += p.x + "," + p.y;
+		}
+		SeamPagesDiagramStructureHelper.instance.setAttributeValue((XModelObject)getData(), PROPERTY_SHAPE, value);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void clearPointList() {
+		((XModelObject)getData()).setAttributeValue(PROPERTY_SHAPE, "");
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getPathFromModel() {
+			return ((XModelObject)getData()).getAttributeValue(PROPERTY_SHAPE);
+	}
 } //LinkImpl

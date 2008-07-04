@@ -12,7 +12,6 @@ package org.jboss.tools.seam.ui.pages.editor.figures;
 
 import org.eclipse.draw2d.AnchorListener;
 import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolylineConnection;

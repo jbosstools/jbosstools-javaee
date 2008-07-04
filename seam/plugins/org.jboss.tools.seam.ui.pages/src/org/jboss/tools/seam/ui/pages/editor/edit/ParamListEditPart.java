@@ -56,13 +56,8 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	}
 
 	protected void createEditPolicies() {
-		//super.createEditPolicies();
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
-		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
-		//installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-		//		new PageEditPolicy());
 	}
 
 	/**
@@ -72,7 +67,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	 */
 
 	protected IFigure createFigure() {
-		fig = new ParamListFigure(getExceptionModel());
+		fig = new ParamListFigure(getPageWrapperModel());
 		((ParamListFigure) fig).setEditPart(this);
 		return fig;
 	}
@@ -82,7 +77,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	 * 
 	 * @return Model of this as an LED.
 	 */
-	public PageWrapper getExceptionModel() {
+	public PageWrapper getPageWrapperModel() {
 		return (PageWrapper) getModel();
 	}
 
@@ -91,9 +86,9 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	
 
 	protected void refreshVisuals() {
-		Point loc = getExceptionModel().getPage().getLocation().getCopy();
-		loc.y += 25+getExceptionModel().getPage().getOutputLinks().size()*NodeFigure.LINK_HEIGHT;
-		size = new Dimension(200, getExceptionModel().getPage().getChildren().size()*19);
+		Point loc = getPageWrapperModel().getPage().getLocation().getCopy();
+		loc.y += 25+getPageWrapperModel().getPage().getOutputLinks().size()*NodeFigure.LINK_HEIGHT;
+		size = new Dimension(200, getPageWrapperModel().getPage().getChildren().size()*19);
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
@@ -108,27 +103,8 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 		
 	}
 
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connEditPart) {
-		ConnectionAnchor anc = getNodeFigure().getConnectionAnchor("1_IN");
-		return anc;
-	}
-
-	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		Point pt = new Point(((DropRequest) request).getLocation());
-		return getNodeFigure().getTargetConnectionAnchorAt(pt);
-	}
-
-	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		if (single) {
-			Point pt = new Point(((DropRequest) request).getLocation());
-			return getNodeFigure().getSourceConnectionAnchorAt(pt);
-		} else
-			return super.getSourceConnectionAnchor(request);
-	}
-
 	protected List getModelChildren() {
-		return getExceptionModel().getPage().getChildren();
+		return getPageWrapperModel().getPage().getChildren();
 	}
 
 	protected void refreshChildren() {
@@ -145,14 +121,14 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	public void activate() {
 		if (isActive())
 			return;
-		((Notifier) getExceptionModel().getPage()).eAdapters().add(this);
+		((Notifier) getPageWrapperModel().getPage()).eAdapters().add(this);
 		super.activate();
 	}
 	
 	public void deactivate(){
 		if (!isActive())
 			return;
-		((Notifier) getExceptionModel().getPage()).eAdapters().remove(this);
+		((Notifier) getPageWrapperModel().getPage()).eAdapters().remove(this);
 		super.deactivate();
 	}
 	

@@ -1,5 +1,6 @@
 package org.jboss.tools.seam.ui.pages.editor.ecore.pages;
 
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.ecore.EObject;
 
 /** 
@@ -91,4 +92,12 @@ public interface Link extends EObject {
 	void setData(Object value);
 
 	public void dataChanged();
+	
+	public PointList getPointList();
+	
+	public void savePointList(PointList list);
+	
+	public void clearPointList();
+	
+	public String getPathFromModel();
 }
