@@ -169,7 +169,13 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		}		
 	}
 
-	private XModelObject addPage(XModelObject pages, String path) {
+	/**
+	 * Adds XML object for page
+	 * @param pages
+	 * @param path
+	 * @return
+	 */
+	public static XModelObject addPage(XModelObject pages, String path) {
 		String childEntity = pages.getModelEntity().getChildren()[0].getName();
 		XModelObject page = pages.getModel().createModelObject(childEntity, null);
 		page.setAttributeValue(ATTR_VIEW_ID, path);

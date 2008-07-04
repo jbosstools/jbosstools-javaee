@@ -42,6 +42,11 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 	}
 	
 	private boolean canBeOutputTarget(XModelObject group) {
+		String type = group.getAttributeValue(ATTR_TYPE);
+		if(TYPE_EXCEPTION.equals(type)) {
+			//Exception cannot be the target
+			return false;
+		}
 		String path = group.getAttributeValue(ATTR_PATH);
 		if(path == null) path = group.getAttributeValue(ATTR_VIEW_ID);
 		if(path == null) return false;
