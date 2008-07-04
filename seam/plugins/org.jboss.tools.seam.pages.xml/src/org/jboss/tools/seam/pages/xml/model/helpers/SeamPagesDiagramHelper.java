@@ -365,9 +365,13 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	}
 
 	public void updatePages() {
-		//TODO
+		SeamPagesPageRefUpdateManager pu = SeamPagesPageRefUpdateManager.getInstance(diagram.getModel());
+		pu.lock();
+		XModelObject[] items = diagram.getChildren();
+		for (int i = 0; i < items.length; i++) pu.updatePage(this, items[i]);
+		pu.unlock();
 	}
-
+	
 	public String findBestMatch(String viewId) {
 		if(viewId == null || pageViewIds.contains(viewId)) {
 			return viewId;
