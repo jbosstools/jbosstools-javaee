@@ -10,27 +10,31 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.jboss.tools.jst.web.tld.TaglibData;
+import org.jboss.tools.jst.web.tld.VpeTaglibManager;
+import org.jboss.tools.jst.web.tld.VpeTaglibManagerProvider;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin; 
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
-import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
-import org.jboss.tools.jst.web.tld.TaglibData;
-import org.jboss.tools.jst.web.tld.VpeTaglibManager;
-import org.jboss.tools.jst.web.tld.VpeTaglibManagerProvider;
 
 /**
  * @author Jeremy
@@ -195,12 +199,14 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 		}
 	}
 
+	IRegion fLastRegion = null;
+	
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		IRegion region = JSPBundleHyperlinkPartitioner.getRegion(getDocument(), offset);
-		return region;
+		fLastRegion = JSPBundleHyperlinkPartitioner.getRegion(getDocument(), offset);
+		return fLastRegion;
 	}
 
 	protected String getRequestMethod() {
@@ -225,6 +231,20 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 		}
 
 		return p;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String baseName = getBundleBasename(fLastRegion); 
+		String propertyName = getBundleProperty(fLastRegion);
+		if (baseName == null || propertyName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.BundleProperty);
+		
+		return MessageFormat.format(Messages.OpenBundleProperty, propertyName, baseName);
 	}
 
 }

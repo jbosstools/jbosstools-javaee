@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -28,6 +29,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
@@ -268,11 +270,13 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 
 	}
 
+	IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		return getRegion(offset);
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 
 	private IRegion getRegion(int offset) {
@@ -345,4 +349,18 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 			smw.dispose();
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String baseName = getBundleBasename(fLastRegion);
+		if (baseName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.Bundle);
+		
+		return MessageFormat.format(Messages.OpenBundle, baseName);
+	}
+
 }

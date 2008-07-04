@@ -10,18 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.jboss.tools.struts.text.ext.StrutsTextExtMessages;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
@@ -128,6 +130,19 @@ public class StrutsConfigForwardPathHyperlink extends StrutsXModelBasedHyperlink
 		} finally {
 			smw.dispose();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String path = getPath(fLastRegion); 
+		if (path == null)
+			return  MessageFormat.format(Messages.OpenA, StrutsTextExtMessages.ForwardPath);
+		
+		return MessageFormat.format(StrutsTextExtMessages.OpenForwardPath, path);
 	}
 
 }

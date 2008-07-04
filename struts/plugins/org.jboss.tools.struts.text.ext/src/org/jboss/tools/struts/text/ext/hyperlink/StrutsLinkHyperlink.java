@@ -13,7 +13,6 @@ package org.jboss.tools.struts.text.ext.hyperlink;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.jboss.tools.common.text.ext.hyperlink.LinkHyperlink;
-import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 
 /**
  * @author Jeremy

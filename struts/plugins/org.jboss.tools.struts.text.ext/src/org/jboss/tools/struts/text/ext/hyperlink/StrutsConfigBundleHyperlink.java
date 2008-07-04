@@ -10,11 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
@@ -49,6 +50,19 @@ public class StrutsConfigBundleHyperlink extends StrutsXModelBasedHyperlink {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String baseName = getBundle(fLastRegion);
+		if (baseName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.Bundle);
+		
+		return MessageFormat.format(Messages.OpenBundle, baseName);
 	}
 	
 }

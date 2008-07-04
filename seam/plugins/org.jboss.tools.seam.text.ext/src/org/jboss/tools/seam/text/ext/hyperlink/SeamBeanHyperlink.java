@@ -10,14 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.seam.text.ext.SeamExtPlugin;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 
 /**
  * @author Jeremy
@@ -53,12 +55,32 @@ public class SeamBeanHyperlink extends AbstractHyperlink {
 		}
 	}
 
+	IRegion fLastRegion = null;
 	/**
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		IRegion region = SeamBeanHyperlinkPartitioner.getWordRegion(getDocument(), offset);
-		return region;
+		fLastRegion = SeamBeanHyperlinkPartitioner.getWordRegion(getDocument(), offset);
+		return fLastRegion;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		
+		String beanName;
+		try {
+			beanName = getDocument().get(fLastRegion.getOffset(), fLastRegion.getLength());
+		} catch (BadLocationException e) {
+			beanName = null;
+		}
+		
+		if (beanName == null)
+			return  MessageFormat.format(Messages.NotFound, Messages.Bean);
+		
+		return MessageFormat.format(Messages.OpenBean, beanName);
+	}
 }

@@ -10,25 +10,24 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.web.project.WebProject;
+import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.jboss.tools.jst.web.tld.TaglibMapping;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
-import org.jboss.tools.jst.web.project.WebProject;
-import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
-import org.jboss.tools.jst.web.tld.TaglibMapping;
 
 public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 	
@@ -36,8 +35,7 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 		return WebPromptingProvider.JSF_OPEN_TAG_LIBRARY;
 	}
 
-	protected Properties getRequestProperties(IRegion region) {
-		Properties p = new Properties();
+	private String getUri(IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(getDocument());
 		try {
@@ -62,13 +60,23 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 					String prefix = name.substring(name.indexOf(':') + 1);
 					String uri = Utils.trimQuotes(attr.getValue());
 					if (prefix != null && prefix.trim().length() > 0) {
-						p.setProperty("prefix", tm.resolveURI(uri));
-						
+						return tm.resolveURI(uri);
 					}
 				}
 			}
 		} finally {
 			smw.dispose();
+		}
+
+		return null;
+	}
+	
+	protected Properties getRequestProperties(IRegion region) {
+		Properties p = new Properties();
+
+		String uri = getUri(region);
+		if (uri != null && uri.trim().length() > 0) {
+			p.setProperty("prefix", uri);
 		}
 
 		return p;
@@ -118,4 +126,16 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String uri = getUri(fLastRegion);
+		if (uri == null)
+			return  MessageFormat.format(Messages.NotFound, "URI");
+		
+		return MessageFormat.format(Messages.Open, uri);
+	}
 }

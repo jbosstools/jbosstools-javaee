@@ -10,21 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
-import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
-import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 
 /**
  * @author Jeremy
@@ -36,8 +37,7 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 		return WebPromptingProvider.STRUTS_OPEN_TAG_LIBRARY;
 	}
 
-	protected Properties getRequestProperties(IRegion region) {
-		Properties p = new Properties();
+	private String getTaglibUri(IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(getDocument());
 		try {
@@ -53,10 +53,21 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 			
 			String uri = getAttributeValue(getDocument(), node, "uri");
 			if (uri != null) {
-				p.setProperty("prefix", uri);
+				return uri;
 			}
 		} finally {
 			smw.dispose();
+		}
+
+		return null;
+	}
+	
+	protected Properties getRequestProperties(IRegion region) {
+		Properties p = new Properties();
+
+		String uri = getTaglibUri(region);
+		if (uri != null) {
+			p.setProperty("prefix", uri);
 		}
 
 		return p;
@@ -118,6 +129,19 @@ public class StrutsTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 			smw.dispose();
 		}
 		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String uri = getTaglibUri(fLastRegion);
+		if (uri == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.TagLibrary);
+		
+		return MessageFormat.format(Messages.OpenTagLibraryForUri, uri);
 	}
 
 }

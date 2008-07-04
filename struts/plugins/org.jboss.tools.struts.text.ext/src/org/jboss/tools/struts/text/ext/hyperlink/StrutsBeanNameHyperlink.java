@@ -10,28 +10,29 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.StructuredSelectionHelper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.web.project.WebProject;
+import org.jboss.tools.jst.web.tld.TaglibMapping;
+import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
-import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.StructuredSelectionHelper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
-import org.jboss.tools.jst.web.project.WebProject;
-import org.jboss.tools.jst.web.tld.TaglibMapping;
-import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 
 /**
  * @author Jeremy
@@ -184,12 +185,13 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 		}
 	}
 	
+	IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		IRegion region = getRegion(offset);
-		return region;
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 
 	private IRegion getRegion(int offset) {
@@ -281,6 +283,19 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 		} finally {
 			smw.dispose();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String forId = getForId(fLastRegion);
+		if (forId == null)
+			return  MessageFormat.format(Messages.BrowseFor, Messages.BeanId);
+		
+		return MessageFormat.format(Messages.BrowseForBeanId, forId);
 	}
 
 }

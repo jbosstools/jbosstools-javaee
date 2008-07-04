@@ -10,19 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
-import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
 /**
  * @author Jeremy
@@ -120,4 +121,17 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String baseName = getBundleBasename(fLastRegion);
+		if (baseName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.Bundle);
+		
+		return MessageFormat.format(Messages.OpenBundle, baseName);
+	}
+
 }

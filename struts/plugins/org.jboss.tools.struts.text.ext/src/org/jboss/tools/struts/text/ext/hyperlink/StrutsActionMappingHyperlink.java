@@ -10,14 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.jboss.tools.struts.text.ext.StrutsTextExtMessages;
 
 /**
  * @author Jeremy
@@ -45,5 +47,19 @@ public class StrutsActionMappingHyperlink extends StrutsXModelBasedHyperlink {
 			return "";
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String actionName = getAction(fLastRegion);
+		if (actionName == null)
+			return  MessageFormat.format(Messages.OpenAn, StrutsTextExtMessages.ActionMapping);
+		
+		return MessageFormat.format(StrutsTextExtMessages.OpenActionMapping, actionName);
+	}
+
 	
 }

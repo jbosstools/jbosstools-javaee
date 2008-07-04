@@ -10,14 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.common.text.ext.hyperlink.ClassMethodHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.ClassMethodHyperlink;
 
 public class StrutsConfigSetPropertyHyperlink extends ClassMethodHyperlink {
 	private static final String CLASSNAME_ATTRNAME = "className";
@@ -53,4 +55,18 @@ public class StrutsConfigSetPropertyHyperlink extends ClassMethodHyperlink {
 	protected String getMethodParams(IRegion region) {
 		return null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String propertyName = getAttributeValue(fLastRegion, PROPERTY_ATTRNAME);
+		if (propertyName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.Setter);
+		
+		return MessageFormat.format(Messages.OpenGetterOrSetterForProperty, Messages.Setter, propertyName);
+	}
+
 }

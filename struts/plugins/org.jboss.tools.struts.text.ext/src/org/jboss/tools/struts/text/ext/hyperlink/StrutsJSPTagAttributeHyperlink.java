@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Properties;
 
@@ -17,12 +18,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
@@ -30,6 +25,12 @@ import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.jboss.tools.struts.text.ext.StrutsTextExtMessages;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * @author Jeremy
@@ -130,11 +131,13 @@ public class StrutsJSPTagAttributeHyperlink extends AbstractHyperlink {
 		}
 	}
 	
+	IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		return getRegion(offset);
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 	
 	private String getTagAttributeName(IRegion region) {
@@ -227,6 +230,22 @@ public class StrutsJSPTagAttributeHyperlink extends AbstractHyperlink {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String tagName = getTagName(fLastRegion);
+		String attrName = getTagAttributeName(fLastRegion);
+		if (tagName == null || attrName == null)
+			return  MessageFormat.format(StrutsTextExtMessages.OpenTagLibrary, StrutsTextExtMessages.TagAttribute);
+		
+		String tagAttr = MessageFormat.format(StrutsTextExtMessages.ForTagAttribute, attrName, tagName);
+		
+		return MessageFormat.format(StrutsTextExtMessages.OpenTagLibrary, tagAttr);
 	}
 
 }

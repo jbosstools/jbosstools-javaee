@@ -10,14 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.jboss.tools.struts.text.ext.StrutsTextExtMessages;
 
 /**
  * @author Jeremy
@@ -51,4 +53,17 @@ public class StrutsValidationBundleHyperlink extends StrutsXModelBasedHyperlink 
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String baseName = getBundle(fLastRegion);
+		if (baseName == null)
+			return  MessageFormat.format(Messages.OpenA, StrutsTextExtMessages.ValidationBundle);
+		
+		return MessageFormat.format(StrutsTextExtMessages.OpenValidationBundle, baseName);
+	}
+
 }

@@ -10,18 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
@@ -78,4 +79,18 @@ public class StrutsConfigBundleKeyHyperlink extends StrutsXModelBasedHyperlink {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String baseName = getBundle(fLastRegion); 
+		String propertyName = getKey(fLastRegion);
+		if (baseName == null || propertyName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.BundleProperty);
+		
+		return MessageFormat.format(Messages.OpenBundleProperty, propertyName, baseName);
+	}
+
 }

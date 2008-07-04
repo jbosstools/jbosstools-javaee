@@ -10,23 +10,25 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * @author Jeremy
@@ -41,29 +43,36 @@ public class ConverterHyperlink extends AbstractHyperlink {
 		if (xModel == null) return;
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 		Properties p = new Properties();
-		region = getRegion(region.getOffset());
-		String converterID = null;
-		String error = null;
-		if(getDocument() != null && region != null) try {
-			converterID = getDocument().get(region.getOffset(), region.getLength());
-		} catch (BadLocationException x) {
-			JSFModelPlugin.getPluginLog().logError("Cannot get convertor id", x);
-		}
+		String converterID = getConverterID(region);
 		IFile file = getFile();
 		if(file != null) p.put(WebPromptingProvider.FILE, file);
 		provider.getList(xModel, WebPromptingProvider.JSF_OPEN_CONVERTOR, converterID, p);
-		error = p.getProperty(WebPromptingProvider.ERROR); 
+		String error = p.getProperty(WebPromptingProvider.ERROR); 
 		if ( error != null && error.length() > 0) {
 			openFileFailed();
 		}
 	}
+	
+	private String getConverterID (IRegion region) {
+		IRegion localRegion = getRegion(region.getOffset());
+		String converterID = null;
+		if(getDocument() != null && region != null) { 
+			try {
+				converterID = getDocument().get(region.getOffset(), region.getLength());
+			} catch (BadLocationException x) {
+				JSFModelPlugin.getPluginLog().logError("Cannot get convertor id", x);
+			}
+		}
+		return converterID;
+	}
 
+	IRegion fLastRegion = null;
 	/**
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		IRegion region = getRegion(offset);
-		return region;
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 
 	private IRegion getRegion(int offset) {
@@ -135,6 +144,19 @@ public class ConverterHyperlink extends AbstractHyperlink {
 		} finally {
 			smw.dispose();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String converterId = getConverterID(fLastRegion);
+		if (converterId == null)
+			return  MessageFormat.format(Messages.OpenA, JSFTextExtMessages.Converter);
+		
+		return MessageFormat.format(JSFTextExtMessages.OpenConverterForId, converterId);
 	}
 
 }

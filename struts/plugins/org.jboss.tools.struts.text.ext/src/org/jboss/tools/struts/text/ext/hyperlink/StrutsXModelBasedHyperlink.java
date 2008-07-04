@@ -17,17 +17,16 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * @author Jeremy
@@ -62,11 +61,13 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 
 	protected abstract Properties getRequestProperties(IRegion region);
 	
+	protected IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		return getRegion(offset);
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 	
 	protected IRegion getRegion (int offset) {

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,12 +19,6 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
@@ -31,6 +26,11 @@ import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
+import org.jboss.tools.struts.text.ext.StrutsTextExtMessages;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
@@ -128,11 +128,13 @@ public class StrutsJSPTagNameHyperlink  extends AbstractHyperlink {
 		}
 	}
 	
+	IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		return getRegion(offset);
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 	
 	protected IRegion getRegion (int offset) {
@@ -193,6 +195,21 @@ public class StrutsJSPTagNameHyperlink  extends AbstractHyperlink {
 			StrutsExtensionsPlugin.getPluginLog().logError(x);
 			return null;
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String tagName = getTagName(fLastRegion);
+		if (tagName == null)
+			return  MessageFormat.format(StrutsTextExtMessages.OpenTagLibrary, StrutsTextExtMessages.Tag);
+		
+		String tag = MessageFormat.format(StrutsTextExtMessages.ForTag, tagName);
+		
+		return MessageFormat.format(StrutsTextExtMessages.OpenTagLibrary, tag);
 	}
 
 }

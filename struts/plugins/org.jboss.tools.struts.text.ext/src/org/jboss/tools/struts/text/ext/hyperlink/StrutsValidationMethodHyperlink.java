@@ -10,11 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-
-import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.text.ext.hyperlink.ClassMethodHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 
 /**
@@ -45,4 +47,19 @@ public class StrutsValidationMethodHyperlink extends ClassMethodHyperlink {
 	protected String getMethodParams(IRegion region) {
 		return getAttributeValue(region, METHODPARAMS_ATTRNAME);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String methodName = getMethodName(fLastRegion);
+		if (methodName == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.ValidationMethod);
+		
+		return MessageFormat.format(Messages.OpenValidationMethod, methodName);
+	}
+
+
 }

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -18,9 +19,9 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
@@ -74,13 +75,26 @@ public class ForwardHyperlink extends AbstractHyperlink {
 		return super.getFileFromProject(fileName);
 	}
 	
-
+	IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		IRegion region = JSPForwardHyperlinkPartitioner.getRegion(getDocument(), offset);
-		return region;
+		fLastRegion = JSPForwardHyperlinkPartitioner.getRegion(getDocument(), offset);
+		return fLastRegion;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String filePath = getFilePath(fLastRegion);
+		if (filePath == null)
+			return  MessageFormat.format(Messages.OpenA, Messages.File);
+		
+		return MessageFormat.format(Messages.OpenFile, filePath);
 	}
 
 }

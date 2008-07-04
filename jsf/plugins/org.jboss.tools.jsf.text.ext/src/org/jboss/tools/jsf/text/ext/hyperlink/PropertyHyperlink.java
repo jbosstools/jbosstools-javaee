@@ -10,23 +10,25 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
+import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
-import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
-import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
 /**
  * @author Jeremy
@@ -56,11 +58,13 @@ public class PropertyHyperlink extends AbstractHyperlink {
 		}
 	}
 
+	IRegion fLastRegion = null;
 	/** 
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		return getRegion(offset);
+		fLastRegion = getRegion(offset);
+		return fLastRegion;
 	}
 	
 	private String getPropertyName(IRegion region) {
@@ -211,6 +215,20 @@ public class PropertyHyperlink extends AbstractHyperlink {
 		}
 		bEnd++;
 		return sb.substring(bStart, bEnd);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see IHyperlink#getHyperlinkText()
+	 */
+	public String getHyperlinkText() {
+		String beanClassName = getBeanClassName(fLastRegion);
+		String propertyName = getPropertyName(fLastRegion);
+		if (beanClassName == null || propertyName == null)
+			return  MessageFormat.format(Messages.OpenA, JSFTextExtMessages.BeanProperty);
+		
+		return MessageFormat.format(JSFTextExtMessages.OpenBeanProperty, beanClassName, propertyName);
 	}
 
 }
