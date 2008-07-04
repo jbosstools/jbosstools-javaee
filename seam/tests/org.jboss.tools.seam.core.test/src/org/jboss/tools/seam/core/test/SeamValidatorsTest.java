@@ -333,10 +333,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		refreshProject(project);
 
 		number = getMarkersNumber(abcEntityFile);
-		assertFalse("Problem marker 'Entity component has wrong scope' not found' not found' not found", number == 0);
+		assertFalse("Problem marker 'Entity component has wrong scope' was not found'", number == 0);
 
 		String[] messages = getMarkersMessage(abcEntityFile);
-		assertEquals("Problem marker 'Entity component has wrong scope' not found", "Entity component \"abcEntity\" should not have org.jboss.seam.ScopeType.STATELESS", messages[0]);
+		assertEquals("Problem marker 'Entity component has wrong scope' was not found", "Entity component \"abcEntity\" should not have org.jboss.seam.ScopeType.STATELESS", messages[0]);
 
 		int[] lineNumbers = getMarkersNumbersOfLine(abcEntityFile);
 

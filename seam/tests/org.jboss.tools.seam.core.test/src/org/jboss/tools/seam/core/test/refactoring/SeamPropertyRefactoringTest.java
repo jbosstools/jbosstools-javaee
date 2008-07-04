@@ -28,7 +28,6 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.IConfirmQuery;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ICreateTargetQueries;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ICreateTargetQuery;
@@ -37,8 +36,6 @@ import org.eclipse.jdt.internal.corext.refactoring.reorg.JavaMoveProcessor;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ReorgDestinationFactory;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ReorgPolicyFactory;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.IReorgPolicy.IMovePolicy;
-import org.eclipse.jdt.internal.corext.refactoring.tagging.INameUpdating;
-import org.eclipse.jdt.internal.corext.refactoring.tagging.IReferenceUpdating;
 import org.eclipse.jdt.internal.corext.refactoring.tagging.ITextUpdating;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringExecutionHelper;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringSaveHelper;
@@ -47,6 +44,7 @@ import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.participants.MoveRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
+import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -275,13 +273,8 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		// init refactoring
 		RenameResourceProcessor processor = new RenameResourceProcessor(resource);
 		RenameRefactoring refactoring = new RenameRefactoring(processor);
-		INameUpdating nameUpdateingAdapter = ((INameUpdating)refactoring.getAdapter(INameUpdating.class));
-		assertNotNull("Cannot get INameUpdating adapter for renaming '" +resource.getFullPath().toString() + "'",nameUpdateingAdapter);
-		nameUpdateingAdapter.setNewElementName(newFolderName);
-		IReferenceUpdating reference = (IReferenceUpdating)refactoring.getAdapter(IReferenceUpdating.class);
-		if(reference != null) {
-			reference.setUpdateReferences(true);
-		}
+		processor.setNewResourceName(newFolderName);
+		processor.setUpdateReferences(true);
 		ITextUpdating text = (ITextUpdating)refactoring.getAdapter(ITextUpdating.class);
 		if(text != null) {
 			text.setUpdateTextualMatches(true);
