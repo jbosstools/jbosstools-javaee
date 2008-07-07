@@ -87,8 +87,13 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 
 	PointList points;
 	Point point;
+	/**
+	 * begin ,end points
+	 */
 	Point beg = new Point(0, 0), end = new Point(0, 0);
-	Point corner = new Point(0, 0);
+
+	Point bCorner = new Point(0, 0);
+	Point eCorner = new Point(0, 0);
 	boolean horiz;
 	private boolean selected;
 
@@ -125,50 +130,47 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 			else
 				horiz = false;
 
+			eCorner.x = 0;
 			if (i != 1) {
 				if (horiz) {
 					if (end.x > beg.x) {
-						corner.x = beg.x + 1;
 						beg.x += 2;
 					} else {
-						corner.x = beg.x - 1;
 						beg.x -= 2;
 					}
 				} else {
 					if (end.y > beg.y) {
-						corner.y = beg.y + 1;
 						beg.y += 2;
 					} else {
-						corner.y = beg.y - 1;
 						beg.y -= 2;
 					}
 				}
+				eCorner.x = beg.x;
+				eCorner.y = beg.y;
 			}
-			if (corner.x != 0)
-				g.drawLine(corner, corner);
-			corner.x = 0;
+			
+			if (bCorner.x != 0 && eCorner.x != 0)
+				g.drawLine(bCorner, eCorner);
+			bCorner.x = 0;
 
 			if (i != points.size() - 1) {
 				if (horiz) {
 					if (end.x > beg.x) {
-						corner.x = end.x - 1;
 						end.x -= 2;
-
 					} else {
-						corner.x = end.x + 1;
 						end.x += 2;
 					}
 				} else {
 					if (end.y > beg.y) {
-						corner.y = end.y - 1;
 						end.y -= 2;
 					} else {
-						corner.y = end.y + 1;
 						end.y += 2;
 					}
 				}
+				bCorner.x = end.x;
+				bCorner.y = end.y;
 			}
-
+			
 			g.drawLine(beg, end);
 			point = points.getPoint(i);
 			beg.x = point.x;

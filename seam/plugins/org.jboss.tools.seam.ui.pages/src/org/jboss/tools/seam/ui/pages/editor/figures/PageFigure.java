@@ -72,7 +72,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		if (group != null) {
 			FixedConnectionAnchor c;
 			c = new FixedConnectionAnchor(this);
-			c.offsetV = 8;
+			c.offsetV = 10;
 			c.offsetH = -1;
 			connectionAnchors.put("1_IN", c);
 			inputConnectionAnchors.addElement(c);
