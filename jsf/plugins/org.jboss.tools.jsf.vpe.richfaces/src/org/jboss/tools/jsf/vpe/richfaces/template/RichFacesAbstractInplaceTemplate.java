@@ -80,7 +80,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected static final String RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS = "rich-inplace-view";
 
     /** The Constant VPE_USER_TOGGLE_ID_ATTR. */
-    protected static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id";
+    public static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id";
 
     /** The button images. */
     protected final Map<String, String> buttonImages = new HashMap<String, String>();
