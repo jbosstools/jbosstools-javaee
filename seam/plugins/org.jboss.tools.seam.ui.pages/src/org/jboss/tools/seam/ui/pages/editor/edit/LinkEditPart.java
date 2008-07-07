@@ -218,15 +218,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			refresh();
 		}
 
-		if (getLinkFigure().isManual()
-				&& getLink().getPathFromModel().equals("")) {
-			getLinkFigure().setManual(false);
-			refresh();
-		} else if (!getLinkFigure().isManual()
-				&& !getLink().getPathFromModel().equals("")) {
-			getLinkFigure().setManual(true);
-			refresh();
-		}
+		
 
 	}
 
@@ -258,9 +250,17 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		 */
 		public void notifyChanged(Notification notification) {
 			pathLabel.setText(getLinkModel().getName());
-			//TODO for shortCut
+			if (getLinkFigure().isManual()
+					&& getLink().getPathFromModel().equals("")) {
+				getLinkFigure().setManual(false);
+				clear();
+			} else if (!getLinkFigure().isManual()
+					&& !getLink().getPathFromModel().equals("")) {
+				getLinkFigure().setManual(true);
+			}
 			refresh();
 			refreshVisuals();
+			((ConnectionFigure)figure).layout();
 		}
 
 		/**
