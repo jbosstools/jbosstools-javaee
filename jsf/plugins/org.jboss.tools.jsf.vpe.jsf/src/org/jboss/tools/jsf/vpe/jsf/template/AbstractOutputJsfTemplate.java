@@ -15,7 +15,6 @@ import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -125,7 +124,7 @@ public abstract class AbstractOutputJsfTemplate extends
 				}
 
 				elementData.addNodeData(new AttributeData(outputAttr,
-						targetVisualElement, false));
+						targetVisualElement, true));
 
 				creationData.addChildrenInfo(targetVisualInfo);
 
@@ -193,11 +192,9 @@ public abstract class AbstractOutputJsfTemplate extends
 			VpeElementProxyData elementProxyData = (VpeElementProxyData) elementMapping
 					.getElementData();
 
-			Node sourceNode = NodeProxyUtil.findNodeByPosition(elementProxyData
-					.getNodelist(), focusPosition, anchorPosition);
-
-			VpeNodeMapping nodeMapping = NodesManagingUtil.getNodeMapping(
-					domMapping, sourceNode);
+			VpeNodeMapping nodeMapping = NodeProxyUtil.findNodeByPosition(
+					domMapping, elementProxyData.getNodelist(), focusPosition,
+					anchorPosition);
 
 			if (nodeMapping != null) {
 

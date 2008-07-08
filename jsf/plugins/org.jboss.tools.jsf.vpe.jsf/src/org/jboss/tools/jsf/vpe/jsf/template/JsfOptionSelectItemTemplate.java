@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -81,51 +82,53 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /*Vpe
 		} else if (attrPresents(enabledClass)) {
 			option.setAttribute(CLASS, enabledClass);
 		}
-
-		Attr attr = null;
-		if (element.hasAttribute(ITEM_LABEL)) {
-			attr = element.getAttributeNode(ITEM_LABEL);
-		}
 		
-		VpeElementProxyData elementData = new VpeElementProxyData();
-		
-		if (null != attr) {
-			if (null == escape || "true".equalsIgnoreCase(escape)) {
-				// show text as is
-				String itemLabel = attr.getNodeValue();
-				String bundleValue = ComponentUtil.getBundleValue(pageContext,
-						attr);
-				nsIDOMText text;
-				// if bundleValue differ from value then will be represent
-				// bundleValue, but text will be not edit
-				if (!itemLabel.equals(bundleValue)) {
-					text = visualDocument.createTextNode(bundleValue);
+		processOutputAttribute(pageContext, visualDocument, element, option, creationData);
 
-				} else {
-					text = visualDocument.createTextNode(itemLabel);
-					
-					elementData.addNodeData(new AttributeData(attr,
-							option, true));
-					creationData.setElementData(elementData);
-				}
-				
-				
-				option.appendChild(text);
-			} else {
-				// show formatted text
-				VpeChildrenInfo spanInfo = new VpeChildrenInfo(option);
-				// re-parse attribute's value
-				NodeList list = NodeProxyUtil.reparseAttributeValue(elementData,attr);
-				// add children to info
-				for (int i = 0; i < list.getLength(); i++) {
-					Node child = list.item(i);
-					// add info to creation data
-					spanInfo.addSourceChild(child);
-				}
-				creationData.addChildrenInfo(spanInfo);
-			}
-		}
-
+//		Attr attr = null;
+//		if (element.hasAttribute(ITEM_LABEL)) {
+//			attr = element.getAttributeNode(ITEM_LABEL);
+//		}
+//		
+//		VpeElementProxyData elementData = new VpeElementProxyData();
+//		
+//		if (null != attr) {
+//			if (null == escape || "true".equalsIgnoreCase(escape)) {
+//				// show text as is
+//				String itemLabel = attr.getNodeValue();
+//				String bundleValue = ComponentUtil.getBundleValue(pageContext,
+//						attr);
+//				nsIDOMText text;
+//				// if bundleValue differ from value then will be represent
+//				// bundleValue, but text will be not edit
+//				if (!itemLabel.equals(bundleValue)) {
+//					text = visualDocument.createTextNode(bundleValue);
+//
+//				} else {
+//					text = visualDocument.createTextNode(itemLabel);
+//					
+//					elementData.addNodeData(new AttributeData(attr,
+//							option, true));
+//					creationData.setElementData(elementData);
+//				}
+//				
+//				
+//				option.appendChild(text);
+//			} else {
+//				// show formatted text
+//				VpeChildrenInfo spanInfo = new VpeChildrenInfo(option);
+//				// re-parse attribute's value
+//				NodeList list = NodeProxyUtil.reparseAttributeValue(elementData,attr);
+//				// add children to info
+//				for (int i = 0; i < list.getLength(); i++) {
+//					Node child = list.item(i);
+//					// add info to creation data
+//					spanInfo.addSourceChild(child);
+//				}
+//				creationData.addChildrenInfo(spanInfo);
+//			}
+//		}
+//
 		return creationData;
 	}
 
@@ -177,5 +180,13 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /*Vpe
 	 * VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
 	 * sourceBuilder.setSelection(sourceElement, 0, 0); }
 	 */
+	
+	@Override
+	protected Attr getOutputAttributeNode(Element element) {
+
+		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL))
+			return element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
+		return null;
+	}
 
 }

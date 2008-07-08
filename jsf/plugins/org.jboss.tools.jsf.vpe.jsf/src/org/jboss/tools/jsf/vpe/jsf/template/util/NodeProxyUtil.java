@@ -24,6 +24,8 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeListImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.TextProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
+import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
+import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
@@ -101,8 +103,8 @@ public class NodeProxyUtil {
 	 * @param anchorPosition
 	 * @return
 	 */
-	static public Node findNodeByPosition(NodeList nodeList, int focusPosition,
-			int anchorPosition) {
+	static public VpeNodeMapping findNodeByPosition(VpeDomMapping domMapping,
+			NodeList nodeList, int focusPosition, int anchorPosition) {
 
 		if (anchorPosition < focusPosition) {
 			focusPosition = anchorPosition;
@@ -113,10 +115,10 @@ public class NodeProxyUtil {
 
 			Node child = nodeList.item(i);
 
-			Node result = null;
+			VpeNodeMapping result = null;
 			if (child.hasChildNodes()) {
 
-				result = findNodeByPosition(child.getChildNodes(),
+				result = findNodeByPosition(domMapping, child.getChildNodes(),
 						focusPosition, anchorPosition);
 			}
 
@@ -125,9 +127,10 @@ public class NodeProxyUtil {
 
 			if ((focusPosition >= (NodesManagingUtil.getStartOffsetNode(child)))
 					&& (anchorPosition <= (NodesManagingUtil
-							.getEndOffsetNode(child))))
+							.getEndOffsetNode(child)))) {
 
-				return child;
+				return NodesManagingUtil.getNodeMapping(domMapping, child);
+			}
 		}
 
 		return null;
