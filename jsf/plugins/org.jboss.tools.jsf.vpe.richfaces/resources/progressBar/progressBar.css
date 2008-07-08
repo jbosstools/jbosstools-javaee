@@ -20,3 +20,13 @@
 	background-color: #E79A00;
 	background-image: url(upload_status.gif);
 }
+
+.rich-progress-bar-remained {
+	font-weight: bold;
+	position: relative;
+	text-align: center;
+}
+
+.rich-progress-bar-padding {
+	padding: 0pt;
+}
