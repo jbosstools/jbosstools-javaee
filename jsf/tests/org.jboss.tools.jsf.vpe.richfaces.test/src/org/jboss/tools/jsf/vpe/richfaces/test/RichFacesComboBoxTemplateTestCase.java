@@ -102,8 +102,8 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
 
         nsIDOMElement divOne = (nsIDOMElement) elements.get(4).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
         assertTrue("Style classes should be contains ",divOne.getAttribute(HTML.ATTR_CLASS).contains("rich-combobox-font rich-combobox"));
-        assertTrue("Defaule style should be contains " + DEFAULT_WIDTH, divOne.getAttribute(HTML.ATTR_STYLE).indexOf("150") > 1);
-        assertTrue("Defaule style should be contains " + DEFAULT_WIDTH, divOne.getAttribute(HTML.ATTR_STYLE).startsWith("width"));
+        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1);
+        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width"));
         // Check input
 
         return rst;
