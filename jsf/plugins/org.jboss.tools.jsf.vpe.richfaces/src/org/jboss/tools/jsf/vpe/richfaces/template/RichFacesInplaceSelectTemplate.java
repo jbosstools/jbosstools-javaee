@@ -94,8 +94,8 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
             rootSpan.appendChild(visualDocument.createTextNode(getValue()));
         }
          data = new VpeCreationData(rootSpan);
-         DOMTreeDumper d = new DOMTreeDumper();
-         d.dumpToStream(System.err, rootSpan);
+//         DOMTreeDumper d = new DOMTreeDumper();
+//         d.dumpToStream(System.err, rootSpan);
         return data;
     }
 

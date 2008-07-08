@@ -82,6 +82,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     /** The Constant VPE_USER_TOGGLE_ID_ATTR. */
     public static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id";
 
+    private static final String DEFAULT_LAYOUT = "inline";
+
     /** The button images. */
     protected final Map<String, String> buttonImages = new HashMap<String, String>();
 
@@ -117,6 +119,13 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 
     /** The view class. */
     protected String viewClass;
+    
+    protected String sourceCancelButtonIcon;
+  
+    protected String sourceApplyButtonIcon;
+    
+    protected String sourceLayout;
+    
 
     /**
      * The Constructor.
@@ -149,7 +158,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         if (this.isToggle) {
             style = "position: relative;";
         }
-        rootSpan.setAttribute(HTML.ATTR_STYLE, style);
+        rootSpan.setAttribute(HTML.ATTR_STYLE, style + "; display:"+this.sourceLayout+"; ");
         return rootSpan;
 
     }
@@ -287,6 +296,11 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         this.editClass = source.getAttribute("editClass");
         this.viewClass = source.getAttribute("viewClass");
         this.sourceValue = source.getAttribute(RichFaces.ATTR_VALUE);
+        this.sourceLayout = ComponentUtil.getAttribute(source, "layout");
+        if(ComponentUtil.isBlank(this.sourceLayout) || (!this.sourceLayout.equalsIgnoreCase(DEFAULT_LAYOUT) && 
+                !this.sourceLayout.equalsIgnoreCase("block")) ){
+            this.sourceLayout = DEFAULT_LAYOUT;
+        }
         this.defaultLabel = source.getAttribute("defaultLabel");
         if (ComponentUtil.isBlank(this.sourceValue)) {
             this.sourceValue = DEFAULT_NULL_VALUE;
@@ -303,7 +317,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
                 || !isInKeySet(controlsHorizontalPositions, this.controlsHorizontalPosition)) {
             this.controlsHorizontalPosition = CONTROLS_HORIZONTAL_POSITION_DEFAULT_VALUE;
         }
-
+        
         prepareImages(source);
 
     }
@@ -316,11 +330,11 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected void prepareImages(Element source) {
         for (String key : defaultButtonImages.keySet()) {
             String value = ComponentUtil.getAttribute(source, key);
-            // if (ComponentUtil.isNotBlank(value)) {
-            // this.buttonImages.put(key, value);
-            // } else {
-            this.buttonImages.put(key, defaultButtonImages.get(key));
-            // }
+            if(ComponentUtil.isNotBlank(value)){
+                this.buttonImages.put(key, value);
+            }else{
+                this.buttonImages.put(key, defaultButtonImages.get(key));
+            }
         }
 
     }
@@ -464,7 +478,12 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 
         applyButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
         applyButtonImg.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-control");
-        ComponentUtil.setImg(applyButtonImg, buttonImages.get("saveControlIcon"));
+        final String saveControlIconImg = buttonImages.get("saveControlIcon");
+        if(defaultButtonImages.containsValue(saveControlIconImg)){
+            ComponentUtil.setImg(applyButtonImg, saveControlIconImg);
+        }else{
+            ComponentUtil.setImgFromResources(pageContext, applyButtonImg, saveControlIconImg,"");
+        }
         applyButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
 
         final nsIDOMElement cancelButtonImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
@@ -472,8 +491,13 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         cancelButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
         cancelButtonImg.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-control");
         cancelButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-        ComponentUtil.setImg(cancelButtonImg, buttonImages.get("cancelControlIcon"));
+        final String cancelControlIconImg =  buttonImages.get("cancelControlIcon");
 
+        if(defaultButtonImages.containsValue(cancelControlIconImg)){
+            ComponentUtil.setImg(cancelButtonImg,cancelControlIconImg); 
+        }else{
+            ComponentUtil.setImgFromResources(pageContext, cancelButtonImg, saveControlIconImg, "");
+        }
         cancelButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
 
         element.appendChild(divShadov);

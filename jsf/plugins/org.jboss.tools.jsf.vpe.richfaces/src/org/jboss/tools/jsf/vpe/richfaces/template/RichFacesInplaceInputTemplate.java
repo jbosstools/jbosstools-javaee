@@ -78,24 +78,28 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
             innerInput1.setAttribute(HTML.ATTR_TYPE, "button");
         }
         data = new VpeCreationData(rootSpan);
-        final DOMTreeDumper dumper = new DOMTreeDumper();
+
 
         if (!isToggle) {
             final String value = getValue();
-            
-            if (value.equals(DEFAULT_NULL_VALUE)) {
-                final nsIDOMElement pre = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-                
-                pre.appendChild(visualDocument.createTextNode("aaaa"));
-                pre.setAttribute(HTML.ATTR_STYLE,"width:100px;");
-                rootSpan.appendChild(pre);
-            } else {
+//            
+//            if (value.equals(DEFAULT_NULL_VALUE)) {
+//                final nsIDOMElement innerSpan = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+//                rootSpan.appendChild(innerSpan);
+//                innerSpan.appendChild(visualDocument.createTextNode(value));
+//                innerSpan.setAttribute(HTML.ATTR_STYLE, "display: none");
+//                inner
+//                innerSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
+////                rootSpan.appendChild(visualDocument.createTextNode(value));
+////                rootSpan.setAttribute(HTML.ATTR_STYLE, rootSpan.getAttribute(HTML.ATTR_STYLE) +" ; display:none");
+//            } else {
                 rootSpan.appendChild(visualDocument.createTextNode(value));
-            }
+ //           }
         } else {
             innerInput1.setAttribute(HTML.ATTR_VALUE, this.sourceValue);
         }
-        dumper.dumpToStream(System.err, rootSpan);
+//      final DOMTreeDumper dumper = new DOMTreeDumper();
+//        dumper.dumpToStream(System.err, rootSpan);
 
         return data;
     }
