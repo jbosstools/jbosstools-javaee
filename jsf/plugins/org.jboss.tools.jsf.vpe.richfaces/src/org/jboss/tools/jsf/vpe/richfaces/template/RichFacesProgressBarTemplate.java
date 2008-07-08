@@ -23,6 +23,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
+import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -68,6 +69,8 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
 
     /** The style class. */
     private String styleClass;
+    
+    private String sourceLabel;
 
     /**
      * Create.
@@ -91,12 +94,21 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
 
         final nsIDOMElement progressDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
         final nsIDOMElement uploadDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+     
         String clazz = PROGRESS_DIV_STYLE_CLASSES;
         if (ComponentUtil.isNotBlank(this.styleClass)) {
             clazz = clazz + " " + this.styleClass;
         }
         progressDiv.setAttribute(HTML.ATTR_CLASS, clazz);
         progressDiv.setAttribute(HTML.ATTR_STYLE, this.style + TEXT_ALIGN_LEFT);
+        if(ComponentUtil.isNotBlank(this.sourceLabel)){
+            final nsIDOMElement labelDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+         //   labelDiv.setAttribute(HTML.ATTR_CLASS, "rich-progress-bar-width rich-progress-bar-remained rich-progress-bar-padding");
+            labelDiv.setAttribute(HTML.ATTR_STYLE,this.style+"; font-weight: bold; position: relative; text-align: center; ");
+            uploadDiv.appendChild(labelDiv);
+            
+            labelDiv.appendChild(visualDocument.createTextNode(this.sourceLabel));
+        }
         uploadDiv.setAttribute(HTML.ATTR_CLASS, UPLOADED_DIV);
 
         uploadDiv.setAttribute(HTML.ATTR_STYLE, this.style + VpeStyleUtil.SEMICOLON_STRING + VpeStyleUtil.PARAMETER_WIDTH
@@ -117,7 +129,6 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
 //
 //        DOMTreeDumper dump = new DOMTreeDumper();
 //        dump.dumpToStream(System.err, progressDiv);
-
         return data;
     }
 
@@ -166,6 +177,7 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
     private void prepareData(Element source) {
         this.styleClass = ComponentUtil.getAttribute(source, RichFaces.ATTR_STYLE_CLASS);
         this.style = ComponentUtil.getAttribute(source, HTML.ATTR_STYLE);
+        this.sourceLabel = ComponentUtil.getAttribute(source, "label");
         if (ComponentUtil.isBlank(this.style)) {
             this.style = DEFAULT_HEIGHT;
         }
