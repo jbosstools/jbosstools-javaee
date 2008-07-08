@@ -408,6 +408,11 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     
     protected abstract String getCssStylesControlSuffix(); 
     
+    
+    protected abstract String getControlPositionsSubStyles();
+    
+    protected abstract String getMainControlsDivCssClass();
+    
 
     /**
      * Creates the controls div.
@@ -421,9 +426,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected nsIDOMElement createControlsDiv(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
         final nsIDOMElement element = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
-        element.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesControlSuffix()+"-controls-set");
-        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; top: " + controlsVerticalPositions.get(this.controlsVerticalPosition)
-                + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";");
+        element.setAttribute(HTML.ATTR_CLASS, getMainControlsDivCssClass());
+        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; "+getControlPositionsSubStyles());
 
         final nsIDOMElement divShadov = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 

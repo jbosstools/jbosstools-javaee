@@ -181,4 +181,15 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         return "-input";
     }
 
+    @Override
+    protected String getControlPositionsSubStyles() {
+        return "top: " + controlsVerticalPositions.get(this.controlsVerticalPosition)
+            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";";
+    }
+
+    @Override
+    protected String getMainControlsDivCssClass() {
+        return "rich-inplace"+getCssStylesControlSuffix()+"-controls-set";
+    }
+
 }

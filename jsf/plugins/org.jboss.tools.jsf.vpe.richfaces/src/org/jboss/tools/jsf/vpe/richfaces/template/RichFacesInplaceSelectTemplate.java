@@ -20,6 +20,7 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -45,9 +46,12 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
     /**
      * Create.
      * 
-     * @param visualDocument the visual document
-     * @param sourceNode the source node
-     * @param pageContext the page context
+     * @param visualDocument
+     *            the visual document
+     * @param sourceNode
+     *            the source node
+     * @param pageContext
+     *            the page context
      * 
      * @return the vpe creation data
      */
@@ -71,7 +75,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
             innerInput1.setAttribute(HTML.ATTR_VALUE, ((this.defaultLabel == null) ? "" : this.defaultLabel));
             // TODO
             innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 1px ; width:100px");
-            innerInput1.setAttribute(HTML.ATTR_VALUE,getValue());
+            innerInput1.setAttribute(HTML.ATTR_VALUE, getValue());
             innerInput2.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-arrow");
             // TODO
             innerInput2.setAttribute(HTML.ATTR_STYLE, "top: 2px; left: 89px;");
@@ -82,24 +86,26 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
                 final nsIDOMElement selectList = createSelectedList(source, visualDocument);
                 rootSpan.appendChild(selectList);
             }
-            if(this.showControls){
+            if (this.showControls) {
                 rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument));
             }
 
         } else {
             rootSpan.appendChild(visualDocument.createTextNode(getValue()));
         }
-        data = new VpeCreationData(rootSpan);
-        // DOMTreeDumper d = new DOMTreeDumper();
-        // d.dumpToStream(System.err, rootSpan);
+         data = new VpeCreationData(rootSpan);
+         DOMTreeDumper d = new DOMTreeDumper();
+         d.dumpToStream(System.err, rootSpan);
         return data;
     }
 
     /**
      * Creates the selected list.
      * 
-     * @param visualDocument the visual document
-     * @param source the source
+     * @param visualDocument
+     *            the visual document
+     * @param source
+     *            the source
      * 
      * @return the ns IDOM element
      */
@@ -148,19 +154,26 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         listDecarationDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-decoration");
 
         final nsIDOMElement listScrollDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+        final List<Element> elements = ComponentUtil.getSelectItems(source.getChildNodes());
+        // added by estherbin
+        // fix http://jira.jboss.com/jira/browse/JBIDE-2196
+        // tramanovich comment.
+        int height = 72;
+        
+        if ((elements != null) && (elements.size() > 3)) {
+            height += ((elements.size() - 4) * 24);
+        }
 
         listScrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-scroll");
-        listScrollDiv.setAttribute(HTML.ATTR_STYLE, "height: 72px; width: 151px;");
+        listScrollDiv.setAttribute(HTML.ATTR_STYLE, "height:"+height+"px; width: 151px;");
 
-        //
-
-        final List<Element> elements = ComponentUtil.getSelectItems(source.getChildNodes());
         if (elements.size() > 0) {
             for (Element e : elements) {
                 final nsIDOMElement span = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
                 span.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-item rich-inplace-select-font");
                 span.appendChild(visualDocument.createTextNode(ComponentUtil.getSelectItemValue(e)));
+                span.setAttribute(HTML.ATTR_STYLE, "text-align: left;");
                 listScrollDiv.appendChild(span);
             }
 
@@ -194,15 +207,13 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         return div;
     }
 
-
-
     /**
      * Gets the css extension.
      * 
      * @return the css extension
      * 
      * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     * RichFacesAbstractInplaceTemplate#getCssExtension()
+     *      RichFacesAbstractInplaceTemplate#getCssExtension()
      */
     @Override
     protected String getCssExtension() {
@@ -215,14 +226,13 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      * @return the css style
      * 
      * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     * RichFacesAbstractInplaceTemplate#getCssStyle()
+     *      RichFacesAbstractInplaceTemplate#getCssStyle()
      */
     @Override
     protected String getCssStyle() {
         return INPLACE_SELECT_CSS;
     }
 
- 
     /**
      * Gets the css styles suffix.
      * 
@@ -239,7 +249,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      * @return the root span classes
      * 
      * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     * RichFacesAbstractInplaceTemplate#getRootSpanClasses()
+     *      RichFacesAbstractInplaceTemplate#getRootSpanClasses()
      */
     @Override
     protected Object[] getRootSpanClasses() {
@@ -264,8 +274,10 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
     /**
      * Preapare input base.
      * 
-     * @param innerInput the inner input
-     * @param innerInput1      */
+     * @param innerInput
+     *            the inner input
+     * @param innerInput1
+     */
     private void preapareInputBase(nsIDOMElement innerInput) {
         innerInput.setAttribute(HTML.ATTR_TYPE, "text");
         innerInput.setAttribute(HtmlComponentUtil.HTML_READONLY_ATTR, "text");
@@ -275,7 +287,8 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
     /**
      * Prepare data.
      * 
-     * @param source the source
+     * @param source
+     *            the source
      */
     @Override
     protected void prepareData(Element source) {
@@ -294,6 +307,19 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
     @Override
     protected String getCssStylesControlSuffix() {
         return this.getCssStylesSuffix();
+    }
+
+    @Override
+    protected String getControlPositionsSubStyles() {
+    
+        return  "top:0px ; left: " + controlsVerticalPositions.get(this.controlsVerticalPosition)
+            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";";
+    }
+
+    @Override
+    protected String getMainControlsDivCssClass() {
+        // TODO Auto-generated method stub
+        return "rich-inplace"+getCssStylesControlSuffix()+"-control-set";
     }
 
 }
