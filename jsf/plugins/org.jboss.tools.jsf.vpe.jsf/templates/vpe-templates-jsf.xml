@@ -226,12 +226,7 @@
 
 	<!-- Проблема с вложенным параметром (31 of 4) -->
 	<vpe:tag name="h:commandLink" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<span class="def-link {@styleClass}"
-				style="{@style}"
-				title="{tagstring()}">
-				<vpe:value expr="{jsfvalue(@value)}" />
-			</span>
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfCommandLinkTemplate">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
@@ -275,6 +270,15 @@
 					</vpe:format>
 				</vpe:textFormatting>
 			</vpe:template>
+		</vpe:if>
+		<vpe:if test="tld_version('max=1.2')" >
+			<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfOutputLinkTemplate">
+			<vpe:textFormatting use-default-formats="yes">
+				<vpe:format type="UnderlineFormat" setDefault="true">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormatting>
+		</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="yes">
 			<vpe:a class="{@styleClass}"
@@ -777,7 +781,7 @@
 			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
-
+	
 	<!--
 		Проблема с селектированием элемента: в мозилле селектируется заголовок а не рамка
 	-->

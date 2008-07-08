@@ -54,7 +54,6 @@ public abstract class AbstractOutputJsfTemplate extends
 			Element sourceElement) {
 		copyGeneralJsfAttributes(visualElement, sourceElement);
 		copyAttribute(visualElement, sourceElement, JSF.ATTR_DIR, HTML.ATTR_DIR);
-
 	}
 
 	/**
