@@ -45,23 +45,23 @@ import org.w3c.dom.NodeList;
  */
 public class JsfJbide2362Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest";
+	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
-	private static final String SELECTION_PAGE_NAME = "JBIDE/2362/selection.jsp";
-	private static final String EDITING_PAGE_NAME = "JBIDE/2362/editing.jsp";
+	private static final String SELECTION_PAGE_NAME = "JBIDE/2362/selection.jsp"; //$NON-NLS-1$
+	private static final String EDITING_PAGE_NAME = "JBIDE/2362/editing.jsp"; //$NON-NLS-1$
 
 	private static final List<String> ELEMENTS;
 
 	static {
 		ELEMENTS = new ArrayList<String>();
-		ELEMENTS.add("h:outputText");
-		ELEMENTS.add("h:outputFormat");
-		ELEMENTS.add("h:outputLabel");
-		ELEMENTS.add("h:outputLink");
-		ELEMENTS.add("h:inputText");
-		ELEMENTS.add("h:inputTextarea");
-		ELEMENTS.add("h:inputSecret");
-		ELEMENTS.add("h:inputHidden");
+		ELEMENTS.add("h:outputText"); //$NON-NLS-1$
+		ELEMENTS.add("h:outputFormat"); //$NON-NLS-1$
+		ELEMENTS.add("h:outputLabel"); //$NON-NLS-1$
+		ELEMENTS.add("h:outputLink"); //$NON-NLS-1$
+		ELEMENTS.add("h:inputText"); //$NON-NLS-1$
+		ELEMENTS.add("h:inputTextarea"); //$NON-NLS-1$
+		ELEMENTS.add("h:inputSecret"); //$NON-NLS-1$
+		ELEMENTS.add("h:inputHidden"); //$NON-NLS-1$
 	}
 
 	public JsfJbide2362Test(String name) {
@@ -214,10 +214,10 @@ public class JsfJbide2362Test extends VpeTest {
 				int offset;
 				if (node.getNodeType() == node.ELEMENT_NODE) {
 					offset = ((IDOMElement) node).getStartEndOffset() - 1;
-					insertedString = " value=\"x\" ";
+					insertedString = " value=\"x\" "; //$NON-NLS-1$
 				} else {
 					offset = ((IDOMNode) node).getStartOffset();
-					insertedString = "someText";
+					insertedString = "someText"; //$NON-NLS-1$
 				}
 
 				for (int j = 0; j < insertedString.length(); j++) {
