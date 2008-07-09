@@ -78,27 +78,25 @@ public class JBIDE788Test extends VpeTest {
 		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",11,31,false); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull(results);
 		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
-		boolean isMatches=true;
 		for (ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
 			
-			if(!displayString.startsWith("msg.")) { //$NON-NLS-1$
-				isMatches=false;
+			if(!displayString.startsWith("${msg.")) { //$NON-NLS-1$
+				//TODO Max Areshkau Fix When JBIDE-2498 will be fixed
+				fail("String doesn't matches"); //$NON-NLS-1$
 			}
 			
 		}
-		assertTrue("String not matches", isMatches); //$NON-NLS-1$
-		//TODO Max Areshkau This functionality doesn't works now,
+
 		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,41,false);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
-		isMatches = false;
+
 		for(ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			if(displayString.contains("temp")) { //$NON-NLS-1$
-				isMatches=true;
+			if(!displayString.contains("temp")) { //$NON-NLS-1$
+				fail("String doesn't matches"); //$NON-NLS-1$
 			}
 		}
-		assertTrue("String not matches", isMatches); //$NON-NLS-1$
 		// check exception
 		if (getException() != null) {
 
@@ -117,10 +115,16 @@ public class JBIDE788Test extends VpeTest {
 		// set exception
 		setException(null);
 		// Tests CA
-//		checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","p",1203);  //$NON-NLS-1$//$NON-NLS-2$
-		
-		//TODO Max Areshkau  Repair when this functionality will be workd
-		fail("This functionality doesn't works now"); //$NON-NLS-1$
+		ICompletionProposal[] results =checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",21,58);  //$NON-NLS-1$//$NON-NLS-2$
+		assertNotNull(results);
+		assertTrue(results.length>2);
+		for(ICompletionProposal completionProposal : results) {
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+			if(!displayString.startsWith("h:command") && !displayString.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
+				fail("String doesn't matches"); //$NON-NLS-1$
+			}
+		}
+
 		// check exception
 		if (getException() != null) {
 
