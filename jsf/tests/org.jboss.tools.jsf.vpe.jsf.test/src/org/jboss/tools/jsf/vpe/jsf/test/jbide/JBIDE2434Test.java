@@ -11,6 +11,11 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
+import org.jboss.tools.vpe.editor.VpeEditorPart;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -25,11 +30,48 @@ public class JBIDE2434Test extends VpeTest{
 	public JBIDE2434Test(String name) {
 		super(name);
 	}
-	
+	/**
+	 * tests open and close editor in page
+	 * @throws Throwable
+	 */
 	public void testOpenAndCloPageWithCycleFacelets() throws Throwable {
 		performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/2434/FaceletForm.xhtml",IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
-	
-	
-	
+	/**
+	 * Tests visual refresh method
+	 * @throws Throwable
+	 */
+	public void testVisualRefreshAndSwitchToPreview() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		// Tests CA
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2434/FaceletBlank.xhtml", //$NON-NLS-1$
+				IMPORT_PROJECT_NAME);
+		assertNotNull("Could not open specified file " + "JBIDE/2434/FaceletBlank.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
+
+		IEditorInput input = new FileEditorInput(file);
+
+		assertNotNull("Editor input is null", input); //$NON-NLS-1$
+
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
+
+		VpeController controller = getVpeController(part);
+		controller.visualRefresh();
+		TestUtil.waitForJobs();
+		part.getVisualEditor().setVisualMode(0);
+		part.getVisualEditor().setVisualMode(1);
+		part.getVisualEditor().setVisualMode(2);
+		((VpeEditorPart)part.getVisualEditor()).createPreviewBrowser();
+		part.getVisualEditor().setVisualMode(3);
+
+		TestUtil.waitForJobs();
+		if(getException()!=null) {
+			throw getException();
+		}
+	}
+		
 }
