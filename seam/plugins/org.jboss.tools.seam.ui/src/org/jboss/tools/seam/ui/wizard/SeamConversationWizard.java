@@ -67,9 +67,13 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 
 		static {
 			// initialize war files mapping
+
+			// seam-gen uses @interfaceName@ as class name since 2.0.1
+			// but seam-gen 2.0.0 uses @beanName@ (it's a bug of 2.0.0)
+			// So we expect seam-gen 2.0.1 or higher here.
 			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationJavaBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					FileMapping.TYPE.WAR,
 					false));
 			ACTION_MAPPING.add(new FileMapping(
@@ -77,6 +81,7 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					FileMapping.TYPE.WAR,
 					false));
+
 			// initialize ear files mapping
 			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationBean.java", //$NON-NLS-1$ //$NON-NLS-2$
