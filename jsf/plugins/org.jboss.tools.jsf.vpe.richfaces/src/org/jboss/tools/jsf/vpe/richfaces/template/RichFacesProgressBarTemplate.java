@@ -13,6 +13,8 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
+import java.awt.Component;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
@@ -23,11 +25,12 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
-import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 
 /**
@@ -101,13 +104,30 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
         }
         progressDiv.setAttribute(HTML.ATTR_CLASS, clazz);
         progressDiv.setAttribute(HTML.ATTR_STYLE, this.style + TEXT_ALIGN_LEFT);
-        if(ComponentUtil.isNotBlank(this.sourceLabel)){
+        final List<Node> elements = new ArrayList<Node>();
+        final NodeList list = sourceNode.getChildNodes();
+        
+        for(int i = 0 ; i < list.getLength() ; i ++ ){
+            if(list.item(i).getNodeName().equalsIgnoreCase("h:outputText")){
+                elements.add(list.item(i));
+            }
+        }
+        
+        if(ComponentUtil.isNotBlank(this.sourceLabel) || elements.size() > 0){
             final nsIDOMElement labelDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
          //   labelDiv.setAttribute(HTML.ATTR_CLASS, "rich-progress-bar-width rich-progress-bar-remained rich-progress-bar-padding");
             labelDiv.setAttribute(HTML.ATTR_STYLE,this.style+"; font-weight: bold; position: relative; text-align: center; ");
             uploadDiv.appendChild(labelDiv);
-            
-            labelDiv.appendChild(visualDocument.createTextNode(this.sourceLabel));
+            if (elements.size() > 0) {
+                final StringBuffer sb = new StringBuffer();
+                
+                for (Node n : elements) {
+                    sb.append(ComponentUtil.getAttribute((Element)n, "value"));
+                }
+                labelDiv.appendChild(visualDocument.createTextNode(sb.toString()));
+            } else {
+                labelDiv.appendChild(visualDocument.createTextNode(this.sourceLabel));
+            }
         }
         uploadDiv.setAttribute(HTML.ATTR_CLASS, UPLOADED_DIV);
 
