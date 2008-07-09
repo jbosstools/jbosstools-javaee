@@ -44,5 +44,7 @@ public class JSF {
 	public static final String ATTR_ROWS = "rows"; //$NON-NLS-1$
 
 	public static final String ATTR_COLS = "cols"; //$NON-NLS-1$
+	
+	public static final String ATTR_ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
 
 }
