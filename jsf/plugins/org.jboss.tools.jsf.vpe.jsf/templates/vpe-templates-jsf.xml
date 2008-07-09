@@ -120,6 +120,11 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:outputText" case-sensitive="yes">
+		<vpe:if test="hasinparents('rich:progressBar')">
+			<vpe:template children="yes" modify="no">
+				<span style="display:none;"/>
+			</vpe:template>
+		</vpe:if>
 		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.jsf.template.JsfOutputTextTemplate">
 			<vpe:dnd>
