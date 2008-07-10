@@ -2817,7 +2817,7 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
+    <!--XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
      PROPERTIES="support=org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
      displayName="New Page (wizard)..." kind="action" name="AddPageWizard">
      <EntityData EntityName="SeamPagesAddViewWizard">
@@ -2825,20 +2825,20 @@
       <AttributeData AttributeName="create file" Mandatory="no"/>
       <AttributeData AttributeName="template" Mandatory="no"/>
      </EntityData>
-    </XActionItem>
+    </XActionItem-->
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.ui.pages.editor.commands.AddPageOnDiagramHandler"
      ICON="action.empty"
-     displayName="New Page (diagram)..." kind="action" name="AddPage"/>
-    <XActionItem
+     displayName="New Page..." kind="action" name="AddPage"/>
+    <!--XActionItem
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"
      ICON="action.empty"
      PROPERTIES="actionpath=CreateActions/AddException"
-     displayName="New Exception (wizard)..." kind="action" name="AddExceptionWizard"/>
+     displayName="New Exception (wizard)..." kind="action" name="AddExceptionWizard"/-->
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.ui.pages.editor.commands.AddExceptionOnDiagramHandler"
      ICON="action.empty"
-     displayName="New Exception (diagram)..." kind="action" name="AddException"/>
+     displayName="New Exception ..." kind="action" name="AddException"/>
    </XActionItem>
    <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"
