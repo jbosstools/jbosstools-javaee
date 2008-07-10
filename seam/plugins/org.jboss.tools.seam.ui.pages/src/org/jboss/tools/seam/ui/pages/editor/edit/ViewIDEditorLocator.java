@@ -10,15 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
-import org.eclipse.swt.widgets.Text;
-
-import org.eclipse.jface.viewers.CellEditor;
-
 import org.eclipse.draw2d.geometry.Rectangle;
-
 import org.eclipse.gef.tools.CellEditorLocator;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.widgets.Text;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
-import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
 final public class ViewIDEditorLocator implements CellEditorLocator {
 

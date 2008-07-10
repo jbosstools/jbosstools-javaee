@@ -69,7 +69,6 @@ public class ViewIDEditManager extends DirectEditManager {
 		}
 
 		super.bringDown();
-		// dispose any scaled fonts that might have been created
 		disposeScaledFont();
 		
 		PagesElement element = ((PagesEditPart)getEditPart()).getElementModel();
@@ -88,27 +87,21 @@ public class ViewIDEditManager extends DirectEditManager {
 	}
 
 	protected void initCellEditor() {
-		// update text
-		NodeFigure stickyNote = (NodeFigure) getEditPart().getFigure();
-		if(stickyNote instanceof PageFigure)
-			getCellEditor().setValue(((PageFigure)stickyNote).page.getName());
-		else if(stickyNote instanceof ExceptionFigure)
-			getCellEditor().setValue(((ExceptionFigure)stickyNote).exc.getName());
+		NodeFigure figure = (NodeFigure) getEditPart().getFigure();
+		if(figure instanceof PageFigure)
+			getCellEditor().setValue(((PageFigure)figure).page.getName());
+		else if(figure instanceof ExceptionFigure)
+			getCellEditor().setValue(((ExceptionFigure)figure).exc.getName());
 		
-		// update font
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer()
 				.getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null) {
-			// this will force the font to be set
 			cachedZoom = -1.0;
 			updateScaledFont(zoomMgr.getZoom());
 			zoomMgr.addZoomListener(zoomListener);
 		} else
-			getCellEditor().getControl().setFont(stickyNote.getFont());
+			getCellEditor().getControl().setFont(figure.getFont());
 
-		// Hook the cell editor's copy/paste actions to the actionBars so that
-		// they can
-		// be invoked via keyboard shortcuts.
 		actionBars = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				.getActivePage().getActiveEditor().getEditorSite()
 				.getActionBars();
