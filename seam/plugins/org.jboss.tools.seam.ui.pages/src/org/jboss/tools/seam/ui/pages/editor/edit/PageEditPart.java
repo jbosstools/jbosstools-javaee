@@ -30,6 +30,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
@@ -134,6 +135,9 @@ public class PageEditPart extends PagesEditPart implements
 					SeamUiPagesPlugin.log(e);
 				}
 			}
+		}else if (req.getType() == GraphicalPartFactory.REQ_INIT_EDIT) {
+		    new ViewIDEditManager(this, new ViewIDEditorLocator(
+				    (PageFigure) getFigure())).show();
 		}
 	}
 
@@ -143,6 +147,8 @@ public class PageEditPart extends PagesEditPart implements
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
 				new PageEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new ViewIDDirectEditPolicy());
 	}
 
 	/**
@@ -182,6 +188,8 @@ public class PageEditPart extends PagesEditPart implements
 
 		int width = getIconWidth()+FigureUtilities.getTextExtents(getPageModel().getName(), NodeFigure.nodeLabelFont).width;
 		
+		if(width < getMinimumWidth()) width = getMinimumWidth();
+		
 		size = new Dimension(width, height);
 		adjustForGrid(loc);
 
@@ -198,7 +206,10 @@ public class PageEditPart extends PagesEditPart implements
 	private int getIconWidth() {
 		return 30;
 	}
-
+	
+	private int getMinimumWidth() {
+		return 130;
+	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connEditPart) {
@@ -239,6 +250,11 @@ public class PageEditPart extends PagesEditPart implements
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
 		super.activate();
+		if("".equals(getPageModel().getName())){ 
+			DirectEditRequest req = new DirectEditRequest();
+			req.setType(GraphicalPartFactory.REQ_INIT_EDIT);
+			performRequest(req);
+		}
 	}
 
 	public void deactivate() {

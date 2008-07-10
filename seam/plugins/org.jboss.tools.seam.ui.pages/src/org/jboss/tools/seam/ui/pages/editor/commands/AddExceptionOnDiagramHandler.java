@@ -1,8 +1,8 @@
 package org.jboss.tools.seam.ui.pages.editor.commands;
 
 import java.util.Properties;
-import java.util.Random;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.jboss.tools.common.meta.XChild;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
@@ -12,6 +12,8 @@ import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesFactoryImpl;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 
 public class AddExceptionOnDiagramHandler extends AbstractHandler {
@@ -27,12 +29,11 @@ public class AddExceptionOnDiagramHandler extends AbstractHandler {
 		PagesDiagramEditPart part = (PagesDiagramEditPart)p.get("diagramEditPart");
 		int x = Integer.parseInt(p.getProperty("mouse.x"));
 		int y = Integer.parseInt(p.getProperty("mouse.y"));
-		System.out.println("x=" + x + " y=" + y + " part=" + part);
 
-		String className = "/test" + (new Random()).nextInt(10000);
-		AddExceptionOnDiagramHandler.createException(object, className, p);
-
-//		XActionInvoker.invoke("CreateActions.AddExceptionWizard", object, p);
+		PageException newException = PagesFactoryImpl.eINSTANCE.createPgException();
+		newException.setName("");
+		newException.setLocation(new Point(x,y));
+		part.getPagesModel().getChildren().add(newException);
 	}
 
 	/**

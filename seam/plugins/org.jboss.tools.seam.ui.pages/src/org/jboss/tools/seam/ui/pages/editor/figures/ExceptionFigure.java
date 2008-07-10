@@ -52,7 +52,7 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 	public ExceptionFigure(PageException group) {
 		this.exc = group;
 
-		if (group != null) {
+		if (group != null && group.getData() != null) {
 			setIcon(group.getImage());
 		}
 

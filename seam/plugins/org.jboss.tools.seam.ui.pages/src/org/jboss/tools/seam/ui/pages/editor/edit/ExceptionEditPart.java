@@ -29,6 +29,7 @@ import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
@@ -113,15 +114,20 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 	protected List getModelSourceConnections() {
 		return getExceptionModel().getOutputLinks();
 	}
+	
+	public void performRequest(Request req) {
+		if (req.getType() == GraphicalPartFactory.REQ_INIT_EDIT) {
+		    new ViewIDEditManager(this, new ViewIDEditorLocator(
+				    (ExceptionFigure) getFigure())).show();
+		}
+	}
 
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new PageEditPolicy());
-		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new JSFFlowEditPolicy());
-		//installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-		//		new PageEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new ViewIDDirectEditPolicy());
 	}
 
 	/**
@@ -162,7 +168,10 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 	protected void refreshVisuals() {
 		Point loc = getExceptionModel().getLocation();
 		String text = getExceptionReadOnlyLabel();
-		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.nodeLabelFont).width; 
+		int width = getIconWidth()+FigureUtilities.getTextExtents(text, NodeFigure.nodeLabelFont).width;
+		
+		if(width < getMinimumWidth()) width = getMinimumWidth();
+		
 		size = new Dimension(width, getVisualHeight());
 		adjustForGrid(loc);
 
@@ -171,8 +180,10 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
 	}
-
 	
+	private int getMinimumWidth() {
+		return 130;
+	}
 
 	private int getVisualHeight() {
 		return 21;
@@ -231,6 +242,11 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
 		super.activate();
+		if("".equals(getExceptionModel().getName())){ 
+			DirectEditRequest req = new DirectEditRequest();
+			req.setType(GraphicalPartFactory.REQ_INIT_EDIT);
+			performRequest(req);
+		}
 	}
 	
 	public void deactivate(){

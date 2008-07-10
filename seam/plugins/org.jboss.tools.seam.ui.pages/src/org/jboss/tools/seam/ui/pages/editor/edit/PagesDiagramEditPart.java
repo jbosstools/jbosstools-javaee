@@ -38,6 +38,7 @@ import org.eclipse.gef.tools.DeselectAllTracker;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.figures.DiagramFigure;
@@ -295,10 +296,20 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		super.deactivate();
 	}
 	
+	private static PagesElement toDelete = null;
+	
+	public static void deleteChild(PagesElement element){
+		toDelete = element;
+	}
+	
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(Notification notification) {
+		if(toDelete != null){
+			toDelete.setParent(null);
+			toDelete = null;
+		}
 		refresh();
 		refreshVisuals();
 	}

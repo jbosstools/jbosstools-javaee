@@ -20,6 +20,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 
 
 public class GraphicalPartFactory implements EditPartFactory {
+	public static final String REQ_INIT_EDIT = "init edit"; //$NON-NLS-1$
 	
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart child = null;

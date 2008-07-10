@@ -59,7 +59,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 	public PageFigure(Page group) {
 		this.page = group;
 
-		if (group != null) {
+		if (group != null && group.getData() != null) {
 			setIcon(group.getImage());
 			initConnectionAnchors(group.getOutputLinks().size());
 		}

@@ -1,8 +1,8 @@
 package org.jboss.tools.seam.ui.pages.editor.commands;
 
 import java.util.Properties;
-import java.util.Random;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.jboss.tools.common.meta.action.impl.AbstractHandler;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
@@ -11,6 +11,8 @@ import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler;
 import org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesFactoryImpl;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 
 public class AddPageOnDiagramHandler extends AbstractHandler {
@@ -26,13 +28,11 @@ public class AddPageOnDiagramHandler extends AbstractHandler {
 		PagesDiagramEditPart part = (PagesDiagramEditPart)p.get("diagramEditPart");
 		int x = Integer.parseInt(p.getProperty("mouse.x"));
 		int y = Integer.parseInt(p.getProperty("mouse.y"));
-		System.out.println("x=" + x + " y=" + y + " part=" + part);
 
-//
-		String viewId = "/test" + (new Random()).nextInt(10000);
-		AddPageOnDiagramHandler.createPage(object, viewId, p);
-
-//		XActionInvoker.invoke("CreateActions.AddPageWizard", object, p);
+		Page newPage = PagesFactoryImpl.eINSTANCE.createPage();
+		newPage.setName("");
+		newPage.setLocation(new Point(x,y));
+		part.getPagesModel().getChildren().add(newPage);
 	}
 
 	/**
