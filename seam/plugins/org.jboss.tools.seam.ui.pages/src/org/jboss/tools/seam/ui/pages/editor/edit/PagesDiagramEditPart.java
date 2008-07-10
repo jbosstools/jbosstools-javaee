@@ -296,20 +296,10 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		super.deactivate();
 	}
 	
-	private static PagesElement toDelete = null;
-	
-	public static void deleteChild(PagesElement element){
-		toDelete = element;
-	}
-	
 	/**
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(Notification notification) {
-		if(toDelete != null){
-			toDelete.setParent(null);
-			toDelete = null;
-		}
 		refresh();
 		refreshVisuals();
 	}

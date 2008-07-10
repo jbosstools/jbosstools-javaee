@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
-import java.text.MessageFormat;
-
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -23,18 +19,15 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.internal.Workbench;
-import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.part.CellEditorActionHandler;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
@@ -46,7 +39,6 @@ public class ViewIDEditManager extends DirectEditManager {
 	private IAction copy, cut, paste, undo, redo, find, selectAll, delete;
 	private double cachedZoom = -1.0;
 	private Font scaledFont;
-	private EditPartViewer viewer = null;
 	private ZoomListener zoomListener = new ZoomListener() {
 		public void zoomChanged(double newZoom) {
 			updateScaledFont(newZoom);
@@ -61,7 +53,7 @@ public class ViewIDEditManager extends DirectEditManager {
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
 	protected void bringDown() {
-		ZoomManager zoomMgr = (ZoomManager) viewer
+		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer()
 				.getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null)
 			zoomMgr.removeZoomListener(zoomListener);
@@ -79,46 +71,13 @@ public class ViewIDEditManager extends DirectEditManager {
 		super.bringDown();
 		// dispose any scaled fonts that might have been created
 		disposeScaledFont();
+		
+		PagesElement element = ((PagesEditPart)getEditPart()).getElementModel();
+		element.setParent(null);
 	}
 
 	protected CellEditor createCellEditorOn(Composite composite) {
-		return new TextCellEditor(composite, SWT.SINGLE | SWT.WRAP);// {
-//			protected void setErrorMessage(String message) {
-//				super.setErrorMessage(message);
-//				((WorkbenchWindow) Workbench.getInstance()
-//						.getActiveWorkbenchWindow()).getStatusLineManager()
-//						.setErrorMessage(message);
-//			}
-//
-//			protected void editOccured(ModifyEvent e) {
-//				String value = text.getText();
-//				if (value == null) {
-//					value = "";//$NON-NLS-1$
-//				}
-//				Object typedValue = value;
-//				boolean oldValidState = isValueValid();
-//				boolean newValidState = isCorrect(typedValue);
-//				if (typedValue == null && newValidState) {
-//					Assert
-//							.isTrue(false,
-//									"Validator isn't limiting the cell editor's type range");//$NON-NLS-1$
-//				}
-//				if (!newValidState) {
-//					// try to insert the current value into the error message.
-//					setErrorMessage(MessageFormat.format(getErrorMessage(),
-//							new Object[] { value }));
-//				} else {
-//					setErrorMessage("");
-//				}
-//				valueChanged(oldValidState, newValidState);
-//			}
-//
-//			protected Control createControl(Composite parent) {
-//				Control control = super.createControl(parent);
-//				setErrorMessage("");
-//				return control;
-//			}
-//		};
+		return new TextCellEditor(composite, SWT.SINGLE | SWT.WRAP);
 	}
 
 	private void disposeScaledFont() {
@@ -130,7 +89,6 @@ public class ViewIDEditManager extends DirectEditManager {
 
 	protected void initCellEditor() {
 		// update text
-		viewer = getEditPart().getViewer();
 		NodeFigure stickyNote = (NodeFigure) getEditPart().getFigure();
 		if(stickyNote instanceof PageFigure)
 			getCellEditor().setValue(((PageFigure)stickyNote).page.getName());

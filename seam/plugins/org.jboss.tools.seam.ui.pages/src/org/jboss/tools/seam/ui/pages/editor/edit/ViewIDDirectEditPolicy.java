@@ -69,8 +69,6 @@ public class ViewIDDirectEditPolicy extends DirectEditPolicy {
 			props.setProperty("mouse.y", ""+node.getLocation().y);
 			XModelObject object = (XModelObject)node.getPagesModel().getData();
 			
-			PagesDiagramEditPart.deleteChild(node);
-			
 			if(node instanceof Page)
 				AddPageOnDiagramHandler.createPage(object, value, props);
 			else if(node instanceof PageException)
