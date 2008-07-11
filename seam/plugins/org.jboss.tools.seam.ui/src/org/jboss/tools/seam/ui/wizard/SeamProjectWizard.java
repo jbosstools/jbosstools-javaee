@@ -29,16 +29,19 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
+import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
@@ -52,7 +55,6 @@ import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
  */
 public class SeamProjectWizard extends WebProjectWizard {
 
-	
 	public SeamProjectWizard() {
 		super();
 		setWindowTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
@@ -86,8 +88,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		if (control != null)
 			control.setVisible(false);
 	}
-	
-	
+
 	Control findControlByClass(Composite comp, Class claz) {
 		for (Control child : comp.getChildren()) {
 			if(child.getClass()==claz) {
@@ -99,8 +100,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		}
 		return null;
 	}
-	
-	
+
 	Control findGroupByText(Composite comp, String text) {
 		for (Control child : comp.getChildren()) {
 			if(child instanceof Group && ((Group)child).getText().equals(text)) {
@@ -113,7 +113,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return null;
 	}
 
-
 	@Override
 	protected String getFinalPerspectiveID() {
 		return "org.jboss.tools.seam.ui.SeamPerspective"; //$NON-NLS-1$
@@ -122,7 +121,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	protected IFacetedProjectTemplate getTemplate() {
 		return ProjectFacetsManager.getTemplate("template.jst.seam"); //$NON-NLS-1$
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard#performFinish()
 	 */
@@ -132,19 +131,19 @@ public class SeamProjectWizard extends WebProjectWizard {
 		page.finishPressed();
 		return super.performFinish();
 	}
-	
+
 	class SeamWebProjectFirstPage extends WebProjectFirstPage {
 		@Override
 		protected String getInfopopID() {
 			return ISeamHelpContextIds.NEW_SEAM_PROJECT;
 		}
-		
+
 		public SeamWebProjectFirstPage(IDataModel model, String pageName ) {
 			super(model, pageName);
 		}
 
 		protected Combo matchedServerTargetCombo;
-		
+
 		protected Composite createTopLevelComposite(Composite parent) {
 			Composite top = new Composite(parent, SWT.NONE);
 			top.setLayout(new GridLayout());
@@ -157,7 +156,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 	        return top;
 		}
 
-		
 		protected void createSeamServerTargetComposite(Composite parent) {
 //				super.createServerTargetComposite(parent);
 	        Group group = new Group(parent, SWT.NONE);
@@ -182,7 +180,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 			if (matchedServerTargetCombo.getSelectionIndex() == -1 && matchedServerTargetCombo.getVisibleItemCount() != 0)  
 				matchedServerTargetCombo.select(0);
 		}
-		
+
 		protected String[] getValidationPropertyNames() {
 			String[] superProperties = super.getValidationPropertyNames();
 			List list = Arrays.asList(superProperties);
@@ -196,7 +194,30 @@ public class SeamProjectWizard extends WebProjectWizard {
 		public boolean launchNewServerWizard(Shell shell, IDataModel model) {
 			return launchNewServerWizard(shell, model, null);
 		}
-		
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
+		 */
+		@Override
+	    public boolean isPageComplete() {
+	        if(super.isPageComplete()) {
+	        	IProjectFacet pFacet = ProjectFacetsManager.getProjectFacet(ISeamCoreConstants.SEAM_CORE_FACET_ID);
+	        	IFacetedProjectWorkingCopy fProject = getFacetedProjectWorkingCopy();
+	        	if(fProject!=null) {
+		        	IProjectFacetVersion seamFacet = fProject.getProjectFacetVersion(pFacet);
+		        	if(seamFacet==null) {
+		        		this.setErrorMessage(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED);
+		        		return false;
+		        	} else {
+		        		this.setErrorMessage(null);
+		        	}
+	        	}
+	        	return true;
+	        }
+	        return false;
+	    }
+
 		public boolean launchNewServerWizard(Shell shell, IDataModel model, String serverTypeID) {
 			DataModelPropertyDescriptor[] preAdditionDescriptors = model.getValidPropertyDescriptors(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 			IRuntime rt = (IRuntime)model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
@@ -232,7 +253,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 				}
 				if (preAddition == null && postAddition != null && postAddition.length == 1)
 					newAddition = postAddition[0];
-				
+
 				model.notifyPropertyChange(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, IDataModel.VALID_VALUES_CHG);
 				if (newAddition != null)
 					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, newAddition);
@@ -241,17 +262,17 @@ public class SeamProjectWizard extends WebProjectWizard {
 			}
 			return isOK;
 		}
-		
+
 		public boolean internalLaunchNewServerWizard(Shell shell, IDataModel model) {
 			return launchNewServerWizard(shell, model, getModuleTypeID());
 		}
-		
+
 	    public void restoreDefaultSettings() {
 	    	super.restoreDefaultSettings();
 
 	    	String lastServerName = SeamProjectPreferences
 			.getStringPreference(SeamProjectPreferences.SEAM_LAST_SERVER_NAME);
-	    	
+
 	    	if (lastServerName != null && lastServerName.length() > 0) {
 		    	SeamFacetProjectCreationDataModelProvider.setServerName(model,lastServerName);
 	    	}
@@ -266,6 +287,5 @@ public class SeamProjectWizard extends WebProjectWizard {
 						serverName);
 	    	}
 	    }
-
 	}
 }

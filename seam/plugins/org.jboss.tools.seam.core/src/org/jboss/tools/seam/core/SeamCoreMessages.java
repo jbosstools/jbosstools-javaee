@@ -8,7 +8,7 @@ public class SeamCoreMessages {
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamCoreMessages.class);
 	}
-	
+
 	public static String SeamCoreBuilder_1;
 	public static String ANT_COPY_UTILS_COPY_FAILED;
 	public static String ANT_COPY_UTILS_COULD_NOT_FIND_FOLDER;
@@ -38,5 +38,4 @@ public class SeamCoreMessages {
 	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERRORS_OCCURED = null;
 	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_CHECK_ERROR_LOG_VIEW;
 	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERROR;
-
 }

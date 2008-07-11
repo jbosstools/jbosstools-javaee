@@ -390,11 +390,15 @@ public class SeamWizardFactory {
 		/* (non-Javadoc)
 		 * @see org.eclipse.datatools.connectivity.IProfileListener#profileAdded(org.eclipse.datatools.connectivity.IConnectionProfile)
 		 */
-		public void profileAdded(IConnectionProfile profile) {
-			connProfileSelEditor.setValue(profile.getName());
-			((ITaggedFieldEditor) ((CompositeEditor) connProfileSelEditor)
-					.getEditors().get(1)).setTags(getConnectionProfileNameList()
-					.toArray(new String[0]));
+		public void profileAdded(final IConnectionProfile profile) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					connProfileSelEditor.setValue(profile.getName());
+					((ITaggedFieldEditor) ((CompositeEditor) connProfileSelEditor)
+							.getEditors().get(1)).setTags(getConnectionProfileNameList()
+							.toArray(new String[0]));
+				}
+			});
 			validator.validate(profile.getName(), null);
 		}
 

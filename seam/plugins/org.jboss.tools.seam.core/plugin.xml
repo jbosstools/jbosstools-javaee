@@ -52,7 +52,7 @@
             <and>
                <requires
                      facet="jst.web"
-                     version="[2.4">
+                     version="[2.5">
                </requires>
                <requires
                      facet="jst.jsf"
@@ -72,7 +72,7 @@
             <and>
                <requires
                      facet="jst.web"
-                     version="[2.4">
+                     version="[2.5">
                </requires>
                <requires
                      facet="jst.jsf"
@@ -143,32 +143,15 @@
                facet="jst.java"/>
          <fixed
                facet="jst.web"/>
-         <fixed
+         <!--fixed
                facet="jst.seam"/>
          <fixed
-               facet="jst.jsf"/>
+               facet="jst.jsf"/-->
          <preset
                id="jst.seam.preset">
          </preset>
       </template>
-      <preset
-            id="jst.seam.preset">
-         <label>
-            Dynamic Web Project with Seam 1.2
-         </label>
-         <facet
-               id="jst.java"
-               version="5.0"/>
-         <facet
-               id="jst.web"
-               version="2.5"/>
-         <facet
-               id="jst.jsf"
-               version="1.2"/>
-         <facet
-               id="jst.seam"
-               version="1.2"/>               
-      </preset>
+
       <template
             id="template.jst.seam2">
          <label>
@@ -178,33 +161,42 @@
                facet="jst.java"/>
          <fixed
                facet="jst.web"/>
-         <fixed
+         <!--fixed
                facet="jst.seam"/>
          <fixed
-               facet="jst.jsf"/>
+               facet="jst.jsf"/-->
          <preset
                id="jst.seam2.preset">
          </preset>
       </template>
-      <preset
-            id="jst.seam2.preset">
-         <label>
-            Dynamic Web Project with Seam 2.0 (technology preview)
-         </label>
-         <facet
-               id="jst.java"
-               version="5.0"/>
-         <facet
-               id="jst.web"
-               version="2.5"/>
-         <facet
-               id="jst.jsf"
-               version="1.2"/>
-         <facet
-               id="jst.seam"
-               version="2.0"/>               
-      </preset>
    </extension>
+
+  <extension
+        point="org.eclipse.wst.common.project.facet.core.presets">
+     <static-preset
+           id="jst.seam.preset">
+	    <label>Dynamic Web Project with Seam 1.2</label>
+	    <facet id="jst.java" version="5.0" />
+	    <facet id="jst.web" version="2.5"/>
+	    <facet id="jst.jsf" version="1.2" />
+	    <facet id="jst.seam" version="2.0" />
+     	<description>
+        	Configures a Dynamic Web application to use Seam v1.2
+     	</description>
+     </static-preset>
+     <static-preset
+           id="jst.seam2.preset">
+	    <label>Dynamic Web Project with Seam 2.0 (technology preview)</label>
+	    <facet id="jst.java" version="5.0" />
+	    <facet id="jst.web" version="2.5"/>
+	    <facet id="jst.jsf" version="1.2" />
+	    <facet id="jst.seam" version="2.0" />
+     	<description>
+        	Configures a Dynamic Web application to use Seam v2.0
+     	</description>
+     </static-preset>
+  </extension>
+
    <extension
          point="org.eclipse.wst.common.project.facet.core.runtimes">
       <supported>

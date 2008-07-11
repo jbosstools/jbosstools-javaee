@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Seam GUI Tools
-Bundle-SymbolicName: org.jboss.tools.seam.ui; singleton:=true
+Bundle-SymbolicName: org.jboss.tools.seam.ui;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.seam.ui.SeamGuiPlugin
 Bundle-Localization: plugin

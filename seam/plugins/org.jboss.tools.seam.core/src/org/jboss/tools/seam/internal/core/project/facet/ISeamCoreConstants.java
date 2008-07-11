@@ -22,4 +22,13 @@ public	interface ISeamCoreConstants {
 	 */
 	String SEAM_CORE_FACET_ID = "jst.seam"; //$NON-NLS-1$
 
+	/**
+	 * Seam 1.2 Facet Version constant
+	 */
+	String SEAM_CORE_FACET_VERSION_12 = "1.2"; //$NON-NLS-1$
+
+	/**
+	 * Seam 2.0 Facet Version constant
+	 */
+	String SEAM_CORE_FACET_VERSION_20 = "2.0"; //$NON-NLS-1$
 }
