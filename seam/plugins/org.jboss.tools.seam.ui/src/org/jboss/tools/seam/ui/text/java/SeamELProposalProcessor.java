@@ -120,7 +120,18 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 		 */
 		public String getDisplayString() {
-			return (fNewPrefix == null ? fPrefix : fNewPrefix) + fString;
+			String dispString = (fNewPrefix == null ? fPrefix : fNewPrefix) + fString;
+			if (dispString != null) {
+				if (dispString.indexOf('{') == -1 
+					&& dispString.indexOf('}') != -1) {
+					dispString = dispString.substring(0, dispString.indexOf('}'));
+				}
+				if (dispString.indexOf('{') != -1 
+					&& dispString.indexOf('}') == -1) {
+					dispString += "}";
+				}
+			}
+			return dispString;
 		}
 
 		/*
@@ -298,12 +309,16 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 					documentContent = document.get(0,offset) +  proposalPrefix + document.get(offset, document.getLength() - offset);
 				}
 				
-				proposalSufix = "}";  //$NON-NLS-1$
 			} else {
 				if(viewer.getDocument() != null) {
 					documentContent = document.get();
 				}
 			}
+
+			// Is '}'-bracket exists? If not - add the 
+    		if(getELEndPosition(offset + proposalPrefix.length(), documentContent) == -1) {
+    			proposalSufix = "}";
+    		}
 
 			List<ElVarSearcher.Var> vars = ElVarSearcher.findAllVars(viewer, offset);
 			List<String> suggestions = fEngine.getCompletions(seamProject, file, documentContent, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
@@ -493,4 +508,84 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		}
 		return false;
 	}
+	
+	/*
+	 * Checks if the EL operand ending character is present
+	 * @return
+	 */
+	private int getELEndPosition(int initialOffset, String restOfCurrentValue) {
+		int offset = -1;
+
+		char inQuotesChar = 0;
+		while (++offset < restOfCurrentValue.length() - initialOffset) {
+			if (inQuotesChar == 0) {
+				if ('}' == restOfCurrentValue.charAt(initialOffset + offset))
+					return offset;
+
+				if ('#' == restOfCurrentValue.charAt(initialOffset + offset))
+					return -1;
+
+				if ('<' == restOfCurrentValue.charAt(initialOffset + offset))
+					return -1;
+
+				if ('>' == restOfCurrentValue.charAt(initialOffset + offset))
+					return -1;
+
+				if ('/' == restOfCurrentValue.charAt(initialOffset + offset) &&
+					(initialOffset + offset + 1 < restOfCurrentValue.length() &&
+					'>' == restOfCurrentValue.charAt(initialOffset + offset + 1)))
+					return -1;
+
+				if ('"' == restOfCurrentValue.charAt(initialOffset + offset) || 
+                				'\'' == restOfCurrentValue.charAt(initialOffset + offset)) {
+					inQuotesChar = restOfCurrentValue.charAt(initialOffset + offset);
+				}
+
+				if ('\\' == restOfCurrentValue.charAt(initialOffset + offset)) {
+	                int backslashCount = 1;
+	                
+	                while ((initialOffset + offset + backslashCount) < restOfCurrentValue.length() && 
+	                		restOfCurrentValue.charAt(initialOffset + offset + backslashCount) == '\\') {
+	                    backslashCount++;
+	                }
+
+	                if (initialOffset + offset + backslashCount >= restOfCurrentValue.length())
+	                	return -1;
+	                
+	                if (backslashCount % 2 == 1 && 
+	                		('"' == restOfCurrentValue.charAt(initialOffset + offset + backslashCount) || 
+	                				'\'' == restOfCurrentValue.charAt(initialOffset + offset + backslashCount))) {
+	                    inQuotesChar = restOfCurrentValue.charAt(initialOffset + offset + backslashCount);
+	                    offset += backslashCount;
+	                }
+				}
+			} else {
+				if ('"' == restOfCurrentValue.charAt(initialOffset + offset) || 
+        				'\'' == restOfCurrentValue.charAt(initialOffset + offset)) {
+					inQuotesChar = 0;
+				}
+
+				if ('\\' == restOfCurrentValue.charAt(initialOffset + offset)) {
+	                int backslashCount = 1;
+	                
+	                while ((initialOffset + offset + backslashCount) < restOfCurrentValue.length() && 
+	                		restOfCurrentValue.charAt(initialOffset + offset + backslashCount) == '\\') {
+	                    backslashCount++;
+	                }
+
+	                if (initialOffset + offset + backslashCount >= restOfCurrentValue.length())
+	                	return -1;
+	                
+	                if (backslashCount % 2 == 1 && 
+	                		('"' == restOfCurrentValue.charAt(initialOffset + offset + backslashCount) || 
+	                				'\'' == restOfCurrentValue.charAt(initialOffset + offset + backslashCount))) {
+	                    inQuotesChar = 0;
+	                    offset += backslashCount;
+	                }
+				}
+			}
+		}
+		return -1;
+	}
+
 }
