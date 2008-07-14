@@ -70,7 +70,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	
 	@Override
 	protected File getSeamHomeFolder() {
-		return new File(System.getProperty("jbosstools.test.seam.2.0.1.GA.home"));
+		return new File(System.getProperty("jbosstools.test.seam.2.0.1.GA.home", 
+				"E:\\Java\\JBoss\\Seam\\jboss-seam-2.0.1.GA"));
 	}
 	
 	@Override
@@ -170,8 +171,10 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInEjbSrc.add("seam.properties");
 		onlyInEjbSrc.add("import.sql");
 		onlyInEjbSrc.add("components.properties");
+		onlyInEjbSrc.add("META-INF");				// JBIDE-2431: META-INF dir is always created by Seam 2.0 seamgen
+		onlyInEjbSrc.add("org");					// JBIDE-2431: org dir is always created by Seam 2.0 seamgen
 		
-		assertOnlyContainsTheseFiles(onlyInEjbSrc, ear.findMember("ejbModule"));		
+		assertOnlyContainsTheseFiles(onlyInEjbSrc, (IContainer)ejb.findMember("ejbModule").getAdapter(IContainer.class));		
 	}
 
 
@@ -229,19 +232,23 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		Set<String> libs = new HashSet<String>();
 		libs.add("testng.jar");
 		libs.add("hibernate-all.jar");
-		libs.add("jboss-deployers.jar");
+//		libs.add("jboss-deployers.jar");  // JBIDE-2431: There is no such jar created by Seam 2.0 seamgen
 		libs.add("jboss-embedded-all.jar");
 		libs.add("thirdparty-all.jar");
 		libs.add("jboss-embedded-api.jar");
 		libs.add("core.jar");		
 		
 		assertOnlyContainsTheseFiles(libs, testProject.findMember("lib"));
+		
+		// JBIDE-2431: The following block is commented because it duplicates the call to assertOnlyContainsTheseFiles()
+/*
 		assertNotNull(testProject.findMember("lib/testng.jar"));
 		assertNotNull(testProject.findMember("lib/hibernate-all.jar"));
-		assertNotNull(testProject.findMember("lib/jboss-deployers.jar"));
+//		assertNotNull(testProject.findMember("lib/jboss-deployers.jar")); // JBIDE-2431: There is no such jar created by Seam 2.0 seamgen
 		assertNotNull(testProject.findMember("lib/jboss-embedded-all.jar"));
 		assertNotNull(testProject.findMember("lib/thirdparty-all.jar"));
-		
+		assertNotNull(testProject.findMember("lib/core.jar")); 				// JBIDE-2431: lib/core.jar file is always created by Seam 2.0 seamgen
+*/
 	}
 	
 	public void testSeamProperties() {
@@ -274,10 +281,9 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		IProject earRoot = earProject.getProject();
 		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earRoot);
 		
-		
-		
-		IProject earProject = seamProjectsSet.getEarProject();
-		assertNotNull(earProject.findMember("EarContent/security.drl"));		
+		// JBIDE-2431: security.drl is always created in <EJBProject>/ejbModule directory by Seam 2.0 seamgen
+		IProject ejbProject = seamProjectsSet.getEjbProject();
+		assertNotNull(ejbProject.findMember("ejbModule/security.drl"));		
 		
 	}
 	
