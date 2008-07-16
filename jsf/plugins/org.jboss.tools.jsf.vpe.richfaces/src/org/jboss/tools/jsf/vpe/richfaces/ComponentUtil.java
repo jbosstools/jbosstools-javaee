@@ -28,6 +28,8 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.bundle.BundleMap;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.css.ELReferenceList;
+import org.jboss.tools.vpe.editor.util.ElService;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
@@ -469,10 +471,11 @@ public class ComponentUtil {
     public static void setImgFromResources(VpePageContext pageContext, nsIDOMElement img, String fileImageName, String undefinedImgName) {
         IEditorInput input = pageContext.getEditPart().getEditorInput();
         IPath inputPath = getInputParentPath(input);
-        File file = new File(inputPath.toOSString() + File.separator + fileImageName);
+        String path = ElService.getInstance().replaceEl(pageContext.getVisualBuilder().getCurrentIncludeInfo().getFile(), fileImageName);
+        File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
             img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toOSString() + File.separator
-                    + fileImageName);
+                    + path);
         } else {
             img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, undefinedImgName);
         }
