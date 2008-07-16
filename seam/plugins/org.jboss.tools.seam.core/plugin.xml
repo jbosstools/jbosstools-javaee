@@ -179,7 +179,7 @@
 	    <facet id="jst.java" version="5.0" />
 	    <facet id="jst.web" version="2.5"/>
 	    <facet id="jst.jsf" version="1.2" />
-	    <facet id="jst.seam" version="2.0" />
+	    <facet id="jst.seam" version="1.2" />
      	<description>
         	Configures a Dynamic Web application to use Seam v1.2
      	</description>
