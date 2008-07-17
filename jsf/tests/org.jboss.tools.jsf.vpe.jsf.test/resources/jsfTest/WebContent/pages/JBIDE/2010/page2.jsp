@@ -4,8 +4,6 @@
 <head>
 </head>
 <body>
-
-
 	<h:outputText id="id1" value="#{bean1.property2}"/>
 </body>
 </html>
