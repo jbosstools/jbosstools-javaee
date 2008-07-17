@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
+import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
@@ -94,7 +95,7 @@ public class SeamFacetInstallDataModelProvider extends
 		} else if (JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
 			return "Jboos_DEPLOY_AS"; //$NON-NLS-1$
 		} else if (propertyName.equals(FACET_ID)) {
-			return ISeamCoreConstants.SEAM_CORE_FACET_ID;
+			return ISeamFacetDataModelProperties.SEAM_FACET_ID;
 		} else if (SEAM_TEST_PROJECT.equals(propertyName)) {
 			return EMPTY_STRING;
 		} else if (SEAM_EJB_PROJECT.equals(propertyName)) {
@@ -109,6 +110,20 @@ public class SeamFacetInstallDataModelProvider extends
 			return null;
 		}
 		return super.getDefaultProperty(propertyName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider#getValidPropertyDescriptors(java.lang.String)
+	 */
+	public DataModelPropertyDescriptor[] getValidPropertyDescriptors(String propertyName) {
+		if (ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER.equals(propertyName)) {
+			String runtimeName = (String)getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
+			if(runtimeName!=null) {
+				return SeamFacetProjectCreationDataModelProvider.getServerPropertyDescriptors(runtimeName);
+			}
+		}
+		return super.getValidPropertyDescriptors(propertyName);
 	}
 
 	/**

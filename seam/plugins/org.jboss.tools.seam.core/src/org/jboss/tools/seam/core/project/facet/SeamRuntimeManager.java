@@ -28,7 +28,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
 
 /**
@@ -244,7 +244,7 @@ public class SeamRuntimeManager {
 			throw new IllegalArgumentException("Project must not be null.");
 		}
 		try {
-			IProjectFacet facet = ProjectFacetsManager.getProjectFacet(ISeamCoreConstants.SEAM_CORE_FACET_ID);
+			IProjectFacet facet = ProjectFacetsManager.getProjectFacet(ISeamFacetDataModelProperties.SEAM_FACET_ID);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 			if(facetedProject!=null) {
 				IProjectFacetVersion facetVersion = facetedProject.getInstalledVersion(facet);

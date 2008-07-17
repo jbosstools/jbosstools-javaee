@@ -95,7 +95,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 	public boolean propertySet(String propertyName, Object propertyValue) {
 		if( propertyName.equals( IFacetProjectCreationDataModelProperties.FACET_RUNTIME )){
 			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
-			IDataModel seamFacet = map.getFacetDataModel( ISeamCoreConstants.SEAM_CORE_FACET_ID );	
+			IDataModel seamFacet = map.getFacetDataModel(ISeamFacetDataModelProperties.SEAM_FACET_ID);	
 			seamFacet.setProperty( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, propertyValue );
 
 			if (propertyValue != null) {
@@ -108,11 +108,10 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 					}
 				}
 			}
-
 		} else if (propertyName.equals(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER)) {
 			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
-			IDataModel seamFacet = map.getFacetDataModel( ISeamCoreConstants.SEAM_CORE_FACET_ID );	
-			seamFacet.setProperty( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, propertyValue );
+			IDataModel seamFacet = map.getFacetDataModel(ISeamFacetDataModelProperties.SEAM_FACET_ID);
+			seamFacet.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, propertyValue);
 		}
 
 		return super.propertySet(propertyName, propertyValue);
@@ -125,39 +124,41 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		return names;
 	}
 
+	public static DataModelPropertyDescriptor[] getServerPropertyDescriptors(String runtimeName) {
+		List<IServer> list = getServers(runtimeName);
+
+		DataModelPropertyDescriptor[] descriptors = new DataModelPropertyDescriptor[list.size() + 1];
+
+		Iterator<IServer> iterator = list.iterator();
+		for (int i = 0; i < descriptors.length - 1; i++) {
+			IServer server = (IServer) iterator.next();
+			descriptors[i] = new DataModelPropertyDescriptor(server, server.getName());
+		}
+		descriptors[descriptors.length - 1] = new DataModelPropertyDescriptor(null, "<None>");
+
+		if(descriptors.length > 2){
+			Arrays.sort(descriptors, 0, descriptors.length - 2, new Comparator() {
+				public int compare(Object arg0, Object arg1) {
+					DataModelPropertyDescriptor d1 = (DataModelPropertyDescriptor)arg0;
+					DataModelPropertyDescriptor d2 = (DataModelPropertyDescriptor)arg1;
+					return d1.getPropertyDescription().compareTo(d2.getPropertyDescription());
+				}
+			});
+		}
+
+		return descriptors;
+	}
+
 	public DataModelPropertyDescriptor[] getValidPropertyDescriptors(String propertyName) {
 		if (ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER.equals(propertyName)) {
-			Collection projectFacets = (Collection)getProperty(REQUIRED_FACETS_COLLECTION);
 			Object rt = getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
 			String primaryName = getRuntimeName(rt); 
-			
-			List<IServer> list = getServers(primaryName);
-			
-			DataModelPropertyDescriptor[] descriptors = new DataModelPropertyDescriptor[list.size() + 1];
-
-			Iterator<IServer> iterator = list.iterator();
-			for (int i = 0; i < descriptors.length - 1; i++) {
-				IServer server = (IServer) iterator.next();
-				descriptors[i] = new DataModelPropertyDescriptor(server, server.getName());
-			}
-			descriptors[descriptors.length - 1] = new DataModelPropertyDescriptor(null, "<None>");
-
-			if(descriptors.length > 2){
-				Arrays.sort(descriptors, 0, descriptors.length - 2, new Comparator() {
-					public int compare(Object arg0, Object arg1) {
-						DataModelPropertyDescriptor d1 = (DataModelPropertyDescriptor)arg0;
-						DataModelPropertyDescriptor d2 = (DataModelPropertyDescriptor)arg1;
-						return d1.getPropertyDescription().compareTo(d2.getPropertyDescription());
-					}
-				});
-			}
-			
-			return descriptors;
+			return getServerPropertyDescriptors(primaryName);
 		}
 		return super.getValidPropertyDescriptors(propertyName);
 	}
 
-	private List<IServer> getServers(String runtimeName) {
+	private static List<IServer> getServers(String runtimeName) {
 		ArrayList<IServer> list = new ArrayList<IServer>();
 		if( runtimeName != null ) {
 			if (runtimeName != null) {
@@ -175,7 +176,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Performs the property validation 
 	 * 
@@ -230,7 +231,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_SERVER_INCOMPATIBLE, null);
 	}
 	
-	private String getRuntimeName(Object rt) {
+	private static String getRuntimeName(Object rt) {
 		if( rt == null ) {
 			return null;
 		}
@@ -291,5 +292,4 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			} 
 		} 
 	}
-
 }

@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.wizard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -32,16 +33,19 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.frameworks.internal.datamodel.ui.DataModelSynchHelper;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
+import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectEvent;
+import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectListener;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamCoreConstants;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
@@ -69,24 +73,59 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return DataModelFactory.createDataModel(new SeamFacetProjectCreationDataModelProvider());
 	}
 
+	private SeamWebProjectFirstPage firstPage;
+
 	@Override
 	protected IWizardPage createFirstPage() {
-//		IWizardPage page = super.createFirstPage();
+		firstPage = new SeamWebProjectFirstPage(model, "first.page"); //$NON-NLS-1$
 
-		IWizardPage page = new SeamWebProjectFirstPage(model, "first.page"); //$NON-NLS-1$
-
-		page.setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png"));  //$NON-NLS-1$
-		page.setTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_SEAM_WEB_PROJECT);
-		page.setDescription(SeamUIMessages.SEAM_PROJECT_WIZARD_CREATE_STANDALONE_SEAM_WEB_PROJECT);
-		return page;
+		firstPage.setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png"));  //$NON-NLS-1$
+		firstPage.setTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_SEAM_WEB_PROJECT);
+		firstPage.setDescription(SeamUIMessages.SEAM_PROJECT_WIZARD_CREATE_STANDALONE_SEAM_WEB_PROJECT);
+		return firstPage;
 	}
+
+	// We need these controls there to listen to them to set seam action models.
+	private Combo matchedServerTargetCombo;
+	private Control[] dependentServerControls;
+	private Combo serverRuntimeTargetCombo;
 
 	@Override
 	public void createPageControls(Composite container) {
 		super.createPageControls(container);
+		synchSeamActionModels();
+		getFacetedProjectWorkingCopy().addListener(new IFacetedProjectListener() {
+			public void handleEvent(IFacetedProjectEvent event) {
+				synchSeamActionModels();
+			}
+		}, IFacetedProjectEvent.Type.PROJECT_FACETS_CHANGED);
 		Control control = findGroupByText(getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
 		if (control != null)
 			control.setVisible(false);
+	}
+
+	private void synchSeamActionModels() {
+		Set<Action> actions = getFacetedProjectWorkingCopy().getProjectFacetActions();
+		for (Action action : actions) {
+			if(ISeamFacetDataModelProperties.SEAM_FACET_ID.equals(action.getProjectFacetVersion().getProjectFacet().getId())) {
+				IDataModel model = (IDataModel)action.getConfig();
+				Object targetServer = this.model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+				if(targetServer!=null) {
+					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, targetServer);
+				}
+				Object targetRuntime = this.model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
+				if(targetRuntime!=null) {
+					Object targetRuntimeName = targetRuntime;
+					if(targetRuntime instanceof IRuntime) {
+						targetRuntimeName = ((IRuntime)targetRuntime).getName();
+					}
+					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, targetRuntimeName);
+				}
+				DataModelSynchHelper synchHelper = firstPage.initializeSynchHelper(model);
+				synchHelper.synchCombo(matchedServerTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, dependentServerControls);
+				synchHelper.synchCombo(serverRuntimeTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, null);
+			}
+		}
 	}
 
 	Control findControlByClass(Composite comp, Class claz) {
@@ -142,14 +181,13 @@ public class SeamProjectWizard extends WebProjectWizard {
 			super(model, pageName);
 		}
 
-		protected Combo matchedServerTargetCombo;
-
 		protected Composite createTopLevelComposite(Composite parent) {
 			Composite top = new Composite(parent, SWT.NONE);
 			top.setLayout(new GridLayout());
 			top.setLayoutData(new GridData(GridData.FILL_BOTH));
 			createProjectGroup(top);
 			createServerTargetComposite(top);
+			serverRuntimeTargetCombo = serverTargetCombo;
 			createPrimaryFacetComposite(top);
 			createSeamServerTargetComposite(top);
 	        createPresetPanel(top);
@@ -157,7 +195,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 		}
 
 		protected void createSeamServerTargetComposite(Composite parent) {
-//				super.createServerTargetComposite(parent);
 	        Group group = new Group(parent, SWT.NONE);
 	        group.setText(SeamUIMessages.SEAM_TARGET_SERVER);
 	        group.setLayoutData(gdhfill());
@@ -175,8 +212,8 @@ public class SeamProjectWizard extends WebProjectWizard {
 					}
 				}
 			});
-			Control[] depsMatched = new Control[]{serverTargetCombo, newMatchedServerTargetButton};
-			synchHelper.synchCombo(matchedServerTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, depsMatched);
+			dependentServerControls = new Control[]{serverTargetCombo, newMatchedServerTargetButton};
+			synchHelper.synchCombo(matchedServerTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, dependentServerControls);
 			if (matchedServerTargetCombo.getSelectionIndex() == -1 && matchedServerTargetCombo.getVisibleItemCount() != 0)  
 				matchedServerTargetCombo.select(0);
 		}
@@ -202,7 +239,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		@Override
 	    public boolean isPageComplete() {
 	        if(super.isPageComplete()) {
-	        	IProjectFacet pFacet = ProjectFacetsManager.getProjectFacet(ISeamCoreConstants.SEAM_CORE_FACET_ID);
+	        	IProjectFacet pFacet = ProjectFacetsManager.getProjectFacet(ISeamFacetDataModelProperties.SEAM_FACET_ID);
 	        	IFacetedProjectWorkingCopy fProject = getFacetedProjectWorkingCopy();
 	        	if(fProject!=null) {
 		        	IProjectFacetVersion seamFacet = fProject.getProjectFacetVersion(pFacet);

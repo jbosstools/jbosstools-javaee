@@ -34,9 +34,22 @@ import org.eclipse.wst.common.project.facet.core.IActionConfigFactory;
  */
 public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 
-	// Seam Preferences names constants
+	/**
+	 * Seam Facet ID constant
+	 */
+	String SEAM_FACET_ID = "jst.seam"; //$NON-NLS-1$
 
-	String SEAM_FACET_ID = "jst.seam";
+	/**
+	 * Seam 1.2 Facet Version constant
+	 */
+	String SEAM_FACET_VERSION_12 = "1.2"; //$NON-NLS-1$
+
+	/**
+	 * Seam 2.0 Facet Version constant
+	 */
+	String SEAM_FACET_VERSION_20 = "2.0"; //$NON-NLS-1$
+
+	// Seam Preferences names constants
 
 	/**
 	 * Source folder used session objects: actions, forms, conversations, beans 
