@@ -5,7 +5,7 @@
 </head>
 <body>
 <f:view>
-	<h:outputText value="Hello world"
+	<h:outputText value="Hello world"/>
 </f:view>
 </body>
 </html>
