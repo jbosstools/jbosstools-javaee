@@ -30,7 +30,7 @@ public class AddPageOnDiagramHandler extends AbstractHandler {
 		int y = Integer.parseInt(p.getProperty("mouse.y"));
 
 		Page newPage = PagesFactoryImpl.eINSTANCE.createPage();
-		newPage.setName("");
+		newPage.setName("<initialize>");
 		newPage.setLocation(new Point(x,y));
 		part.getPagesModel().getChildren().add(newPage);
 	}

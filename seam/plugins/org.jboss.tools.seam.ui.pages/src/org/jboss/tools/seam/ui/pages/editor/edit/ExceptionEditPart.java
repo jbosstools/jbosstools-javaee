@@ -242,7 +242,8 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
 		super.activate();
-		if("".equals(getExceptionModel().getName())){ 
+		if("<initialize>".equals(getExceptionModel().getName())){
+			getExceptionModel().setName("");
 			DirectEditRequest req = new DirectEditRequest();
 			req.setType(GraphicalPartFactory.REQ_INIT_EDIT);
 			performRequest(req);

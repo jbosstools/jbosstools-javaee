@@ -31,7 +31,7 @@ public class AddExceptionOnDiagramHandler extends AbstractHandler {
 		int y = Integer.parseInt(p.getProperty("mouse.y"));
 
 		PageException newException = PagesFactoryImpl.eINSTANCE.createPgException();
-		newException.setName("");
+		newException.setName("<initialize>");
 		newException.setLocation(new Point(x,y));
 		part.getPagesModel().getChildren().add(newException);
 	}

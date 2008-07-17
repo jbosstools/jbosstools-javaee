@@ -250,7 +250,8 @@ public class PageEditPart extends PagesEditPart implements
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
 		super.activate();
-		if("".equals(getPageModel().getName())){ 
+		if("<initialize>".equals(getPageModel().getName())){
+			getPageModel().setName("");
 			DirectEditRequest req = new DirectEditRequest();
 			req.setType(GraphicalPartFactory.REQ_INIT_EDIT);
 			performRequest(req);
