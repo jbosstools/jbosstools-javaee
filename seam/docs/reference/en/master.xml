@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
-"http://www.oasis-open.org/docbook/xml/4.3CR3/docbookx.dtd"
-
+"http://www.docbook.org/xsd/4.3/docbook.xsd"
 
 [<!ENTITY intro SYSTEM "modules/intro.xml">
 <!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
