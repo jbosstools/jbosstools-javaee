@@ -20,6 +20,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -192,9 +194,12 @@ public class JsfJbide2362Test extends VpeTest {
 		XulRunnerEditor xulRunnerEditor = controller.getXulRunnerEditor();
 		assertNotNull(xulRunnerEditor);
 
-		IDOMDocument document = ((IDOMModel) NodesManagingUtil
-				.getStructuredModel(controller.getSourceEditor()))
-				.getDocument();
+		IStructuredModel model = null;
+		IDOMDocument document =null;
+		try {
+			model = StructuredModelManager.getModelManager()
+			.getExistingModelForRead(controller.getSourceEditor().getTextViewer().getDocument());
+			 document = ((IDOMModel)model).getDocument();
 
 		for (String tag : ELEMENTS) {
 
@@ -230,6 +235,12 @@ public class JsfJbide2362Test extends VpeTest {
 				TestUtil.delay(500);
 				// wait
 				assertNotNull(xulRunnerEditor.getLastSelectedNode());
+			}
+		}
+
+		} finally {
+			if(model!=null) {
+				model.releaseFromRead();
 			}
 		}
 
