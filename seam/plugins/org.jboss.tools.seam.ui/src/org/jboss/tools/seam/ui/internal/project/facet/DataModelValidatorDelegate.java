@@ -75,16 +75,20 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	public void propertyChanged(DataModelEvent event) {
 		validateUntillError();
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void validateUntillError() {
 		page.setErrorMessage(getFirstValidationError());
-		page.setPageComplete(page.getErrorMessage()==null);
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				page.setPageComplete(page.getErrorMessage()==null);
+			}
+		});
 		if(page.getErrorMessage()==null) page.setMessage(null);
 	}
-	
+
 	/**
 	 * 
 	 * @return
