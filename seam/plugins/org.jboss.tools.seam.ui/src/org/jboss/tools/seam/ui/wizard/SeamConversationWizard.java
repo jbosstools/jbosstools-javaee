@@ -68,12 +68,13 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 		static {
 			// initialize war files mapping
 
-			// seam-gen uses @interfaceName@ as class name since 2.0.1
-			// but seam-gen 2.0.0 uses @beanName@ (it's a bug of 2.0.0)
-			// So we expect seam-gen 2.0.1 or higher here.
 			ACTION_MAPPING.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationJavaBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					// seam-gen uses @interfaceName@ as class name since 2.0.1
+					// but seam-gen 2.0.0 and lower uses @beanName@ (looks like a bug)
+					// So if we want it works for 2.0.* we should uncomment the following line:
+					// "${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					FileMapping.TYPE.WAR,
 					false));
 			ACTION_MAPPING.add(new FileMapping(
