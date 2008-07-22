@@ -90,6 +90,25 @@
          </enablement>
       </renameParticipant>
 
+      <renameParticipant
+            class="org.jboss.tools.struts.model.handlers.refactoring.StrutsRenameStrutsConfigParticipant"
+            id="org.jboss.tools.struts.model.handlers.refactoring.JSFRenameStrutsConfigParticipant"
+            name="jsf-RenameStrutsConfigParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.struts.strutsnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IFile"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+
    </extension>
 
    <extension point="org.jboss.tools.common.model.classes">
