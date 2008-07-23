@@ -155,9 +155,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
             } else {
                 intValue = Integer.parseInt(with);
             }
-            return String.valueOf((intValue - minus)) + String.valueOf("px");
+            return String.valueOf((intValue - minus)) + "px";
         } catch (NumberFormatException e) {
-            System.err.println(e.getMessage());
             return with;
         }
 

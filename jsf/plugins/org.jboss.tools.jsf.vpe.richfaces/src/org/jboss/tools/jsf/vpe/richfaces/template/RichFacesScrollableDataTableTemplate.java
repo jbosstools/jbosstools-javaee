@@ -46,7 +46,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	private static String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
 	private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
 
-	private static int NUM_ROW = 5;
+	private static final int NUM_ROW = 5;
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This

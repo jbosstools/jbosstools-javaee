@@ -195,7 +195,7 @@ public class ComponentUtil {
         if (file.exists()) {
             return file.getAbsolutePath();
         } else {
-            throw new RuntimeException("Can't get path for " //$NON-NLS-1$
+            throw new IllegalArgumentException("Can't get path for " //$NON-NLS-1$
                     + resourcePathInPlugin);
         }
     }
