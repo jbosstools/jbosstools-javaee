@@ -73,7 +73,11 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * 
 	 */
 	public void propertyChanged(DataModelEvent event) {
-		validateUntillError();
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				validateUntillError();
+			}
+		});
 	}
 
 	/**
@@ -81,11 +85,7 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 */
 	public void validateUntillError() {
 		page.setErrorMessage(getFirstValidationError());
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-				page.setPageComplete(page.getErrorMessage()==null);
-			}
-		});
+		page.setPageComplete(page.getErrorMessage()==null);
 		if(page.getErrorMessage()==null) page.setMessage(null);
 	}
 

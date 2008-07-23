@@ -31,6 +31,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
@@ -447,9 +448,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	}
 
 	private void validate() {
-		String message = validatorDelegate.getFirstValidationError();
-		this.setPageComplete(message == null);
-		this.setErrorMessage(message);		
+		final String message = validatorDelegate.getFirstValidationError();
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				setPageComplete(message == null);
+				setErrorMessage(message);		
+			}
+		});
 	}
 
 	public class PackageNameValidator implements IValidator {
