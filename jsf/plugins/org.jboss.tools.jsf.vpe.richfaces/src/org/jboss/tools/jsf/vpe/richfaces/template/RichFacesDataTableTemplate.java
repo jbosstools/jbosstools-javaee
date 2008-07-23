@@ -348,7 +348,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 					Integer colspan = null;
 					try {
 						colspan = Integer.valueOf(colspanStr);
-					} catch (Exception e) {
+					} catch (NumberFormatException e) {
 						// Ignore
 					}
 					// Append colspan of this column
