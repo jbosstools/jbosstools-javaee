@@ -26,30 +26,30 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesOrderingList extends VpeAbstractTemplate {
 
-	final static String DEFAULT_LIST_HEIGHT = "150px";
-	final static String DEFAULT_LIST_WIDTH = "300px";
+	private static final String DEFAULT_LIST_HEIGHT = "150px";
+	private static final String DEFAULT_LIST_WIDTH = "300px";
 
-	final static String DEFAULT_HEIGHT = "200px";
-	final static String DEFAULT_WIDTH = "300px";
+	private static final String DEFAULT_HEIGHT = "200px";
+	private static final String DEFAULT_WIDTH = "300px";
 	
-	final static String 	CAPTION_FACET = "caption";
-	final static String 	TOP_CONTROL_FACET = "topControl";
-	final static String 	UP_CONTROL_FACET = "upControl";
-	final static String 	DOWN_CONTROL_FACET = "downControl";
-	final static String 	BOTTOM_CONTROL_FACET = "bottomControl";
+	private static final String CAPTION_FACET = "caption";
+	private static final String TOP_CONTROL_FACET = "topControl";
+	private static final String UP_CONTROL_FACET = "upControl";
+	private static final String DOWN_CONTROL_FACET = "downControl";
+	private static final String BOTTOM_CONTROL_FACET = "bottomControl";
 	
-	final static String HEADER = "header";
-	final static String HEADER_CLASS = "headerClass";
-	final static String FOOTER = "footer";
-	final static String FOOTER_CLASS = "footerClass";
-	final static String CAPTION_CLASS = "captionClass";
-	final static String CAPTION_STYLE = "captionStyle";
-	final static String SPACE = " ";
+	private static final String HEADER = "header";
+	private static final String HEADER_CLASS = "headerClass";
+	private static final String FOOTER = "footer";
+	private static final String FOOTER_CLASS = "footerClass";
+	private static final String CAPTION_CLASS = "captionClass";
+	private static final String CAPTION_STYLE = "captionStyle";
+	private static final String SPACE = " ";
 
-	private static String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
-	private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
+	private static final String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
+	private static final String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
 
-	private static int NUM_ROW = 1;
+	private static final int NUM_ROW = 1;
 
 	private static final String TOP_CONTROL_IMG = "orderingList/top.gif";
 	private static final String UP_CONTROL_IMG = "orderingList/up.gif";
@@ -90,7 +90,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	private static final String DOWN_CONTROL_CLASS = "downControlClass";
 	private static final String BOTTOM_CONTROL_CLASS = "bottomControlClass";
 	private static final String ROW_CLASSES = "rowClasses";
-	
 	
 	private static final String CSS_CAPTION_CLASS = "rich-ordering-list-caption";
 	
@@ -332,20 +331,20 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		if (fastOrderControlsVisible) {
 			nsIDOMElement btnTopDiv = createSingleButtonDiv(creationData, visualDocument,
 					(null == topControlLabel ? TOP_CONTROL_LABEL_DEFAULT
-							: topControlLabel), TOP_CONTROL_IMG, new Boolean(
-							showButtonLabels).booleanValue(), top_control_facet, CSS_TOP_CONTROL_CLASS, topControlClass);
+							: topControlLabel), TOP_CONTROL_IMG, 
+							showButtonLabels, top_control_facet, CSS_TOP_CONTROL_CLASS, topControlClass);
 			buttonsDiv.appendChild(btnTopDiv);
 		}
 
 		if (orderControlsVisible) {
 			nsIDOMElement btnUpDiv = createSingleButtonDiv(creationData, visualDocument,
 					(null == upControlLabel ? UP_CONTROL_LABEL_DEFAULT
-							: upControlLabel), UP_CONTROL_IMG, new Boolean(
-							showButtonLabels).booleanValue(), up_control_facet, CSS_UP_CONTROL_CLASS, upControlClass);
+							: upControlLabel), UP_CONTROL_IMG,
+							showButtonLabels, up_control_facet, CSS_UP_CONTROL_CLASS, upControlClass);
 			nsIDOMElement btnDownDiv = createSingleButtonDiv(creationData, visualDocument,
 					(null == downControlLabel ? DOWN_CONTROL_LABEL_DEFAULT
-							: downControlLabel), DOWN_CONTROL_IMG, new Boolean(
-							showButtonLabels).booleanValue(), down_control_facet, CSS_DOWN_CONTROL_CLASS, downControlClass);
+							: downControlLabel), DOWN_CONTROL_IMG, 
+							showButtonLabels, down_control_facet, CSS_DOWN_CONTROL_CLASS, downControlClass);
 			buttonsDiv.appendChild(btnUpDiv);
 			buttonsDiv.appendChild(btnDownDiv);
 		}
@@ -354,7 +353,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			nsIDOMElement btnBottomDiv = createSingleButtonDiv(creationData, visualDocument,
 					(null == bottomControlLabel ? BOTTOM_CONTROL_LABEL_DEFAULT
 							: bottomControlLabel), BOTTOM_CONTROL_IMG,
-					new Boolean(showButtonLabels).booleanValue(), bottom_control_facet, CSS_BOTTOM_CONTROL_CLASS, bottomControlClass);
+					showButtonLabels, bottom_control_facet, CSS_BOTTOM_CONTROL_CLASS, bottomControlClass);
 			buttonsDiv.appendChild(btnBottomDiv);
 
 		}
@@ -843,15 +842,9 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			ArrayList<Element> columns) {
 		int count = 0;
 		// check for exact value in component
-		Integer span = null;
 		try {
-			span = Integer.valueOf(sourceElement.getAttribute("columns"));
-		} catch (Exception e) {
-			// Ignore bad attribute
-		}
-		if (null != span && span.intValue() != Integer.MIN_VALUE) {
-			count = span.intValue();
-		} else {
+			count = Integer.parseInt(sourceElement.getAttribute("columns"));
+		} catch (NumberFormatException e) {
 			// calculate max html columns count for all columns/rows children.
 			count = calculateRowColumns(sourceElement, columns);
 		}
@@ -870,48 +863,32 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			if (ComponentUtil.isRendered(column)) {
 				if (column.getNodeName().endsWith(":columnGroup")) {
 					// Store max calculated value of previous rows.
-					if (currentLength > count) {
-						count = currentLength;
-					}
+					count = Math.max(currentLength, count);
 					// Calculate number of columns in row.
 					currentLength = calculateRowColumns(sourceElement,
 							getColumns(column));
 					// Store max calculated value
-					if (currentLength > count) {
-						count = currentLength;
-					}
-					currentLength = 0;
+					count = Math.max(currentLength, count);
+					currentLength = 0;						
+					String colspanStr = column
+							.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
+
 				} else if (column.getNodeName().equals(
 						sourceElement.getPrefix() + ":column")) {
 					String breakBeforeStr = column.getAttribute("breakBefore");
-					boolean breakBefore = false;
-					if (breakBeforeStr != null) {
-						try {
-							breakBefore = Boolean.getBoolean(breakBeforeStr);
-						} catch (Exception e) {
-							// Ignore bad attribute
-						}
-					}
+					boolean breakBefore = Boolean.getBoolean(breakBeforeStr);
+					
 					// For new row, save length of previous.
 					if (breakBefore) {
-						if (currentLength > count) {
-							count = currentLength;
-						}
+						count = Math.max (currentLength, count);
 						currentLength = 0;
 					}
-					String colspanStr = column
-							.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
-					Integer colspan = null;
+					
 					try {
-						colspan = Integer.valueOf(colspanStr);
-					} catch (Exception e) {
-						// Ignore
-					}
-					// Append colspan of this column
-					if (null != colspan
-							&& colspan.intValue() != Integer.MIN_VALUE) {
-						currentLength += colspan.intValue();
-					} else {
+						String colspanStr = column
+								.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
+						currentLength += Integer.parseInt(colspanStr);
+					} catch (NumberFormatException e) {
 						currentLength++;
 					}
 				} else if (column.getNodeName().endsWith(":column")) {
@@ -921,9 +898,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 			}
 		}
-		if (currentLength > count) {
-			count = currentLength;
-		}
+		count = Math.max (currentLength, count);
 		return count;
 	}
 
