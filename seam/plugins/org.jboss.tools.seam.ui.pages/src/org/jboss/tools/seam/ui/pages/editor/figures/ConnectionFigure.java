@@ -183,4 +183,9 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 		this.selected = selected;
 		repaint();
 	}
+	
+	public void layout() {
+		if(getParent() != null)
+			super.layout();
+	}
 }
