@@ -594,12 +594,6 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	// if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_WIDTH_ATTR)) {
 	// String style = visualElement
 	// .getAttribute(HtmlComponentUtil.HTML_S				// Append colspan of this column
-	if (null != colspan
-			&& colspan.intValue() != Integer.MIN_VALUE) {
-		currentLength += colspan.intValue();
-	} else {
-		
-	}TYLE_ATTR);
 	// visualElement.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
 	// style += "; " + HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
 	// + DEFAULT_WIDTH + ";";
