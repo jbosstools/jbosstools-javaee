@@ -39,7 +39,6 @@ import org.w3c.dom.Node;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RichFacesComboBox2Template.
  * 
@@ -82,6 +81,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 
     /** The Constant STYLE_EXT. */
     private static final String STYLE_EXT = "richFacesComboBox";
+    
+    private static final int LIST_ITEM_HEIGHT_DEFAULT_VALUE=18;
 
     /** The style clasess. */
     private Map<String, String> styleClasess = new HashMap<String, String>();
@@ -130,6 +131,10 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 
     /** The source item class. */
     private String sourceItemClass;
+    
+    
+    /** Source button icon **/
+    private String sourceButtonIcon;
 
     /**
      * The Constructor.
@@ -287,7 +292,16 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 
         final nsIDOMElement scrollDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
         scrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-scroll");
-        scrollDiv.setAttribute(HTML.ATTR_STYLE, "height: 54px; width: " + calculateWithForDiv(sourceListWidth, 2));
+        final List<Element> items = ComponentUtil.getSelectItems(source.getChildNodes());
+        int defaultHeight = LIST_ITEM_HEIGHT_DEFAULT_VALUE;
+        
+        if((items!=null) && (items.size() > 1)){
+            defaultHeight = ((items.size() - 1)* LIST_ITEM_HEIGHT_DEFAULT_VALUE);
+        }
+        
+        final String listHeight = ComponentUtil.isNotBlank(this.sourceListHeight) ? this.sourceListHeight : String.valueOf(defaultHeight)
+                + "px"; 
+        scrollDiv.setAttribute(HTML.ATTR_STYLE, "height: "+listHeight+"; width: " + calculateWithForDiv(sourceListWidth, 2));
 
         final List<Element> selectItems = ComponentUtil.getSelectItems(source.getChildNodes());
 
@@ -581,11 +595,14 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         if (ComponentUtil.isBlank(this.sourceListWidth)) {
             this.sourceListWidth = DEFAULT_LIST_WIDTH;
         }
-        this.sourceListHeight = source.getAttribute("");
+        this.sourceListHeight = source.getAttribute("listHeight");
+        
 
         this.sourceWidth = source.getAttribute("width");
         if (ComponentUtil.isBlank(this.sourceWidth)) {
             this.sourceWidth = DEFAULT_LIST_WIDTH;
+        }else if(ComponentUtil.isNotBlank(this.sourceWidth) && (this.sourceListWidth == DEFAULT_LIST_WIDTH)){
+            this.sourceListWidth = this.sourceWidth;
         }
 
         this.sourceDefaultLabel = ComponentUtil.getAttribute(source, "defaultLabel");
@@ -605,6 +622,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         this.sourceListClass = ComponentUtil.getAttribute(source, "listClass");
         this.sourceListStyle = ComponentUtil.getAttribute(source, "listStyle");
         this.sourceItemClass = ComponentUtil.getAttribute(source, "itemClass");
+        
+        this.sourceButtonIcon = ComponentUtil.getAttribute(source, "buttonIcon");
 
     }
 
