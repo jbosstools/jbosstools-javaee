@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
@@ -39,7 +40,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 		super.createWebNature();
 	}
 	
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		((ImportWebWarContext)context).prepareModules();
 		super.execute();
 	}

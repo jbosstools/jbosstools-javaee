@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.ui.operation;
 import java.io.File;
 
 import org.jboss.tools.common.model.XModelConstants;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.util.FileUtil;
@@ -30,7 +31,7 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 		super(context);
 	}
 		
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		AdoptJSFProjectFinisher finisher = new AdoptJSFProjectFinisher();
 		finisher.setContext(model, context);
 		finisher.execute();
