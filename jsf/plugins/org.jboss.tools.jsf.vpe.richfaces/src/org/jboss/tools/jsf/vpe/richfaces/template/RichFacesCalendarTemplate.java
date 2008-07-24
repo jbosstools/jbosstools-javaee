@@ -558,22 +558,18 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     		array = HEADER_CONTENT_ON_POPUP;
     	}
 
-    	SimpleDateFormat sdf = new SimpleDateFormat();
+    	SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_DATE_PATTERN);
     	Date date = getCalendarWithLocale().getTime();
-    	String dateStr = "";
+    	
     	if (attrPresents(datePattern)) {
     		try {
     			sdf.applyPattern(datePattern);
-    			dateStr = sdf.format(date);
-    		} catch (Exception e) {
-    			sdf.applyPattern(DEFAULT_DATE_PATTERN);
-    			dateStr = sdf.format(date);
+    		} catch (IllegalArgumentException e) {
+    			// DEFAULT_DATE_PATTERN is used in this case
     		}
-    	} else {
-    		sdf.applyPattern(DEFAULT_DATE_PATTERN);
-    		dateStr = sdf.format(date);
     	}
-    	array[2] = dateStr;
+    	
+    	array[2] = sdf.format(date);
 
     	nsIDOMElement table = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_TABLE);

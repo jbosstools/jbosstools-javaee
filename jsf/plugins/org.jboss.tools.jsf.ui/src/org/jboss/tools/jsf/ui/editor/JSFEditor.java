@@ -81,6 +81,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.GC;
@@ -599,7 +600,7 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 			Exception ex = null;
 			try {
 				printer.getDPI();
-			} catch (Exception ee) {
+			} catch (SWTException ee) {
 				ex = ee;
 				printer.dispose();
 				d = null;
@@ -607,10 +608,8 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 						"org.jboss.tools.jsf.ui", 0, WizardKeys
 								.getString("PRN_ERROR"), ee);
 				ProblemReportingHelper.reportProblem(status);
-			}
-			if (ex == null) {
-				d
-						.setPages(new Pages(viewer, new PageFormat(printer,
+
+				d.setPages(new Pages(viewer, new PageFormat(printer,
 								this.getWorkbenchPart().getSite().getShell()
 										.getDisplay())));
 				String result = d.open();

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.ajax4jsf;
 
+import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -65,7 +66,7 @@ public class Activator extends AbstractUIPlugin {
 		URL url = null;
 		try {
 			url = bundle == null ? null : FileLocator.resolve(bundle.getEntry("/resources"));
-		} catch (Exception e) {
+		} catch (IOException e) {
 			url = bundle.getEntry("/resources");
 		}
 		return (url == null) ? null : url.getPath();

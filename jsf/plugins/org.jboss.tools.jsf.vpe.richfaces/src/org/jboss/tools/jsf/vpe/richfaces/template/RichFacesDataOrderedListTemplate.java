@@ -44,14 +44,14 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 
 		VpeCreationData creatorInfo = new VpeCreationData(orderedList);
 
-		int rows = -1;
+		int rows = 3;
 		try {
-			rows = Integer.valueOf(sourceElement.getAttribute(HtmlComponentUtil.HTML_ROW_ATTR));
-		} catch (Exception x) {
-			rows = -1;
+			rows = Integer.parseInt(sourceElement.getAttribute(HtmlComponentUtil.HTML_ROW_ATTR));
+		} catch (NumberFormatException x) {
+			rows = 3;
 		}
 
-		for (int i = 0; i < (rows == -1 ? 3 : rows); i++) {
+		for (int i = 0; i < rows; i++) {
 			nsIDOMElement listItem = visualDocument.createElement("li");
 			listItem.setAttribute("class", "dr-list-item rich-list-item");
 			orderedList.appendChild(listItem);

@@ -309,25 +309,21 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	}
 
 	public void nodeChanged(XModelTreeEvent event) {
-		try {
-			fireProcessChanged(false);
-			if (map == null || event == null)
-				return;
-			IJSFElement element = (JSFElement) map.get(event.getInfo());
-			if (element != null
-					&& !event.getModelObject().getPath()
-							.equals(event.getInfo())) {
-				updateCash((String) event.getInfo());
-			}
-			String path = event.getModelObject().getPath();
-			element = (path == null) ? null : (IJSFElement) map.get(path);
-			if (element == null) {
-				return;
-			}
-			element.nodeChanged(event);
-		} catch (Exception exc) {
-			JsfUiPlugin.getPluginLog().logError("Error in processing model event", exc);
+		fireProcessChanged(false);
+		if (map == null || event == null)
+			return;
+		IJSFElement element = (JSFElement) map.get(event.getInfo());
+		if (element != null
+				&& !event.getModelObject().getPath()
+						.equals(event.getInfo())) {
+			updateCash((String) event.getInfo());
 		}
+		String path = event.getModelObject().getPath();
+		element = (path == null) ? null : (IJSFElement) map.get(path);
+		if (element == null) {
+			return;
+		}
+		element.nodeChanged(event);
 	}
 
 	public void structureChanged(XModelTreeEvent event) {
@@ -341,16 +337,12 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		if (element == null) {
 			return;
 		}
-		try {
-			if (event.kind() == XModelTreeEvent.STRUCTURE_CHANGED) {
-				element.structureChanged(event);
-			} else if (event.kind() == XModelTreeEvent.CHILD_ADDED) {
-				element.nodeAdded(event);
-			} else if (event.kind() == XModelTreeEvent.CHILD_REMOVED) {
-				element.nodeRemoved(event);
-			}
-		} catch (Exception exc) {
-			JsfUiPlugin.getPluginLog().logError("Error in processing model event", exc);
+		if (event.kind() == XModelTreeEvent.STRUCTURE_CHANGED) {
+			element.structureChanged(event);
+		} else if (event.kind() == XModelTreeEvent.CHILD_ADDED) {
+			element.nodeAdded(event);
+		} else if (event.kind() == XModelTreeEvent.CHILD_REMOVED) {
+			element.nodeRemoved(event);
 		}
 	}
 

@@ -44,7 +44,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	public List<Object> getList(XModel model, String id, String prefix, Properties properties) {
 		try {
 			return getListInternal(model, id, prefix, properties);
-		} catch (Exception e) {
+		} catch (CoreException e) {
 			if(properties != null) {
 				String message = e.getMessage();
 				if(message==null) {

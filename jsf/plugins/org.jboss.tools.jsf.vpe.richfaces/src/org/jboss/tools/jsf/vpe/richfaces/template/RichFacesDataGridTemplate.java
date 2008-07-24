@@ -146,14 +146,11 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 	protected int getColumnsCount(Element sourceElement) {
 		int count = 0;
 		// check for exact value in component
-		Integer span = null;
 		try {
-			span = Integer.valueOf(sourceElement.getAttribute("columns"));			
-		} catch (Exception e) {
-			// Ignore bad attribute
-		}
-		if (null != span && span.intValue() >0) {
-			count = span.intValue();
+			int span = Integer.parseInt(sourceElement.getAttribute("columns"));
+			count = span > 0 ? span : 0;
+		} catch (NumberFormatException e) {
+			// Ignore wrong formatted attribute 
 		}
 		return count;
 	}
@@ -161,19 +158,12 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 	protected int getElementsCount(Element sourceElement, int columnCount) {
 		int elements = 0;
 		// check for exact value in component
-		Integer span = null;
 		try {
-			span = Integer.valueOf(sourceElement.getAttribute("elements"));			
-		} catch (Exception e) {
-			// Ignore bad attribute
-		}
-		if (null != span && span.intValue()>0) {
-			elements = span.intValue();
-		} else {
-			// default rows = 3;
+			int span = Integer.parseInt(sourceElement.getAttribute("elements"));
+			elements = span>0 ? span : columnCount * defaultRows;
+		} catch (NumberFormatException e) {
 			elements = columnCount * defaultRows;
 		}
-
 		return elements;
 	}
 	

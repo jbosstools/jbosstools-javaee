@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.project.capabilities;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.*;
 import org.jboss.tools.common.meta.action.impl.*;
@@ -98,10 +99,10 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
 		    		}
 	    			monitor.worked(getTaskCount(items[i], 0));
 		    	}
-			} catch (Exception e) {
+			} catch (CoreException e) {
 				exception = e;
 				monitor.setCanceled(true);
-			} finally {
+			}finally {
 				monitor.done();
 				added = (String[])context.changeList.toArray(new String[0]);
 				cancelled = monitor.isCanceled();

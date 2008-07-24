@@ -147,11 +147,7 @@ public class JSFPageUpdateManager implements XModelTreeListener, Runnable, JSFCo
             }
             if(stopped) break;
             if(!isLocked()) {
-                try {
-                	updateAll();
-                } catch (Exception t) {
-        			JSFModelPlugin.log("Error while running page update", t);
-                }
+                updateAll();
             }
         }
     }

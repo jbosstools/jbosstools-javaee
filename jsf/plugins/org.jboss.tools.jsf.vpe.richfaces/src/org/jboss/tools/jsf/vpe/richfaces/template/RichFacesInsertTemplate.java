@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -36,6 +37,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 import com.uwyn.jhighlight.renderer.Renderer;
 import com.uwyn.jhighlight.renderer.XhtmlRendererFactory;
@@ -113,7 +115,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    while ((buf = br.readLine()) != null)
 		finalStr += buf + "\n"; //$NON-NLS-1$
 
-	} catch (Exception e) {
+	} catch (IOException e) {
 		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
 	    nsIDOMText text = visualDocument.createTextNode(RESOURCE_READING_ERROR_MESSAGE);
 	    div.appendChild(text);
@@ -208,8 +210,12 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    builder = fact.newDocumentBuilder();
 	    doc = builder.parse(new StringBufferInputStream(transformString));
 	    node = doc.getElementsByTagName("code").item(0); //$NON-NLS-1$
-	} catch (Exception e) {
+	} catch (IOException e) {
 	    return node;
+	} catch (SAXException e) {
+	    return node;
+	} catch (ParserConfigurationException e) {
+		return node;
 	}
 	return node;
     }

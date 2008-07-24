@@ -17,6 +17,7 @@ import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -79,7 +80,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 			selectionProvider.setHost(guiEditor.getSelectionProvider());		
 			guiEditor.addErrorSelectionListener(createErrorSelectionListener());
 			selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider());
-		} catch(Exception ex) {
+		} catch(PartInitException ex) {
 			JsfUiPlugin.getPluginLog().logError(ex);
 		}
 	}

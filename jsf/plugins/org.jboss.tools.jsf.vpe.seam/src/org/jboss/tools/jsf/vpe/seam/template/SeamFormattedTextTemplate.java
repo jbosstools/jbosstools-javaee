@@ -74,18 +74,15 @@ public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 		} catch (TokenStreamException e) {
 			SeamTemplatesActivator.getPluginLog().logError(e);
 		}
-		nsIDOMParser parserDom = null;
-        try {
-        	parserDom = (nsIDOMParser)getComponentManager().
+		
+		nsIDOMParser parserDom = parserDom = (nsIDOMParser)getComponentManager().
         		createInstanceByContractID(CID_DOMPARSER, null, nsIDOMParser.NS_IDOMPARSER_IID);
-		} catch (Exception e) {
-			SeamTemplatesActivator.getPluginLog().logError(e);
-		}
+		
 		String strDoc = "<HTML><BODY>" + parser.toString() + "</BODY></HTML>";
-		nsIDOMDocument domDoc = null != parserDom ? parserDom.parseFromString(strDoc, "application/xhtml+xml") : null;
+		nsIDOMDocument domDoc = parserDom.parseFromString(strDoc, "application/xhtml+xml");
 		nsIDOMNode patronItem = null, nodeTmp = null;
 		nsIDOMNodeList list = null;
-		if (null != domDoc && null != domDoc.getDocumentElement()) {
+		if ( null != domDoc.getDocumentElement()) {
 			list = domDoc.getDocumentElement().getChildNodes();
 			long i = 0;
 			for (; i < list.getLength(); i++) {

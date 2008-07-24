@@ -291,16 +291,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 	protected int getColumnsCount(Element sourceElement, ArrayList<Element> columns) {
 		int count = 0;
 		// check for exact value in component
-		Integer span = null;
 		try {
-			span = Integer.valueOf(sourceElement.getAttribute("columns"));			
-		} catch (Exception e) {
-			// Ignore bad attribute
-		}
-		if (null != span && span.intValue() != Integer.MIN_VALUE) {
-			count = span.intValue();
-		} else {
-			// calculate max html columns count for all columns/rows children.
+			count = Integer.parseInt(sourceElement.getAttribute("columns"));
+		} catch (NumberFormatException e) {
 			count = calculateRowColumns(sourceElement, columns);
 		}
 		return count;
@@ -316,59 +309,33 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		for (Element column : columns) {
 			if (ComponentUtil.isRendered(column)) {
 				if (column.getNodeName().endsWith(":columnGroup")) {
-					// Store max calculated value of previsous rows.
-					if (currentLength > count) {
-						count = currentLength;
-					}
+					// Store max calculated value of previous rows.
+					count = Math.max(currentLength,count);
 					// Calculate number of columns in row.
 					currentLength = calculateRowColumns(sourceElement, getColumns(column));
 					// Store max calculated value
-					if (currentLength > count) {
-						count = currentLength;
-					}
+					count = Math.max(currentLength,count);
 					currentLength = 0;
 				} else if (column.getNodeName().equals(sourceElement.getPrefix() + ":column")) {
-					String breakBeforeStr = column.getAttribute("breakBefore");
-					boolean breakBefore = false;
-					if(breakBeforeStr!=null) {
-						try {
-							breakBefore = Boolean.getBoolean(breakBeforeStr);
-						} catch (Exception e) {
-							// Ignore bad attribute
-						}
-					}
-					// For new row, save length of previsous.
-					if (breakBefore) {
-						if (currentLength > count) {
-							count = currentLength;
-						}
+					// For new row, save length of previous.
+					if (Boolean.getBoolean(column.getAttribute("breakBefore"))) {
+						count = Math.max(currentLength,count);
 						currentLength = 0;
 					}
 					String colspanStr = column.getAttribute("colspan");
 					Integer colspan = null;
 					try {
-						colspan = Integer.valueOf(colspanStr);
+						currentLength += Integer.parseInt(colspanStr);
 					} catch (NumberFormatException e) {
-						// Ignore
-					}
-					// Append colspan of this column
-					if (null != colspan
-							&& colspan.intValue() != Integer.MIN_VALUE) {
-						currentLength += colspan.intValue();
-					} else {
 						currentLength++;
 					}
 				} else if (column.getNodeName().endsWith(":column")) {
 					// UIColumn always have colspan == 1.
 					currentLength++;
 				}
-
 			}
 		}
-		if (currentLength > count) {
-			count = currentLength;
-		}
-		return count;
+		return Math.max(currentLength,count);
 	}
 	
 	@Override

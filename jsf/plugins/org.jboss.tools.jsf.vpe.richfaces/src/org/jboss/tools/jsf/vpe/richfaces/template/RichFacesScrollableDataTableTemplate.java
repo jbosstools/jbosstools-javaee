@@ -495,17 +495,11 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			ArrayList<Element> columns) {
 		int count = 0;
 		// check for exact value in component
-		Integer span = null;
 		try {
-			span = Integer.valueOf(sourceElement.getAttribute("columns"));
-		} catch (Exception e) {
-			// Ignore bad attribute
-		}
-		if (null != span && span.intValue() != Integer.MIN_VALUE) {
-			count = span.intValue();
-		} else {
-			// calculate max html columns count for all columns/rows children.
-			count = calculateRowColumns(sourceElement, columns);
+			int span = Integer.parseInt(sourceElement.getAttribute("columns"));
+			count = count > 0 ? span : calculateRowColumns(sourceElement, columns);
+		} catch (NumberFormatException e) {
+			count = count = calculateRowColumns(sourceElement, columns);
 		}
 		return count;
 	}
@@ -536,16 +530,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				} else if (column.getNodeName().equals(
 						sourceElement.getPrefix() + ":column")) {
 					String breakBeforeStr = column.getAttribute("breakBefore");
-					boolean breakBefore = false;
-					if (breakBeforeStr != null) {
-						try {
-							breakBefore = Boolean.getBoolean(breakBeforeStr);
-						} catch (Exception e) {
-							// Ignore bad attribute
-						}
-					}
 					// For new row, save length of previsous.
-					if (breakBefore) {
+					if (Boolean.getBoolean(breakBeforeStr)) {
 						if (currentLength > count) {
 							count = currentLength;
 						}
@@ -553,17 +539,10 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					}
 					String colspanStr = column
 							.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
-					Integer colspan = null;
 					try {
-						colspan = Integer.valueOf(colspanStr);
-					} catch (Exception e) {
-						// Ignore
-					}
-					// Append colspan of this column
-					if (null != colspan
-							&& colspan.intValue() != Integer.MIN_VALUE) {
-						currentLength += colspan.intValue();
-					} else {
+						int colspan = Integer.parseInt(colspanStr);
+						currentLength += colspan > 0 ? colspan : 1;
+					} catch (NumberFormatException e) {
 						currentLength++;
 					}
 				} else if (column.getNodeName().endsWith(":column")) {
@@ -614,7 +593,13 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	// .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 	// if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_WIDTH_ATTR)) {
 	// String style = visualElement
-	// .getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+	// .getAttribute(HtmlComponentUtil.HTML_S				// Append colspan of this column
+	if (null != colspan
+			&& colspan.intValue() != Integer.MIN_VALUE) {
+		currentLength += colspan.intValue();
+	} else {
+		
+	}TYLE_ATTR);
 	// visualElement.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
 	// style += "; " + HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
 	// + DEFAULT_WIDTH + ";";

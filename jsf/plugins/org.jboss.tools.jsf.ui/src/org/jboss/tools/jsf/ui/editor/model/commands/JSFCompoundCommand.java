@@ -34,16 +34,10 @@ public class JSFCompoundCommand extends Command {
 			XModelObject[] objects = (XModelObject[])elements.toArray(new XModelObject[]{});
 			XModelObject object= objects[0];
 			if(elements.size() == 1) objects = null;
-			try{
-				XAction action = DnDUtil.getEnabledAction(object, objects, actionName);
-				if(action != null) return true;
-				else return false;
-			}catch(Exception ex){
-				JsfUiPlugin.getPluginLog().logError(ex);
-				return false;
-			}
-
-		}else return false;
+			XAction action = DnDUtil.getEnabledAction(object, objects, actionName);
+			if(action != null) return true;
+		}
+		return false;
 	}
 	
 	public boolean canUndo() {

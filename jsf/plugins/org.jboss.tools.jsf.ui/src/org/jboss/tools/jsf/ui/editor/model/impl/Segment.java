@@ -34,7 +34,7 @@ public class Segment extends JSFElement implements ISegment {
          }
       } catch(PropertyVetoException exception) {
           length = 0;
-      } catch(Exception exception) {
+      } catch(NumberFormatException exception) {
           length = 0;
           JsfUiPlugin.getPluginLog().logError(exception);
       }
