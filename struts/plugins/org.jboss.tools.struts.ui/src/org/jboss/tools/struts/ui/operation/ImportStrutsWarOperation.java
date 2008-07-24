@@ -14,6 +14,7 @@ import java.io.File;
 import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.*;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.context.*;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
@@ -35,7 +36,7 @@ public class ImportStrutsWarOperation extends StrutsProjectAdoptOperation {
 		super.createWebNature();
 	}
 
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		((ImportWebWarContext)context).prepareModules();
 		super.execute();
 	}

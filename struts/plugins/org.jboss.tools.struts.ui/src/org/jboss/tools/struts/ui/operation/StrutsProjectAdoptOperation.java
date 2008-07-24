@@ -11,6 +11,8 @@
 package org.jboss.tools.struts.ui.operation;
 
 import java.io.File;
+
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.struts.StrutsProjectUtil;
 import org.jboss.tools.struts.StrutsUtils;
@@ -25,7 +27,7 @@ public class StrutsProjectAdoptOperation extends WebProjectAdoptOperation {
 		super(context);
 	}
 		
-	protected void execute() throws Exception {
+	protected void execute() throws XModelException {
 		AdoptProjectFinisher finisher = new AdoptProjectFinisher();
 		finisher.setContext(model, context);
 		finisher.execute();
