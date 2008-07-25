@@ -235,7 +235,12 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         if (this.sourceButtonStyle != null) {
             thirdInput.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
         }
+        
 
+//        if (ComponentUtil.isNotBlank(this.sourceButtonIcon) && (this.sourceButtonIcon != IMAGE_NAME_DOWN)) {
+//            thirdInput.setAttribute(HTML.ATTR_STYLE, thirdInput.getAttribute(HTML.ATTR_STYLE) + " ; background-image: url("
+//                    + this.sourceButtonIcon + ")");
+//        }
         final nsIDOMElement forthEmptyDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
         forthEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("forthEmptyDiv"));
         forthEmptyDiv.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH + VpeStyleUtil.COLON_STRING
@@ -420,8 +425,6 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 
         nsIDOMElement imageDownElement = visualDocument.createElement(HTML.TAG_INPUT);
 
-        ComponentUtil.setImg(imageDownElement, IMAGE_NAME_DOWN);
-
         imageDownElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
         imageDownElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_IMAGE_TYPE);
         imageDownElement.setAttribute(HTML.ATTR_CLASS, RICH_COMBOBOX_IMAGE_STYLE_CLASS);
@@ -599,10 +602,22 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         
 
         this.sourceWidth = source.getAttribute("width");
+        
         if (ComponentUtil.isBlank(this.sourceWidth)) {
             this.sourceWidth = DEFAULT_LIST_WIDTH;
         }else if(ComponentUtil.isNotBlank(this.sourceWidth) && (this.sourceListWidth == DEFAULT_LIST_WIDTH)){
             this.sourceListWidth = this.sourceWidth;
+        }
+        
+        if (ComponentUtil.isNotBlank(this.sourceWidth) && (this.sourceWidth != DEFAULT_LIST_WIDTH)) {
+            if(!this.sourceWidth.endsWith("px")){
+                try {
+                    int intValue = Integer.parseInt(this.sourceWidth);
+                    this.sourceWidth = String.valueOf(intValue)+"px";
+                } catch (Exception e) {
+                    
+                }
+            }
         }
 
         this.sourceDefaultLabel = ComponentUtil.getAttribute(source, "defaultLabel");
@@ -624,6 +639,10 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         this.sourceItemClass = ComponentUtil.getAttribute(source, "itemClass");
         
         this.sourceButtonIcon = ComponentUtil.getAttribute(source, "buttonIcon");
+        
+        if(ComponentUtil.isBlank(this.sourceButtonIcon)){
+            this.sourceButtonIcon = IMAGE_NAME_DOWN;
+        }
 
     }
 
