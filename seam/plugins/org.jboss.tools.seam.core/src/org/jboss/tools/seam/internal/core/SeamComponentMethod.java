@@ -143,11 +143,7 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 			if(v != null && v.length() > 0) {
 				String[] cs = v.split(";");
 				for (int i = 0; i < cs.length; i++) {
-					try {
-						types.add(SeamComponentMethodType.valueOf(cs[i]));
-					} catch (Exception e) {
-						//ignore
-					}
+					types.add(SeamComponentMethodType.valueOf(cs[i]));
 				}
 			}
 		}

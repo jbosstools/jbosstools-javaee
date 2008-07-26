@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -452,7 +453,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		}
 		try {
 			JavaUI.openInEditor(type);
-		} catch (Exception e) {
+		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
@@ -556,7 +557,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 				BeanType t = null; 
 				try {
 					t = BeanType.valueOf(name);
-				} catch (Exception e) {
+				} catch (IllegalArgumentException e) {
 					continue;
 				}
 				if(t == null) continue;

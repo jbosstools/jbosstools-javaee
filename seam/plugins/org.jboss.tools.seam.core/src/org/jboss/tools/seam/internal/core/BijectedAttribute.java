@@ -116,11 +116,7 @@ public class BijectedAttribute extends SeamJavaContextVariable implements IBijec
 				String[] cs = v.split(";");
 				List<BijectedAttributeType> list = new ArrayList<BijectedAttributeType>();
 				for (int i = 0; i < cs.length; i++) {
-					try {
-						list.add(BijectedAttributeType.valueOf(cs[i]));
-					} catch (Exception e) {
-						//ignore
-					}
+					list.add(BijectedAttributeType.valueOf(cs[i]));
 				}
 				types = list.toArray(new BijectedAttributeType[0]);
 			}

@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -99,9 +100,11 @@ public class ClassPath {
 			newPaths = EclipseResourceUtil.getClassPath(project.getProject());
 			List<String> jre = EclipseResourceUtil.getJREClassPath(project.getProject());
 			if(jre != null) newPaths.removeAll(jre);
-		} catch (Exception e) {
+		} catch (CoreException e) {
 			//TODO
 			SeamCorePlugin.getDefault().logError(e);
+		} catch(IOException e) {
+			SeamCorePlugin.getDefault().logError(e);			
 		}
 		if(paths == null && newPaths == null) return false;
 		if((newPaths == null || paths == null) || (paths.size() != newPaths.size())) {

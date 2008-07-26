@@ -15,12 +15,14 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
+import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.PropertiesScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
@@ -64,7 +66,7 @@ public class SeamResourceVisitor implements IResourceVisitor {
 					LoadedDeclarations c = null;
 					try {
 						c = scanner.parse(f);
-					} catch (Exception e) {
+					} catch (ScannerException e) {
 						SeamCorePlugin.getDefault().logError(e);
 					}
 					if(c != null) componentsLoaded(c, f);
@@ -97,7 +99,7 @@ public class SeamResourceVisitor implements IResourceVisitor {
 			if(!project.hasNature(JavaCore.NATURE_ID)) return null;
 			IJavaProject javaProject = JavaCore.create(project);		
 			return output = javaProject.getOutputLocation();
-		} catch (Exception e) {
+		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 			return null;
 		}

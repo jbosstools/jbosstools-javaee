@@ -46,11 +46,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 */
 	public ISeamProject getSeamProject() {
 		ISeamProject project = null;
-		try {
-			project = SeamCorePlugin.getSeamProject(getProject(), true);
-		} catch (Exception e) {
-			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_VALIDATION_HELPER_CANNOT_GET_SEAM_PROJECT, e);
-		}
+		project = SeamCorePlugin.getSeamProject(getProject(), true);
 		return project;
 	}
 

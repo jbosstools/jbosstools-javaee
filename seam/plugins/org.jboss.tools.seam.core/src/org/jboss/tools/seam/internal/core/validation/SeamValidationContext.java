@@ -410,22 +410,14 @@ public class SeamValidationContext {
 				if(name == null || name.trim().length() == 0) continue;
 				String path = linkedResources[i].getAttribute("path"); //$NON-NLS-1$
 				if(path == null || path.trim().length() == 0) continue;
-				try {
-					IPath pathObject = new Path(path);
-					addLinkedResource(name, pathObject);
-				} catch (Exception e) {
-					SeamCorePlugin.getPluginLog().logError(e);
-				}
+				IPath pathObject = new Path(path);
+				addLinkedResource(name, pathObject);
 			}
 			Element[] unnamedPathElement = XMLUtilities.getChildren(root, "unnamed-path"); //$NON-NLS-1$
 			if(unnamedPathElement != null) for (int i = 0; i < unnamedPathElement.length; i++) {
 				String path = unnamedPathElement[i].getAttribute("path"); //$NON-NLS-1$
-				try {
-					IPath pathObject = new Path(path);
-					addUnnamedResource(pathObject);
-				} catch (Exception e) {
-					SeamCorePlugin.getPluginLog().logError(e);
-				}
+				IPath pathObject = new Path(path);
+				addUnnamedResource(pathObject);
 			}
 		}
 	}

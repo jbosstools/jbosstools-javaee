@@ -206,6 +206,7 @@ public class LibraryScanner implements IFileScanner {
 		try {
 			ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
 		} catch (Exception e) {
+			// FIXME parse method should throw particular exception or catch block should be removed
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 		if(ds1 != null) {
