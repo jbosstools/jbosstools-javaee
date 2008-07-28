@@ -18,7 +18,6 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -57,7 +56,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         // <span id="j_id5" class="rich-inplace rich-inplace-view" style="">
         ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
         final Element source = (Element) sourceNode;
-        prepareData(source);
+        prepareData(pageContext,source);
         final nsIDOMElement rootSpan = createRootSpanTemplateMethod(source, visualDocument);
         final nsIDOMElement innerInput1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
 
@@ -98,7 +97,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         } else {
             innerInput1.setAttribute(HTML.ATTR_VALUE, this.sourceValue);
         }
-//      final DOMTreeDumper dumper = new DOMTreeDumper();
+//        final DOMTreeDumper dumper = new DOMTreeDumper();
 //        dumper.dumpToStream(System.err, rootSpan);
 
         return data;
@@ -166,14 +165,15 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      * 
      * @param source the source
      */
-    protected void prepareData(Element source) {
+    protected void prepareData(VpePageContext pageContext,Element source) {
         try {
             this.inputWidth = String.valueOf(ComponentUtil.parseWidthHeightValue(source.getAttribute("inputWidth")));
         } catch (NumberFormatException e) {
             this.inputWidth = DEFAULT_INPUT_WIDTH_VALUE;
         }
         this.controlsHorizontalPositions.put("right", this.inputWidth);
-        super.prepareData(source);
+        this.controlsHorizontalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "18px");
+        super.prepareData(pageContext,source);
 
     }
 

@@ -20,7 +20,6 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -60,7 +59,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         // <span id="j_id5" class="rich-inplace rich-inplace-view" style="">
         ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
         final Element source = (Element) sourceNode;
-        prepareData(source);
+        prepareData(pageContext,source);
         final nsIDOMElement rootSpan = createRootSpanTemplateMethod(source, visualDocument);
 
         if (isToggle) {
@@ -291,8 +290,8 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      *            the source
      */
     @Override
-    protected void prepareData(Element source) {
-        super.prepareData(source);
+    protected void prepareData(VpePageContext pageContext,Element source) {
+        super.prepareData(pageContext,source);
 
     }
 
