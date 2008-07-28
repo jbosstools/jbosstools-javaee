@@ -35,7 +35,7 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
     private static final String _150PX = "150px";
 
     /** The Constant _250PX. */
-    private static final String _250PX = "250px";
+    private static final String _250PX = "150px";
 
     /** The Constant _255PX. */
     private static final String _255PX = "255px";
@@ -145,7 +145,7 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
      * @throws PartInitException the part init exception
      */
     public void testComboBoxWithAttributes2() throws PartInitException, Throwable {
-        final nsIDOMElement rst = baseTableCheck(COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2, _255PX);
+        final nsIDOMElement rst = baseTableCheck(COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2, _250PX);
 
         checkValueInInput(rst, EL_VALUE);
 

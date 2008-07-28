@@ -82,8 +82,18 @@ public class RichFacesInplaceInputTemplateTestCase extends CommonRichFacesTestCa
         assertEquals("Count of items should be 1", 1, elements.size());
 
         final nsIDOMElement element = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-
-        assertEquals("Text value  should be equals 'null'", value, element.getFirstChild().getNodeValue());
+        
+        String first = "null";
+        String second = "null";
+        
+        if(value!=null){
+            first = value;
+        }
+        
+        if(element.getFirstChild().getNodeValue()!=null){
+            second = element.getFirstChild().getNodeValue();
+        }
+        assertEquals("Text value  should be equals 'null'", first, second);
 
         assertTrue("Style class should be equals " + styleClass, element.getAttribute(HTML.ATTR_CLASS).contains(styleClass));
     }
