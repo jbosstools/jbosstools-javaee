@@ -182,7 +182,7 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         final Element source = (Element) sourceNode;
 
         prepareData(source);
-        final nsIDOMElement rootDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+      //  final nsIDOMElement rootDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
         final nsIDOMElement secondDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
         secondDiv.setAttribute("align", this.sourceAlign);
         secondDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv"));
@@ -247,7 +247,7 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
                 + calculateWithForDiv(this.sourceWidth, 10));
         forthEmptyDiv.appendChild(visualDocument.createTextNode("Struts"));
 
-        rootDiv.appendChild(secondDiv);
+       // rootDiv.appendChild(secondDiv);
 
         secondDiv.appendChild(thirdDiv);
         if (isToggle) {
@@ -258,9 +258,9 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         thirdDiv.appendChild(thirdInput);
         thirdDiv.appendChild(forthEmptyDiv);
 
-        final VpeCreationData creationData = new VpeCreationData(rootDiv);
-//        final DOMTreeDumper dumper = new DOMTreeDumper();
-//        dumper.dumpToStream(System.err, rootDiv);
+        final VpeCreationData creationData = new VpeCreationData(secondDiv);
+        final DOMTreeDumper dumper = new DOMTreeDumper();
+        dumper.dumpToStream(System.err, secondDiv);
 
         return creationData;
     }
