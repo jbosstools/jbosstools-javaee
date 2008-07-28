@@ -26,7 +26,6 @@ import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -496,7 +495,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         if(defaultButtonImages.containsValue(cancelControlIconImg)){
             ComponentUtil.setImg(cancelButtonImg,cancelControlIconImg); 
         }else{
-            ComponentUtil.setImgFromResources(pageContext, cancelButtonImg, saveControlIconImg, "");
+            ComponentUtil.setImgFromResources(pageContext, cancelButtonImg, cancelControlIconImg, "");
         }
         cancelButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
 
