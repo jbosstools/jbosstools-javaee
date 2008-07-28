@@ -12,6 +12,7 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
+import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -51,6 +52,10 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
 
     /** The list width. */
     private String listWidth;
+    
+    private String uploadControlLabel;
+    
+    private String uploadControlClass;
 
     /**
      * The Constructor.
@@ -97,6 +102,8 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         final nsIDOMElement labelDiv = visualDocument.createElement(HTML.TAG_DIV);
 
         labelDiv.setAttribute(HTML.ATTR_CLASS, defaultStyleClasses.get("addButtonClassDiv2"));
+        labelDiv.appendChild(visualDocument.createTextNode(this.addControlLabel));
+        fileuploadButtonDiv.appendChild(labelDiv);
 
         rootDiv.appendChild(table);
         rootDiv.appendChild(createPanelDiv(pageContext, source, visualDocument));
@@ -104,11 +111,10 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         tr.appendChild(td);
         td.appendChild(buttonBorderDiv);
         buttonBorderDiv.appendChild(fileuploadButtonDiv);
-        fileuploadButtonDiv.appendChild(labelDiv);
-        labelDiv.appendChild(visualDocument.createTextNode(this.addControlLabel));
+    
 
-//        DOMTreeDumper dumper = new DOMTreeDumper();
-//        dumper.dumpToStream(System.err, rootDiv);
+        DOMTreeDumper dumper = new DOMTreeDumper();
+        dumper.dumpToStream(System.err, rootDiv);
 
         data = new VpeCreationData(rootDiv);
         return data;
@@ -196,6 +202,10 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         if (ComponentUtil.isNotBlank(uploadListClass)) {
             defaultStyleClasses.put("uploadListClass", defaultStyleClasses.get("uploadListClass") + " " + uploadListClass);
         }
+        
+        this.uploadControlClass = ComponentUtil.getAttribute(sourceElement, "uploadControlClass");
+        this.uploadControlLabel = ComponentUtil.getAttribute(sourceElement, "uploadControlLabel");
+        
     }
 
 }

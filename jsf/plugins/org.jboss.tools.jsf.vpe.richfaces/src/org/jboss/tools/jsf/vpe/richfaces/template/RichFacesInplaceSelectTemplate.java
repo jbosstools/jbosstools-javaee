@@ -20,6 +20,7 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -33,6 +34,8 @@ import org.w3c.dom.Node;
  */
 public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemplate {
 
+    private static final String _24PX = "24px";
+
     /** The Constant INPLACE_SELECT_CSS. */
     private static final String INPLACE_SELECT_CSS = "inplaceSelect/inplaceSelect.css";
 
@@ -41,6 +44,10 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 
     /** The select width. */
     private String selectWidth;
+    
+    protected String sourceListHeight;
+    
+    protected String sourceListWidth;
 
     /**
      * Create.
@@ -93,8 +100,8 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
             rootSpan.appendChild(visualDocument.createTextNode(getValue()));
         }
          data = new VpeCreationData(rootSpan);
-//         DOMTreeDumper d = new DOMTreeDumper();
-//         d.dumpToStream(System.err, rootSpan);
+         DOMTreeDumper d = new DOMTreeDumper();
+         d.dumpToStream(System.err, rootSpan);
         return data;
     }
 
@@ -157,14 +164,18 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         // added by estherbin
         // fix http://jira.jboss.com/jira/browse/JBIDE-2196
         // tramanovich comment.
-        int height = 72;
         
-        if ((elements != null) && (elements.size() > 3)) {
-            height += ((elements.size() - 4) * 24);
+        if (this.sourceListHeight == _24PX) {
+            int height = 24;
+
+            if ((elements != null) && (elements.size() > 1)) {
+                height += ((elements.size() - 2) * 24)+1;
+            }
+            this.sourceListHeight = String.valueOf(height) + String.valueOf("px");
         }
 
         listScrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-scroll");
-        listScrollDiv.setAttribute(HTML.ATTR_STYLE, "height:"+height+"px; width: 151px;");
+        listScrollDiv.setAttribute(HTML.ATTR_STYLE, "height:" + this.sourceListHeight + "; width: " + this.sourceListWidth);
 
         if (elements.size() > 0) {
             for (Element e : elements) {
@@ -291,6 +302,18 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      */
     @Override
     protected void prepareData(VpePageContext pageContext,Element source) {
+        
+        this.sourceListHeight = ComponentUtil.getAttribute(source,"listHeight");
+        this.sourceListWidth = ComponentUtil.getAttribute(source, "listWidth");
+        
+        if (ComponentUtil.isBlank(this.sourceListHeight)) {
+            this.sourceListHeight = _24PX;
+        }
+
+        if (ComponentUtil.isBlank(this.sourceListWidth)) {
+            this.sourceListWidth = String.valueOf("198px");
+        }
+        
         super.prepareData(pageContext,source);
 
     }

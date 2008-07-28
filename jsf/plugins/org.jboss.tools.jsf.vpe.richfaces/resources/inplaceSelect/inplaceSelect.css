@@ -184,3 +184,7 @@ input.rich-inplace-select-arrow {
 	background-image: url(button_bg.gif);
 	border-color: #C4C0B9;
 }
+
+.rich-inplace-select-list-scroll {
+	overflow: auto;
+}

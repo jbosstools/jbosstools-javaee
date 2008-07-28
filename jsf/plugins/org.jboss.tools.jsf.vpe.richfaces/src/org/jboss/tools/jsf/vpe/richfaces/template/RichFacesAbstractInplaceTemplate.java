@@ -124,8 +124,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected String sourceApplyButtonIcon;
     
     protected String sourceLayout;
-    
-
+   
+   
     /**
      * The Constructor.
      */
