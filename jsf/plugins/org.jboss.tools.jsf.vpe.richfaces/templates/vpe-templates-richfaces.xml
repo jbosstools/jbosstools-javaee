@@ -98,10 +98,10 @@
 	<vpe:tag name="rich:inplaceSelect" case-sensitive="yes">
 		<vpe:template children="no" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesInplaceSelectTemplate">
-			<vpe:resize>
+			<!--vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
-			</vpe:resize>
+			</vpe:resize-->
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
