@@ -96,8 +96,7 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 		if (outputAttr != null) {
 
 			// prepare value
-			String newValue = prepareAttrValue(pageContext, sourceElement,
-					outputAttr);
+			String newValue = outputAttr.getValue();
 
 			// if escape then contents of value (or other attribute) is only
 			// text

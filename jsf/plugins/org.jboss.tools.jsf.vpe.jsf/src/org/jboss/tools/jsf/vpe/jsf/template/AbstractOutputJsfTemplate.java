@@ -74,9 +74,7 @@ public abstract class AbstractOutputJsfTemplate extends
 		if (outputAttr != null) {
 
 			// prepare value
-			String newValue = prepareAttrValue(pageContext, sourceElement,
-					outputAttr);
-
+			String newValue = outputAttr.getValue();
 			// if escape then contents of value (or other attribute) is only
 			// text
 			if (!sourceElement.hasAttribute(JSF.ATTR_ESCAPE)
@@ -134,12 +132,13 @@ public abstract class AbstractOutputJsfTemplate extends
 
 		creationData.setElementData(elementData);
 	}
-
-	protected String prepareAttrValue(VpePageContext pageContext,
-			Element parent, Attr attr) {
-
-		return ComponentUtil.getBundleValue(pageContext, attr);
-	}
+	
+	@Deprecated
+//	protected String prepareAttrValue(VpePageContext pageContext,
+//			Element parent, Attr attr) {
+//
+//		return ComponentUtil.getBundleValue(pageContext, attr);
+//	}
 
 	/*
 	 * (non-Javadoc)
