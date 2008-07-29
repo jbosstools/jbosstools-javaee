@@ -294,7 +294,7 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 			String newPath = event.getModelObject().getPath();
 			if(diagramXML.getPath() == null) {
 				//FIXME Should not be, this a problem. Listener should be removed earlier
-				diagramXML.getModel().removeModelTreeListener(this);
+				//diagramXML.getModel().removeModelTreeListener(this);
 
 				return;
 			}
@@ -337,12 +337,12 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 			XModelObject target = event.getModelObject();
 			if(diagramXML.getPath() == null) {
 				//FIXME Should not be, this a problem. Listener should be removed earlier
-				diagramXML.getModel().removeModelTreeListener(this);
+				//diagramXML.getModel().removeModelTreeListener(this);
 				return;
 			}
 			if(!target.getPath().startsWith(diagramXML.getPath())) {
 				//FIXME Should not be, this a problem. Listener should be removed earlier
-				diagramXML.getModel().removeModelTreeListener(this);
+				//diagramXML.getModel().removeModelTreeListener(this);
 				return;
 			}
 			if(event.kind() == XModelTreeEvent.CHILD_ADDED) {

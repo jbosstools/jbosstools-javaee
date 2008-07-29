@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
+import java.text.MessageFormat;
+
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -17,16 +20,24 @@ import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.part.CellEditorActionHandler;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.seam.pages.xml.SeamPagesXMLMessages;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
@@ -45,8 +56,16 @@ public class ViewIDEditManager extends DirectEditManager {
 		}
 	};
 
+	private XModelObject target;
+
+	private XModelObject getTarget() {
+		return target;
+	}
+
 	public ViewIDEditManager(GraphicalEditPart source, CellEditorLocator locator) {
 		super(source, null, locator);
+		target = (XModelObject) ((PagesDiagramEditPart) source.getParent())
+				.getPagesModel().getData();
 	}
 
 	/**
@@ -70,13 +89,50 @@ public class ViewIDEditManager extends DirectEditManager {
 
 		super.bringDown();
 		disposeScaledFont();
-		
-		PagesElement element = ((PagesEditPart)getEditPart()).getElementModel();
+
+		PagesElement element = ((PagesEditPart) getEditPart())
+				.getElementModel();
 		element.setParent(null);
 	}
 
 	protected CellEditor createCellEditorOn(Composite composite) {
-		return new TextCellEditor(composite, SWT.SINGLE | SWT.WRAP);
+		return new TextCellEditor(composite, SWT.SINGLE | SWT.WRAP) {
+			protected void setErrorMessage(String message) {
+				super.setErrorMessage(message);
+				((WorkbenchWindow) Workbench.getInstance()
+						.getActiveWorkbenchWindow()).getStatusLineManager()
+						.setErrorMessage(message);
+			}
+
+			protected void editOccured(ModifyEvent e) {
+				String value = text.getText();
+				if (value == null) {
+					value = "";//$NON-NLS-1$
+				}
+				Object typedValue = value;
+				boolean oldValidState = isValueValid();
+				boolean newValidState = isCorrect(typedValue);
+				if (typedValue == null && newValidState) {
+					Assert
+							.isTrue(false,
+									"Validator isn't limiting the cell editor's type range");//$NON-NLS-1$
+				}
+				if (!newValidState) {
+					// try to insert the current value into the error message.
+					setErrorMessage(MessageFormat.format(getErrorMessage(),
+							new Object[] { value }));
+				} else {
+					setErrorMessage("");
+				}
+				valueChanged(oldValidState, newValidState);
+			}
+
+			protected Control createControl(Composite parent) {
+				Control control = super.createControl(parent);
+				setErrorMessage("");
+				return control;
+			}
+		};
 	}
 
 	private void disposeScaledFont() {
@@ -88,11 +144,11 @@ public class ViewIDEditManager extends DirectEditManager {
 
 	protected void initCellEditor() {
 		NodeFigure figure = (NodeFigure) getEditPart().getFigure();
-		if(figure instanceof PageFigure)
-			getCellEditor().setValue(((PageFigure)figure).page.getName());
-		else if(figure instanceof ExceptionFigure)
-			getCellEditor().setValue(((ExceptionFigure)figure).exc.getName());
-		
+		if (figure instanceof PageFigure)
+			getCellEditor().setValue(((PageFigure) figure).page.getName());
+		else if (figure instanceof ExceptionFigure)
+			getCellEditor().setValue(((ExceptionFigure) figure).exc.getName());
+
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer()
 				.getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null) {
@@ -109,7 +165,7 @@ public class ViewIDEditManager extends DirectEditManager {
 		actionHandler = new CellEditorActionHandler(actionBars);
 		actionHandler.addCellEditor(getCellEditor());
 		actionBars.updateActionBars();
-		// getCellEditor().setValidator(NameValidator.instance);
+		getCellEditor().setValidator(new ViewIDValidator());
 	}
 
 	private void restoreSavedActions(IActionBars actionBars) {
@@ -155,4 +211,46 @@ public class ViewIDEditManager extends DirectEditManager {
 		}
 	}
 
+	static String FORBIDDEN_INDICES = "\"\n\t\\:<>?|"; // * is allowed anywhere
+
+	static boolean isCorrectPath(String path) {
+		if (path == null || path.equals("/") || path.indexOf("//") >= 0)
+			return false;
+		if (path.endsWith("/") || path.indexOf("../") >= 0)
+			return false;
+		if (path.endsWith(".."))
+			return false;
+		if (path.endsWith("*"))
+			return true;
+		for (int i = 0; i < FORBIDDEN_INDICES.length(); i++) {
+			if (path.indexOf(FORBIDDEN_INDICES.charAt(i)) >= 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	class ViewIDValidator implements ICellEditorValidator {
+		public String isValid(Object value) {
+			if (value == null)
+				return null;
+
+			String message = "";
+			String viewID = value.toString();
+
+			if (!isCorrectPath(viewID)) {
+				message = SeamPagesXMLMessages.ATTRIBUTE_VIEW_ID_IS_NOT_CORRECT;
+				return message;
+			}
+
+			boolean doNotCreateEmptyRule = false;
+			String pp = SeamPagesDiagramHelper.toNavigationRulePathPart(viewID);
+			boolean exists = getTarget().getChildByPath(pp) != null;
+			if (doNotCreateEmptyRule && exists) {
+				message = "View exists.";
+				return message;
+			}
+			return null;
+		}
+	}
 }
