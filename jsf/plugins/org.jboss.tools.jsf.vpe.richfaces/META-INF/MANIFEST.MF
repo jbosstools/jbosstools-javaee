@@ -20,3 +20,4 @@ Eclipse-LazyStart: true
 Bundle-Vendor: Red Hat, Inc.
 Bundle-ClassPath: lib/jhighlight-1.0.jar,
  .
+Export-Package: org.jboss.tools.jsf.vpe.richfaces

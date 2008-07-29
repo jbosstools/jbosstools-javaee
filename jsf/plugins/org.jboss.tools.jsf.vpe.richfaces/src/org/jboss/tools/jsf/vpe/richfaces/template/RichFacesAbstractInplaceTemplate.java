@@ -304,15 +304,15 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         if (ComponentUtil.isBlank(this.sourceValue)) {
             this.sourceValue = DEFAULT_NULL_VALUE;
         }
-        if ((source.getAttributeNode("value") != null) && ComponentUtil.isNotBlank(this.sourceValue)
-                && (this.sourceValue != DEFAULT_NULL_VALUE) && this.sourceValue.startsWith("#{")) {
-            this.sourceValue = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("value"));
-        }
-
-        if ((source.getAttributeNode("defaultLabel") != null) && ComponentUtil.isNotBlank(this.defaultLabel)
-                && (this.defaultLabel != DEFAULT_NULL_VALUE) && this.defaultLabel.startsWith("#{")) {
-            this.defaultLabel = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("defaultLabel"));
-        }
+//        if ((source.getAttributeNode("value") != null) && ComponentUtil.isNotBlank(this.sourceValue)
+//                && (this.sourceValue != DEFAULT_NULL_VALUE) && this.sourceValue.startsWith("#{")) {
+//            this.sourceValue = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("value"));
+//        }
+//
+//        if ((source.getAttributeNode("defaultLabel") != null) && ComponentUtil.isNotBlank(this.defaultLabel)
+//                && (this.defaultLabel != DEFAULT_NULL_VALUE) && this.defaultLabel.startsWith("#{")) {
+//            this.defaultLabel = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("defaultLabel"));
+//        }
         
         this.showControls = Boolean.parseBoolean(source.getAttribute("showControls"));
         this.controlsVerticalPosition = source.getAttribute("controlsVerticalPosition");
