@@ -26,6 +26,7 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
+import org.jboss.tools.vpe.editor.util.ResourceUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -291,7 +292,7 @@ VpeToggableTemplate {
 		}
 		if (null != labelAttr) {
 			labelValue = labelAttr.getNodeValue();
-			bundleValue = ComponentUtil.getBundleValue(pageContext,
+			bundleValue = ResourceUtil.getBundleValue(pageContext,
 					labelAttr);
 		}
 		

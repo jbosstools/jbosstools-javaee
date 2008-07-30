@@ -18,6 +18,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.ResourceUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -269,7 +270,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		} else if (sourceElement.hasAttribute(LABEL)) {
 			Attr labelAttr = sourceElement.getAttributeNode(LABEL);
 			if (null != labelAttr) {
-				String bundleValue = ComponentUtil.getBundleValue(pageContext, labelAttr);
+				String bundleValue = ResourceUtil.getBundleValue(pageContext, labelAttr);
 				mainTd.appendChild(visualDocument.createTextNode(bundleValue));
 			}
 		} else {

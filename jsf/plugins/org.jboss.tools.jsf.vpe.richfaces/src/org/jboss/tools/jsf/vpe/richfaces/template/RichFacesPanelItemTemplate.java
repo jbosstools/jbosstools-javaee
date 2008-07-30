@@ -18,6 +18,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.ResourceUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -215,7 +216,7 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	    }
 	    if (attr != null) {
 		String itemLabel = attr.getNodeValue();
-		String bundleValue = ComponentUtil.getBundleValue(pageContext,
+		String bundleValue = ResourceUtil.getBundleValue(pageContext,
 			attr);
 		nsIDOMText text;
 		// if bundleValue differ from value then will be represent

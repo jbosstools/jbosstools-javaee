@@ -23,18 +23,13 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.editors.text.ILocationProvider;
-import org.eclipse.wst.xml.core.internal.document.NodeListImpl;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
-import org.jboss.tools.vpe.editor.bundle.BundleMap;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.css.ELReferenceList;
 import org.jboss.tools.vpe.editor.util.ElService;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.xpcom.XPCOMException;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -608,35 +603,7 @@ public class ComponentUtil {
         }
     }
 
-    /**
-     * Gets the bundle value.
-     * 
-     * @param value the value
-     * @param offfset      *
-     * param pageContext the page context
-     * @param pageContext the page context
-     * @param offset the offset
-     * 
-     * @return the bundle value
-     */
-    public static String getBundleValue(VpePageContext pageContext, String value, int offset) {
-        BundleMap bundle = pageContext.getBundle();
-        return bundle.getBundleValue(value, offset);
-
-    }
-
-    /**
-     * get bundle.
-     * 
-     * @param pageContext the page context
-     * @param attr the attr
-     * 
-     * @return the bundle value
-     */
-    public static String getBundleValue(VpePageContext pageContext, Attr attr) {
-        return getBundleValue(pageContext, attr.getNodeValue(), ((IDOMAttr) attr).getValueRegionStartOffset());
-    }
-
+  
     /**
      * Parses the width height value.
      * 
