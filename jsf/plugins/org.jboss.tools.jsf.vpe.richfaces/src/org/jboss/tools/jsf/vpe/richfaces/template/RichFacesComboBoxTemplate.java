@@ -259,8 +259,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         thirdDiv.appendChild(forthEmptyDiv);
 
         final VpeCreationData creationData = new VpeCreationData(secondDiv);
-        final DOMTreeDumper dumper = new DOMTreeDumper();
-        dumper.dumpToStream(System.err, secondDiv);
+//        final DOMTreeDumper dumper = new DOMTreeDumper();
+//        dumper.dumpToStream(System.err, secondDiv);
 
         return creationData;
     }
