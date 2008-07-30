@@ -107,6 +107,7 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
+            </para>
                     <para>The window has two parts. There is a reflected grouped list of components
                         on the left side of the palette editor. Each group is divided into multiple
                         groups, every of which is a tag library. The right side of the palette
@@ -322,7 +323,6 @@
                     </listitem>
                     
                 </itemizedlist>
-            </para>
         </section>
         <section id="show_hide">
             <?dbhtml filename="Show/Hide.html"?>
