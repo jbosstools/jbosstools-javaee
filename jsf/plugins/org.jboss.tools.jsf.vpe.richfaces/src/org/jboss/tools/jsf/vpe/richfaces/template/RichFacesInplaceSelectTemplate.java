@@ -202,7 +202,6 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         tr1.appendChild(td2);
         td1.appendChild(img1);
         td1.appendChild(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_BR));
-
         td2.appendChild(img2);
         td2.appendChild(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_BR));
 
