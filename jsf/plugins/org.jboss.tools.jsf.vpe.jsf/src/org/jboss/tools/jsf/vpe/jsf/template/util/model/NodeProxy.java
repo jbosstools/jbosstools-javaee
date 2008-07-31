@@ -62,13 +62,15 @@ public class NodeProxy implements IDOMNode {
 		NamedNodeMap basicAttributes = basicNode.getAttributes();
 		NamedNodeMap newAttributes = new NamedNodeMapImpl();
 
-		for (int i = 0; i < basicAttributes.getLength(); i++) {
+		if (basicAttributes != null)
+			for (int i = 0; i < basicAttributes.getLength(); i++) {
 
-			IDOMAttr attr = (IDOMAttr) basicAttributes.item(i);
+				IDOMAttr attr = (IDOMAttr) basicAttributes.item(i);
 
-			newAttributes.setNamedItem(new AttributeProxy(attr, basicOffset));
+				newAttributes
+						.setNamedItem(new AttributeProxy(attr, basicOffset));
 
-		}
+			}
 
 		return newAttributes;
 	}
