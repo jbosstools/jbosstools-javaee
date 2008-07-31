@@ -1,7 +1,6 @@
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
@@ -165,14 +164,15 @@ public abstract class AbstractOutputJsfTemplate extends
 			VpeNodeMapping nodeMapping = domMapping.getNodeMapping(node);
 
 			if (nodeMapping != null) {
-				if (nodeMapping.getType() == VpeNodeMapping.ELEMENT_MAPPING) {
+				if (nodeMapping instanceof VpeElementMapping) {
 					nodeData = super.getNodeData(node,
 							((VpeElementMapping) nodeMapping).getElementData(),
 							domMapping);
-				} else if (nodeMapping.getType() == VpeNodeMapping.TEXT_MAPPING) {
-					nodeData = new NodeData(nodeMapping.getSourceNode(), node,
-							true);
-				}
+				} 
+//				else if (nodeMapping.getType() == VpeNodeMapping.TEXT_MAPPING) {
+//					nodeData = new NodeData(nodeMapping.getSourceNode(), node,
+//							true);
+//				}
 			}
 		}
 		return nodeData;
@@ -197,7 +197,7 @@ public abstract class AbstractOutputJsfTemplate extends
 
 			if (nodeMapping != null) {
 
-				if (nodeMapping.getType() == VpeNodeMapping.ELEMENT_MAPPING) {
+				if (nodeMapping instanceof VpeElementMapping) {
 					node = super.getVisualNodeByBySourcePosition(
 							(VpeElementMapping) nodeMapping, focusPosition,
 							anchorPosition, domMapping);
