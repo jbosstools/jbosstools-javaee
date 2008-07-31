@@ -12,8 +12,10 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
+import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -51,6 +53,14 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
 
     /** The list width. */
     private String listWidth;
+    
+    private String uploadControlLabel;
+    
+    private String uploadControlClass;
+    
+    private String clearAllControlLabel;
+    
+    private String clearAllControlClass;
 
     /**
      * The Constructor.
@@ -97,6 +107,10 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         final nsIDOMElement labelDiv = visualDocument.createElement(HTML.TAG_DIV);
 
         labelDiv.setAttribute(HTML.ATTR_CLASS, defaultStyleClasses.get("addButtonClassDiv2"));
+        labelDiv.appendChild(visualDocument.createTextNode(this.addControlLabel));
+        fileuploadButtonDiv.appendChild(labelDiv);
+
+  
 
         rootDiv.appendChild(table);
         rootDiv.appendChild(createPanelDiv(pageContext, source, visualDocument));
@@ -104,14 +118,62 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         tr.appendChild(td);
         td.appendChild(buttonBorderDiv);
         buttonBorderDiv.appendChild(fileuploadButtonDiv);
-        fileuploadButtonDiv.appendChild(labelDiv);
-        labelDiv.appendChild(visualDocument.createTextNode(this.addControlLabel));
+        td.appendChild(createControl(pageContext, sourceNode, visualDocument, defaultStyleClasses.get("uploadButtonClass2"),
+                uploadControlLabel, false));
+        td.appendChild(createControl(pageContext, sourceNode, visualDocument, defaultStyleClasses.get("clearAllButtonClass2"),
+                clearAllControlLabel, true));
+    
 
-//        DOMTreeDumper dumper = new DOMTreeDumper();
-//        dumper.dumpToStream(System.err, rootDiv);
+        DOMTreeDumper dumper = new DOMTreeDumper();
+        dumper.dumpToStream(System.err, rootDiv);
 
         data = new VpeCreationData(rootDiv);
         return data;
+    }
+
+    /**
+     * @param pageContext
+     * @param sourceNode
+     * @param visualDocument
+     * @return
+     */
+    private nsIDOMNode createControl(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument,String secondCssClass,String text,boolean isClearButton) {
+        //<div class="rich-fileupload-button-border" style="float: left;">
+        final nsIDOMElement firstDiv = visualDocument.createElement(HTML.TAG_DIV);
+        
+        firstDiv.setAttribute(HTML.ATTR_CLASS, "rich-fileupload-button-border");
+        
+        firstDiv.setAttribute(HTML.ATTR_STYLE,"float: "+(isClearButton ? "right;" : "left;"));
+        
+        final nsIDOMElement secondDiv = visualDocument.createElement(HTML.TAG_DIV);
+        
+        if (isClearButton) {
+            secondDiv.setAttribute(HTML.ATTR_CLASS, "rich-fileupload-button rich-fileupload-font");
+            final nsIDOMElement thirdDiv = visualDocument.createElement(HTML.TAG_DIV);
+            final nsIDOMElement aElement = visualDocument.createElement(HTML.TAG_A);
+            
+            aElement.setAttribute(HTML.ATTR_CLASS, "rich-fileupload-button-selection");
+            thirdDiv.setAttribute(HTML.ATTR_CLASS,defaultStyleClasses.get("clearAllButtonClass2"));
+            firstDiv.appendChild(secondDiv);
+            secondDiv.appendChild(aElement);
+            aElement.appendChild(thirdDiv);
+            thirdDiv.appendChild(visualDocument.createTextNode(text));
+        }else{
+            secondDiv.setAttribute(HTML.ATTR_CLASS, secondCssClass);
+
+            final nsIDOMElement bDiv = visualDocument.createElement(HTML.TAG_B);
+
+            bDiv.appendChild(visualDocument.createTextNode(text));
+
+            firstDiv.appendChild(secondDiv);
+            secondDiv.appendChild(bDiv);  
+        }
+        
+   
+        
+        
+            
+        return firstDiv;
     }
 
     /**
@@ -137,8 +199,12 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
      */
     private void initDefaultStyleClasses() {
         defaultStyleClasses.put("addButtonClass", "rich-fileupload-button rich-fileupload-font");
+        defaultStyleClasses.put("uploadButtonClass","rich-fileupload-button rich-fileupload-font");
         defaultStyleClasses.put("addButtonClassDiv2",
                 " rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-add");
+        defaultStyleClasses.put("clearAllButtonClass2", "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear");
+        defaultStyleClasses.put("uploadButtonClass2",
+        "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start ");
         defaultStyleClasses.put("uploadListClass", "rich-fileupload-list-overflow");
 
     }
@@ -196,6 +262,28 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         if (ComponentUtil.isNotBlank(uploadListClass)) {
             defaultStyleClasses.put("uploadListClass", defaultStyleClasses.get("uploadListClass") + " " + uploadListClass);
         }
+        
+        this.uploadControlClass = ComponentUtil.getAttribute(sourceElement, "uploadControlClass");
+        
+        if(ComponentUtil.isNotBlank(uploadControlClass)){
+            defaultStyleClasses.put("uploadButtonClass2", defaultStyleClasses.get("uploadButtonClass2")+" "+uploadListClass);
+        }
+        
+        
+        this.uploadControlLabel = ComponentUtil.getAttribute(sourceElement, "uploadControlLabel");
+        
+        if (ComponentUtil.isBlank(this.uploadControlLabel)) {
+            this.uploadControlLabel = "Upload";
+        }
+        
+        this.clearAllControlLabel = ComponentUtil.getAttribute(sourceElement, "clearAllControlLabel");
+        
+        if(ComponentUtil.isBlank(this.clearAllControlLabel)){
+            this.clearAllControlLabel = "Clear All";
+        }
+        
+        clearAllControlClass = ComponentUtil.getAttribute(sourceElement, "");
+        
     }
 
 }
