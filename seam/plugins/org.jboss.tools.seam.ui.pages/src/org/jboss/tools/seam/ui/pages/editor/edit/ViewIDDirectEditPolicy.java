@@ -47,16 +47,21 @@ public class ViewIDDirectEditPolicy extends DirectEditPolicy {
 
 		PagesElement node;
 		String value;
+		XModelObject object;
 
 		public FlowNameCommand(PagesElement node, String value) {
 			this.node = node;
 			this.value = value;
+			object = (XModelObject)node.getPagesModel().getData();
 		}
 
 		public boolean canExecute() {
-			if (value == null)
-				return false;
-			return true;
+			ViewIDValidator val = new ViewIDValidator(object);
+			String message = val.isValid(value);
+			
+			if (message == null || "".equals(message))
+				return true;
+			return false;
 		}
 
 		public boolean canUndo() {
@@ -67,7 +72,7 @@ public class ViewIDDirectEditPolicy extends DirectEditPolicy {
 			Properties props = new Properties();
 			props.setProperty("mouse.x", ""+node.getLocation().x);
 			props.setProperty("mouse.y", ""+node.getLocation().y);
-			XModelObject object = (XModelObject)node.getPagesModel().getData();
+			
 			
 			if(node instanceof Page)
 				AddPageOnDiagramHandler.createPage(object, value, props);

@@ -37,6 +37,7 @@ import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.part.CellEditorActionHandler;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLMessages;
+import org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
@@ -56,11 +57,7 @@ public class ViewIDEditManager extends DirectEditManager {
 		}
 	};
 
-	private XModelObject target;
-
-	private XModelObject getTarget() {
-		return target;
-	}
+	XModelObject target;
 
 	public ViewIDEditManager(GraphicalEditPart source, CellEditorLocator locator) {
 		super(source, null, locator);
@@ -123,8 +120,9 @@ public class ViewIDEditManager extends DirectEditManager {
 							new Object[] { value }));
 				} else {
 					setErrorMessage("");
+					valueChanged(oldValidState, newValidState);
 				}
-				valueChanged(oldValidState, newValidState);
+				
 			}
 
 			protected Control createControl(Composite parent) {
@@ -165,7 +163,7 @@ public class ViewIDEditManager extends DirectEditManager {
 		actionHandler = new CellEditorActionHandler(actionBars);
 		actionHandler.addCellEditor(getCellEditor());
 		actionBars.updateActionBars();
-		getCellEditor().setValidator(new ViewIDValidator());
+		getCellEditor().setValidator(new ViewIDValidator(target));
 	}
 
 	private void restoreSavedActions(IActionBars actionBars) {
@@ -210,47 +208,39 @@ public class ViewIDEditManager extends DirectEditManager {
 			text.setFont(scaledFont = new Font(null, fd));
 		}
 	}
+}
 
-	static String FORBIDDEN_INDICES = "\"\n\t\\:<>?|"; // * is allowed anywhere
-
-	static boolean isCorrectPath(String path) {
-		if (path == null || path.equals("/") || path.indexOf("//") >= 0)
-			return false;
-		if (path.endsWith("/") || path.indexOf("../") >= 0)
-			return false;
-		if (path.endsWith(".."))
-			return false;
-		if (path.endsWith("*"))
-			return true;
-		for (int i = 0; i < FORBIDDEN_INDICES.length(); i++) {
-			if (path.indexOf(FORBIDDEN_INDICES.charAt(i)) >= 0) {
-				return false;
-			}
-		}
-		return true;
+class ViewIDValidator implements ICellEditorValidator {
+	private XModelObject target;
+	
+	public ViewIDValidator(XModelObject target){
+		super();
+		this.target = target;
 	}
 
-	class ViewIDValidator implements ICellEditorValidator {
-		public String isValid(Object value) {
-			if (value == null)
-				return null;
+	private XModelObject getTarget() {
+		return target;
+	}
 
-			String message = "";
-			String viewID = value.toString();
-
-			if (!isCorrectPath(viewID)) {
-				message = SeamPagesXMLMessages.ATTRIBUTE_VIEW_ID_IS_NOT_CORRECT;
-				return message;
-			}
-
-			boolean doNotCreateEmptyRule = false;
-			String pp = SeamPagesDiagramHelper.toNavigationRulePathPart(viewID);
-			boolean exists = getTarget().getChildByPath(pp) != null;
-			if (doNotCreateEmptyRule && exists) {
-				message = "View exists.";
-				return message;
-			}
+	public String isValid(Object value) {
+		if (value == null)
 			return null;
+
+		String message = "";
+		String viewID = value.toString();
+		String path = AddViewSupport.revalidatePath(viewID, "");
+
+		if (!AddViewSupport.isCorrectPath(path)) {
+			message = SeamPagesXMLMessages.ATTRIBUTE_VIEW_ID_IS_NOT_CORRECT;
+			return message;
 		}
+
+		String pp = SeamPagesDiagramHelper.toNavigationRulePathPart(path);
+		boolean exists = getTarget().getChildByPath(pp) != null;
+		if (exists) {
+			message = "View exists.";
+			return message;
+		}
+		return null;
 	}
 }

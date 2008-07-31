@@ -75,7 +75,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		return list[0];
 	}
 	
-	public String getExtension(String template) {
+	public static String getExtension(String template) {
 		if(template != null) {
 			int i = template.trim().lastIndexOf('.');
 			if(i > 0) {
@@ -222,7 +222,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		return path;
 	}
 
-	String revalidatePath(String path, String template) {
+	public static String revalidatePath(String path, String template) {
 		if(path != null) path = path.trim();
 		if(path == null || path.length() == 0) return path;
 		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
@@ -253,7 +253,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 	
 	static String FORBIDDEN_INDICES = "\"\n\t\\:<>?|"; //* is allowed anywhere
 	
-	static boolean isCorrectPath(String path) {
+	public static boolean isCorrectPath(String path) {
 		if(path == null || path.equals("/") || path.indexOf("//") >= 0) return false;
 		if(path.endsWith("/") || path.indexOf("../") >= 0) return false;
 		if(path.endsWith("..")) return false;
