@@ -13,9 +13,11 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.action.IAction;
@@ -57,18 +59,38 @@ public class ViewIDEditManager extends DirectEditManager {
 		}
 	};
 
-	XModelObject target;
+	private XModelObject target;
+	
+	private boolean rename = false;
 
 	public ViewIDEditManager(GraphicalEditPart source, CellEditorLocator locator) {
 		super(source, null, locator);
 		target = (XModelObject) ((PagesDiagramEditPart) source.getParent())
 				.getPagesModel().getData();
 	}
+	
+	public ViewIDEditManager(GraphicalEditPart source, CellEditorLocator locator, boolean rename) {
+		this(source, locator);
+		this.rename = rename;
+	}
+	
+	/**
+	 * Creates and returns the DirectEditRequest.
+	 * @return the direct edit request
+	 */
+	protected DirectEditRequest createDirectEditRequest() {
+		DirectEditRequest req = super.createDirectEditRequest();
+		if(rename){
+			req.getExtendedData().put("rename", new Boolean(true));
+		}
+		return req;
+	}
 
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
 	protected void bringDown() {
+		if(getEditPart().getParent() == null)return;
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer()
 				.getProperty(ZoomManager.class.toString());
 		if (zoomMgr != null)
@@ -89,7 +111,8 @@ public class ViewIDEditManager extends DirectEditManager {
 
 		PagesElement element = ((PagesEditPart) getEditPart())
 				.getElementModel();
-		element.setParent(null);
+		if(!rename)
+			element.setParent(null);
 	}
 
 	protected CellEditor createCellEditorOn(Composite composite) {
@@ -127,6 +150,7 @@ public class ViewIDEditManager extends DirectEditManager {
 
 			protected Control createControl(Composite parent) {
 				Control control = super.createControl(parent);
+				control.setBackground(ColorConstants.white);
 				setErrorMessage("");
 				return control;
 			}

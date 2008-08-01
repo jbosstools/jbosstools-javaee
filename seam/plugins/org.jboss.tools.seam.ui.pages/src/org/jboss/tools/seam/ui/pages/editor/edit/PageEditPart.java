@@ -138,6 +138,9 @@ public class PageEditPart extends PagesEditPart implements
 		}else if (req.getType() == GraphicalPartFactory.REQ_INIT_EDIT) {
 		    new ViewIDEditManager(this, new ViewIDEditorLocator(
 				    (PageFigure) getFigure())).show();
+		}else if (req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+		    new ViewIDEditManager(this, new ViewIDEditorLocator(
+				    (PageFigure) getFigure()), true).show();
 		}
 	}
 

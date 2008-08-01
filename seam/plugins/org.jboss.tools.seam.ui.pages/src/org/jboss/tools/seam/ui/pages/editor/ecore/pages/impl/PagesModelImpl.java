@@ -16,6 +16,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.swt.widgets.Display;
 
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
@@ -288,7 +289,23 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 		 * <!-- end-user-doc -->
 		 * @generated NOT
 		 */
-		public void nodeChanged(XModelTreeEvent event) {
+		public void nodeChanged(final XModelTreeEvent event) {
+			if(Display.getCurrent() != null){
+				nodeChangedInternal(event);
+			}else{
+				Display.getDefault().asyncExec(new Runnable(){
+					public void run(){
+						nodeChangedInternal(event);
+					}
+				});
+			}
+		}
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated NOT
+		 */
+		private void nodeChangedInternal(XModelTreeEvent event) {
 			if(getData() == null) return;
 			XModelObject diagramXML = (XModelObject)getData();
 			String newPath = event.getModelObject().getPath();
