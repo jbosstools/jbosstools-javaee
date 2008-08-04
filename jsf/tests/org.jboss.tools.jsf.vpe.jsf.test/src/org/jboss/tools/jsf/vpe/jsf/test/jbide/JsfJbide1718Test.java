@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -37,15 +38,13 @@ import org.mozilla.interfaces.nsIDOMNodeList;
  */
 public class JsfJbide1718Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest";
+	private static final String DIR_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-dir.jsp"; //$NON-NLS-1$
 
-	private static final String DIR_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-dir.jsp";
+	private static final String ESCAPE_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-escape.jsp"; //$NON-NLS-1$
 
-	private static final String ESCAPE_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-escape.jsp";
+	private static final String DISABLED_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-disabled.jsp"; //$NON-NLS-1$
 
-	private static final String DISABLED_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-disabled.jsp";
-
-	private static final String FORMAT_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-format.jsp";
+	private static final String FORMAT_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-format.jsp"; //$NON-NLS-1$
 
 	public JsfJbide1718Test(String name) {
 		super(name);
@@ -64,7 +63,7 @@ public class JsfJbide1718Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(DIR_TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -151,7 +150,7 @@ public class JsfJbide1718Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(ESCAPE_TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -198,7 +197,7 @@ public class JsfJbide1718Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(DISABLED_TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -246,7 +245,7 @@ public class JsfJbide1718Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(FORMAT_TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -292,7 +291,7 @@ public class JsfJbide1718Test extends VpeTest {
 
 			nsIDOMNode text = children.item(i);
 
-			if ("paramValue".equals(text.getNodeValue())) {
+			if ("paramValue".equals(text.getNodeValue())) { //$NON-NLS-1$
 				isFind = true;
 				break;
 			}

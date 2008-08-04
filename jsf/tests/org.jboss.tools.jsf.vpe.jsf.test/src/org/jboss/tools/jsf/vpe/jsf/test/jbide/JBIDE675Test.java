@@ -21,6 +21,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.progress.UIJob;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
@@ -35,8 +36,6 @@ import org.w3c.dom.Node;
  * 
  */
 public class JBIDE675Test extends VpeTest {
-
-	private static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
 	private static final String TEST_PAGE_NAME = "JBIDE/675/testChangeOnUserInputTextNode.xhtml"; //$NON-NLS-1$
 
@@ -59,7 +58,7 @@ public class JBIDE675Test extends VpeTest {
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 		assertNotNull("Could not open specified file " + TEST_PAGE_NAME, file); //$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
@@ -120,8 +119,8 @@ public class JBIDE675Test extends VpeTest {
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/675/testUserInputOnTag.xhtml", //$NON-NLS-1$
-				IMPORT_PROJECT_NAME);
-		assertNotNull("Could not open specified file " + "JBIDE/675/testUserInputOnTag.xhtml", file); //$NON-NLS-1$
+				JsfAllTests.IMPORT_PROJECT_NAME);
+		assertNotNull("Could not open specified file " + "JBIDE/675/testUserInputOnTag.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -179,7 +178,7 @@ public class JBIDE675Test extends VpeTest {
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/675/testInsertTag.xhtml", //$NON-NLS-1$
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 		assertNotNull("Could not open specified file " + "JBIDE/675/testInsertTag.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IEditorInput input = new FileEditorInput(file);
@@ -237,7 +236,7 @@ public class JBIDE675Test extends VpeTest {
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/675/employee.xhtml", //$NON-NLS-1$
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 		assertNotNull("Could not open specified file " + "JBIDE/675/employee.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IEditorInput input = new FileEditorInput(file);
@@ -285,7 +284,7 @@ public class JBIDE675Test extends VpeTest {
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/675/employee.xhtml", //$NON-NLS-1$
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 		assertNotNull("Could not open specified file " + "JBIDE/675/employee.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IEditorInput input = new FileEditorInput(file);

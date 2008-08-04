@@ -12,6 +12,7 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -23,8 +24,6 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE2297Test extends VpeTest{
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
-
 	private static final String TEST_PAGE_NAME1 = "JBIDE/2297/JBIDE-2297.xhtml"; //$NON-NLS-1$
 
 	private static final String TEST_PAGE_NAME2 ="JBIDE/2297/limitedEntry.jsp"; //$NON-NLS-1$
@@ -34,10 +33,10 @@ public class JBIDE2297Test extends VpeTest{
 	}
 	
 	public void testJBIDE2297() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME1,IMPORT_PROJECT_NAME)); 
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME1,JsfAllTests.IMPORT_PROJECT_NAME)); 
 	}
 	
 	public void testJBIDE2297_jsp() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME2,IMPORT_PROJECT_NAME)); 
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(TEST_PAGE_NAME2,JsfAllTests.IMPORT_PROJECT_NAME)); 
 	}
 }

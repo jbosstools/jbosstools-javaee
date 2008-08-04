@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -31,8 +32,6 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE1479Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
-	
 	public static final String TEST_PAGE_NAME = "JBIDE/1479/employee.xhtml"; //$NON-NLS-1$
 	
 	public JBIDE1479Test(String name) {
@@ -44,7 +43,7 @@ public class JBIDE1479Test extends VpeTest {
 		setException(null);
 		// get test page path
 		final IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_NAME, IMPORT_PROJECT_NAME);
+				TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
 
 		
 		assertNotNull("Could not open specified file " + TEST_PAGE_NAME, //$NON-NLS-1$

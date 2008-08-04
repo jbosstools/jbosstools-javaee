@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -30,9 +31,8 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE2119Test extends VpeTest {
 
-	private static final String IMPORT_PROJECT_NAME = "jsfTest";
 
-	private static final String TEST_PAGE_NAME = "JBIDE/2119/JBIDE-2119.jsp";
+	private static final String TEST_PAGE_NAME = "JBIDE/2119/JBIDE-2119.jsp"; //$NON-NLS-1$
 
 	/**
 	 * @param name
@@ -50,14 +50,14 @@ public class JBIDE2119Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file " + file.getFullPath(),
+		assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
 				file);
 
 		IEditorInput input = new FileEditorInput(file);
 
-		assertNotNull("Editor input is null", input);
+		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 

@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
@@ -25,8 +26,6 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE2434Test extends VpeTest{
 
-	private static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
-	
 	public JBIDE2434Test(String name) {
 		super(name);
 	}
@@ -35,7 +34,7 @@ public class JBIDE2434Test extends VpeTest{
 	 * @throws Throwable
 	 */
 	public void testOpenAndCloPageWithCycleFacelets() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/2434/FaceletForm.xhtml",IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/2434/FaceletForm.xhtml",JsfAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	/**
 	 * Tests visual refresh method
@@ -49,7 +48,7 @@ public class JBIDE2434Test extends VpeTest{
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2434/FaceletBlank.xhtml", //$NON-NLS-1$
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 		assertNotNull("Could not open specified file " + "JBIDE/2434/FaceletBlank.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IEditorInput input = new FileEditorInput(file);

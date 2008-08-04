@@ -29,6 +29,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2119Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2219Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2297Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2434Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2505Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
@@ -37,7 +38,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1568Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1718Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2170Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2362Test;
-import org.jboss.tools.jsf.vpe.jsf.test.perfomance.PerfomanceTest;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
@@ -50,6 +50,8 @@ import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
 public class JsfAllTests {
 
+	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
+	
 	public static Test suite() {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$ //$NON-NLS-1$
@@ -76,22 +78,15 @@ public class JsfAllTests {
 		suite.addTestSuite(JsfJbide2362Test.class);
 		suite.addTestSuite(JBIDE2119Test.class);
 		suite.addTestSuite(JBIDE2219Test.class);
+		suite.addTestSuite(JBIDE2505Test.class);
 		// $JUnit-END$
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests
 		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
 		ImportBean importBean = new ImportBean();
-		importBean.setImportProjectName(JsfComponentTest.IMPORT_PROJECT_NAME);
+		importBean.setImportProjectName(JsfAllTests.IMPORT_PROJECT_NAME);
 		importBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(importBean);
-
-		// Perfomance Tests
-		// TODO dsakovich adjust perfomance tests
-//		 suite.addTestSuite(PerfomanceTest.class);
-		 ImportBean importPerfomanceBean = new ImportBean();
-		 importPerfomanceBean.setImportProjectName(PerfomanceTest.IMPORT_PROJECT_NAME);
-		 importPerfomanceBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		 projectToImport.add(importPerfomanceBean);
 
 		return new VpeTestSetup(suite, projectToImport);
 

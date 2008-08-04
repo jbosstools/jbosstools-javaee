@@ -26,6 +26,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
@@ -47,7 +48,6 @@ import org.w3c.dom.NodeList;
  */
 public class JsfJbide2362Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
 	private static final String SELECTION_PAGE_NAME = "JBIDE/2362/selection.jsp"; //$NON-NLS-1$
 	private static final String EDITING_PAGE_NAME = "JBIDE/2362/editing.jsp"; //$NON-NLS-1$
@@ -86,7 +86,7 @@ public class JsfJbide2362Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(SELECTION_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -161,7 +161,7 @@ public class JsfJbide2362Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(EDITING_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -32,11 +33,9 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE1720Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest";
-
-	private static final String TEST_PAGE_NAME1 = "JBIDE/1720/JBIDE-1720-selectOneRadio.jsp";
-	private static final String TEST_PAGE_NAME2 = "JBIDE/1720/JBIDE-1720-selectOneListBox.jsp";
-	private static final String TEST_PAGE_NAME3 = "JBIDE/1720/JBIDE-1720-selectOneMenu.jsp";
+	private static final String TEST_PAGE_NAME1 = "JBIDE/1720/JBIDE-1720-selectOneRadio.jsp"; //$NON-NLS-1$
+	private static final String TEST_PAGE_NAME2 = "JBIDE/1720/JBIDE-1720-selectOneListBox.jsp"; //$NON-NLS-1$
+	private static final String TEST_PAGE_NAME3 = "JBIDE/1720/JBIDE-1720-selectOneMenu.jsp"; //$NON-NLS-1$
 
 	public JBIDE1720Test(String name) {
 		super(name);
@@ -51,7 +50,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME1,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);
@@ -126,7 +125,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME3,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);
@@ -206,7 +205,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME2,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);

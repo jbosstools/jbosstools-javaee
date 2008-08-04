@@ -15,6 +15,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -26,7 +27,6 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE2219Test extends VpeTest {
 
-	private static final String TEST_PROJECT_NAME="jsfTest"; //$NON-NLS-1$
 	
 	public JBIDE2219Test(String name) {
 		super(name);
@@ -40,7 +40,7 @@ public class JBIDE2219Test extends VpeTest {
 		// Tests CA
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2219/testJBIDE2219.xhtml", //$NON-NLS-1$
-				TEST_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 		assertNotNull("Could not open specified file " + "JBIDE/2219/testJBIDE2219.xhtml", file); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IEditorInput input = new FileEditorInput(file);

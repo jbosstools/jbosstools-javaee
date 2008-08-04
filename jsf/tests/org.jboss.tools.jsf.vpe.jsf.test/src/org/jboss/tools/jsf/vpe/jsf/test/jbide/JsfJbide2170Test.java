@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.DocTypeUtil;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -29,8 +30,6 @@ import org.mozilla.interfaces.nsIDOMDocumentType;
  * 
  */
 public class JsfJbide2170Test extends VpeTest {
-
-	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
 	private static final String WITHOUT_DOCTYPE_TEST_PAGE_NAME = "JBIDE/2170/there_is_not_doctype.xhtml"; //$NON-NLS-1$
 
@@ -59,7 +58,7 @@ public class JsfJbide2170Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				WITHOUT_DOCTYPE_TEST_PAGE_NAME, IMPORT_PROJECT_NAME);
+				WITHOUT_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -105,7 +104,7 @@ public class JsfJbide2170Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				WITH_DOCTYPE_TEST_PAGE_NAME, IMPORT_PROJECT_NAME);
+				WITH_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -150,7 +149,7 @@ public class JsfJbide2170Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEMPLATE_DOCTYPE_TEST_PAGE_NAME, IMPORT_PROJECT_NAME);
+				TEMPLATE_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -195,7 +194,7 @@ public class JsfJbide2170Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				COMPLEX_DOCTYPE_TEST_PAGE_NAME, IMPORT_PROJECT_NAME);
+				COMPLEX_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 

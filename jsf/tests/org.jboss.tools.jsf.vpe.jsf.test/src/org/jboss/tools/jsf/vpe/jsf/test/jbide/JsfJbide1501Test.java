@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -54,7 +55,6 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JsfJbide1501Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest";
 
 	public JsfJbide1501Test(String name) {
 		super(name);
@@ -71,7 +71,7 @@ public class JsfJbide1501Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1501/JBIDE-1501_multiple.jsp", IMPORT_PROJECT_NAME);
+				"JBIDE/1501/JBIDE-1501_multiple.jsp", JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -126,7 +126,7 @@ public class JsfJbide1501Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1501/JBIDE-1501_size.jsp", IMPORT_PROJECT_NAME);
+				"JBIDE/1501/JBIDE-1501_size.jsp", JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 

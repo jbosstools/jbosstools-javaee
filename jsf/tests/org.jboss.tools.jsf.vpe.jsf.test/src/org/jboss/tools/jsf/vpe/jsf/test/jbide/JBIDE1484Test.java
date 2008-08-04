@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -31,9 +32,7 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE1484Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "jsfTest"; 
-
-	private static final String TEST_PAGE_NAME = "JBIDE/1484/JBIDE-1484.jsp"; 
+	private static final String TEST_PAGE_NAME = "JBIDE/1484/JBIDE-1484.jsp";  //$NON-NLS-1$
 
 	public JBIDE1484Test(String name) {
 
@@ -49,14 +48,14 @@ public class JBIDE1484Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
-				IMPORT_PROJECT_NAME);
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file " + file.getFullPath(),
+		assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
 				file);
 
 		IEditorInput input = new FileEditorInput(file);
 
-		assertNotNull("Editor input is null", input);
+		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
@@ -84,9 +83,9 @@ public class JBIDE1484Test extends VpeTest {
 		nsIDOMElement elementInput2 = (nsIDOMElement) elements.get(2)
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
-		assertEquals(" ", elementInput0.getAttribute("value"));
-		assertEquals(" ", elementInput1.getAttribute("value"));
-		assertEquals("test", elementInput2.getAttribute("value"));
+		assertEquals(" ", elementInput0.getAttribute("value"));  //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals(" ", elementInput1.getAttribute("value")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("test", elementInput2.getAttribute("value")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (getException() != null) {
 			throw getException();
 		}

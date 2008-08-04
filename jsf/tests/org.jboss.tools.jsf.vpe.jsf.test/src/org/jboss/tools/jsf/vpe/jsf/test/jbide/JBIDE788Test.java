@@ -21,6 +21,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
+import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
@@ -33,8 +34,6 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  * JUnit test for http://jira.jboss.com/jira/browse/JBIDE-788
  */
 public class JBIDE788Test extends VpeTest {
-
-	private static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
 	private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT"; //$NON-NLS-1$
 
@@ -254,7 +253,7 @@ public class JBIDE788Test extends VpeTest {
             String partOfString, int lineIndex, int linePosition,boolean isCheck) throws CoreException {
         // get test page path
         IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
-                IMPORT_PROJECT_NAME);
+        		JsfAllTests.IMPORT_PROJECT_NAME);
         assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
                 file);
 
@@ -265,7 +264,7 @@ public class JBIDE788Test extends VpeTest {
         // open and get editor
         JSPMultiPageEditor part = openEditor(input);
         
-        int position = getLinePositionOffcet(part.getSourceEditor().getTextViewer(), lineIndex, linePosition);
+        int position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), lineIndex, linePosition);
 
         // insert string
         part.getSourceEditor().getTextViewer().getTextWidget()
@@ -313,47 +312,5 @@ public class JBIDE788Test extends VpeTest {
         closeEditors();
         TestUtil.delay(1000L);
         return results;
-	}
-	/**
-	 * Utility function which is used to calculate offcet in document by line number and character position
-	 * 
-	 * @param textViewer
-	 * @param lineIndex
-	 * @param linePosition
-	 * @return offcet in document
-	 * @throws IllegalArgumentException
-	 */
-	private static final int getLinePositionOffcet(ITextViewer textViewer, int lineIndex, int linePosition) throws IllegalArgumentException {
-		
-		int resultOffcet = 0;
-		
-		if(textViewer==null) {
-				
-				throw new IllegalArgumentException("Text viewer shouldn't be a null"); //$NON-NLS-1$
-		}	
-		//lineIndex-1 becose calculating of line begibns in eclipse from one, but should be form zero
-		resultOffcet=textViewer.getTextWidget().getOffsetAtLine(lineIndex-1);
-		//here we get's tabs length
-		//for more example you can see code org.eclipse.ui.texteditor.AbstractTextEditor@getCursorPosition() and class $PositionLabelValue
-		int tabWidth = textViewer.getTextWidget().getTabs();
-		int characterOffset=0;
-		String currentString = textViewer.getTextWidget().getLine(lineIndex-1);
-		int pos=1;
-		for (int i= 0; (i < currentString.length())&&(pos<linePosition); i++) {
-			if ('\t' == currentString.charAt(i)) {
-				
-				characterOffset += (tabWidth == 0 ? 0 : 1);
-				pos+=tabWidth;
-			}else{
-				pos++;
-				characterOffset++;
-			}
-		}
-		resultOffcet+=characterOffset;
-		if(textViewer.getTextWidget().getLineAtOffset(resultOffcet)!=(lineIndex-1)) {
-				
-				throw new IllegalArgumentException("Incorrect character position in line"); //$NON-NLS-1$
-		}
-		return resultOffcet;
 	}
 }
