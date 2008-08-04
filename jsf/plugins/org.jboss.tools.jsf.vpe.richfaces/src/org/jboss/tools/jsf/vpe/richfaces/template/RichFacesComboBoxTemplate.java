@@ -47,40 +47,40 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate implements VpeToggableTemplate {
 
     /** CSS_FILE_NAME. */
-    private static final String CSS_FILE_NAME = "comboBox/comboBox.css";
+    private static final String CSS_FILE_NAME = "comboBox/comboBox.css"; //$NON-NLS-1$
 
     /** The Constant DEFAULT_ALIGN. */
-    private static final String DEFAULT_ALIGN = "left";
+    private static final String DEFAULT_ALIGN = "left"; //$NON-NLS-1$
 
     /** DEFAULT_INPUT_SIZE. */
-    private static final String DEFAULT_INPUT_SIZE = "10";
+    private static final String DEFAULT_INPUT_SIZE = "10"; //$NON-NLS-1$
 
     /** DEFAULT_INPUT_STYLE. */
-    private static final String DEFAULT_INPUT_STYLE = "rich-combobox-default-input";
+    private static final String DEFAULT_INPUT_STYLE = "rich-combobox-default-input"; //$NON-NLS-1$
 
     /** The Constant DEFAULT_LIST_WIDTH. */
-    private static final String DEFAULT_LIST_WIDTH = "150px";
+    private static final String DEFAULT_LIST_WIDTH = "150px"; //$NON-NLS-1$
 
     /** The Constant DEFAULT_WIDTH. */
-    private static final String DEFAULT_WIDTH = "width : 150px";
+    private static final String DEFAULT_WIDTH = "width : 150px"; //$NON-NLS-1$
 
     /** IMAGE_NAME_DOWN. */
-    private static final String IMAGE_NAME_DOWN = "/comboBox/down.gif";
+    private static final String IMAGE_NAME_DOWN = "/comboBox/down.gif"; //$NON-NLS-1$
 
     /** The Constant RICH_COMBOBOX_BUTTON_STYLE_CLASS. */
-    private static final String RICH_COMBOBOX_BUTTON_STYLE_CLASS = "rich-combobox-button";
+    private static final String RICH_COMBOBOX_BUTTON_STYLE_CLASS = "rich-combobox-button"; //$NON-NLS-1$
 
     /** The Constant RICH_COMBOBOX_IMAGE_STYLE_CLASS. */
-    private static final String RICH_COMBOBOX_IMAGE_STYLE_CLASS = "rich-combobox-image";
+    private static final String RICH_COMBOBOX_IMAGE_STYLE_CLASS = "rich-combobox-image"; //$NON-NLS-1$
 
     /** The Constant RICH_COMBOBOX_INPUT_CELL_STYLE. */
-    private static final String RICH_COMBOBOX_INPUT_CELL_STYLE = "rich-combobox-inputCell";
+    private static final String RICH_COMBOBOX_INPUT_CELL_STYLE = "rich-combobox-inputCell"; //$NON-NLS-1$
 
     /** The Constant SECOND_INPUT. */
-    private static final String SECOND_INPUT = "secondInput";
+    private static final String SECOND_INPUT = "secondInput"; //$NON-NLS-1$
 
     /** The Constant STYLE_EXT. */
-    private static final String STYLE_EXT = "richFacesComboBox";
+    private static final String STYLE_EXT = "richFacesComboBox"; //$NON-NLS-1$
     
     private static final int LIST_ITEM_HEIGHT_DEFAULT_VALUE=18;
 
@@ -88,7 +88,7 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
     private Map<String, String> styleClasess = new HashMap<String, String>();
 
     /** The Constant ZERO_STRING. */
-    private static final String ZERO_STRING = "0";
+    private static final String ZERO_STRING = "0"; //$NON-NLS-1$
 
     /** The source align. */
     private String sourceAlign;
@@ -155,12 +155,12 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
     private String calculateWithForDiv(String with, int minus) {
         try {
             Integer intValue = 0;
-            if (with.endsWith("px")) {
+            if (with.endsWith("px")) { //$NON-NLS-1$
                 intValue = Integer.parseInt(with.substring(0, with.length() - 2));
             } else {
                 intValue = Integer.parseInt(with);
             }
-            return String.valueOf((intValue - minus)) + "px";
+            return String.valueOf((intValue - minus)) + "px"; //$NON-NLS-1$
         } catch (NumberFormatException e) {
             return with;
         }
@@ -185,29 +185,29 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         final nsIDOMElement rootDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
         
         //Fix  https://jira.jboss.org/jira/browse/JBIDE-2430 issue with resizement. 
-        rootDiv.setAttribute("style", "width : "+sourceWidth);
+        rootDiv.setAttribute("style", "width : "+sourceWidth); //$NON-NLS-1$ //$NON-NLS-2$
         final nsIDOMElement secondDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        secondDiv.setAttribute("align", this.sourceAlign);
-        secondDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv"));
-        String secondDivSubStyle = "; position: {0}; z-index: {1} ;";
+        secondDiv.setAttribute("align", this.sourceAlign); //$NON-NLS-1$
+        secondDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv")); //$NON-NLS-1$
+        String secondDivSubStyle = "; position: {0}; z-index: {1} ;"; //$NON-NLS-1$
         if (isToggle) {
-            secondDivSubStyle = MessageFormat.format(secondDivSubStyle, "relative", "2");
+            secondDivSubStyle = MessageFormat.format(secondDivSubStyle, "relative", "2"); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            secondDivSubStyle = MessageFormat.format(secondDivSubStyle, "static", "0");
+            secondDivSubStyle = MessageFormat.format(secondDivSubStyle, "static", "0"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         // TODO add ATTR_STYLE.
         secondDiv.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH + VpeStyleUtil.COLON_STRING + this.sourceListWidth
                 + VpeStyleUtil.SEMICOLON_STRING + secondDivSubStyle + sourceStyle);
         final nsIDOMElement thirdDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        thirdDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdDiv"));
+        thirdDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdDiv")); //$NON-NLS-1$
         thirdDiv.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH + VpeStyleUtil.COLON_STRING + this.sourceWidth
-                + "; z-index: 1;");
+                + "; z-index: 1;"); //$NON-NLS-1$
         final nsIDOMElement firstInput = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
-        firstInput.setAttribute(HTML.ATTR_TYPE, "text");
+        firstInput.setAttribute(HTML.ATTR_TYPE, "text"); //$NON-NLS-1$
         ;
-        firstInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get("firstInput") + " " + sourceInputClass);
-        firstInput.setAttribute("autocomplete", "off");
-        firstInput.setAttribute(HTML.ATTR_STYLE, "width: " + calculateWithForDiv(this.sourceWidth, 17) + VpeStyleUtil.SEMICOLON_STRING
+        firstInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get("firstInput") + " " + sourceInputClass); //$NON-NLS-1$ //$NON-NLS-2$
+        firstInput.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
+        firstInput.setAttribute(HTML.ATTR_STYLE, "width: " + calculateWithForDiv(this.sourceWidth, 17) + VpeStyleUtil.SEMICOLON_STRING //$NON-NLS-1$
                 + sourceInputStyle);
         String value = null;
         if (ComponentUtil.isNotBlank(this.sourceDefaultLabel)) {
@@ -220,20 +220,20 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
             firstInput.setAttribute(RichFaces.ATTR_VALUE, value);
         }
         final nsIDOMElement secondInput = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
-        secondInput.setAttribute(HTML.ATTR_TYPE, "text");
+        secondInput.setAttribute(HTML.ATTR_TYPE, "text"); //$NON-NLS-1$
         ;
         secondInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get(SECOND_INPUT));
-        secondInput.setAttribute("readonly", String.valueOf(Boolean.TRUE));
+        secondInput.setAttribute("readonly", String.valueOf(Boolean.TRUE)); //$NON-NLS-1$
         secondInput.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
         if (this.sourceButtonStyle != null) {
             secondInput.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
         }
         //
         final nsIDOMElement thirdInput = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
-        thirdInput.setAttribute(HTML.ATTR_TYPE, "text");
+        thirdInput.setAttribute(HTML.ATTR_TYPE, "text"); //$NON-NLS-1$
         ;
-        thirdInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdInput"));
-        thirdInput.setAttribute("readonly", String.valueOf(Boolean.TRUE));
+        thirdInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdInput")); //$NON-NLS-1$
+        thirdInput.setAttribute("readonly", String.valueOf(Boolean.TRUE)); //$NON-NLS-1$
         thirdInput.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
         if (this.sourceButtonStyle != null) {
             thirdInput.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
@@ -245,10 +245,10 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 //                    + this.sourceButtonIcon + ")");
 //        }
         final nsIDOMElement forthEmptyDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        forthEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("forthEmptyDiv"));
+        forthEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("forthEmptyDiv")); //$NON-NLS-1$
         forthEmptyDiv.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH + VpeStyleUtil.COLON_STRING
                 + calculateWithForDiv(this.sourceWidth, 10));
-        forthEmptyDiv.appendChild(visualDocument.createTextNode("Struts"));
+        forthEmptyDiv.appendChild(visualDocument.createTextNode("Struts")); //$NON-NLS-1$
 
         rootDiv.appendChild(secondDiv);
 
@@ -282,24 +282,24 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         final nsIDOMElement thirdEmptyDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
         thirdEmptyDiv.setAttribute(HTML.ATTR_STYLE, this.sourceListStyle + VpeStyleUtil.SEMICOLON_STRING
-                + " z-index: 3; position: absolute; visibility: visible; top: 16px; left: 0px;");
-        thirdEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdEmptyDiv") + " " + this.sourceListClass);
-        thirdEmptyDiv.setAttribute(HTML.ATTR_STYLE, "z-index: 3; position: absolute; visibility: visible; top: 16px; left: 0px;");
+                + " z-index: 3; position: absolute; visibility: visible; top: 16px; left: 0px;"); //$NON-NLS-1$
+        thirdEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdEmptyDiv") + " " + this.sourceListClass); //$NON-NLS-1$ //$NON-NLS-2$
+        thirdEmptyDiv.setAttribute(HTML.ATTR_STYLE, "z-index: 3; position: absolute; visibility: visible; top: 16px; left: 0px;"); //$NON-NLS-1$
 
         final nsIDOMElement shadovDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
         final nsIDOMElement positionDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
-        positionDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-position");
+        positionDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-position"); //$NON-NLS-1$
 
         final nsIDOMElement decorationDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 
-        decorationDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-decoration");
+        decorationDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-decoration"); //$NON-NLS-1$
         // decorationDiv.setAttribute(HTML.ATTR_STYLE,
         // "height: 54px; width: 208px;");
 
         final nsIDOMElement scrollDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        scrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-scroll");
+        scrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-list-scroll"); //$NON-NLS-1$
         final List<Element> items = ComponentUtil.getSelectItems(source.getChildNodes());
         int defaultHeight = LIST_ITEM_HEIGHT_DEFAULT_VALUE;
         
@@ -308,8 +308,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         }
         
         final String listHeight = ComponentUtil.isNotBlank(this.sourceListHeight) ? this.sourceListHeight : String.valueOf(defaultHeight)
-                + "px"; 
-        scrollDiv.setAttribute(HTML.ATTR_STYLE, "height: "+listHeight+"; width: " + calculateWithForDiv(sourceListWidth, 2));
+                + "px";  //$NON-NLS-1$
+        scrollDiv.setAttribute(HTML.ATTR_STYLE, "height: "+listHeight+"; width: " + calculateWithForDiv(sourceListWidth, 2)); //$NON-NLS-1$ //$NON-NLS-2$
 
         final List<Element> selectItems = ComponentUtil.getSelectItems(source.getChildNodes());
 
@@ -319,22 +319,22 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
             }
         }
 
-        shadovDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow");
+        shadovDiv.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow"); //$NON-NLS-1$
 
         final nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-        table.setAttribute(HTML.ATTR_CELLPADDING, "0");
-        table.setAttribute(HTML.ATTR_CELLSPACING, "0");
-        table.setAttribute(HTML.ATTR_BORDER, "0");
-        String width = "";
+        table.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
+        table.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
+        table.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
+        String width = ""; //$NON-NLS-1$
         try {
 
             int w = ComponentUtil.parseWidthHeightValue(sourceListWidth);
             w += 7;
             width = String.valueOf(w);
         } catch (ParseException e) {
-            width = "217";
+            width = "217"; //$NON-NLS-1$
         }
-        table.setAttribute(HTML.ATTR_STYLE, "width: " + width + "px ; height: 63px;");
+        table.setAttribute(HTML.ATTR_STYLE, "width: " + width + "px ; height: 63px;"); //$NON-NLS-1$ //$NON-NLS-2$
 
         final nsIDOMElement tr1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
         final nsIDOMElement tr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
@@ -351,16 +351,16 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         final nsIDOMElement tr2_td1_img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
         final nsIDOMElement tr2_td2_img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 
-        tr1_td1.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-tl");
-        tr1_td2.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-tr");
+        tr1_td1.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-tl"); //$NON-NLS-1$
+        tr1_td2.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-tr"); //$NON-NLS-1$
 
-        tr2_td1.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-bl");
-        tr2_td2.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-br");
+        tr2_td1.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-bl"); //$NON-NLS-1$
+        tr2_td2.setAttribute(HTML.ATTR_CLASS, "rich-combobox-shadow-br"); //$NON-NLS-1$
 
-        setUpImg(tr1_td1_img, 10, 1, 0, "comboBox/spacer.gif");
-        setUpImg(tr1_td2_img, 1, 10, 0, "comboBox/spacer.gif");
-        setUpImg(tr2_td1_img, 1, 10, 0, "comboBox/spacer.gif");
-        setUpImg(tr2_td2_img, 10, 1, 0, "comboBox/spacer.gif");
+        setUpImg(tr1_td1_img, 10, 1, 0, "comboBox/spacer.gif"); //$NON-NLS-1$
+        setUpImg(tr1_td2_img, 1, 10, 0, "comboBox/spacer.gif"); //$NON-NLS-1$
+        setUpImg(tr2_td1_img, 1, 10, 0, "comboBox/spacer.gif"); //$NON-NLS-1$
+        setUpImg(tr2_td2_img, 10, 1, 0, "comboBox/spacer.gif"); //$NON-NLS-1$
 
         thirdEmptyDiv.appendChild(shadovDiv);
         shadovDiv.appendChild(table);
@@ -402,7 +402,7 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
     private nsIDOMNode createSelectItem(Element e, nsIDOMDocument visualDocument) {
         final nsIDOMElement item = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
-        item.setAttribute(HTML.ATTR_CLASS, "rich-combobox-item " + sourceItemClass);
+        item.setAttribute(HTML.ATTR_CLASS, "rich-combobox-item " + sourceItemClass); //$NON-NLS-1$
         item.appendChild(visualDocument.createTextNode(ComponentUtil.getSelectItemValue(e)));
         return item;
     }
@@ -557,13 +557,13 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
      * Inits the default classes.
      */
     private void initDefaultClasses() {
-        styleClasess.put("secondDiv", "rich-combobox-font rich-combobox");
-        styleClasess.put("thirdDiv", "rich-combobox-font rich-combobox-shell");
-        styleClasess.put("thirdEmptyDiv", "rich-combobox-list-cord");
-        styleClasess.put("firstInput", "rich-combobox-font-disabled rich-combobox-input-inactive");
-        styleClasess.put(SECOND_INPUT, "rich-combobox-font-inactive rich-combobox-button-background rich-combobox-button-inactive");
-        styleClasess.put("thirdInput", "rich-combobox-font-inactive rich-combobox-button-icon-inactive rich-combobox-button-inactive");
-        styleClasess.put("forthEmptyDiv", "rich-combobox-strut rich-combobox-font");
+        styleClasess.put("secondDiv", "rich-combobox-font rich-combobox"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put("thirdDiv", "rich-combobox-font rich-combobox-shell"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put("thirdEmptyDiv", "rich-combobox-list-cord"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put("firstInput", "rich-combobox-font-disabled rich-combobox-input-inactive"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put(SECOND_INPUT, "rich-combobox-font-inactive rich-combobox-button-background rich-combobox-button-inactive"); //$NON-NLS-1$
+        styleClasess.put("thirdInput", "rich-combobox-font-inactive rich-combobox-button-icon-inactive rich-combobox-button-inactive"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put("forthEmptyDiv", "rich-combobox-strut rich-combobox-font"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -592,19 +592,19 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
      * @param source the source
      */
     private void prepareData(Element source) {
-        this.sourceAlign = source.getAttribute("align");
+        this.sourceAlign = source.getAttribute("align"); //$NON-NLS-1$
         if (ComponentUtil.isBlank(this.sourceAlign)) {
             this.sourceAlign = DEFAULT_ALIGN;
         }
-        this.sourceListWidth = source.getAttribute("listWidth");
+        this.sourceListWidth = source.getAttribute("listWidth"); //$NON-NLS-1$
 
         if (ComponentUtil.isBlank(this.sourceListWidth)) {
             this.sourceListWidth = DEFAULT_LIST_WIDTH;
         }
-        this.sourceListHeight = source.getAttribute("listHeight");
+        this.sourceListHeight = source.getAttribute("listHeight"); //$NON-NLS-1$
         
 
-        this.sourceWidth = source.getAttribute("width");
+        this.sourceWidth = source.getAttribute("width"); //$NON-NLS-1$
         
         if (ComponentUtil.isBlank(this.sourceWidth)) {
             this.sourceWidth = DEFAULT_LIST_WIDTH;
@@ -613,35 +613,35 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         }
         
         if (ComponentUtil.isNotBlank(this.sourceWidth) && (this.sourceWidth != DEFAULT_LIST_WIDTH)) {
-            if(!this.sourceWidth.endsWith("px")){
+            if(!this.sourceWidth.endsWith("px")){ //$NON-NLS-1$
                 try {
                     int intValue = Integer.parseInt(this.sourceWidth);
-                    this.sourceWidth = String.valueOf(intValue)+"px";
-                } catch (Exception e) {
-                    
+                    this.sourceWidth = String.valueOf(intValue)+"px"; //$NON-NLS-1$
+                } catch (NumberFormatException e) {
+                    this.sourceListWidth = DEFAULT_LIST_WIDTH;
                 }
             }
         }
 
-        this.sourceDefaultLabel = ComponentUtil.getAttribute(source, "defaultLabel");
-        this.sourceValue = ComponentUtil.getAttribute(source, "value");
+        this.sourceDefaultLabel = ComponentUtil.getAttribute(source, "defaultLabel"); //$NON-NLS-1$
+        this.sourceValue = ComponentUtil.getAttribute(source, "value"); //$NON-NLS-1$
 
-        this.sourceButtonStyle = ComponentUtil.getAttribute(source, "buttonStyle");
+        this.sourceButtonStyle = ComponentUtil.getAttribute(source, "buttonStyle"); //$NON-NLS-1$
 
         final String sourceStyleClasess = ComponentUtil.getAttribute(source, RichFaces.ATTR_STYLE_CLASS);
 
         if (ComponentUtil.isNotBlank(sourceStyleClasess)) {
-            styleClasess.put("secondDiv", styleClasess.get("secondDiv") + " " + sourceStyleClasess);
+            styleClasess.put("secondDiv", styleClasess.get("secondDiv") + " " + sourceStyleClasess); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 
         this.sourceStyle = ComponentUtil.getAttribute(source, HTML.ATTR_STYLE);
-        this.sourceInputStyle = ComponentUtil.getAttribute(source, "inputStyle");
-        this.sourceInputClass = ComponentUtil.getAttribute(source, "inputClass");
-        this.sourceListClass = ComponentUtil.getAttribute(source, "listClass");
-        this.sourceListStyle = ComponentUtil.getAttribute(source, "listStyle");
-        this.sourceItemClass = ComponentUtil.getAttribute(source, "itemClass");
+        this.sourceInputStyle = ComponentUtil.getAttribute(source, "inputStyle"); //$NON-NLS-1$
+        this.sourceInputClass = ComponentUtil.getAttribute(source, "inputClass"); //$NON-NLS-1$
+        this.sourceListClass = ComponentUtil.getAttribute(source, "listClass"); //$NON-NLS-1$
+        this.sourceListStyle = ComponentUtil.getAttribute(source, "listStyle"); //$NON-NLS-1$
+        this.sourceItemClass = ComponentUtil.getAttribute(source, "itemClass"); //$NON-NLS-1$
         
-        this.sourceButtonIcon = ComponentUtil.getAttribute(source, "buttonIcon");
+        this.sourceButtonIcon = ComponentUtil.getAttribute(source, "buttonIcon"); //$NON-NLS-1$
         
         if(ComponentUtil.isBlank(this.sourceButtonIcon)){
             this.sourceButtonIcon = IMAGE_NAME_DOWN;
