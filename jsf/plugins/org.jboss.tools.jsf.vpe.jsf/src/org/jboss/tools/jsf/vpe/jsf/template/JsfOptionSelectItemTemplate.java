@@ -199,7 +199,7 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 	}
 
 	@Override
-	protected Attr getOutputAttributeNode(Element element) {
+	public Attr getOutputAttributeNode(Element element) {
 
 		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL))
 			return element.getAttributeNode(JSF.ATTR_ITEM_LABEL);

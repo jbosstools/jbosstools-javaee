@@ -42,7 +42,7 @@ public abstract class AbstractOutputJsfTemplate extends
 	 * @param element
 	 * @return
 	 */
-	protected Attr getOutputAttributeNode(Element element) {
+	public Attr getOutputAttributeNode(Element element) {
 
 		if (element.hasAttribute(JSF.ATTR_VALUE))
 			return element.getAttributeNode(JSF.ATTR_VALUE);
