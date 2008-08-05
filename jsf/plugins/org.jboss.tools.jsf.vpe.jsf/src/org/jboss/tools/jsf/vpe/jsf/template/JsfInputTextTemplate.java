@@ -14,7 +14,6 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
-import org.jboss.tools.vpe.editor.mapping.NodeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -60,6 +59,12 @@ public class JsfInputTextTemplate extends AbstractEditableJsfTemplate {
 	}
 
 	@Override
+    public Attr getOutputAttributeNode(Element element) {
+        // TODO Auto-generated method stub
+        return  element.getAttributeNode(JSF.ATTR_VALUE);
+    }
+
+    @Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
