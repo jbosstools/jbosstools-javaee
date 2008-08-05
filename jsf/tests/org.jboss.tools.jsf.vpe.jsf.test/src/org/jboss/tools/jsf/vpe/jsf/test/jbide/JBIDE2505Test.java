@@ -44,17 +44,37 @@ public class JBIDE2505Test extends VpeTest {
 		setException(null);
 
         //test for element node
-        testCaretManupulation(11, 34);
+		testCaretManupulationWithoutElSubstitution("JBIDE/2505/testJBIDE2505.jsp",11, 34); //$NON-NLS-1$
         //test for sourceNode
-        testCaretManupulation(12, 58);
+		testCaretManupulationWithoutElSubstitution("JBIDE/2505/testJBIDE2505.jsp",12, 58); //$NON-NLS-1$
         if(getException()!=null) {
         	throw getException();
         }
 	}
+	/**
+	 * Tests inner nodes include URI
+	 * 
+	 * @throws Throwable
+	 */
+	public void testCursorXHTMLJSEL() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
 
-	private void testCaretManupulation(int sourceLine, int positioninLine) throws Throwable {
+        //test for element node
+		testCaretManupulationWithElSubstitution("JBIDE/2505/testJBIDE2505.xhtml",14, 10); //$NON-NLS-1$
+        //test for sourceNode
+		testCaretManupulationWithElSubstitution("JBIDE/2505/testJBIDE2505.xhtml",15, 27); //$NON-NLS-1$
+        if(getException()!=null) {
+        	throw getException();
+        }
+	}
+	
+
+	private void testCaretManupulationWithoutElSubstitution(String fileName, int sourceLine, int positioninLine) throws Throwable {
         // get test page path
-        IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2505/testJBIDE2505.jsp", //$NON-NLS-1$
+        IFile file = (IFile) TestUtil.getComponentPath(fileName,
         		JsfAllTests.IMPORT_PROJECT_NAME);
         assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
                 file);
@@ -86,6 +106,38 @@ public class JBIDE2505Test extends VpeTest {
 	        vpeController.visualRefresh();
 	        
 	        assertEquals("Cursor position doesn't equals",offset+i,styledText.getCaretOffset()); //$NON-NLS-1$
+        }
+	}
+	
+	private void testCaretManupulationWithElSubstitution(String fileName, int sourceLine, int positioninLine) throws Throwable {
+        // get test page path
+        IFile file = (IFile) TestUtil.getComponentPath(fileName,
+        		JsfAllTests.IMPORT_PROJECT_NAME);
+        assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
+                file);
+
+        IEditorInput input = new FileEditorInput(file);
+
+        assertNotNull("Editor input is null", input); //$NON-NLS-1$
+
+        // open and get editor
+        JSPMultiPageEditor part = openEditor(input);
+        
+        int offset = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(),sourceLine, positioninLine);
+		// get editor control
+		
+        part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(offset);
+
+        
+        
+        VpeController vpeController = getVpeController(part);
+        vpeController.sourceSelectionChanged();
+        
+        for (int i=0;i<10;i++) {
+        	
+	        nsIDOMNode domNode = vpeController.getXulRunnerEditor().getLastSelectedNode();
+	        assertNotNull(domNode);
+	        vpeController.visualRefresh();
         }
 	}
 }
