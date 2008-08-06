@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
@@ -22,15 +23,22 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 public class GraphicalPartFactory implements EditPartFactory {
 	public static final String REQ_INIT_EDIT = "init edit"; //$NON-NLS-1$
 	
+	private PagesEditor editor;
+	
+	public GraphicalPartFactory(PagesEditor editor){
+		this.editor = editor;
+	}
+	
 	public EditPart createEditPart(EditPart context, Object model) {
 		EditPart child = null;
 
 		//System.out.println("createEditPart model - "+model);
 		if (model instanceof PagesModel)
 			child = new PagesDiagramEditPart();
-		else if (model instanceof Page)
+		else if (model instanceof Page){
 			child = new PageEditPart();
-		else if (model instanceof PageException)
+			((PageEditPart)child).setEditor(editor);
+		}else if (model instanceof PageException)
 			child = new ExceptionEditPart();
 		else if (model instanceof PageWrapper)
 			child = new ParamListEditPart();

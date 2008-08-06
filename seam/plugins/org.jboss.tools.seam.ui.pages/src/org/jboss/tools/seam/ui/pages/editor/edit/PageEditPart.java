@@ -35,11 +35,13 @@ import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.meta.action.XAction;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.dnd.DnDUtil;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
@@ -48,6 +50,12 @@ import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 public class PageEditPart extends PagesEditPart implements
 		PropertyChangeListener, EditPartListener, Adapter {
 	private PageFigure fig = null;
+	
+	PagesEditor editor;
+	
+	public void setEditor(PagesEditor editor){
+		this.editor = editor;
+	}
 
 	public void doControlUp() {
 	}
@@ -60,6 +68,15 @@ public class PageEditPart extends PagesEditPart implements
 
 	public void childAdded(EditPart child, int index) {
 	}
+	
+	public void doMouseDown(Point mp) {
+	    Point mouseLocation = mp.scale(1/((GEFRootEditPart)editor.getScrollingGraphicalViewer().getRootEditPart()).getZoomManager().getZoom()).translate(-getPageFigure().getLocation().x, -getPageFigure().getLocation().y);
+	    if(mouseLocation.x < 15 && mouseLocation.y > getPageFigure().getSize().height-15){
+	    	getPageModel().setParamsVisible(!getPageModel().isParamsVisible());
+			refresh();
+			fig.repaint();
+	    }
+    }
 
 	public void partActivated(EditPart editpart) {
 	}

@@ -282,4 +282,6 @@ abstract public class PagesEditPart extends
 		loc.y -= loc.y % 8;
 	}
 	
+	public void doMouseDown(Point point){
+	}
 }

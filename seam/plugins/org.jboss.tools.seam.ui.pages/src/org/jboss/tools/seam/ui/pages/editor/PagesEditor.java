@@ -70,6 +70,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -237,7 +238,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 		viewer.setRootEditPart(root);
 
-		viewer.setEditPartFactory(new GraphicalPartFactory());
+		viewer.setEditPartFactory(new GraphicalPartFactory(this));
 		ContextMenuProvider provider = new PagesContextMenuProvider(viewer,
 				getActionRegistry());
 		viewer.setContextMenu(provider);
@@ -260,7 +261,14 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	}
 
 	public void mouseDown(MouseEvent e) {
-	}
+
+		boolean controlFlag = (e.stateMask & SWT.CONTROL) > 0;
+		EditPart part = getGraphicalViewer().findObjectAt(
+				new Point(e.x, e.y));
+
+		if (part instanceof PagesEditPart)
+			((PagesEditPart) part).doMouseDown(new Point(e.x, e.y));
+	    }
 
 	public void mouseUp(MouseEvent e) {
 	}
