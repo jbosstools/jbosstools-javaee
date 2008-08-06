@@ -25,11 +25,13 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1615Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1720Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1730Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1744Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2010Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2119Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2219Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2297Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2434Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2505Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2582Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE2584Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
@@ -81,6 +83,9 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE2219Test.class);
 		suite.addTestSuite(JBIDE2505Test.class);
 		suite.addTestSuite(JBIDE2584Test.class);
+	    suite.addTestSuite(ElPreferencesTestCase.class);
+	    suite.addTestSuite(JBIDE2010Test.class);
+	    suite.addTestSuite(JBIDE2582Test.class);
 		// $JUnit-END$
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests
