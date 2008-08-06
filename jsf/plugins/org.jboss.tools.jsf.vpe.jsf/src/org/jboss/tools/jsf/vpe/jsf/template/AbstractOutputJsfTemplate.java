@@ -84,14 +84,14 @@ public abstract class AbstractOutputJsfTemplate extends
 		if (outputAttr != null) {
 
 			// prepare value
-			String newValue = outputAttr.getValue();
+			String newValue = prepareAttrValue(pageContext, sourceElement, outputAttr);
 			// if escape then contents of value (or other attribute) is only
 			// text
 			if (!sourceElement.hasAttribute(JSF.ATTR_ESCAPE)
 					|| "true".equalsIgnoreCase(sourceElement //$NON-NLS-1$
 							.getAttribute(JSF.ATTR_ESCAPE))) {
 
-				String value = outputAttr.getNodeValue();
+				String value = outputAttr.getValue();
 
 				nsIDOMText text;
 				// if bundleValue differ from value then will be represent
@@ -224,4 +224,10 @@ public abstract class AbstractOutputJsfTemplate extends
 		}
 		return node;
 	}
+	
+	   protected String prepareAttrValue(VpePageContext pageContext,
+	            Element parent, Attr attr) {
+
+	        return attr.getNodeValue();
+	    }
 }

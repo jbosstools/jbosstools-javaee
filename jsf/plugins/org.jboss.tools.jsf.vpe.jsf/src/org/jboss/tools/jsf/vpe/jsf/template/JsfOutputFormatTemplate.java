@@ -96,6 +96,14 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 		return true;
 	}
 
+	@Override
+	protected String prepareAttrValue(VpePageContext pageContext,
+			Element parent, Attr attr) {
+		String newString = prepareAttrValueByParams(attr.getNodeValue(),
+				getParams(parent));
+		
+		return newString;
+	}
 
 	/**
 	 * find message format elements and update value
