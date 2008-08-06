@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
@@ -29,7 +30,7 @@ import org.mozilla.interfaces.nsIDOMNode;
  * 
  * @author Eugene Stherbin
  */
-public class RichFacesPickListTemplateTestCase extends CommonRichFacesTestCase {
+public class RichFacesPickListTemplateTestCase extends VpeTest {
 
     /**
      * The Constructor.
@@ -46,28 +47,28 @@ public class RichFacesPickListTemplateTestCase extends CommonRichFacesTestCase {
     public void testSimplePickList() {
         nsIDOMElement rst;
         try {
-            rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath("components/pickList/pickList.xhtml",
+            rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath("components/pickList/pickList.xhtml", //$NON-NLS-1$
                     RichFacesComponentTest.IMPORT_PROJECT_NAME));
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TABLE);
-            assertEquals("Count of tables should be 3", 3, elements.size());
+            assertEquals("Count of tables should be 3", 3, elements.size()); //$NON-NLS-1$
             nsIDOMElement tableOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
-            assertEquals("Style class should be equals", "rich-list-picklist", tableOne.getAttribute(HTML.ATTR_CLASS));
-            assertEquals("Style should be empty", "", tableOne.getAttribute(HTML.ATTR_STYLE));
+            assertEquals("Style class should be equals", "rich-list-picklist", tableOne.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$ //$NON-NLS-2$
+            assertEquals("Style should be empty", "", tableOne.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$ //$NON-NLS-2$
             elements.clear();
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_DIV);
-            assertEquals("Count of divs should be 18", 18, elements.size());
+            assertEquals("Count of divs should be 18", 18, elements.size()); //$NON-NLS-1$
 
             elements.clear();
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_IMG);
-            assertEquals("Count of divs should be 18", 4, elements.size());
+            assertEquals("Count of divs should be 18", 4, elements.size()); //$NON-NLS-1$
 
         } catch (CoreException e) {
-            fail(e);
+            TestUtil.fail(e);
         } catch (Throwable e) {
-            fail(e);
+            TestUtil.fail(e);
         }
 
     }

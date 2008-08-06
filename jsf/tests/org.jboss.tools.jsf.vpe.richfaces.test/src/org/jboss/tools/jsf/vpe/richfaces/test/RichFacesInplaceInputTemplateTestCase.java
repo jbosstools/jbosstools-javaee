@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
@@ -29,28 +30,28 @@ import org.mozilla.interfaces.nsIDOMNode;
  * 
  * @author Eugene Stherbin
  */
-public class RichFacesInplaceInputTemplateTestCase extends CommonRichFacesTestCase {
+public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
 
     /** The Constant EL_VALUE. */
-    private static final String EL_VALUE = "#{person.name}";
+    private static final String EL_VALUE = "#{person.name}"; //$NON-NLS-1$
 
     /** The Constant MY_STYLE_CLASS. */
-    private static final String MY_STYLE_CLASS = "myStyleClass";
+    private static final String MY_STYLE_CLASS = "myStyleClass"; //$NON-NLS-1$
 
     /** The Constant NULL. */
-    private static final String NULL = "null";
+    private static final String NULL = "null"; //$NON-NLS-1$
 
     /** The Constant RICH_INPLACE_VIEW. */
-    private static final String RICH_INPLACE_VIEW = "rich-inplace rich-inplace-view";
+    private static final String RICH_INPLACE_VIEW = "rich-inplace rich-inplace-view"; //$NON-NLS-1$
 
     /** The Constant TEMPLATE_WITH_EMPTY_TAG. */
-    private static final String TEMPLATE_WITH_EMPTY_TAG = "components/inplaceInput/inplaceInput.xhtml";
+    private static final String TEMPLATE_WITH_EMPTY_TAG = "components/inplaceInput/inplaceInput.xhtml"; //$NON-NLS-1$
 
     /** The Constant TEMPLATE_WITH_VALUE_AND_STYLE_CLASS. */
-    private static final String TEMPLATE_WITH_VALUE_AND_STYLE_CLASS = "components/inplaceInput/inplaceInputWithStyleClassAttribute.xhtml";
+    private static final String TEMPLATE_WITH_VALUE_AND_STYLE_CLASS = "components/inplaceInput/inplaceInputWithStyleClassAttribute.xhtml"; //$NON-NLS-1$
 
     /** The Constant TEMPLATE_WITH_VALUE_ATTR. */
-    private static final String TEMPLATE_WITH_VALUE_ATTR = "components/inplaceInput/inplaceInputWithValueAttribute.xhtml";
+    private static final String TEMPLATE_WITH_VALUE_ATTR = "components/inplaceInput/inplaceInputWithValueAttribute.xhtml"; //$NON-NLS-1$
 
     /**
      * The Constructor.
@@ -72,19 +73,19 @@ public class RichFacesInplaceInputTemplateTestCase extends CommonRichFacesTestCa
      * @throws Throwable the throwable
      */
     private void baseCheck(String page, String value, String styleClass) throws Throwable, CoreException {
-        final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page,
+        final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page,
                 RichFacesComponentTest.IMPORT_PROJECT_NAME));
 
         List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
 
-        assertEquals("Count of items should be 1", 1, elements.size());
+        assertEquals("Count of items should be 1", 1, elements.size()); //$NON-NLS-1$
 
         final nsIDOMElement element = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
         
-        String first = "null";
-        String second = "null";
+        String first = "null"; //$NON-NLS-1$
+        String second = "null"; //$NON-NLS-1$
         
         if(value!=null){
             first = value;
@@ -93,9 +94,9 @@ public class RichFacesInplaceInputTemplateTestCase extends CommonRichFacesTestCa
         if(element.getFirstChild().getNodeValue()!=null){
             second = element.getFirstChild().getNodeValue();
         }
-        assertEquals("Text value  should be equals 'null'", first, second);
+        assertEquals("Text value  should be equals 'null'", first, second); //$NON-NLS-1$
 
-        assertTrue("Style class should be equals " + styleClass, element.getAttribute(HTML.ATTR_CLASS).contains(styleClass));
+        assertTrue("Style class should be equals " + styleClass, element.getAttribute(HTML.ATTR_CLASS).contains(styleClass)); //$NON-NLS-1$
     }
 
     /**

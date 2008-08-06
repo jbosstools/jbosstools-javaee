@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 
 
 /**
@@ -24,7 +25,7 @@ import org.jboss.tools.vpe.ui.test.TestUtil;
  * 
  * @author Eugene Stherbin
  */
-public class RichFacesInplaceSelectTemplateTestCase extends CommonRichFacesTestCase {
+public class RichFacesInplaceSelectTemplateTestCase extends VpeTest {
 
     /** The Constant COMPONENTS_INPLACE_SELECT_INPLACE_SELECT_XHTML. */
     private static final String COMPONENTS_INPLACE_SELECT_INPLACE_SELECT_XHTML = "components/inplaceSelect/inplaceSelect.xhtml";

@@ -6,6 +6,7 @@ package org.jboss.tools.jsf.vpe.richfaces.test;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 
 
 /**
@@ -13,10 +14,10 @@ import org.jboss.tools.vpe.ui.test.TestUtil;
  * 
  * @author Eugene Stherbin
  */
-public class RichFacesFileUploadTemplateTestCase extends CommonRichFacesTestCase {
+public class RichFacesFileUploadTemplateTestCase extends VpeTest {
 
     /** The Constant COMPONENTS_FILE_UPLOAD_FILE_UPLOAD_BASE. */
-    private static final String COMPONENTS_FILE_UPLOAD_FILE_UPLOAD_BASE = "components/fileUpload/fileUpload.xhtml";
+    private static final String COMPONENTS_FILE_UPLOAD_FILE_UPLOAD_BASE = "components/fileUpload/fileUpload.xhtml"; //$NON-NLS-1$
 
     /**
      * The Constructor.

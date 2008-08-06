@@ -13,6 +13,8 @@
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
 
+import static org.jboss.tools.vpe.ui.test.TestUtil.performTestForRichFacesComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +22,16 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
-
 
 /**
  * Test case for testing <rich:columns>.
  * 
  * @author Eugene Stherbin
  */
-public class RichFacesColumnsTemplateTestCase extends CommonRichFacesTestCase {
-
+public class RichFacesColumnsTemplateTestCase extends VpeTest {
     /** The Constant COLUMNS_WITH_ATTRIBUTES. */
     private static final String COLUMNS_WITH_ATTRIBUTES = "components/columns/columnsWithAttributes.xhtml";
 

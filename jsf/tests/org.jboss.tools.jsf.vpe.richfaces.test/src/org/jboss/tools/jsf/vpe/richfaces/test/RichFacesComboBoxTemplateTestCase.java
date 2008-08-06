@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
@@ -29,37 +30,37 @@ import org.mozilla.interfaces.nsIDOMNode;
  * 
  * @author Eugene Stherbin
  */
-public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
+public class RichFacesComboBoxTemplateTestCase extends VpeTest {
 
     /** The Constant _150PX. */
-    private static final String _150PX = "150px";
+    private static final String _150PX = "150px"; //$NON-NLS-1$
 
     /** The Constant _250PX. */
-    private static final String _250PX = "150px";
+    private static final String _250PX = "150px"; //$NON-NLS-1$
 
     /** The Constant _255PX. */
-    private static final String _255PX = "255px";
+    private static final String _255PX = "255px"; //$NON-NLS-1$
 
     /** The Constant COMPONENTS_COMBO_BOX_WITHOUT_ATTR. */
-    private static final String COMPONENTS_COMBO_BOX_WITHOUT_ATTR = "components/comboBox/comboBox.xhtml";
+    private static final String COMPONENTS_COMBO_BOX_WITHOUT_ATTR = "components/comboBox/comboBox.xhtml"; //$NON-NLS-1$
 
     /** The Constant COMPONENTS_COMBO_WITH_ATTR_TEMPLATE. */
-    private static final String COMPONENTS_COMBO_WITH_ATTR_TEMPLATE = "components/comboBox/comboBoxWithAttributes.xhtml";
+    private static final String COMPONENTS_COMBO_WITH_ATTR_TEMPLATE = "components/comboBox/comboBoxWithAttributes.xhtml"; //$NON-NLS-1$
 
     /** The Constant COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2. */
-    private static final String COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2 = "components/comboBox/comboBoxWithAttributes2.xhtml";
+    private static final String COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2 = "components/comboBox/comboBoxWithAttributes2.xhtml"; //$NON-NLS-1$
 
     /** DEFAULT_INPUT_STYLE. */
-    private static final String DEFAULT_INPUT_STYLE = "rich-combobox-font-disabled rich-combobox-input-inactive";
+    private static final String DEFAULT_INPUT_STYLE = "rich-combobox-font-disabled rich-combobox-input-inactive"; //$NON-NLS-1$
 
     /** The Constant DEFAULT_WIDTH. */
-    private static final String DEFAULT_WIDTH = "width: 150px;";
+    private static final String DEFAULT_WIDTH = "width: 150px;"; //$NON-NLS-1$
 
     /** The Constant EL_VALUE. */
-    private static final String EL_VALUE = "#{bean.value}";
+    private static final String EL_VALUE = "#{bean.value}"; //$NON-NLS-1$
 
     /** The Constant SELECT_ANY_VALUE. */
-    private static final String SELECT_ANY_VALUE = "Select Any Value";
+    private static final String SELECT_ANY_VALUE = "Select Any Value"; //$NON-NLS-1$
 
     /** The Constant ZERO. */
     private static final int ZERO = 0;
@@ -85,7 +86,7 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
      * @throws PartInitException the part init exception
      */
     private nsIDOMElement baseTableCheck(String page, String width) throws PartInitException, Throwable {
-        final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page,
+        final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page,
                 RichFacesComponentTest.IMPORT_PROJECT_NAME));
 
         List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
@@ -95,15 +96,15 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_DIV);
         for(nsIDOMNode e:elements){
             nsIDOMElement div = (nsIDOMElement) e.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-            System.err.println(div.getNodeName()+":"+div.getAttribute(HTML.ATTR_CLASS));
+            System.err.println(div.getNodeName()+":"+div.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$
         }
 
 //        assertEquals("Size should be 5", 5, elements.size());
 
         nsIDOMElement divOne = (nsIDOMElement) elements.get(4).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-        assertTrue("Style classes should be contains ",divOne.getAttribute(HTML.ATTR_CLASS).contains("rich-combobox-font rich-combobox"));
-        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1);
-        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width"));
+        assertTrue("Style classes should be contains ",divOne.getAttribute(HTML.ATTR_CLASS).contains("rich-combobox-font rich-combobox")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1); //$NON-NLS-1$
+        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width")); //$NON-NLS-1$ //$NON-NLS-2$
         // Check input
 
         return rst;
@@ -120,9 +121,9 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_INPUT);
 
-        assertEquals("Size should be equals 2", 3, elements.size());
+        assertEquals("Size should be equals 2", 3, elements.size()); //$NON-NLS-1$
         final nsIDOMElement input = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-        assertEquals("Value should be equals " + inputValue, inputValue, input.getAttribute(HTML.ATTR_VALUE));
+        assertEquals("Value should be equals " + inputValue, inputValue, input.getAttribute(HTML.ATTR_VALUE)); //$NON-NLS-1$
     }
 
     /**
@@ -164,11 +165,11 @@ public class RichFacesComboBoxTemplateTestCase extends CommonRichFacesTestCase {
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_INPUT);
 
-        assertEquals("Size should be equals 2", 3, elements.size());
+        assertEquals("Size should be equals 2", 3, elements.size()); //$NON-NLS-1$
 
         final nsIDOMElement input = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
-        assertEquals("Default input class should be equals " + DEFAULT_INPUT_STYLE, input.getAttribute(HTML.ATTR_CLASS),
+        assertEquals("Default input class should be equals " + DEFAULT_INPUT_STYLE, input.getAttribute(HTML.ATTR_CLASS), //$NON-NLS-1$
                 DEFAULT_INPUT_STYLE);
 //        assertEquals("Input style style should be empty", "", input.getAttribute(HTML.ATTR_STYLE));
 //        assertEquals("Input type should be text", HTML.VALUE_TEXT_TYPE, input.getAttribute(HTML.ATTR_TYPE));
