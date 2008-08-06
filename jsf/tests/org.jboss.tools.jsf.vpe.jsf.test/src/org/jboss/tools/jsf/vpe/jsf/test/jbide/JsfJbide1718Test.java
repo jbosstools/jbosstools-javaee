@@ -102,7 +102,7 @@ public class JsfJbide1718Test extends VpeTest {
 		TestUtil.findElementsByName(b, aElements, HTML.TAG_A);
 
 		// number of "span" elements must be 2
-		assertEquals(2, spanElements.size());
+		assertEquals(3, spanElements.size());
 
 		// number of "label" elements must be 1
 		assertEquals(1, labelElements.size());
