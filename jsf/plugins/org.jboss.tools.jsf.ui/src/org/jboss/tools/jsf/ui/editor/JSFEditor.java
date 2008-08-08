@@ -608,7 +608,9 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 						"org.jboss.tools.jsf.ui", 0, WizardKeys
 								.getString("PRN_ERROR"), ee);
 				ProblemReportingHelper.reportProblem(status);
-
+			}
+			//if ex is not null then d is set to null and we cannot access it.
+			if(ex == null) {
 				d.setPages(new Pages(viewer, new PageFormat(printer,
 								this.getWorkbenchPart().getSite().getShell()
 										.getDisplay())));
