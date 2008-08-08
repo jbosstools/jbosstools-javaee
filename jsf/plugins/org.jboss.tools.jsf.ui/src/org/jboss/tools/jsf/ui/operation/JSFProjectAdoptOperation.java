@@ -12,11 +12,15 @@ package org.jboss.tools.jsf.ui.operation;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelException;
-import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.JSFPreference;
 import org.jboss.tools.jsf.project.JSFAutoLoad;
 import org.jboss.tools.jsf.project.JSFNature;
@@ -55,9 +59,21 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 	}
 
 	protected void postCreateWebNature() {
-		File f = getEclipseFile();
-		if(f != null) {
-			f.delete();
+		File projectFile = getEclipseFile();
+		if(projectFile != null) {
+			if(projectFile.isFile()) {
+				IFile f = EclipseResourceUtil.getFile(projectFile.getAbsolutePath());
+				if(f != null && f.exists()) {
+					try {
+						f.delete(true, new NullProgressMonitor());
+					} catch (CoreException e) {
+						JSFModelPlugin.getPluginLog().logError(e);
+						projectFile.delete();
+					}
+				} else {
+					projectFile.delete();
+				}
+			}
 		}
 		model.getProperties().put(XModelConstants.AUTOLOAD, new JSFAutoLoad());
 	}
