@@ -10,22 +10,21 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
-import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Pattern;
-import org.eclipse.swt.widgets.Display;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jst.web.model.ReferenceObject;
+import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageEditPart;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
@@ -122,7 +121,10 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		// drawIcon
 		if (icon != null)
 			g.drawImage(icon, start + getInsetX(), getInsetY());
-
+		
+		if(SeamPagesDiagramStructureHelper.instance.isUnconfirmedPage((XModelObject)page.getData())){
+			g.drawImage(errorIcon, start + getInsetX(), getInsetY()+8);
+		}
 		
 		//color the page 
 		if (page != null /*&& group.isConfirmed()*/) {
@@ -230,6 +232,11 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			graphics.translate(r.getLocation());
 			int width = r.width - 1;
 			int height = r.height - 1;
+			
+			if(page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
+				graphics.setLineDash(new int[]{3,3});
+				graphics.setLineStyle(SWT.LINE_CUSTOM);
+			}
 			
 			if (page != null /*&& group.isConfirmed()*/)
 				graphics.setForegroundColor(blackColor);
