@@ -11,26 +11,21 @@
 
     <title>Editors</title>
 
-    <para>In the <ulink
-        url="&jsfreflink;"
-        >JSF Tools Reference Guide</ulink> and <ulink
-            url="&strutsreflink;"
-            >Struts Tools Reference Guide</ulink> you had possibility to read about Graphical Editor for <ulink
-            url="&jsfreflink;#jsf_config_file"
-            >JSF</ulink> and <ulink
-            url="&strutsreflink;#struts_config_editor"
-            >Struts</ulink> configuration files, <ulink
-            url="&strutsreflink;#GraphicalEditorForTilesFiles132"
-            >Graphical Editor for Tiles Files</ulink>, <ulink
-            url="&strutsreflink;#GraphicalEditorForStrutsValidationFiles86"
-            >Graphical Editor for Struts Validation Files</ulink>. All these editors have <link
+    <para>In the <ulink url="&jsfreflink;">JSF Tools Reference Guide</ulink> and <ulink
+            url="&strutsreflink;">Struts Tools Reference Guide</ulink> you had possibility to
+        read about Graphical Editor for <ulink url="&jsfreflink;#jsf_config_file">JSF</ulink>
+        and <ulink url="&strutsreflink;#struts_config_editor">Struts</ulink> configuration
+        files, <ulink url="&strutsreflink;#GraphicalEditorForTilesFiles132">Graphical Editor for
+            Tiles Files</ulink>, <ulink
+            url="&strutsreflink;#GraphicalEditorForStrutsValidationFiles86">Graphical Editor for
+            Struts Validation Files</ulink>. All these editors have <link
             linkend="OpenOnSelection4Hyperlinknavigation">
             <property>OpenOn</property>
         </link> and <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
             <property>Content Assist</property>
-        </link> features, which are described in more details in this document. In addition you get to
-        know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and source
-        editing of Web pages and many <link linkend="more_editors">other editors</link> for
+        </link> features, which are described in more details in this document. In addition you get
+        to know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and
+        source editing of Web pages and many <link linkend="more_editors">other editors</link> for
         different types of files.</para>
 
     <section id="editors_features">
@@ -44,9 +39,10 @@
 
             <title>OpenOn</title>
 
-            <para><property>OpenOn</property> lets you easily link directly from one resource to another in your
-                project without using the Package Explorer view (project tree). With OpenOn, you can
-                simply click on a reference to another file and the file will be opened.</para>
+            <para><property>OpenOn</property> lets you easily link directly from one resource to
+                another in your project without using the Package Explorer view (project tree). With
+                OpenOn, you can simply click on a reference to another file and the file will be
+                opened.</para>
 
             <para>OpenOn is available for the following files:</para>
             <itemizedlist>
@@ -69,8 +65,9 @@
                 <title>XML Files</title>
 
                 <para>Press and hold down the Ctrl key. As you move the mouse cursor over different
-                    file references in the file, they display an underline. When you hover the name of the file you want to open, click and the file will open
-                    in its own editor. In this example the managed bean NameBean will open.</para>
+                    file references in the file, they display an underline. When you hover the name
+                    of the file you want to open, click and the file will open in its own editor. In
+                    this example the managed bean NameBean will open.</para>
                 <figure>
                     <title>NameBean Managed Bean</title>
                     <mediaobject>
@@ -165,9 +162,7 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        <ulink
-                            url="&seamlink;#ContentAssist"
-                            >Seam project files</ulink>
+                        <ulink url="&seamlink;#ContentAssist">Seam project files</ulink>
                     </para>
 
                 </listitem>
@@ -274,8 +269,8 @@
                             <para>JSF variables (context, request etc...)</para>
                         </listitem>
                     </itemizedlist>
-                    <para>The figure below shows how to insert message from a Properties files.
-                        You simply put the cursor inside the <emphasis role="italic">
+                    <para>The figure below shows how to insert message from a Properties files. You
+                        simply put the cursor inside the <emphasis role="italic">
                             <property>&quot;value&quot;</property>
                         </emphasis> attribute and press <emphasis>
                             <property>Ctrl-Space</property>. </emphasis> JBoss Developer Studio will
@@ -426,7 +421,7 @@
                 <title>Struts Project Files</title>
                 <para>Content Assist features are available when you work with Struts projects.</para>
 
-            
+
                 <section id="ContentAssistForStrutsConfigurationFile75">
 
 
@@ -550,8 +545,10 @@
             <section id="ContentAssistForRF">
 
                 <title>RichFaces components</title>
-                <para>JBDS indeed provides code completion for <ulink url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework components. All
-                    you have to do is to install RichFaces libraries into your project. See <ulink
+                <para>JBDS indeed provides code completion for <ulink
+                        url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework
+                    components. All you have to do is to install RichFaces libraries into your
+                    project. See <ulink
                         url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
                         >here</ulink> how to install it.</para>
                 <figure>
@@ -590,8 +587,8 @@
                         </para>
                     </listitem>
                 </itemizedlist>
-                <para>The RichFaces tag will be inserted on your page displayed in source and
-                    visual modes: </para>
+                <para>The RichFaces tag will be inserted on your page displayed in source and visual
+                    modes: </para>
                 <figure>
                     <title>RichFaces Component</title>
                     <mediaobject>
@@ -614,9 +611,9 @@
                     <listitem>
                         <para>Create a new xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property>.
-                        </emphasis>For example call it <emphasis>
-                            <property> JeniaFaces.xml</property></emphasis>. The file should be
-                            written according to <emphasis>
+                            </emphasis>For example call it <emphasis>
+                                <property> JeniaFaces.xml</property>
+                            </emphasis>. The file should be written according to <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property>
                             </emphasis></para>
                     </listitem>
@@ -682,7 +679,7 @@
                     <listitem>
                         <para>Add information on your xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property>
-                        </emphasis></para>
+                            </emphasis></para>
                         <programlisting role="XML"><![CDATA[
          <tld
             jsf="true"
@@ -691,26 +688,27 @@
             uri="http://www.jenia.org/jsf/dataTools"/>]]>
                         </programlisting>
                     </listitem>
-                        
+
                     <listitem>
                         <para>Restart Eclipse. You should now have code assist for the
                         component.</para>
                     </listitem>
                 </orderedlist>
-                
+
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
 
             <title>Synchronized Source and Visual Editing</title>
 
-            <para><property>JBoss Developer Studio</property> offers the flexibility to edit any files in either source
-                or extra visual modes at the same time.</para>
+            <para><property>JBoss Developer Studio</property> offers the flexibility to edit any
+                files in either source or extra visual modes at the same time.</para>
 
-            <para>The project is yours and so is the source. <property>JBoss Developer Studio</property> provides you
-                many different graphical editors to speed your application development. At the same
-                time, you always have a full control over all project source files. Any changes you
-                make in the source view immediately appear in the graphical view.</para>
+            <para>The project is yours and so is the source. <property>JBoss Developer
+                Studio</property> provides you many different graphical editors to speed your
+                application development. At the same time, you always have a full control over all
+                project source files. Any changes you make in the source view immediately appear in
+                the graphical view.</para>
 
             <para>The JSF configuration file editor has three views: <property>Diagram</property>,
                     <property>Tree</property> and <property>Source</property>. All views are
@@ -725,7 +723,8 @@
                 </mediaobject>
             </figure>
 
-            <para>The same is relevant to all other <property>JBoss Developer Studio</property> editors.</para>
+            <para>The same is relevant to all other <property>JBoss Developer Studio</property>
+                editors.</para>
 
             <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source
                 (Source).</para>
@@ -740,8 +739,8 @@
                 </mediaobject>
             </figure>
 
-            <para><property>JBoss Developer Studio</property> TLD file editor is shown in Tree view. At any point you can
-                edit the source by switching to Source view.</para>
+            <para><property>JBoss Developer Studio</property> TLD file editor is shown in Tree view.
+                At any point you can edit the source by switching to Source view.</para>
             <figure>
                 <title>Two Views are Synchronized</title>
                 <mediaobject>
@@ -757,14 +756,18 @@
     <section id="visual_page">
 
         <title>Visual Page Editor</title>
-        <para>JBoss Developer Studio comes with a powerful and customizable <property>Visual Page
-                Editor</property> (VPE). You can use the Visual Page Editor to develop an
-            application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
-        <para>Current VPE version has two tabs: <property>Visual/Source</property> and <property>Preview</property>.</para>
-        <para>Here is shown a split screen design with instant synchronization between Source and Visual views:</para>
+        <para><property>JBoss Developer Studio</property> comes with a powerful and customizable
+                <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
+            develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
+
+        <para>Current VPE version has two tabs: <property>Visual/Source</property> and
+                <property>Preview</property>. To switch between the views you can use tabs at the
+            bottom of the VPE or the shortcuts <emphasis>
+                <property>Ctrl + PageUp/Ctrl + PageDown</property>. </emphasis></para>
+
         <figure>
-            <title>Visual/Source View</title>
+            <title>Visual Page Editor</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/visual_page/visual_page_1.png" scale="95"/>
@@ -772,238 +775,287 @@
             </mediaobject>
         </figure>
 
-        <para>Preview view is read-only, it shows how the page will look like in a browser.</para>
-        <figure>
-            <title>Preview View</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_2.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+        <section>
+            <title>Visual/Source View</title>
 
-        <para>The Visual Page Editor has a split pane with toggle buttons for quickly moving between source, visual or source/visual modes instead of multiple tabs.</para>
-        <para>You can use Shift + F6 and Alt + Shift + F6 as shortcuts to toggle between the various states of the split pane.</para>
-            
+            <para>Using the <property>Visual/Source view</property> you can edit your pages in the
+                Source and Visual modes simultaneously having an instant synchronization between
+                them:</para>
+            <figure>
+                <title>Visual/Source View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_3.png" scale="95"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>The view is designed in the form of a split pane with toggle buttons for quickly
+                moving between Source, Visual or Source/Visual modes as shown on the figure above.</para>
+
+            <para>One more way to toggle between the various states of the split pane is using the
+                shortcuts <emphasis>
+                    <property>Shift + F6</property>
+                </emphasis> for maximizing/restoring the Source part and <emphasis>
+                    <property>Shift + Alt + F6</property>
+                </emphasis> for maximizing/restoring the Visual part.</para>
             <tip>
                 <title>Tip:</title>
-                <para>When editing large documents hiding the visual part will speed up the editing.</para>
+                <para>When editing large documents hiding the Visual part will speed up the
+                editing.</para>
             </tip>
 
-        <figure>
-            <title>Split Pane in VPE</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_3.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>No matter what view you select, you get a full integration with Properties and Outline
-            views:</para>
-        <figure>
-            <title>Integration with Properties and Outline Views</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_4.png" scale="55"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
-        <para>The VPE allows you to insert any tags from the palette to the page you
-            are editing with just a click or drag-and-drop.</para>
-        <figure>
-            <title>Inserting Tags From Palette</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/visual_page/visual_page_5.png" scale="80"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <section id="AdvancedSettings954">
-
-            <title>Advanced Settings</title>
-            
-            <para>In the visual part of VPE there is a graphical toolbar, use it to add inline styling to any tag. The toolbar can be hidden by clicking on 
-            arrow sign in the upper left corner.</para>
-            
+            <para>It should be pointed out that, no matter in
+                what mode you are working, you get a full integration with
+                <property>Properties</property> and <property>Outline views</property>:</para>
             <figure>
-                <title>Text Formatting</title>
+                <title>Integration with Properties and Outline Views</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_6.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-           
-            <para>In the left vertical pane there are three buttons: Preferences, Refresh, Page Design Options.</para>
-
-            <figure>
-                <title>Visual Page Editor Buttons</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_7.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_4.png" scale="55"/>
                     </imageobject>
                 </mediaobject>
             </figure>
 
-            <para><property>Preferences</property> button provides a quick access to Visual Page Editor preferences.</para>
-          
-              <figure>
-                <title>Visual Page Editor Preferences Window</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_9.png"/>
-                    </imageobject>
-                </mediaobject>
-              </figure>
-     
-            <para>Clicking on <property>Refresh</property> button you refresh the displaying information.</para>
-
-            <para><property>Page Design Options</property> button leads to page design options.</para>
+            <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
+                Palette</link> to insert any tag from the list of tag libraries to the page you are editing with just a click or drag-and-drop.</para>
             <figure>
-                <title>Page Design Options</title>
+                <title>Inserting Tag From the Palette</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_10.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_5.png" scale="80"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>This dialog let&apos;s you set resources which are usually only resolved in
-                runtime. To set a stylesheet, click <emphasis>
-                    <property>Add</property>
-                </emphasis> (for CSS File Path section) and add your stylesheet. It works when CSS
-                is defined on your page in the following way:</para>
 
-            <para>Code:</para>
-            <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
+            <section id="JSPsyntaxvalidation84">
+
+                <title>JSP Syntax Validation</title>
+                <para>When working in JBoss Tools JSP editor you are constantly provided with
+                    feedback and contextual error checking as you type.</para>
+            </section>
+
+            <section id="inline_styling">
+                <title>Inline Style Editing</title>
+
+                <para>In the Visual part of the VPE there is a graphical toolbar, use it to add
+                    inline styling to JSF and Struts tags on your page. The toolbar can be hidden by
+                    clicking on arrow sign in the upper left corner.</para>
+
+                <figure>
+                    <title>Text Formatting</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_6.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para>For editing inline styles for DOM elements VPE also provides <property>CSS
+                    Dialog</property>. It can be called from <emphasis>
+                        <property>style</property>
+                    </emphasis> line in the <property>Properties view</property> for a currently
+                    selected element.</para>
+
+                <figure>
+                    <title>Call the CSS Dialog</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_6a.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para><property>CSS Dialog</property> has four tabs where css properties for text,
+                    background, borders and others can be specified. To see the result use a
+                    simple preview which is generated at the bottom of the <property>CSS Dialog</property>.</para>
+
+                <figure>
+                    <title>CSS Dialog</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_6b.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+
+            <section id="AdvancedSettings954">
+
+                <title>Advanced Settings</title>
+
+                <para>In the left vertical pane of the Visual part there are three buttons: Preferences, Refresh, Page
+                    Design Options.</para>
+
+                <figure>
+                    <title>Visual Page Editor Buttons</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_7.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para><property>Preferences</property> button provides a quick access to Visual Page
+                    Editor preferences.</para>
+
+                <figure>
+                    <title>Visual Page Editor Preferences Window</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_9.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para>Clicking on <property>Refresh</property> button you refresh the displaying
+                    information.</para>
+
+                <para><property>Page Design Options</property> button leads to page design options.</para>
+                <figure>
+                    <title>Page Design Options</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_10.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>This dialog let&apos;s you set resources which are usually only resolved
+                    in runtime. To set a stylesheet, click <emphasis>
+                        <property>Add</property>
+                    </emphasis> (for CSS File Path section) and add your stylesheet. It works when
+                    CSS is defined on your page in the following way:</para>
+
+                <para>Code:</para>
+                <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
     href="#{facesContext.externalContext.requestContextPath}/style.css"/>
 ]]></programlisting>
 
-            <para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t know
-                what requestContextPath in design time is.</para>
+                <para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t
+                    know what requestContextPath in design time is.</para>
 
-            <para>The next section (URI), let&apos;s you add URI taglibs if you are using
-                includes so that the editor knows where to find the tag libraries.</para>
+                <para>The next section (URI), let&apos;s you add URI taglibs if you are using
+                    includes so that the editor knows where to find the tag libraries.</para>
 
-            <para>The first two sections let you define actual runtime folders. Here is an example.</para>
+                <para>The first two sections let you define actual runtime folders. Here is an
+                    example.</para>
 
-            <para>Let&apos;s say you have the following project structure:</para>
+                <para>Let&apos;s say you have the following project structure:</para>
 
-            <programlisting role="XML"><![CDATA[WebContent/
+                <programlisting role="XML"><![CDATA[WebContent/
   pages/
     img/
        a.gif
     header.jsp
   main.jsp
 ]]></programlisting>
-            <para>header.jsp content:</para>
-            <programlisting role="XML"><![CDATA[My Header
+                <para>header.jsp content:</para>
+                <programlisting role="XML"><![CDATA[My Header
 <img src="img/a.gif"/>
 ]]></programlisting>
-            <para>main.jsp:</para>
-            <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
+                <para>main.jsp:</para>
+                <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
 ]]></programlisting>
-            <para> When you open <emphasis>
-                    <property>main.jsp</property>
-                </emphasis> in Visual Page Editor, it will not be able to resolve the image from the
-                header, however, it will work fine in runtime. To fix this in design time, click the <emphasis>
-                    <property>Page Design Options</property>
-                </emphasis> button and set <emphasis>
-                    <property>Actual Run-Time Relative</property>
-                </emphasis> Folder to <emphasis>
-                    <property>&lt;project&gt;WebContent > pages</property>
-                </emphasis> and you will see the image appear.</para>
-            <para/>
-       
-            <para>At the bottom of VPE there is a <property>Selection bar</property>.</para>
-       
-            <para> By clicking on the component in Visual view or selecting a code snippet in Source
-                mode you see the tags tree. If you want to hide the selection bar, use the
-                &quot;Hide Selection Bar&quot; button on the lower right side.</para>
+                <para> When you open <emphasis>
+                        <property>main.jsp</property>
+                    </emphasis> in Visual Page Editor, it will not be able to resolve the image from
+                    the header, however, it will work fine in runtime. To fix this in design time,
+                    click the <emphasis>
+                        <property>Page Design Options</property>
+                    </emphasis> button and set <emphasis>
+                        <property>Actual Run-Time Relative</property>
+                    </emphasis> Folder to <emphasis>
+                        <property>&lt;project&gt;WebContent > pages</property>
+                    </emphasis> and you will see the image appear.</para>
+                <para/>
 
+                <para>At the bottom of VPE there is a <property>Selection bar</property>.</para>
+
+                <para> By clicking on the component in Visual view or selecting a code snippet in
+                    Source mode you see the tags tree. If you want to hide the selection bar, use
+                    the &quot;Hide Selection Bar&quot; button on the lower right side.</para>
+
+                <figure>
+                    <title>Selection Bar</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_11.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+
+        <section id="page_preview">
+            <title>Page Preview</title>
+
+            <para><property>VPE</property> comes with design-time preview feature which is available
+                for:</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>Struts Pages</para>
+                </listitem>
+                <listitem>
+                    <para>JSF Pages</para>
+                </listitem>
+            </itemizedlist>
+
+            <para><property>Preview view</property> is read-only, it shows how the page will look
+                like in a browser.</para>
             <figure>
-                <title>Selection Bar</title>
+                <title>Preview View</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_11.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_2.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-        </section>
 
+            <!--para>You can even
+                    attach your stylesheet to the preview.</para-->
+        </section>
 
         <section id="SetupnotesforLinu895x">
 
             <title>Setup notes for Linux</title>
-           
-            <para>Linux users may need to do the following to get the Visual Editor to work
-            correctly on their machines.</para>
-            
-            <section id="HowToStartTheVisualPageEditorUnderLinux85">
-                
-                <title>How to Start the Visual Page Editor under Linux</title>
 
-                                <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
-                    contained in the compat-libstdc++-33.i386 package.</para>
+            <para>Linux users may need to do the following to get the <property>Visual Page
+                Editor</property> to work correctly on their machines.</para>
 
-                <itemizedlist>
-                    <listitem>
-                        <para>To install this package on Fedora Core or Red Hat Enterprise Linux run
-                            the following command:</para>
-                        <programlisting role="JAVA"><![CDATA[yum install compat-libstdc++-33.i386
+            <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
+                contained in the compat-libstdc++-33.i386 package.</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>To install this package on Fedora Core or Red Hat Enterprise Linux run the
+                        following command:</para>
+                    <programlisting role="JAVA"><![CDATA[yum install compat-libstdc++-33.i386
 ]]></programlisting>
-                    </listitem>
+                </listitem>
 
 
-                    <listitem>
-                        <para>On any other rpm based distributions download libstdc++.so.5 and run
-                            the following command:</para>
-                        <programlisting role="JAVA"><![CDATA[rpm -Uvh compat-libstdc++-33.i386
+                <listitem>
+                    <para>On any other rpm based distributions download libstdc++.so.5 and run the
+                        following command:</para>
+                    <programlisting role="JAVA"><![CDATA[rpm -Uvh compat-libstdc++-33.i386
 ]]></programlisting>
-                    </listitem>
+                </listitem>
 
 
-                    <listitem>
-                        <para>On Debian based distributives run the following command: </para>
-                        <programlisting role="JAVA"><![CDATA[apt-get install compat-libstdc++-33.i386
+                <listitem>
+                    <para>On Debian based distributives run the following command: </para>
+                    <programlisting role="JAVA"><![CDATA[apt-get install compat-libstdc++-33.i386
 ]]></programlisting>
-                    </listitem>
+                </listitem>
 
-                </itemizedlist>
+            </itemizedlist>
 
-                <para> In case you have the library installed and you still have issue with starting
-                    the visual page editor then close all browser views/editors and leave one visual
-                    page editor open and restart eclipse. This should force a load of the right
-                    XULRunner viewer.</para>
+            <para> In case you have the library installed and you still have issue with starting the
+                visual page editor then close all browser views/editors and leave one visual page
+                editor open and restart eclipse. This should force a load of the right XULRunner
+                viewer.</para>
 
-
-            </section>
-
-            <!-- <section id="JustInCase06">
-<?dbhtml filename="JustInCase.html"?>
-<title>Just in Case</title>
-
-<para>If you still experience problems, tell us about your system. Please do the following:</para>
-<itemizedlist>
- <listitem><para>Clear the Eclipse log file, <emphasis>&lt;workspace&gt;\.metadata\.log</emphasis></para></listitem>
-
-<listitem><para>Start Eclipse with the -debug option:</para></listitem></itemizedlist>
-<programlisting role="JAVA"><![CDATA[eclipse -debug
-]]></programlisting>
-<itemizedlist>
- <listitem><para>Send the Eclipse log file (<emphasis>&lt;workspace&gt;\.metadata\.log</emphasis>) to <ulink url="mailto:support@exadel.com">support@exadel.com</ulink></para></listitem>
-</itemizedlist>
- </section>
- -->
-        </section>
-
-        <section id="JSPsyntaxvalidation84">
-
-            <title>JSP syntax validation</title>
-            <para>When working in JBoss Tools JSP editor you are constantly provided with feedback
-                and contextual error checking as you type.</para>
         </section>
 
         <!-- <section id="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents41">
@@ -1045,28 +1097,6 @@
 <title>JSP 2.0, JSTL 1.0/1.1 support</title>
 </section>
 -->
-
-        <section id="PageEditorWithPreview53">
-
-            <title>JSP Page Preview</title>
-
-            <para>JBoss Developer Studio comes with JSP design-time preview features. When designing
-                JSP pages you can easily preview how they will look during runtime. You can even
-                attach your stylesheet to the preview.</para>
-
-            <para>JSP preview is available for:</para>
-
-            <itemizedlist>
-                <listitem>
-                    <para>Struts Pages</para>
-                </listitem>
-                <listitem>
-                    <para>JSF Pages</para>
-                </listitem>
-            </itemizedlist>
-
-            <para>The preview features are available with Visual Page Editor.</para>
-        </section>
 
     </section>
 
