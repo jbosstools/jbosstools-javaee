@@ -122,7 +122,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		if (icon != null)
 			g.drawImage(icon, start + getInsetX(), getInsetY());
 		
-		if(SeamPagesDiagramStructureHelper.instance.isUnconfirmedPage((XModelObject)page.getData())){
+		if(page != null && page.getData() != null && SeamPagesDiagramStructureHelper.instance.isUnconfirmedPage((XModelObject)page.getData())){
 			g.drawImage(errorIcon, start + getInsetX(), getInsetY()+8);
 		}
 		
@@ -233,7 +233,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			int width = r.width - 1;
 			int height = r.height - 1;
 			
-			if(page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
+			if(page != null && page.getData() != null && page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
 				graphics.setLineDash(new int[]{3,3});
 				graphics.setLineStyle(SWT.LINE_CUSTOM);
 			}
