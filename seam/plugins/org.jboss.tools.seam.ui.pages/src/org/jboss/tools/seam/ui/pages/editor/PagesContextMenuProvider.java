@@ -24,6 +24,8 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jst.web.model.ReferenceObject;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.SelectionUtil;
 
@@ -66,6 +68,11 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 		IStructuredSelection ss = (IStructuredSelection)s;
 		XModelObject object = SelectionUtil.getTarget(ss.getFirstElement());
 		if(object != null) {
+			if(object.getModelEntity().getName().equals(SeamPagesConstants.ENT_DIAGRAM_ITEM_OUTPUT)
+				&& object instanceof ReferenceObject && ((ReferenceObject)object).getReference() == null) {
+				//virtual link
+				return;
+			}
 			PagesDiagramEditPart part = (PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0);
 			Properties p = new Properties();
 			if(lastDownEvent != null) {
