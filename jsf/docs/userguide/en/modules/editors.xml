@@ -761,10 +761,10 @@
                 <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
             develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
 
-        <para>Current VPE version has two tabs: <property>Visual/Source</property> and
+        <para>Current VPE version has three tabs: <property>Visual/Source</property>, <property>Source</property> and
                 <property>Preview</property>. To switch between the views you can use tabs at the
             bottom of the VPE or the shortcuts <emphasis>
-                <property>Ctrl + PageUp/Ctrl + PageDown</property>. </emphasis></para>
+                <property>Ctrl + PageUp/Ctrl + PageDown</property>.</emphasis></para>
 
         <figure>
             <title>Visual Page Editor</title>
@@ -775,7 +775,7 @@
             </mediaobject>
         </figure>
 
-        <section>
+        <section id="visual_source">
             <title>Visual/Source View</title>
 
             <para>Using the <property>Visual/Source view</property> you can edit your pages in the
@@ -785,7 +785,7 @@
                 <title>Visual/Source View</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_3.png" scale="95"/>
+                        <imagedata fileref="images/visual_page/visual_page_2.png" scale="95"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -805,25 +805,26 @@
                 editing.</para>
             </tip>
 
-            <para>It should be pointed out that, no matter in
-                what mode you are working, you get a full integration with
-                <property>Properties</property> and <property>Outline views</property>:</para>
+            <para>It should be pointed out that, no matter in what mode you are working, you get a
+                full integration with <property>Properties</property> and <property>Outline
+                views</property>:</para>
             <figure>
                 <title>Integration with Properties and Outline Views</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4.png" scale="55"/>
+                        <imagedata fileref="images/visual_page/visual_page_3.png" scale="55"/>
                     </imageobject>
                 </mediaobject>
             </figure>
 
             <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
-                Palette</link> to insert any tag from the list of tag libraries to the page you are editing with just a click or drag-and-drop.</para>
+                Palette</link> to insert any tag from the list of tag libraries to the page you are
+                editing with just a click or drag-and-drop.</para>
             <figure>
                 <title>Inserting Tag From the Palette</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_5.png" scale="80"/>
+                        <imagedata fileref="images/visual_page/visual_page_4.png" scale="80"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -846,13 +847,13 @@
                     <title>Text Formatting</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_6.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_5.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
 
                 <para>For editing inline styles for DOM elements VPE also provides <property>CSS
-                    Dialog</property>. It can be called from <emphasis>
+                        Dialog</property>. It can be called from <emphasis>
                         <property>style</property>
                     </emphasis> line in the <property>Properties view</property> for a currently
                     selected element.</para>
@@ -861,20 +862,21 @@
                     <title>Call the CSS Dialog</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_6a.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_6.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
 
                 <para><property>CSS Dialog</property> has four tabs where css properties for text,
-                    background, borders and others can be specified. To see the result use a
-                    simple preview which is generated at the bottom of the <property>CSS Dialog</property>.</para>
+                    background, borders and others can be specified. A simple preview which is
+                    generated at the bottom of the <property>CSS Dialog</property> allows you to see
+                    the changes before you apply them.</para>
 
                 <figure>
                     <title>CSS Dialog</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_6b.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_7.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -884,105 +886,191 @@
 
                 <title>Advanced Settings</title>
 
-                <para>In the left vertical pane of the Visual part there are three buttons: Preferences, Refresh, Page
-                    Design Options.</para>
+                <para>In the left vertical pane of the Visual part there are three buttons: <emphasis>
+                        <property>Preferences</property>, </emphasis><emphasis>
+                        <property>Refresh</property>
+                    </emphasis> and <emphasis>
+                        <property>Page Design Options</property>.</emphasis></para>
 
                 <figure>
-                    <title>Visual Page Editor Buttons</title>
+                    <title>Buttons on the Visual Part of VPE</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_7.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_8.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
 
-                <para><property>Preferences</property> button provides a quick access to Visual Page
-                    Editor preferences.</para>
+                <itemizedlist>
+                    <listitem id="vpe_preferences">
+                        <para><emphasis>
+                                <property>Preferences</property>
+                            </emphasis> button provides a quick access to <property>Visual Page
+                                Editor</property> preferences.</para>
 
-                <figure>
-                    <title>Visual Page Editor Preferences Window</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_9.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+                        <figure>
+                            <title>Visual Page Editor Preferences Window</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/visual_page_9.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
 
-                <para>Clicking on <property>Refresh</property> button you refresh the displaying
-                    information.</para>
+                    <listitem>
+                        <para>Clicking on <emphasis>
+                                <property>Refresh</property>
+                            </emphasis> button you refresh the displayed information.</para>
+                    </listitem>
 
-                <para><property>Page Design Options</property> button leads to page design options.</para>
-                <figure>
-                    <title>Page Design Options</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_10.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>This dialog let&apos;s you set resources which are usually only resolved
-                    in runtime. To set a stylesheet, click <emphasis>
-                        <property>Add</property>
-                    </emphasis> (for CSS File Path section) and add your stylesheet. It works when
-                    CSS is defined on your page in the following way:</para>
+                    <listitem>
+                        <para><emphasis>
+                                <property>Page Design Options</property>
+                            </emphasis> button leads to window which helps you to specify necessary
+                            references to resources. Here is what this window looks like.</para>
+                        <figure>
+                            <title>Page Design Options</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/visual_page_10.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
 
-                <para>Code:</para>
-                <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
-    href="#{facesContext.externalContext.requestContextPath}/style.css"/>
-]]></programlisting>
+                        <para>This dialog lets you set resources which are usually only resolved in
+                            runtime. Let&apos;s look at what functionality it proposes.</para>
 
-                <para>This will work fine in runtime, but the Visual Page Editor doesn&apos;t
-                    know what requestContextPath in design time is.</para>
+                        <para>The first two sections of the window let you define actual runtime
+                            folders. The example below will help you to clarify how this can be
+                            used.</para>
 
-                <para>The next section (URI), let&apos;s you add URI taglibs if you are using
-                    includes so that the editor knows where to find the tag libraries.</para>
+                        <para>Suppose you have the following project structure:</para>
 
-                <para>The first two sections let you define actual runtime folders. Here is an
-                    example.</para>
-
-                <para>Let&apos;s say you have the following project structure:</para>
-
-                <programlisting role="XML"><![CDATA[WebContent/
+                        <programlisting role="XML"><![CDATA[WebContent/
   pages/
     img/
        a.gif
     header.jsp
   main.jsp
-]]></programlisting>
-                <para>header.jsp content:</para>
-                <programlisting role="XML"><![CDATA[My Header
+  ]]></programlisting>
+
+                        <para>The content of the <emphasis>
+                                <property>header.jsp</property>
+                            </emphasis> is:</para>
+                        <programlisting role="XML"><![CDATA[My Header
 <img src="img/a.gif"/>
 ]]></programlisting>
-                <para>main.jsp:</para>
-                <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
+                        <para>and <emphasis>
+                                <property>main.jsp</property>
+                            </emphasis> content is:</para>
+                        <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
 ]]></programlisting>
-                <para> When you open <emphasis>
-                        <property>main.jsp</property>
-                    </emphasis> in Visual Page Editor, it will not be able to resolve the image from
-                    the header, however, it will work fine in runtime. To fix this in design time,
-                    click the <emphasis>
-                        <property>Page Design Options</property>
-                    </emphasis> button and set <emphasis>
-                        <property>Actual Run-Time Relative</property>
-                    </emphasis> Folder to <emphasis>
-                        <property>&lt;project&gt;WebContent > pages</property>
-                    </emphasis> and you will see the image appear.</para>
-                <para/>
+                        <para> When you open <emphasis>
+                                <property>main.jsp</property>
+                            </emphasis> in <property>Visual Page Editor</property>, it will not be
+                            able to resolve the image from the header, however, it will work fine in
+                            runtime. To fix this in design time, click the <emphasis>
+                                <property>Page Design Options</property>
+                            </emphasis> button and set <emphasis>
+                                <property>Actual Run-Time Relative Folder</property>
+                            </emphasis> to <emphasis>&apos;projectName &gt; WebContent
+                                &gt; pages&apos;</emphasis> and you will see the image
+                            appeared.</para>
+                        <para/>
 
-                <para>At the bottom of VPE there is a <property>Selection bar</property>.</para>
+                        <para>In the bottom part of the window you can set a path to included css
+                            files, tag libs and substituted EL expressions.</para>
+                        <figure>
+                            <title>Bottom Part of the Page Design Options</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/visual_page_11.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
 
-                <para> By clicking on the component in Visual view or selecting a code snippet in
-                    Source mode you see the tags tree. If you want to hide the selection bar, use
-                    the &quot;Hide Selection Bar&quot; button on the lower right side.</para>
+                        <para>Let&apos; consider an example. For instance, the definition of
+                            your CSS on the page is the next:</para>
+
+                        <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
+    href="#{facesContext.externalContext.requestContextPath}/style.css"/>
+]]></programlisting>
+
+                        <para>This will work fine in runtime, but the <property>Visual Page
+                            Editor</property> doesn&apos;t know what
+                                <emphasis>requestContextPath</emphasis> in design time is. In order
+                            to see the necessary styles applied in design time your should add a
+                            path to your stylesheet in the <property>CSS File Path</property>
+                            section.</para>
+
+                        <para>The next <property>URI</property> section lets you add URI taglibs so
+                            that the editor knows where to find the tag libraries.</para>
+
+                        <para>And the last <property>Substituted EL expressions</property> section
+                            is provided to specify the values for specific EL variables. It can be
+                            useful for a preview generation.</para>
+                            <para>As an example look at the figure below:</para>
+                        <figure>
+                            <title>EL Expression</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/visual_page_12.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+
+                        <para>Here bath in Source and Visual modes you see the EL expression
+                                <emphasis>#{user.name}</emphasis>. When you switch to
+                                <property>Preview view</property>, you&apos;ll also see this
+                            expression. Now press <emphasis>
+                                <property>Page Design Options</property>
+                            </emphasis> button and set the value for the
+                            <emphasis>#{user.name}</emphasis> as
+                                <emphasis><property>World</property>.</emphasis></para>
+
+                        <figure>
+                            <title>Setting the Value for the EL Expression</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/visual_page_13.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+
+                        <para>As a result in Visual mode and Preview view the word <emphasis>
+                                <property>World</property>
+                            </emphasis> is displayed.</para>
+                        <figure>
+                            <title>The EL Expression Value</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/visual_page_14.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+
+                </itemizedlist>
+
+                <para>You can find useful one more functionality provided by VPE. At the bottom of
+                    the <property>Visual/Source view</property> there is a <property>Selection Tag
+                        Bar</property>. It allows to see tags tree for a current component selected
+                    in Visual or Source mode.</para>
 
                 <figure>
-                    <title>Selection Bar</title>
+                    <title>Selection Tag Bar</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_11.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_15.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
+
+                <para>If you want to hide the <property>Selection Tag Bar</property>, use the button
+                    in the form of a red cross on the lower right side. To reset it again you should
+                    check the proper option in the <link linkend="vpe_preferences">VPE
+                    Preferences</link>.</para>
             </section>
         </section>
 
@@ -1007,7 +1095,7 @@
                 <title>Preview View</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_2.png"/>
+                        <imagedata fileref="images/visual_page/visual_page_16.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
