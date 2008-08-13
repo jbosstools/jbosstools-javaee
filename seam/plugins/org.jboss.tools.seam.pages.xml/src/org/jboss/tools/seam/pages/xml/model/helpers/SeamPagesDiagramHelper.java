@@ -206,7 +206,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 
 	private void updatePageItem(ReferenceObjectImpl item) {
 		if(item.getReference() == null) {
-			//TODO update virtual link to findBestMatch(path) element
+			updateUndeclaredPageItem(item);
 			return;
 		}
 //		if(item.isUpToDate()) return;
@@ -222,6 +222,30 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		item.setAttributeValue("params", sb.toString());
 		XModelObject[] cs = getPageTargets(sourcePage);		
 		updateOutputs(item, cs);
+	}
+
+	private void updateUndeclaredPageItem(ReferenceObjectImpl item) {
+		//update virtual link to findBestMatch(path) element
+		XModelObject[] os = item.getChildren();
+		String path = item.getAttributeValue(ATTR_PATH);
+		String fvi = findBestMatch(path);
+		XModelObject g = getPage(fvi);
+		if(g != null && item != g) {
+			XModelObject output = item.getModel().createModelObject(ENT_DIAGRAM_ITEM_OUTPUT, null);
+			output.setAttributeValue(ATTR_ID, fvi);
+			output.setAttributeValue(ATTR_PATH, fvi);
+			String name = XModelObjectUtil.createNewChildName("output", item);
+			output.setAttributeValue(ATTR_NAME, name);
+
+			ReferenceObjectImpl r = (ReferenceObjectImpl)output;
+			r.setReference(null);
+
+			String target = (g == null) ? "" : g.getPathPart();
+			output.setAttributeValue(ATTR_TARGET, target);
+
+			item.addChild(output);
+		}
+		
 	}
 
 	private XModelObject[] getPageTargets(XModelObject o) {
