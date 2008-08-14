@@ -12,15 +12,21 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.DocTypeUtil;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMDocumentType;
+import org.mozilla.interfaces.nsIDOMElement;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 
 /**
  * 
@@ -38,6 +44,10 @@ public class JsfJbide2170Test extends VpeTest {
 	private static final String TEMPLATE_DOCTYPE_TEST_PAGE_NAME = "JBIDE/2170/template_doctype_test.xhtml"; //$NON-NLS-1$
 
 	private static final String COMPLEX_DOCTYPE_TEST_PAGE_NAME = "JBIDE/2170/complex_doctype_test.xhtml"; //$NON-NLS-1$
+
+	private static final String EDIT_DOCTYPE_TEST_PAGE_NAME = "JBIDE/2170/edit_doctype_test.xhtml"; //$NON-NLS-1$
+
+	private static final String ELEMENT_ID = "idForCheck"; //$NON-NLS-1$
 
 	private static final String CORRECT_NAME = "html3"; //$NON-NLS-1$
 
@@ -57,8 +67,9 @@ public class JsfJbide2170Test extends VpeTest {
 		setException(null);
 
 		// get test page path
-		IFile file = (IFile) TestUtil.getComponentPath(
-				WITHOUT_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
+		IFile file = (IFile) TestUtil
+				.getComponentPath(WITHOUT_DOCTYPE_TEST_PAGE_NAME,
+						JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -149,7 +160,8 @@ public class JsfJbide2170Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEMPLATE_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
+				TEMPLATE_DOCTYPE_TEST_PAGE_NAME,
+				JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -193,8 +205,9 @@ public class JsfJbide2170Test extends VpeTest {
 		setException(null);
 
 		// get test page path
-		IFile file = (IFile) TestUtil.getComponentPath(
-				COMPLEX_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
+		IFile file = (IFile) TestUtil
+				.getComponentPath(COMPLEX_DOCTYPE_TEST_PAGE_NAME,
+						JsfAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -220,6 +233,70 @@ public class JsfJbide2170Test extends VpeTest {
 		assertNotNull(vpeDocumentType);
 
 		assertEquals(CORRECT_NAME, vpeDocumentType.getName());
+		// check exception
+		if (getException() != null) {
+			throw getException();
+		}
+
+	}
+
+	/**
+	 * 
+	 * @throws Throwable
+	 */
+	public void testEditDoctypePage() throws Throwable {
+
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath(
+				EDIT_DOCTYPE_TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
+
+		IEditorInput input = new FileEditorInput(file);
+
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
+
+		VpeController controller = getVpeController(part);
+
+		// controller must be not null
+		assertNotNull(controller);
+
+		// get document from opened page
+		Document document = getSourceDocument(controller);
+
+		// controller must be not null
+		assertNotNull(document);
+
+		// get doctype
+		DocumentType documentType = document.getDoctype();
+
+		// documentType must be not null
+		assertNotNull(documentType);
+
+		int start = ((IDOMNode) documentType).getStartOffset();
+		int end = ((IDOMNode) documentType).getEndOffset();
+
+		// get editor control
+		StyledText styledText = part.getSourceEditor().getTextViewer()
+				.getTextWidget();
+		assertNotNull(styledText);
+		styledText.replaceTextRange(start, end - start, "");
+
+		TestUtil.delay(500);
+
+		controller.visualRefresh();
+
+		TestUtil.delay(500);
+
+		nsIDOMDocument visualDocument = getVpeVisualDocument(part);
+
+		nsIDOMElement element = visualDocument.getElementById(ELEMENT_ID);
+		assertNotNull(element);
+
 		// check exception
 		if (getException() != null) {
 			throw getException();
