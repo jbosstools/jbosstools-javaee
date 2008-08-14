@@ -2817,7 +2817,8 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
-    <!--XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
+    <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
+     ICON="action.empty"
      PROPERTIES="support=org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
      displayName="New Page (wizard)..." kind="action" name="AddPageWizard">
      <EntityData EntityName="SeamPagesAddViewWizard">
@@ -2825,20 +2826,18 @@
       <AttributeData AttributeName="create file" Mandatory="no"/>
       <AttributeData AttributeName="template" Mandatory="no"/>
      </EntityData>
-    </XActionItem-->
+    </XActionItem>
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.ui.pages.editor.commands.AddPageOnDiagramHandler"
-     ICON="action.empty"
-     displayName="New Page..." kind="action" name="AddPage"/>
-    <!--XActionItem
+     ICON="action.empty" displayName="New Page..." kind="action" name="AddPage"/>
+    <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"
      ICON="action.empty"
      PROPERTIES="actionpath=CreateActions/AddException"
-     displayName="New Exception (wizard)..." kind="action" name="AddExceptionWizard"/-->
+     displayName="New Exception (wizard)..." kind="action" name="AddExceptionWizard"/>
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.ui.pages.editor.commands.AddExceptionOnDiagramHandler"
-     ICON="action.empty"
-     displayName="New Exception ..." kind="action" name="AddException"/>
+     ICON="action.empty" displayName="New Exception ..." kind="action" name="AddException"/>
    </XActionItem>
    <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"
@@ -2980,7 +2979,11 @@
    <XActionItem HIDE="disabled"
     HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
-   <XActionItem kind="list" name="BreakPointActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.GoToNodeNandler"
+    ICON="action.empty"
+    PROPERTIES="help=SeamItem_SelectNode;wizard=org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
+    displayName="Go To Node" kind="action" name="GoTo"/>
    <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
     <XActionItem kind="list" name="StaticActions">
      <XActionItem BaseActionName="VerifyAll"
@@ -3137,6 +3140,43 @@
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
      ICON="action.empty" PROPERTIES="actionpath=Properties/Properties"
      displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass=""
+  XMLSUBPATH="" name="SeamPagesDiagramItemOutputVirtual_ActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.process-item-output" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.AutolayoutTransitionHandler"
+    ICON="action.empty" displayName="Auto Layout" kind="action" name="Autolayout"/>
+   <XActionItem kind="list" name="LinkActions">
+    <XActionItem HIDE="disabled"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     ICON="action.empty" PROPERTIES="value=no;property=shortcut"
+     displayName="Show as Transition" kind="action" name="AsTransition"/>
+    <XActionItem HIDE="disabled"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     ICON="action.empty" PROPERTIES="value=yes;property=shortcut"
+     displayName="Show as Shortcut" kind="action" name="AsSrortcut"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     ICON="action.empty" PROPERTIES="value=yes;property=hidden"
+     displayName="Hide" kind="action" name="Hide"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.OutputMoveHandler"
+     ICON="action.empty" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
   </XActionItem>
   <XDependencies/>
