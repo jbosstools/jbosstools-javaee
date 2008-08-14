@@ -33,6 +33,7 @@ import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
@@ -52,6 +53,8 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	private CustomLocator pathLocator;
 
 	private GEFLabel pathLabel;
+	
+	private PageEditPart pagePart = null;
 
 	public void activate() {
 		if (!isActive()) {
@@ -59,6 +62,16 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		}
 		super.activate();
 		addEditPartListener(this);
+		Page page=null;
+		if(getLinkModel().getFromElement() instanceof Page)
+			page = (Page)getLinkModel().getFromElement();
+		if(page != null){
+			//pagePart = (PageEditPart)getViewer().getEditPartRegistry().get(page);
+			if(pagePart != null){
+				getLinkFigure().setVisible(false);
+				pagePart.addEditPartListener(this);
+			}
+		}
 	}
 
 	public void activateFigure() {
@@ -138,6 +151,8 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	}
 
 	public void deactivate() {
+		if(pagePart != null)
+			pagePart.removeEditPartListener(this);
 		removeEditPartListener(this);
 		//getLink().removePropertyChangeListener(this);
 		if (isActive()) {
@@ -235,9 +250,14 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	}
 
 	public void selectedStateChanged(EditPart editpart) {
-		if (this.getSelected() == EditPart.SELECTED_PRIMARY) {
+		if(editpart == pagePart){
+			if(pagePart.getSelected() == EditPart.SELECTED_PRIMARY){
+				getFigure().setVisible(true);
+			}else
+				getFigure().setVisible(false);
+		}
+		if (editpart == this && this.getSelected() == EditPart.SELECTED_PRIMARY) {
 			((GEFRootEditPart) getParent()).setToFront(this);
-
 		}
 	}
 
