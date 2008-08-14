@@ -13,8 +13,11 @@ package org.jboss.tools.jsf.ui.operation;
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.project.IModelNature;
@@ -59,25 +62,47 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 	}
 
 	protected void postCreateWebNature() {
-		File projectFile = getEclipseFile();
+		final File projectFile = getEclipseFile();
+		final IProject p = getProject();
+		model.getProperties().put(XModelConstants.AUTOLOAD, new JSFAutoLoad());
 		if(projectFile != null) {
 			if(projectFile.isFile()) {
-				IFile f = EclipseResourceUtil.getFile(projectFile.getAbsolutePath());
-				if(f != null && f.exists()) {
-					try {
-						f.delete(true, new NullProgressMonitor());
-					} catch (CoreException e) {
-						JSFModelPlugin.getPluginLog().logError(e);
-						projectFile.delete();
+				XJob.addRunnable(new XJob.XRunnable() {
+					public String getId() {
+						return "Remove temporary working files.";
 					}
-				} else {
-					projectFile.delete();
-				}
+					public void run() {
+						IFile f = EclipseResourceUtil.getFile(projectFile
+								.getAbsolutePath());
+						if (f != null && f.exists()) {
+							try {
+								f.delete(true, new NullProgressMonitor());
+							} catch (CoreException e) {
+								JSFModelPlugin.getPluginLog().logError(e);
+								deleteExternally();
+							}
+						} else {
+							deleteExternally();
+						}
+					}
+
+					private void deleteExternally() {
+						projectFile.delete();
+						if(p != null && p.exists()) {
+							try {
+								p.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+							} catch (CoreException e2) {
+								JSFModelPlugin.getPluginLog().logError(e2);
+							}
+						}
+					}
+			
+				});
 			}
 		}
-		model.getProperties().put(XModelConstants.AUTOLOAD, new JSFAutoLoad());
 	}
 
+	
     private File getEclipseFile() {
 		String fn = getProject().getLocation().toString() + "/" + IModelNature.PROJECT_FILE;
 		File f = new File(fn);
