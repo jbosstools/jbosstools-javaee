@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vpe:templates>
+<vpe:templates xmlns:vpe="http://www.w3.org/2001/XMLSchema-instance">
 	<vpe:template-taglib uri="http://java.sun.com/jsf/facelets" prefix="ui"/>
 
     <vpe:tag name="ui:composition" case-sensitive="yes" >
@@ -32,14 +32,6 @@
 
     <vpe:tag name="ui:insert" case-sensitive="yes" >
 	    <vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate"/>
-    </vpe:tag>
-
-    <vpe:tag name="ui:insert_" case-sensitive="yes" >
-	    <vpe:template children="yes" modify="yes">
-			<div style="border: 1px solid gray">
-				<div class="__any__tag__caption"><vpe:value expr="{@name}"/>:</div>
-			</div>
-	    </vpe:template>
     </vpe:tag>
 
     <vpe:tag name="ui.component" case-sensitive="yes">

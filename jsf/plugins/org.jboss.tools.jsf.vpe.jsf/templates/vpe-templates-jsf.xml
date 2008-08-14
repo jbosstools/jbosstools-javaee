@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<vpe:templates>
+<vpe:templates xmlns:vpe="http://www.w3.org/2001/XMLSchema-instance">
 	<vpe:template-taglib uri="http://java.sun.com/jsf/html" prefix="h" />
 	<vpe:template-taglib uri="http://java.sun.com/jsf/core" prefix="f" />
 
@@ -786,11 +786,4 @@
 			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
-	
-	<!--
-		Проблема с селектированием элемента: в мозилле селектируется заголовок а не рамка
-	-->
-	<vpe:template children="yes" modify="no">
-		<vpe:any value="{name()}" title="{tagstring()}" />
-	</vpe:template>
 </vpe:templates>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vpe:templates>
+<vpe:templates xmlns:vpe="http://www.w3.org/2001/XMLSchema-instance">
 
 	<vpe:template-taglib uri="http://richfaces.org/rich" prefix="rich" />
 	<vpe:template-taglib uri="http://richfaces.ajax4jsf.org/rich" prefix="rich" />
