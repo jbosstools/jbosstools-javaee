@@ -17,7 +17,10 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.swt.SWT;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 
 
@@ -92,6 +95,16 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 		} else {
 			g.setForegroundColor(getForegroundColor());
 		}
+		
+		Page page=null;
+		if(link.getFromElement() instanceof Page)
+			page = (Page)link.getFromElement();
+		
+		if(page != null && page.getData() != null && page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
+			g.setLineDash(new int[]{3,3});
+			g.setLineStyle(SWT.LINE_CUSTOM);
+		}
+		
 		PointList points = getPoints();
 		Point point = points.getPoint(0);
 		Point beg = new Point();
