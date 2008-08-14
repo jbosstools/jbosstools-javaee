@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import org.eclipse.draw2d.geometry.Point;
+import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.ui.action.XModelObjectActionList;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -68,10 +69,10 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 		IStructuredSelection ss = (IStructuredSelection)s;
 		XModelObject object = SelectionUtil.getTarget(ss.getFirstElement());
 		if(object != null) {
+			String entityName = object.getModelEntity().getName();
 			if(object.getModelEntity().getName().equals(SeamPagesConstants.ENT_DIAGRAM_ITEM_OUTPUT)
 				&& object instanceof ReferenceObject && ((ReferenceObject)object).getReference() == null) {
-				//virtual link
-				return;
+				entityName = "SeamPagesDiagramItemOutputVirtual_ActionList";
 			}
 			PagesDiagramEditPart part = (PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0);
 			Properties p = new Properties();
@@ -84,7 +85,9 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 			}
 			p.put("diagramEditPart", part);
 
-			XModelObjectActionList list = new XModelObjectActionList(object.getModelEntity().getActionList(), object, SelectionUtil.getTargets(ss), new Object[]{object, p});
+			XModelEntity entity = object.getModel().getMetaData().getEntity(entityName);
+			if(entity == null) return;
+			XModelObjectActionList list = new XModelObjectActionList(entity.getActionList(), object, SelectionUtil.getTargets(ss), new Object[]{object, p});
 			Menu menu = getMenu();
 			list.createMenu(menu);
 			list.removeLastSeparator(menu);
