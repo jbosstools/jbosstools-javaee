@@ -77,6 +77,8 @@
 			class="org.jboss.tools.seam.pages.xml.model.handlers.DeletePageItemHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.GoToNodeNandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.GoToNodeNandler"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.CreateVirtualHandler"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.CreateVirtualHandler"/>
 
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport"/>

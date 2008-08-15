@@ -3144,17 +3144,14 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity
-  ImplementingClass=""
-  XMLSUBPATH="" name="SeamPagesDiagramItemOutputVirtual_ActionList">
+ <XModelEntity name="SeamPagesDiagramItemOutputVirtual_ActionList">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.jsf.process-item-output" type="main"/>
    </ICONS>
   </XEntityRenderer>
-  <XModelAttributes>
-  </XModelAttributes>
+  <XModelAttributes/>
   <XActionItem kind="list">
    <XActionItem
     HandlerClassName="org.jboss.tools.jsf.model.handlers.AutolayoutTransitionHandler"
@@ -3178,6 +3175,46 @@
      HandlerClassName="org.jboss.tools.jsf.model.handlers.OutputMoveHandler"
      ICON="action.empty" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="SeamPagesDiagramItemVirtual_ActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam-pages.page" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.CreateVirtualHandler"
+     ICON="action.new.jsf.case" displayName="Create This Element..."
+     kind="action" name="Create"/>
+   </XActionItem>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
+    ICON="action.empty" PROPERTIES="actionpath=Open"
+    displayName="Open Page" kind="action" name="OpenPage"/>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HandlerClassName="%SpecialWizard%" ICON="action.empty"
+     PROPERTIES="support=org.jboss.tools.seam.pages.xml.model.handlers.RenameViewSupport"
+     displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="SeamPageRename">
+      <AttributeData AttributeName="view id" Mandatory="no"/>
+      <AttributeData AttributeName="rename file" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem HIDE="always"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.HiddenLinksHandler"
+    ICON="action.empty" displayName="Show/Hide Links" kind="action" name="Links"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.GoToNodeNandler"
+    ICON="action.empty"
+    PROPERTIES="help=SeamItem_SelectNode;wizard=org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
+    displayName="Go To Node" kind="action" name="GoTo"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
