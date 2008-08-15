@@ -70,9 +70,13 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 		XModelObject object = SelectionUtil.getTarget(ss.getFirstElement());
 		if(object != null) {
 			String entityName = object.getModelEntity().getName();
-			if(object.getModelEntity().getName().equals(SeamPagesConstants.ENT_DIAGRAM_ITEM_OUTPUT)
+			if(entityName.equals(SeamPagesConstants.ENT_DIAGRAM_ITEM_OUTPUT)
 				&& object instanceof ReferenceObject && ((ReferenceObject)object).getReference() == null) {
 				entityName = "SeamPagesDiagramItemOutputVirtual_ActionList";
+			}
+			else if(entityName.equals(SeamPagesConstants.ENT_DIAGRAM_ITEM) 
+				&& object instanceof ReferenceObject && ((ReferenceObject)object).getReference() == null) {
+				entityName = "SeamPagesDiagramItemVirtual_ActionList";
 			}
 			PagesDiagramEditPart part = (PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0);
 			Properties p = new Properties();
