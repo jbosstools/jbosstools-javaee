@@ -350,6 +350,10 @@
 					<vpe:container-child tag-name="selectItems" />
 				</vpe:drop>
 			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
 			<vpe:textFormatting use-default-formats="yes">
 			</vpe:textFormatting>
 		</vpe:template>
@@ -365,6 +369,10 @@
 					<vpe:container-child tag-name="selectItems" />
 				</vpe:drop>
 			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
 			<vpe:textFormatting use-default-formats="yes">
 			</vpe:textFormatting>
 		</vpe:template>
@@ -381,6 +389,10 @@
 					<vpe:container-child tag-name="selectItems" />
 				</vpe:drop>
 			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
 			<vpe:textFormatting use-default-formats="yes">
 			</vpe:textFormatting>
 		</vpe:template>
