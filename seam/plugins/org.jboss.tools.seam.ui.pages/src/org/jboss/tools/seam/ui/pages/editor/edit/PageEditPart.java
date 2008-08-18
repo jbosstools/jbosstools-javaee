@@ -179,7 +179,7 @@ public class PageEditPart extends PagesEditPart implements
 
 	protected IFigure createFigure() {
 		fig = new PageFigure(getPageModel());
-		((PageFigure) fig).setGroupEditPart(this);
+		((PageFigure) fig).setPageEditPart(this);
 		return fig;
 	}
 

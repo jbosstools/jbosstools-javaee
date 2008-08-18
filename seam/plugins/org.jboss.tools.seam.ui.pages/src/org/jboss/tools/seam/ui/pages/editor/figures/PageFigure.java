@@ -37,12 +37,11 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 
 	public Page page;
 
-
 	String path;
 
 	PageEditPart editPart;
 
-	public void setGroupEditPart(PageEditPart part) {
+	public void setPageEditPart(PageEditPart part) {
 		editPart = part;
 	}
 
@@ -55,20 +54,20 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 	}
 
 		
-	public PageFigure(Page group) {
-		this.page = group;
+	public PageFigure(Page page) {
+		this.page = page;
 
-		if (group != null && group.getData() != null) {
-			setIcon(group.getImage());
-			initConnectionAnchors(group.getOutputLinks().size());
+		if (page != null && page.getData() != null) {
+			setIcon(page.getImage());
+			initConnectionAnchors(page.getOutputLinks().size());
 		}
 
 		setOpaque(false);
 		setLayoutManager(new XYLayout());
 
-		setBorder(new GroupBorder(blackColor));
+		setBorder(new PageBorder(blackColor));
 
-		if (group != null) {
+		if (page != null) {
 			FixedConnectionAnchor c;
 			c = new FixedConnectionAnchor(this);
 			c.offsetV = 10;
@@ -127,7 +126,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		}
 		
 		//color the page 
-		if (page != null /*&& group.isConfirmed()*/) {
+		if (page != null) {
 			g.setBackgroundColor(new Color(null, 0xff, 0xff, 0xc2));			
 		} else {
 			g.setBackgroundColor(lightGrayColor);
@@ -222,8 +221,8 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 	}
 
 	/** the one drawing the "bend corner rectangle" **/
-	class GroupBorder extends LineBorder {
-		public GroupBorder(Color color) {
+	class PageBorder extends LineBorder {
+		public PageBorder(Color color) {
 			super(color);
 		}
 
@@ -233,12 +232,13 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			int width = r.width - 1;
 			int height = r.height - 1;
 			
+			// if page has not page element
 			if(page != null && page.getData() != null && page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
 				graphics.setLineDash(new int[]{3,3});
 				graphics.setLineStyle(SWT.LINE_CUSTOM);
 			}
 			
-			if (page != null /*&& group.isConfirmed()*/)
+			if (page != null)
 				graphics.setForegroundColor(blackColor);
 			else
 				graphics.setForegroundColor(darkGrayColor);
