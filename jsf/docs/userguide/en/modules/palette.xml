@@ -594,5 +594,13 @@
                 library</link>.</para>
         </note>
 
+        <section>
+            <title>Relevant Resources Links</title>
+            <para>It may be helpful for you to look through the <ulink
+                    url="http://docs.jboss.org/tools/movies/demos/rich_faces_demo/rich_faces_demo.htm"
+                    >movie</ulink> which covers a creation of a jsf application with simple content
+                using the RichFaces components.</para>
+        </section>
+
     </section>
 </chapter>
