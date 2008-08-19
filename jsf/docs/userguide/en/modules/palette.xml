@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="palette" xreflabel="palette" revisionflag="changed"> 
+<chapter id="palette" xreflabel="palette" revisionflag="changed">
     <?dbhtml filename="palette.html"?>
     <chapterinfo>
         <keywordset>
@@ -98,231 +98,224 @@
                 new one, as well.</para>
             <para>To open the editor, click on the <emphasis>
                     <property>Palette Editor</property>
-                </emphasis> icon: 
-                    <figure>
-                        <title>Palette Editor Icon</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/palette/palette_7.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
+                </emphasis> icon: <figure>
+                    <title>Palette Editor Icon</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/palette/palette_7.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
             </para>
-                    <para>The window has two parts. There is a reflected grouped list of components
-                        on the left side of the palette editor. Each group is divided into multiple
-                        groups, every of which is a tag library. The right side of the palette
-                        editor is an editing window where it&apos;s possible to change values of
-                        group or tag library attributes that you&apos;ve chosen on the left part
-                        of the window. </para>
-                    <para>It can also be done by right click and using <emphasis>
-                            <property>Edit…</property>
-                        </emphasis> option.</para>
-                    <literallayout/>
-                    <para> For example, <property>JSF</property> group consists of
-                        <property>Core</property>, <property>Facelets</property>,
-                        <property>HTML</property> tag libraries and the attributes as
-                        <property>name</property>, <property>description</property> and
-                            <property>hidden</property> which are available for editing: </para>
+            <para>The window has two parts. There is a reflected grouped list of components on the
+                left side of the palette editor. Each group is divided into multiple groups, every
+                of which is a tag library. The right side of the palette editor is an editing window
+                where it&apos;s possible to change values of group or tag library attributes
+                that you&apos;ve chosen on the left part of the window. </para>
+            <para>It can also be done by right click and using <emphasis>
+                    <property>Edit…</property>
+                </emphasis> option.</para>
+            <literallayout/>
+            <para> For example, <property>JSF</property> group consists of
+                <property>Core</property>, <property>Facelets</property>, <property>HTML</property>
+                tag libraries and the attributes as <property>name</property>,
+                <property>description</property> and <property>hidden</property> which are available
+                for editing: </para>
+            <figure>
+                <title>Tag Libraries of the JSF Group</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/palette/palette_24.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>The Palette Editor provides the following possibilities when working with existing
+                tags or icons:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>to work with a set of icons</para>
+                    <para><emphasis>
+                            <property>Icons</property>
+                        </emphasis> is the root folder for the icon sets. The first step is creating
+                        the icon set. Right click on the <emphasis>
+                            <property>Icons</property>
+                        </emphasis> folder and select <emphasis>
+                            <property>Create &gt; Create Set...</property>
+                        </emphasis></para>
+                    <para>Set the value of the name in the <emphasis>
+                            <property>Add Icons</property>
+                        </emphasis> window and click <emphasis>
+                            <property>Finish</property>
+                        </emphasis> button. A new element will appear in the list.</para>
                     <figure>
-                        <title>Tag Libraries of the JSF Group</title>
+                        <title>Creating a Set of Icons</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/palette/palette_24.png"/>
+                                <imagedata fileref="images/palette/palette_17.png"/>
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    <para>The Palette Editor provides the following possibilities when working with
-                        existing tags or icons:</para>
-                <itemizedlist>    
-                     <listitem>
-                        <para>to work with a set of icons</para>
-                        <para><emphasis>
-                                <property>Icons</property>
-                            </emphasis> is the root folder for the icon sets. The first step is
-                            creating the icon set. Right click on the <emphasis>
-                                <property>Icons</property>
-                            </emphasis> folder and select <emphasis>
-                                <property>Create &gt; Create Set...</property>
-                            </emphasis></para>
-                        <para>Set the value of the name in the <emphasis>
-                                <property>Add Icons</property>
-                            </emphasis> window and click <emphasis>
-                                <property>Finish</property>
-                            </emphasis> button. A new element will appear in the list.</para>
-                        <figure>
-                            <title>Creating a Set of Icons</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="images/palette/palette_17.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>Also you can delete the set. Right click on the set of icons that you
-                            wish to remove and chose the <emphasis>
-                                <property>Delete Set</property>
-                            </emphasis> option from the pop-up menu or click the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> keyboard button.</para>
-                    </listitem>
-                    <listitem>
-                        <para>to edit icons in the chosen set</para>
-                        <para>When the set of icons is created, new icons can be imported to it.
-                            Choose the required set and select the option <emphasis>
-                                <property>Create &gt; Import Icon... </property>
-                            </emphasis> from the pop-up menu that appears after you right-click on a
-                            folder.</para>
-                        <figure>
-                            <title>Creating Icons</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="images/palette/palette_18.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>Set the name of the icon and the path and click <emphasis>
-                                <property>Finish</property>
-                            </emphasis> button.</para>
-                    </listitem>
-                    <listitem>
-                        <para>to work with a group of tag libraries</para>
-                        <para>The first step in work with the editor is creating a group of
-                            libraries. It&apos;s very easy to do, right mouse button click on
-                            the <emphasis>
-                                <property>Palette</property>
-                            </emphasis> folder and select <emphasis>
-                                <property>Create &gt; Create Group…</property>
-                            </emphasis></para>
-                        <para>Set a name of a group in the <property>Create Group</property> window
-                            and click <emphasis>
-                                <property>OK</property>
-                            </emphasis> button. A new element will appear at the end of the list.</para>
-                        <figure>
-                            <title>Creating a Group of Tag Libraries</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="images/palette/palette_19.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>You are allowed to edit or delete a group, as well. If you&apos;d
-                            like to change attributes of a group, use the right editing window of
-                            the palette editor or the <emphasis>
-                                <property>Edit...</property>
-                            </emphasis> option, like it was mentioned before. In order to remove the
-                            group, right click on the group that you wish to remove and chose the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> option or click the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> keyboard button.</para>
-                        <important>
-                            <title>Important:</title>
-                            <para>The removal option is enabled only for custom folders.</para>
-                        </important>
-                    </listitem>
-                    <listitem>
-                        <para>to work with a tag library</para>
-                        <para>The group maintains a list of tag libraries. If you&apos;d like to
-                            create your own library, click right mouse button on the group and
-                            choose <emphasis>
-                                <property>Create Group…</property>
-                            </emphasis> option.</para>
-                        <figure>
-                            <title>Creating a tag library</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="images/palette/palette_20.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>After setting the attribute name and the path of the icon, click <emphasis>
-                                <property>Ok</property>
-                            </emphasis> button.</para>
-                        <note>
-                            <title>Note:</title>
-                            <para>If you do not choose an icon the default one will be
-                            assigned.</para>
-                        </note>
-                        <para>You are allowed to edit or delete the tag library, as well. If
-                            you&apos;d like to change attributes of the library or choose
-                            another icon, use the right editing window of the palette editor or the <emphasis>
-                                <property>Edit...</property>
-                            </emphasis> option. In order to remove the tag library, right click on
-                            the library that you wish to remove and chose the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> option or click the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> keyboard button.</para>
-                        <important>
-                            <title>Important:</title>
-                            <para>The removal option is enabled only for custom tag
-                            libraries.</para>
-                        </important>
-                    </listitem>
-                    <listitem>
-                        <para>to work with a tag element</para>
-                        <para>When the library folder is created, new tags can be added to it.
-                            Choose the required library and select the option <emphasis>
-                                <property>Create > Create Macro…</property>
-                            </emphasis> from the pop-up menu that appears after you right-click on a
-                            folder.</para>
-                        <figure>
-                            <title>Creating a tag element</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="images/palette/palette_21.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>In the <property>Add Palette Macro</property> window, you can
-                            configure the tag element. Attribute <emphasis>
-                                <property>Name</property>
-                            </emphasis> is mandatory to fill and it will be the name of the tag
-                            element. Other settings are optional. You can choose the icon and set
-                            the <emphasis>
-                                <property>Start Text</property>
-                            </emphasis> and the <emphasis>
-                                <property>End Text</property>
-                            </emphasis> for your tag element. If your tag text is too long, use the <emphasis>
-                                <property>Change...</property>
-                            </emphasis> button to see it all. For <emphasis>
-                                <property>start text</property>
-                            </emphasis> and <emphasis>
-                                <property>end text</property>
-                            </emphasis> there is a possibility to control the cursor position by
-                            using "|" symbol.</para>
-                        <figure>
-                            <title>Parameters of the Palette element</title>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="images/palette/palette_23.png"/>
-                                </imageobject>
-                            </mediaobject>
-                        </figure>
-                        <para>After all the attributes are set, click <emphasis>
+                    <para>Also you can delete the set. Right click on the set of icons that you wish
+                        to remove and chose the <emphasis>
+                            <property>Delete Set</property>
+                        </emphasis> option from the pop-up menu or click the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> keyboard button.</para>
+                </listitem>
+                <listitem>
+                    <para>to edit icons in the chosen set</para>
+                    <para>When the set of icons is created, new icons can be imported to it. Choose
+                        the required set and select the option <emphasis>
+                            <property>Create &gt; Import Icon... </property>
+                        </emphasis> from the pop-up menu that appears after you right-click on a
+                        folder.</para>
+                    <figure>
+                        <title>Creating Icons</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/palette/palette_18.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>Set the name of the icon and the path and click <emphasis>
                             <property>Finish</property>
                         </emphasis> button.</para>
-                        <note>
-                            <title>Note:</title>
-                            <para>If you do not choose an icon the default one will be assigned.</para>
-                        </note>
-                        <para>You are also allowed to edit or delete the tag. If you&apos;d like to
-                            change the attributes of the tag or choose another icon for it, use the
-                            right editing window of the palette editor or the <emphasis>
-                                <property>Edit...</property>
-                            </emphasis> option from the pop-up menu. In order to remove the tag, right
-                            click on the tag that you wish to remove and chose the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> option or click the <emphasis>
-                                <property>Delete</property>
-                            </emphasis> keyboard button.</para>
-                        <important>
-                            <title>Important:</title>
-                            <para>The removal option is enabled only for custom tags. JBoss Palette tags
-                                can not be removed but can be modified.</para>
-                        </important>
-                    </listitem>
-                    
-                </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>to work with a group of tag libraries</para>
+                    <para>The first step in work with the editor is creating a group of libraries.
+                        It&apos;s very easy to do, right mouse button click on the <emphasis>
+                            <property>Palette</property>
+                        </emphasis> folder and select <emphasis>
+                            <property>Create &gt; Create Group…</property>
+                        </emphasis></para>
+                    <para>Set a name of a group in the <property>Create Group</property> window and
+                        click <emphasis>
+                            <property>OK</property>
+                        </emphasis> button. A new element will appear at the end of the list.</para>
+                    <figure>
+                        <title>Creating a Group of Tag Libraries</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/palette/palette_19.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>You are allowed to edit or delete a group, as well. If you&apos;d like
+                        to change attributes of a group, use the right editing window of the palette
+                        editor or the <emphasis>
+                            <property>Edit...</property>
+                        </emphasis> option, like it was mentioned before. In order to remove the
+                        group, right click on the group that you wish to remove and chose the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> option or click the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> keyboard button.</para>
+                    <important>
+                        <title>Important:</title>
+                        <para>The removal option is enabled only for custom folders.</para>
+                    </important>
+                </listitem>
+                <listitem>
+                    <para>to work with a tag library</para>
+                    <para>The group maintains a list of tag libraries. If you&apos;d like to
+                        create your own library, click right mouse button on the group and choose <emphasis>
+                            <property>Create Group…</property>
+                        </emphasis> option.</para>
+                    <figure>
+                        <title>Creating a tag library</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/palette/palette_20.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>After setting the attribute name and the path of the icon, click <emphasis>
+                            <property>Ok</property>
+                        </emphasis> button.</para>
+                    <note>
+                        <title>Note:</title>
+                        <para>If you do not choose an icon the default one will be assigned.</para>
+                    </note>
+                    <para>You are allowed to edit or delete the tag library, as well. If
+                        you&apos;d like to change attributes of the library or choose another
+                        icon, use the right editing window of the palette editor or the <emphasis>
+                            <property>Edit...</property>
+                        </emphasis> option. In order to remove the tag library, right click on the
+                        library that you wish to remove and chose the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> option or click the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> keyboard button.</para>
+                    <important>
+                        <title>Important:</title>
+                        <para>The removal option is enabled only for custom tag libraries.</para>
+                    </important>
+                </listitem>
+                <listitem>
+                    <para>to work with a tag element</para>
+                    <para>When the library folder is created, new tags can be added to it. Choose
+                        the required library and select the option <emphasis>
+                            <property>Create > Create Macro…</property>
+                        </emphasis> from the pop-up menu that appears after you right-click on a
+                        folder.</para>
+                    <figure>
+                        <title>Creating a tag element</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/palette/palette_21.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>In the <property>Add Palette Macro</property> window, you can configure
+                        the tag element. Attribute <emphasis>
+                            <property>Name</property>
+                        </emphasis> is mandatory to fill and it will be the name of the tag element.
+                        Other settings are optional. You can choose the icon and set the <emphasis>
+                            <property>Start Text</property>
+                        </emphasis> and the <emphasis>
+                            <property>End Text</property>
+                        </emphasis> for your tag element. If your tag text is too long, use the <emphasis>
+                            <property>Change...</property>
+                        </emphasis> button to see it all. For <emphasis>
+                            <property>start text</property>
+                        </emphasis> and <emphasis>
+                            <property>end text</property>
+                        </emphasis> there is a possibility to control the cursor position by using
+                        "|" symbol.</para>
+                    <figure>
+                        <title>Parameters of the Palette element</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/palette/palette_23.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    <para>After all the attributes are set, click <emphasis>
+                            <property>Finish</property>
+                        </emphasis> button.</para>
+                    <note>
+                        <title>Note:</title>
+                        <para>If you do not choose an icon the default one will be assigned.</para>
+                    </note>
+                    <para>You are also allowed to edit or delete the tag. If you&apos;d like to
+                        change the attributes of the tag or choose another icon for it, use the
+                        right editing window of the palette editor or the <emphasis>
+                            <property>Edit...</property>
+                        </emphasis> option from the pop-up menu. In order to remove the tag, right
+                        click on the tag that you wish to remove and chose the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> option or click the <emphasis>
+                            <property>Delete</property>
+                        </emphasis> keyboard button.</para>
+                    <important>
+                        <title>Important:</title>
+                        <para>The removal option is enabled only for custom tags. JBoss Palette tags
+                            can not be removed but can be modified.</para>
+                    </important>
+                </listitem>
+
+            </itemizedlist>
         </section>
         <section id="show_hide">
             <?dbhtml filename="Show/Hide.html"?>
@@ -566,18 +559,11 @@
     <section id="RichFacesSupport">
         <?dbhtml filename="RichFacesSupport.html"?>
         <title>RichFaces Support</title>
-        <para>JBoss Developer Studio comes with a tight integration with <emphasis>
-                <property>RichFaces</property>
-            </emphasis> component framework. RichFaces and Ajax4jsf in JBoss Tools Palette always
-            exist, this palette is not dynamic and is not changed from file to file. 
-            <tip>
-                <title>Tip:</title>
-                <para>If you&apos;d like to know the last version of RichFaces component
-                    framework see <ulink url="http://labs.jboss.com/jbossrichfaces/">JBoss
-                    RichFaces</ulink> site.</para>
-            </tip>RichFaces components, as well, as <emphasis>
-                <property>Ajax4jsf</property>
-            </emphasis> ones are already on the <property>JBoss Tools Palette</property>:</para>
+        <para><property>JBoss Developer Studio</property> comes with a tight integration with <ulink
+                url="http://labs.jboss.com/jbossrichfaces/">RichFaces component framework</ulink>.
+            RichFaces and Ajax4jsf tag libraries in <link linkend="palette">JBoss Tools
+            Palette</link> always exist.</para>
+
         <figure>
             <title>RichFaces Components</title>
             <mediaobject>
@@ -586,6 +572,27 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <!-- <para>Insert tag into JSP file </para>-->
+
+        <para>To start using <property>RichFaces</property> components as well as
+            <property>Ajax4jsf</property> ones in JBDS you should first put <emphasis>
+                <property>richfaces-*.jar</property>
+            </emphasis> files into the <emphasis>
+                <property>/lib</property>
+            </emphasis> folder of your project.</para>
+        <!-- this palette is not dynamic and is not changed from file to file. -->
+
+        <note>
+            <title>Note:</title>
+
+            <para>Currant version of <property>JBoss Developer Studio</property> (i. e. 1.1.0GA)
+                includes <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces
+                3.1.3</ulink>. The JBoss Tools 3.0Alpha comes with <ulink
+                    url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces 3.1.3</ulink> and
+                partly support 3.2 version of the component framework. If you need to use the latest
+                version of the component framework you should import it into the Palette like any
+                other <link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">custom tag
+                library</link>.</para>
+        </note>
+
     </section>
 </chapter>
