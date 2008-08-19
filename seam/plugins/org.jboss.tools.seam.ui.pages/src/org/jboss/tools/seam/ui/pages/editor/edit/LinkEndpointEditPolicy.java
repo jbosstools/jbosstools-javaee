@@ -26,10 +26,13 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.handles.ConnectionHandle;
 import org.eclipse.gef.tools.ConnectionEndpointTracker;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.events.MouseEvent;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.ui.pages.editor.dnd.DndHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 
 
@@ -56,8 +59,15 @@ public class LinkEndpointEditPolicy
 	}
 
 	protected void addSelectionHandles() {
-
-		super.addSelectionHandles();
+		Page page=null;
+		Link link = ((LinkEditPart)getHost()).getLinkModel();
+		if(link != null && link.getFromElement() instanceof Page)
+			page = (Page)link.getFromElement();
+		
+		if(page != null && page.getData() != null && page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
+			
+		}else
+			super.addSelectionHandles();
 		addPagesHandles();
 
 		getConnectionFigure().setSelected(true);
