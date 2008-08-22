@@ -12,14 +12,15 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.common.editor.rreferences.AbsoluteFolderReferenceList;
+import org.jboss.tools.common.editor.rreferences.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.VpeController;
-import org.jboss.tools.vpe.editor.css.AbsoluteFolderReferenceList;
-import org.jboss.tools.vpe.editor.css.ResourceReference;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
