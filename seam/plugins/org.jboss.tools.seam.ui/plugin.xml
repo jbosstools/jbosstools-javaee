@@ -565,9 +565,9 @@
 	          	<command
 	                commandId="org.jboss.tools.seam.ui.refactoring.component"
 	                id="org.jboss.tools.seam.ui.open.component.submenu"
-	                label="Refactor Seam Component"
+	                label="Rename Seam Component"
 	                style="push"
-	                tooltip="Refactor Seam Component">
+	                tooltip="Rename Seam Component">
 		        </command>
        		</menu>
     	</menuContribution>
@@ -577,8 +577,8 @@
 		point="org.eclipse.ui.commands">
       <command
             id="org.jboss.tools.seam.ui.refactoring.component"
-            description="Seam Refactoring"
-            name="Seam Refactoring">
+            description="Seam Component Renaming"
+            name="Seam Component Renaming">
       </command>
 	</extension>
 
@@ -586,7 +586,7 @@
  		point="org.eclipse.ui.handlers">
  		<handler
   			commandId="org.jboss.tools.seam.ui.refactoring.component"
-  			class="org.jboss.tools.seam.ui.refactoring.SeamComponentRefactoringHandler"/>
+  			class="org.jboss.tools.seam.ui.refactoring.SeamComponentRenameHandler"/>
 	</extension>
 
 </plugin>
