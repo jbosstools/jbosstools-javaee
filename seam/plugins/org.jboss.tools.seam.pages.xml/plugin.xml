@@ -69,6 +69,8 @@
 			class="org.jboss.tools.seam.pages.xml.model.handlers.PageAdopt"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.DeleteOutputHandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.DeleteOutputHandler"/>
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.DeleteVirtualOutputHandler"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.DeleteVirtualOutputHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.OpenPageHandler"/>
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler"

@@ -13,7 +13,14 @@ public class CreateVirtualHandler extends AbstractHandler {
 	public CreateVirtualHandler() {}
 
 	public boolean isEnabled(XModelObject object) {
-		return object != null && object.isActive();
+		if(object == null || !object.isActive()) {
+			return false;
+		}
+		String path = object.getAttributeValue(SeamPagesConstants.ATTR_PATH);
+		if(path == null || PageAdopt.isEL(path)) {
+			return false;
+		}
+		return true;
 	}
 
 	public void executeHandler(XModelObject object, Properties prop) throws XModelException {
@@ -22,10 +29,14 @@ public class CreateVirtualHandler extends AbstractHandler {
 		XModelObject pages = f.getChildByPath(SeamPagesConstants.FOLDER_PAGES);
 		if(pages == null) return;
 		String path = object.getAttributeValue(SeamPagesConstants.ATTR_PATH);
-		//TODO handle EL case
-		XModelObject page = AddViewSupport.addPage(pages, path);
-		if(page != null) {
-			page.setModified(true);
+		if(PageAdopt.isEL(path)) {
+			//TODO handle EL case
+			
+		} else {
+			XModelObject page = AddViewSupport.addPage(pages, path);
+			if (page != null) {
+				page.setModified(true);
+			}
 		}
 	}
 

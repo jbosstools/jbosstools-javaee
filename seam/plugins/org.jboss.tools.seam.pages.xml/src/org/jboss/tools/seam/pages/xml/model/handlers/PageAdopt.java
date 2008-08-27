@@ -16,6 +16,7 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.FindObjectHelper;
+import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
@@ -33,7 +34,7 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 			return canBeOutputTarget(target);
 		} 
 		if(ENT_DIAGRAM_ITEM.equals(entity)) {
-			return canBeOutputTarget(target);
+			return canDrawCustomLink(target, object) || canBeOutputTarget(target);
 		}
 		if(entity.startsWith(ENT_SEAM_PAGE)) {
 			return canBeOutputTarget(target);
@@ -51,6 +52,48 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 		if(path == null) path = group.getAttributeValue(ATTR_VIEW_ID);
 		if(path == null) return false;
 		if(path.length() == 0 || path.indexOf("*") >= 0) return false;
+		return true;
+	}
+
+	private boolean canDrawCustomLink(XModelObject target, XModelObject source) {
+		if(!(source instanceof ReferenceObject)) {
+			return false;
+		}
+		ReferenceObject i = (ReferenceObject)source;
+		if(i.getReference() != null) {
+			//only virtual items can be sources of custom links.
+			return false;
+		}
+		String sourcePath = source.getAttributeValue(ATTR_PATH);
+		if(!isEL(sourcePath)) {
+			return false;
+		}
+
+		if(!(target instanceof ReferenceObject)) {
+			return false;
+		}
+		ReferenceObject j = (ReferenceObject)target;
+		if(j.getReference() == null) {
+			//only real items can be targets of custom links
+			return false;
+		}
+
+		String type = target.getAttributeValue(ATTR_TYPE);
+		if(TYPE_EXCEPTION.equals(type)) {
+			//Exception cannot be the target
+			return false;
+		}
+		String path = target.getAttributeValue(ATTR_PATH);
+		if(path == null) path = target.getAttributeValue(ATTR_VIEW_ID);
+		if(path == null) return false;
+
+		return true;
+	}
+
+	public static boolean isEL(String path) {
+		if(path.indexOf('{') < 0) {
+			return false;
+		}
 		return true;
 	}
 	
@@ -82,7 +125,11 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 				adoptOutput(object, target, p);
 			}
 		} else if(ENT_DIAGRAM_ITEM.equals(entity)) {
-			adoptItem(object, target, p);
+			if(canDrawCustomLink(target, object)) {
+				drawCustomLink(target, object);
+			} else {
+				adoptItem(object, target, p);
+			}
 		} else if(entity.startsWith(ENT_SEAM_PAGE)) {
 			adoptSeamPage(object, target, p);
 		}
@@ -101,7 +148,12 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 	protected void adoptItem(XModelObject source, XModelObject target, Properties p) throws XModelException {
 		ReferenceObject i = (ReferenceObject)source;
 		if(i.getReference() == null) {
-			XModelObject rule = createRule(target, i.getAttributeValue(ATTR_PATH));
+			String path = i.getAttributeValue(ATTR_PATH);
+			if(isEL(path)) {
+				//do not create rule for EL.
+				return;
+			}
+			XModelObject rule = createRule(target, path);
 			adoptSeamPage(rule, target, p);
 		} else {
 			adoptSeamPage(i.getReference(), target, p);
@@ -168,4 +220,18 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 		DefaultCreateHandler.addCreatedObject(pages, rule, FindObjectHelper.IN_EDITOR_ONLY);
 		return rule;
 	}
+
+	void drawCustomLink(XModelObject target, XModelObject source) throws XModelException {
+		ReferenceObject j = (ReferenceObject)target;
+		String viewId = j.getReference().getAttributeValue(ATTR_VIEW_ID);
+		XModelObject output = target.getModel().createModelObject(ENT_DIAGRAM_ITEM_OUTPUT, null);
+		output.setAttributeValue(ATTR_ID, viewId);
+		output.setAttributeValue(ATTR_PATH, viewId);
+		String name = XModelObjectUtil.createNewChildName("output", source);
+		output.setAttributeValue(ATTR_NAME, name);
+		output.setAttributeValue(ATTR_SUBTYPE, SUBTYPE_CUSTOM);
+		output.setAttributeValue(ATTR_TARGET, target.getPathPart());
+		DefaultCreateHandler.addCreatedObject(source, output, FindObjectHelper.IN_EDITOR_ONLY);
+	}
+
 }

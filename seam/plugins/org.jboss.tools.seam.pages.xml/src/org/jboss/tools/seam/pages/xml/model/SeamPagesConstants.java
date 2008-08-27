@@ -47,6 +47,9 @@ public interface SeamPagesConstants {
 	public String ATTR_TYPE = "type"; //$NON-NLS-1$
 	public String ATTR_TARGET = "target"; //$NON-NLS-1$
 	public String ATTR_ID = "id"; //$NON-NLS-1$
+	public String ATTR_SUBTYPE = "subtype"; //$NON-NLS-1$
+
+	public String SUBTYPE_CUSTOM = "custom"; //$NON-NLS-1$
 
 	public String ATTR_VIEW_ID = "view id"; //$NON-NLS-1$
 	

@@ -3170,6 +3170,11 @@
      ICON="action.empty" PROPERTIES="value=yes;property=hidden"
      displayName="Hide" kind="action" name="Hide"/>
    </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.DeleteVirtualOutputHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
    <XActionItem displayName="move" kind="list" name="MoveActions">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.jsf.model.handlers.OutputMoveHandler"
