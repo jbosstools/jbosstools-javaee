@@ -278,6 +278,9 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 					&& !getLink().getPathFromModel().equals("")) {
 				getLinkFigure().setManual(true);
 			}
+			
+			PointList list = getLink().getPointList();
+			if(list.size() == 0)((ConnectionFigure)figure).setManual(false);
 			refresh();
 			refreshVisuals();
 			((ConnectionFigure)figure).layout();
