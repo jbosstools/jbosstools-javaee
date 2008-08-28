@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<vpe:templates xmlns:vpe="http://www.w3.org/2001/XMLSchema-instance">
+<vpe:templates xmlns:vpe="http://org.jboss.org/tools/vpe/template"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<vpe:template-taglib uri="http://myfaces.apache.org/extensions"	prefix="x" />
 
 	<vpe:tag name="x:checkbox" case-sensitive="yes">

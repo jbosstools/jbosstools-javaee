@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<vpe:templates xmlns:vpe="http://www.w3.org/2001/XMLSchema-instance">
+<vpe:templates xmlns:vpe="http://org.jboss.org/tools/vpe/template"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<vpe:template-taglib uri="http://struts.apache.org/tags-html"
 		prefix="html" />
 	<vpe:template-taglib
@@ -288,7 +289,7 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
 			</vpe:dnd>
-			<textFormatting use-default-formats="yes"/>
+			<vpe:textFormatting use-default-formats="yes"/>
 		</vpe:template>
 	</vpe:tag>
 
@@ -319,7 +320,7 @@
 						<vpe:drag start-enable="yes" />
 						<vpe:drop container="no" />
 					</vpe:dnd>
-					<textFormatting use-default-formats="yes"/>
+					<vpe:textFormatting use-default-formats="yes"/>
 				</vpe:template>
 			</vpe:if>
 			<vpe:template children="no" modify="yes">
@@ -333,7 +334,7 @@
 					<vpe:drag start-enable="yes" />
 					<vpe:drop container="no" />
 				</vpe:dnd>
-				<textFormatting use-default-formats="yes"/>
+				<vpe:textFormatting use-default-formats="yes"/>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="no" modify="yes">
@@ -347,7 +348,7 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
 			</vpe:dnd>
-			<textFormatting use-default-formats="yes"/>
+			<vpe:textFormatting use-default-formats="yes"/>
 		</vpe:template>
 	</vpe:tag>
 
@@ -364,7 +365,7 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />
 			</vpe:dnd>
-			<textFormatting use-default-formats="yes"/>
+			<vpe:textFormatting use-default-formats="yes"/>
 		</vpe:template>
 	</vpe:tag>
 
@@ -382,7 +383,7 @@
 						<vpe:drag start-enable="yes" />
 						<vpe:drop container="no" />
 					</vpe:dnd>
-					<textFormatting use-default-formats="yes"/>
+					<vpe:textFormatting use-default-formats="yes"/>
 				</vpe:template>
 			</vpe:if>
 			<vpe:template children="no" modify="yes">
@@ -396,7 +397,7 @@
 					<vpe:drag start-enable="yes" />
 					<vpe:drop container="no" />
 				</vpe:dnd>
-				<textFormatting use-default-formats="yes"/>
+				<vpe:textFormatting use-default-formats="yes"/>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="no" modify="yes">
@@ -410,7 +411,7 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
 			</vpe:dnd>
-			<textFormatting use-default-formats="yes"/>
+			<vpe:textFormatting use-default-formats="yes"/>
 		</vpe:template>
 	</vpe:tag>
 
@@ -428,7 +429,7 @@
 					<vpe:drag start-enable="yes" />
 					<vpe:drop container="no" />
 				</vpe:dnd>
-				<textFormatting use-default-formats="yes"/>
+				<vpe:textFormatting use-default-formats="yes"/>
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="no" modify="yes">
@@ -442,7 +443,7 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
 			</vpe:dnd>
-			<textFormatting use-default-formats="yes"/> 
+			<vpe:textFormatting use-default-formats="yes"/> 
 		</vpe:template>
 	</vpe:tag>
 
@@ -461,7 +462,7 @@
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
 			</vpe:dnd>
-			<textFormatting use-default-formats="yes"/>
+			<vpe:textFormatting use-default-formats="yes"/>
 		</vpe:template>
 	</vpe:tag>
 

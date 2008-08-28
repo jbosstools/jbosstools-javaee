@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<vpe:templates xmlns:vpe="http://www.w3.org/2001/XMLSchema-instance">
+<vpe:templates xmlns:vpe="http://org.jboss.org/tools/vpe/template"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<vpe:template-taglib uri="http://java.sun.com/jsf/html" prefix="h" />
 	<vpe:template-taglib uri="http://java.sun.com/jsf/core" prefix="f" />
 
@@ -745,7 +746,7 @@
 	</vpe:tag>
 	
 	<vpe:tag name="f:converter">
-		<vpe:template children="no" modify="no" invisible="yes" />
+		<vpe:template children="no" modify="no" invisible="yes"/>
 	</vpe:tag>
 
 	<vpe:tag name="f:convertNumber">
