@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -21,7 +20,6 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.template.VpeMouseOverTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -215,7 +213,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		super.validate(pageContext, sourceNode, visualDocument, data);
 		List<nsIDOMElement> children = getChildren(storedVisualMenu);
 		
-		storedVisualMenu.setAttribute(VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_ID, String.valueOf(ddmId));
+//		storedVisualMenu.setAttribute(VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_ID, String.valueOf(ddmId));
 //		applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_ID, String.valueOf(ddmId), children);
 //		applyAttributeValueOnChildren(
 //				VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_LOOKUP_PARENT,
