@@ -210,8 +210,6 @@
 
 	<vpe:tag name="rich:modalPanel" case-sensitive="yes">
 		<vpe:template children="no" modify="yes" invisible="yes" >
-			<div style="display:none">
-			</div>
 		</vpe:template>
 	</vpe:tag>
 
@@ -490,23 +488,23 @@
 	</vpe:tag>
 
 	<vpe:tag name="rich:dndParam" case-sensitive="yes">
-	    <vpe:template children="no" modify="no"/>
+	    <vpe:template children="no" modify="no" invisible="yes"/>
 	</vpe:tag>
 
 	<vpe:tag name="rich:dragIndicator" case-sensitive="yes">
-	    <vpe:template children="no" modify="no"/>
+	    <vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="rich:dragSupport" case-sensitive="yes">
-	    <vpe:template children="no" modify="no"/>
+	    <vpe:template children="no" modify="no" invisible="yes"/>
 	</vpe:tag>
 
 	<vpe:tag name="rich:dropSupport" case-sensitive="yes">
-	    <vpe:template children="no" modify="no"/>
+	    <vpe:template children="no" modify="no" invisible="yes"/>
 	</vpe:tag>
 	
-	<vpe:tag name="rich:suggestionbox" case-sensitive="yes">
-	    <vpe:template children="no" modify="no"/>
+	<vpe:tag name="rich:suggestionbox" case-sensitive="yes" >
+	    <vpe:template children="no" modify="no" invisible="yes"/>
     </vpe:tag>
 
     <vpe:tag name="rich:dropDownMenu" case-sensitive="yes" >
@@ -552,13 +550,12 @@
     </vpe:tag>
 
     <vpe:tag name="rich:menuSeparator" case-sensitive="yes" >
-	    <vpe:template children="no" modify="no">
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
     
-    <vpe:tag name="rich:contextMenu" case-sensitive="yes">
-		<vpe:template children="no" modify="no">
-			<span style="display:none"></span>
+    <vpe:tag name="rich:contextMenu" case-sensitive="yes" >
+		<vpe:template children="no" modify="no" invisible="yes" >
 		</vpe:template>
 	</vpe:tag>
     
@@ -619,30 +616,22 @@
     </vpe:tag>
     
     <vpe:tag name="rich:toolTip" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="rich:effect" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="rich:jQuery" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="rich:componentControl" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
 	
@@ -657,30 +646,21 @@
 	</vpe:tag>
 	
 	<vpe:tag name="rich:changeExpandListener" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="rich:nodeSelectListener" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
 	
 	<vpe:tag name="rich:dragListener" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>
-	
 	<vpe:tag name="rich:dropListener" case-sensitive="yes">
-		<vpe:template children="no" modify="yes">
-			<span style="display:none">
-			</span>
+		<vpe:template children="no" modify="yes" invisisble="yes">
 		</vpe:template>
 	</vpe:tag>    
 	
