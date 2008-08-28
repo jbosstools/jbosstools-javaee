@@ -19,9 +19,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.jsf.vpe.jsf.test.CommonJBIDE2010Test;
-import org.jboss.tools.jst.web.el.GlobalELReferenceList;
-import org.jboss.tools.jst.web.rreferences.ResourceReference;
 import org.jboss.tools.vpe.editor.util.ElService;
+import org.jboss.tools.vpe.el.GlobalELReferenceList;
+import org.jboss.tools.vpe.rreferences.ResourceReference;
 
 /**
  * Test case for testing global El expression substitution
