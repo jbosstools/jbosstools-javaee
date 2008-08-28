@@ -101,9 +101,10 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:inputHidden" case-sensitive="yes">
-		<vpe:template children="no" modify="no">
+		<vpe:template children="no" modify="no" invisible="yes" >
 			<input type="text" value="{jsfvalue(@value)}"
 				title="{tagstring()}" />
+		
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
@@ -720,55 +721,51 @@
 	</vpe:tag>
 
 	<vpe:tag name="f:attribute" case-sensitive="yes">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:param">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:phaseListener">
-		<vpe:template children="no" modify="no" />
-	</vpe:tag>
-
-	<vpe:tag name="f:phaseListener">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:setPropertyActionListener">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:valueChangeListener">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:convertDateTime">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 	
 	<vpe:tag name="f:converter">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:convertNumber">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:validator">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes"  />
 	</vpe:tag>
 
 	<vpe:tag name="f:validateDoubleRange">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:validateLength">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="f:validateLongRange">
-		<vpe:template children="no" modify="no" />
+		<vpe:template children="no" modify="no" invisible="yes" />
 	</vpe:tag>
 
 	<vpe:tag name="h:message">
