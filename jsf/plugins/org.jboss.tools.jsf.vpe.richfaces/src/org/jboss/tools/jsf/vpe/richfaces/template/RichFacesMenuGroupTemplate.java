@@ -29,13 +29,16 @@ import org.w3c.dom.Node;
 
 public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 
+	public static final String MENU_GROUP_ID = "MENU-GROUP-ID"; //$NON-NLS-1$
+	
 	/*
 	 * rich:menuGroup constants
 	 */
-	public static final String MENU_GROUP_ID = "MENU-GROUP-ID"; //$NON-NLS-1$
+	private final static String COMPONENT_NAME = "menuGroup"; //$NON-NLS-1$
+	private final static String STYLE_PATH = "menuGroup/menuGroup.css"; //$NON-NLS-1$
+	private static final String SPACER_IMG_PATH = "menuGroup/spacer.gif"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
-	private static final String SPACER_IMG_PATH = "menuGroup/spacer.gif"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
 
@@ -53,7 +56,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_MENU_ITEM_ICON_DISABLED = "rich-menu-item-icon-disabled"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_FOLDER_DISABLED = "rich-menu-item-folder-disabled"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_ICON_ENABLED = "rich-menu-item-icon-enabled"; //$NON-NLS-1$
-	private static final String CSS_RICH_MENU_ITEM_ICON_SELECTED = "rich-menu-item-icon-seleceted"; //$NON-NLS-1$
+	private static final String CSS_RICH_MENU_ITEM_ICON_SELECTED = "rich-menu-item-icon-selected"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BORDER = "rich-menu-list-border"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BG = "rich-menu-list-bg"; //$NON-NLS-1$
 	private static final String CSS_RICH_LIST_FOLDER_DIV_STYLE = "position: relative; z-index: 100;"; //$NON-NLS-1$
@@ -103,6 +106,8 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = null;
 		Element sourceElement = (Element)sourceNode;
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
+		readMenuGroupAttributes(sourceElement);
 		
 		/*
 		 * MenuGroup component structure.
@@ -220,7 +225,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		for (Node child : children) {
 			nsIDOMElement childDiv = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-			grTopDiv.appendChild(childDiv);
+			grListBgDiv.appendChild(childDiv);
 			VpeChildrenInfo childDivInfo = new VpeChildrenInfo(childDiv);
 			childDivInfo.addSourceChild(child);
 			creationData.addChildrenInfo(childDivInfo);

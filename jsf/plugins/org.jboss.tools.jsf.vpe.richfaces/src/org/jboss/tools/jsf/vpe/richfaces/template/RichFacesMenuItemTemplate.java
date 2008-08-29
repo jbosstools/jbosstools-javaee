@@ -32,9 +32,11 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 	/*
 	 * rich:menuItem constants
 	 */
+	private final static String COMPONENT_NAME = "menuItem"; //$NON-NLS-1$
+	private final static String STYLE_PATH = "menuItem/menuItem.css"; //$NON-NLS-1$
+	private static final String SPACER_IMG_PATH = "menuItem/spacer.gif"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
-	private static final String SPACER_IMG_PATH = "menuItem/spacer.gif"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
 	
@@ -43,7 +45,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 	 */
 	private static final String CSS_RICH_MENU_ITEM = "rich-menu-item"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_LABEL = "rich-menu-item-label"; //$NON-NLS-1$
-	private static final String CSS_RICH_MENU_ITEM_ICON = "rich-menu-item-item"; //$NON-NLS-1$
+	private static final String CSS_RICH_MENU_ITEM_ICON = "rich-menu-item-icon"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_DISABLED = "rich-menu-item-disabled"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_ENABLED = "rich-menu-item-enabled"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_HOVER = "rich-menu-item-hover"; //$NON-NLS-1$
@@ -92,7 +94,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = null;
 		Element sourceElement = (Element)sourceNode;
-		
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
 		readMenuItemAttributes(sourceElement);
 		
 		/*

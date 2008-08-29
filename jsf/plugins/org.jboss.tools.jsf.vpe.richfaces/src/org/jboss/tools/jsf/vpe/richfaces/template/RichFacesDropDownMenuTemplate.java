@@ -35,6 +35,8 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	/*
 	 * rich:dropDownMenu constants
 	 */
+	private final static String COMPONENT_NAME = "dropDownMenu"; //$NON-NLS-1$
+	private final static String STYLE_PATH = "dropDownMenu/dropDownMenu.css"; //$NON-NLS-1$
 	private static final String LABEL_FACET_NAME = "label"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
@@ -101,7 +103,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 	    VpeCreationData creationData = null;
 	    Element sourceElement = (Element)sourceNode;
-		
+	    ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
 	    readDropDownMenuAttributes(sourceElement);
 	    
 		/*
@@ -198,7 +200,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			}
 			nsIDOMElement childDiv = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-			ddmListBorderDiv.appendChild(childDiv);
+			ddmListBgDiv.appendChild(childDiv);
 			VpeChildrenInfo childDivInfo = new VpeChildrenInfo(childDiv);
 			childDivInfo.addSourceChild(child);
 			creationData.addChildrenInfo(childDivInfo);
