@@ -108,7 +108,15 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	}
 	
 	try {
-		IFile iFile = VpeCreatorUtil.getFile(srcValue, pageContext);
+	    IFile iFile = VpeCreatorUtil.getFile(srcValue, pageContext);
+	    if (iFile==null || !iFile.isAccessible()) {
+		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+			    ERROR_MESSAGE_STYLE);
+		    nsIDOMText text = visualDocument
+			    .createTextNode(RESOURCE_READING_ERROR_MESSAGE);
+		    div.appendChild(text);
+		    return vpeCreationData;
+	    }
 	    File file = new File(iFile.getLocation().toOSString());
 	    BufferedReader br = new BufferedReader(new InputStreamReader(
 		    new FileInputStream(file)));
@@ -116,8 +124,10 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		finalStr += buf + "\n"; //$NON-NLS-1$
 
 	} catch (IOException e) {
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
-	    nsIDOMText text = visualDocument.createTextNode(RESOURCE_READING_ERROR_MESSAGE);
+	    div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+		    ERROR_MESSAGE_STYLE);
+	    nsIDOMText text = visualDocument
+		    .createTextNode(RESOURCE_READING_ERROR_MESSAGE);
 	    div.appendChild(text);
 	    return vpeCreationData;
 	}
