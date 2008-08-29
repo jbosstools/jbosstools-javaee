@@ -660,7 +660,7 @@
 		</vpe:template>
 	</vpe:tag>
 	<vpe:tag name="rich:dropListener" case-sensitive="yes">
-		<vpe:template children="no" modify="yes" invisisble="yes">
+		<vpe:template children="no" modify="yes" invisible="yes">
 		</vpe:template>
 	</vpe:tag>    
 	

@@ -796,4 +796,10 @@
 			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
+	
+	<!-- Default template -->
+	<vpe:template children="yes" modify="no">
+		<vpe:any value="{name()}" title="{tagstring()}"/>
+	</vpe:template>
+
 </vpe:templates>
