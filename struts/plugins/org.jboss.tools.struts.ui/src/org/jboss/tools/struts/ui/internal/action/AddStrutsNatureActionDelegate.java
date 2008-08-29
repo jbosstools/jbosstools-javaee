@@ -11,23 +11,23 @@
 package org.jboss.tools.struts.ui.internal.action;
 
 import org.eclipse.core.resources.IProject;
-import org.jboss.tools.common.meta.key.WizardKeys;
-import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.eclipse.jface.wizard.IWizard;
+import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
 import org.jboss.tools.common.model.ui.action.AddNatureActionDelegate;
+import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.jboss.tools.struts.StrutsProjectUtil;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
 import org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard;
 
 public class AddStrutsNatureActionDelegate extends AddNatureActionDelegate {
 	
-	protected IWizard getWizard(IProject project) throws Exception {
+	protected IWizard getWizard(IProject project) {
 		ImportProjectWizard wizard = (ImportProjectWizard)ExtensionPointUtils.findImportWizardsItem(
 				StrutsUIPlugin.PLUGIN_ID,
 				"org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard"
 		);
-		if (wizard == null) throw new Exception("Wizard org.jboss.tools.common.model.ui.wizards.ImportProjectWizard is not found.");	
+		if (wizard == null) throw new IllegalArgumentException("Wizard org.jboss.tools.common.model.ui.wizards.ImportProjectWizard is not found.");	
 		wizard.setInitialName(project.getName());
 		wizard.setInitialLocation(findWebXML(project.getLocation().toString()));
 		wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);

@@ -20,7 +20,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
-import org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlink;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;

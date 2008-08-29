@@ -21,7 +21,6 @@ import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ext.hyperlink.LinkHyperlink;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
-import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 
 public class SeamViewHyperlink extends LinkHyperlink {
 	
@@ -50,14 +49,8 @@ public class SeamViewHyperlink extends LinkHyperlink {
 	
 	protected IFile getFileFromProject(String fileName) {
 		IFile documentFile = getFile();
-		
-		try {	
-			IProject project = documentFile.getProject();
-			return super.getFileFromProject(updateFilenameForModel(fileName, project));
-		} catch (Exception x) {
-			SeamExtPlugin.getPluginLog().logError(x);
-			return null;
-		}
+		IProject project = documentFile.getProject();
+		return super.getFileFromProject(updateFilenameForModel(fileName, project));
 	}
 	
 }

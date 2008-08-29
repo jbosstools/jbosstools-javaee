@@ -29,7 +29,7 @@ public class ButtonFieldEditor extends BaseFieldEditor {
 	private ButtonPressedAction buttonAction = new ButtonPressedAction(SeamUIMessages.BUTTON_FIELD_EDITOR_BROWSE) {
 		@Override
 		public void run() {
-			throw new RuntimeException(SeamUIMessages.BUTTON_FIELD_EDITOR_NOT_IMPLEMENTED_YET);
+			throw new IllegalStateException(SeamUIMessages.BUTTON_FIELD_EDITOR_NOT_IMPLEMENTED_YET);
 		}
 	};
 	

@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.SeamCoreMessages;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 
 /**
@@ -276,10 +275,10 @@ public class SeamValidationContext {
 		 */
 		public void addLinkedResource(String variableName, IPath linkedResourcePath) {
 			if(linkedResourcePath==null) {
-				throw new RuntimeException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_LINKED_RESOURCE_PATH_MUST_NOT_BE_NULL);
+				throw new IllegalArgumentException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_LINKED_RESOURCE_PATH_MUST_NOT_BE_NULL);
 			}
 			if(variableName==null) {
-				throw new RuntimeException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_VARIABLE_NAME_MUST_NOT_BE_NULL);
+				throw new IllegalArgumentException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_VARIABLE_NAME_MUST_NOT_BE_NULL);
 			}
 			Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
 			if(linkedResources==null) {

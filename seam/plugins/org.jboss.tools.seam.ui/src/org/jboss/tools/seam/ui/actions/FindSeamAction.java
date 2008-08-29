@@ -11,6 +11,7 @@
 
 package org.jboss.tools.seam.ui.actions;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -347,8 +348,14 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 					Object result = m.invoke(multiPageEditor, new Object[]{});
 					return (result instanceof IEditorPart ? (IEditorPart)result : null);
 				}
-			} catch (NoSuchMethodException ne) {
-			} catch (Exception e) {
+			} catch (NoSuchMethodException e) {
+				// ignore
+			} catch (IllegalArgumentException e) {
+				// ignore
+			} catch (IllegalAccessException e) {
+				// ignore
+			} catch (InvocationTargetException e) {
+				// ignore
 			}
 			editorClass = editorClass.getSuperclass();
 		}
@@ -373,8 +380,14 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 					Object result = m.invoke(editor, new Object[]{});
 					return (result instanceof ISourceViewer ? (ISourceViewer)result : null);
 				}
-			} catch (NoSuchMethodException ne) {
-			} catch (Exception e) {
+			} catch (NoSuchMethodException e) {
+				// ignore
+			} catch (IllegalArgumentException e) {
+				// ignore
+			} catch (IllegalAccessException e) {
+				// ignore
+			} catch (InvocationTargetException e) {
+				// ignore
 			}
 			editorClass = editorClass.getSuperclass();
 		}
@@ -388,11 +401,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 * @return
 	 */
 	private Shell getShell() {
-		try {
-			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		} catch (Throwable x) {
-			return null;
-		}
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
 
 //	IWorkbenchPart fActiveWorkbenchPart = null;

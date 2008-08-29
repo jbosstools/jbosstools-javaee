@@ -3,6 +3,7 @@ package org.jboss.tools.seam.ui.pages.editor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.jboss.tools.common.editor.AbstractSelectionProvider;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
@@ -65,7 +66,7 @@ public class SeamPagesEditor extends ObjectMultiPageEditor {
 			selectionProvider.setHost(guiEditor.getSelectionProvider());		
 			guiEditor.addErrorSelectionListener(createErrorSelectionListener());
 			selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider());
-		} catch(Exception ex) {
+		} catch(PartInitException ex) {
 			SeamUiPagesPlugin.getDefault().logError(ex);
 		}
 	}

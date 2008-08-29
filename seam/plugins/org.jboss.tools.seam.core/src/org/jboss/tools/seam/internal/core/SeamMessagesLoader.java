@@ -127,7 +127,7 @@ public class SeamMessagesLoader {
 	}
 
 	public Collection<ISeamProperty> getProperties() {
-		throw new RuntimeException("Not implemented");
+		throw new IllegalStateException("Not implemented");
 	}
 
 	public Collection<String> getPropertyNames() {

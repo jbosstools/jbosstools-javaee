@@ -13,6 +13,7 @@ package org.jboss.tools.seam.text.ext.hyperlink;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.BadLocationException;
@@ -49,7 +50,7 @@ public class SeamBeanHyperlink extends AbstractHyperlink {
 				// could not open editor
 				openFileFailed();
 			}
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			// could not open editor
 			openFileFailed();
 		}

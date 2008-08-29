@@ -203,12 +203,7 @@ public class LibraryScanner implements IFileScanner {
 		if(cls == null) return;
 		if(!CLASS_SCANNER.isLikelyComponentSource(cls)) return;
 		LoadedDeclarations ds1 = null;
-		try {
-			ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
-		} catch (Exception e) {
-			// FIXME parse method should throw particular exception or catch block should be removed
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
+		ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
 		if(ds1 != null) {
 			ds.add(ds1);
 		}

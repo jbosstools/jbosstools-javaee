@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -30,7 +29,6 @@ import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
-import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
@@ -45,8 +43,6 @@ import org.w3c.dom.Text;
  */
 public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IHyperLinkPartitionPriority { 
 	public static final String SEAM_BEAN_PARTITION = "org.jboss.tools.seam.text.ext.SEAM_BEAN";
-
-	private final SeamELCompletionEngine fEngine= new SeamELCompletionEngine();
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -73,9 +69,6 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
 			return region;
-		} catch (Exception x) {
-			SeamExtPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -131,7 +124,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			SeamExtPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
@@ -183,7 +176,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			SeamExtPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {
@@ -212,9 +205,6 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength);
 			return region;
-		} catch (Exception x) {
-			SeamExtPlugin.getPluginLog().logError(x);
-			return null;
 		} finally {
 			smw.dispose();
 		}
@@ -235,9 +225,6 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			List<IJavaElement> javaElements = findJavaElements(document, region);
 
 			return (javaElements != null && javaElements.size() > 0);
-		} catch (Exception x) {
-			SeamExtPlugin.getPluginLog().logError(x);
-			return false;
 		} finally {
 			smw.dispose();
 		}
@@ -336,7 +323,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 						seamProject, file, elText.toString());
 			}
 			return javaElements;
-		} catch (Exception x) {
+		} catch (BadLocationException x) {
 			SeamExtPlugin.getPluginLog().logError(x);
 			return null;
 		} finally {

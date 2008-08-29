@@ -13,6 +13,7 @@ package org.jboss.tools.seam.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
@@ -49,7 +50,7 @@ public class SeamViewHyperlinkPartitioner extends JSPLinkHyperlinkPartitioner {
 					return true;
 			}
 			return false;
-		} catch (Exception x) {
+		} catch (CoreException x) {
 			SeamExtPlugin.getPluginLog().logError(x);
 			return false;
 		} finally {

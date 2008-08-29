@@ -22,12 +22,12 @@ import org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard;
 
 public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 	
-	protected IWizard getWizard(IProject project) throws Exception {
+	protected IWizard getWizard(IProject project) {
 		ImportProjectWizard wizard = (ImportProjectWizard)ExtensionPointUtils.findImportWizardsItem(
 				JSFModelPlugin.PLUGIN_ID,
 				"org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard"
 		);
-		if (wizard == null) throw new Exception("Wizard org.jboss.tools.common.model.ui.wizards.ImportProjectWizard is not found.");	
+		if (wizard == null) throw new IllegalArgumentException("Wizard org.jboss.tools.common.model.ui.wizards.ImportProjectWizard is not found.");	
 		wizard.setInitialName(project.getName());
 		wizard.setInitialLocation(findWebXML(project.getLocation().toString()));
 		wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
