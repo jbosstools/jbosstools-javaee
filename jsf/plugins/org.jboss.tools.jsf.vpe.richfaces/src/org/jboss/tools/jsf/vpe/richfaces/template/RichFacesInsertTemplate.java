@@ -25,6 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -106,7 +107,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    div.appendChild(text);
 	    return vpeCreationData;
 	}
-	
+	BufferedReader br = null;
 	try {
 	    IFile iFile = VpeCreatorUtil.getFile(srcValue, pageContext);
 	    if (iFile==null || !iFile.isAccessible()) {
@@ -118,7 +119,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		    return vpeCreationData;
 	    }
 	    File file = new File(iFile.getLocation().toOSString());
-	    BufferedReader br = new BufferedReader(new InputStreamReader(
+	    br = new BufferedReader(new InputStreamReader(
 		    new FileInputStream(file)));
 	    while ((buf = br.readLine()) != null)
 		finalStr += buf + "\n"; //$NON-NLS-1$
@@ -130,6 +131,14 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		    .createTextNode(RESOURCE_READING_ERROR_MESSAGE);
 	    div.appendChild(text);
 	    return vpeCreationData;
+	} finally {
+		try {
+			if(br!=null) {
+				br.close();
+			}
+		} catch (IOException e) {
+			RichFacesTemplatesActivator.getPluginLog().logError(e);
+		}
 	}
 
 	if ((highlightValue == null) || (!searchInSupportedTypes(highlightValue))){

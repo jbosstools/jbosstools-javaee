@@ -138,13 +138,21 @@ public class SeamMessagesLoader {
 				if(p == null) continue;
 				File f = p.toFile();
 				Properties properties = new Properties();
+				FileInputStream is = null;
 				try {
-					FileInputStream is = new FileInputStream(f); 
+					is = new FileInputStream(f); 
 					properties.load(is);
-					is.close();
 				} catch (IOException e) {
 					//ignore 
 					//TODO keep error for validation
+				} finally {
+					if(is!=null) {
+						try {
+							is.close();
+						} catch (IOException e) {
+							// ignore
+						}
+					}
 				}
 				Set<?> s = properties.keySet();
 				for (Object o : s) keys.add((String)o);
