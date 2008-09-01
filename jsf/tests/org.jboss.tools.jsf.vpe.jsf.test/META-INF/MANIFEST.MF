@@ -19,7 +19,10 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe.ui.test;visibility:=reexport,
  org.eclipse.jface.text,
  org.jboss.tools.jsf.vpe.jsf,
- org.jboss.tools.jst.web
+ org.jboss.tools.jst.web,
+ org.jboss.tools.common.el,
+ org.jboss.tools.common.rreferences
+ 
 Bundle-ClassPath: jsf-test.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
