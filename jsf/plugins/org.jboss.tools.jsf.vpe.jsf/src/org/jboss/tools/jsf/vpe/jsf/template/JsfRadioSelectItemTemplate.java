@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -142,8 +143,12 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 
 		// get parent element
 		Node parent = sourceNode.getParentNode();
-
-		if (parent.getNodeType() == Node.ELEMENT_NODE) {
+		
+		if ((parent == null) && (sourceNode instanceof Element)
+                && (((Element) sourceNode).getAttribute(VpeVisualDomBuilder.PARENT) != null)) {
+            parent = (Node) ((Element) sourceNode).getAttributeNode(VpeVisualDomBuilder.PARENT).getUserData(VpeVisualDomBuilder.PARENT);
+        }
+		if ((parent != null) && (parent.getNodeType() == Node.ELEMENT_NODE)) {
 
 			ElementImpl element = (ElementImpl) parent;
 
