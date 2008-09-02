@@ -157,16 +157,6 @@ public class VpeMyFacesDataScrollerTemplate extends VpeAbstractTemplate {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#getTagDescription(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object)
-	 */
-	@Override
-	public VpeTagDescription getTagDescription(VpePageContext pageContext,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement visualElement, Object data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
@@ -190,17 +180,6 @@ public class VpeMyFacesDataScrollerTemplate extends VpeAbstractTemplate {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#resize(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, int, int, int, int, int)
-	 */
-	@Override
-	public void resize(VpePageContext pageContext, Element sourceElement,
-			nsIDOMDocument visualDocument, nsIDOMElement visualElement,
-			Object data, int resizerConstrains, int top, int left, int width,
-			int height) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#setAttribute(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMNode, java.lang.Object, java.lang.String, java.lang.String)
