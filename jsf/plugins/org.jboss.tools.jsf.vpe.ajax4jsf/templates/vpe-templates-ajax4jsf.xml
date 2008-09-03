@@ -119,7 +119,7 @@
     
     <vpe:tag name="a4j:outputPanel" case-sensitive="yes">
    		<vpe:template children="yes" modify="yes">
-			<vpe:copy attrs="id,style,dir"/>
+			<div id="{@id}" style="{@style}" dir="{@dir}"/>
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
