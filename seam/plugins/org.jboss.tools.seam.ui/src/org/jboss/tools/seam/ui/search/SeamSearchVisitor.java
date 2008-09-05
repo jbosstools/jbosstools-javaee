@@ -282,7 +282,8 @@ public class SeamSearchVisitor {
 			try {
 				return field.getTypeSignature().equals(compare.getTypeSignature());
 			} catch (JavaModelException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				SeamGuiPlugin.getPluginLog().logError(e);
 				return false;
 			}
 		}			
@@ -298,7 +299,8 @@ public class SeamSearchVisitor {
 			try {
 				return method.getSignature().equals(compare.getSignature());
 			} catch (JavaModelException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				SeamGuiPlugin.getPluginLog().logError(e);
 				return false;
 			}
 		}
@@ -435,7 +437,8 @@ public class SeamSearchVisitor {
 	            processSeamProjects(projects, true);
 	            return fStatus;
             } catch (Throwable x) {
-            	x.printStackTrace();
+//            	x.printStackTrace();
+				SeamGuiPlugin.getPluginLog().logError(x);
 	            return fStatus;
             } finally {
                 monitorUpdateJob.cancel();

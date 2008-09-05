@@ -31,6 +31,7 @@ import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.search.ui.text.FileTextSearchScope;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -66,7 +67,8 @@ public class SeamSearchScope extends TextSearchScope implements IJavaSearchScope
 			ResourcesPlugin.getWorkspace().getRoot().accept(projectVisitor, 0);
 		}
 		catch (CoreException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			SeamGuiPlugin.getPluginLog().logError(e);
 		}
 
 		IResource[] projects = projectVisitor.getProjects();

@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchPattern;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
  * Seam path indexer. Used to determine visible Seam paths
@@ -92,7 +93,8 @@ public class SeamPathIndexer {
 			ResourcesPlugin.getWorkspace().getRoot().accept(seamFileVisitor, 0);
 		}
 		catch (CoreException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			SeamGuiPlugin.getPluginLog().logError(e);
 		}
 		return seamFileVisitor.getPaths();
 	}
