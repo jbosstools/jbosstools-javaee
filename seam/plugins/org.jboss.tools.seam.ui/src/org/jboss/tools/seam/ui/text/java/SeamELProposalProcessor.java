@@ -291,6 +291,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 
 			String proposalPrefix = "";
 			String proposalSufix = "";
+			String elStartChar = "#";
 			String documentContent = null;
 			IDocument document = viewer.getDocument();
 			if (!checkStartPositionInEL(viewer, offset)) {
@@ -299,8 +300,11 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 					return NO_PROPOSALS;
 				}
 				prefix = ""; // Clear prefix because it's not the part of EL 
-				if(isCharSharp(viewer, offset-1)) {
+				if(isCharSharp(viewer, offset-1) || isCharDollar(viewer, offset-1)) {
 					proposalPrefix = "{";  //$NON-NLS-1$
+					if (isCharDollar(viewer, offset-1)) {
+						elStartChar = "$";
+					}
 				} else {
 					proposalPrefix = "#{";  //$NON-NLS-1$
 				}
@@ -328,6 +332,9 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			for (String string : uniqueSuggestions) {
 				if (string.length() >= 0) {
 					string = proposalPrefix + string + proposalSufix;
+					if ('#' == string.charAt(0) || '$' == string.charAt(0))
+                		string = elStartChar + string.substring(1);
+					
 					if (string.startsWith("['") && string.endsWith("']") && prefix != null && prefix.endsWith(".")) {
 						String newPrefix = prefix.substring(0, prefix.length() - 1);
 						result.add(new Proposal(string, prefix, newPrefix, offset, offset - 1 + string.length() - proposalSufix.length()));
@@ -460,6 +467,15 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		}
 
 		return '#' == doc.getChar(offset);
+	}
+
+	private boolean isCharDollar(ITextViewer viewer, int offset) throws BadLocationException {
+		IDocument doc= viewer.getDocument();
+		if (doc == null || offset > doc.getLength() || offset < 0) {
+			return false;
+		}
+
+		return '$' == doc.getChar(offset);
 	}
 
 	/*
