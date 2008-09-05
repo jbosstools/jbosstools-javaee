@@ -30,16 +30,26 @@ public class BeanHyperlink extends AbstractHyperlink {
 	 */
 	protected void doHyperlink(IRegion region) {
 		XModel xModel = getXModel();
-		if (xModel == null || region == null) return;
+		if (xModel == null || region == null) {
+			openFileFailed();
+			return;
+		}
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 		region = JSPBeanHyperlinkPartitioner.getRegionPart(getDocument(), region.getOffset());
+		if(region == null) {
+			openFileFailed();
+			return;
+		}
 		try {	
-			if(region == null) return;
 			String beanName = getDocument().get(region.getOffset(), region.getLength());
-			if(beanName == null) return;
+			if(beanName == null) {
+				openFileFailed();
+				return;
+			}
 			provider.getList(xModel, WebPromptingProvider.JSF_BEAN_OPEN, beanName, null);
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
+			openFileFailed();
 		}
 	}
 

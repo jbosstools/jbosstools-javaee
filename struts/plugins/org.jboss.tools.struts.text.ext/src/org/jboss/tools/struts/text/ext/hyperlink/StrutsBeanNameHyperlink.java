@@ -55,7 +55,10 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-		if(region == null) return;
+		if(region == null) {
+			openFileFailed();
+			return;
+		}
 		
 		String forID = getForId(region);
 		String prefix = getPrefix(region);

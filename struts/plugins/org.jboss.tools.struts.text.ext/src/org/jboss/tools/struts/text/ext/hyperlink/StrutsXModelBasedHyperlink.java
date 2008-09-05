@@ -39,22 +39,25 @@ public abstract class StrutsXModelBasedHyperlink extends AbstractHyperlink {
 	protected void doHyperlink(IRegion region) {
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
-		if (xModel == null) return;
+		if (xModel == null) {
+			openFileFailed();
+			return;
+		}
 
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
-			Properties p = getRequestProperties(region);
-			p.put(WebPromptingProvider.FILE, documentFile);
+		Properties p = getRequestProperties(region);
+		p.put(WebPromptingProvider.FILE, documentFile);
 
-			List<Object> list = provider.getList(xModel, getRequestMethod(), p.getProperty("prefix"), p);
-			if (list != null && list.size() >= 1) {
-				openFileInEditor((String)list.get(0));
-				return;
-			}
-			String error = p.getProperty(WebPromptingProvider.ERROR); 
-			if ( error != null && error.length() > 0) {
-				openFileFailed();
-			}
+		List<Object> list = provider.getList(xModel, getRequestMethod(), p.getProperty("prefix"), p);
+		if (list != null && list.size() >= 1) {
+			openFileInEditor((String)list.get(0));
+			return;
+		}
+		String error = p.getProperty(WebPromptingProvider.ERROR); 
+		if ( error != null && error.length() > 0) {
+			openFileFailed();
+		}
 	}
 	
 	protected abstract String getRequestMethod();

@@ -37,9 +37,15 @@ public class RenderKitHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-		if(getDocument() == null || region == null) return;
+		if(getDocument() == null || region == null) {
+			openFileFailed();
+			return;
+		}
 		XModel xModel = getXModel();
-		if (xModel == null) return;
+		if (xModel == null) {
+			openFileFailed();
+			return;
+		}
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
 		String beanName = getBeanName(getRegion(region.getOffset()));

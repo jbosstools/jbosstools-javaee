@@ -43,22 +43,23 @@ public class StrutsJSPTagAttributeHyperlink extends AbstractHyperlink {
 	protected void doHyperlink(IRegion region) {
 		IFile file = getFile();
 		XModel xModel = getXModel(file);
-		if (xModel == null) return;
-		{	
-			WebPromptingProvider provider = WebPromptingProvider.getInstance();
+		if (xModel == null){ 
+			openFileFailed();
+			return;
+		}
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
-			Properties p = getRequestProperties(region);
-			p.put(WebPromptingProvider.FILE, file);
+		Properties p = getRequestProperties(region);
+		p.put(WebPromptingProvider.FILE, file);
 
-			List<Object> list = provider.getList(xModel, WebPromptingProvider.STRUTS_OPEN_TAG_LIBRARY, p.getProperty("prefix"), p);
-			if (list != null && list.size() >= 1) {
-				openFileInEditor((String)list.get(0));
-				return;
-			}
-			String error = p.getProperty(WebPromptingProvider.ERROR); 
-			if ( error != null && error.length() > 0) {
-				openFileFailed();
-			}
+		List<Object> list = provider.getList(xModel, WebPromptingProvider.STRUTS_OPEN_TAG_LIBRARY, p.getProperty("prefix"), p);
+		if (list != null && list.size() >= 1) {
+			openFileInEditor((String)list.get(0));
+			return;
+		}
+		String error = p.getProperty(WebPromptingProvider.ERROR); 
+		if ( error != null && error.length() > 0) {
+			openFileFailed();
 		}
 	}
 	

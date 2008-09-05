@@ -32,15 +32,24 @@ public class NavigationCaseHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-		if(region == null) return;
+		if(region == null) {
+			openFileFailed();
+			return;
+		}
 		IFile file = getFile();
 		XModel xModel = getXModel(file);
-		if (xModel == null) return;
+		if (xModel == null) {
+			openFileFailed();
+			return;
+		}
 		
 		try {	
 			WebPromptingProvider provider = WebPromptingProvider.getInstance();
 			region = JSPNavigationCaseHyperlinkPartitioner.getRegion(getDocument(), region.getOffset());
-			if(region == null) return;
+			if(region == null) {
+				openFileFailed();
+				return;
+			}
 			String beanName = getDocument().get(region.getOffset(), region.getLength());
 			Properties p = new Properties();
 			p.put(WebPromptingProvider.FILE, file);

@@ -40,7 +40,10 @@ public class PropertyHyperlink extends AbstractHyperlink {
 	 */
 	protected void doHyperlink(IRegion region) {
 		XModel xModel = getXModel();
-		if (xModel == null) return;
+		if (xModel == null) {
+			openFileFailed();
+			return;
+		}
 		
 		String propertyName = getPropertyName(region);
 		String beanClassName = getBeanClassName(region);

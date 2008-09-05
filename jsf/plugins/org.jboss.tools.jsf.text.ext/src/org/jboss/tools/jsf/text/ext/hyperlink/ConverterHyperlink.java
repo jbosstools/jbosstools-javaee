@@ -40,7 +40,10 @@ public class ConverterHyperlink extends AbstractHyperlink {
 	 */
 	protected void doHyperlink(IRegion region) {
 		XModel xModel = getXModel();
-		if (xModel == null) return;
+		if (xModel == null) {
+			openFileFailed();
+			return;
+		}
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 		Properties p = new Properties();
 		String converterID = getConverterID(region);

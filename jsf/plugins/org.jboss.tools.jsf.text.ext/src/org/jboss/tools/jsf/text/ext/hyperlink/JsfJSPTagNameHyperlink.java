@@ -40,7 +40,10 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 	protected void doHyperlink(IRegion region) {
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
-		if (xModel == null) return;
+		if (xModel == null) {
+			openFileFailed();
+			return;
+		}
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
 		Properties p = getRequestProperties(region);

@@ -57,7 +57,10 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-		if(region == null) return;
+		if(region == null) {
+			openFileFailed();
+			return;
+		}
 		IFile documentFile = getFile();
 		XModel xModel = getXModel(documentFile);
 		if (xModel == null) {
