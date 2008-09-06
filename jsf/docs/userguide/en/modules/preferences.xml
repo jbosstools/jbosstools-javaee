@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="preferences" xreflabel="preferences">
+<chapter id="preferences" xreflabel="preferences" role="updated">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
 
@@ -194,7 +194,8 @@
                     <row>
                         <entry>Show full output path next to packages</entry>
                         <entry>This option allows you to show or hide an output path next to
-                            packages <!--(<link linkend="full_outputpath_for_packages">See the
+                            packages
+                            <!--(<link linkend="full_outputpath_for_packages">See the
                             figure</link>)-->.</entry>
                         <entry>On</entry>
                     </row>
@@ -202,7 +203,8 @@
                     <row>
                         <entry>Show the full root directory of filesets</entry>
                         <entry>If on, the full root directory is displayed next to filesets.
-                            Otherwise, it&apos;s hidden <!--(<link
+                            Otherwise, it&apos;s hidden
+                            <!--(<link
                                 linkend="full_rootdir_for_filesets">See the figure</link>)-->.</entry>
                         <entry>On</entry>
                     </row>
@@ -211,7 +213,8 @@
                         <entry>Show project at the root</entry>
                         <entry>This option allows you to choose whether to display a project name at
                             the root of the packages or not. When checked, &apos;Show all
-                            projects that contain packages&apos; is enabled <!--(<link
+                            projects that contain packages&apos; is enabled
+                            <!--(<link
                                 linkend="project_at_the_root">See the figure</link>)-->.</entry>
                         <entry>On</entry>
                     </row>
@@ -226,7 +229,7 @@
                 </tbody>
             </tgroup>
         </table>
-<!--
+        <!--
         <figure id="full_outputpath_for_packages">
             <title>Show Full Output Path next to Packages</title>
             <mediaobject>
@@ -254,7 +257,7 @@
             </mediaobject>
         </figure>
 -->
-        
+
     </section>
 
     <!--section id="CodeAssist">
@@ -279,7 +282,7 @@
         <title>Editors</title>
         <para>To adjust settings common for all editors supplied with <property>JBoss Developer
                 Studio</property> you should select <emphasis>
-                <property>JBoss Tools > Web > Editors</property>. </emphasis></para>
+                <property>JBoss Tools > Web > Editors</property>.</emphasis></para>
 
         <figure>
             <title>Editors</title>
@@ -384,7 +387,7 @@
             specify the global values and press <emphasis>
                 <property>Finish</property>
             </emphasis>.</para>
-<!--
+
         <figure>
             <title>Adding a Global El Variable</title>
             <mediaobject>
@@ -393,8 +396,12 @@
                 </imageobject>
             </mediaobject>
         </figure>
--->
-        
+
+        <tip>
+            <title>Tip:</title>
+            <para>If you specify an equal variable in <link linkend="el_exp_para">VPE EL dialog</link> and in Preference EL dialog,
+                variable from preference dialog will have priority.</para>
+        </tip>
     </section>
     <!--section id="JBossServers">
         <?dbhtml filename="JBossServers.html"?>
@@ -539,7 +546,8 @@
                 <property>Add Variable...</property>
             </emphasis> button next to <emphasis>
                 <property>Format</property>
-            </emphasis> field. Appeared wizard will prompt you to select one from the available list.</para>
+            </emphasis> field. Appeared wizard will prompt you to select one from the available
+            list.</para>
 
         <figure>
             <title>Label Decoration for Validator</title>
