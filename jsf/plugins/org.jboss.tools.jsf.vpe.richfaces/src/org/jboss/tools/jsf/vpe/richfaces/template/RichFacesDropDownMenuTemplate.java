@@ -103,8 +103,16 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 	    VpeCreationData creationData = null;
 	    Element sourceElement = (Element)sourceNode;
+	    
+	    Element srcNode = null;
+        
+        if ((sourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
+                && (sourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
+            srcNode = (Element) sourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
+        }
 	    ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
 	    readDropDownMenuAttributes(sourceElement);
+	    
 	    
 		/*
 		 * DropDownMenu component structure.
@@ -172,7 +180,8 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		/*
 		 * Encoding label value
 		 */
-		Element labelFacet = ComponentUtil.getFacet(sourceElement, LABEL_FACET_NAME);
+		final Element passedElement = (srcNode != null ? srcNode : sourceElement);
+		final Element labelFacet = ComponentUtil.getFacet(passedElement, LABEL_FACET_NAME);
 		if (null != labelFacet) {
 			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(ddmTextSpan);
 			childrenInfo.addSourceChild(labelFacet);
@@ -189,7 +198,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		/*
 		 * Adding child nodes
 		 */
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		List<Node> children = ComponentUtil.getChildren(passedElement);
 		int groupCount = 1;
 		for (Node child : children) {
 			if (child.getNodeType() == Node.ELEMENT_NODE
