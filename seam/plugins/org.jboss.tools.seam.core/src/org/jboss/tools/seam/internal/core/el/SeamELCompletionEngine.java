@@ -1003,6 +1003,10 @@ public final class SeamELCompletionEngine {
 					for (TypeInfoCollector.MemberInfo info : javaElementInfosToFilter) {
 						// We do expect nothing but name for method tokens (No round brackets)
 						String filter = token.getText();
+						if (token.getType() == ELOperandToken.EL_METHOD_TOKEN) {
+							if (filter.indexOf('(') >=0)
+								filter = filter.substring(0, filter.indexOf('('));
+						}
 						// This is used for validation.
 						if (info.getName().equals(filter)) {
 							javaElements.add(info.getJavaElement());
