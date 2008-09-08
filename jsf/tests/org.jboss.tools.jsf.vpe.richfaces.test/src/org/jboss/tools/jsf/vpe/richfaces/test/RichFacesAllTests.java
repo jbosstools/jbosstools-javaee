@@ -17,6 +17,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1579Test;
+import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1605Test;
+import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1606Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1613Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1713Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1548Test;
@@ -56,6 +58,8 @@ public class RichFacesAllTests {
     suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
     suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
     suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
+    suite.addTestSuite(JBIDE1605Test.class);
+    suite.addTestSuite(JBIDE1606Test.class);
 	// $JUnit-END$
 
 	List<ImportBean> projectToImport = new ArrayList<ImportBean>();
