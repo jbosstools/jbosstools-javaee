@@ -63,9 +63,8 @@ public class JBIDE2434Test extends VpeTest{
 		TestUtil.waitForJobs();
 		part.getVisualEditor().setVisualMode(0);
 		part.getVisualEditor().setVisualMode(1);
-		part.getVisualEditor().setVisualMode(2);
 		((VpeEditorPart)part.getVisualEditor()).createPreviewBrowser();
-		part.getVisualEditor().setVisualMode(3);
+		part.getVisualEditor().setVisualMode(2);
 
 		TestUtil.waitForJobs();
 		if(getException()!=null) {
