@@ -16,6 +16,7 @@ import java.util.List;
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -127,12 +128,23 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
 		Element itemSourceElement = (Element) sourceNode;
-		String childId = (String) sourceNode.getUserData(VPE_PANEL_MENU_ITEM_ID);
+		Element srcElement  = null;
+		//added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605
+        if ((itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
+                && (itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
+            srcElement = (Element) itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
+        }
+		
 			
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
-
-		Element anySuitableParent = getItemParent(itemSourceElement, false);
-		Element panelMenuParent = getItemParent(itemSourceElement, true);
+		
+	    //added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605
+        final Element elementToPass = ((srcElement != null) ? srcElement : itemSourceElement);
+		
+		Element anySuitableParent = getItemParent(elementToPass, false);
+		Element panelMenuParent = getItemParent(elementToPass, true);
+		
+		String childId = (String) elementToPass.getUserData(VPE_PANEL_MENU_ITEM_ID);
 		
 		readPanelMenuAttributes(panelMenuParent);
 		readPanelMenuItemAttributes(itemSourceElement);

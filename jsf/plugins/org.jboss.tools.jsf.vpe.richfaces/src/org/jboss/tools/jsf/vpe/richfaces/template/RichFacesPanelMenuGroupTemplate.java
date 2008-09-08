@@ -156,28 +156,37 @@ VpeToggableTemplate {
 			nsIDOMDocument visualDocument) {
 		
 		Element groupSourceElement =  (Element) sourceNode;
+		Element srcNode = null;
+		
+		if ((groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
+                && (groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
+            srcNode = (Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
+        }
 		nsIDOMElement creationDataDiv = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
+		//added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605 issue.
+		final Element elementToPass = (srcNode != null ? srcNode : groupSourceElement);
 		
-		expandedIds = (List<String>) sourceNode.getUserData(VPE_EXPANDED_TOGGLE_IDS);
-		String childId = (String) sourceNode.getUserData(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
+		expandedIds = (List<String>) elementToPass.getUserData(VPE_EXPANDED_TOGGLE_IDS);
+		String childId = (String) elementToPass.getUserData(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
 		
 		/*
 		 * Counts child groups in a parent group 
 		 */
 		int childGroupCount = 1;
-		
-		Element anySuitableParent = getGroupParent(groupSourceElement, false);
-		Element panelMenuParent = getGroupParent(groupSourceElement, true);
+	
+
+        Element anySuitableParent = getGroupParent(elementToPass, false);
+        Element panelMenuParent = getGroupParent(elementToPass, true);
 		
 		readPanelMenuGroupAttributes(groupSourceElement);
 		readPanelMenuAttributes(panelMenuParent);
-		
+	
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, NAME_COMPONENT);
 		boolean expanded = false;
 		if (null != expandedIds) {
-			 expanded = expandedIds.contains(childId);
+ 			 expanded = expandedIds.contains(childId);
 		}
 		nsIDOMElement div = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -191,8 +200,15 @@ VpeToggableTemplate {
 		nsIDOMElement childSpan = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childSpan);
-
-		List<Node> children = ComponentUtil.getChildren(groupSourceElement);
+		
+	
+		List<Node> children = null;
+		
+		if (srcNode != null) {
+            children = ComponentUtil.getChildren((Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE));
+        } else {
+            children = ComponentUtil.getChildren(groupSourceElement);
+        }
 		if (expanded) {
 			for (Node child : children) {
 				boolean isGroup = child.getNodeName().endsWith(
@@ -486,13 +502,14 @@ VpeToggableTemplate {
 	private static final Element getGroupParent(Element sourceElement,
 			boolean findOnlyPanelMenuParent) {
 		Element parent = (Element) sourceElement.getParentNode();
+	
 		while (true) {
 			if (findOnlyPanelMenuParent) {
-				if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
+				if ((parent!=null) && parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
 					break;
 				}
 			} else {
-				if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
+				if ((parent!=null) && parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
 						|| parent.getNodeName().endsWith(
 								PANEL_MENU_GROUP_END_TAG)) {
 					break;
