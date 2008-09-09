@@ -36,7 +36,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
     private static final String _150PX = "150px"; //$NON-NLS-1$
 
     /** The Constant _250PX. */
-    private static final String _250PX = "150px"; //$NON-NLS-1$
+    private static final String _250PX = "250px"; //$NON-NLS-1$
 
     /** The Constant _255PX. */
     private static final String _255PX = "255px"; //$NON-NLS-1$
@@ -94,17 +94,11 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
         // find "td" elements
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_DIV);
-        for(nsIDOMNode e:elements){
-            nsIDOMElement div = (nsIDOMElement) e.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-            System.err.println(div.getNodeName()+":"+div.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$
-        }
-
-//        assertEquals("Size should be 5", 5, elements.size());
 
         nsIDOMElement divOne = (nsIDOMElement) elements.get(4).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
         assertTrue("Style classes should be contains ",divOne.getAttribute(HTML.ATTR_CLASS).contains("rich-combobox-font rich-combobox")); //$NON-NLS-1$ //$NON-NLS-2$
-        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1); //$NON-NLS-1$
-        assertTrue("Defaule style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("Default style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1); //$NON-NLS-1$
+        assertTrue("Default style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width")); //$NON-NLS-1$ //$NON-NLS-2$
         // Check input
 
         return rst;
@@ -146,7 +140,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
      * @throws PartInitException the part init exception
      */
     public void testComboBoxWithAttributes2() throws PartInitException, Throwable {
-        final nsIDOMElement rst = baseTableCheck(COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2, _250PX);
+        final nsIDOMElement rst = baseTableCheck(COMPONENTS_COMBO_WITH_ATTR_TEMPLATE2, _255PX);
 
         checkValueInInput(rst, EL_VALUE);
 
