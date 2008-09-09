@@ -56,7 +56,7 @@
     </vpe:tag>
 
     <vpe:tag name="ui:remove" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" />
+	    <vpe:template children="no" modify="no" />
     </vpe:tag>
 
     <vpe:tag name="ui:include" case-sensitive="yes">

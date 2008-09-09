@@ -33,7 +33,7 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:ajaxListener" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" >
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
     
@@ -44,11 +44,11 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:support" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" />
+	    <vpe:template children="no" modify="no" />
     </vpe:tag>
     
     <vpe:tag name="a4j:poll" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" >
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
     
@@ -132,7 +132,7 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:actionparam" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" >
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
     
@@ -151,18 +151,18 @@
     </vpe:tag>	
     
     <vpe:tag name="a4j:loadStyle" case-sensitive="yes">
-		<vpe:template children="no" modify="no" invisible="yes" >
+		<vpe:template children="no" modify="no" >
 			<vpe:link rel="stylesheet" href="{href(@src)}" />
 		</vpe:template>
     </vpe:tag>	
     
     <vpe:tag name="a4j:loadScript" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" >
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>	
     
     <vpe:tag name="a4j:jsFunction" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes">
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>	
     
@@ -174,7 +174,7 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:log" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes">
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
     
@@ -227,7 +227,7 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:push" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" invisible="yes" >
+	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
 

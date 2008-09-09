@@ -209,7 +209,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="rich:modalPanel" case-sensitive="yes">
-		<vpe:template children="no" modify="yes" invisible="yes" >
+		<vpe:template children="no" modify="yes" >
 		</vpe:template>
 	</vpe:tag>
 
