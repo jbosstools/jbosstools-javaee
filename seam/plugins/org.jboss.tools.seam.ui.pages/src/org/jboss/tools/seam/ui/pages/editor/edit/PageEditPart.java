@@ -220,7 +220,7 @@ public class PageEditPart extends PagesEditPart implements
 	}
 	
 	private int getVisualHeight() {
-		return 23;
+		return 11;
 	}
 
 	private int getIconWidth() {

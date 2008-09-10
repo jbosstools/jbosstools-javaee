@@ -108,7 +108,7 @@ public class NodeFigure extends
 	final public void addConnectionAnchor(int index) {
 		FixedConnectionAnchor c;
 		c = new FixedConnectionAnchor(this);
-		c.offsetV = 32 + LINK_HEIGHT * index;
+		c.offsetV = 10 + LINK_HEIGHT * index;
 		c.leftToRight = false;
 		connectionAnchors.put((index + 1) + "_OUT", c);
 		outputConnectionAnchors.addElement(c);
