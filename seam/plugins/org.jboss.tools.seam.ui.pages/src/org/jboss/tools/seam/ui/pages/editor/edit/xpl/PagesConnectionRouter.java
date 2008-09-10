@@ -19,7 +19,9 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.IFigure;
 //import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.geometry.*;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
+import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
 
@@ -65,24 +67,48 @@ private int getColumnNear(Connection conn, int r, int n, int x, boolean flag){
 		min = max;
 		max = r + (r-max);
 	}
+	
 	if(flag){
-		if(conn.getSourceAnchor().getOwner() != null){
-			IFigure fig = conn.getSourceAnchor().getOwner();
-			PageFigure group=null;
-			if(fig instanceof PageFigure)group = (PageFigure)fig;
-			else if(fig instanceof PageFigure)group = (PageFigure)fig.getParent();
-			if(group != null){
-				index = group.page.getOutputLinks().indexOf(((ConnectionFigure)conn).getLinkModel());
-				size = group.page.getOutputLinks().size();
+		if(conn.getTargetAnchor().getOwner() != null){
+			IFigure fig = conn.getTargetAnchor().getOwner();
+			PagesElement element=null;
+			if(fig instanceof PageFigure)
+				element = ((PageFigure)fig).page;
+			else if(fig instanceof ExceptionFigure)
+				element = ((ExceptionFigure)fig).exc;
+			if(element != null){
+				index = element.getInputLinks().indexOf(((ConnectionFigure)conn).getLinkModel());
+				size = element.getInputLinks().size();
 			}else flag = false;
 		}else flag = false;
+		if(flag && size > 1){
+			int value = max-20-(size-index)*STEP;
+			if(value <= min) return min+STEP;
+			if(value >= max) return max-STEP;
+			return value;
+		}
+		size = 0;
+		flag = true;
+		if(conn.getSourceAnchor().getOwner() != null){
+			IFigure fig = conn.getSourceAnchor().getOwner();
+			PagesElement element=null;
+			if(fig instanceof PageFigure)
+				element = ((PageFigure)fig).page;
+			else if(fig instanceof ExceptionFigure)
+				element = ((ExceptionFigure)fig).exc;
+			if(element != null){
+				index = element.getOutputLinks().indexOf(((ConnectionFigure)conn).getLinkModel());
+				size = element.getOutputLinks().size();
+			}else flag = false;
+		}else flag = false;
+		if(flag){
+			int value = min+100+(size-index)*STEP-size/2*STEP;
+			if(value <= min) return min+STEP;
+			if(value >= max) return max-STEP;
+			return value;
+		}
 	}
-	if(flag){
-		int value = min+100+(size-index)*STEP-size/2*STEP;
-		if(value <= min) return min+STEP;
-		if(value >= max) return max-STEP;
-		return value;
-	}
+	
 	int proximity = 0;
 	int direction = -1;
 	if (r%2 == 1)
