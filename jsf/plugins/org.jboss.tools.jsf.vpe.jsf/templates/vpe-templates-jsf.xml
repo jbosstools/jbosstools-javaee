@@ -102,7 +102,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:inputHidden" case-sensitive="yes">
-		<vpe:template children="no" modify="no" invisible="yes" >
+		<vpe:template children="no" modify="no"  >
 			<input type="text" value="{jsfvalue(@value)}"
 				title="{tagstring()}" />
 		
