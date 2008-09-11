@@ -36,7 +36,7 @@ public class JBIDE1805Test extends VpeTest {
 		super(name);
 	}
 
-	public void testJBIDE924() throws Throwable {
+	public void testJBIDE1805() throws Throwable {
 
 		// get test page path
 		setException(null);
