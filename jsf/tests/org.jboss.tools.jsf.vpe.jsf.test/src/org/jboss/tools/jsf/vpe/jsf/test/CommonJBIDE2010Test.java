@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
-import org.jboss.tools.common.el.vpe.ELReferenceList;
+import org.jboss.tools.common.el.core.ELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;

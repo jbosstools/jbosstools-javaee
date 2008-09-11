@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
-import org.jboss.tools.common.el.global.GlobalELReferenceList;
+import org.jboss.tools.common.el.core.GlobalELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.CommonJBIDE2010Test;
 import org.jboss.tools.vpe.editor.util.ElService;
