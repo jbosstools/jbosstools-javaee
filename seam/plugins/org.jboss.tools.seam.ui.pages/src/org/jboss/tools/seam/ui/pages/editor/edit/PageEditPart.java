@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FigureUtilities;
+import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -70,7 +71,10 @@ public class PageEditPart extends PagesEditPart implements
 	}
 	
 	public void doMouseDown(Point mp) {
-	    Point mouseLocation = mp.scale(1/((GEFRootEditPart)editor.getScrollingGraphicalViewer().getRootEditPart()).getZoomManager().getZoom()).translate(-getPageFigure().getLocation().x, -getPageFigure().getLocation().y);
+		FreeformViewport diagram = (FreeformViewport)((GEFRootEditPart)editor.getScrollingGraphicalViewer().getRootEditPart()).getFigure();
+	    Point mouseLocation = mp.scale(1/((GEFRootEditPart)editor.getScrollingGraphicalViewer().getRootEditPart()).getZoomManager().getZoom())
+	    .translate(-getPageFigure().getLocation().x, -getPageFigure().getLocation().y)
+	    .translate(diagram.getClientArea().getLocation());
 	    if(mouseLocation.x < 15 && mouseLocation.y > getPageFigure().getSize().height-15){
 	    	getPageModel().setParamsVisible(!getPageModel().isParamsVisible());
 			refresh();
@@ -225,7 +229,7 @@ public class PageEditPart extends PagesEditPart implements
 	}
 	
 	private int getVisualHeight() {
-		return 11;
+		return 21;
 	}
 
 	private int getIconWidth() {
