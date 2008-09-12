@@ -100,9 +100,10 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		XModelObject[] sourceExceptions = config.getChildByPath(FOLDER_EXCEPTIONS).getChildren();
 		for (int i = 0; i < sourceExceptions.length; i++) {
 			String code = sourceExceptions[i].getAttributeValue("class");
-			XModelObject g = findOrCreateItem(code, code, TYPE_EXCEPTION);
+			String pp = "exception:" + code;
+			XModelObject g = findOrCreateItem(code, pp, TYPE_EXCEPTION);
 			((ReferenceObjectImpl)g).setReference(sourceExceptions[i]);
-			exceptionItems.put(code, g);
+			exceptionItems.put(pp, g);
 			addTarget(sourceExceptions[i], false);
 		}
 
