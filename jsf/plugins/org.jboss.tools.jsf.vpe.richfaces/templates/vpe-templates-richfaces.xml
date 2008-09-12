@@ -713,5 +713,21 @@
 			</vpe:textFormatting>
 		</vpe:template>
 	</vpe:tag>
-
+	
+	<vpe:tag name="rich:ajaxValidator" case-sensitive="yes">
+		<vpe:template children="no" modify="no"/>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:beanValidator" case-sensitive="yes">
+		<vpe:template children="no" modify="no"/>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:graphValidator" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"/>
+	</vpe:tag>
+	
+	<vpe:tag name="rich:hotKey" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"/>
+	</vpe:tag>
+	
 </vpe:templates>
