@@ -2214,8 +2214,6 @@
    <XModelAttributeReference
     attributes="name,value,converter,converter id"
     entity="SeamPageParam12" name="param"/>
-   <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
-   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="value"/>
    <XModelAttribute PROPERTIES="category=general" name="validator" xmlname="validator"/>
    <XModelAttribute PROPERTIES="category=general" name="validator id" xmlname="validatorId"/>
    <XModelAttribute PROPERTIES="category=advanced" name="required" xmlname="required">
