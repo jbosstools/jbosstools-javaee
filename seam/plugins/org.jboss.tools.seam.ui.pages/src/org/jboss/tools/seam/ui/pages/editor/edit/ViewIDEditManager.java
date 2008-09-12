@@ -166,10 +166,12 @@ public class ViewIDEditManager extends DirectEditManager {
 
 	protected void initCellEditor() {
 		NodeFigure figure = (NodeFigure) getEditPart().getFigure();
-		if (figure instanceof PageFigure)
+		if (figure instanceof PageFigure && ((PageFigure) figure).page.getName() != null)
 			getCellEditor().setValue(((PageFigure) figure).page.getName());
-		else if (figure instanceof ExceptionFigure)
+		else if (figure instanceof ExceptionFigure && ((ExceptionFigure) figure).exc.getName() != null)
 			getCellEditor().setValue(((ExceptionFigure) figure).exc.getName());
+		else
+			getCellEditor().setValue("");
 
 		ZoomManager zoomMgr = (ZoomManager) getEditPart().getViewer()
 				.getProperty(ZoomManager.class.toString());

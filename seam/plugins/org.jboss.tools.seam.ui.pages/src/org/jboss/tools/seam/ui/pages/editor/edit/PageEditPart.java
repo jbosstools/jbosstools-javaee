@@ -205,8 +205,13 @@ public class PageEditPart extends PagesEditPart implements
 
 		if (getPageModel().getOutputLinks().size() == 0)
 			height = getVisualHeight() + NodeFigure.LINK_HEIGHT;
+		
+		String name = getPageModel().getName();
+		
+		if(name == null)
+			name = "";
 
-		int width = getIconWidth()+FigureUtilities.getTextExtents(getPageModel().getName(), NodeFigure.nodeLabelFont).width;
+		int width = getIconWidth()+FigureUtilities.getTextExtents(name, NodeFigure.nodeLabelFont).width;
 		
 		if(width < getMinimumWidth()) width = getMinimumWidth();
 		

@@ -155,7 +155,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 //			pattern.dispose();
 //		}
 		
-		if(page != null){
+		if(page != null && page.getName() != null){
 			g.setFont(nodeLabelFont);
 			g.drawString(page.getName(), 27, 3);			
 		}
