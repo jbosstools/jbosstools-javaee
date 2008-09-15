@@ -36,8 +36,15 @@
         <releaseinfo>
             Version: 1.1.0.GA
            </releaseinfo>
-    </bookinfo>
-    
+<abstract>
+   <title/>
+       <para>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/pdf/Visual_Web_Tools_Reference_Guide.pdf">PDF version</ulink>
+       </para>
+</abstract>
+
+
+    </bookinfo>  
 <toc/>  
     
     &Visual_Web_Tools;

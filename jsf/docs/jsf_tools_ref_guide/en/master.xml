@@ -43,6 +43,14 @@
         <releaseinfo>
             Version: 3.0.0.alpha
         </releaseinfo>
+
+<abstract>
+   <title/>
+       <para>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_ref_guide/pdf/JSF_Tools_Reference_Guide.pdf">PDF version</ulink>
+       </para>
+</abstract>
+
     </bookinfo>
     
     <toc/>  
