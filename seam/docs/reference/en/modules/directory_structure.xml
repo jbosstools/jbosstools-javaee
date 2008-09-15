@@ -83,5 +83,33 @@
             and <property>war</property> modules of the EAR project.</para>
     </section>
 
+    <section id="renaming_projects_folders">
+        <title>Renaming the Projects and Folders</title>
 
+        <para>If you need to rename one of the Seam Project artifacts
+                (<emphasis>&lt;project_name&gt;</emphasis>,
+                <emphasis>&lt;project_name&gt;-test</emphasis>,
+                <emphasis>&lt;project_name&gt;-test</emphasis> or
+                <emphasis>&lt;project_name&gt;-ejb</emphasis>) or any entire folder like
+                <emphasis>&lt;project_name&gt;/WebContent</emphasis>,
+                <emphasis>&lt;project_name&gt;/ejbModule</emphasis>,
+                <emphasis>&lt;project_name&gt;-test/test-src</emphasis>, or project name in
+            packages <emphasis>org.domain.&lt;project_name&gt;.session</emphasis>,
+                <emphasis>org.domain.&lt;project_name&gt;.entity</emphasis>, you can do this
+            by brining the context menu and navigating <emphasis>
+                <property>Refactor &gt; Rename...</property>
+            </emphasis> or just pressing <emphasis>
+                <property>Shift + Alt + R</property>
+            </emphasis> under the chosen resource.</para>
+
+        <para>Use <emphasis>
+                <property>Refactor &gt; Move...</property>
+            </emphasis> (or <emphasis>
+                <property>Shift + Alt + V</property>
+            </emphasis>), if you need to move
+            <emphasis>&lt;project_name&gt;/WebContent</emphasis> folder,
+            <emphasis>&lt;project_name&gt;/ejbModule</emphasis> folder or
+            <emphasis>&lt;project_name&gt;/test-src</emphasis> folder in the other place
+            within the Project structure.</para>
+    </section>
 </chapter>
