@@ -87,7 +87,10 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 
 	protected void refreshVisuals() {
 		Point loc = getPageWrapperModel().getPage().getLocation().getCopy();
-		loc.y += 25+getPageWrapperModel().getPage().getOutputLinks().size()*NodeFigure.LINK_HEIGHT;
+		int links = getPageWrapperModel().getPage().getOutputLinks().size();
+		if(links == 0)
+			links = 1;
+		loc.y += 25+links*NodeFigure.LINK_HEIGHT;
 		size = new Dimension(200, getPageWrapperModel().getPage().getChildren().size()*19);
 		adjustForGrid(loc);
 
