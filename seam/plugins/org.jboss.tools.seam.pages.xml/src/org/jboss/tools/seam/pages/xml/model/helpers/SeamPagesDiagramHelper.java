@@ -189,7 +189,11 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		}
 		gs = (ReferenceObjectImpl[])targets.values().toArray(new ReferenceObjectImpl[0]);
 		for (int i = 0; i < gs.length; i++) {
+			long ts = gs[i].getTimeStamp();
+			boolean hadReference = gs[i].getReference() != null;
 			gs[i].setReference(null);
+			gs[i].setAttributeValue("params", "");
+			
 			XModelObject[] os = gs[i].getChildren(ENT_DIAGRAM_ITEM_OUTPUT);
 			for (int j = 0; j < os.length; j++) {
 				if(SUBTYPE_CUSTOM.equals(os[j].getAttributeValue(ATTR_SUBTYPE))) {
@@ -198,6 +202,10 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 				gs[i].removeChild(os[j]);
 			}
 			updatePageItem(gs[i]);
+			if(hadReference && ts == gs[i].getTimeStamp()) {
+				System.out.println("fire " + gs[i].getPath());
+				gs[i].fireReferenceChanged();
+			}
 		}
 	}
 	

@@ -98,5 +98,9 @@ public class ReferenceObjectImpl extends OrderedObjectImpl implements ReferenceO
         super.set(name, value);
     }
 
+    public void fireReferenceChanged() {
+    	changeTimeStamp();
+    	fireObjectChanged("reference");
+    }
 }
 
