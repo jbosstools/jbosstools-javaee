@@ -8,6 +8,23 @@ package org.jboss.tools.seam.ui.pages.editor.ecore.pages;
  * @model
  */
 public interface Page extends PagesElement{
+	
+	/**
+	 * returns true if page view has page element
+	 * @model
+	 */
+	public boolean isConfirmed();
+	
+	/**
+	 * Sets the value of the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page#isConfirmed <em>Confirmed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Confirmed</em>' attribute.
+	 * @see #isConfirmed()
+	 * @generated
+	 */
+	void setConfirmed(boolean value);
+
 	/**
 	 * returns true if params are visible
 	 * @model

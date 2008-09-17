@@ -307,13 +307,22 @@ public interface PagesPackage extends EPackage {
 	int PAGE__PARAMS_VISIBLE = PAGES_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Confirmed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE__CONFIRMED = PAGES_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Page</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 1;
+	int PAGE_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesModelImpl <em>Model</em>}' class.
@@ -507,14 +516,14 @@ public interface PagesPackage extends EPackage {
 	int PARAM_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl <em>Pg Exception</em>}' class.
+	 * The meta object id for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl <em>Page Exception</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl
-	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPgException()
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPageException()
 	 * @generated
 	 */
-	int PG_EXCEPTION = 5;
+	int PAGE_EXCEPTION = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -523,7 +532,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__NAME = PAGES_ELEMENT__NAME;
+	int PAGE_EXCEPTION__NAME = PAGES_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -532,7 +541,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__LOCATION = PAGES_ELEMENT__LOCATION;
+	int PAGE_EXCEPTION__LOCATION = PAGES_ELEMENT__LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Size</b></em>' attribute.
@@ -541,7 +550,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__SIZE = PAGES_ELEMENT__SIZE;
+	int PAGE_EXCEPTION__SIZE = PAGES_ELEMENT__SIZE;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' reference list.
@@ -550,7 +559,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__CHILDREN = PAGES_ELEMENT__CHILDREN;
+	int PAGE_EXCEPTION__CHILDREN = PAGES_ELEMENT__CHILDREN;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' reference.
@@ -559,7 +568,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__PARENT = PAGES_ELEMENT__PARENT;
+	int PAGE_EXCEPTION__PARENT = PAGES_ELEMENT__PARENT;
 
 	/**
 	 * The feature id for the '<em><b>Input Links</b></em>' reference list.
@@ -568,7 +577,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__INPUT_LINKS = PAGES_ELEMENT__INPUT_LINKS;
+	int PAGE_EXCEPTION__INPUT_LINKS = PAGES_ELEMENT__INPUT_LINKS;
 
 	/**
 	 * The feature id for the '<em><b>Output Links</b></em>' reference list.
@@ -577,7 +586,7 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
+	int PAGE_EXCEPTION__OUTPUT_LINKS = PAGES_ELEMENT__OUTPUT_LINKS;
 
 	/**
 	 * The feature id for the '<em><b>Data</b></em>' attribute.
@@ -586,16 +595,16 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION__DATA = PAGES_ELEMENT__DATA;
+	int PAGE_EXCEPTION__DATA = PAGES_ELEMENT__DATA;
 
 	/**
-	 * The number of structural features of the '<em>Pg Exception</em>' class.
+	 * The number of structural features of the '<em>Page Exception</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PG_EXCEPTION_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 0;
+	int PAGE_EXCEPTION_FEATURE_COUNT = PAGES_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '<em>Point</em>' data type.
@@ -703,6 +712,17 @@ public interface PagesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPage_ParamsVisible();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page#isConfirmed <em>Confirmed</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Confirmed</em>'.
+	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page#isConfirmed()
+	 * @see #getPage()
+	 * @generated
+	 */
+	EAttribute getPage_Confirmed();
 
 	/**
 	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement <em>Element</em>}'.
@@ -834,14 +854,14 @@ public interface PagesPackage extends EPackage {
 	EAttribute getParam_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException <em>Pg Exception</em>}'.
+	 * Returns the meta object for class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException <em>Page Exception</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Pg Exception</em>'.
+	 * @return the meta object for class '<em>Page Exception</em>'.
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException
 	 * @generated
 	 */
-	EClass getPgException();
+	EClass getPageException();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.draw2d.geometry.Point <em>Point</em>}'.
@@ -956,6 +976,14 @@ public interface PagesPackage extends EPackage {
 		EAttribute PAGE__PARAMS_VISIBLE = eINSTANCE.getPage_ParamsVisible();
 
 		/**
+		 * The meta object literal for the '<em><b>Confirmed</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PAGE__CONFIRMED = eINSTANCE.getPage_Confirmed();
+
+		/**
 		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesElementImpl <em>Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1058,14 +1086,14 @@ public interface PagesPackage extends EPackage {
 		EAttribute PARAM__VALUE = eINSTANCE.getParam_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl <em>Pg Exception</em>}' class.
+		 * The meta object literal for the '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl <em>Page Exception</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageExceptionImpl
-		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPgException()
+		 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PagesPackageImpl#getPageException()
 		 * @generated
 		 */
-		EClass PG_EXCEPTION = eINSTANCE.getPgException();
+		EClass PAGE_EXCEPTION = eINSTANCE.getPageException();
 
 		/**
 		 * The meta object literal for the '<em>Point</em>' data type.

@@ -100,7 +100,7 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 		if(link != null && link.getFromElement() instanceof Page)
 			page = (Page)link.getFromElement();
 		
-		if(page != null && page.getData() != null && page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
+		if(page != null && !page.isConfirmed()){
 			g.setLineDash(new int[]{3,3});
 			g.setLineStyle(SWT.LINE_CUSTOM);
 		}

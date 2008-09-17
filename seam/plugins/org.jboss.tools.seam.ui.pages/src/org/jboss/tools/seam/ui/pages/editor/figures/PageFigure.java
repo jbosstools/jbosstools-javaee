@@ -233,7 +233,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			int height = r.height - 1;
 			
 			// if page has not page element
-			if(page != null && page.getData() != null && page.getData() instanceof ReferenceObject && ((ReferenceObject)page.getData()).getReference() == null){
+			if(page != null && !page.isConfirmed()){
 				graphics.setLineDash(new int[]{3,3});
 				graphics.setLineStyle(SWT.LINE_CUSTOM);
 			}

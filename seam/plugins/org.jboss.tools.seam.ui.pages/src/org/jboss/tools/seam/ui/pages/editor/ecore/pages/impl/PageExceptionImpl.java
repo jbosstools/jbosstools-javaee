@@ -41,7 +41,7 @@ public class PageExceptionImpl extends PagesElementImpl implements PageException
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return PagesPackage.Literals.PG_EXCEPTION;
+		return PagesPackage.Literals.PAGE_EXCEPTION;
 	}
 
 	/**

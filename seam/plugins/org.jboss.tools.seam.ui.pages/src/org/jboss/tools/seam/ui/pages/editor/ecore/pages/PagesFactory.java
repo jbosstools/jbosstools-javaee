@@ -62,13 +62,13 @@ public interface PagesFactory extends EFactory {
 	Param createParam();
 
 	/**
-	 * Returns a new object of class '<em>Pg Exception</em>'.
+	 * Returns a new object of class '<em>Page Exception</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Pg Exception</em>'.
+	 * @return a new object of class '<em>Page Exception</em>'.
 	 * @generated
 	 */
-	PageException createPgException();
+	PageException createPageException();
 
 	/**
 	 * Returns the package supported by this factory.

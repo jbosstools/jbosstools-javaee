@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
@@ -33,6 +34,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageImpl#isParamsVisible <em>Params Visible</em>}</li>
+ *   <li>{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.impl.PageImpl#isConfirmed <em>Confirmed</em>}</li>
  * </ul>
  * </p>
  *
@@ -61,6 +63,26 @@ public class PageImpl extends PagesElementImpl implements Page {
 	 * @ordered
 	 */
 	protected boolean paramsVisible = PARAMS_VISIBLE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isConfirmed() <em>Confirmed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isConfirmed()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CONFIRMED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isConfirmed() <em>Confirmed</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isConfirmed()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean confirmed = CONFIRMED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -107,11 +129,34 @@ public class PageImpl extends PagesElementImpl implements Page {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConfirmed(boolean newConfirmed) {
+		boolean oldConfirmed = confirmed;
+		confirmed = newConfirmed;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PagesPackage.PAGE__CONFIRMED, oldConfirmed, confirmed));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PagesPackage.PAGE__PARAMS_VISIBLE:
 				return isParamsVisible() ? Boolean.TRUE : Boolean.FALSE;
+			case PagesPackage.PAGE__CONFIRMED:
+				return isConfirmed() ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -126,6 +171,9 @@ public class PageImpl extends PagesElementImpl implements Page {
 		switch (featureID) {
 			case PagesPackage.PAGE__PARAMS_VISIBLE:
 				setParamsVisible(((Boolean)newValue).booleanValue());
+				return;
+			case PagesPackage.PAGE__CONFIRMED:
+				setConfirmed(((Boolean)newValue).booleanValue());
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -142,6 +190,9 @@ public class PageImpl extends PagesElementImpl implements Page {
 			case PagesPackage.PAGE__PARAMS_VISIBLE:
 				setParamsVisible(PARAMS_VISIBLE_EDEFAULT);
 				return;
+			case PagesPackage.PAGE__CONFIRMED:
+				setConfirmed(CONFIRMED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -156,6 +207,8 @@ public class PageImpl extends PagesElementImpl implements Page {
 		switch (featureID) {
 			case PagesPackage.PAGE__PARAMS_VISIBLE:
 				return paramsVisible != PARAMS_VISIBLE_EDEFAULT;
+			case PagesPackage.PAGE__CONFIRMED:
+				return confirmed != CONFIRMED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -172,6 +225,8 @@ public class PageImpl extends PagesElementImpl implements Page {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (paramsVisible: ");
 		result.append(paramsVisible);
+		result.append(", confirmed: ");
+		result.append(confirmed);
 		result.append(')');
 		return result.toString();
 	}
@@ -205,6 +260,15 @@ public class PageImpl extends PagesElementImpl implements Page {
 			if (shape != null && shape.length >= 4) {
 				setSize(new Dimension(shape[2], shape[3]));
 			}
+			
+			boolean confirmed = true;
+			
+			if(getData() != null && getData() instanceof ReferenceObject && ((ReferenceObject)getData()).getReference() == null){
+				confirmed = false;
+			}
+			
+			if(isConfirmed() != confirmed)
+				setConfirmed(confirmed);
 
 			String newParams = item.getAttributeValue("params");
 			if (newParams == null)

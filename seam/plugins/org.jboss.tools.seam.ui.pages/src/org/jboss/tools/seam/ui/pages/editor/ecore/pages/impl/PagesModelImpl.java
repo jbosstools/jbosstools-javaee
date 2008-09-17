@@ -236,7 +236,7 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 			page.dataChanged();
 			getChildren().add(page);
 		} else if(SeamPagesConstants.TYPE_EXCEPTION.equals(type)) {
-			PageException exc = PagesFactory.eINSTANCE.createPgException();
+			PageException exc = PagesFactory.eINSTANCE.createPageException();
 			bindElement(item, exc);
 			exc.dataChanged();
 			getChildren().add(exc);

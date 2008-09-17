@@ -92,8 +92,8 @@ public class PagesAdapterFactory extends AdapterFactoryImpl {
 				return createParamAdapter();
 			}
 			@Override
-			public Adapter casePgException(PageException object) {
-				return createPgExceptionAdapter();
+			public Adapter casePageException(PageException object) {
+				return createPageExceptionAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -186,7 +186,7 @@ public class PagesAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException <em>Pg Exception</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException <em>Page Exception</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
@@ -195,7 +195,7 @@ public class PagesAdapterFactory extends AdapterFactoryImpl {
 	 * @see org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException
 	 * @generated
 	 */
-	public Adapter createPgExceptionAdapter() {
+	public Adapter createPageExceptionAdapter() {
 		return null;
 	}
 

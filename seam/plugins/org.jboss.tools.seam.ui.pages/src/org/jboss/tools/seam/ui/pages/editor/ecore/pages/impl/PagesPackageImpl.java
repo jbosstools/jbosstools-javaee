@@ -73,7 +73,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass pgExceptionEClass = null;
+	private EClass pageExceptionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -234,6 +234,15 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPage_Confirmed() {
+		return (EAttribute)pageEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getPagesElement() {
 		return pagesElementEClass;
 	}
@@ -342,8 +351,8 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPgException() {
-		return pgExceptionEClass;
+	public EClass getPageException() {
+		return pageExceptionEClass;
 	}
 
 	/**
@@ -401,6 +410,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 
 		pageEClass = createEClass(PAGE);
 		createEAttribute(pageEClass, PAGE__PARAMS_VISIBLE);
+		createEAttribute(pageEClass, PAGE__CONFIRMED);
 
 		pagesElementEClass = createEClass(PAGES_ELEMENT);
 		createEAttribute(pagesElementEClass, PAGES_ELEMENT__NAME);
@@ -417,7 +427,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		paramEClass = createEClass(PARAM);
 		createEAttribute(paramEClass, PARAM__VALUE);
 
-		pgExceptionEClass = createEClass(PG_EXCEPTION);
+		pageExceptionEClass = createEClass(PAGE_EXCEPTION);
 
 		// Create data types
 		pointEDataType = createEDataType(POINT);
@@ -455,7 +465,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		pageEClass.getESuperTypes().add(this.getPagesElement());
 		pagesModelEClass.getESuperTypes().add(this.getPagesElement());
 		paramEClass.getESuperTypes().add(this.getPagesElement());
-		pgExceptionEClass.getESuperTypes().add(this.getPagesElement());
+		pageExceptionEClass.getESuperTypes().add(this.getPagesElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -467,6 +477,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 
 		initEClass(pageEClass, Page.class, "Page", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPage_ParamsVisible(), ecorePackage.getEBoolean(), "paramsVisible", null, 0, 1, Page.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPage_Confirmed(), ecorePackage.getEBoolean(), "confirmed", null, 0, 1, Page.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pagesElementEClass, PagesElement.class, "PagesElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPagesElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, PagesElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -483,7 +494,7 @@ public class PagesPackageImpl extends EPackageImpl implements PagesPackage {
 		initEClass(paramEClass, Param.class, "Param", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParam_Value(), ecorePackage.getEString(), "value", null, 0, 1, Param.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(pgExceptionEClass, PageException.class, "PgException", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(pageExceptionEClass, PageException.class, "PageException", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize data types
 		initEDataType(pointEDataType, Point.class, "Point", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

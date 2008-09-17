@@ -68,7 +68,7 @@ public class PagesFactoryImpl extends EFactoryImpl implements PagesFactory {
 			case PagesPackage.PAGE: return createPage();
 			case PagesPackage.PAGES_MODEL: return createPagesModel();
 			case PagesPackage.PARAM: return createParam();
-			case PagesPackage.PG_EXCEPTION: return createPgException();
+			case PagesPackage.PAGE_EXCEPTION: return createPageException();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -153,9 +153,9 @@ public class PagesFactoryImpl extends EFactoryImpl implements PagesFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PageException createPgException() {
-		PageExceptionImpl pgException = new PageExceptionImpl();
-		return pgException;
+	public PageException createPageException() {
+		PageExceptionImpl pageException = new PageExceptionImpl();
+		return pageException;
 	}
 
 	/**

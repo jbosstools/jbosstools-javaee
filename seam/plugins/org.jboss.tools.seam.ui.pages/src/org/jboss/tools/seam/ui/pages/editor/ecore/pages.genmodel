@@ -18,6 +18,7 @@
     </genClasses>
     <genClasses ecoreClass="pages.ecore#//Page">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Page/paramsVisible"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//Page/confirmed"/>
     </genClasses>
     <genClasses image="false" ecoreClass="pages.ecore#//PagesElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pages.ecore#//PagesElement/name"/>

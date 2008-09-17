@@ -120,10 +120,10 @@ public class PagesSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PagesPackage.PG_EXCEPTION: {
-				PageException pgException = (PageException)theEObject;
-				T result = casePgException(pgException);
-				if (result == null) result = casePagesElement(pgException);
+			case PagesPackage.PAGE_EXCEPTION: {
+				PageException pageException = (PageException)theEObject;
+				T result = casePageException(pageException);
+				if (result == null) result = casePagesElement(pageException);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -207,17 +207,17 @@ public class PagesSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Pg Exception</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Page Exception</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Pg Exception</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Page Exception</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePgException(PageException object) {
+	public T casePageException(PageException object) {
 		return null;
 	}
 
