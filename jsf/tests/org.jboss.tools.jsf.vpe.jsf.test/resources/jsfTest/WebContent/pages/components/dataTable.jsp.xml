@@ -1,0 +1,81 @@
+<tests>
+	<test id="dataTable">
+		<TABLE>
+			<TR>
+				<TD>
+					<DIV>
+						<TABLE>
+							<CAPTION>
+								<BR />
+							</CAPTION>
+							<THEAD>
+								<TR>
+									<TH>
+										<BR />
+									</TH>
+								</TR>
+							</THEAD>
+							<TFOOT>
+								<TR>
+									<TD>
+										<BR />
+									</TD>
+								</TR>
+							</TFOOT>
+							<TBODY>
+								<TR>
+									<TD>
+										<TABLE WIDTH="100%" BORDER="0">
+											<THEAD>
+												<TR>
+													<TH>
+														<DIV>
+															<SPAN> Last Name </SPAN>
+														</DIV>
+													</TH>
+													<TH>
+														<DIV>
+															<SPAN> First Name </SPAN>
+														</DIV>
+													</TH>
+												</TR>
+											</THEAD>
+											<TFOOT>
+												<TR>
+													<TD>
+														<DIV>
+															<SPAN> footer </SPAN>
+														</DIV>
+													</TD>
+													<TD>
+														<DIV>
+															<SPAN> footer </SPAN>
+														</DIV>
+													</TD>
+												</TR>
+											</TFOOT>
+											<TBODY>
+												<TR>
+													<TD>
+														<SPAN> Dupont </SPAN>
+													</TD>
+													<TD>
+														<SPAN> William </SPAN>
+													</TD>
+												</TR>
+											</TBODY>
+											<COLGROUP>
+												<COL />
+												<COL />
+											</COLGROUP>
+										</TABLE>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</DIV>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>

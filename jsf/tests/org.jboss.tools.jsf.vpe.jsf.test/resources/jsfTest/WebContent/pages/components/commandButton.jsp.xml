@@ -1,0 +1,17 @@
+<tests>
+	<test id="commandButton1">
+		<input type="submit" />
+	</test>
+	<test id="commandButton2">
+		<input type="button" />
+	</test>
+	<test id="commandButton3">
+		<input type="reset" />
+	</test>
+	<test id="commandButton4">
+		<input type="submit" />
+	</test>
+	<test id="commandButton5">
+		<input type="image" />
+	</test>
+</tests>

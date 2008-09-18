@@ -1,0 +1,8 @@
+<tests>
+	<test id="graphicImage1">
+		<IMG SRC="unresolved.gif" />
+	</test>
+	<test id="graphicImage2">
+		<IMG />
+	</test>
+</tests>

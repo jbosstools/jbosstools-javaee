@@ -1,0 +1,8 @@
+<tests>
+	<test id="commandLink1">
+		<span>commandLink1</span>
+	</test>
+	<test id="commandLink2">
+		<a>commandLink2</a>
+	</test>
+</tests>

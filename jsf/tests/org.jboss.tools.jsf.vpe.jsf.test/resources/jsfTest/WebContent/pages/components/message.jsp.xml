@@ -1,0 +1,5 @@
+<tests>
+	<test id="message">
+		<span> Error Message</span>
+	</test>
+</tests>
