@@ -26,8 +26,7 @@ public class JsfAllTests {
 		// FIXME http://jira.jboss.org/jira/browse/JBIDE-2441
 		// suite.addTestSuite(JSFImportTest.class);
 		suite.addTestSuite(JSFBeansTest.class);
-		suite.addTestSuite(JSFPromptingProviderTest.class);
-		
+		//suite.addTestSuite(JSFPromptingProviderTest.class);
 		return suite;
 	}
 
