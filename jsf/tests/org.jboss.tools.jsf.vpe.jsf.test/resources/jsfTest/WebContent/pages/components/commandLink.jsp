@@ -11,7 +11,8 @@
 
 	<h:form id="commandLinkForm">
 
-		<h:commandLink value="commandLink" />
+		<h:commandLink id="commandLink1" value="commandLink1" disabled="true" />
+		<h:commandLink id="commandLink2" value="commandLink2" disabled="false" />
 
 	</h:form>
 </f:view>

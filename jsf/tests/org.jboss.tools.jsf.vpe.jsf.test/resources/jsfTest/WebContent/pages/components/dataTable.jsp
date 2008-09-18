@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="dataTable" /></h1>
 
-	<h:dataTable value="data">
+	<h:dataTable value="data" id="dataTable" >
 
 		<h:column>
 			<f:facet name="header">

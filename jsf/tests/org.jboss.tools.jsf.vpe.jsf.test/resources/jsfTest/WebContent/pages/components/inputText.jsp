@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="inputText" /></h1>
 
-	<h:inputText value="inputText"/>
+	<h:inputText id="inputText" value="inputText"/>
 	
 </f:view>
 </body>

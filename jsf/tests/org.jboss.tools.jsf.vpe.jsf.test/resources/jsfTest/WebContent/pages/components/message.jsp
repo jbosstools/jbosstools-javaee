@@ -11,7 +11,7 @@
 
 	<h:inputText required="true" id="name"/>
 
-	<h:message for="name" />
+	<h:message for="name" id="message" />
 
 </f:view>
 </body>

@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="inputTextArea" /></h1>
 
-	<h:inputTextarea value="inputTextArea"/>
+	<h:inputTextarea value="inputTextArea" id="inputTextArea" />
 	
 </f:view>
 </body>

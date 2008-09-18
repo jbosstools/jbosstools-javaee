@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="messages" /></h1>
 
-	<h:messages style="color: red"/>
+	<h:messages style="color: red" id="messages" />
 	<h:inputText required="true" />
 
 </f:view>

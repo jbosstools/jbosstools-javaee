@@ -55,21 +55,29 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testDataTable() throws Throwable {
-		performContentTest("components/dataTable.jsp", "dataTable", "dataTable.xml");
+		performContentTest("components/dataTable.jsp", "dataTable",
+				"dataTable.xml");
 	}
 
 	public void testForm() throws Throwable {
 		performContentTest("components/form.jsp", "form", "form.xml");
 	}
 
-	public void _testGraphicImage() throws Throwable {
-		// -1$
+	public void testGraphicImage() throws Throwable {
+		Map<String, String> mapIds = new HashMap<String, String>();
+		mapIds.put("graphicImage1", "graphicImage1");
+		mapIds.put("graphicImage2", "graphicImage2");
+		performContentTest("components/graphicImage.jsp", //$NON-NLS-1$ 
+				"graphicImage.xml", mapIds); //$NON-NLS-1$
 	}
 
-	public void _testInputHidden() throws Throwable {
+	public void testInputHidden() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testInputSecret() throws Throwable {
+	public void testInputSecret() throws Throwable {
+		performContentTest("components/inputSecret.jsp", "inputSecret",
+				"inputSecret.xml");
 	}
 
 	public void testInputText() throws Throwable {
@@ -79,116 +87,155 @@ public class JsfComponentContentTest extends ComponentContentTest {
 
 	}
 
-	public void _testInputTextArea() throws Throwable {
+	public void testInputTextArea() throws Throwable {
+		performContentTest("components/inputTextArea.jsp", "inputTextArea", //$NON-NLS-1$ //$NON-NLS-2$
+				"inputTextArea.xml"); //$NON-NLS-1$
 	}
 
-	public void _testMessage() throws Throwable {
+	public void testMessage() throws Throwable {
+		performContentTest("components/message.jsp", "message", //$NON-NLS-1$ //$NON-NLS-2$
+				"message.xml"); //$NON-NLS-1$
 	}
 
-	public void _testMessages() throws Throwable {
+	public void testMessages() throws Throwable {
+		performContentTest("components/messages.jsp", "messages", //$NON-NLS-1$ //$NON-NLS-2$
+		"messages.xml"); //$NON-NLS-1$
 	}
 
-	public void _testOutputFormat() throws Throwable {
+	public void testOutputFormat() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testOutputLabel() throws Throwable {
+	public void testOutputLabel() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testOutputLink() throws Throwable {
+	public void testOutputLink() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testOutputText() throws Throwable {
+	public void testOutputText() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testPanelGrid() throws Throwable {
+	public void testPanelGrid() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testPanelGroup() throws Throwable {
+	public void testPanelGroup() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectBooleanCheckbox() throws Throwable {
+	public void testSelectBooleanCheckbox() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectManyCheckbox() throws Throwable {
+	public void testSelectManyCheckbox() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectManyListbox() throws Throwable {
+	public void testSelectManyListbox() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectManyMenu() throws Throwable {
+	public void testSelectManyMenu() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectOneListbox() throws Throwable {
+	public void testSelectOneListbox() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectOneMenu() throws Throwable {
+	public void testSelectOneMenu() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
 	public void _testSelectOneRadio() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
 	/*
 	 * JSF Core test cases
 	 */
 
-	public void _testActionListener() throws Throwable {
+	public void testActionListener() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testAttribute() throws Throwable {
+	public void testAttribute() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testConvertDateTime() throws Throwable {
+	public void testConvertDateTime() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testConvertNumber() throws Throwable {
+	public void testConvertNumber() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testConverter() throws Throwable {
+	public void testConverter() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testFacet() throws Throwable {
+	public void testFacet() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testLoadBundle() throws Throwable {
+	public void testLoadBundle() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testParam() throws Throwable {
+	public void testParam() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testPhaseListener() throws Throwable {
+	public void testPhaseListener() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectItem() throws Throwable {
+	public void testSelectItem() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSelectItems() throws Throwable {
+	public void testSelectItems() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSetPropertyActionListener() throws Throwable {
+	public void testSetPropertyActionListener() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testSubview() throws Throwable {
+	public void testSubview() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testValidateDoubleRange() throws Throwable {
+	public void testValidateDoubleRange() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testValidateLength() throws Throwable {
+	public void testValidateLength() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testValidateLongRange() throws Throwable {
+	public void testValidateLongRange() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testValidator() throws Throwable {
+	public void testValidator() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testValueChangeListener() throws Throwable {
+	public void testValueChangeListener() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testVerbatim() throws Throwable {
+	public void testVerbatim() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
-	public void _testView() throws Throwable {
+	public void testView() throws Throwable {
+		assertTrue("it is necessery to add body of the test", false);
 	}
 
 	protected String getTestProjectName() {

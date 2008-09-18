@@ -9,8 +9,9 @@
 <f:view>
 	<h1><h:outputText value="graphicImage" /></h1>
 
-	<h:graphicImage value="/img/image.jpeg"/>
-	
+	<h:graphicImage value="" id="graphicImage1" />
+	<h:graphicImage value="img/image.jpeg" id="graphicImage2" />
+
 </f:view>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="inputSecret" /></h1>
 
-	<h:inputSecret value="inputSecret"/>
+	<h:inputSecret value="inputSecret" id="inputSecret"/>
 	
 </f:view>
 </body>
