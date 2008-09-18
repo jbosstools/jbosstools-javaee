@@ -96,6 +96,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE2526Test.class);
 		suite.addTestSuite(JBIDE2624.class);
 		suite.addTestSuite(JBIDE1805Test.class);
+		suite.addTestSuite(JsfComponentContentTest.class);
 		// $JUnit-END$
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests
